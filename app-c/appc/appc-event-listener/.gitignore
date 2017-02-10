@@ -1,0 +1,20 @@
+# Target dirs in all projects
+**/target/*
+
+# Generated models and features
+/model/bin/*
+/features/bin/*
+
+# MANIFEST.MF is updated on every clean install
+/appc-adapters/appc-*-adapter/appc-*-adapter-bundle/src/main/resources/META-INF/MANIFEST.MF
+MANIFEST.MF
+
+# Karaf Assembly
+#/appc-adapters/appc-*-adapter/appc-*-adapter-installer/src/assembly/*
+
+
+*.prefs
+.classpath
+.project
+/.settings/
+/target/

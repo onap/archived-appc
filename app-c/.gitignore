@@ -1,0 +1,10 @@
+**/*.iml
+/.idea/
+
+# Used to not upload Blackduck Scans
+**/appc_bdio.jsonld
+**/blackDuckHubProjectName.txt
+**/blackDuckHubProjectVersionName.txt
+
+# Userd to not upload any maven dependency graph outputs
+**/deptree.text

@@ -1,0 +1,1 @@
+This project contains set of DG-ready reusable APP-C utility classes, such as utility for executing a command on remote machine via SSH and more.

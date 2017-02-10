@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  openECOMP : APP-C
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights
+  						reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
+
+
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+
+    <!--<bean id="lockManagerInMemoryBean" class="org.openecomp.appc.lockmanager.impl.inmemory.LockManagerInMemoryImpl" factory-method="getLockManager" scope="singleton"/>-->
+    <!--<service id="lockManagerInMemoryService" interface="org.openecomp.appc.lockmanager.api.LockManager" ref="lockManagerInMemoryBean"/>-->
+
+    <service id="lockManagerMySqlOptimisticService" interface="org.openecomp.appc.lockmanager.api.LockManager">
+        <bean class="org.openecomp.appc.lockmanager.impl.sql.optimistic.MySqlLockManager">
+            <property name="connectionFactory">
+                <bean class="org.openecomp.appc.dao.util.AppcJdbcConnectionFactory">
+                    <property name="schema" value="sdnctl"/>
+                </bean>
+            </property>
+            <property name="tableName" value="VNF_LOCK_MANAGEMENT"/>
+        </bean>
+    </service>
+</blueprint>

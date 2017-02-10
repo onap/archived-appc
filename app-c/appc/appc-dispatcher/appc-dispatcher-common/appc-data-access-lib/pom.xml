@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-dispatcher-common</artifactId>
+        <version>1.0.0</version>
+    </parent>
+  <artifactId>appc-data-access-lib</artifactId>
+  <packaging>jar</packaging>
+
+  <name>appc-data-access-lib</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+      <dependency>
+          <groupId>org.openecomp.sdnc.core</groupId>
+          <artifactId>sli-common</artifactId>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.openecomp.sdnc.core</groupId>
+          <artifactId>sli-provider</artifactId>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.openecomp.appc</groupId>
+          <artifactId>appc-common</artifactId>
+          <version>${project.version}</version>
+          <scope>compile</scope>
+      </dependency>
+  </dependencies>
+</project>

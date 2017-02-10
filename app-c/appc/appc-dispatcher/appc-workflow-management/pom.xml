@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.openecomp.appc</groupId>
+    <artifactId>appc-dispatcher</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <artifactId>appc-workflow-management</artifactId>
+  <packaging>pom</packaging>
+  <name>APPC Workflow Management</name>
+  <description>APPC Workflow Management</description>
+  
+	<!-- ================================================================================== -->
+	<!-- The modules we build -->
+	<!-- ================================================================================== -->
+	<modules>
+		<module>appc-workflow-management-api</module>
+		<module>appc-workflow-management-core</module>
+		<module>appc-workflow-management-features</module>
+	</modules>
+  
+</project>

@@ -1,0 +1,18 @@
+{
+"requestTime": "0000-00-00 14:31:19.653787",
+"policyVersion": "13",
+"VMName": "123",
+"from": "test",
+"msgOid": ".1.3.6.1.4.1.193.183.4.1.3.5.1.4",
+"trapID": "1234567",
+"requestClient": "test",
+"message": "Abnormal condition detected",
+"time": "123567890",
+"policyName": "RESTART",
+"trapIDOID": ".1.3.6.1.4.1.193.183.4.1.3.5.1.3",
+"request": "Restart",
+"OPS_CL_timer": "15",
+"nOID": ".1.3.6.1.4.1.193.183.4.2.0.4",
+"AgentAddress": "192.168.1.2",
+"vmOID": ".1.3.6.1.4.1.193.183.4.1.2.1",
+}

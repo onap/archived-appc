@@ -1,0 +1,21 @@
+# Target dirs in all projects
+**/target/*
+
+# Generated models and features
+/model/bin/*
+/features/bin/*
+
+# MANIFEST.MF is updated on every clean install
+MANIFEST.MF
+
+# Karaf Assembly
+
+
+*.prefs
+.classpath
+.project
+/.settings/
+
+logs/
+debug-logs/
+/target/

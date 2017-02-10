@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.openecomp.appc</groupId>
+    <artifactId>appc</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <artifactId>appc-metric</artifactId>
+  <packaging>pom</packaging>
+  <name>APPC Metric</name>
+  <!--<version>1.1.16-SNAPSHOT</version>-->
+  <description>APPC Metric</description>
+  
+	<!-- ================================================================================== -->
+	<!-- The modules we build -->
+	<!-- ================================================================================== -->
+	<modules>
+		<module>appc-metric-bundle</module>
+		<module>appc-metric-features</module>
+		<module>appc-metric-installer</module>
+	</modules>
+  
+</project>

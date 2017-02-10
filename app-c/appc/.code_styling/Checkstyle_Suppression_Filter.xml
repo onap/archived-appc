@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<!-- The suppression filter uses the pattern matcher .find method to match 
+  the expressions against each file being examined. -->
+<suppressions>
+  <!-- Suppress checks for eclipse metafiles and directories -->
+  <suppress files="\.(project|classpath|settings)$" checks=".*" />
+
+  <!-- Suppress checks for all test code -->
+  <suppress files="[\\/]src[\\/]test[\\/]" checks=".*" />
+
+  <!-- Suppress checks for all generated code -->
+  <suppress files="[\\/]target[\\/]" checks=".*" />
+
+  <!-- Suppress checks for all archive type files -->
+  <suppress files=".+\.(?:jar|zip|war|class|tar|bin)$" checks=".*" />
+
+  <!-- Suppress checks for all image files -->
+  <suppress files=".+\.(?:png|gif|jpg|jpeg)$" checks=".*" />
+
+  <!-- Suppress checks for certain non-java files -->
+  <suppress files=".+\.(?:cql|xml|xsd|xsl|wsdl)$" checks=".*" />
+</suppressions>

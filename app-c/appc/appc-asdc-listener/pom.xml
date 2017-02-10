@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openecomp.appc</groupId>
+		<artifactId>appc</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>appc-asdc-listener</artifactId>
+	<name>ASDC Event Listener</name>
+	<description>Listener to read and write events from DMaaP (Cambria) or DMaaP.</description>
+	<packaging>pom</packaging>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<configuration>
+					<additionalDependencies>
+						<additionalDependency>
+							<groupId>org.slf4j</groupId>
+							<artifactId>slf4j-api</artifactId>
+							<version>${slf4j.version}</version>
+						</additionalDependency>
+						<additionalDependency>
+							<groupId>org.antlr</groupId>
+							<artifactId>antlr4</artifactId>
+							<version>${antlr.version}</version>
+						</additionalDependency>
+						<additionalDependency>
+							<groupId>org.antlr</groupId>
+							<artifactId>antlr4-runtime</artifactId>
+							<version>4.3</version>
+						</additionalDependency>
+					</additionalDependencies>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc-no-fork</report>
+							<report>test-javadoc-no-fork</report>
+						</reports>
+					</reportSet>
+					<reportSet>
+						<id>aggregate</id>
+						<reports>
+							<report>aggregate</report>
+							<report>test-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jxr-plugin</artifactId>
+				<version>2.3</version>
+				<reportSets>
+					<reportSet>
+						<id>aggregate</id>
+						<reports>
+							<report>aggregate</report>
+							<report>test-aggregate</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changelog-plugin</artifactId>
+				<version>2.3</version>
+				<reportSets>
+					<reportSet>
+						<id>dual-report</id>
+						<configuration>
+							<type>range</type>
+							<range>30</range>
+						</configuration>
+						<reports>
+							<report>changelog</report>
+							<report>file-activity</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>taglist-maven-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<modules>
+		<module>appc-asdc-listener-bundle</module>
+		<module>appc-asdc-listener-features</module>
+		<module>appc-asdc-listener-installer</module>
+	</modules>
+</project>

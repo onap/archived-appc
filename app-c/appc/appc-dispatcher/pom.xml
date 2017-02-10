@@ -1,0 +1,78 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.openecomp.appc</groupId>
+    <artifactId>appc</artifactId>
+    <version>1.0.0</version>
+  </parent>
+  <artifactId>appc-dispatcher</artifactId>
+  <packaging>pom</packaging>
+  <name>APPC Dispatcher</name>
+  <description>APPC Dispatcher</description>
+		<dependencies>
+	    <dependency>
+	        <groupId>junit</groupId>
+	        <artifactId>junit</artifactId>
+	        <scope>test</scope>
+	    </dependency>
+			<dependency>
+			  <groupId>org.mockito</groupId>
+			  <artifactId>mockito-core</artifactId>
+			  <scope>test</scope>
+			</dependency>
+	    <dependency>
+	        <groupId>org.powermock</groupId>
+	        <artifactId>powermock-api-mockito</artifactId>
+	        <version>1.6.2</version>
+	        <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.mockito</groupId>
+	        <artifactId>mockito-all</artifactId>
+	        <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.powermock</groupId>
+	        <artifactId>powermock-module-junit4</artifactId>
+	        <version>1.6.2</version>
+	        <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.hamcrest</groupId>
+	        <artifactId>hamcrest-core</artifactId>
+	        <scope>test</scope>
+	    </dependency>
+	    <dependency>
+	        <groupId>org.objenesis</groupId>
+	        <artifactId>objenesis</artifactId>
+	        <version>2.2</version>
+	        <scope>test</scope>
+	    </dependency>
+	</dependencies>
+	<build>
+		<pluginManagement>
+	  	<plugins>
+	    	<plugin>
+	            <groupId>org.apache.felix</groupId>
+	            <artifactId>maven-bundle-plugin</artifactId>
+	            <version>2.3.7</version>
+	            <extensions>true</extensions>
+	      </plugin>
+	    </plugins>
+		</pluginManagement>
+	</build>
+	<!-- ================================================================================== -->
+	<!-- The modules we build -->
+	<!-- ================================================================================== -->
+	<modules>
+		<module>appc-dispatcher-common</module>
+		<module>appc-lifecycle-management</module>
+		<module>appc-workflow-management</module>
+		<module>appc-command-executor</module>
+		<module>appc-request-handler</module>
+		<module>appc-license-manager</module>
+		<module>appc-dispatcher-features</module>
+		<module>appc-dispatcher-installer</module>
+	</modules>
+
+</project>

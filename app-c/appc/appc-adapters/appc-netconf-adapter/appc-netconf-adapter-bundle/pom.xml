@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-netconf-adapter</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>appc-netconf-adapter-bundle</artifactId>
+    <packaging>bundle</packaging>
+    <name>NETCONF Adapter - bundle</name>
+    <properties>
+        <exam.version>4.9.1</exam.version>
+        <url.version>1.6.0</url.version>
+        <sal-netconf-connector.version>1.3.1-Beryllium-SR1</sal-netconf-connector.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-dmaap-adapter-bundle</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.att.cdp</groupId>
+            <artifactId>cdp-pal-common</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.att.cdp</groupId>
+            <artifactId>cdp-pal-openstack</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            </dependency>
+
+        <!-- Jersey support needed for OpenStack connector and API version logic -->
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-json</artifactId>
+            </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <!-- Needed to run test cases -->
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.sdnc.core</groupId>
+            <artifactId>sli-common</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openecomp.sdnc.core</groupId>
+            <artifactId>sli-provider</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>equinoxSDK381</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            </dependency>
+
+        <dependency>
+            <groupId>org.openecomp.sdnc.core</groupId>
+            <artifactId>dblib-provider</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.vmware</groupId>
+            <artifactId>vijava</artifactId>
+            <version>5.1</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xerces</artifactId>
+            <version>2.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+            <version>${apache.httpcomponents.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <configuration>
+                    <instructions>
+                        <Bundle-SymbolicName>appc-netconf-adapter</Bundle-SymbolicName>
+                        <Bundle-Activator>org.openecomp.appc.adapter.netconf.AppcNetconfAdapterActivator</Bundle-Activator>
+                        <Export-Package>org.openecomp.appc.adapter.netconf,org.openecomp.appc.adapter.netconf.dao,org.openecomp.appc.adapter.netconf.util,org.openecomp.appc.adapter.netconf.exception</Export-Package>
+                        <Import-Package>
+                            org.w3c.dom.*,com.sun.org.apache.xerces.*,javax.sql.*,javax.sql.rowset.*,javax.xml.*,org.openecomp.appc.adapter.dmaap.*,javax.crypto.*,org.openecomp.appc.common.exception.*,com.mysql.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
+                        </Import-Package>
+                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|dblib-provider|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|appc-dmaap-adapter-bundle</Embed-Dependency>
+                        <Embed-Transitive>true</Embed-Transitive>
+                    </instructions>
+
+                    <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

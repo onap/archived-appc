@@ -1,0 +1,88 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="vf-license-model">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:string" name="vnf-id"/>
+        <xs:element type="xs:string" name="vendor-name"/>
+        <xs:element name="feature-group-list">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="feature-group">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element type="xs:string" name="feature-group-uuid"/>
+                    <xs:element type="xs:string" name="name"/>
+                    <xs:element type="xs:string" name="description"/>
+                    <xs:element type="xs:string" name="att-part-number"/>
+                    <xs:element name="entitlement-pool-list">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="entitlement-pool">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="entitlement-pool-uuid"/>
+                                <xs:element type="xs:string" name="name"/>
+                                <xs:element type="xs:string" name="description"/>
+                                <xs:element type="xs:string" name="manufacturer-reference-number"/>
+                                <xs:element name="threshold-value">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:byte" name="value"/>
+                                      <xs:element type="xs:string" name="unit"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="entitlement-metric">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="value"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element type="xs:string" name="increments"/>
+                                <xs:element name="aggregation-function">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="value"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                                <xs:element name="time">
+                                  <xs:complexType>
+                                    <xs:sequence>
+                                      <xs:element type="xs:string" name="value"/>
+                                    </xs:sequence>
+                                  </xs:complexType>
+                                </xs:element>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="license-key-group-list">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="license-key-group">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element type="xs:string" name="license-key-group-uuid"/>
+                                <xs:element type="xs:string" name="name"/>
+                                <xs:element type="xs:string" name="description"/>
+                                <xs:element type="xs:string" name="type"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

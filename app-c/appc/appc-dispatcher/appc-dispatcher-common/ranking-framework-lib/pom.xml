@@ -1,0 +1,37 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openecomp.appc</groupId>
+		<artifactId>appc-dispatcher-common</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>appc-ranking-framework-lib</artifactId>
+	<packaging>bundle</packaging>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>com.att.eelf</groupId>
+			<artifactId>eelf-core</artifactId>
+			</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<Export-Package>org.openecomp.appc.rankingframework</Export-Package>
+						<Private-Package>org.openecomp.appc.rankingframework.impl</Private-Package>
+						<Embed-Dependency>eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
+						<Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*</Import-Package>
+					</instructions>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

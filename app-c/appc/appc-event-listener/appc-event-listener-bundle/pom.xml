@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openecomp.appc</groupId>
+		<artifactId>appc-event-listener</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>appc-event-listener-bundle</artifactId>
+	<packaging>bundle</packaging>
+	<name>Event Listener - bundle</name>
+
+	<dependencies>
+<!--
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-rest-bundle</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+-->
+		<dependency>
+			<groupId>com.att.eelf</groupId>
+			<artifactId>eelf-core</artifactId>
+			</dependency>
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-dmaap-adapter-bundle</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+<!--
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-rest-model</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+-->
+
+		<dependency>
+			<groupId>equinoxSDK381</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>org.openecomp.appc.listener</Bundle-SymbolicName>
+						<Bundle-Activator>org.openecomp.appc.listener.AppcEventListenerActivator</Bundle-Activator>
+						<Export-Package>org.openecomp.appc.listener</Export-Package>
+						<Import-Package>
+							!com.datastax.*,
+							!com.ibm.icu.text,
+							!com.jcraft.jzlib,
+							!groovy.lang,
+							!javax.jms,
+							!net.sf.ehcache,
+							!net.spy.memcached,
+							!org.apache.commons.lang3,
+							!org.apache.log,
+							!org.apache.log4j.*,
+							!org.apache.zookeeper.*,
+							!org.jasypt.*,
+							!org.codehaus.commons.compiler,
+							!org.codehaus.groovy.*,
+							!org.codehaus.jackson.*,
+							!org.codehaus.jackson.map.*,
+							!org.codehaus.janino,
+							!org.I0Itec.*,
+                            !com.sun.faces.*,
+                            *;resolution:=optional</Import-Package>
+						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|pax-*</Embed-Dependency>
+						<Embed-Transitive>true</Embed-Transitive>
+					</instructions>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

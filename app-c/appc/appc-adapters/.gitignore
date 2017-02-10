@@ -1,0 +1,7 @@
+target/
+META-INF/MANIFEST.MF
+logs/
+/bin/
+/.settings/
+/classes/
+**/*.iml

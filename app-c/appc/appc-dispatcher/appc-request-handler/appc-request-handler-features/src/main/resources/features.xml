@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  openECOMP : APP-C
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights
+  						reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
+
+
+<features name="appc-request-handler-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">     
+        
+    <feature name='appc-request-handler' description="appc-request-handler" version='${project.version}'>
+        <bundle>mvn:org.openecomp.appc/transaction-recorder/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.openecomp.appc/domain-model-lib/${project.version}</bundle>
+        <bundle start-level="75" start="true">mvn:org.openecomp.appc/appc-command-executor-api/${project.version}</bundle>
+    	<bundle start-level="80" start="true">mvn:org.openecomp.appc/appc-request-handler-api/${project.version}</bundle>
+        <bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-request-handler-core/${project.version}</bundle>
+    </feature>
+
+</features>

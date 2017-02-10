@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openecomp.appc</groupId>
+		<artifactId>appc-dg</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>appc-dg-shared</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>appc-dg-common</module>
+		<module>appc-dg-ssh</module>
+		<module>appc-dg-aai</module>
+		<module>appc-dg-netconf</module>
+		<module>appc-dg-license-manager</module>
+		<module>appc-dg-shared-features</module>
+		<module>appc-dg-shared-installer</module>
+	</modules>
+</project>

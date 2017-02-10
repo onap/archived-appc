@@ -1,0 +1,29 @@
+# Target dirs in all projects
+**/target/*
+
+# Added for Intellij IDEA IDE
+**/.idea/*
+*.iml
+
+# Generated models and features
+**/bin/*
+
+# MANIFEST.MF is updated on every clean install
+**/src/main/resources/META-INF/
+
+# Karaf Assembly
+#/appc-adapters/appc-*-adapter/appc-*-adapter-installer/src/assembly/*
+
+
+.project
+
+*.prefs
+.classpath
+**/.classpath
+/target/
+logs/
+debug-logs/
+/.settings/
+**/*.iml
+/.idea/
+/bin/

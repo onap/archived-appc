@@ -1,0 +1,27 @@
+{
+  "CommonHeader": {
+    "TimeStamp": "0000-00-00T00:00:00.000Z",
+    "APIver": "1.01",
+    "OriginatorID": "policy.pdp01",
+    "RequestID": "b74d13c5-bb26-4b04-992c-4679dfc8280e",
+    "SubrequestID": "1"
+  },
+  "Status": {
+    "Code": 100,
+    "Value": "ACCEPT"
+  },
+  "Payload": {
+    "VServerSelfLink": "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345",
+    "VNF_NAME": "test",
+    "VMID": "abc12345-1234-5678-890a-abcdefg12345",
+    "TenantID": "abcde12345fghijk6789lmnopq123rst",
+    "LOC_ID": "Test",
+    "in-maint": "false",
+    "Identity": "http://example.com:5000/v2.0",
+    "Prov_status": "ACTIVE",
+    "OAM_IPV4": "192.168.1.2",
+    "is-closed-loop-disabled": "false",
+    "VM_NAME": "test",
+    "OAM_IPV6": "0000::0000:0000:0000:0000/64"
+  }
+}
