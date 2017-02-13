@@ -21,7 +21,7 @@ APP-C (structured as a Maven project) uses the Maven tool to help compile, build
 In order to deploy APP-C, a Docker-ready machine needs to be available in order to deploy the APP-C Docker Containers. The following will help explain the requirements in order to run Docker to deploy these containers.
 
 ### APP-C Docker Containers
-OpenECOMP APP-C docker images are currently stored on the Rackspace Nexus Docker Registry (Maven Repository). The deployment code can be found in the appc-docker-project Maven Project that builds and deploys the Docker Images to be deployed in the Nexus Repository (current approach is by using Jenkins). These Docker Images are composed of the APP-C Artifacts (org.openecomp.appc.*) compiled and packages in the app-controller git repository ([app-controller](https://23.253.149.175/appc/app-controller/tree/master)).
+OpenECOMP APP-C docker images are currently stored on the Rackspace Nexus Docker Registry (Maven Repository). The deployment code can be found in the Maven Project that builds and deploys the Docker Images to be deployed in the Nexus Repository (current approach is by using Jenkins). These Docker Images are composed of the APP-C Artifacts (org.openecomp.appc.*) compiled and packaged in the "appc" git repository.
 
 The following Docker images are the actual deployment images used for running APP-C:
 - **APP-C Container (Version 1.0.0)**: This Docker container carries the APP-C Core Framework (OpenDaylight, Karaf, OSGI Bundles, ODL Functions/APIs, and APP-C specific features). This image is built on top of the SDN-C Docker Image, which contains core features (such as dblib as the Database Connector, SLI - the Service Logic Interpreter, and the Active & Available Inventory (A&AI) Listener). Some of these inherited SDN-C features/artifacts are necessary dependencies to build and compile APP-C features/artifacts.
@@ -32,19 +32,28 @@ The following Docker images are the actual deployment images used for running AP
 
 Ther following steps are needed to deploy and start OpenECOMP APP-C:
 
+##### Requirement to Pre-Define properties before compiling APP-C:
+- The following maven properties are not defined by default, since they change based on where the platform is being deployed:
+    - ${ecomp.nexus.url}: URL of the Nexus Repository where APP-C Code is at.
+    - ${ecomp.nexus.port}: Port number of the Nexus Repository where APP-C Code is at.
+    - ${ecomp.nexus.user}: Username ID of the Nexus Repository where APP-C Code is at.
+    - ${ecomp.nexus.password}: Password of the Nexus Repository where APP-C Code is at.
+
 ##### Using Jenkins Jobs to set up APP-C Package
-- A Jenkins instance for OpenECOMP is available at [Jenkins - APP-C](http://23.253.148.60:8080/view/APPC/) in which current Jenkins Jobs for both the APP-C core code and deployment code are maintained.
+- A Jenkins instance for OpenECOMP is required, in which Jenkins Jobs for both the APP-C core code and deployment code are maintained.
 
-- [**appc-test-master (Jenkins Job for app-controller git project)**](http://23.253.148.60:8080/view/APPC/job/appc-test-master/): The Jenkins Job for the APP-C git repository (Core Component) is in charge of compiling and uploading/deploying successfully compiled maven APP-C artifacts into a [Nexus/Maven Repository](https://162.242.254.138:8443/#browse/welcome).
+- Jenkins Job for APP-C Core git project: The Jenkins Job for the APP-C git repository (Core Component) is in charge of compiling and uploading/deploying successfully compiled maven APP-C artifacts into a Nexus/Maven Repository.
 
-- [**appc-docker-project (Jenkins Job for appc-docker-project git repo)**](https://23.253.149.175/appc/appc-docker-project): The Jenkins Job is used to run the code contained in git repository appc-docker-image which ultimately builds and deploy the APP-C Docker Image. Once the Jenkins job runs successfully, the newly compiled images are uploaded to the Nexus Repository. The APP-C Docker image contains all the SDN-C and APP-C artifacts needed to deploy a successful APP-C Component.
-    - With this job, all required and newly compiled and uploaded (to Nexus Repository) APP-C features from appc-test-master Jenkins job are pulled into the images and installed in an automated fashion.
+- Jenkins Job for APP-C Deployment git project: The Jenkins Job is used to run the APP-C Deployment code which ultimately builds and deploy the APP-C Docker Image. Once the Jenkins job runs successfully, the newly compiled images are uploaded to the Nexus Repository. The APP-C Docker image contains all the SDN-C and APP-C artifacts needed to deploy a successful APP-C Component.
+    - With this job, all required and newly compiled and uploaded (to Nexus Repository) APP-C features from the Jenkins job are pulled into the images and installed in an automated fashion.
 
 - As explained in the "APP-C Docker Containers" section, the configuration and set up of the other two docker containers are not maintained by APP-C. MySQL Docker Image is maintained by the Open Source MySQL Community and the Node Red / DGBuilder Docker Image is maintained by SDN-C.
 
 ##### Using Docker to start APP-C Package
 
 - The VM where APP-C will be started needs to have Docker Engine and Docker-Compose installed (instructions on how to set Docker Engine can be found [here](https://docs.docker.com/engine/installation/)). The stable version of Docker Engine where APP-C has been tested to work is v1.12. An important requirement in order to access the Docker Image Repository on Nexus Repository (where docker images are currently stored) need to include the Nexus repository certificate imported in the host VM. This is needed for Docker to be able to access the Docker Images required (NOTE: MySQL Docker Image is obtained from the public Docker Hub).
+
+- NOTE ON "docker-compose" COMMANDS: The only work if there is a provided docker-compose YAML script in the cmd path
 
 - In order to deploy containers, the following steps need to be taken in your host VM (Assuming instructions on how to set up Docker Engine have already been done):
 
@@ -54,14 +63,14 @@ apt-get install python-pip
 pip install docker-compose
 
 # Login to Nexus Repo to pull Docker Images (this assumes that Nexus Certificate is already imported in the Host VM on /usr/local/share/ca-certificates/ path):
-docker login ecomp-nexus:51212 # prompts for user credentials as a way to authenticate
+docker login <DOCKER_REGISTRY_REPO> # prompts for user credentials as a way to authenticate
 
 # Pull latest version of Docker Images (separately)
-docker pull ecomp-nexus:51212/ecomp/appc-image:latest
-docker pull mysql/mysql-server:5.6
-docker pull ecomp-nexus:51212/ecomp/dgbuilder-sdnc-image:latest
+docker pull <APPC_DOCKER_IMAGE_URL>
+docker pull mysql/mysql-server:5.6 # Default Open-Source MySQL Docker Image
+docker pull <SDNC_DOCKER_IMAGE_URL>
 
-# Pull latest version of Docker Images (using docker-compose template):
+# Pull latest version of Docker Images
 docker-compose pull
 
 # Deploy Containers
@@ -73,21 +82,21 @@ docker-compose up  # add -d argument to start process as a daemon (background pr
 - The following steps are required to stop the APP-C package:
 
 ```bash
-# Stop and Destroy Docker Containers (with docker-compose)
+# Stop and Destroy Docker Containers (with docker-compose YAML script)
 docker-compose down
 
-# Stop Docker Containers (without docker-compose)
+# Stop Docker Containers (without docker-compose YAML script)
 docker stop <APPC_DOCKER_CONTAINER>
 docker stop <MYSQL_DOCKER_CONTAINER>
 docker stop <DGBUILDER_DOCKER_CONTAINER>
 
-# Destroy Docker Containers (without docker-compose)
+# Destroy Docker Containers (without docker-compose YAML script)
 docker rm <APPC_DOCKER_CONTAINER>
 docker rm <MYSQL_DOCKER_CONTAINER>
 docker rm <DGBUILDER_DOCKER_CONTAINER>
 ```
 
-- NOTE: To get a feel of how the deployment is actually performed, it is best to review the Docker Strategy of APP-C and look at the actual Jenkins Job (links provided above for Jenkins Jobs).
+- NOTE: To get a feel of how the deployment is actually performed, it is best to review the Docker Strategy of APP-C and look at the actual Jenkins Jobs.
 
 #### Other Useful Docker Commands
 
@@ -154,11 +163,15 @@ In order to access this GUI, you need to go to the following website which will 
 
 # APP-C Configuration Model
 
-APP-C Configuration model involves using "default.properties" files for APP-C Feature that have default (or null) property values inside the core APP-C code. These default (or null) properties can be overwritten in the properties file called "[appc.properties](https://23.253.149.175/appc/appc-docker-project/blob/master/installation/src/main/appc-properties/appc.properties)" located in the APP-C deployment code.
+APP-C Configuration model involves using "default.properties" files (which are usually located in each of the APP-C Features - ../<APPC_FEATURE_BUNDLE>/src/<MAIN_OR_TEST>/resources/org/openecomp/appc/default.properties) for APP-C Feature that have default (or null) property values inside the core APP-C code. These default (or null) properties should be overwritten in the properties file called "appc.properties" located in the APP-C Deployment code (../installation/src/main/appc-properties/appc.properties).
 
-Each APP-C component depends on the property values that are defined for them in order to function properly. For example, the APP-C Feature "[appc-rest-adapter](https://23.253.149.175/appc/app-controller/tree/master/app-c/appc/appc-event-listener)" is used to listen to events that are being sent and received in the form of DMaaP Messages through a DMaaP Server Instance (a RESTful API Layer over the Apache Kafka). The properties for this feature need to be defined to point to the right DMaaP set of events to make sure that we are sending and receiving the proper messages on DMaaP.
+Each APP-C component depends on the property values that are defined for them in order to function properly. For example, the APP-C Feature "appc-rest-adapter" located in the APP-C Core repo is used to listen to events that are being sent and received in the form of DMaaP Messages through a DMaaP Server Instance (which is usually defined as a RESTful API Layer over the Apache Kafka Framework). The properties for this feature need to be defined to point to the right DMaaP set of events to make sure that we are sending and receiving the proper messages on DMaaP.
 
 Currently, there are two ways to change properties for APP-C Features:
-- In appc.properties, change values and commit changes in [gitlab project](https://23.253.149.175/appc/appc-docker-project/blob/master/installation/src/main/appc-properties/appc.properties). Then, run appc-docker-project Jenkins job (make sure it points to the branch where you just commited the properties change) to make sure that APP-C Docker Image contains latest changes of appc.properties from the beginning (of course, Host VM needs to update images with "docker-compose pull" to pick up latest changes).
-- In the APP-C Docker Container, find the appc.properties file in /opt/openecomp/appc/properties/appc.properties and make changes. Then, restart the APP-C Docker Container by running "docker stop <APPC_DOCKER_CONTAINER>" then "docker start <APPC_DOCKER_CONTAINER>")  (NOTE: This approach is a temporary change in the appc.properties if the docker container is destroyed instead of stopped).
+- Permanent Change: In appc.properties, change property values as needed and commit changes in your current git repo where your APP-C Deployment code repo is at. Then, run your Jenkins job that deploys the APP-C Docker Image (make sure the Jenkins Job configuration points to the branch where you just commited the properties change) to make sure that APP-C Docker Image contains latest changes of appc.properties from the beginning (of course, the Host VM where the docker containers will be deployed at needs to update images with "docker-compose pull" to pick up the changes you just committed and compiled).
+- Temporary Change (for quick testing/debugging): In the APP-C Docker Container, find the appc.properties file in /opt/openecomp/appc/properties/appc.properties and make changes as needed. Then, restart the APP-C Docker Container by running "docker stop <APPC_DOCKER_CONTAINER>" then "docker start <APPC_DOCKER_CONTAINER>")  (NOTE: This approach will lose all changes done in appc.properties if the docker container is destroyed instead of stopped).
+
+# Additional Notes
+
+- For more information on a current list of available properties for APP-C Features, please go to README.md located in the installation directory path of the APP-C Deployment Code.
 
