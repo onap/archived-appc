@@ -4,6 +4,13 @@
 # Added for Intellij IDEA IDE
 **/.idea/*
 *.iml
+**/*.iml
+/.idea/
+
+# Used to not upload Blackduck Scans
+**/appc_bdio.jsonld
+**/blackDuckHubProjectName.txt
+**/blackDuckHubProjectVersionName.txt
 
 # Generated models and features
 **/bin/*
@@ -14,6 +21,8 @@
 # Karaf Assembly
 #/appc-adapters/appc-*-adapter/appc-*-adapter-installer/src/assembly/*
 
+# Used to not upload any maven dependency graph outputs
+**/deptree.text
 
 .project
 
