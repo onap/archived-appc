@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openecomp.sdnc.core</groupId>
         <artifactId>root</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <packaging>pom</packaging>
     <groupId>org.openecomp.appc</groupId>
@@ -78,10 +78,10 @@
         <dme2-version>3.1.200</dme2-version>
         <cambriaClient-version>0.0.1</cambriaClient-version>
         <!-- OPENECOMP SDNC versions -->
-        <sdnctl.sli.version>1.0.0</sdnctl.sli.version>
+        <sdnctl.sli.version>1.0.0-SNAPSHOT</sdnctl.sli.version>
         <!--<sdnctl.sli.version>${sdnc.core.version}</sdnctl.sli.version> -->
-        <sdnctl.dblib.version>1.0.0</sdnctl.dblib.version>
-        <sdnctl.aai.service.version>1.0.0</sdnctl.aai.service.version>
+        <sdnctl.dblib.version>1.0.0-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.aai.service.version>1.0.0-SNAPSHOT</sdnctl.aai.service.version>
         <!-- <jmxGeneratorPath>target/generated-sources/yang-gen-config</jmxGeneratorPath> -->
         <salGeneratorPath>target/generated-sources/yang-gen-sal</salGeneratorPath>
         <!-- <OpenStack-API-version>3.3.4</OpenStack-API-version> -->
