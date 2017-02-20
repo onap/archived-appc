@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
@@ -54,7 +55,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({OperationalStateValidatorFactory.class, NetconfClientPluginImpl.class, FrameworkUtil.class, ObjectMapper.class})
-
+@Ignore
 public class NetconfClientPluginImplTest {
     private NetconfClientPluginImpl netconfClientPlugin;
     private NetconfDataAccessService dao;
