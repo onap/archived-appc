@@ -44,6 +44,7 @@ import java.util.Map;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({DCAEReporterPluginImpl.class, FrameworkUtil.class})
+@Ignore
 public class DCAEReporterPluginImplTest {
     private SvcLogicContext ctx;
     private Map<String, String> params;

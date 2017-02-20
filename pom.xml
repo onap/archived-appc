@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openecomp.sdnc.core</groupId>
         <artifactId>root</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
     <packaging>pom</packaging>
     <groupId>org.openecomp.appc</groupId>
@@ -78,10 +78,10 @@
         <dme2-version>3.1.200</dme2-version>
         <cambriaClient-version>0.0.1</cambriaClient-version>
         <!-- OPENECOMP SDNC versions -->
-        <sdnctl.sli.version>1.0.0</sdnctl.sli.version>
+        <sdnctl.sli.version>1.0.0-SNAPSHOT</sdnctl.sli.version>
         <!--<sdnctl.sli.version>${sdnc.core.version}</sdnctl.sli.version> -->
-        <sdnctl.dblib.version>1.0.0</sdnctl.dblib.version>
-        <sdnctl.aai.service.version>1.0.0</sdnctl.aai.service.version>
+        <sdnctl.dblib.version>1.0.0-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.aai.service.version>1.0.0-SNAPSHOT</sdnctl.aai.service.version>
         <!-- <jmxGeneratorPath>target/generated-sources/yang-gen-config</jmxGeneratorPath> -->
         <salGeneratorPath>target/generated-sources/yang-gen-sal</salGeneratorPath>
         <!-- <OpenStack-API-version>3.3.4</OpenStack-API-version> -->
@@ -159,7 +159,7 @@
         <!-- This site is used for Javadocs -->
         <site>
             <id>app-c-javadoc</id>
-            <url>dav:https://${ecomp.nexus.url}:${ecomp.nexus.port}/repository/app-c-javadoc/${project.version}</url>
+            <url>dav:https://nexus.openecomp.org/repository/app-c-javadoc/${project.version}</url>
         </site>
     </distributionManagement>
     <!-- ================================================================================== -->
@@ -704,9 +704,9 @@
             <properties>
                 <ssl.allowall>true</ssl.allowall>
                 <ssl.insecure>true</ssl.insecure>
-                <openecomp.nexus.host>${ecomp.nexus.url}</openecomp.nexus.host>
-                <openecomp.nexus.release-url>https://${ecomp.nexus.url}:${ecomp.nexus.port}/repository/maven-releases/</openecomp.nexus.release-url>
-                <openecomp.nexus.snapshot-url>https://${ecomp.nexus.url}:${ecomp.nexus.port}/repository/maven-snapshots/</openecomp.nexus.snapshot-url>
+                <openecomp.nexus.host>${openecomp.nexus.url}</openecomp.nexus.host>
+                <openecomp.nexus.release-url>https://nexus.openecomp.org/repository/maven-releases/</openecomp.nexus.release-url>
+                <openecomp.nexus.snapshot-url>https://nexus.openecomp.org:${openecomp.nexus.port}/repository/maven-snapshots/</openecomp.nexus.snapshot-url>
                 <openecomp.git.port>7999</openecomp.git.port>
                 <openecomp.git.project>st_osecomp</openecomp.git.project>
                 <openecomp.git.protocol>http</openecomp.git.protocol>
