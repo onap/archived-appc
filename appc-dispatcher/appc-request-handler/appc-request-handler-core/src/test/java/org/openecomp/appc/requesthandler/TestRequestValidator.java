@@ -66,6 +66,7 @@ import static org.mockito.Matchers.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {WorkingStateManager.class,FrameworkUtil.class, TransactionRecorder.class, RequestHandlerImpl.class,RequestValidatorImpl.class, TransactionRecorder.class})
+@Ignore
 public class TestRequestValidator {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestRequestHandler.class);
