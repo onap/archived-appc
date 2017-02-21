@@ -159,7 +159,7 @@
         <!-- This site is used for Javadocs -->
         <site>
             <id>app-c-javadoc</id>
-            <url>dav:https://${ecomp.nexus.url}:${ecomp.nexus.port}/repository/app-c-javadoc/${project.version}</url>
+            <url>dav:https://nexus.openecomp.org/repository/app-c-javadoc/${project.version}</url>
         </site>
     </distributionManagement>
     <!-- ================================================================================== -->
@@ -704,9 +704,9 @@
             <properties>
                 <ssl.allowall>true</ssl.allowall>
                 <ssl.insecure>true</ssl.insecure>
-                <openecomp.nexus.host>${ecomp.nexus.url}</openecomp.nexus.host>
-                <openecomp.nexus.release-url>https://${ecomp.nexus.url}:${ecomp.nexus.port}/repository/maven-releases/</openecomp.nexus.release-url>
-                <openecomp.nexus.snapshot-url>https://${ecomp.nexus.url}:${ecomp.nexus.port}/repository/maven-snapshots/</openecomp.nexus.snapshot-url>
+                <openecomp.nexus.host>nexus.openecomp.org</openecomp.nexus.host>
+                <openecomp.nexus.release-url>https://nexus.openecomp.org/repository/maven-releases/</openecomp.nexus.release-url>
+                <openecomp.nexus.snapshot-url>https://nexus.openecomp.org/repository/maven-snapshots/</openecomp.nexus.snapshot-url>
                 <openecomp.git.port>7999</openecomp.git.port>
                 <openecomp.git.project>st_osecomp</openecomp.git.project>
                 <openecomp.git.protocol>http</openecomp.git.protocol>
