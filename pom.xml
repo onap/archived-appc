@@ -705,8 +705,8 @@
                 <ssl.allowall>true</ssl.allowall>
                 <ssl.insecure>true</ssl.insecure>
                 <openecomp.nexus.host>nexus.openecomp.org</openecomp.nexus.host>
-                <openecomp.nexus.release-url>https://nexus.openecomp.org/repository/maven-releases/</openecomp.nexus.release-url>
-                <openecomp.nexus.snapshot-url>https://nexus.openecomp.org/repository/maven-snapshots/</openecomp.nexus.snapshot-url>
+                <openecomp.nexus.release-url>https://nexus.openecomp.org/content/repositories/releases/</openecomp.nexus.release-url>
+                <openecomp.nexus.snapshot-url>https://nexus.openecomp.org/content/repositories/snapshots/</openecomp.nexus.snapshot-url>
                 <openecomp.git.port>7999</openecomp.git.port>
                 <openecomp.git.project>st_osecomp</openecomp.git.project>
                 <openecomp.git.protocol>http</openecomp.git.protocol>
