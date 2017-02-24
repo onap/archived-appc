@@ -4,7 +4,7 @@
   <parent>
     <artifactId>appc-dmaap-adapter</artifactId>
     <groupId>org.openecomp.appc</groupId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-dmaap-adapter-installer</artifactId>
   <name>dMaaP Adapter - Karaf Installer</name>

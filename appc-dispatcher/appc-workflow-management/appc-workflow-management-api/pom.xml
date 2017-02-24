@@ -3,7 +3,7 @@
 		<parent>
 	    <groupId>org.openecomp.appc</groupId>
 	    <artifactId>appc-workflow-management</artifactId>
-	    <version>1.0.0</version>
+	    <version>1.0.0-SNAPSHOT</version>
 	  </parent>
   <artifactId>appc-workflow-management-api</artifactId>
   <packaging>bundle</packaging>

@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>appc-asdc-listener</artifactId>
 		<groupId>org.openecomp.appc</groupId>
-		<version>1.0.0</version>
+		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-asdc-listener-features</artifactId>
 	<name>Event Listener - Features</name>

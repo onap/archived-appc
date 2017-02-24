@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.openecomp.appc</groupId>
         <artifactId>appc-dg-util</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-dg-util-bundle</artifactId>
@@ -179,7 +179,7 @@
             <groupId>org.openecomp.appc</groupId>
             <artifactId>appc-netconf-adapter-bundle</artifactId>
             <!--<version>${project.version}</version>-->
-			<version>1.0.0</version>
+			<version>1.0.0-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

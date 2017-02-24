@@ -4,7 +4,7 @@
   <parent>
     <artifactId>appc-iaas-adapter</artifactId>
     <groupId>org.openecomp.appc</groupId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-iaas-adapter-installer</artifactId>
   <name>IaaS Adapter - Karaf Installer</name>

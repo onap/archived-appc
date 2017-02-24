@@ -4,7 +4,7 @@
   <parent>
     <artifactId>appc-dg-util</artifactId>
     <groupId>org.openecomp.appc</groupId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-dg-util-installer</artifactId>
   <name>APPC DG Util - Karaf Installer</name>

@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.openecomp.appc</groupId>
     <artifactId>appc-dispatcher</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-command-executor</artifactId>
   <packaging>pom</packaging>
