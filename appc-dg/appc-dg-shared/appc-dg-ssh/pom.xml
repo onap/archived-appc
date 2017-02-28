@@ -58,7 +58,7 @@
 						<Bundle-SymbolicName>appc-dg-ssh</Bundle-SymbolicName>
 						<Export-Package>org.openecomp.appc.dg.ssh</Export-Package>
 						<Private-Package>org.openecomp.appc.dg.ssh.impl.*</Private-Package>
-						<Import-Package>!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*;scope=compile|runtime</Import-Package>
+						<Import-Package>!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*;resolution:=optional</Import-Package>
 						<Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
