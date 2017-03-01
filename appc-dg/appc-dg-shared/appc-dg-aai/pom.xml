@@ -71,7 +71,7 @@
                         <Export-Package>org.openecomp.appc.dg.aai</Export-Package>
                         <Private-Package>org.openecomp.appc.dg.aai.impl.*</Private-Package>
                         <Import-Package>
-                            !org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*
+                            !org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*;resolution:=optional
                         </Import-Package>
                         <Embed-Dependency>
                             appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false
