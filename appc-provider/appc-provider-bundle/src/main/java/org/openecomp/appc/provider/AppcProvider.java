@@ -156,7 +156,10 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
         rpcRegistry = rpcProviderRegistry;
 
         if (rpcRegistry != null) {
+        	logger.info("rpcRegistry was not null");
             rpcRegistration = rpcRegistry.addRpcImplementation(AppcProviderService.class, this);
+        } else {
+        	logger.error("rpcRegistry WAS NULL");
         }
 
         logger.info(Msg.COMPONENT_INITIALIZED, appName, "provider");
