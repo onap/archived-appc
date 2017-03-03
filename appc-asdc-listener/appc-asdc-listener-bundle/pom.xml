@@ -152,7 +152,7 @@
 							!com.ibm.icu.text,
 							!org.apache.log,
 							!com.sun.faces.spi,
-							*
+							*;resolution:=optional
 						</Import-Package>
 						<Embed-Dependency>
 							sdc-distribution-client, appc-common,

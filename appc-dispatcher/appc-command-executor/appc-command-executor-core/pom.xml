@@ -95,7 +95,7 @@
                         <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.openecomp.appc.executor.CommandExecutor</Export-Service>
-                        <Import-Package>org.openecomp.appc.executionqueue.*,org.openecomp.appc.executor,org.openecomp.appc.executor.objects,!groovy.lang,!javax.jms,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*</Import-Package>
+                        <Import-Package>org.openecomp.appc.executionqueue.*,org.openecomp.appc.executor,org.openecomp.appc.executor.objects,!groovy.lang,!javax.jms,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*;resolution:=optional</Import-Package>
                     </instructions>
                 </configuration>
             </plugin>
