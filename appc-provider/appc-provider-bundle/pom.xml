@@ -19,7 +19,7 @@
 					<instructions>
 						<Export-Package>org.opendaylight.controller.config.yang.config.sample_provider.impl</Export-Package>
 						<Export-Package>org.openecomp.appc.provider</Export-Package>
-						<Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*;resolution:=optional</Import-Package>
+						<Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*</Import-Package>
 						<Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false,domain-model-lib,appc-command-executor-api,appc-request-handler-api</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>

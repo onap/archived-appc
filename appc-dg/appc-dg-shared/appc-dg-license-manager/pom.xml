@@ -46,7 +46,7 @@
 						<Export-Package>org.openecomp.appc.dg.licmgr</Export-Package>
 						<Export-Service>org.openecomp.appc.dg.licmgr.LicenseManagerPlugin</Export-Service>
 						<Private-Package>org.openecomp.appc.dg.licmgr.impl</Private-Package>
-						<Import-Package>org.openecomp.appc.licmgr,org.openecomp.appc.licmgr.exception,org.openecomp.appc.licmgr.objects,!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*;resolution:=optional</Import-Package>
+						<Import-Package>org.openecomp.appc.licmgr,org.openecomp.appc.licmgr.exception,org.openecomp.appc.licmgr.objects,!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*</Import-Package>
 						<Embed-Dependency>appc-license-manager-api,appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
