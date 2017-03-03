@@ -189,7 +189,7 @@
 						<Bundle-SymbolicName>appc-iaas-adapter</Bundle-SymbolicName>
 						<Bundle-Activator>org.openecomp.appc.adapter.iaas.AppcProviderAdapterActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.adapter.iaas</Export-Package>
-						<Import-Package>org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*</Import-Package>
+						<Import-Package>org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*,com.sun.jersey.*</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
