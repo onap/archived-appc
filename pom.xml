@@ -509,9 +509,9 @@
                     <version>1.6.7</version>
                     <extensions>true</extensions>
                     <configuration>
-                        <nexusUrl>${nexusproxy}</nexusUrl>
-                        <stagingProfileId>176c31dfe190a</stagingProfileId>
-                        <serverId>ecomp-staging</serverId>
+                        <nexusUrl>${openecomp.nexus.host}</nexusUrl>
+                        <stagingProfileId>${openecomp.nexus.staging.profile-id}</stagingProfileId>
+                        <serverId>${openecomp.nexus.staging.server-id}</serverId>
                     </configuration>
                 </plugin>
                 <!-- Define the site plugin to generate documentation -->
