@@ -119,13 +119,6 @@
 			</exclusions>
 		</dependency>
 
-		<!-- DMaaP Client -->
-<!-- 		<dependency> -->
-<!-- 			<groupId>com.att.nsa</groupId> -->
-<!-- 			<artifactId>dmaapClient</artifactId> -->
-<!-- 			<version>${dmaap.client.version}</version> -->
-<!-- 		</dependency> -->
-
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>			
@@ -150,7 +143,7 @@
 						<Bundle-Activator>org.openecomp.appc.adapter.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>				
 						<Export-Package>org.openecomp.appc.adapter.dmaap.*</Export-Package>
 						<Export-Serice>org.openecomp.appc.adapter.dmaap.EventSender</Export-Serice>
-						<Import-Package>org.openecomp.appc.metricservice.*,com.att.nsa.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
+						<Import-Package>org.openecomp.appc.metricservice.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|pax-*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>
