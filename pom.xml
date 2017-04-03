@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.opendaylight.odlparent</groupId>
         <artifactId>odlparent</artifactId>
-        <version>1.6.2-Beryllium-SR2</version>
+        <version>1.7.1-Boron-SR1</version>
         <relativePath>../../../../../opendaylight/odlparent</relativePath>
     </parent>
 
@@ -28,21 +28,21 @@
     <properties>
         <!-- VERSIONS -->
         <!-- OpenDaylight Versions -->
-        <features-mdsal.version>2.0.2-Beryllium-SR2</features-mdsal.version>
-        <broker-mdsal.version>1.3.2-Beryllium-SR2</broker-mdsal.version>
-        <odl.controller.config.api.version>0.4.2-Beryllium-SR2</odl.controller.config.api.version>
+        <odl.controller.config.api.version>0.5.1-Boron-SR1</odl.controller.config.api.version>
         <odl.karaf.empty.distro.version>${odl.version}</odl.karaf.empty.distro.version>
-        <odl.ietf-inet-types.version>2010.09.24.8.2-Beryllium-SR2</odl.ietf-inet-types.version>
-        <odl.ietf-yang-types.version>2010.09.24.8.2-Beryllium-SR2</odl.ietf-yang-types.version>
-        <odl.yang.jmx.generator.version>0.4.2-Beryllium-SR2</odl.yang.jmx.generator.version>
-        <odl.version>1.6.2-Beryllium-SR2</odl.version>
-        <odl.yangtools.version>0.8.2-Beryllium-SR2</odl.yangtools.version>
-        <odl.mdsal.version>1.3.2-Beryllium-SR2</odl.mdsal.version>
+        <odl.ietf-inet-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-inet-types.version>
+        <odl.ietf-yang-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-yang-types.version>
+        <odl.yang.jmx.generator.version>0.5.1-Boron-SR1</odl.yang.jmx.generator.version>
+        <odl.version>1.7.1-Boron-SR1</odl.version>
+        <odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
+        <odl.sal.api.gen.plugin.version>0.9.1-Boron-SR1</odl.sal.api.gen.plugin.version>
+        <odl.yangtools.version>1.0.1-Boron-SR1</odl.yangtools.version>
+        <odl.mdsal.version>1.4.1-Boron-SR1</odl.mdsal.version>
 
         <!-- OPENECOMP SDNC versions -->
-        <sdnctl.sli.version>1.0.0-SNAPSHOT</sdnctl.sli.version>
-        <sdnctl.dblib.version>1.0.0-SNAPSHOT</sdnctl.dblib.version>
-        <sdnctl.aai.service.version>1.0.0-SNAPSHOT</sdnctl.aai.service.version>
+        <sdnctl.sli.version>1.1.0-SNAPSHOT</sdnctl.sli.version>
+        <sdnctl.dblib.version>1.1.0-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.aai.service.version>1.1.0-SNAPSHOT</sdnctl.aai.service.version>
 
         <cdp.pal.version>0.0.1</cdp.pal.version>
         <eelf.version>0.0.1</eelf.version>
@@ -56,6 +56,7 @@
         <maven.compile.plugin.version>2.5.1</maven.compile.plugin.version>
         <equinox.osgi.version>3.8.1.v20120830-144521</equinox.osgi.version>
         <apache.httpcomponents.version>4.4</apache.httpcomponents.version>
+        <commons.lang3.version>3.4</commons.lang3.version>
         <antlr.version>4.5.1</antlr.version>
         <mysql.connector.version>5.1.39</mysql.connector.version>
 
@@ -111,7 +112,7 @@
         <!-- This site is used for Javadocs -->
         <site>
             <id>ecomp-site</id>
-            <url>dav:https://nexus.onap.org/content/sites/site/org/onap/appc/${project.version}</url>
+            <url>dav:https://nexus.onap.org/content/sites/site/org/openecomp/appc/${project.version}</url>
         </site>
         <repository>
             <id>ecomp-releases</id>
@@ -211,7 +212,7 @@
             <dependency>
                 <groupId>org.opendaylight.mdsal</groupId>
                 <artifactId>yang-binding</artifactId>
-                <version>${odl.yangtools.version}</version>
+                <version>${odl.mdsal.yang.binding.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.opendaylight.yangtools</groupId>
