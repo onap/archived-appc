@@ -113,6 +113,16 @@
             <id>ecomp-site</id>
             <url>dav:https://nexus.onap.org/content/sites/site/org/onap/appc/${project.version}</url>
         </site>
+        <repository>
+            <id>ecomp-releases</id>
+            <name>openecomp-repository-releases</name>
+            <url>https://nexus.onap.org/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ecomp-snapshots</id>
+            <name>openecomp-repository-snapshots</name>
+            <url>https://nexus.onap.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
 
