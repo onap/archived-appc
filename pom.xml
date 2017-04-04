@@ -159,7 +159,7 @@
         <!-- This site is used for Javadocs -->
         <site>
             <id>app-c-javadoc</id>
-            <url>dav:https://nexus.openecomp.org/repository/app-c-javadoc/${project.version}</url>
+            <url>dav:https://nexus.onap.org/repository/app-c-javadoc/${project.version}</url>
         </site>
     </distributionManagement>
     <!-- ================================================================================== -->
@@ -502,18 +502,6 @@
     <build>
         <pluginManagement>
             <plugins>
-                <!--maven staging plugin-->
-                <plugin>
-                    <groupId>org.sonatype.plugins</groupId>
-                    <artifactId>nexus-staging-maven-plugin</artifactId>
-                    <version>1.6.7</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <nexusUrl>https://nexus.openecomp.org/content/repositories/staging/</nexusUrl>
-                        <stagingProfileId>176c31dfe190a</stagingProfileId>
-                        <serverId>ecomp-staging</serverId>
-                    </configuration>
-                </plugin>
                 <!-- Define the site plugin to generate documentation -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -613,6 +601,18 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <!--maven staging plugin-->
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <nexusUrl>https://nexus.onap.org/content/repositories/staging/</nexusUrl>
+                    <stagingProfileId>176c31dfe190a</stagingProfileId>
+                    <serverId>ecomp-staging</serverId>
+                </configuration>
+            </plugin>
             <!-- Javadocs Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -716,9 +716,9 @@
             <properties>
                 <ssl.allowall>true</ssl.allowall>
                 <ssl.insecure>true</ssl.insecure>
-                <openecomp.nexus.host>nexus.openecomp.org</openecomp.nexus.host>
-                <openecomp.nexus.release-url>https://nexus.openecomp.org/content/repositories/releases/</openecomp.nexus.release-url>
-                <openecomp.nexus.snapshot-url>https://nexus.openecomp.org/content/repositories/snapshots/</openecomp.nexus.snapshot-url>
+                <openecomp.nexus.host>nexus.onap.org</openecomp.nexus.host>
+                <openecomp.nexus.release-url>https://nexus.onap.org/content/repositories/releases/</openecomp.nexus.release-url>
+                <openecomp.nexus.snapshot-url>https://nexus.onap.org/content/repositories/snapshots/</openecomp.nexus.snapshot-url>
                 <openecomp.git.port>7999</openecomp.git.port>
                 <openecomp.git.project>st_osecomp</openecomp.git.project>
                 <openecomp.git.protocol>http</openecomp.git.protocol>
