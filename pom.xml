@@ -76,6 +76,12 @@
         <jmxGeneratorPath>src/main/yang-gen-config</jmxGeneratorPath>
         <salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath>
         <checkstyle.skip>true</checkstyle.skip>
+        
+        <!-- NEXUS URLS -->
+        <openecomp.nexus.url>https://nexus.onap.org/content</openecomp.nexus.url>
+        <openecomp.nexus.snapshot-url>${openecomp.nexus.url}/repositories/snapshots/</openecomp.nexus.snapshot-url>
+        <openecomp.nexus.release-url>${openecomp.nexus.url}/repositories/releases/</openecomp.nexus.release-url>
+        <openecomp.nexus.javadocs-url>dav:${openecomp.nexus.url}/sites/site/org/openecomp/appc/${project.version}</openecomp.nexus.javadocs-url>
     </properties>
 
 
@@ -112,17 +118,17 @@
         <!-- This site is used for Javadocs -->
         <site>
             <id>ecomp-site</id>
-            <url>dav:https://nexus.onap.org/content/sites/site/org/openecomp/appc/${project.version}</url>
+            <url>${openecomp.nexus.javadocs-url}</url>
         </site>
         <repository>
             <id>ecomp-releases</id>
             <name>openecomp-repository-releases</name>
-            <url>https://nexus.onap.org/content/repositories/releases/</url>
+            <url>${openecomp.nexus.release-url}</url>
         </repository>
         <snapshotRepository>
             <id>ecomp-snapshots</id>
             <name>openecomp-repository-snapshots</name>
-            <url>https://nexus.onap.org/content/repositories/snapshots/</url>
+            <url>${openecomp.nexus.snapshot-url}</url>
         </snapshotRepository>
     </distributionManagement>
 
