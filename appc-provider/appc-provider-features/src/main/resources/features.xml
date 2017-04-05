@@ -26,7 +26,7 @@
     xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">     
     
 <!--     <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.version}/xml/features</repository> -->
-    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${features-mdsal.version}/xml/features</repository>
+    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
     
     <feature name='appc-provider' description="application controller" version='${project.version}'>
         <!--<feature version="${project.version}">appc-aai-adapter</feature>-->

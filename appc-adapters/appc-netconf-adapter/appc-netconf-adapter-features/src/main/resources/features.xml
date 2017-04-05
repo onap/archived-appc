@@ -25,7 +25,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
-    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${features-mdsal.version}/xml/features</repository>
+    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
 
     <feature name='appc-netconf-adapter' description="appc-netconf-adapter" version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->

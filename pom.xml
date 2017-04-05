@@ -28,16 +28,23 @@
     <properties>
         <!-- VERSIONS -->
         <!-- OpenDaylight Versions -->
-        <odl.controller.config.api.version>0.5.1-Boron-SR1</odl.controller.config.api.version>
-        <odl.karaf.empty.distro.version>${odl.version}</odl.karaf.empty.distro.version>
-        <odl.ietf-inet-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-inet-types.version>
-        <odl.ietf-yang-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-yang-types.version>
-        <odl.yang.jmx.generator.version>0.5.1-Boron-SR1</odl.yang.jmx.generator.version>
-        <odl.version>1.7.1-Boron-SR1</odl.version>
-        <odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
-        <odl.sal.api.gen.plugin.version>0.9.1-Boron-SR1</odl.sal.api.gen.plugin.version>
-        <odl.yangtools.version>1.0.1-Boron-SR1</odl.yangtools.version>
-        <odl.mdsal.version>1.4.1-Boron-SR1</odl.mdsal.version>
+		<odl.version>1.7.1-Boron-SR1</odl.version>
+		<odl.dlux.version>0.4.1-Boron-SR1</odl.dlux.version>
+		<odl.yangtools.version>1.0.1-Boron-SR1</odl.yangtools.version>
+		<odl.mdsal.version>1.4.1-Boron-SR1</odl.mdsal.version>
+		<odl.mdsal.features.version>2.1.1-Boron-SR1</odl.mdsal.features.version>
+		<odl.mdsal.model.version>0.9.1-Boron-SR1</odl.mdsal.model.version>
+		<odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
+		<odl.restconf.version>1.4.1-Boron-SR1</odl.restconf.version>
+		<odl.controller.model.version>${odl.mdsal.model.version}</odl.controller.model.version>
+		<odl.controller.config.api.version>0.5.1-Boron-SR1</odl.controller.config.api.version>
+		<odl.karaf.empty.distro.version>${odl.version}</odl.karaf.empty.distro.version>
+		<odl.commons.opendaylight.version>${odl.version}</odl.commons.opendaylight.version>
+		<odl.ietf-inet-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-inet-types.version>
+		<odl.ietf-yang-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-yang-types.version>
+		<odl.yang.jmx.generator.version>0.5.1-Boron-SR1</odl.yang.jmx.generator.version>
+		<odl.yangtools.yang.maven.plugin.version>${odl.yangtools.version}</odl.yangtools.yang.maven.plugin.version>
+		<odl.sal.api.gen.plugin.version>0.9.1-Boron-SR1</odl.sal.api.gen.plugin.version>
 
         <!-- OPENECOMP SDNC versions -->
         <sdnctl.sli.version>1.1.0-SNAPSHOT</sdnctl.sli.version>
