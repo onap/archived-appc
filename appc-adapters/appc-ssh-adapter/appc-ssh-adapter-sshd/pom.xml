@@ -51,7 +51,7 @@
 					<instructions>
 						<Export-Service>org.openecomp.appc.adapter.ssh.SshAdapter</Export-Service>
 						<Private-Package>org.openecomp.appc.adapter.ssh.impl.*</Private-Package>
-						<Import-Package>!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*</Import-Package>
+						<Import-Package>!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*;resolution:=optional</Import-Package>
 						<Embed-Dependency>!dblib-provider,appc-common,jasypt,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>

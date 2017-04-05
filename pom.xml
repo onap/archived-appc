@@ -33,7 +33,7 @@
 		<odl.yangtools.version>1.0.1-Boron-SR1</odl.yangtools.version>
 		<odl.mdsal.version>1.4.1-Boron-SR1</odl.mdsal.version>
 		<odl.mdsal.features.version>2.1.1-Boron-SR1</odl.mdsal.features.version>
-                <odl.controller.mdsal.features.version>1.4.1-Boron-SR1</odl.controller.mdsal.features.version>
+        <odl.controller.mdsal.features.version>1.4.1-Boron-SR1</odl.controller.mdsal.features.version>
 		<odl.mdsal.model.version>0.9.1-Boron-SR1</odl.mdsal.model.version>
 		<odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
 		<odl.restconf.version>1.4.1-Boron-SR1</odl.restconf.version>
@@ -46,6 +46,7 @@
 		<odl.yang.jmx.generator.version>0.5.1-Boron-SR1</odl.yang.jmx.generator.version>
 		<odl.yangtools.yang.maven.plugin.version>${odl.yangtools.version}</odl.yangtools.yang.maven.plugin.version>
 		<odl.sal.api.gen.plugin.version>0.9.1-Boron-SR1</odl.sal.api.gen.plugin.version>
+        <broker-mdsal.version>1.4.1-Boron-SR1</broker-mdsal.version>
 
         <!-- OPENECOMP SDNC versions -->
         <sdnctl.sli.version>1.1.0-SNAPSHOT</sdnctl.sli.version>

@@ -27,6 +27,7 @@
 					<instructions>
 						<Export-Package>org.openecomp.appc.adapter.ssh</Export-Package>
 						<Embed-Dependency>!dblib-provider</Embed-Dependency>
+                        <Import-Package>!org.slf4j.impl</Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>
