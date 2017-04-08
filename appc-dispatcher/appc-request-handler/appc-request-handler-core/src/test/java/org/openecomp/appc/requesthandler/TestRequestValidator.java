@@ -601,9 +601,8 @@ public class TestRequestValidator {
         ResponseContext responseContext = new ResponseContext();
         CommonHeader commonHeader = new CommonHeader();
         Flags flags = new Flags();
-        Status status = new Status();
         responseContext.setCommonHeader(commonHeader);
-        responseContext.setStatus(status);
+        responseContext.setStatus(new Status(0, null));
         commonHeader.setFlags(flags);
         return responseContext;
     }

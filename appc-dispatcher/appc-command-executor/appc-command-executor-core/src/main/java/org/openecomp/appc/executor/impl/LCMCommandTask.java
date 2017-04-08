@@ -147,22 +147,19 @@ public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
 			isAAIUpdated= postVnfdata(vnfId, nextState,"onRequestExecutionStart",ctx);
 		} catch (NoTransitionDefinedException e) {
 			logger.error("Error getting Next State for AAI Update:  " + e.getMessage(), e);
-			Status status = request.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus();
 			Params params = new Params().addParam("actionName",e.event).addParam("currentState",e.currentState);
-			fillStatus(status, LCMCommandStatus.NO_TRANSITION_DEFINE_FAILURE, params);
+			request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.NO_TRANSITION_DEFINE_FAILURE.toStatus(params));
 			isAAIUpdated = false;
 		} catch (UnstableVNFException e) {
 			logger.error(e.getMessage(), e);
-			Status status = request.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus();
 			Params params = new Params().addParam("vnfId",vnfId);
-			fillStatus(status, LCMCommandStatus.UNSTABLE_VNF_FAILURE, params);
+			request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNSTABLE_VNF_FAILURE.toStatus(params));
 			isAAIUpdated = false;
 		}catch (Exception e) {
 			logger.error("Error before Request Execution starts.", e);
-			Status status = request.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus();
 			String errorMsg = StringUtils.isEmpty(e.getMessage()) ? e.toString() : e.getMessage();
 			Params params = new Params().addParam("errorMsg",errorMsg);
-			fillStatus(status, LCMCommandStatus.UNEXPECTED_FAILURE, params);
+			request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNEXPECTED_FAILURE.toStatus(params));
 			isAAIUpdated =  false;
 		}
 

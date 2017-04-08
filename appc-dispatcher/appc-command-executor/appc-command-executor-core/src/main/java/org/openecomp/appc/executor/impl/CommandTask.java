@@ -119,8 +119,4 @@ public abstract class CommandTask<M> implements Runnable {
         this.onRequestCompletion(commandRequest,commandResponse);
     }
 
-    public static void fillStatus(Status status, LCMCommandStatus lcmCommandStatus, Params params) {
-        status.setCode(lcmCommandStatus.getResponseCode());
-        status.setMessage(lcmCommandStatus.getFormattedMessage(params));
-    }
 }

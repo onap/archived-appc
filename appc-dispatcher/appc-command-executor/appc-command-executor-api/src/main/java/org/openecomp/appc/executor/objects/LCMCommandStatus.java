@@ -23,6 +23,7 @@ package org.openecomp.appc.executor.objects;
 
 
 import org.apache.commons.lang3.StringUtils;
+import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.util.MessageFormatter;
 
 import java.util.Map;
@@ -108,5 +109,9 @@ public enum LCMCommandStatus {
                 ", responseMessage='" + responseMessage + '\'' +
                 '}';
     }
+
+	public Status toStatus(Params params) {
+		return new Status(responseCode, getFormattedMessage(params));
+	}
 }
 

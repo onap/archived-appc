@@ -462,14 +462,10 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
             requestHandlerOutput = new RequestHandlerOutput();
             requestHandlerOutput.setResponseContext(responseContext);
             responseContext.setCommonHeader(request.getRequestContext().getCommonHeader());
-            final org.openecomp.appc.domainmodel.lcm.Status status = new org.openecomp.appc.domainmodel.lcm.Status();
-
-            responseContext.setStatus(status);
-
             String errorMessage = e.getMessage() != null ? e.getMessage() : e.toString();
             Params params = new Params().addParam("errorMsg", errorMessage);
-            status.setCode(LCMCommandStatus.UNEXPECTED_ERROR.getResponseCode());
-            status.setMessage(LCMCommandStatus.UNEXPECTED_ERROR.getFormattedMessage(params));
+            responseContext.setStatus(LCMCommandStatus.UNEXPECTED_ERROR.toStatus(params));
+
             LoggingUtils.logErrorMessage(
                     LoggingConstants.TargetNames.APPC_PROVIDER,
                     reason,
