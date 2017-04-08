@@ -118,7 +118,7 @@ public class CommandExecutorImpl implements CommandExecutor {
             logger.trace("Entering to enqueRequest with CommandRequest = "+ ObjectUtils.toString(request));
         }
         try {
-            CommandTask commandTask = getMessageExecutor(request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction().name());
+            CommandTask<? extends CommandRequest> commandTask = getMessageExecutor(request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction().name());
             commandTask.setCommandRequest(request);
             long remainingTTL = getRemainingTTL(request);
             executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
@@ -138,11 +138,11 @@ public class CommandExecutorImpl implements CommandExecutor {
         return ttl*1000 + requestTimestamp.getTime() - System.currentTimeMillis();
     }
 
-    private CommandTask getMessageExecutor(String action){
+    private CommandTask<? extends CommandRequest> getMessageExecutor(String action){
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to getMessageExecutor with command = "+ action);
         }
-        CommandTask executionTask = executionTaskFactory.getExecutionTask(action);
+        CommandTask<? extends CommandRequest> executionTask = executionTaskFactory.getExecutionTask(action);
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from getMessageExecutor");
         }
