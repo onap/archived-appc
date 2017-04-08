@@ -67,15 +67,13 @@ public class LCMReadonlyCommandTask extends CommandTask<LCMReadOnlyCommandReques
             super.execute();
         } catch (UnstableVNFException e) {
             logger.error(e.getMessage(), e);
-            Status status = request.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus();
             Params params = new Params().addParam("vnfId",vnfId);
-            fillStatus(status, LCMCommandStatus.UNSTABLE_VNF_FAILURE, params);
+            request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNSTABLE_VNF_FAILURE.toStatus(params));
         }catch (Exception e) {
             logger.error("Error during runing LCMReadonlyCommandTask.", e);
-            Status status = request.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus();
             String errorMsg = StringUtils.isEmpty(e.getMessage()) ? e.toString() : e.getMessage();
             Params params = new Params().addParam("errorMsg",errorMsg);
-            fillStatus(status, LCMCommandStatus.UNEXPECTED_FAILURE, params);
+            request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNEXPECTED_FAILURE.toStatus(params));
         }
     }
 }

@@ -324,8 +324,7 @@ public class TestConverter {
 
 	private ResponseContext buildAsyncResponse() {
 		ResponseContext asyncResponse = createResponseContextWithSubObjects();
-		asyncResponse.getStatus().setCode(LCMCommandStatus.SUCCESS.getResponseCode());
-		asyncResponse.getStatus().setMessage(LCMCommandStatus.SUCCESS.getResponseMessage());
+		asyncResponse.setStatus(LCMCommandStatus.SUCCESS.toStatus(null));
 		asyncResponse.getCommonHeader().setOriginatorId("oid");
 		asyncResponse.getCommonHeader().setApiVer("2.0.0");
 		asyncResponse.getCommonHeader().setRequestId("reqid");
@@ -339,9 +338,8 @@ public class TestConverter {
 		ResponseContext responseContext = new ResponseContext();
 		CommonHeader commonHeader = new CommonHeader();
 		Flags flags = new Flags();
-		Status status = new Status();
 		responseContext.setCommonHeader(commonHeader);
-		responseContext.setStatus(status);
+		responseContext.setStatus(new Status(0, null));
 		commonHeader.setFlags(flags);
 		return responseContext;
 	}

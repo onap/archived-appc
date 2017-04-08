@@ -33,6 +33,7 @@ import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.domainmodel.lcm.RequestContext;
 import org.openecomp.appc.domainmodel.lcm.ResponseContext;
+import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.util.ObjectMapper;
 import org.openecomp.appc.workflow.WorkFlowManager;
 import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
@@ -335,9 +336,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
      * @param responceContext response context which will be store status code and status message
      */
     private void fillStatus(int code, String message, ResponseContext responceContext) {
-        responceContext.getStatus().setCode(code);
-        responceContext.getStatus().setMessage(message);
+        responceContext.setStatus(new Status(code, message));
     }
-
 
 }

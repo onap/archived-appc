@@ -175,11 +175,11 @@ public class RequestHandlerImpl implements RequestHandler {
         runtimeContext.setRpcName(input.getRpcName());
 
         final ResponseContext responseContext = new ResponseContext();
-        responseContext.setStatus(new Status());
+        responseContext.setStatus(new Status(0, null));
         responseContext.setAdditionalContext(new HashMap<String, String>(4));
         responseContext.setCommonHeader(input.getRequestContext().getCommonHeader());
         runtimeContext.setResponseContext(responseContext);
-        runtimeContext.getResponseContext().setStatus(new Status());
+        runtimeContext.getResponseContext().setStatus(new Status(0, null));
 
         vnfId = runtimeContext.getRequestContext().getActionIdentifiers().getVnfId();
 
@@ -402,8 +402,7 @@ public class RequestHandlerImpl implements RequestHandler {
     }
 
     private void fillStatus(RuntimeContext runtimeContext, LCMCommandStatus lcmCommandStatus, Params params) {
-        runtimeContext.getResponseContext().getStatus().setCode(lcmCommandStatus.getResponseCode());
-        runtimeContext.getResponseContext().getStatus().setMessage(lcmCommandStatus.getFormattedMessage(params));
+        runtimeContext.getResponseContext().setStatus(lcmCommandStatus.toStatus(params));
     }
 
     /*
@@ -414,7 +413,7 @@ public class RequestHandlerImpl implements RequestHandler {
         RuntimeContext other = new RuntimeContext();
         other.setRequestContext(runtimeContext.getRequestContext());
         other.setResponseContext(new ResponseContext());
-        other.getResponseContext().setStatus(new Status());
+        other.getResponseContext().setStatus(new Status(0, null));
         other.getResponseContext().setCommonHeader(runtimeContext.getRequestContext().getCommonHeader());
         other.setVnfContext(runtimeContext.getVnfContext());
         other.setRpcName(runtimeContext.getRpcName());
@@ -569,10 +568,7 @@ public class RequestHandlerImpl implements RequestHandler {
     private static RequestHandlerOutput buildRequestHandlerOutput(LCMCommandStatus response, Params params) {
         RequestHandlerOutput output = new RequestHandlerOutput();
         ResponseContext responseContext = new ResponseContext();
-        org.openecomp.appc.domainmodel.lcm.Status status = new org.openecomp.appc.domainmodel.lcm.Status();
-        status.setCode(response.getResponseCode());
-        status.setMessage(response.getFormattedMessage(params));
-        responseContext.setStatus(status);
+        responseContext.setStatus(response.toStatus(params));
         output.setResponseContext(responseContext);
         return output;
     }
