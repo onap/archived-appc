@@ -113,7 +113,7 @@ public class InputParameterValidationImpl implements InputParameterValidation
     }
 
 
-    private Map getValueFromContext(SvcLogicContext context) {
+    private Map<String, String> getValueFromContext(SvcLogicContext context) {
         Set<String> keys = context.getAttributeKeySet();
         Map<String, String> params = new HashMap<String, String>();
         StringBuilder builder = new StringBuilder();
