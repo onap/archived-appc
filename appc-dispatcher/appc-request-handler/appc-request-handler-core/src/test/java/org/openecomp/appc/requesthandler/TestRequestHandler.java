@@ -302,12 +302,12 @@ public class TestRequestHandler {
 
 
 		ResponseContext responseContext = new ResponseContext();
-		responseContext.setStatus(new Status());
+		responseContext.setStatus(new Status(0, null));
 		responseContext.setAdditionalContext(new HashMap<String, String>(4));
 		responseContext.setCommonHeader(input1.getRequestContext().getCommonHeader());
 		runtimeContext.setResponseContext(responseContext);
 		when(runtimeContext.getResponseContext()).thenReturn(responseContext);
-		responseContext.setStatus(new Status());
+		responseContext.setStatus(new Status(0, null));
 		runtimeContext.setResponseContext(responseContext);
 		PowerMockito.whenNew(RuntimeContext.class).withAnyArguments().thenReturn(runtimeContext);
 
@@ -451,7 +451,7 @@ public class TestRequestHandler {
 		output.getVnfContext().setId(vnfId);
 		output.getResponseContext().getCommonHeader().setApiVer("2.0.0");
 		output.getResponseContext().getCommonHeader().setTimestamp(new Date());
-		output.getResponseContext().getStatus().setCode(LCMCommandStatus.SUCCESS.getResponseCode());
+		output.getResponseContext().setStatus(LCMCommandStatus.SUCCESS.toStatus(null));
 		output.setTimeStart(new Date());
 		output.getResponseContext().getCommonHeader().setOriginatorId(originatorId);
 		output.getResponseContext().getCommonHeader().setRequestId(requestId);
@@ -566,9 +566,8 @@ public class TestRequestHandler {
 		ResponseContext responseContext = new ResponseContext();
 		CommonHeader commonHeader = new CommonHeader();
 		Flags flags = new Flags();
-		Status status = new Status();
 		responseContext.setCommonHeader(commonHeader);
-		responseContext.setStatus(status);
+		responseContext.setStatus(new Status(0, null));
 		commonHeader.setFlags(flags);
 		return responseContext;
 	}
