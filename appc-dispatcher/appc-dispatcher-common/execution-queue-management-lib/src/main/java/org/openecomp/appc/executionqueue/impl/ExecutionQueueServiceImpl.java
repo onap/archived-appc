@@ -48,13 +48,10 @@ public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQ
 
     @Override
     public void putMessage(M message, long timeout, TimeUnit unit) throws APPCException{
-        QueueMessage queueMessage = null;
-
         try {
             Date expirationTime = calculateExpirationTime(timeout,unit);
-            queueMessage = new QueueMessage(message,expirationTime);
             QueueManager queueManager = QueueManager.getInstance();
-            boolean enqueueTask = queueManager.enqueueTask(queueMessage);
+            boolean enqueueTask = queueManager.enqueueTask(new QueueMessage<M>(message,expirationTime));
             if(!enqueueTask){
                 throw new APPCException("failed to put message in queue");
             }

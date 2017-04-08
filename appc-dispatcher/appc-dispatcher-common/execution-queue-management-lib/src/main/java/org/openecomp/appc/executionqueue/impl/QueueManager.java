@@ -33,7 +33,7 @@ import com.att.eelf.configuration.EELFManager;
 
 public class QueueManager {
 
-    private LinkedBlockingQueue<QueueMessage> queue;
+    private LinkedBlockingQueue<QueueMessage<? extends Runnable>> queue;
 
     private MessageExpirationListener listener;
 
@@ -59,7 +59,7 @@ public class QueueManager {
     }
 
     private void init(){
-        queue = new LinkedBlockingQueue(MAX_QUEUE_SIZE);
+        queue = new LinkedBlockingQueue<QueueMessage<? extends Runnable>>(MAX_QUEUE_SIZE);
         messageExecutor = Executors.newFixedThreadPool(MAX_THREAD_SIZE,Util.getThreadFactory(true));
 
         for(int i=0;i<MAX_THREAD_SIZE;i++){
@@ -68,7 +68,7 @@ public class QueueManager {
                 public void run() {
                     while (true){
                         try{
-                            QueueMessage queueMessage = queue.take();
+                            QueueMessage<? extends Runnable> queueMessage = queue.take();
                             if(messageExpired(queueMessage)){
                                 logger.debug("Message expired "+ queueMessage.getMessage());
                                 if(listener != null){
@@ -94,11 +94,11 @@ public class QueueManager {
         this.listener = listener;
     }
 
-    public boolean enqueueTask(QueueMessage queueMessage) {
+    public boolean enqueueTask(QueueMessage<? extends Runnable> queueMessage) {
         return queue.offer(queueMessage);
     }
 
-    private boolean messageExpired(QueueMessage queueMessage) {
+    private boolean messageExpired(QueueMessage<? extends Runnable> queueMessage) {
         if(queueMessage.getExpirationTime() != null){
             return queueMessage.getExpirationTime().getTime() < System.currentTimeMillis();
         }
