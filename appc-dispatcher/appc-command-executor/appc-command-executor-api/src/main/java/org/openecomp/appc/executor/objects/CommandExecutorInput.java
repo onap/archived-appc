@@ -24,24 +24,20 @@ package org.openecomp.appc.executor.objects;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 
 public class CommandExecutorInput {
-	private RuntimeContext runtimeContext ;
-	private int ttl;
+	private final RuntimeContext runtimeContext ;
+	private final int ttl;
 
+    public CommandExecutorInput(RuntimeContext runtimeContext, int ttl) {
+        this.runtimeContext = runtimeContext;
+        this.ttl = ttl;
+    }
 
 	public RuntimeContext getRuntimeContext() {
 		return runtimeContext;
 	}
 
-	public void setRuntimeContext(RuntimeContext runtimeContext) {
-		this.runtimeContext = runtimeContext;
-	}
-
 	public int getTtl() {
 		return ttl;
-	}
-
-	public void setTtl(int ttl) {
-		this.ttl = ttl;
 	}
 
 	@Override
