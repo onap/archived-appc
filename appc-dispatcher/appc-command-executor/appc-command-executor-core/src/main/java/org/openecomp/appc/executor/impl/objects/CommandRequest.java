@@ -21,69 +21,24 @@
 
 package org.openecomp.appc.executor.impl.objects;
 
-import java.util.Date;
-
 import org.openecomp.appc.executor.objects.CommandExecutorInput;
 
-@SuppressWarnings("unused")
 public class CommandRequest {
 
-
-    private CommandExecutorInput commandExecutorInput;
-    private Date commandInTimeStamp;
+    private final CommandExecutorInput commandExecutorInput;
 
     public CommandRequest(CommandExecutorInput commandExecutorInput) {
         this.commandExecutorInput = commandExecutorInput;
     }
 
-
     public CommandExecutorInput getCommandExecutorInput() {
         return commandExecutorInput;
     }
-
-    public void setCommandExecutorInput(CommandExecutorInput commandExecutorInput) {
-        this.commandExecutorInput = commandExecutorInput;
-    }
-
-    public Date getCommandInTimeStamp() {
-        return commandInTimeStamp;
-    }
-
-    public void setCommandInTimeStamp(Date commandInTimeStamp) {
-        this.commandInTimeStamp = commandInTimeStamp;
-    }
-
-    //    @Override
-    //    public boolean isTTLExpired() {
-    //        Calendar tempTimeStamp = addTTLToRequestTime();
-    //        long currentTime = System.currentTimeMillis();
-    //        long tempTimeStampWithTTL = tempTimeStamp.getTimeInMillis() ;
-    //        return  currentTime > tempTimeStampWithTTL;
-    //    }
-    //
-    //    @Override
-    //    public int getRemainingTTL(TimeUnit timeunit) {
-    //        long tempTimeStampWithTTL = addTTLToRequestTime().getTimeInMillis() ;
-    //        long currentTime = System.currentTimeMillis();
-    //        long remainingTTL = tempTimeStampWithTTL - currentTime;
-    //        return (int)(tempTimeStampWithTTL - currentTime);
-    //    }
-    //    private Calendar addTTLToRequestTime()
-    //    {
-    //        Date timeInRequest =  this.getCommandInTimeStamp();
-    //        int ttlValue = this.getCommandContext().getTtl();
-    //        Calendar tempTimeStamp = Calendar.getInstance();
-    //        tempTimeStamp.setTime(timeInRequest);
-    //        tempTimeStamp.add(Calendar.SECOND, ttlValue);
-    //        return tempTimeStamp;
-    //    }
-
 
     @Override
     public String toString() {
         return "CommandRequest{" +
                 "commandExecutorInput=" + commandExecutorInput +
-                ", commandInTimeStamp=" + commandInTimeStamp +
                 '}';
     }
 }
