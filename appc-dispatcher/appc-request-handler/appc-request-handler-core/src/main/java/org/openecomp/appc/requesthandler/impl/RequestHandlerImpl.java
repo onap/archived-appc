@@ -370,9 +370,7 @@ public class RequestHandlerImpl implements RequestHandler {
 
             RuntimeContext clonedContext = cloneContext(runtimeContext);
 
-            CommandExecutorInput commandExecutorInput = new CommandExecutorInput();
-            commandExecutorInput.setRuntimeContext(clonedContext);
-            commandExecutorInput.setTtl(remainingTTL);
+            CommandExecutorInput commandExecutorInput = new CommandExecutorInput(clonedContext, remainingTTL);
 
             try {
                 commandExecutor.executeCommand(commandExecutorInput);
