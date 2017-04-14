@@ -91,7 +91,7 @@
         <openecomp.nexus.url>https://${openecomp.nexus.host}/content</openecomp.nexus.url>
         <openecomp.nexus.snapshot-url>${openecomp.nexus.url}/repositories/snapshots/</openecomp.nexus.snapshot-url>
         <openecomp.nexus.release-url>${openecomp.nexus.url}/repositories/releases/</openecomp.nexus.release-url>
-        <openecomp.nexus.javadocs-url>dav:${openecomp.nexus.url}/sites/site/org/openecomp/appc/${project.version}</openecomp.nexus.javadocs-url>
+        <openecomp.nexus.javadocs-url>dav:${openecomp.nexus.url}/sites/site/org/onap/appc/${project.version}</openecomp.nexus.javadocs-url>
     </properties>
 
 
