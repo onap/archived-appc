@@ -78,8 +78,8 @@ public class TestCommandExecutor {
 		commandExecutor.setExecutionQueueService(executionQueueService);
 		LCMCommandTask lcmCommandTask = Mockito.mock(LCMCommandTask.class);
 		LCMReadonlyCommandTask LCMReadonlyCommandTask = Mockito.mock(LCMReadonlyCommandTask.class);
-		Mockito.when(executionTaskFactory.getExecutionTask("Configure")).thenReturn(lcmCommandTask);
-		Mockito.when(executionTaskFactory.getExecutionTask("Sync")).thenReturn(LCMReadonlyCommandTask);
+		Mockito.doReturn(lcmCommandTask).when(executionTaskFactory).getExecutionTask("Configure");
+		Mockito.doReturn(LCMReadonlyCommandTask).when(executionTaskFactory).getExecutionTask("Sync");
 //		Mockito.when(executionQueueService.putMessage((Runnable) Mockito.anyObject(),Mockito.anyLong(),(TimeUnit)Mockito.anyObject())).thenReturn(true);
 
 	}

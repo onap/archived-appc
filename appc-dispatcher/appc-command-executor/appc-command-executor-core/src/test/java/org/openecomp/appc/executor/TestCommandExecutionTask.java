@@ -132,8 +132,7 @@ public class TestCommandExecutionTask {
 
 	@Test
 	public void testFactory(){
-		CommandTask task;
-		task = factory.getExecutionTask("Configure");
+		CommandTask<? extends CommandRequest> task = factory.getExecutionTask("Configure");
 		assertEquals(LCMCommandTask.class,task.getClass() );
 		task = factory.getExecutionTask("Sync");
 		assertEquals(LCMReadonlyCommandTask.class,task.getClass() );
