@@ -191,9 +191,7 @@ public class TestCommandExecutionTask {
 		requestContext.setAction(action);
 		runtimeContext.setRpcName(action.name().toLowerCase());
 		commonHeader.setApiVer(API_VERSION);
-		Status status = new Status();
-		status.setCode(100);
-		responseContext.setStatus(status);
+		responseContext.setStatus(new Status(100, null));
 		commonHeader.setRequestId(responseId);
 		responseContext.setPayload(payload);
 		commonHeader.setTimestamp(new Date());
@@ -246,7 +244,7 @@ public class TestCommandExecutionTask {
 		ResponseContext responseContext = createResponseContextWithSuObjects();
 		wfResponse.setResponseContext(responseContext);
 		responseContext.setPayload("");
-		wfResponse.getResponseContext().getStatus().setCode(100);
+		wfResponse.getResponseContext().setStatus(new Status(100, null));
 		return wfResponse;
 	}
 
@@ -300,9 +298,8 @@ public class TestCommandExecutionTask {
 		ResponseContext responseContext = new ResponseContext();
 		CommonHeader commonHeader = new CommonHeader();
 		Flags flags = new Flags();
-		Status status = new Status();
 		responseContext.setCommonHeader(commonHeader);
-		responseContext.setStatus(status);
+		responseContext.setStatus(new Status(0, null));
 		commonHeader.setFlags(flags);
 		return responseContext;
 	}
