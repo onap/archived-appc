@@ -28,6 +28,7 @@ import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.Payload;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.action.identifiers.ActionIdentifiers;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.CommonHeader;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags;
+import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.domainmodel.lcm.RequestContext;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
@@ -105,21 +106,23 @@ public class RequestInputBuilder {
         header.setSubRequestId(commonHeader.getSubRequestId());
 
         Flags inFlags = commonHeader.getFlags();
-        org.openecomp.appc.domainmodel.lcm.Flags flags = new org.openecomp.appc.domainmodel.lcm.Flags();
+        boolean force = false;
+        Mode mode = null;
+        int ttl = 0;
         if (inFlags != null) {
 
-            if(null != inFlags.getForce()) {
-                flags.setForce(Boolean.parseBoolean(inFlags.getForce().toString().toLowerCase()));
+            if (null != inFlags.getForce()) {
+                force = Boolean.parseBoolean(inFlags.getForce().toString().toLowerCase());
             }
-            if(null!=inFlags.getMode()) {
-                flags.setMode(inFlags.getMode().name());
+            if (null != inFlags.getMode()) {
+                mode = Mode.valueOf(inFlags.getMode().name());
             }
-            if(null!=  inFlags.getTtl()) {
-                flags.setTtl(inFlags.getTtl());
+            if (null != inFlags.getTtl()) {
+                ttl = inFlags.getTtl();
             }
 
         }
-        this.requestContext.getCommonHeader().setFlags(flags);
+        this.requestContext.getCommonHeader().setFlags(new org.openecomp.appc.domainmodel.lcm.Flags(mode, force, ttl));
         return this;
     }
 

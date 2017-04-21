@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.openecomp.appc.domainmodel.lcm.*;
+import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.executor.CommandExecutor;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
@@ -399,7 +400,7 @@ public class TestRequestHandler {
 		requestHandler.onRequestTTLEnd(response,true);
 		input1 = this.getRequestHandlerInput("138", VNFOperation.Configure, 1200,
 				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
-		input1.getRequestContext().getCommonHeader().getFlags().setForce(true);
+		input1.getRequestContext().getCommonHeader().setFlags(new Flags(null, true, 1200));
 		mockRuntimeContextAndVnfContext(input1);
 		output = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(),output.getResponseContext().getStatus().getCode());
@@ -434,8 +435,7 @@ public class TestRequestHandler {
 		requestContext.getCommonHeader().setRequestId(requestId);
 		requestContext.getCommonHeader().setSubRequestId(subRequestId);
 		requestContext.getCommonHeader().setOriginatorId(originatorId);
-		requestContext.getCommonHeader().getFlags().setTtl(ttl);
-		requestContext.getCommonHeader().getFlags().setForce(force);
+		requestContext.getCommonHeader().setFlags(new Flags(null, force, ttl));
 		requestContext.getCommonHeader().setTimestamp(timeStamp);
 		requestContext.getCommonHeader().setApiVer(API_VERSION);
 		return input;
@@ -551,8 +551,7 @@ public class TestRequestHandler {
 		runtimeContext.setResponseContext(responseContext);
 		CommonHeader commonHeader = new CommonHeader();
 		requestContext.setCommonHeader(commonHeader);
-		Flags flags = new Flags();
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
 		requestContext.setActionIdentifiers(actionIdentifiers);
 		VNFContext vnfContext = new VNFContext();
@@ -564,10 +563,9 @@ public class TestRequestHandler {
 	private ResponseContext createResponseContextWithSuObjects(){
 		ResponseContext responseContext = new ResponseContext();
 		CommonHeader commonHeader = new CommonHeader();
-		Flags flags = new Flags();
 		responseContext.setCommonHeader(commonHeader);
 		responseContext.setStatus(new Status(0, null));
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		return responseContext;
 	}
 
