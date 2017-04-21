@@ -22,7 +22,7 @@
 package org.openecomp.appc.executor.impl;
 
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
-import org.openecomp.appc.executor.impl.objects.CommandRequest;
+import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.requesthandler.RequestHandler;
 
 
@@ -39,7 +39,7 @@ public class ExpiredMessageHandler<M> implements MessageExpirationListener<M>{
 
     @Override
     public void onMessageExpiration(M message) {
-        CommandRequest commandRequest = (CommandRequest)message;
-        requestHandler.onRequestTTLEnd(commandRequest.getCommandExecutorInput().getRuntimeContext(), true);
+        CommandExecutorInput commandRequest = (CommandExecutorInput)message;
+        requestHandler.onRequestTTLEnd(commandRequest.getRuntimeContext(), true);
     }
 }

@@ -35,9 +35,6 @@ import org.openecomp.appc.executor.impl.CommandTask;
 import org.openecomp.appc.executor.impl.CommandTaskFactory;
 import org.openecomp.appc.executor.impl.LCMCommandTask;
 import org.openecomp.appc.executor.impl.LCMReadonlyCommandTask;
-import org.openecomp.appc.executor.impl.objects.CommandRequest;
-import org.openecomp.appc.executor.impl.objects.LCMCommandRequest;
-import org.openecomp.appc.executor.impl.objects.LCMReadOnlyCommandRequest;
 import org.openecomp.appc.executor.objects.*;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.requesthandler.RequestHandler;
@@ -132,7 +129,7 @@ public class TestCommandExecutionTask {
 
 	@Test
 	public void testFactory(){
-		CommandTask<? extends CommandRequest> task = factory.getExecutionTask("Configure");
+		CommandTask task = factory.getExecutionTask("Configure");
 		assertEquals(LCMCommandTask.class,task.getClass() );
 		task = factory.getExecutionTask("Sync");
 		assertEquals(LCMReadonlyCommandTask.class,task.getClass() );
@@ -144,28 +141,28 @@ public class TestCommandExecutionTask {
 	@Test
 	public void testOnRequestCompletion(){
 		Mockito.doNothing().when(requestHandler).onRequestTTLEnd((RuntimeContext) anyObject(),anyBoolean());
-		LCMCommandRequest request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"), VNFOperation.Configure, "1", "1.0");
+		CommandExecutorInput request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"), VNFOperation.Configure, "1", "1.0");
 		CommandResponse response = getCommandResponse(VNFOperation.Configure, true, "11", "","1");
 		executionTask.onRequestCompletion(request, response);
 	}
 
 	@Test
 	public void testRunGetConfig(){
-		LCMReadOnlyCommandRequest request = getConfigCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
+		CommandExecutorInput request = getConfigCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
 		LCMReadonlyCommandTask.setCommandRequest(request);
 		LCMReadonlyCommandTask.run();
 	}
 
 	@Test
 	public void testRun(){
-		LCMCommandRequest request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
+		CommandExecutorInput request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
 		executionTask.setCommandRequest(request);
 		executionTask.run();
 	}
 
 	@Test
 	public void testRunNegative(){
-		LCMCommandRequest request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
+		CommandExecutorInput request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
 		executionTask.setCommandRequest(request);
 		executionTask.run();
 	}
@@ -208,7 +205,6 @@ public class TestCommandExecutionTask {
 		String requestId = "1";
 
 		CommandExecutorInput commandExecutorInput = pouplateCommandExecutorInput("FIREWALL",30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", VNFOperation.Configure, "33", "");
-		CommandRequest request = new CommandRequest(commandExecutorInput);
 	}
 
 
@@ -221,22 +217,16 @@ public class TestCommandExecutionTask {
 	}
 
 
-	private LCMReadOnlyCommandRequest getConfigCommandRequest(String vnfType , Integer ttl , Date timeStamp, String requestId,
+	private CommandExecutorInput getConfigCommandRequest(String vnfType , Integer ttl , Date timeStamp, String requestId,
 															  Map<String,Object> flags, VNFOperation command , String vnfId, String vnfVersion ){
 
-		CommandExecutorInput commandExecutorInput = pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
-		LCMReadOnlyCommandRequest request = new LCMReadOnlyCommandRequest(commandExecutorInput);
-
-		return request;
+		return pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
 	}
 
-	private LCMCommandRequest getLCMCommandRequest(String vnfType , Integer ttl ,Date timeStamp, String requestId,
+	private CommandExecutorInput getLCMCommandRequest(String vnfType , Integer ttl ,Date timeStamp, String requestId,
 											 Map<String,Object> flags, VNFOperation command , String vnfId, String vnfVersion ){
 
-		CommandExecutorInput commandExecutorInput = pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
-		LCMCommandRequest request = new LCMCommandRequest(commandExecutorInput);
-
-		return request;
+		return pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
 	}
 
 	public WorkflowResponse getWorkflowResponse (){

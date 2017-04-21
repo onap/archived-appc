@@ -23,7 +23,6 @@ package org.openecomp.appc.executor.impl;
 
 
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.executor.impl.objects.CommandRequest;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
@@ -54,7 +53,7 @@ public class CommandTaskFactory {
     }
 
 
-    public synchronized CommandTask<? extends CommandRequest> getExecutionTask(String action){
+    public synchronized CommandTask getExecutionTask(String action){
         if (VNFOperation.Sync.toString().equals(action) || VNFOperation.Audit.toString().equals(action)){
             return new LCMReadonlyCommandTask(requestHandler,workflowManager);
         }else {

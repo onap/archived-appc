@@ -33,9 +33,6 @@ import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceFactory;
 import org.openecomp.appc.executor.CommandExecutor;
-import org.openecomp.appc.executor.impl.objects.CommandRequest;
-import org.openecomp.appc.executor.impl.objects.LCMCommandRequest;
-import org.openecomp.appc.executor.impl.objects.LCMReadOnlyCommandRequest;
 import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -82,43 +79,19 @@ public class CommandExecutorImpl implements CommandExecutor {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to executeCommand with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
         }
-        CommandRequest request = getCommandRequest(commandExecutorInput);
-        enqueRequest(request);
+        enqueRequest(commandExecutorInput);
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from executeCommand");
         }
     }
 
-    private CommandRequest getCommandRequest(CommandExecutorInput commandExecutorInput){
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getCommandRequest with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
-        }
-        CommandRequest commandRequest;
-
-        switch(commandExecutorInput.getRuntimeContext().getRequestContext().getAction()){
-            case Sync:
-                commandRequest = new LCMReadOnlyCommandRequest(commandExecutorInput);
-                break;
-            case Audit:
-                commandRequest = new LCMReadOnlyCommandRequest(commandExecutorInput);
-                break;
-            default:
-                commandRequest = new LCMCommandRequest(commandExecutorInput);
-                break;
-        }
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from getCommandRequest with (CommandRequest = "+ ObjectUtils.toString(commandRequest)+")");
-        }
-        return commandRequest;
-    }
-
     @SuppressWarnings("unchecked")
-    private void enqueRequest(CommandRequest request) throws APPCException{
+    private void enqueRequest(CommandExecutorInput request) throws APPCException{
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to enqueRequest with CommandRequest = "+ ObjectUtils.toString(request));
         }
         try {
-            CommandTask<? extends CommandRequest> commandTask = getMessageExecutor(request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction().name());
+            CommandTask commandTask = getMessageExecutor(request.getRuntimeContext().getRequestContext().getAction().name());
             commandTask.setCommandRequest(request);
             long remainingTTL = getRemainingTTL(request);
             executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
@@ -132,17 +105,17 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
     }
 
-    private long getRemainingTTL(CommandRequest request) {
-        Date requestTimestamp = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getTimeStamp();
-        int ttl = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getFlags().getTtl();
+    private long getRemainingTTL(CommandExecutorInput request) {
+        Date requestTimestamp = request.getRuntimeContext().getRequestContext().getCommonHeader().getTimeStamp();
+        int ttl = request.getRuntimeContext().getRequestContext().getCommonHeader().getFlags().getTtl();
         return ttl*1000 + requestTimestamp.getTime() - System.currentTimeMillis();
     }
 
-    private CommandTask<? extends CommandRequest> getMessageExecutor(String action){
+    private CommandTask getMessageExecutor(String action){
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to getMessageExecutor with command = "+ action);
         }
-        CommandTask<? extends CommandRequest> executionTask = executionTaskFactory.getExecutionTask(action);
+        CommandTask executionTask = executionTaskFactory.getExecutionTask(action);
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from getMessageExecutor");
         }

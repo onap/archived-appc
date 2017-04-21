@@ -27,8 +27,7 @@ import org.openecomp.appc.domainmodel.lcm.CommonHeader;
 import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.impl.objects.CommandRequest;
-import org.openecomp.appc.executor.impl.objects.LCMCommandRequest;
+import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.executor.objects.CommandResponse;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
 import org.openecomp.appc.executor.objects.Params;
@@ -54,7 +53,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
+public class LCMCommandTask extends CommandTask {
 
 	private AAIService aaiService;
 	private LifecycleManager lifecyclemanager;
@@ -91,12 +90,12 @@ public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
 
 
 	@Override
-	public void onRequestCompletion(CommandRequest request, CommandResponse response) {
+	public void onRequestCompletion(CommandExecutorInput request, CommandResponse response) {
 
 		boolean isAAIUpdated = false;
 		try {
 
-			final int statusCode = request.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus().getCode();
+			final int statusCode = request.getRuntimeContext().getResponseContext().getStatus().getCode();
 
 			if (logger.isDebugEnabled()) {
 				logger.debug("Workflow Execution Status = "+ statusCode);
@@ -104,13 +103,13 @@ public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
 
 			boolean isSuccess = statusCode == 100 || statusCode == 400;
 
-			if (isSuccess && VNFOperation.Terminate ==  request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction()) {
+			if (isSuccess && VNFOperation.Terminate ==  request.getRuntimeContext().getRequestContext().getAction()) {
 				SvcLogicContext ctx = new SvcLogicContext();
-				ctx = getVnfdata(request.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), "vnf", ctx);
-				isAAIUpdated = aaiService.deleteGenericVnfData(request.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), ctx.getAttribute("vnf.resource-version"));
+				ctx = getVnfdata(request.getRuntimeContext().getVnfContext().getId(), "vnf", ctx);
+				isAAIUpdated = aaiService.deleteGenericVnfData(request.getRuntimeContext().getVnfContext().getId(), ctx.getAttribute("vnf.resource-version"));
 			}
 			else{
-				isAAIUpdated = updateAAI(request.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId() , false, isSuccess);
+				isAAIUpdated = updateAAI(request.getRuntimeContext().getVnfContext().getId() , false, isSuccess);
 			}
 			logger.debug("isAAIUpdated = " + isAAIUpdated);
 		}
@@ -125,20 +124,20 @@ public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
 
 	@Override
 	public void run() {
-		LCMCommandRequest request = (LCMCommandRequest)getCommandRequest();
+		CommandExecutorInput request = getCommandRequest();
 		boolean isAAIUpdated;
-		final String vnfId = request.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId();
-		final String vnfType = request.getCommandExecutorInput().getRuntimeContext().getVnfContext().getType();
+		final String vnfId = request.getRuntimeContext().getVnfContext().getId();
+		final String vnfType = request.getRuntimeContext().getVnfContext().getType();
 		try {
-			final CommonHeader commonHeader = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader();
+			final CommonHeader commonHeader = request.getRuntimeContext().getRequestContext().getCommonHeader();
 			final boolean forceFlag = commonHeader.getFlags().isForce();
 			UniqueRequestIdentifier requestIdentifier = new UniqueRequestIdentifier(commonHeader.getOriginatorId(),
 					commonHeader.getRequestId(), commonHeader.getSubRequestId());
 			String requestIdentifierString = requestIdentifier.toIdentifierString();
 			requestHandler.onRequestExecutionStart(vnfId,false, requestIdentifierString, forceFlag);
 
-			final String currentStatus = request.getCommandExecutorInput().getRuntimeContext().getVnfContext().getStatus();
-			final VNFOperation action = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction();
+			final String currentStatus = request.getRuntimeContext().getVnfContext().getStatus();
+			final VNFOperation action = request.getRuntimeContext().getRequestContext().getAction();
 
 			final String nextState = lifecyclemanager.getNextState(vnfType, currentStatus, action.name());
 
@@ -148,18 +147,18 @@ public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
 		} catch (NoTransitionDefinedException e) {
 			logger.error("Error getting Next State for AAI Update:  " + e.getMessage(), e);
 			Params params = new Params().addParam("actionName",e.event).addParam("currentState",e.currentState);
-			request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.NO_TRANSITION_DEFINE_FAILURE.toStatus(params));
+			request.getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.NO_TRANSITION_DEFINE_FAILURE.toStatus(params));
 			isAAIUpdated = false;
 		} catch (UnstableVNFException e) {
 			logger.error(e.getMessage(), e);
 			Params params = new Params().addParam("vnfId",vnfId);
-			request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNSTABLE_VNF_FAILURE.toStatus(params));
+			request.getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNSTABLE_VNF_FAILURE.toStatus(params));
 			isAAIUpdated = false;
 		}catch (Exception e) {
 			logger.error("Error before Request Execution starts.", e);
 			String errorMsg = StringUtils.isEmpty(e.getMessage()) ? e.toString() : e.getMessage();
 			Params params = new Params().addParam("errorMsg",errorMsg);
-			request.getCommandExecutorInput().getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNEXPECTED_FAILURE.toStatus(params));
+			request.getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNEXPECTED_FAILURE.toStatus(params));
 			isAAIUpdated =  false;
 		}
 
@@ -169,7 +168,7 @@ public class LCMCommandTask extends CommandTask<LCMCommandRequest> {
 			String errorMsg = "Error updating A& AI before Workflow execution";
 			logger.error(errorMsg);
 			WorkflowResponse response = new WorkflowResponse();
-			response.setResponseContext(request.getCommandExecutorInput().getRuntimeContext().getResponseContext());
+			response.setResponseContext(request.getRuntimeContext().getResponseContext());
 			CommandResponse commandResponse = super.buildCommandResponse(request, response);
 			this.onRequestCompletion(request,commandResponse);
 		}
