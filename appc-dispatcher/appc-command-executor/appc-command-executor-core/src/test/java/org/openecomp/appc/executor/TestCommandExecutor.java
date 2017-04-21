@@ -135,10 +135,8 @@ public class TestCommandExecutor {
 	}
 
 	private CommandExecutorInput createCommandExecutorInputWithSubObjects() {
-		CommandExecutorInput commandExecutorInput = new CommandExecutorInput();
 		RuntimeContext runtimeContext = new RuntimeContext();
-		commandExecutorInput.setRuntimeContext(runtimeContext);
-		RequestContext requestContext = new RequestContext();
+        RequestContext requestContext = new RequestContext();
 		runtimeContext.setRequestContext(requestContext);
 		CommonHeader commonHeader = new CommonHeader();
 		requestContext.setCommonHeader(commonHeader);
@@ -148,7 +146,7 @@ public class TestCommandExecutor {
 		requestContext.setActionIdentifiers(actionIdentifiers);
 		VNFContext vnfContext = new VNFContext();
 		runtimeContext.setVnfContext(vnfContext);
-		return commandExecutorInput;
+		return new CommandExecutorInput(runtimeContext, 0);
 	}
 
 

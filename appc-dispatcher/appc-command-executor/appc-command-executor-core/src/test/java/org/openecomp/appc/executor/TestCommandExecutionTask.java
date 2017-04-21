@@ -272,10 +272,8 @@ public class TestCommandExecutionTask {
 	}
 
 	private CommandExecutorInput createCommandExecutorInputWithSubObjects() {
-		CommandExecutorInput commandExecutorInput = new CommandExecutorInput();
 		RuntimeContext runtimeContext = createRuntimeContextWithSubObjects();
-		commandExecutorInput.setRuntimeContext(runtimeContext);
-		return commandExecutorInput;
+        return new CommandExecutorInput(runtimeContext, 0);
 	}
 
 	private RuntimeContext createRuntimeContextWithSubObjects() {
