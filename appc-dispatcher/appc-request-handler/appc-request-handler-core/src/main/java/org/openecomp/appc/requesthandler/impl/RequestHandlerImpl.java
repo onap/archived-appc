@@ -29,7 +29,6 @@ import org.openecomp.appc.domainmodel.lcm.*;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executor.CommandExecutor;
 import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
 import org.openecomp.appc.executor.objects.Params;
 import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
@@ -368,9 +367,7 @@ public class RequestHandlerImpl implements RequestHandler {
                 logger.debug("Calling command Executor with remaining TTL value: " + remainingTTL);
             }
 
-            RuntimeContext clonedContext = cloneContext(runtimeContext);
-
-            CommandExecutorInput commandExecutorInput = new CommandExecutorInput(clonedContext, remainingTTL);
+            RuntimeContext commandExecutorInput = cloneContext(runtimeContext);
 
             try {
                 commandExecutor.executeCommand(commandExecutorInput);

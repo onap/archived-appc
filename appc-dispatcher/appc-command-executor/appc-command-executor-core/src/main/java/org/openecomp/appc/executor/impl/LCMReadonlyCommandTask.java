@@ -24,9 +24,9 @@ package org.openecomp.appc.executor.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.domainmodel.lcm.CommonHeader;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.executor.objects.CommandResponse;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
 import org.openecomp.appc.executor.objects.Params;
@@ -48,30 +48,30 @@ public class LCMReadonlyCommandTask extends CommandTask  {
 
 
     @Override
-    public void onRequestCompletion(CommandExecutorInput request, CommandResponse response) {
+    public void onRequestCompletion(RuntimeContext request, CommandResponse response) {
         super.onRequestCompletion(request, response, true);
     }
 
     @Override
     public void run() {
-        CommandExecutorInput request = getCommandRequest();
-        final CommonHeader commonHeader = request.getRuntimeContext().getRequestContext().getCommonHeader();
+        RuntimeContext request = getCommandRequest();
+        final CommonHeader commonHeader = request.getRequestContext().getCommonHeader();
         final boolean forceFlag = commonHeader.getFlags().isForce();
         UniqueRequestIdentifier requestIdentifier = new UniqueRequestIdentifier(commonHeader.getOriginatorId(), commonHeader.getRequestId(), commonHeader.getSubRequestId());
         String requestIdentifierString = requestIdentifier.toIdentifierString();
-        final String vnfId = request.getRuntimeContext().getVnfContext().getId();
+        final String vnfId = request.getVnfContext().getId();
         try {
             requestHandler.onRequestExecutionStart(vnfId,true, requestIdentifierString, forceFlag);
             super.execute();
         } catch (UnstableVNFException e) {
             logger.error(e.getMessage(), e);
             Params params = new Params().addParam("vnfId",vnfId);
-            request.getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNSTABLE_VNF_FAILURE.toStatus(params));
+            request.getResponseContext().setStatus(LCMCommandStatus.UNSTABLE_VNF_FAILURE.toStatus(params));
         }catch (Exception e) {
             logger.error("Error during runing LCMReadonlyCommandTask.", e);
             String errorMsg = StringUtils.isEmpty(e.getMessage()) ? e.toString() : e.getMessage();
             Params params = new Params().addParam("errorMsg",errorMsg);
-            request.getRuntimeContext().getResponseContext().setStatus(LCMCommandStatus.UNEXPECTED_FAILURE.toStatus(params));
+            request.getResponseContext().setStatus(LCMCommandStatus.UNEXPECTED_FAILURE.toStatus(params));
         }
     }
 }
