@@ -29,11 +29,12 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceFactory;
 import org.openecomp.appc.executor.CommandExecutor;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -75,7 +76,7 @@ public class CommandExecutorImpl implements CommandExecutor {
      * @throws APPCException in case of error.
      */
     @Override
-    public void executeCommand (CommandExecutorInput commandExecutorInput) throws APPCException{
+    public void executeCommand (RuntimeContext commandExecutorInput) throws APPCException{
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to executeCommand with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
         }
@@ -86,12 +87,12 @@ public class CommandExecutorImpl implements CommandExecutor {
     }
 
     @SuppressWarnings("unchecked")
-    private void enqueRequest(CommandExecutorInput request) throws APPCException{
+    private void enqueRequest(RuntimeContext request) throws APPCException{
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to enqueRequest with CommandRequest = "+ ObjectUtils.toString(request));
         }
         try {
-            CommandTask commandTask = getMessageExecutor(request.getRuntimeContext().getRequestContext().getAction().name());
+            CommandTask commandTask = getMessageExecutor(request.getRequestContext().getAction().name());
             commandTask.setCommandRequest(request);
             long remainingTTL = getRemainingTTL(request);
             executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
@@ -105,9 +106,9 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
     }
 
-    private long getRemainingTTL(CommandExecutorInput request) {
-        Date requestTimestamp = request.getRuntimeContext().getRequestContext().getCommonHeader().getTimeStamp();
-        int ttl = request.getRuntimeContext().getRequestContext().getCommonHeader().getFlags().getTtl();
+    private long getRemainingTTL(RuntimeContext request) {
+        Date requestTimestamp = request.getRequestContext().getCommonHeader().getTimeStamp();
+        int ttl = request.getRequestContext().getCommonHeader().getFlags().getTtl();
         return ttl*1000 + requestTimestamp.getTime() - System.currentTimeMillis();
     }
 

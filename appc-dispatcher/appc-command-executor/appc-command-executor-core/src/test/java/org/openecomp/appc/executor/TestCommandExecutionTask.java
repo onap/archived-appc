@@ -141,28 +141,28 @@ public class TestCommandExecutionTask {
 	@Test
 	public void testOnRequestCompletion(){
 		Mockito.doNothing().when(requestHandler).onRequestTTLEnd((RuntimeContext) anyObject(),anyBoolean());
-		CommandExecutorInput request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"), VNFOperation.Configure, "1", "1.0");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Configure, "1", "");
 		CommandResponse response = getCommandResponse(VNFOperation.Configure, true, "11", "","1");
 		executionTask.onRequestCompletion(request, response);
 	}
 
 	@Test
 	public void testRunGetConfig(){
-		CommandExecutorInput request = getConfigCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
 		LCMReadonlyCommandTask.setCommandRequest(request);
 		LCMReadonlyCommandTask.run();
 	}
 
 	@Test
 	public void testRun(){
-		CommandExecutorInput request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
 		executionTask.setCommandRequest(request);
 		executionTask.run();
 	}
 
 	@Test
 	public void testRunNegative(){
-		CommandExecutorInput request = getLCMCommandRequest("FIREWALL",30,new Date(), "11" ,setTTLInFlags("30"),VNFOperation.Sync, "1", "1.0");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
 		executionTask.setCommandRequest(request);
 		executionTask.run();
 	}
@@ -204,7 +204,7 @@ public class TestCommandExecutionTask {
 		Date timeStamp = new Date();
 		String requestId = "1";
 
-		CommandExecutorInput commandExecutorInput = pouplateCommandExecutorInput("FIREWALL",30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", VNFOperation.Configure, "33", "");
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL",30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", VNFOperation.Configure, "33", "");
 	}
 
 
@@ -217,18 +217,6 @@ public class TestCommandExecutionTask {
 	}
 
 
-	private CommandExecutorInput getConfigCommandRequest(String vnfType , Integer ttl , Date timeStamp, String requestId,
-															  Map<String,Object> flags, VNFOperation command , String vnfId, String vnfVersion ){
-
-		return pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
-	}
-
-	private CommandExecutorInput getLCMCommandRequest(String vnfType , Integer ttl ,Date timeStamp, String requestId,
-											 Map<String,Object> flags, VNFOperation command , String vnfId, String vnfVersion ){
-
-		return pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
-	}
-
 	public WorkflowResponse getWorkflowResponse (){
 		WorkflowResponse wfResponse = new WorkflowResponse();
 		ResponseContext responseContext = createResponseContextWithSuObjects();
@@ -238,12 +226,11 @@ public class TestCommandExecutionTask {
 		return wfResponse;
 	}
 
-	private CommandExecutorInput pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
-		CommandExecutorInput commandExecutorInput = createCommandExecutorInputWithSubObjects();
-		RuntimeContext runtimeContext = commandExecutorInput.getRuntimeContext();
-		RequestContext requestContext = runtimeContext.getRequestContext();
+	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
+		RuntimeContext commandExecutorInput = createCommandExecutorInputWithSubObjects();
+		RequestContext requestContext = commandExecutorInput.getRequestContext();
 		ResponseContext responseContext = createResponseContextWithSuObjects();
-		runtimeContext.setResponseContext(responseContext);
+		commandExecutorInput.setResponseContext(responseContext);
 
 		requestContext.getCommonHeader().getFlags().setTtl(ttl);
 		requestContext.getCommonHeader().setApiVer(apiVersion);
@@ -254,16 +241,15 @@ public class TestCommandExecutionTask {
 		requestContext.setAction(action);
 		requestContext.setPayload(payload);
 		requestContext.getActionIdentifiers().setVnfId(vnfId);
-		VNFContext vnfContext = runtimeContext.getVnfContext();
+		VNFContext vnfContext = commandExecutorInput.getVnfContext();
 		vnfContext.setType(vnfType);
 		vnfContext.setId(vnfId);
 		vnfContext.setVersion(vnfVersion);
 		return commandExecutorInput;
 	}
 
-	private CommandExecutorInput createCommandExecutorInputWithSubObjects() {
-		RuntimeContext runtimeContext = createRuntimeContextWithSubObjects();
-        return new CommandExecutorInput(runtimeContext, 0);
+	private RuntimeContext createCommandExecutorInputWithSubObjects() {
+		return createRuntimeContextWithSubObjects();
 	}
 
 	private RuntimeContext createRuntimeContextWithSubObjects() {

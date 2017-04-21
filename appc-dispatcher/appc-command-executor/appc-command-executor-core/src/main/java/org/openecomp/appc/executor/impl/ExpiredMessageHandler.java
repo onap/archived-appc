@@ -21,8 +21,8 @@
 
 package org.openecomp.appc.executor.impl;
 
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.requesthandler.RequestHandler;
 
 
@@ -39,7 +39,7 @@ public class ExpiredMessageHandler<M> implements MessageExpirationListener<M>{
 
     @Override
     public void onMessageExpiration(M message) {
-        CommandExecutorInput commandRequest = (CommandExecutorInput)message;
-        requestHandler.onRequestTTLEnd(commandRequest.getRuntimeContext(), true);
+        RuntimeContext commandRequest = (RuntimeContext)message;
+        requestHandler.onRequestTTLEnd(commandRequest, true);
     }
 }
