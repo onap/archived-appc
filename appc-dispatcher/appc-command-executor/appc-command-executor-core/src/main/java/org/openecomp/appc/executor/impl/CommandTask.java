@@ -33,7 +33,6 @@ import java.net.InetAddress;
 
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.executor.objects.CommandResponse;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
 import org.openecomp.appc.executor.objects.Params;
@@ -55,13 +54,13 @@ public abstract class CommandTask implements Runnable {
     protected RequestHandler requestHandler;
     protected WorkFlowManager workflowManager;
 
-    private CommandExecutorInput commandRequest;
+    private RuntimeContext commandRequest;
 
-    public CommandExecutorInput getCommandRequest() {
+    public RuntimeContext getCommandRequest() {
         return commandRequest;
     }
 
-    public void setCommandRequest(CommandExecutorInput commandRequest) {
+    public void setCommandRequest(RuntimeContext commandRequest) {
         this.commandRequest = commandRequest;
     }
 
@@ -78,23 +77,23 @@ public abstract class CommandTask implements Runnable {
     CommandTask(){
     }
 
-    public void onRequestCompletion(CommandExecutorInput request, CommandResponse response , boolean isAAIUpdated) {
+    public void onRequestCompletion(RuntimeContext request, CommandResponse response , boolean isAAIUpdated) {
         logger.debug("Entry: onRequestCompletion()");
-        requestHandler.onRequestExecutionEnd(request.getRuntimeContext(), isAAIUpdated);
+        requestHandler.onRequestExecutionEnd(request, isAAIUpdated);
     }
 
-    public abstract void onRequestCompletion(CommandExecutorInput request, CommandResponse response);
+    public abstract void onRequestCompletion(RuntimeContext request, CommandResponse response);
 
-    protected CommandResponse buildCommandResponse(CommandExecutorInput request, WorkflowResponse response) {
+    protected CommandResponse buildCommandResponse(RuntimeContext request, WorkflowResponse response) {
 
         CommandResponse commandResponse = new CommandResponse();
-        commandResponse.setRuntimeContext(request.getRuntimeContext());
+        commandResponse.setRuntimeContext(request);
         return commandResponse;
     }
 
 
     public void execute() {
-        final RuntimeContext runtimeContext = commandRequest.getRuntimeContext();
+        final RuntimeContext runtimeContext = commandRequest;
         MDC.put(MDC_KEY_REQUEST_ID, runtimeContext.getRequestContext().getCommonHeader().getRequestId());
         if (runtimeContext.getRequestContext().getActionIdentifiers().getServiceInstanceId() != null)
             MDC.put(MDC_SERVICE_INSTANCE_ID, runtimeContext.getRequestContext().getActionIdentifiers().getServiceInstanceId());

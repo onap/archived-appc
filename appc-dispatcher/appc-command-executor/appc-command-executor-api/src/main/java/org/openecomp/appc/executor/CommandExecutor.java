@@ -25,8 +25,8 @@
 package org.openecomp.appc.executor;
 
 
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 
 
 
@@ -37,5 +37,5 @@ public interface CommandExecutor {
      * @param commandHeaderInput Contains CommandHeader,  command , target Id , payload and conf ID (optional)
      * @throws APPCException in case of error.
      */
-    void executeCommand(CommandExecutorInput commandHeaderInput) throws APPCException;
+    void executeCommand(RuntimeContext commandHeaderInput) throws APPCException;
 }

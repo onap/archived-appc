@@ -30,7 +30,6 @@ import org.mockito.Mockito;
 import org.openecomp.appc.domainmodel.lcm.*;
 import org.openecomp.appc.executor.CommandExecutor;
 import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;

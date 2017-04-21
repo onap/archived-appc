@@ -36,7 +36,6 @@ import org.openecomp.appc.executor.impl.CommandExecutorImpl;
 import org.openecomp.appc.executor.impl.CommandTaskFactory;
 import org.openecomp.appc.executor.impl.LCMCommandTask;
 import org.openecomp.appc.executor.impl.LCMReadonlyCommandTask;
-import org.openecomp.appc.executor.objects.CommandExecutorInput;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
@@ -90,7 +89,7 @@ public class TestCommandExecutor {
 		//Map <String,Object> flags = setTTLInFlags("30");
 		Date timeStamp = new Date();
 		String requestId = "1";
-		CommandExecutorInput commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure, "15", "") ;
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure, "15", "") ;
 		try {
 			commandExecutor.executeCommand(commandExecutorInput);
 		} catch (APPCException e) {
@@ -104,7 +103,7 @@ public class TestCommandExecutor {
 		Date timeStamp = new Date();
 		String requestId = "1";
 
-		CommandExecutorInput commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
 		try {
 			commandExecutor.executeCommand(commandExecutorInput);
 		} catch (APPCException e) {
@@ -114,10 +113,9 @@ public class TestCommandExecutor {
 	}
 
 	
-	private CommandExecutorInput pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
-		CommandExecutorInput commandExecutorInput = createCommandExecutorInputWithSubObjects();
-		RuntimeContext runtimeContext = commandExecutorInput.getRuntimeContext();
-		RequestContext requestContext = runtimeContext.getRequestContext();
+	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
+		RuntimeContext commandExecutorInput = createCommandExecutorInputWithSubObjects();
+		RequestContext requestContext = commandExecutorInput.getRequestContext();
 		requestContext.getCommonHeader().getFlags().setTtl(ttl);
 		requestContext.getCommonHeader().setApiVer(apiVersion);
 		requestContext.getCommonHeader().setTimestamp(timeStamp);
@@ -127,14 +125,14 @@ public class TestCommandExecutor {
 		requestContext.setAction(action);
 		requestContext.setPayload(payload);
 		requestContext.getActionIdentifiers().setVnfId(vnfId);
-		VNFContext vnfContext = runtimeContext.getVnfContext();
+		VNFContext vnfContext = commandExecutorInput.getVnfContext();
 		vnfContext.setType(vnfType);
 		vnfContext.setId(vnfId);
 		vnfContext.setVersion(vnfVersion);
 		return commandExecutorInput;
 	}
 
-	private CommandExecutorInput createCommandExecutorInputWithSubObjects() {
+	private RuntimeContext createCommandExecutorInputWithSubObjects() {
 		RuntimeContext runtimeContext = new RuntimeContext();
         RequestContext requestContext = new RequestContext();
 		runtimeContext.setRequestContext(requestContext);
@@ -146,7 +144,7 @@ public class TestCommandExecutor {
 		requestContext.setActionIdentifiers(actionIdentifiers);
 		VNFContext vnfContext = new VNFContext();
 		runtimeContext.setVnfContext(vnfContext);
-		return new CommandExecutorInput(runtimeContext, 0);
+		return runtimeContext;
 	}
 
 
