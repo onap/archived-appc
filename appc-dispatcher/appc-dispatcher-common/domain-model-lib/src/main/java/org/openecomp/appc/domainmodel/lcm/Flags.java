@@ -24,36 +24,27 @@ package org.openecomp.appc.domainmodel.lcm;
 
 public class Flags {
 
-    private boolean force;
-    private int ttl;
-    private Mode mode;
+    private final boolean force;
+    private final int ttl;
+    private final Mode mode;
+
+    public Flags(Mode mode, boolean force, int ttl) {
+        super();
+        this.force = force;
+        this.ttl = ttl;
+        this.mode = mode;
+    }
 
     public boolean isForce() {
         return force;
-    }
-
-    public void setForce(boolean force) {
-        this.force = force;
     }
 
     public int getTtl() {
         return ttl;
     }
 
-    public void setTtl(int ttl) {
-        this.ttl = ttl;
-    }
-
     public Mode getMode() {
         return mode;
-    }
-
-    public void setMode(Mode mode) {
-        this.mode = mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = Mode.valueOf(mode);
     }
 
     @Override

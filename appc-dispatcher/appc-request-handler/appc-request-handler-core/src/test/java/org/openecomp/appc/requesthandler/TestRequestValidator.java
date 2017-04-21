@@ -30,6 +30,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.openecomp.appc.domainmodel.lcm.*;
+import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
@@ -230,8 +231,7 @@ public class TestRequestValidator {
         requestContext.getCommonHeader().setRequestId(requestId);
         requestContext.getCommonHeader().setSubRequestId(subRequestId);
         requestContext.getCommonHeader().setOriginatorId(originatorId);
-        requestContext.getCommonHeader().getFlags().setTtl(ttl);
-        requestContext.getCommonHeader().getFlags().setForce(force);
+        requestContext.getCommonHeader().setFlags(new Flags(null, force, ttl));
         requestContext.getCommonHeader().getTimeStamp();
         requestContext.getCommonHeader().setApiVer(API_VERSION);
         requestContext.getCommonHeader().setTimestamp(timeStamp);
@@ -587,8 +587,7 @@ public class TestRequestValidator {
         runtimeContext.setResponseContext(responseContext);
         CommonHeader commonHeader = new CommonHeader();
         requestContext.setCommonHeader(commonHeader);
-        Flags flags = new Flags();
-        commonHeader.setFlags(flags);
+        commonHeader.setFlags(new Flags(null, false, 0));
         ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
         requestContext.setActionIdentifiers(actionIdentifiers);
         VNFContext vnfContext = new VNFContext();
@@ -600,10 +599,9 @@ public class TestRequestValidator {
     private ResponseContext createResponseContextWithSuObjects(){
         ResponseContext responseContext = new ResponseContext();
         CommonHeader commonHeader = new CommonHeader();
-        Flags flags = new Flags();
         responseContext.setCommonHeader(commonHeader);
         responseContext.setStatus(new Status(0, null));
-        commonHeader.setFlags(flags);
+        commonHeader.setFlags(new Flags(null, false, 0));
         return responseContext;
     }
 

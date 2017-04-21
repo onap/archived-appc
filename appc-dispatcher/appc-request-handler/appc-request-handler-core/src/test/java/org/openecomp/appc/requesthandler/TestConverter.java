@@ -337,10 +337,9 @@ public class TestConverter {
 
 		ResponseContext responseContext = new ResponseContext();
 		CommonHeader commonHeader = new CommonHeader();
-		Flags flags = new Flags();
 		responseContext.setCommonHeader(commonHeader);
 		responseContext.setStatus(new Status(0, null));
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		return responseContext;
 	}
 

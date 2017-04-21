@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openecomp.appc.domainmodel.lcm.*;
+import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executor.impl.CommandExecutorImpl;
@@ -118,7 +119,7 @@ public class TestCommandExecutor {
 		CommandExecutorInput commandExecutorInput = createCommandExecutorInputWithSubObjects();
 		RuntimeContext runtimeContext = commandExecutorInput.getRuntimeContext();
 		RequestContext requestContext = runtimeContext.getRequestContext();
-		requestContext.getCommonHeader().getFlags().setTtl(ttl);
+		requestContext.getCommonHeader().setFlags(new Flags(null, false, ttl));
 		requestContext.getCommonHeader().setApiVer(apiVersion);
 		requestContext.getCommonHeader().setTimestamp(timeStamp);
 		requestContext.getCommonHeader().setRequestId(requestId);
@@ -140,8 +141,7 @@ public class TestCommandExecutor {
 		runtimeContext.setRequestContext(requestContext);
 		CommonHeader commonHeader = new CommonHeader();
 		requestContext.setCommonHeader(commonHeader);
-		Flags flags = new Flags();
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
 		requestContext.setActionIdentifiers(actionIdentifiers);
 		VNFContext vnfContext = new VNFContext();

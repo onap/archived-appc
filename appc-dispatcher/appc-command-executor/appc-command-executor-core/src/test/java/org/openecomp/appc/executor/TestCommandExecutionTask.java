@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.openecomp.appc.domainmodel.lcm.*;
+import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.executor.impl.CommandTask;
 import org.openecomp.appc.executor.impl.CommandTaskFactory;
 import org.openecomp.appc.executor.impl.LCMCommandTask;
@@ -182,8 +183,7 @@ public class TestCommandExecutionTask {
 		CommonHeader commonHeader = new CommonHeader();
 		requestContext.setCommonHeader(commonHeader);
 		responseContext.setCommonHeader(commonHeader);
-		Flags flags = new Flags();
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
 		requestContext.setActionIdentifiers(actionIdentifiers);
 		VNFContext vnfContext = new VNFContext();
@@ -255,7 +255,7 @@ public class TestCommandExecutionTask {
 		ResponseContext responseContext = createResponseContextWithSuObjects();
 		runtimeContext.setResponseContext(responseContext);
 
-		requestContext.getCommonHeader().getFlags().setTtl(ttl);
+		requestContext.getCommonHeader().setFlags(new Flags(null, false, ttl));
 		requestContext.getCommonHeader().setApiVer(apiVersion);
 		requestContext.getCommonHeader().setTimestamp(timeStamp);
 		requestContext.getCommonHeader().setRequestId(requestId);
@@ -282,8 +282,7 @@ public class TestCommandExecutionTask {
 		runtimeContext.setRequestContext(requestContext);
 		CommonHeader commonHeader = new CommonHeader();
 		requestContext.setCommonHeader(commonHeader);
-		Flags flags = new Flags();
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
 		requestContext.setActionIdentifiers(actionIdentifiers);
 		VNFContext vnfContext = new VNFContext();
@@ -295,10 +294,9 @@ public class TestCommandExecutionTask {
 	private ResponseContext createResponseContextWithSuObjects(){
 		ResponseContext responseContext = new ResponseContext();
 		CommonHeader commonHeader = new CommonHeader();
-		Flags flags = new Flags();
 		responseContext.setCommonHeader(commonHeader);
 		responseContext.setStatus(new Status(0, null));
-		commonHeader.setFlags(flags);
+		commonHeader.setFlags(new Flags(null, false, 0));
 		return responseContext;
 	}
 
