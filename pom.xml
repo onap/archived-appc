@@ -60,8 +60,6 @@
         <inno-version>1.2.11</inno-version>
         <dme2-version>3.1.200</dme2-version>
         <bundle.plugin.version>2.5.0</bundle.plugin.version>
-        <java.version.source>1.7</java.version.source>
-        <java.version.target>1.7</java.version.target>
         <maven.compile.plugin.version>2.5.1</maven.compile.plugin.version>
         <equinox.osgi.version>3.8.1.v20120830-144521</equinox.osgi.version>
         <apache.httpcomponents.version>4.4</apache.httpcomponents.version>
