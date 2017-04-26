@@ -66,6 +66,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     public void configure(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
 
         try {
+            // by default, it uses the jsch Netconf Adapter implementation by calling GetNetconfClient(NetconfClientType.SSH).
             NetconfClient client = clientFactory.GetNetconfClient(NetconfClientType.SSH);
             try {
                 NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
