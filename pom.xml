@@ -165,8 +165,8 @@
     <distributionManagement>
         <!-- This site is used for Javadocs -->
         <site>
-            <id>app-c-javadoc</id>
-            <url>dav:https://nexus.onap.org/repository/app-c-javadoc/${project.version}</url>
+            <id>ecomp-site</id>
+            <url>${openecomp.nexus.javadocs-url}</url>
         </site>
     </distributionManagement>
     <!-- ================================================================================== -->
