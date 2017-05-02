@@ -267,8 +267,6 @@ public class Pool<T extends Closeable> {
             writeLock.unlock();
         }
 
-        // return obj;
-
         /*
          * Now that we have the real object, lets wrap it in a dynamic proxy so that we can intercept the close call and
          * just return the context to the free pool. obj.getClass().getInterfaces(). We need to find ALL interfaces that

@@ -53,7 +53,6 @@ public class MetadataReader {
         State STOPPING = new State(VNFStates.Stopping.toString());
         State STOPPED = new State(VNFStates.Stopped.toString());
 
-//        State PRE_UPGRADE_TESTING = new State(VNFStates.Pre_Upgrade_Testing.toString());
         State BACKING_UP = new State(VNFStates.Backing_Up.toString());
         State SNAPSHOTTING = new State(VNFStates.Snapshotting.toString());
         State SOFTWARE_UPLOADING = new State(VNFStates.Software_Uploading.toString());
@@ -106,7 +105,6 @@ public class MetadataReader {
         builder = builder.addState(TERMINATING);
         builder = builder.addState(STOPPING);
         builder = builder.addState(STOPPED);
-//        builder = builder.addState(PRE_UPGRADE_TESTING);
         builder = builder.addState(BACKING_UP);
         builder = builder.addState(SNAPSHOTTING);
         builder = builder.addState(SOFTWARE_UPLOADING);
@@ -305,9 +303,6 @@ public class MetadataReader {
 
         builder = builder.addTransition(STOPPING,SUCCESS,STOPPED);
         builder = builder.addTransition(STOPPING,FAILURE,ERROR);
-
-//        builder = builder.addTransition(PRE_UPGRADE_TESTING,SUCCESS,TESTED);
-//        builder = builder.addTransition(PRE_UPGRADE_TESTING,FAILURE,ERROR);
 
         builder = builder.addTransition(BACKING_UP,SUCCESS,RUNNING);
         builder = builder.addTransition(BACKING_UP,FAILURE,ERROR);

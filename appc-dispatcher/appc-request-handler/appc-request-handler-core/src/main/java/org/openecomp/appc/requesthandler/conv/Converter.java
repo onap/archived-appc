@@ -90,7 +90,6 @@ public class Converter {
         Action action = Action.valueOf(vnfOperation.name());
         CommonHeader commonHeader = convAsyncResponseTorev160108CommonHeader(response);
         Status status = convAsyncResponseTorev160108Status(response);
-//        Payload payload = convAsyncResponseTorev160108Payload(inObj);
         switch (action){
             case Rollback:
                 outObj = new RollbackOutputBuilder();

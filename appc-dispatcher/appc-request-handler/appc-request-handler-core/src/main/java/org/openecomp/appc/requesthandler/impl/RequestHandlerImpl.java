@@ -670,8 +670,6 @@ public class RequestHandlerImpl implements RequestHandler {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to postMessageToDMaaP with AsyncResponse = " + ObjectUtils.toString(responseContext));
         }
-        /*boolean updated = updateAsyncResponseStatus(responseContext, isTTLEnd, aaiUpdateSuccess);
-         */
         boolean callbackResponse = messageAdapter.post(operation, rpcName, responseContext);
         if (!callbackResponse) {
             logger.error("DMaaP posting status: " + callbackResponse, "dmaapMessage: " + responseContext);
@@ -679,28 +677,6 @@ public class RequestHandlerImpl implements RequestHandler {
         if (logger.isTraceEnabled())
             logger.trace("Exiting from postMessageToDMaaP with (callbackResponse = " + ObjectUtils.toString(callbackResponse) + ")");
     }
-
-    //returns true if asyncResponse was modified
-    /*    private boolean updateAsyncResponseStatus(ResponseContext asyncResponse, boolean isTTLEnd, boolean aaiUpdateSuccess) {
-        boolean updated = false;
-        if (logger.isTraceEnabled())
-            logger.trace("Entering to updateAsyncResponseStatus with AsyncResponse = "+ObjectUtils.toString(asyncResponse)+ ", isTTLEnd = "+ ObjectUtils.toString(isTTLEnd)+ ", aaiUpdateSuccess = "+ ObjectUtils.toString(aaiUpdateSuccess));
-        if(!aaiUpdateSuccess){
-                if (asyncResponse.getStatus().getCode() == 0 || asyncResponse.getStatus().getCode() == LCMCommandStatus.SUCCESS.getResponseCode()) {
-                    asyncResponse.getStatus().setCode(LCMCommandStatus.UPDATE_AAI_FAILURE.getResponseCode());
-                    asyncResponse.getStatus().setMessage(LCMCommandStatus.UPDATE_AAI_FAILURE.getResponseMessage());
-                updated = true;
-            }
-        }else if(isTTLEnd){
-                asyncResponse.getStatus().setCode(LCMCommandStatus.EXPIRED_REQUEST_FAILURE.getResponseCode());
-                asyncResponse.getStatus().setMessage(LCMCommandStatus.EXPIRED_REQUEST_FAILURE.getResponseMessage());
-            updated = true;
-        }
-        if (logger.isTraceEnabled())
-            logger.trace("Exiting from updateAsyncResponseStatus with (asyncResponse = "+ ObjectUtils.toString(asyncResponse)+")");
-        return updated;
-    }*/
-
 
     /**
      * This method perform following operations required if TTL ends when request still waiting in execution queue .

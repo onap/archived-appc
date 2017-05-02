@@ -98,6 +98,5 @@ public class NetconfAdapter2 {
             LOG.debug("Sending message to netconf device:\n" + text);
         }
         pipedOutIn.write(new NetconfMessage(text).getFrame());
-//        pipedOutIn.flush();
     }
 }

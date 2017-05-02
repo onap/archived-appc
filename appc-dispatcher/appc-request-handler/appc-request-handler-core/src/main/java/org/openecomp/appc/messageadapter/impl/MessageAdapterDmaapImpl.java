@@ -48,8 +48,6 @@ public class MessageAdapterDmaapImpl implements MessageAdapter{
     private String apiKey;
     private String apiSecret;
 
-    private Integer READ_TIMEOUT;
-
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(MessageAdapterDmaapImpl.class);
 
     /**
@@ -75,15 +73,9 @@ public class MessageAdapterDmaapImpl implements MessageAdapter{
         }
         pool = new HashSet<>();
         if (props != null) {
-            // readTopic = props.getProperty("dmaap.topic.read");
             writeTopic = props.getProperty("dmaap.topic.write");
             apiKey = props.getProperty("dmaap.client.key");
             apiSecret = props.getProperty("dmaap.client.secret");
-            /*          clientName = props.getProperty("dmaap.client.name", "APP-C");
-            clientId = props.getProperty("dmaap.client.name.id", "0");
-            filter_json = props.getProperty("dmaap.topic.read.filter");
-             */
-            //  READ_TIMEOUT = Integer.valueOf(props.getProperty("dmaap.topic.read.timeout", String.valueOf(READ_TIMEOUT)));
             String hostnames = props.getProperty("dmaap.poolMembers");
             if (hostnames != null && !hostnames.isEmpty()) {
                 for (String name : hostnames.split(",")) {

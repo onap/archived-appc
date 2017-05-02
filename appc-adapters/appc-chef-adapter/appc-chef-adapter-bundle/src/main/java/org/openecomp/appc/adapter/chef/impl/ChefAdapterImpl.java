@@ -215,11 +215,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 	private Configuration configuration;
 
 	/**
-	 * A cache of providers that are predefined.
-	 */
-	// private Map<String /* provider name */, ProviderCache> providerCache;
-
-	/**
 	 * This default constructor is used as a work around because the activator
 	 * wasnt getting called
 	 */
@@ -293,7 +288,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 	public void chefGet(Map<String, String> params, SvcLogicContext ctx) {
 		logger.info("chef get method");
 		String chefAction= params.get("org.openecomp.appc.instance.chefAction");
-		// logger.info(vm_url);
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		//should load pem from somewhere else
@@ -306,13 +300,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 		String message = am.getResponseBodyAsString();
 		logger.info(code + "   " + message);
 		chefServerResult(rc,Integer.toString(code),message);
-/*		if (code == 200) {
-			doSuccess(rc);
-		} else {
-			String errorcode=code+" ";
-			doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, errorcode);
-		}*/
-
 	}
 
 	/**
@@ -323,19 +310,13 @@ public class ChefAdapterImpl implements ChefAdapter {
 	@Override
 	public void chefPut(Map<String, String> params, SvcLogicContext ctx) {
 
-		//String tVmIp = params.get("org.openecomp.appc.instance.ip");
-		//logger.info(tVmIp);
 		logger.info("chef PUT method");
 		logger.info(clientName+" "+clientPrivatekey+" "+chefserver+" "+organizations);
-		//String CHEF_NODE_STR= params.get("org.openecomp.appc.instance.chefRequestBody");
 		String chefAction= params.get("org.openecomp.appc.instance.chefAction");
 		String runList= params.get("org.openecomp.appc.instance.runList");
 		String attributes= params.get("org.openecomp.appc.instance.attributes");
 		logger.info(attributes);
-		//attributes="\"reconfig-test\":{\"secret\":\"newpass2\"}";
 		String CHEF_NODE_STR = "{\"json_class\":\"Chef::Node\",\"default\":{},\"chef_type\":\"node\",\"run_list\":[\""+runList+"\"],\"override\":{},\"automatic\":{},\"normal\":{"+attributes+"},\"name\":\"testnode\",\"chef_environment\":\"_default\"}";
-		//String CHEF_NODE_STR = "{\"json_class\":\"Chef::Node\"}";
-		// logger.info(vm_url);
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		//should load pem from somewhere else
@@ -349,15 +330,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 		String message = am.getResponseBodyAsString();
 		logger.info(code + "   " + message);
 		chefServerResult(rc,Integer.toString(code),message);
-/*		if (code == 200) {
-			logger.info("chef PUT method success");
-			doSuccess(rc);
-		} else {
-			String errorcode=code+" "; 	
-			logger.info("chef PUT method failure");
-			doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, errorcode);
-		}*/
-
 	}
 	
 	
@@ -371,7 +343,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 	public void trigger(Map<String, String> params, SvcLogicContext ctx) {
 		logger.info("Run trigger method");
 		String tVmIp = params.get("org.openecomp.appc.instance.ip");
-		//String tUrl = "http://" + tVmIp;
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 

@@ -25,17 +25,6 @@ public class Constants {
 
     private Constants(){}
 
-//    public static final String CONFIGURE_PATH = "/restconf/config/opendaylight-inventory:nodes/node/";
-//    public static final String CONNECT_PATH = "/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules";
-//    public static final String CHECK_CONNECTION_PATH = "/restconf/operational/opendaylight-inventory:nodes/node/";
-//    public static final String DISCONNECT_PATH = "/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules/module/odl-sal-netconf-connector-cfg:sal-netconf-connector/";
-//
-//    public static final String CONTROLLER_IP = "127.0.0.1";
-//    public static final int CONTROLLER_PORT = 8181;
-//    public static final String PROTOCOL = "http";
-//
-//    public static final String VF_LICENSE = "VF_LICENSE";
-
     // tables and fields
     public static final String NETCONF_SCHEMA = "sdnctl";
     public static final String SDNCTL_SCHEMA = "sdnctl";
@@ -91,51 +80,7 @@ public class Constants {
 
 
     // constants fo DG
-//    public static final String VNF_TYPE_FIELD_NAME = "org.openecomp.appc.vftype";
-//    public static final String VNF_VERSION_FIELD_NAME = "org.openecomp.appc.vfversion";
-//    public static final String VNF_RESOURCE_VERSION_FIELD_NAME = "org.openecomp.appc.resource-version";
-//    public static final String TARGET_VNF_TYPE = "target-vnf-type";
-//    public static final String FILE_CONTENT_FIELD_NAME = "file-content";
     public static final String CONNECTION_DETAILS_FIELD_NAME = "connection-details";
-//    public static final String CONFIGURATION_FILE_FIELD_NAME = "configuration-file-name";
     public static final String VNF_HOST_IP_ADDRESS_FIELD_NAME = "vnf-host-ip-address";
-//    public static final String UPGRADE_VERSION = "upgrade-version";
     public static final String DG_ERROR_FIELD_NAME = "org.openecomp.appc.dg.error";
-//    public static final String RESOURCEKEY = "resourceKey";
-//    public static final String REQ_ID_FIELD_NAME = "org.openecomp.appc.reqid";
-//    public static final String API_VERSION_FIELD_NAME = "org.openecomp.appc.apiversion";
-//    public static final String MODEL_ENTITLMENT_POOL_UUID_NAME = "model.entitlement.pool.uuid";
-//    public static final String MODEL_LICENSE_KEY_UUID_NAME = "model.license.key.uuid";
-//    public static final String ENTITLMENT_POOL_UUID_NAME = "entitlement.pool.uuid";
-//    public static final String LICENSE_KEY_UUID_NAME = "license.key.uuid";
-//    public static final String IS_ACQUIRE_LICENSE_REQUIRE ="is.acquire-license.require";
-//    public static final String IS_RELEASE_LICENSE_REQUIRE ="is.release-license.require";
-//
-//    public static final String AAI_ENTITLMENT_POOL_UUID_NAME = "aai.input.data.entitlement-assignment-group-uuid";
-//    public static final String AAI_LICENSE_KEY_UUID_NAME = "aai.input.data.license-assignment-group-uuid";
-//    public static final String AAI_LICENSE_KEY_VALUE = "aai.input.data.license-key";
-//    public static final String IS_AAI_ENTITLEMENT_UPDATE_REQUIRE = "is.aai-entitlement-update.require";
-//    public static final String IS_AAI_LICENSE_UPDATE_REQUIRE = "is.aai-license-update.require";
-//    public static final String IS_ACQUIRE_ENTITLEMENT_REQUIRE ="is.acquire-entitlement.require";
-//    public static final String IS_RELEASE_ENTITLEMENT_REQUIRE ="is.release-entitlement.require";
-//
-//    public enum ASDC_ARTIFACTS_FIELDS {
-//        SERVICE_UUID,
-//        DISTRIBUTION_ID,
-//        SERVICE_NAME,
-//        SERVICE_DESCRIPTION,
-//        RESOURCE_UUID,
-//        RESOURCE_INSTANCE_NAME,
-//        RESOURCE_NAME,
-//        RESOURCE_VERSION,
-//        RESOURCE_TYPE,
-//        ARTIFACT_UUID,
-//        ARTIFACT_TYPE,
-//        ARTIFACT_VERSION,
-//        ARTIFACT_DESCRIPTION,
-//        INTERNAL_VERSION,
-//        CREATION_DATE,
-//        ARTIFACT_NAME,
-//        ARTIFACT_CONTENT
-//    }
 }

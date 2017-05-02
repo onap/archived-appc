@@ -117,27 +117,11 @@ public class AppcEventListenerActivator implements BundleActivator {
         Properties props = configuration.getProperties();
 
         Set<ListenerProperties> listeners = new HashSet<ListenerProperties>();
-
-        // Configure App-C Closed Loop Listener
-/*        ListenerProperties clProps = new ListenerProperties("appc.ClosedLoop", props);
-        clProps.setListenerClass(org.openecomp.appc.listener.CL.impl.ListenerImpl.class);
-        listeners.add(clProps);*/
         
         // Configure App-C 1607 Closed Loop Listener
         ListenerProperties cl1607Props = new ListenerProperties("appc.ClosedLoop1607", props);
         cl1607Props.setListenerClass(org.openecomp.appc.listener.CL1607.impl.ListenerImpl.class);
-        listeners.add(cl1607Props);                                                       	
-
-	
-/*        ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
-        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
-        listeners.add(clLCMProps);*/
-
-/*
-        ListenerProperties clLCMProps1607 = new ListenerProperties("appc.LCM1607", props);
-        clLCMProps1607.setListenerClass(org.openecomp.appc.listener.LCM1607.impl.ListenerImpl.class);
-        listeners.add(clLCMProps1607);
-*/
+        listeners.add(cl1607Props);
 
         adapter = new ControllerImpl(listeners);
         if (ctx != null && registration == null) {

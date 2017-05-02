@@ -44,14 +44,6 @@ public class MessageFormatter {
             for (Map.Entry<String, Object> entry : params.entrySet()) {
                 formattedMessage = formattedMessage.replaceAll("\\$\\{" + entry.getKey() + "\\}", String.valueOf(entry.getValue()));
             }
-/*        } else {
-            StringBuilder builder = new StringBuilder(formattedMessage);
-            builder.append("; output params: [");
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                builder.append(entry.getKey()).append(":").append(String.valueOf(entry.getValue())).append("; ");
-            }
-            builder.append("]");
-            formattedMessage = builder.toString();*/
         }
 
         return formattedMessage;
