@@ -65,7 +65,6 @@ public class AppcProviderAdapterActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    // private static final Logger LOG = LoggerFactory.getLogger(AppcProviderAdapterActivator.class);
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(AppcProviderAdapterActivator.class);
 
     /**

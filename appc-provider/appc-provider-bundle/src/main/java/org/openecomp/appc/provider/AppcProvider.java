@@ -103,7 +103,6 @@ import java.util.concurrent.Future;
  */
 public class AppcProvider implements AutoCloseable, AppcProviderService {
 
-    // private final Logger logger = LoggerFactory.getLogger(AppcProvider.class);
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AppcProviderClient.class);
 
     private final ExecutorService executor;

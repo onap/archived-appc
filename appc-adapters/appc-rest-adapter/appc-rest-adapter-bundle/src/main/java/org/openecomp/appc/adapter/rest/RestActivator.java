@@ -65,7 +65,6 @@ public class RestActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    // private static final Logger LOG = LoggerFactory.getLogger(RestActivator.class);
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestActivator.class);
 
     /**

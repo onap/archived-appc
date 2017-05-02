@@ -65,7 +65,6 @@ public class ChefActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    // private static final Logger LOG = LoggerFactory.getLogger(ChefActivator.class);
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ChefActivator.class);
 
     /**

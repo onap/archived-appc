@@ -37,7 +37,6 @@ import java.util.Properties;
 
 public class AppcProviderClient {
 
-    //private static final Logger LOG = LoggerFactory.getLogger(AppcProviderClient.class);
 	private static EELFLogger LOG = EELFManager.getInstance().getApplicationLogger();
     private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
 
