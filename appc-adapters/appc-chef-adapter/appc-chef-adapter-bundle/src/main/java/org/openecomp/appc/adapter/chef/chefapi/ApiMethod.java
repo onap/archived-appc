@@ -55,27 +55,8 @@ public class ApiMethod {
 	private String methodName = "GET";
 	public String test = "";
 	private int returnCode;
-//	final String KEY_STORE_PATH = "/tmp/chef/trusted_certs/mykeystore.jks";
-//	final String KEY_STORE_PASSWORD = "changeit";
 
 	public ApiMethod(String methodName) {
-/*		try {
-			SSLContext sslcontext = SSLContexts.custom()
-	                .loadTrustMaterial(new File(KEY_STORE_PATH), KEY_STORE_PASSWORD.toCharArray(),
-	                        new TrustSelfSignedStrategy())
-	                .build();
-			SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-	                sslcontext,
-	                new String[] { "TLSv1" },
-	                null,
-	                SSLConnectionSocketFactory.getDefaultHostnameVerifier());
-	         client = HttpClients.custom()
-	                .setSSLSocketFactory(sslsf)
-	                .build();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 		client=HttpClients.createDefault();
 		this.methodName = methodName;
 	}
@@ -112,11 +93,6 @@ public class ApiMethod {
 		for (int i = 0; i < auth_headers.length; i++) {
 			method.addHeader("X-Ops-Authorization-" + (i + 1), auth_headers[i]);
 		}
-		/*
-		 * test=test+this.method.getMethod()+"\n"; Header[]
-		 * RHS=this.method.getHeaders(); for (int i = 0; i < RHS.length; i++) {
-		 * test=test+RHS[i]+"\n"; } test=test+this.reqBody+"\n";
-		 */
 		try{
 		response = client.execute(method);
 		resCode = response.getStatusLine().getStatusCode();

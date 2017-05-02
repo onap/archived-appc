@@ -77,8 +77,6 @@ public class NetconfDBPluginImpl implements NetconfDBPlugin {
                 logger.error("Missing configuration for " + params.get(Constants.VNF_TYPE_FIELD_NAME));
                 throw new APPCException("Missing configuration for " + params.get(Constants.VNF_TYPE_FIELD_NAME) + " in " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
             }
-            //            fileContent = dsImpl.retrieveConfigFileName(params.get(Constants.CONFIGURATION_FILE_FIELD_NAME));
-            //            ctx.setAttribute(Constants.FILE_CONTENT_FIELD_NAME, fileContent);
             ctx.setAttribute(Constants.CONNECTION_DETAILS_FIELD_NAME, mapper.writeValueAsString(connectionDetails));
             ctx.setAttribute("retrieveVMDSConfiguration_Result","success");
         } catch(APPCException e) {

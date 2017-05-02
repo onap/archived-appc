@@ -31,10 +31,6 @@ import org.openecomp.appc.workflow.WorkFlowManager;
 
 
 public class CommandTaskFactory {
-
-//    private LCMCommandTask lcmCommandTask;
-//    private LCMReadonlyCommandTask LCMReadonlyCommandTask;
-
     private RequestHandler requestHandler;
     private WorkFlowManager workflowManager;
     private LifecycleManager lifecyclemanager;

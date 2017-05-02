@@ -203,8 +203,6 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
                 client.connect(connectionDetails);
                 String configuration = client.getConfiguration();
                 if(configuration !=null){
-                    //  logger.info("*************************************Configuration Output*************************************");
-                    //  logger.info(configuration);
                     String fullConfig = ctx.getAttribute("fullConfig");
                     fullConfig = fullConfig==null?"":fullConfig;
                     ctx.setAttribute("fullConfig",fullConfig + configuration);
@@ -217,10 +215,6 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
                 }else{
                     ctx.setAttribute("getConfig_Result","failure");
                 }
-                //store configuration in database
-            /*NetconfJDBC dsImpl = new NetconfJDBCImpl();
-            dsImpl.logDeviceInteraction(null,null,getCurrentDateTime(),configuration);*/
-
             } catch (Exception e) {
                 ctx.setAttribute("getConfig_Result","failure");
                 logger.error("Error " + e.getMessage());

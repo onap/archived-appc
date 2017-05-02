@@ -63,21 +63,4 @@ public class DBUtils {
 		return clearFlag;
 
 	}
-
-	/*public static DbLibService getDBLibService(){
-		DbLibService dblibSvc = null;
-		BundleContext bctx = FrameworkUtil.getBundle(SvcLogicDblibStore.class).getBundleContext();
-		ServiceReference sref = bctx.getServiceReference("org.openecomp.sdnc.sli.resource.dblib.DBResourceManager");
-		if (sref == null) {
-//			LOG.warn("Could not find service reference for DBLIB service (org.openecomp.sdnc.sli.resource.dblib.DBResourceManager)");
-		}
-		else {
-			dblibSvc = (DbLibService)bctx.getService(sref);
-			if (dblibSvc == null)
-			{
-//				LOG.warn("Could not find service reference for DBLIB service (org.openecomp.sdnc.sli.resource.dblib.DBResourceManager)");
-			}
-		}
-		return dblibSvc;
-	}*/
 }

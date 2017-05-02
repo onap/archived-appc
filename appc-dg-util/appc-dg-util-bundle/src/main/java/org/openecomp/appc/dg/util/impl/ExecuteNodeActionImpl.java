@@ -50,7 +50,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ExecuteNodeActionImpl.class);
 
     public ExecuteNodeActionImpl() {
-        // getAAIservice();
     }
 
     /**

@@ -247,8 +247,7 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
         VnfResource vnf = input.getVnfResource();
 
         TopologyService topology = new TopologyService(this);
-        // RpcResult<RestartOutput> result = topology.restart(hdr, vnf);
-        return null;// Futures.immediateFuture(result);
+        return null;
     }
 
     /**

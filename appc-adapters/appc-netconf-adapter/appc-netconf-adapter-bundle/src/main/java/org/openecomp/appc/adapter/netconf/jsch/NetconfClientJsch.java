@@ -50,7 +50,6 @@ public class NetconfClientJsch implements NetconfClient {
     private Session session;
     private Channel channel;
     private NetconfAdapter netconfAdapter;
-//    private NetconfAdapter2 netconfAdapter;
 
 
     @Override
@@ -78,9 +77,6 @@ public class NetconfClientJsch implements NetconfClient {
                 channel = session.openChannel("subsystem");
                 ((ChannelSubsystem)channel).setSubsystem("netconf");
                 netconfAdapter = new NetconfAdapter(channel.getInputStream(), channel.getOutputStream());
-//                netconfAdapter = new NetconfAdapter2();
-//                channel.setInputStream(netconfAdapter.getIn());
-//                channel.setOutputStream(netconfAdapter.getOut());
                 channel.connect(CHANNEL_CONNECT_TIMEOUT);
                 hello(connectionDetails.getCapabilities());
             } catch(Exception e) {

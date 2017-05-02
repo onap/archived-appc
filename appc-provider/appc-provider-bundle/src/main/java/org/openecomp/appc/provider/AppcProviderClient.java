@@ -73,9 +73,6 @@ public class AppcProviderClient {
         LOG.debug("Parameters returned by SLI: " + StringHelper.propertiesToString(respProps));
         metricsLogger.info("Parameters returned by SLI: " + StringHelper.propertiesToString(respProps));
 
-        // No impact on flow. Not sure why it is here
-        // if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) { return (respProps); }
-
         return respProps;
     }
 }

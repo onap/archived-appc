@@ -50,11 +50,6 @@ public interface NetconfClientRestconf {
     void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName) throws APPCException;
 
     /*
-    backup device configuration
-    @param deviceMountPointName - the name of the mounting point in controlle
-     */
-    //void backupConfiguration(String deviceMountPointName);
-    /*
 	returns configuration of Netconf server
 	 @param deviceMountPointName - the name of the mounting point in controller
 	 @param moduleName - name of the yang model

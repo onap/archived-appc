@@ -42,13 +42,6 @@ public interface SshService extends SvcLogicJavaPlugin {
 	 */
 	String PARAM_IN_command = "command";
 
-	/*
-	String PARAM_IN_host = "host";
-	String PARAM_IN_port = "port";
-	String PARAM_IN_username = "username";
-	String PARAM_IN_password = "password";
-	*/
-
 	/**
 	 * Input parameter for SSH command timeout
 	 */

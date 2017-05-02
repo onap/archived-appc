@@ -74,11 +74,6 @@ public class AppcDmaapAdapterActivator implements BundleActivator {
     @Override
     public void start(final BundleContext bundleContext) throws Exception {
         LOG.info("Starting Bundle " + getName());
-
-       /* if (registration == null) {
-            Properties properties = ConfigurationFactory.getConfiguration().getProperties();
-            registration = bundleContext.registerService(EventSender.class, new EventSenderImpl(properties), null);
-        }*/
     }
 
     /**
@@ -100,9 +95,6 @@ public class AppcDmaapAdapterActivator implements BundleActivator {
      */
     @Override
     public void stop(BundleContext ctx) throws Exception {
-        /*if (this.registration != null) {
-            this.registration.unregister();
-        }*/
         LOG.info("Stopped Bundle " + getName());
     }
 

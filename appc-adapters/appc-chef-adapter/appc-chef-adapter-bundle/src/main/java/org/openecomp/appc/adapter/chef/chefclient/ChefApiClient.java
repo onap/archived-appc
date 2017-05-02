@@ -67,25 +67,4 @@ public class ChefApiClient {
 		put.setChefPath(path);
 		return put;
    }
-/*	public Post post(String path){
-		Post post = new Post(new PostMethod(endpoint+path));
-		post.setPemPath(pemPath);
-		post.setUserId(userId);
-		return post;
-	}
-
-	public Delete delete(String path){
-	    Delete del = new Delete(new DeleteMethod(endpoint+path));
-	    del.setPemPath(pemPath);
-	    del.setUserId(userId);
-	    return del;
-	}
-
-
-*/
-/*	public Header[] buildHeaders(){
-
-	    return null;
-	}
-*/
 }
