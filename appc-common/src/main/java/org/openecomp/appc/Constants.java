@@ -70,11 +70,6 @@ public final class Constants {
     public static final String PROPERTY_TOPOLOGY_METHOD = "appc.topology.dg.method";
 
     /**
-     * The name of the service logic method in the DG to be executed
-     */
-    // public static final String CONFIGURATION_METHOD_NAME = "configuration-operation";
-
-    /**
      * The property that supplies the application name
      */
     public static final String PROPERTY_APPLICATION_NAME = "appc.application.name";
