@@ -23,6 +23,9 @@ package org.openecomp.appc.adapter.netconf;
 
 import org.openecomp.appc.adapter.netconf.internal.NetconfDataAccessServiceImpl;
 import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.openecomp.appc.i18n.Msg;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -47,7 +50,7 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    //private static final EELFLogger logger = EELFManager.getInstance().getLogger(AppcNetconfAdapterActivator.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(AppcNetconfAdapterActivator.class);
 
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
@@ -81,7 +84,7 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
             factoryRegistration = context.registerService(NetconfDataAccessService.class, DAService, null);
         }
 
-        //logger.info(Msg.COMPONENT_INITIALIZED, "NETCONF adapter");
+        logger.info(Msg.COMPONENT_INITIALIZED, "NETCONF adapter");
     }
 
     /**
