@@ -28,6 +28,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
 import org.openecomp.appc.executionqueue.helper.Util;
 import org.openecomp.appc.executionqueue.impl.object.QueueMessage;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -69,7 +70,7 @@ public class QueueManager {
                     while (true){
                         try{
                             QueueMessage<? extends Runnable> queueMessage = queue.take();
-                            if(messageExpired(queueMessage)){
+                            if (queueMessage.isExpired()) {
                                 logger.debug("Message expired "+ queueMessage.getMessage());
                                 if(listener != null){
                                     listener.onMessageExpiration(queueMessage.getMessage());
@@ -96,13 +97,6 @@ public class QueueManager {
 
     public boolean enqueueTask(QueueMessage<? extends Runnable> queueMessage) {
         return queue.offer(queueMessage);
-    }
-
-    private boolean messageExpired(QueueMessage<? extends Runnable> queueMessage) {
-        if(queueMessage.getExpirationTime() != null){
-            return queueMessage.getExpirationTime().getTime() < System.currentTimeMillis();
-        }
-        return false;
     }
 
 }

@@ -73,6 +73,8 @@ import org.slf4j.MDC;
 import static com.att.eelf.configuration.Configuration.*;
 
 import java.net.InetAddress;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -164,7 +166,7 @@ public class RequestHandlerImpl implements RequestHandler {
             logger.trace("Entering to handleRequest with RequestHandlerInput = " + ObjectUtils.toString(input) + ")");
         Params params = null;
         String vnfId = null, vnfType = null, errorMessage = null;
-        Date startTime = new Date(System.currentTimeMillis());
+        Instant startTime = Instant.now();
         RequestHandlerOutput output = null;
         setInitialLogProperties(input.getRequestContext());
 
@@ -291,7 +293,7 @@ public class RequestHandlerImpl implements RequestHandler {
         transactionRecord.setTimeStamp(runtimeContext.getResponseContext().getCommonHeader().getTimeStamp());
         transactionRecord.setRequestID(runtimeContext.getResponseContext().getCommonHeader().getRequestId());
         transactionRecord.setStartTime(runtimeContext.getTimeStart());
-        transactionRecord.setEndTime(new Date(System.currentTimeMillis()));
+        transactionRecord.setEndTime(Instant.now());
         transactionRecord.setTargetID(runtimeContext.getVnfContext().getId());
         transactionRecord.setTargetType(runtimeContext.getVnfContext().getType());
         transactionRecord.setOperation(runtimeContext.getRequestContext().getAction().name());
@@ -509,7 +511,7 @@ public class RequestHandlerImpl implements RequestHandler {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to calculateRemainingTTL with RequestHeader = " + ObjectUtils.toString(commonHeader));
         }
-        long usedTimeInMillis = (System.currentTimeMillis() - commonHeader.getTimeStamp().getTime());
+        long usedTimeInMillis = ChronoUnit.MILLIS.between(commonHeader.getTimeStamp(), Instant.now());
         logger.debug("usedTimeInMillis = " + usedTimeInMillis);
         int usedTimeInSeconds = Math.round(usedTimeInMillis / 1000);
         logger.debug("usedTimeInSeconds = " + usedTimeInSeconds);
@@ -640,7 +642,7 @@ public class RequestHandlerImpl implements RequestHandler {
 
     private void storeAuditLogRecord(RuntimeContext runtimeContext) {
         LoggingUtils.logAuditMessage(runtimeContext.getTimeStart(),
-                new Date(System.currentTimeMillis()),
+                Instant.now(),
                 String.valueOf(runtimeContext.getResponseContext().getStatus().getCode()),
                 runtimeContext.getResponseContext().getStatus().getMessage(),
                 this.getClass().getCanonicalName());
@@ -648,7 +650,7 @@ public class RequestHandlerImpl implements RequestHandler {
 
     private void storeMetricLogRecord(RuntimeContext runtimeContext) {
         LoggingUtils.logMetricsMessage(runtimeContext.getTimeStart(),
-                new Date(System.currentTimeMillis()),
+                Instant.now(),
                 LoggingConstants.TargetNames.APPC,
                 runtimeContext.getRequestContext().getAction().name(),
                 runtimeContext.getResponseContext().getStatus().getCode() == LCMCommandStatus.ACCEPTED.getResponseCode() ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR,

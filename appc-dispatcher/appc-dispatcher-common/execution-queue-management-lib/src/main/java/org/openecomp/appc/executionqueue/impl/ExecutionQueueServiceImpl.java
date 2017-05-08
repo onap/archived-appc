@@ -21,6 +21,7 @@
 
 package org.openecomp.appc.executionqueue.impl;
 
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,7 @@ import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
 import org.openecomp.appc.executionqueue.impl.object.QueueMessage;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -49,7 +51,7 @@ public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQ
     @Override
     public void putMessage(M message, long timeout, TimeUnit unit) throws APPCException{
         try {
-            Date expirationTime = calculateExpirationTime(timeout,unit);
+            Instant expirationTime = calculateExpirationTime(timeout,unit);
             QueueManager queueManager = QueueManager.getInstance();
             boolean enqueueTask = queueManager.enqueueTask(new QueueMessage<M>(message,expirationTime));
             if(!enqueueTask){
@@ -66,15 +68,15 @@ public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQ
         QueueManager.getInstance().setListener(listener);
     }
 
-    private Date calculateExpirationTime(long timeToLive, TimeUnit unit) {
-        Date expirationTime = null;
-        if(timeToLive > 0){
-            long currentTime = System.currentTimeMillis();
-            Calendar cal = Calendar.getInstance();
-            cal.setTimeInMillis(currentTime + unit.toMillis(timeToLive));
-            expirationTime = cal.getTime();
+    private Instant calculateExpirationTime(long timeToLive, TimeUnit unit) {
+        if (timeToLive > 0 && unit != null) {
+            // as of Java 8, there is no built-in conversion method from
+            // TimeUnit to ChronoUnit; do it manually
+            return Instant.now().plusMillis(unit.toMillis(timeToLive));
+        } else {
+            // never expires
+            return Instant.MAX;
         }
-        return expirationTime;
     }
 
 }

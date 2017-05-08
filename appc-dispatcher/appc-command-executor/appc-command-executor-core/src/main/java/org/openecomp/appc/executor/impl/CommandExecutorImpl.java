@@ -25,7 +25,8 @@
 package org.openecomp.appc.executor.impl;
 
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -107,9 +108,9 @@ public class CommandExecutorImpl implements CommandExecutor {
     }
 
     private long getRemainingTTL(RuntimeContext request) {
-        Date requestTimestamp = request.getRequestContext().getCommonHeader().getTimeStamp();
+        Instant requestTimestamp = request.getRequestContext().getCommonHeader().getTimeStamp();
         int ttl = request.getRequestContext().getCommonHeader().getFlags().getTtl();
-        return ttl*1000 + requestTimestamp.getTime() - System.currentTimeMillis();
+        return ChronoUnit.MILLIS.between(Instant.now(), requestTimestamp.plusSeconds(ttl));
     }
 
     private CommandTask getMessageExecutor(String action){
