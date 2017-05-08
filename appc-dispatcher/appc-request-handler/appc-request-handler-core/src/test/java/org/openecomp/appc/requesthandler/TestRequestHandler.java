@@ -21,14 +21,32 @@
 
 package org.openecomp.appc.requesthandler;
 
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.when;
+
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.UUID;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.openecomp.appc.domainmodel.lcm.*;
-import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
+import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
+import org.openecomp.appc.domainmodel.lcm.CommonHeader;
+import org.openecomp.appc.domainmodel.lcm.Flags;
+import org.openecomp.appc.domainmodel.lcm.RequestContext;
+import org.openecomp.appc.domainmodel.lcm.ResponseContext;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.Status;
+import org.openecomp.appc.domainmodel.lcm.VNFContext;
+import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.executor.CommandExecutor;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
@@ -38,7 +56,12 @@ import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.openecomp.appc.lockmanager.api.LockException;
 import org.openecomp.appc.lockmanager.api.LockManager;
 import org.openecomp.appc.messageadapter.MessageAdapter;
-import org.openecomp.appc.requesthandler.exceptions.*;
+import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
+import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
+import org.openecomp.appc.requesthandler.exceptions.RequestExpiredException;
+import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.WorkflowNotFoundException;
 import org.openecomp.appc.requesthandler.impl.RequestHandlerImpl;
 import org.openecomp.appc.requesthandler.impl.RequestValidatorImpl;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
@@ -50,18 +73,13 @@ import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
 import org.openecomp.appc.workflow.objects.WorkflowRequest;
 import org.openecomp.appc.workingstatemanager.WorkingStateManager;
 import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.FrameworkUtil;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.*;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.powermock.api.mockito.PowerMockito.when;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {WorkingStateManager.class,FrameworkUtil.class, TransactionRecorder.class, RequestHandlerImpl.class,RequestValidatorImpl.class, TransactionRecorder.class})
@@ -131,7 +149,7 @@ public class TestRequestHandler {
 		logger.debug("=====================testNegativeFlowWithRequestingUsedVnfId=============================");
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
 		RequestHandlerInput input1 = this.getRequestHandlerInput("131", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		mockRuntimeContextAndVnfContext(input1);
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		PowerMockito.doThrow(new LockException(" ")).when(lockManager).acquireLock(Matchers.anyString(), Matchers.anyString(), Matchers.anyByte());
@@ -149,7 +167,7 @@ public class TestRequestHandler {
 		String subRequestID = UUID.randomUUID().toString();
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure, 0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure, 0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new VNFNotFoundException(" ")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.VNF_NOT_FOUND.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -162,7 +180,7 @@ public class TestRequestHandler {
 		String subRequestID = UUID.randomUUID().toString();
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new LifecycleException(new Exception(),"Configured","test event")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.ACTION_NOT_SUPPORTED.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -175,7 +193,7 @@ public class TestRequestHandler {
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new RequestExpiredException("")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.EXPIRED_REQUEST.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -188,7 +206,7 @@ public class TestRequestHandler {
 		String subRequestID = UUID.randomUUID().toString();
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new WorkflowNotFoundException("Unable to find the DG","VNF-2.0.0.0", "Test")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.WORKFLOW_NOT_FOUND.getResponseCode(), output.getResponseContext().getStatus().getCode());}
@@ -199,7 +217,7 @@ public class TestRequestHandler {
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest) anyObject())).thenReturn(new WorkflowExistsOutput(true, true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure, 0, false, originatorID, requestID, subRequestID, new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure, 0, false, originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new DGWorkflowNotFoundException("Unable to find the DG", "VNF-2.0.0.0", "temp", "Test")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.DG_WORKFLOW_NOT_FOUND.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -211,7 +229,7 @@ public class TestRequestHandler {
 		String requestID1 = UUID.randomUUID().toString();
 		String subRequestID1 = UUID.randomUUID().toString();
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input1 = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID1, requestID1, subRequestID1,new Date());
+		RequestHandlerInput input1 = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID1, requestID1, subRequestID1, Instant.now());
 		PowerMockito.doThrow(new InvalidInputException(" ")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output1 = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode(), output1.getResponseContext().getStatus().getCode());
@@ -224,7 +242,7 @@ public class TestRequestHandler {
 		String subRequestID = UUID.randomUUID().toString();
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3010", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3010", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new NoTransitionDefinedException("Invalid VNF State","Unstable","Test event")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.NO_TRANSITION_DEFINE.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -237,7 +255,7 @@ public class TestRequestHandler {
 		String subRequestID = UUID.randomUUID().toString();
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new VNFNotFoundException(" ")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.VNF_NOT_FOUND.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -249,7 +267,7 @@ public class TestRequestHandler {
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
 		Mockito.when(workingStateManager.isVNFStable("37")).thenReturn(true,false);
 		RequestHandlerInput input = this.getRequestHandlerInput("37", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		mockRuntimeContextAndVnfContext(input);
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
@@ -257,7 +275,7 @@ public class TestRequestHandler {
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(), output.getResponseContext().getStatus().getCode());
 
 		RequestHandlerInput input1 = this.getRequestHandlerInput("37", VNFOperation.Configure,1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		PowerMockito.doThrow(new LockException(" ")).when(lockManager).acquireLock(Matchers.anyString(), Matchers.anyString(), Matchers.anyByte());
 		mockRuntimeContextAndVnfContext(input1);
 		RequestHandlerOutput output1 = requestHandler.handleRequest(input1);
@@ -271,7 +289,7 @@ public class TestRequestHandler {
 		logger.debug("=====================testOnRequestExecutionEndSuccessForWorkingState=============================");
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
 		RequestHandlerInput input1 = this.getRequestHandlerInput("137", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		mockRuntimeContextAndVnfContext(input1);
 
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
@@ -284,7 +302,7 @@ public class TestRequestHandler {
 		requestHandler.onRequestExecutionEnd(this.getAsyncResponse(true,LCMCommandStatus.SUCCESS,"137", "", "", ""),true);
 
 		input1 = this.getRequestHandlerInput("137", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		mockRuntimeContextAndVnfContext(input1);
 		output = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(),output.getResponseContext().getStatus().getCode());
@@ -322,7 +340,7 @@ public class TestRequestHandler {
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 
 		RequestHandlerInput input1 = this.getRequestHandlerInput("38", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		mockRuntimeContextAndVnfContext(input1);
 		RequestHandlerOutput output = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(),output.getResponseContext().getStatus().getCode());
@@ -330,7 +348,7 @@ public class TestRequestHandler {
 		requestHandler.onRequestExecutionEnd(this.getAsyncResponse(false,LCMCommandStatus.NO_TRANSITION_DEFINE,"38", "", "", ""),true);
 
 		input1 = this.getRequestHandlerInput("38", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		PowerMockito.doThrow(new UnstableVNFException(" ")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		mockRuntimeContextAndVnfContext(input1);
 		output = requestHandler.handleRequest(input1);
@@ -345,7 +363,7 @@ public class TestRequestHandler {
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
 
 		RequestHandlerInput input1 = this.getRequestHandlerInput("39", VNFOperation.Configure, 1,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		mockRuntimeContextAndVnfContext(input1);
@@ -354,7 +372,7 @@ public class TestRequestHandler {
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(),output.getResponseContext().getStatus().getCode());
 		threadSleep();
 		input1 = this.getRequestHandlerInput("39", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		PowerMockito.doThrow(new LockException(" ")).when(lockManager).acquireLock(Matchers.anyString(), Matchers.anyString(), Matchers.anyByte());
 		output = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.LOCKING_FAILURE.getResponseCode(),output.getResponseContext().getStatus().getCode());
@@ -369,7 +387,7 @@ public class TestRequestHandler {
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 
 		RequestHandlerInput input1 = this.getRequestHandlerInput("40", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		mockRuntimeContextAndVnfContext(input1);
 		RequestHandlerOutput output = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(),output.getResponseContext().getStatus().getCode());
@@ -377,7 +395,7 @@ public class TestRequestHandler {
 		RuntimeContext response = this.getAsyncResponse(false,LCMCommandStatus.EXPIRED_REQUEST_FAILURE,"40", "", "", "");
 		requestHandler.onRequestTTLEnd(response,true);
 		input1 = this.getRequestHandlerInput("40", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		PowerMockito.doThrow(new UnstableVNFException(" ")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		output = requestHandler.handleRequest(input1);
 		Assert.assertEquals(LCMCommandStatus.UNSTABLE_VNF.getResponseCode(),output.getResponseContext().getStatus().getCode());
@@ -389,7 +407,7 @@ public class TestRequestHandler {
 		logger.debug("=====================testForceCommandExecution=============================");
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
 		RequestHandlerInput input1 = this.getRequestHandlerInput("138", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		mockRuntimeContextAndVnfContext(input1);
 
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
@@ -399,7 +417,7 @@ public class TestRequestHandler {
 		RuntimeContext response = this.getAsyncResponse(false,LCMCommandStatus.ACCEPTED,"138", "", "", "");
 		requestHandler.onRequestTTLEnd(response,true);
 		input1 = this.getRequestHandlerInput("138", VNFOperation.Configure, 1200,
-				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+				false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		input1.getRequestContext().getCommonHeader().setFlags(new Flags(null, true, 1200));
 		mockRuntimeContextAndVnfContext(input1);
 		output = requestHandler.handleRequest(input1);
@@ -423,7 +441,7 @@ public class TestRequestHandler {
 		logger.debug("=====================Positive TEST - On Request Execution End FAILURE- Ends =============================");
 	}
 
-	private RequestHandlerInput getRequestHandlerInput(String vnfID, VNFOperation action, int ttl, boolean force,String originatorId, String requestId, String subRequestId,Date timeStamp){
+	private RequestHandlerInput getRequestHandlerInput(String vnfID, VNFOperation action, int ttl, boolean force,String originatorId, String requestId, String subRequestId, Instant timeStamp){
 		String API_VERSION= "2.0.0";
 		RequestHandlerInput input = new RequestHandlerInput();
 		RuntimeContext runtimeContext = createRuntimeContextWithSubObjects();
@@ -449,9 +467,9 @@ public class TestRequestHandler {
 		output.getRequestContext().getActionIdentifiers().setVnfId(vnfId);
 		output.getVnfContext().setId(vnfId);
 		output.getResponseContext().getCommonHeader().setApiVer("2.0.0");
-		output.getResponseContext().getCommonHeader().setTimestamp(new Date());
+		output.getResponseContext().getCommonHeader().setTimestamp( Instant.now());
 		output.getResponseContext().setStatus(LCMCommandStatus.SUCCESS.toStatus(null));
-		output.setTimeStart(new Date());
+		output.setTimeStart( Instant.now());
 		output.getResponseContext().getCommonHeader().setOriginatorId(originatorId);
 		output.getResponseContext().getCommonHeader().setRequestId(requestId);
 		output.getResponseContext().getCommonHeader().setSubRequestId(subRequestId);
@@ -471,13 +489,13 @@ public class TestRequestHandler {
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("301", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("301", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		mockRuntimeContextAndVnfContext(input);
 
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(), output.getResponseContext().getStatus().getCode());
 
-		input = this.getRequestHandlerInput("309", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		input = this.getRequestHandlerInput("309", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 
 		PowerMockito.doThrow(new DuplicateRequestException(" ")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		output = requestHandler.handleRequest(input);
@@ -492,7 +510,7 @@ public class TestRequestHandler {
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("302", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("302", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		mockRuntimeContextAndVnfContext(input);
 
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
@@ -501,7 +519,7 @@ public class TestRequestHandler {
 		RuntimeContext asyncResponse = this.getAsyncResponse(true,LCMCommandStatus.SUCCESS,"302",originatorID,requestID,subRequestID);
 		requestHandler.onRequestExecutionEnd(asyncResponse,true);
 
-		input = this.getRequestHandlerInput("310", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		input = this.getRequestHandlerInput("310", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		mockRuntimeContextAndVnfContext(input);
 		output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(), output.getResponseContext().getStatus().getCode());
@@ -516,7 +534,7 @@ public class TestRequestHandler {
 		PowerMockito.doNothing().when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 
 		Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
-		RequestHandlerInput input = this.getRequestHandlerInput("303", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+		RequestHandlerInput input = this.getRequestHandlerInput("303", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		mockRuntimeContextAndVnfContext(input);
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
 		Assert.assertEquals(LCMCommandStatus.ACCEPTED.getResponseCode(), output.getResponseContext().getStatus().getCode());

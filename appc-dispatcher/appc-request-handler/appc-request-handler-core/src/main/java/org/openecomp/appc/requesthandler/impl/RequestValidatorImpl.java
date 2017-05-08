@@ -153,7 +153,7 @@ public class RequestValidatorImpl implements RequestValidator {
 
         checkForDuplicateRequest(commonHeader);
 
-        Calendar inputTimeStamp = DateToCalendar(commonHeader.getTimeStamp());
+        Calendar inputTimeStamp = DateToCalendar(Date.from(commonHeader.getTimeStamp()));
         Calendar currentTime = Calendar.getInstance();
 
         // If input timestamp is of future, we reject the request

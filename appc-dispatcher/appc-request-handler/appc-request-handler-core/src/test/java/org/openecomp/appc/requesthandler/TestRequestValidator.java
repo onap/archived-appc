@@ -22,20 +22,43 @@
 package org.openecomp.appc.requesthandler;
 
 
+import static junit.framework.TestCase.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.anyBoolean;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+
+import java.time.Instant;
+import java.util.Map;
+import java.util.UUID;
+
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.openecomp.appc.domainmodel.lcm.*;
-import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
+import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
+import org.openecomp.appc.domainmodel.lcm.CommonHeader;
+import org.openecomp.appc.domainmodel.lcm.Flags;
+import org.openecomp.appc.domainmodel.lcm.RequestContext;
+import org.openecomp.appc.domainmodel.lcm.ResponseContext;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.Status;
+import org.openecomp.appc.domainmodel.lcm.VNFContext;
+import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
 import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.requesthandler.exceptions.*;
+import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
+import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
+import org.openecomp.appc.requesthandler.exceptions.RequestExpiredException;
+import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.WorkflowNotFoundException;
 import org.openecomp.appc.requesthandler.impl.RequestHandlerImpl;
 import org.openecomp.appc.requesthandler.impl.RequestValidatorImpl;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
@@ -44,8 +67,6 @@ import org.openecomp.appc.workflow.WorkFlowManager;
 import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
 import org.openecomp.appc.workflow.objects.WorkflowRequest;
 import org.openecomp.appc.workingstatemanager.WorkingStateManager;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicResource;
 import org.openecomp.sdnc.sli.aai.AAIService;
@@ -57,13 +78,8 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
-
-import static junit.framework.TestCase.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.*;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 
 @RunWith(PowerMockRunner.class)
@@ -214,7 +230,7 @@ public class TestRequestValidator {
         genericVnf.setOrchestrationStatus(operationalState);
         return genericVnf;
     }*/
-    private RequestHandlerInput getRequestHandlerInput(String vnfID, VNFOperation action, int ttl, boolean force, String originatorId, String requestId, String subRequestId, Date timeStamp){
+    private RequestHandlerInput getRequestHandlerInput(String vnfID, VNFOperation action, int ttl, boolean force, String originatorId, String requestId, String subRequestId, Instant timeStamp){
         String API_VERSION= "2.0.0";
         RequestHandlerInput input = new RequestHandlerInput();
         RuntimeContext runtimeContext = createRuntimeContextWithSubObjects();
@@ -242,7 +258,7 @@ public class TestRequestValidator {
         logger.debug("=====================testNullVnfID=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput(null, VNFOperation.Configure, 30,
-                false, UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false, UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -261,7 +277,7 @@ public class TestRequestValidator {
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         Mockito.when(workingStateManager.isVNFStable("1")).thenReturn(true);
         RequestHandlerInput input = this.getRequestHandlerInput("1", VNFOperation.Configure, 30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -279,7 +295,7 @@ public class TestRequestValidator {
         logger.debug("=====================testVnfNotFound=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput("8", VNFOperation.Configure, 30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -298,7 +314,7 @@ public class TestRequestValidator {
         logger.debug("=====================testNullCommand=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput("7", null,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
        Exception ex =null;
        RuntimeContext runtimeContext = putInputToRuntimeContext(input);
        try {
@@ -315,7 +331,7 @@ public class TestRequestValidator {
         logger.debug("=====================testNullVnfIDAndCommand=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput(null, null,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -332,7 +348,7 @@ public class TestRequestValidator {
         logger.debug("=====================testWorkflowNotFound=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(false,false));
         RequestHandlerInput input = this.getRequestHandlerInput("10", VNFOperation.Configure, 30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -351,7 +367,7 @@ public class TestRequestValidator {
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(),anyString())).thenThrow( new NoTransitionDefinedException("","",""));
 
         RequestHandlerInput input = this.getRequestHandlerInput("11", VNFOperation.Configure, 30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -369,7 +385,7 @@ public class TestRequestValidator {
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(),anyString())).thenThrow( new NoTransitionDefinedException("","",""));
         RequestHandlerInput input = this.getRequestHandlerInput("12", VNFOperation.Test,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -387,7 +403,7 @@ public class TestRequestValidator {
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(),anyString())).thenThrow( new NoTransitionDefinedException("","",""));
 
         RequestHandlerInput input = this.getRequestHandlerInput("13", VNFOperation.Start,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -404,7 +420,7 @@ public class TestRequestValidator {
         logger.debug("=====================testUnstableVnfWithTerminate=============================");
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(),anyString())).thenThrow( new NoTransitionDefinedException("","",""));
         RequestHandlerInput input = this.getRequestHandlerInput("14", VNFOperation.Terminate,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -422,7 +438,7 @@ public class TestRequestValidator {
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(),anyString())).thenThrow( new NoTransitionDefinedException("","",""));
 
         RequestHandlerInput input = this.getRequestHandlerInput("26", VNFOperation.Restart,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -441,7 +457,7 @@ public class TestRequestValidator {
 
         // Mockito.doReturn(this.getGenericVnf("Firewall", "NOT_INSTANTIATED")).when(getAaiadapter()).requestGenericVnfData("8");
         RequestHandlerInput input = this.getRequestHandlerInput("27", VNFOperation.Rebuild,30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -463,7 +479,7 @@ public class TestRequestValidator {
         //            RequestHandler requestHandler=RequestHandlerSingleton.getRequestHandler(new WorkFlowManagerImpl(),aaiAdapter,new LifecycleManagerImpl());
         //            RequestHandler requestHandler = new RequestHandlerImpl(new WorkFlowManagerImpl(),aaiAdapter,new LifecycleManagerImpl());
         RequestHandlerInput input = this.getRequestHandlerInput("28", VNFOperation.Configure, 30,
-                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),new Date());
+                false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(), Instant.now());
 		Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         try {
@@ -479,9 +495,8 @@ public class TestRequestValidator {
     @Test
     public void testNegativeFlowWithTimeStamp() throws  NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
         logger.debug("=====================testNegativeFlowWithTimeStamp=============================");
-        Date now = new Date();
-        Date past = new Date();
-        past.setTime(now.getTime() -1000000 );
+        Instant now =  Instant.now();
+        Instant past =  now.minusMillis(1000000);
         RequestHandlerInput input = this.getRequestHandlerInput("35", VNFOperation.Configure, 30,
                 false,UUID.randomUUID().toString(),UUID.randomUUID().toString(),UUID.randomUUID().toString(),past);
         Exception ex =null;
@@ -507,9 +522,9 @@ public class TestRequestValidator {
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         Mockito.when(workingStateManager.isVNFStable("301")).thenReturn(true);
         Mockito.when(workingStateManager.isVNFStable("309")).thenReturn(true);
-        RequestHandlerInput input = this.getRequestHandlerInput("301", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+        RequestHandlerInput input = this.getRequestHandlerInput("301", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 
-        RequestHandlerInput input1 = this.getRequestHandlerInput("309", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,new Date());
+        RequestHandlerInput input1 = this.getRequestHandlerInput("309", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
         Exception ex =null;
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         RuntimeContext runtimeContext1 = putInputToRuntimeContext(input1);
@@ -573,7 +588,7 @@ public class TestRequestValidator {
         String requestID = UUID.randomUUID().toString();
         String subRequestID = UUID.randomUUID().toString();
 
-        RequestHandlerInput input = this.getRequestHandlerInput(resource, operation, 0, false, originatorID, requestID, subRequestID, new Date());
+        RequestHandlerInput input = this.getRequestHandlerInput(resource, operation, 0, false, originatorID, requestID, subRequestID,  Instant.now());
         RuntimeContext runtimeContext = putInputToRuntimeContext(input);
         requestValidator.validateRequest(runtimeContext);
     }

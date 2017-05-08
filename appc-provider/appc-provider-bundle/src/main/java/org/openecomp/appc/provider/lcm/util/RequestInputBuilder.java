@@ -92,7 +92,7 @@ public class RequestInputBuilder {
             if(null != commonHeader.getTimestamp()) {
                 SimpleDateFormat format = new SimpleDateFormat(FORMAT);
                 format.setLenient(false);
-                header.setTimestamp(format.parse(commonHeader.getTimestamp().getValue()));
+                header.setTimestamp(format.parse(commonHeader.getTimestamp().getValue()).toInstant());
             }else{
                 throw new ParseException("Missing mandatory parameter : timestamp " , 0);
             }
