@@ -54,6 +54,7 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -142,28 +143,28 @@ public class TestCommandExecutionTask {
 	@Test
 	public void testOnRequestCompletion(){
 		Mockito.doNothing().when(requestHandler).onRequestTTLEnd((RuntimeContext) anyObject(),anyBoolean());
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Configure, "1", "");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Configure, "1", "");
 		CommandResponse response = getCommandResponse(VNFOperation.Configure, true, "11", "","1");
 		executionTask.onRequestCompletion(request, response);
 	}
 
 	@Test
 	public void testRunGetConfig(){
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
 		LCMReadonlyCommandTask.setCommandRequest(request);
 		LCMReadonlyCommandTask.run();
 	}
 
 	@Test
 	public void testRun(){
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
 		executionTask.setCommandRequest(request);
 		executionTask.run();
 	}
 
 	@Test
 	public void testRunNegative(){
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", new Date(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
+		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
 		executionTask.setCommandRequest(request);
 		executionTask.run();
 	}
@@ -191,7 +192,7 @@ public class TestCommandExecutionTask {
 		responseContext.setStatus(new Status(100, null));
 		commonHeader.setRequestId(responseId);
 		responseContext.setPayload(payload);
-		commonHeader.setTimestamp(new Date());
+		commonHeader.setTimestamp(Instant.now());
 		vnfContext.setId(vnfId);
 		return commandResponse;
 	}
@@ -201,10 +202,9 @@ public class TestCommandExecutionTask {
 	@Test
 	public void testPositiveFlow_configure()  {
 
-		Date timeStamp = new Date();
 		String requestId = "1";
 
-		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL",30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", VNFOperation.Configure, "33", "");
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL",30, "1.0", Instant.now(), API_VERSION, requestId, ORIGINATOR_ID, "", VNFOperation.Configure, "33", "");
 	}
 
 
@@ -226,7 +226,7 @@ public class TestCommandExecutionTask {
 		return wfResponse;
 	}
 
-	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
+	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Instant timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
 		RuntimeContext commandExecutorInput = createCommandExecutorInputWithSubObjects();
 		RequestContext requestContext = commandExecutorInput.getRequestContext();
 		ResponseContext responseContext = createResponseContextWithSuObjects();

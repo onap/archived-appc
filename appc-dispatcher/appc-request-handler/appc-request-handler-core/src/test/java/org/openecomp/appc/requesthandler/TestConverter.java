@@ -30,6 +30,7 @@ import org.openecomp.appc.requesthandler.conv.Converter;
 
 import javax.ws.rs.container.AsyncResponse;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -328,7 +329,7 @@ public class TestConverter {
 		asyncResponse.getCommonHeader().setOriginatorId("oid");
 		asyncResponse.getCommonHeader().setApiVer("2.0.0");
 		asyncResponse.getCommonHeader().setRequestId("reqid");
-		asyncResponse.getCommonHeader().setTimestamp(new Date(1000L));
+		asyncResponse.getCommonHeader().setTimestamp(Instant.ofEpochMilli(1000L));
 		asyncResponse.setPayload("any valid JSON string value. Json escape characters need to be added to make it a valid json string value");
 		return asyncResponse;
 	}

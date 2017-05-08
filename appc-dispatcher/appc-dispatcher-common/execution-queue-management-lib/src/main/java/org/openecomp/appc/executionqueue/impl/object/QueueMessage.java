@@ -21,22 +21,23 @@
 
 package org.openecomp.appc.executionqueue.impl.object;
 
-import java.util.Date;
+import java.time.Instant;
+import java.util.Objects;
 
 
 public class QueueMessage<M extends Runnable> {
-    M message;
-    Date expirationTime;
-    public QueueMessage(M message, Date expirationTime){
+    private final M message;
+    private final Instant expirationTime;
+    public QueueMessage(M message, Instant expirationTime){
         this.message = message;
-        this.expirationTime = expirationTime;
+        this.expirationTime = Objects.requireNonNull(expirationTime);
     }
 
     public M getMessage() {
         return message;
     }
 
-    public Date getExpirationTime() {
-        return expirationTime;
+    public boolean isExpired() {
+        return expirationTime.isBefore(Instant.now());
     }
 }
