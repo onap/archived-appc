@@ -21,13 +21,13 @@
 
 package org.openecomp.appc.domainmodel.lcm;
 
-import java.util.Date;
+import java.time.Instant;
 
 
 public class CommonHeader {
 
     private Flags flags;
-    private Date timestamp;
+    private Instant timestamp;
     private String apiVer;
     private String originatorId;
     private String requestId;
@@ -41,11 +41,11 @@ public class CommonHeader {
         this.flags = flags;
     }
 
-    public Date getTimeStamp() {
+    public Instant getTimeStamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
     }
 

@@ -25,12 +25,19 @@ package org.openecomp.appc.executor;
  */
 
 
+import java.time.Instant;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.domainmodel.lcm.*;
-import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
+import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
+import org.openecomp.appc.domainmodel.lcm.CommonHeader;
+import org.openecomp.appc.domainmodel.lcm.Flags;
+import org.openecomp.appc.domainmodel.lcm.RequestContext;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.VNFContext;
+import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executor.impl.CommandExecutorImpl;
@@ -40,11 +47,6 @@ import org.openecomp.appc.executor.impl.LCMReadonlyCommandTask;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
-
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
-import static junit.framework.Assert.assertTrue;
 
 
 @SuppressWarnings("deprecation")
@@ -88,9 +90,8 @@ public class TestCommandExecutor {
 	@Test
 	public void testPositiveFlow_LCM(){
 		//Map <String,Object> flags = setTTLInFlags("30");
-		Date timeStamp = new Date();
 		String requestId = "1";
-		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure, "15", "") ;
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure, "15", "") ;
 		try {
 			commandExecutor.executeCommand(commandExecutorInput);
 		} catch (APPCException e) {
@@ -101,10 +102,9 @@ public class TestCommandExecutor {
 
 	@Test
 	public void testPositiveFlow_GetConfig(){
-		Date timeStamp = new Date();
 		String requestId = "1";
 
-		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
 		try {
 			commandExecutor.executeCommand(commandExecutorInput);
 		} catch (APPCException e) {
@@ -114,7 +114,7 @@ public class TestCommandExecutor {
 	}
 
 	
-	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
+	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Instant timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
 		RuntimeContext commandExecutorInput = createCommandExecutorInputWithSubObjects();		
 		RequestContext requestContext = commandExecutorInput.getRequestContext();
 		requestContext.getCommonHeader().setFlags(new Flags(null, false, ttl));

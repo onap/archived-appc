@@ -227,7 +227,7 @@ public class Converter {
         }
 
         if(inObj.getCommonHeader().getTimeStamp() != null){
-            String zuluTimestampStr = Converter.convDateToZuluString(inObj.getCommonHeader().getTimeStamp());
+            String zuluTimestampStr = Converter.convDateToZuluString(Date.from(inObj.getCommonHeader().getTimeStamp()));
             ZULU zuluTimestamp = new ZULU(zuluTimestampStr);
             commonHeaderBuilder.setTimestamp(zuluTimestamp);
         }

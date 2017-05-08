@@ -21,19 +21,22 @@
 
 package org.openecomp.appc.logging;
 
-import org.openecomp.appc.i18n.Msg;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
-import org.slf4j.MDC;
-
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
 import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TimeZone;
+
+import org.openecomp.appc.i18n.Msg;
+import org.slf4j.MDC;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
 
 
 
@@ -61,7 +64,7 @@ public class LoggingUtils {
         cleanErrorLogContext();
     }
 
-    public static void logAuditMessage(Date beginTimeStamp, Date endTimeStamp, String code, String responseDescription, String className) {
+    public static void logAuditMessage(Instant beginTimeStamp, Instant endTimeStamp, String code, String responseDescription, String className) {
         populateAuditLogContext(beginTimeStamp, endTimeStamp, code, responseDescription, className);
         auditLogger.info(EELFResourceManager.format(Msg.APPC_AUDIT_MSG,
                 MDC.get(MDC_SERVICE_NAME),
@@ -74,7 +77,7 @@ public class LoggingUtils {
         cleanAuditErrorContext();
     }
 
-    public static void logMetricsMessage(Date beginTimeStamp, Date endTimeStamp, String targetEntity, String targetServiceName, String statusCode, String responseCode, String responseDescription, String className) {
+    public static void logMetricsMessage(Instant beginTimeStamp, Instant endTimeStamp, String targetEntity, String targetServiceName, String statusCode, String responseCode, String responseDescription, String className) {
         populateMetricLogContext(beginTimeStamp, endTimeStamp, targetEntity, targetServiceName, statusCode, responseCode, responseDescription, className);
         metricLogger.info(EELFResourceManager.format(Msg.APPC_METRIC_MSG,
                 MDC.get(MDC_SERVICE_NAME),
@@ -88,7 +91,7 @@ public class LoggingUtils {
         cleanMetricContext();
     }
 
-    private static void populateAuditLogContext(Date beginTimeStamp, Date endTimeStamp, String code, String responseDescription, String className) {
+    private static void populateAuditLogContext(Instant beginTimeStamp, Instant endTimeStamp, String code, String responseDescription, String className) {
         populateTimeContext(beginTimeStamp, endTimeStamp);
         MDC.put(LoggingConstants.MDCKeys.RESPONSE_CODE, code);
         MDC.put(LoggingConstants.MDCKeys.STATUS_CODE, code.equals("100") || code.equals("400") ?
@@ -118,7 +121,7 @@ public class LoggingUtils {
         MDC.remove(LoggingConstants.MDCKeys.CLASS_NAME);
     }
 
-    private static void populateMetricLogContext(Date beginTimeStamp, Date endTimeStamp, String targetEntity, String targetServiceName, String statusCode, String responseCode, String responseDescription, String className) {
+    private static void populateMetricLogContext(Instant beginTimeStamp, Instant endTimeStamp, String targetEntity, String targetServiceName, String statusCode, String responseCode, String responseDescription, String className) {
         populateTimeContext(beginTimeStamp, endTimeStamp);
         populateTargetContext(targetEntity, targetServiceName);
         populateResponseContext(statusCode, responseCode, responseDescription);
@@ -142,13 +145,13 @@ public class LoggingUtils {
         MDC.remove(LoggingConstants.MDCKeys.TARGET_SERVICE_NAME);
     }
 
-    private static void populateTimeContext(Date beginTimeStamp, Date endTimeStamp) {
+    private static void populateTimeContext(Instant beginTimeStamp, Instant endTimeStamp) {
         String beginTime = "";
         String endTime = "";
         String elapsedTime = "";
 
         if (beginTimeStamp != null && endTimeStamp != null) {
-            elapsedTime = String.valueOf(endTimeStamp.getTime() - beginTimeStamp.getTime());
+            elapsedTime = String.valueOf(ChronoUnit.MILLIS.between(beginTimeStamp,  endTimeStamp));
             beginTime = generateTimestampStr(beginTimeStamp);
             endTime = generateTimestampStr(endTimeStamp);
         }
@@ -158,11 +161,11 @@ public class LoggingUtils {
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, elapsedTime);
     }
 
-    private static String generateTimestampStr(Date timeStamp) {
+    private static String generateTimestampStr(Instant timeStamp) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         TimeZone tz = TimeZone.getTimeZone("UTC");
         df.setTimeZone(tz);
-        return df.format(timeStamp);
+        return df.format(Date.from(timeStamp));
     }
 
     private static void cleanTimeContext() {
