@@ -21,7 +21,7 @@
 
 package org.openecomp.appc.transactionrecorder.objects;
 
-import java.util.Date;
+import java.time.Instant;
 
 
 public class TransactionRecord {
@@ -38,10 +38,10 @@ public class TransactionRecord {
 - Result - Success/Error code + description,as published to the initiator RequestHandlerResponse.ACCEPTED/RequestHandlerResponse.REJECTED + String (description)
     */
 
-    private Date timeStamp;
+    private Instant timeStamp;
     private String requestID;
-    private Date startTime;
-    private Date endTime;
+    private Instant startTime;
+    private Instant endTime;
     private String targetID;
     private String targetType;
     private String subComponent;
@@ -49,11 +49,11 @@ public class TransactionRecord {
     private String resultCode;
     private String description;
 
-    public Date getTimeStamp() {
+    public Instant getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(Date timeStamp) {
+    public void setTimeStamp(Instant timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -65,19 +65,19 @@ public class TransactionRecord {
         this.requestID = requestID;
     }
 
-    public Date getStartTime() {
+    public Instant getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Date startTime) {
+    public void setStartTime(Instant startTime) {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
+    public Instant getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Date endTime) {
+    public void setEndTime(Instant endTime) {
         this.endTime = endTime;
     }
 

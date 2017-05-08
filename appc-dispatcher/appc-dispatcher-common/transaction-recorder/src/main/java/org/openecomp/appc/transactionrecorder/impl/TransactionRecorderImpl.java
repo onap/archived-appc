@@ -54,10 +54,10 @@ public class TransactionRecorderImpl implements TransactionRecorder {
             }
             connection = DBUtils.getConnection(APPCCTL_SCHEMA);
             stmt = connection.prepareStatement(queryString);
-            stmt.setTimestamp(1, new java.sql.Timestamp(record.getTimeStamp().getTime()));
+            stmt.setTimestamp(1, new java.sql.Timestamp(record.getTimeStamp().toEpochMilli()));
             stmt.setString(2, record.getRequestID());
-            stmt.setTimestamp(3, new java.sql.Timestamp(record.getStartTime().getTime()));
-            stmt.setTimestamp(4, new java.sql.Timestamp(record.getEndTime().getTime()));
+            stmt.setTimestamp(3, new java.sql.Timestamp(record.getStartTime().toEpochMilli()));
+            stmt.setTimestamp(4, new java.sql.Timestamp(record.getEndTime().toEpochMilli()));
             stmt.setString(5, record.getTargetID());
             stmt.setString(6, record.getTargetType());
             stmt.setString(7, record.getSubComponent());

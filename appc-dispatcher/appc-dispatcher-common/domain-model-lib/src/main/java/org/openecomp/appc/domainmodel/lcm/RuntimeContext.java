@@ -21,6 +21,7 @@
 
 package org.openecomp.appc.domainmodel.lcm;
 
+import java.time.Instant;
 import java.util.Date;
 
 
@@ -31,7 +32,7 @@ public class RuntimeContext {
     private VNFContext vnfContext;
 
     //TODO move fields timeStart abd isLockAcquired to a better place
-    private Date timeStart;
+    private Instant timeStart;
     private boolean isLockAcquired;
     private String rpcName;
 
@@ -43,7 +44,7 @@ public class RuntimeContext {
         this.rpcName = rpcName;
     }
 
-    public Date getTimeStart() {
+    public Instant getTimeStart() {
         return timeStart;
     }
 
@@ -55,7 +56,7 @@ public class RuntimeContext {
         this.isLockAcquired = isLockAcquired;
     }
 
-    public void setTimeStart(Date timeStart) {
+    public void setTimeStart(Instant timeStart) {
         this.timeStart = timeStart;
     }
 

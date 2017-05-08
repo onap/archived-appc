@@ -21,11 +21,17 @@
 
 package org.openecomp.appc.requesthandler.impl;
 
+import java.time.Instant;
+
 import org.apache.commons.lang.ObjectUtils;
 import org.openecomp.appc.common.constant.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.domainmodel.lcm.*;
+import org.openecomp.appc.domainmodel.lcm.CommonHeader;
+import org.openecomp.appc.domainmodel.lcm.RequestContext;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.VNFContext;
+import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
 import org.openecomp.appc.i18n.Msg;
@@ -34,16 +40,18 @@ import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
 import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.openecomp.appc.logging.LoggingConstants;
 import org.openecomp.appc.logging.LoggingUtils;
-import org.openecomp.appc.requesthandler.exceptions.*;
+import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
+import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
+import org.openecomp.appc.requesthandler.exceptions.RequestExpiredException;
+import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.WorkflowNotFoundException;
 import org.openecomp.appc.requesthandler.helper.RequestRegistry;
 import org.openecomp.appc.requesthandler.helper.RequestValidator;
 import org.openecomp.appc.workflow.WorkFlowManager;
 import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
 import org.openecomp.appc.workflow.objects.WorkflowRequest;
 import org.openecomp.appc.workingstatemanager.WorkingStateManager;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicException;
 import org.openecomp.sdnc.sli.SvcLogicResource;
@@ -52,8 +60,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
-import java.util.Calendar;
-import java.util.Date;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
 
 
 public class RequestValidatorImpl implements RequestValidator {
@@ -153,24 +162,24 @@ public class RequestValidatorImpl implements RequestValidator {
 
         checkForDuplicateRequest(commonHeader);
 
-        Calendar inputTimeStamp = DateToCalendar(commonHeader.getTimeStamp());
-        Calendar currentTime = Calendar.getInstance();
+        Instant inputTimeStamp = commonHeader.getTimeStamp();
+        Instant currentTime = Instant.now();
 
         // If input timestamp is of future, we reject the request
-        if (inputTimeStamp.getTime().getTime() > currentTime.getTime().getTime()) {
+        if (inputTimeStamp.isAfter(currentTime)) {
             if (logger.isDebugEnabled()) {
-                logger.debug("Input Timestamp is of future = " + inputTimeStamp.getTime());
+                logger.debug("Input Timestamp is of future = " + inputTimeStamp);
             }
-            throw new InvalidInputException("Input Timestamp is of future = " + inputTimeStamp.getTime());
+            throw new InvalidInputException("Input Timestamp is of future = " + inputTimeStamp);
         }
-        Integer ttl = readTTL(commonHeader);
+        int ttl = readTTL(commonHeader);
         logger.debug("TTL value set to (seconds) : " + ttl);
-        inputTimeStamp.add(Calendar.SECOND, ttl);
-        if (currentTime.getTime().getTime() >= inputTimeStamp.getTime().getTime()) {
+        Instant expirationTime = inputTimeStamp.plusSeconds(ttl);
+        if (currentTime.isAfter(expirationTime)) {
 
             LoggingUtils.logErrorMessage(
                     LoggingConstants.TargetNames.REQUEST_VALIDATOR,
-                    "TTL Expired: Current time - " + currentTime.getTime().getTime() + " Request time: " + inputTimeStamp.getTime().getTime() + " with TTL value: " + ttl,
+                    "TTL Expired: Current time - " + currentTime + " Request time: " + expirationTime + " with TTL value: " + ttl,
                     this.getClass().getCanonicalName());
 
             throw new RequestExpiredException("TTL Expired");
@@ -180,12 +189,6 @@ public class RequestValidatorImpl implements RequestValidator {
         }
     }
 
-
-    private static Calendar DateToCalendar(Date date) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        return cal;
-    }
 
     // TODO: Get reference once via Blueprint and get rid of this method
     private void getAAIservice() {
@@ -321,14 +324,13 @@ public class RequestValidatorImpl implements RequestValidator {
         }
 
 
-    private Integer readTTL(CommonHeader header) {
+    private int readTTL(CommonHeader header) {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to readTTL with RequestHandlerInput = "+ ObjectUtils.toString(header));
         }
         if (header.getFlags()== null || !isValidTTL(String.valueOf(header.getFlags().getTtl()))) {
             String defaultTTLStr = configuration.getProperty("org.openecomp.appc.workflow.default.ttl", String.valueOf(Constants.DEFAULT_TTL));
-            Integer defaultTTL = Integer.parseInt(defaultTTLStr);
-            return defaultTTL;
+            return Integer.parseInt(defaultTTLStr);
         }
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from readTTL with (TTL = "+  ObjectUtils.toString(header.getFlags().getTtl())+")");
@@ -345,9 +347,9 @@ public class RequestValidatorImpl implements RequestValidator {
         String key = "vnf-id = '" + vnf_id + "'";
         logger.debug("inside getVnfdata=== " + key);
         try {
-            Date beginTimestamp = new Date();
+            Instant beginTimestamp = Instant.now();
             SvcLogicResource.QueryStatus response = aaiService.query("generic-vnf", false, null, key, prefix, null, ctx);
-            Date endTimestamp = new Date();
+            Instant endTimestamp = Instant.now();
             String status = SvcLogicResource.QueryStatus.SUCCESS.equals(response) ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR;
             LoggingUtils.logMetricsMessage(
                     beginTimestamp,
