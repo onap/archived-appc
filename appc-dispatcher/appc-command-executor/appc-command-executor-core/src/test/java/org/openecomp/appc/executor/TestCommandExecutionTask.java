@@ -92,7 +92,7 @@ public class TestCommandExecutionTask {
 		PowerMockito.when(FrameworkUtil.getBundle(AAIService.class)).thenReturn(bundleService);
 		PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
 		PowerMockito.when(bundleContext.getServiceReference(AAIService.class.getName())).thenReturn(sref);
-		PowerMockito.when(bundleContext.getService(sref)).thenReturn(aaiService);
+		PowerMockito.when(bundleContext.<AAIService>getService(sref)).thenReturn(aaiService);
 		PowerMockito.when(aaiService.query(anyString(),anyBoolean(),anyString(),anyString(),anyString(),anyString(),(SvcLogicContext)anyObject())).thenAnswer(new Answer<SvcLogicResource.QueryStatus>() {
 			@Override
 			public SvcLogicResource.QueryStatus answer(InvocationOnMock invocation) throws Throwable {
