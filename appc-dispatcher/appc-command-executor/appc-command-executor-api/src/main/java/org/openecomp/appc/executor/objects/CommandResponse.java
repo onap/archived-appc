@@ -26,13 +26,14 @@ import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 
 public class CommandResponse {
 
-    private RuntimeContext runtimeContext;
+    private final RuntimeContext runtimeContext;
+
+    public CommandResponse(RuntimeContext runtimeContext) {
+        super();
+        this.runtimeContext = runtimeContext;
+    }
 
     public RuntimeContext getRuntimeContext() {
         return runtimeContext;
-    }
-
-    public void setRuntimeContext(RuntimeContext runtimeContext) {
-        this.runtimeContext = runtimeContext;
     }
 }

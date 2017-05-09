@@ -51,44 +51,30 @@ import org.slf4j.MDC;
 
 public abstract class CommandTask implements Runnable {
 
-    protected RequestHandler requestHandler;
-    protected WorkFlowManager workflowManager;
+    protected final RequestHandler requestHandler;
+    protected final WorkFlowManager workflowManager;
+    protected final RuntimeContext commandRequest;
 
-    private RuntimeContext commandRequest;
-
-    public RuntimeContext getCommandRequest() {
-        return commandRequest;
-    }
-
-    public void setCommandRequest(RuntimeContext commandRequest) {
+    protected CommandTask(RuntimeContext commandRequest, RequestHandler requestHandler,
+            WorkFlowManager workflowManager) {
+        super();
         this.commandRequest = commandRequest;
+        this.requestHandler = requestHandler;
+        this.workflowManager = workflowManager;
     }
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(CommandTask.class);
 
-    public void setWorkflowManager(WorkFlowManager workflowManager) {
-        this.workflowManager = workflowManager;
-    }
-
-    public void setRequestHandler(RequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
-    }
-
-    CommandTask(){
-    }
-
-    public void onRequestCompletion(RuntimeContext request, CommandResponse response , boolean isAAIUpdated) {
+    public void onRequestCompletion(CommandResponse response, boolean isAAIUpdated) {
         logger.debug("Entry: onRequestCompletion()");
-        requestHandler.onRequestExecutionEnd(request, isAAIUpdated);
+        requestHandler.onRequestExecutionEnd(commandRequest, isAAIUpdated);
     }
 
-    public abstract void onRequestCompletion(RuntimeContext request, CommandResponse response);
+    public abstract void onRequestCompletion(CommandResponse response);
 
-    protected CommandResponse buildCommandResponse(RuntimeContext request, WorkflowResponse response) {
+    protected CommandResponse buildCommandResponse(WorkflowResponse response) {
 
-        CommandResponse commandResponse = new CommandResponse();
-        commandResponse.setRuntimeContext(request);
-        return commandResponse;
+        return new CommandResponse(commandRequest);
     }
 
 
@@ -114,8 +100,8 @@ public abstract class CommandTask implements Runnable {
 
         WorkflowResponse response = workflowManager.executeWorkflow(workflowRequest);
 
-        CommandResponse commandResponse =  buildCommandResponse(commandRequest, response);
-        this.onRequestCompletion(commandRequest,commandResponse);
+        CommandResponse commandResponse = buildCommandResponse(response);
+        this.onRequestCompletion(commandResponse);
     }
 
 }

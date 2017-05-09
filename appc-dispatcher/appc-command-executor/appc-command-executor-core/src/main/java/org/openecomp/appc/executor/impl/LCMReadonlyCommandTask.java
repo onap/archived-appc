@@ -25,7 +25,6 @@ package org.openecomp.appc.executor.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.domainmodel.lcm.CommonHeader;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.executor.objects.CommandResponse;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
@@ -33,6 +32,7 @@ import org.openecomp.appc.executor.objects.Params;
 import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -40,21 +40,19 @@ public class LCMReadonlyCommandTask extends CommandTask  {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(LCMReadonlyCommandTask.class);
 
-    public LCMReadonlyCommandTask(RequestHandler requestHandler, WorkFlowManager workflowManager){
-
-        setRequestHandler(requestHandler);
-        setWorkflowManager(workflowManager);
+    public LCMReadonlyCommandTask(RuntimeContext commandRequest, RequestHandler requestHandler,
+            WorkFlowManager workflowManager) {
+        super(commandRequest, requestHandler, workflowManager);
     }
 
-
     @Override
-    public void onRequestCompletion(RuntimeContext request, CommandResponse response) {
-        super.onRequestCompletion(request, response, true);
+    public void onRequestCompletion(CommandResponse response) {
+        super.onRequestCompletion(response, true);
     }
 
     @Override
     public void run() {
-        RuntimeContext request = getCommandRequest();
+        RuntimeContext request = commandRequest;
         final CommonHeader commonHeader = request.getRequestContext().getCommonHeader();
         final boolean forceFlag = commonHeader.getFlags().isForce();
         UniqueRequestIdentifier requestIdentifier = new UniqueRequestIdentifier(commonHeader.getOriginatorId(), commonHeader.getRequestId(), commonHeader.getSubRequestId());

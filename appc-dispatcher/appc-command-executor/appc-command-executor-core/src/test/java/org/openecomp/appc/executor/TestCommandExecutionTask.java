@@ -72,8 +72,6 @@ public class TestCommandExecutionTask {
 	private static final String TTL_FLAG= "TTL";
 	private static final String API_VERSION= "2.0.0";
 	private static final String ORIGINATOR_ID= "1";
-	private LCMCommandTask executionTask;
-	private LCMReadonlyCommandTask LCMReadonlyCommandTask;
 	private CommandTaskFactory factory ;
 
 	private RequestHandler requestHandler;
@@ -119,8 +117,6 @@ public class TestCommandExecutionTask {
 		workflowManager = Mockito.mock(WorkFlowManager.class);
 		lifecyclemanager = Mockito.mock(LifecycleManager.class );
 
-		executionTask = new LCMCommandTask(requestHandler,workflowManager,lifecyclemanager);
-		LCMReadonlyCommandTask = new LCMReadonlyCommandTask(requestHandler,workflowManager);
 		factory = new CommandTaskFactory();
 		factory.setLifecyclemanager(lifecyclemanager);
 		factory.setWorkflowManager(workflowManager);
@@ -131,9 +127,9 @@ public class TestCommandExecutionTask {
 
 	@Test
 	public void testFactory(){
-		CommandTask task = factory.getExecutionTask("Configure");
+		CommandTask task = factory.getExecutionTask("Configure", null);
 		assertEquals(LCMCommandTask.class,task.getClass() );
-		task = factory.getExecutionTask("Sync");
+		task = factory.getExecutionTask("Sync", null);
 		assertEquals(LCMReadonlyCommandTask.class,task.getClass() );
 
 	}
@@ -145,35 +141,34 @@ public class TestCommandExecutionTask {
 		Mockito.doNothing().when(requestHandler).onRequestTTLEnd((RuntimeContext) anyObject(),anyBoolean());
 		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Configure, "1", "");
 		CommandResponse response = getCommandResponse(VNFOperation.Configure, true, "11", "","1");
-		executionTask.onRequestCompletion(request, response);
+        LCMCommandTask executionTask = new LCMCommandTask(request, requestHandler,workflowManager,lifecyclemanager);
+		executionTask.onRequestCompletion(response);
 	}
 
 	@Test
 	public void testRunGetConfig(){
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
-		LCMReadonlyCommandTask.setCommandRequest(request);
-		LCMReadonlyCommandTask.run();
+		    RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
+        LCMReadonlyCommandTask readonlyCommandTask = new LCMReadonlyCommandTask(request, requestHandler,workflowManager);
+		readonlyCommandTask.run();
 	}
 
 	@Test
 	public void testRun(){
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
-		executionTask.setCommandRequest(request);
+	    RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
+		LCMCommandTask executionTask = new LCMCommandTask(request, requestHandler,workflowManager,lifecyclemanager);
 		executionTask.run();
 	}
 
 	@Test
 	public void testRunNegative(){
-		RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
-		executionTask.setCommandRequest(request);
+	    RuntimeContext request = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, "11", ORIGINATOR_ID, "", VNFOperation.Sync, "1", "");
+        LCMCommandTask executionTask = new LCMCommandTask(request, requestHandler,workflowManager,lifecyclemanager);
 		executionTask.run();
 	}
 
 
 	CommandResponse getCommandResponse(VNFOperation action , boolean success, String responseId, String payload, String vnfId){
-		CommandResponse commandResponse = new CommandResponse();
 		RuntimeContext runtimeContext = new RuntimeContext();
-		commandResponse.setRuntimeContext(runtimeContext);
 		ResponseContext responseContext = new ResponseContext();
 		runtimeContext.setResponseContext(responseContext);
 		RequestContext requestContext = new RequestContext();
@@ -194,7 +189,7 @@ public class TestCommandExecutionTask {
 		responseContext.setPayload(payload);
 		commonHeader.setTimestamp(Instant.now());
 		vnfContext.setId(vnfId);
-		return commandResponse;
+        return new CommandResponse(runtimeContext);
 	}
 
 

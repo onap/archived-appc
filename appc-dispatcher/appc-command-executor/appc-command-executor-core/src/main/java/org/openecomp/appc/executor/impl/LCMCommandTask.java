@@ -22,10 +22,12 @@
 package org.openecomp.appc.executor.impl;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.domainmodel.lcm.CommonHeader;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.executor.objects.CommandResponse;
@@ -39,8 +41,6 @@ import org.openecomp.appc.lifecyclemanager.objects.VNFOperationOutcome;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
 import org.openecomp.appc.workflow.objects.WorkflowResponse;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicException;
 import org.openecomp.sdnc.sli.SvcLogicResource;
@@ -49,31 +49,22 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 
 public class LCMCommandTask extends CommandTask {
 
-	private AAIService aaiService;
-	private LifecycleManager lifecyclemanager;
+	private final AAIService aaiService;
+	private final LifecycleManager lifecyclemanager;
 
 	private static final EELFLogger logger = EELFManager.getInstance().getLogger(LCMCommandTask.class);
 
-	public LCMCommandTask(RequestHandler requestHandler, WorkFlowManager workflowManager,
-						  LifecycleManager lifecyclemanager){
-		setRequestHandler(requestHandler);
-		setWorkflowManager(workflowManager);
-		setLifecyclemanager(lifecyclemanager);
-		getAAIservice();
-	}
+    public LCMCommandTask(RuntimeContext commandRequest, RequestHandler requestHandler, WorkFlowManager workflowManager,
+            LifecycleManager lifecyclemanager) {
+        super(commandRequest, requestHandler, workflowManager);
+        this.lifecyclemanager = lifecyclemanager;
 
-	public void setLifecyclemanager(LifecycleManager lifecyclemanager) {
-		this.lifecyclemanager = lifecyclemanager;
-	}
-
-
-	private void getAAIservice() {
 		BundleContext bctx = FrameworkUtil.getBundle(AAIService.class).getBundleContext();
 		// Get AAIadapter reference
 		ServiceReference sref = bctx.getServiceReference(AAIService.class.getName());
@@ -84,15 +75,15 @@ public class LCMCommandTask extends CommandTask {
 		} else {
 			logger.info("AAIService error from bundlecontext");
 			logger.warn("Cannot find service reference for org.openecomp.sdnc.sli.aai.AAIService");
-
+			aaiService = null;
 		}
 	}
 
 
 	@Override
-	public void onRequestCompletion(RuntimeContext request, CommandResponse response) {
-
-		boolean isAAIUpdated = false;
+	public void onRequestCompletion(CommandResponse response) {
+        final RuntimeContext request = commandRequest;
+        boolean isAAIUpdated = false;
 		try {
 
 			final int statusCode = request.getResponseContext().getStatus().getCode();
@@ -118,14 +109,14 @@ public class LCMCommandTask extends CommandTask {
 			throw new RuntimeException(e1);
 		}
 		finally {
-			super.onRequestCompletion(request, response , isAAIUpdated);
+			super.onRequestCompletion(response, isAAIUpdated);
 		}
 	}
 
 	@Override
 	public void run() {
-		RuntimeContext request = getCommandRequest();
-		boolean isAAIUpdated;
+        final RuntimeContext request = commandRequest;
+        boolean isAAIUpdated = false;
 		final String vnfId = request.getVnfContext().getId();
 		final String vnfType = request.getVnfContext().getType();
 		try {
@@ -169,8 +160,8 @@ public class LCMCommandTask extends CommandTask {
 			logger.error(errorMsg);
 			WorkflowResponse response = new WorkflowResponse();
 			response.setResponseContext(request.getResponseContext());
-			CommandResponse commandResponse = super.buildCommandResponse(request, response);
-			this.onRequestCompletion(request,commandResponse);
+			CommandResponse commandResponse = super.buildCommandResponse(response);
+			this.onRequestCompletion(commandResponse);
 		}
 	}
 
