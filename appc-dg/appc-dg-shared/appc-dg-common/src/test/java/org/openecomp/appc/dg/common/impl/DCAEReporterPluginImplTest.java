@@ -68,7 +68,7 @@ public class DCAEReporterPluginImplTest {
         PowerMockito.when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
         PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
         PowerMockito.when(bundleContext.getServiceReference(Matchers.any(Class.class))).thenReturn(sref);
-        PowerMockito.when(bundleContext.getService(sref)).thenReturn(eventSender);
+        PowerMockito.when(bundleContext.<EventSender>getService(sref)).thenReturn(eventSender);
         dcaeReporterPlugin = new DCAEReporterPluginImpl();
 
     }

@@ -626,7 +626,7 @@ public class NetconfClientPluginImplTest {
         when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
         when(bundleService.getBundleContext()).thenReturn(bundleContext);
         when(bundleContext.getServiceReference(NetconfDataAccessService.class)).thenReturn(sref1);
-        when(bundleContext.getService(sref1)).thenReturn(dao);
+        when(bundleContext.<NetconfDataAccessService>getService(sref1)).thenReturn(dao);
 
 
     }
@@ -652,7 +652,7 @@ public class NetconfClientPluginImplTest {
         when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
         when(bundleService.getBundleContext()).thenReturn(bundleContext);
         when(bundleContext.getServiceReference(NetconfClientFactory.class)).thenReturn(sref2);
-        when(bundleContext.getService(sref2)).thenReturn(clientFactory);
+        when(bundleContext.<NetconfClientFactory>getService(sref2)).thenReturn(clientFactory);
 
     }
 
@@ -661,7 +661,7 @@ public class NetconfClientPluginImplTest {
         when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
         when(bundleService.getBundleContext()).thenReturn(bundleContext);
         when(bundleContext.getServiceReference(Matchers.anyString())).thenReturn(sref3);
-        when(bundleContext.getService(sref3)).thenReturn(clientFactory);
+        when(bundleContext.<NetconfClientFactory>getService(sref3)).thenReturn(clientFactory);
     }
 
     private void substituteMapper(boolean command) throws NoSuchFieldException, IllegalAccessException {
