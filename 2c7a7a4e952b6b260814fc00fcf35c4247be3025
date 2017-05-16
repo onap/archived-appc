@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da141535_a9fed269",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/main/java/org/openecomp/appc/adapter/netconf/AppcNetconfAdapterActivator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 903
+      },
+      "writtenOn": "2017-05-16T20:05:37Z",
+      "side": 1,
+      "message": "Ideally static variables should be placed before instance variables so this logger declaration should be first in order of appearance in this class.",
+      "range": {
+        "startLine": 53,
+        "startChar": 12,
+        "endLine": 53,
+        "endChar": 18
+      },
+      "revId": "2c7a7a4e952b6b260814fc00fcf35c4247be3025",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
