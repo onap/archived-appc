@@ -49,9 +49,9 @@
         <broker-mdsal.version>1.4.1-Boron-SR1</broker-mdsal.version>
 
         <!-- OPENECOMP SDNC versions -->
-        <sdnctl.sli.version>1.1.0-SNAPSHOT</sdnctl.sli.version>
-        <sdnctl.dblib.version>1.1.0-SNAPSHOT</sdnctl.dblib.version>
-        <sdnctl.aai.service.version>1.1.0-SNAPSHOT</sdnctl.aai.service.version>
+        <sdnctl.sli.version>1.1.1-SNAPSHOT</sdnctl.sli.version>
+        <sdnctl.dblib.version>1.1.1-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.aai.service.version>1.1.1-SNAPSHOT</sdnctl.aai.service.version>
 
         <cdp.pal.version>0.0.1</cdp.pal.version>
         <eelf.version>0.0.1</eelf.version>
