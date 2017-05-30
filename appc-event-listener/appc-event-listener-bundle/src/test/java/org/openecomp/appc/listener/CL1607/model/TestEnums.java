@@ -1,7 +1,5 @@
 /*-
  * ============LICENSE_START=======================================================
- * openECOMP : APP-C
- * ================================================================================
  * Copyright (C) 2017 AT&T Intellectual Property. All rights
  * 						reserved.
  * ================================================================================
@@ -17,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  */
 
 package org.openecomp.appc.listener.CL1607.model;
