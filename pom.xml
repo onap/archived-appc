@@ -532,13 +532,16 @@
                     <sectionDelimiter>================================================================================</sectionDelimiter>
                     <licenseName>apache_v2</licenseName>
                     <inceptionYear>2017</inceptionYear>
-                    <organizationName>AT&amp;T Intellectual Property. All rights
-						reserved.</organizationName>
-                    <projectName>openECOMP : APP-C</projectName>
+                    <projectName>APPC</projectName>
+                    <organizationName>AT&amp;T Intellectual Property. All rights reserved.</organizationName>
+                    <!-- Do not automatically update copyright since Amdocs needs to be included manually -->
                     <canUpdateCopyright>true</canUpdateCopyright>
                     <canUpdateDescription>true</canUpdateDescription>
                     <canUpdateLicense>true</canUpdateLicense>
                     <emptyLineAfterHeader>true</emptyLineAfterHeader>
+                    <extraExtensions>
+                    	<yang>java</yang>
+                    </extraExtensions>
                 </configuration>
                 <executions>
                     <execution>
