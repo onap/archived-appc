@@ -26,11 +26,12 @@ import org.openecomp.appc.adapter.iaas.impl.ProviderAdapterImpl;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.i18n.Msg;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 /**
  * This activator is used to initialize and terminate the connection pool to one or more providers.
@@ -94,7 +95,13 @@ public class AppcProviderAdapterActivator implements BundleActivator {
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "IAAS adapter");
-        adapter = new ProviderAdapterImpl(configuration.getProperties());
+        try{
+            adapter = new ProviderAdapterImpl(configuration.getProperties());
+        }catch(Throwable t){
+            logger.error("Error initializing APPC IAAS ProviderAdapterImpl",t);
+            throw t;
+        }
+         
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
                 ProviderAdapter.class.getSimpleName());

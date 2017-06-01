@@ -1,0 +1,349 @@
+node_types:
+  Property Definition:
+    derived_from: org.openecomp.genericvnf
+    version: V1
+    description: ''
+    properties:
+        param1:
+          type: domain-name
+          description: param1 desc
+          required: true
+          default: param1 def val
+          status: SUPPORTED
+        param2:
+          type: ipv4-address-no-zone
+          description: param2 desc
+          required: true
+          default: param2 def val
+          status: SUPPORTED
+        param3:
+          type: instance-identifier
+          description: param3 desc
+          required: true
+          default: param3 def val
+          status: SUPPORTED
+        param4:
+          type: uuid
+          description: param4 desc
+          required: true
+          default: param4 def val
+          status: SUPPORTED
+        param5:
+          type: empty
+          description: param5 desc
+          required: true
+          default: param5 def val
+          status: SUPPORTED
+        param6:
+          type: object-identifier-128
+          description: param6 desc
+          required: true
+          default: param6 def val
+          status: SUPPORTED
+        param7:
+          type: dscp
+          description: param7 desc
+          required: true
+          default: param7 def val
+          status: SUPPORTED
+        param8:
+          type: int64
+          description: param8 desc
+          required: true
+          default: param8 def val
+          status: SUPPORTED
+        param9:
+          type: zero-based-counter64
+          description: param9 desc
+          required: true
+          default: param9 def val
+          status: SUPPORTED
+        param10:
+          type: int8
+          description: param10 desc
+          required: true
+          default: param10 def val
+          status: SUPPORTED
+        param11:
+          type: host
+          description: param11 desc
+          required: true
+          default: param11 def val
+          status: SUPPORTED
+        param12:
+          type: uint32
+          description: param12 desc
+          required: true
+          default: param12 def val
+          status: SUPPORTED
+        param13:
+          type: timeticks
+          description: param13 desc
+          required: true
+          default: param13 def val
+          status: SUPPORTED
+        param14:
+          type: enumeration
+          description: param14 desc
+          required: true
+          default: param14 def val
+          status: SUPPORTED
+        param15:
+          type: mac-address
+          description: param15 desc
+          required: true
+          default: param15 def val
+          status: SUPPORTED
+        param16:
+          type: as-number
+          description: param16 desc
+          required: true
+          default: param16 def val
+          status: SUPPORTED
+        param17:
+          type: counter64
+          description: param17 desc
+          required: true
+          default: param17 def val
+          status: SUPPORTED
+        param18:
+          type: bits
+          description: param18 desc
+          required: true
+          default: param18 def val
+          status: SUPPORTED
+        param19:
+          type: xpath1.0
+          description: param19 desc
+          required: true
+          default: param19 def val
+          status: SUPPORTED
+        param20:
+          type: ip-version
+          description: param20 desc
+          required: true
+          default: param20 def val
+          status: SUPPORTED
+        param21:
+          type: port-number
+          description: param21 desc
+          required: true
+          default: param21 def val
+          status: SUPPORTED
+        param22:
+          type: int16
+          description: param22 desc
+          required: true
+          default: param22 def val
+          status: SUPPORTED
+        param23:
+          type: ipv6-address-no-zone
+          description: param23 desc
+          required: true
+          default: param23 def val
+          status: SUPPORTED
+        param24:
+          type: hex-string
+          description: param24 desc
+          required: true
+          default: param24 def val
+          status: SUPPORTED
+        param25:
+          type: decimal64
+          description: param25 desc
+          required: true
+          default: param25 def val
+          status: SUPPORTED
+        param26:
+          type: uint64
+          description: param26 desc
+          required: true
+          default: param26 def val
+          status: SUPPORTED
+        param27:
+          type: uint8
+          description: param27 desc
+          required: true
+          default: param27 def val
+          status: SUPPORTED
+        param28:
+          type: ipv4-prefix
+          description: param28 desc
+          required: true
+          default: param28 def val
+          status: SUPPORTED
+        param29:
+          type: ipv6-prefix
+          description: param29 desc
+          required: true
+          default: param29 def val
+          status: SUPPORTED
+        param30:
+          type: gauge64
+          description: param30 desc
+          required: true
+          default: param30 def val
+          status: SUPPORTED
+        param31:
+          type: counter32
+          description: param31 desc
+          required: true
+          default: param31 def val
+          status: SUPPORTED
+        param32:
+          type: string
+          description: param32 desc
+          required: true
+          default: param32 def val
+          status: SUPPORTED
+        param33:
+          type: object-identifier
+          description: param33 desc
+          required: true
+          default: param33 def val
+          status: SUPPORTED
+        param34:
+          type: ip-address-no-zone
+          description: param34 desc
+          required: true
+          default: param34 def val
+          status: SUPPORTED
+        param35:
+          type: identityref
+          description: param35 desc
+          required: true
+          default: param35 def val
+          status: SUPPORTED
+        param36:
+          type: gauge32
+          description: param36 desc
+          required: true
+          default: param36 def val
+          status: SUPPORTED
+        param37:
+          type: ipv4-address
+          description: param37 desc
+          required: true
+          default: param37 def val
+          status: SUPPORTED
+        param38:
+          type: ip-prefix
+          description: param38 desc
+          required: true
+          default: param38 def val
+          status: SUPPORTED
+        param39:
+          type: uint16
+          description: param39 desc
+          required: true
+          default: param39 def val
+          status: SUPPORTED
+        param40:
+          type: timestamp
+          description: param40 desc
+          required: true
+          default: param40 def val
+          status: SUPPORTED
+        param41:
+          type: union
+          description: param41 desc
+          required: true
+          default: param41 def val
+          status: SUPPORTED
+        param42:
+          type: dotted-quad
+          description: param42 desc
+          required: true
+          default: param42 def val
+          status: SUPPORTED
+        param43:
+          type: uri
+          description: param43 desc
+          required: true
+          default: param43 def val
+          status: SUPPORTED
+        param44:
+          type: ipv6-address
+          description: param44 desc
+          required: true
+          default: param44 def val
+          status: SUPPORTED
+        param45:
+          type: ipv6-flow-label
+          description: param45 desc
+          required: true
+          default: param45 def val
+          status: SUPPORTED
+        param46:
+          type: zero-based-counter32
+          description: param46 desc
+          required: true
+          default: param46 def val
+          status: SUPPORTED
+        param47:
+          type: ip-address
+          description: param47 desc
+          required: true
+          default: param47 def val
+          status: SUPPORTED
+        param48:
+          type: boolean
+          description: param48 desc
+          required: true
+          default: param48 def val
+          status: SUPPORTED
+        param49:
+          type: leafref
+          description: param49 desc
+          required: true
+          default: param49 def val
+          status: SUPPORTED
+        param50:
+          type: yang-identifier
+          description: param50 desc
+          required: true
+          default: param50 def val
+          status: SUPPORTED
+        param51:
+          type: int32
+          description: param51 desc
+          required: true
+          default: param51 def val
+          status: SUPPORTED
+        param52:
+          type: date-and-time
+          description: param52 desc
+          required: true
+          default: param52 def val
+          status: SUPPORTED
+        param53:
+          type: phys-address
+          description: param53 desc
+          required: true
+          default: param53 def val
+          status: SUPPORTED
+        param54:
+          type: phys-add
+          description: param54 desc
+          required: true
+          default: param54 def val
+          status: SUPPORTED
+        param55:
+          type: null
+          description: param55 desc
+          required: true
+          default: param55 def val
+          status: SUPPORTED
+        param56:
+          type: 
+          description: param56 desc
+          required: true
+          default: param56 def val
+          status: SUPPORTED
+topology_template:
+  node_templates:
+    Property Definition_Template:
+      type: Property Definition
+      properties:
+        param 1: <rule-type:rule1> <resk1:resk2 , resk2:resv2 , resk3:resv3> param1 source <reqk1:reqv1 , reqk2:reqv2 , reqk3:reqv3>
+        param 2: <rule-type:rule2> <resk1:resk2 , resk2:resv2> param2 source <reqk1:reqv1 , reqk2:reqv2 , reqk3:reqv3>

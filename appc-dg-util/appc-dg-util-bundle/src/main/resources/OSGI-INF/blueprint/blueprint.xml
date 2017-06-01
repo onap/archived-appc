@@ -41,7 +41,7 @@
         <property name="eventSender" ref="eventSenderServiceRef"/>
     </bean-->
 
-    <!--reference interface="org.openecomp.appc.adapter.dmaap.EventSender" id="eventSenderServiceRef"/-->
+    <!--reference interface="org.openecomp.appc.adapter.messaging.dmaap.EventSender" id="eventSenderServiceRef"/-->
     <!--service id = "DCAEReporterPluginService" interface="org.openecomp.appc.dg.util.DCAEReporterPlugin" ref="DCAEReporterPlugin"/-->
 
     <!--bean id="NetconfClientPlugin" class="org.openecomp.appc.dg.util.impl.NetconfClientPluginImpl" scope="prototype" ></bean-->

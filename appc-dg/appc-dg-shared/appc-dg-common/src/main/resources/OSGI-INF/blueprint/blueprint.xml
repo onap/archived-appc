@@ -30,12 +30,35 @@
 	<bean id="JsonDgUtilBean" class="org.openecomp.appc.dg.common.impl.JsonDgUtilImpl"/>
     <service id="JsonDgUtil" interface="org.openecomp.appc.dg.common.JsonDgUtil" ref="JsonDgUtilBean"/>
 
-    <reference id="eventSenderRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.adapter.dmaap.EventSender" />
+    <!-- <reference id="eventSenderRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.adapter.message.EventSender" /> -->
 
 	<bean id="DCAEReporterPluginBean" class="org.openecomp.appc.dg.common.impl.DCAEReporterPluginImpl" scope="singleton"/>
 	<service id="DCAEReporterPlugin" interface="org.openecomp.appc.dg.common.DCAEReporterPlugin" ref="DCAEReporterPluginBean"/>
 
+	<bean id="OutputMessagePluginBean" class="org.openecomp.appc.dg.common.impl.OutputMessagePluginImpl" scope="singleton"/>
+	<service id="OutputMessagePlugin" interface="org.openecomp.appc.dg.common.OutputMessagePlugin" ref="OutputMessagePluginBean"/>
+
 	<bean id="legacyUtilBean" class="org.openecomp.appc.dg.common.impl.LegacyUtilImpl" scope="singleton"/>
 	<service id="legacyUtil" interface="org.openecomp.appc.dg.common.LegacyUtil" ref="legacyUtilBean"/>
+
+	<bean id="DgResolverPluginBean" class="org.openecomp.appc.dg.common.impl.DgResolverPluginImpl" scope="singleton">
+	</bean>
+
+	<service id="DgResolverPlugin" interface="org.openecomp.appc.dg.common.DgResolverPlugin" ref="DgResolverPluginBean"/>
+
+	<bean id="vnfExecutionFlowBean" class="org.openecomp.appc.dg.common.impl.VnfExecutionFlowImpl" scope="singleton"/>
+	<service id="vnfExecutionFlowService" interface="org.openecomp.appc.dg.common.VnfExecutionFlow" ref="vnfExecutionFlowBean"/>
+
+	<bean id="VNFCDgResolverPluginBean" class="org.openecomp.appc.dg.common.impl.VNFCDgResolverPluginImpl" scope="singleton">
+	</bean>
+
+	<service id="VNFCDgResolverPlugin" interface="org.openecomp.appc.dg.common.VNFCDgResolverPlugin" ref="VNFCDgResolverPluginBean"/>
+
+	<bean id="vnfConfiguratorBean" class="org.openecomp.appc.dg.common.impl.VNFConfiguratorImpl" scope="singleton"/>
+
+	<service id="vnfConfigurationService" interface="org.openecomp.appc.dg.common.VNFConfigurator" ref="vnfConfiguratorBean"/>
+
+	<bean id="interimMessageSender" class="org.openecomp.appc.dg.common.impl.IntermediateMessageSenderImpl" init-method="init" scope="singleton"/>
+	<service id="interimMessageSenderService" ref="interimMessageSender" interface="org.openecomp.appc.dg.common.IntermediateMessageSender"/>
 
 </blueprint>

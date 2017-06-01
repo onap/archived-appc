@@ -28,10 +28,12 @@ import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
 import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
 import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
+import org.openecomp.appc.requesthandler.exceptions.LCMOperationsDisabledException;
+import org.openecomp.appc.requesthandler.exceptions.MissingVNFDataInAAIException;
 import org.openecomp.appc.requesthandler.exceptions.RequestExpiredException;
 import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
 import org.openecomp.appc.requesthandler.exceptions.WorkflowNotFoundException;
 
 public interface RequestValidator {
-    public void validateRequest(RuntimeContext runtimeContext) throws VNFNotFoundException, RequestExpiredException, UnstableVNFException, InvalidInputException, DuplicateRequestException, NoTransitionDefinedException, LifecycleException, WorkflowNotFoundException,DGWorkflowNotFoundException;
+    public void validateRequest(RuntimeContext runtimeContext) throws VNFNotFoundException, RequestExpiredException, UnstableVNFException, InvalidInputException, DuplicateRequestException, NoTransitionDefinedException, LifecycleException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException;
 }

@@ -51,6 +51,7 @@ public class LoggingConstants {
         public static final String AAI = "A&AI";
         public static final String DB = "DataBase";
         public static final String APPC_PROVIDER = "APPC Provider";
+        public static final String APPC_OAM_PROVIDER = "APPC OAM Provider";
         public static final String STATE_MACHINE = "StateMachine";
         public static final String WORKFLOW_MANAGER = "WorkflowManager";
         public static final String REQUEST_VALIDATOR = "RequestValidator";

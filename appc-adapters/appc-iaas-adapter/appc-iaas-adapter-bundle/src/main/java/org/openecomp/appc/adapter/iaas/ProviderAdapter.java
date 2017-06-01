@@ -65,6 +65,17 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
     static final String PROPERTY_IDENTITY_URL = "org.openecomp.appc.identity.url";
+    
+    /**
+     * The Rebuild VM flag is an optional payload parameter for the Evacuate API.
+     */
+    static final String PROPERTY_REBUILD_VM = "org.openecomp.appc.rebuildvm";
+    
+    /**
+     * The target host id is an optional payload parameter for the Evacuate API.
+     */
+    static final String PROPERTY_TARGETHOST_ID = "org.openecomp.appc.targethost.id";
+    
     /**
      * heat stack id to perform operation on stack
      */
@@ -75,6 +86,8 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
     static final String PROPERTY_INPUT_SNAPSHOT_ID = "org.openecomp.appc.snapshot.id";
 
     static final String DG_OUTPUT_PARAM_NAMESPACE = "output.";
+    
+    static final String SKIP_HYPERVISOR_CHECK = "org.openecomp.appc.skiphypervisorcheck";
 
     /**
      * This method is used to restart an existing virtual machine given the fully qualified URL of the machine.

@@ -37,10 +37,10 @@ import org.slf4j.Logger;
  */
 public interface Configuration {
 
-    String PROPERTY_BOOTSTRAP_FILE_NAME = "org.openecomp.appc.bootstrap.file"; 
+    String PROPERTY_BOOTSTRAP_FILE_NAME = "org_openecomp_appc_bootstrap_file"; //
     String DEFAULT_BOOTSTRAP_FILE_NAME = "appc.properties"; 
-    String PROPERTY_BOOTSTRAP_FILE_PATH = "org.openecomp.appc.bootstrap.path"; 
-    String DEFAULT_BOOTSTRAP_FILE_PATH = "${user.home},etc,../etc";
+    String PROPERTY_BOOTSTRAP_FILE_PATH = "org_openecomp_appc_bootstrap_path"; //
+    String DEFAULT_BOOTSTRAP_FILE_PATH = "/opt/openecomp/appc/data/properties,${user.home},etc,../etc";
     String PROPERTY_RESOURCE_BUNDLES = "org.openecomp.appc.resources"; 
     String DEFAULT_RESOURCE_BUNDLES = "org/openecomp/appc/i18n/MessageResources";
 

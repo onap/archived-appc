@@ -21,10 +21,10 @@
 
 package org.openecomp.appc.provider.lcm.util;
 
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.status.Status;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.status.StatusBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Action;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;

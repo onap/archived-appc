@@ -21,38 +21,6 @@
 
 package org.openecomp.appc.requesthandler.conv;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AuditOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.HealthCheckOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.LiveUpgradeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.LockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.ModifyConfigOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.Payload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.RollbackOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.SnapshotOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.SoftwareUploadOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.StopOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.SyncOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.TerminateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.TestOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.UnlockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.ZULU;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.CommonHeaderBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.FlagsBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.status.Status;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.status.StatusBuilder;
-import org.opendaylight.yangtools.concepts.Builder;
-import org.opendaylight.yangtools.yang.binding.DataContainer;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.requesthandler.impl.DmaapOutgoingMessage;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -65,6 +33,23 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.*;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.FlagsBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
+import org.opendaylight.yangtools.concepts.Builder;
+import org.opendaylight.yangtools.yang.binding.DataContainer;
+import org.openecomp.appc.domainmodel.lcm.ResponseContext;
+import org.openecomp.appc.domainmodel.lcm.VNFOperation;
+import org.openecomp.appc.requesthandler.impl.DmaapOutgoingMessage;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 public class Converter {
@@ -90,6 +75,7 @@ public class Converter {
         Action action = Action.valueOf(vnfOperation.name());
         CommonHeader commonHeader = convAsyncResponseTorev160108CommonHeader(response);
         Status status = convAsyncResponseTorev160108Status(response);
+        Payload payload = convAsyncResponseTorev160108Payload(response);
         switch (action){
             case Rollback:
                 outObj = new RollbackOutputBuilder();
@@ -110,6 +96,7 @@ public class Converter {
                 outObj = new AuditOutputBuilder();
                 ((AuditOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((AuditOutputBuilder)outObj).setStatus(status);
+                ((AuditOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case HealthCheck:
                 outObj = new HealthCheckOutputBuilder();
@@ -126,10 +113,29 @@ public class Converter {
                 ((LockOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((LockOutputBuilder)outObj).setStatus(status);
                 return outObj;
-            case ModifyConfig:
-                outObj = new ModifyConfigOutputBuilder();
-                ((ModifyConfigOutputBuilder)outObj).setCommonHeader(commonHeader);
-                ((ModifyConfigOutputBuilder)outObj).setStatus(status);
+            case Configure:
+                outObj = new ConfigureOutputBuilder();
+                ((ConfigureOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigureOutputBuilder)outObj).setStatus(status);
+                ((ConfigureOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ConfigModify:
+                outObj = new ConfigModifyOutputBuilder();
+                ((ConfigModifyOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigModifyOutputBuilder)outObj).setStatus(status);
+                ((ConfigModifyOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ConfigScaleOut:
+                outObj = new ConfigScaleoutOutputBuilder();
+                ((ConfigScaleoutOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigScaleoutOutputBuilder)outObj).setStatus(status);
+                ((ConfigScaleoutOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ConfigRestore:
+                outObj = new ConfigRestoreOutputBuilder();
+                ((ConfigRestoreOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigRestoreOutputBuilder)outObj).setStatus(status);
+                ((ConfigRestoreOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case SoftwareUpload:
                 outObj = new SoftwareUploadOutputBuilder();
@@ -145,6 +151,7 @@ public class Converter {
                 outObj = new SyncOutputBuilder();
                 ((SyncOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((SyncOutputBuilder)outObj).setStatus(status);
+                ((SyncOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case Terminate:
                 outObj = new TerminateOutputBuilder();
@@ -161,12 +168,54 @@ public class Converter {
                 ((UnlockOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UnlockOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case Restart:
+                outObj = new RestartOutputBuilder();
+                ((RestartOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((RestartOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case Rebuild:
+                outObj = new RebuildOutputBuilder();
+                ((RebuildOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((RebuildOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case Migrate:
+                outObj = new MigrateOutputBuilder();
+                ((MigrateOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((MigrateOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case Evacuate:
+                outObj = new EvacuateOutputBuilder();
+                ((EvacuateOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((EvacuateOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case ConfigBackup:
+                outObj = new ConfigBackupOutputBuilder();
+                ((ConfigBackupOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigBackupOutputBuilder)outObj).setStatus(status);
+                ((ConfigBackupOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ConfigBackupDelete:
+                outObj = new ConfigBackupDeleteOutputBuilder();
+                ((ConfigBackupDeleteOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigBackupDeleteOutputBuilder)outObj).setStatus(status);
+                ((ConfigBackupDeleteOutputBuilder)outObj).setPayload(payload);
+                return outObj;
+            case ConfigExport:
+                outObj = new ConfigExportOutputBuilder();
+                ((ConfigExportOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigExportOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case Start:
+                outObj = new StartOutputBuilder();
+                ((StartOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((StartOutputBuilder)outObj).setStatus(status);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
     }
 
-    public static Payload convAsyncResponseTorev160108Payload(ResponseContext inObj) throws ParseException {
+    public static Payload convAsyncResponseTorev160108Payload(ResponseContext inObj)  {
         Payload payload = null;
         if(inObj.getPayload() != null) {
             payload = new Payload(inObj.getPayload());
@@ -208,7 +257,7 @@ public class Converter {
         }
 
         CommonHeaderBuilder commonHeaderBuilder = new CommonHeaderBuilder();
-        org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags commonHeaderFlags = null;
+        org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags commonHeaderFlags = null;
         if(inObj.getCommonHeader().getFlags() != null){
             commonHeaderFlags = Converter.convFlagsMapTorev160108Flags(inObj.getCommonHeader().getFlags());
             commonHeaderBuilder.setFlags(commonHeaderFlags);
@@ -239,7 +288,7 @@ public class Converter {
         return isoFormatter.format(timeStamp);
     }
 
-    public static org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags
+    public static org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags
     convFlagsMapTorev160108Flags(org.openecomp.appc.domainmodel.lcm.Flags flags) {
         Flags rev160108flags = null;
         boolean anyFlag = false;
@@ -249,14 +298,14 @@ public class Converter {
          */
         /*
         if(flags.containsKey(FORCE_FLAG)){
-            org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags.Force force =
-                    org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags.Force.valueOf(flags.get(FORCE_FLAG).toString());
+            org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Force force =
+                    org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Force.valueOf(flags.get(FORCE_FLAG).toString());
             flagsBuilder.setForce(force);
             anyFlag = true;
         }
         if(flags.containsKey(MODE_FLAG)){
-            org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags.Mode mode =
-                    org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags.Mode.valueOf(flags.get(MODE_FLAG).toString());
+            org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Mode mode =
+                    org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Mode.valueOf(flags.get(MODE_FLAG).toString());
             flagsBuilder.setMode(mode);
             anyFlag = true;
         }
@@ -307,12 +356,21 @@ public class Converter {
 
     public static DmaapOutgoingMessage convAsyncResponseToDmaapOutgoingMessage(VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) throws JsonProcessingException {
         DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
+        String correlationID = getCorrelationID(asyncResponse);
+        outObj.setCorrelationID(correlationID);
+        outObj.setType("response");
         outObj.setRpcName(rpcName);
         Builder<?> builder = Converter.convAsyncResponseToBuilder(vnfOperation, rpcName, asyncResponse);
         Object messageBody = builder.build();
         DmaapOutgoingMessage.Body body = new DmaapOutgoingMessage.Body(messageBody);
         outObj.setBody(body);
         return outObj;
+    }
+
+    private static String getCorrelationID(ResponseContext context) {
+        return context.getCommonHeader().getRequestId()
+                + (context.getCommonHeader().getSubRequestId() == null ?
+                    "":"-" + context.getCommonHeader().getSubRequestId());
     }
 
     abstract class MixIn {

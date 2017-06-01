@@ -20,7 +20,6 @@
  */
 
 package org.openecomp.appc.licmgr;
-
 import java.util.HashMap;
 import java.util.Map;
 

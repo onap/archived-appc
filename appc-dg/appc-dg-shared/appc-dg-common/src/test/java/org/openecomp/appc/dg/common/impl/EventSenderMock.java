@@ -23,19 +23,19 @@ package org.openecomp.appc.dg.common.impl;
 
 import java.util.Map;
 
-import org.openecomp.appc.adapter.dmaap.EventSender;
-import org.openecomp.appc.adapter.dmaap.DmaapDestination;
-import org.openecomp.appc.adapter.dmaap.event.EventMessage;
+import org.openecomp.appc.adapter.message.EventSender;
+import org.openecomp.appc.adapter.message.MessageDestination;
+import org.openecomp.appc.adapter.message.event.EventMessage;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 
 
 public class EventSenderMock implements EventSender {
     EventMessage msg;
-    DmaapDestination destination;
+    MessageDestination destination;
 
     @Override
-    public boolean sendEvent(DmaapDestination destination, EventMessage msg) {
+    public boolean sendEvent(MessageDestination destination, EventMessage msg) {
         if (destination != null && msg != null){
             this.msg = msg;
             this.destination = destination;
@@ -47,7 +47,12 @@ public class EventSenderMock implements EventSender {
     }
 
     @Override
-    public boolean sendEvent(DmaapDestination destination, Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    public boolean sendEvent(MessageDestination destination, EventMessage msg, String eventTopicName) {
+        return false;
+    }
+
+    @Override
+    public boolean sendEvent(MessageDestination destination, Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         return false;
     }
 
@@ -55,7 +60,7 @@ public class EventSenderMock implements EventSender {
         return msg;
     }
 
-    public DmaapDestination getDestination() {
+    public MessageDestination getDestination() {
         return destination;
     }
 }

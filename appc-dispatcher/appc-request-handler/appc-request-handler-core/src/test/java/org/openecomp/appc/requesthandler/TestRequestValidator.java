@@ -34,31 +34,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
-import org.openecomp.appc.domainmodel.lcm.CommonHeader;
-import org.openecomp.appc.domainmodel.lcm.Flags;
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.domainmodel.lcm.VNFContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
+import org.openecomp.appc.domainmodel.lcm.*;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
 import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
-import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
-import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
-import org.openecomp.appc.requesthandler.exceptions.RequestExpiredException;
-import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
-import org.openecomp.appc.requesthandler.exceptions.WorkflowNotFoundException;
+import org.openecomp.appc.requesthandler.exceptions.*;
 import org.openecomp.appc.requesthandler.impl.RequestHandlerImpl;
 import org.openecomp.appc.requesthandler.impl.RequestValidatorImpl;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
@@ -84,7 +70,6 @@ import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {WorkingStateManager.class,FrameworkUtil.class, TransactionRecorder.class, RequestHandlerImpl.class,RequestValidatorImpl.class, TransactionRecorder.class})
-@Ignore
 public class TestRequestValidator {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestRequestHandler.class);
@@ -97,6 +82,7 @@ public class TestRequestValidator {
     LifecycleManager lifecyclemanager;
     WorkFlowManager workflowManager;
     WorkingStateManager workingStateManager ;
+    LCMStateManager lcmStateManager;
 //    AppcDAOImpl dao ;
 
     private final BundleContext bundleContext= Mockito.mock(BundleContext.class);
@@ -147,6 +133,7 @@ public class TestRequestValidator {
         lifecyclemanager= Mockito.mock(LifecycleManager.class);
         workflowManager= Mockito.mock(WorkFlowManager.class);
         workingStateManager = Mockito.mock(WorkingStateManager.class);
+        lcmStateManager = Mockito.mock(LCMStateManager.class);
 
         //  transactionRecorder= spy(TransactionRecorder.class);
         requestValidator = new RequestValidatorImpl();
@@ -154,8 +141,9 @@ public class TestRequestValidator {
         requestValidator.setWorkflowManager(workflowManager);
         requestValidator.setLifecyclemanager(lifecyclemanager);
         requestValidator.setWorkingStateManager(workingStateManager);
+        requestValidator.setLcmStateManager(lcmStateManager);
 
-
+        Mockito.when(lcmStateManager.isLCMOperationEnabled()).thenReturn(true);
        /* Mockito.when(workingStateManager.isVNFStable("1")).thenReturn(true);
         Mockito.when(aaiAdapter.requestGenericVnfData("1")).thenReturn(getGenericVnf("FIREWALL","INSTNATIATED"));*/
         // Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(true);
@@ -254,7 +242,7 @@ public class TestRequestValidator {
         return input;
     }
     @Test
-    public void testNullVnfID() throws  NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+    public void testNullVnfID() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         logger.debug("=====================testNullVnfID=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput(null, VNFOperation.Configure, 30,
@@ -309,8 +297,8 @@ public class TestRequestValidator {
 
 
 
-   @Test
-    public void testNullCommand() throws  NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+    @Test
+    public void testNullCommand() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         logger.debug("=====================testNullCommand=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput("7", null,30,
@@ -327,7 +315,7 @@ public class TestRequestValidator {
     }
 
     @Test
-    public void testNullVnfIDAndCommand() throws  NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+    public void testNullVnfIDAndCommand() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         logger.debug("=====================testNullVnfIDAndCommand=============================");
         Mockito.when(workflowManager.workflowExists((WorkflowRequest)anyObject())).thenReturn(new WorkflowExistsOutput(true,true));
         RequestHandlerInput input = this.getRequestHandlerInput(null, null,30,
@@ -545,45 +533,50 @@ public class TestRequestValidator {
     }
 
     @Test
-    public void testLockOperation() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException {
+    public void testLockOperation() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         Mockito.when(workingStateManager.isVNFStable("no-matter")).thenReturn(true);
         testOperation("no-matter", VNFOperation.Lock);
     }
 
     @Test
-    public void testUnlockOperation() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException {
+    public void testUnlockOperation() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         Mockito.when(workingStateManager.isVNFStable("no-matter")).thenReturn(true);
         testOperation("no-matter", VNFOperation.Unlock);
     }
 
     @Test
-    public void testCheckLockOperation() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException {
+    public void testCheckLockOperation() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         Mockito.when(workingStateManager.isVNFStable("no-matter")).thenReturn(true);
         testOperation("no-matter", VNFOperation.CheckLock);
     }
 
     @Test(expected = NoTransitionDefinedException.class)
-    public void testLockOperationNegative() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException {
+    public void testLockOperationNegative() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(), eq(VNFOperation.Lock.toString()))).thenThrow(new NoTransitionDefinedException("", "", ""));
         Mockito.when(workingStateManager.isVNFStable("no-matter")).thenReturn(true);
         testOperation("no-matter", VNFOperation.Lock);
     }
 
     @Test(expected = NoTransitionDefinedException.class)
-    public void testUnlockOperationNegative() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException {
+    public void testUnlockOperationNegative() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(), eq(VNFOperation.Unlock.toString()))).thenThrow(new NoTransitionDefinedException("", "", ""));
         Mockito.when(workingStateManager.isVNFStable("no-matter")).thenReturn(true);
         testOperation("no-matter", VNFOperation.Unlock);
     }
 
     @Test(expected = NoTransitionDefinedException.class)
-    public void testCheckLockOperationNegative() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException {
+    public void testCheckLockOperationNegative() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         Mockito.when(lifecyclemanager.getNextState(anyString(), anyString(), eq(VNFOperation.CheckLock.toString()))).thenThrow(new NoTransitionDefinedException("", "", ""));
         Mockito.when(workingStateManager.isVNFStable("no-matter")).thenReturn(true);
         testOperation("no-matter", VNFOperation.CheckLock);
     }
 
-    private void testOperation(String resource, VNFOperation operation) throws WorkflowNotFoundException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, InvalidInputException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, RequestExpiredException {
+    @Test(expected = LCMOperationsDisabledException.class)
+    public void testLCMOperationsDisabled() throws RequestExpiredException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, WorkflowNotFoundException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, InvalidInputException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
+        Mockito.when(lcmStateManager.isLCMOperationEnabled()).thenReturn(false);
+        testOperation("no-matter", VNFOperation.Configure);
+    }
+    private void testOperation(String resource, VNFOperation operation) throws WorkflowNotFoundException, DuplicateRequestException, DGWorkflowNotFoundException, VNFNotFoundException, InvalidInputException, LifecycleException, UnstableVNFException, NoTransitionDefinedException, RequestExpiredException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         String originatorID = UUID.randomUUID().toString();
         String requestID = UUID.randomUUID().toString();
         String subRequestID = UUID.randomUUID().toString();

@@ -27,6 +27,7 @@ import org.openecomp.appc.licmgr.exception.DataAccessException;
 import org.openecomp.appc.licmgr.objects.LicenseModel;
 
 
+@SuppressWarnings("JavaDoc")
 public interface LicenseManager {
 
     /**

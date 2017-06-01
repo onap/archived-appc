@@ -98,6 +98,7 @@
 	</reporting>
 
 	<modules>
+		<module>appc-yang-generator</module>
 		<module>appc-asdc-listener-bundle</module>
 		<module>appc-asdc-listener-features</module>
 		<module>appc-asdc-listener-installer</module>

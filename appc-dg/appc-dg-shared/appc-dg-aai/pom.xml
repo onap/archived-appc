@@ -30,6 +30,11 @@
             <groupId>org.openecomp.sdnc.adaptors</groupId>
             <artifactId>aai-service-provider</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-dg-dependency-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
@@ -56,6 +61,11 @@
             <version>1.6.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-dg-domain-model-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -69,12 +79,12 @@
                     <instructions>
                         <Bundle-SymbolicName>appc-dg-aai</Bundle-SymbolicName>
                         <Export-Package>org.openecomp.appc.dg.aai</Export-Package>
-                        <Private-Package>org.openecomp.appc.dg.aai.impl.*</Private-Package>
+                        <Private-Package>org.openecomp.appc.dg.aai.exception,org.openecomp.appc.dg.aai.objects,org.openecomp.appc.dg.aai.impl.*</Private-Package>
                         <Import-Package>
-                            !org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*;resolution:=optional
+                            *;resolution:=optional
                         </Import-Package>
                         <Embed-Dependency>
-                            appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false
+                            appc-dg-domain-model-lib;scope=compile|runtime;inline=false
                         </Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>

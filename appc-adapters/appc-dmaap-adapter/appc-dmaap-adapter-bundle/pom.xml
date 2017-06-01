@@ -14,13 +14,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-message-adapter-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-metric-bundle</artifactId>
-			<version>1.1.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-common</artifactId>
-			<classifier>jar-with-dependencies</classifier>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -65,7 +69,6 @@
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-api-mockito</artifactId>
-			<version>1.6.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -85,10 +88,17 @@
 		<dependency>
 			<groupId>org.powermock</groupId>
 			<artifactId>powermock-module-junit4</artifactId>
-			<version>1.6.2</version>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            </dependency>
 		<dependency>
 			<groupId>org.openecomp.sdnc.core</groupId>
 			<artifactId>sli-common</artifactId>
@@ -119,6 +129,14 @@
 			</exclusions>
 		</dependency>
 
+		<!-- DMaaP Client -->
+ 		<dependency> 
+ 			<groupId>com.att.nsa</groupId> 
+ 			<artifactId>dmaapClient</artifactId>
+            <version>0.2.12</version> 
+<!--  			<version>${dmaap.client.version}</version>  -->
+		</dependency> 
+
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>			
@@ -129,8 +147,6 @@
 		</dependency>
 	</dependencies>
 
-	
-
 	<build>
 		<plugins>
 			<plugin>
@@ -139,12 +155,13 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>org.openecomp.appc.adapter.dmaap</Bundle-SymbolicName>
-						<Bundle-Activator>org.openecomp.appc.adapter.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>				
-						<Export-Package>org.openecomp.appc.adapter.dmaap.*</Export-Package>
-						<Export-Serice>org.openecomp.appc.adapter.dmaap.EventSender</Export-Serice>
-						<Import-Package>org.openecomp.appc.metricservice.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|pax-*</Embed-Dependency>
+						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-Version>${project.version}</Bundle-Version>
+						<!--<Bundle-SymbolicName>org.openecomp.appc.adapter.messaging.dmaap</Bundle-SymbolicName>-->
+						<Bundle-Activator>org.openecomp.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>
+						<Export-Package>org.openecomp.appc.adapter.messaging.*</Export-Package>
+						<Import-Package>!org.slf4j.event,org.openecomp.appc.adapter.message.*,org.openecomp.appc.metricservice.*,com.att.nsa.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
+						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|appc-message-adapter-api|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|pax-*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>
 					</instructions>

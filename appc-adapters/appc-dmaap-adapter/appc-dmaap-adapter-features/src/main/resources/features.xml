@@ -34,6 +34,8 @@
         <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
 <!--         <feature version="${sdnctl.sli.version}">sdnc-sli</feature> -->
         <bundle>mvn:org.openecomp.appc/appc-dmaap-adapter-bundle/${project.version}</bundle>
+        <bundle>mvn:org.openecomp.appc/appc-message-adapter-factory/${project.version}</bundle>
+        <bundle>mvn:org.openecomp.appc/appc-message-adapter-api/${project.version}</bundle>
         
     </feature>
 

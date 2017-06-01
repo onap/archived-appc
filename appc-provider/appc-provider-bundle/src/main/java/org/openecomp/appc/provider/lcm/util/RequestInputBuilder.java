@@ -23,11 +23,12 @@ package org.openecomp.appc.provider.lcm.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.Payload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.action.identifiers.ActionIdentifiers;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.common.header.common.header.Flags;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Payload;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags;
 import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.domainmodel.lcm.RequestContext;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
@@ -92,6 +93,7 @@ public class RequestInputBuilder {
             if(null != commonHeader.getTimestamp()) {
                 SimpleDateFormat format = new SimpleDateFormat(FORMAT);
                 format.setLenient(false);
+                format.setTimeZone(TimeZone.getTimeZone("UTC"));
                 header.setTimestamp(format.parse(commonHeader.getTimestamp().getValue()).toInstant());
             }else{
                 throw new ParseException("Missing mandatory parameter : timestamp " , 0);

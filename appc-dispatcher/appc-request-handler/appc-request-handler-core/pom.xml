@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<!-- Licensed to the Apache Software Foundation (ASF) under one or more 
 		contributor license agreements. See the NOTICE file distributed with this 
@@ -40,6 +39,19 @@
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-dmaap-adapter-bundle</artifactId>
 			<version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-message-adapter-api</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+		</dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-message-adapter-factory</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -97,6 +109,11 @@
 			<artifactId>transaction-recorder</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+   		<dependency>
+			<groupId>equinoxSDK381</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<scope>test</scope>
+		</dependency>        
 	</dependencies>
 
 	<build>
@@ -108,10 +125,15 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Embed-Dependency>appc-provider-model,appc-dmaap-adapter-bundle,appc-metric-bundle,appc-common,eelf-core,logback-core,logback-classic,appc-data-access-lib;scope=compile|runtime;inline=false</Embed-Dependency>
-						<Embed-Transitive>true</Embed-Transitive>
 						<Export-Service>org.openecomp.appc.requesthandler.RequestHandler</Export-Service>
-						<Import-Package>org.openecomp.appc.lockmanager.api.*,org.openecomp.appc.requesthandler,org.openecomp.appc.requesthandler.objects,org.openecomp.appc.transactionrecorder,org.openecomp.appc.transactionrecorder.objects,!groovy.lang,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.apache.commons.lang3,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*;resolution:=optional</Import-Package>
+                        <Import-Package>
+                            org.openecomp.appc.adapter.messaging.*,
+                            org.openecomp.appc.adapter.message.*,
+                            org.openecomp.appc.adapter.factory.*,
+                            org.openecomp.appc.lockmanager.api.*,org.openecomp.appc.requesthandler,org.openecomp.appc.requesthandler.objects,org.openecomp.appc.transactionrecorder,
+                            org.openecomp.appc.transactionrecorder.objects, org.openecomp.appc.dao.util,
+                            *;resolution:=optional
+                        </Import-Package>
 					</instructions>
 				</configuration>
 			</plugin>

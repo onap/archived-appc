@@ -65,8 +65,8 @@ public class ProviderOperations {
 
     private static final EELFLogger LOG = EELFManager.getInstance().getLogger(ProviderOperations.class);
 
-    private static URL url;
-    private static String basic_auth;
+    private URL url;
+    private String basic_auth;
 
     private static ProviderOperationRequestFormatter requestFormatter = new GenericProviderOperationRequestFormatter();
 
@@ -79,7 +79,7 @@ public class ProviderOperations {
      * @throws Exception                    if there was a failure processing the request. The exception message is the failure reason.
      */
     @SuppressWarnings("nls")
-    public static JsonNode topologyDG(String rpcName, JsonNode msg) throws APPCException {
+    public JsonNode topologyDG(String rpcName, JsonNode msg) throws APPCException {
         if (msg == null) {
             throw new APPCException("Provided message was null");
         }
@@ -146,11 +146,11 @@ public class ProviderOperations {
      *
      * @return The new value of URL
      */
-    public static String getUrl() {
+    public String getUrl() {
         return url.toExternalForm();
     }
 
-    public static void setUrl(String newUrl) {
+    public void setUrl(String newUrl) {
         try {
             url = new URL(newUrl);
         } catch (MalformedURLException e) {
@@ -166,7 +166,7 @@ public class ProviderOperations {
      * @param password The password for the user
      * @return The new value of the basic auth string that will be used in the request headers
      */
-    public static String setAuthentication(String user, String password) {
+    public String setAuthentication(String user, String password) {
         if (user != null && password != null) {
             String authStr = user + ":" + password;
             basic_auth = new String(Base64.encodeBase64(authStr.getBytes()));
@@ -177,7 +177,7 @@ public class ProviderOperations {
     }
 
     @SuppressWarnings("deprecation")
-    private static HttpClient getHttpClient() throws APPCException {
+    private HttpClient getHttpClient() throws APPCException {
         HttpClient client;
         if (url.getProtocol().equals("https")) {
             try {

@@ -34,6 +34,11 @@ public interface SshConnection {
 	void connect();
 
 	/**
+	 * Connect to SSH Server using a retry mechanism
+	 */
+	void connectWithRetry();
+
+	/**
 	 * Disconnect from SSH server.
 	 */
 	void disconnect();

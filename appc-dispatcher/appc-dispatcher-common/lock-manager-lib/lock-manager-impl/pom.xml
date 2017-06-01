@@ -28,7 +28,6 @@
             <groupId>org.openecomp.appc</groupId>
             <artifactId>appc-data-access-lib</artifactId>
             <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.att.eelf</groupId>
@@ -49,13 +48,13 @@
                 <configuration>
                     <instructions>
                         <Export-Service>org.openecomp.appc.lockmanager.api.LockManager</Export-Service>
-                        <Import-Package>org.openecomp.appc.lockmanager.api.*,*</Import-Package>
+                        <Import-Package>
+                            org.openecomp.appc.lockmanager.api.*,
+                            org.openecomp.appc.dao.util,com.att.eelf.configuration, *;resolution:=optional
+                        </Import-Package>
                         <Private-Package>org.openecomp.appc.lockmanager.impl.*</Private-Package>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Import-Package>!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!javax.mail.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*</Import-Package>
-                        <Embed-Dependency>appc-common,appc-data-access-lib,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
-                        <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>

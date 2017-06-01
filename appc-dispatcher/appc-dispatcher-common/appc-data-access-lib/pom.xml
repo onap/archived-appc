@@ -6,7 +6,7 @@
         <version>1.1.0-SNAPSHOT</version>
     </parent>
   <artifactId>appc-data-access-lib</artifactId>
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
 
   <name>appc-data-access-lib</name>
   <url>http://maven.apache.org</url>
@@ -35,7 +35,24 @@
           <groupId>org.openecomp.appc</groupId>
           <artifactId>appc-common</artifactId>
           <version>${project.version}</version>
-          <scope>compile</scope>
       </dependency>
   </dependencies>
+  <build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>maven-bundle-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+                <instructions>
+                    <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                    <Export-Package>org.openecomp.appc.dao.util</Export-Package>
+                    <Import-Package>org.openecomp.appc.configuration,*;resolution:=optional</Import-Package>
+                    <Embed-Dependency>mysql-connector-java</Embed-Dependency>
+                    <Embed-Transitive>true</Embed-Transitive>
+                </instructions>
+            </configuration>
+        </plugin>
+    </plugins>
+  </build>
 </project>

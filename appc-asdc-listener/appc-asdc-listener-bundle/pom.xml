@@ -1,6 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 
 	<parent>
 		<artifactId>appc-asdc-listener</artifactId>
@@ -31,12 +31,12 @@
 		<dependency>
 			<groupId>org.openecomp.sdc</groupId>
 			<artifactId>sdc-distribution-client</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openecomp.appc</groupId>
-			<artifactId>appc-dmaap-adapter-bundle</artifactId>
+			<artifactId>appc-message-adapter-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -98,6 +98,35 @@
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.openecomp.sdc</groupId>
+			<artifactId>openecomp-tosca-lib</artifactId>
+			<version>${toscalib.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opendaylight.yangtools</groupId>
+			<artifactId>yang-parser-impl</artifactId>
+			<version>${odl.yangtools.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.opendaylight.mdsal.model</groupId>
+			<artifactId>ietf-inet-types</artifactId>
+			<version>${odl.ietf-inet-types.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.opendaylight.mdsal.model</groupId>
+			<artifactId>ietf-yang-types</artifactId>
+			<version>${odl.ietf-yang-types.version}</version>
+		</dependency>
 	</dependencies>
 
 
@@ -128,35 +157,15 @@
 						<Export-Package>org.openecomp.appc.sdc.listener</Export-Package>
 						<Import-Package>
 							org.openecomp.appc.licmgr,
-							org.openecomp.appc.adapter.dmaap,
-							!ch.qos.*,
-							!com.att.*,
-							!fj.*,
-							!groovy.lang,
-							!javax.jms,
-							!javax.mail.*,
-							!org.apache.log4j.*,
-							!org.codehaus.commons.compiler,
-							!org.codehaus.groovy.*,
-							!org.codehaus.janino,
-							!org.jasypt.*,
-							!org.yaml.snakeyaml.*,
-							!com.ibm.icu.text,
-							!org.apache.log,
-							!com.sun.faces.spi,
+							org.openecomp.appc.adapter.messaging.*,
+							com.att.eelf.*,
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Dependency>
-							sdc-distribution-client, appc-common,
-							appc-dmaap-adapter-bundle, appc-license-manager-api,
-							snakeyaml,
-							logback-core,
-							logback-classic, eelf-core,
-							saClientLibrary,
-							cambriaClient,
-							functionaljava,
-							httpcore,httpclient,
-							gson;scope=compile|runtime;inline=false
+							sdc-distribution-client,snakeyaml,
+							saClientLibrary,cambriaClient,saToolkit,
+							functionaljava,httpcore,httpclient,gson;
+							scope=compile|runtime;inline=false
 						</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>

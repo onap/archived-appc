@@ -199,5 +199,19 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
     void chefGet(Map<String, String> params, SvcLogicContext ctx) ;
     
     void chefPut(Map<String, String> params, SvcLogicContext ctx) ;
+    
+void chefPost(Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void chefDelete(Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void nodeObejctBuilder(Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void checkPushJob(Map<String, String> params, SvcLogicContext ctx) ;
+
+    void pushJob(Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void retrieveData (Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void combineStrings (Map<String, String> params, SvcLogicContext ctx) ;
 
 }

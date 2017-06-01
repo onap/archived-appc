@@ -37,11 +37,13 @@ public class LegacyUtilImpl implements LegacyUtil {
 
         String payloadStr = ctx.getAttribute(Constants.LCMAttributes.Payload.getValue());
         Map<String,String> payloads = JSONUtil.extractPlainValues(payloadStr,
-                        Constants.LCMAttributes.VMID.getValue(), Constants.LCMAttributes.IdentityURL.getValue(), Constants.LCMAttributes.TenantID.getValue());
+                        Constants.LCMAttributes.VMID.getValue(), Constants.LCMAttributes.IdentityURL.getValue(), Constants.LCMAttributes.TenantID.getValue(), 
+                        Constants.LCMAttributes.SkipHypervisorCheck.getValue());
 
         ctx.setAttribute(Constants.LegacyAttributes.VMID.getValue(), payloads.get(Constants.LCMAttributes.VMID.getValue()));
         ctx.setAttribute(Constants.LegacyAttributes.IdentityURL.getValue(), payloads.get(Constants.LCMAttributes.IdentityURL.getValue()));
         ctx.setAttribute(Constants.LegacyAttributes.TenantID.getValue(), payloads.get(Constants.LCMAttributes.TenantID.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.SkipHypervisorCheck.getValue(), payloads.get(Constants.LCMAttributes.SkipHypervisorCheck.getValue()));
 
     }
 

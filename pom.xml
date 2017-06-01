@@ -28,32 +28,33 @@
     <properties>
         <!-- VERSIONS -->
         <!-- OpenDaylight Versions -->
-		<odl.version>1.7.1-Boron-SR1</odl.version>
-		<odl.dlux.version>0.4.1-Boron-SR1</odl.dlux.version>
-		<odl.yangtools.version>1.0.1-Boron-SR1</odl.yangtools.version>
-		<odl.mdsal.version>1.4.1-Boron-SR1</odl.mdsal.version>
-		<odl.mdsal.features.version>2.1.1-Boron-SR1</odl.mdsal.features.version>
+        <odl.version>1.7.1-Boron-SR1</odl.version>
+        <odl.dlux.version>0.4.1-Boron-SR1</odl.dlux.version>
+        <odl.yangtools.version>1.0.1-Boron-SR1</odl.yangtools.version>
+        <odl.mdsal.version>1.4.1-Boron-SR1</odl.mdsal.version>
+        <odl.mdsal.features.version>2.1.1-Boron-SR1</odl.mdsal.features.version>
         <odl.controller.mdsal.features.version>1.4.1-Boron-SR1</odl.controller.mdsal.features.version>
-		<odl.mdsal.model.version>0.9.1-Boron-SR1</odl.mdsal.model.version>
-		<odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
-		<odl.restconf.version>1.4.1-Boron-SR1</odl.restconf.version>
-		<odl.controller.model.version>${odl.mdsal.model.version}</odl.controller.model.version>
-		<odl.controller.config.api.version>0.5.1-Boron-SR1</odl.controller.config.api.version>
-		<odl.karaf.empty.distro.version>${odl.version}</odl.karaf.empty.distro.version>
-		<odl.commons.opendaylight.version>${odl.version}</odl.commons.opendaylight.version>
-		<odl.ietf-inet-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-inet-types.version>
-		<odl.ietf-yang-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-yang-types.version>
-		<odl.yang.jmx.generator.version>0.5.1-Boron-SR1</odl.yang.jmx.generator.version>
-		<odl.yangtools.yang.maven.plugin.version>${odl.yangtools.version}</odl.yangtools.yang.maven.plugin.version>
-		<odl.sal.api.gen.plugin.version>0.9.1-Boron-SR1</odl.sal.api.gen.plugin.version>
+        <odl.mdsal.model.version>0.9.1-Boron-SR1</odl.mdsal.model.version>
+        <odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
+        <odl.restconf.version>1.4.1-Boron-SR1</odl.restconf.version>
+        <odl.controller.model.version>${odl.mdsal.model.version}</odl.controller.model.version>
+        <odl.controller.config.api.version>0.5.1-Boron-SR1</odl.controller.config.api.version>
+        <odl.karaf.empty.distro.version>${odl.version}</odl.karaf.empty.distro.version>
+        <odl.commons.opendaylight.version>${odl.version}</odl.commons.opendaylight.version>
+        <odl.ietf-inet-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-inet-types.version>
+        <odl.ietf-yang-types.version>2010.09.24.9.1-Boron-SR1</odl.ietf-yang-types.version>
+        <odl.yang.jmx.generator.version>0.5.1-Boron-SR1</odl.yang.jmx.generator.version>
+        <odl.yangtools.yang.maven.plugin.version>${odl.yangtools.version}</odl.yangtools.yang.maven.plugin.version>
+        <odl.sal.api.gen.plugin.version>0.9.1-Boron-SR1</odl.sal.api.gen.plugin.version>
         <broker-mdsal.version>1.4.1-Boron-SR1</broker-mdsal.version>
 
         <!-- OPENECOMP SDNC versions -->
-        <sdnctl.sli.version>1.1.0-SNAPSHOT</sdnctl.sli.version>
-        <sdnctl.dblib.version>1.1.0-SNAPSHOT</sdnctl.dblib.version>
-        <sdnctl.aai.service.version>1.1.0-SNAPSHOT</sdnctl.aai.service.version>
+        <sdnctl.sli.version>1.1.1-SNAPSHOT</sdnctl.sli.version>
+        <sdnctl.dblib.version>1.1.1-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.aai.service.version>1.1.1-SNAPSHOT</sdnctl.aai.service.version>
 
-        <cdp.pal.version>0.0.1</cdp.pal.version>
+        <cdp.pal.version>1.1.7</cdp.pal.version>
+        <dmaap.client.version>0.2.12</dmaap.client.version>
         <eelf.version>0.0.1</eelf.version>
         <eelf.maven.plugin.version>0.0.1</eelf.maven.plugin.version>
         <cadi-version>1.3.0</cadi-version>
@@ -66,6 +67,8 @@
         <commons.lang3.version>3.4</commons.lang3.version>
         <antlr.version>4.5.1</antlr.version>
         <mysql.connector.version>5.1.39</mysql.connector.version>
+        <logback.version>1.1.1</logback.version>
+        <toscalib.version>1.0.0-SNAPSHOT</toscalib.version>
 
         <!-- SONAR -->
         <sonar.language>java</sonar.language>
@@ -80,10 +83,10 @@
         <!-- ADDING TO SUPPORT APPC-PROVIDER-MODEL yang-gen-sal FOLDER GENERATION -->
         <yang.file.directory>src/main/yang</yang.file.directory>
         <features.file>features.xml</features.file>
-        <jmxGeneratorPath>src/main/yang-gen-config</jmxGeneratorPath>
-        <salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath>
+        <jmxGeneratorPath>target/generated-sources/yang-gen-config</jmxGeneratorPath>
+        <!-- <salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath> -->
         <checkstyle.skip>true</checkstyle.skip>
-        
+
         <!-- NEXUS URLS -->
         <openecomp.nexus.host>nexus.onap.org</openecomp.nexus.host>
         <openecomp.nexus.url>https://${openecomp.nexus.host}/content</openecomp.nexus.url>
@@ -253,6 +256,16 @@
                 <version>${odl.karaf.empty.distro.version}</version>
                 <type>zip</type>
             </dependency>
+            <dependency>
+                <groupId>org.opendaylight.mdsal.model</groupId>
+                <artifactId>ietf-inet-types</artifactId>
+                <version>${odl.ietf-inet-types.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.opendaylight.mdsal.model</groupId>
+                <artifactId>ietf-yang-types</artifactId>
+                <version>${odl.ietf-yang-types.version}</version>
+            </dependency>
             <!-- CURRENTLY DOES NOT EXIST IN 3.0. Replacement? -->
             <!-- Required for launching the feature tests -->
             <!-- <dependency> -->
@@ -287,8 +300,8 @@
                 <artifactId>dblib-provider</artifactId>
                 <version>${sdnctl.dblib.version}</version>
             </dependency>
-            <!-- A&AI service provider dependency override in order to use 
-                a stable version -->
+            <!-- A&AI service provider dependency override in order to use a stable 
+                version -->
             <dependency>
                 <groupId>org.openecomp.sdnc.adaptors</groupId>
                 <artifactId>aai-service-provider</artifactId>
@@ -348,11 +361,11 @@
                 <version>1.1.1</version>
                 <scope>compile</scope>
             </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>1.7.12</version>
-            </dependency>
+            <!-- <dependency> -->
+            <!-- <groupId>org.slf4j</groupId> -->
+            <!-- <artifactId>slf4j-api</artifactId> -->
+            <!-- <version>1.7.12</version> -->
+            <!-- </dependency> -->
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
@@ -495,7 +508,7 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <!--maven staging plugin-->
+            <!--maven staging plugin -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -572,29 +585,34 @@
                         </configuration>
                     </execution>
                 </executions>
+
             </plugin>
+
             <!-- blackduck maven plugin -->
-            <!--
+            <!-- <plugin> <groupId>com.blackducksoftware.integration</groupId> <artifactId>hub-maven-plugin</artifactId> 
+                <version>2.0.0</version> <inherited>false</inherited> <configuration> <hubProjectName>${project.name}</hubProjectName> 
+                <outputDirectory>${project.basedir}</outputDirectory> <deployHubBdio>false</deployHubBdio> 
+                </configuration> <executions> <execution> <id>create-bdio-file</id> <phase>package</phase> 
+                <goals> <goal>build-bom</goal> </goals> </execution> </executions> </plugin> -->
+
+            <!-- force Eclipse to skip the additional-install step specified in the 
+                org.opendaylight.odlparent:odlparent-lite:1.7.1-Boron-SR1.pom profile -->
             <plugin>
-                <groupId>com.blackducksoftware.integration</groupId>
-                <artifactId>hub-maven-plugin</artifactId>
-                <version>1.4.0</version>
-                <inherited>false</inherited>
-                <configuration>
-                    <hubProjectName>${project.name}</hubProjectName>
-                    <outputDirectory>${project.basedir}</outputDirectory>
-                </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>create-bdio-file</id>
-                        <phase>package</phase>
+                        <id>additional-install</id>
+                        <phase></phase>
                         <goals>
-                            <goal>createHubOutput</goal>
+                            <goal>install-file</goal>
                         </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
-            -->
         </plugins>
     </build>
 
@@ -629,6 +647,7 @@
                 <module>appc-provider</module>
                 <module>appc-event-listener</module>
                 <module>appc-asdc-listener</module>
+                <module>appc-oam</module>
             </modules>
         </profile>
         <profile>

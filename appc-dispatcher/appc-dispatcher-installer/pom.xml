@@ -17,7 +17,7 @@
 	<features.boot.licenseManager>appc-license-manager</features.boot.licenseManager>
     <!--<features.repositories>mvn:org.openecomp.appc/appc-dispatcher-features/${project.version}/xml/features,mvn:org.openecomp.appc/appc-request-handler-features/${project.version}/xml/features,mvn:org.openecomp.appc/appc-command-executor-features/${project.version}/xml/features,mvn:org.openecomp.appc/appc-lifecycle-management-features/${project.version}/xml/features,mvn:org.openecomp.appc/appc-license-manager-features/${project.version}/xml/features,mvn:org.openecomp.appc/appc-workflow-management-features/${project.version}/xml/features,mvn:org.openecomp.appc/lock-manager-features/${project.version}/xml/features</features.repositories>-->
 	
-	<!-- SEPARATING FEATURE INSTALLS -->
+	<!-- SEPARATED FEATURE INSTALLS -->
 	<features.repo.dispatcher>mvn:org.openecomp.appc/appc-dispatcher-features/${project.version}/xml/features</features.repo.dispatcher>
 	<features.repo.requestHandler>mvn:org.openecomp.appc/appc-request-handler-features/${project.version}/xml/features</features.repo.requestHandler>
 	<features.repo.commandExecutor>mvn:org.openecomp.appc/appc-command-executor-features/${project.version}/xml/features</features.repo.commandExecutor>

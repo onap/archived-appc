@@ -25,7 +25,6 @@ import static org.openecomp.appc.licmgr.Constants.ASDC_ARTIFACTS_FIELDS.ARTIFACT
 
 import java.util.Map;
 
-import org.openecomp.appc.licmgr.Constants;
 import org.openecomp.appc.licmgr.LicenseDataAccessService;
 import org.openecomp.appc.licmgr.LicenseManager;
 import org.openecomp.appc.licmgr.exception.DataAccessException;
@@ -42,8 +41,6 @@ public class LicenseManagerImpl implements LicenseManager {
     }
 
     public LicenseManagerImpl() {
-        DAService = new LicenseDataAccessServiceImpl();
-        DAService.setSchema(Constants.SDNCTL_SCHEMA);
     }
 
     @Override

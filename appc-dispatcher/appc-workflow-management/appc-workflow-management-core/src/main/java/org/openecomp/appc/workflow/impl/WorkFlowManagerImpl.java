@@ -21,11 +21,6 @@
 
 package org.openecomp.appc.workflow.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.common.constant.Constants;
@@ -43,6 +38,11 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.SvcLogicException;
 import org.openecomp.sdnc.sli.provider.SvcLogicService;
+
+import java.text.SimpleDateFormat;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Properties;
 
 
 public class WorkFlowManagerImpl implements WorkFlowManager{
@@ -166,7 +166,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
         workflowParams.put("input.common-header.api-ver",workflowRequest.getRequestContext().getCommonHeader().getApiVer());
         workflowParams.put("input.common-header.request-id",workflowRequest.getRequestContext().getCommonHeader().getRequestId());
         workflowParams.put("input.common-header.originator-id",workflowRequest.getRequestContext().getCommonHeader().getOriginatorId());
-        workflowParams.put("input.common-header.sub-request-id",workflowRequest.getRequestContext().getCommonHeader().getSubRequestId());
+        workflowParams.put("input.common-header.sub-request-id",workflowRequest.getRequestContext().getCommonHeader().getSubRequestId()!=null ? workflowRequest.getRequestContext().getCommonHeader().getSubRequestId():"");
         workflowParams.put("input.action",workflowRequest.getRequestContext().getAction().toString());
         workflowParams.put("input.payload",null != workflowRequest.getRequestContext().getPayload() ? workflowRequest.getRequestContext().getPayload() : "");
         workflowParams.put("input.action-identifiers.vnf-id",workflowRequest.getVnfContext().getId());

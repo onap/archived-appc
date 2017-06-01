@@ -1,0 +1,26 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.openecomp.appc</groupId>
+    <artifactId>appc</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+  </parent>
+  <artifactId>appc-oam</artifactId>
+  <packaging>pom</packaging>
+  <name>APPC OAM</name>
+  <description>The app-c OAM api bundle</description>
+  <properties>
+       <feature-name>appc-oam</feature-name>
+  </properties>
+
+	<!-- ================================================================================== -->
+	<!-- The modules we build -->
+	<!-- ================================================================================== -->
+	<modules>
+		<module>appc-oam-model</module>
+		<module>appc-oam-features</module>
+		<module>appc-oam-installer</module>
+		<module>appc-oam-bundle</module>
+	</modules>
+
+</project>
