@@ -156,43 +156,6 @@ public class ListenerProperties {
         return String.format("%s", prefix);
     }
 
-    /**
-     * The message service types that are available. Choices are DMaaP and DMaaP.
-     *
-     * @since Apr 25, 2016
-     * @version $Id$
-     */
-    public enum MessageService {
-        DMaaP("dmaap");
-
-        private String val;
-
-        private MessageService(String val) {
-            this.val = val;
-        }
-
-        public String getValue() {
-            return val;
-        }
-
-        /**
-         * Tries to match a string to a MessageService. If no match is found, returns the default (DMaaP)
-         * 
-         * @param input
-         *            the string to try and match
-         * @return A MessasgeService
-         */
-        public static MessageService parse(String input) {
-            if (input != null) {
-                for (MessageService ms : MessageService.values()) {
-                    if (ms.getValue().equals(input.toLowerCase())) {
-                        return ms;
-                    }
-                }
-            }
-            return MessageService.DMaaP; // Default
-        }
-    }
 
     /**
      * Set of common properties that will be used by most systems. Primarily relating to DMaaP and ThreadPools

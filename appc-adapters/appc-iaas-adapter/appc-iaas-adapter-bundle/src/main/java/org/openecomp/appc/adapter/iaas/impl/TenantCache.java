@@ -43,8 +43,8 @@ import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.Provider;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
-import com.sun.jersey.api.client.ClientHandlerException;
+import com.woorea.openstack.connector.JaxRs20Connector;
+//import com.sun.jersey.api.client.ClientHandlerException;
 import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 
 /**
@@ -60,8 +60,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
 
     public static final String POOL_PROVIDER_NAME = "pool.provider.name";
     public static final String POOL_TENANT_NAME = "pool.tenant.name";
-    public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JerseyConnector";
-
+    //public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JerseyConnector";
+    public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JaxRs20Connector";
     /**
      * The provider we are part of
      */
@@ -198,15 +198,17 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
                 break;
             } catch (ContextConnectionException e) {
                 attempt++;
-                logger.error(Msg.CONNECTION_FAILED_RETRY, provider.getProviderName(), url, tenantName, tenantId, e.getMessage(), Integer.toString(delay), Integer.toString(attempt),
-                                Integer.toString(limit));
+                if (attempt <= limit) {
+                    logger.error(Msg.CONNECTION_FAILED_RETRY, provider.getProviderName(), url, tenantName, tenantId, e.getMessage(), Integer.toString(delay), Integer.toString(attempt),
+                            Integer.toString(limit));
 
-                try {
-                    Thread.sleep(delay * 1000L);
-                } catch (InterruptedException ie) {
-                    // ignore
+                    try {
+                        Thread.sleep(delay * 1000L);
+                    } catch (InterruptedException ie) {
+                        // ignore
+                    }
                 }
-            } catch (ClientHandlerException | ZoneException e) {
+            } catch ( ZoneException e) {
                 logger.error(e.getMessage());
                 break;
             }

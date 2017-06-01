@@ -49,7 +49,6 @@ import java.security.PublicKey;
 import java.util.Collections;
 import java.util.EnumSet;
 
-@Ignore
 public class SshAdapterTest {
 
     private static final boolean START_SERVER = true;

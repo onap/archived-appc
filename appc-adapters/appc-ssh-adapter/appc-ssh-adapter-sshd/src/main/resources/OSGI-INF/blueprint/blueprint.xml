@@ -22,17 +22,17 @@
 
 
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		   xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-	<bean id="sshdBean" class="org.openecomp.appc.adapter.ssh.sshd.SshAdapterSshd" scope="singleton"/>
-	<service id="sshAdapter" interface="org.openecomp.appc.adapter.ssh.SshAdapter" ref="sshdBean"/>
+    <bean id="sshdBean" class="org.openecomp.appc.adapter.ssh.sshd.SshAdapterSshd" scope="singleton"/>
+    <service id="sshAdapter" interface="org.openecomp.appc.adapter.ssh.SshAdapter" ref="sshdBean"/>
 
-	<reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.openecomp.sdnc.sli.resource.dblib.DbLibService" />
-	<bean id="sshdDAServiceBean" class="org.openecomp.appc.adapter.ssh.sshd.SshdDataAccessService" scope="singleton">
-		<property name="dbLibService" ref="dbLibServiceRef" />
-	</bean>
+    <reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.openecomp.sdnc.sli.resource.dblib.DbLibService" />
+    <bean id="sshdDAServiceBean" class="org.openecomp.appc.adapter.ssh.sshd.SshdDataAccessService" scope="singleton">
+        <property name="dbLibService" ref="dbLibServiceRef" />
+    </bean>
 
-	<service id="sshDAService" interface="org.openecomp.appc.adapter.ssh.SshDataAccessService" ref="sshdDAServiceBean"/>
+    <service id="sshDAService" interface="org.openecomp.appc.adapter.ssh.SshDataAccessService" ref="sshdDAServiceBean"/>
 
 </blueprint>

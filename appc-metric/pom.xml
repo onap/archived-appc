@@ -8,7 +8,6 @@
   <artifactId>appc-metric</artifactId>
   <packaging>pom</packaging>
   <name>APPC Metric</name>
-  <!--<version>1.1.16-SNAPSHOT</version>-->
   <description>APPC Metric</description>
   
 	<!-- ================================================================================== -->

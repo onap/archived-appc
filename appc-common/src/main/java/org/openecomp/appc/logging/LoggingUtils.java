@@ -21,6 +21,13 @@
 
 package org.openecomp.appc.logging;
 
+import org.openecomp.appc.i18n.Msg;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResolvableErrorEnum;
+import com.att.eelf.i18n.EELFResourceManager;
+import org.slf4j.MDC;
+
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
 import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
@@ -30,13 +37,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TimeZone;
-
-import org.openecomp.appc.i18n.Msg;
-import org.slf4j.MDC;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 
 
 
@@ -76,6 +76,20 @@ public class LoggingUtils {
                 MDC.get(LoggingConstants.MDCKeys.RESPONSE_CODE)));
         cleanAuditErrorContext();
     }
+
+    public static void auditInfo(Instant beginTimeStamp, Instant endTimeStamp, String code, String responseDescription, String className,EELFResolvableErrorEnum resourceId, String... arguments) {
+        populateAuditLogContext(beginTimeStamp, endTimeStamp, code, responseDescription, className);
+        auditLogger.info(resourceId,arguments);
+        cleanAuditErrorContext();
+    }
+
+    public static void auditWarn(Instant beginTimeStamp, Instant endTimeStamp, String code, String responseDescription, String className,EELFResolvableErrorEnum resourceId, String... arguments) {
+        populateAuditLogContext(beginTimeStamp, endTimeStamp, code, responseDescription, className);
+        auditLogger.warn(resourceId,arguments);
+        cleanAuditErrorContext();
+    }
+
+
 
     public static void logMetricsMessage(Instant beginTimeStamp, Instant endTimeStamp, String targetEntity, String targetServiceName, String statusCode, String responseCode, String responseDescription, String className) {
         populateMetricLogContext(beginTimeStamp, endTimeStamp, targetEntity, targetServiceName, statusCode, responseCode, responseDescription, className);

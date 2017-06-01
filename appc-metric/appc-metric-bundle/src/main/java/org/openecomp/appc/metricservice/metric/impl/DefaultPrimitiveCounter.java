@@ -24,20 +24,28 @@ package org.openecomp.appc.metricservice.metric.impl;
 import org.openecomp.appc.metricservice.metric.MetricType;
 import org.openecomp.appc.metricservice.metric.PrimitiveCounter;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
-public class DefaultPrimitiveCounter  implements PrimitiveCounter{
-    private  String name;
-    private  MetricType metricType;
-    private  long counter;
+
+public class DefaultPrimitiveCounter implements PrimitiveCounter {
+    private String name;
+    private MetricType metricType;
+    private AtomicLong counter = new AtomicLong();
+
+    private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("YYYY-MM-dd:HH:mm:ss");
+    private String lastResetTime = dateTimeFormat.format(Calendar.getInstance().getTime());
 
     public DefaultPrimitiveCounter(String name, MetricType metricType, long counter) {
         this.name = name;
         this.metricType = metricType;
-        this.counter = counter;
+        this.counter.set(counter);
     }
 
     public DefaultPrimitiveCounter(String name, MetricType metricType) {
-        this.counter=0;
+        this.counter.set(0);
         this.name = name;
         this.metricType = metricType;
     }
@@ -49,7 +57,7 @@ public class DefaultPrimitiveCounter  implements PrimitiveCounter{
 
     @Override
     public void increment(long value) {
-        this.counter+=value;
+        this.counter.incrementAndGet();
     }
 
     @Override
@@ -59,12 +67,12 @@ public class DefaultPrimitiveCounter  implements PrimitiveCounter{
 
     @Override
     public void decrement(long value) {
-        this.counter-=value;
+        this.counter.decrementAndGet();
     }
 
     @Override
     public long value() {
-        return this.counter;
+        return this.counter.get();
     }
 
     @Override
@@ -74,20 +82,29 @@ public class DefaultPrimitiveCounter  implements PrimitiveCounter{
 
     @Override
     public void reset() {
-        this.counter=0 ;
+        this.counter.set(0);
+        Calendar cal = Calendar.getInstance();
+        lastResetTime = dateTimeFormat.format(cal.getTime());
     }
 
     @Override
     public String toString() {
-        return "DefaultPrimitiveCounter{" +
-                "name='" + name + '\'' +
-                ", metricType=" + metricType +
-                ", counter=" + counter +
-                '}';
+        return "DefaultPrimitiveCounter{" + "name='" + name + '\'' + ", metricType=" + metricType + ", counter="
+                + counter.get() + '}';
     }
 
     @Override
     public MetricType type() {
         return this.metricType;
+    }
+
+    @Override
+    public HashMap<String, String> getMetricsOutput() {
+        return new HashMap<>();
+    }
+
+    @Override
+    public String getLastModified() {
+        return lastResetTime;
     }
 }

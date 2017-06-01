@@ -27,13 +27,10 @@ import org.openecomp.appc.adapter.ssh.Constants;
 import org.openecomp.appc.adapter.ssh.SshConnectionDetails;
 import org.openecomp.appc.adapter.ssh.SshDataAccessException;
 import org.openecomp.appc.adapter.ssh.SshDataAccessService;
-import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-
-
 
 public class SshdDataAccessService implements SshDataAccessService {
 

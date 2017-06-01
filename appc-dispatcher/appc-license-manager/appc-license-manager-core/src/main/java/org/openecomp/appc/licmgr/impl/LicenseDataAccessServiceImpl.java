@@ -21,17 +21,14 @@
 
 package org.openecomp.appc.licmgr.impl;
 
+import javax.sql.rowset.CachedRowSet;
+
 import org.openecomp.appc.licmgr.Constants;
 import org.openecomp.appc.licmgr.LicenseDataAccessService;
 import org.openecomp.appc.licmgr.exception.DataAccessException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-
-import javax.sql.rowset.CachedRowSet;
 
 import static org.openecomp.appc.licmgr.Constants.ASDC_ARTIFACTS_FIELDS;
 
@@ -42,7 +39,7 @@ import java.util.Map;
 
 
 @SuppressWarnings("JavaDoc")
-class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
+public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
 
     private static EELFLogger logger = EELFManager.getInstance().getLogger(LicenseDataAccessServiceImpl.class);
 
@@ -52,17 +49,12 @@ class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
 
     private String schema;
 
+    public void setDbLibService(DbLibService dbLibService) {
+        this.dbLibService = dbLibService;
+    }
+
     private DbLibService dbLibService;
 
-    private void checkDbLibService() throws DataAccessException {
-        if (null != dbLibService) {return;}
-
-        //get dblib service and send it to DAService
-        BundleContext bctx = FrameworkUtil.getBundle(LicenseManagerImpl.class).getBundleContext();
-        ServiceReference sref = bctx.getServiceReference(DbLibService.class.getName());
-        dbLibService  = (DbLibService)bctx.getService(sref);
-
-    }
 
     /**
      * empty constructor
@@ -72,8 +64,6 @@ class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
     @Override
     public Map<String,String> retrieveLicenseModelData(String vnfType, String vnfVersion, String... fields) throws
                     DataAccessException {
-
-        checkDbLibService();
 
         Map<String,String> result = new HashMap<>();
         if (null == fields || 0 == fields.length) fields = new String[]{ASDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT.name()};
@@ -118,8 +108,6 @@ class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
      */
     @Override
     public void storeArtifactPayload(Map<String, String> parameters) throws RuntimeException {
-
-        checkDbLibService();
 
         if(parameters == null || parameters.isEmpty()) {
             throw new RuntimeException("No parameters for insert are provided");

@@ -17,5 +17,6 @@
  		<module>appc-dmaap-adapter</module>
 		<module>appc-netconf-adapter</module>
 		<module>appc-ssh-adapter</module>
+		<module>appc-rest-healthcheck-adapter</module>
 	</modules>
 </project>

@@ -91,7 +91,7 @@ abstract class SqlLockManager extends JdbcLockManager {
                 }
 			}
 		} catch (SQLException e) {
-			throw new LockRuntimeException(Messages.EXP_LOCK.format(resource));
+			throw new LockRuntimeException(Messages.EXP_CHECK_LOCK.format(resource));
 		}finally {
             closeDbConnection(connection);
         }

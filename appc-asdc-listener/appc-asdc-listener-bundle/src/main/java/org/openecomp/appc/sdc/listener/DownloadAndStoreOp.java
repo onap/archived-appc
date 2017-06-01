@@ -21,11 +21,11 @@
 
 package org.openecomp.appc.sdc.listener;
 
-import org.openecomp.appc.adapter.dmaap.EventSender;
-import org.openecomp.appc.adapter.dmaap.DmaapDestination;
-import org.openecomp.appc.adapter.dmaap.event.EventHeader;
-import org.openecomp.appc.adapter.dmaap.event.EventMessage;
-import org.openecomp.appc.adapter.dmaap.event.EventStatus;
+import org.openecomp.appc.adapter.message.EventSender;
+import org.openecomp.appc.adapter.message.MessageDestination;
+import org.openecomp.appc.adapter.message.event.EventHeader;
+import org.openecomp.appc.adapter.message.event.EventMessage;
+import org.openecomp.appc.adapter.message.event.EventStatus;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.licmgr.Constants;
 import org.openecomp.appc.licmgr.LicenseManager;
@@ -136,11 +136,10 @@ public class DownloadAndStoreOp implements Runnable {
                     String vnfType = artifactPayload.get(RESOURCE_NAME.name());
                     String version = artifactPayload.get(RESOURCE_VERSION.name());
                     String packageArtifactID = artifactPayload.get(ARTIFACT_UUID.name());
-                    String packageArtifactVersion = artifactPayload.get(INTERNAL_VERSION.name());
 
                     try {
-                        if (null == vnfType || null == version || null == packageArtifactID || null == packageArtifactVersion || vnfType.isEmpty() || version.isEmpty() || packageArtifactID.isEmpty() || packageArtifactVersion.isEmpty()) {
-                            throw new APPCException(String.format("Missing information in ASDC request. Details: resource_type='%s', resource_version='%s', artifactID='%s', artifactVersion='%s'", vnfType, version, packageArtifactID, packageArtifactVersion));
+                        if (null == vnfType || null == version || null == packageArtifactID || vnfType.isEmpty() || version.isEmpty() || packageArtifactID.isEmpty()) {
+                            throw new APPCException(String.format("Missing information in ASDC request. Details: resource_type='%s', resource_version='%s', artifactID='%s'", vnfType, version, packageArtifactID));
                         }
 
                         Map<String, String> existingArtifactPayload = licenseService.retrieveLicenseModelData(vnfType, version);
@@ -221,7 +220,7 @@ public class DownloadAndStoreOp implements Runnable {
                         new EventHeader((new java.util.Date()).toString(), serviceVersion, distributionID),
                         new EventStatus(401, errorDescription));
 
-        eventSender.sendEvent(DmaapDestination.DCAE, eventMessage);
+        eventSender.sendEvent(MessageDestination.DCAE, eventMessage);
     }
 
 }

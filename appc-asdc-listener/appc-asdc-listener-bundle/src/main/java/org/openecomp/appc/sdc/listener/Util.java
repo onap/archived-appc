@@ -20,6 +20,7 @@
  */
 
 package org.openecomp.appc.sdc.listener;
+import org.openecomp.sdc.utils.DistributionStatusEnum;
 
 import org.json.JSONException;
 import org.json.JSONObject;

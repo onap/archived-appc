@@ -39,7 +39,7 @@ public class TestConverter {
     public void buildDmaapOutgoingMessageWithUnexpectedErrorTest() throws JsonProcessingException {
         DmaapIncomingMessage dmaapIncomingMessage = buildDmaapIncomingMessage();
         String errMsg = "TestException";
-        DmaapOutgoingMessage dmaapOutgoingMessage = Converter.buildDmaapOutgoingMessageWithUnexpectedError(dmaapIncomingMessage.getBody(), "test", new Exception(errMsg));
+        DmaapOutgoingMessage dmaapOutgoingMessage = Converter.buildDmaapOutgoingMessageWithUnexpectedError(dmaapIncomingMessage, new Exception(errMsg));
         int code = dmaapOutgoingMessage.getBody().get("output").get("status").get("code").asInt();
         String value = dmaapOutgoingMessage.getBody().get("output").get("status").get("value").asText();
         Assert.assertEquals(200,code);

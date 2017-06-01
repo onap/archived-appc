@@ -254,6 +254,11 @@ public enum Msg implements EELFResolvableErrorEnum {
     SNAPSHOTING_SERVER,
 
     /**
+     * {0} IAAS Adapter look for server requested
+     */
+    LOOKING_SERVER_UP,
+
+    /**
      * {0} IAAS Adapter cannot perform requested service, VM url '{1}' is invalid
      */
     INVALID_SELF_LINK_URL,
@@ -320,6 +325,11 @@ public enum Msg implements EELFResolvableErrorEnum {
     UNPAUSE_SERVER,
 
     /**
+     * Server {0} is being rebuilt...
+     */
+    REBUILD_SERVER,
+
+    /**
      * Connection to provider {0} at identity {1} using tenant name {2} (id {3}) failed, reason={4}, retrying in {5}
      * seconds, attempt {6} of {7}.
      */
@@ -334,6 +344,11 @@ public enum Msg implements EELFResolvableErrorEnum {
      * {0} IAAS Adapter stop server requested
      */
     STOPPING_SERVER,
+
+    /**
+     * {0} IAAS Adapter start server requested
+     */
+    STARTING_SERVER,
 
     /**
      * Server {0} (id {1}) failed to rebuild, reason {2}
@@ -391,6 +406,11 @@ public enum Msg implements EELFResolvableErrorEnum {
      * Server {0} (id {1}) failed to evacuate, reason {2}
      */
     EVACUATE_SERVER_FAILED,
+    
+    /**
+     * Server {0} evacuate from host {1} to host {2} failed during the rebuild on host {2}, reason {3}
+     */
+    EVACUATE_SERVER_REBUILD_FAILED,
 
     /**
      * APP-C instance is too busy
@@ -465,6 +485,11 @@ public enum Msg implements EELFResolvableErrorEnum {
     AAI_DELETE_FAILED,
 
     /**
+     * APP-C is unable to query AAI for VNF_ID {0}
+     */
+    AAI_QUERY_FAILED,
+
+    /**
      * VNF {0} is configured
      */
     VNF_CONFIGURED,
@@ -493,6 +518,21 @@ public enum Msg implements EELFResolvableErrorEnum {
      * VNF {0} test failed for reason {1}
      */
     VNF_TEST_FAILED,
+
+    /**
+     * VNF {0} test failed for reason {1}
+     */
+    VNF_NOT_FOUND,
+
+    /**
+     * VNF {0} Healthcheck operation failed for reason {1}
+     */
+    VNF_HEALTHCECK_FAILED,
+
+    /**
+     * VM {0} Healthcheck operation failed for reason {1}
+     */
+    VM_HEALTHCECK_FAILED,
 
     /**
      * Server {0} (id {1}) failed to stop during {2} phase, reason {3}
@@ -568,7 +608,7 @@ public enum Msg implements EELFResolvableErrorEnum {
     CLOSE_CONTEXT_FAILED,
 
     /**
-     * Stack {0} is being snapshoted...
+     * {0} IAAS Adapter snapshoting stack
      */
     SNAPSHOTING_STACK,
 
@@ -578,7 +618,7 @@ public enum Msg implements EELFResolvableErrorEnum {
     STACK_SNAPSHOTED,
 
     /**
-     * Stack {0} is being restored to snapshot {1}...
+     * {0} IAAS Adapter restoring stack
      */
     RESTORING_STACK,
 
@@ -586,6 +626,11 @@ public enum Msg implements EELFResolvableErrorEnum {
      * Stack {0} is restored to snapshot {1}.
      */
     STACK_RESTORED,
+
+    /**
+     * {0} IAAS Adapter checking server
+     */
+    CHECKING_SERVER,
 
     /**
      * Parameter {0} is missing in svc request of {1}.
@@ -601,8 +646,128 @@ public enum Msg implements EELFResolvableErrorEnum {
      * Operation '{0}' for VNF type '{1}' from Source '{2}' with RequestID '{3}' on '{4}' with action '{5}'
      * ended in {6}ms with result '{7}'
      */
-    APPC_METRIC_MSG;
+    APPC_METRIC_MSG,
 
+    /**
+     * Parsing failied for{0}
+     */
+    INPUT_PAYLOAD_PARSING_FAILED,
+
+    /**
+     * Error occurred for due to {0}
+     */
+    APPC_EXCEPTION,
+
+    /**
+     * SSH Data Exception occurred due to {0}
+     */
+    SSH_DATA_EXCEPTION,
+
+    /**
+     * Json processing exception occurred due to {0}
+     */
+    JSON_PROCESSING_EXCEPTION,
+
+   /**
+     * Operation {0} succeed for {1}
+     */
+    SUCCESS_EVENT_MESSAGE,
+
+    /**
+     * Dependency model not found for VNF type {0} due to {1}
+     */
+    DEPENDENCY_MODEL_NOT_FOUND,
+
+    /**
+     * Invalid Dependency model for VNF Type {0} due to {1}
+     */
+    INVALID_DEPENDENCY_MODEL,
+
+    /**
+     * Failed to retrieve VNFC DG
+     */
+    FAILURE_RETRIEVE_VNFC_DG,
+
+    /**
+     * Network check for Server {0} failed for Port {1}
+     *
+     */
+    SERVER_NETWORK_ERROR,
+
+    /**
+     * Hypervisor check for Server {0} failed. Status is DOWN or UNKNOWN
+     *
+     */
+    HYPERVISOR_DOWN_ERROR,
+
+    /**
+     * Hypervisor Network check for Server {0} failed. Not reachable by APPC
+     *
+     */
+    HYPERVISOR_NETWORK_ERROR,
+
+    /**
+     * Restart application operation failed on server : {0}, reason {1}
+     */
+    APPLICATION_RESTART_FAILED,
+
+    /**
+     * Start application operation failed on server : {0}, reason {1}
+     */
+    APPLICATION_START_FAILED,
+
+    /**
+     * Start application operation failed on server : {0}, reason {1}
+     */
+    APPLICATION_STOP_FAILED,
+
+    /**
+     * Application on server {0} is being restarted...
+     */
+    RESTART_APPLICATION,
+
+    /**
+     * Application on server {0} is being started...
+     */
+    START_APPLICATION,
+
+    /**
+     * Application on server {0} is being started...
+     */
+    STOP_APPLICATION,
+
+    /**
+     * APPC LCM operations are disabled
+     */
+    LCM_OPERATIONS_DISABLED,
+
+    /**
+     * Application {0} received exception {1} while attempting to execute oam operation {2}, exception message = {3}|\
+     */
+    OAM_OPERATION_EXCEPTION,
+
+    /**
+     *   Application {0} is stopping... Waiting for  {1} LCM request to complete
+     */
+    OAM_OPERATION_STOPPING,
+
+    /**
+     * Application {0} is stopped
+     */
+    OAM_OPERATION_STOPPED,
+
+
+    /**
+     * Application {0} is started
+     */
+    OAM_OPERATION_STARTING,
+
+    /**
+     * Application {0} is started
+     */
+    OAM_OPERATION_STARTED,
+
+    ;
     /**
      * Static initializer to ensure the resource bundles for this class are loaded...
      */

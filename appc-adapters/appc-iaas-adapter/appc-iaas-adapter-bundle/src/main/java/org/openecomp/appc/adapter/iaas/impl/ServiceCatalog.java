@@ -45,7 +45,6 @@ import com.att.cdp.zones.spi.AbstractService;
 import com.att.cdp.zones.spi.RequestState;
 import com.att.cdp.zones.spi.AbstractService.State;
 
-import com.sun.jersey.api.client.ClientHandlerException;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.base.client.OpenStackClientConnector;
 import com.woorea.openstack.base.client.OpenStackResponseException;
@@ -168,7 +167,7 @@ public class ServiceCatalog {
      */
     private OpenStackSimpleTokenProvider tokenProvider;
 
-    public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JerseyConnector";
+    public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JaxRs20Connector";
 
     /**
      * Create the ServiceCatalog cache and load it from the specified provider

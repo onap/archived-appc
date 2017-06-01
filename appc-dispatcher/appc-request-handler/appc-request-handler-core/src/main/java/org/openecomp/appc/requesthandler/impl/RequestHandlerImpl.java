@@ -40,7 +40,7 @@ import org.openecomp.appc.lockmanager.api.LockManager;
 import org.openecomp.appc.logging.LoggingConstants;
 import org.openecomp.appc.logging.LoggingUtils;
 import org.openecomp.appc.messageadapter.MessageAdapter;
-import org.openecomp.appc.messageadapter.impl.MessageAdapterDmaapImpl;
+import org.openecomp.appc.messageadapter.impl.MessageAdapterImpl;
 import org.openecomp.appc.metricservice.MetricRegistry;
 import org.openecomp.appc.metricservice.MetricService;
 import org.openecomp.appc.metricservice.metric.DispatchingFuntionMetric;
@@ -133,7 +133,7 @@ public class RequestHandlerImpl implements RequestHandler {
 
     public RequestHandlerImpl() {
         requestRegistry = new RequestRegistry();
-        messageAdapter = new MessageAdapterDmaapImpl();
+        messageAdapter = new MessageAdapterImpl();
         messageAdapter.init();
         Properties properties = configuration.getProperties();
         if (properties != null && properties.getProperty("metric.enabled") != null) {
@@ -215,7 +215,7 @@ public class RequestHandlerImpl implements RequestHandler {
         } catch (LifecycleException e) {
             errorMessage = e.getMessage();
             params = new Params().addParam("actionName", input.getRequestContext().getAction()).addParam("currentState", e.currentState);
-            output = buildRequestHandlerOutput(LCMCommandStatus.ACTION_NOT_SUPPORTED, params);
+            output = buildRequestHandlerOutput(LCMCommandStatus.INVALID_VNF_STATE, params);
         } catch (UnstableVNFException e) {
             errorMessage = e.getMessage();
             params = new Params().addParam("vnfId", vnfId);
@@ -246,6 +246,15 @@ public class RequestHandlerImpl implements RequestHandler {
         } catch (DuplicateRequestException e) {
             errorMessage = e.getMessage();
             output = buildRequestHandlerOutput(LCMCommandStatus.DUPLICATE_REQUEST, null);
+        } catch (MissingVNFDataInAAIException e) {
+            params = new Params().addParam("attributeName",e.getMissingAttributeName())
+                    .addParam("vnfId",vnfId);
+            output = buildRequestHandlerOutput(LCMCommandStatus.MISSING_VNF_DATA_IN_AAI,params);
+            errorMessage = output.getResponseContext().getStatus().getMessage();
+        } catch (LCMOperationsDisabledException e) {
+            errorMessage = e.getMessage();
+            params = new Params().addParam("errorMsg", errorMessage);
+            output = buildRequestHandlerOutput(LCMCommandStatus.REJECTED, params);
         } catch (Exception e) {
             storeErrorMessageToLog(runtimeContext, "", "", "Exception = " + e.getMessage());
             errorMessage = e.getMessage() != null ? e.getMessage() : e.toString();
@@ -261,7 +270,11 @@ public class RequestHandlerImpl implements RequestHandler {
                 runtimeContext.setResponseContext(output.getResponseContext());
                 if ((null == output) || !(output.getResponseContext().getStatus().getCode() == LCMCommandStatus.ACCEPTED.getResponseCode())) {
                     if (isMetricEnabled) {
-                        ((DispatchingFuntionMetric) metricRegistry.metric("DISPATCH_FUNCTION")).incrementRejectedRequest();
+                        if((output.getResponseContext().getStatus().getCode() == LCMCommandStatus.SUCCESS.getResponseCode())) {
+                            ((DispatchingFuntionMetric) metricRegistry.metric("DISPATCH_FUNCTION")).incrementAcceptedRequest();
+                        }else {
+                            ((DispatchingFuntionMetric) metricRegistry.metric("DISPATCH_FUNCTION")).incrementRejectedRequest();
+                        }
                     }
                     removeRequestFromRegistry(input.getRequestContext().getCommonHeader());
                 }
@@ -580,14 +593,18 @@ public class RequestHandlerImpl implements RequestHandler {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to onRequestExecutionStart with vnfId = " + vnfId + "and requestIdentifierString = " + requestIdentifierString);
         }
-        try {
-            boolean updated = workingStateManager.setWorkingState(vnfId, VNFWorkingState.UNSTABLE, requestIdentifierString, forceFlag);
+
+        if(!readOnlyActivity || !forceFlag || workingStateManager.isVNFStable(vnfId)) {
+            boolean updated = false;
+            try {
+                updated = workingStateManager.setWorkingState(vnfId, VNFWorkingState.UNSTABLE, requestIdentifierString, forceFlag);
+            }  catch (Exception e) {
+                logger.error("Error updating working state for vnf " + vnfId + e);
+                throw new RuntimeException(e);
+            }
             if (!updated) {
                 throw new UnstableVNFException("VNF is not stable for vnfID = " + vnfId);
             }
-        } catch (Exception e) {
-            logger.error("Error updating working state for vnf " + vnfId + e);
-            throw new RuntimeException(e);
         }
 
         if (logger.isTraceEnabled())
@@ -804,5 +821,17 @@ public class RequestHandlerImpl implements RequestHandler {
             logger.warn("Cannot find service reference for org.openecomp.appc.metricservice.MetricService");
             return null;
         }
+    }
+
+    /**
+     * This method returns the count of in progress requests
+     * * @return in progress requests count
+     */
+    @Override
+    public int getInprogressRequestCount() {
+        if (logger.isTraceEnabled()) {
+            logger.trace("Entering to getInprogressRequestCount");
+        }
+        return requestRegistry.getRegisteredRequestCount();
     }
 }

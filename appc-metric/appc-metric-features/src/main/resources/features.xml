@@ -32,6 +32,10 @@
     <feature name='appc-metric' description="application executor" version='${project.version}'>
         <!--<feature version="${project.version}">appc-aai-adapter</feature>-->
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
+
+        <!-- appc-common bundle is flagged as being a dependency -->
+        <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
+
         <bundle>mvn:org.openecomp.appc/appc-metric-bundle/${project.version}</bundle>
     </feature>
 

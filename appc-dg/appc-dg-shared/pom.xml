@@ -11,11 +11,14 @@
 
 	<modules>
 		<module>appc-dg-common</module>
+		<module>appc-dg-dependency-model</module>
 		<module>appc-dg-ssh</module>
 		<module>appc-dg-aai</module>
 		<module>appc-dg-netconf</module>
 		<module>appc-dg-license-manager</module>
 		<module>appc-dg-shared-features</module>
 		<module>appc-dg-shared-installer</module>
-	</modules>
+    	<module>appc-dg-domain-model-lib</module>
+		<module>appc-dg-mdsal-store</module>
+  </modules>
 </project>

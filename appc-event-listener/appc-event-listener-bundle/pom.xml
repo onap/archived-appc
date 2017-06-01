@@ -32,6 +32,19 @@
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-dmaap-adapter-bundle</artifactId>
 			<version>${project.version}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-message-adapter-api</artifactId>
+			<version>${project.version}</version>
+            <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-message-adapter-factory</artifactId>
+			<version>${project.version}</version>
+            <scope>provided</scope>
 		</dependency>
 <!--
 		<dependency>
@@ -58,6 +71,12 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+			<scope>compile</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -78,28 +97,15 @@
 						<Bundle-SymbolicName>org.openecomp.appc.listener</Bundle-SymbolicName>
 						<Bundle-Activator>org.openecomp.appc.listener.AppcEventListenerActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.listener</Export-Package>
-						<Import-Package>
-							!com.datastax.*,
-							!com.ibm.icu.text,
-							!com.jcraft.jzlib,
-							!groovy.lang,
-							!javax.jms,
-							!net.sf.ehcache,
-							!net.spy.memcached,
-							!org.apache.commons.lang3,
-							!org.apache.log,
-							!org.apache.log4j.*,
-							!org.apache.zookeeper.*,
-							!org.jasypt.*,
-							!org.codehaus.commons.compiler,
-							!org.codehaus.groovy.*,
-							!org.codehaus.jackson.*,
-							!org.codehaus.jackson.map.*,
-							!org.codehaus.janino,
-							!org.I0Itec.*,
-                            !com.sun.faces.*,
-                            *;resolution:=optional</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|pax-*</Embed-Dependency>
+						<Import-Package>org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*
+							org.openecomp.appc.exceptions, org.openecomp.appc.util,
+							com.att.eelf.configuration, com.att.eelf.i18n,
+							*;resolution:=optional
+						</Import-Package>
+						<Embed-Dependency>
+							jasypt,commons-lang,commons-lang3,appc-common,
+							logback-core,logback-classic,eelf-core,commons-logging;scope=compile|runtime;inline=false
+						</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>

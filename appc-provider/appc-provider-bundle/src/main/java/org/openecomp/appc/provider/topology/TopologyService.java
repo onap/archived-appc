@@ -51,6 +51,8 @@ import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.UUID;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.common.request.header.CommonRequestHeader;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.config.payload.ConfigPayload;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutputBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.openecomp.appc.Constants;
@@ -616,6 +618,83 @@ public class TopologyService {
             RpcResultBuilder.<SnapshotOutput> status(true).withResult(sob.build()).build();
         return rpcResult;
     }
+    
+/**************************************************/
+    
+    public RpcResult<VmstatuscheckOutput> vmstatuscheck(CommonRequestHeader hdr, VnfResource vnf) {
+        long startTime = System.currentTimeMillis();
+        String requestId = hdr.getServiceRequestId();
+
+        MDC.clear();
+        MDC.put(MDC_REMOTE_HOST, "");
+        MDC.put(MDC_KEY_REQUEST_ID, requestId);
+        MDC.put(MDC_SERVICE_NAME, "App-C Provider:vmstatuscheck");
+        MDC.put(MDC_SERVICE_INSTANCE_ID, "");
+        try {
+            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
+            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
+        MDC.put(MDC_ALERT_SEVERITY, "0");
+        logger.info(String.format("Starting VMSTATUSCHECK for request with id [%s]", requestId));
+        
+        performanceLogger.info(String.format("Performance Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime, requestId));
+        auditLogger.info(String.format("Audit Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime, requestId));
+        metricsLogger.info(String.format("Metrics Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime, requestId));
+
+        /*
+         * Copy any needed inputs or other values into the properties to be passed to the DG model
+         */
+        UUID vmId = vnf.getVmId();
+        Properties properties = new Properties();
+        properties.put(Constants.CONTEXT_ACTION, "vmstatuschecking");
+        properties.put(Constants.CONTEXT_REQID, requestId);
+        properties.put(Constants.CONTEXT_VMID, vmId.getValue());
+        properties.put(Constants.STATUS_GETTER, "checking");
+        
+       
+        
+
+        UUID identityUrl = vnf.getIdentityUrl();
+        if (identityUrl != null) {
+            properties.put(Constants.CONTEXT_IDENTITY_URL, identityUrl.getValue());
+        }
+        /*
+         * Attempt to call the DG with the appropriate properties
+         */
+        boolean success = callGraph(properties);
+
+        /*
+         * Generate the appropriate response
+         */
+        String statusStr = success ? "SUCCESS" : "FAILURE";
+        String infomsg =
+            String.format("VMSTATUSCHECK '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
+        logger.info(infomsg);
+        long endTime = System.currentTimeMillis();
+        auditLogger.info(String.format("Audit Logger: VMSTATUSCHECK '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Request ID: [%s]. Reason:%s", requestId, statusStr, startTime, endTime, requestId, reason));
+        metricsLogger.info(String.format("Metrics Logger: VMSTATUSCHECK '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Request ID: [%s]. Reason:%s", requestId, statusStr, startTime, endTime, requestId, reason));
+        //logger.info(String.format("Step1 [%s]", Constants.STATUS_GETTER));
+        String tempstring2 = properties.getProperty(Constants.STATUS_GETTER).trim();
+        //logger.info(String.format("Step2 [%s]", tempstring2));
+        
+        
+        VmstatuscheckOutputBuilder vob = new VmstatuscheckOutputBuilder();
+        long duration = System.currentTimeMillis() - startTime;
+        vob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
+        vob.setStatMsg(tempstring2);
+
+        // Status must be set to true to indicate that our return is expected
+        RpcResult<VmstatuscheckOutput> rpcResult =
+            RpcResultBuilder.<VmstatuscheckOutput> status(true).withResult(vob.build()).build();
+        return rpcResult;
+    }
+    
+    /*************************************************/
+    
+    
 
     private boolean callGraph(Properties props) {
         String moduleName = configuration.getProperty(Constants.PROPERTY_MODULE_NAME);

@@ -20,6 +20,8 @@
  */
 
 package org.openecomp.appc.sdc.listener;
+import org.openecomp.sdc.impl.DistributionClientFactory;
+import org.openecomp.sdc.utils.DistributionActionResultEnum;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -36,7 +38,6 @@ import org.openecomp.sdc.impl.DistributionClientFactory;
 import org.openecomp.sdc.utils.DistributionActionResultEnum;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
 
 public class AsdcListener {
 
@@ -111,7 +112,7 @@ public class AsdcListener {
 
             Map<String, String> headers = new HashMap<>();
             // TODO - Replace the header below to sdc's requirements. What should the new value be
-            headers.put("HTTP_CSP_ID", "test");
+            headers.put("USER_ID", "test");
 
             // TODO - How to format the url. Always same endpoint or ports?
             String host = config.getAsdcAddress();

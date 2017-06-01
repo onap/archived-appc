@@ -15,6 +15,9 @@
 # Generated models and features
 **/bin/*
 
+# Checkstyle files
+**/.checkstyle
+
 # MANIFEST.MF is updated on every clean install
 **/src/main/resources/META-INF/
 

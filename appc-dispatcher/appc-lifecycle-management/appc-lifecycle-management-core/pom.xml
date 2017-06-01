@@ -25,7 +25,6 @@
 	    <artifactId>appc-lifecycle-management</artifactId>
 	    <version>1.1.0-SNAPSHOT</version>
 	  </parent>
-    <groupId>org.openecomp.appc</groupId>
     <artifactId>appc-lifecycle-management-core</artifactId>
     <packaging>bundle</packaging>
 
@@ -69,10 +68,12 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.openecomp.appc.lifecyclemanager.LifecycleManager</Export-Service>
-                        <Import-Package>org.openecomp.appc.lifecyclemanager.*,!groovy.lang,!javax.*,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.apache.commons.lang3,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*</Import-Package>
+                        <Import-Package>
+                            org.openecomp.appc.lifecyclemanager.*,
+                            *;resolution:=optional
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

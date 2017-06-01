@@ -26,7 +26,7 @@
       <artifactId>eelf-core</artifactId>
       </dependency>
   </dependencies>
-  
+
       <build>
         <plugins>
             <plugin>
@@ -36,10 +36,11 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-			            <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Package>org.openecomp.appc.executionqueue,org.openecomp.appc.executionqueue.impl</Export-Package>
-                        <Import-Package>!groovy.lang,!javax.*,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.apache.commons.lang3,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*</Import-Package>
+                        <Import-Package>
+                            *;resolution:=optional
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

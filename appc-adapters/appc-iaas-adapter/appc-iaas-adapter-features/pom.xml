@@ -19,12 +19,6 @@
     </dependency>
 
     <dependency>
-      <groupId>commons-lang</groupId>
-      <artifactId>commons-lang</artifactId>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
       <groupId>org.opendaylight.mdsal</groupId>
       <artifactId>features-mdsal</artifactId>
       <classifier>features</classifier>
@@ -38,13 +32,6 @@
       <artifactId>opendaylight-karaf-empty</artifactId>
       <type>zip</type>
     </dependency>
-
-<!--     <dependency> -->
-<!--       Required for launching the feature tests -->
-<!--       <groupId>org.opendaylight.yangtools</groupId> -->
-<!--       <artifactId>features-test</artifactId> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
 
     <dependency>
       <groupId>org.opendaylight.yangtools</groupId>

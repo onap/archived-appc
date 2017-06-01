@@ -24,9 +24,6 @@ package org.openecomp.appc.adapter.ssh;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openecomp.appc.adapter.ssh.SshAdapter;
-import org.openecomp.appc.adapter.ssh.SshConnection;
-
 public class SshAdapterMock implements SshAdapter {
 
 	private List<SshConnectionMock> connectionMocks = new ArrayList<>();

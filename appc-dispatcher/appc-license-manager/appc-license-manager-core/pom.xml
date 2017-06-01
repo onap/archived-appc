@@ -58,10 +58,18 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Embed-Dependency>!dblib-provider,appc-common,eelf-core,logback-core,logback-classic,javax.mail;scope=compile|runtime;inline=false</Embed-Dependency>
-                        <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.openecomp.appc.licmgr.LicenseManager</Export-Service>
-                        <Import-Package>org.openecomp.appc.licmgr,org.openecomp.appc.licmgr.exception,org.openecomp.appc.licmgr.objects,javax.mail.internet,!javax.mail,!groovy.lang,!javax.jms,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*</Import-Package>
+
+                        <Embed-Dependency>
+                            artifactId=!dblib-provider|slf4j-api|jcl-over-slf4j;scope=compile|runtime;inline=false
+                        </Embed-Dependency>
+
+                        <Import-Package>
+                            org.openecomp.appc.licmgr,org.openecomp.appc.licmgr.exception,org.openecomp.appc.licmgr.objects,
+                            *;resolution:=optional
+                        </Import-Package>
+
+                        <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>

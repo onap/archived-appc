@@ -37,6 +37,16 @@
       <artifactId>appc-dmaap-adapter-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>org.openecomp.appc</groupId>
+      <artifactId>appc-message-adapter-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openecomp.appc</groupId>
+      <artifactId>appc-message-adapter-factory</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

@@ -4,10 +4,11 @@
     <groupId>org.openecomp.appc</groupId>
     <artifactId>appc</artifactId>
 		<version>1.1.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>appc-common</artifactId>
-	<name>APP-C Common</name>
-	<description>Common library shared across all modules</description>
+  </parent>
+  <artifactId>appc-common</artifactId>
+  <name>APP-C Common</name>
+  <packaging>bundle</packaging>
+  <description>Common library shared across all modules</description>
 
 <!-- <packaging>bundle</packaging> -->
 
@@ -82,6 +83,20 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.openecomp.sdnc.core</groupId>
+      <artifactId>dblib-provider</artifactId>
+      </dependency>
+  <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-core</artifactId>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-all</artifactId>
+    <scope>test</scope>
+  </dependency>
 
   </dependencies>
 
@@ -107,9 +122,11 @@
         <configuration>
           <instructions>
             <Bundle-SymbolicName>appc-common</Bundle-SymbolicName>
-            <!-- <Export-Package>org.openecomp.appc.provider</Export-Package> -->
-            <Import-Package>!com.att,!javax.crypto.*, *</Import-Package>
-            <Embed-Dependency>eelf-core, jasypt</Embed-Dependency>
+            <Export-Package>
+              org.openecomp.appc.*, com.att.eelf.*, ch.qos.logback.*, org.jasypt.*
+            </Export-Package>
+            <Import-Package>*;resolution:=optional</Import-Package>
+            <Embed-Dependency>eelf-core, logback-core, logback-classic, jasypt</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
           </instructions>
         </configuration>

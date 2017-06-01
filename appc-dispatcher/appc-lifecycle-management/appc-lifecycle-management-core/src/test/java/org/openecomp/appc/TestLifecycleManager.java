@@ -103,6 +103,19 @@ public class TestLifecycleManager {
         }
     }
 
+    @Test
+    public void testNotOrchestratedState() throws LifecycleException, NoTransitionDefinedException {
+        LifecycleManager lifecycleManager = new LifecycleManagerImpl();
+        String nextState = lifecycleManager.getNextState(null,"NOT ORCHESTRATED",VNFOperation.Configure.toString());
+        Assert.assertEquals(nextState,"Configuring");
+    }
+
+    @Test(expected = NoTransitionDefinedException.class)
+    public void testBakckingUpState() throws LifecycleException, NoTransitionDefinedException {
+        LifecycleManager lifecycleManager = new LifecycleManagerImpl();
+        String nextState = lifecycleManager.getNextState(null,"Software_Uploading",VNFOperation.Configure.toString());
+    }
+
     private List<Event> getNegativeEvents(State state,Set<Event> events) {
         List<Event> negativeEventList = new ArrayList<>();
         negativeEventList.addAll(events);

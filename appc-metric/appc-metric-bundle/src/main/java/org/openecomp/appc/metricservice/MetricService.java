@@ -22,8 +22,17 @@
 package org.openecomp.appc.metricservice;
 
 
+import java.util.Map;
+
 public interface MetricService {
     MetricRegistry registry(String name);
     MetricRegistry createRegistry(String name);
     void dispose();
+
+    /**
+     * This API will be used to get the Map of all the registered Registry for the Metric Service
+     * @return Map<String,MetricRegistry> where String will be the name of the Metric Registry
+     * and MetricRegistry will be the actual object for that Registry
+     */
+    Map<String,MetricRegistry> getAllRegistry();
 }

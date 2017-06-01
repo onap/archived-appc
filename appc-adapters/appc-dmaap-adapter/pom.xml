@@ -9,7 +9,7 @@
 
 	<artifactId>appc-dmaap-adapter</artifactId>
 	<name>DMaaP Adapter</name>
-	<description>Adapter to read and write messages on the Universal Event Broker (Cambria).</description>
+	<description>Adapter to read and write messages on the DMaaP Service</description>
 	<packaging>pom</packaging>
 
 	<reporting>
@@ -98,8 +98,10 @@
 	</reporting>
 
 	<modules>
+		<module>appc-message-adapter-api</module>
 		<module>appc-dmaap-adapter-bundle</module>
 		<module>appc-dmaap-adapter-features</module>
 		<module>appc-dmaap-adapter-installer</module>
+		<module>appc-message-adapter-factory</module>
 	</modules>
 </project>

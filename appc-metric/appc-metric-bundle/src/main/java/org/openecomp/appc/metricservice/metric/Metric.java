@@ -21,6 +21,8 @@
 
 package org.openecomp.appc.metricservice.metric;
 
+import java.util.HashMap;
+
 /**
  *
  * a measure of system parameter at the current moment. Each metric is identified by name.
@@ -34,4 +36,17 @@ public interface Metric {
     String name();
     void reset();
     MetricType type();
+    /**
+     * This API will be used to get all the running Metrics Output.
+     * @return HashMap <String,String> in which
+     * the First String(Key) will be the name of the KPI property
+     * and another String(Value of the Key) will be the Value of
+     * that property for that KPI
+     */
+    HashMap<String,String> getMetricsOutput();
+    /**
+     * Return last modified date for  KPI in string format
+     * @return - last modified date for KPI
+     */
+    String getLastModified();
 }
