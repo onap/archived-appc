@@ -39,7 +39,7 @@ import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
  */
 public interface RestAdapter extends SvcLogicJavaPlugin {
 
-	 /**
+     /**
      * The type of provider to be accessed to locate and operate on a virtual machine instance. This is used to load the
      * correct provider support through the CDP IaaS abstraction layer and can be OpenStackProvider, BareMetalProvider,
      * or any other supported provider type.

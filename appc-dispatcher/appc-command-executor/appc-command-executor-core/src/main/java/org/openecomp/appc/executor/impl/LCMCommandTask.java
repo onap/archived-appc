@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.domainmodel.lcm.CommonHeader;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.executor.UnstableVNFException;
 import org.openecomp.appc.executor.objects.CommandResponse;
@@ -38,6 +39,7 @@ import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
 import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.openecomp.appc.lifecyclemanager.objects.VNFOperationOutcome;
+import org.openecomp.appc.logging.LoggingConstants;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
 import org.openecomp.appc.workflow.objects.WorkflowResponse;
@@ -48,9 +50,15 @@ import org.openecomp.sdnc.sli.aai.AAIService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import org.slf4j.MDC;
 
+import java.net.InetAddress;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+
+import static com.att.eelf.configuration.Configuration.*;
+import static com.att.eelf.configuration.Configuration.MDC_SERVICE_INSTANCE_ID;
+import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 
 public class LCMCommandTask extends CommandTask {
@@ -103,9 +111,15 @@ public class LCMCommandTask extends CommandTask {
 				isAAIUpdated = updateAAI(request.getVnfContext().getId() , false, isSuccess);
 			}
 			logger.debug("isAAIUpdated = " + isAAIUpdated);
+			if(!isAAIUpdated){
+				throw new Exception();
+			}
 		}
 		catch(Exception e1) {
 			logger.error("Exception = " + e1);
+			// In case of any errors we are updating the response status code and message
+			Status updatedStatus = new Status(401, "Fail to update VNF status in A&AI");
+			request.getResponseContext().setStatus(updatedStatus);
 			throw new RuntimeException(e1);
 		}
 		finally {
@@ -115,8 +129,9 @@ public class LCMCommandTask extends CommandTask {
 
 	@Override
 	public void run() {
-        final RuntimeContext request = commandRequest;
-        boolean isAAIUpdated = false;
+		final RuntimeContext request = commandRequest;
+		setInitialLogProperties(request);
+		boolean isAAIUpdated = false;
 		final String vnfId = request.getVnfContext().getId();
 		final String vnfType = request.getVnfContext().getType();
 		try {
@@ -163,11 +178,12 @@ public class LCMCommandTask extends CommandTask {
 			CommandResponse commandResponse = super.buildCommandResponse(response);
 			this.onRequestCompletion(commandResponse);
 		}
-	}
+
+        clearRequestLogProperties();
+    }
 
 
-
-	private boolean updateAAI(String vnf_id , boolean isTTLEnd , boolean executionStatus)
+	private boolean updateAAI(String vnf_id, boolean isTTLEnd, boolean executionStatus)
 	{
 		String orchestrationStatus = null;
 		String nextState;
@@ -203,7 +219,7 @@ public class LCMCommandTask extends CommandTask {
 
 
 	private SvcLogicContext getVnfdata(String vnf_id, String prefix,SvcLogicContext ctx) {
-		String key="vnf-id = '"+ vnf_id+"'";
+		String key="generic-vnf.vnf-id = '"+ vnf_id+"'"+" AND http-header.Real-Time = 'true'";
 		logger.debug("inside getVnfdata=== "+key);
 		try {
 			SvcLogicResource.QueryStatus response = aaiService.query("generic-vnf", false, null, key,prefix, null, ctx);
@@ -245,4 +261,31 @@ public class LCMCommandTask extends CommandTask {
 		return false;
 	}
 
+    protected void setInitialLogProperties(RuntimeContext request)
+    {
+        MDC.put(MDC_KEY_REQUEST_ID, request.getRequestContext().getCommonHeader().getRequestId());
+        if (request.getRequestContext().getActionIdentifiers().getServiceInstanceId() != null)
+            MDC.put(MDC_SERVICE_INSTANCE_ID, request.getRequestContext().getActionIdentifiers().getServiceInstanceId());
+        MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, request.getRequestContext().getCommonHeader().getOriginatorId());
+        MDC.put(MDC_SERVICE_NAME, request.getRequestContext().getAction().name());
+        try {
+            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getCanonicalHostName());
+            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
+        } catch (Exception e) {
+            logger.debug(e.getMessage());
+        }
+        MDC.put(MDC_INSTANCE_UUID, ""); //TODO make instanse_UUID generation once during APPC-instanse deploying
+    }
+
+    protected void clearRequestLogProperties()
+    {
+        try {
+            MDC.remove(MDC_KEY_REQUEST_ID);
+            MDC.remove(MDC_SERVICE_INSTANCE_ID);
+            MDC.remove(MDC_SERVICE_NAME);
+            MDC.remove(LoggingConstants.MDCKeys.PARTNER_NAME);
+        } catch (Exception e) {
+
+        }
+    }
 }

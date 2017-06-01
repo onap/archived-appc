@@ -74,4 +74,10 @@ public interface RequestHandler {
      * @param updateAAI boolean flag which indicate AAI upodate status after request completion.
      */
      void onRequestTTLEnd(RuntimeContext runtimeContext, boolean updateAAI);
+
+    /**
+     * This method returns the count of in progress requests
+     * * @return in progress requests count
+     */
+     int getInprogressRequestCount();
 }

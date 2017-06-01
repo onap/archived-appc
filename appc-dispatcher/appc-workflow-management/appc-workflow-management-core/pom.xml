@@ -52,6 +52,11 @@
         	<artifactId>appc-ranking-framework-lib</artifactId>
         	<version>${project.version}</version>
         </dependency>
+   		<dependency>
+			<groupId>equinoxSDK381</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<scope>test</scope>
+		</dependency>        
     </dependencies>
 
     <build>
@@ -63,10 +68,14 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic,appc-data-access-lib,javax.json;scope=compile|runtime;inline=false</Embed-Dependency>
+                        <Embed-Dependency>javax.json;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.openecomp.appc.workflow.WorkFlowManager</Export-Service>
-                        <Import-Package>org.openecomp.appc.workflow,org.openecomp.appc.workflow.objects,!groovy.lang,!javax.*,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*</Import-Package>
+                        <Import-Package>
+                            org.openecomp.appc.workflow,org.openecomp.appc.workflow.objects, org.openecomp.appc.configuration,
+                            org.openecomp.appc.util,com.att.eelf.configuration, org.openecomp.appc.dao.util,
+                            *;resolution:=optional
+                        </Import-Package>
                     </instructions>
                 </configuration>
             </plugin>

@@ -23,8 +23,9 @@ package org.openecomp.appc.domainmodel.lcm;
 
 public enum VNFOperation {
 
-	Configure, Test, HealthCheck, Start, Terminate, Restart, Rebuild, Stop, ModifyConfig, Backup, Snapshot,
-	SoftwareUpload, LiveUpgrade, Rollback, Sync, Audit, Test_lic, Migrate, Evacuate,
+	Configure, Test, HealthCheck, Start, Terminate, Restart, Rebuild, Stop, ConfigModify,
+	ConfigScaleOut,ConfigRestore,Backup, Snapshot,
+	SoftwareUpload, LiveUpgrade, Rollback, Sync, Audit, Test_lic, Migrate, Evacuate,ConfigBackup,ConfigBackupDelete,ConfigExport,
 	Lock(true), Unlock(true), CheckLock(true);
 
 	private boolean builtIn;

@@ -32,7 +32,6 @@ import org.openecomp.sdnc.sli.SvcLogicContext;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
 public class JsonDgUtilImplTest {
@@ -83,7 +82,7 @@ public class JsonDgUtilImplTest {
         } catch (APPCException e) {
             Assert.assertNull(ctx.getAttribute(testValueKey));
             Assert.assertNull(ctx.getAttribute(testValueKey2));
-            Assert.assertNotNull(ctx.getAttribute("output.status.message"));
+            Assert.assertNotNull(ctx.getAttribute("error-message"));
         }
 
 
@@ -141,5 +140,30 @@ public class JsonDgUtilImplTest {
 
         Assert.assertNull(ctx.getAttribute(testValueKey));
         Assert.assertNull(ctx.getAttribute(testValueKey2));
+    }
+
+
+    @Test
+    public void testGenerateOutputPayloadFromContext() throws Exception {
+
+        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
+        String key = "output.payload";
+        String key1 = "output.payload.test-key[0]";
+        String key2 = "output.payload.test-key[1]";
+        String testValueKey1 = "value1";
+        String testValueKey2 = "value2";
+
+        String key3 = "output.payload.test-key3";
+        String testValueKey3 = "value3";
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+        ctx.setAttribute(key1, testValueKey1);
+        ctx.setAttribute(key2, testValueKey2);
+        ctx.setAttribute(key3, testValueKey3);
+        jsonDgUtil.generateOutputPayloadFromContext(params, ctx);
+
+        Assert.assertNotNull(ctx.getAttribute(key));
+
     }
 }

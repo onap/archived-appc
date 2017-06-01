@@ -1,0 +1,137 @@
+/*
+ * Yang model for the OAM component of Application Controller (APP-C) component of ONAP
+ *
+ * This model is used to define the data and services of the OAM component of APP-C.
+ *
+ * The services exposed by this component are:
+ *
+ * get-metrics:
+ *    Used to retrieve current metric data from APP-C.
+ *
+ */
+
+module appc-oam {
+
+    yang-version 1;
+    namespace "org:openecomp:appc:oam";
+    prefix appc-oam;
+    organization "Copyright 2017 AT&T Intellectual Property.";
+
+    description
+        "Defines the services and request/response requirements for the
+        APP-C OAM component.";
+
+    /*
+     * Note, the revision changes the package name of the generated java code.  Do not
+     * change the revision unless you also update all references to the bindings.
+     */
+    revision "2017-03-03" {
+        description
+                "APP-C OAM interface version 1.5.00";
+    }
+
+    grouping common-header {
+        description "A common header for all APP-C requests";
+        container common-header {
+            description "A common header for all APP-C requests";
+
+            leaf originator-id {
+                description "originator-id an identifier of the calling system which can be
+                                    used addressing purposes, i.e. returning asynchronous response
+                                    to the proper destination over UEB (especially in case of multiple
+                                    consumers of APP-C APIs)";
+                type string;
+                mandatory true;
+            }
+
+            leaf request-id {
+                description "UUID for the request ID. An OSS/BSS identifier for the request
+                                that caused the current action. Multiple API calls may be made
+                                with the same request-id The request-id shall be recorded throughout
+                                the operations on a single request";
+                type string;
+                mandatory true;
+            }
+
+        }
+    }
+
+    grouping status {
+        description "The specific response codes are to be aligned with ASDC reference
+                doc (main table removed to avoid duplication and digression from
+                main table). See ASDC and ECOMP Distribution Consumer Interface
+                Agreement";
+        container status {
+            description "The specific response codes are to be aligned with ASDC reference
+                        doc (main table removed to avoid duplication and digression from
+                        main table). See ASDC and ECOMP Distribution Consumer Interface
+                        Agreement";
+            leaf code {
+                description "Response code";
+                type uint16;
+                mandatory true;
+            }
+            leaf message {
+                description "Response message";
+                type string;
+                mandatory true;
+            }
+        }
+    }
+
+    rpc get-metrics {
+        description "An operation to get list of registered Metrics in APP-C";
+        output {
+            list metrics {
+                key kpi-name;
+                description "KPI metrics definition";
+                leaf kpi-name {
+                    description "metrics name";
+                    type string;
+                    mandatory true;
+                }
+                leaf last-reset-time {
+                    description "Last reset time";
+                    type string;
+                    mandatory true;
+                }
+                list kpi-values {
+                    key name;
+                    description "KPI properties in form of key value pairs";
+                    leaf name {
+                        description "KPI property name";
+                        type string;
+                    }
+                    leaf value {
+                        description "KPI property value";
+                        type string;
+                    }
+                }
+            }
+        }
+    }
+
+    rpc stop {
+        description "An operation that disables appc-provider-lcm so that it no longer accepts LCM request.  This
+                         operation has no impact on queued and currently executing LCM request.  A notification will be
+                         sent out indicating the APP-C  is idle once all LCM request have completed execution.  ";
+        input {
+           uses common-header;
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    rpc start {
+        description "An operation that enables appc-provider-lcm so that it can begin to accepts LCM request. ";
+        input {
+           uses common-header;
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+}

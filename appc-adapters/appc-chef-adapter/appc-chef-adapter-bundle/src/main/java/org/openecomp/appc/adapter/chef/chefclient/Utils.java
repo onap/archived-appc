@@ -35,8 +35,10 @@ import java.security.Signature;
 import java.security.SignatureException;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.openssl.PEMReader;
+import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.util.encoders.Base64;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.bouncycastle.openssl.PEMKeyPair;
 
 public class Utils {
 	private Utils(){}
@@ -66,7 +68,10 @@ public class Utils {
 		Security.addProvider(new BouncyCastleProvider());
 		try {
 
-			KeyPair kp = (KeyPair) new PEMReader(br).readObject();
+			PEMParser pemParser = new PEMParser(br);
+			JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+			Object object = pemParser.readObject();
+			KeyPair kp =  converter.getKeyPair((PEMKeyPair) object);;
 			PrivateKey privateKey = kp.getPrivate();
 			Signature instance = Signature.getInstance("RSA");
 			instance.initSign(privateKey);

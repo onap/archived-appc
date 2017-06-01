@@ -13,26 +13,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			</dependency>
-		<!-- http://mvnrepository.com/artifact/commons-logging/commons-logging -->
-		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
 			<version>1.2</version>
 		</dependency>
-		<!-- http://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
 			<version>4.4.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
@@ -41,18 +29,17 @@
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15on</artifactId>
-			</dependency>
-		<dependency>
-			<groupId>org.openecomp.appc</groupId>
-			<artifactId>appc-common</artifactId>
-			<version>${project.version}</version>
-			<classifier>jar-with-dependencies</classifier>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-common</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+			<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-common</artifactId>
+			<version>${project.version}</version>
+			<classifier>jar-with-dependencies</classifier>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -116,6 +103,7 @@
 			<groupId>org.glassfish.jersey.core</groupId>
 			<artifactId>jersey-common</artifactId>
 			<version>2.9.1</version>
+            <scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -161,10 +149,10 @@
 			</exclusions>
 		</dependency>
 
-		<dependency>
-			<groupId>equinoxSDK381</groupId>
-			<artifactId>org.eclipse.osgi</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>equinoxSDK381</groupId> -->
+<!-- 			<artifactId>org.eclipse.osgi</artifactId> -->
+<!-- 		</dependency> -->
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -212,11 +200,9 @@
 						<Bundle-Activator>org.openecomp.appc.adapter.rest.RestActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.adapter.rest</Export-Package>
 						<Import-Package>org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis</Embed-Dependency>
+						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|jaxp-api</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
-
-					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
 				</configuration>
 			</plugin>
 		</plugins>

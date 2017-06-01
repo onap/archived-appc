@@ -27,10 +27,15 @@
         
     <feature name='appc-request-handler' description="appc-request-handler" version='${project.version}'>
         <bundle>mvn:org.openecomp.appc/transaction-recorder/${project.version}</bundle>
+
+        <!-- appc-data-access-lib bundle is flagged as being a dependency -->
+        <bundle dependency="true">mvn:org.openecomp.appc/appc-data-access-lib/${project.version}</bundle>
+
         <bundle dependency="true">mvn:org.openecomp.appc/domain-model-lib/${project.version}</bundle>
         <bundle start-level="75" start="true">mvn:org.openecomp.appc/appc-command-executor-api/${project.version}</bundle>
     	<bundle start-level="80" start="true">mvn:org.openecomp.appc/appc-request-handler-api/${project.version}</bundle>
         <bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-request-handler-core/${project.version}</bundle>
+
     </feature>
 
 </features>

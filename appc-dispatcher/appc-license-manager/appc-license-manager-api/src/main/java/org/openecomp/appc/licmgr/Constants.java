@@ -68,7 +68,6 @@ public class Constants {
     public static final String VNF_HOST_IP_ADDRESS_FIELD_NAME = "vnf-host-ip-address";
     public static final String UPGRADE_VERSION = "upgrade-version";
     public static final String DG_ERROR_FIELD_NAME = "org.openecomp.appc.dg.error";
-    public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
     public static final String RESOURCEKEY = "resourceKey";
     public static final String REQ_ID_FIELD_NAME = "org.openecomp.appc.reqid";
     public static final String API_VERSION_FIELD_NAME = "org.openecomp.appc.apiversion";

@@ -39,9 +39,13 @@
         <property name="lifecyclemanager" ref="lifecyclemanagerRef" />
         <property name="workflowManager" ref="workflowManagerRef" />
         <property name="workingStateManager" ref="workingStateManagerBean" />
+        <property name="lcmStateManager" ref="lcmStateManagerBean" />
     </bean>
 
+    <bean id="lcmStateManagerBean" class="org.openecomp.appc.requesthandler.impl.LCMStateManagerImpl" scope="singleton" />
+
     <service id="requestHandlerService" interface="org.openecomp.appc.requesthandler.RequestHandler" ref="requestHandlerBean"/>
+    <service id="lcmStateManagerService" interface="org.openecomp.appc.requesthandler.LCMStateManager" ref="lcmStateManagerBean"/>
     <reference id="lifecyclemanagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.lifecyclemanager.LifecycleManager" />
     <reference id="workflowManagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.workflow.WorkFlowManager" />
     <reference id="commandExecutorRef" availability="optional" activation="eager" interface="org.openecomp.appc.executor.CommandExecutor" />

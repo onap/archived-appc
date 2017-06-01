@@ -30,14 +30,15 @@ import org.openecomp.appc.listener.LCM.model.DmaapMessage;
 import org.openecomp.appc.listener.LCM.model.DmaapOutgoingMessage;
 import org.openecomp.appc.listener.util.Mapper;
 
-
 public class Converter {
-
-
-    public static DmaapOutgoingMessage convJsonNodeToDmaapOutgoingMessage(JsonNode inObj, String rpcName) {
-        DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
+   
+    public static DmaapOutgoingMessage convJsonNodeToDmaapOutgoingMessage(DmaapMessage event, JsonNode inObj) {
+    	DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
         outObj.setBody(inObj);
-        outObj.setRpcName(rpcName);
+        outObj.setRpcName(event.getRpcName());
+        outObj.setVersion(event.getVersion());
+        outObj.setType("response");
+        outObj.setCorrelationID(event.getCorrelationID());
         return outObj;
     }
 
@@ -50,13 +51,16 @@ public class Converter {
 
     }
 
-    public static DmaapOutgoingMessage buildDmaapOutgoingMessageWithUnexpectedError(JsonNode dmaapInputBody, String rpcName,Exception inputException) {
-        DmaapOutgoingMessage dmaapOutgoingMessage = null;
+    public static DmaapOutgoingMessage buildDmaapOutgoingMessageWithUnexpectedError(DmaapMessage event,Exception inputException) {
+    	DmaapOutgoingMessage dmaapOutgoingMessage = null;
         String errMsg = StringUtils.isEmpty(inputException.getMessage())? inputException.toString() : inputException.getMessage();
-        JSONObject commonHeaderJsonObject = Mapper.toJsonObject(dmaapInputBody.get("input").get("common-header"));
+        JSONObject commonHeaderJsonObject = Mapper.toJsonObject(event.getBody().get("input").get("common-header"));
         JSONObject jsonObjectOutput = new JSONObject().accumulate("common-header", commonHeaderJsonObject).accumulate("status", new JSONObject().accumulate("code",200).accumulate("value",errMsg));
         dmaapOutgoingMessage = new DmaapOutgoingMessage();
-        dmaapOutgoingMessage.setRpcName(rpcName);
+        dmaapOutgoingMessage.setRpcName(event.getRpcName());
+        dmaapOutgoingMessage.setCorrelationID(event.getCorrelationID());
+        dmaapOutgoingMessage.setType("error");
+        dmaapOutgoingMessage.setVersion(event.getVersion());
         JSONObject jsonObjectBody = new JSONObject().accumulate("output",jsonObjectOutput);
         JsonNode jsonNodeBody = Mapper.toJsonNodeFromJsonString(jsonObjectBody.toString());
         dmaapOutgoingMessage.setBody(jsonNodeBody);
@@ -64,12 +68,10 @@ public class Converter {
     }
 
     public static String extractRequestIdWithSubId(JsonNode dmaapBody) {
-        String requestId;
         //TODO: null pointer exception if dmaapBody is null, check if null or ensure is not null before calling
         JsonNode commonHeaderJsonNode = dmaapBody.get("input").get("common-header");
-        requestId = commonHeaderJsonNode.get("request-id").asText();
-        requestId = requestId != null ? requestId : "";
-        String subRequestId = commonHeaderJsonNode.get("sub-request-id").asText();
+        String requestId = getValue(commonHeaderJsonNode,"request-id","");
+        String subRequestId = getValue(commonHeaderJsonNode,"sub-request-id","");
         if(!StringUtils.isEmpty(subRequestId)){
             requestId = requestId +"-"+subRequestId;
         }
@@ -80,6 +82,21 @@ public class Converter {
         Integer statusCode;
         statusCode = event.get("output").get("status").get("code").asInt();
         return statusCode;
+    }
+
+    private static String getValue(JsonNode jsonNode,String name,String defaultValue){
+        if(jsonNode == null){
+            return defaultValue;
+        }
+        JsonNode childJsonNode = jsonNode.get(name);
+        if(childJsonNode == null){
+            return defaultValue;
+        }
+        String value = childJsonNode.asText();
+        if(value == null){
+            return defaultValue;
+        }
+        return value;
     }
 
 }

@@ -76,4 +76,15 @@ public class RequestRegistry {
         set.remove(requestIdentifier);
     }
 
+    /**
+     * This method returns the count of currently registered requests
+     * in the request registry
+     * * @return currently registered requests count
+     */
+    public int getRegisteredRequestCount() {
+        if (logger.isTraceEnabled()) {
+            logger.trace("Entering to getRegisteredRequestCount");
+        }
+        return set.size();
+    }
 }

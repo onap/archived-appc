@@ -21,17 +21,12 @@
 
 package org.openecomp.appc.sdc.listener;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.openecomp.sdc.api.consumer.IConfiguration;
-import org.openecomp.sdc.utils.ArtifactTypeEnum;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.openecomp.sdc.api.consumer.IConfiguration;
+
+import java.net.URI;
+import java.util.*;
 
 public class AsdcConfig implements IConfiguration {
 
@@ -103,6 +98,11 @@ public class AsdcConfig implements IConfiguration {
 
 	@Override
 	public boolean activateServerTLSAuth() {
+		return false;
+	}
+
+	//@Override
+	public boolean isFilterInEmptyResources() {
 		return false;
 	}
 

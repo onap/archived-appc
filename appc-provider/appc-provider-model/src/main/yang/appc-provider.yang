@@ -392,7 +392,7 @@ module appc-provider {
              *  FORCE = TRUE/FALSE - Execute command even if target is in unstable (i.e. locked, transiting, etc) state. Specific behaviour of forced commands varies, but implies cancellation of previous command and an override by the new command. The FALSE value is used by default.
              *  TTL = <0....N> - The timeout value for command execution, expressed in seconds
              *  MODE = EXCLUSIVE/NORMAL - defines execution mode as follows:
-             *        - EXCLUSIVE ï¿½ on encountering an exclusive command, the APP-C will:
+             *        - EXCLUSIVE � on encountering an exclusive command, the APP-C will:
              *          * Cease accepting additional command requests
 
              * Complete execution of outstanding commands
@@ -616,5 +616,19 @@ module appc-provider {
         }
     }
     
+        rpc vmstatuscheck {
+            description "An operation to check status of a VM";
+            input {
+                uses common-request-header;
+                uses vnf-resource;
+            }
+            output {
+                uses common-response-header;
+                leaf stat-msg {
+                    description "The status of the VM requested";
+                    type string;
+                }
+            }
+        }
 
 }

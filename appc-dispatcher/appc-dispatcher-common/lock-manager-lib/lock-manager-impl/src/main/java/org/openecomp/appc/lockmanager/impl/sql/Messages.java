@@ -28,6 +28,7 @@ public enum Messages {
     ERR_UNLOCK_NOT_LOCKED("Error unlocking resource [%s]: resource is not locked"),
     ERR_UNLOCK_LOCKED_BY_OTHER("Error unlocking resource [%s] by [%s]: resource is locked by [%s]"),
     EXP_LOCK("Error locking resource [%s]."),
+    EXP_CHECK_LOCK("Error check locking resource [%s]."),//for checklock operation
     EXP_UNLOCK("Error unlocking resource [%s]."),
     ;
 

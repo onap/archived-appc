@@ -24,6 +24,7 @@ package org.openecomp.appc.requesthandler.impl;
 import java.time.Instant;
 
 import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang.StringUtils;
 import org.openecomp.appc.common.constant.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
@@ -40,6 +41,8 @@ import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
 import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.openecomp.appc.logging.LoggingConstants;
 import org.openecomp.appc.logging.LoggingUtils;
+import org.openecomp.appc.requesthandler.LCMStateManager;
+import org.openecomp.appc.requesthandler.exceptions.*;
 import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
 import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
 import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
@@ -74,6 +77,7 @@ public class RequestValidatorImpl implements RequestValidator {
     private WorkFlowManager workflowManager;
 
     private WorkingStateManager workingStateManager;
+    private LCMStateManager lcmStateManager;
 
     private final RequestRegistry requestRegistry = new RequestRegistry();
 
@@ -93,14 +97,26 @@ public class RequestValidatorImpl implements RequestValidator {
         this.workingStateManager = workingStateManager;
     }
 
+    public void setLcmStateManager(LCMStateManager lcmStateManager) {
+        this.lcmStateManager = lcmStateManager;
+    }
+
     public RequestValidatorImpl() {
     }
 
     @Override
-    public void validateRequest(RuntimeContext runtimeContext) throws VNFNotFoundException, RequestExpiredException, UnstableVNFException, InvalidInputException, DuplicateRequestException, NoTransitionDefinedException, LifecycleException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+    public void validateRequest(RuntimeContext runtimeContext) throws VNFNotFoundException, RequestExpiredException, UnstableVNFException, InvalidInputException, DuplicateRequestException, NoTransitionDefinedException, LifecycleException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
         if (logger.isTraceEnabled()){
             logger.trace("Entering to validateRequest with RequestHandlerInput = "+ ObjectUtils.toString(runtimeContext));
         }
+        if(!lcmStateManager.isLCMOperationEnabled()) {
+            LoggingUtils.logErrorMessage(
+                    LoggingConstants.TargetNames.REQUEST_VALIDATOR,
+                    EELFResourceManager.format(Msg.LCM_OPERATIONS_DISABLED),
+                    this.getClass().getCanonicalName());
+            throw new LCMOperationsDisabledException("APPC LCM operations have been administratively disabled");
+        }
+
         getAAIservice();
         validateInput(runtimeContext.getRequestContext());
         checkVNFWorkingState(runtimeContext);
@@ -114,9 +130,9 @@ public class RequestValidatorImpl implements RequestValidator {
             // for built-in operations skip WF presence check
             queryWFM(vnfContext, runtimeContext.getRequestContext());
         }
-        }
+    }
 
-     private boolean isValidTTL(String ttl) {
+    private boolean isValidTTL(String ttl) {
         if (logger.isTraceEnabled()){
             logger.trace("Entering to isValidTTL where ttl = "+ ObjectUtils.toString(ttl));
         }
@@ -206,7 +222,7 @@ public class RequestValidatorImpl implements RequestValidator {
         }
     }
 
-    private VNFContext queryAAI(String vnfId) throws VNFNotFoundException {
+    private VNFContext queryAAI(String vnfId) throws VNFNotFoundException, MissingVNFDataInAAIException {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx = getVnfdata(vnfId, "vnf", ctx);
 
@@ -267,9 +283,17 @@ public class RequestValidatorImpl implements RequestValidator {
         }
     }
 
-    private void populateVnfContext(VNFContext vnfContext, SvcLogicContext ctx) {
-        vnfContext.setType(ctx.getAttribute("vnf.vnf-type"));
-        vnfContext.setStatus(ctx.getAttribute("vnf.orchestration-status"));
+    private void populateVnfContext(VNFContext vnfContext, SvcLogicContext ctx) throws MissingVNFDataInAAIException {
+        String vnfType = ctx.getAttribute("vnf.vnf-type");
+        String orchestrationStatus = ctx.getAttribute("vnf.orchestration-status");
+        if(StringUtils.isEmpty(vnfType)){
+            throw new MissingVNFDataInAAIException("vnf-type");
+        }
+        else if(StringUtils.isEmpty(orchestrationStatus)){
+            throw new MissingVNFDataInAAIException("orchestration-status");
+        }
+        vnfContext.setType(vnfType);
+        vnfContext.setStatus(orchestrationStatus);
         vnfContext.setId(ctx.getAttribute("vnf.vnf-id"));
         // TODO: Uncomment once A&AI supports VNF version
         //vnfContext.setVersion(ctx.getAttribute("vnf.vnf-version"));

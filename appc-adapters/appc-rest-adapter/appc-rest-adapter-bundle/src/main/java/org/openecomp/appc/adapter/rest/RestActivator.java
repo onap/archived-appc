@@ -26,11 +26,13 @@ import org.openecomp.appc.adapter.rest.impl.RestAdapterImpl;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.i18n.Msg;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
 
 /**
  * This activator is used to initialize and terminate the connection pool to one or more providers.

@@ -32,6 +32,7 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.openecomp.appc.adapter.factory.MessageService;
 import org.openecomp.appc.listener.AbstractListener;
 import org.openecomp.appc.listener.ListenerProperties;
 import org.openecomp.appc.listener.ListenerProperties.KEYS;
@@ -101,19 +102,18 @@ public class TestListenerProperties {
     @Test
     public void testMessageServices() {
         // Hardcode count so tests must be updated when values are added
-        assertEquals(1, ListenerProperties.MessageService.values().length);
+        assertEquals(1, MessageService.values().length);
 
         // Bad Input
-        ListenerProperties.MessageService def = ListenerProperties.MessageService.DMaaP;
-        assertEquals(def, ListenerProperties.MessageService.parse(null));
-        assertEquals(def, ListenerProperties.MessageService.parse(""));
-        assertEquals(def, ListenerProperties.MessageService.parse("NotDmaapOrDMaaP"));
+        MessageService def = MessageService.DMaaP;
+        assertEquals(def, MessageService.parse(null));
+        assertEquals(def, MessageService.parse(""));
+        assertEquals(def, MessageService.parse("NotDMaaP"));
        
-
         // DMaaP case sensitivity
-        assertEquals(ListenerProperties.MessageService.DMaaP, ListenerProperties.MessageService.parse("dmaap"));
-        assertEquals(ListenerProperties.MessageService.DMaaP, ListenerProperties.MessageService.parse("DMAAP"));
-        assertEquals(ListenerProperties.MessageService.DMaaP, ListenerProperties.MessageService.parse("DMaaP"));
+        assertEquals(MessageService.DMaaP, MessageService.parse("dmaap"));
+        assertEquals(MessageService.DMaaP, MessageService.parse("DMAAP"));
+        assertEquals(MessageService.DMaaP, MessageService.parse("DMaaP"));
     }
 
     @Test
