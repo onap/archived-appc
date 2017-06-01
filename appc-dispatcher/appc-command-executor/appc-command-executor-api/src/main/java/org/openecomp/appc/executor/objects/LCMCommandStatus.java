@@ -41,7 +41,7 @@ public enum LCMCommandStatus {
     MISSING_MANDATORY_PARAMETER(302,"MISSING MANDATORY PARAMETER - Parameter/s ${paramName} is/are missing" ),
     REQUEST_PARSING_FAILED(303,"REQUEST PARSING FAILED - ${errorMsg}"),
     NO_TRANSITION_DEFINE(304,"ACTION IS NOT ALLOWED - Action ${actionName} is not allowed for VNF in state ${currentState}"),
-    ACTION_NOT_SUPPORTED(305,"ACTION NOT SUPPORTED - ${actionName} action is not supported" ),
+    INVALID_VNF_STATE(305,"Request rejected because VNF status in A&AI is - ${currentState}" ),
     VNF_NOT_FOUND(306,"VNF NOT FOUND - VNF with ID ${vnfId} was not found" ),
     DG_WORKFLOW_NOT_FOUND(307,"DG WORKFLOW NOT FOUND - No DG workflow found for the combination of ${dgModule} module ${dgName} name and ${dgVersion} version"),//TODO need to support it
     WORKFLOW_NOT_FOUND(308,"WORKFLOW NOT FOUND - No workflow found for VNF type ${vnfTypeVersion} and ${actionName} action"),
@@ -49,6 +49,7 @@ public enum LCMCommandStatus {
     LOCKING_FAILURE(310,"LOCKING FAILURE - ${errorMsg}" ),
 	EXPIRED_REQUEST(311,"EXPIRED REQUEST"),
     DUPLICATE_REQUEST(312,"DUPLICATE REQUEST"),
+    MISSING_VNF_DATA_IN_AAI(313,"MISSING VNF DATA IN A&AI - ${attributeName} not found for VNF ID = ${vnfId}"),
 
     SUCCESS(400,"SUCCESS - request has been processed successfully"),
 

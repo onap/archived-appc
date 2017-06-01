@@ -23,8 +23,9 @@ package org.openecomp.appc.metricservice.metric.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.openecomp.appc.metricservice.metric.DispatchingFuntionMetric;
 import org.openecomp.appc.metricservice.metric.MetricType;
@@ -33,45 +34,51 @@ import com.att.eelf.configuration.EELFManager;
 
 
 public class DispatchingFuntionMetricImpl implements DispatchingFuntionMetric {
-    private  String name;
-    private  MetricType metricType;
-    private long acceptedRequested;
-    private long rejectedRequest;
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(DmaapRequestCounterMetricImpl.class);
+    private String name;
+    private MetricType metricType;
+    private AtomicLong acceptedRequested = new AtomicLong();
+    private AtomicLong rejectedRequest = new AtomicLong();
 
-    public DispatchingFuntionMetricImpl(String name, MetricType metricType, long acceptedRequested, long rejectedRequest) {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+    private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("YYYY-MM-dd:HH:mm:ss");
+
+    private String lastResetTime = dateTimeFormat.format(Calendar.getInstance().getTime());
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(DispatchingFuntionMetricImpl.class);
+
+    public DispatchingFuntionMetricImpl(String name, MetricType metricType, long acceptedRequested,
+                                        long rejectedRequest) {
         this.name = name;
         this.metricType = metricType;
-        this.acceptedRequested = acceptedRequested;
-        this.rejectedRequest = rejectedRequest;
+        this.acceptedRequested.set(acceptedRequested);
+        this.rejectedRequest.set(rejectedRequest);
     }
 
     @Override
     public void incrementAcceptedRequest() {
-        this.acceptedRequested+=1;
+        this.acceptedRequested.incrementAndGet();
     }
 
     @Override
     public void incrementRejectedRequest() {
-        this.rejectedRequest+=1;
+        this.rejectedRequest.incrementAndGet();
     }
 
     @Override
     public String value() {
         logger.debug("Value is getting calculated for metric :" + this.name);
-        try{
+        try {
             Calendar cal = Calendar.getInstance();
             cal.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String date=dateFormat.format(cal.getTime());
-            String value=date+"["+acceptedRequested+","+rejectedRequest+"]"+"@"+(acceptedRequested+rejectedRequest);
-            logger.debug("Current value of the metric "+this.name+" :"+value);
-            return value ;
+            String date = dateFormat.format(cal.getTime());
+            String value = date + "[" + acceptedRequested.get() + "," + rejectedRequest.get() + "]" + "@"
+                    + (acceptedRequested.get() + rejectedRequest.get());
+            logger.debug("Current value of the metric " + this.name + " :" + value);
+            return value;
 
-        }catch (Exception e){
-            logger.debug("Cant format the date.");
+        } catch (Exception e) {
+            logger.debug("Cant format the date.",e);
         }
-        return  null;
+        return null;
 
     }
 
@@ -82,16 +89,33 @@ public class DispatchingFuntionMetricImpl implements DispatchingFuntionMetric {
 
     @Override
     public void reset() {
-        this.acceptedRequested=0;
-        this.rejectedRequest=0;
+        this.acceptedRequested.set(0);
+        this.rejectedRequest.set(0);
+        Calendar cal = Calendar.getInstance();
+        lastResetTime = dateTimeFormat.format(cal.getTime());
     }
 
     @Override
     public MetricType type() {
         return this.metricType;
     }
+
+    @Override
+    public HashMap<String, String> getMetricsOutput() {
+        HashMap<String, String> dispatcherMetricResult = new HashMap<>();
+        dispatcherMetricResult.put("Total Received messages",
+                Long.toString(acceptedRequested.get() + rejectedRequest.get()));
+        dispatcherMetricResult.put("Total Rejected messages", Long.toString(rejectedRequest.get()));
+        return dispatcherMetricResult;
+    }
+
     @Override
     public String toString() {
         return this.value();
+    }
+
+    @Override
+    public String getLastModified() {
+        return lastResetTime;
     }
 }

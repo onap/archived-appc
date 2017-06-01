@@ -21,9 +21,7 @@
 
 package org.openecomp.appc.dg.aai.impl;
 
-import org.junit.*;
 import org.junit.runner.RunWith;
-import org.mockito.*;
 import org.openecomp.appc.dg.aai.Constants;
 import org.openecomp.appc.dg.aai.impl.AAIPluginImpl;
 import org.openecomp.appc.dg.common.dao.DAOService;
@@ -40,12 +38,10 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.Assert.*;
-import static org.powermock.api.support.SuppressCode.suppressConstructor;
 
 
 @RunWith(PowerMockRunner.class)
@@ -119,7 +115,7 @@ public class AAIPluginImplTest {
             aaiPlugin.postGenericVnfData(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-            Assert.assertNotNull(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE));
+            Assert.assertNotNull(ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE));
         }
 
     }
@@ -143,7 +139,7 @@ public class AAIPluginImplTest {
             aaiPlugin.postGenericVnfData(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-            Assert.assertNotNull(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE));
+            Assert.assertNotNull(ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE));
         }
 
     }
@@ -167,7 +163,7 @@ public class AAIPluginImplTest {
             aaiPlugin.postGenericVnfData(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-            Assert.assertNotNull(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE));
+            Assert.assertNotNull(ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE));
         }
 
     }
@@ -219,7 +215,7 @@ public class AAIPluginImplTest {
             aaiPlugin.getGenericVnfData(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-            Assert.assertNotNull(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE));
+            Assert.assertNotNull(ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE));
         }
     }
 
@@ -236,7 +232,7 @@ public class AAIPluginImplTest {
             aaiPlugin.getGenericVnfData(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-            Assert.assertNotNull(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE));
+            Assert.assertNotNull(ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE));
         }
     }
 
@@ -253,7 +249,7 @@ public class AAIPluginImplTest {
             aaiPlugin.getGenericVnfData(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-            Assert.assertNotNull(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE));
+            Assert.assertNotNull(ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE));
         }
     }
 

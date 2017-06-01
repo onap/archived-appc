@@ -22,11 +22,11 @@
             <artifactId>appc-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.openecomp.appc</groupId>
-            <artifactId>appc-dmaap-adapter-bundle</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.openecomp.appc</groupId> -->
+<!--             <artifactId>appc-dmaap-adapter-bundle</artifactId> -->
+<!--             <version>${project.version}</version> -->
+<!--         </dependency> -->
 
         <dependency>
             <groupId>javax</groupId>
@@ -159,6 +159,11 @@
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             </dependency>
+        <dependency>
+            <groupId>com.jcraft</groupId>
+            <artifactId>jsch</artifactId>
+            <version>0.1.54</version>
+        </dependency>
 
     </dependencies>
 
@@ -174,13 +179,13 @@
                         <Bundle-Activator>org.openecomp.appc.adapter.netconf.AppcNetconfAdapterActivator</Bundle-Activator>
                         <Export-Package>org.openecomp.appc.adapter.netconf,org.openecomp.appc.adapter.netconf.dao,org.openecomp.appc.adapter.netconf.util,org.openecomp.appc.adapter.netconf.exception</Export-Package>
                         <Import-Package>
-                            org.w3c.dom.*,com.sun.org.apache.xerces.*,javax.sql.*,javax.sql.rowset.*,javax.xml.*,org.openecomp.appc.adapter.dmaap.*,javax.crypto.*,org.openecomp.appc.common.exception.*,com.mysql.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
+                            !org.slf4j.event,org.w3c.dom.*,com.sun.org.apache.xerces.*,javax.sql.*,javax.sql.rowset.*,javax.xml.*,org.openecomp.appc.adapter.messaging.*,javax.crypto.*,org.openecomp.appc.common.exception.*,com.mysql.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
                         </Import-Package>
                         <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|dblib-provider|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|appc-dmaap-adapter-bundle</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
 
-                    <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
+<!--                     <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation> -->
                 </configuration>
             </plugin>
         </plugins>

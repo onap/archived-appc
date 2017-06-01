@@ -21,25 +21,24 @@
 
 package org.openecomp.appc.sdc.listener;
 
-import java.net.URI;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-import org.openecomp.appc.adapter.dmaap.EventSender;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.consumer.INotificationCallback;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;
 import org.openecomp.sdc.api.notification.IResourceInstance;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+
+import java.net.URI;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AsdcCallback implements INotificationCallback {
 

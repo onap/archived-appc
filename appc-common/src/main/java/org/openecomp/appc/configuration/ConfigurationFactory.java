@@ -113,7 +113,7 @@ public final class ConfigurationFactory {
     /**
      * The default properties resource to be loaded
      */
-    private static final String DEFAULT_PROPERTIES = "org/openecomp/appc/default.properties";
+    private static final String DEFAULT_PROPERTIES = "/opt/openecomp/appc/data/properties/appc.properties";
 
     /**
      * This collection allows for special configurations to be created and maintained, organized by some identification

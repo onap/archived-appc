@@ -26,6 +26,10 @@
     xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">     
         
     <feature name='lock-manager' description="lock-manager" version='${project.version}'>
+        <!-- appc-common and appc-data-access-lib bundles are flagged as being a dependency -->
+        <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.openecomp.appc/appc-data-access-lib/${project.version}</bundle>
+
     	<bundle start-level="80" start="true">mvn:org.openecomp.appc/lock-manager-api/${project.version}</bundle>
         <bundle start-level="85" start="true">mvn:org.openecomp.appc/lock-manager-impl/${project.version}</bundle>
     </feature>

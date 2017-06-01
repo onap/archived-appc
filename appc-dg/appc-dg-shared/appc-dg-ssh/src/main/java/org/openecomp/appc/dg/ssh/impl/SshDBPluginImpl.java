@@ -21,6 +21,7 @@
 
 package org.openecomp.appc.dg.ssh.impl;
 
+import com.att.eelf.i18n.EELFResourceManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,6 +33,8 @@ import org.openecomp.appc.adapter.ssh.SshDataAccessException;
 import org.openecomp.appc.adapter.ssh.SshDataAccessService;
 import org.openecomp.appc.dg.ssh.SshDBPlugin;
 import org.openecomp.appc.exceptions.APPCException;
+import org.openecomp.appc.i18n.Msg;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.SvcLogicContext;
@@ -49,24 +52,29 @@ public class SshDBPluginImpl implements SshDBPlugin {
 
     public void retrieveConnectionDetails(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         SshConnectionDetails connectionDetails = new SshConnectionDetails();
-        String vnfType = ctx.getAttribute("aai.prefix")+"."+"vnf-type";
+        //String vnfType = ctx.getAttribute("aai.prefix")+"."+"vnf-type";
+        String vnfType = params.get("vnf-type");
         try {
-            if (!dataAccessService.retrieveConnectionDetails(ctx.getAttribute(vnfType), connectionDetails)) {
-                logger.error("Missing configuration for " + params.get(vnfType));
-                throw new APPCException("Missing configuration for " + params.get(vnfType) + " in " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
+            if (!dataAccessService.retrieveConnectionDetails(vnfType, connectionDetails)) {
+                logger.error("Missing connection details for VNF type: " + vnfType);
+                throw new APPCException("Missing configuration for " + vnfType + " in " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
             }
             connectionDetails.setHost(params.get(Constants.VNF_HOST_IP_ADDRESS_FIELD_NAME));
             ctx.setAttribute(Constants.CONNECTION_DETAILS_FIELD_NAME, mapper.writeValueAsString(connectionDetails));
         } catch(APPCException e) {
-            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
+            String msg = EELFResourceManager.format(Msg.APPC_EXCEPTION, vnfType, e.getMessage());
+            logger.error(msg);
+            ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE,msg);
             throw e;
         } catch(SshDataAccessException e) {
-            logger.error("Error " + e.getMessage());
-            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
+            String msg = EELFResourceManager.format(Msg.SSH_DATA_EXCEPTION, e.getMessage());
+            logger.error(msg);
+            ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
             throw e;
         } catch (JsonProcessingException e) {
-            logger.error("Error " + e.getMessage());
-            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
+            String msg = EELFResourceManager.format(Msg.JSON_PROCESSING_EXCEPTION, e.getMessage());
+            logger.error(msg);
+            ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
             throw new APPCException(e);
         }
     }

@@ -87,6 +87,34 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
     }
 
+    private RuntimeContext getCommandRequest(RuntimeContext commandExecutorInput){
+        if (logger.isTraceEnabled()) {
+            logger.trace("Entering to getCommandRequest with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
+        }
+        RuntimeContext commandRequest;
+        commandRequest = commandExecutorInput;
+        /*
+        CommandRequest commandRequest;
+
+        switch(commandExecutorInput.getRequestContext().getAction()){
+            case Sync:
+            case Audit:
+            case ConfigBackup:
+            case ConfigBackupDelete:
+            case ConfigExport:
+                commandRequest = new LCMReadOnlyCommandRequest(commandExecutorInput);
+                break;
+            default:
+                commandRequest = new LCMCommandRequest(commandExecutorInput);
+                break;
+        }
+        */
+        if (logger.isTraceEnabled()) {
+            logger.trace("Exiting from getCommandRequest with (CommandRequest = "+ ObjectUtils.toString(commandRequest)+")");
+        }
+        return commandRequest;
+    }
+
     @SuppressWarnings("unchecked")
     private void enqueRequest(RuntimeContext request) throws APPCException{
         if (logger.isTraceEnabled()) {

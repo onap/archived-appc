@@ -27,9 +27,17 @@ import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
 
-
 public interface AAIPlugin extends SvcLogicJavaPlugin {
     void postGenericVnfData(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 
     void getGenericVnfData(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    void getVnfHierarchy(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    void getResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    void postResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    void deleteResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
 }

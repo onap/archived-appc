@@ -28,7 +28,6 @@ import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
 
 
-
 public interface NetconfClientPlugin extends SvcLogicJavaPlugin {
     void configure(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
     void operationStateValidation(Map<String, String> params, SvcLogicContext ctx) throws APPCException;

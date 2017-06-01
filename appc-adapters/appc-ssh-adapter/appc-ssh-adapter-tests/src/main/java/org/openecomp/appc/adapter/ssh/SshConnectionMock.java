@@ -59,6 +59,11 @@ public class SshConnectionMock implements SshConnection {
 	}
 
 	@Override
+	public void connectWithRetry() {
+		connectCallCount++;
+	}
+
+	@Override
 	public void disconnect() {
 		disconnectCallCount++;
 	}

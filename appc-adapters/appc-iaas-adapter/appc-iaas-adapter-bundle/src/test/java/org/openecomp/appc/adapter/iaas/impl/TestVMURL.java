@@ -43,11 +43,10 @@ public class TestVMURL {
 
     @BeforeClass
     public static void before() {
-        Properties props = ConfigurationFactory.getConfiguration().getProperties();
-        IP = props.getProperty("test.ip");
-        PORT = props.getProperty("test.port");
-        TENANTID = props.getProperty("test.tenantid");
-        VMID = props.getProperty("test.vmid");
+        IP = "192.168.1.2";
+        PORT = "5000";
+        TENANTID = "abcde12345fghijk6789lmnopq123rst";
+        VMID = "abc12345-1234-5678-890a-abcdefg12345";
         URL = String.format("http://%s:%s/v2/%s/servers/%s", IP, PORT, TENANTID, VMID);
     }
 

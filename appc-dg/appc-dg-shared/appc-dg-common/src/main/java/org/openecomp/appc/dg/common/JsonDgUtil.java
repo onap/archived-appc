@@ -30,4 +30,22 @@ import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
 
 public interface JsonDgUtil extends SvcLogicJavaPlugin {
     void flatAndAddToContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    void generateOutputPayloadFromContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    /**
+     * Creates filename and content in Json format.
+     * @param params
+     * @param ctx
+     * @throws APPCException
+     */
+    void cvaasFileNameAndFileContentToContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+
+    /**
+     * Checks if a file is created.
+     * @param params
+     * @param ctx
+     * @throws APPCException
+     */
+    void checkFileCreated(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 }

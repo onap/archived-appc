@@ -1,0 +1,321 @@
+module ATD456 {
+	yang-version 1;
+	namespace "org:openecomp:appc:vnf:ATD456";
+    prefix appc-vnf;
+    organization "Copyright 2017 AT&T Intellectual Property.";
+
+    description
+        "Property Definition description";
+	
+	revision "2017-01-01" {
+        description
+                "ATD456 Configuration";
+    	}
+
+    import ietf-inet-types {
+           prefix inet;
+        }
+
+    import ietf-yang-types {
+    		prefix yang;
+        }
+
+	grouping vnf-config-grp {
+		container vnf-config  {
+				leaf param1 {	
+					type inet:domain-name;
+					description "param1 desc";
+					mandatory true;
+					default "param1 def val"; 
+				}
+				leaf param2 {	
+					type inet:ipv4-address-no-zone;
+					description "param2 desc";
+					mandatory true;
+					default "param2 def val"; 
+				}
+				leaf param3 {	
+					type instance-identifier;
+					description "param3 desc";
+					mandatory true;
+					default "param3 def val"; 
+				}
+				leaf param4 {	
+					type yang:uuid;
+					description "param4 desc";
+					mandatory true;
+					default "param4 def val"; 
+				}
+				leaf param5 {	
+					type empty;
+					description "param5 desc";
+					mandatory true;
+					default "param5 def val"; 
+				}
+				leaf param6 {	
+					type yang:object-identifier-128;
+					description "param6 desc";
+					mandatory true;
+					default "param6 def val"; 
+				}
+				leaf param7 {	
+					type inet:dscp;
+					description "param7 desc";
+					mandatory true;
+					default "param7 def val"; 
+				}
+				leaf param8 {	
+					type int64;
+					description "param8 desc";
+					mandatory true;
+					default "param8 def val"; 
+				}
+				leaf param9 {	
+					type yang:zero-based-counter64;
+					description "param9 desc";
+					mandatory true;
+					default "param9 def val"; 
+				}
+				leaf param10 {	
+					type int8;
+					description "param10 desc";
+					mandatory true;
+					default "param10 def val"; 
+				}
+				leaf param11 {	
+					type inet:host;
+					description "param11 desc";
+					mandatory true;
+					default "param11 def val"; 
+				}
+				leaf param12 {	
+					type uint32;
+					description "param12 desc";
+					mandatory true;
+					default "param12 def val"; 
+				}
+				leaf param13 {	
+					type yang:timeticks;
+					description "param13 desc";
+					mandatory true;
+					default "param13 def val"; 
+				}
+				leaf param15 {	
+					type yang:mac-address;
+					description "param15 desc";
+					mandatory true;
+					default "param15 def val"; 
+				}
+				leaf param16 {	
+					type inet:as-number;
+					description "param16 desc";
+					mandatory true;
+					default "param16 def val"; 
+				}
+				leaf param17 {	
+					type yang:counter64;
+					description "param17 desc";
+					mandatory true;
+					default "param17 def val"; 
+				}
+				leaf param19 {	
+					type yang:xpath1.0;
+					description "param19 desc";
+					mandatory true;
+					default "param19 def val"; 
+				}
+				leaf param20 {	
+					type inet:ip-version;
+					description "param20 desc";
+					mandatory true;
+					default "param20 def val"; 
+				}
+				leaf param21 {	
+					type inet:port-number;
+					description "param21 desc";
+					mandatory true;
+					default "param21 def val"; 
+				}
+				leaf param22 {	
+					type int16;
+					description "param22 desc";
+					mandatory true;
+					default "param22 def val"; 
+				}
+				leaf param23 {	
+					type inet:ipv6-address-no-zone;
+					description "param23 desc";
+					mandatory true;
+					default "param23 def val"; 
+				}
+				leaf param24 {	
+					type yang:hex-string;
+					description "param24 desc";
+					mandatory true;
+					default "param24 def val"; 
+				}
+				leaf param26 {	
+					type uint64;
+					description "param26 desc";
+					mandatory true;
+					default "param26 def val"; 
+				}
+				leaf param27 {	
+					type uint8;
+					description "param27 desc";
+					mandatory true;
+					default "param27 def val"; 
+				}
+				leaf param28 {	
+					type inet:ipv4-prefix;
+					description "param28 desc";
+					mandatory true;
+					default "param28 def val"; 
+				}
+				leaf param29 {	
+					type inet:ipv6-prefix;
+					description "param29 desc";
+					mandatory true;
+					default "param29 def val"; 
+				}
+				leaf param30 {	
+					type yang:gauge64;
+					description "param30 desc";
+					mandatory true;
+					default "param30 def val"; 
+				}
+				leaf param31 {	
+					type yang:counter32;
+					description "param31 desc";
+					mandatory true;
+					default "param31 def val"; 
+				}
+				leaf param32 {	
+					type string;
+					description "param32 desc";
+					mandatory true;
+					default "param32 def val"; 
+				}
+				leaf param33 {	
+					type yang:object-identifier;
+					description "param33 desc";
+					mandatory true;
+					default "param33 def val"; 
+				}
+				leaf param34 {	
+					type inet:ip-address-no-zone;
+					description "param34 desc";
+					mandatory true;
+					default "param34 def val"; 
+				}
+				leaf param36 {	
+					type yang:gauge32;
+					description "param36 desc";
+					mandatory true;
+					default "param36 def val"; 
+				}
+				leaf param37 {	
+					type inet:ipv4-address;
+					description "param37 desc";
+					mandatory true;
+					default "param37 def val"; 
+				}
+				leaf param38 {	
+					type inet:ip-prefix;
+					description "param38 desc";
+					mandatory true;
+					default "param38 def val"; 
+				}
+				leaf param39 {	
+					type uint16;
+					description "param39 desc";
+					mandatory true;
+					default "param39 def val"; 
+				}
+				leaf param40 {	
+					type yang:timestamp;
+					description "param40 desc";
+					mandatory true;
+					default "param40 def val"; 
+				}
+				leaf param42 {	
+					type yang:dotted-quad;
+					description "param42 desc";
+					mandatory true;
+					default "param42 def val"; 
+				}
+				leaf param43 {	
+					type inet:uri;
+					description "param43 desc";
+					mandatory true;
+					default "param43 def val"; 
+				}
+				leaf param44 {	
+					type inet:ipv6-address;
+					description "param44 desc";
+					mandatory true;
+					default "param44 def val"; 
+				}
+				leaf param45 {	
+					type inet:ipv6-flow-label;
+					description "param45 desc";
+					mandatory true;
+					default "param45 def val"; 
+				}
+				leaf param46 {	
+					type yang:zero-based-counter32;
+					description "param46 desc";
+					mandatory true;
+					default "param46 def val"; 
+				}
+				leaf param47 {	
+					type inet:ip-address;
+					description "param47 desc";
+					mandatory true;
+					default "param47 def val"; 
+				}
+				leaf param48 {	
+					type boolean;
+					description "param48 desc";
+					mandatory true;
+					default "param48 def val"; 
+				}
+				leaf param50 {	
+					type yang:yang-identifier;
+					description "param50 desc";
+					mandatory true;
+					default "param50 def val"; 
+				}
+				leaf param51 {	
+					type int32;
+					description "param51 desc";
+					mandatory true;
+					default "param51 def val"; 
+				}
+				leaf param52 {	
+					type yang:date-and-time;
+					description "param52 desc";
+					mandatory true;
+					default "param52 def val"; 
+				}
+				leaf param53 {	
+					type yang:phys-address;
+					description "param53 desc";
+					mandatory true;
+					default "param53 def val"; 
+				}
+			}
+	}
+	
+	container vnf-config-repo {
+		list vnf-config-list {
+			key "vnf-identifier";
+			leaf vnf-identifier {
+				type string;
+			}
+			uses vnf-config-grp;
+		}
+		
+	}	
+		
+}

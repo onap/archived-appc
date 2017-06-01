@@ -29,7 +29,9 @@
 	<feature name='appc-dg-shared' description="appc-dg-shared" version='${project.version}'>
 		<feature version='${project.version}'>appc-ssh-adapter</feature>
 		<feature version='${project.version}'>appc-netconf-adapter</feature>
-		<bundle>mvn:org.openecomp.appc/appc-dg-common/${project.version}</bundle>
+		<feature version='${sdnctl.sli.version}'>sdnc-sli</feature>
+        <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
+        <bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-dg-common/${project.version}</bundle>
 		<bundle>mvn:org.openecomp.appc/appc-dg-ssh/${project.version}</bundle>
 		<bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-dg-netconf/${project.version}</bundle>
 		<bundle>mvn:org.openecomp.appc/appc-dg-license-manager/${project.version}</bundle>

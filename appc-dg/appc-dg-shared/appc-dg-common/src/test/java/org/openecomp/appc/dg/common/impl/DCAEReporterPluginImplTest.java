@@ -24,10 +24,9 @@ package org.openecomp.appc.dg.common.impl;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.openecomp.appc.adapter.dmaap.EventSender;
-import org.openecomp.appc.adapter.dmaap.DmaapDestination;
-import org.openecomp.appc.adapter.dmaap.event.EventMessage;
-import org.openecomp.appc.dg.common.impl.Constants;
+import org.openecomp.appc.adapter.message.EventSender;
+import org.openecomp.appc.adapter.message.MessageDestination;
+import org.openecomp.appc.adapter.message.event.EventMessage;
 import org.openecomp.appc.dg.common.impl.DCAEReporterPluginImpl;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.sdnc.sli.SvcLogicContext;
@@ -44,7 +43,6 @@ import java.util.Map;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({DCAEReporterPluginImpl.class, FrameworkUtil.class})
-@Ignore
 public class DCAEReporterPluginImplTest {
     private SvcLogicContext ctx;
     private Map<String, String> params;
@@ -75,39 +73,11 @@ public class DCAEReporterPluginImplTest {
 
 
 
-
-    @Test
-    public void testReportBwcTrue() throws Exception {
-
-        ctx = new SvcLogicContext();
-        params = new HashMap<>();
-        ctx.setAttribute("isBwcMode", "true");
-        params.put(Constants.DG_ERROR_FIELD_NAME, error);
-        ctx.setAttribute(Constants.API_VERSION_FIELD_NAME, apiVer);
-        ctx.setAttribute(Constants.REQ_ID_FIELD_NAME, requestId);
-
-            positiveAssert();
-    }
-
-    @Test
-    public void testReportErrorDescriptionNullBwcModeTrue() throws Exception {
-
-        ctx = new SvcLogicContext();
-        params = new HashMap<>();
-        ctx.setAttribute("isBwcMode", "true");
-        params.put(Constants.DG_ERROR_FIELD_NAME, null);
-        ctx.setAttribute(Constants.API_VERSION_FIELD_NAME, apiVer);
-        ctx.setAttribute(Constants.REQ_ID_FIELD_NAME, requestId);
-
-        errorReasonNullAssert();
-    }
-
     @Test
     public void testReportErrorDescriptionNullBwcModeFalse() throws Exception {
 
         ctx = new SvcLogicContext();
         params = new HashMap<>();
-        ctx.setAttribute("isBwcMode", "false");
         params.put("output.status.message", null);
         ctx.setAttribute("input.common-header.api-ver", apiVer);
         ctx.setAttribute("input.common-header.request-id", requestId);
@@ -118,7 +88,7 @@ public class DCAEReporterPluginImplTest {
 
     private void errorReasonNullAssert() throws APPCException {
         dcaeReporterPlugin.report(params, ctx);
-        DmaapDestination destination = eventSender.getDestination();
+        MessageDestination destination = eventSender.getDestination();
         EventMessage msg = eventSender.getMsg();
         Assert.assertEquals("wrong API version", apiVer, msg.getEventHeader().getApiVer());
         Assert.assertEquals("wrong requestId", requestId, msg.getEventHeader().getEventId());
@@ -130,7 +100,7 @@ public class DCAEReporterPluginImplTest {
 
     private void positiveAssert() throws APPCException {
         dcaeReporterPlugin.report(params, ctx);
-        DmaapDestination destination = eventSender.getDestination();
+        MessageDestination destination = eventSender.getDestination();
         EventMessage msg = eventSender.getMsg();
         Assert.assertEquals("wrong API version", apiVer, msg.getEventHeader().getApiVer());
         Assert.assertEquals("wrong requestId", requestId, msg.getEventHeader().getEventId());

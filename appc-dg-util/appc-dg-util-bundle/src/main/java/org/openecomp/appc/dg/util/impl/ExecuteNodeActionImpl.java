@@ -21,7 +21,6 @@
 
 package org.openecomp.appc.dg.util.impl;
 
-import org.openecomp.appc.adapter.netconf.util.Constants;
 import org.openecomp.appc.dg.util.ExecuteNodeAction;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
@@ -33,13 +32,11 @@ import org.openecomp.sdnc.sli.SvcLogicException;
 import org.openecomp.sdnc.sli.SvcLogicResource;
 import org.openecomp.sdnc.sli.aai.AAIClient;
 import org.openecomp.sdnc.sli.aai.AAIService;
-import org.openecomp.sdnc.sli.provider.ExecuteNodeExecutor;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -49,6 +46,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     protected static AAIClient client;
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ExecuteNodeActionImpl.class);
 
+    public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
     public ExecuteNodeActionImpl() {
     }
 
@@ -69,7 +67,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
 
         } else {
             logger.info("AAIService error from bundlecontext");
-            logger.error(EELFResourceManager.format(Msg.AAI_CONNECTION_FAILED, sref.toString()));
+            logger.error(EELFResourceManager.format(Msg.AAI_CONNECTION_FAILED, "AAIService"));
         }
     }
 
@@ -95,7 +93,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     @Override public void getResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         initialize();
         String resourceType = params.get("resourceType"), ctx_prefix = params.get("prefix"), resourceKey =
-                        params.get("resourceKey");
+                params.get("resourceKey");
         if (logger.isDebugEnabled()) {
             logger.debug("inside getResorce");
             logger.debug("Retrieving " + resourceType + " details from A&AI for Key : " + resourceKey);
@@ -103,7 +101,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         client = aaiService;
         try {
             SvcLogicResource.QueryStatus response =
-                            client.query(resourceType, false, null, resourceKey, ctx_prefix, null, ctx);
+                    client.query(resourceType, false, null, resourceKey, ctx_prefix, null, ctx);
             logger.info("AAIResponse: " + response.toString());
             ctx.setAttribute("getResource_result", response.toString());
         } catch (SvcLogicException e) {
@@ -117,8 +115,8 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     @Override public void postResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         initialize();
         String resourceType = params.get("resourceType"), ctx_prefix = params.get("prefix"), resourceKey =
-                        params.get("resourceKey"), att_name = params.get("attributeName"), att_value =
-                        params.get("attributeValue");
+                params.get("resourceKey"), att_name = params.get("attributeName"), att_value =
+                params.get("attributeValue");
         if (logger.isDebugEnabled()) {
             logger.debug("inside postResource");
             logger.debug("Updating " + resourceType + " details in A&AI for Key : " + resourceKey);
@@ -167,36 +165,46 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         }
         //String ctx_prefix = params.get("prefix");
         String resourceKey = params.get("resourceKey");
-        String retrivalVnfKey = "vnf-id = '" + resourceKey + "' AND relationship-key = 'vserver.vserver-id'";
+       // String retrivalVnfKey = "vnf-id = '" + resourceKey + "' AND relationship-key = 'vserver.vserver-id'";
+        String retrivalVnfKey = "generic-vnf.vnf-id = '" + resourceKey + "'";
         Map<String, String> paramsVnf = new HashMap<String, String>();
-        paramsVnf.put("resourceType", "generic-vnf:relationship-list");
+        paramsVnf.put("resourceType", "generic-vnf");
         paramsVnf.put("prefix", "vnfRetrived");
         paramsVnf.put("resourceKey", retrivalVnfKey);
         logger.debug("Retrieving VNF details from A&AI");
         //Retrive all the relations of VNF
-        getResource(paramsVnf, ctx);
-        if (ctx.getAttribute("getResource_result").equals("SUCCESS")) {
-            if (ctx.getAttribute("vnfRetrived.heat-stack-id") != null) {
-                ctx.setAttribute("VNF.heat-stack-id", ctx.getAttribute("vnfRetrived.heat-stack-id"));
+        SvcLogicContext vnfCtx = new SvcLogicContext();
+        getResource(paramsVnf, vnfCtx);
+        if (vnfCtx.getAttribute("getResource_result").equals("SUCCESS")) {
+            if (vnfCtx.getAttribute("vnfRetrived.heat-stack-id") != null) {
+                ctx.setAttribute("VNF.heat-stack-id", vnfCtx.getAttribute("vnfRetrived.heat-stack-id"));
             }
+            ctx.setAttribute("vnf.type",vnfCtx.getAttribute("vnfRetrived.vnf-type"));
             Map<String, String> vnfHierarchyMap = new ConcurrentHashMap<String, String>();
+
+            Map<String, Set<String>> vnfcHierarchyMap = new HashMap<String, Set<String>>();
             int vmCount = 0;
+            int vnfcCount = 0;
+            Set<String> vmSet = null;
+            String vmURL = "";
             logger.debug("Parsing Vserver details from VNF relations");
-            for (String ctxKeySet : ctx
-                            .getAttributeKeySet()) {     //loop through relationship-list data, to get vserver relations
-                if (ctxKeySet.startsWith("vnfRetrived.") && ctx.getAttribute(ctxKeySet).equalsIgnoreCase("vserver")) {
+            for (String ctxKeySet : vnfCtx
+                    .getAttributeKeySet()) {     //loop through relationship-list data, to get vserver relations
+                if (ctxKeySet.startsWith("vnfRetrived.") && vnfCtx.getAttribute(ctxKeySet).equalsIgnoreCase("vserver")) {
                     String vmKey = ctxKeySet.substring(0, ctxKeySet.length() - "related-to".length());
                     String vserverID = null;
                     String tenantID = null;
+                    String cloudOwner = null;
+                    String cloudRegionId = null;
                     int relationshipLength = 0;
-                    if (ctx.getAttributeKeySet().contains(vmKey + "relationship-data_length")) {
-                        relationshipLength = Integer.parseInt(ctx.getAttribute(vmKey + "relationship-data_length"));
+                    if (vnfCtx.getAttributeKeySet().contains(vmKey + "relationship-data_length")) {
+                        relationshipLength = Integer.parseInt(vnfCtx.getAttribute(vmKey + "relationship-data_length"));
                     }
 
                     for (int j = 0; j
-                                    < relationshipLength; j++) {      //loop inside relationship data, to get vserver-id and tenant-id
-                        String key = ctx.getAttribute(vmKey + "relationship-data[" + j + "].relationship-key");
-                        String value = ctx.getAttribute(vmKey + "relationship-data[" + j + "].relationship-value");
+                            < relationshipLength; j++) {      //loop inside relationship data, to get vserver-id and tenant-id
+                        String key = vnfCtx.getAttribute(vmKey + "relationship-data[" + j + "].relationship-key");
+                        String value = vnfCtx.getAttribute(vmKey + "relationship-data[" + j + "].relationship-value");
                         vnfHierarchyMap.put("VNF.VM[" + vmCount + "]." + key, value);
                         if ("vserver.vserver-id".equals(key)) {
                             vserverID = value;
@@ -204,23 +212,29 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
                         if ("tenant.tenant-id".equals(key)) {
                             tenantID = value;
                         }
+                        if ("cloud-region.cloud-owner".equals(key)) {
+                            cloudOwner = value;
+                        }
+                        if ("cloud-region.cloud-region-id".equals(key)) {
+                            cloudRegionId = value;
+                        }
                     }
                     int relatedPropertyLength = 0;
-                    if (ctx.getAttributeKeySet().contains(vmKey + "related-to-property_length")) {
+                    if (vnfCtx.getAttributeKeySet().contains(vmKey + "related-to-property_length")) {
                         relatedPropertyLength =
-                                        Integer.parseInt(ctx.getAttribute(vmKey + "related-to-property_length"));
+                                Integer.parseInt(vnfCtx.getAttribute(vmKey + "related-to-property_length"));
                     }
                     for (int j = 0;
                          j < relatedPropertyLength; j++) {   //loop inside related-to-property data, to get vserver-name
-                        String key = ctx.getAttribute(vmKey + "related-to-property[" + j + "].property-key");
-                        String value = ctx.getAttribute(vmKey + "related-to-property[" + j + "].property-value");
+                        String key = vnfCtx.getAttribute(vmKey + "related-to-property[" + j + "].property-key");
+                        String value = vnfCtx.getAttribute(vmKey + "related-to-property[" + j + "].property-value");
                         vnfHierarchyMap.put("VNF.VM[" + vmCount + "]." + key, value);
                     }
                     //Retrive VM relations to find vnfc's
                     //VM to VNFC is 1 to 1 relation
-                    String vmRetrivalKey = "vserver-id = '" + vserverID + "' AND tenant_id = '" + tenantID + "'";
+                    String vmRetrivalKey = "vserver.vserver-id = '" + vserverID + "' AND tenant.tenant_id = '" + tenantID + "'" + "' AND cloud-region.cloud-owner = '" + cloudOwner + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";	
                     Map<String, String> paramsVm = new HashMap<String, String>();
-                    paramsVm.put("resourceType", "vserver:relationship-list");
+                    paramsVm.put("resourceType", "vserver");
                     paramsVm.put("prefix", "vmRetrived");
                     paramsVm.put("resourceKey", vmRetrivalKey);
                     SvcLogicContext vmCtx = new SvcLogicContext();
@@ -231,37 +245,43 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
                         if (logger.isDebugEnabled()) {
                             logger.debug("Parsing VNFC details from VM relations");
                         }
-                        vnfHierarchyMap.put("VNF.VM[" + vmCount + "].URL",
-                                        vmCtx.getAttribute("vmRetrived.vserver-selflink"));
+                        vmURL = vmCtx.getAttribute("vmRetrived.vserver-selflink");
+                        vnfHierarchyMap.put("VNF.VM[" + vmCount + "].URL",vmURL);
                         for (String ctxVnfcKeySet : vmCtx
-                                        .getAttributeKeySet()) {    //loop through relationship-list data, to get vnfc relations
+                                .getAttributeKeySet()) {    //loop through relationship-list data, to get vnfc relations
                             if (ctxVnfcKeySet.startsWith("vmRetrived.") && vmCtx.getAttribute(ctxVnfcKeySet)
-                                            .equalsIgnoreCase("vnfc")) {
+                                    .equalsIgnoreCase("vnfc")) {
                                 String vnfcKey = ctxVnfcKeySet.substring(0,
-                                                ctxVnfcKeySet.length() - "related-to".length());
+                                        ctxVnfcKeySet.length() - "related-to".length());
                                 relationshipLength = 0;
                                 if (vmCtx.getAttributeKeySet().contains(vnfcKey + "relationship-data_length")) {
                                     relationshipLength = Integer.parseInt(
-                                                    vmCtx.getAttribute(vnfcKey + "relationship-data_length"));
+                                            vmCtx.getAttribute(vnfcKey + "relationship-data_length"));
                                 }
                                 for (int j = 0; j
-                                                < relationshipLength; j++) {          //loop through relationship data, to get vnfc name
+                                        < relationshipLength; j++) {          //loop through relationship data, to get vnfc name
                                     String key = vmCtx.getAttribute(
-                                                    vnfcKey + "relationship-data[" + j + "].relationship-key");
+                                            vnfcKey + "relationship-data[" + j + "].relationship-key");
                                     String value = vmCtx.getAttribute(
-                                                    vnfcKey + "relationship-data[" + j + "].relationship-value");
+                                            vnfcKey + "relationship-data[" + j + "].relationship-value");
                                     if (key.equalsIgnoreCase("vnfc.vnfc-name")) {
                                         vnfHierarchyMap.put("VNF.VM[" + vmCount + "].VNFC", value);
+                                        vmSet = vnfcHierarchyMap.get(value);
+                                        if(vmSet == null){
+                                            vmSet = new HashSet<>();
+                                        }
+                                        vmSet.add(vmURL);
+                                        vnfcHierarchyMap.put(value,vmSet);
                                         break; //VM to VNFC is 1 to 1 relation, once we got the VNFC name we can break the loop
                                     }
                                 }
                             }
                         }
                     } else {
-                        ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, "Error Retrieving VNFC hierarchy");
+                        ctx.setAttribute(DG_OUTPUT_STATUS_MESSAGE, "Error Retrieving VNFC hierarchy");
                         vnfHierarchyMap.put("getVnfHierarchy_result", "FAILURE");
                         logger.error("Failed in getVnfHierarchy, Error retrieving Vserver details. Error message: "
-                                        + vmCtx.getAttribute("getResource_result"));
+                                + vmCtx.getAttribute("getResource_result"));
                         logger.warn("Incorrect or Incomplete VNF Hierarchy");
                         throw new APPCException("Error Retrieving VNFC hierarchy");
                     }
@@ -270,8 +290,14 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             }
             vnfHierarchyMap.put("VNF.VMCount", vmCount + "");
             if (vmCount == 0) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, "VM count is 0");
+                ctx.setAttribute(DG_OUTPUT_STATUS_MESSAGE, "VM count is 0");
             }
+            //code changes for getting vnfcs hirearchy
+            populateVnfcsDetailsinContext(vnfcHierarchyMap,ctx);
+            //vnf,vnfcCount
+            ctx.setAttribute("VNF.VNFCCount",
+                    Integer.toString(vnfcHierarchyMap.size()));
+            //code changes for getting vnfcs hirearchy
             ctx.setAttribute("getVnfHierarchy_result", "SUCCESS");
             //Finally set all attributes to ctx
             for (String attribute : vnfHierarchyMap.keySet()) {
@@ -279,14 +305,55 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             }
         } else {
             ctx.setAttribute("getVnfHierarchy_result", "FAILURE");
-            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, "Error Retrieving VNFC hierarchy");
+            ctx.setAttribute(DG_OUTPUT_STATUS_MESSAGE, "Error Retrieving VNFC hierarchy");
             logger.error("Failed in getVnfHierarchy, Error retrieving VNF details. Error message: " + ctx
-                            .getAttribute("getResource_result"));
+                    .getAttribute("getResource_result"));
             logger.warn("Incorrect or Incomplete VNF Hierarchy");
             throw new APPCException("Error Retrieving VNFC hierarchy");
         }
         if (logger.isDebugEnabled()) {
             logger.debug("exiting getVnfHierarchy======");
+        }
+    }
+
+    private void populateVnfcsDetailsinContext(Map<String, Set<String>> vnfcHierarchyMap, SvcLogicContext ctx) throws APPCException {
+//        int vnfcCount = vnfcHierarchyMap.size();
+        SvcLogicContext vnfcCtx = new SvcLogicContext();
+        int vnfcCounter = 0;
+        for (String vnfcName : vnfcHierarchyMap.keySet()) {
+            String vnfcRetrivalKey = "vnfc-name = '" + vnfcName + "'";
+            Map<String, String> paramsVnfc = new HashMap<String, String>();
+            paramsVnfc.put("resourceType", "vnfc");
+            paramsVnfc.put("prefix", "vnfcRetrived");
+            paramsVnfc.put("resourceKey", vnfcRetrivalKey);
+
+            logger.debug("Retrieving VM details from A&AI");
+            getResource(paramsVnfc, vnfcCtx);
+            if (vnfcCtx.getAttribute("getResource_result").equals("SUCCESS")) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Parsing VNFC details from VM relations");
+                }
+                //putting required values in the map
+                //vnf.vnfc[vnfcIndex].type
+                ctx.setAttribute("VNF.VNFC[" + vnfcCounter + "].TYPE",
+                        vnfcCtx.getAttribute("vnfcRetrived.vnfc-type"));
+
+                // vnf.vnfc[vnfcIndex].name
+                ctx.setAttribute("VNF.VNFC[" + vnfcCounter + "].NAME",
+                        vnfcCtx.getAttribute("vnfcRetrived.vnfc-name"));
+
+                //vnf.vnfc[vnfcIndex].vmCount
+                Set<String> vmSet = vnfcHierarchyMap.get(vnfcName);
+                String vmCountinVnfcs = Integer.toString(vmSet.size());
+                ctx.setAttribute("VNF.VNFC[" + vnfcCounter + "].VM_COUNT",
+                        vmCountinVnfcs);
+                int vmCount =0;
+                for(String vmURL:vmSet){
+                    ctx.setAttribute("VNF.VNFC[" + vnfcCounter + "].VM[" + vmCount++ + "].URL",vmURL);
+                }
+
+            }
+            vnfcCounter++;
         }
     }
 }

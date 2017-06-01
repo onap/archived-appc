@@ -31,7 +31,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openecomp.appc.listener.Listener;
 import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.CL.impl.ListenerImpl;
+import org.openecomp.appc.listener.demo.impl.ListenerImpl;
 
 @Ignore
 public class TestListener {

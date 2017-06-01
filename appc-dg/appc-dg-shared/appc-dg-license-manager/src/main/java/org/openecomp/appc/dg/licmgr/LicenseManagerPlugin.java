@@ -28,7 +28,6 @@ import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
 
 
-
 public interface LicenseManagerPlugin extends SvcLogicJavaPlugin {
     /**
      * Retrieves license model from APPC database and populate flags into svc context

@@ -259,13 +259,12 @@ public class TestProviderAdapterImpl {
      *             If the identity service is not available or cannot be created
      * @throws IOException
      *             if an I/O error occurs
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
+     * @throws APPCException 
      */
     // @Ignore
     @Test
     public void testRestartRunningServer()
-        throws IllegalStateException, IllegalArgumentException, ZoneException, UnknownProviderException, IOException {
+        throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -350,15 +349,14 @@ public class TestProviderAdapterImpl {
      *             or are invalid.
      * @throws IllegalStateException
      *             If the identity service is not available or cannot be created
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
      * @throws IOException
      *             if an I/O error occurs
+     * @throws APPCException 
      */
     // @Ignore
     @Test
     public void testRestartStoppedServer()
-        throws IllegalStateException, IllegalArgumentException, ZoneException, UnknownProviderException, IOException {
+        throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);

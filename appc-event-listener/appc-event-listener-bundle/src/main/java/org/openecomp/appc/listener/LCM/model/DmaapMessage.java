@@ -31,6 +31,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DmaapMessage{
 
+    @JsonProperty("version")
+    private String version;
+
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("correlation-id")
+    private String correlationID;
+
     @JsonProperty("cambria.partition")
     private String cambriaPartition;
 
@@ -41,6 +50,30 @@ public class DmaapMessage{
     private JsonNode body;
 
     public DmaapMessage() {
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCorrelationID() {
+        return correlationID;
+    }
+
+    public void setCorrelationID(String correlationID) {
+        this.correlationID = correlationID;
     }
 
     public String getCambriaPartition() {
@@ -70,10 +103,14 @@ public class DmaapMessage{
     @Override
     public String toString() {
         return "DmaapMessage{" +
-                "cambriaPartition='" + cambriaPartition + '\'' +
+                "version='" + version + '\'' +
+                ", type='" + type + '\'' +
+                ", correlationId='" + correlationID + '\'' +
+                ", cambriaPartition='" + cambriaPartition + '\'' +
                 ", rpcName='" + rpcName + '\'' +
                 ", body=" + body +
                 '}';
     }
+
 }
 

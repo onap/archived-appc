@@ -1,0 +1,47 @@
+module $moduleName {
+	yang-version 1;
+	namespace "org:openecomp:appc:vnf:$moduleName";
+    prefix appc-vnf;
+    organization "Copyright 2017 AT&T Intellectual Property.";
+
+    description
+        "$moduleType description";
+	
+	revision "2017-01-01" {
+        description
+                "$moduleName Configuration";
+    	}
+
+    import ietf-inet-types {
+           prefix inet;
+        }
+
+    import ietf-yang-types {
+    		prefix yang;
+        }
+
+	grouping vnf-config-grp {
+		container vnf-config  {
+			#foreach( $data in $leaves )
+	leaf $data.getName() {	
+					type $data.getType();
+					description "$data.getDescription()";
+					mandatory $data.getMandatory();
+					default "$data.getDefaultValue()"; 
+				}
+			#end			
+}
+	}
+	
+	container vnf-config-repo {
+		list vnf-config-list {
+			key "vnf-identifier";
+			leaf vnf-identifier {
+				type string;
+			}
+			uses vnf-config-grp;
+		}
+		
+	}	
+		
+}

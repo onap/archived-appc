@@ -36,6 +36,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class DmaapOutgoingMessage {
 
+    @JsonProperty("version")
+    private String version;
+
+    @JsonProperty("type")
+    private String type;
+
+    @JsonProperty("correlation-id")
+    private String correlationID;
+
     private final static String defaultCambriaPartition = "MSO";
     @JsonProperty("cambria.partition")
     private String cambriaPartition = defaultCambriaPartition;
@@ -47,6 +56,30 @@ public class DmaapOutgoingMessage {
     private Body body;
 
     public DmaapOutgoingMessage() {
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getCorrelationID() {
+        return correlationID;
+    }
+
+    public void setCorrelationID(String correlationID) {
+        this.correlationID = correlationID;
     }
 
     public String getCambriaPartition() {

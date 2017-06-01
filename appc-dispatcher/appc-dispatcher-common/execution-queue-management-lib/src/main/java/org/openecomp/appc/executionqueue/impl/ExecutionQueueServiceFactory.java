@@ -25,16 +25,11 @@ import org.openecomp.appc.executionqueue.ExecutionQueueService;
 
 public class ExecutionQueueServiceFactory {
 
-    private static ExecutionQueueService executionQueueService =null;
-
-    public static ExecutionQueueService getExecutionQueueService(){
-        if(executionQueueService == null){
-            synchronized (ExecutionQueueServiceFactory.class){
-                if(executionQueueService == null)
-                    executionQueueService = new ExecutionQueueServiceImpl();
-            }
-        }
-        return executionQueueService;
+    private static class ExecutionQueueServiceHolder {
+        public static final ExecutionQueueService executionQueueService = new ExecutionQueueServiceImpl();
     }
 
+    public static ExecutionQueueService getExecutionQueueService() {
+        return ExecutionQueueServiceHolder.executionQueueService;
+    }
 }

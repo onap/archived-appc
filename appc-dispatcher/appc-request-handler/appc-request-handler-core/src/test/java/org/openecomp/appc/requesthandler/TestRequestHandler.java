@@ -38,6 +38,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.openecomp.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
+import org.openecomp.appc.adapter.message.MessageAdapterFactory;
+import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
+import org.openecomp.appc.configuration.Configuration;
+import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.openecomp.appc.domainmodel.lcm.*;
+import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
 import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
 import org.openecomp.appc.domainmodel.lcm.CommonHeader;
 import org.openecomp.appc.domainmodel.lcm.Flags;
@@ -56,6 +63,8 @@ import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.openecomp.appc.lockmanager.api.LockException;
 import org.openecomp.appc.lockmanager.api.LockManager;
 import org.openecomp.appc.messageadapter.MessageAdapter;
+import org.openecomp.appc.messageadapter.impl.MessageAdapterImpl;
+import org.openecomp.appc.requesthandler.exceptions.*;
 import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
 import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
 import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
@@ -73,7 +82,15 @@ import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
 import org.openecomp.appc.workflow.objects.WorkflowRequest;
 import org.openecomp.appc.workingstatemanager.WorkingStateManager;
 import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
+import org.openecomp.sdnc.sli.aai.AAIService;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -82,7 +99,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest( {WorkingStateManager.class,FrameworkUtil.class, TransactionRecorder.class, RequestHandlerImpl.class,RequestValidatorImpl.class, TransactionRecorder.class})
+@PrepareForTest( {WorkingStateManager.class,FrameworkUtil.class, TransactionRecorder.class, RequestHandlerImpl.class,RequestValidatorImpl.class, TransactionRecorder.class, MessageAdapterImpl.class})
 public class TestRequestHandler {
 
 	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestRequestHandler.class);
@@ -92,10 +109,29 @@ public class TestRequestHandler {
 	private WorkFlowManager workflowManager;
 	private WorkingStateManager workingStateManager ;
 	private LockManager lockManager;
+    private Configuration configuration;
 
+	private final BundleContext bundleContext=Mockito.mock(BundleContext.class);
+	private final Bundle bundleService=Mockito.mock(Bundle.class);
+	private final ServiceReference sref=Mockito.mock(ServiceReference.class);
+    MessageAdapterFactory factory = new DmaapMessageAdapterFactoryImpl();
+
+	
 	@Before
 	public void init() throws Exception {
-
+	    configuration = ConfigurationFactory.getConfiguration();
+	    	    
+	    configuration.setProperty("appc.LCM.topic.write" , "TEST");
+	    configuration.setProperty("appc.LCM.client.key" , "TEST");
+	    configuration.setProperty("appc.LCM.client.secret" , "TEST");
+	    
+		PowerMockito.mockStatic(FrameworkUtil.class);
+		PowerMockito.when(FrameworkUtil.getBundle(MessageAdapterImpl.class)).thenReturn(bundleService);
+		PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
+		PowerMockito.when(bundleContext.getServiceReference(MessageAdapterFactory.class.getName())).thenReturn(sref);
+		PowerMockito.when(bundleContext.getService(sref)).thenReturn(factory);
+	    
+	
 		requestHandler = new RequestHandlerImpl();
 		LifecycleManager lifecyclemanager= mock(LifecycleManager.class);
 		workflowManager= mock(WorkFlowManager.class);
@@ -161,7 +197,7 @@ public class TestRequestHandler {
 	}
 
 	@Test
-	public void testInvalidVNFExceptionRequest() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void testInvalidVNFExceptionRequest() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID = UUID.randomUUID().toString();
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
@@ -174,7 +210,7 @@ public class TestRequestHandler {
 	}
 
 	@Test
-	public void testLifecycleException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void testLifecycleException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID = UUID.randomUUID().toString();
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
@@ -183,12 +219,12 @@ public class TestRequestHandler {
 		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID, Instant.now());
 		PowerMockito.doThrow(new LifecycleException(new Exception(),"Configured","test event")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
 		RequestHandlerOutput output = requestHandler.handleRequest(input);
-		Assert.assertEquals(LCMCommandStatus.ACTION_NOT_SUPPORTED.getResponseCode(), output.getResponseContext().getStatus().getCode());
+		Assert.assertEquals(LCMCommandStatus.INVALID_VNF_STATE.getResponseCode(), output.getResponseContext().getStatus().getCode());
 	}
 
 
 	@Test
-	public void testRequestExpiredException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void testRequestExpiredException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID = UUID.randomUUID().toString();
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
@@ -200,7 +236,19 @@ public class TestRequestHandler {
 	}
 
 	@Test
-	public void testWorkflowNotFoundException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void testMissingVNFdata() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
+		String originatorID = UUID.randomUUID().toString();
+		String requestID = UUID.randomUUID().toString();
+		String subRequestID = UUID.randomUUID().toString();
+
+		RequestHandlerInput input = this.getRequestHandlerInput("3009", VNFOperation.Configure,0,false,originatorID, requestID, subRequestID,Instant.now());
+		PowerMockito.doThrow(new MissingVNFDataInAAIException("vnf-type")).when(requestValidator).validateRequest(Matchers.any(RuntimeContext.class));
+		RequestHandlerOutput output = requestHandler.handleRequest(input);
+		Assert.assertEquals(LCMCommandStatus.MISSING_VNF_DATA_IN_AAI.getResponseCode(), output.getResponseContext().getStatus().getCode());
+	}
+
+	@Test
+	public void testWorkflowNotFoundException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID = UUID.randomUUID().toString();
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
@@ -224,7 +272,7 @@ public class TestRequestHandler {
 	}
 
 	@Test
-	public void testInvalidInputException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void testInvalidInputException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID1 = UUID.randomUUID().toString();
 		String requestID1 = UUID.randomUUID().toString();
 		String subRequestID1 = UUID.randomUUID().toString();
@@ -236,7 +284,7 @@ public class TestRequestHandler {
 	}
 
 	@Test
-	public void testNoTransitionDefinedException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void testNoTransitionDefinedException() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID = UUID.randomUUID().toString();
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
@@ -249,7 +297,7 @@ public class TestRequestHandler {
 	}
 
 	@Test
-	public void rejectInvalidRequest() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException,DGWorkflowNotFoundException {
+	public void rejectInvalidRequest() throws NoTransitionDefinedException, LifecycleException, InvalidInputException, RequestExpiredException, UnstableVNFException, DuplicateRequestException, VNFNotFoundException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException {
 		String originatorID = UUID.randomUUID().toString();
 		String requestID = UUID.randomUUID().toString();
 		String subRequestID = UUID.randomUUID().toString();
@@ -330,7 +378,6 @@ public class TestRequestHandler {
 		PowerMockito.whenNew(RuntimeContext.class).withAnyArguments().thenReturn(runtimeContext);
 
 	}
-
 
 	@Test
 	public void testOnRequestExecutionEndFailureForWorkingState() throws Exception {

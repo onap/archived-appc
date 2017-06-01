@@ -155,10 +155,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
         rpcRegistry = rpcProviderRegistry;
 
         if (rpcRegistry != null) {
-        	logger.info("rpcRegistry was not null");
             rpcRegistration = rpcRegistry.addRpcImplementation(AppcProviderService.class, this);
-        } else {
-        	logger.error("rpcRegistry WAS NULL");
         }
 
         logger.info(Msg.COMPONENT_INITIALIZED, appName, "provider");
@@ -263,5 +260,19 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
         RpcResult<SnapshotOutput> result = topology.snapshot(hdr, vnf);
         return Futures.immediateFuture(result);
     }
+    
+    
+    /**
+     * Checks status of a VM
+    */
+    @Override
+    public Future<RpcResult<VmstatuscheckOutput>> vmstatuscheck(VmstatuscheckInput input) {
+    CommonRequestHeader hdr = input.getCommonRequestHeader();
+    VnfResource vnf = input.getVnfResource();
+
+    TopologyService topology = new TopologyService(this);
+    RpcResult<VmstatuscheckOutput> result = topology.vmstatuscheck(hdr, vnf);
+    return Futures.immediateFuture(result);
+    }	
 
 }

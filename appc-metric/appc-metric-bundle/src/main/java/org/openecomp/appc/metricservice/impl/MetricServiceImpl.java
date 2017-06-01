@@ -21,6 +21,7 @@
 
 package org.openecomp.appc.metricservice.impl;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,6 +41,12 @@ public class MetricServiceImpl implements MetricService {
         if(concurrentRegistryMap.get(name)==null)
             concurrentRegistryMap.put(name,new MetricRegistryImpl(name));
         return concurrentRegistryMap.get(name);
+    }
+
+    @Override
+    public Map<String,MetricRegistry> getAllRegistry(){
+        return Collections.unmodifiableMap(concurrentRegistryMap);
+
     }
 
     @Override

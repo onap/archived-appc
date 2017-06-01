@@ -50,9 +50,15 @@ public final class Constants {
     @SuppressWarnings("nls")
     public static final String ATTRIBUTE_ERROR_MESSAGE = "error-message";
 
-    public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
+    /**
+     * The name for the success message attribute to be set in the context
+     */
+    @SuppressWarnings("nls")
+    public static final String ATTRIBUTE_SUCCESS_MESSAGE = "success-message";
 
     public static final String DG_ATTRIBUTE_STATUS = "SvcLogic.status";
+    public static final String DG_OUTPUT_STATUS_CODE = "output.status.code";
+    public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
 
     /**
      * The property that defines the name of the DG service logic to be loaded
@@ -156,19 +162,11 @@ public final class Constants {
      */
     public static final String PROPERTY_STACK_STATE_CHANGE_TIMEOUT ="org.openecomp.appc.stack.state.change.timeout" ;
 
-    /**
-     * Private default constructor prevents instantiation
-     */
-
     @SuppressWarnings("nls")
     public static final String STATUS_GETTER = "status-getter";
 
-
-
-
 	@SuppressWarnings("nls")
     public static final String VM_FUSION_STATUS_GETTER = "fusion-vm-status-getter";
-
 
 	/**
      * The name for the status vm attribute to be set in the context when executing a vmstatuscheck.
@@ -176,6 +174,34 @@ public final class Constants {
 
     @SuppressWarnings("nls")
     public static final String STATUS_OF_VM = "status-vm";
+
+    /**
+     * Yang revision value to be used while generating YANG module
+     */
+    public static final String YANG_REVISION = "2017-03-03";
+    /**
+     * Yang revision format to be used while formatting YANG revision date
+     */
+    public static final String YANG_REVISION_FORMAT = "YYYY-MM-DD";
+
+    /**
+     * Base container for  yang that is generated to store in MD-SAL datastore
+     */
+    public static final String YANG_BASE_CONTAINER = "vnf-config-repo";
+
+    /**
+     *VNF config list for yang that is generated to store in MD-SAL datastore
+     */
+    public static final String YANG_VNF_CONFIG_LIST = "vnf-config-list";
+
+    /**
+     *Base container of VNF configuration data for yang that is generated to store in MD-SAL datastore
+     */
+    public static final String YANG_VNF_CONFIG = "vnf-config";
+
+    /**
+     * Private default constructor prevents instantiation
+     */
 
     private Constants() {
 

@@ -23,8 +23,9 @@ package org.openecomp.appc.metricservice.metric.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.openecomp.appc.metricservice.metric.MetricType;
 import org.openecomp.appc.metricservice.metric.DmaapRequestCounterMetric;
@@ -34,41 +35,47 @@ import com.att.eelf.configuration.EELFManager;
 
 public class DmaapRequestCounterMetricImpl implements DmaapRequestCounterMetric {
 
-    private  String name;
-    private  MetricType metricType;
-    private long recievedMessage;
-    private long publishedMessage;
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+    private String name;
+    private MetricType metricType;
+    private AtomicLong recievedMessage = new AtomicLong();
+    private AtomicLong publishedMessage = new AtomicLong();
+
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
+    private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("YYYY-MM-dd:HH:mm:ss");
+
+    private String lastResetTime = dateTimeFormat.format(Calendar.getInstance().getTime());
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(DmaapRequestCounterMetricImpl.class);
-    public DmaapRequestCounterMetricImpl(String name, MetricType metricType, long recievedMessage, long publishedMessage) {
+
+    public DmaapRequestCounterMetricImpl(String name, MetricType metricType, long recievedMessage,
+                                       long publishedMessage) {
         this.name = name;
         this.metricType = metricType;
-        this.recievedMessage = recievedMessage;
-        this.publishedMessage=publishedMessage;
+        this.recievedMessage.set(recievedMessage);
+        this.publishedMessage.set(publishedMessage);
     }
 
     @Override
     public void incrementRecievedMessage() {
-        this.recievedMessage+=1;
+        this.recievedMessage.incrementAndGet();
     }
 
     @Override
     public void incrementPublishedMessage() {
-        this.publishedMessage+=1;
+        this.publishedMessage.incrementAndGet();
     }
 
     @Override
     public String value() {
         logger.debug("Value is getting calculated for metric :" + this.name);
-        try{
+        try {
             Calendar cal = Calendar.getInstance();
             cal.setTimeZone(TimeZone.getTimeZone("UTC"));
-            String  date=dateFormat.format(cal.getTime());
-            String value=date+"["+recievedMessage+"],["+publishedMessage+"]";
-            logger.debug("Current value of the metric "+this.name+" :"+value);
+            String date = dateFormat.format(cal.getTime());
+            String value = date + "[" + recievedMessage.get() + "],[" + publishedMessage.get() + "]";
+            logger.debug("Current value of the metric " + this.name + " :" + value);
             return value;
-        }catch (Exception e){
-            logger.debug("Cant format the date.");
+        } catch (Exception e) {
+            logger.debug("Cant format the date.",e);
         }
         return null;
     }
@@ -80,8 +87,10 @@ public class DmaapRequestCounterMetricImpl implements DmaapRequestCounterMetric 
 
     @Override
     public void reset() {
-        this.recievedMessage=0;
-        this.publishedMessage=0;
+        this.recievedMessage.set(0);
+        this.publishedMessage.set(0);
+        Calendar cal = Calendar.getInstance();
+        lastResetTime = dateTimeFormat.format(cal.getTime());
     }
 
     @Override
@@ -90,7 +99,20 @@ public class DmaapRequestCounterMetricImpl implements DmaapRequestCounterMetric 
     }
 
     @Override
+    public HashMap<String, String> getMetricsOutput() {
+        HashMap<String, String> dmaapMetricResult = new HashMap<>();
+        dmaapMetricResult.put("Total Received messages", Long.toString(recievedMessage.get()));
+        dmaapMetricResult.put("Total Published messages", Long.toString(publishedMessage.get()));
+        return dmaapMetricResult;
+    }
+
+    @Override
     public String toString() {
         return this.value();
+    }
+
+    @Override
+    public String getLastModified() {
+        return lastResetTime;
     }
 }

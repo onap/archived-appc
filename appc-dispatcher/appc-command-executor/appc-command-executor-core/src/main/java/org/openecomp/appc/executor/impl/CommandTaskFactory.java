@@ -51,7 +51,8 @@ public class CommandTaskFactory {
 
 
     public synchronized CommandTask getExecutionTask(String action, RuntimeContext commandRequest){
-        if (VNFOperation.Sync.toString().equals(action) || VNFOperation.Audit.toString().equals(action)){
+        if (VNFOperation.Sync.toString().equals(action) || VNFOperation.Audit.toString().equals(action) || VNFOperation.ConfigBackup.toString().equals(action) ||
+                VNFOperation.ConfigBackupDelete.toString().equals(action) || VNFOperation.ConfigExport.toString().equals(action)){
             return new LCMReadonlyCommandTask(commandRequest, requestHandler,workflowManager);
         }else {
             return new LCMCommandTask(commandRequest, requestHandler,workflowManager,
