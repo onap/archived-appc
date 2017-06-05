@@ -138,7 +138,7 @@ public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer 
 
     @Override
     public String toString() {
-        String hostStr = (urls == null && !urls.isEmpty()) ? "N/A" : urls.get(0);
+        String hostStr = (urls == null || urls.isEmpty()) ? "N/A" : urls.get(0);
         return String.format("Consumer listening to [%s]", hostStr);
     }
 
