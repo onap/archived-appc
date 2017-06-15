@@ -18,5 +18,6 @@
 		<module>appc-netconf-adapter</module>
 		<module>appc-ssh-adapter</module>
 		<module>appc-rest-healthcheck-adapter</module>
+		<module>appc-ansible-adapter</module>
 	</modules>
 </project>
