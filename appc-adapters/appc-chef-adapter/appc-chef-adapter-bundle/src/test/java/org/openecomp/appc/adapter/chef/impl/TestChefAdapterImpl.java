@@ -70,7 +70,7 @@ public class TestChefAdapterImpl {
     @Before
     public void setup() throws IllegalArgumentException, IllegalAccessException {
 
-        adapter = new ChefAdapterImpl(System.getProperty("user.dir")+"/src/main/resources/client.pem");
+        adapter = new ChefAdapterImpl();
     }
     
     @Test

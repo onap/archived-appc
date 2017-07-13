@@ -87,9 +87,4 @@ public class ChefApiClient {
 	}
 
 	
-/*	public Header[] buildHeaders(){
-
-	    return null;
-	}
-*/
 }
