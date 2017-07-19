@@ -532,12 +532,13 @@
                     <processStartTag>============LICENSE_START=======================================================</processStartTag>
                     <processEndTag>============LICENSE_END=========================================================</processEndTag>
                     <sectionDelimiter>================================================================================</sectionDelimiter>
-                    <licenseName>apache_v2</licenseName>
+                    <licenseName>appc</licenseName>
+                    <!-- This should point to the license directory of the root folder of the base appc project -->
+                    <licenseResolver>file:${user.dir}/license</licenseResolver>
                     <inceptionYear>2017</inceptionYear>
                     <organizationName>AT&amp;T Intellectual Property. All rights reserved.</organizationName>
-                    <projectName>APPC</projectName>
-                    <!-- Do not automatically update copyright since Amdocs needs to be included manually -->
-                    <canUpdateCopyright>false</canUpdateCopyright>
+                    <projectName>ONAP : APPC</projectName>
+                    <canUpdateCopyright>true</canUpdateCopyright>
                     <canUpdateDescription>true</canUpdateDescription>
                     <canUpdateLicense>true</canUpdateLicense>
                     <emptyLineAfterHeader>true</emptyLineAfterHeader>
