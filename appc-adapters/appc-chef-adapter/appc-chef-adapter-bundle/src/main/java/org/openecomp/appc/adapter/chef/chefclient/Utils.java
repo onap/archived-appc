@@ -62,15 +62,9 @@ public class Utils {
 	
 	public static String signWithRSA(String inStr, String pemPath) {
 		byte[] outStr = null;
-		BufferedReader br = null;
-		try {
-			br = new BufferedReader(new FileReader(pemPath));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 		Security.addProvider(new BouncyCastleProvider());
-		try {
-
+		try  (FileReader fr = new FileReader(pemPath);
+				BufferedReader br = new BufferedReader(fr)) {
 			PEMParser pemParser = new PEMParser(br);
 			JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 			Object object = pemParser.readObject();
