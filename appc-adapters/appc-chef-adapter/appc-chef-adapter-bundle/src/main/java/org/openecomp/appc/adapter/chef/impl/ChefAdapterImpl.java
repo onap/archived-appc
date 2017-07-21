@@ -594,11 +594,10 @@ public class ChefAdapterImpl implements ChefAdapter {
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 
-		try {
-			HttpGet httpGet = new HttpGet(tVmIp);
-			HttpClient httpClient = HttpClients.createDefault();
-			HttpResponse response = null;
-			response = httpClient.execute(httpGet);
+		HttpGet httpGet = new HttpGet(tVmIp);
+		try ( CloseableHttpClient httpClient = HttpClients.createDefault();
+			CloseableHttpResponse response = httpClient.execute(httpGet); )
+		{
 			int responseCode = response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
 			String responseOutput = EntityUtils.toString(entity);
