@@ -127,6 +127,48 @@ public class AppcEventListenerActivator implements BundleActivator {
         listeners.add(demoProps);
 
         // ===========================================================================                                                                   	
+        // Configure App-C Closed Loop Listener
+        ListenerProperties clProps = new ListenerProperties("appc.ClosedLoop", props);
+        clProps.setListenerClass(org.openecomp.appc.listener.CL.impl.ListenerImpl.class);
+        listeners.add(clProps);
+        
+        // Configure App-C 1607 Closed Loop Listener
+        ListenerProperties cl1607Props = new ListenerProperties("appc.ClosedLoop1607", props);
+        cl1607Props.setListenerClass(org.openecomp.appc.listener.CL1607.impl.ListenerImpl.class);
+        listeners.add(cl1607Props);                                                       	
+
+	// ===========================================================================
+        // Configure POLO Listener : Added by Ashwin Sridharan
+        ListenerProperties poloProps = new ListenerProperties("appc.Polo1607", props);
+        // Get the properties object and check if it is populated.
+        Properties tempProp = poloProps.getProperties();
+        if (tempProp.size() > 0){
+                // POLO is defined. Add to listeners
+                poloProps.setListenerClass(org.openecomp.appc.listener.CL1607.impl.ListenerImpl.class);
+                listeners.add(poloProps);
+                LOG.info("Added POLO Listener with properties = ");
+                for(String ukey: tempProp.stringPropertyNames()){
+                    LOG.info(String.format("POLO %s = %s", ukey, tempProp.getProperty(ukey)));
+                }
+
+        }
+        // ===========================================================================                                                                   	
+
+	
+        ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
+        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+        listeners.add(clLCMProps);
+
+        //Configure the OAM properties
+        clLCMProps = new ListenerProperties("appc.OAM", props);
+        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+        listeners.add(clLCMProps);
+
+/*
+        ListenerProperties clLCMProps1607 = new ListenerProperties("appc.LCM1607", props);
+        clLCMProps1607.setListenerClass(org.openecomp.appc.listener.LCM1607.impl.ListenerImpl.class);
+        listeners.add(clLCMProps1607);
+*/
 
         adapter = new ControllerImpl(listeners);
         if (ctx != null && registration == null) {

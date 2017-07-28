@@ -87,7 +87,7 @@ public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
                     result.put(field, data.getString(field));
                 }
             } else {
-                String msg = "Missing license model for VNF_TYPE: " + vnfType + " and VNF_VERSION: " + vnfVersion + " in table " + Constants.ASDC_ARTIFACTS_TABLE_NAME;
+                String msg = "Missing license model for VNF_TYPE: " + vnfType + " and VNF_VERSION: " + vnfVersion + " in table " + Constants.ASDC_ARTIFACTS;
                 logger.info(msg);
             }
         } catch (SQLException e) {
@@ -99,70 +99,10 @@ public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
     }
 
     private String buildQueryStatement() {
-        return "select * " + "from " + Constants.ASDC_ARTIFACTS_TABLE_NAME + " " +
+        return "select * " + "from " + Constants.ASDC_ARTIFACTS + " " +
             "where " + ASDC_ARTIFACTS_FIELDS.RESOURCE_NAME.name() + " = ?" +
              " AND " + ASDC_ARTIFACTS_FIELDS.RESOURCE_VERSION.name() + " = ?" +
              " AND " + ASDC_ARTIFACTS_FIELDS.ARTIFACT_TYPE.name() + " = ?";
-    }
-
-    /**
-     * Implementation of storeArtifactPayload()
-     * @see LicenseDataAccessService
-     */
-    @Override
-    public void storeArtifactPayload(Map<String, String> parameters) throws RuntimeException {
-
-        if(parameters == null || parameters.isEmpty()) {
-            throw new RuntimeException("No parameters for insert are provided");
-        }
-
-        String insertStr = "INSERT INTO " + Constants.ASDC_ARTIFACTS_TABLE_NAME + "(";
-        String valuesStr = "VALUES(";
-        String insertStatementStr;
-
-        ArrayList<String> params = new ArrayList<>();
-        boolean firstTime = true;
-        for(Map.Entry<String, String> entry : parameters.entrySet()) {
-            if(!firstTime) {
-                insertStr += ",";
-                valuesStr += ",";
-            }
-            else {
-                firstTime = false;
-            }
-            insertStr += entry.getKey();
-            valuesStr += "?";
-
-            params.add(entry.getValue());
-        }
-
-        insertStr += ")";
-        valuesStr += ")";
-        insertStatementStr = insertStr + " " + valuesStr;
-
-        executeStoreArtifactPayload(insertStatementStr, params);
-    }
-
-    /**
-     * Exexutes insert statement for artifact payload
-     * @param insertStatementStr
-     * @param params
-     * @throws RuntimeException
-     */
-    private void executeStoreArtifactPayload(String insertStatementStr, ArrayList<String> params) throws RuntimeException {
-
-        try {
-            logger.info("used schema=" + this.schema);
-            logger.info("insert statement=" + insertStatementStr);
-
-            dbLibService.writeData(insertStatementStr, params, this.schema);
-
-            logger.info("finished to execute insert");
-
-        } catch (SQLException e) {
-            logger.error("Storing Artifact payload failed - " + insertStatementStr);
-            throw new RuntimeException("Storing Artifact payload failed - " + insertStatementStr);
-        }
     }
 
 }

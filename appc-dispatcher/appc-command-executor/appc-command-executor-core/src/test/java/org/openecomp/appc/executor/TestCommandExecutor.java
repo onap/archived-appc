@@ -24,7 +24,7 @@
 
 package org.openecomp.appc.executor;
 /**
- * 
+ *
  */
 
 
@@ -43,31 +43,41 @@ import org.openecomp.appc.domainmodel.lcm.VNFContext;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
-import org.openecomp.appc.executor.impl.CommandExecutorImpl;
-import org.openecomp.appc.executor.impl.CommandTaskFactory;
-import org.openecomp.appc.executor.impl.LCMCommandTask;
-import org.openecomp.appc.executor.impl.LCMReadonlyCommandTask;
+import org.openecomp.appc.executor.impl.*;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.workflow.WorkFlowManager;
+import org.powermock.api.mockito.PowerMockito;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+import static junit.framework.Assert.assertTrue;
+import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
 
 @SuppressWarnings("deprecation")
 public class TestCommandExecutor {
 
-		private static final String TTL_FLAG= "TTL";
-		private static final String API_VERSION= "2.0.0";
-		private static final String ORIGINATOR_ID= "1";
+	private static final String TTL_FLAG= "TTL";
+	private static final String API_VERSION= "2.0.0";
+	private static final String ORIGINATOR_ID= "1";
 
-	CommandExecutorImpl commandExecutor;
+	private CommandExecutorImpl commandExecutor;
 
-	CommandTaskFactory executionTaskFactory;
+	private CommandTaskFactory executionTaskFactory;
 
 	private RequestHandler requestHandler;
 	private WorkFlowManager workflowManager;
 	private LifecycleManager lifecyclemanager;
 
 	private ExecutionQueueService executionQueueService;
+	private Date timeStamp = new Date();
+	private String requestId = "1";
+	private RuntimeContext commandExecutorInputConfigure = pouplateCommandExecutorInput("FIREWALL", 30000, "1.0",
+			timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure,"15","") ;
+	private RuntimeContext commandExecutorInputSync = pouplateCommandExecutorInput("FIREWALL", 30, "1.0",
+			timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
 
 	@Before
 	public void init()throws Exception {
@@ -82,16 +92,20 @@ public class TestCommandExecutor {
 		commandExecutor.setExecutionTaskFactory(executionTaskFactory);
 		commandExecutor.setExecutionQueueService(executionQueueService);
 		LCMCommandTask lcmCommandTask = Mockito.mock(LCMCommandTask.class);
-		LCMReadonlyCommandTask LCMReadonlyCommandTask = Mockito.mock(LCMReadonlyCommandTask.class);
-		Mockito.doReturn(lcmCommandTask).when(executionTaskFactory).getExecutionTask("Configure", null);
-		Mockito.doReturn(LCMReadonlyCommandTask).when(executionTaskFactory).getExecutionTask("Sync", null);
+		LCMReadonlyCommandTask lCMReadonlyCommandTask = Mockito.mock(LCMReadonlyCommandTask.class);
+
+		Mockito.when(lcmCommandTask.getCommandRequest()).thenReturn(commandExecutorInputConfigure);
+		Mockito.when(lCMReadonlyCommandTask.getCommandRequest()).thenReturn(commandExecutorInputSync);
+		Mockito.when(executionTaskFactory.getExecutionTask(commandExecutorInputConfigure)).thenReturn(lcmCommandTask);
+		Mockito.when(executionTaskFactory.getExecutionTask(commandExecutorInputSync)).thenReturn(lCMReadonlyCommandTask);
+
 //		Mockito.when(executionQueueService.putMessage((Runnable) Mockito.anyObject(),Mockito.anyLong(),(TimeUnit)Mockito.anyObject())).thenReturn(true);
 
 	}
-		
+
 
 	@Test
-	public void testPositiveFlow_LCM(){
+	public void testPositiveFlow_LCM() throws Exception {
 		//Map <String,Object> flags = setTTLInFlags("30");
 		String requestId = "1";
 		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure, "15", "") ;
@@ -153,4 +167,3 @@ public class TestCommandExecutor {
 
 
 }
-

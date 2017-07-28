@@ -123,16 +123,23 @@ public class TestCommandExecutionTask {
 		factory = new CommandTaskFactory();
 		factory.setLifecyclemanager(lifecyclemanager);
 		factory.setWorkflowManager(workflowManager);
-		factory.setRequestHandler(requestHandler);
+		factory.setVnfRequestHandler(requestHandler);
 		Mockito.when(workflowManager.executeWorkflow((WorkflowRequest)anyObject())).thenReturn(getWorkflowResponse () );
 	}
 
 
 	@Test
 	public void testFactory(){
-		CommandTask task = factory.getExecutionTask("Configure", null);
+		CommandTask task;
+		Date timeStamp = new Date();
+		String requestId = "1";
+		RuntimeContext commandExecutorInputConfigure = pouplateCommandExecutorInput("FIREWALL", 30, "1.0",
+				timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure,"15","") ;
+		task = factory.getExecutionTask(commandExecutorInputConfigure);
 		assertEquals(LCMCommandTask.class,task.getClass() );
-		task = factory.getExecutionTask("Sync", null);
+		RuntimeContext commandExecutorInputSync = pouplateCommandExecutorInput("FIREWALL", 30, "1.0",
+				timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
+		task = factory.getExecutionTask(commandExecutorInputSync);
 		assertEquals(LCMReadonlyCommandTask.class,task.getClass() );
 
 	}
@@ -215,6 +222,24 @@ public class TestCommandExecutionTask {
 	}
 
 
+	private LCMReadOnlyCommandRequest getConfigCommandRequest(String vnfType , Integer ttl , Date timeStamp, String requestId,
+															  Map<String,Object> flags, VNFOperation command , String vnfId, String vnfVersion ){
+
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
+		LCMReadOnlyCommandRequest request = new LCMReadOnlyCommandRequest(commandExecutorInput);
+
+		return request;
+	}
+
+	private LCMCommandRequest getLCMCommandRequest(String vnfType , Integer ttl ,Date timeStamp, String requestId,
+												   Map<String,Object> flags, VNFOperation command , String vnfId, String vnfVersion ){
+
+		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput(vnfType, ttl, vnfVersion, timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "", command, vnfId, "");
+		LCMCommandRequest request = new LCMCommandRequest(commandExecutorInput);
+
+		return request;
+	}
+
 	public WorkflowResponse getWorkflowResponse (){
 		WorkflowResponse wfResponse = new WorkflowResponse();
 		ResponseContext responseContext = createResponseContextWithSuObjects();
@@ -275,4 +300,3 @@ public class TestCommandExecutionTask {
 	}
 
 }
-
