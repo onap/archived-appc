@@ -32,7 +32,6 @@
         <dependency>
             <groupId>com.att.eelf</groupId>
             <artifactId>eelf-core</artifactId>
-            <version>${eelf.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

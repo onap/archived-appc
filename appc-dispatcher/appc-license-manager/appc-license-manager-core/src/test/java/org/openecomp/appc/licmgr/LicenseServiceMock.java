@@ -23,12 +23,10 @@
  */
 
 package org.openecomp.appc.licmgr;
+
+import org.openecomp.appc.licmgr.exception.DataAccessException;
 import java.util.HashMap;
 import java.util.Map;
-
-import org.openecomp.appc.licmgr.LicenseDataAccessService;
-import org.openecomp.appc.licmgr.exception.DataAccessException;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
 
 class LicenseServiceMock implements LicenseDataAccessService {
 
@@ -52,7 +50,4 @@ class LicenseServiceMock implements LicenseDataAccessService {
         return null;
     }
 
-    @Override
-    public void storeArtifactPayload(Map<String, String> parameters) throws DataAccessException {
-    }
 }

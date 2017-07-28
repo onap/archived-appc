@@ -55,7 +55,7 @@ public class Constants {
     public static final String REQUEST_ID_FIELD_NAME = "REQUEST_ID";
     public static final String CREATION_DATE_FIELD_NAME = "CREATION_DATE";
     public static final String LOG_FIELD_NAME = "LOG";
-    public static final String ASDC_ARTIFACTS_TABLE_NAME = "ASDC_ARTIFACTS";
+    public static final String ASDC_ARTIFACTS = "ASDC_ARTIFACTS";
 
     // input fields names
     public static final String PAYLOAD = "payload";

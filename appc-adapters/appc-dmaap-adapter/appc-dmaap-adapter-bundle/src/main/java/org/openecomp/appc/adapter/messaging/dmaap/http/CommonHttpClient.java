@@ -50,19 +50,23 @@ public class CommonHttpClient {
     }
 
     public HttpGet getReq(URI uri, int timeoutMs) throws Exception {
-    	HttpGet out = (uri == null) ? new HttpGet() : new HttpGet(uri);
-        if (AUTH_STR != null) {
-        	out.setHeader("Authorization", String.format("Basic %s", AUTH_STR));
-        }       
+        if (AUTH_STR == null) {
+            throw new Exception("All DMaaP requests require authentication and none was provided.");
+        }
+
+        HttpGet out = (uri == null) ? new HttpGet() : new HttpGet(uri);
+        out.setHeader("Authorization", String.format("Basic %s", AUTH_STR));
         out.setConfig(getConfig(timeoutMs));
         return out;
     }
 
     public HttpPost postReq(String url) throws Exception {
-    	HttpPost out = (url == null) ? new HttpPost() : new HttpPost(url);
-        if (AUTH_STR != null) {
-        	out.setHeader("Authorization", String.format("Basic %s", AUTH_STR));
+        if (AUTH_STR == null) {
+            throw new Exception("All DMaaP requests require authentication and none was provided.");
         }
+
+        HttpPost out = (url == null) ? new HttpPost() : new HttpPost(url);
+        out.setHeader("Authorization", String.format("Basic %s", AUTH_STR));
         out.setConfig(getConfig(0));
         return out;
     }
