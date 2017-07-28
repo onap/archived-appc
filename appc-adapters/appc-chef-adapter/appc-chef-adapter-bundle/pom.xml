@@ -13,6 +13,11 @@
 	<name>chef Adapter - bundle</name>
 
 	<dependencies>
+	<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
@@ -35,8 +40,6 @@
 			<version>4.4.4</version>
 		</dependency>
 
-		<!--<dependency> <groupId>org.apache.httpcomponents</groupId> <artifactId>httpclient</artifactId> 
-			<version>4.5.1</version> </dependency> -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk15on</artifactId>
@@ -51,14 +54,6 @@
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-common</artifactId>
 			<version>${project.version}</version>
-			<!-- <classifier>jar-with-dependencies</classifier> -->
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.openecomp.appc</groupId>
-			<artifactId>appc-common</artifactId>
-			<version>${project.version}</version>
-
 		</dependency>
 		<dependency>
 			<groupId>javax</groupId>
@@ -78,6 +73,13 @@
 			<artifactId>jackson-jaxrs</artifactId>
 			<version>1.9.12</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -158,7 +160,7 @@
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 
-					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
+	<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation> 
 				</configuration>
 			</plugin>
 		</plugins>

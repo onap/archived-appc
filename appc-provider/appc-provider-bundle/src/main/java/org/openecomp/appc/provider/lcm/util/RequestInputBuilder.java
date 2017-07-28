@@ -28,11 +28,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
+import org.apache.commons.lang.StringUtils;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Payload;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags;
 import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
+import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.domainmodel.lcm.RequestContext;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
@@ -139,10 +141,20 @@ public class RequestInputBuilder {
             actionIds.setvServerId(actionIdentifiers.getVserverId());
             actionIds.setVnfId(actionIdentifiers.getVnfId());
             this.requestContext.setActionIdentifiers(actionIds);
+
+            ActionLevel actionLevel = readActionLevel(actionIds);
+            this.requestContext.setActionLevel(actionLevel);
             return this;
         }else{
             throw new ParseException("Missing action identifier" , 0);
         }
+    }
+
+    private ActionLevel readActionLevel(org.openecomp.appc.domainmodel.lcm.ActionIdentifiers actionIds) {
+        if(!StringUtils.isEmpty(actionIds.getVserverId())){
+            return ActionLevel.VM;
+        }
+        return ActionLevel.VNF;
     }
 
 

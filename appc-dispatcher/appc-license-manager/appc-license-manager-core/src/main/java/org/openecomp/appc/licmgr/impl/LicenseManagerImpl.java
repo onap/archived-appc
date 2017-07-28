@@ -65,18 +65,6 @@ public class LicenseManagerImpl implements LicenseManager {
         return licenseModel;
     }
 
-    @Override
-    public Map<String, String> retrieveLicenseModelData(String vnfType, String vnfVersion, String... fields)  throws DataAccessException {
-
-        Map<String,String> resultMap = DAService.retrieveLicenseModelData(vnfType, vnfVersion, fields);
-        return resultMap;
-    }
-
-    @Override
-    public void storeArtifactPayload(Map<String, String> parameters) throws RuntimeException {
-
-        DAService.storeArtifactPayload(parameters);
-    }
 
     private static LicenseModel convert(String xml) {
 

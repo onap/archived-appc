@@ -535,19 +535,33 @@ public abstract class ProviderServerOperation extends ProviderOperation{
 			throws ZoneException, RequestFailedException {
 
 		logger.info("Performing the Hypervisor status checks..");
-		String status = null, state = null, msg = null;
-
-		status = server.getHypervisor().getStatus().toString();
-		state = server.getHypervisor().getState().toString();
 		
-		if (!status.equals(Hypervisor.Status.ENABLED.toString()) || !state.equals(Hypervisor.State.UP.toString())) {
-			msg = EELFResourceManager.format(Msg.HYPERVISOR_DOWN_ERROR, server.getHypervisor().getHostName(), server.getName());
-			logger.error(msg.toString());
+		String msg = null;
+		if(server.getHypervisor() != null && server.getHypervisor().getStatus() != null && server.getHypervisor().getState() != null)
+		{
+			String status = null, state = null;
 		
-			//doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-			throw new RequestFailedException("Hypervisor status DOWN or NOT ENABLED", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
+			status = server.getHypervisor().getStatus().toString();
+			state = server.getHypervisor().getState().toString();
+		
+			if (!status.equals(Hypervisor.Status.ENABLED.toString()) || !state.equals(Hypervisor.State.UP.toString())) 
+			{
+				msg = EELFResourceManager.format(Msg.HYPERVISOR_DOWN_ERROR, server.getHypervisor().getHostName(), server.getName());
+				logger.error(msg.toString());
+		
+				//doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+				throw new RequestFailedException("Hypervisor status DOWN or NOT ENABLED", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
 					server);
 
+			}
+		}
+		else
+		{
+			msg = EELFResourceManager.format(Msg.HYPERVISOR_STATUS_UKNOWN, server.getName());
+			logger.error(msg.toString());
+	
+			throw new RequestFailedException("Unable to determine Hypervisor status", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
+				server);
 		}
 		
 		logger.info("Passed the Hypervisor status checks..");

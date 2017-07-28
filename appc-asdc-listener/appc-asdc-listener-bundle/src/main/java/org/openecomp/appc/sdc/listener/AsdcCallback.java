@@ -27,12 +27,15 @@ package org.openecomp.appc.sdc.listener;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.appc.adapter.message.EventSender;
+import org.openecomp.appc.sdc.artifacts.ArtifactProcessor;
+import org.openecomp.appc.sdc.artifacts.impl.ArtifactProcessorFactory;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.consumer.INotificationCallback;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;
 import org.openecomp.sdc.api.notification.IResourceInstance;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
+import org.openecomp.sdc.utils.DistributionStatusEnum;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -86,13 +89,34 @@ public class AsdcCallback implements INotificationCallback {
         }
 
         if (isRunning.get()) {
+
+            for(IArtifactInfo artifact:data.getServiceArtifacts()){
+                ArtifactProcessor artifactProcessor = ArtifactProcessorFactory.getArtifactProcessor(client, eventSender, data, null, artifact, storeUri);
+                if(artifactProcessor!=null){
+                    executor.submit(artifactProcessor);
+                }
+            }
+
             for (IResourceInstance resource : data.getResources()) {
                 for (IArtifactInfo artifact : resource.getArtifacts()) {
                     logger.info(Util.toAsdcStoreDocumentInput(data, resource, artifact, "abc"));
                     if (executor.getQueue().size() >= threadCount) {
                         // log warning about job backlog
                     }
-                    executor.submit(new DownloadAndStoreOp(client, eventSender, data, resource, artifact, storeUri));
+                    ArtifactProcessor artifactProcessor = ArtifactProcessorFactory.getArtifactProcessor(client, eventSender, data, resource, artifact, storeUri);
+                    if(artifactProcessor != null){
+                        executor.submit(artifactProcessor);
+                    }
+                    else{
+                        /* Before refactoring of the DownloadAndStoreOp class, the approach was to download all the
+                            artifacts, send the download status, and then perform the processing of artifact if it is
+                            required. Now that we are downloading the artifacts only when its processing is required,
+                            we are sending the download status as positive just to have the same behaviour as before
+                            refactoring.
+                         */
+                        client.sendDownloadStatus(Util.buildDistributionStatusMessage(client, data, artifact, DistributionStatusEnum.DOWNLOAD_OK));
+                        logger.error("Artifact type not supported : " + artifact.getArtifactType());
+                    }
                 }
             }
         } else {

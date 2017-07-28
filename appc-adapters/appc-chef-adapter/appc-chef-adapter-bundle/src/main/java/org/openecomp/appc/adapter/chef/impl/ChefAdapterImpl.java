@@ -106,7 +106,7 @@ import org.json.JSONObject;
 public class ChefAdapterImpl implements ChefAdapter {
 
 	// chef server Initialize variable
-	public String username = "";
+	public String clientName = "";
 	public String clientPrivatekey = "";
 	public String chefserver = "";
 	public String serverAddress = "";
@@ -207,7 +207,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 		String message = null;
 		if (privateKeyCheck()) {
 			// update the details of an environment on the Chef server.
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 			ApiMethod am = cac.put("/environments/"+envName).body(env);
 			am.execute();
 			code = am.getReturnCode();
@@ -247,7 +247,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 		int code=200;
 		String message = null;
 		if (privateKeyCheck()) {
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 
 			for(int i = 0; i < nodes.size(); i++){
 				String nodeName=nodes.get(i);
@@ -306,7 +306,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 
 		rc.isAlive();
 		SvcLogicContext svcLogic = rc.getSvcLogicContext();
-		ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+		ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 		ApiMethod am = cac.post(chefAction).body(pushRequest);
 		
 		am.execute();
@@ -342,7 +342,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 			int code;
 			String message = null;
 			if (privateKeyCheck()) {
-				ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+				ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 				ApiMethod am = cac.get(chefAction);
 				am.execute();
 				code = am.getReturnCode();
@@ -393,16 +393,21 @@ public class ChefAdapterImpl implements ChefAdapter {
 	}
 
 
+	
+	/**
+	 * build node object
+	 */
+
 	@SuppressWarnings("nls")
 	@Override
 	public void nodeObejctBuilder(Map<String, String> params, SvcLogicContext ctx) {
 		logger.info("nodeObejctBuilder");
-		String name = params.get("nodeobject.name");
-		String normal = params.get("nodeobject.normal");
-		String overrides = params.get("nodeobject.overrides");
-		String defaults = params.get("nodeobject.defaults");
-		String run_list = params.get("nodeobject.run_list");
-		String chef_environment = params.get("nodeobject.chef_environment");
+		String name = params.get("org.openecomp.appc.instance.nodeobject.name");
+		String normal = params.get("org.openecomp.appc.instance.nodeobject.normal");
+		String overrides = params.get("org.openecomp.appc.instance.nodeobject.overrides");
+		String defaults = params.get("org.openecomp.appc.instance.nodeobject.defaults");
+		String run_list = params.get("org.openecomp.appc.instance.nodeobject.run_list");
+		String chef_environment = params.get("org.openecomp.appc.instance.nodeobject.chef_environment");
 		String nodeObject = "{\"json_class\":\"Chef::Node\",\"default\":{" + defaults
 				+ "},\"chef_type\":\"node\",\"run_list\":[" + run_list + "],\"override\":{" + overrides
 				+ "},\"normal\": {" + normal + "},\"automatic\":{},\"name\":\"" + name + "\",\"chef_environment\":\""
@@ -412,17 +417,20 @@ public class ChefAdapterImpl implements ChefAdapter {
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		SvcLogicContext svcLogic = rc.getSvcLogicContext();
-		svcLogic.setAttribute("chef.nodeObject", nodeObject);
+		svcLogic.setAttribute("org.openecomp.appc.chef.nodeObject", nodeObject);
 
 	}
 
+	/**
+	 * Nicolas send get request to chef server
+	 */
 
 	public void chefInfo(Map<String, String> params) {
-		username = params.get("username");
-		serverAddress = params.get("serverAddress");
-		organizations = params.get("organizations");
+		clientName = params.get("org.openecomp.appc.instance.username");
+		serverAddress = params.get("org.openecomp.appc.instance.serverAddress");
+		organizations = params.get("org.openecomp.appc.instance.organizations");
 		chefserver = "https://" + serverAddress + "/organizations/" + organizations;
-		clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + username + ".pem";
+		clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
 	}
 
 	public Boolean privateKeyCheck() {
@@ -438,9 +446,9 @@ public class ChefAdapterImpl implements ChefAdapter {
 	@Override
 	public void retrieveData(Map<String, String> params, SvcLogicContext ctx) {
 		String contextData = "someValue";
-		String allConfigData = params.get("allConfig");
-		String key = params.get("key");
-		String dgContext = params.get("dgContext");
+		String allConfigData = params.get("org.openecomp.appc.instance.allConfig");
+		String key = params.get("org.openecomp.appc.instance.key");
+		String dgContext = params.get("org.openecomp.appc.instance.dgContext");
 		JSONObject josnConfig = new JSONObject(allConfigData);
 		try {
 			contextData = josnConfig.getString(key);
@@ -462,28 +470,33 @@ public class ChefAdapterImpl implements ChefAdapter {
 	@Override
 	public void combineStrings(Map<String, String> params, SvcLogicContext ctx) {
 
-		String String1 = params.get("String1");
-		String String2 = params.get("String2");
-		String dgContext = params.get("dgContext");
+		String String1 = params.get("org.openecomp.appc.instance.String1");
+		String String2 = params.get("org.openecomp.appc.instance.String2");
+		String dgContext = params.get("org.openecomp.appc.instance.dgContext");
 		String contextData = String1 + String2;
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		SvcLogicContext svcLogic = rc.getSvcLogicContext();
 		svcLogic.setAttribute(dgContext, contextData);
 	}
+	
+	
+	/**
+	 * Send GET request to chef server
+	 */
 
 	@SuppressWarnings("nls")
 	@Override
 	public void chefGet(Map<String, String> params, SvcLogicContext ctx) {
 		logger.info("chef get method");
 		chefInfo(params);
-		String chefAction = params.get("chefAction");
+		String chefAction = params.get("org.openecomp.appc.instance.chefAction");
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		int code;
 		String message = null;
 		if (privateKeyCheck()) {
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 			ApiMethod am = cac.get(chefAction);
 			am.execute();
 			code = am.getReturnCode();
@@ -505,14 +518,14 @@ public class ChefAdapterImpl implements ChefAdapter {
 	@Override
 	public void chefPut(Map<String, String> params, SvcLogicContext ctx) {
 		chefInfo(params);
-		String chefAction = params.get("chefAction");
-		String CHEF_NODE_STR = params.get("chefRequestBody");
+		String chefAction = params.get("org.openecomp.appc.instance.chefAction");
+		String CHEF_NODE_STR = params.get("org.openecomp.appc.instance.chefRequestBody");
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		int code;
 		String message = null;
 		if (privateKeyCheck()) {
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 
 			ApiMethod am = cac.put(chefAction).body(CHEF_NODE_STR);
 			am.execute();
@@ -525,10 +538,11 @@ public class ChefAdapterImpl implements ChefAdapter {
 		}
 		logger.info(code + "   " + message);
 		chefServerResult(rc, Integer.toString(code), message);
-	}
 
+	}
+	
 	/**
-	 *   send Post request to chef server
+	 * Nicolas send Post request to chef server
 	 */
 
 	@SuppressWarnings("nls")
@@ -536,15 +550,25 @@ public class ChefAdapterImpl implements ChefAdapter {
 	public void chefPost(Map<String, String> params, SvcLogicContext ctx) {
 		chefInfo(params);
 		logger.info("chef Post method");
-		logger.info(username + " " + clientPrivatekey + " " + chefserver + " " + organizations);
-		String CHEF_NODE_STR = params.get("chefRequestBody");
-		String chefAction = params.get("chefAction");
+		logger.info(clientName + " " + clientPrivatekey + " " + chefserver + " " + organizations);
+		String CHEF_NODE_STR = params.get("org.openecomp.appc.instance.chefRequestBody");
+		String chefAction = params.get("org.openecomp.appc.instance.chefAction");
+
+		// attributes="\"reconfig-test\":{\"secret\":\"newpass2\"}";
+		// String CHEF_NODE_STR =
+		// "{\"json_class\":\"Chef::Node\",\"default\":{},\"chef_type\":\"node\",\"run_list\":[\""+runList+"\"],\"override\":{},\"automatic\":{},\"normal\":{"+attributes+"},\"name\":\"testnode\",\"chef_environment\":\"_default\"}";
+		// String CHEF_NODE_STR = "{\"json_class\":\"Chef::Node\"}";
+		// logger.info(vm_url);
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		int code;
 		String message = null;
+		// should load pem from somewhere else
 		if (privateKeyCheck()) {
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
+
+			// need pass path into it
+			// "/nodes/testnode"
 			ApiMethod am = cac.post(chefAction).body(CHEF_NODE_STR);
 			am.execute();
 			code = am.getReturnCode();
@@ -558,19 +582,22 @@ public class ChefAdapterImpl implements ChefAdapter {
 		chefServerResult(rc, Integer.toString(code), message);
 	}
 
+	/**
+	 * Nicolas send delete request to chef server
+	 */
 
 	@SuppressWarnings("nls")
 	@Override
 	public void chefDelete(Map<String, String> params, SvcLogicContext ctx) {
 		logger.info("chef delete method");
 		chefInfo(params);
-		String chefAction = params.get("chefAction");
+		String chefAction = params.get("org.openecomp.appc.instance.chefAction");
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		int code;
 		String message = null;
 		if (privateKeyCheck()) {
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 			ApiMethod am = cac.delete(chefAction);
 			am.execute();
 			code = am.getReturnCode();
@@ -583,6 +610,10 @@ public class ChefAdapterImpl implements ChefAdapter {
 		logger.info(code + "   " + message);
 		chefServerResult(rc, Integer.toString(code), message);
 	}
+	
+	
+
+
 
 
 	@SuppressWarnings("nls")
@@ -608,13 +639,16 @@ public class ChefAdapterImpl implements ChefAdapter {
 		}
 	}
 
+
+
+
 	@SuppressWarnings("nls")
 	@Override
 	public void checkPushJob(Map<String, String> params, SvcLogicContext ctx) {
 		chefInfo(params);
-		String jobID = params.get("jobid");
-		int retryTimes = Integer.parseInt(params.get("retryTimes"));
-		int retryInterval = Integer.parseInt(params.get("retryInterval"));
+		String jobID = params.get("org.openecomp.appc.instance.jobid");
+		int retryTimes = Integer.parseInt(params.get("org.openecomp.appc.instance.retryTimes"));
+		int retryInterval = Integer.parseInt(params.get("org.openecomp.appc.instance.retryInterval"));
 		String chefAction = "/pushy/jobs/" + jobID;
 
 		RequestContext rc = new RequestContext(ctx);
@@ -628,7 +662,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 			} catch (InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
-			ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+			ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 			ApiMethod am = cac.get(chefAction);
 			am.execute();
 			int code = am.getReturnCode();
@@ -642,15 +676,15 @@ public class ChefAdapterImpl implements ChefAdapter {
 
 		}
 		if (status.equals("complete")) {
-			svcLogic.setAttribute("chefServerResult.code", "200");
-			svcLogic.setAttribute("chefServerResult.message", message);
+			svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "200");
+			svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
 		} else {
 			if (status.equals("running")) {
-				svcLogic.setAttribute("chefServerResult.code", "202");
-				svcLogic.setAttribute("chefServerResult.message", "chef client runtime out");
+				svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "202");
+				svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", "chef client runtime out");
 			} else {
-				svcLogic.setAttribute("chefServerResult.code", "500");
-				svcLogic.setAttribute("chefServerResult.message", message);
+				svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "500");
+				svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
 			}
 		}
 	}
@@ -660,12 +694,12 @@ public class ChefAdapterImpl implements ChefAdapter {
 	@Override
 	public void pushJob(Map<String, String> params, SvcLogicContext ctx) {
 		chefInfo(params);
-		String pushRequest = params.get("pushRequest");
+		String pushRequest = params.get("org.openecomp.appc.instance.pushRequest");
 		String chefAction = "/pushy/jobs";
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 		SvcLogicContext svcLogic = rc.getSvcLogicContext();
-		ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+		ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 		ApiMethod am = cac.post(chefAction).body(pushRequest);
 		;
 		am.execute();
@@ -675,12 +709,11 @@ public class ChefAdapterImpl implements ChefAdapter {
 			int startIndex = message.indexOf("jobs") + 6;
 			int endIndex = message.length() - 2;
 			String jobID = message.substring(startIndex, endIndex);
-			svcLogic.setAttribute("jobID", jobID);
+			svcLogic.setAttribute("org.openecomp.appc.jobID", jobID);
 			logger.info(jobID);
 		}
 		chefServerResult(rc, Integer.toString(code), message);
 	}
-
 
 	@SuppressWarnings("static-method")
 	private void doFailure(RequestContext rc, int code, String message) {

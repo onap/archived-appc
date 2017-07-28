@@ -37,6 +37,7 @@ import java.util.UUID;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -101,6 +102,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
+@Ignore
 @RunWith(PowerMockRunner.class)
 @PrepareForTest( {WorkingStateManager.class,FrameworkUtil.class, TransactionRecorder.class, RequestHandlerImpl.class,RequestValidatorImpl.class, TransactionRecorder.class, MessageAdapterImpl.class})
 public class TestRequestHandler {

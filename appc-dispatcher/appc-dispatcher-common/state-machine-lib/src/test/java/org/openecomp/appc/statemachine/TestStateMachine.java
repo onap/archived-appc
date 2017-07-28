@@ -25,14 +25,8 @@
 package org.openecomp.appc.statemachine;
 
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.statemachine.impl.StateMachineFactory;
-import org.openecomp.appc.statemachine.objects.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import org.openecomp.appc.statemachine.objects.InvalidInputException;
 
 
 public class TestStateMachine {

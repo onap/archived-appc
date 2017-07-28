@@ -35,10 +35,10 @@ public enum LCMCommandStatus {
 
     ACCEPTED(100,"ACCEPTED - request accepted"),
 
-    //ERROR(2xx) – request can’t be handled due to some technical error
+    //ERROR(2xx) - request can't be handled due to some technical error
     UNEXPECTED_ERROR(200,"UNEXPECTED ERROR - ${errorMsg}"),
 
-    //REJECT(3xx) – request has been rejected due to some business reason (e.g. no such service-instance-id, command is not supported, etc)
+    //REJECT(3xx) - request has been rejected due to some business reason (e.g. no such service-instance-id, command is not supported, etc)
     REJECTED(300,"REJECTED - ${errorMsg}"),
     INVALID_INPUT_PARAMETER(301,"INVALID INPUT PARAMETER - ${errorMsg}"),// TODO 77777777 to support "${paramName} with invalid value ${paramValue}"
     MISSING_MANDATORY_PARAMETER(302,"MISSING MANDATORY PARAMETER - Parameter/s ${paramName} is/are missing" ),
@@ -57,7 +57,7 @@ public enum LCMCommandStatus {
     SUCCESS(400,"SUCCESS - request has been processed successfully"),
 
 
-    //        FAILURE(5xx) – request processing results with failure. The FAILURE response is always transmitted asynchronously, via DMaaP.
+    //        FAILURE(5xx) - request processing results with failure. The FAILURE response is always transmitted asynchronously, via DMaaP.
     DG_FAILURE(401,"DG FAILURE - ${errorMsg}"),
     NO_TRANSITION_DEFINE_FAILURE(402,"NO TRANSITION DEFINE - No Transition Defined for ${actionName} action and ${currentState} state"),
     UPDATE_AAI_FAILURE(403,"UPDATE_AAI_FAILURE - failed to update AAI. ${errorMsg}"),

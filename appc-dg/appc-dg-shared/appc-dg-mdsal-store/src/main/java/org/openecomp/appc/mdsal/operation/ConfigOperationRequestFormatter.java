@@ -42,7 +42,7 @@ public class ConfigOperationRequestFormatter {
      */
     public String buildPath(URL url,String module, String containerName , String... subModules ) {
 
-        StringBuilder path = new StringBuilder( url.getPath()+ Constants.URL_BACKSLASH + module + ":"+containerName + Constants.URL_BACKSLASH);
+        StringBuilder path = new StringBuilder( Constants.CONFIG_PATH + Constants.URL_BACKSLASH + module + ":"+containerName + Constants.URL_BACKSLASH);
         if(subModules.length >0){
             for(String subModule : subModules){
                 path.append(subModule);
