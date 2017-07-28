@@ -52,6 +52,9 @@ import java.util.Properties;
 /**
  * This class implements the {@link ProviderAdapter} interface. This interface defines the behaviors that our service
  * provides.
+ *
+ * @since Aug 12, 2015
+ * @version $Id$
  */
 @SuppressWarnings("javadoc")
 public class ProviderAdapterImpl implements ProviderAdapter {
@@ -278,8 +281,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
          * provider1.name=ILAB
          * provider1.identity=http://provider1:5000/v2.0
          * provider1.tenant1.name=CDP-ONAP-APPC
-         * provider1.tenant1.userid=cdpdev
-         * provider1.tenant1.password=cdpdev@123
+         * provider1.tenant1.userid=testUser
+         * provider1.tenant1.password=testPassword
          * provider1.tenant2.name=TEST-TENANT
          * provider1.tenant2.userid=testUser
          * provider1.tenant2.password=testPassword

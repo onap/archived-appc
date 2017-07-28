@@ -27,16 +27,44 @@
 			<artifactId>json</artifactId>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<scope>test</scope>
+		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.sdc</groupId>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.2</version>
+            <scope>test</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-mockito</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openecomp.sdc.sdc-distribution-client</groupId>
 			<artifactId>sdc-distribution-client</artifactId>
-			<version>1.0.0</version>
+			<version>${sdc-client.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-message-adapter-api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-message-adapter-factory</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
@@ -91,7 +119,7 @@
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-license-manager-api</artifactId>
 			<!-- <version>${project.version}</version> -->
-			<version>1.1.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -99,11 +127,11 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
-		<dependency>
-			<groupId>org.openecomp.sdc</groupId>
-			<artifactId>openecomp-tosca-lib</artifactId>
-			<version>${toscalib.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.openecomp.sdc.common</groupId>
+            <artifactId>openecomp-tosca-datatype</artifactId>
+            <version>${toscalib.version}</version>
+        </dependency>
 
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
@@ -127,7 +155,16 @@
 			<artifactId>ietf-yang-types</artifactId>
 			<version>${odl.ietf-yang-types.version}</version>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>${jackson.yml.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+		</dependency>
+    </dependencies>
 
 
 	<build>

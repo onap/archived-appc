@@ -25,6 +25,7 @@
 package org.openecomp.appc.provider;
 
 import java.text.ParseException;
+import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -42,6 +43,7 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.domainmodel.lcm.ResponseContext;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
@@ -59,6 +61,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
 import com.google.common.util.concurrent.Futures;
@@ -179,7 +182,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     /**
      * Restarts a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AppcProviderLcmService#restart(RestartInput)
+     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AppcProviderLcmService#restart(RestartInput)
      */
     @Override
     public Future<RpcResult<RestartOutput>> restart(RestartInput input) {
@@ -402,7 +405,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
 
     private RequestHandlerOutput executeRequest(RequestHandlerInput request){
 
-        RequestHandler handler = getRequestHandler();
+        RequestHandler handler = getRequestHandler(request.getRequestContext().getActionLevel());
         RequestHandlerOutput requestHandlerOutput;
         try {
             requestHandlerOutput = handler.handleRequest(request);
@@ -432,16 +435,21 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         return requestHandlerOutput;
     }
 
-    private RequestHandler getRequestHandler(){
+    private RequestHandler getRequestHandler(ActionLevel actionLevel){
         RequestHandler handler ;
         final BundleContext context = FrameworkUtil.getBundle(RequestHandler.class).getBundleContext();
-        final ServiceReference reference = context.getServiceReference(RequestHandler.class.getName());
-
-        if (reference != null) {
-            handler = (RequestHandler) context.getService(reference);
-        } else {
-            logger.error("Cannot find service reference for " + RequestHandler.class.getName());
-            throw new RuntimeException();
+        String filter = "(level=" + actionLevel.name() + ")";
+        try {
+            Collection<ServiceReference<RequestHandler>> serviceReferences = context.getServiceReferences(RequestHandler.class, filter);
+            if (serviceReferences.size() != 1) {
+                logger.error("Cannot find service reference for " + RequestHandler.class.getName());
+                throw new RuntimeException();
+            }
+            ServiceReference<RequestHandler> serviceReference = serviceReferences.iterator().next();
+            handler = context.getService(serviceReference);
+        } catch (InvalidSyntaxException e) {
+            logger.error("Cannot find service reference for " + RequestHandler.class.getName() + ": Invalid Syntax " + filter, e);
+            throw new RuntimeException(e);
         }
         return  handler ;
     }

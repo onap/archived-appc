@@ -80,6 +80,21 @@ public class Constants {
      */
 
     public static final String CONFIG_URL = "https://localhost:8443/restconf/config";
+    public static final String CONFIG_URL_DEFAULT = "https://localhost:8443/restconf/config";
+
+    public static final String CONFIG_URL_PROPERTY = "appc.LCM.provider.url";
+
+    public static final String CONFIG_PATH = "/restconf/config";
+
+    /**
+     * Restconf authentication user property name
+     */
+    public static final String CONFIG_USER_PROPERTY = "appc.LCM.provider.user";
+
+    /**
+     * Restconf authentication password property name
+     */
+    public static final String CONFIG_PASS_PROPERTY = "appc.LCM.provider.pass";
 
     /**
      * Content for blueprint.xml used while creation of OSGI bundle.
