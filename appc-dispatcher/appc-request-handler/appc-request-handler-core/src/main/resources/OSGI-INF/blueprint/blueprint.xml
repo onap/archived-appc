@@ -29,25 +29,48 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
-    <bean id="requestHandlerBean" class="org.openecomp.appc.requesthandler.impl.RequestHandlerImpl" scope="singleton" >
+    <bean id="vnfRequestHandlerBean" class="org.openecomp.appc.requesthandler.impl.RequestHandlerImpl" scope="singleton" >
     	<property name="commandExecutor" ref="commandExecutorRef" />
-        <property name="requestValidator" ref="requestValidatorBean" />
+        <property name="requestValidator" ref="vnfRequestValidatorBean" />
         <property name="lockManager" ref="lockManagerRef" />
         <property name="workingStateManager" ref="workingStateManagerBean"/>
         <property name="transactionRecorder" ref="transactionRecorderRef" />
-        <property name="aaiService" ref="aaiServiceRef" />
     </bean>
 
-    <bean id="requestValidatorBean" class="org.openecomp.appc.requesthandler.impl.RequestValidatorImpl" scope="singleton" >
+    <bean id="vmRequestHandlerBean" class="org.openecomp.appc.requesthandler.impl.VMRequestHandlerImpl" scope="singleton" >
+        <property name="commandExecutor" ref="commandExecutorRef" />
+        <property name="requestValidator" ref="vmRequestValidatorBean" />
+        <property name="transactionRecorder" ref="transactionRecorderRef" />
+    </bean>
+
+    <bean id="vnfRequestValidatorBean" class="org.openecomp.appc.requesthandler.impl.RequestValidatorImpl" scope="singleton" >
         <property name="lifecyclemanager" ref="lifecyclemanagerRef" />
         <property name="workflowManager" ref="workflowManagerRef" />
         <property name="workingStateManager" ref="workingStateManagerBean" />
         <property name="lcmStateManager" ref="lcmStateManagerBean" />
     </bean>
 
+    <bean id="vmRequestValidatorBean" class="org.openecomp.appc.requesthandler.impl.VMRequestValidatorImpl" scope="singleton">
+        <property name="workflowManager" ref="workflowManagerRef" />
+        <property name="lcmStateManager" ref="lcmStateManagerBean" />
+    </bean>
+
     <bean id="lcmStateManagerBean" class="org.openecomp.appc.requesthandler.impl.LCMStateManagerImpl" scope="singleton" />
 
-    <service id="requestHandlerService" interface="org.openecomp.appc.requesthandler.RequestHandler" ref="requestHandlerBean"/>
+    <service id="vmRequestHandlerService" interface="org.openecomp.appc.requesthandler.RequestHandler" ref="vmRequestHandlerBean">
+        <service-properties>
+            <entry key="level">
+                <value type="java.lang.String">VM</value>
+            </entry>
+        </service-properties>
+    </service>
+    <service id="vnfRequestHandlerService" interface="org.openecomp.appc.requesthandler.RequestHandler" ref="vnfRequestHandlerBean">
+        <service-properties>
+            <entry key="level">
+                <value type="java.lang.String">VNF</value>
+            </entry>
+        </service-properties>
+    </service>
     <service id="lcmStateManagerService" interface="org.openecomp.appc.requesthandler.LCMStateManager" ref="lcmStateManagerBean"/>
     <reference id="lifecyclemanagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.lifecyclemanager.LifecycleManager" />
     <reference id="workflowManagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.workflow.WorkFlowManager" />

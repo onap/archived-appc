@@ -147,7 +147,7 @@ public class AAIPluginImpl implements AAIPlugin {
             vnfQueryResult = readVnf(vnfId);
 
             vnfType = vnfQueryResult.getAdditionProperties().get("vnf-type");
-            vnfVersion = vnfQueryResult.getAdditionProperties().get("persona-model-version");
+            vnfVersion = vnfQueryResult.getAdditionProperties().get(Constants.AAI_VNF_MODEL_VERSION_ID);
 
             for(Relationship vnfRelationship:vnfQueryResult.getRelationshipList()){
                 if("vserver".equalsIgnoreCase(vnfRelationship.getRelatedTo())){
@@ -258,7 +258,7 @@ public class AAIPluginImpl implements AAIPlugin {
 
         String[] additionalProperties = new String[]{"vnf-type","vnf-name",
                 "in-maint","prov-status","heat-stack-id",
-                "is-closed-loop-disabled","orchestration-status","resource-version","persona-model-version"};
+                "is-closed-loop-disabled","orchestration-status","resource-version",Constants.AAI_VNF_MODEL_VERSION_ID};
 
         AAIQueryResult result = readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
 

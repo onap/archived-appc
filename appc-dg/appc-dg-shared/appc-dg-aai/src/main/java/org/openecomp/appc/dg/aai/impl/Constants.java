@@ -93,6 +93,11 @@ public class Constants {
     public static final String IS_ACQUIRE_ENTITLEMENT_REQUIRE ="is.acquire-entitlement.require";
     public static final String IS_RELEASE_ENTITLEMENT_REQUIRE ="is.release-entitlement.require";
 
+    /**
+     * AAI property names
+     */
+    public static final String AAI_VNF_MODEL_VERSION_ID ="model-version-id";
+
     public enum ASDC_ARTIFACTS_FIELDS {
         SERVICE_UUID,
         DISTRIBUTION_ID,
