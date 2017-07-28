@@ -24,6 +24,8 @@
 
 package org.openecomp.appc.mdsal.impl;
 
+import org.openecomp.appc.configuration.Configuration;
+import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.mdsal.MDSALStore;
 import org.openecomp.appc.mdsal.exception.MDSALStoreException;
@@ -38,6 +40,7 @@ import org.osgi.framework.FrameworkUtil;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Date;
+import java.util.Properties;
 import java.util.jar.Attributes;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
@@ -50,9 +53,20 @@ public class MDSALStoreImpl implements MDSALStore{
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(MDSALStoreImpl.class);
 
+    private static final Configuration configuration = ConfigurationFactory.getConfiguration();
+
     MDSALStoreImpl(){
-        ConfigOperation.setUrl(Constants.CONFIG_URL);
-        ConfigOperation.setAuthentication(null,null);
+        String configUrl = null;
+        String user =null;
+        String password = null;
+        Properties properties = configuration.getProperties();
+        if (properties != null) {
+            configUrl= properties.getProperty(  Constants.CONFIG_URL_PROPERTY , Constants.CONFIG_URL_DEFAULT);
+            user  = properties.getProperty(Constants.CONFIG_USER_PROPERTY);
+            password = properties.getProperty(Constants.CONFIG_PASS_PROPERTY);
+        }
+        ConfigOperation.setUrl(configUrl);
+        ConfigOperation.setAuthentication(user,password);
     }
 
 

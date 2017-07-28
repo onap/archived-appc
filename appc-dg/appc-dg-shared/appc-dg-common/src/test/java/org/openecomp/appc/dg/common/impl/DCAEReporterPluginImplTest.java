@@ -27,7 +27,6 @@ package org.openecomp.appc.dg.common.impl;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.appc.adapter.message.MessageDestination;
 import org.openecomp.appc.adapter.message.event.EventMessage;
 import org.openecomp.appc.dg.common.impl.DCAEReporterPluginImpl;

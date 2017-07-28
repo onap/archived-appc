@@ -46,6 +46,6 @@ public class VnfcDependencyModel {
         for(Node node:dependencies){
             stringBuilder.append(node.toString()).append(", ");
         }
-        return super.toString();
+        return stringBuilder.toString();
     }
 }

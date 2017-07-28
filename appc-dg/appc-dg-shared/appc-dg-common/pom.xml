@@ -87,7 +87,31 @@
 			<artifactId>appc-dg-mdsal-store</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson-yaml-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson-yaml-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson-yaml-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson-yaml-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
+        </dependency>	</dependencies>
 
 	<build>
 		<plugins>
@@ -102,7 +126,7 @@
 						<Private-Package>org.openecomp.appc.dg.common.impl.*</Private-Package>
 						<Import-Package>org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*,
 							*;resolution:=optional</Import-Package>
-						<Embed-Dependency>appc-dg-mdsal-store,appc-dg-domain-model-lib,appc-dg-dependency-model,jackson-dataformat-yaml,jackson-databind;scope=compile|runtime;inline=false;artifactId=!org.eclipse.osgi</Embed-Dependency>
+						<Embed-Dependency>appc-dg-mdsal-store,appc-dg-domain-model-lib,appc-dg-dependency-model,jackson-dataformat-yaml,jackson-databind,jackson-core;scope=compile|runtime;inline=false;artifactId=!org.eclipse.osgi</Embed-Dependency>
 
 						<!--Embed-Dependency>eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency-->
 						<Embed-Transitive>true</Embed-Transitive>

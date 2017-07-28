@@ -41,7 +41,7 @@ public class AsdcConfig implements IConfiguration {
 	private String keystorePass;
 	private int pollingInterval; // Time between listening sessions
 	private int pollingTimeout; // Time to listen for (dmaap timeout url param)/1000
-	private List<String> types = new ArrayList<>(1);
+	private List<String> types = new ArrayList<>();
 	private String user;
 	private String pass;
 
@@ -94,6 +94,10 @@ public class AsdcConfig implements IConfiguration {
 			// Download type
 			types.add("APPC_CONFIG");
 			types.add("VF_LICENSE");
+			types.add("TOSCA_CSAR");
+			/*
+			This types seems redundant, as it looks from the code that they are not being used anywhere
+			 */
 
 			storeOp = new URI(props.getProperty("appc.asdc.provider.url"));
 		}

@@ -135,7 +135,6 @@
       <plugin>
         <groupId>com.att.eelf</groupId>
         <artifactId>eelf-maven-plugin</artifactId>
-        <version>${eelf.maven.plugin.version}</version>
         <executions>
           <execution>
             <id>validation</id>

@@ -126,7 +126,22 @@ public class AppcEventListenerActivator implements BundleActivator {
         demoProps.setListenerClass(org.openecomp.appc.listener.demo.impl.ListenerImpl.class);
         listeners.add(demoProps);
 
-        // ===========================================================================                                                                   	
+	// ===========================================================================
+
+        ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
+        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+        listeners.add(clLCMProps);
+
+        //Configure the OAM properties
+        clLCMProps = new ListenerProperties("appc.OAM", props);
+        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+        listeners.add(clLCMProps);
+
+/*
+        ListenerProperties clLCMProps1607 = new ListenerProperties("appc.LCM1607", props);
+        clLCMProps1607.setListenerClass(org.openecomp.appc.listener.LCM1607.impl.ListenerImpl.class);
+        listeners.add(clLCMProps1607);
+*/
 
         adapter = new ControllerImpl(listeners);
         if (ctx != null && registration == null) {

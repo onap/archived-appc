@@ -24,19 +24,20 @@
 
 package org.openecomp.appc.lifecyclemanager.impl;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.lifecyclemanager.helper.MetadataReader;
-import org.openecomp.appc.lifecyclemanager.objects.*;
-import org.openecomp.appc.statemachine.*;
-import org.openecomp.appc.statemachine.impl.StateMachineFactory;
-import org.openecomp.appc.statemachine.objects.*;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
+import org.openecomp.appc.i18n.Msg;
+import org.openecomp.appc.lifecyclemanager.LifecycleManager;
+import org.openecomp.appc.lifecyclemanager.helper.MetadataReader;
+import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
+import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.openecomp.appc.statemachine.StateMachine;
+import org.openecomp.appc.statemachine.impl.StateMachineFactory;
+import org.openecomp.appc.statemachine.objects.*;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class LifecycleManagerImpl implements LifecycleManager{
@@ -60,7 +61,7 @@ public class LifecycleManagerImpl implements LifecycleManager{
 		StateMachineResponse response;
 		try {
 			machine = this.getStateMachine(vnfType);
-			response = machine.handleEvent(new State(currentState),new Event(event));
+			response = machine.handleEvent(new State(currentState.toLowerCase()),new Event(event));
 			if(Response.NO_TRANSITION_DEFINED.equals(response.getResponse())){
 				errorLogger.error(EELFResourceManager.format(Msg.VF_ILLEGAL_COMMAND, vnfType,event,currentState));
 				throw new NoTransitionDefinedException("No Transition Defined for currentState = " +  currentState + ", event = " + event,currentState,event);

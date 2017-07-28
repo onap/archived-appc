@@ -25,24 +25,39 @@
 package org.openecomp.appc.executor.impl;
 
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
 import org.openecomp.appc.requesthandler.RequestHandler;
 
 
 public class ExpiredMessageHandler<M> implements MessageExpirationListener<M>{
-    private RequestHandler requestHandler;
+    private RequestHandler vnfRequestHandler;
+
+    private RequestHandler vmRequestHandler;
 
     public ExpiredMessageHandler(){
 
     }
 
-    public void setRequestHandler(RequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
+    public void setVnfRequestHandler(RequestHandler vnfRequestHandler) {
+        this.vnfRequestHandler = vnfRequestHandler;
+    }
+
+    public void setVmRequestHandler(RequestHandler vmRequestHandler) {
+        this.vmRequestHandler = vmRequestHandler;
     }
 
     @Override
     public void onMessageExpiration(M message) {
         RuntimeContext commandRequest = (RuntimeContext)message;
+        RequestHandler requestHandler = readRequestHandler(commandRequest);
         requestHandler.onRequestTTLEnd(commandRequest, true);
+    }
+
+    private RequestHandler readRequestHandler(RuntimeContext runtimeContext) {
+        if(ActionLevel.VM.equals(runtimeContext.getRequestContext().getActionLevel())){
+            return vmRequestHandler;
+        }
+        return vnfRequestHandler;
     }
 }

@@ -702,6 +702,12 @@ public enum Msg implements EELFResolvableErrorEnum {
      *
      */
     HYPERVISOR_DOWN_ERROR,
+    
+    /**
+     * Unable to determine Hypervisor status for Server {0}. failed.
+     *
+     */
+    HYPERVISOR_STATUS_UKNOWN,
 
     /**
      * Hypervisor Network check for Server {0} failed. Not reachable by APPC

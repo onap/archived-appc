@@ -36,18 +36,21 @@
     </bean>
 
     <bean id="CommandExecutionTaskFactory" class="org.openecomp.appc.executor.impl.CommandTaskFactory" scope="singleton" >
-        <property name="requestHandler" ref="RequestHandlerRef" />
+        <property name="vnfRequestHandler" ref="vnfRequestHandlerService" />
+        <property name="vmRequestHandler" ref="vmRequestHandlerService"/>
         <property name="workflowManager" ref="WorkFlowManagerRef" />
         <property name="lifecyclemanager" ref="LifecyclemanagerRef" />
     </bean>
 
     <bean id="expiredMessageHandlerBean" class="org.openecomp.appc.executor.impl.ExpiredMessageHandler"
           scope="singleton">
-        <property name="requestHandler" ref="RequestHandlerRef" />
+        <property name="vnfRequestHandler" ref="vnfRequestHandlerService" />
+        <property name="vmRequestHandler" ref="vmRequestHandlerService"/>
     </bean>
 
 	<reference id="WorkFlowManagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.workflow.WorkFlowManager" />
-	<reference id="RequestHandlerRef" availability="optional" activation="eager" interface="org.openecomp.appc.requesthandler.RequestHandler" />
+	<reference id="vnfRequestHandlerService" availability="optional" activation="eager" interface="org.openecomp.appc.requesthandler.RequestHandler" filter="(level=VNF)" />
+    <reference id="vmRequestHandlerService" availability="optional" activation="eager" interface="org.openecomp.appc.requesthandler.RequestHandler" filter="(level=VM)" />
     <reference id="LifecyclemanagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.lifecyclemanager.LifecycleManager" />
 
     <service id="commandExecutorService" interface="org.openecomp.appc.executor.CommandExecutor" ref="commandExecutorBean"/>
