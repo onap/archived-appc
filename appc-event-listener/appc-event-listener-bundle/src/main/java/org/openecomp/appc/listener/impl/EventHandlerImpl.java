@@ -220,7 +220,10 @@ public class EventHandlerImpl implements EventHandler {
 		        }
 		        for (String url : pool) {
 		            if (url.contains("3905") || url.contains("https")) {
-		                out.useHttps(true);
+		            	if( out != null )
+		                {
+		            		out.useHttps(true);
+		                }
 		                break;
 		            }
 		        }
