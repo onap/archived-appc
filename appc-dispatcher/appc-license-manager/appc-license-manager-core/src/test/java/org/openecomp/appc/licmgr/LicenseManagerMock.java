@@ -24,9 +24,6 @@
 
 package org.openecomp.appc.licmgr;
 
-import java.util.Map;
-
-import org.openecomp.appc.licmgr.LicenseManager;
 import org.openecomp.appc.licmgr.exception.DataAccessException;
 import org.openecomp.appc.licmgr.objects.LicenseModel;
 
@@ -42,15 +39,6 @@ public class LicenseManagerMock implements LicenseManager {
         else {
             return null;
         }
-    }
-
-    @Override public Map<String, String> retrieveLicenseModelData(String vnfType, String vnfVersion, String... fields)
-                    throws DataAccessException {
-        return null;
-    }
-
-    @Override public void storeArtifactPayload(Map<String, String> parameters) throws RuntimeException {
-
     }
 
     public void storeLicenseModel(LicenseModel licenseModel){

@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceFactory;
@@ -96,22 +97,6 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
         RuntimeContext commandRequest;
         commandRequest = commandExecutorInput;
-        /*
-        CommandRequest commandRequest;
-
-        switch(commandExecutorInput.getRequestContext().getAction()){
-            case Sync:
-            case Audit:
-            case ConfigBackup:
-            case ConfigBackupDelete:
-            case ConfigExport:
-                commandRequest = new LCMReadOnlyCommandRequest(commandExecutorInput);
-                break;
-            default:
-                commandRequest = new LCMCommandRequest(commandExecutorInput);
-                break;
-        }
-        */
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from getCommandRequest with (CommandRequest = "+ ObjectUtils.toString(commandRequest)+")");
         }
@@ -125,7 +110,7 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
         try {
             String action = request.getRequestContext().getAction().name();
-            CommandTask commandTask = executionTaskFactory.getExecutionTask(action, request);
+            CommandTask commandTask = executionTaskFactory.getExecutionTask(request);
             long remainingTTL = getRemainingTTL(request);
             executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
@@ -142,6 +127,17 @@ public class CommandExecutorImpl implements CommandExecutor {
         Instant requestTimestamp = request.getRequestContext().getCommonHeader().getTimeStamp();
         int ttl = request.getRequestContext().getCommonHeader().getFlags().getTtl();
         return ChronoUnit.MILLIS.between(Instant.now(), requestTimestamp.plusSeconds(ttl));
+    }
+
+    private CommandTask getMessageExecutor(RuntimeContext request){
+        if (logger.isTraceEnabled()) {
+            logger.trace("Entering to getMessageExecutor with command = "+ request);
+        }
+        CommandTask executionTask = executionTaskFactory.getExecutionTask(request);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Exiting from getMessageExecutor");
+        }
+        return executionTask;
     }
 
 

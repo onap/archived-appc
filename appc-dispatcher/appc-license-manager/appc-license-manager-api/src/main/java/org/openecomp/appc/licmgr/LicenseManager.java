@@ -24,8 +24,6 @@
 
 package org.openecomp.appc.licmgr;
 
-import java.util.Map;
-
 import org.openecomp.appc.licmgr.exception.DataAccessException;
 import org.openecomp.appc.licmgr.objects.LicenseModel;
 
@@ -42,21 +40,5 @@ public interface LicenseManager {
      */
     LicenseModel retrieveLicenseModel(String vnfType, String vnfVersion) throws DataAccessException;
 
-    /**
-     *
-     * @param vnfType resource name
-     * @param vnfVersion resource version
-     * @return map contains requested fields as Strings
-     * @throws RuntimeException
-     */
-    Map<String,String> retrieveLicenseModelData(String vnfType, String vnfVersion, String... fields) throws
-                    DataAccessException;
-
-    /**
-     *
-     * @param parameters parameters to store in artifacts table
-     * @throws RuntimeException
-     */
-    void storeArtifactPayload(Map<String, String> parameters) throws RuntimeException;
 
 }

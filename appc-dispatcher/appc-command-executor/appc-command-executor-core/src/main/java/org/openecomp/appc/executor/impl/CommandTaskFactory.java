@@ -25,6 +25,7 @@
 package org.openecomp.appc.executor.impl;
 
 
+import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;
 import org.openecomp.appc.lifecyclemanager.LifecycleManager;
@@ -35,7 +36,12 @@ import org.openecomp.appc.workflow.WorkFlowManager;
 
 
 public class CommandTaskFactory {
-    private RequestHandler requestHandler;
+
+//    private LCMCommandTask lcmCommandTask;
+//    private LCMReadonlyCommandTask LCMReadonlyCommandTask;
+
+    private RequestHandler vnfRequestHandler;
+    private RequestHandler vmRequestHandler;
     private WorkFlowManager workflowManager;
     private LifecycleManager lifecyclemanager;
 
@@ -44,8 +50,12 @@ public class CommandTaskFactory {
         this.workflowManager = workflowManager;
     }
 
-    public void setRequestHandler(RequestHandler requestHandler) {
-        this.requestHandler = requestHandler;
+    public void setVnfRequestHandler(RequestHandler vnfRequestHandler) {
+        this.vnfRequestHandler = vnfRequestHandler;
+    }
+
+    public void setVmRequestHandler(RequestHandler vmRequestHandler) {
+        this.vmRequestHandler = vmRequestHandler;
     }
 
     public void setLifecyclemanager(LifecycleManager lifecyclemanager) {
@@ -53,14 +63,30 @@ public class CommandTaskFactory {
     }
 
 
-    public synchronized CommandTask getExecutionTask(String action, RuntimeContext commandRequest){
-        if (VNFOperation.Sync.toString().equals(action) || VNFOperation.Audit.toString().equals(action) || VNFOperation.ConfigBackup.toString().equals(action) ||
-                VNFOperation.ConfigBackupDelete.toString().equals(action) || VNFOperation.ConfigExport.toString().equals(action)){
-            return new LCMReadonlyCommandTask(commandRequest, requestHandler,workflowManager);
+    public synchronized CommandTask getExecutionTask(RuntimeContext runtimeContext){
+        String action = runtimeContext.getRequestContext().getAction().name();
+        ActionLevel actionLevel = runtimeContext.getRequestContext().getActionLevel();
+        RequestHandler requestHandler = readRequestHandler(actionLevel);
+        if(ActionLevel.VM.equals(actionLevel)){
+            return new LCMReadonlyCommandTask(runtimeContext,requestHandler,workflowManager);
+        }
+        if (VNFOperation.Sync.toString().equals(action) ||
+                VNFOperation.Audit.toString().equals(action) ||
+                VNFOperation.ConfigBackup.toString().equals(action) ||
+                VNFOperation.ConfigBackupDelete.toString().equals(action) ||
+                VNFOperation.ConfigExport.toString().equals(action)){
+            return new LCMReadonlyCommandTask(runtimeContext,requestHandler,workflowManager);
         }else {
-            return new LCMCommandTask(commandRequest, requestHandler,workflowManager,
+            return new LCMCommandTask(runtimeContext,requestHandler,workflowManager,
                     lifecyclemanager);
         }
+    }
+
+    private RequestHandler readRequestHandler(ActionLevel actionLevel) {
+        if (ActionLevel.VM.equals(actionLevel)) {
+            return vmRequestHandler;
+        }
+        return vnfRequestHandler;
     }
 
 }
