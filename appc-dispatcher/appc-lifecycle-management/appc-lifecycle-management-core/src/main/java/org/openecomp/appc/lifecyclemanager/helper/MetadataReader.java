@@ -36,7 +36,7 @@ public class MetadataReader {
 
     private enum VNFStates {
         Not_Instantiated, Instantiated, Configuring, Configured, Testing, Tested, Rebuilding, Restarting, Starting, Error, Running, Unknown, Terminating, Stopping, Stopped,
-        Backing_Up, Snapshotting, Software_Uploading, Upgrading, Rollbacking, Licensing, Migrating, Evacuating , NOT_ORCHESTRATED("NOT ORCHESTRATED");
+        Backing_Up, Snapshotting, Software_Uploading, Upgrading, Rollbacking, Licensing, Migrating, Evacuating , NOT_ORCHESTRATED("NOT ORCHESTRATED"),Created;
 
         String stateName;
 
@@ -49,7 +49,7 @@ public class MetadataReader {
         }
 
         public String toString(){
-            return this.stateName;
+            return this.stateName.toLowerCase();
         }
     }
 
@@ -80,6 +80,7 @@ public class MetadataReader {
 
         State MIGRATING = new State(VNFStates.Migrating.toString());
         State EVACUATING = new State(VNFStates.Evacuating.toString());
+        State CREATED= new State(VNFStates.Created.toString());
 
         Event CONFIGURE = new Event(VNFOperation.Configure.toString());
         Event HEALTHCHECK = new Event(VNFOperation.HealthCheck.toString());
@@ -138,6 +139,7 @@ public class MetadataReader {
         builder = builder.addState(MIGRATING);
         builder = builder.addState(EVACUATING);
         builder = builder.addState(NOT_ORCHESTRATED);
+        builder = builder.addState(CREATED);
 
         builder = builder.addEvent(CONFIGURE);
         builder = builder.addEvent(TEST);
@@ -169,6 +171,27 @@ public class MetadataReader {
         builder = builder.addEvent(CONFIG_EXPORT);
 
         builder = builder.addTransition(NOT_ORCHESTRATED,CONFIGURE,CONFIGURING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,TEST,TESTING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,START,STARTING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,TERMINATE,TERMINATING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,RESTART,RESTARTING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,REBUILD,REBUILDING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,STOP,STOPPING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,CONFIG_MODIFY,CONFIGURING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,CONFIG_SCALEOUT,CONFIGURING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,CONFIG_RESTORE,CONFIGURING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,HEALTHCHECK,TESTING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,BACKUP,BACKING_UP);
+        builder = builder.addTransition(NOT_ORCHESTRATED,SNAPSHOT,SNAPSHOTTING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,SOFTWARE_UPLOAD,SOFTWARE_UPLOADING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,LIVE_UPGRADE,UPGRADING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,ROLLBACK,ROLLBACKING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,MIGRATE,MIGRATING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,EVACUATE,EVACUATING);
+        builder = builder.addTransition(NOT_ORCHESTRATED,LOCK,NOT_ORCHESTRATED);
+        builder = builder.addTransition(NOT_ORCHESTRATED,UNLOCK,NOT_ORCHESTRATED);
+        builder = builder.addTransition(NOT_ORCHESTRATED,CHECKLOCK,NOT_ORCHESTRATED);
+        builder = builder.addTransition(NOT_ORCHESTRATED,CONFIG_BACKUP,NOT_ORCHESTRATED);
 
         builder = builder.addTransition(INSTANTIATED,CONFIGURE,CONFIGURING);
         builder = builder.addTransition(INSTANTIATED,TEST,TESTING);
@@ -218,6 +241,29 @@ public class MetadataReader {
         builder = builder.addTransition(CONFIGURED,CONFIG_BACKUP,CONFIGURED);
         builder = builder.addTransition(CONFIGURED,CONFIG_BACKUP_DELETE,CONFIGURED);
         builder = builder.addTransition(CONFIGURED,CONFIG_EXPORT,CONFIGURED);
+
+        builder = builder.addTransition(CREATED,CONFIGURE,CONFIGURING);
+        builder = builder.addTransition(CREATED,TEST,TESTING);
+        builder = builder.addTransition(CREATED,START,STARTING);
+        builder = builder.addTransition(CREATED,TERMINATE,TERMINATING);
+        builder = builder.addTransition(CREATED,RESTART,RESTARTING);
+        builder = builder.addTransition(CREATED,REBUILD,REBUILDING);
+        builder = builder.addTransition(CREATED,STOP,STOPPING);
+        builder = builder.addTransition(CREATED,CONFIG_MODIFY,CONFIGURING);
+        builder = builder.addTransition(CREATED,CONFIG_SCALEOUT,CONFIGURING);
+        builder = builder.addTransition(CREATED,CONFIG_RESTORE,CONFIGURING);
+        builder = builder.addTransition(CREATED,HEALTHCHECK,TESTING);
+        builder = builder.addTransition(CREATED,BACKUP,BACKING_UP);
+        builder = builder.addTransition(CREATED,SNAPSHOT,SNAPSHOTTING);
+        builder = builder.addTransition(CREATED,SOFTWARE_UPLOAD,SOFTWARE_UPLOADING);
+        builder = builder.addTransition(CREATED,LIVE_UPGRADE,UPGRADING);
+        builder = builder.addTransition(CREATED,ROLLBACK,ROLLBACKING);
+        builder = builder.addTransition(CREATED,MIGRATE,MIGRATING);
+        builder = builder.addTransition(CREATED,EVACUATE,EVACUATING);
+        builder = builder.addTransition(CREATED,LOCK,CREATED);
+        builder = builder.addTransition(CREATED,UNLOCK,CREATED);
+        builder = builder.addTransition(CREATED,CHECKLOCK,CREATED);
+        builder = builder.addTransition(CREATED,CONFIG_BACKUP,CREATED);
 
         builder = builder.addTransition(TESTED,CONFIGURE,CONFIGURING);
         builder = builder.addTransition(TESTED,TEST,TESTING);

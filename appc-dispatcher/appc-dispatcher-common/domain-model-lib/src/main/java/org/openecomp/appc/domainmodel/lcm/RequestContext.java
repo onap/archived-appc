@@ -33,6 +33,7 @@ public class RequestContext {
     private CommonHeader commonHeader;
     private ActionIdentifiers actionIdentifiers;
     private VNFOperation action;
+    private ActionLevel actionLevel;
     private String payload;
     private Map<String, String> additionalContext;
 
@@ -83,12 +84,21 @@ public class RequestContext {
         this.additionalContext.put(key, value);
     }
 
+    public ActionLevel getActionLevel() {
+        return actionLevel;
+    }
+
+    public void setActionLevel(ActionLevel actionLevel) {
+        this.actionLevel = actionLevel;
+    }
+
     @Override
     public String toString() {
         return "RequestContext{" +
                 "commonHeader=" + commonHeader +
                 ", actionIdentifiers=" + actionIdentifiers +
                 ", action=" + action +
+                ", actionLevel = " + actionLevel +
                 ", payload='" + payload + '\'' +
                 ", additionalContext=" + additionalContext +
                 '}';

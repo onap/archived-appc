@@ -40,13 +40,15 @@ import java.util.*;
 public class TestLifecycleManager {
 
     private static final State[] VALID_LOCK_STATES = new State[] {
-            new State("Instantiated"),
-            new State("Configured"),
-            new State("Tested"),
-            new State("Running"),
-            new State("Error"),
-            new State("Unknown"),
-            new State("Stopped"),
+            new State("instantiated"),
+            new State("configured"),
+            new State("tested"),
+            new State("running"),
+            new State("error"),
+            new State("unknown"),
+            new State("created"),
+            new State("not orchestrated"),
+            new State("stopped"),
     };
 
     @Test
@@ -110,7 +112,7 @@ public class TestLifecycleManager {
     public void testNotOrchestratedState() throws LifecycleException, NoTransitionDefinedException {
         LifecycleManager lifecycleManager = new LifecycleManagerImpl();
         String nextState = lifecycleManager.getNextState(null,"NOT ORCHESTRATED",VNFOperation.Configure.toString());
-        Assert.assertEquals(nextState,"Configuring");
+        Assert.assertEquals(nextState,"configuring");
     }
 
     @Test(expected = NoTransitionDefinedException.class)
