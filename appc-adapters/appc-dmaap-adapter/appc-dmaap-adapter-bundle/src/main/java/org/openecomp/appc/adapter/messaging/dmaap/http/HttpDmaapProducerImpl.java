@@ -119,7 +119,7 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
     }
 
     /**
-     * Format the body for the application/cambria content type with no partitioning.
+     * Format the body for the application/cambria content type with no partitioning. See
      *
      * @param msg
      *            The message body to format

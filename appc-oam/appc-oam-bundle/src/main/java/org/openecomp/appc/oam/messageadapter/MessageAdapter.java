@@ -24,6 +24,10 @@
 
 package org.openecomp.appc.oam.messageadapter;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.apache.commons.lang.ObjectUtils;
 import org.openecomp.appc.adapter.message.MessageAdapterFactory;
 import org.openecomp.appc.adapter.message.Producer;
 import org.openecomp.appc.configuration.Configuration;
@@ -32,11 +36,6 @@ import org.openecomp.appc.listener.impl.EventHandlerImpl;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import org.apache.commons.lang.ObjectUtils;
 
 import java.util.HashSet;
 import java.util.Properties;
@@ -66,7 +65,7 @@ public class MessageAdapter {
         updateProperties(properties);
         Producer localProducer = null;
         
-        BundleContext ctx = FrameworkUtil.getBundle(EventHandlerImpl.class).getBundleContext();
+        BundleContext ctx = FrameworkUtil.getBundle(MessageAdapter.class).getBundleContext();
         if (ctx != null) {
         	ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
         	if (svcRef != null) {

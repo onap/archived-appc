@@ -42,7 +42,7 @@ import org.openecomp.appc.yang.type.YangTypes;
 import org.openecomp.sdc.tosca.datatypes.model.NodeType;
 import org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition;
 import org.openecomp.sdc.tosca.datatypes.model.ServiceTemplate;
-import org.openecomp.sdc.tosca.services.yamlutil.ToscaExtensionYamlUtil;
+import org.openecomp.sdc.tosca.services.YamlUtil;
 
 import java.io.*;
 import java.util.HashMap;
@@ -127,7 +127,7 @@ public class YANGGeneratorImpl implements YANGGenerator {
 
 	private Map<String,Object> parseTosca(String tosca) throws YANGGenerationException {
 		Log.info("Entered into parseTosca.");
-		ServiceTemplate serviceTemplate = new ToscaExtensionYamlUtil().yamlToObject(tosca, ServiceTemplate.class);
+		ServiceTemplate serviceTemplate = new YamlUtil().yamlToObject(tosca, ServiceTemplate.class);
 		Map<String, NodeType> nodeTypeMap = serviceTemplate.getNode_types();
 		String kind = nodeTypeMap.keySet().toArray(new String[0])[0];
 		NodeType nodeType = nodeTypeMap.get(kind);

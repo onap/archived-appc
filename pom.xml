@@ -67,7 +67,9 @@
         <antlr.version>4.5.1</antlr.version>
         <mysql.connector.version>5.1.39</mysql.connector.version>
         <logback.version>1.1.1</logback.version>
-        <toscalib.version>1.0.0-SNAPSHOT</toscalib.version>
+        <toscalib.version>1.1.0-SNAPSHOT</toscalib.version>
+        <sdc-client.version>1.1.13-SNAPSHOT</sdc-client.version>
+		<jackson.yml.version>2.3.2</jackson.yml.version>
 
         <!-- SONAR -->
         <sonar.language>java</sonar.language>
@@ -497,7 +499,7 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <!--maven staging plugin -->
+            <!--maven staging plugin 
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -508,7 +510,7 @@
                     <stagingProfileId>176c31dfe190a</stagingProfileId>
                     <serverId>ecomp-staging</serverId>
                 </configuration>
-            </plugin>
+            </plugin>-->
             <!-- Javadocs Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
