@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_d6cae26d",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/openecomp/appc/listener/impl/EventHandlerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 903
+      },
+      "writtenOn": "2017-07-31T17:42:02Z",
+      "side": 1,
+      "message": "Maybe would be better to check for NPE right after assignment as you don\u0027t want to iterate over your pool if out is null from the get go... ?",
+      "range": {
+        "startLine": 248,
+        "startChar": 18,
+        "endLine": 250,
+        "endChar": 19
+      },
+      "revId": "83dc81c3a6b927802c50d7c9c3d84caf948ee7b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
