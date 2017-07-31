@@ -218,10 +218,12 @@ public class EventHandlerImpl implements EventHandler {
 		            //TODO:create eelf message
 		            LOG.error("EvenHandlerImp.getConsumer calling MessageAdapterFactor.createConsumer",e);
 		        }
-		        for (String url : pool) {
-		            if (url.contains("3905") || url.contains("https")) {
-		                out.useHttps(true);
-		                break;
+		        if( out != null ) {
+		        	for (String url : pool) {
+		        		if (url.contains("3905") || url.contains("https")) {
+		        			out.useHttps(true);
+		        			break;
+		        		}
 		            }
 		        }
         	}
@@ -243,10 +245,12 @@ public class EventHandlerImpl implements EventHandler {
         	ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
         	if (svcRef != null) {
         		out = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopics,apiKey, apiSecret);
-		        for (String url : pool) {
-		            if (url.contains("3905") || url.contains("https")) {
-		                out.useHttps(true);
-		                break;
+		        if( out != null ) {
+		        	for (String url : pool) {
+		                if (url.contains("3905") || url.contains("https")) {
+		              	    out.useHttps(true);
+		                    break;
+		                }
 		            }
 		        }
         	}
