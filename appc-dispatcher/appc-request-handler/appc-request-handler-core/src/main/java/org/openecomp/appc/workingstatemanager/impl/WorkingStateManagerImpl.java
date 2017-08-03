@@ -125,7 +125,8 @@ public class WorkingStateManagerImpl extends JdbcWorkingStateManager {
         boolean updated = false;
         VnfWorkingStateDto vnfWorkingStateDto = retrieveVnfWorkingState(connection, vnfId);
         Long currentVersion = vnfWorkingStateDto != null ? vnfWorkingStateDto.getVer() : null;
-        if(forceFlag || isVNFStable(vnfWorkingStateDto) || vnfWorkingStateDto.getOwnerId().equals(ownerId)){
+        if(forceFlag || isVNFStable(vnfWorkingStateDto) || 
+        		( vnfWorkingStateDto != null && vnfWorkingStateDto.getOwnerId().equals(ownerId)) ) {
             updated = storeWorkingStateIfSameVersion(connection, vnfId, workingState, ownerId, currentVersion);
 
             Params params = new Params().addParam("vnfId", vnfId).addParam("workingState",workingState.name())
