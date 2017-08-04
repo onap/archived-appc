@@ -45,13 +45,17 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 
 public class AAIPluginImpl implements AAIPlugin {
     private AAIClient aaiClient;
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(AAIPluginImpl.class);
 
+    @SuppressWarnings("unchecked")
     public AAIPluginImpl() {
         BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         ServiceReference sref = bctx.getServiceReference(AAIService.class);
@@ -139,9 +143,9 @@ public class AAIPluginImpl implements AAIPlugin {
     public void getVnfHierarchy(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
 
         Map<Vnfc,Set<Vserver>> vnfcMap = new HashMap<>();
-        String vnfType,vnfVersion = null;
+        String vnfType,vnfVersion;
         String vnfId = params.get("resourceKey");
-        AAIQueryResult vnfQueryResult = null;
+        AAIQueryResult vnfQueryResult;
         int vmCount =0;
         try {
             vnfQueryResult = readVnf(vnfId);
@@ -232,22 +236,22 @@ public class AAIPluginImpl implements AAIPlugin {
         String[] additionalProperties = new String[]{"vnfc-type","vnfc-name",
                 "vnfc-function-code","in-maint","prov-status",
                 "is-closed-loop-disabled","orchestration-status","resource-version"};
-        AAIQueryResult result = readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
-        return result;
+        return readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
     }
 
-    private AAIQueryResult readVM(String vmId,String tenantId,String cloudOwner,String cloudRegionId) throws AAIQueryException {
-        String query = "vserver.vserver-id = '" + vmId + "' AND tenant.tenant_id = '" + tenantId + "' AND cloud-region.cloud-owner = '"
-                + cloudOwner + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
+    private AAIQueryResult readVM(String vmId,String tenantId,String cloudOwner,String cloudRegionId)
+            throws AAIQueryException {
+        String query = "vserver.vserver-id = '" + vmId + "' AND tenant.tenant_id = '" + tenantId
+                + "' AND cloud-region.cloud-owner = '" + cloudOwner
+                + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
         String prefix = "VM";
         String resourceType = "vserver";
         SvcLogicContext vnfContext = readResource(query,prefix,resourceType);
         String[] additionalProperties = new String[]{"vserver-id","vserver-selflink",
                                                 "vserver-name","in-maint","prov-status","is-closed-loop-disabled",
                                                 "vserver-name2","resource-version",};
-        AAIQueryResult result = readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
 
-        return result;
+        return readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
     }
 
     private AAIQueryResult readVnf(String vnfId) throws AAIQueryException {
@@ -260,45 +264,57 @@ public class AAIPluginImpl implements AAIPlugin {
                 "in-maint","prov-status","heat-stack-id",
                 "is-closed-loop-disabled","orchestration-status","resource-version",Constants.AAI_VNF_MODEL_VERSION_ID};
 
-        AAIQueryResult result = readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
-
-        return result;
+        return readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
     }
 
-    private AAIQueryResult readRelationDataAndProperties(String prefix, SvcLogicContext context,String[] additionalProperties) {
+    private AAIQueryResult readRelationDataAndProperties(String prefix,
+                                                         SvcLogicContext context,
+                                                         String[] additionalProperties) {
         AAIQueryResult result = new AAIQueryResult();
 
-        Integer relationsCount = Integer.parseInt(context.getAttribute(prefix + ".relationship-list.relationship_length"));
-        for(int i=0;i<relationsCount;i++){
-            Relationship relationShip = new Relationship();
-            relationShip.setRelatedLink(context.getAttribute(prefix + ".relationship-list.relationship["+i+"].related-link"));
-            relationShip.setRelatedTo(context.getAttribute(prefix + ".relationship-list.relationship["+i+"].related-to"));
-            Integer relationDataCount = Integer.parseInt(context.getAttribute(prefix + ".relationship-list.relationship["+i+"].relationship-data_length"));
-            for(int j=0;j<relationDataCount;j++){
-                String key = context.getAttribute(prefix+".relationship-list.relationship["+i+"].relationship-data["+j+"].relationship-key");
-                String value = context.getAttribute(prefix+".relationship-list.relationship["+i+"].relationship-data["+j+"].relationship-value");
-                relationShip.getRelationShipDataMap().put(key,value);
-            }
-            Integer relatedPropertyCount = 0;
-            String relatedPropertyCountStr = null;
-            try{
-                relatedPropertyCountStr =context.getAttribute(prefix + ".relationship-list.relationship["+i+"].related-to-property_length");
-                relatedPropertyCount = Integer.parseInt(relatedPropertyCountStr);
-            }
-            catch (NumberFormatException e){
-                logger.debug("Invalid value in the context for Related Property Count " + relatedPropertyCountStr);
-            }
+        if (context != null && context.getAttribute(prefix + ".relationship-list.relationship_length") != null) {
+            Integer relationsCount = Integer.parseInt(context.getAttribute(
+                    prefix + ".relationship-list.relationship_length"));
+            for (int i = 0; i < relationsCount; i++) {
+                String rsKey = prefix + ".relationship-list.relationship[" + i + "]";
+                Relationship relationShip = new Relationship();
+                relationShip.setRelatedLink(context.getAttribute(rsKey + ".related-link"));
+                relationShip.setRelatedTo(context.getAttribute(rsKey + ".related-to"));
+                Integer relationDataCount =
+                        Integer.parseInt(context.getAttribute(rsKey + ".relationship-data_length"));
+                for (int j = 0; j < relationDataCount; j++) {
+                    String rsDataKey = rsKey + ".relationship-data[" + j + "]";
+                    String key = context.getAttribute(rsDataKey + ".relationship-key");
+                    String value = context.getAttribute(rsDataKey + ".relationship-value");
+                    relationShip.getRelationShipDataMap().put(key, value);
+                }
+                Integer relatedPropertyCount = 0;
+                String relatedPropertyCountStr = null;
+                try {
+                    relatedPropertyCountStr = context.getAttribute(rsKey + ".related-to-property_length");
+                    relatedPropertyCount = Integer.parseInt(relatedPropertyCountStr);
+                } catch (NumberFormatException e) {
+                    logger.debug(
+                            "Invalid value in the context for Related Property Count " + relatedPropertyCountStr);
+                }
 
-            for(int j=0;j<relatedPropertyCount;j++){
-                String key = context.getAttribute(prefix+".relationship-list.relationship["+i+"].related-to-property["+j+"].property-key");
-                String value = context.getAttribute(prefix+".relationship-list.relationship["+i+"].related-to-property["+j+"].property-value");
-                relationShip.getRelatedProperties().put(key,value);
+                for (int j = 0; j < relatedPropertyCount; j++) {
+                    String rsPropKey = rsKey + ".related-to-property[" + j + "]";
+                    String key = context.getAttribute(rsPropKey + ".property-key");
+                    String value = context.getAttribute(rsPropKey + ".property-value");
+                    relationShip.getRelatedProperties().put(key, value);
+                }
+                result.getRelationshipList().add(relationShip);
             }
-            result.getRelationshipList().add(relationShip);
+        } else {
+            logger.error("Relationship-list not present in the SvcLogicContext attributes set."
+                    + (context == null ? "" : "Attribute KeySet = "+ context.getAttributeKeySet()));
         }
 
-        for(String key:additionalProperties){
-            result.getAdditionProperties().put(key,context.getAttribute(prefix+"."+key));
+        if (context != null) {
+            for (String key : additionalProperties) {
+                result.getAdditionProperties().put(key, context.getAttribute(prefix + "." + key));
+            }
         }
         return result;
     }
@@ -306,7 +322,8 @@ public class AAIPluginImpl implements AAIPlugin {
     private SvcLogicContext readResource(String query, String prefix, String resourceType) throws AAIQueryException {
         SvcLogicContext resourceContext = new SvcLogicContext();
         try {
-            SvcLogicResource.QueryStatus response = aaiClient.query(resourceType,false,null,query,prefix,null,resourceContext);
+            SvcLogicResource.QueryStatus response =
+                    aaiClient.query(resourceType,false,null,query,prefix,null,resourceContext);
             logger.info("AAIResponse: " + response.toString());
             if(!SvcLogicResource.QueryStatus.SUCCESS.equals(response)){
                 throw new AAIQueryException("Error Retrieving VNF hierarchy from A&AI");
@@ -331,7 +348,8 @@ public class AAIPluginImpl implements AAIPlugin {
             logger.info("AAIResponse: " + response.toString());
             ctx.setAttribute("getResource_result", response.toString());
         } catch (SvcLogicException e) {
-            logger.error(EELFResourceManager.format(Msg.AAI_GET_DATA_FAILED, resourceKey, "", e.getMessage()));
+            logger.error(
+                    EELFResourceManager.format(Msg.AAI_GET_DATA_FAILED, resourceKey, "", e.getMessage()));
         }
         if (logger.isDebugEnabled()) {
             logger.debug("exiting getResource======");
@@ -347,7 +365,7 @@ public class AAIPluginImpl implements AAIPlugin {
             logger.debug("Updating " + resourceType + " details in A&AI for Key : " + resourceKey);
             logger.debug("Updating " + att_name + " to : " + att_value);
         }
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         data.put(att_name, att_value);
 
         try {
