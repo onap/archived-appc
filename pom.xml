@@ -540,7 +540,7 @@
                     <sectionDelimiter>================================================================================</sectionDelimiter>
                     <licenseName>appc</licenseName>
                     <!-- This should point to the license directory of the root folder of the base appc project -->
-                    <licenseResolver>file:${user.dir}/license</licenseResolver>
+                    <licenseResolver>file:${user.dir}/license-details</licenseResolver>
                     <inceptionYear>2017</inceptionYear>
                     <organizationName>AT&amp;T Intellectual Property. All rights reserved.</organizationName>
                     <projectName>ONAP : APPC</projectName>
