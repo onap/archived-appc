@@ -98,7 +98,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.10.4</version>
+                <version>2.10</version>
                 <configuration>
                     <excludePackageNames>org.openecomp.sdnc</excludePackageNames>
                     <failOnError>false</failOnError>
@@ -599,13 +599,9 @@
                 <executions>
                     <execution>
                         <id>additional-install</id>
-                        <phase></phase>
                         <goals>
                             <goal>install-file</goal>
                         </goals>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -640,6 +636,7 @@
                 <module>appc-provider</module>
                 <module>appc-event-listener</module>
                 <module>appc-asdc-listener</module>
+                <module>appc-lifecycle-management</module>
                 <module>appc-oam</module>
             </modules>
         </profile>
