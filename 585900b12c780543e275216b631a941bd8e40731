@@ -88,6 +88,30 @@
     },
     {
       "key": {
+        "uuid": "1a1a2d67_052ff4a2",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/.settings/org.eclipse.wst.common.project.facet.core.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1699
+      },
+      "writtenOn": "2017-08-10T22:48:30Z",
+      "side": 1,
+      "message": "yes, I totally agree. ~.~\n\nHere\u0027s I am just following the existing code.\nMaybe we should create a bug and fix all of them together in another submission. ~.~",
+      "parentUuid": "1a1a2d67_a59a8012",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1a2d67_258670ba",
         "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/LifecycleManager.java",
         "patchSetId": 3
@@ -305,6 +329,24 @@
       "writtenOn": "2017-08-10T21:35:40Z",
       "side": 1,
       "message": "According to ONAP java style (google java style) wildcard imports are not used: https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports . Please add specific imports here.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_e52bd892",
+        "filename": "appc-lifecycle-management/state-machine-lib/src/main/java/org/openecomp/appc/statemachine/impl/StateMachineImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1699
+      },
+      "writtenOn": "2017-08-10T22:48:30Z",
+      "side": 1,
+      "message": "hmm, missed this. Will make adjustment.\n\ngood finding ~.~",
+      "parentUuid": "1a1a2d67_65bb4873",
       "revId": "585900b12c780543e275216b631a941bd8e40731",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false

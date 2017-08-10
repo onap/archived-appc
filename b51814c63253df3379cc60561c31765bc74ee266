@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1a1a2d67_6540e856",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1699
+      },
+      "writtenOn": "2017-08-10T22:48:30Z",
+      "side": 0,
+      "message": "Because the junit dependency has been defined in its parent pom appc-dispatcher/pom.xml. Here is a duplication ~.~",
+      "parentUuid": "1a1a2d67_65ed888b",
+      "range": {
+        "startLine": 38,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 20
+      },
+      "revId": "b51814c63253df3379cc60561c31765bc74ee266",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a1a2d67_6549088b",
         "filename": "appc-lifecycle-management/appc-lifecycle-management-features/pom.xml",
         "patchSetId": 3
