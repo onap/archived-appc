@@ -1,0 +1,98 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
+ * ============LICENSE_END=========================================================
+ */
+
+package org.openecomp.appc.statemachine.impl;
+
+import java.util.HashSet;
+import java.util.Set;
+
+import org.openecomp.appc.exceptions.InvalidInputException;
+import org.openecomp.appc.statemachine.StateMachine;
+import org.openecomp.appc.statemachine.objects.Event;
+import org.openecomp.appc.statemachine.objects.Response;
+import org.openecomp.appc.statemachine.objects.State;
+import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
+import org.openecomp.appc.statemachine.objects.StateMachineResponse;
+import org.openecomp.appc.statemachine.objects.Transition;
+
+
+public class StateMachineImpl implements StateMachine {
+
+    private final Set<State> states;
+
+    private final Set<Event> events;
+
+    StateMachineImpl(StateMachineMetadata metadata){
+        this.states = new HashSet<>();
+        this.states.addAll(metadata.getStates());
+        this.events = new HashSet<>();
+        this.events.addAll(metadata.getEvents());
+    }
+
+    public StateMachineResponse handleEvent(State inputState, Event event) throws InvalidInputException{
+
+        if(!validateInputs(inputState,event)){
+            throw new InvalidInputException("VNF State or incoming event is invalid. State = " +inputState + " event = " + event );
+        }
+
+        StateMachineResponse response = new StateMachineResponse();
+        State currentState = null,nextState = null;
+        for(State stateInSet:states){
+            if(stateInSet.equals(inputState)){
+                currentState = stateInSet;
+                break;
+            }
+        }
+        if (currentState != null) {
+            for (Transition transition : currentState.getTransitions()) {
+                if (event.equals(transition.getEvent())) {
+                    nextState = transition.getNextState();
+                }
+            }
+        }
+        if(nextState == null){
+            response.setResponse(Response.NO_TRANSITION_DEFINED);
+        }
+        else if(inputState.equals(nextState)){
+            response.setResponse(Response.NO_STATE_CHANGE);
+        }
+        else{
+            response.setResponse(Response.VALID_TRANSITION);
+        }
+        response.setNextState(nextState);
+        return response;
+    }
+
+    private boolean validateInputs(State state,Event event) {
+        return state != null && event != null && this.states.contains(state) && this.events.contains(event);
+    }
+
+    @Override
+    public String toString() {
+        return "StateMachineImpl{" +
+                "states=" + states +
+                ", events=" + events +
+                '}';
+    }
+}
