@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_48af41e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T23:17:56Z",
+      "side": 1,
+      "message": "No need to put updates on review in commit message. Only info about what you did in code or why should be here. The rest of this line after this can be added to first paragraph.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 36
+      },
+      "revId": "7c21dd77f7ab03496001c317588db5ef4dbf8307",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_68aafdd5",
+        "filename": "appc-lifecycle-management/state-machine-lib/src/main/java/org/openecomp/appc/statemachine/impl/StateMachineImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T23:17:56Z",
+      "side": 1,
+      "message": "Please add specific imports here. \n\nONAP java style (google java style) wildcard imports are not used: https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "7c21dd77f7ab03496001c317588db5ef4dbf8307",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
