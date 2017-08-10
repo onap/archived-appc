@@ -1,0 +1,313 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_a5f3a072",
+        "filename": "appc-common/src/main/java/org/openecomp/appc/exceptions/InvalidInputException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Remove extra line here.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_85e8a47d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Thanks for changing tabs to four spaces as https://wiki.onap.org/display/DW/Java+code+style requires.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 8
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_45028c3f",
+        "filename": "appc-dispatcher/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Thanks for converting tabs to 4 spaces :)",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 8
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_a59a8012",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/.settings/org.eclipse.wst.common.project.facet.core.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "I don\u0027t use eclipse, but it seems like this shouldn\u0027t be in git repo - probably not your issue to solve but seems like these files should be listed under.gitignore",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_258670ba",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/LifecycleManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "You didn\u0027t introduce this, but it should be one line here and not two.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_059374fb",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/objects/LCMResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Please convert tabs to 4 spaces :(",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 1
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_e58f58cb",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/objects/LCMResponse.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "please remove this tab and have no spaces on this line.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 1
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_c5bc5c6f",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/objects/LifecycleException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Remove this line please.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_a5c160e6",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/objects/NoTransitionDefinedException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Remove this line please.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_85b66489",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-api/src/main/java/org/openecomp/appc/lifecyclemanager/objects/VNFOperationOutcome.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Change all tabs to 4 spaces please.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 1
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_0581348f",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-core/src/test/java/org/openecomp/appc/LifecycleManagerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Should be a space here.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_255b1056",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-features/src/main/resources/features.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Extraneous space/tabs removed please.",
+      "range": {
+        "startLine": 29,
+        "startChar": 118,
+        "endLine": 30,
+        "endChar": 8
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_455e0c47",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-features/src/main/resources/features.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Tabs to 4 spaces please.",
+      "range": {
+        "startLine": 32,
+        "startChar": 3,
+        "endLine": 32,
+        "endChar": 5
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_c531fc0c",
+        "filename": "appc-lifecycle-management/state-machine-lib/.settings/org.eclipse.wst.common.project.facet.core.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "all of these .settings dir should probably be added to .gitignore",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 18
+      },
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_65bb4873",
+        "filename": "appc-lifecycle-management/state-machine-lib/src/main/java/org/openecomp/appc/statemachine/impl/StateMachineImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "According to ONAP java style (google java style) wildcard imports are not used: https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports . Please add specific imports here.",
+      "revId": "585900b12c780543e275216b631a941bd8e40731",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_65ed888b",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 0,
+      "message": "Why are you removing this? It looks like other tests rely on junit.",
+      "range": {
+        "startLine": 38,
+        "startChar": 11,
+        "endLine": 42,
+        "endChar": 20
+      },
+      "revId": "b51814c63253df3379cc60561c31765bc74ee266",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_6549088b",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-features/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 0,
+      "message": "Agreed. Remove commented out code.",
+      "range": {
+        "startLine": 49,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 18
+      },
+      "revId": "b51814c63253df3379cc60561c31765bc74ee266",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
