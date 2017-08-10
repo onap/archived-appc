@@ -10,18 +10,17 @@
   <packaging>pom</packaging>
   <name>APPC Dispatcher Common</name>
   <description>APPC Dispatcher Common</description>
-  
-	<!-- ================================================================================== -->
-	<!-- The modules we build -->
-	<!-- ================================================================================== -->
-	<modules>
-		<module>appc-data-access-lib</module>
-		<module>execution-queue-management-lib</module>
-		<module>state-machine-lib</module>
+
+    <!-- ================================================================================== -->
+    <!-- The modules we build -->
+    <!-- ================================================================================== -->
+    <modules>
+        <module>appc-data-access-lib</module>
+        <module>execution-queue-management-lib</module>
         <module>ranking-framework-lib</module>
         <module>lock-manager-lib</module>
         <module>domain-model-lib</module>
         <module>transaction-recorder</module>
     </modules>
-  
+
 </project>
