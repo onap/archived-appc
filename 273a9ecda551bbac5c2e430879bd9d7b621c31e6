@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_256af01a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T20:28:02Z",
+      "side": 1,
+      "message": "Not going to hammer on this. But the request was to place this in \"Issue-Id: APPC-44\" above change id and not at the beginning of summary. See https://wiki.onap.org/display/DW/Commit+Messages#CommitMessages-CommitStructure\n\nAlso there is still no body section for why this refactor is needed. Something like \"This refactor is needed for lifecycle management because force stop appc requires \u003cexplanation\u003e\"",
+      "revId": "273a9ecda551bbac5c2e430879bd9d7b621c31e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
