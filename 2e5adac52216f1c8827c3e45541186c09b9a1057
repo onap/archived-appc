@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2d67_c5121cb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T20:15:39Z",
+      "side": 1,
+      "message": "Add a line here \"Issue-Id: APPC-44\" per https://wiki.onap.org/display/DW/Commit+Messages\n\nAlso per commit messages doc above, please add some explanation for the patch in the format specified.",
+      "revId": "2e5adac52216f1c8827c3e45541186c09b9a1057",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
