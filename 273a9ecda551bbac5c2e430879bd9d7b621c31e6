@@ -16,6 +16,23 @@
       "revId": "273a9ecda551bbac5c2e430879bd9d7b621c31e6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_c5c7bc11",
+        "filename": "appc-common/src/main/java/org/openecomp/appc/exceptions/InvalidInputException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-10T21:35:40Z",
+      "side": 1,
+      "message": "Remove",
+      "revId": "273a9ecda551bbac5c2e430879bd9d7b621c31e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
