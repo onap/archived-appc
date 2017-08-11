@@ -33,9 +33,6 @@ import org.openecomp.appc.adapter.message.event.EventStatus;
 import org.openecomp.appc.dg.common.DCAEReporterPlugin;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 
 import java.util.Map;
 
@@ -44,9 +41,16 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     private EventSender eventSender;
 
     public DCAEReporterPluginImpl() {
-        BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        ServiceReference sref = bctx.getServiceReference(EventSender.class);
-        eventSender = (EventSender) bctx.getService(sref);
+        // do nothing
+    }
+
+    /**
+     * Injected by blueprint
+     *
+     * @param eventSender to be set
+     */
+    public void setEventSender(EventSender eventSender) {
+        this.eventSender = eventSender;
     }
 
     @Override
@@ -62,7 +66,9 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
         apiVersion = ctx.getAttribute("input.common-header.api-ver");
         eventId = ctx.getAttribute("input.common-header.request-id");
 
-            EventMessage eventMessage = new EventMessage(new EventHeader((new java.util.Date()).toString(), apiVersion, eventId), new EventStatus(errorCode, errorDescription));
+            EventMessage eventMessage = new EventMessage(new EventHeader(
+                    (new java.util.Date()).toString(), apiVersion, eventId),
+                    new EventStatus(errorCode, errorDescription));
             String eventWriteTopic = params.get("event-topic-name");
             if(!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic!=null){
                 eventSender.sendEvent(MessageDestination.DCAE, eventMessage,eventWriteTopic);
@@ -102,7 +108,9 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
         if (null == successDescription) {
             successDescription = "Success";
         }
-        EventMessage eventMessage = new EventMessage(new EventHeader((new java.util.Date()).toString(), apiVersion, eventId), new EventStatus(successReportCode, successDescription));
+        EventMessage eventMessage = new EventMessage(new EventHeader(
+                (new java.util.Date()).toString(), apiVersion, eventId),
+                new EventStatus(successReportCode, successDescription));
         String eventWriteTopic = params.get("event-topic-name");
         if(!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic!=null){
             eventSender.sendEvent(MessageDestination.DCAE, eventMessage,eventWriteTopic);
@@ -120,7 +128,9 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
         apiVersion = ctx.getAttribute("input.common-header.api-ver");
         eventId = ctx.getAttribute("input.common-header.request-id");
 
-        EventMessage eventMessage = new EventMessage(new EventHeader((new java.util.Date()).toString(), apiVersion, eventId), new EventStatus(errorCode, errorDescription));
+        EventMessage eventMessage = new EventMessage(new EventHeader(
+                (new java.util.Date()).toString(), apiVersion, eventId),
+                new EventStatus(errorCode, errorDescription));
         String eventWriteTopic = params.get("event-topic-name");
         if(!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic!=null){
             eventSender.sendEvent(MessageDestination.DCAE, eventMessage,eventWriteTopic);
