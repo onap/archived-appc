@@ -45,6 +45,30 @@
       "revId": "7c21dd77f7ab03496001c317588db5ef4dbf8307",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a1a2d67_0b1dc366",
+        "filename": "appc-lifecycle-management/state-machine-lib/src/main/java/org/openecomp/appc/statemachine/impl/StateMachineImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1699
+      },
+      "writtenOn": "2017-08-11T14:01:24Z",
+      "side": 1,
+      "message": "Thanks for finding this.\n\nI made the change, but my intelliJ setting was not done properly and automatically converted to * with more than 5 imports from the same package.\n\nFixed now ~.~ (Both the code and my interlliJ setting)",
+      "parentUuid": "1a1a2d67_68aafdd5",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 48
+      },
+      "revId": "7c21dd77f7ab03496001c317588db5ef4dbf8307",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
