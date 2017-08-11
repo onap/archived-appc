@@ -24,13 +24,14 @@
 
 package org.openecomp.appc.dg.common.impl;
 
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.appc.adapter.message.MessageDestination;
 import org.openecomp.appc.adapter.message.event.EventMessage;
-import org.openecomp.appc.dg.common.impl.DCAEReporterPluginImpl;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.osgi.framework.Bundle;
@@ -50,35 +51,31 @@ public class DCAEReporterPluginImplTest {
     private SvcLogicContext ctx;
     private Map<String, String> params;
 
-    private final BundleContext bundleContext=Mockito.mock(BundleContext.class);
-    private final Bundle bundleService=Mockito.mock(Bundle.class);
-    private final ServiceReference sref=Mockito.mock(ServiceReference.class);
+    private final BundleContext bundleContext = Mockito.mock(BundleContext.class);
+    private final Bundle bundleService = Mockito.mock(Bundle.class);
+    private final ServiceReference sref = Mockito.mock(ServiceReference.class);
 
-
+    @InjectMocks
     private DCAEReporterPluginImpl dcaeReporterPlugin;
-    private EventSenderMock eventSender;
+    @Spy
+    private EventSenderMock eventSender = new EventSenderMock();
 
     private String apiVer = "2.0.0";
     private String requestId = "123";
     private String error = "test-error";
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
-        eventSender = new EventSenderMock();
         PowerMockito.mockStatic(FrameworkUtil.class);
         PowerMockito.when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
         PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
         PowerMockito.when(bundleContext.getServiceReference(Matchers.any(Class.class))).thenReturn(sref);
         PowerMockito.when(bundleContext.<EventSender>getService(sref)).thenReturn(eventSender);
-        dcaeReporterPlugin = new DCAEReporterPluginImpl();
-
     }
-
-
 
     @Test
     public void testReportErrorDescriptionNullBwcModeFalse() throws Exception {
-
         ctx = new SvcLogicContext();
         params = new HashMap<>();
         params.put("output.status.message", null);
@@ -88,6 +85,17 @@ public class DCAEReporterPluginImplTest {
         errorReasonNullAssert();
     }
 
+    @Test
+    public void testReportBwcFalse() throws Exception {
+        ctx = new SvcLogicContext();
+        params = new HashMap<>();
+        ctx.setAttribute("isBwcMode", "false");
+        params.put("output.status.message", error);
+        ctx.setAttribute("input.common-header.api-ver", apiVer);
+        ctx.setAttribute("input.common-header.request-id", requestId);
+
+        positiveAssert();
+    }
 
     private void errorReasonNullAssert() throws APPCException {
         dcaeReporterPlugin.report(params, ctx);
@@ -97,9 +105,7 @@ public class DCAEReporterPluginImplTest {
         Assert.assertEquals("wrong requestId", requestId, msg.getEventHeader().getEventId());
         Assert.assertEquals("wrong error message", "Unknown", msg.getEventStatus().getReason());
         Assert.assertEquals("wrong destination", destination.name(), "DCAE");
-
     }
-
 
     private void positiveAssert() throws APPCException {
         dcaeReporterPlugin.report(params, ctx);
@@ -109,20 +115,5 @@ public class DCAEReporterPluginImplTest {
         Assert.assertEquals("wrong requestId", requestId, msg.getEventHeader().getEventId());
         Assert.assertEquals("wrong error message", error, msg.getEventStatus().getReason());
         Assert.assertEquals("wrong destination", destination.name(), "DCAE");
-
     }
-
-
-    @Test
-            public void testReportBwcFalse() throws Exception {
-                ctx = new SvcLogicContext();
-                params = new HashMap<>();
-                ctx.setAttribute("isBwcMode", "false");
-                params.put("output.status.message", error);
-                ctx.setAttribute("input.common-header.api-ver", apiVer);
-                ctx.setAttribute("input.common-header.request-id", requestId);
-
-                positiveAssert();
-
-            }
-        }
+}
