@@ -17,6 +17,7 @@
 		<module>appc-command-executor-api</module>
 		<module>appc-command-executor-core</module>
 		<module>appc-command-executor-features</module>
+        <module>appc-command-executor-installer</module>
 	</modules>
   
 </project>
