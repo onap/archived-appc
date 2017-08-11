@@ -1,22 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.openecomp.appc</groupId>
-    <artifactId>appc-dispatcher</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
-  </parent>
-  <artifactId>appc-command-executor</artifactId>
-  <packaging>pom</packaging>
-  <name>APPC Command Executor</name>
-  <description>APPC Command Executor</description>
-  
-	<!-- ================================================================================== -->
-	<!-- The modules we build -->
-	<!-- ================================================================================== -->
-	<modules>
-		<module>appc-command-executor-api</module>
-		<module>appc-command-executor-core</module>
-		<module>appc-command-executor-features</module>
-	</modules>
-  
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-dispatcher</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>appc-command-executor</artifactId>
+    <packaging>pom</packaging>
+    <name>APPC Command Executor</name>
+    <description>APPC Command Executor</description>
+
+    <!-- ================================================================================== -->
+    <!-- The modules we build -->
+    <!-- ================================================================================== -->
+    <modules>
+        <module>appc-command-executor-api</module>
+        <module>appc-command-executor-core</module>
+        <module>appc-command-executor-features</module>
+        <module>appc-command-executor-installer</module>
+    </modules>
+
 </project>
