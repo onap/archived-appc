@@ -756,28 +756,60 @@ public enum Msg implements EELFResolvableErrorEnum {
     OAM_OPERATION_EXCEPTION,
 
     /**
-     *   Application {0} is stopping... Waiting for  {1} LCM request to complete
+     *   Application {0} is {1}
      */
-    OAM_OPERATION_STOPPING,
+    OAM_OPERATION_ENTERING_MAINTENANCE_MODE,
 
     /**
-     * Application {0} is stopped
+     * Application {0} is in {1}
      */
-    OAM_OPERATION_STOPPED,
-
+    OAM_OPERATION_MAINTENANCE_MODE,
 
     /**
-     * Application {0} is started
+     * Application {0} is {1}
      */
     OAM_OPERATION_STARTING,
 
     /**
-     * Application {0} is started
+     * Application {0} is {1}
      */
     OAM_OPERATION_STARTED,
 
-    ;
     /**
+     * Application {0} is {1}
+     */
+    OAM_OPERATION_STOPPING,
+
+    /**
+     * Application {0} is {1}
+     */
+    OAM_OPERATION_STOPPED,
+    /**
+     * A {1} API is not allowed when {0} is in the {2} state
+     */
+    INVALID_STATE_TRANSITION,
+
+    /**
+     * Application {0} was unable to find the Request Handler service
+     */
+    REQUEST_HANDLER_UNAVAILABLE,
+
+    /**
+     * Application {0} is {1}
+     */
+    OAM_OPERATION_RESTARTING,
+
+    /**
+     * Application {0} is {1} for restart
+     */
+    OAM_OPERATION_RESTARTED,
+
+    /**
+     * {0}
+     */
+    OAM_OPERATION_INVALID_INPUT
+    ;
+    /*
      * Static initializer to ensure the resource bundles for this class are loaded...
      */
     static {

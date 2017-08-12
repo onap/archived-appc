@@ -43,8 +43,8 @@ import java.util.Set;
  * <p>
  * The DMaaP listener is responsible for listening to a topic on the Universal Event Bus and reading in messages that
  * conform to the DCAE message format for APPC. These messages will then be parsed and passed along to the APPC Provider
- * to take action on. The listener will also send messages out on DMaaP during critical phases. The messages sent out will
- * have a status of:
+ * to take action on. The listener will also send messages out on DMaaP during critical phases. The messages sent out
+ * will have a status of:
  * <ul>
  * <li><i>PENDING</i> - The listener has read the message off of DMaaP and has put it in the queue to be processed</li>
  * <li><i>ACTIVE</i> - The listener has begun actually processing the request and is waiting on the appc provider to
@@ -119,29 +119,28 @@ public class AppcEventListenerActivator implements BundleActivator {
 
         Properties props = configuration.getProperties();
 
-        Set<ListenerProperties> listeners = new HashSet<ListenerProperties>();
+        Set<ListenerProperties> listeners = new HashSet<>();
 
         // Configure event listener for the demo use case
         ListenerProperties demoProps = new ListenerProperties("appc.demo", props);
         demoProps.setListenerClass(org.openecomp.appc.listener.demo.impl.ListenerImpl.class);
         listeners.add(demoProps);
 
-	// ===========================================================================
+        // ===========================================================================
 
         ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
         clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
         listeners.add(clLCMProps);
 
-        //Configure the OAM properties
-        clLCMProps = new ListenerProperties("appc.OAM", props);
-        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
-        listeners.add(clLCMProps);
-
-/*
-        ListenerProperties clLCMProps1607 = new ListenerProperties("appc.LCM1607", props);
-        clLCMProps1607.setListenerClass(org.openecomp.appc.listener.LCM1607.impl.ListenerImpl.class);
-        listeners.add(clLCMProps1607);
-*/
+        // Configure the OAM properties
+        String oamPropKeyPrefix = "appc.OAM";
+        ListenerProperties oamProps  = new ListenerProperties(oamPropKeyPrefix, props);
+        if (isAppcOamPropsListenerEnabled(oamProps)) {
+            oamProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+            listeners.add(oamProps);
+        } else {
+            LOG.warn(String.format("The listener %s is disabled and will not be run", oamPropKeyPrefix));
+        }
 
         adapter = new ControllerImpl(listeners);
         if (ctx != null && registration == null) {
@@ -186,4 +185,17 @@ public class AppcEventListenerActivator implements BundleActivator {
         return "DMaaP Listener";
     }
 
+    /**
+     * Check if AppcOam props disable listener or not
+     *
+     * @param listenerProperties of ListenerProperties objext
+     * @return false only if AppcOam disabled key is defined and equal to true. Otherwise, return true.
+     */
+    private boolean isAppcOamPropsListenerEnabled(ListenerProperties listenerProperties) {
+        final Properties appcOamProperties = listenerProperties.getProperties();
+
+        return appcOamProperties == null
+                || !Boolean.parseBoolean(appcOamProperties.getProperty(
+                        ListenerProperties.KEYS.DISABLED.getPropertySuffix()));
+    }
 }

@@ -116,14 +116,14 @@ public final class ConfigurationFactory {
     /**
      * The default properties resource to be loaded
      */
-    private static final String DEFAULT_PROPERTIES = "/opt/openecomp/appc/data/properties/appc.properties";
+    private static final String DEFAULT_PROPERTIES = "org/openecomp/appc/default.properties";
 
     /**
      * This collection allows for special configurations to be created and maintained, organized by some identification
      * (such as an object reference to the StackBuilder to which they apply), and then obtained from the configuration
      * factory when needed.
      */
-    private static HashMap<Object, Configuration> localConfigs = new HashMap<Object, Configuration>();
+    private static HashMap<Object, Configuration> localConfigs = new HashMap<>();
 
     /**
      * The reentrant shared lock used to serialize access to the properties.
@@ -355,7 +355,9 @@ public final class ConfigurationFactory {
                     logger.error(EELFResourceManager.format(e));
                 } finally {
                     try {
-                        stream.close();
+                        if (stream != null) {
+                            stream.close();
+                        }
                     } catch (IOException e) {
                         // not much we can do since logger may not be configured
                         // yet
