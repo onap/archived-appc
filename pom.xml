@@ -51,6 +51,7 @@
         <sdnctl.sli.version>1.1.2-SNAPSHOT</sdnctl.sli.version>
         <sdnctl.dblib.version>1.1.2-SNAPSHOT</sdnctl.dblib.version>
         <sdnctl.aai.service.version>1.1.2-SNAPSHOT</sdnctl.aai.service.version>
+	<openecomp.sdnc.sql-resource.version>1.1.2-SNAPSHOT</openecomp.sdnc.sql-resource.version>
 
         <cdp.pal.version>1.1.7-oss</cdp.pal.version>
         <dmaap.client.version>0.2.12</dmaap.client.version>
@@ -642,6 +643,7 @@
                 <module>appc-asdc-listener</module>
                 <module>appc-lifecycle-management</module>
                 <module>appc-oam</module>
+                <module>appc-config</module>
             </modules>
         </profile>
         <profile>

@@ -1,0 +1,47 @@
+###
+# ============LICENSE_START=======================================================
+# ONAP : APPC
+# ================================================================================
+# Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+# 
+#         http://www.apache.org/licenses/LICENSE-2.0
+# 
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+# 
+#  ECOMP is a trademark and service mark of AT&T Intellectual Property.
+# ============LICENSE_END=========================================================
+###
+
+node_types:
+  Property Definition:
+    derived_from: org.openecomp.genericvnf
+    version: V1
+    description: ''
+    properties:
+      abc:
+        type: param1_type
+        description: param_desc
+        required: false
+        default: 0.0.0.0
+        status: SUPPORTED
+      param 2:
+        type: param2 type
+        description: param2
+        required: abc
+        default: 0:0:0:0:0:0:0:0
+        status: SUPPORTED
+topology_template:
+  node_templates:
+    Property Definition_Template:
+      type: Property Definition
+      properties:
+        abc: <rule-type = interface-ip-address> <response-keys = address-fqdn:000000000&equals;000000000:ipaddress-v4 > <source-system=INSTAR> <request-keys=address_fqdn:m001&colon;00000000 , address_type:v&comma;4>
+        param 2: <rule-type = interface-ip-address> <response-keys = address-fqdn:000000000:ipaddress-v4 > <source-system = INSTAR> <request-keys = address_fqdn:000000000 , address_type:v4>
