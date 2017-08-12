@@ -1,4 +1,4 @@
-/*-
+/*-/*-
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
@@ -24,9 +24,6 @@
 
 package org.openecomp.appc.oam.messageadapter;
 
-import org.openecomp.appc.oam.AppcOam;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,12 +32,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.*;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.MaintenanceModeOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.RestartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StopOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.Status;
 import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.yang.binding.DataContainer;
-
+import org.openecomp.appc.oam.AppcOam;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
@@ -48,61 +48,81 @@ import java.util.TimeZone;
 public class Converter {
     private static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(Converter.class);
+
     static {
         isoFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
 
 
-    private static Builder<?> convAsyncResponseToBuilder1(AppcOam.RPC rpcName, CommonHeader commonHeader, Status status) {
-        Builder<?> outObj = null;
-        if(rpcName == null){
+    private static Builder<?> convAsyncResponseToBuilder1(AppcOam.RPC rpcName,
+                                                          CommonHeader commonHeader,
+                                                          Status status) {
+        Builder<?> outObj;
+        if (rpcName == null) {
             throw new IllegalArgumentException("empty asyncResponse.rpcName");
         }
-        if(commonHeader == null){
+        if (commonHeader == null) {
             throw new IllegalArgumentException("empty asyncResponse.commonHeader");
         }
-        if(status == null){
+        if (status == null) {
             throw new IllegalArgumentException("empty asyncResponse.status");
         }
-        switch (rpcName){
-            case stop:
-                outObj = new StopOutputBuilder();
-                ((StopOutputBuilder)outObj).setCommonHeader(commonHeader);
-                ((StopOutputBuilder)outObj).setStatus(status);
+        switch (rpcName) {
+            case maintenance_mode:
+                outObj = new MaintenanceModeOutputBuilder();
+                ((MaintenanceModeOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((MaintenanceModeOutputBuilder) outObj).setStatus(status);
                 return outObj;
 
             case start:
                 outObj = new StartOutputBuilder();
-                ((StartOutputBuilder)outObj).setCommonHeader(commonHeader);
-                ((StartOutputBuilder)outObj).setStatus(status);
+                ((StartOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((StartOutputBuilder) outObj).setStatus(status);
                 return outObj;
+
+            case stop:
+                outObj = new StopOutputBuilder();
+                ((StopOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((StopOutputBuilder) outObj).setStatus(status);
+                return outObj;
+
+            case restart:
+                outObj = new RestartOutputBuilder();
+                ((RestartOutputBuilder) outObj).setCommonHeader(commonHeader);
+                ((RestartOutputBuilder) outObj).setStatus(status);
+                return outObj;
+
             default:
-                throw new IllegalArgumentException(rpcName+" action is not supported");
+                throw new IllegalArgumentException(rpcName + " action is not supported");
         }
     }
 
-    public static String convAsyncResponseToUebOutgoingMessageJsonString(OAMContext oamContext) throws JsonProcessingException {
+    static String convAsyncResponseToUebOutgoingMessageJsonString(OAMContext oamContext) throws
+            JsonProcessingException {
         AppcOam.RPC rpcName = oamContext.getRpcName();
         CommonHeader commonHeader = oamContext.getCommonHeader();
         Status status = oamContext.getStatus();
 
-        DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToUebOutgoingMessage(rpcName,commonHeader,status);
+        DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToUebOutgoingMessage(rpcName, commonHeader,
+                status);
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.addMixInAnnotations(dmaapOutgoingMessage.getBody().getOutput().getClass(), MixInFlagsMessage.class);
+        objectMapper.addMixInAnnotations(dmaapOutgoingMessage.getBody().getOutput().getClass(),
+                MixInFlagsMessage.class);
         objectMapper.addMixInAnnotations(Status.class, MixIn.class);
         objectMapper.addMixInAnnotations(CommonHeader.class, MixInCommonHeader.class);
-        ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true).writer();
+        ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure
+                (MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true).writer();
         return writer.writeValueAsString(dmaapOutgoingMessage);
     }
 
-    private static DmaapOutgoingMessage convAsyncResponseToUebOutgoingMessage(AppcOam.RPC rpcName, CommonHeader commonHeader, Status status) throws JsonProcessingException {
+    private static DmaapOutgoingMessage convAsyncResponseToUebOutgoingMessage(AppcOam.RPC rpcName, CommonHeader
+            commonHeader, Status status) throws JsonProcessingException {
         DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
         String correlationID = commonHeader.getRequestId();
         outObj.setCorrelationID(correlationID);
         outObj.setType("response");
         outObj.setRpcName(rpcName.name());
-        Builder<?> builder = Converter.convAsyncResponseToBuilder1(rpcName,commonHeader,status);
+        Builder<?> builder = Converter.convAsyncResponseToBuilder1(rpcName, commonHeader, status);
         Object messageBody = builder.build();
 
         DmaapOutgoingMessage.Body body = new DmaapOutgoingMessage.Body(messageBody);
@@ -112,12 +132,14 @@ public class Converter {
 
 
     abstract class MixIn {
+        // to be removed during serialization
         @JsonIgnore
-        abstract Class<? extends DataContainer> getImplementedInterface(); // to be removed during serialization
+        abstract Class<? extends DataContainer> getImplementedInterface();
 
         @JsonValue
         abstract java.lang.String getValue();
     }
+
     abstract class MixInCommonHeader extends MixIn {
         @JsonProperty("request-id")
         abstract java.lang.String getRequestId();
@@ -126,11 +148,9 @@ public class Converter {
         abstract java.lang.String getOriginatorId();
 
     }
+
     abstract class MixInFlagsMessage extends MixIn {
         @JsonProperty("common-header")
-        abstract  CommonHeader getCommonHeader();
+        abstract CommonHeader getCommonHeader();
     }
-
-
-
 }

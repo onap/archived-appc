@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
@@ -28,7 +30,7 @@
                             org.openecomp.appc.adapter.messaging.*,
                             org.openecomp.appc.adapter.message.*,
                             org.openecomp.appc.adapter.factory.*,
-                            org.openecomp.appc.listener.*,
+                            org.openecomp.appc.listener,
                             *;resolution:=optional
                         </Import-Package>
                         <Embed-Dependency>
@@ -161,7 +163,21 @@
             <artifactId>appc-request-handler-api</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-lifecycle-management-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-lifecycle-management-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>state-machine-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.opendaylight.controller</groupId>
@@ -207,6 +223,24 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>1.6.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>1.6.2</version>
+            <scope>test</scope>
+        </dependency>
         <!-- TEMP CODE -->
         <dependency>
             <groupId>org.json</groupId>
@@ -214,30 +248,30 @@
         </dependency>
 
 
-		<dependency>
-			<groupId>org.openecomp.appc</groupId>
-			<artifactId>appc-message-adapter-api</artifactId>
-			<version>${project.version}</version>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-message-adapter-api</artifactId>
+            <version>${project.version}</version>
             <scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.openecomp.appc</groupId>
-			<artifactId>appc-message-adapter-factory</artifactId>
-			<version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-message-adapter-factory</artifactId>
+            <version>${project.version}</version>
             <scope>provided</scope>
-		</dependency>
-       <dependency>
-         <groupId>org.openecomp.appc</groupId>
-         <artifactId>appc-dmaap-adapter-bundle</artifactId>
-         <version>${project.version}</version>
-         <scope>provided</scope>
-       </dependency>
-       <dependency>
-         <groupId>org.openecomp.appc</groupId>
-         <artifactId>appc-event-listener-bundle</artifactId>
-         <version>${project.version}</version>
-         <scope>provided</scope>
-       </dependency>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-dmaap-adapter-bundle</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.openecomp.appc</groupId>
+            <artifactId>appc-event-listener-bundle</artifactId>
+            <version>${project.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
     </dependencies>
 

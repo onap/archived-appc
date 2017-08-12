@@ -77,6 +77,17 @@ module appc-oam {
                 mandatory true;
             }
 
+            container flags {
+                 leaf request-timeout {
+                     description "The allowed time in seconds to perform the request.  If the request cannot
+                                  be completed in this amount of time, the request is aborted with OAM state set
+                                  to Error.  If set to zero, no timeout exists and the request will be handled
+                                  continue until operation completes or fails.  If omitted, the default value of
+                                  20 is used.";
+                      type uint16;
+                      mandatory false;
+                 }
+            }
         }
     }
 
@@ -101,6 +112,23 @@ module appc-oam {
                 mandatory true;
             }
         }
+    }
+
+    typedef appc-state {
+        type enumeration {
+            enum "Error";
+            enum "Unknown";
+            enum "Not_Instantiated"; // Equivalent to Bundle's UNINSTALL
+            enum "Instantiated"; // Equivalent to Bundle's INSTALL
+            enum "Starting";
+            enum "Started";
+            enum "EnteringMaintenanceMode";
+            enum "MaintenanceMode";
+            enum "Stopping";
+            enum "Stopped";
+            enum "Restarting";
+        }
+        description "Refers to the various states an APP-C instance can be in";
     }
 
     rpc get-metrics {
@@ -135,10 +163,10 @@ module appc-oam {
         }
     }
 
-    rpc stop {
+    rpc maintenance-mode {
         description "An operation that disables appc-provider-lcm so that it no longer accepts LCM request.  This
                          operation has no impact on queued and currently executing LCM request.  A notification will be
-                         sent out indicating the APP-C  is idle once all LCM request have completed execution.  ";
+                         sent out indicating the APP-C is idle once all LCM request have completed execution.";
         input {
            uses common-header;
         }
@@ -149,13 +177,46 @@ module appc-oam {
     }
 
     rpc start {
-        description "An operation that enables appc-provider-lcm so that it can begin to accepts LCM request. ";
+        description "An operation that enables appc-provider-lcm so that it can begin to accepts LCM request. This
+                     includes starting any appc bundles which are stopped.";
         input {
-           uses common-header;
+            uses common-header;
         }
         output {
             uses common-header;
             uses status;
         }
     }
+
+    rpc get-appc-state {
+        description "Returns the current state of the running APPC LCM instance";
+        output {
+            leaf state {
+                 type appc-state;
+            }
+        }
+    }
+
+    rpc stop {
+        description "Force stops the APPC bundles that accept LCM requests";
+        // Note: OAM feature bundles and it's dependencies (Appc-common and LifeCycle Manager) would continue to run
+        input {
+            uses common-header;
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+     rpc restart {
+         description "An operation that restarts APPC by invoking the stop rpc followed by the start rpc.";
+         input {
+             uses common-header;
+         }
+         output {
+             uses common-header;
+             uses status;
+         }
+     }
 }
