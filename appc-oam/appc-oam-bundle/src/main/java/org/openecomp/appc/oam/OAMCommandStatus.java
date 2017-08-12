@@ -34,17 +34,18 @@ public enum OAMCommandStatus {
 
     ACCEPTED(100,"ACCEPTED - request accepted"),
 
-    //ERROR(2xx) – request can’t be handled due to some technical error
+    //ERROR(2xx) - request can't be handled due to some technical error
     UNEXPECTED_ERROR(200,"UNEXPECTED ERROR - ${errorMsg}"),
 
+    REJECTED(300,"REJECTED - ${errorMsg}"),
+    INVALID_PARAMETER(302,"INVALID PARAMETER - ${errorMsg}" ),
+    TIMEOUT(303, "OPERATION TIMEOUT REACHED - ${errorMsg}"),
+
     SUCCESS(400,"SUCCESS - request has been processed successfully"),
-        ;
+    ;
 
-
-    public static final String errorDgMessageParamName = "errorDgMessage";
-
-	private int responseCode;
-	private String responseMessage;
+    private int responseCode;
+    private String responseMessage;
 
 
 
@@ -52,31 +53,25 @@ public enum OAMCommandStatus {
     OAMCommandStatus(int responseCode, String responseMessage) {
         this.responseCode = responseCode;
         this.responseMessage = responseMessage;
-            }
+    }
 
     public String getResponseMessage() {
-		return responseMessage;
-	}
+        return responseMessage;
+    }
 
-	public int getResponseCode() {
-		return responseCode;
-	}
+    public int getResponseCode() {
+        return responseCode;
+    }
 
 
-	/**
+    /**
      *
      * @return  messageTemplate
      */
-
-
     public String getFormattedMessage(Params params){
-            Map<String,Object> paramsMap = params != null ? params.getParams() : null;
-            return MessageFormatter.format(getResponseMessage(),paramsMap);
+        Map<String,Object> paramsMap = params != null ? params.getParams() : null;
+        return MessageFormatter.format(getResponseMessage(),paramsMap);
 
-        }
-
-    public String getFormattedMessageWithCode(Params params){
-        return getResponseCode()+"-" + getFormattedMessage(params);
     }
 
     @Override
@@ -87,4 +82,3 @@ public enum OAMCommandStatus {
                 '}';
     }
 }
-
