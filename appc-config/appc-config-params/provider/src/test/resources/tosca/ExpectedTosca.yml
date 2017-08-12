@@ -1,0 +1,75 @@
+###
+# ============LICENSE_START=======================================================
+# ONAP : APPC
+# ================================================================================
+# Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+# ================================================================================
+# Licensed under the Apache License, Version 2.0 (the "License");
+#  you may not use this file except in compliance with the License.
+#  You may obtain a copy of the License at
+# 
+#         http://www.apache.org/licenses/LICENSE-2.0
+# 
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the License is distributed on an "AS IS" BASIS,
+#  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#  See the License for the specific language governing permissions and
+#  limitations under the License.
+# 
+#  ECOMP is a trademark and service mark of AT&T Intellectual Property.
+# ============LICENSE_END=========================================================
+###
+
+node_types:
+  Property Definition:
+    derived_from: org.openecomp.genericvnf
+    version: V1
+    description: ''
+    properties:
+      LOCAL_BILLING_IP_ADDR:
+        type: string
+        required: false
+        default: 192.168.30.1
+        status: SUPPORTED
+      LOCAL_ACCESS_IP_ADDR:
+        type: string
+        required: false
+        default: 192.168.30.1
+        status: SUPPORTED
+      LOCAL_CORE_ALT_IP_ADDR:
+        type: string
+        required: false
+        default: fd00:f4d5:ea06:1:0:110:136:254
+        status: SUPPORTED
+      CORE_NETWORK_PLEN:
+        type: string
+        required: false
+        default: '32'
+        status: SUPPORTED
+      REMOTE_CORE_ALT_IP_ADDR:
+        type: string
+        required: false
+        default: fd00:f4d5:ea06:1:0:110:136:254
+        status: SUPPORTED
+      REMOTE_ACCESS_IP_ADDR:
+        type: string
+        required: false
+        default: 192.168.30.1
+        status: SUPPORTED
+      REMOTE_BILLING_IP_ADDR:
+        type: string
+        required: false
+        default: 192.168.30.1
+        status: SUPPORTED
+topology_template:
+  node_templates:
+    Property Definition_Template:
+      type: Property Definition
+      properties:
+        LOCAL_BILLING_IP_ADDR: <rule-type = > <response-keys = > <source-system = > <request-keys = >
+        LOCAL_ACCESS_IP_ADDR: <rule-type = interface-ip-address> <response-keys = > <source-system = INSTAR> <request-keys = address_fqdn:someValue , address_type:v4>
+        LOCAL_CORE_ALT_IP_ADDR: <rule-type = > <response-keys = > <source-system = INSTAR> <request-keys = >
+        CORE_NETWORK_PLEN: <rule-type = > <response-keys = > <source-system = > <request-keys = >
+        REMOTE_CORE_ALT_IP_ADDR: <rule-type = > <response-keys = > <source-system = > <request-keys = >
+        REMOTE_ACCESS_IP_ADDR: <rule-type = > <response-keys = > <source-system = > <request-keys = >
+        REMOTE_BILLING_IP_ADDR: <rule-type = > <response-keys = > <source-system = INSTAR> <request-keys = >
