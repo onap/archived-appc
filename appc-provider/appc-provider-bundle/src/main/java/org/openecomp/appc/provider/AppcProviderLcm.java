@@ -24,18 +24,91 @@
 
 package org.openecomp.appc.provider;
 
-import java.text.ParseException;
-import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
+import com.google.common.util.concurrent.Futures;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.*;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Action;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AppcProviderLcmService;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.CheckLockInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.CheckLockOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.CheckLockOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupDeleteInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupDeleteOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupDeleteOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigExportInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigExportOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigExportOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigModifyInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigModifyOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigModifyOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigRestoreInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigRestoreOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigRestoreOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigScaleoutInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigScaleoutOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigScaleoutOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigureInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigureOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigureOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.EvacuateInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.EvacuateOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.EvacuateOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.HealthCheckInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.HealthCheckOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.HealthCheckOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LiveUpgradeInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LiveUpgradeOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LiveUpgradeOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LockInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LockOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LockOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.MigrateInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.MigrateOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RebuildInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RebuildOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RebuildOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RestartInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RestartOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RestartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RollbackInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RollbackOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RollbackOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SnapshotInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SnapshotOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SnapshotOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SoftwareUploadInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SoftwareUploadOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SoftwareUploadOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SyncInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SyncOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SyncOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TerminateInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TerminateOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TerminateOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
@@ -43,9 +116,8 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
 import org.openecomp.appc.executor.objects.Params;
 import org.openecomp.appc.i18n.Msg;
@@ -56,17 +128,14 @@ import org.openecomp.appc.provider.lcm.util.ValidationService;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerOutput;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
-import com.google.common.util.concurrent.Futures;
-import org.slf4j.MDC;
-
+import java.text.ParseException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
 
@@ -146,7 +215,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     /**
      * Rebuilds a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AppcProviderLcmService#rebuild(RebuildInput)
+     * @see AppcProviderLcmService#rebuild(RebuildInput)
      */
     @Override
     public Future<RpcResult<RebuildOutput>> rebuild(RebuildInput input) {
@@ -155,12 +224,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         RebuildOutputBuilder outputBuilder = new RebuildOutputBuilder();
         String action = Action.Rebuild.toString() ;
         String rpcName = Action.Rebuild.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -175,9 +249,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         outputBuilder.setStatus(status);
         RpcResult<RebuildOutput> result = RpcResultBuilder.<RebuildOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
-
     }
-
 
     /**
      * Restarts a specific VNF
@@ -191,7 +263,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         RestartOutputBuilder outputBuilder = new RestartOutputBuilder();
         String action = Action.Restart.toString() ;
         String rpcName = Action.Restart.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
                 RequestHandlerInput request = new RequestInputBuilder().requestContext()
@@ -203,7 +276,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
                         .build();
 
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -220,11 +294,10 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         return Futures.immediateFuture(result);
     }
 
-
     /**
      * Migrates a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AppcProviderLcmService#migrate(MigrateInput)
+     * @see AppcProviderLcmService#migrate(MigrateInput)
      */
     @Override
     public Future<RpcResult<MigrateOutput>> migrate(MigrateInput input) {
@@ -233,12 +306,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         MigrateOutputBuilder outputBuilder = new MigrateOutputBuilder();
         String action = Action.Migrate.toString() ;
         String rpcName = Action.Migrate.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -255,11 +333,10 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         return Futures.immediateFuture(result);
     }
 
-
     /**
      * Evacuates a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AppcProviderLcmService#evacuate(EvacuateInput)
+     * @see AppcProviderLcmService#evacuate(EvacuateInput)
      */
     @Override
     public Future<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
@@ -294,7 +371,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     /**
      * Evacuates a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AppcProviderLcmService#snapshot(SnapshotInput)
+     * @see AppcProviderLcmService#snapshot(SnapshotInput)
      */
     @Override
     public Future<RpcResult<SnapshotOutput>> snapshot(SnapshotInput input) {
@@ -303,13 +380,19 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         SnapshotOutputBuilder outputBuilder = new SnapshotOutputBuilder();
         String action = Action.Snapshot.toString() ;
         String rpcName = Action.Snapshot.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         String identityUrl = input.getIdentityUrl();
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).additionalContext("identity-url", identityUrl).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName)
+                        .additionalContext("identity-url", identityUrl).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -331,14 +414,20 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
 
         RollbackOutputBuilder outputBuilder = new RollbackOutputBuilder();
         String rpcName = Action.Rollback.toString() ;
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), rpcName);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), rpcName);
         String identityUrl =  input.getIdentityUrl();
         String snapshotId = input.getSnapshotId();
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).additionalContext("identity-url", identityUrl).additionalContext("snapshot-id", snapshotId).action(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).additionalContext("identity-url", identityUrl)
+                        .additionalContext("snapshot-id", snapshotId).action(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -361,12 +450,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         SyncOutputBuilder outputBuilder = new SyncOutputBuilder();
         String action = Action.Sync.toString() ;
         String rpcName = Action.Sync.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -404,56 +498,63 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     }
 
     private RequestHandlerOutput executeRequest(RequestHandlerInput request){
-
-        RequestHandler handler = getRequestHandler(request.getRequestContext().getActionLevel());
+        RequestHandler handler = getRequestHandler();
         RequestHandlerOutput requestHandlerOutput;
+        if (handler != null) {
         try {
             requestHandlerOutput = handler.handleRequest(request);
         } catch (Exception e) {
-
-            final String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            final String reason = EELFResourceManager.format(Msg.EXCEPTION_CALLING_DG, e, appName, e.getClass().getSimpleName(), "", e.getMessage());
-
             logger.info("UNEXPECTED FAILURE while executing " + request.getRequestContext().getAction().name());
-
-
-            final ResponseContext responseContext = new ResponseContext();
-            requestHandlerOutput = new RequestHandlerOutput();
-            requestHandlerOutput.setResponseContext(responseContext);
-            responseContext.setCommonHeader(request.getRequestContext().getCommonHeader());
-            String errorMessage = e.getMessage() != null ? e.getMessage() : e.toString();
-            Params params = new Params().addParam("errorMsg", errorMessage);
-            responseContext.setStatus(LCMCommandStatus.UNEXPECTED_ERROR.toStatus(params));
-
-            LoggingUtils.logErrorMessage(
-                    LoggingConstants.TargetNames.APPC_PROVIDER,
-                    reason,
-                    this.getClass().getName());
-
-
+            requestHandlerOutput = createErrorRequestHandlerObj(request,
+                    LCMCommandStatus.UNEXPECTED_ERROR, Msg.EXCEPTION_CALLING_DG, e);
+        }
+        } else {
+            String errorMsg = "LCM request cannot be processed at the moment because APPC isn't running";
+            requestHandlerOutput = createErrorRequestHandlerObj(request,
+                    LCMCommandStatus.REJECTED, Msg.REQUEST_HANDLER_UNAVAILABLE, new APPCException(errorMsg));
         }
         return requestHandlerOutput;
     }
 
-    private RequestHandler getRequestHandler(ActionLevel actionLevel){
-        RequestHandler handler ;
-        final BundleContext context = FrameworkUtil.getBundle(RequestHandler.class).getBundleContext();
-        String filter = "(level=" + actionLevel.name() + ")";
-        try {
-            Collection<ServiceReference<RequestHandler>> serviceReferences = context.getServiceReferences(RequestHandler.class, filter);
-            if (serviceReferences.size() != 1) {
-                logger.error("Cannot find service reference for " + RequestHandler.class.getName());
-                throw new RuntimeException();
-            }
-            ServiceReference<RequestHandler> serviceReference = serviceReferences.iterator().next();
-            handler = context.getService(serviceReference);
-        } catch (InvalidSyntaxException e) {
-            logger.error("Cannot find service reference for " + RequestHandler.class.getName() + ": Invalid Syntax " + filter, e);
-            throw new RuntimeException(e);
-        }
-        return  handler ;
+    private RequestHandlerOutput createErrorRequestHandlerObj(RequestHandlerInput request,
+                                                              LCMCommandStatus cmdStatus,
+                                                              Msg msg,
+                                                              Exception e) {
+        final String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+        final String reason = EELFResourceManager.format(msg, e,
+                appName, e.getClass().getSimpleName(), "", e.getMessage());
+
+        RequestHandlerOutput requestHandlerOutput = new RequestHandlerOutput();
+        final ResponseContext responseContext = new ResponseContext();
+        requestHandlerOutput.setResponseContext(responseContext);
+        responseContext.setCommonHeader(request.getRequestContext().getCommonHeader());
+
+        String errorMessage = e.getMessage() != null ? e.getMessage() : e.toString();
+        Params params = new Params().addParam("errorMsg", errorMessage);
+        responseContext.setStatus(cmdStatus.toStatus(params));
+
+        LoggingUtils.logErrorMessage(
+                LoggingConstants.TargetNames.APPC_PROVIDER,
+                reason,
+                this.getClass().getName());
+
+        return requestHandlerOutput;
     }
 
+    private RequestHandler getRequestHandler(){
+        final BundleContext context = FrameworkUtil.getBundle(RequestHandler.class).getBundleContext();
+        if (context == null) {
+            return null;
+        }
+
+        final ServiceReference reference = context.getServiceReference(RequestHandler.class.getName());
+        if (reference == null) {
+            logger.error("Cannot find service reference for " + RequestHandler.class.getName());
+            throw new RuntimeException();
+        }
+
+        return (RequestHandler) context.getService(reference);
+    }
 
     @Override
     public Future<RpcResult<TerminateOutput>> terminate(TerminateInput input) {
@@ -461,12 +562,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         TerminateOutputBuilder outputBuilder = new TerminateOutputBuilder();
         String action = Action.Terminate.toString() ;
         String rpcName = Action.Terminate.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
 
                 status = buildParsingErrorStatus(e);
@@ -481,7 +587,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<TerminateOutput> result = RpcResultBuilder.<TerminateOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<TerminateOutput> result =
+                RpcResultBuilder.<TerminateOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -491,12 +598,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         ConfigureOutputBuilder outputBuilder = new ConfigureOutputBuilder();
         String action = Action.Configure.toString() ;
         String rpcName = "configure";
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -509,7 +621,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigureOutput> result = RpcResultBuilder.<ConfigureOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigureOutput> result =
+                RpcResultBuilder.<ConfigureOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -519,12 +632,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         ConfigModifyOutputBuilder outputBuilder = new ConfigModifyOutputBuilder();
         String action = Action.ConfigModify.toString() ;
         String rpcName = "config-modify";
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -537,7 +655,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigModifyOutput> result = RpcResultBuilder.<ConfigModifyOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigModifyOutput> result =
+                RpcResultBuilder.<ConfigModifyOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -547,12 +666,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         ConfigScaleoutOutputBuilder outputBuilder = new ConfigScaleoutOutputBuilder();
         String action = Action.ConfigScaleOut.toString() ;
         String rpcName = "config-scaleout";
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -565,7 +689,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigScaleoutOutput> result = RpcResultBuilder.<ConfigScaleoutOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigScaleoutOutput> result =
+                RpcResultBuilder.<ConfigScaleoutOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -575,12 +700,17 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         ConfigRestoreOutputBuilder outputBuilder = new ConfigRestoreOutputBuilder();
         String action = Action.ConfigRestore.toString() ;
         String rpcName = "config-restore";
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
@@ -593,7 +723,8 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigRestoreOutput> result = RpcResultBuilder.<ConfigRestoreOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigRestoreOutput> result =
+                RpcResultBuilder.<ConfigRestoreOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -657,7 +788,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     /**
      * Starts a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160108.AppcProviderLcmService#start(StartInput)
+     * @see AppcProviderLcmService#start(StartInput)
      */
     @Override
     public Future<RpcResult<StartOutput>> start(StartInput input) {
