@@ -33,8 +33,10 @@ import org.apache.commons.lang.StringUtils;
 import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.licmgr.Constants;
+import org.openecomp.appc.sdc.artifacts.helper.DependencyModelGenerator;
 import org.openecomp.appc.sdc.artifacts.object.Resource;
 import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
+import org.openecomp.appc.sdc.artifacts.object.SDCReference;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;
@@ -52,9 +54,12 @@ public class ToscaCsarArtifactProcessor extends AbstractArtifactProcessor{
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(ToscaCsarArtifactProcessor.class);
 
+    private DependencyModelGenerator dependencyModelGenerator;
+
     public ToscaCsarArtifactProcessor(IDistributionClient client, EventSender eventSender, INotificationData notification, IResourceInstance resource,
-                               IArtifactInfo artifact, URI storeUri){
+                                      IArtifactInfo artifact, URI storeUri){
         super(client,eventSender,notification,resource,artifact,storeUri);
+        dependencyModelGenerator = new DependencyModelGenerator();
     }
 
     @Override
@@ -94,7 +99,7 @@ public class ToscaCsarArtifactProcessor extends AbstractArtifactProcessor{
             resources = readResources (serviceTemplateContent);
         } catch (Exception e) {
             logger.error("Error reading resources from " + ", serviceFileName = " + serviceFileName
-                                                    + ", TOSCA Metadata = " + csarFiles.get("TOSCA-Metadata/TOSCA.meta"),e);
+                    + ", TOSCA Metadata = " + csarFiles.get("TOSCA-Metadata/TOSCA.meta"),e);
             throw new APPCException(e);
         }
 
@@ -188,22 +193,48 @@ public class ToscaCsarArtifactProcessor extends AbstractArtifactProcessor{
             logger.error(errStr);
             throw new APPCException(errStr);
         }
-
         try {
-            SDCArtifact existingArtifact = artifactStorageService.retrieveSDCArtifact(vnfType, version,artifact.getArtifactType());
+            SDCReference reference = new SDCReference();
+            reference.setVnfType(vnfType);
+            reference.setFileCategory("tosca_model");
+            reference.setArtifactName(artifact.getArtifactName());
+            logger.debug("Storing TOSCA to ASDC Artifact");
+            artifactStorageService.storeASDCArtifactWithReference(artifact,reference);
 
-            if (existingArtifact ==null) { // new resource
-                logger.debug("Artifact not found for vnfType = " + vnfType + " , version = " +  version + " , artifactType = " + artifact.getArtifactType());
-                artifactStorageService.storeASDCArtifact(artifact);
-            } else { // duplicate
-                logger.debug("Artifact retrieved from database = " + existingArtifact);
-                logger.warn(String.format("Artifact of type '%s' already deployed for resource_type='%s' and resource_version='%s'", Constants.VF_LICENSE, vnfType, version));
-            }
-
+            SDCArtifact dependencyArtifact = getDependencyArtifact(artifact);
+            SDCReference dependencyReference = new SDCReference();
+            dependencyReference.setVnfType(vnfType);
+            dependencyReference.setFileCategory("tosca_dependency_model");
+            dependencyReference.setArtifactName(dependencyArtifact.getArtifactName());
+            logger.debug("Storing Dependency to ASDC Artifact");
+            artifactStorageService.storeASDCArtifactWithReference(dependencyArtifact,dependencyReference);
         } catch (Exception e) {
             logger.error("Error processing artifact : " + artifact.toString() );
             throw new APPCException(e.getMessage(),e);
         }
+    }
+
+    private SDCArtifact getDependencyArtifact(SDCArtifact toscaArtifact) throws APPCException {
+        SDCArtifact artifact = new SDCArtifact();
+        artifact.setArtifactName("dependency_"+toscaArtifact.getArtifactName());
+        String dependencyModel = dependencyModelGenerator.getDependencyModel(toscaArtifact.getArtifactContent(),toscaArtifact.getResourceName());
+        artifact.setArtifactContent(dependencyModel);
+        artifact.setArtifactType("DEPENDENCY_MODEL");
+
+        artifact.setArtifactUUID(toscaArtifact.getArtifactUUID());
+        artifact.setArtifactVersion(toscaArtifact.getArtifactVersion());
+        artifact.setArtifactDescription(toscaArtifact.getArtifactDescription());
+        artifact.setCreationDate(super.getCurrentDateTime());
+        artifact.setDistributionId(toscaArtifact.getDistributionId());
+        artifact.setServiceUUID(toscaArtifact.getServiceUUID());
+        artifact.setServiceName(toscaArtifact.getServiceName());
+        artifact.setServiceDescription(toscaArtifact.getServiceDescription());
+        artifact.setResourceName(toscaArtifact.getResourceName());
+        artifact.setResourceType(toscaArtifact.getResourceType());
+        artifact.setResourceVersion(toscaArtifact.getResourceVersion());
+        artifact.setResourceUUID(toscaArtifact.getResourceUUID());
+        artifact.setResourceInstanceName(toscaArtifact.getResourceInstanceName());
+        return artifact;
     }
 
 

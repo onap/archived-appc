@@ -34,13 +34,12 @@ import java.net.URL;
 public class ConfigOperationRequestFormatter {
     /**
      *  Build a request url path for config actions
-     * @param url - base url
      * @param module - yang module name
      * @param containerName - yang container name
      * @param subModules - sub module /container  names as string in varargs ( String ) format
      * @return - resultant path in String format
      */
-    public String buildPath(URL url,String module, String containerName , String... subModules ) {
+    public String buildPath(String module, String containerName , String... subModules ) {
 
         StringBuilder path = new StringBuilder( Constants.CONFIG_PATH + Constants.URL_BACKSLASH + module + ":"+containerName + Constants.URL_BACKSLASH);
         if(subModules.length >0){
