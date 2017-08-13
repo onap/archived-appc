@@ -548,6 +548,10 @@
                     <canUpdateDescription>true</canUpdateDescription>
                     <canUpdateLicense>true</canUpdateLicense>
                     <emptyLineAfterHeader>true</emptyLineAfterHeader>
+                    <!-- exclude json files -->
+                    <excludes>
+                        <exclude>**/*.json</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
