@@ -37,11 +37,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.sdc</groupId>
-            <artifactId>openecomp-tosca-lib</artifactId>
-            <version>${toscalib.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.openecomp.sdc.common</groupId>
             <artifactId>openecomp-tosca-datatype</artifactId>
             <version>${toscalib.version}</version>
