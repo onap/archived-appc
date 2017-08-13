@@ -26,7 +26,7 @@ package org.openecomp.appc.mdsal.impl;
 /**
  * This class contains the definitions of all constant values used in the appc-dg-mdsal-store
  * These properties are used for creating osgi bundle zip file. It also defines contents for Blueprint.xml file of bundle
-*/
+ */
 public class Constants {
 
     private Constants(){}
@@ -79,7 +79,6 @@ public class Constants {
      * Base URL for config actions exposed by RESTCONF API
      */
 
-    public static final String CONFIG_URL = "https://localhost:8443/restconf/config";
     public static final String CONFIG_URL_DEFAULT = "https://localhost:8443/restconf/config";
 
     public static final String CONFIG_URL_PROPERTY = "appc.LCM.provider.url";

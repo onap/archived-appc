@@ -67,7 +67,7 @@ import org.apache.commons.io.IOUtils;
 
 /**
  * Provides method to store configuration to MD-SAL store. It also exposes doPut operation which can be used to invoke REST Put operation.
-*/
+ */
 public class ConfigOperation {
     private static final EELFLogger LOG = EELFManager.getInstance().getLogger(ConfigOperation.class);
 
@@ -100,7 +100,7 @@ public class ConfigOperation {
         int httpCode;
         String respBody ;
         try {
-            String path = requestFormatter.buildPath(url, module, containerName, subModules);
+            String path = requestFormatter.buildPath(module, containerName, subModules);
             LOG.debug("Configuration Path : " + path);
             URL serviceUrl = new URL(url.getProtocol(), url.getHost(), url.getPort(), path);
             HttpResponse response = doPut(serviceUrl , configJson);
@@ -111,22 +111,25 @@ public class ConfigOperation {
             throw new APPCException(e);
         }
 
-        if (httpCode != 200 ) {
+        if (httpCode < 200 || httpCode >= 300 ) {
             try {
+                LOG.debug("Config operation Error response code: " + httpCode);
                 ArrayList<String> errorMessage = new ArrayList<>();
                 JsonNode responseJson = toJsonNodeFromJsonString(respBody);
                 if(responseJson!=null && responseJson.get("errors")!=null) {
                     JsonNode errors = responseJson.get("errors").get("error");
-                for (Iterator<JsonNode> i = errors.elements();i.hasNext();){
-                    JsonNode error = i.next();
-                    errorMessage.add(error.get("error-message").textValue());
+                    for (Iterator<JsonNode> i = errors.elements();i.hasNext();){
+                        JsonNode error = i.next();
+                        errorMessage.add(error.get("error-message").textValue());
+                    }
                 }
-                }
-                throw new APPCException("Failed to load config JSON to MD SAL store. Error Message:" + errorMessage.toString());
+                throw new APPCException("Failed to load config JSON to MD SAL store. Error code:" + httpCode +" Error Message:" + errorMessage.toString());
             } catch (Exception e) {
-                LOG.error("Error while loading config JSON to MD SAL store. "+e.getMessage(), e);
-                throw new APPCException("Error while loading config JSON to MD SAL store. "+ e.getMessage(),e);
+                LOG.error("Error while loading config JSON to MD SAL store. Error code:" + httpCode +" Error Message:" + e.getMessage(), e);
+                throw new APPCException("Error while loading config JSON to MD SAL store. Error code:" + httpCode +" Error Message:" + e.getMessage(),e);
             }
+        }else{
+            LOG.debug("Config operation successful. Response code: " + httpCode);
         }
     }
 
