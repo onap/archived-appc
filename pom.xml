@@ -51,7 +51,7 @@
         <sdnctl.sli.version>1.1.2-SNAPSHOT</sdnctl.sli.version>
         <sdnctl.dblib.version>1.1.2-SNAPSHOT</sdnctl.dblib.version>
         <sdnctl.aai.service.version>1.1.2-SNAPSHOT</sdnctl.aai.service.version>
-	<openecomp.sdnc.sql-resource.version>1.1.2-SNAPSHOT</openecomp.sdnc.sql-resource.version>
+        <openecomp.sdnc.sql-resource.version>1.1.2-SNAPSHOT</openecomp.sdnc.sql-resource.version>
 
         <cdp.pal.version>1.1.7-oss</cdp.pal.version>
         <dmaap.client.version>0.2.12</dmaap.client.version>
@@ -70,7 +70,7 @@
         <logback.version>1.1.1</logback.version>
         <toscalib.version>1.1.0-SNAPSHOT</toscalib.version>
         <sdc-client.version>1.1.13-SNAPSHOT</sdc-client.version>
-		<jackson.yml.version>2.3.2</jackson.yml.version>
+        <jackson.yml.version>2.3.2</jackson.yml.version>
 
         <!-- SONAR -->
         <sonar.language>java</sonar.language>
@@ -644,6 +644,7 @@
                 <module>appc-lifecycle-management</module>
                 <module>appc-oam</module>
                 <module>appc-config</module>
+                <module>appc-inbound</module>
             </modules>
         </profile>
         <profile>
