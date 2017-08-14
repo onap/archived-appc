@@ -213,6 +213,16 @@ public class Converter {
                 ((StartOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((StartOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case StopApplication:
+                outObj = new StopApplicationOutputBuilder();
+                ((StopApplicationOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((StopApplicationOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case StartApplication:
+                outObj = new StartApplicationOutputBuilder();
+                ((StartApplicationOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((StartApplicationOutputBuilder)outObj).setStatus(status);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
