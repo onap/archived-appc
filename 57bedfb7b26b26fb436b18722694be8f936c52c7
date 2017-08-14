@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_32412e0c",
+        "filename": "appc-config/appc-config-params/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1805
+      },
+      "writtenOn": "2017-08-14T20:31:18Z",
+      "side": 1,
+      "message": "Taken out the brocade plugin as suggested.",
+      "parentUuid": "9a437d4f_ef25010b",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 86,
+        "endChar": 12
+      },
+      "revId": "57bedfb7b26b26fb436b18722694be8f936c52c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_8f1c35c3",
         "filename": "appc-config/appc-config-params/provider/pom.xml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-14T18:06:27Z",
       "side": 1,
       "message": "See above. Also this.",
+      "range": {
+        "startLine": 108,
+        "startChar": 3,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "57bedfb7b26b26fb436b18722694be8f936c52c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_12462a24",
+        "filename": "appc-config/appc-config-params/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1805
+      },
+      "writtenOn": "2017-08-14T20:31:18Z",
+      "side": 1,
+      "message": "Taken out as suggested above.",
+      "parentUuid": "9a437d4f_8f1c35c3",
       "range": {
         "startLine": 108,
         "startChar": 3,
