@@ -32,7 +32,6 @@ import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Action;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AppcProviderLcmService;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditInput;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditOutput;
@@ -109,8 +108,15 @@ import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestOutputB
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockInput;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockOutput;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartApplicationOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartApplicationOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartApplicationInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopApplicationOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopApplicationOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopApplicationInput;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Action;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.openecomp.appc.Constants;
@@ -1113,6 +1119,68 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
         RpcResult<ConfigExportOutput> result = RpcResultBuilder.<ConfigExportOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+    @Override
+    public Future<RpcResult<StartApplicationOutput>> startApplication(StartApplicationInput input) {
+        logger.debug("Input received : " + input.toString());
+
+        StartApplicationOutputBuilder outputBuilder = new StartApplicationOutputBuilder();
+        String action = Action.StartApplication.toString() ;
+        String rpcName = Action.StartApplication.name().toLowerCase();
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if(null == status) {
+            try {
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload())
+                        .action(action)
+                        .rpcName(rpcName)
+                        .build();
+
+                status = buildStatusWithDispatcherOutput(executeRequest(request));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+            } catch (ParseException e) {
+                status = buildParsingErrorStatus(e);
+
+                LoggingUtils.logErrorMessage(
+                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
+
+            }
+        }
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        outputBuilder.setStatus(status);
+        RpcResult<StartApplicationOutput> result = RpcResultBuilder.<StartApplicationOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+    @Override
+    public Future<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input){
+        logger.debug("Input received : " + input.toString());
+        StopApplicationOutputBuilder outputBuilder = new StopApplicationOutputBuilder();
+        String action = Action.StopApplication.toString() ;
+        String rpcName = Action.StopApplication.name().toLowerCase();
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if(null == status) {
+            try {
+                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
+                status = buildStatusWithDispatcherOutput(executeRequest(request));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+            } catch (ParseException e) {
+                status = buildParsingErrorStatus(e);
+
+                LoggingUtils.logErrorMessage(
+                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
+
+            }
+        }
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        outputBuilder.setStatus(status);
+        RpcResult<StopApplicationOutput> result = RpcResultBuilder.<StopApplicationOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
