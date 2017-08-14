@@ -32,83 +32,7 @@ import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AppcProviderLcmService;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.AuditOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.CheckLockInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.CheckLockOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.CheckLockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupDeleteInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupDeleteOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupDeleteOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigBackupOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigExportInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigExportOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigExportOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigModifyInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigModifyOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigModifyOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigRestoreInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigRestoreOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigRestoreOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigScaleoutInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigScaleoutOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigScaleoutOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigureInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigureOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.ConfigureOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.EvacuateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.EvacuateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.EvacuateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.HealthCheckInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.HealthCheckOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.HealthCheckOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LiveUpgradeInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LiveUpgradeOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LiveUpgradeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LockInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LockOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.LockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.MigrateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.MigrateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.MigrateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RebuildInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RebuildOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RebuildOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RestartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RestartOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RestartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RollbackInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RollbackOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.RollbackOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SnapshotInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SnapshotOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SnapshotOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SoftwareUploadInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SoftwareUploadOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SoftwareUploadOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.StopOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SyncInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SyncOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.SyncOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TerminateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TerminateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TerminateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.TestOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.UnlockOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.*;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
@@ -1113,6 +1037,68 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
         RpcResult<ConfigExportOutput> result = RpcResultBuilder.<ConfigExportOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+    @Override
+    public Future<RpcResult<StartApplicationOutput>> startApplication(StartApplicationInput input) {
+        logger.debug("Input received : " + input.toString());
+
+        StartApplicationOutputBuilder outputBuilder = new StartApplicationOutputBuilder();
+        String action = Action.StartApplication.toString() ;
+        String rpcName = Action.StartApplication.name().toLowerCase();
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if(null == status) {
+            try {
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload())
+                        .action(action)
+                        .rpcName(rpcName)
+                        .build();
+
+                status = buildStatusWithDispatcherOutput(executeRequest(request));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+            } catch (ParseException e) {
+                status = buildParsingErrorStatus(e);
+
+                LoggingUtils.logErrorMessage(
+                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
+
+            }
+        }
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        outputBuilder.setStatus(status);
+        RpcResult<StartApplicationOutput> result = RpcResultBuilder.<StartApplicationOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+    @Override
+    public Future<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input){
+        logger.debug("Input received : " + input.toString());
+        StopApplicationOutputBuilder outputBuilder = new StopApplicationOutputBuilder();
+        String action = Action.StopApplication.toString() ;
+        String rpcName = Action.StopApplication.name().toLowerCase();
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if(null == status) {
+            try {
+                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
+                status = buildStatusWithDispatcherOutput(executeRequest(request));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+            } catch (ParseException e) {
+                status = buildParsingErrorStatus(e);
+
+                LoggingUtils.logErrorMessage(
+                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
+
+            }
+        }
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        outputBuilder.setStatus(status);
+        RpcResult<StopApplicationOutput> result = RpcResultBuilder.<StopApplicationOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 

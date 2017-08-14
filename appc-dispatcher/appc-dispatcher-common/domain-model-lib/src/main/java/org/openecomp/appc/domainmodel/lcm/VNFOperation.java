@@ -25,27 +25,31 @@
 package org.openecomp.appc.domainmodel.lcm;
 
 public enum VNFOperation {
-
 	Configure, Test, HealthCheck, Start, Terminate, Restart, Rebuild, Stop, ConfigModify,
 	ConfigScaleOut,ConfigRestore,Backup, Snapshot,
-	SoftwareUpload, LiveUpgrade, Rollback, Sync, Audit, Test_lic, Migrate, Evacuate,ConfigBackup,ConfigBackupDelete,ConfigExport,
-	Lock(true), Unlock(true), CheckLock(true);
+	SoftwareUpload, LiveUpgrade, Rollback, Test_lic, Migrate, Evacuate,StopApplication, StartApplication,
+	Sync(OperationType.ReadOnly), Audit(OperationType.ReadOnly),
+	ConfigBackup(OperationType.ReadOnly),ConfigBackupDelete(OperationType.ReadOnly),ConfigExport(OperationType.ReadOnly),
+	Lock(OperationType.BuiltIn), Unlock(OperationType.BuiltIn), CheckLock(OperationType.BuiltIn);
 
-	private boolean builtIn;
+	private OperationType operationType;
 
-	VNFOperation(boolean builtIn) {
-		this.builtIn = builtIn;
+	VNFOperation(OperationType operationType){
+		this.operationType=operationType;
 	}
 
 	VNFOperation() {
-		this(false);
+		this.operationType=OperationType.OrchestrationStatusUpdate;
 	}
-
 	/**
 	 * Operations handled directly by the RequestHandler without further call to DG are built-in operations.
 	 */
 	public boolean isBuiltIn() {
-		return builtIn;
+		return this.operationType.equals(OperationType.BuiltIn);
+	}
+
+	public OperationType getOperationType() {
+		return operationType;
 	}
 
 	public static VNFOperation findByString(String operationName) {
