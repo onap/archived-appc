@@ -1,0 +1,144 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
+ * ============LICENSE_END=========================================================
+ */
+
+/*
+ * Yang model for the Application Controller (APP-C) component of ECOMP
+ *
+ *
+ *The main purpose of this model to provide an interface bewteen APPC Runtime and APPC design time environment
+ * to communicate.
+ * 
+ *
+ *
+ *  
+*/
+
+module design-services {
+
+    yang-version 1;
+    namespace "org:openecomp:appc";
+    prefix design-services;
+    organization "AT&T.  Copyright (C) 2015. All rights reserved.";
+
+    description
+      "Defines the services and request/response requirements for the APP-C Design and RunTime.";
+
+    /*
+     * Note, the revision changes the package name of the generated java code.  Do not
+     * change the revision unless you also update all references to the bindings.
+     */
+    revision "2017-06-27" {
+      description
+        "APP-C Design interface version 1.1.0";
+    }
+   
+    grouping design-request {
+        container design-request {
+            leaf request-id {
+                type string;
+                description "The request ID ";
+                mandatory true;
+            }
+            leaf action {
+                type string;
+                description "The Action Name";
+                mandatory true;
+            }
+            leaf payload {
+                type string;
+                description "The Payload";
+            }
+            leaf data-type {
+                description "Data type for validation";
+                type string;
+                
+            }
+        }
+    }
+    
+ 
+ grouping data {  	
+    	description "The Generic Data response which includes data from run Time for Design time environment";
+    	container data {
+    		description "The Data from run Time for Design time environment";
+    		leaf block {
+                description "Response message";
+                type string;
+            }
+    		leaf requestId {
+                description "Response message reqesut ID";
+                type string;
+                mandatory true;
+            }
+    	}
+    	
+    }
+    grouping status {
+        description "The specific response codes are to be aligned with APPC/ECOMP messaging Systems";
+        container status {
+            description "The specific response codes are to be aligned with ASDC reference doc (main table removed to avoid duplication and digression from main table). See ASDC and ECOMP Distribution Consumer Interface Agreement";
+            leaf code {
+                description "Response code";
+                type string;
+                mandatory true;
+            }
+            leaf message {
+                description "Response message";
+                type string;
+            }
+        }
+  }
+
+    rpc dbservice {
+        description "Runs a given task if it exists.";
+        input {
+        	uses design-request;
+        }
+        output {
+        	uses data ;
+            uses status;
+        }
+    }
+    rpc validator {
+        description "Runs a given task if it exists.";
+        
+        input {
+        	uses design-request;
+        }
+        output {
+            uses status;
+        }
+    }
+    rpc xinterfaceservice {
+        description "Runs a given task if it exists.";
+        input {
+        	uses design-request;
+        }
+        output {
+        	uses data ;
+            uses status;
+        
+        }
+    }   
+}
