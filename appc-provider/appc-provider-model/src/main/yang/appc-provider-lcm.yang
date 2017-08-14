@@ -110,6 +110,8 @@ module appc-provider-lcm {
             enum "ConfigBackup";
             enum "ConfigBackupDelete";
             enum "ConfigExport";
+            enum "StopApplication";
+            enum "StartApplication";
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
@@ -917,8 +919,46 @@ module appc-provider-lcm {
             uses common-header;
             uses status;
         }
-    }  
-    
+    }
+    rpc stop-application {
+            description "An operation to Stop Application traffic to a virtual network function";
+            input {
+                uses common-header;
+                leaf action {
+                    type action;
+                    mandatory true;
+                }
+                uses action-identifiers;
+                leaf payload {
+                     type payload;
+                     mandatory false;
+                }
+            }
+            output {
+                uses common-header;
+                uses status;
+            }
+      }
+
+    rpc start-application {
+                description "An operation to Start Application traffic to a virtual network function";
+                input {
+                    uses common-header;
+                    leaf action {
+                        type action;
+                        mandatory true;
+                    }
+                    uses action-identifiers;
+                    leaf payload {
+                         type payload;
+                         mandatory false;
+                    }
+                }
+                output {
+                    uses common-header;
+                    uses status;
+                }
+       }
     /**********************************************************************************
      * Additional RPCs added here...
      **********************************************************************************/

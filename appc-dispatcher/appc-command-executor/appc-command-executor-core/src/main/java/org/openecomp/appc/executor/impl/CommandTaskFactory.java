@@ -70,15 +70,13 @@ public class CommandTaskFactory {
         if(ActionLevel.VM.equals(actionLevel)){
             return new LCMReadonlyCommandTask(runtimeContext,requestHandler,workflowManager);
         }
-        if (VNFOperation.Sync.toString().equals(action) ||
-                VNFOperation.Audit.toString().equals(action) ||
-                VNFOperation.ConfigBackup.toString().equals(action) ||
-                VNFOperation.ConfigBackupDelete.toString().equals(action) ||
-                VNFOperation.ConfigExport.toString().equals(action)){
-            return new LCMReadonlyCommandTask(runtimeContext,requestHandler,workflowManager);
-        }else {
-            return new LCMCommandTask(runtimeContext,requestHandler,workflowManager,
-                    lifecyclemanager);
+        switch (runtimeContext.getRequestContext().getAction().getOperationType()){
+            case ReadOnly:
+            case OperationStatusUpdate:
+                return new LCMReadonlyCommandTask(runtimeContext,requestHandler,workflowManager);
+            default:
+                return new LCMCommandTask(runtimeContext,requestHandler,workflowManager,
+                        lifecyclemanager);
         }
     }
 
