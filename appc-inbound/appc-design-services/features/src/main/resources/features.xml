@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+  
+   ECOMP is a trademark and service mark of AT&T Intellectual Property.
+  ============LICENSE_END=========================================================
+  -->
+
+
+<features name="appc-design-services-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+
+  <repository>mvn:org.opendaylight.yangtools/features-yangtools/${odl.yangtools.version}/xml/features</repository>
+  <repository>mvn:org.opendaylight.controller/features-mdsal/${odl.controller.mdsal.version}/xml/features</repository>
+  <repository>mvn:org.opendaylight.mdsal.model/features-mdsal-model/${mdsal.model.version}/xml/features</repository>
+  <repository>mvn:org.opendaylight.netconf/features-restconf/${odl.controller.mdsal.version}/xml/features</repository>
+
+	<feature name='appc-design-services' description="Application Controller LCM API Bypass"
+		version='${project.version}'>
+
+		<feature version='${mdsal.model.version}'>odl-mdsal-models</feature>
+		<bundle>mvn:org.openecomp.appc/appc-design-services-model/${project.version}</bundle>
+
+		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
+		<feature version='${broker-mdsal.version}'>odl-mdsal-broker</feature>
+		<feature version='${sdnctl.sli.version}'>sdnc-sli</feature>
+		<bundle>mvn:org.openecomp.appc/appc-design-services.provider/${project.version}</bundle>
+		<bundle>wrap:mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.3.0</bundle>
+		
+		<feature version='${broker-mdsal.version}'>odl-restconf</feature>
+
+	</feature>
+
+</features>
