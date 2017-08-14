@@ -1,0 +1,23 @@
+# Target dirs in all projects
+**/target/*
+
+# Generated models and features
+**/bin/*
+
+# MANIFEST.MF is updated on every clean install
+**/src/main/resources/META-INF/
+**/src/main/yang-gen-sal
+**/src/main/yang-gen-config
+
+
+.project
+
+*.prefs
+.classpath
+**/.classpath
+/target/
+logs/
+debug-logs/
+/.settings/
+**/*.iml
+/.idea/
