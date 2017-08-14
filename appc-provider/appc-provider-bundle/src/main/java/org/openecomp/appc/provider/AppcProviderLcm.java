@@ -1115,6 +1115,68 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         RpcResult<ConfigExportOutput> result = RpcResultBuilder.<ConfigExportOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
+    @Override
+    public Future<RpcResult<StartApplicationOutput>> startApplication(StartApplicationInput input) {
+        logger.debug("Input received : " + input.toString());
+
+        StartApplicationOutputBuilder outputBuilder = new StartApplicationOutputBuilder();
+        String action = Action.StartApplication.toString() ;
+        String rpcName = Action.StartApplication.name().toLowerCase();
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if(null == status) {
+            try {
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader())
+                        .actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload())
+                        .action(action)
+                        .rpcName(rpcName)
+                        .build();
+
+                status = buildStatusWithDispatcherOutput(executeRequest(request));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+            } catch (ParseException e) {
+                status = buildParsingErrorStatus(e);
+
+                LoggingUtils.logErrorMessage(
+                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
+
+            }
+        }
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        outputBuilder.setStatus(status);
+        RpcResult<StartApplicationOutput> result = RpcResultBuilder.<StartApplicationOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+    @Override
+    public Future<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input){
+        logger.debug("Input received : " + input.toString());
+        StopApplicationOutputBuilder outputBuilder = new StopApplicationOutputBuilder();
+        String action = Action.StopApplication.toString() ;
+        String rpcName = Action.StopApplication.name().toLowerCase();
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if(null == status) {
+            try {
+                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
+                status = buildStatusWithDispatcherOutput(executeRequest(request));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+            } catch (ParseException e) {
+                status = buildParsingErrorStatus(e);
+
+                LoggingUtils.logErrorMessage(
+                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
+
+            }
+        }
+        outputBuilder.setCommonHeader(input.getCommonHeader());
+        outputBuilder.setStatus(status);
+        RpcResult<StopApplicationOutput> result = RpcResultBuilder.<StopApplicationOutput> status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
 
     private String convertActionNameToUrl(String action) {
         String regex = "([a-z])([A-Z]+)";
