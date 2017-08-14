@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_ef25010b",
+        "filename": "appc-config/appc-config-params/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-14T18:06:27Z",
+      "side": 1,
+      "message": "If this is only for dev purposes I\u0027d suggest removing it from upstream code. It\u0027s failing build and artifacts of dev should rarely be included with source. Maybe ./m2/settings.xml is appropriate place for this and below execution of plugin.",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 86,
+        "endChar": 12
+      },
+      "revId": "57bedfb7b26b26fb436b18722694be8f936c52c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8f1c35c3",
+        "filename": "appc-config/appc-config-params/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-14T18:06:27Z",
+      "side": 1,
+      "message": "See above. Also this.",
+      "range": {
+        "startLine": 108,
+        "startChar": 3,
+        "endLine": 140,
+        "endChar": 13
+      },
+      "revId": "57bedfb7b26b26fb436b18722694be8f936c52c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
