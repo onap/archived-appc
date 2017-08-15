@@ -525,7 +525,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <!-- license plugin -->
+                      <!-- license plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>license-maven-plugin</artifactId>
