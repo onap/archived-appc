@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APP-C
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
+
+
+<features name="appc-config-encryption-tool-${project.version}"
+    xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+
+    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.version}/xml/features</repository>
+
+    <feature name='appc-config-encryption-tool' description="Application Controller Encription Tool"
+        version='${project.version}'>
+        <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
+        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+
+        <feature version="${sdnctl.dblib.version}">sdnc-dblib</feature>
+        <feature version="${sdnctl.sli.version}">sdnc-sli</feature>
+        <feature version="${openecomp.sdnc.sql-resource.version}">sdnc-sql-resource</feature>
+
+        <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
+        <bundle>mvn:org.apache.velocity/velocity/${velocity.version}</bundle>
+        <bundle>mvn:commons-collections/commons-collections/${common.collections.version}</bundle>
+        <bundle>wrap:mvn:commons-configuration/commons-configuration/1.10</bundle>
+        <bundle>wrap:mvn:org.jasypt/jasypt/1.9.2</bundle>
+        <bundle>mvn:mysql/mysql-connector-java/${mysql.connector.version}</bundle>
+        <bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
+        <bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
+        <bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
+        <bundle>mvn:org.openecomp.appc/appc-config-encryption-tool-provider/${project.version}</bundle>
+    </feature>
+</features>

@@ -91,7 +91,11 @@
 <<<<<<< HEAD
 	<modules>
 		<module>appc-config-params</module>
+<<<<<<< HEAD
 		<module>appc-data-services</module>
+=======
+		<module>appc-encryption-tool</module>
+>>>>>>> Initial commit for appc-encryption-tool bundle
 	</modules>
 =======
     <modules>
