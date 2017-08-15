@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_9847d94b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T13:19:42Z",
+      "side": 1,
+      "message": "Please refrain from putting issue item in header of commit message: https://wiki.onap.org/display/DW/Commit+Messages#CommitMessages-Don\u0027t (Third don\u0027t down)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d74da4be24f0e94d047a8044894ef7d1f7783c4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
