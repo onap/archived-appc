@@ -555,6 +555,11 @@
                             <goal>update-file-header</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>*.json</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -641,6 +646,7 @@
                 <module>appc-directed-graph</module>
                 <module>appc-outbound</module>
                 <module>appc-inbound</module>
+                <module>appc-sequence-generator</module>
             </modules>
         </profile>
         <profile>
