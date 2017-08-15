@@ -23,7 +23,11 @@
         <common.io.version>2.5</common.io.version>
 
         <sdnc.sql.resource.version>1.1.0</sdnc.sql.resource.version>
+<<<<<<< HEAD
         <openecomp.sdnc.sql-resource.version>1.1.0</openecomp.sdnc.sql-resource.version>
+=======
+        <openecomp.sdnc.sql-resource.version>1.1.2</openecomp.sdnc.sql-resource.version>
+>>>>>>> Initial commit for appc-flow-controller bundle
         <sdnc.sli.version>1.1.0</sdnc.sli.version>
         <tosca.datatype.version>1.1.0</tosca.datatype.version>
     </properties>
@@ -92,6 +96,7 @@
         <module>appc-data-services</module>
         <module>appc-config-generator</module>
         <module>appc-flow-controller</module>
+        <module>appc-encryption-tool</module>
     </modules>
 
 </project>
