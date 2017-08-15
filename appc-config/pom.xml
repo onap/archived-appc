@@ -1,95 +1,96 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.openecomp.appc</groupId>
-		<artifactId>appc</artifactId>
-		<version>1.1.0-SNAPSHOT</version>
-	</parent>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
 
-	<groupId>org.openecomp.appc</groupId>
-	<artifactId>appc-config</artifactId>
-	<packaging>pom</packaging>
-	<name>Application Controller Config</name>
-	<description>Application Controller Config</description>
+    <groupId>org.openecomp.appc</groupId>
+    <artifactId>appc-config</artifactId>
+    <packaging>pom</packaging>
+    <name>Application Controller Config</name>
+    <description>Application Controller Config</description>
 
-	<properties>
-		<odl.mdsal.version>2.1.1-Boron-SR1</odl.mdsal.version>
-		<jackson.version>2.3.2</jackson.version>
-		<snakeyaml.version>1.12</snakeyaml.version>
-		<velocity.version>1.7</velocity.version>
-		<jettison.version>1.3.7</jettison.version>
-		<common.collections.version>3.2.1</common.collections.version>
-		<common.io.version>2.5</common.io.version>
+    <properties>
+        <odl.mdsal.version>2.1.1-Boron-SR1</odl.mdsal.version>
+        <jackson.version>2.3.2</jackson.version>
+        <snakeyaml.version>1.12</snakeyaml.version>
+        <velocity.version>1.7</velocity.version>
+        <jettison.version>1.3.7</jettison.version>
+        <common.collections.version>3.2.1</common.collections.version>
+        <common.io.version>2.5</common.io.version>
 
-		<sdnc.sql.resource.version>1.1.0</sdnc.sql.resource.version>
-		<openecomp.sdnc.sql-resource.version>1.1.2</openecomp.sdnc.sql-resource.version>
-		<sdnc.sli.version>1.1.0</sdnc.sli.version>
-		<tosca.datatype.version>1.1.0</tosca.datatype.version>
-	</properties>
+        <sdnc.sql.resource.version>1.1.0</sdnc.sql.resource.version>
+        <openecomp.sdnc.sql-resource.version>1.1.2</openecomp.sdnc.sql-resource.version>
+        <sdnc.sli.version>1.1.0</sdnc.sli.version>
+        <tosca.datatype.version>1.1.0</tosca.datatype.version>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
+    <dependencyManagement>
+        <dependencies>
 
-			<dependency>
-				<groupId>org.openecomp.sdnc.adaptors</groupId>
-				<artifactId>sql-resource-provider</artifactId>
-				<version>${openecomp.sdnc.sql-resource.version}</version>
-			</dependency>
+            <dependency>
+                <groupId>org.openecomp.sdnc.adaptors</groupId>
+                <artifactId>sql-resource-provider</artifactId>
+                <version>${openecomp.sdnc.sql-resource.version}</version>
+            </dependency>
 
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-properties</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.dataformat</groupId>
-				<artifactId>jackson-dataformat-yaml</artifactId>
-				<version>${jackson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.yaml</groupId>
-				<artifactId>snakeyaml</artifactId>
-				<version>${snakeyaml.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.velocity</groupId>
-				<artifactId>velocity</artifactId>
-				<version>${velocity.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>commons-io</groupId>
-				<artifactId>commons-io</artifactId>
-				<version>${common.io.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.codehaus.jettison</groupId>
-				<artifactId>jettison</artifactId>
-				<version>${jettison.version}</version>
-				<scope>provided</scope>
-			</dependency>
-		</dependencies>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-properties</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-yaml</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${common.io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.jettison</groupId>
+                <artifactId>jettison</artifactId>
+                <version>${jettison.version}</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
 
-	</dependencyManagement>
+    </dependencyManagement>
 
-	<modules>
-		<module>appc-config-params</module>
-		<module>appc-data-services</module>
-	</modules>
+    <modules>
+        <module>appc-data-services</module>
+        <module>appc-config-params</module>
+        <module>appc-flow-controller</module>
+    </modules>
 
 </project>
