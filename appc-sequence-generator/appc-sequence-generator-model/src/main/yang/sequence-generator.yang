@@ -1,0 +1,223 @@
+module sequence-generator {
+    yang-version 1;
+
+    namespace "org:openecomp:appc:sequencegenerator";
+    prefix sequencegenerator;
+
+    description
+        "Defines sequence generator api interface for App-C services";
+
+    revision "2017-07-06" {
+        description
+                "Initial draft";
+    }
+
+    grouping request-info {
+        container request-info{
+            leaf action {
+                type enumeration {
+                   enum "Start";
+                   enum "Stop";
+                }
+            }
+            leaf action-level {
+                type enumeration {
+                   enum "vm";
+                   enum "vnfc";
+                   enum "vnf";
+                   enum "vf-module";
+                }
+            }
+        container action-identifier {
+            leaf vnf-id {
+                description "identifies the VNF to which this action is to be applied(vnf-id uniquely identifies the service-instance referred to).";
+                type string;
+            }
+            leaf vnfc-name {
+                  type string;
+            }
+            leaf vserver-id {
+                  type string;
+            }
+        }
+            leaf payload {
+                description "An action-specific value opaque to the APPC handler.
+                             The value can be any valid JSON type (primitive, object, collection of those two).
+                             APPC will pass the value as raw JSON string";
+                type string;
+            }
+        }
+    }
+
+    grouping inventory-info {
+        container inventory-info {
+            container vnf-info {
+                leaf vnf-id {
+                    type string;
+                }
+                leaf vnf-name {
+                    type string;
+                }
+                leaf vnf-type {
+                    type string;
+                }
+                list vm {
+                    key "vserver-id";
+                    leaf vserver-id {
+                        type string;
+                    }
+                    container vnfc {
+                        leaf vnfc-type {
+                           type string;
+                        }
+                        leaf vnfc-name {
+                            type string;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    grouping dependency-info {
+        container dependency-info {
+            list vnfcs {
+                leaf vnfc-type {
+                    type string;
+                }
+                leaf mandatory {
+                    type boolean;
+                }
+                leaf resilience {
+                    type string;
+                }
+                leaf-list parents {
+                    type string;
+                }
+            }
+        }
+    }
+
+    grouping tunable-parameters {
+        container tunable-parameters {
+            leaf strategy {
+                type enumeration {
+                    enum "FORWARD";
+                    enum "REVERSE";
+                }
+            }
+            leaf wait-time {
+                type uint16;
+            }
+            leaf retry-count {
+                type uint16;
+            }
+        }
+    }
+
+    grouping capabilities {
+        container capabilities {
+            leaf-list vnf {
+		        type string;
+		    }
+            leaf-list vf-module {
+                type string;
+            }
+            leaf-list vm {
+                type string;
+            }
+            leaf-list vnfc {
+                type string;
+            }
+        }
+    }
+
+    grouping response {
+            container status {
+                leaf code {
+                    type uint16;
+                }
+                leaf message {
+                    type string;
+                }
+            }
+            list transactions{
+                key "transaction-id";
+                leaf transaction-id{
+                    type uint16;
+                }
+                leaf action{
+                    type string;
+                }
+                leaf action-level{
+                    type string;
+                }
+                container action-identifier{
+                    leaf vserver-id {
+                        type string;
+                    }
+                    leaf vnfc-name {
+                        type string;
+                    }
+                    leaf vnf-id {
+                        type string;
+                    }
+                }
+                leaf payload{
+                    type string;
+                }
+                leaf precheck-operator{
+                    type string;
+                }
+                list precheck-options{
+                    leaf pre-transaction-id{
+                        type uint16;
+                    }
+                    leaf param-name{
+                        type string;
+                    }
+                    leaf param-value{
+                        type string;
+                    }
+                    leaf rule{
+                        type string;
+                    }
+                }
+                list responses{
+                    leaf response-message{
+                        type string;
+                    }
+                    container response-action{
+                        leaf wait{
+                            type uint16;
+                        }
+                        leaf retry{
+                            type uint16;
+                        }
+                        leaf continue{
+                            type boolean;
+                        }
+                        leaf stop{
+                            type boolean;
+                        }
+                        leaf ignore{
+                            type boolean;
+                        }
+                    }
+                }
+            }
+    }
+
+    rpc generate-sequence {
+        input{
+            uses request-info;
+            uses inventory-info;
+            uses dependency-info;
+            uses tunable-parameters;
+            uses capabilities;
+        }
+        output{
+            uses response;
+        }
+    }
+   }

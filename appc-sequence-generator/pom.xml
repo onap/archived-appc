@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.openecomp.appc</groupId>
+    <artifactId>appc</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>org.openecomp.appc</groupId>
+  <artifactId>appc-sequence-generator</artifactId>
+  <name>appc-sequence-generator</name>
+  <packaging>pom</packaging>
+
+
+  <properties>
+    <bundle.plugin.version>2.5.0</bundle.plugin.version>
+    <feature-name>appc-sequence-generator</feature-name>
+  </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-sequence-generator-model</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-sequence-generator-features</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-sequence-generator-bundle</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+    </dependencies>
+    </dependencyManagement>
+
+  <modules>
+    <module>appc-sequence-generator-model</module>
+    <module>appc-sequence-generator-bundle</module>
+    <module>appc-sequence-generator-features</module>
+    <module>appc-sequence-generator-installer</module>
+  </modules>
+</project>
