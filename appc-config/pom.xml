@@ -93,6 +93,7 @@
                 <module>appc-data-services</module>
                 <module>appc-flow-controller</module>
                 <module>appc-config-generator</module>
+                <module>appc-data-services</module>
 	</modules>
 
 </project>
