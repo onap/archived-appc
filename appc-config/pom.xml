@@ -23,7 +23,7 @@
         <common.io.version>2.5</common.io.version>
 
         <sdnc.sql.resource.version>1.1.0</sdnc.sql.resource.version>
-        <openecomp.sdnc.sql-resource.version>1.1.2</openecomp.sdnc.sql-resource.version>
+        <openecomp.sdnc.sql-resource.version>1.1.0</openecomp.sdnc.sql-resource.version>
         <sdnc.sli.version>1.1.0</sdnc.sli.version>
         <tosca.datatype.version>1.1.0</tosca.datatype.version>
     </properties>
@@ -86,6 +86,7 @@
         </dependencies>
 
     </dependencyManagement>
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 	<modules>
@@ -98,5 +99,11 @@
         <module>appc-flow-controller</module>
     </modules>
 >>>>>>> Initial commit for appc-flow-controller bundle
+=======
+>>>>>>> Initial commit for config-generator bundle
 
+    <modules>
+        <module>appc-config-params</module>
+        <module>appc-config-generator</module>
+    </modules>
 </project>
