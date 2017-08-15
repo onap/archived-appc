@@ -29,6 +29,7 @@ public class ActionIdentifiers {
     private String serviceInstanceId;
     private String vnfId;
     private String vnfcName;
+    private String vfModuleId;
     private String vServerId;
 
     public String getServiceInstanceId() {
@@ -63,11 +64,20 @@ public class ActionIdentifiers {
         this.vServerId = vServerId;
     }
 
+    public String getVfModuleId() {
+        return vfModuleId;
+    }
+
+    public void setVfModuleId(String vfModuleId) {
+        this.vfModuleId = vfModuleId;
+    }
+
     @Override
     public String toString() {
         return "ActionIdentifiers{" +
                 "serviceInstanceId='" + serviceInstanceId + '\'' +
                 ", vnfId='" + vnfId + '\'' +
+                ", vfModuleId ='" + vfModuleId + '\'' +
                 ", vnfcName='" + vnfcName + '\'' +
                 ", vServerId='" + vServerId + '\'' +
                 '}';
