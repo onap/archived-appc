@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<parent>
+		<groupId>org.openecomp.appc</groupId>
+		<artifactId>appc-outbound</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+	<artifactId>appc-aai-client</artifactId>
+
+	<name>APPC AAI Client for Node</name>
+	<url>http://wiki.sdn.labs.att.com</url>
+	<description>Common Utilities for DG</description>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.openecomp.appc</groupId>
+				<artifactId>appc-aai-client.features</artifactId>
+				<classifier>features</classifier>
+				<type>xml</type>
+				<version>${project.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openecomp.appc</groupId>
+				<artifactId>appc-aai-client.provider</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openecomp.appc</groupId>
+				<artifactId>appc-aai-client.installer</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+		</dependencies>
+
+
+	</dependencyManagement>
+
+	<modules>
+		<module>provider</module>
+		<module>features</module>
+		<module>installer</module>
+	</modules>
+</project>

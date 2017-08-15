@@ -1,0 +1,24 @@
+{
+"vnfConfigurationParameterDetails": [
+		{
+		"addressfqdn": "XXXXXX",
+		"ipaddress-purpose": "vNIC1/Data NIC",
+		"ipaddress-v4": "00.00.00.00",
+		"v4-subnet": "00.00.00.00/25",
+		"v4-default-gateway": "00.00.00.00",
+		"ipaddress-v6": "2001:1890:FC:28::1:2",
+		"v6-subnet": "2001:1890:FC:28::/64", 
+		"v6-default-gateway": "2001:1890:FC:28::3"
+		},
+		{
+		"addressfqdn": "XXXXXX",
+		"ipaddress-purpose": "vNIC1/Data NIC",
+		"ipaddress-v4": "00.00.00.00",
+		"v4-subnet": "00.00.00.00/25",
+		"v4-default-gateway": "00.00.00.00",
+		"ipaddress-v6": "2001:1890:FC:28::1:4",
+		"v6-subnet": "2001:1890:FC:28::/64", 
+		"v6-default-gateway": "2001:1890:FC:28::3"
+		}			
+	]
+}
