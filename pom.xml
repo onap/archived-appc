@@ -525,45 +525,6 @@
                     </dependency>
                 </dependencies>
             </plugin>
-            <!-- license plugin -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>1.10</version>
-                <configuration>
-                <extraExtensions>
-                    <yml>properties</yml>
-                    <yang>java</yang>
-                </extraExtensions>
-                    <addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-                    <processStartTag>============LICENSE_START=======================================================</processStartTag>
-                    <processEndTag>============LICENSE_END=========================================================</processEndTag>
-                    <sectionDelimiter>================================================================================</sectionDelimiter>
-                    <licenseName>appc</licenseName>
-                    <!-- This should point to the license directory of the root folder of the base appc project -->
-                    <licenseResolver>file:${user.dir}/license-details</licenseResolver>
-                    <inceptionYear>2017</inceptionYear>
-                    <organizationName>AT&amp;T Intellectual Property. All rights reserved.</organizationName>
-                    <projectName>ONAP : APPC</projectName>
-                    <canUpdateCopyright>true</canUpdateCopyright>
-                    <canUpdateDescription>true</canUpdateDescription>
-                    <canUpdateLicense>true</canUpdateLicense>
-                    <emptyLineAfterHeader>true</emptyLineAfterHeader>
-                    <!-- exclude json files -->
-                    <excludes>
-                        <exclude>**/*.json</exclude>
-                    </excludes>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>first</id>
-                        <goals>
-                            <goal>update-file-header</goal>
-                        </goals>
-                        <phase>process-sources</phase>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
