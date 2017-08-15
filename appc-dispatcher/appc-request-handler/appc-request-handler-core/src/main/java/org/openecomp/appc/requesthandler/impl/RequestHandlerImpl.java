@@ -27,7 +27,7 @@ package org.openecomp.appc.requesthandler.impl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.appc.common.constant.Constants;
+import org.openecomp.appc.requesthandler.constant.Constants;
 import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
 import org.openecomp.appc.domainmodel.lcm.Status;
 import org.openecomp.appc.domainmodel.lcm.VNFOperation;

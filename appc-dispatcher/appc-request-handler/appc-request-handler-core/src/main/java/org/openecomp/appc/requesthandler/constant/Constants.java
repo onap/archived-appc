@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.common.constant;
+package org.openecomp.appc.requesthandler.constant;
 
 import java.util.concurrent.TimeUnit;
 
