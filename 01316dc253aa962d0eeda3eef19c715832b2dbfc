@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_58873162",
+        "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/openecomp/appc/workflow/impl/WorkFlowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T13:42:17Z",
+      "side": 1,
+      "message": "Please set your IDE to use 4 space instead of tabs: https://wiki.onap.org/display/DW/Java+code+style \n\nAlso convert these tabs to 4 spaces.",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 2
+      },
+      "revId": "01316dc253aa962d0eeda3eef19c715832b2dbfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_387c6d72",
+        "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/openecomp/appc/workflow/impl/WorkFlowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T13:42:17Z",
+      "side": 1,
+      "message": "Ditto",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 2
+      },
+      "revId": "01316dc253aa962d0eeda3eef19c715832b2dbfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
