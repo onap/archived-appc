@@ -51,6 +51,8 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
     final String ABORT_MESSAGE_FORMAT = "Aborting %s operation.";
     /** Timeout message format with flexible operation name */
     final String TIMEOUT_MESSAGE_FORMAT = "%s operation has reached timeout %d milliseconds.";
+    /** Failure message format with flexible number of bundles */
+    final String BUNDLE_OPERATION_FAILED_FORMAT = "%d bundle(s) failed, see logs for details.";
 
     private boolean isWaiting = false;
     private AppcOamStates currentState;
@@ -65,6 +67,11 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
     BaseProcessor myParent;
     Map<String, Future<?>> bundleNameToFuture = new HashMap<>();
 
+    /**
+     * Constructor
+     *
+     * @param parent BaseProcessor who has called this constructor.
+     */
     BaseActionRunnable(BaseProcessor parent) {
         super(parent.logger, parent.configurationHelper, parent.stateHelper, parent.operationHelper);
 
@@ -76,6 +83,9 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
         setTimeoutValues();
     }
 
+    /**
+     * Set timeout in milliseconds
+     */
     void setTimeoutValues() {
         Integer timeoutSeconds = myParent.timeoutSeconds;
         if (timeoutSeconds == null) {
@@ -120,6 +130,10 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
         }
     }
 
+    /**
+     * Keep waiting to be override by children classes for different behaviors.
+     * Timeout is validated here.
+     */
     void keepWaiting() {
         logDebug(String.format("%s runnable waiting, current state is %s.",
                 actionName, currentState == null ? "null" : currentState.toString()));
@@ -127,6 +141,12 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
         isTimeout("keepWaiting");
     }
 
+    /**
+     * Check if the timeout milliseconds has reached.
+     *
+     * @param parentName String of the caller, for logging purpose.
+     * @return true if the timeout has reached, otherwise false.
+     */
     boolean isTimeout(String parentName) {
         logDebug(String.format("%s task isTimeout called from %s", actionName, parentName));
         if (doTimeoutChecking
@@ -142,6 +162,23 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
     }
 
     /**
+     * Check if all bundle operations are successful through BundleHelper.
+     * If there's failed bundler operation, set error status and trigger postAction with Error state.
+     *
+     * @return true if bundler operations have failure, otherwise false.
+     */
+    boolean hasBundleOperationFailure() {
+        long failedTask = myParent.bundleHelper.getFailedMetrics(bundleNameToFuture);
+        if (failedTask == 0) {
+            return false;
+        }
+
+        setStatus(OAMCommandStatus.UNEXPECTED_ERROR, String.format(BUNDLE_OPERATION_FAILED_FORMAT, failedTask));
+        postAction(AppcOamStates.Error);
+        return true;
+    }
+
+    /**
      * Set class <b>status</b> to REJECTED with abort message.
      */
     void setAbortStatus() {
@@ -150,6 +187,7 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
 
     /**
      * Final handling. The thread is cancelled.
+     *
      * @param setState boolean to indicate if set OAM state or not
      */
     void postDoAction(boolean setState) {
@@ -157,7 +195,8 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
     }
 
     /**
-     * Handling for after doAction. does post notification,  issue audit log and set OAM state based on input
+     * Handling for after doAction. does post notification, issue audit log and set OAM state based on input.
+     *
      * @param state of AppcOamState to be set as OAM state when it is not null.
      */
     void postAction(AppcOamStates state) {
@@ -174,6 +213,7 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
 
     /**
      * Check state
+     *
      * @return true if final state reached, otherwise return false
      */
     boolean checkState() {
@@ -186,11 +226,7 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
             return false;
         }
 
-        long failedTask = myParent.bundleHelper.getFailedMetrics(bundleNameToFuture);
-        if (failedTask != 0) {
-            String errorMsg = failedTask + " bundle(s) failed, see logs for details.";
-            setStatus(OAMCommandStatus.UNEXPECTED_ERROR, errorMsg);
-            postAction(AppcOamStates.Error);
+        if (hasBundleOperationFailure()) {
             return true;
         }
 

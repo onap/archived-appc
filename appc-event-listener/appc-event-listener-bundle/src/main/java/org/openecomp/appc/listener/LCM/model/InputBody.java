@@ -24,13 +24,10 @@
 
 package org.openecomp.appc.listener.LCM.model;
 
-import org.openecomp.appc.listener.LCM.operation.OperationStatus;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -84,19 +81,6 @@ public class InputBody {
     public void setCommonHeader(CommonHeader commonHeader) {
         this.commonHeader = commonHeader;
     }
-
-//    public String toOutgoing(OperationStatus operationStatus) {
-//        OutputBody out = new OutputBody(this);
-//        out.setStatus(new ResponseStatus(operationStatus.getCode(), operationStatus.getValue()));
-//        return out.toResponse().toString();
-//    }
-
-//    public String toOutgoing(OperationStatus operationStatus,String islocked) {
-//        OutputBody out = new OutputBody(this);
-//        out.setStatus(new ResponseStatus(operationStatus.getCode(), operationStatus.getValue()));
-//        out.setLocked(islocked);
-//        return out.toResponse().toString();
-//    }
 
     @JsonIgnore
     public boolean isValid() {
