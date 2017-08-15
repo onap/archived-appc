@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_d86e8196",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/main/java/org/openecomp/appc/domainmodel/lcm/ActionIdentifiers.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-15T14:05:38Z",
+      "side": 1,
+      "message": "Consider using StringBuilder for string concatenation.   Probably not critical here, but good practice.",
+      "revId": "01316dc253aa962d0eeda3eef19c715832b2dbfc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_58873162",
         "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/openecomp/appc/workflow/impl/WorkFlowManagerImpl.java",
         "patchSetId": 1
