@@ -639,6 +639,7 @@
                 <module>appc-oam</module>
                 <module>appc-config</module>
                 <module>appc-outbound</module>
+                <module>appc-sequence-generator</module>
             </modules>
         </profile>
         <profile>
