@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_d8c68149",
+        "filename": "appc-outbound/appc-aai-client/jacoco.exec",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-15T15:15:00Z",
+      "side": 1,
+      "message": "My understanding is that we need to remove this file.   Is it required for the build?",
+      "revId": "345478c1d3625a3f4c1290d6891887f4b4623d83",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
