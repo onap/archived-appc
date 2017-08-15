@@ -36,8 +36,6 @@ import com.att.eelf.configuration.EELFManager;
 
 import java.net.URL;
 
-
-
 public class GenericProviderOperationRequestFormatter implements ProviderOperationRequestFormatter {
 
     private final EELFLogger LOG = EELFManager.getInstance().getLogger(GenericProviderOperationRequestFormatter.class);
@@ -52,43 +50,11 @@ public class GenericProviderOperationRequestFormatter implements ProviderOperati
         return url.getPath() + ":"+rpcName;
     }
 
-//    private String convertActionToUrl(String action) {
-//        String res = "";
-//        switch (action) {
-//            case "SoftwareUpload":
-//                res = "software-upload";
-//                break;
-//            case "LiveUpgrade":
-//                res = "live-upgrade";
-//                break;
-//            case "HealthCheck":
-//                res = "health-check";
-//                break;
-//            case "CheckLock":
-//                res = "check-lock";
-//                break;
-//            default :
-//                res = action;
-//        }
-//        return res.toLowerCase();
-//    }
-
     @Override
     public String buildRequest(InputBody msg) {
         JSONObject jsonObject = Mapper.toJsonObject(msg);
         return String.format(TEMPLATE, jsonObject.toString());
     }
-
-/*    @Override
-    public OperationStatus getOperationStatus(JSONObject responseBody) throws APPCException {
-        try {
-            JSONObject status = responseBody.getJSONObject("output").getJSONObject("status");
-            return new OperationStatus(String.valueOf(status.getInt("code")), status.getString("message"));
-        } catch (Exception e) {
-            LOG.error("Unknown error processing failed response from provider. Json not in expected format", e);
-            throw new APPCException("APPC has an unknown RPC error");
-        }
-    }*/
 
     @Override
     public ResponseStatus getResponseStatus(JsonNode responseBody)throws APPCException{

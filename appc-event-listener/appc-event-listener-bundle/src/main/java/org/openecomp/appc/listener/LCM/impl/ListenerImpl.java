@@ -87,7 +87,6 @@ public class ListenerImpl extends AbstractListener {
                         if (isValid(incoming)) {
                             String requestIdWithSubId = getRequestIdWithSubId(incoming.getBody());
                             LOG.info("Acknowledging Message: " + requestIdWithSubId);
-//                            dmaap.postStatus(incoming.toOutgoing(OperationStatus.PENDING));
                         }
                     }
                     for (DmaapIncomingMessage incoming : messages) {

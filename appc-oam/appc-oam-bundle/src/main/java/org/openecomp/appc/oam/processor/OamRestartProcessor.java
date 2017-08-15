@@ -45,14 +45,14 @@ public class OamRestartProcessor extends BaseProcessor {
      * <br> -Stopped: check if all bundle state reached stopped
      * <br> -ToStart: call bundles start
      * <br> -Started: action is full completed
-     * <br> -Timeout: indication of timeout reached
+     * <br> -Error: indication of error, such as timeout reached, bundler operation failure and etc.
      */
     private enum ActionPhases {
         ToStop,
         Stopped,
         ToStart,
         Started,
-        Timeout
+        Error
     }
 
     /**
@@ -137,7 +137,7 @@ public class OamRestartProcessor extends BaseProcessor {
                                 AppcOam.RPC.start, bundleNameToFuture, myParent.asyncTaskHelper);
                         currentPhase = ActionPhases.Started;
                         break;
-                    case Timeout:
+                    case Error:
                         // do nothing
                         break;
                     default:
@@ -148,8 +148,9 @@ public class OamRestartProcessor extends BaseProcessor {
                         return false;
                 }
 
-                if (isTimeout("restart doAction")) {
-                    currentPhase = ActionPhases.Timeout;
+                if (isTimeout("restart doAction")
+                        || hasBundleOperationFailure()) {
+                    currentPhase = ActionPhases.Error;
                     return true;
                 }
                 if (isBundleOperationCompleted) {

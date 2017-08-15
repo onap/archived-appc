@@ -36,6 +36,7 @@ import org.openecomp.appc.i18n.Msg;
 import org.openecomp.appc.oam.AppcOam;
 import org.openecomp.appc.oam.OAMCommandStatus;
 import org.openecomp.appc.oam.util.AsyncTaskHelper;
+import org.openecomp.appc.oam.util.BundleHelper;
 import org.openecomp.appc.oam.util.ConfigurationHelper;
 import org.openecomp.appc.oam.util.OperationHelper;
 import org.openecomp.appc.oam.util.StateHelper;
@@ -46,6 +47,7 @@ import java.util.Date;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -101,6 +103,7 @@ public class BaseActionRunnableTest {
     private OperationHelper mockOperHelper = mock(OperationHelper.class);
     private ConfigurationHelper mockConfigHelper = mock(ConfigurationHelper.class);
     private Configuration mockConfig = mock(Configuration.class);
+    private BundleHelper mockBundleHelper = mock(BundleHelper.class);
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     @Before
@@ -113,8 +116,9 @@ public class BaseActionRunnableTest {
 
         testProcessor = spy(
                 new TestProcessor(mockLogger, mockConfigHelper, mockStateHelper, null, mockOperHelper));
-        testBaseAcionRunnable = spy(new TestAbc(testProcessor));
+        Whitebox.setInternalState(testProcessor, "bundleHelper", mockBundleHelper);
 
+        testBaseAcionRunnable = spy(new TestAbc(testProcessor));
         Whitebox.setInternalState(testBaseAcionRunnable, "commonHeader", mock(CommonHeader.class));
     }
 
@@ -163,13 +167,13 @@ public class BaseActionRunnableTest {
         Whitebox.setInternalState(testBaseAcionRunnable, "doActionResult", true);
 
         // with checkState return true
-        Mockito.doReturn(targetState).when(mockStateHelper).getBundlesState();
+        Mockito.doReturn(true).when(testBaseAcionRunnable).checkState();
         testBaseAcionRunnable.run();
         Assert.assertFalse("isWaiting should still be false",
                 Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
 
         // with checkState return false
-        Mockito.doReturn(AppcOamStates.Started).when(mockStateHelper).getBundlesState();
+        Mockito.doReturn(false).when(testBaseAcionRunnable).checkState();
         testBaseAcionRunnable.run();
         Assert.assertTrue("isWaiting should still be true",
                 Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
@@ -191,6 +195,27 @@ public class BaseActionRunnableTest {
 
     @Test
     public void testCheckState() throws Exception {
+        // 1. with isTimeout true
+        Mockito.doReturn(true).when(testBaseAcionRunnable).isTimeout("checkState");
+        Assert.assertTrue("Should return true", testBaseAcionRunnable.checkState());
+
+        // 2. with isTimeout false and
+        Mockito.doReturn(false).when(testBaseAcionRunnable).isTimeout("checkState");
+
+        // 2.1 with task not all done
+        Mockito.doReturn(false).when(mockBundleHelper).isAllTaskDone(any());
+        Assert.assertFalse("Should return false", testBaseAcionRunnable.checkState());
+
+        // 2. 2 with task all done
+        Mockito.doReturn(true).when(mockBundleHelper).isAllTaskDone(any());
+
+        // 2.2.1 with has bundle failure
+        Mockito.doReturn(true).when(testBaseAcionRunnable).hasBundleOperationFailure();
+        Assert.assertTrue("Should return true", testBaseAcionRunnable.checkState());
+
+        // 2.2.2 with no bundle failure
+        Mockito.doReturn(false).when(testBaseAcionRunnable).hasBundleOperationFailure();
+
         Mockito.doReturn(targetState).when(mockStateHelper).getBundlesState();
         Assert.assertTrue("Should return true", testBaseAcionRunnable.checkState());
 
@@ -239,5 +264,21 @@ public class BaseActionRunnableTest {
         Assert.assertTrue("Should set timeout message",
                 testBaseAcionRunnable.status.getMessage().endsWith(
                         String.format(testBaseAcionRunnable.TIMEOUT_MESSAGE_FORMAT, testRpc.name(), timeoutMs)));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testHasBundleOperationFailure() throws Exception {
+        Mockito.when(mockBundleHelper.getFailedMetrics(anyMap())).thenReturn(Long.valueOf("0"));
+        Assert.assertFalse("should return false", testBaseAcionRunnable.hasBundleOperationFailure());
+
+        Mockito.when(mockStateHelper.getCurrentOamState()).thenReturn(AppcOamStates.Restarting);
+        long failedNumber = 1;
+        Mockito.doReturn(failedNumber).when(mockBundleHelper).getFailedMetrics(anyMap());
+        Assert.assertTrue("should return true", testBaseAcionRunnable.hasBundleOperationFailure());
+        Mockito.verify(testBaseAcionRunnable,
+                times(1)).setStatus(OAMCommandStatus.UNEXPECTED_ERROR,
+                String.format(testBaseAcionRunnable.BUNDLE_OPERATION_FAILED_FORMAT, failedNumber));
+        Mockito.verify(testBaseAcionRunnable, times(1)).postAction(AppcOamStates.Error);
     }
 }
