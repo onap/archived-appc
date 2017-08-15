@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a437d4f_de0f892d",
+        "filename": "appc-asdc-listener/appc-asdc-listener-bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T23:39:25Z",
+      "side": 1,
+      "message": "It would be nice if we conformed with ONAP Style guide here, I.E. 4 spaces instead of tabs. Not blocking and conforms to current code so fine for now.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 2
+      },
+      "revId": "514dff1071cf434561ec648c0a1890a543f9cb9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_63bfead1",
         "filename": "appc-asdc-listener/appc-asdc-listener-bundle/src/main/java/org/openecomp/appc/sdc/artifacts/helper/ArtifactStorageService.java",
         "patchSetId": 1
@@ -13,6 +36,52 @@
       "writtenOn": "2017-08-15T20:12:43Z",
       "side": 1,
       "message": "ditto - consider using StringBuilder for string concatenation",
+      "revId": "514dff1071cf434561ec648c0a1890a543f9cb9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1e0e3135",
+        "filename": "appc-asdc-listener/appc-asdc-listener-bundle/src/main/java/org/openecomp/appc/sdc/artifacts/helper/ArtifactStorageService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T23:39:25Z",
+      "side": 1,
+      "message": "Thanks for javadoc, super helpful. I wish everyone added javadoc.",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 7
+      },
+      "revId": "514dff1071cf434561ec648c0a1890a543f9cb9f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fe124d57",
+        "filename": "appc-asdc-listener/appc-asdc-listener-bundle/src/main/java/org/openecomp/appc/sdc/artifacts/helper/ArtifactStorageService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T23:39:25Z",
+      "side": 1,
+      "message": "Good use of specific error catching and using logger to report error. Haven\u0027t seen a lot of code pushed lately that does this.",
+      "range": {
+        "startLine": 168,
+        "startChar": 10,
+        "endLine": 171,
+        "endChar": 9
+      },
       "revId": "514dff1071cf434561ec648c0a1890a543f9cb9f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
