@@ -87,6 +87,7 @@
 
     </dependencyManagement>
 
+<<<<<<< HEAD
 	<modules>
 		<module>appc-config-params</module>
                 <module>appc-encryption-tool</module>
@@ -95,5 +96,11 @@
                 <module>appc-config-generator</module>
                 <module>appc-data-services</module>
 	</modules>
+=======
+    <modules>
+        <module>appc-config-params</module>
+        <module>appc-flow-controller</module>
+    </modules>
+>>>>>>> Initial commit for appc-flow-controller bundle
 
 </project>
