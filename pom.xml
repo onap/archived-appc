@@ -555,6 +555,11 @@
                             <goal>update-file-header</goal>
                         </goals>
                         <phase>process-sources</phase>
+                        <configuration>
+                            <excludes>
+                                <exclude>*.json</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -639,6 +644,7 @@
                 <module>appc-oam</module>
                 <module>appc-config</module>
                 <module>appc-outbound</module>
+                <module>appc-sequence-generator</module>
             </modules>
         </profile>
         <profile>

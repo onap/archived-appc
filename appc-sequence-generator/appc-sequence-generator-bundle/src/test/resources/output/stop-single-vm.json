@@ -1,0 +1,3 @@
+
+
+[{"transactionId":1,"action":"Stop","action-level":"vm","action-identifier":{"vserver-id":"vnfc2_vserverid1"},"payload":"ABC","responses":[]}]
