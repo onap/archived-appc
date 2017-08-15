@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_984a39ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-15T17:21:32Z",
+      "side": 1,
+      "message": "This commit message does not conform with ONAP project commit message rules. \n\nYou should not have info from another commit even if this code is pulled from that commit. You should not include patch specific info (\"Added review comment\"). You should summarize your commit in short header message. You should explain in the body of patch the reason for the patch. You should included an \"Issue-Id: APPC-\u003cnumber\u003e\" in patch above change-id line.\n\nWhile it may seem unimportant to conform with process steps like these - seeming boilerplate - they genuinely help the ONAP project as a whole, by getting community to all use and understand patch terminology. They ease review by helping reviewers understand the patch and reasons behind it. They help future project members figure out why design decisions were made and patches merged. All of which will help make ONAP a success in future.\n\nIn future patches please review and comply with commit message format approved by ONAP TSC.\n\nhttps://wiki.onap.org/display/DW/Commit+Messages#CommitMessages-CommitStructure\nhttps://wiki.onap.org/display/DW/Commit+Messages#CommitMessages-Don\u0027t",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "e178b07914d5dc40157dede0078e16f645f20f17",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
