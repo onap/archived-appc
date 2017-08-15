@@ -91,6 +91,9 @@
         <module>appc-data-services</module>
         <module>appc-config-params</module>
         <module>appc-flow-controller</module>
+        <module>appc-data-services</module>
+        <module>appc-flow-controller</module>
     </modules>
+
 
 </project>
