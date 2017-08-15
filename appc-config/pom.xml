@@ -92,6 +92,7 @@
                 <module>appc-encryption-tool</module>
                 <module>appc-data-services</module>
                 <module>appc-flow-controller</module>
+                <module>appc-config-generator</module>
 	</modules>
 
 </project>
