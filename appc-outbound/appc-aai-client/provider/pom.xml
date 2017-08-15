@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.openecomp.appc</groupId>
+		<artifactId>appc-aai-client</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>appc-aai-client-provider</artifactId>
+	<packaging>bundle</packaging>
+	<name>APPC AAI Client - Provider</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>equinoxSDK381</groupId>
+			<artifactId>org.eclipse.osgi</artifactId>
+			<version>${equinox.osgi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openecomp.sdnc.core</groupId>
+			<artifactId>sli-provider</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.openecomp.sdnc.adaptors</groupId>
+			<artifactId>aai-service-provider</artifactId>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.att.eelf</groupId>
+			<artifactId>eelf-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-xsl</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<outputDirectory>${basedir}/target/templates/xslt/sbg</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/xsl</directory>
+									<includes>
+										<include>*</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-properties</id>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<phase>validate</phase>
+						<configuration>
+							<outputDirectory>${basedir}/target/properties/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<includes>
+										<include>*.properties</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>${bundle.plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>org.openecomp.appc.aai.client</Bundle-SymbolicName>
+						<Bundle-Activator>org.openecomp.appc.aai.client.AppcAaiClientActivator</Bundle-Activator>
+						<Export-Package>org.openecomp.appc.aai.client</Export-Package>
+						<Import-Package>*</Import-Package>
+						<DynamicImport-Package>*</DynamicImport-Package>
+					</instructions>
+					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
