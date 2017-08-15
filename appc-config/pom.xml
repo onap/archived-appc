@@ -89,6 +89,7 @@
 
 	<modules>
 		<module>appc-config-params</module>
+                <module>appc-encryption-tool</module>
 	</modules>
 
 </project>
