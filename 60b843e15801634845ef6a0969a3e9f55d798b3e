@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_7574409c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-15T02:40:06Z",
+      "side": 1,
+      "message": "Added more details in commit message",
+      "parentUuid": "9a437d4f_f26cc638",
+      "revId": "60b843e15801634845ef6a0969a3e9f55d798b3e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_521712a4",
         "filename": "appc-inbound/appc-artifact-handler/.pydevproject",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_356eb8ca",
+        "filename": "appc-inbound/appc-artifact-handler/.pydevproject",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-15T02:40:06Z",
+      "side": 1,
+      "message": "Deleted this file",
+      "parentUuid": "9a437d4f_521712a4",
+      "revId": "60b843e15801634845ef6a0969a3e9f55d798b3e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_12118aac",
         "filename": "appc-inbound/appc-artifact-handler/README.txt",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2017-08-14T23:27:05Z",
       "side": 1,
       "message": "This should be deleted.",
+      "revId": "60b843e15801634845ef6a0969a3e9f55d798b3e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1573b4b2",
+        "filename": "appc-inbound/appc-artifact-handler/README.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-15T02:40:06Z",
+      "side": 1,
+      "message": "Deleted",
+      "parentUuid": "9a437d4f_12118aac",
       "revId": "60b843e15801634845ef6a0969a3e9f55d798b3e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2017-08-14T23:27:05Z",
       "side": 1,
       "message": "No binary files are allowed in upstream git repositories.\n\nSee \"NEVER embed jar, war, tar, gz, gzip, zip in Gerrit\" which I\u0027m sure extends to .exec - https://wiki.onap.org/display/DW/Commit+Messages (on righthand side).",
+      "revId": "60b843e15801634845ef6a0969a3e9f55d798b3e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f56710e9",
+        "filename": "appc-inbound/appc-design-services/jacoco.exec",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-15T02:40:06Z",
+      "side": 1,
+      "message": "Deleted",
+      "parentUuid": "9a437d4f_527ef2e5",
       "revId": "60b843e15801634845ef6a0969a3e9f55d798b3e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
