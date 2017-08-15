@@ -28,7 +28,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.apache.commons.lang.ObjectUtils;
-import org.openecomp.appc.common.constant.Constants;
+import org.openecomp.appc.requesthandler.constant.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.domainmodel.lcm.*;
@@ -67,7 +67,6 @@ import org.slf4j.MDC;
 
 import java.net.InetAddress;
 import java.time.Instant;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Properties;
 

@@ -29,7 +29,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.appc.common.constant.Constants;
+import org.openecomp.appc.requesthandler.constant.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.domainmodel.lcm.CommonHeader;
