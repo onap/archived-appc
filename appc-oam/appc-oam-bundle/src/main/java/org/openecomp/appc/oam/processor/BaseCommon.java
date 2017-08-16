@@ -43,7 +43,11 @@ import org.openecomp.appc.oam.util.StateHelper;
 import org.slf4j.MDC;
 
 import java.net.InetAddress;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.att.eelf.configuration.Configuration.MDC_INSTANCE_UUID;
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
@@ -68,6 +72,18 @@ abstract class BaseCommon {
 
     AppcOam.RPC rpc;
     CommonHeader commonHeader;
+
+    private final List<String> MDC_KEYS = Arrays.asList(
+       LoggingConstants.MDCKeys.PARTNER_NAME,
+       LoggingConstants.MDCKeys.SERVER_NAME,
+       MDC_INSTANCE_UUID,
+       MDC_KEY_REQUEST_ID,
+       MDC_SERVER_FQDN,
+       MDC_SERVER_IP_ADDRESS,
+       MDC_SERVICE_NAME
+    );
+
+    private Map<String, String> oldMdcContent = new HashMap<>();
 
     /**
      * Constructor
@@ -138,6 +154,32 @@ abstract class BaseCommon {
     }
 
     /**
+     * Reset MDC log properties based on passed in condition. does:<br>
+     *   - persist existing MDC setting and set my MDC log properties <br>
+     *   - or re-apply persisted MDC log properties
+     * @param useMdcMap boolean to indicate whether to persist the existing MDC setting and set my MDC log properties,
+     *                  or to re-apply the persisted MDC log properties.
+     */
+    void resetLogProperties(boolean useMdcMap) {
+        if (useMdcMap) {
+            for (Map.Entry<String, String> aEntry : oldMdcContent.entrySet()) {
+                MDC.put(aEntry.getKey(), aEntry.getValue());
+            }
+            return;
+        }
+
+        // persist existing log properties and set my log properties
+        oldMdcContent.clear();
+        for (String key : MDC_KEYS) {
+            String value = MDC.get(key);
+            if (value != null) {
+                oldMdcContent.put(key, value);
+            }
+        }
+        setInitialLogProperties();
+    }
+
+    /**
      * Set class <b>status</b> by calling setStatus(OAMCommandStatus, Params) with null paramter.
      * @see #setStatus(OAMCommandStatus, String)
      *
@@ -170,9 +212,11 @@ abstract class BaseCommon {
     /**
      * Set class <b>status</b> with error status calculated from the passed in paremeter
      * and audit log the error message.
-     * @param t of the erro Throwable.
+     * @param t of the error Throwable.
      */
     void setErrorStatus(Throwable t) {
+        resetLogProperties(false);
+
         final String appName = configurationHelper.getAppcName();
         String exceptionMessage = t.getMessage() != null ? t.getMessage() : t.toString();
 
@@ -201,6 +245,8 @@ abstract class BaseCommon {
                 LoggingConstants.TargetNames.APPC_OAM_PROVIDER,
                 errorMessage,
                 AppcOam.class.getCanonicalName());
+
+        resetLogProperties(true);
     }
 
     /**

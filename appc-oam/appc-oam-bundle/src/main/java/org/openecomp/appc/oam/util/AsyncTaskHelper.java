@@ -26,6 +26,7 @@ package org.openecomp.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.openecomp.appc.oam.AppcOam;
+import org.openecomp.appc.oam.processor.BaseActionRunnable;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
@@ -52,6 +53,8 @@ public class AsyncTaskHelper {
 
     /** Reference to the Async task */
     private volatile Future<?> backgroundOamTask;
+    /** Reference to the runnable of Async task */
+    private volatile BaseActionRunnable taskRunnable;
 
     /**
      * Constructor
@@ -107,9 +110,9 @@ public class AsyncTaskHelper {
      * Schedule a service for async task with the passed in parameters
      * @param rpc of the REST API call, decides how to schedule the service
      * @param runnable of the to be scheduled service.
-     * @return the refernce of the scheduled task
+     * @return the reference of the scheduled task
      */
-    public Future<?> scheduleAsyncTask(final AppcOam.RPC rpc, final Runnable runnable) {
+    public Future<?> scheduleAsyncTask(final AppcOam.RPC rpc, final BaseActionRunnable runnable) {
         int initialDelay, interval;
         switch (rpc) {
             case maintenance_mode:
@@ -129,8 +132,14 @@ public class AsyncTaskHelper {
 
         // Always cancel existing  async task
         if (backgroundOamTask != null) {
+            logDebug("Cancelling background task in schedule task.");
             backgroundOamTask.cancel(true);
+            if (taskRunnable != null) {
+                taskRunnable.abortRunnable(rpc);
+            }
         }
+
+        taskRunnable = runnable;
         backgroundOamTask = scheduledExecutorService.scheduleWithFixedDelay(
                 runnable, initialDelay, interval, TimeUnit.MILLISECONDS);
 
@@ -149,6 +158,7 @@ public class AsyncTaskHelper {
         task.cancel(false);
         if (task == backgroundOamTask) {
             backgroundOamTask = null;
+            logDebug("Cancelling background task in cancel task.");
         }
     }
 
