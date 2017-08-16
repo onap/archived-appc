@@ -140,6 +140,7 @@ public class RequestInputBuilder {
             actionIds.setVnfcName(actionIdentifiers.getVnfcName());
             actionIds.setvServerId(actionIdentifiers.getVserverId());
             actionIds.setVnfId(actionIdentifiers.getVnfId());
+            actionIds.setVfModuleId(actionIdentifiers.getVfModuleId());
             this.requestContext.setActionIdentifiers(actionIds);
 
             ActionLevel actionLevel = readActionLevel(actionIds);

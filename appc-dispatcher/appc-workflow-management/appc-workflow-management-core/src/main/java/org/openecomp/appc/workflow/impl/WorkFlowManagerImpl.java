@@ -175,7 +175,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
         workflowParams.put("input.action-identifiers.vnf-id",workflowRequest.getVnfContext().getId());
         workflowParams.put("input.action-identifiers.vnfc-name",workflowRequest.getRequestContext().getActionIdentifiers().getVnfcName()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVnfcName():"");
         workflowParams.put("input.action-identifiers.service-instance-id",workflowRequest.getRequestContext().getActionIdentifiers().getServiceInstanceId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getServiceInstanceId():"");
-        workflowParams.put("input.action-identifiers.vserver-id",workflowRequest.getRequestContext().getActionIdentifiers().getVserverId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVserverId():"");
+		workflowParams.put("input.action-identifiers.vf-module-id",workflowRequest.getRequestContext().getActionIdentifiers().getVfModuleId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVfModuleId():"");
+		workflowParams.put("input.action-identifiers.vserver-id",workflowRequest.getRequestContext().getActionIdentifiers().getVserverId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVserverId():"");
         final Map<String, String> additionalContext;
         if ((additionalContext = workflowRequest.getRequestContext().getAdditionalContext())!=null) {
             for (Map.Entry<String, String> entry : additionalContext.entrySet()) {

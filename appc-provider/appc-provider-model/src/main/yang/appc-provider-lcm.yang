@@ -269,6 +269,11 @@ module appc-provider-lcm {
                 type string;
                 mandatory false;
             }
+            leaf vf-module-id {
+                description "identifies the VF module to which this action is to be applied.";
+                type string;
+                mandatory false;
+            }
             leaf vnfc-name {
                 description "identifies the VNFC to which this action is to be applied. Some
                                 actions apply only to a component within a VNF (e.g. RESTART is
