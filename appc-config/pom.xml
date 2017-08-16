@@ -86,28 +86,12 @@
         </dependencies>
 
     </dependencyManagement>
-<<<<<<< HEAD
-
-<<<<<<< HEAD
-	<modules>
-		<module>appc-config-params</module>
-<<<<<<< HEAD
-		<module>appc-data-services</module>
-=======
-		<module>appc-encryption-tool</module>
->>>>>>> Initial commit for appc-encryption-tool bundle
-	</modules>
-=======
     <modules>
+        <module>appc-config-params</module>
+        <module>appc-data-services</module>
+        <module>appc-encryption-tool</module>
+        <module>appc-config-audit</module>
         <module>appc-config-params</module>
         <module>appc-flow-controller</module>
-    </modules>
->>>>>>> Initial commit for appc-flow-controller bundle
-=======
->>>>>>> Initial commit for config-generator bundle
-
-    <modules>
-        <module>appc-config-params</module>
-        <module>appc-config-generator</module>
     </modules>
 </project>
