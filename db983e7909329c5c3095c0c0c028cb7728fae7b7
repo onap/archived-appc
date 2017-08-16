@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_29a42156",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-16T18:02:07Z",
+      "side": 1,
+      "message": "Seem that when pom parent was updated to oparent there was a mismatch between sonar.jacoco.reportPath\u0027s - oparent\u0027s report path is the one this change adds.",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 114
+      },
+      "revId": "db983e7909329c5c3095c0c0c028cb7728fae7b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
