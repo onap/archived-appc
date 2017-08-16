@@ -24,7 +24,6 @@
 
 package org.openecomp.appc.oam;
 
-
 import org.openecomp.appc.executor.objects.Params;
 import org.openecomp.appc.util.MessageFormatter;
 
@@ -32,23 +31,18 @@ import java.util.Map;
 
 public enum OAMCommandStatus {
 
-    ACCEPTED(100,"ACCEPTED - request accepted"),
+    ACCEPTED(100,          "ACCEPTED - request accepted"),
+    UNEXPECTED_ERROR(200,  "UNEXPECTED ERROR - ${errorMsg}"),
+    REJECTED(300,          "REJECTED - ${errorMsg}"),
+    INVALID_PARAMETER(302, "INVALID PARAMETER - ${errorMsg}" ),
+    TIMEOUT(303,           "OPERATION TIMEOUT REACHED - ${errorMsg}"),
+    ABORT(304,             "OPERATION ABORT - ${errorMsg}"),
+    SUCCESS(400,           "SUCCESS - request has been processed successfully");
 
-    //ERROR(2xx) - request can't be handled due to some technical error
-    UNEXPECTED_ERROR(200,"UNEXPECTED ERROR - ${errorMsg}"),
-
-    REJECTED(300,"REJECTED - ${errorMsg}"),
-    INVALID_PARAMETER(302,"INVALID PARAMETER - ${errorMsg}" ),
-    TIMEOUT(303, "OPERATION TIMEOUT REACHED - ${errorMsg}"),
-
-    SUCCESS(400,"SUCCESS - request has been processed successfully"),
-    ;
+    final String TO_STRING_FORMAT = "OAMCommandStatus{responseCode=%d, responseMessage='%s'}";
 
     private int responseCode;
     private String responseMessage;
-
-
-
 
     OAMCommandStatus(int responseCode, String responseMessage) {
         this.responseCode = responseCode;
@@ -63,22 +57,18 @@ public enum OAMCommandStatus {
         return responseCode;
     }
 
-
     /**
+     * Get formated message of passed in params
      *
-     * @return  messageTemplate
+     * @param params of Params object with name value pairs for message
+     * @return  message string
      */
-    public String getFormattedMessage(Params params){
+    public String getFormattedMessage(Params params) {
         Map<String,Object> paramsMap = params != null ? params.getParams() : null;
-        return MessageFormatter.format(getResponseMessage(),paramsMap);
-
+        return MessageFormatter.format(getResponseMessage(), paramsMap);
     }
 
     @Override
     public String toString() {
-        return "OAMCommandStatus{" +
-                "responseCode=" + responseCode +
-                ", responseMessage='" + responseMessage + '\'' +
-                '}';
-    }
-}
+        return String.format(TO_STRING_FORMAT, responseCode, responseMessage);
+    }}

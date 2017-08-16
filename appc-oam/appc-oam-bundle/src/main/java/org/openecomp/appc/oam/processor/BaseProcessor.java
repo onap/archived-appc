@@ -54,7 +54,7 @@ public abstract class BaseProcessor extends BaseCommon {
 
     Integer timeoutSeconds;
     Msg auditMsg;
-    Runnable runnable;
+    BaseActionRunnable runnable;
     private Future<?> scheduledRunnable = null;
 
     /**

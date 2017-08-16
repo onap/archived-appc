@@ -25,6 +25,7 @@
 package org.openecomp.appc.oam.processor;
 
 import org.openecomp.appc.i18n.Msg;
+import org.openecomp.appc.oam.AppcOam;
 import org.openecomp.appc.oam.OAMCommandStatus;
 import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
 
@@ -43,16 +44,18 @@ import java.util.concurrent.Future;
  *   <br>  - auditMsg
  *   <br>  - finalState
  */
-abstract class BaseActionRunnable extends BaseCommon implements Runnable {
+public abstract class BaseActionRunnable extends BaseCommon implements Runnable {
     final String OAM_OPERATION_TIMEOUT_SECOND = "appc.OAM.api.timeout";
     /** Default operation tiemout set to 1 minute */
     final int DEFAULT_OAM_OPERATION_TIMEOUT = 60;
-    /** Abort message format with flexible operation name */
-    final String ABORT_MESSAGE_FORMAT = "Aborting %s operation.";
+    /** Abort due to rejection message format with flexible operation name */
+    final String ABORT_MESSAGE_FORMAT = "Aborting %s operation due to %s.";
     /** Timeout message format with flexible operation name */
     final String TIMEOUT_MESSAGE_FORMAT = "%s operation has reached timeout %d milliseconds.";
     /** Failure message format with flexible number of bundles */
     final String BUNDLE_OPERATION_FAILED_FORMAT = "%d bundle(s) failed, see logs for details.";
+    final String NEW_RPC_OPERATION_REQUEST = "new %s operation request";
+    final String DUE_TO_EXECUTION_ERROR = "due to execution error.";
 
     private boolean isWaiting = false;
     private AppcOamStates currentState;
@@ -101,6 +104,26 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
         }
         logDebug("%s action runnable check timeout (%s) with timeout (%d)ms, and startMs (%d)",
                 rpc.name(), Boolean.toString(doTimeoutChecking), timeoutMs, startTimeMs);
+    }
+
+    /**
+     * Abort operation handling due to outside interruption, does<br>
+     *     - set ABORT status<br>
+     *     - send notification message<br>
+     *     - add audit log
+     *
+     * @param newRpc of the new AppcOam.RPC operation.
+     */
+    public void abortRunnable(final AppcOam.RPC newRpc) {
+        resetLogProperties(false);
+
+        String additionalMsg = String.format(NEW_RPC_OPERATION_REQUEST, newRpc);
+        logDebug("%s action aborted due to %s", rpc.name(), additionalMsg);
+        setStatus(OAMCommandStatus.ABORT, String.format(ABORT_MESSAGE_FORMAT, rpc.name(), additionalMsg));
+        operationHelper.sendNotificationMessage(rpc, commonHeader, status);
+        auditInfoLog(auditMsg);
+
+        resetLogProperties(true);
     }
 
     @Override
@@ -179,10 +202,10 @@ abstract class BaseActionRunnable extends BaseCommon implements Runnable {
     }
 
     /**
-     * Set class <b>status</b> to REJECTED with abort message.
+     * Set class <b>status</b> to ABORT with abort message.
      */
     void setAbortStatus() {
-        setStatus(OAMCommandStatus.REJECTED, String.format(ABORT_MESSAGE_FORMAT, rpc.name()));
+        setStatus(OAMCommandStatus.ABORT, String.format(ABORT_MESSAGE_FORMAT, rpc.name(), DUE_TO_EXECUTION_ERROR));
     }
 
     /**
