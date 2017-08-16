@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_9e19017c",
+        "filename": "appc-config/appc-encryption-tool/features/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "I agree.  I\u0027d prefer to defer pom changes to APPC-90 (platform hardening).",
+      "parentUuid": "9a437d4f_e3f51acc",
+      "range": {
+        "startLine": 22,
+        "startChar": 21,
+        "endLine": 22,
+        "endChar": 24
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_c3757633",
         "filename": "appc-config/appc-encryption-tool/features/src/main/resources/features.xml",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "I abhor extraneous space. But not blocking.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 2
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7e265dbc",
+        "filename": "appc-config/appc-encryption-tool/features/src/main/resources/features.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "Agree.  The text is placed into the code automatically by the license-maven-plugin and the plugin configuration needs to be updated to remove the spaces.    If I removed them here, they would re-appear after the next build.  I\u0027m not sure of the process to create JIRA tickets, but maybe that\u0027s needed here.",
+      "parentUuid": "9a437d4f_c3757633",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_5e2b9982",
+        "filename": "appc-config/appc-encryption-tool/features/src/main/resources/features.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "I\u0027m still learning Gerrit etiquette and any comments concerning my style are most welcome.   That said,  I will assume I shouldn\u0027t reply to future occurrences concerning the license since they are all the same?",
+      "parentUuid": "9a437d4f_03a37e9f",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 2
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_4399866d",
         "filename": "appc-config/appc-encryption-tool/features/src/main/resources/features.xml",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 32,
+        "startChar": 77,
+        "endLine": 32,
+        "endChar": 81
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3e20d59a",
+        "filename": "appc-config/appc-encryption-tool/features/src/main/resources/features.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "Will delete",
+      "parentUuid": "9a437d4f_4399866d",
       "range": {
         "startLine": 32,
         "startChar": 77,
@@ -163,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_1e2511ab",
+        "filename": "appc-config/appc-encryption-tool/features/src/main/resources/features.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "previous response",
+      "parentUuid": "9a437d4f_c3ac568f",
+      "range": {
+        "startLine": 39,
+        "startChar": 46,
+        "endLine": 39,
+        "endChar": 49
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_83b64edb",
         "filename": "appc-config/appc-encryption-tool/installer/pom.xml",
         "patchSetId": 2
@@ -220,6 +340,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Does this work without wildcard? I don\u0027t actually know, just asking for own edification.",
+      "range": {
+        "startLine": 115,
+        "startChar": 45,
+        "endLine": 115,
+        "endChar": 61
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fe392dd9",
+        "filename": "appc-config/appc-encryption-tool/installer/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "Sorry, I don\u0027t know.   But I\u0027ll check with the original author.",
+      "parentUuid": "9a437d4f_03ca5e4f",
       "range": {
         "startLine": 115,
         "startChar": 45,
@@ -347,6 +491,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_de3669e7",
+        "filename": "appc-config/appc-encryption-tool/provider/appc_southbound.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "9a437d4f_43e746e5",
+      "range": {
+        "startLine": 1,
+        "startChar": 31,
+        "endLine": 1,
+        "endChar": 32
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_23ec42c7",
         "filename": "appc-config/appc-encryption-tool/provider/appc_southbound.properties",
         "patchSetId": 2
@@ -370,6 +538,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_be33a5f5",
+        "filename": "appc-config/appc-encryption-tool/provider/appc_southbound.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "9a437d4f_23ec42c7",
+      "range": {
+        "startLine": 2,
+        "startChar": 31,
+        "endLine": 2,
+        "endChar": 32
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_c3da1617",
         "filename": "appc-config/appc-encryption-tool/provider/pom.xml",
         "patchSetId": 2
@@ -381,6 +573,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Should be removed?",
+      "range": {
+        "startLine": 39,
+        "startChar": 12,
+        "endLine": 39,
+        "endChar": 50
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9e30e1e9",
+        "filename": "appc-config/appc-encryption-tool/provider/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "yes, will remove",
+      "parentUuid": "9a437d4f_c3da1617",
       "range": {
         "startLine": 39,
         "startChar": 12,
@@ -462,6 +678,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_7e4d3d72",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/EncryptionToolActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "9a437d4f_63092a95",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 4
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_43b6268c",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/Constants.java",
         "patchSetId": 2
@@ -531,6 +771,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_5e527914",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "9a437d4f_03b01e8a",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 23
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_c3a9f625",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/Constants.java",
         "patchSetId": 2
@@ -542,6 +806,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 4
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3e57b504",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "9a437d4f_c3a9f625",
       "range": {
         "startLine": 29,
         "startChar": 0,
@@ -571,6 +859,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_1e5cf124",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "split",
+      "parentUuid": "9a437d4f_a37dd2b3",
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_237202e6",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/DbServiceUtil.java",
         "patchSetId": 2
@@ -588,6 +894,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_fe400d37",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "split - and all the appended spaces removed",
+      "parentUuid": "9a437d4f_237202e6",
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_035ede45",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/EncryptionTool.java",
         "patchSetId": 2
@@ -599,6 +923,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Helpful javadoc comments throughout this file.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 3
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_de3d49bd",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/EncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "Thank you, but I can\u0027t take credit.   I\u0027m mostly just porting the work of others.",
+      "parentUuid": "9a437d4f_035ede45",
       "range": {
         "startLine": 34,
         "startChar": 0,
@@ -634,6 +982,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_be4a8553",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "will remove",
+      "parentUuid": "9a437d4f_c357b625",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 4
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_634fea93",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
         "patchSetId": 2
@@ -645,6 +1017,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Does this get logged somewhere else or should we be logging these to karaf logger or eelfLogger?",
+      "range": {
+        "startLine": 58,
+        "startChar": 12,
+        "endLine": 58,
+        "endChar": 56
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5e795992",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "I believe this gets handled in DG execution in the SDC SLI.  It would be logged there.",
+      "parentUuid": "9a437d4f_634fea93",
       "range": {
         "startLine": 58,
         "startChar": 12,
@@ -680,6 +1076,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_3e6e95ca",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "ditto",
+      "parentUuid": "9a437d4f_4344e673",
+      "range": {
+        "startLine": 80,
+        "startChar": 12,
+        "endLine": 80,
+        "endChar": 56
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_8331ae0d",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
         "patchSetId": 2
@@ -691,6 +1111,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Extraneous space throughout.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 3
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fe67ede8",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "will fix",
+      "parentUuid": "9a437d4f_8331ae0d",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -726,6 +1170,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_de6429e7",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "change to more descriptive name",
+      "parentUuid": "9a437d4f_e3219ab5",
+      "range": {
+        "startLine": 67,
+        "startChar": 23,
+        "endLine": 67,
+        "endChar": 25
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_2340c255",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
         "patchSetId": 2
@@ -737,6 +1205,24 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Extends past column limit of 120 characters \"4.4 Column limit: 120\"",
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_be6165d5",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "split",
+      "parentUuid": "9a437d4f_2340c255",
       "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -760,6 +1246,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_9e5ea111",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "split",
+      "parentUuid": "9a437d4f_433bc6eb",
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_c32e96a5",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
         "patchSetId": 2
@@ -771,6 +1275,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "Exception catch seems overly broad.",
+      "range": {
+        "startLine": 102,
+        "startChar": 8,
+        "endLine": 102,
+        "endChar": 27
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7e9bfdc9",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "I agree but I\u0027d like to defer this one to platform hardening.   I haven\u0027t had time to set up an IDE for this project.",
+      "parentUuid": "9a437d4f_c32e96a5",
       "range": {
         "startLine": 102,
         "startChar": 8,
@@ -806,6 +1334,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_5ea039f4",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "previous comment",
+      "parentUuid": "9a437d4f_a32b9293",
+      "range": {
+        "startLine": 134,
+        "startChar": 15,
+        "endLine": 134,
+        "endChar": 27
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_631daa73",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
         "patchSetId": 2
@@ -829,6 +1381,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_3ea57504",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/openecomp/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "nice catch, i updated it for consistency.  i think the printStackTrace needs to go also, but will leave it alone for now.",
+      "parentUuid": "9a437d4f_631daa73",
+      "range": {
+        "startLine": 135,
+        "startChar": 12,
+        "endLine": 135,
+        "endChar": 32
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_4312a663",
         "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/openecomp/appc/encryptiontool/TestEncryptionTool.java",
         "patchSetId": 2
@@ -840,6 +1416,30 @@
       "writtenOn": "2017-08-15T23:16:03Z",
       "side": 1,
       "message": "non descriptive name.",
+      "range": {
+        "startLine": 51,
+        "startChar": 32,
+        "endLine": 51,
+        "endChar": 35
+      },
+      "revId": "0137fbcc335da038c0b884ca9a0f87630124dbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1eaab1d4",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/openecomp/appc/encryptiontool/TestEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-16T00:38:03Z",
+      "side": 1,
+      "message": "updated",
+      "parentUuid": "9a437d4f_4312a663",
       "range": {
         "startLine": 51,
         "startChar": 32,
