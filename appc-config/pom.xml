@@ -87,13 +87,14 @@
 
     </dependencyManagement>
 
-	<modules>
-		<module>appc-config-params</module>
-                <module>appc-encryption-tool</module>
-                <module>appc-data-services</module>
-                <module>appc-flow-controller</module>
-                <module>appc-config-generator</module>
-                <module>appc-config-adaptor</module>
-	</modules>
+    <modules>
+        <module>appc-config-params</module>
+        <module>appc-encryption-tool</module>
+        <module>appc-data-services</module>
+        <module>appc-flow-controller</module>
+        <module>appc-config-generator</module>
+        <module>appc-config-adaptor</module>
+            <module>appc-config-audit</module>
+    </modules>
 
 </project>
