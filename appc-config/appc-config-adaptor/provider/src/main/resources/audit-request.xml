@@ -1,0 +1,33 @@
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APP-C
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
+
+<NetworkAudit xmlns="http://lpp.att.com/configuration/configure/schema/v1"
+	xmlns:q2="http://lpp.att.com/configuration/configure/schema/v1">
+	<q2:Requester>APP-C</q2:Requester>
+	<q2:RequesterPrefix>APP</q2:RequesterPrefix>
+	<q2:RequestId>${request-id}</q2:RequestId>
+	<q2:CallbackUrl>${callback-url}</q2:CallbackUrl>
+	<q2:EquipmentAudit>
+		<q2:EquipmentName>${equipment-name}</q2:EquipmentName>
+		<q2:Vendor>Netconf</q2:Vendor>
+		<q2:AuditType>N-SBG</q2:AuditType>
+		<q2:AuditLevel>${audit-level}</q2:AuditLevel>
+	</q2:EquipmentAudit>
+</NetworkAudit>
