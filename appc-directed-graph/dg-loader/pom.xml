@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc-directed-graph</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.openecomp.appc.plugins</groupId>
+    <artifactId>dg-loader</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Directed Graph Loader Node</name>
+    <description>Common Utilities for DG</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version.source>1.8</java.version.source>
+        <java.version.target>1.8</java.version.target>
+        <odl.mdsal.version>2.1.1-Boron-SR1</odl.mdsal.version>
+        <odl.controller.mdsal.version>1.4.1-Boron-SR1</odl.controller.mdsal.version>
+        <logback.version>1.1.1</logback.version>
+        <common.collections.version>3.2.1</common.collections.version>
+        <common.io.version>2.5</common.io.version>
+        <jettison.version>1.3.7</jettison.version>
+        <openecomp.sdnc.sli.version>1.1.0</openecomp.sdnc.sli.version>
+        <openecomp.sdnc.dblib.version>1.1.0</openecomp.sdnc.dblib.version>
+        <openecomp.sdnc.sql-resource.version>1.1.0</openecomp.sdnc.sql-resource.version>
+    </properties>
+
+    <dependencyManagement>
+
+        <dependencies>
+            <dependency>
+                <groupId>org.openecomp.appc.plugins</groupId>
+                <artifactId>dg-loader.features</artifactId>
+                <classifier>features</classifier>
+                <type>xml</type>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openecomp.appc.plugins</groupId>
+                <artifactId>dg-loader.provider</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openecomp.sdnc.core</groupId>
+                <artifactId>sli-common</artifactId>
+                <version>${sdnctl.sli.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openecomp.sdnc.core</groupId>
+                <artifactId>sli-provider</artifactId>
+            </dependency>
+
+            <dependency>
+                <groupId>org.openecomp.sdnc.core</groupId>
+                <artifactId>dblib-provider</artifactId>
+                <version>${sdnctl.dblib.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <modules>
+        <module>features</module>
+        <module>provider</module>
+    </modules>
+</project>

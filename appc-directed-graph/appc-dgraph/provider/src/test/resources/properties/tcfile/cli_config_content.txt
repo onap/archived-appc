@@ -1,0 +1,5 @@
+config
+system
+service-interface serv1
+ipv4
+gateway-ip-address 192.168.30.44

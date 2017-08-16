@@ -644,6 +644,7 @@
                 <module>appc-lifecycle-management</module>
                 <module>appc-oam</module>
                 <module>appc-config</module>
+                <module>appc-directed-graph</module>
                 <module>appc-outbound</module>
             </modules>
         </profile>
