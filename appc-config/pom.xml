@@ -89,6 +89,7 @@
 
 	<modules>
 		<module>appc-config-params</module>
+		<module>appc-config-audit</module>
 	</modules>
 
 </project>
