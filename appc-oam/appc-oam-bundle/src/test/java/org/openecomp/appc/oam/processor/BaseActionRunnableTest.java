@@ -186,11 +186,12 @@ public class BaseActionRunnableTest {
     @Test
     public void testSetAbortStatus() throws Exception {
         testBaseAcionRunnable.setAbortStatus();
-        Assert.assertEquals("Should return reject code", OAMCommandStatus.REJECTED.getResponseCode(),
+        Assert.assertEquals("Should return abort code", OAMCommandStatus.ABORT.getResponseCode(),
                 testBaseAcionRunnable.status.getCode().intValue());
-        Assert.assertTrue("Should set abort message",
+        Assert.assertTrue("Should set abort due to execution error message",
                 testBaseAcionRunnable.status.getMessage().endsWith(
-                        String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT, testRpc.name())));
+                        String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT,
+                                testRpc.name(), testBaseAcionRunnable.DUE_TO_EXECUTION_ERROR)));
     }
 
     @Test
@@ -280,5 +281,19 @@ public class BaseActionRunnableTest {
                 times(1)).setStatus(OAMCommandStatus.UNEXPECTED_ERROR,
                 String.format(testBaseAcionRunnable.BUNDLE_OPERATION_FAILED_FORMAT, failedNumber));
         Mockito.verify(testBaseAcionRunnable, times(1)).postAction(AppcOamStates.Error);
+    }
+
+    @Test
+    public void testAbortRunnable() throws Exception {
+        Mockito.doReturn(AppcOamStates.Restarting).when(mockStateHelper).getCurrentOamState();
+        AppcOam.RPC newRpc = AppcOam.RPC.restart;
+        testBaseAcionRunnable.abortRunnable(newRpc);
+        Assert.assertEquals("Should return abort code", OAMCommandStatus.ABORT.getResponseCode(),
+                testBaseAcionRunnable.status.getCode().intValue());
+        Assert.assertTrue("Should set abort due to new request message",
+                testBaseAcionRunnable.status.getMessage().endsWith(
+                        String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT, testRpc.name(),
+                                String.format(testBaseAcionRunnable.NEW_RPC_OPERATION_REQUEST, newRpc.name()))));
+        Mockito.verify(mockOperHelper, times(1)).sendNotificationMessage(any(), any(), any());
     }
 }

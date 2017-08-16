@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.openecomp.appc.oam.AppcOam;
+import org.openecomp.appc.oam.processor.BaseActionRunnable;
 import org.powermock.reflect.Whitebox;
 
 import java.util.Arrays;
@@ -44,6 +45,7 @@ import static org.mockito.Mockito.times;
 public class AsyncTaskHelperTest {
     private AsyncTaskHelper asyncTaskHelper;
     private ScheduledExecutorService mockScheduler = mock(ScheduledExecutorService.class);
+    private BaseActionRunnable mockRunnable = mock(BaseActionRunnable.class);
 
     @Before
     public void setUp() throws Exception {
@@ -70,15 +72,14 @@ public class AsyncTaskHelperTest {
 
     @Test
     public void testScheduleAsyncTaskWithMmod() throws Exception {
-        Runnable mockRunnable = mock(Runnable.class);
-
-        // test maintance mode
+        // test maintenance mode
         ScheduledFuture<?> mockTask0 = mock(ScheduledFuture.class);
         Whitebox.setInternalState(asyncTaskHelper, "backgroundOamTask", mockTask0);
 
         ScheduledFuture<?> mockTask1 = mock(ScheduledFuture.class);
         Mockito.doReturn(mockTask1).when(mockScheduler).scheduleWithFixedDelay(
-                mockRunnable, asyncTaskHelper.MMODE_TASK_DELAY, asyncTaskHelper.MMODE_TASK_DELAY, TimeUnit.MILLISECONDS);
+                mockRunnable, asyncTaskHelper.MMODE_TASK_DELAY,
+                asyncTaskHelper.MMODE_TASK_DELAY, TimeUnit.MILLISECONDS);
         asyncTaskHelper.scheduleAsyncTask(AppcOam.RPC.maintenance_mode, mockRunnable);
         Mockito.verify(mockTask0, times(1)).cancel(true);
         Assert.assertEquals(mockTask1, asyncTaskHelper.scheduleAsyncTask(AppcOam.RPC.maintenance_mode, mockRunnable));
@@ -93,15 +94,18 @@ public class AsyncTaskHelperTest {
     }
 
     private void runTest(AppcOam.RPC rpc) {
-        Runnable mockRunnable = mock(Runnable.class);
         ScheduledFuture<?> mockTask0 = mock(ScheduledFuture.class);
         Whitebox.setInternalState(asyncTaskHelper, "backgroundOamTask", mockTask0);
+        BaseActionRunnable mockRunnable0 = mock(BaseActionRunnable.class);
+        Whitebox.setInternalState(asyncTaskHelper, "taskRunnable", mockRunnable0);
 
         ScheduledFuture<?> mockTask2 = mock(ScheduledFuture.class);
         Mockito.doReturn(mockTask2).when(mockScheduler).scheduleWithFixedDelay(
-                mockRunnable, asyncTaskHelper.COMMON_INITIAL_DELAY, asyncTaskHelper.COMMON_INTERVAL, TimeUnit.MILLISECONDS);
+                mockRunnable, asyncTaskHelper.COMMON_INITIAL_DELAY,
+                asyncTaskHelper.COMMON_INTERVAL, TimeUnit.MILLISECONDS);
         asyncTaskHelper.scheduleAsyncTask(rpc, mockRunnable);
         Mockito.verify(mockTask0, times(1)).cancel(true);
+        Mockito.verify(mockRunnable0, times(1)).abortRunnable(rpc);
         Assert.assertEquals(mockTask2, asyncTaskHelper.scheduleAsyncTask(rpc, mockRunnable));
         Assert.assertEquals("Should set backgroundOamTask", mockTask2, asyncTaskHelper.getCurrentAsyncTask());
     }
@@ -120,7 +124,8 @@ public class AsyncTaskHelperTest {
         Future<?> mockTask2 = mock(Future.class);
         asyncTaskHelper.cancelAsyncTask(mockTask2);
         Mockito.verify(mockTask2, times(1)).cancel(false);
-        Assert.assertEquals("Should not reset backgroundOamTask", mockTask, asyncTaskHelper.getCurrentAsyncTask());
+        Assert.assertEquals("Should not reset backgroundOamTask",
+                mockTask, asyncTaskHelper.getCurrentAsyncTask());
     }
 
 }

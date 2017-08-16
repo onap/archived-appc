@@ -165,13 +165,10 @@ public class BaseProcessorTest {
         testBaseProcessor.scheduleAsyncTask();
         Mockito.verify(mockTaskHelper, times(0)).scheduleAsyncTask(any(), any());
 
-        // test runnable
-        Runnable runnable = () -> {
-            // do nothing
-        };
-        Whitebox.setInternalState(testBaseProcessor, "runnable", runnable);
+        BaseActionRunnable mockRunnable = mock(BaseActionRunnable.class);
+        Whitebox.setInternalState(testBaseProcessor, "runnable", mockRunnable);
         testBaseProcessor.scheduleAsyncTask();
-        Mockito.verify(mockTaskHelper, times(1)).scheduleAsyncTask(testRpc, runnable);
+        Mockito.verify(mockTaskHelper, times(1)).scheduleAsyncTask(testRpc, mockRunnable);
     }
 
     @Test
