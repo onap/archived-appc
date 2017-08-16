@@ -1,0 +1,122 @@
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APP-C
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+  ================================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  ============LICENSE_END=========================================================
+  -->
+
+<configure>
+	<operation>create</operation>
+	<base>
+		<vnf-type>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].vnf-type}</vnf-type>
+		<vnf-host-ip-address>${service-data.vnf-config-information.vnf-host-ip-address}</vnf-host-ip-address>
+		<service-instance-id>${service-data.service-information.service-instance-id}</service-instance-id>
+		<ldap-ip-address>${service-data.vnf-config-information.ldap-ip-address}</ldap-ip-address>
+		<tls-ca-certificate>${service-data.vnf-config-information.tls-ca-certificate}</tls-ca-certificate>
+		<tls-client-certificate>${service-data.vnf-config-information.tls-client-certificate}</tls-client-certificate>
+		<tls-client-key>${service-data.vnf-config-information.tls-client-key}</tls-client-key>
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].snmp-target-v3_length:
+		<SnmpTargetV3>
+			<snmp-target-v3-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].snmp-target-v3[${1}].snmp-target-v3-id}</snmp-target-v3-id>
+			<snmp-target-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].snmp-target-v3[${1}].snmp-target-ip-address}</snmp-target-ip-address>
+			<snmp-security-level>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].snmp-target-v3[${1}].snmp-security-level}</snmp-security-level>
+		</SnmpTargetV3>}
+		
+		<escf-domain-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].escf-domain-name}</escf-domain-name>
+		<dns-ip-address-1>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].dns-ip-address1}</dns-ip-address-1>
+		<dns-ip-address-2>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].dns-ip-address2}</dns-ip-address-2>
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].dia-realm-rf_length:
+		<DiaRealmRf>
+			<realm>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].dia-realm-rf[${1}].realm}</realm>
+			<peer-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].dia-realm-rf[${1}].peer-ip-address}</peer-ip-address>
+			<peer-port>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].dia-realm-rf[${1}].peer-port}</peer-port>
+			<local-port>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].dia-realm-rf[${1}].local-port}</local-port>
+		</DiaRealmRf>}
+		
+		<ext-bgf-controller-interface-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].ext-bgf-controller-interface-ip-address}</ext-bgf-controller-interface-ip-address>
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].ext-bgf-control-link_length:
+		<ExtBgfControlLink>
+			<bgf-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].ext-bgf-control-link[${1}].bgf-name}</bgf-name>
+		</ExtBgfControlLink>}
+
+		<proxy-failover-delay>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].proxy-failover-delay}</proxy-failover-delay>
+		<proxy-fallback-delay>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].proxy-fallback-delay}</proxy-fallback-delay>
+		<proxy-polling-interval>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].proxy-polling-interval}</proxy-polling-interval>
+		<fallback-mode>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].fallback-mode}</fallback-mode>
+		<rf-interface-vlan-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].rf-interface-vlan-id}</rf-interface-vlan-id>
+		<rf-interface-nexthop-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].rf-interface-nexthop-ip-address}</rf-interface-nexthop-ip-address>
+		<rf-interface-subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].rf-interface-subnet-mask-length}</rf-interface-subnet-mask-length>
+		<rf-local-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].rf-local-ip-address}</rf-local-ip-address>
+		<sctpmh-configuration-subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].sctpmh-configuration-subnet-mask-length}</sctpmh-configuration-subnet-mask-length>
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf_length:
+		<AccessNetPcscf>
+			<network-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].network-name}</network-name>
+			<id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].id}</id>
+			<network-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].network-id}</network-id>
+			<proactive-transcoding-profile>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].proactive-transcoding-profile}</proactive-transcoding-profile>
+			<next-hop-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].next-hop-ip-address}</next-hop-ip-address>
+			<subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].subnet-mask-length}</subnet-mask-length>
+			<vlan-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].vlan-id}</vlan-id>
+			<sip-pa-termination-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].access-net-pcscf[${1}].sip-pa-termination-ip-address}</sip-pa-termination-ip-address>
+		</AccessNetPcscf>}
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf_length:
+		<CoreNetPcscf>
+			<network-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].network-name}</network-name>
+			<id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].id}</id>
+			<network-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].network-id}</network-id>
+			<next-hop-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].next-hop-ip-address}</next-hop-ip-address>
+			<subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].subnet-mask-length}</subnet-mask-length>
+			<vlan-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].vlan-id}</vlan-id>
+			<sip-pa-termination-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-pcscf[${1}].sip-pa-termination-ip-address}</sip-pa-termination-ip-address>
+		</CoreNetPcscf>}
+
+		<proc-mgmt-signal-param-host-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].proc-mgmt-signal-param-host-name}</proc-mgmt-signal-param-host-name>
+		<mated-pair-fully-qualified-domain-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].mated-pair-fully-qualified-domain-name}</mated-pair-fully-qualified-domain-name>
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].outgoing-proxy_length:
+		<OutgoingProxy>
+			<id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].outgoing-proxy[${1}].id}</id>
+			<domain-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].outgoing-proxy[${1}].domain-name}</domain-name>
+			<ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].outgoing-proxy[${1}].ip-address}</ip-address>
+		</OutgoingProxy>}
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net_length:
+		<ForeignNet>
+			<network-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].network-name}</network-name>
+			<id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].id}</id>
+			<network-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].network-id}</network-id>
+			<next-hop-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].next-hop-ip-address}</next-hop-ip-address>
+			<subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].subnet-mask-length}</subnet-mask-length>
+			<vlan-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].vlan-id}</vlan-id>
+			<sip-ic-termination-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].foreign-net[${1}].sip-ic-termination-ip-address}</sip-ic-termination-ip-address>
+		</ForeignNet>}
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].address-to-network_length:
+		<AddressToNetwork>
+			<foreign-network-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].address-to-network[${1}].foreign-network-id}</foreign-network-id>
+			<id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].address-to-network[${1}].id}</id>
+			<ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].address-to-network[${1}].ip-address}</ip-address>
+			<subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].address-to-network[${1}].subnet-mask-length}</subnet-mask-length>
+		</AddressToNetwork>}
+		${repeat:service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf_length:
+		<CoreNetIbcf>
+			<network-name>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].network-name}</network-name>
+			<id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].id}</id>
+			<network-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].network-id}</network-id>
+			<next-hop-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].next-hop-ip-address}</next-hop-ip-address>
+			<subnet-mask-length>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].subnet-mask-length}</subnet-mask-length>
+			<vlan-id>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].vlan-id}</vlan-id>
+			<sip-ic-termination-ip-address>${service-data.vnf-config-parameters-list.vnf-config-parameters[0].core-net-ibcf[${1}].sip-ic-termination-ip-address}</sip-ic-termination-ip-address>
+		</CoreNetIbcf>}
+	</base>
+</configure>
