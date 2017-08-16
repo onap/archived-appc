@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_490c0595",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/main/java/org/openecomp/appc/domainmodel/lcm/OperationType.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-16T16:04:42Z",
+      "side": 1,
+      "message": "Not blocking but style here could be improved. For example line between license and line between package and public enum. Also license is spaced weirdly.",
+      "revId": "63800130700b558cf865ee457b191686741621c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
