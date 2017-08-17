@@ -49,7 +49,7 @@ import org.slf4j.LoggerFactory;
 /**
  * This class provides the implementation of the <code>Configuration</code> interface. It is created by the
  * ConfigurationFactory and initialized with the configuration values for the process.
- * 
+ *
  * @since Mar 18, 2014
  * @version $Id$
  */
@@ -91,7 +91,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Decrypts an encrypted value, if it is encrypted, and returns the clear text. Performs no operation on the string
      * if it is not encrypted.
-     * 
+     *
      * @param value
      *            The value to (optionally) be decrypted
      * @return The clear text
@@ -138,6 +138,15 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      */
     @Override
     public boolean equals(Object obj) {
+
+        if( obj == null ) {
+            return false;
+        }
+
+        if( this.getClass() != obj.getClass() ) {
+            return false;
+        }
+
         DefaultConfiguration other = (DefaultConfiguration) obj;
 
         if ((this.properties.size() == other.properties.size())
@@ -154,7 +163,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * Variables are represented by the string "${name}", where "name" is the name of a property defined in either the
      * current configuration object, or system properties if undefined. If the value cannot be found, the variable is
      * removed and an empty string is used to replace the variable.
-     * 
+     *
      * @param template
      *            The template to be expanded
      * @return The expanded template where each variable is replaced with its value
@@ -191,7 +200,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * This method is called to obtain a property expressed as a boolean value (true or false). The standard rules for
      * Boolean.parseBoolean() are used.
-     * 
+     *
      * @param key
      *            The property key
      * @return The value of the property expressed as a boolean, or false if it does not exist.
@@ -205,7 +214,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * This method is called to obtain a property expressed as a boolean value (true or false). The standard rules for
      * Boolean.valueOf(String) are used.
-     * 
+     *
      * @param key
      *            The property key
      * @param defaultValue
@@ -223,7 +232,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * Returns the indicated property value expressed as a floating point double-precision value (double).
-     * 
+     *
      * @param key
      *            The property to retrieve
      * @return The value of the property, or 0.0 if not found
@@ -241,7 +250,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * This method is called to obtain a property as a string value
-     * 
+     *
      * @param key
      *            The key of the property
      * @param defaultValue
@@ -260,7 +269,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Returns the property indicated expressed as an integer. The standard rules for
      * {@link Integer#parseInt(String, int)} using a radix of 10 are used.
-     * 
+     *
      * @param key
      *            The property name to retrieve.
      * @returns The value of the property, or 0 if it does not exist or is invalid.
@@ -279,7 +288,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Returns the property indicated expressed as an integer. The standard rules for Integer.parseInt(String, int)
      * using a radix of 10 are used.
-     * 
+     *
      * @param key
      *            The property name to retrieve.
      * @param defaultValue
@@ -297,7 +306,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * Returns the specified property as a long integer value, if it exists, or zero if it does not.
-     * 
+     *
      * @param key
      *            The key of the property desired.
      * @return The value of the property expressed as an integer long value, or zero if the property does not exist or
@@ -317,7 +326,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Returns the specified property as a long integer value, if it exists, or the default value if it does not exist
      * or is invalid.
-     * 
+     *
      * @param key
      *            The key of the property desired.
      * @param defaultValue
@@ -338,7 +347,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * This method can be called to retrieve a properties object that is immutable. Any attempt to modify the properties
      * object returned will result in an exception. This allows a caller to view the current configuration as a set of
      * properties.
-     * 
+     *
      * @return An unmodifiable properties object.
      * @see org.openecomp.appc.configuration.Configuration#getProperties()
      */
@@ -349,7 +358,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * This method is called to obtain a property as a string value
-     * 
+     *
      * @param key
      *            The key of the property
      * @return The string value, or null if it does not exist.
@@ -365,7 +374,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * This method is called to obtain a property as a string value
-     * 
+     *
      * @param key
      *            The key of the property
      * @param defaultValue
@@ -396,7 +405,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * Returns true if the named property is defined, false otherwise.
-     * 
+     *
      * @param key
      *            The key of the property we are interested in
      * @return True if the property exists.
@@ -409,7 +418,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Returns an indication of the validity of the boolean property. A boolean property is considered to be valid only
      * if it has the value "true" or "false" (ignoring case).
-     * 
+     *
      * @param key
      *            The property to be checked
      * @returns True if the value is a boolean constant, or false if it does not exist or is not a correct string
@@ -428,7 +437,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * Returns an indication if the indicated property represents a valid double-precision floating point number.
-     * 
+     *
      * @param key
      *            The property to be examined
      * @returns True if the property is a valid representation of a double, or false if it does not exist or contains
@@ -451,7 +460,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * Returns an indication if the property is a valid integer value or not.
-     * 
+     *
      * @param key
      *            The key of the property to check
      * @returns True if the value is a valid integer string, or false if it does not exist or contains illegal
@@ -474,7 +483,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * Determines is the specified property exists and is a valid representation of an integer long value.
-     * 
+     *
      * @param key
      *            The property to be checked
      * @return True if the property is a valid representation of an integer long value, and false if it either does not
@@ -497,7 +506,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * This method allows an implementation to load configuration properties that may override default values.
-     * 
+     *
      * @param is
      *            An input stream that contains the properties to be loaded
      */
@@ -511,7 +520,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
 
     /**
      * This method allows an implementation to load configuration properties that may override default values.
-     * 
+     *
      * @param props
      *            An optional Properties object to be merged into the configuration, replacing any same-named
      *            properties.
@@ -527,7 +536,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * This method allows a caller to insert a new property definition into the configuration object. This allows the
      * application to adjust or add to the current configuration. If the property already exists, it is replaced with
      * the new value.
-     * 
+     *
      * @param key
      *            The key of the property to be defined
      * @param value
@@ -553,7 +562,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * This is a helper method to read the manifest of the jar file that this class was loaded from. Note that this will
      * only work if the code is packaged in a jar file. If it is an open deployment, such as under eclipse, this will
      * not work and there is code added to detect that case.
-     * 
+     *
      * @return The manifest object from the jar file, or null if the code is not packaged in a jar file.
      */
     @SuppressWarnings({
