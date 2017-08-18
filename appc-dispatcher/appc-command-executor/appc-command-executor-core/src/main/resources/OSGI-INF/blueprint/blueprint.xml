@@ -31,27 +31,36 @@
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
     <bean id="commandExecutorBean" class="org.openecomp.appc.executor.impl.CommandExecutorImpl"
           scope="singleton" init-method="initialize">
+        <property name="executionQueueService" ref="ExecutionQueueServiceRef"/>
         <property name="executionTaskFactory" ref="CommandExecutionTaskFactory"/>
         <property name="expiredMessageHandler" ref="expiredMessageHandlerBean"/>
     </bean>
 
-    <bean id="CommandExecutionTaskFactory" class="org.openecomp.appc.executor.impl.CommandTaskFactory" scope="singleton" >
-        <property name="vnfRequestHandler" ref="vnfRequestHandlerService" />
+    <bean id="CommandExecutionTaskFactory" class="org.openecomp.appc.executor.impl.CommandTaskFactory"
+          scope="singleton">
+        <property name="vnfRequestHandler" ref="vnfRequestHandlerService"/>
         <property name="vmRequestHandler" ref="vmRequestHandlerService"/>
-        <property name="workflowManager" ref="WorkFlowManagerRef" />
-        <property name="lifecyclemanager" ref="LifecyclemanagerRef" />
+        <property name="workflowManager" ref="WorkFlowManagerRef"/>
+        <property name="lifecyclemanager" ref="LifecyclemanagerRef"/>
     </bean>
 
     <bean id="expiredMessageHandlerBean" class="org.openecomp.appc.executor.impl.ExpiredMessageHandler"
           scope="singleton">
-        <property name="vnfRequestHandler" ref="vnfRequestHandlerService" />
+        <property name="vnfRequestHandler" ref="vnfRequestHandlerService"/>
         <property name="vmRequestHandler" ref="vmRequestHandlerService"/>
     </bean>
 
-	<reference id="WorkFlowManagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.workflow.WorkFlowManager" />
-	<reference id="vnfRequestHandlerService" availability="optional" activation="eager" interface="org.openecomp.appc.requesthandler.RequestHandler" filter="(level=VNF)" />
-    <reference id="vmRequestHandlerService" availability="optional" activation="eager" interface="org.openecomp.appc.requesthandler.RequestHandler" filter="(level=VM)" />
-    <reference id="LifecyclemanagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.lifecyclemanager.LifecycleManager" />
+    <reference id="WorkFlowManagerRef" availability="mandatory" activation="eager"
+               interface="org.openecomp.appc.workflow.WorkFlowManager"/>
+    <reference id="vnfRequestHandlerService" availability="optional" activation="eager"
+               interface="org.openecomp.appc.requesthandler.RequestHandler" filter="(level=VNF)"/>
+    <reference id="vmRequestHandlerService" availability="optional" activation="eager"
+               interface="org.openecomp.appc.requesthandler.RequestHandler" filter="(level=VM)"/>
+    <reference id="LifecyclemanagerRef" availability="mandatory" activation="eager"
+               interface="org.openecomp.appc.lifecyclemanager.LifecycleManager"/>
+    <reference id="ExecutionQueueServiceRef" availability="mandatory" activation="eager"
+               interface="org.openecomp.appc.executionqueue.ExecutionQueueService"/>
 
-    <service id="commandExecutorService" interface="org.openecomp.appc.executor.CommandExecutor" ref="commandExecutorBean"/>
+    <service id="commandExecutorService" interface="org.openecomp.appc.executor.CommandExecutor"
+             ref="commandExecutorBean"/>
 </blueprint>

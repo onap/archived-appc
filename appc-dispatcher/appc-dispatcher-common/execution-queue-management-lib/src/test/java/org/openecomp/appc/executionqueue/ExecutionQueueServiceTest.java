@@ -25,50 +25,43 @@
 package org.openecomp.appc.executionqueue;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executionqueue.ExecutionQueueService;
-import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceFactory;
-import org.powermock.api.mockito.PowerMockito;
+import org.openecomp.appc.executionqueue.helper.Util;
+import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceImpl;
+import org.openecomp.appc.executionqueue.impl.QueueManager;
+import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.util.concurrent.TimeUnit;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.times;
 
+@RunWith(PowerMockRunner.class)
+public class ExecutionQueueServiceTest {
 
-public class TestExecutionQueueService {
+    @InjectMocks
+    private ExecutionQueueServiceImpl service;
+    @Spy
+    private QueueManager queueManager = new QueueManager();
+    @Spy
+    private Util executionQueueUtil = new Util();
+
+    @Before
+    public void setup() {
+        Mockito.doReturn(true).when(queueManager).enqueueTask(any());
+    }
 
     @Test
-    public void testPositiveFlow(){
+    public void testPositiveFlow() {
         Message message = new Message();
-        ExecutionQueueService service =  ExecutionQueueServiceFactory.getExecutionQueueService();
         try {
             service.putMessage(message);
-            waitFor(5000);
-            Assert.assertTrue(message.isRunExecuted());
+            Mockito.verify(queueManager, times(1)).enqueueTask(any());
         } catch (APPCException e) {
-            Assert.fail(e.toString());
-        }
-    }
-
-//    @Test
-    public void testTimeout(){
-        ExecutionQueueService service =  ExecutionQueueServiceFactory.getExecutionQueueService();
-        Message message = new Message();
-        Listener listener = new Listener();
-        service.registerMessageExpirationListener(listener);
-        try {
-            service.putMessage(message,1, TimeUnit.MILLISECONDS);
-            waitFor(5000);
-            Assert.assertTrue(listener.isListenerExecuted());
-        } catch (APPCException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void waitFor(long milliSeconds){
-        try {
-            Thread.sleep(milliSeconds);
-        } catch (InterruptedException e) {
             Assert.fail(e.toString());
         }
     }

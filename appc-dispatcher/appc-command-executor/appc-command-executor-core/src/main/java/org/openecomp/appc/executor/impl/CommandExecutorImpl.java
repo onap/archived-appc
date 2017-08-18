@@ -28,45 +28,50 @@
 package org.openecomp.appc.executor.impl;
 
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import org.apache.commons.lang.ObjectUtils;
+import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.openecomp.appc.exceptions.APPCException;
+import org.openecomp.appc.executionqueue.ExecutionQueueService;
+import org.openecomp.appc.executor.CommandExecutor;
+
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang.ObjectUtils;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.ActionLevel;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executionqueue.ExecutionQueueService;
-import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceFactory;
-import org.openecomp.appc.executor.CommandExecutor;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
 
 public class CommandExecutorImpl implements CommandExecutor {
 
-    private CommandTaskFactory executionTaskFactory ;
+    private CommandTaskFactory executionTaskFactory;
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(CommandExecutorImpl.class);
 
     private ExecutionQueueService executionQueueService;
     private ExpiredMessageHandler expiredMessageHandler;
 
-    public CommandExecutorImpl(){
+    public CommandExecutorImpl() {
 
     }
 
+    /**
+     * Injected by blueprint
+     *
+     * @param executionQueueService
+     */
     public void setExecutionQueueService(ExecutionQueueService executionQueueService) {
         this.executionQueueService = executionQueueService;
     }
 
+    /**
+     * Injected by blueprint
+     * @param expiredMessageHandler
+     */
     public void setExpiredMessageHandler(ExpiredMessageHandler expiredMessageHandler) {
         this.expiredMessageHandler = expiredMessageHandler;
     }
 
     public void initialize() {
         logger.info("initialization started of CommandExecutorImpl");
-        executionQueueService = ExecutionQueueServiceFactory.getExecutionQueueService();
         executionQueueService.registerMessageExpirationListener(expiredMessageHandler);
     }
 
@@ -77,13 +82,14 @@ public class CommandExecutorImpl implements CommandExecutor {
     /**
      * Execute given command
      * Create command request and enqueue it for execution.
+     *
      * @param commandExecutorInput Contains CommandHeader,  command , target Id , payload and conf ID (optional)
      * @throws APPCException in case of error.
      */
     @Override
-    public void executeCommand (RuntimeContext commandExecutorInput) throws APPCException{
+    public void executeCommand(RuntimeContext commandExecutorInput) throws APPCException {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to executeCommand with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
+            logger.trace("Entering to executeCommand with CommandExecutorInput = " + ObjectUtils.toString(commandExecutorInput));
         }
         enqueRequest(commandExecutorInput);
         if (logger.isTraceEnabled()) {
@@ -91,30 +97,31 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
     }
 
-    private RuntimeContext getCommandRequest(RuntimeContext commandExecutorInput){
+    private RuntimeContext getCommandRequest(RuntimeContext commandExecutorInput) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getCommandRequest with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
+            logger.trace("Entering to getCommandRequest with CommandExecutorInput = " + ObjectUtils.toString(commandExecutorInput));
         }
         RuntimeContext commandRequest;
         commandRequest = commandExecutorInput;
         if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from getCommandRequest with (CommandRequest = "+ ObjectUtils.toString(commandRequest)+")");
+            logger.trace("Exiting from getCommandRequest with (CommandRequest = " + ObjectUtils.toString(commandRequest) + ")");
         }
         return commandRequest;
     }
 
     @SuppressWarnings("unchecked")
-    private void enqueRequest(RuntimeContext request) throws APPCException{
+    private void enqueRequest(RuntimeContext request) throws APPCException {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to enqueRequest with CommandRequest = "+ ObjectUtils.toString(request));
+            logger.trace("Entering to enqueRequest with CommandRequest = " + ObjectUtils.toString(request));
         }
         try {
-            String action = request.getRequestContext().getAction().name();
             CommandTask commandTask = executionTaskFactory.getExecutionTask(request);
+
             long remainingTTL = getRemainingTTL(request);
-            executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
+
+            executionQueueService.putMessage(commandTask, remainingTTL, TimeUnit.MILLISECONDS);
         } catch (Exception e) {
-            logger.error("Exception: "+e.getMessage());
+            logger.error("Exception: " + e.getMessage());
             throw new APPCException(e);
         }
 
@@ -129,9 +136,9 @@ public class CommandExecutorImpl implements CommandExecutor {
         return ChronoUnit.MILLIS.between(Instant.now(), requestTimestamp.plusSeconds(ttl));
     }
 
-    private CommandTask getMessageExecutor(RuntimeContext request){
+    private CommandTask getMessageExecutor(RuntimeContext request) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getMessageExecutor with command = "+ request);
+            logger.trace("Entering to getMessageExecutor with command = " + request);
         }
         CommandTask executionTask = executionTaskFactory.getExecutionTask(request);
         if (logger.isTraceEnabled()) {
@@ -139,6 +146,4 @@ public class CommandExecutorImpl implements CommandExecutor {
         }
         return executionTask;
     }
-
-
 }
