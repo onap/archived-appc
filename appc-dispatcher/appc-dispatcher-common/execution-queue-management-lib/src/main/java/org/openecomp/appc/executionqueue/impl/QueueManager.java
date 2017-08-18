@@ -24,82 +24,91 @@
 
 package org.openecomp.appc.executionqueue.impl;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
 import org.openecomp.appc.executionqueue.helper.Util;
 import org.openecomp.appc.executionqueue.impl.object.QueueMessage;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class QueueManager {
 
-    private LinkedBlockingQueue<QueueMessage<? extends Runnable>> queue;
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(QueueManager.class);
 
     private MessageExpirationListener listener;
-
-    private static int MAX_QUEUE_SIZE = Util.getExecutionQueSize();
-
-    private static int MAX_THREAD_SIZE = Util.getThreadPoolSize();
-
     private ExecutorService messageExecutor;
+    private int max_thread_size;
+    private int max_queue_size;
+    private Util executionQueueUtil;
 
-    private static final EELFLogger logger =
-            EELFManager.getInstance().getLogger(QueueManager.class);
-
-    private QueueManager(){
-        init();
+    public QueueManager() {
+        //do nothing
     }
 
-    private static class QueueManagerHolder {
-        private static final QueueManager INSTANCE = new QueueManager();
+    /**
+     * Initialization method used by blueprint
+     */
+    public void init() {
+        max_thread_size = executionQueueUtil.getThreadPoolSize();
+        max_queue_size = executionQueueUtil.getExecutionQueueSize();
+        messageExecutor = new ThreadPoolExecutor(
+            max_thread_size,
+            max_thread_size,
+            0L,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue(max_queue_size),
+            executionQueueUtil.getThreadFactory(true, "appc-dispatcher"),
+            new ThreadPoolExecutor.AbortPolicy());
     }
 
-    public static QueueManager getInstance() {
-        return QueueManagerHolder.INSTANCE;
-    }
-
-    private void init(){
-        queue = new LinkedBlockingQueue<QueueMessage<? extends Runnable>>(MAX_QUEUE_SIZE);
-        messageExecutor = Executors.newFixedThreadPool(MAX_THREAD_SIZE,Util.getThreadFactory(true));
-
-        for(int i=0;i<MAX_THREAD_SIZE;i++){
-            messageExecutor.submit(new Runnable() {
-                @Override
-                public void run() {
-                    while (true){
-                        try{
-                            QueueMessage<? extends Runnable> queueMessage = queue.take();
-                            if (queueMessage.isExpired()) {
-                                logger.debug("Message expired "+ queueMessage.getMessage());
-                                if(listener != null){
-                                    listener.onMessageExpiration(queueMessage.getMessage());
-                                }
-                                else{
-                                    logger.warn("Listener not available for expired message ");
-                                }
-                            }
-                            else{
-                                queueMessage.getMessage().run();
-                            }
-                        } catch (Exception e) {
-                            logger.error("Error in startMessagePolling method of ExecutionQueueServiceImpl" + e.getMessage());
-                        }
-                    }
-                }
-            });
-        }
+    /**
+     * Destory method used by blueprint
+     */
+    public void stop() {
+        messageExecutor.shutdownNow();
     }
 
     public void setListener(MessageExpirationListener listener) {
         this.listener = listener;
     }
 
-    public boolean enqueueTask(QueueMessage<? extends Runnable> queueMessage) {
-        return queue.offer(queueMessage);
+    /**
+     * Injected by blueprint
+     *
+     * @param executionQueueUtil Util to be set
+     */
+    public void setExecutionQueueUtil(Util executionQueueUtil) {
+        this.executionQueueUtil = executionQueueUtil;
     }
 
+    public boolean enqueueTask(QueueMessage queueMessage) {
+        boolean isEnqueued = true;
+        try {
+            messageExecutor.execute(() -> {
+                try {
+                    if (queueMessage.isExpired()) {
+                        logger.debug("Message expired " + queueMessage.getMessage());
+                        if (listener != null) {
+                            listener.onMessageExpiration(queueMessage.getMessage());
+                        } else {
+                            logger.warn("Listener not available for expired message ");
+                        }
+                    } else {
+                        queueMessage.getMessage().run();
+                    }
+                } catch (Exception e) {
+                    logger.error("Error in startMessagePolling method of ExecutionQueueServiceImpl: " + e.getMessage());
+                }
+            });
+        } catch (RejectedExecutionException ree) {
+            isEnqueued = false;
+        }
+
+        return isEnqueued;
+    }
 }

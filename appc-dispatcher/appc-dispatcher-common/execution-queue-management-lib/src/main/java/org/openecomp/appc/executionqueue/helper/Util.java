@@ -24,49 +24,70 @@
 
 package org.openecomp.appc.executionqueue.helper;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Util {
 
-    private static final Configuration configuration = ConfigurationFactory.getConfiguration();
+    private int default_queue_size = 10;
+    private int default_threadpool_size = 10;
+    private String queue_size_key = "appc.dispatcher.executionqueue.backlog.size";
+    private String threadpool_size_key = "appc.dispatcher.executionqueue.threadpool.size";
 
-    public static int DEFAULT_QUEUE_SIZE = 10;
-    public static int DEFAULT_THREADPOOL_SIZE = 10;
+    private Configuration configuration;
 
-    public static int getExecutionQueSize(){
-        String sizeStr = configuration.getProperty("appc.dispatcher.executionqueue.backlog.size", String.valueOf(DEFAULT_QUEUE_SIZE));
-        int size = DEFAULT_QUEUE_SIZE;
-        try{
+    /**
+     * Initialization.
+     * <p>Used by blueprint.
+     */
+    public void init() {
+        configuration = ConfigurationFactory.getConfiguration();
+    }
+
+    public int getExecutionQueueSize() {
+        String sizeStr = configuration.getProperty(queue_size_key, String.valueOf(default_queue_size));
+
+        int size = default_queue_size;
+        try {
             size = Integer.parseInt(sizeStr);
+        } catch (NumberFormatException e) {
+            //do nothing
         }
-        catch (NumberFormatException e){
 
-        }
         return size;
     }
 
-    public static int getThreadPoolSize(){
-        String sizeStr = configuration.getProperty("appc.dispatcher.executionqueue.threadpool.size", String.valueOf(DEFAULT_THREADPOOL_SIZE));
-        int size = DEFAULT_THREADPOOL_SIZE;
-        try{
-            size = Integer.parseInt(sizeStr);
-        }
-        catch (NumberFormatException e){
+    public int getThreadPoolSize() {
+        String sizeStr = configuration.getProperty(threadpool_size_key, String.valueOf(default_threadpool_size));
 
+        int size = default_threadpool_size;
+        try {
+            size = Integer.parseInt(sizeStr);
+        } catch (NumberFormatException e) {
+            //do nothing
         }
+
         return size;
     }
 
-    public static ThreadFactory getThreadFactory(final boolean isDaemon){
+    public ThreadFactory getThreadFactory(final boolean isDaemon, final String threadNamePrefix) {
         return new ThreadFactory() {
-            final ThreadFactory factory = Executors.defaultThreadFactory();
+            private final String THREAD_NAME_PATTERN = "%s-%d";
+            private final ThreadFactory factory = Executors.defaultThreadFactory();
+            private final AtomicInteger counter = new AtomicInteger();
+
             public Thread newThread(Runnable r) {
                 Thread t = factory.newThread(r);
                 t.setDaemon(isDaemon);
+                if (threadNamePrefix != null && !threadNamePrefix.isEmpty()) {
+                    final String threadName = String.format(THREAD_NAME_PATTERN, threadNamePrefix, counter
+                        .incrementAndGet());
+                    t.setName(threadName);
+                }
                 return t;
             }
         };

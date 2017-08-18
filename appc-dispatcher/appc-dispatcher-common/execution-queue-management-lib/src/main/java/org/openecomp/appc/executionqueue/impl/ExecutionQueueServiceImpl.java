@@ -24,40 +24,47 @@
 
 package org.openecomp.appc.executionqueue.impl;
 
-import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executionqueue.ExecutionQueueService;
 import org.openecomp.appc.executionqueue.MessageExpirationListener;
 import org.openecomp.appc.executionqueue.impl.object.QueueMessage;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.time.Instant;
+import java.util.concurrent.TimeUnit;
 
 public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQueueService<M> {
 
     private static final EELFLogger logger =
-            EELFManager.getInstance().getLogger(ExecutionQueueServiceImpl.class);
+        EELFManager.getInstance().getLogger(ExecutionQueueServiceImpl.class);
 
-    ExecutionQueueServiceImpl(){
+    private QueueManager queueManager;
 
+    public ExecutionQueueServiceImpl() {
+        //do nothing
+    }
+
+    /**
+     * Injected by blueprint
+     *
+     * @param queueManager queue manager to be set
+     */
+    public void setQueueManager(QueueManager queueManager) {
+        this.queueManager = queueManager;
     }
 
     @Override
     public void putMessage(M message) throws APPCException {
-         this.putMessage(message,-1,null);
+        this.putMessage(message, -1, null);
     }
 
     @Override
-    public void putMessage(M message, long timeout, TimeUnit unit) throws APPCException{
+    public void putMessage(M message, long timeout, TimeUnit unit) throws APPCException {
         try {
-            Instant expirationTime = calculateExpirationTime(timeout,unit);
-            QueueManager queueManager = QueueManager.getInstance();
-            boolean enqueueTask = queueManager.enqueueTask(new QueueMessage<M>(message,expirationTime));
-            if(!enqueueTask){
+            Instant expirationTime = calculateExpirationTime(timeout, unit);
+            boolean enqueueTask = queueManager.enqueueTask(new QueueMessage<>(message, expirationTime));
+            if (!enqueueTask) {
                 throw new APPCException("failed to put message in queue");
             }
         } catch (Exception e) {
@@ -68,7 +75,7 @@ public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQ
 
     @Override
     public void registerMessageExpirationListener(MessageExpirationListener listener) {
-        QueueManager.getInstance().setListener(listener);
+        queueManager.setListener(listener);
     }
 
     private Instant calculateExpirationTime(long timeToLive, TimeUnit unit) {
