@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a75ef5e7",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-18T22:29:04Z",
+      "side": 1,
+      "message": "Does this definition belong in pluginManagement?",
+      "revId": "b79e887cab08147a7d76852eb9b6ef3d7295b5da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
