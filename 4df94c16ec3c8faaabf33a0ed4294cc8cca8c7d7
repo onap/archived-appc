@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8c09d697",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/main/java/org/openecomp/appc/executionqueue/helper/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-18T17:12:12Z",
+      "side": 1,
+      "message": "change to private seems ok, but also seems like these should be final if they are a default and immutable",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 90
+      },
+      "revId": "4df94c16ec3c8faaabf33a0ed4294cc8cca8c7d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_2cf8aa7b",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/main/java/org/openecomp/appc/executionqueue/helper/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-18T17:12:12Z",
+      "side": 1,
+      "message": "Something should be done here, at least logged.",
+      "revId": "4df94c16ec3c8faaabf33a0ed4294cc8cca8c7d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_6cfeb26d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/main/java/org/openecomp/appc/executionqueue/impl/ExecutionQueueServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-18T17:12:12Z",
+      "side": 1,
+      "message": "Not changes you\u0027ve made but seems like overly broad exception catch. I bet sonar will have a fit with this. Could be good to narrow exception to only those that can be thrown in this try block.",
+      "range": {
+        "startLine": 73,
+        "startChar": 16,
+        "endLine": 73,
+        "endChar": 28
+      },
+      "revId": "4df94c16ec3c8faaabf33a0ed4294cc8cca8c7d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_4c03ee73",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/main/java/org/openecomp/appc/executionqueue/impl/QueueManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-18T17:12:12Z",
+      "side": 1,
+      "message": "Same here, likely overly broad catch.",
+      "range": {
+        "startLine": 107,
+        "startChar": 25,
+        "endLine": 107,
+        "endChar": 36
+      },
+      "revId": "4df94c16ec3c8faaabf33a0ed4294cc8cca8c7d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
