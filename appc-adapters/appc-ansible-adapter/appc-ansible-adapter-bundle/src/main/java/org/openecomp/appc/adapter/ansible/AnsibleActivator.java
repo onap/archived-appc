@@ -38,7 +38,7 @@ import com.att.eelf.configuration.EELFManager;
 
 /**
  * This activator is used to initialize and terminate an instance of AnsibleAdapter class
- * 
+ * <p>
  * Author : Ashwin Sridharan
  * Date   : Oct 2016
  */
@@ -57,12 +57,12 @@ public class AnsibleActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(AnsibleActivator.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(AnsibleActivator.class);
 
     /**
      * The configuration object used to configure this bundle
      */
-    private Configuration configuration;
+    private final Configuration configuration = ConfigurationFactory.getConfiguration();
 
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
@@ -70,26 +70,24 @@ public class AnsibleActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     * 
-     * @param context
-     *            The execution context of the bundle being started.
-     * @throws java.lang.Exception
-     *             If this method throws an exception, this bundle is marked as stopped and the Framework will remove
-     *             this bundle's listeners, unregister all services registered by this bundle, and release all services
-     *             used by this bundle.
+     *
+     * @param context The execution context of the bundle being started.
+     * @throws java.lang.Exception If this method throws an exception, this bundle is marked as stopped and the Framework will remove
+     *                             this bundle's listeners, unregister all services registered by this bundle, and release all services
+     *                             used by this bundle.
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
     public void start(BundleContext context) throws Exception {
 
         logger.info("Starting bundle " + getName());
-	String appName = "APPC: ";
+        String appName = "APPC: ";
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "Ansible Adapter");
-	adapter = new AnsibleAdapterImpl();
-	
+        adapter = new AnsibleAdapterImpl();
+
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
-			AnsibleAdapter.class.getSimpleName());
+                AnsibleAdapter.class.getSimpleName());
             registration = context.registerService(AnsibleAdapter.class, adapter, null);
         }
 
@@ -104,13 +102,11 @@ public class AnsibleActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     * 
-     * @param context
-     *            The execution context of the bundle being stopped.
-     * @throws java.lang.Exception
-     *             If this method throws an exception, the bundle is still marked as stopped, and the Framework will
-     *             remove the bundle's listeners, unregister all services registered by the bundle, and release all
-     *             services used by the bundle. *
+     *
+     * @param context The execution context of the bundle being stopped.
+     * @throws java.lang.Exception If this method throws an exception, the bundle is still marked as stopped, and the Framework will
+     *                             remove the bundle's listeners, unregister all services registered by the bundle, and release all
+     *                             services used by the bundle. *
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override
