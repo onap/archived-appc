@@ -562,7 +562,7 @@
                         <phase>process-sources</phase>
                         <configuration>
                             <excludes>
-                                <exclude>*.json</exclude>
+                                <exclude>**/*.json</exclude>
                             </excludes>
                         </configuration>
                     </execution>
