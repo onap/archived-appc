@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_c21c47c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1771
+      },
+      "writtenOn": "2017-08-22T07:05:08Z",
+      "side": 1,
+      "message": "I have change the commit msg",
+      "parentUuid": "9a437d4f_4c3ace37",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "716ac4ef862d40ec31398cb22b76207efd2dc841",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_2c3f8a27",
         "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/main/java/org/openecomp/appc/executor/impl/CommandTaskFactory.java",
         "patchSetId": 10
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "9a437d4f_e29e2b63",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/main/java/org/openecomp/appc/executor/impl/CommandTaskFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1771
+      },
+      "writtenOn": "2017-08-22T07:05:08Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "9a437d4f_2c3f8a27",
+      "revId": "716ac4ef862d40ec31398cb22b76207efd2dc841",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a437d4f_0c3cc62e",
         "filename": "appc-provider/appc-provider-bundle/src/main/java/org/openecomp/appc/provider/AppcProviderLcm.java",
         "patchSetId": 10
@@ -53,6 +95,30 @@
       "writtenOn": "2017-08-18T17:23:39Z",
       "side": 1,
       "message": "Wildcard imports are against ONAP style conventions: https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports \n\nIf your IDE is doing this please change your IDE settings.",
+      "range": {
+        "startLine": 35,
+        "startChar": 69,
+        "endLine": 35,
+        "endChar": 70
+      },
+      "revId": "716ac4ef862d40ec31398cb22b76207efd2dc841",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a27943fe",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/openecomp/appc/provider/AppcProviderLcm.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1771
+      },
+      "writtenOn": "2017-08-22T07:05:08Z",
+      "side": 1,
+      "message": "wildcard removed",
+      "parentUuid": "9a437d4f_0c3cc62e",
       "range": {
         "startLine": 35,
         "startChar": 69,
