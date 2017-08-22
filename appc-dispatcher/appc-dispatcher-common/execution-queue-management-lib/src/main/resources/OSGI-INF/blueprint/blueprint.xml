@@ -24,14 +24,24 @@
   -->
 
 
-<features name="appc-command-executor-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-    <feature name='appc-command-executor' description="application executor" version='${project.version}'>
-        <bundle>mvn:org.openecomp.appc/execution-queue-management-lib/${project.version}</bundle>
-        <bundle>mvn:org.openecomp.appc/appc-command-executor-api/${project.version}</bundle>
-        <bundle>mvn:org.openecomp.appc/appc-command-executor-core/${project.version}</bundle>
-    </feature>
+    <bean id="ExecutionQueueUtilBean" class="org.openecomp.appc.executionqueue.helper.Util" scope="singleton"
+          init-method="init">
+    </bean>
 
-</features>
+    <bean id="QueueManagerBean" class="org.openecomp.appc.executionqueue.impl.QueueManager" scope="singleton"
+          init-method="init" destroy-method="stop">
+        <property name="executionQueueUtil" ref="ExecutionQueueUtilBean"/>
+    </bean>
+
+    <bean id="ExecutionQueueServiceBean" class="org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceImpl"
+          scope="singleton">
+        <property name="queueManager" ref="QueueManagerBean"/>
+    </bean>
+
+    <service id="ExecutionQueueService" interface="org.openecomp.appc.executionqueue.ExecutionQueueService"
+             ref="ExecutionQueueServiceBean"/>
+</blueprint>
