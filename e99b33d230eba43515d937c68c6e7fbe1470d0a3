@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_27ac40ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-22T16:01:01Z",
+      "side": 1,
+      "message": "This still doesn\u0027t address commit message issues. \n\nFollow this link (https://gerrit.onap.org/r/#/c/7565/1..13//COMMIT_MSG) and see how your lines extend paste dotted red line. Each line needs to have maximum length. Also no information needs to be removed except extraneous Issue-Ids.",
+      "range": {
+        "startLine": 9,
+        "startChar": 66,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "e99b33d230eba43515d937c68c6e7fbe1470d0a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
