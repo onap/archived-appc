@@ -35,56 +35,18 @@ import org.openecomp.sdnc.sli.SvcLogicContext;
 
 public class TestParsingNode {
 
-//    @Before
-            public void setUp() {
-                Properties props = new Properties();
-                InputStream propStr = getClass().getResourceAsStream("/svclogic.properties");
-                if (propStr == null) {
-                    System.err.println("src/test/resources/svclogic.properties missing");
-                }
-                try {
-                    System.out.println("Got Properties");
-                    props.load(propStr);
-                    propStr.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println("Could not initialize properties");
-                }
-                // Add properties to global properties
-
-                Enumeration propNames = props.keys();
-
-                while (propNames.hasMoreElements()) {
-                    
-                    String propName = (String) propNames.nextElement();
-                    System.setProperty(propName, props.getProperty(propName));
-                    System.out.println("propName" + propName + " Value: " + props.getProperty(propName));
-                }
-                
-                
-                
-            }
-    
-    
-//    @Test
-    public void testRestServiceNode() throws Exception {
-        
-        SvcLogicContext ctx = new SvcLogicContext();
-        
-            
-        
-        HashMap<String, String> inParams = new HashMap<String, String>();
-        JsonParsingNode rsn = new JsonParsingNode();
-        inParams.put("data", "{\"identifier\": \"scope represented\",\"state\": \"healthy\",\"test\": \"passed\", \"time\": \"01-01-1000:0000\"}");
-        inParams.put("responsePrefix", "APPC.healthcheck");
-        rsn.parse(inParams, ctx);
-        
-        for (Object key : ctx.getAttributeKeySet()) {
-            String parmName = (String) key;
-            String parmValue = ctx.getAttribute(parmName);
-            System.out.println(parmName + "=" + parmValue);
-        }
-        
-        
-    }
+	@Test
+	public void testRestServiceNode() throws Exception {
+		SvcLogicContext ctx = new SvcLogicContext();
+		HashMap<String, String> inParams = new HashMap<String, String>();
+		JsonParsingNode rsn = new JsonParsingNode();
+		inParams.put("data", "{\"identifier\": \"scope represented\",\"state\": \"healthy\",\"test\": \"passed\", \"time\": \"01-01-1000:0000\"}");
+		inParams.put("responsePrefix", "APPC.healthcheck");
+		rsn.parse(inParams, ctx);
+		for (Object key : ctx.getAttributeKeySet()) {
+			String parmName = (String) key;
+			String parmValue = ctx.getAttribute(parmName);
+		}
+		
+	}
 }

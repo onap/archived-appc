@@ -43,15 +43,12 @@ public class TestFlowExecutorNode {
                 Properties props = new Properties();
                 InputStream propStr = getClass().getResourceAsStream("/svclogic.properties");
                 if (propStr == null) {
-                    System.err.println("src/test/resources/svclogic.properties missing");
                 }
                 try {
-                    System.out.println("Got Properties");
                     props.load(propStr);
                     propStr.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    System.err.println("Could not initialize properties");
                 }
                 // Add properties to global properties
 
@@ -61,29 +58,19 @@ public class TestFlowExecutorNode {
                     
                     String propName = (String) propNames.nextElement();
                     System.setProperty(propName, props.getProperty(propName));
-                    System.out.println("propName" + propName + " Value: " + props.getProperty(propName));
                 }
 
-                
-            }
-    
-    
-    //@Test
-    public void testFlowExecutorNode() throws Exception {
-        
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute(FlowControllerConstants.VNF_TYPE, "vUSP - vDBE-IPX HUB");
-        ctx.setAttribute(FlowControllerConstants.REQUEST_ACTION, "Configure");
-        ctx.setAttribute(FlowControllerConstants.VNFC_TYPE, "");;
-        ctx.setAttribute(FlowControllerConstants.REQUEST_ID,"TESTCOMMONFRMWK");
-        ;
-    //    ctx.setAttribute(FlowControllerConstants.ACTION_LEVEL,"VNF");
-        HashMap inParams = new HashMap();
-
-        FlowControlNode fen = new FlowControlNode();
-        fen.processFlow(inParams, ctx);
-                
-        System.out.println("Flow sequence" + ctx.getAttribute("transMap"));
-        
-    }
+	}
+	@Test(expected=Exception.class)
+	public void testFlowExecutorNode() throws Exception {
+		
+		SvcLogicContext ctx = new SvcLogicContext();
+		ctx.setAttribute(FlowControllerConstants.VNF_TYPE, "vUSP - vDBE-IPX HUB");
+		ctx.setAttribute(FlowControllerConstants.REQUEST_ACTION, "Configure");
+		ctx.setAttribute(FlowControllerConstants.VNFC_TYPE, "");;
+		ctx.setAttribute(FlowControllerConstants.REQUEST_ID,"TESTCOMMONFRMWK");
+		HashMap inParams = new HashMap();
+		FlowControlNode fen = new FlowControlNode();
+		fen.processFlow(inParams, ctx);
+	}
 }

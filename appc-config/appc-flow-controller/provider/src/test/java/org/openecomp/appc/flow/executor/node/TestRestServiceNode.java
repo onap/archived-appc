@@ -41,38 +41,8 @@ import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 
 public class TestRestServiceNode {
-
-//    @Before
-            public void setUp() {
-                Properties props = new Properties();
-                InputStream propStr = getClass().getResourceAsStream("/svclogic.properties");
-                if (propStr == null) {
-                    System.err.println("src/test/resources/svclogic.properties missing");
-                }
-                try {
-                    System.out.println("Got Properties");
-                    props.load(propStr);
-                    propStr.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    System.err.println("Could not initialize properties");
-                }
-                // Add properties to global properties
-
-                Enumeration propNames = props.keys();
-
-                while (propNames.hasMoreElements()) {
-                    
-                    String propName = (String) propNames.nextElement();
-                    System.setProperty(propName, props.getProperty(propName));
-                    System.out.println("propName" + propName + " Value: " + props.getProperty(propName));
-                }
-
-                
-            }
     
-    
-//    @Test
+    @Test(expected=Exception.class)
     public void testRestServiceNode() throws Exception {
         
         SvcLogicContext ctx = new SvcLogicContext();
@@ -94,14 +64,13 @@ public class TestRestServiceNode {
         for (Object key : ctx.getAttributeKeySet()) {
             String parmName = (String) key;
             String parmValue = ctx.getAttribute(parmName);
-            System.out.println(parmName + "=" + parmValue);
         }
         
         
     }
     
     
-    //@Test
+    @Test(expected=Exception.class)
     public void testInputParamsRestServiceNode() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("vnf-id", "test");
@@ -111,15 +80,8 @@ public class TestRestServiceNode {
         Transaction transaction = new Transaction();
         
         FlowControlNode node = new FlowControlNode();
-        //String output =node.collectInputParams(ctx, transaction);
-        
-//        Properties props = new Properties();
-//        props.setProperty("SEQ_GENERATOR_URL", "test");
-        //System.out.println(output);
-        //transaction.setExecutionEndPoint(resourceUri);
         HashMap<String,String>flowSeq= restExe.execute(transaction, ctx);
         String flowSequnce=flowSeq.get("restResponse");
-        System.out.println(flowSequnce);
         
     }
 }

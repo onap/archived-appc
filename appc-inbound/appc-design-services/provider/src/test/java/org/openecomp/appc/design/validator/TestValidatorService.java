@@ -42,4 +42,140 @@ public class TestValidatorService {
 
 //Onap Migration    
 
+    private final Logger logger = LoggerFactory.getLogger(TestValidatorService.class);
+@Test
+    public void testvalidXMLValidation() throws Exception {
+        String response = null;
+        String xmlString = "<xml><configure>"
+                + "<operation>create</operation>"
+                + "<base>"
+                + "<request-information>"
+                + "<source>SDN-GP</source>"
+                + "</request-information>"
+                + "</base>" 
+                + "</configure>"
+                + "</xml>";
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", xmlString, "XML");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+            
+        Assert.assertEquals("success", response);
+        
+    }
+    @Test
+    public void testInvalidXMLValidation() throws Exception {
+        String response = null;
+        String xmlString = "<xml><configure>"
+                + "<operation>create</operation>"
+                + "<base>"
+                + "<request-information>"
+                + "<source>SDN-GP</source>"
+                + "</request-information>"
+                + "</configure>"
+                + "</xml>";
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", xmlString, "XML");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+            
+        Assert.assertEquals(null, response);
+        
+    }
+    @Test
+    public void testYAMLValidation() throws Exception {
+        String response = null;
+        String YAMLString = "en:";
+            
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", YAMLString, "YAML");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+            
+        Assert.assertEquals("success", response);
+        
+    }
+    @Test
+    public void testInvalidYAMLValidation() throws Exception {
+        String response = null;
+        String YAMLString = "Test \n A:";
+            
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", YAMLString,"YAML");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+            
+        Assert.assertEquals(null, response);
+        
+    }
+    
+@Test
+    public void testJSONValidation() throws Exception {
+        String response = null;
+        String YAMLString = "{\"Test\": \"Test1\" }";
+            
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", YAMLString, "JSON");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        
+        }            
+        Assert.assertEquals("success", response);
+        
+    }
+    @Test
+    public void testInvalidJSONValidation() throws Exception {
+        String response = null;
+        String YAMLString = "{\"Test\" \"Test1\" }";
+            
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", YAMLString, "JSON");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        
+        }            
+        Assert.assertEquals(null, response);
+        
+    }
+    
+    @Test
+    public void testainvalidvalidateVelocity() throws Exception {
+        String response = null;
+        String validateVelocity = "{\"Test\" \"Test1\" }";
+            
+        
+        ValidatorService vs = new ValidatorService();
+        try{
+         response = vs.execute("", validateVelocity, "Velocity");
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        
+        }            
+        Assert.assertEquals(null, response);
+        
+    }
 }

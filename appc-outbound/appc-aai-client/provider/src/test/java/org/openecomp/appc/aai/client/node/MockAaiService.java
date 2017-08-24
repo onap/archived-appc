@@ -22,6 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
+
 package org.openecomp.appc.aai.client.node;
 import static junit.framework.Assert.assertEquals;
 
@@ -39,6 +40,49 @@ import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.aai.AAIClient;
 
 public class MockAaiService extends AaiService {
-	
-	// ONAP merging
+    
+    // ONAP merging
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(MockAaiService.class);
+         private AAIClient aaiClient;
+           
+         /*public MockAaiService() {
+              super(new AAIClientMock());
+         }*/
+         
+
+         public MockAaiService(AAIClient aaic) {
+             super(aaic);
+         }
+        
+        public void getVMInfo(Map<String, String> params,SvcLogicContext ctx )     throws Exception {
+            log.info("Received Mock getVmInfo call with params : " + params);
+            String vserverId =  params.get("vserverId");
+            String prefix = params.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+            if ( vserverId.equals("ibcm0001id")) {
+                ctx.setAttribute(prefix + ".vm.vserver-name", "vserverName1");
+                ctx.setAttribute(prefix + ".vm.vf-module-id", "vfModule1");
+            }
+            else {
+                ctx.setAttribute(prefix + ".vm.vserver-name", "vserverName2");
+                ctx.setAttribute(prefix + ".vm.vf-module-id", "vfModule2");
+                ctx.setAttribute(prefix + ".vm.vnfc[0].vnfc-name", "vnfcName2");
+            }
+                
+        }
+         
+        
+        public void getVnfcInfo(Map<String, String> params,SvcLogicContext ctx )     throws Exception {
+            log.info("Received Mock getVmInfo call with params : " + params);
+            String prefix = params.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+            
+            String vnfcName =  params.get("vnfcName");
+            
+            if ( vnfcName.equals("vnfcName2") ) {
+                ctx.setAttribute(prefix + ".vnfc.vnfc-type", "vnfcType2");
+                ctx.setAttribute(prefix + ".vnfc.vnfc-function-code", "vnfcFuncCode2");
+                ctx.setAttribute(prefix + ".vnfc.group-notation", "vnfcGrpNot2");
+            }
+        
+        
+        }
 }

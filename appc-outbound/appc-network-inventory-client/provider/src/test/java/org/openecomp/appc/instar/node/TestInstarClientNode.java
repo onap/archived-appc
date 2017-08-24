@@ -48,6 +48,36 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 
 public class TestInstarClientNode {
-	
-	//ONAP Migration
+    
+    //ONAP Migration
+
+    @Test(expected=Exception.class)
+    public void testInstarClientNode() throws Exception {
+    
+        SvcLogicContext ctx = new SvcLogicContext();
+        String key_conetent = IOUtils.toString(TestInstarClientNode.class.getClassLoader().getResourceAsStream("templates/sampleKeyContents"), Charset.defaultCharset());
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "TEST");
+        inParams.put(InstarClientConstant.INSTAR_KEYS, "LOCAL_ACCESS_IP_ADDR");
+        inParams.put("operationName", InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME);
+        ctx.setAttribute("INSTAR.LOCAL_ACCESS_IP_ADDR", key_conetent);
+        ctx.setAttribute(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "TEST");
+        ctx.setAttribute(InstarClientConstant.VNF_NAME, "basx0003v");
+        InstarClientNode icn  = new InstarClientNode();
+        icn.getInstarInfo(inParams, ctx);
+        String address = (new JSONObject(ctx.getAttribute("TEST." + InstarClientConstant.INSTAR_KEY_VALUES))).getString("LOCAL_ACCESS_IP_ADDR");
+    }
+    @Test(expected=Exception.class)
+    public void testInstarData() throws Exception {
+        
+        InstarClientNode inNode = new InstarClientNode();
+         SvcLogicContext ctx  = new SvcLogicContext ();
+         Map<String, String> inParams = new HashMap<String, String>();
+
+         inParams.put(InstarClientConstant.VNF_NAME, "basx0003v");
+         inParams.put("operationName", InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME);         
+         inNode.getInstarData(inParams, ctx);
+         
+
+    }
 }

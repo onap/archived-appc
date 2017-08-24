@@ -33,6 +33,4 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 public class TestArtifactHandlerNode {
-    
-    //Onap Migration    
 }
