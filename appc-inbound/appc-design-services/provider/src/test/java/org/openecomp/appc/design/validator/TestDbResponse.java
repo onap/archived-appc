@@ -24,29 +24,28 @@
 
 package org.openecomp.appc.design.validator;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import org.junit.Test;
-import org.openecomp.appc.design.services.util.EscapeUtils;
-import org.openecomp.appc.design.xinterface.XInterfaceService;
-import org.openecomp.appc.design.xinterface.XResponseProcessor;
-import junit.framework.Assert;
+import org.openecomp.appc.design.dbervices.DbResponseProcessor;
 
-public class TestEscapeUtils {
+public class TestDbResponse {
 
     @Test
-    public void testEscapeUtils() {
-
-        EscapeUtils escapeUtils = new EscapeUtils();
-        String str = escapeUtils.escapeSql("\\'Test Data\\'");
-        assert (true);
+    public void testDbResponse() {
+        DbResponseProcessor dbResponse = new DbResponseProcessor();
+        try {
+            dbResponse.parseResponse("Test", "getDesigns");
+            dbResponse.parseResponse("Test", "addInCart");
+            dbResponse.parseResponse("Test", "getArtifactReference");
+            dbResponse.parseResponse("Test", "getArtifact");
+            dbResponse.parseResponse("Test", "getGUIReference");
+            dbResponse.parseResponse("Test", "getStatus");
+            dbResponse.parseResponse("Test", "uploadArtifact");
+            dbResponse.parseResponse("Test", "setProtocolReference");
+            dbResponse.parseResponse("Test", "setInCart");
+            dbResponse.parseResponse("Test", "getStatus");
+            dbResponse.parseResponse("Test", "Test");
+        } catch (Exception e) {
+        }
     }
-    
-    @Test
-    public void testXResponseProcessor(){
-        
-        XResponseProcessor xr = new XResponseProcessor();    
-        Object o = new Object();
-        xr.parseResponse(o, "Test");
-        Assert.assertEquals(null, null);
-    }    
 }

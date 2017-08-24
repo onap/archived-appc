@@ -28,14 +28,12 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.openecomp.appc.design.services.util.DesignServiceConstants;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import junit.framework.Assert;
 
 public class TestValidatorService {
@@ -43,138 +41,90 @@ public class TestValidatorService {
 //Onap Migration    
 
     private final Logger logger = LoggerFactory.getLogger(TestValidatorService.class);
-@Test
-    public void testvalidXMLValidation() throws Exception {
+    @Test
+    public void testValidXMLValidation(){
         String response = null;
-        String xmlString = "<xml><configure>"
-                + "<operation>create</operation>"
-                + "<base>"
-                + "<request-information>"
-                + "<source>SDN-GP</source>"
-                + "</request-information>"
-                + "</base>" 
-                + "</configure>"
-                + "</xml>";
-        
+        String xmlString = "<xml><configure>" + "<operation>create</operation>" + "<base>" + "<request-information>"
+                + "<source>SDN-GP</source>" + "</request-information>" + "</base>" + "</configure>" + "</xml>";
+
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", xmlString, "XML");
+        try {
+            response = vs.execute("", xmlString, "XML");
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-            
         Assert.assertEquals("success", response);
         
     }
     @Test
-    public void testInvalidXMLValidation() throws Exception {
+    public void testInvalidXMLValidation() {
         String response = null;
-        String xmlString = "<xml><configure>"
-                + "<operation>create</operation>"
-                + "<base>"
-                + "<request-information>"
-                + "<source>SDN-GP</source>"
-                + "</request-information>"
-                + "</configure>"
-                + "</xml>";
-        
+        String xmlString = "<xml><configure>" + "<operation>create</operation>" + "<base>" + "<request-information>"
+                + "<source>SDN-GP</source>" + "</request-information>" + "</configure>" + "</xml>";
+
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", xmlString, "XML");
+        try {
+            response = vs.execute("", xmlString, "XML");
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-            
         Assert.assertEquals(null, response);
-        
     }
     @Test
-    public void testYAMLValidation() throws Exception {
+    public void testYAMLValidation() {
         String response = null;
         String YAMLString = "en:";
-            
-        
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", YAMLString, "YAML");
+        try {
+            response = vs.execute("", YAMLString, "YAML");
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-            
         Assert.assertEquals("success", response);
-        
     }
     @Test
-    public void testInvalidYAMLValidation() throws Exception {
+    public void testInvalidYAMLValidation()  {
         String response = null;
         String YAMLString = "Test \n A:";
-            
-        
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", YAMLString,"YAML");
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
+        try {
+            response = vs.execute("", YAMLString, "YAML");
+        } catch (Exception e) {
         }
             
         Assert.assertEquals(null, response);
-        
     }
-    
-@Test
-    public void testJSONValidation() throws Exception {
+
+    @Test
+    public void testJSONValidation(){
         String response = null;
         String YAMLString = "{\"Test\": \"Test1\" }";
-            
-        
+
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", YAMLString, "JSON");
+        try {
+            response = vs.execute("", YAMLString, "JSON");
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        
-        }            
         Assert.assertEquals("success", response);
-        
     }
     @Test
-    public void testInvalidJSONValidation() throws Exception {
+    public void testInvalidJSONValidation(){
         String response = null;
         String YAMLString = "{\"Test\" \"Test1\" }";
-            
-        
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", YAMLString, "JSON");
+        try {
+            response = vs.execute("", YAMLString, "JSON");
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        
-        }            
         Assert.assertEquals(null, response);
-        
     }
     
     @Test
-    public void testainvalidvalidateVelocity() throws Exception {
+    public void testInvalidvalidateVelocity(){
         String response = null;
         String validateVelocity = "{\"Test\" \"Test1\" }";
-            
-        
         ValidatorService vs = new ValidatorService();
-        try{
-         response = vs.execute("", validateVelocity, "Velocity");
+        try {
+            response = vs.execute("", validateVelocity, "Velocity");
+        } catch (Exception e) {
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        
-        }            
         Assert.assertEquals(null, response);
         
     }
