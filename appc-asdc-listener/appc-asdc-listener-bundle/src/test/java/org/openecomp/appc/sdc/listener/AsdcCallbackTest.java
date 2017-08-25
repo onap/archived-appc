@@ -24,7 +24,6 @@
 
 package org.openecomp.appc.sdc.listener;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,7 +67,7 @@ import java.util.List;
                 ArtifactStorageService.class,
                 ToscaCsarArtifactProcessor.class,
                 ArtifactProcessorFactory.class})
-public class TestAsdcListener {
+public class AsdcCallbackTest {
 
     IDistributionClient client;
     private EventSender eventSender;
