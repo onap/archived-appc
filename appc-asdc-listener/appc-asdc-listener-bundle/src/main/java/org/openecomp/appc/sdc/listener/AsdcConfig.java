@@ -29,161 +29,169 @@ import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdc.api.consumer.IConfiguration;
 
 import java.net.URI;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class AsdcConfig implements IConfiguration {
 
-	private String host;
-	private String consumer;
-	private String consumerId;
-	private String env;
-	private String keystorePath;
-	private String keystorePass;
-	private int pollingInterval; // Time between listening sessions
-	private int pollingTimeout; // Time to listen for (dmaap timeout url param)/1000
-	private List<String> types = new ArrayList<>();
-	private String user;
-	private String pass;
+    private String host;
+    private String consumer;
+    private String consumerId;
+    private String env;
+    private String keystorePath;
+    private String keystorePass;
+    /** Polling internal is time between listening sessions */
+    private int pollingInterval;
+    /** Polling timeout is the time to listen for (dmaap timeout url param)/1000 */
+    private int pollingTimeout;
+    private List<String> types = new ArrayList<>();
+    private String user;
+    private String pass;
 
-	private URI storeOp;
+    private URI storeOp;
 
-	Properties props;
+    private Properties props;
 
-	private final EELFLogger logger = EELFManager.getInstance().getLogger(AsdcConfig.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(AsdcConfig.class);
 
-	public AsdcConfig(Properties props) throws Exception {
-		this.props = props;
-		init();
-	}
+    AsdcConfig(Properties props) throws Exception {
+        this.props = props;
+        init();
+    }
 
-	private void init() throws Exception {
-		if (props != null) {
-			// Keystore for ca cert
-			keystorePath = props.getProperty("appc.asdc.keystore.path");
-			keystorePass = props.getProperty("appc.asdc.keystore.pass");
+    private void init() throws Exception {
+        if (props == null) {
+            logger.error("SdcConfig init is skipped due to properties is null");
+            return;
+        }
 
-			// ASDC host
-			host = props.getProperty("appc.asdc.host");
-			env = props.getProperty("appc.asdc.env");
-			user = props.getProperty("appc.asdc.user");
-			pass = props.getProperty("appc.asdc.pass");
+        // Keystore for ca cert
+        keystorePath = props.getProperty("appc.asdc.keystore.path");
+        keystorePass = props.getProperty("appc.asdc.keystore.pass");
 
-			// DMaaP properties
-			consumer = props.getProperty("appc.asdc.consumer");
-			consumerId = props.getProperty("appc.asdc.consumer.id");
+        // ASDC host
+        host = props.getProperty("appc.asdc.host");
+        env = props.getProperty("appc.asdc.env");
+        user = props.getProperty("appc.asdc.user");
+        pass = props.getProperty("appc.asdc.pass");
 
-			pollingInterval = Integer.valueOf(props.getProperty("interval", "60"));
+        // DMaaP properties
+        consumer = props.getProperty("appc.asdc.consumer");
+        consumerId = props.getProperty("appc.asdc.consumer.id");
 
-			// Client uses cambriaClient-0.2.4 which throws non relevant (wrong)
-			// exceptions with times > 30s
-			pollingTimeout = Integer.valueOf(props.getProperty("timeout", "25"));
+        pollingInterval = Integer.valueOf(props.getProperty("interval", "60"));
 
-			// Anything less than 60 and we risk 429 Too Many Requests
-			if (pollingInterval < 60) {
-				pollingInterval = 60;
-			}
+        // Client uses cambriaClient-0.2.4 which throws non relevant (wrong)
+        // exceptions with times > 30s
+        pollingTimeout = Integer.valueOf(props.getProperty("timeout", "25"));
 
-			if (pollingInterval > pollingInterval) {
-				logger.warn(String.format(
-						"Message acknowledgement may be delayed by %ds in the ADSC listener. [Listening Time: %s, Poll Period: %s]",
-						pollingInterval - pollingTimeout, pollingTimeout, pollingInterval));
-			}
+        // Anything less than 60 and we risk 429 Too Many Requests
+        if (pollingInterval < 60) {
+            pollingInterval = 60;
+        }
 
-			logParams();
+        if (pollingInterval > pollingTimeout) {
+            logger.warn(String.format(
+                    "Message acknowledgement may be delayed by %ds in the ADSC listener. [Listening Time: %s, Poll Period: %s]",
+                    pollingInterval - pollingTimeout, pollingTimeout, pollingInterval));
+        }
 
-			// Download type
-			types.add("APPC_CONFIG");
-			types.add("VF_LICENSE");
-			types.add("TOSCA_CSAR");
-			/*
-			This types seems redundant, as it looks from the code that they are not being used anywhere
-			 */
+        logParams();
 
-			storeOp = new URI(props.getProperty("appc.asdc.provider.url"));
-		}
-	}
+        // Download type
+        /*
+          This types seems redundant, as it looks from the code that they are not being used anywhere
+        */
+        types.add("APPC_CONFIG");
+        types.add("VF_LICENSE");
+        types.add("TOSCA_CSAR");
 
-	@Override
-	public boolean activateServerTLSAuth() {
-		return false;
-	}
+        storeOp = new URI(props.getProperty("appc.asdc.provider.url"));
+    }
 
-	//@Override
-	public boolean isFilterInEmptyResources() {
-		return false;
-	}
+    @Override
+    public boolean activateServerTLSAuth() {
+        return false;
+    }
 
-	@Override
-	public String getAsdcAddress() {
-		return host;
-	}
+    public boolean isFilterInEmptyResources() {
+        return false;
+    }
 
-	@Override
-	public String getConsumerGroup() {
-		return consumer;
-	}
+    @Override
+    public String getAsdcAddress() {
+        return host;
+    }
 
-	@Override
-	public String getConsumerID() {
-		return consumerId;
-	}
+    @Override
+    public String getConsumerGroup() {
+        return consumer;
+    }
 
-	@Override
-	public String getEnvironmentName() {
-		return env;
-	}
+    @Override
+    public String getConsumerID() {
+        return consumerId;
+    }
 
-	@Override
-	public String getKeyStorePassword() {
-		return keystorePass;
-	}
+    @Override
+    public String getEnvironmentName() {
+        return env;
+    }
 
-	@Override
-	public String getKeyStorePath() {
-		return keystorePath;
-	}
+    @Override
+    public String getKeyStorePassword() {
+        return keystorePass;
+    }
 
-	@Override
-	public String getPassword() {
-		return pass;
-	}
+    @Override
+    public String getKeyStorePath() {
+        return keystorePath;
+    }
 
-	@Override
-	public int getPollingInterval() {
-		return pollingInterval;
-	}
+    @Override
+    public String getPassword() {
+        return pass;
+    }
 
-	@Override
-	public int getPollingTimeout() {
-		return pollingTimeout;
-	}
+    @Override
+    public int getPollingInterval() {
+        return pollingInterval;
+    }
 
-	@Override
-	public List<String> getRelevantArtifactTypes() {
-		return types;
-	}
+    @Override
+    public int getPollingTimeout() {
+        return pollingTimeout;
+    }
 
-	@Override
-	public String getUser() {
-		return user;
-	}
+    @Override
+    public List<String> getRelevantArtifactTypes() {
+        return types;
+    }
 
-	public URI getStoreOpURI() {
-		return storeOp;
-	}
+    @Override
+    public String getUser() {
+        return user;
+    }
 
-	/**
-	 * Logs the relevant parameters
-	 */
-	public void logParams() {
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("ASDC Host", getAsdcAddress());
-		params.put("ASDC Environment", getEnvironmentName());
-		params.put("Consumer Name", getConsumerGroup());
-		params.put("Consumer ID", getConsumerID());
-		params.put("Poll Active Wait", String.valueOf(getPollingInterval()));
-		params.put("Poll Timeout", String.valueOf(getPollingTimeout()));
+    URI getStoreOpURI() {
+        return storeOp;
+    }
 
-		logger.info(String.format("ASDC Params: %s", params));
-	}
+    /**
+     * Logs the relevant parameters
+     */
+    private void logParams() {
+        Map<String, String> params = new HashMap<>();
+        params.put("ASDC Host", getAsdcAddress());
+        params.put("ASDC Environment", getEnvironmentName());
+        params.put("Consumer Name", getConsumerGroup());
+        params.put("Consumer ID", getConsumerID());
+        params.put("Poll Active Wait", String.valueOf(getPollingInterval()));
+        params.put("Poll Timeout", String.valueOf(getPollingTimeout()));
+
+        logger.info(String.format("ASDC Params: %s", params));
+    }
 }
