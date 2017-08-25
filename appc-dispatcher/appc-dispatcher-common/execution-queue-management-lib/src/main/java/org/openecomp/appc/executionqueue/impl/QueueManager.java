@@ -30,6 +30,7 @@ import org.openecomp.appc.executionqueue.MessageExpirationListener;
 import org.openecomp.appc.executionqueue.helper.Util;
 import org.openecomp.appc.executionqueue.impl.object.QueueMessage;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
@@ -70,7 +71,23 @@ public class QueueManager {
      * Destory method used by blueprint
      */
     public void stop() {
-        messageExecutor.shutdownNow();
+        // Disable new tasks from being submitted
+        messageExecutor.shutdown();
+        List<Runnable> rejectedRunnables = messageExecutor.shutdownNow();
+        logger.info(String.format("Rejected %d waiting tasks include ", rejectedRunnables.size()));
+
+        try {
+            messageExecutor.shutdownNow(); // Cancel currently executing tasks
+            // Wait a while for tasks to respond to being cancelled
+            while (!messageExecutor.awaitTermination(100, TimeUnit.MILLISECONDS)) {
+                logger.debug("QueueManager is being shut down because it still has threads not interrupted");
+            }
+        } catch (InterruptedException ie) {
+            // (Re-)Cancel if current thread also interrupted
+            messageExecutor.shutdownNow();
+            // Preserve interrupt status
+            Thread.currentThread().interrupt();
+        }
     }
 
     public void setListener(MessageExpirationListener listener) {
