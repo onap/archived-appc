@@ -20,46 +20,52 @@
 
 package org.openecomp.appc.encryptiontool;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
 import org.junit.Test;
+import org.openecomp.appc.encryptiontool.wrapper.DbServiceUtil;
 import org.openecomp.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.openecomp.appc.encryptiontool.wrapper.WrapperEncryptionTool;
 import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class TestEncryptionTool {
 
-    //@Test
-    public void testEncryptionTool() throws Exception{
+	@Test
+	public void testEncryptionTool() throws Exception{
+		String [] input = new String[] {"testVnf_Type","testUser","testPassword11", "testAction1", "8080", "http://localhost:8080/restconf/healthcheck"};
+		WrapperEncryptionTool.main(input);
 
-        String [] input = new String[] {"testVnf_Type","testUser","testPassword11", "testAction1", "8080", "http://localhost:8080/restconf/healthcheck"};
-        WrapperEncryptionTool.main(input);
-
-    }
-    //@Test
-    public void testgetPropertyDG() throws Exception{
-        EncryptionToolDGWrapper encryptionToolDBWrapper = new EncryptionToolDGWrapper();
-        SvcLogicContext ctx = new SvcLogicContext();
-        Map<String, String> inParams = new HashMap<String, String>();
-
-        inParams.put("prefix", "test");
-        inParams.put("propertyName", "testVnf_Type.testAction1.url");
-
-        encryptionToolDBWrapper.getProperty(inParams, ctx);
-
-        System.out.println("propertyValue :" + ctx.getAttribute("test.propertyName"));
-
-        System.out.println("All  propertyValue :" + ctx.getAttributeKeySet());
-    }
-
+	}
+	@Test(expected=Exception.class)
+	public void testgetPropertyDG() throws Exception{
+		EncryptionToolDGWrapper et = new EncryptionToolDGWrapper();		
+		SvcLogicContext ctx = new SvcLogicContext();		
+		Map<String, String> inParams = new HashMap<String, String>();
+		inParams.put("prefix", "test");
+		inParams.put("propertyName", "testVnf_Type.testAction1.url");
+		et.getProperty(inParams, ctx);
+	}
+	@Test(expected=Exception.class)
+	public void testgetData() throws Exception
+	{
+		DbServiceUtil d = new DbServiceUtil();
+		ArrayList argList = null;
+		String schema ="sdnctl";
+		String tableName ="dual";
+		String getselectData ="123";
+		String getDataClasue="123='123'";
+		d.getData(tableName, argList, schema, getselectData, getDataClasue);
+	}
+	@Test(expected=Exception.class)
+	public void testupdateDB() throws Exception
+	{
+		DbServiceUtil d = new DbServiceUtil();
+		String setCluase = null;
+		String schema ="sdnctl";
+		String tableName ="dual";
+		ArrayList inputArgs = null;
+		String whereClause="123='123'";
+		d.updateDB(tableName, inputArgs, schema, whereClause, setCluase);
+	}
 }
