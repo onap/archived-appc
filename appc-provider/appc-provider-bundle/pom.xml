@@ -22,6 +22,7 @@
                         <!-- <Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*;resolution:=optional</Import-Package> -->
                         <!-- <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false,domain-model-lib,appc-command-executor-api,appc-request-handler-api</Embed-Dependency> -->
                         <Import-Package>
+                            org.openecomp.appc.domainmodel.lcm,
                             org.openecomp.appc.i18n,
                             org.openecomp.appc.logging,
                             org.openecomp.appc.util,
