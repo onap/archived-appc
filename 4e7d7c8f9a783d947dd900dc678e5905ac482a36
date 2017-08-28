@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_74878710",
+        "filename": "appc-provider/appc-provider-bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-28T14:20:23Z",
+      "side": 1,
+      "message": "Missing license text.",
+      "revId": "4e7d7c8f9a783d947dd900dc678e5905ac482a36",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
