@@ -33,7 +33,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
 
-import static org.openecomp.appc.licmgr.Constants.ASDC_ARTIFACTS_FIELDS;
+import static org.openecomp.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -69,7 +69,7 @@ public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
                     DataAccessException {
 
         Map<String,String> result = new HashMap<>();
-        if (null == fields || 0 == fields.length) fields = new String[]{ASDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT.name()};
+        if (null == fields || 0 == fields.length) fields = new String[]{SDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT.name()};
 
         String queryString = buildQueryStatement();
 
@@ -87,7 +87,7 @@ public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
                     result.put(field, data.getString(field));
                 }
             } else {
-                String msg = "Missing license model for VNF_TYPE: " + vnfType + " and VNF_VERSION: " + vnfVersion + " in table " + Constants.ASDC_ARTIFACTS;
+                String msg = "Missing license model for VNF_TYPE: " + vnfType + " and VNF_VERSION: " + vnfVersion + " in table " + Constants.SDC_ARTIFACTS;
                 logger.info(msg);
             }
         } catch (SQLException e) {
@@ -99,10 +99,10 @@ public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
     }
 
     private String buildQueryStatement() {
-        return "select * " + "from " + Constants.ASDC_ARTIFACTS + " " +
-            "where " + ASDC_ARTIFACTS_FIELDS.RESOURCE_NAME.name() + " = ?" +
-             " AND " + ASDC_ARTIFACTS_FIELDS.RESOURCE_VERSION.name() + " = ?" +
-             " AND " + ASDC_ARTIFACTS_FIELDS.ARTIFACT_TYPE.name() + " = ?";
+        return "select * " + "from " + Constants.SDC_ARTIFACTS + " " +
+            "where " + SDC_ARTIFACTS_FIELDS.RESOURCE_NAME.name() + " = ?" +
+             " AND " + SDC_ARTIFACTS_FIELDS.RESOURCE_VERSION.name() + " = ?" +
+             " AND " + SDC_ARTIFACTS_FIELDS.ARTIFACT_TYPE.name() + " = ?";
     }
 
 }

@@ -188,13 +188,13 @@ public class DesignDBService {
             ArtifactHandlerClient ac = new ArtifactHandlerClient(); 
             String requestString = ac.createArtifactData(payload, requestID);
             ac.execute(requestString, "POST");
-            int asdc_artifact_id = getASDCArtifactIDbyRequestID(requestID);
-            int asdc_reference_id = getASDCReferenceID(payload);
-            createArtifactTrackingRecord(payload, requestID,asdc_artifact_id, asdc_reference_id );
+            int sdc_artifact_id = getSDCArtifactIDbyRequestID(requestID);
+            int sdc_reference_id = getSDCReferenceID(payload);
+            createArtifactTrackingRecord(payload, requestID,sdc_artifact_id, sdc_reference_id );
             String status = getDataFromActionStatus(payload, "STATUS");
             if(status == null || status.isEmpty())
                 setActionStatus(payload, "Not Tested");
-            linkstatusRelationShip(asdc_artifact_id,asdc_reference_id, payload);
+            linkstatusRelationShip(sdc_artifact_id,sdc_reference_id, payload);
 
         }
         catch(Exception e){
@@ -205,13 +205,13 @@ public class DesignDBService {
 
     }
 
-    private void linkstatusRelationShip(int asdc_artifact_id, int asdc_reference_id, String payload) throws Exception {
+    private void linkstatusRelationShip(int sdc_artifact_id, int sdc_reference_id, String payload) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
         ArrayList<String> argList = new ArrayList<>();            
-        argList.add(String.valueOf(asdc_artifact_id));
-        argList.add(String.valueOf(asdc_reference_id));
+        argList.add(String.valueOf(sdc_artifact_id));
+        argList.add(String.valueOf(sdc_reference_id));
         argList.add(payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue());
         argList.add(payloadObject.get(DesignServiceConstants.ACTION).textValue());
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
@@ -233,7 +233,7 @@ public class DesignDBService {
             throw new Exception("Error while updating RealtionShip table");
 
     }
-    private int getASDCReferenceID(String payload) throws Exception {
+    private int getSDCReferenceID(String payload) throws Exception {
 
         String vnfc_type = null;
         ObjectMapper objectMapper = new ObjectMapper();
@@ -259,12 +259,12 @@ public class DesignDBService {
 
         log.info("Query String :" + queryString);
         ResultSet data = dbservice.getDBData(queryString, argList);
-        int asdc_reference_id = 0;        
+        int sdc_reference_id = 0;        
         while(data.next()) {            
-            asdc_reference_id = data.getInt("ASDC_REFERENCE_ID");                
+            sdc_reference_id = data.getInt("ASDC_REFERENCE_ID");                
         }    
-        log.info("Got asdc_reference_id = " + asdc_reference_id );
-        return asdc_reference_id;
+        log.info("Got sdc_reference_id = " + sdc_reference_id );
+        return sdc_reference_id;
 
     }
 
@@ -320,14 +320,14 @@ public class DesignDBService {
         return updateStatus;
     }
 
-    private void createArtifactTrackingRecord(String payload, String requestID, int asdc_artifact_id, int asdc_reference_id) throws Exception {
+    private void createArtifactTrackingRecord(String payload, String requestID, int sdc_artifact_id, int sdc_reference_id) throws Exception {
         String vnfc_type = null;
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
 
         ArrayList<String> argList = new ArrayList<>();            
-        argList.add(String.valueOf(asdc_artifact_id));
-        argList.add(String.valueOf(asdc_reference_id));
+        argList.add(String.valueOf(sdc_artifact_id));
+        argList.add(String.valueOf(sdc_reference_id));
         argList.add(payloadObject.get(DesignServiceConstants.USER_ID).textValue());
         if (payloadObject.get(DesignServiceConstants.TECHNOLOGY) != null &&! payloadObject.get(DesignServiceConstants.TECHNOLOGY).textValue().isEmpty())
             argList.add(payloadObject.get(DesignServiceConstants.TECHNOLOGY).textValue());
@@ -350,7 +350,7 @@ public class DesignDBService {
 
     }
 
-    private int getASDCArtifactIDbyRequestID(String requestID) throws Exception {
+    private int getSDCArtifactIDbyRequestID(String requestID) throws Exception {
         log.info("Starting getArtifactIDbyRequestID DB Operation");
         int artifact_id = 0;
         try{
@@ -367,7 +367,7 @@ public class DesignDBService {
             e.printStackTrace();
             throw e;
         }
-        log.info("Got ASDC_ARTIFACTS_ID As :" + artifact_id);
+        log.info("Got SDC_ARTIFACTS_ID As :" + artifact_id);
         return artifact_id;
     }
 
@@ -567,8 +567,8 @@ public class DesignDBService {
     //        localContext.setAttribute("userID", UserId);
     //        if (serviceLogic != null && localContext != null) {    
     //            String queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART from  " + 
-    //                    DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_ASDC_REFERENCE  + 
-    //                    " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = $userID" ;                    
+    //                    DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
+    //                    " AR where DAT.SDC_REFERENCE_ID= AR.SDC_REFERENCE_ID  and DAT.USER = $userID" ;
     //                    
     //            log.info(fn + "Query String : " + queryString);
     //            try {
@@ -607,7 +607,7 @@ public class DesignDBService {
             argList.add(UserID);
 
             String queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
-                    DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_ASDC_REFERENCE  + 
+                    DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
                     " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? ";
 
             DesignResponse designResponse = new DesignResponse();

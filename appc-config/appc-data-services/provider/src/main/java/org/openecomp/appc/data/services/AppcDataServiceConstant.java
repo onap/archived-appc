@@ -34,7 +34,7 @@ public class AppcDataServiceConstant {
 	public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
 	public static final String INPUT_PARAM_FILE_CATEGORY = "fileCategory";
 	public static final String INPUT_PARAM_VM_INSTANCE = "vmInstance";
-	public static final String INPUT_PARAM_ASDC_ARTIFACT_IND = "asdcArtifactInd";
+	public static final String INPUT_PARAM_SDC_ARTIFACT_IND = "asdcArtifactInd";
 	public static final Object INPUT_PARAM_VNF_ID = "vnfId";
 	public static final Object INPUT_PARAM_VM_NAME = "vmName";
 	

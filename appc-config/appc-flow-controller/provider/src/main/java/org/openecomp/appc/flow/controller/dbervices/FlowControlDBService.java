@@ -82,8 +82,8 @@ public class FlowControlDBService {
         String fn = "DBService.getDesignTimeFlowModel ";        
         QueryStatus status = null;
         if (serviceLogic != null && localContext != null) {    
-            String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from " + FlowControllerConstants.DB_ASDC_ARTIFACTS
-                    + " where artifact_name in (select artifact_name from " + FlowControllerConstants.DB_ASDC_REFERENCE + 
+            String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from " + FlowControllerConstants.DB_SDC_ARTIFACTS
+                    + " where artifact_name in (select artifact_name from " + FlowControllerConstants.DB_SDC_REFERENCE +
                     " where vnf_type= $" + FlowControllerConstants.VNF_TYPE + 
                      " and  vnfc_type = $" + FlowControllerConstants.VNFC_TYPE + 
                      " and  action = $" + FlowControllerConstants.REQUEST_ACTION + 
@@ -96,7 +96,7 @@ public class FlowControlDBService {
             if(status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error - while getting FlowReferenceData ");
                         
-            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_ASDC_ARTIFACTS + 
+            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_SDC_ARTIFACTS +
                     " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
             
             log.debug(fn + "Query String : " + queryString1);
@@ -168,8 +168,8 @@ public class FlowControlDBService {
         String fn = "DBService.getDependencyInfo ";        
         QueryStatus status = null;
         if (serviceLogic != null && localContext != null) {    
-            String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from " + FlowControllerConstants.DB_ASDC_ARTIFACTS
-                    + " where artifact_name in (select artifact_name from " + FlowControllerConstants.DB_ASDC_REFERENCE + 
+            String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from " + FlowControllerConstants.DB_SDC_ARTIFACTS
+                    + " where artifact_name in (select artifact_name from " + FlowControllerConstants.DB_SDC_REFERENCE +
                     " where vnf_type= $" + FlowControllerConstants.VNF_TYPE  +
                      " and file_category = '" + FlowControllerConstants.DEPENDENCYMODEL +"' )" ;
                     
@@ -179,7 +179,7 @@ public class FlowControlDBService {
             if(status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error - while getting dependencydata ");
                         
-            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_ASDC_ARTIFACTS + 
+            String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_SDC_ARTIFACTS +
                     " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
             
             log.debug(fn + "Query String : " + queryString1);
@@ -195,8 +195,8 @@ public class FlowControlDBService {
             String fn = "DBService.getCapabilitiesData ";        
             QueryStatus status = null;
             if (serviceLogic != null && localContext != null) {    
-                String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from " + FlowControllerConstants.DB_ASDC_ARTIFACTS
-                        + " where artifact_name in (select artifact_name from " + FlowControllerConstants.DB_ASDC_REFERENCE + 
+                String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from " + FlowControllerConstants.DB_SDC_ARTIFACTS
+                        + " where artifact_name in (select artifact_name from " + FlowControllerConstants.DB_SDC_REFERENCE +
                         " where vnf_type= $" + FlowControllerConstants.VNF_TYPE  +  
                         " and file_category = '" + FlowControllerConstants.CAPABILITY +"' )" ;
                                             
@@ -206,7 +206,7 @@ public class FlowControlDBService {
                 if(status.toString().equals("FAILURE"))
                     throw new SvcLogicException("Error - while getting capabilitiesData ");
                             
-                String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_ASDC_ARTIFACTS + 
+                String queryString1 = "select artifact_content from " + FlowControllerConstants.DB_SDC_ARTIFACTS +
                         " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
                 
                 log.debug(fn + "Query String : " + queryString1);
