@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_1fd16f57",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/openecomp/appc/adapter/chef/ChefAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-29T20:21:05Z",
+      "side": 0,
+      "message": "Skip can you explain the removal of these? Preferable in body of commit message?",
+      "range": {
+        "startLine": 220,
+        "startChar": 3,
+        "endLine": 224,
+        "endChar": 72
+      },
+      "revId": "1af0fa3e1dc72ba11abbdfef1a542a553995119e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_dfcac7a0",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/openecomp/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-29T20:21:05Z",
+      "side": 0,
+      "message": "Skip can you explain the removal of these Vnfc Methods? Preferable in body of commit message?",
+      "range": {
+        "startLine": 195,
+        "startChar": 13,
+        "endLine": 195,
+        "endChar": 17
+      },
+      "revId": "1af0fa3e1dc72ba11abbdfef1a542a553995119e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
