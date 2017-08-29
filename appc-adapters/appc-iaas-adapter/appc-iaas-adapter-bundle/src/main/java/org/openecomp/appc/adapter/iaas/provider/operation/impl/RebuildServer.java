@@ -24,19 +24,6 @@
 
 package org.openecomp.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
@@ -51,25 +38,33 @@ import com.att.cdp.zones.model.ServerBootSource;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
-import java.util.List;
-import java.util.Map;
-
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
-
+import org.openecomp.appc.Constants;
+import org.openecomp.appc.adapter.iaas.ProviderAdapter;
+import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
+import org.openecomp.appc.adapter.iaas.impl.RequestContext;
+import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
+import org.openecomp.appc.adapter.iaas.impl.VMURL;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
+import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.openecomp.appc.configuration.Configuration;
+import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.openecomp.appc.exceptions.APPCException;
+import org.openecomp.appc.i18n.Msg;
+import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.slf4j.MDC;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
-/**
- * @since September 26, 2016
- */
+import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
+import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
+
 public class RebuildServer extends ProviderServerOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RebuildServer.class);
@@ -80,19 +75,16 @@ public class RebuildServer extends ProviderServerOperation {
      * Rebuild the indicated server with the indicated image. This method assumes the server has been determined to be
      * in the correct state to do the rebuild.
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            the server to be rebuilt
-     * @param image
-     *            The image to be used (or snapshot)
-     * @throws RequestFailedException
-     *             if the server does not change state in the allotted time
+     * @param rc     The request context that manages the state and recovery of the request for the life of
+     *               its processing.
+     * @param server the server to be rebuilt
+     * @param image  The image to be used (or snapshot)
+     * @throws RequestFailedException if the server does not change state in the allotted time
      */
     @SuppressWarnings("nls")
     private void rebuildServer(RequestContext rc, Server server, String image) throws RequestFailedException {
         logger.debug(Msg.REBUILD_SERVER, server.getId());
-        
+
         String msg;
         Context context = server.getContext();
         Provider provider = context.getProvider();
@@ -101,21 +93,7 @@ public class RebuildServer extends ProviderServerOperation {
         /*
          * Set Time for Metrics Logger
          */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "rebuild server");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.RebuildServer"); 
+        setTimeForMetricsLogger();
 
         try {
             while (rc.attempt()) {
@@ -128,7 +106,7 @@ public class RebuildServer extends ProviderServerOperation {
                             Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
                             Integer.toString(rc.getRetryLimit()));
                     logger.error(msg, e);
-                    metricsLogger.error(msg,e);
+                    metricsLogger.error(msg, e);
                     rc.delay();
                 }
             }
@@ -143,8 +121,8 @@ public class RebuildServer extends ProviderServerOperation {
                 metricsLogger.trace("Sleep threw interrupted exception, should never occur");
             }
         } catch (ZoneException e) {
-            msg =
-                    EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(), e.getMessage());
+            msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED,
+                    server.getName(), server.getId(), e.getMessage());
             logger.error(msg);
             metricsLogger.error(msg);
             throw new RequestFailedException("Rebuild Server", msg, HttpStatus.BAD_GATEWAY_502, server);
@@ -173,128 +151,110 @@ public class RebuildServer extends ProviderServerOperation {
      * a VM from a bootable volume, where the bootable volume itself is not rebuilt, serves no purpose.
      * </p>
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     * @throws ZoneException
-     * @throws RequestFailedException
+     * @param rc     The request context that manages the state and recovery of the request for the life of
+     *               its processing.
+     * @param server The server to be rebuilt
+     * @throws ZoneException          When error occurs
+     * @throws RequestFailedException When server status is error
      */
     @SuppressWarnings("nls")
-	private void rebuildServer(RequestContext rc, Server server, SvcLogicContext ctx)
-			throws ZoneException, RequestFailedException {
+    private void rebuildServer(RequestContext rc, Server server, SvcLogicContext ctx)
+            throws ZoneException, RequestFailedException {
+        ServerBootSource builtFrom = server.getBootSource();
 
-		ServerBootSource builtFrom = server.getBootSource();
-		String msg;
+        /*
+         * Set Time for Metrics Logger
+         */
+        setTimeForMetricsLogger();
 
-		/*
-		 * Set Time for Metrics Logger
-		 */
-		long startTime = System.currentTimeMillis();
-		TimeZone tz = TimeZone.getTimeZone("UTC");
-		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-		df.setTimeZone(tz);
-		String startTimeStr = df.format(new Date());
-		long endTime = System.currentTimeMillis();
-		long duration = endTime - startTime;
-		String endTimeStr = String.valueOf(endTime);
-		String durationStr = String.valueOf(duration);
-		String endTimeStrUTC = df.format(new Date());
-		MDC.put("EndTimestamp", endTimeStrUTC);
-		MDC.put("ElapsedTime", durationStr);
-		MDC.put("TargetEntity", "cdp");
-		MDC.put("TargetServiceName", "rebuild server");
-		MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.RebuildServer");
+        String msg;
+        // Throw exception for non image/snap boot source
+        if (ServerBootSource.VOLUME.equals(builtFrom)) {
+            msg = String.format("Rebuilding is currently not supported for servers built from bootable volumes [%s]",
+                    server.getId());
+            generateEvent(rc, false, msg);
+            logger.error(msg);
+            metricsLogger.error(msg);
+            throw new RequestFailedException("Rebuild Server", msg, HttpStatus.FORBIDDEN_403, server);
+        }
 
-		// Throw exception for non image/snap boot source
-		if (ServerBootSource.VOLUME.equals(builtFrom)) {
-			msg = String.format("Rebuilding is currently not supported for servers built from bootable volumes [%s]",
-					server.getId());
-			generateEvent(rc, false, msg);
-			logger.error(msg);
-			metricsLogger.error(msg);
-			throw new RequestFailedException("Rebuild Server", msg, HttpStatus.FORBIDDEN_403, server);
-		}
-
-		/*
-		 * Pending is a bit of a special case. If we find the server is in a
-		 * pending state, then the provider is in the process of changing state
-		 * of the server. So, lets try to wait a little bit and see if the state
-		 * settles down to one we can deal with. If not, then we have to fail
-		 * the request.
-		 */
-		Context context = server.getContext();
-		Provider provider = context.getProvider();
-		ComputeService service = context.getComputeService();
-		if (server.getStatus().equals(Server.Status.PENDING)) {
+        /*
+         * Pending is a bit of a special case. If we find the server is in a
+         * pending state, then the provider is in the process of changing state
+         * of the server. So, lets try to wait a little bit and see if the state
+         * settles down to one we can deal with. If not, then we have to fail
+         * the request.
+         */
+        Context context = server.getContext();
+        Provider provider = context.getProvider();
+        ComputeService service = context.getComputeService();
+        if (server.getStatus().equals(Server.Status.PENDING)) {
             rc.reset();
             waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
-					Server.Status.SUSPENDED, Server.Status.PAUSED);
-		}
+                    Server.Status.SUSPENDED, Server.Status.PAUSED);
+        }
 
-		// Is the skip Hypervisor check attribute populated?
-		String skipHypervisorCheck = null;
-		if (ctx != null) {
-			skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+        // Is the skip Hypervisor check attribute populated?
+        String skipHypervisorCheck = null;
+        if (ctx != null) {
+            skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+        }
 
-		}
+        // Always perform Hypervisor Status checks
+        // unless the skip is set to true
+        if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+            // Check of the Hypervisor for the VM Server is UP and reachable
+            checkHypervisor(server);
+        }
 
-		// Always perform Hypervisor Status checks
-		// unless the skip is set to true
-		if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
-
-			// Check of the Hypervisor for the VM Server is UP and reachable
-			checkHypervisor(server);
-		}
-
-		/*
-		 * Get the image to use. This is determined by the presence or
-			 * absence of snapshot images. If any snapshots exist, then the
-			 * latest snapshot is used, otherwise the image used to construct
-			 * the VM is used.
-			 */
-			List<Image> snapshots = server.getSnapshots();
-			String imageToUse;
-			if (snapshots != null && !snapshots.isEmpty()) {
-				imageToUse = snapshots.get(0).getId();
-			} else {
-				imageToUse = server.getImage();
-				ImageService imageService = server.getContext().getImageService();
-                rc.reset();
-				try {
-					while (rc.attempt()) {
-						try {
-							/*
-							 * We are just trying to make sure that the image
-							 * exists. We arent interested in the details at
-							 * this point.
-							 */
-							imageService.getImage(imageToUse);
-							break;
-						} catch (ContextConnectionException e) {
-							msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(),
-									imageService.getURL(), context.getTenant().getName(), context.getTenant().getId(),
-									e.getMessage(), Long.toString(rc.getRetryDelay()),
-									Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
-							logger.error(msg, e);
-							metricsLogger.error(msg);
-							rc.delay();
-						}
-					}
-				} catch (ZoneException e) {
-					msg = EELFResourceManager.format(Msg.IMAGE_NOT_FOUND, imageToUse, "rebuild");
-					generateEvent(rc, false, msg);
-					logger.error(msg);
-					metricsLogger.error(msg);
-					throw new RequestFailedException("Rebuild Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
-				}
-			}
-			if (rc.isFailed()) {
-				msg = EELFResourceManager.format(Msg.CONNECTION_FAILED, provider.getName(), service.getURL());
-				logger.error(msg);
-				metricsLogger.error(msg);
-				throw new RequestFailedException("Rebuild Server", msg, HttpStatus.BAD_GATEWAY_502, server);
-			}
-			rc.reset();
+        /*
+         * Get the image to use. This is determined by the presence or
+         * absence of snapshot images. If any snapshots exist, then the
+         * latest snapshot is used, otherwise the image used to construct
+         * the VM is used.
+         */
+        List<Image> snapshots = server.getSnapshots();
+        String imageToUse;
+        if (snapshots != null && !snapshots.isEmpty()) {
+            imageToUse = snapshots.get(0).getId();
+        } else {
+            imageToUse = server.getImage();
+            ImageService imageService = server.getContext().getImageService();
+            rc.reset();
+            try {
+                while (rc.attempt()) {
+                    try {
+                        /*
+                         * We are just trying to make sure that the image exists.
+                         * We arent interested in the details at this point.
+                         */
+                        imageService.getImage(imageToUse);
+                        break;
+                    } catch (ContextConnectionException e) {
+                        msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(),
+                                imageService.getURL(), context.getTenant().getName(), context.getTenant().getId(),
+                                e.getMessage(), Long.toString(rc.getRetryDelay()),
+                                Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
+                        logger.error(msg, e);
+                        metricsLogger.error(msg);
+                        rc.delay();
+                    }
+                }
+            } catch (ZoneException e) {
+                msg = EELFResourceManager.format(Msg.IMAGE_NOT_FOUND, imageToUse, "rebuild");
+                generateEvent(rc, false, msg);
+                logger.error(msg);
+                metricsLogger.error(msg);
+                throw new RequestFailedException("Rebuild Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+            }
+        }
+        if (rc.isFailed()) {
+            msg = EELFResourceManager.format(Msg.CONNECTION_FAILED, provider.getName(), service.getURL());
+            logger.error(msg);
+            metricsLogger.error(msg);
+            throw new RequestFailedException("Rebuild Server", msg, HttpStatus.BAD_GATEWAY_502, server);
+        }
+        rc.reset();
 
         /*
          * We determine what to do based on the current state of the server
@@ -363,18 +323,16 @@ public class RebuildServer extends ProviderServerOperation {
                 metricsLogger.info("Server status: SUSPENDED");
                 break;
 
-			default:
-				// Hmmm, unknown status, should never occur
-				msg = EELFResourceManager.format(Msg.UNKNOWN_SERVER_STATE, server.getName(), server.getId(),
-						server.getTenantId(), server.getStatus().name());
-				generateEvent(rc, false, msg);
-				logger.error(msg);
-				metricsLogger.error(msg);
-				throw new RequestFailedException("Rebuild Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
-			}
-
-
-	}
+            default:
+                // Hmmm, unknown status, should never occur
+                msg = EELFResourceManager.format(Msg.UNKNOWN_SERVER_STATE, server.getName(), server.getId(),
+                        server.getTenantId(), server.getStatus().name());
+                generateEvent(rc, false, msg);
+                logger.error(msg);
+                metricsLogger.error(msg);
+                throw new RequestFailedException("Rebuild Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+        }
+    }
 
     /**
      * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#rebuildServer(java.util.Map, org.openecomp.sdnc.sli.SvcLogicContext)
@@ -385,33 +343,15 @@ public class RebuildServer extends ProviderServerOperation {
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-        String msg;
-        
-        /*
-         * Set Time for Metrics Logger
-         */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "rebuild server");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.RebuildServer");
+        setTimeForMetricsLogger();
 
+        String msg;
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
+            String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             VMURL vm = VMURL.parseURL(vm_url);
             if (validateVM(rc, appName, vm_url, vm)) return null;
 
@@ -433,24 +373,20 @@ public class RebuildServer extends ProviderServerOperation {
                         doSuccess(rc);
                         ctx.setAttribute("REBUILD_STATUS", "SUCCESS");
                     } else {
-                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
-                                "Accessing Image Service Failed");
+                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED,
+                                server.getName(), server.getId(), "Accessing Image Service Failed");
                         logger.error(msg);
                         metricsLogger.error(msg);
                         doFailure(rc, HttpStatus.FORBIDDEN_403, msg);
                     }
                     context.close();
-                }
-                else
-                {
+                } else {
                     ctx.setAttribute("REBUILD_STATUS", "CONTEXT_NOT_FOUND");
                 }
-            }
-            catch (RequestFailedException e) {
+            } catch (RequestFailedException e) {
                 doFailure(rc, e.getStatus(), e.getMessage());
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
-            }
-            catch (ResourceNotFoundException e) {
+            } catch (ResourceNotFoundException e) {
                 msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
                 logger.error(msg);
@@ -473,22 +409,25 @@ public class RebuildServer extends ProviderServerOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         setMDC(Operation.REBUILD_SERVICE.toString(), "App-C IaaS Adapter:Rebuild", ADAPTER_NAME);
         logOperation(Msg.REBUILDING_SERVER, params, context);
-        
-        /*
-         * Set Time for Metrics Logger
-         */
+
+        setTimeForMetricsLogger();
+
+        metricsLogger.info("Executing Provider Operation: Rebuild");
+
+        return rebuildServer(params, context);
+    }
+
+    private void setTimeForMetricsLogger() {
         long startTime = System.currentTimeMillis();
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
         String durationStr = String.valueOf(duration);
         String endTimeStrUTC = df.format(new Date());
         MDC.put("EndTimestamp", endTimeStrUTC);
@@ -496,11 +435,5 @@ public class RebuildServer extends ProviderServerOperation {
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "rebuild server");
         MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.RebuildServer");
-
-        
-        metricsLogger.info("Executing Provider Operation: Rebuild");
-        
-        
-        return rebuildServer(params, context);
     }
 }

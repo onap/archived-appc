@@ -24,21 +24,6 @@
 
 package org.openecomp.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderStackOperation;
-import org.openecomp.appc.adapter.openstack.heat.SnapshotResource;
-import org.openecomp.appc.adapter.openstack.heat.StackResource;
-import org.openecomp.appc.adapter.openstack.heat.model.CreateSnapshotParams;
-import org.openecomp.appc.adapter.openstack.heat.model.Snapshot;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.openstack.OpenStackContext;
@@ -51,32 +36,40 @@ import com.att.cdp.zones.spi.RequestState;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.heat.Heat;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
-import java.util.Map;
-
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
-
+import org.openecomp.appc.Constants;
+import org.openecomp.appc.adapter.iaas.ProviderAdapter;
+import org.openecomp.appc.adapter.iaas.impl.RequestContext;
+import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderStackOperation;
+import org.openecomp.appc.adapter.openstack.heat.SnapshotResource;
+import org.openecomp.appc.adapter.openstack.heat.StackResource;
+import org.openecomp.appc.adapter.openstack.heat.model.CreateSnapshotParams;
+import org.openecomp.appc.adapter.openstack.heat.model.Snapshot;
+import org.openecomp.appc.exceptions.APPCException;
+import org.openecomp.appc.i18n.Msg;
+import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.slf4j.MDC;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 
+import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
-/**
- * @since September 26, 2016
- */
 public class SnapshotStack extends ProviderStackOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(SnapshotStack.class);
     private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
 
 
-    private Snapshot snapshotStack(@SuppressWarnings("unused") RequestContext rc, Stack stack) throws ZoneException, RequestFailedException {
+    private Snapshot snapshotStack(@SuppressWarnings("unused") RequestContext rc, Stack stack)
+            throws ZoneException, RequestFailedException {
         Snapshot snapshot = new Snapshot();
         Context context = stack.getContext();
 
@@ -92,25 +85,8 @@ public class SnapshotStack extends ProviderStackOperation {
         Heat heat = heatConnector.getClient();
 
         SnapshotResource snapshotResource = new SnapshotResource(heat);
-        
-        /*
-         * Set Time for Metrics Logger
-         */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "snapshot stack");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.SnapshotStack");
+
+        setTimeForMetricsLogger();
 
         try {
 
@@ -129,46 +105,24 @@ public class SnapshotStack extends ProviderStackOperation {
         return snapshot;
     }
 
-
-    public Stack snapshotStack(Map<String, String> params, SvcLogicContext ctx) throws IllegalArgumentException, APPCException {
+    public Stack snapshotStack(Map<String, String> params, SvcLogicContext ctx)
+            throws IllegalArgumentException, APPCException {
         Stack stack = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
-
         ctx.setAttribute("SNAPSHOT_STATUS", "STACK_NOT_FOUND");
-        String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+
+        setTimeForMetricsLogger();
 
         String vm_url = null;
         Context context = null;
-
-        /*
-         * Set Time for Metrics Logger
-         */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "snapshot stack");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.SnapshotStack");
-        
-        
         try {
-
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME, ProviderAdapter.PROPERTY_STACK_ID);
 
             String stackId = params.get(ProviderAdapter.PROPERTY_STACK_ID);
+            String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-
             context = resolveContext(rc, params, appName, vm_url);
 
             if (context != null) {
@@ -196,8 +150,10 @@ public class SnapshotStack extends ProviderStackOperation {
             metricsLogger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg, e);
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST, e.getReason(), "snapshotStack"));
-            metricsLogger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST, e.getReason(), "snapshotStack"));
+            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
+                    e.getReason(), "snapshotStack"));
+            metricsLogger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
+                    e.getReason(), "snapshotStack"));
             doFailure(rc, e.getStatus(), e.getMessage(), e);
         } catch (Throwable t) {
             String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
@@ -210,21 +166,25 @@ public class SnapshotStack extends ProviderStackOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         setMDC(Operation.SNAPSHOT_STACK.toString(), "App-C IaaS Adapter:Snapshot-Stack", ADAPTER_NAME);
         logOperation(Msg.SNAPSHOTING_STACK, params, context);
-        
-        /*
-         * Set Time for Metrics Logger
-         */
+
+        setTimeForMetricsLogger();
+
+        metricsLogger.info("Executing Provider Operation: Snapshot Stack");
+
+        return snapshotStack(params, context);
+    }
+
+    private void setTimeForMetricsLogger() {
         long startTime = System.currentTimeMillis();
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
         String durationStr = String.valueOf(duration);
         String endTimeStrUTC = df.format(new Date());
         MDC.put("EndTimestamp", endTimeStrUTC);
@@ -232,9 +192,5 @@ public class SnapshotStack extends ProviderStackOperation {
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "snapshot stack");
         MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.SnapshotStack");
-        
-        metricsLogger.info("Executing Provider Operation: Snapshot Stack");
-        
-        return snapshotStack(params, context);
     }
 }

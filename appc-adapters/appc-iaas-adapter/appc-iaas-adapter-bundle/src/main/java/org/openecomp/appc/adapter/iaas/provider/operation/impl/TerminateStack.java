@@ -48,9 +48,6 @@ import java.util.Map;
 
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
-/**
- * @since September 26, 2016
- */
 public class TerminateStack extends ProviderStackOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(EvacuateServer.class);
@@ -73,7 +70,8 @@ public class TerminateStack extends ProviderStackOperation {
     }
 
     @SuppressWarnings("nls")
-    public Stack terminateStack(Map<String, String> params, SvcLogicContext ctx) throws IllegalArgumentException, APPCException {
+    public Stack terminateStack(Map<String, String> params, SvcLogicContext ctx)
+            throws IllegalArgumentException, APPCException {
         Stack stack = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -101,7 +99,8 @@ public class TerminateStack extends ProviderStackOperation {
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
                     context.close();
                     doSuccess(rc);
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "TerminateStack", vm_url);
+                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE,
+                            "TerminateStack", vm_url);
                     ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 }
             } catch (ResourceNotFoundException e) {
@@ -122,8 +121,8 @@ public class TerminateStack extends ProviderStackOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         setMDC(Operation.TERMINATE_STACK.toString(), "App-C IaaS Adapter:Terminate-Stack", ADAPTER_NAME);
         logOperation(Msg.TERMINATING_STACK, params, context);
         return terminateStack(params, context);

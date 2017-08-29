@@ -24,18 +24,6 @@
 
 package org.openecomp.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
@@ -48,22 +36,30 @@ import com.att.cdp.zones.model.Server;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
-
+import org.openecomp.appc.Constants;
+import org.openecomp.appc.adapter.iaas.ProviderAdapter;
+import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
+import org.openecomp.appc.adapter.iaas.impl.RequestContext;
+import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
+import org.openecomp.appc.adapter.iaas.impl.VMURL;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.openecomp.appc.configuration.Configuration;
+import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.openecomp.appc.exceptions.APPCException;
+import org.openecomp.appc.i18n.Msg;
+import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.slf4j.MDC;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
 
+import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
+import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class CreateSnapshot extends ProviderServerOperation {
 
@@ -71,29 +67,10 @@ public class CreateSnapshot extends ProviderServerOperation {
     private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
-
     private String generateSnapshotName(String server) {
+        setTimeForMetricsLogger();
+
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        
-        /*
-         * Set Time for Metrics Logger
-         */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df2.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "create snapshot");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.CreateSnapshot"); 
-        
         metricsLogger.info("Snapshot Name Generated: Snapshot of %s at %s", server, df.format(new Date()));
         
         return String.format("Snapshot of %s at %s", server, df.format(new Date()));
@@ -105,30 +82,13 @@ public class CreateSnapshot extends ProviderServerOperation {
         ImageService service = context.getImageService(); // Already checked access by this point
 
         String snapshotName = generateSnapshotName(server.getName());
-        
-        /*
-         * Set Time for Metrics Logger
-         */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "create snapshot");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.CreateSnapshot"); 
 
-        logger.info(String.format("Creating snapshot of server %s (%s) with name %s", server.getName(), server.getId(),
-                snapshotName));
-        metricsLogger.info(String.format("Creating snapshot of server %s (%s) with name %s", server.getName(), server.getId(),
-                snapshotName));
+        setTimeForMetricsLogger();
+
+        logger.info(String.format("Creating snapshot of server %s (%s) with name %s",
+                server.getName(), server.getId(), snapshotName));
+        metricsLogger.info(String.format("Creating snapshot of server %s (%s) with name %s",
+                server.getName(), server.getId(), snapshotName));
 
         // Request Snapshot
         String msg;
@@ -187,39 +147,19 @@ public class CreateSnapshot extends ProviderServerOperation {
     }
 
     private Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-
         Image snapshot = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+        setTimeForMetricsLogger();
+
         String msg;
-        
-        
-        /*
-         * Set Time for Metrics Logger
-         */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "create snapshot");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.CreateSnapshot"); 
-        
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
+            String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             VMURL vm = VMURL.parseURL(vm_url);
             if (validateVM(rc, appName, vm_url, vm)) return null;
 
@@ -237,8 +177,8 @@ public class CreateSnapshot extends ProviderServerOperation {
                         snapshot = createSnapshot(rc, server);
                         doSuccess(rc);
                     } else {
-                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
-                                "Accessing Image Service Failed");
+                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED,
+                                server.getName(), server.getId(), "Accessing Image Service Failed");
                         logger.error(msg);
                         metricsLogger.error(msg);
                         doFailure(rc, HttpStatus.FORBIDDEN_403, msg);
@@ -252,7 +192,8 @@ public class CreateSnapshot extends ProviderServerOperation {
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Throwable t) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
-                        Operation.SNAPSHOT_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                        Operation.SNAPSHOT_SERVICE.toString(), vm_url,
+                        context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, t);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
@@ -263,32 +204,31 @@ public class CreateSnapshot extends ProviderServerOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
 
         setMDC(Operation.SNAPSHOT_SERVICE.toString(), "App-C IaaS Adapter:Snapshot", ADAPTER_NAME);
         logOperation(Msg.SNAPSHOTING_SERVER, params, context);
+        setTimeForMetricsLogger();
+
+        metricsLogger.info("Executing Provider Operation: Create Snapshot");
         
-        /*
-         * Set Time for Metrics Logger
-         */
+        return createSnapshot(params, context);
+    }
+
+    private void setTimeForMetricsLogger() {
         long startTime = System.currentTimeMillis();
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
         String durationStr = String.valueOf(duration);
         String endTimeStrUTC = df.format(new Date());
         MDC.put("EndTimestamp", endTimeStrUTC);
         MDC.put("ElapsedTime", durationStr);
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "create snapshot");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.CreateSnapshot"); 
-        
-        metricsLogger.info("Executing Provider Operation: Create Snapshot");
-        
-        return createSnapshot(params, context);
+        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.CreateSnapshot");
     }
 }

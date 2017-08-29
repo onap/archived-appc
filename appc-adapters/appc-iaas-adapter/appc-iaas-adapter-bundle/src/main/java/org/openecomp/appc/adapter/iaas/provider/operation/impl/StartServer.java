@@ -86,17 +86,17 @@ public class StartServer extends ProviderServerOperation {
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
                     String msg;
 
-            		/*
-            		 * We determine what to do based on the current state of the server
-            		 */
+                    /*
+                     * We determine what to do based on the current state of the server
+                     */
 
-            		/*
-            		 * Pending is a bit of a special case. If we find the server is in a
-            		 * pending state, then the provider is in the process of changing state
-            		 * of the server. So, lets try to wait a little bit and see if the state
-            		 * settles down to one we can deal with. If not, then we have to fail
-            		 * the request.
-            		 */
+                    /*
+                     * Pending is a bit of a special case. If we find the server is in a
+                     * pending state, then the provider is in the process of changing state
+                     * of the server. So, lets try to wait a little bit and see if the state
+                     * settles down to one we can deal with. If not, then we have to fail
+                     * the request.
+                     */
 
                     if (server.getStatus().equals(Server.Status.PENDING)) {
                         waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
@@ -106,11 +106,11 @@ public class StartServer extends ProviderServerOperation {
                     switch (server.getStatus()) {
                         case DELETED:
                             // Nothing to do, the server is gone
-                            msg = EELFResourceManager.format(Msg.SERVER_DELETED, server.getName(), server.getId(),
-                                    server.getTenantId(), "started");
+                            msg = EELFResourceManager.format(Msg.SERVER_DELETED,
+                                    server.getName(), server.getId(), server.getTenantId(), "started");
                             logger.error(msg);
-                            //        				metricsLogger.error(msg);
-                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException(
+                                    "Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
 
                         case RUNNING:
                             // Nothing to do, the server is already running
@@ -119,11 +119,11 @@ public class StartServer extends ProviderServerOperation {
 
                         case ERROR:
                             // Server is in error state
-                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE, server.getName(), server.getId(),
-                                    server.getTenantId(), "start");
+                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE,
+                                    server.getName(), server.getId(), server.getTenantId(), "start");
                             logger.error(msg);
-                            //        				metricsLogger.error(msg);
-                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException(
+                                    "Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
 
                         case READY:
                             // Server is stopped attempt to start the server
@@ -135,14 +135,12 @@ public class StartServer extends ProviderServerOperation {
                             // if paused, un-pause it
                             rc.reset();
                             unpauseServer(rc, server);
-                            //        				metricsLogger.info("Server status: PAUSED");
                             break;
 
                         case SUSPENDED:
                             // Attempt to resume the suspended server
                             rc.reset();
                             resumeServer(rc, server);
-                            //        				metricsLogger.info("Server status: SUSPENDED");
                             break;
 
                         default:
@@ -151,8 +149,8 @@ public class StartServer extends ProviderServerOperation {
                                     server.getTenantId(), server.getStatus().name());
                             generateEvent(rc, false, msg);
                             logger.error(msg);
-                            //        				metricsLogger.error(msg);
-                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException(
+                                    "Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
                     }
                     context.close();
                     doSuccess(rc);
@@ -180,8 +178,8 @@ public class StartServer extends ProviderServerOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         setMDC(Operation.START_SERVICE.toString(), "App-C IaaS Adapter:Start", ADAPTER_NAME);
         logOperation(Msg.STARTING_SERVER, params, context);
         return startServer(params, context);

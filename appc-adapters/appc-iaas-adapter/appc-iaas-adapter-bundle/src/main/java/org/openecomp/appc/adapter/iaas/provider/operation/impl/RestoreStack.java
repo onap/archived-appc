@@ -24,17 +24,6 @@
 
 package org.openecomp.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderStackOperation;
-import org.openecomp.appc.adapter.openstack.heat.SnapshotResource;
-import org.openecomp.appc.adapter.openstack.heat.StackResource;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
-import org.openecomp.appc.i18n.Msg;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.openstack.OpenStackContext;
@@ -47,16 +36,24 @@ import com.att.cdp.zones.spi.RequestState;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.heat.Heat;
 import org.glassfish.grizzly.http.util.HttpStatus;
+import org.openecomp.appc.Constants;
+import org.openecomp.appc.adapter.iaas.ProviderAdapter;
+import org.openecomp.appc.adapter.iaas.impl.RequestContext;
+import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderStackOperation;
+import org.openecomp.appc.adapter.openstack.heat.SnapshotResource;
+import org.openecomp.appc.adapter.openstack.heat.StackResource;
+import org.openecomp.appc.exceptions.APPCException;
+import org.openecomp.appc.i18n.Msg;
+import org.openecomp.sdnc.sli.SvcLogicContext;
 
 import java.util.Map;
 
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
-
 
 public class RestoreStack extends ProviderStackOperation {
 
@@ -94,7 +91,8 @@ public class RestoreStack extends ProviderStackOperation {
 
     }
 
-    public Stack restoreStack(Map<String, String> params, SvcLogicContext ctx) throws IllegalArgumentException, APPCException {
+    public Stack restoreStack(Map<String, String> params, SvcLogicContext ctx)
+            throws IllegalArgumentException, APPCException {
         Stack stack = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -107,15 +105,17 @@ public class RestoreStack extends ProviderStackOperation {
 
         try {
 
-            validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL, ProviderAdapter.PROPERTY_PROVIDER_NAME,
-                    ProviderAdapter.PROPERTY_STACK_ID, ProviderAdapter.PROPERTY_INPUT_SNAPSHOT_ID);
+            validateParametersExist(params,
+                    ProviderAdapter.PROPERTY_INSTANCE_URL,
+                    ProviderAdapter.PROPERTY_PROVIDER_NAME,
+                    ProviderAdapter.PROPERTY_STACK_ID,
+                    ProviderAdapter.PROPERTY_INPUT_SNAPSHOT_ID);
 
             String stackId = params.get(ProviderAdapter.PROPERTY_STACK_ID);
             vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             String snapshotId = params.get(ProviderAdapter.PROPERTY_INPUT_SNAPSHOT_ID);
 
             context = resolveContext(rc, params, appName, vm_url);
-
 
             if (context != null) {
                     stack = lookupStack(rc, context, stackId);
@@ -125,7 +125,7 @@ public class RestoreStack extends ProviderStackOperation {
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
                     context.close();
                     doSuccess(rc);
-            }else {
+            } else {
                 ctx.setAttribute(Constants.DG_ATTRIBUTE_STATUS, "failure");
             }
 
@@ -134,7 +134,8 @@ public class RestoreStack extends ProviderStackOperation {
             logger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg, e);
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST, e.getReason(), "restoreStack"));
+            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
+                    e.getReason(), "restoreStack"));
             doFailure(rc, e.getStatus(), e.getMessage(), e);
         } catch (Throwable t) {
             String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
@@ -146,8 +147,8 @@ public class RestoreStack extends ProviderStackOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         setMDC(Operation.RESTORE_STACK.toString(), "App-C IaaS Adapter:Restore-Stack", ADAPTER_NAME);
         logOperation(Msg.RESTORING_STACK, params, context);
         return restoreStack(params, context);
