@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_ce445f76",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/openecomp/appc/data/services/AppcDataServiceConstant.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-29T13:44:19Z",
+      "side": 1,
+      "message": "For future reference tabs should not be used, replace with 4 spaces.     Not a blocker for this patch.",
+      "revId": "e6e54066b6f9f59f9d071876e608d8a84effaa08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ae491b8d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-29T13:44:19Z",
+      "side": 1,
+      "message": "All of the pom files in this pacth are missing license text.   It must be included on any new updates",
+      "revId": "e6e54066b6f9f59f9d071876e608d8a84effaa08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
