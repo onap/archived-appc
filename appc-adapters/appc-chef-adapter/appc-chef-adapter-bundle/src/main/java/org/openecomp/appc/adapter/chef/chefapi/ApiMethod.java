@@ -58,15 +58,8 @@ public class ApiMethod {
 	private String methodName = "GET";
 	public String test = "";
 	private int returnCode;
-	final String KEY_STORE_PATH = "/etc/chef/trusted_certs/mykeystore.jks";
-	final String KEY_STORE_PASSWORD = "adminadmin";
-	static
-{
-	System.setProperty("javax.net.ssl.trustStore", "/opt/app/bvc/chef/chefServerSSL.jks");
-	System.setProperty("javax.net.ssl.trustStorePassword", "adminadmin");
-		}
-	public ApiMethod(String methodName) {
 
+	public ApiMethod(String methodName) {
 		client=HttpClients.createDefault();
 		this.methodName = methodName;
 	}
@@ -103,7 +96,11 @@ public class ApiMethod {
 		for (int i = 0; i < auth_headers.length; i++) {
 			method.addHeader("X-Ops-Authorization-" + (i + 1), auth_headers[i]);
 		}
-
+		/*
+		 * test=test+this.method.getMethod()+"\n"; Header[]
+		 * RHS=this.method.getHeaders(); for (int i = 0; i < RHS.length; i++) {
+		 * test=test+RHS[i]+"\n"; } test=test+this.reqBody+"\n";
+		 */
 		try{
 		response = client.execute(method);
 		resCode = response.getStatusLine().getStatusCode();
@@ -153,7 +150,7 @@ public class ApiMethod {
 	public void setPemPath(String pemPath) {
 		this.pemPath = pemPath;
 	}
-
+	
 	public String getChefPath() {
 		return chefPath;
 	}
@@ -161,7 +158,7 @@ public class ApiMethod {
 	public void setChefPath(String chefPath) {
 		this.chefPath = chefPath;
 	}
-
+	
 	public String getOrganizations() {
 		return organizations;
 	}

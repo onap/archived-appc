@@ -42,7 +42,7 @@ import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
  */
 public interface ChefAdapter extends SvcLogicJavaPlugin {
 
-	 /**
+     /**
      * The type of provider to be accessed to locate and operate on a virtual machine instance. This is used to load the
      * correct provider support through the CDP IaaS abstraction layer and can be OpenStackProvider, BareMetalProvider,
      * or any other supported provider type.
@@ -82,7 +82,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     * 
+     *
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -112,7 +112,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     * 
+     *
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -142,7 +142,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     * 
+     *
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -172,7 +172,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     * 
+     *
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -188,7 +188,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
 
     /**
      * Returns the symbolic name of the adapter
-     * 
+     *
      * @return The adapter name
      */
     String getAdapterName();
@@ -196,33 +196,25 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
    // Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 
     //Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-    
+
     void trigger(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void chefGet(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void chefPut(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void chefPost(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void chefDelete(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void nodeObejctBuilder(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void checkPushJob(Map<String, String> params, SvcLogicContext ctx) ;
 
     void pushJob(Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void retrieveData (Map<String, String> params, SvcLogicContext ctx) ;
-    
+
     void combineStrings (Map<String, String> params, SvcLogicContext ctx) ;
-    
-    void VnfcEnvironment (Map<String, String> params, SvcLogicContext ctx) ;
-    
-    void VnfcNodeobjects (Map<String, String> params, SvcLogicContext ctx) ;
-    
-    void VnfcPushJob (Map<String, String> params, SvcLogicContext ctx) ;
-    
-    void fetchResults (Map<String, String> params, SvcLogicContext ctx) ;
 
 }

@@ -72,18 +72,17 @@ public class TestChefAdapterImpl {
     @Before
     public void setup() throws IllegalArgumentException, IllegalAccessException {
 
-        adapter = new ChefAdapterImpl();
+        adapter = new ChefAdapterImpl(System.getProperty("user.dir")+"/src/main/resources/client.pem");
     }
-    
+
     @Test
     public void testChefGet() throws IOException, IllegalStateException, IllegalArgumentException,
       ZoneException, APPCException {
 
             Map<String, String> params = new HashMap<>();
             params.put("org.openecomp.appc.instance.chefAction", "/nodes");
-            
-            
-            SvcLogicContext svcContext = new SvcLogicContext();          
+
+            SvcLogicContext svcContext = new SvcLogicContext();
             adapter.chefGet(params, svcContext);
             String status=svcContext.getAttribute("org.openecomp.appc.chefServerResult.code");
             assertEquals("200",status);
@@ -98,7 +97,7 @@ public class TestChefAdapterImpl {
             params.put("org.openecomp.appc.instance.chefAction", "/nodes/testnode");
             params.put("org.openecomp.appc.instance.runList", "recipe[commandtest]");
             params.put("org.openecomp.appc.instance.attributes", "");
-            SvcLogicContext svcContext = new SvcLogicContext();          
+            SvcLogicContext svcContext = new SvcLogicContext();
             adapter.chefPut(params, svcContext);
             String status=svcContext.getAttribute("org.openecomp.appc.chefServerResult.code");
             assertEquals("200",status);
@@ -111,7 +110,7 @@ public class TestChefAdapterImpl {
 
             Map<String, String> params = new HashMap<>();
             params.put("org.openecomp.appc.instance.ip", "http://example.com/test");
-            SvcLogicContext svcContext = new SvcLogicContext();          
+            SvcLogicContext svcContext = new SvcLogicContext();
             adapter.trigger(params, svcContext);
             String status=svcContext.getAttribute("org.openecomp.appc.chefAgent.code");
             assertEquals("200",status);

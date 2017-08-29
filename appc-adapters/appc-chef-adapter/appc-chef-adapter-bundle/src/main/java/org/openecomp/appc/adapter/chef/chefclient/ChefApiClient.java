@@ -27,66 +27,61 @@ import org.apache.http.client.methods.*;
 import org.openecomp.appc.adapter.chef.chefapi.*;
 
 public class ChefApiClient {
-	private String endpoint;
-	private String userId;
-	private String pemPath;
-	private String organizations;
+    private String endpoint;
+    private String userId;
+    private String pemPath;
+    private String organizations;
 
-	
+    /**
+     *
+     * @param userId user name correspond to the pem key
+     * @param pemPath path of the auth key
+     * @param endpoint chef api server address
+     */
+    public ChefApiClient(String userId, String pemPath, String endpoint,String organizations){
+        this.userId = userId;
+        this.pemPath = pemPath;
+        this.endpoint = endpoint;
+        this.organizations=organizations;
+    }
 
-	 
-	/**
-	 *
-	 * @param userId user name correspond to the pem key
-	 * @param pemPath path of the auth key
-	 * @param endpoint chef api server address
-	 */
-	public ChefApiClient(String userId, String pemPath, String endpoint,String organizations){
-		this.userId = userId;
-		this.pemPath = pemPath;
-		this.endpoint = endpoint;
-		this.organizations=organizations;
-	}
+    /**
+     *
+     * @param path in the endpoint. e.g /clients
+     * @return
+     */
+    public Get get(String path){
+        Get get = new Get(new HttpGet(endpoint+path));
+        get.setPemPath(pemPath);
+        get.setUserId(userId);
+        get.setOrganizations(organizations);
+        get.setChefPath(path);
+        return get;
+    }
 
-	/**
-	 *
-	 * @param path in the endpoint. e.g /clients
-	 * @return
-	 */
-	public Get get(String path){
-		Get get = new Get(new HttpGet(endpoint+path));
-		get.setPemPath(pemPath);
-		get.setUserId(userId);
-		get.setOrganizations(organizations);
-		get.setChefPath(path);
-		return get;
-	}
-
-	public Put put(String path){
-		Put put = new Put(new HttpPut(endpoint+path));
-		put.setPemPath(pemPath);
-		put.setUserId(userId);
-		put.setOrganizations(organizations);
-		put.setChefPath(path);
-		return put;
+    public Put put(String path){
+        Put put = new Put(new HttpPut(endpoint+path));
+        put.setPemPath(pemPath);
+        put.setUserId(userId);
+        put.setOrganizations(organizations);
+        put.setChefPath(path);
+        return put;
    }
-	public Post post(String path){
-		Post post = new Post(new HttpPost(endpoint+path));
-		post.setPemPath(pemPath);
-		post.setUserId(userId);
-		post.setOrganizations(organizations);
-		post.setChefPath(path);
-		return post;
-	}
-	
-	public Delete delete(String path){
-	    Delete del = new Delete(new HttpDelete(endpoint+path));
-	    del.setPemPath(pemPath);
-	    del.setUserId(userId);
-	    del.setOrganizations(organizations);
-	    del.setChefPath(path);
-	    return del;
-	}
-
-	
+    public Post post(String path){
+        Post post = new Post(new HttpPost(endpoint+path));
+        post.setPemPath(pemPath);
+        post.setUserId(userId);
+        post.setOrganizations(organizations);
+        post.setChefPath(path);
+        return post;
+    }
+    
+    public Delete delete(String path){
+        Delete del = new Delete(new HttpDelete(endpoint+path));
+        del.setPemPath(pemPath);
+        del.setUserId(userId);
+        del.setOrganizations(organizations);
+        del.setChefPath(path);
+        return del;
+    }
 }
