@@ -36,11 +36,11 @@ public class TestConfigurationDocumentRequest /* extends AbstractDGTestCase */ {
 
 /*
 	@Test
-	public void testASDCMessage() {
+	public void testSDCMessage() {
 		try {
-			String propertyfileName = "ASDC-MESSAGE_method_configuration-document-request_TC1.properties";
+			String propertyfileName = "SDC-MESSAGE_method_configuration-document-request_TC1.properties";
 
-			String configurationDocumentRequestXML = "src/main/resources/xml/ASDC-MESSAGE_method_configuration-document-request_3.0.0.xml";
+			String configurationDocumentRequestXML = "src/main/resources/xml/SDC-MESSAGE_method_configuration-document-request_3.0.0.xml";
 
 
 			// Register Call graphs
@@ -50,7 +50,7 @@ public class TestConfigurationDocumentRequest /* extends AbstractDGTestCase */ {
 			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode",new org.openecomp.sdnc.config.generator.convert.ConvertNode());
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
 
-			GraphKey  graphKey = new GraphKey("ASDC-MESSAGE", null, "configuration-document-request", null);
+			GraphKey  graphKey = new GraphKey("SDC-MESSAGE", null, "configuration-document-request", null);
 			DGTestCase tc = new DGTestCase(graphKey);
 			tc.setInjectGraphXmls(injectGraphXmls);
 			tc.setServiceReferences(serviceReferences);
