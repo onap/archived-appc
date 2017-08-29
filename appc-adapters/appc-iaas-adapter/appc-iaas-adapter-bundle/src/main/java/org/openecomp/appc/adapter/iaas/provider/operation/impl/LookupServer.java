@@ -97,8 +97,9 @@ public class LookupServer extends ProviderServerOperation {
                 //exception closing context
                 String msg = EELFResourceManager.format(Msg.CLOSE_CONTEXT_FAILED, e, vm_url);
                 logger.error(msg);
-            } catch (Throwable t) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
+            } catch (Exception t) {
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
+                        t, t.getClass().getSimpleName(),
                         Operation.LOOKUP_SERVICE.toString(), vm_url,  "Unknown" );
                 logger.error(msg, t);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);

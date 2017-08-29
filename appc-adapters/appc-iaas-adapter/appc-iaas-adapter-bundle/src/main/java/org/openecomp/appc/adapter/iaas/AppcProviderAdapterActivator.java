@@ -100,7 +100,7 @@ public class AppcProviderAdapterActivator implements BundleActivator {
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "IAAS adapter");
         try{
             adapter = new ProviderAdapterImpl(configuration.getProperties());
-        }catch(Throwable t){
+        }catch(Exception t){
             logger.error("Error initializing APPC IAAS ProviderAdapterImpl",t);
             throw t;
         }

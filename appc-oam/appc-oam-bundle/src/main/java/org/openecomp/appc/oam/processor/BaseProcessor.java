@@ -92,7 +92,7 @@ public abstract class BaseProcessor extends BaseCommon {
             preProcess(requestInput);
             timeoutSeconds = operationHelper.getParamRequestTimeout(requestInput);
             scheduleAsyncTask();
-        } catch (Throwable t) {
+        } catch (Exception t) {
             setErrorStatus(t);
         } finally {
             postProcess();

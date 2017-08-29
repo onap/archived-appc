@@ -392,7 +392,7 @@ public class RebuildServer extends ProviderServerOperation {
                 logger.error(msg);
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
                         STOP_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");

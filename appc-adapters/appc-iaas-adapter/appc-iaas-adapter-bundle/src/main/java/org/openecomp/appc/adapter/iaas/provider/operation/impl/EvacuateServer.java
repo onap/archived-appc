@@ -263,7 +263,7 @@ public class EvacuateServer extends ProviderServerOperation {
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (RequestFailedException e) {
                 doFailure(rc, e.getStatus(), e.getMessage());
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
                         Operation.EVACUATE_SERVICE.toString(),
                         vm_url, context == null ? "Unknown" : context.getTenantName());

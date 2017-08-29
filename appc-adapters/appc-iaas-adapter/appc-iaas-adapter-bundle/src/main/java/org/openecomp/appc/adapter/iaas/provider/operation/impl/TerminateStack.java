@@ -107,7 +107,7 @@ public class TerminateStack extends ProviderStackOperation {
                 String msg = EELFResourceManager.format(Msg.STACK_NOT_FOUND, e, vm_url);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
                         Operation.TERMINATE_STACK.toString(), vm_url, context.getTenantName());
                 logger.error(msg, t);

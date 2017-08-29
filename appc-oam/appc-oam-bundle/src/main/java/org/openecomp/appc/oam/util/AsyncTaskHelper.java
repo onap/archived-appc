@@ -158,6 +158,7 @@ public class AsyncTaskHelper {
         task.cancel(false);
         if (task == backgroundOamTask) {
             backgroundOamTask = null;
+            taskRunnable = null;
             logDebug("Cancelling background task in cancel task.");
         }
     }

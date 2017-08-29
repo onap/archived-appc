@@ -179,7 +179,7 @@ public class StopServer extends ProviderServerOperation {
                 String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
                         STOP_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, t);

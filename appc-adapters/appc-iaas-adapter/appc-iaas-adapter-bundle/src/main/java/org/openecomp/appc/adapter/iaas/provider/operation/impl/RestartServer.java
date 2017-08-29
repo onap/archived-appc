@@ -229,7 +229,7 @@ public class RestartServer extends ProviderServerOperation {
                 logger.error(msg);
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Throwable t) {
+            } catch (Exception t) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
                         RESTART_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, t);
