@@ -29,18 +29,18 @@ import org.apache.http.entity.StringEntity;
 
 public class Post extends ApiMethod{
 
-	public Post(HttpRequestBase method) {
-		super("POST");
-		this.method = method;
-	}
-	
-	public ApiMethod body(String body){
-		this.reqBody = body;
-		StringEntity params =new StringEntity (body,"UTF-8");
-		params.setContentType("application/json");	 
-		HttpPost post = (HttpPost) method;
-		post.setEntity(params);
-		return this;
-	}
+    public Post(HttpRequestBase method) {
+        super("POST");
+        this.method = method;
+    }
+
+    public ApiMethod body(String body){
+        this.reqBody = body;
+        StringEntity params =new StringEntity (body,"UTF-8");
+        params.setContentType("application/json");
+        HttpPost post = (HttpPost) method;
+        post.setEntity(params);
+        return this;
+    }
 
 }

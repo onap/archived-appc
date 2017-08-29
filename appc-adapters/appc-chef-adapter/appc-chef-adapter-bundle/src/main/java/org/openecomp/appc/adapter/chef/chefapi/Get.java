@@ -28,9 +28,8 @@ import org.apache.http.client.methods.HttpGet;
 
 public class Get extends ApiMethod{
 
-	public Get(HttpGet method) {
-		super("GET");
-		this.method = method;
-	}
-
+    public Get(HttpGet method) {
+        super("GET");
+        this.method = method;
+    }
 }

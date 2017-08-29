@@ -33,31 +33,11 @@ REPOZIP=${INSTALLERDIR}/${features.boot}-${project.version}.zip
 
 if [ -f ${REPOZIP} ]
 then
-	unzip -n -d ${ODL_HOME} ${REPOZIP}
+    unzip -n -d ${ODL_HOME} ${REPOZIP}
 else
-	echo "ERROR : repo zip ($REPOZIP) not found"
-	exit 1
+    echo "ERROR : repo zip ($REPOZIP) not found"
+    exit 1
 fi
 
-COUNT=0
-while [ $COUNT -lt 10 ]; do
-	${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories} 2> /tmp/installErr
-	cat /tmp/installErr
-	if grep -q 'Failed to get the session' /tmp/installErr; then
-		sleep 10
-	else
-		let COUNT=10
-	fi
-	let COUNT=COUNT+1
-done
-COUNT=0
-while [ $COUNT -lt 10 ]; do
-	${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install ${features.boot} 2> /tmp/installErr
-		cat /tmp/installErr
-	if grep -q 'Failed to get the session' /tmp/installErr; then
-		sleep 10
-	else
-		let COUNT=10
-	fi
-	let COUNT=COUNT+1
-done
+${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories}
+${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install ${features.boot}

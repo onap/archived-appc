@@ -89,7 +89,7 @@ public class RequestContext {
 
     /**
      * Creates the request context
-     * 
+     *
      * @param context
      *            The service logic (SLI) context associated with the current DG
      */
@@ -146,7 +146,7 @@ public class RequestContext {
 
     /**
      * Check and count the connection attempt.
-     * 
+     *
      * @return True if the connection should be attempted. False indicates that the number of retries has been exhausted
      *         and it should NOT be attempted.
      */
@@ -183,7 +183,7 @@ public class RequestContext {
      * the total time used is less than or equal to the time to live limit, the method returns true. It is important to
      * call this method at the very beginning of the process so that all parts of the process are tracked.
      * </p>
-     * 
+     *
      * @return True if the total time to live has not been exceeded. False indicates that the total time to live has
      *         been exceeded and no further processing should be performed.
      */
@@ -217,7 +217,7 @@ public class RequestContext {
 
     /**
      * Sets the time to live to the value, expressed in seconds
-     * 
+     *
      * @param time
      *            The time to live, in seconds
      */
@@ -227,7 +227,7 @@ public class RequestContext {
 
     /**
      * Sets the time to live to the value, expressed in milliseconds
-     * 
+     *
      * @param time
      *            The time to live, in milliseconds
      */

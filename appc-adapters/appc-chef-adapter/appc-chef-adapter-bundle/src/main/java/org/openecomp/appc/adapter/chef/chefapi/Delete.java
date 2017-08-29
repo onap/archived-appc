@@ -28,9 +28,9 @@ import org.apache.http.client.methods.HttpDelete;
 
 public class Delete extends ApiMethod{
 
-	public Delete(HttpDelete method) {
-		super("DELETE");
-		this.method = method;
-	}
+    public Delete(HttpDelete method) {
+        super("DELETE");
+        this.method = method;
+    }
 
 }

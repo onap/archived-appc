@@ -68,7 +68,7 @@ public class ChefActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ChefActivator.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(ChefActivator.class);
 
     /**
      * The configuration object used to configure this bundle
@@ -81,7 +81,7 @@ public class ChefActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     * 
+     *
      * @param context
      *            The execution context of the bundle being started.
      * @throws java.lang.Exception
@@ -97,7 +97,7 @@ public class ChefActivator implements BundleActivator {
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "chef adapter");
-        adapter = new ChefAdapterImpl(configuration.getProperties());
+        adapter = new ChefAdapterImpl();
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
                 ChefAdapter.class.getSimpleName());
@@ -115,7 +115,7 @@ public class ChefActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     * 
+     *
      * @param context
      *            The execution context of the bundle being stopped.
      * @throws java.lang.Exception
