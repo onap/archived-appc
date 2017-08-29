@@ -203,7 +203,7 @@ public class DGGeneralDBService {
 
 	}
 
-	public QueryStatus savePrepareRelationship(SvcLogicContext ctx, String prefix, String fileId, String asdcInd)
+	public QueryStatus savePrepareRelationship(SvcLogicContext ctx, String prefix, String fileId, String sdcInd)
 			throws SvcLogicException {
 
 		QueryStatus status = null;
@@ -211,7 +211,7 @@ public class DGGeneralDBService {
 
 		if (serviceLogic != null && ctx != null) {
 
-			if ("Y".equals(asdcInd))
+			if ("Y".equals(sdcInd))
 
 				key = "INSERT INTO PREPARE_FILE_RELATIONSHIP " + " SET service_instance_id =  $service-instance-id , "
 						+ "   request_id         = $request-id , " + "  asdc_artifacts_id        =  " + fileId + " ;";

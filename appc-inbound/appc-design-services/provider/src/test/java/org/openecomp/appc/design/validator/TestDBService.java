@@ -175,13 +175,13 @@ public class TestDBService {
     }
 
     @Test
-    public void testGetASDCReferenceID() {
+    public void testGetSDCReferenceID() {
         
         try {
             String content = FileUtils.readFileToString(new File("src/test/resources/uploadArtifact"));
             String payload = " { \"userID\": \"0000\",\"status\":\"Test\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"Configure\", \"artifact-name\":\"DesignRestArtifact_reference\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"DESIGNTOOL-TEST\",\"artifact-status\":\"\",\"artifact-contents\":  "+ content + " } ";
             DesignDBService design = DesignDBService.initialise();
-            Whitebox.invokeMethod(design, "getASDCReferenceID", payload);
+            Whitebox.invokeMethod(design, "getSDCReferenceID", payload);
         } catch (Exception e) {
         }
     }
@@ -209,12 +209,12 @@ public class TestDBService {
     }
         
     @Test
-    public void testGetASDCArtifactIDbyRequestID() {
+    public void testGetSDCArtifactIDbyRequestID() {
         try {
             String content = FileUtils.readFileToString(new File("src/test/resources/uploadArtifact"));
             String payload = " { \"userID\": \"0000\",\"status\":\"Test\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"Configure\", \"artifact-name\":\"DesignRestArtifact_reference\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"DESIGNTOOL-TEST\",\"artifact-status\":\"\",\"artifact-contents\":  "+ content + " } ";
             DesignDBService design = DesignDBService.initialise();
-            Whitebox.invokeMethod(design, "getASDCArtifactIDbyRequestID", "0");
+            Whitebox.invokeMethod(design, "getSDCArtifactIDbyRequestID", "0");
         } catch (Exception e) {
         }
     }

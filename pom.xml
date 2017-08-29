@@ -600,7 +600,7 @@
                 <module>appc-adapters</module>
                 <module>appc-provider</module>
                 <module>appc-event-listener</module>
-                <module>appc-asdc-listener</module>
+                <module>appc-sdc-listener</module>
                 <module>appc-lifecycle-management</module>
                 <module>appc-oam</module>
                 <module>appc-config</module>

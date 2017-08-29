@@ -24,7 +24,7 @@
 
 package org.openecomp.appc.licmgr.impl;
 
-import static org.openecomp.appc.licmgr.Constants.ASDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT;
+import static org.openecomp.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT;
 
 import java.util.Map;
 
