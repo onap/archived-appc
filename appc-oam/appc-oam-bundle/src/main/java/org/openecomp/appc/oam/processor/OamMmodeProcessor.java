@@ -129,8 +129,8 @@ public class OamMmodeProcessor extends BaseProcessor {
                 }
 
                 setStatus(OAMCommandStatus.SUCCESS);
-            } catch (Throwable t) {
-                setErrorStatus(t);
+            } catch (Exception e) {
+                setErrorStatus(e);
                 hasError = true;
             }
 

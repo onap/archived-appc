@@ -25,6 +25,7 @@
 package org.openecomp.appc.sdc.listener;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -69,12 +70,11 @@ import java.util.List;
                 ArtifactProcessorFactory.class})
 public class AsdcCallbackTest {
 
-    IDistributionClient client;
+    private IDistributionClient client;
     private EventSender eventSender;
     private INotificationCallback asdcCallback;
     private ArtifactStorageService storageService;
     private ToscaCsarArtifactProcessor artifactProcessor;
-
 
     @Before
     public void setup() throws Exception {
@@ -82,29 +82,33 @@ public class AsdcCallbackTest {
         eventSender = PowerMockito.mock(EventSender.class);
         asdcCallback = new AsdcCallback(null,client);
 
-        artifactProcessor = Mockito.spy(new ToscaCsarArtifactProcessor(client,eventSender,getNotificationData(),getResources().get(0)
-                ,getServiceArtifacts().get(0),null));
+        artifactProcessor = Mockito.spy(new ToscaCsarArtifactProcessor(
+                client, eventSender, getNotificationData(), getResources().get(0),
+                getServiceArtifacts().get(0),null));
         storageService = PowerMockito.mock(ArtifactStorageService.class);
         Whitebox.setInternalState(artifactProcessor,"artifactStorageService", storageService);
 
-        PowerMockito.doCallRealMethod().when(artifactProcessor).processArtifact((IDistributionClientDownloadResult) Matchers.anyObject());
+        PowerMockito.doCallRealMethod().when(artifactProcessor)
+                .processArtifact((IDistributionClientDownloadResult) Matchers.anyObject());
         PowerMockito.doCallRealMethod().when(artifactProcessor).run();
 
-
         PowerMockito.mockStatic(ArtifactProcessorFactory.class);
-        PowerMockito.when(ArtifactProcessorFactory.getArtifactProcessor((IDistributionClient)Matchers.anyObject(), (EventSender)Matchers.anyObject(),
+        PowerMockito.when(ArtifactProcessorFactory.getArtifactProcessor((IDistributionClient)Matchers.anyObject(),
+                (EventSender)Matchers.anyObject(),
                 (INotificationData)Matchers.anyObject(), (IResourceInstance)Matchers.anyObject(),
                 (IArtifactInfo)Matchers.anyObject(), (URI)Matchers.anyObject())).thenReturn(artifactProcessor);
 
         Whitebox.setInternalState(asdcCallback,"eventSender", eventSender);
         PowerMockito.doReturn(readDownloadResult()).when(client).download((IArtifactInfo) Matchers.anyObject());
-        PowerMockito.doReturn(null).when(client).sendDownloadStatus((IDistributionStatusMessage) Matchers.anyObject());
+        PowerMockito.doReturn(null).when(client).sendDownloadStatus(
+                (IDistributionStatusMessage) Matchers.anyObject());
 
-        PowerMockito.doReturn(null).when(storageService).retrieveSDCArtifact(Matchers.anyString(),Matchers.anyString(),Matchers.anyString());
+        PowerMockito.doReturn(null).when(storageService).retrieveSDCArtifact(Matchers.anyString(),
+                Matchers.anyString(), Matchers.anyString());
 
         PowerMockito.doAnswer(new Answer<Object>() {
             @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
+            public Object answer(InvocationOnMock invocationOnMock) throws Exception {
                 System.out.print(invocationOnMock.getArguments()[0].toString());
                 return null;
             }
@@ -112,7 +116,8 @@ public class AsdcCallbackTest {
     }
 
     private IDistributionClientDownloadResult readDownloadResult() throws IOException, URISyntaxException {
-        DistributionClientDownloadResultImpl downloadResult = new DistributionClientDownloadResultImpl(DistributionActionResultEnum.SUCCESS,"Download success");
+        DistributionClientDownloadResultImpl downloadResult = new DistributionClientDownloadResultImpl(
+                DistributionActionResultEnum.SUCCESS,"Download success");
         File file = new File(this.getClass().getResource("/csar/service-ServiceAppc-csar.csar").toURI());
 
         byte[] bFile = new byte[(int) file.length()];
@@ -124,14 +129,12 @@ public class AsdcCallbackTest {
         return downloadResult;
     }
 
-
-//    @Test
-    public void testASDCListener() throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-
+    @Ignore
+    @Test
+    public void testASDCListener()
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
         INotificationData notificationData = getNotificationData();
         asdcCallback.activateCallback(notificationData);
-
 //        pause();
     }
 
@@ -143,9 +146,11 @@ public class AsdcCallbackTest {
 //        }
 //    }
 
-    private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    private INotificationData getNotificationData()
+            throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
-        INotificationData notificationData = (INotificationData)getObject("org.openecomp.sdc.impl.NotificationDataImpl");
+        INotificationData notificationData = (INotificationData)getObject(
+                "org.openecomp.sdc.impl.NotificationDataImpl");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
 
@@ -153,9 +158,11 @@ public class AsdcCallbackTest {
         return notificationData;
     }
 
-    private List<IResourceInstance> getResources() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private List<IResourceInstance> getResources()
+            throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         List<IResourceInstance> resources = new ArrayList<>();
-        IResourceInstance resource = (IResourceInstance)getObject("org.openecomp.sdc.impl.JsonContainerResourceInstance");
+        IResourceInstance resource = (IResourceInstance)getObject(
+                "org.openecomp.sdc.impl.JsonContainerResourceInstance");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
         invokeMethod(resource,"setArtifacts",serviceArtifacts);
@@ -166,7 +173,8 @@ public class AsdcCallbackTest {
         return resources;
     }
 
-    private void invokeMethod(Object object, String methodName,Object... arguments) throws IllegalAccessException, InvocationTargetException {
+    private void invokeMethod(Object object, String methodName,Object... arguments)
+            throws IllegalAccessException, InvocationTargetException {
         Method[] methods = object.getClass().getDeclaredMethods();
         for(Method method:methods){
             if(methodName.equalsIgnoreCase(method.getName())){
@@ -176,13 +184,15 @@ public class AsdcCallbackTest {
         }
     }
 
-    private Object getObject(String fqcn) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    private Object getObject(String fqcn)
+            throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
         Constructor constructor = Class.forName(fqcn).getDeclaredConstructors()[0];
         constructor.setAccessible(true);
         return constructor.newInstance();
     }
 
-    private List<IArtifactInfo> getServiceArtifacts() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private List<IArtifactInfo> getServiceArtifacts()
+            throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         List<IArtifactInfo> serviceArtifacts = new ArrayList<>();
         IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.openecomp.sdc.impl.ArtifactInfoImpl");
         invokeMethod(artifactInfo,"setArtifactType","TOSCA_CSAR");

@@ -190,11 +190,11 @@ public class CreateSnapshot extends ProviderServerOperation {
                 logger.error(msg);
                 metricsLogger.error(msg, e);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Throwable t) {
-                msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
+            } catch (Exception e1) {
+                msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
                         Operation.SNAPSHOT_SERVICE.toString(), vm_url,
                         context == null ? "Unknown" : context.getTenantName());
-                logger.error(msg, t);
+                logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {

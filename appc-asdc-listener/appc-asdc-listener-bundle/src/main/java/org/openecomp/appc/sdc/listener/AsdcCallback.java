@@ -83,15 +83,16 @@ public class AsdcCallback implements INotificationCallback {
                 BundleContext bctx = FrameworkUtil.getBundle(EventSender.class).getBundleContext();
                 ServiceReference sref = bctx.getServiceReference(EventSender.class);
                 eventSender = (EventSender) bctx.getService(sref);
-            } catch (Throwable t) {
-                logger.error("AsdcCallback failed on initializing EventSender", t);
+            } catch (Exception e) {
+                logger.error("AsdcCallback failed on initializing EventSender", e);
             }
         }
 
         if (isRunning.get()) {
 
             for(IArtifactInfo artifact:data.getServiceArtifacts()){
-                ArtifactProcessor artifactProcessor = ArtifactProcessorFactory.getArtifactProcessor(client, eventSender, data, null, artifact, storeUri);
+                ArtifactProcessor artifactProcessor = ArtifactProcessorFactory.getArtifactProcessor(
+                        client, eventSender, data, null, artifact, storeUri);
                 if(artifactProcessor!=null){
                     executor.submit(artifactProcessor);
                 }

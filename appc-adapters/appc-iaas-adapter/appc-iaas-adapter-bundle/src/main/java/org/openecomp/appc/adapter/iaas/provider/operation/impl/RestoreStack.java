@@ -137,11 +137,12 @@ public class RestoreStack extends ProviderStackOperation {
             logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
                     e.getReason(), "restoreStack"));
             doFailure(rc, e.getStatus(), e.getMessage(), e);
-        } catch (Throwable t) {
-            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
+        } catch (Exception e1) {
+            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION,
+                    e1, e1.getClass().getSimpleName(),
                     "restoreStack", vm_url, null == context ? "n/a" : context.getTenantName());
-            logger.error(msg, t);
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg, t);
+            logger.error(msg, e1);
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg, e1);
         }
         return stack;
     }
