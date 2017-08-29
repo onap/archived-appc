@@ -171,23 +171,27 @@ public class CachedElement<T extends Closeable> implements Closeable, Invocation
         "unchecked", "nls"
     })
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+    public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
         Object result = null;
 
-        if (method.getName().equals("close")) {
-            if (released.compareAndSet(false, true)) {
-                if (!pool.isDrained()) {
-                    pool.release((T) proxy);
+        switch (method.getName()) {
+            case "close":
+                if (released.compareAndSet(false, true)) {
+                    if (!pool.isDrained()) {
+                        pool.release((T) proxy);
+                    }
                 }
-            }
-        } else if (method.getName().equals("equals")) {
-            CacheManagement cm = (CacheManagement) proxy;
-            T other = (T) cm.getWrappedObject();
-            result = element.equals(other);
-        } else if (method.getName().equals("getWrappedObject")) {
-            return element;
-        } else {
-            result = method.invoke(element, args);
+                break;
+            case "equals":
+                CacheManagement cm = (CacheManagement) proxy;
+                T other = (T) cm.getWrappedObject();
+                result = element.equals(other);
+                break;
+            case "getWrappedObject":
+                return element;
+            default:
+                result = method.invoke(element, args);
+                break;
         }
 
         return result;

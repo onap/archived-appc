@@ -50,9 +50,6 @@ import java.util.Map;
 
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
-/**
- * @since September 26, 2016
- */
 public class LookupServer extends ProviderServerOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(EvacuateServer.class);
@@ -64,29 +61,29 @@ public class LookupServer extends ProviderServerOperation {
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive(); //should we test the return and fail if false?
 
-        String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-
         String vm_url = null;
-        VMURL vm = null;
         try {
-
             //process vm_url
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-            vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-            vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
 
+            String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+            vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            VMURL vm = VMURL.parseURL(vm_url);
+            if (validateVM(rc, appName, vm_url, vm)) {
+                return null;
+            }
 
             //use try with resource to ensure context is closed (returned to pool)
-            try(Context context = resolveContext(rc, params, appName, vm_url)){
+            try (Context context = resolveContext(rc, params, appName, vm_url)) {
                 //resloveContext & getContext call doFailure and log errors before returning null
                 if (context != null){
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
                     ctx.setAttribute("serverFound", "success");
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
+                    String msg =
+                            EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
                     ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                     doSuccess(rc);
                 }
@@ -100,8 +97,9 @@ public class LookupServer extends ProviderServerOperation {
                 //exception closing context
                 String msg = EELFResourceManager.format(Msg.CLOSE_CONTEXT_FAILED, e, vm_url);
                 logger.error(msg);
-            } catch (Throwable t) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
+            } catch (Exception t) {
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
+                        t, t.getClass().getSimpleName(),
                         Operation.LOOKUP_SERVICE.toString(), vm_url,  "Unknown" );
                 logger.error(msg, t);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
@@ -118,8 +116,8 @@ public class LookupServer extends ProviderServerOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         setMDC(Operation.LOOKUP_SERVICE.toString(), "App-C IaaS Adapter:LookupServer", ADAPTER_NAME);
         logOperation(Msg.LOOKING_SERVER_UP, params, context);
         return lookupServer(params, context);

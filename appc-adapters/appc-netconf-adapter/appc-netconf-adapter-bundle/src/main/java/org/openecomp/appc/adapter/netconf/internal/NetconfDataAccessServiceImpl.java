@@ -24,21 +24,18 @@
 
 package org.openecomp.appc.adapter.netconf.internal;
 
-import javax.sql.rowset.CachedRowSet;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.openecomp.appc.adapter.netconf.ConnectionDetails;
 import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
 import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
 import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
 import org.openecomp.appc.adapter.netconf.util.Constants;
-import org.openecomp.appc.exceptions.APPCException;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
 
+import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
 
 public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
 
@@ -66,13 +63,11 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
         argList.add(xmlID);
 
         try {
-
             final CachedRowSet data = dbLibService.getData(queryString, argList, schema);
             if (data.first()) {
                 fileContent = data.getString(Constants.FILE_CONTENT_TABLE_FIELD_NAME);
             }
-
-        } catch (Throwable e) {
+        } catch (Exception e) {
             logger.error("Error Accessing Database " + e);
             throw new DataAccessException(e);
         }
@@ -85,7 +80,8 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
                     DataAccessException {
         boolean recordFound = false;
 
-        String queryString = "select " + Constants.USER_NAME_TABLE_FIELD_NAME + "," + Constants.PASSWORD_TABLE_FIELD_NAME + "," + Constants.PORT_NUMBER_TABLE_FIELD_NAME + " " +
+        String queryString = "select " + Constants.USER_NAME_TABLE_FIELD_NAME + "," +
+                Constants.PASSWORD_TABLE_FIELD_NAME + "," + Constants.PORT_NUMBER_TABLE_FIELD_NAME + " " +
                 "from " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME + " " +
                 "where " + Constants.VNF_TYPE_TABLE_FIELD_NAME + " = ?";
 
@@ -93,7 +89,6 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
         argList.add(vnfType);
 
         try {
-
             final CachedRowSet data = dbLibService.getData(queryString, argList, schema);
             if (data.first()) {
                 connectionDetails.setUsername(data.getString(Constants.USER_NAME_TABLE_FIELD_NAME));
@@ -101,7 +96,6 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
                 connectionDetails.setPort(data.getInt(Constants.PORT_NUMBER_TABLE_FIELD_NAME));
                 recordFound = true;
             }
-
         } catch (SQLException e) {
             logger.error("Error Accessing Database " + e);
             throw new DataAccessException(e);
@@ -111,9 +105,8 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
     }
 
     @Override
-    public boolean retrieveNetconfConnectionDetails(String vnfType, NetconfConnectionDetails connectionDetails) throws
-                    DataAccessException
-    {
+    public boolean retrieveNetconfConnectionDetails(String vnfType, NetconfConnectionDetails connectionDetails)
+            throws DataAccessException {
         ConnectionDetails connDetails = new ConnectionDetails();
         if(this.retrieveConnectionDetails(vnfType, connDetails))
         {
@@ -126,9 +119,8 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
     }
 
     @Override
-    public boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText) throws
-                    DataAccessException {
-
+    public boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText)
+            throws DataAccessException {
         String queryString = "INSERT INTO "+ Constants.DEVICE_INTERFACE_LOG_TABLE_NAME+"("+
                 Constants.SERVICE_INSTANCE_ID_FIELD_NAME+","+
                 Constants.REQUEST_ID_FIELD_NAME+","+
@@ -143,9 +135,7 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
         argList.add(logText);
 
         try {
-
             dbLibService.writeData(queryString, argList, schema);
-
         } catch (SQLException e) {
             logger.error("Logging Device interaction failed - "+ queryString);
             throw new DataAccessException(e);

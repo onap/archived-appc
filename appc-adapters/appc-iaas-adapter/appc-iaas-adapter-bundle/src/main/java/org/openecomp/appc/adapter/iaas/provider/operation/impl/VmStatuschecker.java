@@ -24,6 +24,14 @@
 
 package org.openecomp.appc.adapter.iaas.provider.operation.impl;
 
+import com.att.cdp.exceptions.ResourceNotFoundException;
+import com.att.cdp.zones.Context;
+import com.att.cdp.zones.model.ModelObject;
+import com.att.cdp.zones.model.Server;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.adapter.iaas.ProviderAdapter;
 import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
@@ -32,39 +40,28 @@ import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
 import org.openecomp.appc.adapter.iaas.impl.VMURL;
 import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
 import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.UnknownProviderException;
 import org.openecomp.appc.i18n.Msg;
-import com.att.cdp.exceptions.ResourceNotFoundException;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.model.ModelObject;
-import com.att.cdp.zones.model.Server;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.glassfish.grizzly.http.util.HttpStatus;
-import org.slf4j.MDC;
 
 import java.util.Map;
 
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
-import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
-
 
 public class VmStatuschecker extends ProviderServerOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(VmStatuschecker.class);
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
-    /* *********************************************************************************/
-	/* DEVEN PANCHAL: This method is used to check the status of the VM               */
-    /**********************************************************************************/
-    public Server vmStatuschecker(Map<String, String> params, SvcLogicContext ctx) throws UnknownProviderException, IllegalArgumentException {
+    /**
+     * to check the status of the VM
+     */
+    public Server vmStatuschecker(Map<String, String> params, SvcLogicContext ctx)
+            throws UnknownProviderException, IllegalArgumentException {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -132,15 +129,17 @@ public class VmStatuschecker extends ProviderServerOperation {
                     svcLogic.setStatus(Outcome.SUCCESS.toString());
                     svcLogic.setAttribute("org.openecomp.statusofvm", statusofVM);
                     svcLogic.setAttribute(Constants.STATUS_OF_VM, statusofVM);
-                    svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_CODE, Integer.toString(HttpStatus.OK_200.getStatusCode()));
+                    svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_CODE,
+                            Integer.toString(HttpStatus.OK_200.getStatusCode()));
                 }
             } catch (ResourceNotFoundException e) {
                 String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Throwable t) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
-                        RESTART_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+            } catch (Exception t) {
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
+                        t, t.getClass().getSimpleName(), RESTART_SERVICE.toString(),
+                        vm_url, context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, t);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
@@ -151,11 +150,9 @@ public class VmStatuschecker extends ProviderServerOperation {
         return server;
     }
 
-   /* *********************************************************************************/
-
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws UnknownProviderException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws UnknownProviderException {
         setMDC(Operation.VMSTATUSCHECK_SERVICE.toString(), "App-C IaaS Adapter:VmStatusCheck", ADAPTER_NAME);
         logOperation(Msg.CHECKING_SERVER, params, context);
         return vmStatuschecker(params, context);

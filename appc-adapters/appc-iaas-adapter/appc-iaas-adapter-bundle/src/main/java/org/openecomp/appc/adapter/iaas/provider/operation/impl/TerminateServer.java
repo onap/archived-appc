@@ -24,19 +24,6 @@
 
 package org.openecomp.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.UnknownProviderException;
-import org.openecomp.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
@@ -48,17 +35,24 @@ import com.att.cdp.zones.model.Server;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-import org.slf4j.MDC;
+import org.openecomp.appc.Constants;
+import org.openecomp.appc.adapter.iaas.ProviderAdapter;
+import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
+import org.openecomp.appc.adapter.iaas.impl.RequestContext;
+import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
+import org.openecomp.appc.adapter.iaas.impl.VMURL;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
+import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.openecomp.appc.exceptions.UnknownProviderException;
+import org.openecomp.appc.i18n.Msg;
+import org.openecomp.sdnc.sli.SvcLogicContext;
 
 import java.util.Map;
 
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.TERMINATE_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
-import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 public class TerminateServer extends ProviderServerOperation {
 
@@ -71,8 +65,8 @@ public class TerminateServer extends ProviderServerOperation {
      *            The request context that manages the state and recovery of the request for the life of its processing.
      * @param server
      *            The server to be started
-     * @throws ZoneException
-     * @throws RequestFailedException
+     * @throws ZoneException when error occurs
+     * @throws RequestFailedException when request failed
      */
     @SuppressWarnings("nls")
     private void deleteServer(RequestContext rc, Server server) throws ZoneException, RequestFailedException {
@@ -110,7 +104,7 @@ public class TerminateServer extends ProviderServerOperation {
      *            The request context that manages the state and recovery of the request for the life of its processing.
      * @param server
      *            The server object representing the server we want to operate on
-     * @throws ZoneException
+     * @throws ZoneException when error occurs
      */
     @SuppressWarnings("nls")
     private void terminateServer(RequestContext rc, Server server) throws ZoneException, RequestFailedException {
@@ -121,7 +115,8 @@ public class TerminateServer extends ProviderServerOperation {
          */
         String msg;
         if (server.getStatus().equals(Server.Status.PENDING)) {
-            waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR, Server.Status.SUSPENDED, Server.Status.PAUSED);
+            waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
+                    Server.Status.SUSPENDED, Server.Status.PAUSED);
         }
 
         /*
@@ -218,7 +213,7 @@ public class TerminateServer extends ProviderServerOperation {
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_SERVER, server.getName()));
                     context.close();
                     doSuccess(rc);
-                }else{
+                } else {
                     ctx.setAttribute("TERMINATE_STATUS", "SERVER_NOT_FOUND");
                 }
             } catch (ResourceNotFoundException e) {
@@ -226,14 +221,16 @@ public class TerminateServer extends ProviderServerOperation {
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
                 ctx.setAttribute("TERMINATE_STATUS", "SERVER_NOT_FOUND");
-            } catch (Throwable t) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
-                        RESTART_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+            } catch (Exception t) {
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
+                        t, t.getClass().getSimpleName(), RESTART_SERVICE.toString(),
+                        vm_url, context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, t);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.TERMINATE_SERVER_FAILED, appName, "n/a", "n/a", e.getMessage()));
+            logger.error(EELFResourceManager.format(Msg.TERMINATE_SERVER_FAILED,
+                    appName, "n/a", "n/a", e.getMessage()));
             doFailure(rc, e.getStatus(), e.getMessage());
             ctx.setAttribute("TERMINATE_STATUS", "ERROR");
         }
@@ -242,8 +239,8 @@ public class TerminateServer extends ProviderServerOperation {
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws UnknownProviderException {
-
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws UnknownProviderException {
         setMDC(TERMINATE_SERVICE.toString(), "App-C IaaS Adapter:Terminate", ADAPTER_NAME);
         logOperation(Msg.TERMINATING_SERVER, params, context);
         return terminateServer(params,context);
