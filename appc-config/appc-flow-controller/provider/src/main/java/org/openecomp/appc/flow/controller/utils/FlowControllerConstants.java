@@ -81,8 +81,8 @@ public class FlowControllerConstants {
         public static final String REST = "rest";
         
         
-        public static final String DB_ASDC_ARTIFACTS = "ASDC_ARTIFACTS";
-        public static final String DB_ASDC_REFERENCE = "ASDC_REFERENCE";
+        public static final String DB_SDC_ARTIFACTS = "ASDC_ARTIFACTS";
+        public static final String DB_SDC_REFERENCE = "ASDC_REFERENCE";
         public static final String DB_REQUEST_ARTIFACTS = "REQUEST_ARTIFACTS";
         public static final String DB_MULTISTEP_FLOW_REFERENCE = "MULTISTEP_FLOW_REFERENCE";
         public static final String DB_PROTOCOL_REFERENCE = "PROTOCOL_REFERENCE";
