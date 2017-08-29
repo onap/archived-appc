@@ -14,7 +14,7 @@
   <properties>
     <application.name>appc-sequence-generator</application.name>
     <features.boot>appc-sequence-generator</features.boot>
-    <features.repositories>mvn:com.att.appc/appc-sequence-generator-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.openecomp.appc/appc-sequence-generator-features/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
   </properties>
 
