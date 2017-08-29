@@ -155,12 +155,13 @@ public class SnapshotStack extends ProviderStackOperation {
             metricsLogger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
                     e.getReason(), "snapshotStack"));
             doFailure(rc, e.getStatus(), e.getMessage(), e);
-        } catch (Throwable t) {
-            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
+        } catch (Exception e1) {
+            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION,
+                    e1, e1.getClass().getSimpleName(),
                     "snapshotStack", vm_url, null == context ? "n/a" : context.getTenantName());
-            logger.error(msg, t);
+            logger.error(msg, e1);
             metricsLogger.error(msg);
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg, t);
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg, e1);
         }
         return stack;
     }

@@ -221,10 +221,11 @@ public class TerminateServer extends ProviderServerOperation {
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
                 ctx.setAttribute("TERMINATE_STATUS", "SERVER_NOT_FOUND");
-            } catch (Throwable t) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, t, t.getClass().getSimpleName(),
-                        RESTART_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
-                logger.error(msg, t);
+            } catch (Exception e1) {
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
+                        e1, e1.getClass().getSimpleName(), RESTART_SERVICE.toString(),
+                        vm_url, context == null ? "Unknown" : context.getTenantName());
+                logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {
