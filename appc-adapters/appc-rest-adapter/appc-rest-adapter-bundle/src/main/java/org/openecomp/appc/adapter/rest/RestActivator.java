@@ -70,7 +70,7 @@ public class RestActivator implements BundleActivator {
     /**
      * The logger to be used
      */
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestActivator.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(RestActivator.class);
 
     /**
      * The configuration object used to configure this bundle
@@ -99,7 +99,7 @@ public class RestActivator implements BundleActivator {
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "rest adapter");
-        adapter = new RestAdapterImpl(configuration.getProperties());
+        adapter = new RestAdapterImpl();
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
                 RestAdapter.class.getSimpleName());
