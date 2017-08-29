@@ -33,116 +33,74 @@ import org.openecomp.sdnc.sli.SvcLogicException;
 import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
 
 public class MockSvcLogicJavaPlugin implements SvcLogicJavaPlugin{
-	private final static Logger logger = LoggerFactory.getLogger(MockSvcLogicJavaPlugin.class);
-	public static String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
-	public static String OUTPUT_STATUS_SUCCESS = "success";
-	public static String OUTPUT_STATUS_FAILURE = "failure";
-	public static String OUTPUT_PARAM_STATUS = "status";
-	
-
-	public void mountDevice(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException{
-		logger.info("Executed MountDevice Plugin");
-	}
-
-	public void downloadDeviceConfiguration(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException{
-		ctx.setAttribute("downloadStatus", "success");
-		logger.info("Executed Download Device Configuration Plugin");
-		throw new SvcLogicException("failed in Download..");
-	}
+    private final static Logger logger = LoggerFactory.getLogger(MockSvcLogicJavaPlugin.class);
+    public static String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
+    public static String OUTPUT_STATUS_SUCCESS = "success";
+    public static String OUTPUT_STATUS_FAILURE = "failure";
+    public static String OUTPUT_PARAM_STATUS = "status";
 
 
-	
-	
-	public void getCommonConfigInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException, FileNotFoundException, IOException {
-		logger.info("Mock getCommonConfigInfo Called....");
-		
-	
-		/***
-		ctx.setAttribute("device-authentication.USER-NAME", "root");
-		
-		String responsePrefix = inParams.get(INPUT_PARAM_RESPONSE_PREFIX);
-		responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
-		
-		
-		ctx.setAttribute(responsePrefix +OUTPUT_PARAM_STATUS,
-				OUTPUT_STATUS_SUCCESS);
-				
-		**/
-		
-	}
+    public void mountDevice(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException{
+        logger.info("Executed MountDevice Plugin");
+    }
 
-	
-	public void getConfigFileReference(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-		logger.info("Mock getConfigFileReference Called....");
-	}
-	
-	
-	
-	public void getTemplate(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void downloadDeviceConfiguration(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException{
+        ctx.setAttribute("downloadStatus", "success");
+        logger.info("Executed Download Device Configuration Plugin");
+        throw new SvcLogicException("failed in Download..");
+    }
 
-		logger.info("Mock getTemplate Called....");
-	}
-	
-	
-	
-	public void saveConfigFiles(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getCommonConfigInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException, FileNotFoundException, IOException {
+        logger.info("Mock getCommonConfigInfo Called....");
+    }
 
-		logger.info("Mock saveConfigFiles called...");
-		
-	}
-	
-	
-	
-	public void updateUploadConfig(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getConfigFileReference(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock getConfigFileReference Called....");
+    }
 
-		logger.info("Mock updateUploadConfig called...");
-	}
-	
-	
-	
-	
-	public void savePrepareRelationship(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-		logger.info("Mock savePrepareRelationship called...");
-	}
-	
-	
-	
-	
-	
-	public void saveConfigBlock(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-		logger.info("Mock saveConfigBlock called...");
-		
-		if (StringUtils.isBlank(ctx.getAttribute("configuration-params"))) {
-			logger.info("No params...");
-			ctx.setAttribute("file-category", "device_configuration");
-			ctx.setAttribute("deviceconfig-file-content", "deviceConfig");
-		
-		} else {
-			logger.info("Config params exist...");
-			ctx.setAttribute("file-category", "device_configuration");
-			ctx.setAttribute("file-category1", "configuration_block");
-			ctx.setAttribute("file-category2", "config_data");
-			
-		}
-	
-	}
-	
-	public void saveTemplateConfig(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-		
-		logger.info("Mock saveTemplateConfig called...");
-		
-		if (StringUtils.isBlank(ctx.getAttribute("configuration-params"))) {
-			logger.info("No params...");
-			ctx.setAttribute("file-category", "device_configuration");
-			ctx.setAttribute("deviceconfig-file-content", "deviceConfig");
-		
-		} else {
-			logger.info("Config params exist...");
-			ctx.setAttribute("file-category", "device_configuration");
-			ctx.setAttribute("file-category1", "config_data");
-			
-		}
-		
-		
-	}
+    public void getTemplate(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock getTemplate Called....");
+    }
+
+    public void saveConfigFiles(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock saveConfigFiles called...");
+    }
+
+    public void updateUploadConfig(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock updateUploadConfig called...");
+    }
+
+    public void savePrepareRelationship(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock savePrepareRelationship called...");
+    }
+
+    public void saveConfigBlock(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock saveConfigBlock called...");
+
+        if (StringUtils.isBlank(ctx.getAttribute("configuration-params"))) {
+            logger.info("No params...");
+            ctx.setAttribute("file-category", "device_configuration");
+            ctx.setAttribute("deviceconfig-file-content", "deviceConfig");
+        } else {
+            logger.info("Config params exist...");
+            ctx.setAttribute("file-category", "device_configuration");
+            ctx.setAttribute("file-category1", "configuration_block");
+            ctx.setAttribute("file-category2", "config_data");
+        }
+    }
+
+    public void saveTemplateConfig(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        logger.info("Mock saveTemplateConfig called...");
+
+        if (StringUtils.isBlank(ctx.getAttribute("configuration-params"))) {
+            logger.info("No params...");
+            ctx.setAttribute("file-category", "device_configuration");
+            ctx.setAttribute("deviceconfig-file-content", "deviceConfig");
+
+        } else {
+            logger.info("Config params exist...");
+            ctx.setAttribute("file-category", "device_configuration");
+            ctx.setAttribute("file-category1", "config_data");
+        }
+    }
 }

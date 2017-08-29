@@ -20,6 +20,7 @@
 # ============LICENSE_END=========================================================
 ###
 
+
 export BVC_DIR=/opt/app/bvc
 export DG_DIR=${BVC_DIR}/dg
 

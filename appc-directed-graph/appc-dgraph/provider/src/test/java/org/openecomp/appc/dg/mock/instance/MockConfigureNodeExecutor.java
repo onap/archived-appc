@@ -28,51 +28,44 @@ import org.openecomp.sdnc.sli.SvcLogicContext;
 
 public class MockConfigureNodeExecutor implements SvcLogicAdaptor{
 
-	@Override
-	public ConfigStatus configure(String key, Map<String, String> parameters, SvcLogicContext ctx) {
-		
-		
-		if ( "get".equals(key)) {
-			
-			if ("135.1.1.1".equals(parameters.get("host") )) {
-					String fullPathFileName = parameters.get("fullPathFileName");
-					if (("SuccessFile").equals(fullPathFileName ) )
-						return ConfigStatus.FAILURE;
-					if (("FailureFile").equals(fullPathFileName ) )
-						return ConfigStatus.SUCCESS;
-					if (("FailureLogFile").equals(fullPathFileName ) )
-						return ConfigStatus.SUCCESS;
-			}
-			else if ("135.2.2.2".equals(parameters.get("host")) ) {
-				String fullPathFileName = parameters.get("fullPathFileName");
-				if (("SuccessFile").equals(fullPathFileName ) )
-					return ConfigStatus.FAILURE;
-				if (("FailureFile").equals(fullPathFileName ) )
-					return ConfigStatus.FAILURE;
-				
-			}
-			
-			return ConfigStatus.SUCCESS;
-		}
-		else {
-			ctx.setAttribute("Status", "Success");
-		
-			return ConfigStatus.SUCCESS;
-		}
-	}
+    @Override
+    public ConfigStatus configure(String key, Map<String, String> parameters, SvcLogicContext ctx) {
 
-	@Override
-	public ConfigStatus activate(String key, SvcLogicContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        if ( "get".equals(key)) {
 
-	@Override
-	public ConfigStatus deactivate(String key, SvcLogicContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+            if ("135.1.1.1".equals(parameters.get("host") )) {
+                    String fullPathFileName = parameters.get("fullPathFileName");
+                    if (("SuccessFile").equals(fullPathFileName ) )
+                        return ConfigStatus.FAILURE;
+                    if (("FailureFile").equals(fullPathFileName ) )
+                        return ConfigStatus.SUCCESS;
+                    if (("FailureLogFile").equals(fullPathFileName ) )
+                        return ConfigStatus.SUCCESS;
+            }
+            else if ("135.2.2.2".equals(parameters.get("host")) ) {
+                String fullPathFileName = parameters.get("fullPathFileName");
+                if (("SuccessFile").equals(fullPathFileName ) )
+                    return ConfigStatus.FAILURE;
+                if (("FailureFile").equals(fullPathFileName ) )
+                    return ConfigStatus.FAILURE;
+            }
 
+            return ConfigStatus.SUCCESS;
+        }
+        else {
+            ctx.setAttribute("Status", "Success");
 
+            return ConfigStatus.SUCCESS;
+        }
+    }
 
+    @Override
+    public ConfigStatus activate(String key, SvcLogicContext ctx) {
+        return null;
+    }
+
+    @Override
+    public ConfigStatus deactivate(String key, SvcLogicContext ctx) {
+        return null;
+    }
 }

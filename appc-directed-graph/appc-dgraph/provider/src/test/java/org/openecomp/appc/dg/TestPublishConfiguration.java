@@ -39,94 +39,13 @@ import org.slf4j.LoggerFactory;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-/* need to move to OPENSOURCE
-import org.apache.sling.testing.mock.osgi.MockOsgi;
-import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
-import com.att.sdnctl.dgtestlibrary.DGTestCase;
-import com.att.sdnctl.dgtestlibrary.GraphKey;
-*/
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.provider.ExecuteNodeExecutor;
 import org.openecomp.sdnc.sli.provider.SvcLogicAdaptorFactory;
 
 
-public class TestPublishConfiguration /* extends AbstractDGTestCase */ {
-	//private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestPublishConfiguration.class);
-	public static String PublishConfigurationXML = "src/main/resources/xml/APPC_PublishConfiguration.xml";
-
-
-/*
-
-	@Test
-	public void TestPublishConfigurationSuccess() {
-		try {
-
-			String propertyfileName = "APPC/PublishConfiguration/PublishConfig_Success.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-
-
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
-
-			
-			
-			serviceReferences.put("org.openecomp.sdnc.config.generator.writer.FileWriterNode", new org.openecomp.sdnc.config.generator.writer.FileWriterNode());
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { PublishConfigurationXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "PublishConfiguration", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-			System.out.println("JSON " + ctx.getAttribute("tmp.jsonConversion.jsonContent"));
-
-	
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-
-
-
-	@Test
-	public void TestPublishConfigurationFailure() {
-		try {
-
-			String propertyfileName = "APPC/PublishConfiguration/PublishConfig_Failure.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-
-
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { PublishConfigurationXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "PublishConfiguration", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	
-	
-*/
-
+public class TestPublishConfiguration  {
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestPublishConfiguration.class);
+    public static String PublishConfigurationXML = "src/main/resources/xml/APPC_PublishConfiguration.xml";
 
 }

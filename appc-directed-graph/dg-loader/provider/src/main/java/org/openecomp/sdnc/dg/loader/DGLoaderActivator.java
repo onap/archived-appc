@@ -32,27 +32,27 @@ import com.att.eelf.configuration.EELFManager;
 
 public class DGLoaderActivator implements BundleActivator{
 
-	private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
 
 
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(DGLoaderActivator.class);
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(DGLoaderActivator.class);
 
-	@Override
-	public void start(BundleContext ctx) throws Exception
-	{
+    @Override
+    public void start(BundleContext ctx) throws Exception
+    {
 
-		
+        
 
-	}
-	@Override
-	public void stop(BundleContext arg0) throws Exception
-	{
-		for (ServiceRegistration registration: registrations)
-		{
-			registration.unregister();
-			registration = null;
-		}
+    }
+    @Override
+    public void stop(BundleContext arg0) throws Exception
+    {
+        for (ServiceRegistration registration: registrations)
+        {
+            registration.unregister();
+            registration = null;
+        }
 
-	}
+    }
 
 }
