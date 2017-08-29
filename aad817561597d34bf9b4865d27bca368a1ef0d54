@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_8ef9b7ca",
+        "filename": "appc-metric/appc-metric-bundle/src/test/java/org/openecomp/appc/metricservice/TestMetricServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1729
+      },
+      "writtenOn": "2017-08-29T10:24:13Z",
+      "side": 1,
+      "message": "remove * in import",
+      "revId": "aad817561597d34bf9b4865d27bca368a1ef0d54",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
