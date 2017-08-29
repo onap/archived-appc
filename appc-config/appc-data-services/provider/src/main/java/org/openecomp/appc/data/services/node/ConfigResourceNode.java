@@ -301,14 +301,14 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 		log.info("Received savePrepareRelationship call with params : " + inParams);
 
 		String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
-		String asdcArtifactInd = inParams.get(AppcDataServiceConstant.INPUT_PARAM_ASDC_ARTIFACT_IND);
+		String sdcArtifactInd = inParams.get(AppcDataServiceConstant.INPUT_PARAM_SDC_ARTIFACT_IND);
 		String fileId = inParams.get(AppcDataServiceConstant.INPUT_PARAM_FILE_ID);
 		try {
 
 			responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
 			DGGeneralDBService db = DGGeneralDBService.initialise();
 
-			QueryStatus status = db.savePrepareRelationship(ctx, "tmp.preparerel", fileId, asdcArtifactInd);
+			QueryStatus status = db.savePrepareRelationship(ctx, "tmp.preparerel", fileId, sdcArtifactInd);
 			if (status == QueryStatus.FAILURE)
 				throw new Exception("Unable to save prepare_relationship");
 

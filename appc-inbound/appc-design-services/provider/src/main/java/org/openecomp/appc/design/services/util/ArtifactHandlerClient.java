@@ -94,7 +94,7 @@ public class ArtifactHandlerClient  {
         ObjectNode requestInfo =  objectMapper.createObjectNode();
 
         requestInfo.put(DesignServiceConstants.REQUETS_ID, requestID);
-        requestInfo.put(DesignServiceConstants.REQUEST_ACTION, "StoreAsdcDocumentRequest");
+        requestInfo.put(DesignServiceConstants.REQUEST_ACTION, "StoreSdcDocumentRequest");
         requestInfo.put(DesignServiceConstants.SOURCE, DesignServiceConstants.DESIGN_TOOL);
     
         String random = getRandom();
