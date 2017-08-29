@@ -34,6 +34,24 @@
       "revId": "4e7d7c8f9a783d947dd900dc678e5905ac482a36",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d4e74ee3",
+        "filename": "appc-provider/appc-provider-bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-08-29T18:21:00Z",
+      "side": 1,
+      "message": "Should only need to add it to pom files.  We removed the license plugin from ONAP per rqmts.   AT\u0026T is still running on the their internal repository so most of your files will pick up the license from there.   However, the license pluging doesn\u0027t process files in the module root directory (e.g., pom.xml) and those will need to be modified by hand, at least for now.",
+      "parentUuid": "9a437d4f_6ef57382",
+      "revId": "4e7d7c8f9a783d947dd900dc678e5905ac482a36",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
