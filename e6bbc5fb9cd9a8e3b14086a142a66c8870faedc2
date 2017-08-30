@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_5f4ed7c2",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/AppcProviderAdapterActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T00:13:53Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be e or ex?\n\nI\u0027m not a fan of catching generic exceptions, should be narrowed to specific IMO.",
+      "range": {
+        "startLine": 103,
+        "startChar": 25,
+        "endLine": 103,
+        "endChar": 26
+      },
+      "revId": "e6bbc5fb9cd9a8e3b14086a142a66c8870faedc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_bfd6e3c3",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/AppcProviderAdapterActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T00:13:53Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 104,
+        "startChar": 76,
+        "endLine": 104,
+        "endChar": 77
+      },
+      "revId": "e6bbc5fb9cd9a8e3b14086a142a66c8870faedc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_3f4b13b2",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/AppcProviderAdapterActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T00:13:53Z",
+      "side": 1,
+      "message": "See above.",
+      "range": {
+        "startLine": 105,
+        "startChar": 18,
+        "endLine": 105,
+        "endChar": 19
+      },
+      "revId": "e6bbc5fb9cd9a8e3b14086a142a66c8870faedc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1fc84f21",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/provider/operation/impl/CreateSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T00:13:53Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 193,
+        "startChar": 31,
+        "endLine": 193,
+        "endChar": 32
+      },
+      "revId": "e6bbc5fb9cd9a8e3b14086a142a66c8870faedc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_dfd1a7ce",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/provider/operation/impl/CreateSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T00:13:53Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 194,
+        "startChar": 81,
+        "endLine": 194,
+        "endChar": 85
+      },
+      "revId": "e6bbc5fb9cd9a8e3b14086a142a66c8870faedc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_ffcc6b37",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/provider/operation/impl/CreateSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T00:13:53Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 197,
+        "startChar": 34,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "e6bbc5fb9cd9a8e3b14086a142a66c8870faedc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
