@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f795afe4",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/IdentityURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d79aab13",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/IdentityURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b79f2703",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/IdentityURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_97a42358",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/VMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7789bfc9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/VMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5786bbba",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/VMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_379337fc",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/VMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_179033eb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/openecomp/appc/adapter/iaas/impl/VMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "According to TSC Approved Style Tabs should be 4 spaces (this can be set in your IDE for ease of use next time).\n\nConvert to 4 spaces.",
+      "range": {
+        "startLine": 151,
+        "startChar": 4,
+        "endLine": 151,
+        "endChar": 5
+      },
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_f7bc8f6e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/openecomp/appc/adapter/iaas/impl/TestIdentityUrl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_b7b60789",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/openecomp/appc/adapter/iaas/impl/TestVMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Tabs should be 4 spaces.",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d7c18be5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/openecomp/appc/adapter/iaas/impl/TestVMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Tabs should be 4 spaces.",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 5
+      },
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_97bb0372",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/openecomp/appc/adapter/iaas/impl/TestVMURL.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T22:46:47Z",
+      "side": 1,
+      "message": "Remove extraneous spaces.",
+      "revId": "576571dc497d15c6dd7f1573697508c88a0cf1e1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
