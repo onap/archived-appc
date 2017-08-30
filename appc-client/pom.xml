@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  ================================================================================
+  Copyright (C) 2017 Amdocs
+  =============================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  ECOMP is a trademark and service mark of AT&T Intellectual Property.
+  ============LICENSE_END=========================================================
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.openecomp.appc</groupId>
+        <artifactId>appc</artifactId>
+        <version>1.1.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>appc-java-client</artifactId>
+    <groupId>org.openecomp.appc.client</groupId>
+    <version>1.1.0-SNAPSHOT</version>
+
+    <name>appc-java-client</name>
+    <description>APPC Java Client</description>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>client-lib</module>
+        <module>client-kit</module>
+        <module>client-simulator</module>
+        <module>code-generator</module>
+    </modules>
+
+    <properties>
+         <licenseDir>${project.parent.basedir}</licenseDir>
+        <build.helper.maven.plugin.version>1.7</build.helper.maven.plugin.version>
+        <build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
+        <bundle.plugin.version>2.5.0</bundle.plugin.version>
+        <cambria.client.version>0.0.1</cambria.client.version>
+        <eelf.core.version>1.0.0</eelf.core.version>
+        <eelf.version>0.0.4</eelf.version>
+        <freemarker.version>2.3.23</freemarker.version>
+        <jackson.version>2.8.5</jackson.version>
+        <java.version>1.8</java.version>
+        <junit.version>4.12</junit.version>
+        <maven.compiler.plugin.version>3.6.0</maven.compiler.plugin.version>
+        <maven.core.version>3.3.9</maven.core.version>
+        <maven.install.plugin.version>2.5.2</maven.install.plugin.version>
+        <maven.javadoc.plugin.version>2.10.4</maven.javadoc.plugin.version>
+        <maven.plugin.annotations.version>3.5</maven.plugin.annotations.version>
+        <maven.plugin.api.version>3.3.9</maven.plugin.api.version>
+        <maven.plugin.plugin.version>3.3</maven.plugin.plugin.version>
+        <maven.release.plugin.version>2.5.2</maven.release.plugin.version>
+        <maven.scm.provers.jgit.version>1.9.5</maven.scm.provers.jgit.version>
+        <maven.surefire.plugin.version>2.10</maven.surefire.plugin.version>
+        <mockito-core.version>1.9.5</mockito-core.version>
+        <odl.mdsal.yang.binding.version>0.9.1-Boron-SR1</odl.mdsal.yang.binding.version>
+        <odl.sal.binding.version>1.4.1-Boron-SR1</odl.sal.binding.version>
+        <odl.version>0.5.1-Boron-SR1</odl.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.scm.id>git-server</project.scm.id>
+        <sal.core.api.version>1.4.2-Boron-SR2</sal.core.api.version>
+        <sdnctl.dblib.version>1.1.0</sdnctl.dblib.version>
+        <sdnctl.sli.version>1.1.0</sdnctl.sli.version>
+        <yang.maven.plugin.version>1.0.1-Boron-SR1</yang.maven.plugin.version>
+        <yang.parser.impl.version>1.0.3-Boron-SR3</yang.parser.impl.version>
+    </properties>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.opendaylight.mdsal</groupId>
+                    <artifactId>yang-binding</artifactId>
+                    <version>${odl.mdsal.yang.binding.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.felix</groupId>
+                    <artifactId>maven-bundle-plugin</artifactId>
+                    <version>${bundle.plugin.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>${build-helper-maven-plugin-version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.opendaylight.yangtools</groupId>
+                    <artifactId>yang-maven-plugin</artifactId>
+                    <version>${yang.maven.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <configuration>
+                        <descriptors>
+                            <descriptor>assembly.xml</descriptor>
+                        </descriptors>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven.release.plugin.version}</version>
+                    <configuration>
+                        <goals>-s ${mvn.settings} deploy</goals>
+                        <providerImplementations>
+                            <git>jgit</git>
+                        </providerImplementations>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.scm</groupId>
+                            <artifactId>maven-scm-provider-jgit</artifactId>
+                            <version>${maven.scm.provers.jgit.version></version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${maven.javadoc.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>aggregate-jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>aggregate-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openecomp.sdnc.core</groupId>
+                <artifactId>sli-provider</artifactId>
+                <version>${sdnctl.sli.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.openecomp.sdnc.core</groupId>
+                <artifactId>dblib-provider</artifactId>
+                <version>${sdnctl.dblib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.opendaylight.controller</groupId>
+                <artifactId>sal-binding-api</artifactId>
+                <version>${odl.sal.binding.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.att.nsa</groupId>
+                <artifactId>cambriaClient</artifactId>
+                <version>${cambria.client.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.att.eelf</groupId>
+                <artifactId>eelf-core</artifactId>
+                <version>${eelf.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito-core.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

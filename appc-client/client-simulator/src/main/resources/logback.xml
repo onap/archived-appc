@@ -1,0 +1,81 @@
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  ================================================================================
+  Copyright (C) 2017 Amdocs
+  =============================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+       http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  
+  ECOMP is a trademark and service mark of AT&T Intellectual Property.
+  ============LICENSE_END=========================================================
+  -->
+
+ <configuration scan="true">
+
+  <property name="componentName" value="APPC-Client"/>
+  <property name="debugDir" value="logs" />
+
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <level>ERROR</level>
+        <onMatch>ACCEPT</onMatch>
+        <onMismatch>DENY</onMismatch>
+    </filter>
+    <encoder>
+      <pattern>%date{"yyyy-MM-dd HH:mm:ss.SSS z"} [%thread] %-5level %logger{36} %X{akkaSource} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+     <file>logs/client-debug.log</file>
+
+     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>logs/client-debug.%d.log.zip</fileNamePattern>
+         <maxHistory>1</maxHistory>
+     </rollingPolicy>
+
+     <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+         <maxFileSize>10MB</maxFileSize>
+     </triggeringPolicy>
+
+     <encoder>
+         <pattern>%date{"yyyy-MM-dd HH:mm:ss.SSS z"} [%thread] %-5level %logger{35} - %msg%n</pattern>
+     </encoder>
+ </appender>
+
+  <appender name="asyncEELF" class="ch.qos.logback.classic.AsyncAppender">
+     <queueSize>256</queueSize>
+     <appender-ref ref="ERROR_FILE" />
+  </appender>
+
+
+   <root level="debug">
+     <appender-ref ref="DEBUG_FILE" />
+   </root>
+
+     <!--<logger name="ch.qos.logback" level="error" additivity="false">-->
+         <!--<appender-ref ref="asyncEELFServer" />-->
+     <!--</logger>-->
+
+     <!--<logger name="ch.qos.logback" level="error" additivity="false">-->
+         <!--<appender-ref ref="asyncEELFPerformance" />-->
+     <!--</logger>-->
+
+     <!--<logger name="ch.qos.logback" level="error" additivity="false">-->
+         <!--<appender-ref ref="asyncEELFPolicy" />-->
+     <!--</logger>-->
+
+</configuration>
+

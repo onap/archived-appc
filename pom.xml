@@ -608,6 +608,7 @@
                 <module>appc-outbound</module>
                 <module>appc-inbound</module>
                 <module>appc-sequence-generator</module>
+                <module>appc-client</module>
             </modules>
         </profile>
         <profile>
