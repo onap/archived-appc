@@ -35,7 +35,7 @@ public class IdentityURL {
      * The regular expression pattern used to parse the URL. Capturing groups are used to identify and extract the
      * various component parts of the URL.
      */
-    private static Pattern pattern = Pattern.compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?/(v[0-9\\.]+)/?");
+    private static Pattern pattern = Pattern.compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/(v[0-9\\.]+)/?");
 
     /**
      * The URL scheme or protocol, such as HTTP or HTTPS
@@ -46,6 +46,11 @@ public class IdentityURL {
      * The host name or ip address
      */
     private String host;
+
+    /**
+     * The path of the service, or null if no path is defined
+     */
+    private String path;
 
     /**
      * The port number, or null if no port is defined
@@ -83,7 +88,8 @@ public class IdentityURL {
                 obj.scheme = matcher.group(1);
                 obj.host = matcher.group(2);
                 obj.port = matcher.group(3);
-                obj.version = matcher.group(4);
+                obj.path = matcher.group(4);
+                obj.version = matcher.group(5);
             }
         }
 
@@ -105,6 +111,13 @@ public class IdentityURL {
     }
 
     /**
+     * @return The URL path, or null if no path was defined
+     */
+    public String getPath() {
+        return path;
+    }
+
+    /**
      * @return The URL port, or null if no port was defined
      */
     public String getPort() {
@@ -117,7 +130,18 @@ public class IdentityURL {
 
     @Override
     public String toString() {
-        return String.format("%s://%s:%s/%s", scheme, host, port, version);
+        StringBuilder str = new StringBuilder();
+
+        str.append(scheme + "://" + host);
+        if (port != null) {
+            str.append(":" + port);
+        }
+        if (path != null) {
+            str.append(path);
+        }
+        str.append("/" + version);
+
+        return str.toString();
     }
 
 }

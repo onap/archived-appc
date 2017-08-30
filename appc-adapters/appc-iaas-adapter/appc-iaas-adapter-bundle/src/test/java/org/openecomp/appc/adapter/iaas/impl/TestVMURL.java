@@ -27,6 +27,7 @@
 package org.openecomp.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.Properties;
@@ -46,18 +47,19 @@ public class TestVMURL {
 
     @BeforeClass
     public static void before() {
-        IP = "192.168.1.2";
-        PORT = "5000";
-        TENANTID = "abcde12345fghijk6789lmnopq123rst";
-        VMID = "abc12345-1234-5678-890a-abcdefg12345";
-        URL = String.format("http://%s:%s/v2/%s/servers/%s", IP, PORT, TENANTID, VMID);
+        Properties props = ConfigurationFactory.getConfiguration().getProperties();
+        IP = props.getProperty("test.ip");
+        PORT = props.getProperty("test.port");
+        TENANTID = props.getProperty("test.tenantid");
+        VMID = props.getProperty("test.vmid");
     }
 
     /**
      * Test that we can parse and interpret valid URLs
      */
     @Test
-    public void testValidURLs() {
+    public void testValidURL1() {
+        URL = String.format("http://%s:%s/v2/%s/servers/%s", IP, PORT, TENANTID, VMID);
         VMURL url = VMURL.parseURL(URL);
 
         assertEquals("http", url.getScheme());
@@ -65,13 +67,34 @@ public class TestVMURL {
         assertEquals(PORT, url.getPort());
         assertEquals(TENANTID, url.getTenantId());
         assertEquals(VMID, url.getServerId());
+        assertEquals(url.toString(), URL);
+    }
 
-        url = VMURL.parseURL(String.format("http://%s/v2/%s/servers/%s", IP, TENANTID, VMID));
+    @Test
+    public void testValidURL2() {
+        URL = String.format("http://%s/v2/%s/servers/%s", IP, TENANTID, VMID);
+        VMURL url = VMURL.parseURL(URL);
         assertEquals("http", url.getScheme());
         assertEquals(IP, url.getHost());
         assertNull(url.getPort());
+        assertNull(url.getPath());
         assertEquals(TENANTID, url.getTenantId());
         assertEquals(VMID, url.getServerId());
+        assertEquals(url.toString(), URL);
+    }
+
+    @Test
+    public void testValidURL3() {
+        URL = "http://msb.onap.org:80/api/multicloud/v0/cloudowner_region/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
+        VMURL url = VMURL.parseURL(URL);
+        assertNotNull(url);
+        assertEquals("http", url.getScheme());
+        assertEquals("msb.onap.org", url.getHost());
+        assertEquals("80", url.getPort());
+        assertEquals("/api/multicloud/v0/cloudowner_region", url.getPath());
+        assertEquals(TENANTID, url.getTenantId());
+        assertEquals(VMID, url.getServerId());
+        assertEquals(url.toString(), URL);
     }
 
     /**
