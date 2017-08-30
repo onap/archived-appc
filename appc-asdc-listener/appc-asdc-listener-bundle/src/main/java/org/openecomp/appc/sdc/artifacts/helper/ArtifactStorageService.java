@@ -24,6 +24,7 @@
 
 package org.openecomp.appc.sdc.artifacts.helper;
 
+import org.apache.commons.lang.StringUtils;
 import org.openecomp.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -221,7 +222,7 @@ public class ArtifactStorageService {
         arguments.add(artifact.getServiceUUID());
         arguments.add(artifact.getDistributionId());
         arguments.add(artifact.getServiceName());
-        arguments.add(artifact.getServiceDescription());
+        arguments.add(truncateServiceDescription(artifact.getServiceDescription()));
         arguments.add(artifact.getResourceUUID());
         arguments.add(artifact.getResourceInstanceName());
         arguments.add(artifact.getResourceName());
@@ -235,6 +236,14 @@ public class ArtifactStorageService {
         arguments.add(artifact.getArtifactName());
         arguments.add(artifact.getArtifactContent());
         return arguments;
+    }
+
+    private String truncateServiceDescription(String serviceDescription){
+        if (!StringUtils.isBlank(serviceDescription) && serviceDescription.length()>255){
+            logger.info("Truncating the SERVICE_DESCRIPTION to 255 characters");
+            serviceDescription=serviceDescription.substring(0,255);
+        }
+        return serviceDescription;
     }
 
     /**
