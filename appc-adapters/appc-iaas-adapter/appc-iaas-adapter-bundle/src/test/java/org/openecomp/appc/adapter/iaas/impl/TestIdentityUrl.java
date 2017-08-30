@@ -26,6 +26,8 @@
 package org.openecomp.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Properties;
 
@@ -48,10 +50,55 @@ public class TestIdentityUrl {
      * Test that we can parse and interpret valid URLs
      */
     @Test
-    public void testValidURLs() {
+    public void testValidURL1() {
         URL = "http://192.168.1.1:5000/v2.0/";
         IdentityURL idurl = IdentityURL.parseURL(URL);
         assertNotNull(idurl);
-        System.out.println(idurl.getVersion());
+        assertTrue(idurl.getScheme().equals("http"));
+        assertTrue(idurl.getHost().equals("192.168.1.1"));
+        assertTrue(idurl.getPort().equals("5000"));
+        assertNull(idurl.getPath());
+        assertTrue(idurl.getVersion().equals("v2.0"));
+        assertTrue(idurl.toString().equals("http://192.168.1.1:5000/v2.0"));
+    }
+
+    @Test
+    public void testValidURL2() {
+        URL = "https://192.168.1.1:5000/v3/";
+        IdentityURL idurl = IdentityURL.parseURL(URL);
+        assertNotNull(idurl);
+        assertTrue(idurl.getScheme().equals("https"));
+        assertTrue(idurl.getHost().equals("192.168.1.1"));
+        assertTrue(idurl.getPort().equals("5000"));
+        assertNull(idurl.getPath());
+        assertTrue(idurl.getVersion().equals("v3"));
+        assertTrue(idurl.toString().equals("https://192.168.1.1:5000/v3"));
+    }
+
+    @Test
+    public void testValidURL3() {
+        URL = "http://192.168.1.1/v2.0/";
+        IdentityURL idurl = IdentityURL.parseURL(URL);
+        assertNotNull(idurl);
+        assertTrue(idurl.getScheme().equals("http"));
+        assertTrue(idurl.getHost().equals("192.168.1.1"));
+        assertNull(idurl.getPort());
+        assertNull(idurl.getPath());
+        assertTrue(idurl.getVersion().equals("v2.0"));
+        System.out.println(idurl.toString());
+        assertTrue(idurl.toString().equals("http://192.168.1.1/v2.0"));
+    }
+
+    @Test
+    public void testValidURL4() {
+        URL = "http://msb.onap.org:80/api/multicloud/v0/cloudowner_region/identity/v3";
+        IdentityURL idurl = IdentityURL.parseURL(URL);
+        assertNotNull(idurl);
+        assertTrue(idurl.getScheme().equals("http"));
+        assertTrue(idurl.getHost().equals("msb.onap.org"));
+        assertTrue(idurl.getPort().equals("80"));
+        assertTrue(idurl.getPath().equals("/api/multicloud/v0/cloudowner_region/identity"));
+        assertTrue(idurl.getVersion().equals("v3"));
+        assertTrue(idurl.toString().equals("http://msb.onap.org:80/api/multicloud/v0/cloudowner_region/identity/v3"));
     }
 }
