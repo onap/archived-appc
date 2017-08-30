@@ -83,7 +83,7 @@ public class DesignServiceConstants {
     
         
         public static final String DB_DT_ARTIFACT_TRACKING = "DT_ARTIFACT_TRACKING";
-        public static final String DB_ASDC_REFERENCE = "ASDC_REFERENCE";
+        public static final String DB_SDC_REFERENCE = "ASDC_REFERENCE";
         public static final String SCHEMA_SDNCTL = "SDNCTL";
         public static final String GETARTIFACT = "getArtifact";
         public static final String USER_ID = "userID";

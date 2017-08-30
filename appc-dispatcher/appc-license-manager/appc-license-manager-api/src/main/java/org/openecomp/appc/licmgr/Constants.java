@@ -55,7 +55,7 @@ public class Constants {
     public static final String REQUEST_ID_FIELD_NAME = "REQUEST_ID";
     public static final String CREATION_DATE_FIELD_NAME = "CREATION_DATE";
     public static final String LOG_FIELD_NAME = "LOG";
-    public static final String ASDC_ARTIFACTS = "ASDC_ARTIFACTS";
+    public static final String SDC_ARTIFACTS = "ASDC_ARTIFACTS";
 
     // input fields names
     public static final String PAYLOAD = "payload";
@@ -89,7 +89,7 @@ public class Constants {
     public static final String IS_ACQUIRE_ENTITLEMENT_REQUIRE ="is.acquire-entitlement.require";
     public static final String IS_RELEASE_ENTITLEMENT_REQUIRE ="is.release-entitlement.require";
 
-    public enum ASDC_ARTIFACTS_FIELDS {
+    public enum SDC_ARTIFACTS_FIELDS {
         SERVICE_UUID,
         DISTRIBUTION_ID,
         SERVICE_NAME,

@@ -295,9 +295,9 @@ module appc-provider-lcm {
 
 
      grouping status {
-            description "The specific response codes are to be aligned with ASDC reference doc (main table removed to avoid duplication and digression from main table). See ASDC and ECOMP Distribution Consumer Interface Agreement";
+            description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
             container status {
-                description "The specific response codes are to be aligned with ASDC reference doc (main table removed to avoid duplication and digression from main table). See ASDC and ECOMP Distribution Consumer Interface Agreement";
+                description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
                 leaf code {
                     description "Response code";
                     type uint16;

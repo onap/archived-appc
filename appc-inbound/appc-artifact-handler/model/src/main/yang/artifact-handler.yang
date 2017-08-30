@@ -51,7 +51,7 @@ module artifact-handler {
            } 
            leaf request-action { 
               type enumeration { 
-                 enum "StoreAsdcDocumentRequest";
+                 enum "StoreSdcDocumentRequest";
               } 
            } 
            leaf request-sub-action { 
