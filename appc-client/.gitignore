@@ -1,0 +1,11 @@
+/target/
+/.idea/
+*.iml
+/logs/
+/debug-logs/
+.settings/
+.project
+*.swp
+.pydevproject
+.classpath
+client-lib/logs/EELF/application.log
