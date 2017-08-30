@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_a0548454",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/openecomp/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-30T14:15:45Z",
+      "side": 0,
+      "message": "Still wondering why these are removed, I\u0027m assuming because they are obsolete, or added by accident, but usually better to know explicitly in body of commit message.",
+      "range": {
+        "startLine": 235,
+        "startChar": 13,
+        "endLine": 236,
+        "endChar": 49
+      },
+      "revId": "51f905f307dde5e1c5135515796c614250e9de4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
