@@ -37,7 +37,7 @@ public class VMURL {
      * various component parts of the URL.
      */
     private static Pattern pattern = Pattern
-        .compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?/v2/([^/]+)/servers/([^/]+)");
+        .compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/v2/([^/]+)/servers/([^/]+)");
 
     /**
      * The URL scheme or protocol, such as HTTP or HTTPS
@@ -48,7 +48,12 @@ public class VMURL {
      * The host name or ip address
      */
     private String host;
-
+    
+    /**
+     * The path, or null if no path is defined
+     */
+    private String path;
+    
     /**
      * The port number, or null if no port is defined
      */
@@ -90,8 +95,9 @@ public class VMURL {
                 obj.scheme = matcher.group(1);
                 obj.host = matcher.group(2);
                 obj.port = matcher.group(3);
-                obj.tenantId = matcher.group(4);
-                obj.serverId = matcher.group(5);
+                obj.path = matcher.group(4);
+                obj.tenantId = matcher.group(5);
+                obj.serverId = matcher.group(6);
             }
         }
 
@@ -111,7 +117,14 @@ public class VMURL {
     public String getHost() {
         return host;
     }
-
+    
+    /**
+     * @return THe URL path, or null if no path was defined
+     */
+    public String getPath() {
+        return path;
+    }
+    
     /**
      * @return The URL port, or null if no port was defined
      */
@@ -135,7 +148,16 @@ public class VMURL {
 
     @Override
     public String toString() {
-        return String.format("%s://%s:%s/%s/servers/%s", scheme, host, port, tenantId, serverId);
+    	StringBuilder str = new StringBuilder();
+        str.append(scheme + "://" + host);
+        if (port != null) {
+            str.append(":" + port);
+        }
+        if (path != null) {
+            str.append(path);
+        }
+        str.append("/v2/" + tenantId + "/servers/" + serverId);
+        return str.toString();
     }
 
 }
