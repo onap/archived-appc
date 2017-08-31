@@ -1,0 +1,6 @@
+errorlog
+
+2017-08-20T17:40:23.100361+00:00 host-000-00-000-00 client[0000]: Request on IBG1mgmt to 000.00.00.0 port 22
+2017-08-20T17:40:23.102973+00:00 host-000-00-000-00  [0000]: DHCPACK from 000.00.00.0 (xid=0x2803c728)
+2017-08-20T17:40:25.191027+00:00 host-000-00-000-00 cleint-enter-hooks: daemon.notice Ignoring update of 
+2017-08-20T17:40:25.199832+00:00 host-000-00-000-00 client[00000]: bound to 000.00.00.0 -- renewal in 231 seconds

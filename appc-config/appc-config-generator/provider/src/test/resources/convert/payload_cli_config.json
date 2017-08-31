@@ -17,3 +17,29 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
+{
+	"request-parameters": {
+		"vnf-type": "test",
+		"vnf-host-ip-address": "000.00.00.0",
+		"service-instance-id": "test",
+		"site-location": "Middletown",
+		"vnf-name": "test",
+		"vm": [
+			{
+				"vm-name": "test",
+				"vnfc": [
+					{
+						"vnfc-name": "test",
+						"vnfc-function-code": "ssc",
+						"vnfc-type": "vISBC – ssc",
+						"ipaddress-v4-oam-vip": "00.0.0.0",
+						"group-notation": "test"
+					}
+				]
+			},
+			
+		]
+	},
+	
+}
+ 
