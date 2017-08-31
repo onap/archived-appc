@@ -45,7 +45,7 @@ import org.bouncycastle.openssl.PEMKeyPair;
 
 public class Utils {
     private Utils(){}
-
+    
     public static String sha1AndBase64(String inStr) {
         MessageDigest md = null;
         String outStr = null;
@@ -59,18 +59,11 @@ public class Utils {
         }
         return new String(outbty);
     }
-
+    
     public static String signWithRSA(String inStr, String pemPath) {
         byte[] outStr = null;
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new FileReader(pemPath));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        Security.addProvider(new BouncyCastleProvider());
-        try {
-
+        try ( BufferedReader br  = new BufferedReader(new FileReader(pemPath))) {
+            Security.addProvider(new BouncyCastleProvider());
             PEMParser pemParser = new PEMParser(br);
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             Object object = pemParser.readObject();
@@ -79,10 +72,8 @@ public class Utils {
             Signature instance = Signature.getInstance("RSA");
             instance.initSign(privateKey);
             instance.update(inStr.getBytes());
-
             byte[] signature = instance.sign();
             outStr = Base64.encode(signature);
-            String tmp = new String(outStr);
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -94,7 +85,7 @@ public class Utils {
         }
         return new String(outStr);
     }
-
+    
     public static String[] splitAs60(String inStr) {
         int count = inStr.length() / 60;
         String[] out = new String[count + 1];
@@ -109,5 +100,4 @@ public class Utils {
         }
         return out;
     }
-
 }
