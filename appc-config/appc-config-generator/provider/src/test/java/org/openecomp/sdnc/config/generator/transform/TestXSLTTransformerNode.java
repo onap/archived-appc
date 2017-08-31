@@ -20,41 +20,37 @@
 
 package org.openecomp.sdnc.config.generator.transform;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertEquals;
-
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
 import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
 import org.openecomp.sdnc.config.generator.transform.XSLTTransformerNode;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 
 public class TestXSLTTransformerNode {
-    private static final  EELFLogger log = EELFManager.getInstance().getLogger(TestXSLTTransformerNode.class);
+    
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(TestXSLTTransformerNode.class);
 
-    //@Test
+    @Test
     public void transformData() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
-        
-        String templateData = IOUtils.toString(TestMergeNode.class.getClassLoader().getResourceAsStream("transform/template.xsl"), Charset.defaultCharset());
-        String requestData = IOUtils.toString(TestMergeNode.class.getClassLoader().getResourceAsStream("transform/request.xml"), Charset.defaultCharset());
-        
+        String templateData = IOUtils.toString(
+                TestMergeNode.class.getClassLoader().getResourceAsStream("transform/template.xsl"),
+                Charset.defaultCharset());
+        String requestData = IOUtils.toString(
+                TestMergeNode.class.getClassLoader().getResourceAsStream("transform/request.xml"),
+                Charset.defaultCharset());
         Map<String, String> inParams = new HashMap<String, String>();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, templateData );
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA, requestData );
-        XSLTTransformerNode  transformerNode = new XSLTTransformerNode();
-        transformerNode.transformData(inParams, ctx);        
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, templateData);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA, requestData);
+        XSLTTransformerNode transformerNode = new XSLTTransformerNode();
+        transformerNode.transformData(inParams, ctx);
         log.info("transformData Result: " + ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_TRANSFORMED_DATA));
 
     }
-
-
 }

@@ -30,51 +30,34 @@ import org.slf4j.LoggerFactory;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicException;
 
-public class TestCompareNodeJson
-{
-private static final Logger log = LoggerFactory.getLogger(TestCompareNodeJson.class);
+public class TestCompareNodeJson {
+    private static final Logger log = LoggerFactory.getLogger(TestCompareNodeJson.class);
 
-    //@Test
-    public void TestCompareJsonForSamePayload()
-    {
-        SvcLogicContext ctx  = new SvcLogicContext();
+    @Test
+    public void TestCompareJsonForSamePayload() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp  = new CompareNode();
-        try
-        {
-            String controlJson = "{\n\"input\": {\n   \"appc-request-header\": {\n       \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
-            String testJson = "{\n\"input\": {\n  \"appc-request-header\": {\n \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
-            testMap.put("compareDataType", "RestConf");
-            testMap.put("sourceData", controlJson);
-            testMap.put("targetData", testJson);
-            cmp.compare(testMap, ctx);
-            assert(ctx.getAttribute("STATUS").equals("SUCCESS"));
-        }
-        catch (SvcLogicException e)
-        {
-            e.printStackTrace();
-        }
+        CompareNode cmp = new CompareNode();
+        String controlJson = "{\n\"input\": {\n   \"appc-request-header\": {\n       \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
+        String testJson = "{\n\"input\": {\n  \"appc-request-header\": {\n \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
+        testMap.put("compareDataType", "RestConf");
+        testMap.put("sourceData", controlJson);
+        testMap.put("targetData", testJson);
+        cmp.compare(testMap, ctx);
+        assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
     }
 
-    //@Test
-    public void TestCompareJsonFordifferentPayload()
-    {
-        SvcLogicContext ctx  = new SvcLogicContext();
+    @Test
+    public void TestCompareJsonFordifferentPayload() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp  = new CompareNode();
-        try
-        {
-            String controlJson = "{\n\"input\": {\n   \"appc-request-header\": {\n       \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
-            String testJson = "{\n\"input\": {\n  \"appc-request-header\": { \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"0000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
-            testMap.put("compareDataType", "RestConf");
-            testMap.put("sourceData", controlJson);
-            testMap.put("targetData", testJson);
-            cmp.compare(testMap, ctx);
-            assert(ctx.getAttribute("STATUS").equals("FAILURE"));
-        }
-        catch (SvcLogicException e)
-        {
-            e.printStackTrace();
-        }
+        CompareNode cmp = new CompareNode();
+        String controlJson = "{\n\"input\": {\n   \"appc-request-header\": {\n       \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
+        String testJson = "{\n\"input\": {\n  \"appc-request-header\": { \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"0000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
+        testMap.put("compareDataType", "RestConf");
+        testMap.put("sourceData", controlJson);
+        testMap.put("targetData", testJson);
+        cmp.compare(testMap, ctx);
+        assert (ctx.getAttribute("STATUS").equals("FAILURE"));
     }
 }

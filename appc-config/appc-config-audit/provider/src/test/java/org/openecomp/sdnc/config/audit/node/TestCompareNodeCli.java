@@ -30,71 +30,41 @@ import org.slf4j.LoggerFactory;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.openecomp.sdnc.sli.SvcLogicException;
 
-public class TestCompareNodeCli
-{
-private static final Logger log = LoggerFactory.getLogger(TestCompareNodeCli.class);
-    
+public class TestCompareNodeCli {
+    private static final Logger log = LoggerFactory.getLogger(TestCompareNodeCli.class);
 
-//@Test
-    public void TestCompareCliForSamePayload()
-    {
-        SvcLogicContext ctx  = new SvcLogicContext();
-        HashMap<String, String> testMap = new HashMap<String, String>();        
-        CompareNode cmp  = new CompareNode();
-        try
-        {
-            testMap.put("compareDataType", "Cli");
-            testMap.put("sourceData", "This is a Text Configuration of Device");
-            testMap.put("targetData", "This is a Text Configuration of Device");            
-            cmp.compare(testMap, ctx);            
-            assert(ctx.getAttribute("STATUS").equals("SUCCESS"));            
-        }
-        catch (SvcLogicException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }        
+    @Test
+    public void TestCompareCliForSamePayload() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        testMap.put("compareDataType", "Cli");
+        testMap.put("sourceData", "This is a Text Configuration of Device");
+        testMap.put("targetData", "This is a Text Configuration of Device");
+        cmp.compare(testMap, ctx);
+        assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
     }
 
-    //@Test
-    public void TestCompareCliFordifferentPayload()
-    {
-        SvcLogicContext ctx  = new SvcLogicContext();
-        HashMap<String, String> testMap = new HashMap<String, String>();        
-        CompareNode cmp  = new CompareNode();
-        try
-        {
-            testMap.put("compareDataType", "Cli");
-            testMap.put("sourceData", "This is a Text Negative test Configuration of Device");
-            testMap.put("targetData", "This is a Text Configuration of Device");            
-            cmp.compare(testMap, ctx);            
-            assert(ctx.getAttribute("STATUS").equals("FAILURE"));            
-        }
-        catch (SvcLogicException e)
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }        
+    @Test
+    public void TestCompareCliFordifferentPayload() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        testMap.put("compareDataType", "Cli");
+        testMap.put("sourceData", "This is a Text Negative test Configuration of Device");
+        testMap.put("targetData", "This is a Text Configuration of Device");
+        cmp.compare(testMap, ctx);
+        assert (ctx.getAttribute("STATUS").equals("FAILURE"));
     }
-    
-    //@Test
-    public void TestCompareForMissingInput()
-    {
-        SvcLogicContext ctx  = new SvcLogicContext();
-        HashMap<String, String> testMap = new HashMap<String, String>();        
-        CompareNode cmp  = new CompareNode();
-        try
-        {
-        //    testMap.put("compareDataType", "Cli"); Missing compareDataType from the input            
-            testMap.put("sourceData", "This is a Text Negative test Configuration of Device");
-            testMap.put("targetData.configuration-data", "This is a Text Configuration of Device");    
-            cmp.compare(testMap, ctx);            
-            assert(ctx.getAttribute("STATUS").equals("FAILURE"));            
-        }
-        catch (SvcLogicException e)
-        {
-            assert(ctx.getAttribute("STATUS").equals("FAILURE"));
-        }        
+
+    @Test
+    public void TestCompareForMissingInput() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        testMap.put("sourceData", "This is a Text Negative test Configuration of Device");
+        testMap.put("targetData.configuration-data", "This is a Text Configuration of Device");
+        cmp.compare(testMap, ctx);
+        assert (ctx.getAttribute("STATUS").equals("FAILURE"));
     }
-    
 }
