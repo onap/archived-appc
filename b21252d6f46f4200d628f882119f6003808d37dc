@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_e8170ea2",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/openecomp/appc/data/services/AppcDataServiceConstant.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-08-31T15:14:11Z",
+      "side": 1,
+      "message": "I\u0027m wondering why you are updating only variables names and not their contents and refactoring components that use contents? (This ask is generic across the changeset)",
+      "range": {
+        "startLine": 37,
+        "startChar": 60,
+        "endLine": 37,
+        "endChar": 61
+      },
+      "revId": "b21252d6f46f4200d628f882119f6003808d37dc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
