@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,31 +17,33 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.writer;
+package org.openecomp.sdnc.config.generator.reader;
 
-import static org.junit.Assert.assertEquals;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.writer.FileWriterNode;
+import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
+import org.openecomp.sdnc.config.generator.reader.ReaderNode;
 import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.openecomp.sdnc.sli.SvcLogicException;
 
-public class TestFileWriterNode {
-
-    @Test
-    public void writeFile() throws Exception {
-        FileWriterNode FileWriterNode = new FileWriterNode();
+public class TestReaderNode {
+    @Test(expected = Exception.class)
+    public void testGetFileData() throws SvcLogicException, IOException {
+        ReaderNode r = new ReaderNode();
         Map<String, String> inParams = new HashMap<String, String>();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME, "src/test/resources/writer/testcvaas.json");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA, "{'name':'Name','role':'admin'}");
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME, IOUtils
+                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("convert/payload_cli_config.json")));
         SvcLogicContext ctx = new SvcLogicContext();
-        FileWriterNode.writeFile(inParams, ctx);
-        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
-                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+        r.getFileData(inParams, ctx);
     }
 }
