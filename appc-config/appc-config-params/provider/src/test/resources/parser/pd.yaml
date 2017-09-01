@@ -8,10 +8,10 @@ vnf-parameter-list:
   required: false
   source: "INSTAR"
   rule-type: "interface-ip-address"
-  default: "192.168.30.1"
+  default: "0.0.0.0"
   request-keys:
   - key-name: "address_fqdn"
-    key-value: "someValue"
+    key-value: "value"
   - key-name: "address_type"
     key-value: "v4"
   response-keys: null
@@ -21,10 +21,10 @@ vnf-parameter-list:
   required: false
   source: "INSTAR"
   rule-type: null
-  default: "fd00:f4d5:ea06:1:0:110:136:254"
+  default: "0:0:0:0"
   request-keys:
   - key-name: "address_fqdn"
-    key-value: "someValue"
+    key-value: "value"
   - key-name: "address_type"
     key-value: "v4"
   response-keys: null
@@ -34,7 +34,7 @@ vnf-parameter-list:
   required: false
   source: null
   rule-type: null
-  default: "192.168.30.1"
+  default: "0.0.0.0"
   request-keys: null
   response-keys: null
 - name: "REMOTE_ACCESS_IP_ADDR"
@@ -43,7 +43,7 @@ vnf-parameter-list:
   required: false
   source: null
   rule-type: null
-  default: "192.168.30.1"
+  default: "0.0.0.0"
   request-keys: null
   response-keys: null
 - name: "REMOTE_CORE_ALT_IP_ADDR"
@@ -52,7 +52,7 @@ vnf-parameter-list:
   required: false
   source: null
   rule-type: null
-  default: "fd00:f4d5:ea06:1:0:110:136:254"
+  default: "0:0:0:0"
   request-keys: null
   response-keys: null
 - name: "REMOTE_BILLING_IP_ADDR"
@@ -61,7 +61,7 @@ vnf-parameter-list:
   required: false
   source: "INSTAR"
   rule-type: null
-  default: "192.168.30.1"
+  default: "0.0.0.0"
   request-keys: null
   response-keys: null
 - name: "CORE_NETWORK_PLEN"

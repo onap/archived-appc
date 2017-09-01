@@ -33,15 +33,12 @@ import org.openecomp.sdnc.config.params.transformer.tosca.exceptions.ArtifactPro
 import java.io.*;
 import java.net.URL;
 
-/**
- * Created by pranavdi on 3/21/2017.
- */
 public class TestGenerateArtifactString{
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-//    @Test
+    @Test
     public void testStringArtifactGenerator() throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
@@ -60,7 +57,7 @@ public class TestGenerateArtifactString{
 
     }
 
- //   @Test
+    @Test
     public void testArtifactGeneratorWithParameterNameBlank() throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition2.yml");
@@ -81,7 +78,7 @@ public class TestGenerateArtifactString{
         outstream.close();
     }
 
-  //  @Test
+    @Test
     public void testArtifactGeneratorWithParameterNameNull() throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition3.yml");
@@ -102,7 +99,7 @@ public class TestGenerateArtifactString{
         outstream.close();
     }
 
-   // @Test
+    @Test
     public void testArtifactGeneratorWithKindNull() throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition4.yml");

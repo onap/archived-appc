@@ -29,30 +29,28 @@ import org.junit.Test;
 import org.openecomp.sdnc.config.params.data.RequestKey;
 import org.openecomp.sdnc.config.params.data.ResponseKey;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class TestPropertyQueryString
 {
-   // @Test
+   @Test
     public void testBuildResponseKeys()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
         String properties= arp.buildResponseKeyExpression(createResponseKeys());
-        Assert.assertEquals("<response-keys = address-fqdn:000000000000000000000:ipaddress-v4 , key2:value2:field2>",properties);
+        Assert.assertEquals("<response-keys = address-fqdn:0000000000000:ipaddress-v4 , key2:value2:field2>",properties);
     }
 
-    //@Test
+   @Test
     public void testBuildRequestKeys()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
         String properties= arp.buildRequestKeyExpression(createRequestKeys());
-        Assert.assertEquals("<request-keys = class-type:interface-ip-address , address_fqdn:m001dbj001p1n004v006 , address_type:v4>",properties);
+        Assert.assertEquals("<request-keys = class-type:interface-ip-address , address_fqdn:00000000000000 , address_type:v4>",properties);
     }
 
-    //@Test
+    @Test
     public void testEncoding()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
@@ -78,7 +76,7 @@ public class TestPropertyQueryString
         Assert.assertEquals(expected5,encoded5);
     }
 
-    //@Test
+    @Test
     public void testBuildRuleType()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
@@ -87,7 +85,7 @@ public class TestPropertyQueryString
         Assert.assertEquals(expected,arp.buildRuleType(input));
     }
 
-   // @Test
+    @Test
     public void testRuleTypeSetNull()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
@@ -95,7 +93,7 @@ public class TestPropertyQueryString
         Assert.assertEquals(expected,arp.buildRuleType(null));
     }
 
-    //@Test
+    @Test
     public void testBuildRequestKeysWithKeyNull()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
@@ -105,7 +103,7 @@ public class TestPropertyQueryString
         Assert.assertEquals("<request-keys = >",properties);
     }
 
-    //@Test
+    @Test
     public void testBuildResponseKeysWithKeyNull()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
@@ -115,12 +113,13 @@ public class TestPropertyQueryString
         Assert.assertEquals("<response-keys = >",properties);
     }
 
-    //@Test
+    @Test
     public void testBuildSourceSystem()
     {
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
-        Assert.assertEquals("<source-system = INSTAR>",arp.buildSourceSystem("INSTAR"));
+        Assert.assertEquals("<source-system = source>",arp.buildSourceSystem("source"));
     }
+    
     //@Test
     private List<RequestKey> createRequestKeys()
     {
@@ -146,7 +145,8 @@ public class TestPropertyQueryString
         requestKeyList.add(requestKey3);
         return  requestKeyList;
     }
-	//@Test
+    
+    //@Test
     private List<ResponseKey> createResponseKeys()
     {
         //Create RequestKey object 1
@@ -160,7 +160,6 @@ public class TestPropertyQueryString
         responseKey2.setUniqueKeyName("key2");
         responseKey2.setUniqueKeyValue("value2");
         responseKey2.setFieldKeyName("field2");
-
 
         //Add the RequestKey Objects to the List
         List<ResponseKey> responseKeyList = new ArrayList<ResponseKey>();
