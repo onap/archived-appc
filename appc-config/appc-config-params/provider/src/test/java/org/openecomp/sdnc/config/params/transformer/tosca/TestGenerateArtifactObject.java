@@ -37,11 +37,7 @@ import org.openecomp.sdnc.config.params.transformer.tosca.exceptions.ArtifactPro
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
-/**
- * Created by pranavdi on 3/15/2017.
- */
+ 
 public class TestGenerateArtifactObject
 {
     @Rule
@@ -59,20 +55,20 @@ public class TestGenerateArtifactObject
                 "      LOCAL_ACCESS_IP_ADDR:\n" +
                 "        type: string\n" +
                 "        required: false\n" +
-                "        default: 192.168.30.1\n" +
+                "        default: 0.0.0.0\n" +
                 "        status: SUPPORTED\n" +
                 "      LOCAL_CORE_ALT_IP_ADDR:\n" +
                 "        type: String\n" +
                 "        required: false\n" +
-                "        default: fd00:f4d5:ea06:1:0:110:254\n" +
+                "        default: value\n" +
                 "        status: SUPPORTED\n" +
                 "topology_template:\n" +
                 "  node_templates:\n" +
                 "    VNF_Template:\n" +
                 "      type: VNF\n" +
                 "      properties:\n" +
-                "        LOCAL_ACCESS_IP_ADDR: <rule-type = myRule1> <response-keys = > <source-system = INSTAR> <request-keys = class-type:interface-ip-address , address_fqdn:someVal , address_type:v4>\n" +
-                "        LOCAL_CORE_ALT_IP_ADDR: <rule-type = myRule2> <response-keys = name1:value1:field1> <source-system = INSTAR> <request-keys = >\n";
+                "        LOCAL_ACCESS_IP_ADDR: <rule-type = myRule1> <response-keys = > <source-system = source> <request-keys = class-type:interface-ip-address , address_fqdn:someVal , address_type:v4>\n" +
+                "        LOCAL_CORE_ALT_IP_ADDR: <rule-type = myRule2> <response-keys = name1:value1:field1> <source-system = source> <request-keys = >\n";
         //Create object
         PropertyDefinition pd = new PropertyDefinition();
         pd.setKind("VNF");
@@ -94,7 +90,7 @@ public class TestGenerateArtifactObject
 
     }
 
-//    @Test
+    @Test
     public void testPDpropertiesSetNull() throws IOException, ArtifactProcessorException {
         String expectedTosca = "node_types:\n" +
                 "  PropertyDefinition:\n" +
@@ -109,9 +105,6 @@ public class TestGenerateArtifactObject
         PropertyDefinition pd = new PropertyDefinition();
         pd.setKind("PropertyDefinition");
         pd.setVersion("V1");
-//        pd.setParameters(createParameters());
-
-        //Call ArtifactProcessor
         OutputStream outstream=null;
 
         File toscaFile =temporaryFolder.newFile("TestTosca.yml");
@@ -126,7 +119,7 @@ public class TestGenerateArtifactObject
         Assert.assertEquals(expectedTosca,toscaString);
     }
 
- //   @Test
+   @Test
     public void testArtifactGeneratorInvalidStream() throws IOException {
         String expectedMsg = "java.io.IOException: Stream Closed";
         PropertyDefinition pd = new PropertyDefinition();
@@ -155,10 +148,9 @@ public class TestGenerateArtifactObject
         //Create single Parameter object 1
         Parameter singleParameter1 = new Parameter();
         singleParameter1.setName("LOCAL_ACCESS_IP_ADDR");
-//        singleParameter1.setList(false);
         singleParameter1.setRequired(false);
-        singleParameter1.setSource("INSTAR");
-        singleParameter1.setDefaultValue("192.168.30.1");
+        singleParameter1.setSource("source");
+        singleParameter1.setDefaultValue("0.0.0.0");
         singleParameter1.setRuleType("myRule1");
         singleParameter1.setRequestKeys(createRequestKeys());
 
@@ -166,13 +158,11 @@ public class TestGenerateArtifactObject
         Parameter singleParameter2 = new Parameter();
         singleParameter2.setName("LOCAL_CORE_ALT_IP_ADDR");
         singleParameter2.setType("String");
-//        singleParameter2.setList(false);
         singleParameter2.setRequired(false);
-        singleParameter2.setSource("INSTAR");
-        singleParameter2.setDefaultValue("fd00:f4d5:ea06:1:0:110:254");
+        singleParameter2.setSource("source");
+        singleParameter2.setDefaultValue("value");
         singleParameter2.setRuleType("myRule2");
         singleParameter2.setResponseKeys(createResponseKeys());
-
 
         //Add the Parameter objects to the List
         List<Parameter> parameterList = new ArrayList<Parameter>();
@@ -226,16 +216,15 @@ public class TestGenerateArtifactObject
     {
         Parameter singleParameter1 = new Parameter();
         singleParameter1.setName("LOCAL_ACCESS_IP_ADDR");
-        //singleParameter1.setList(false);
         singleParameter1.setRequired(false);
-        singleParameter1.setSource("INSTAR");
-        singleParameter1.setDefaultValue("192.168.30.1");
+        singleParameter1.setSource("source");
+        singleParameter1.setDefaultValue("0.0.0.0");
         singleParameter1.setRequestKeys(createRequestKeys());
         singleParameter1.setResponseKeys(createResponseKeys());
         return singleParameter1;
     }
 
-    //@Test
+    @Test(expected =Exception.class)
     public void testPDnull() throws IOException, ArtifactProcessorException {
         PropertyDefinition pd = null;
         OutputStream outstream=null;
@@ -245,8 +234,6 @@ public class TestGenerateArtifactObject
         arp.generateArtifact(pd,outstream);
         outstream.flush();
         outstream.close();
-
-
     }
 
     private String getFileContent(File file) throws IOException

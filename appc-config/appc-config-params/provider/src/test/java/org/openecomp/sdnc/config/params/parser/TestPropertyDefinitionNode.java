@@ -50,84 +50,67 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class TestPropertyDefinitionNode {
 
-@Ignore
-	public void testProcessMissingParamKeys() throws Exception {
-		PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
-		Map<String, String> inParams = new HashMap<String, String>();
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+   @Ignore
+    public void testProcessMissingParamKeys() throws Exception {
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-		String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
+        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
 
-		String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
-		SvcLogicContext ctx = new SvcLogicContext();
-		propertyDefinitionNode.processMissingParamKeys(inParams, ctx);
-		assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processMissingParamKeys(inParams, ctx);
+        assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
 
-	}
+    }
 
-	public void testProcessExternalSystemParamKeys() throws Exception {
-		PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
-		Map<String, String> inParams = new HashMap<String, String>();
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+    @Test
+    public void testProcessExternalSystemParamKeys() throws Exception {
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-		String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
+        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
 
-		String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "INSTAR");
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
 
-		SvcLogicContext ctx = new SvcLogicContext();
-		propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
-		assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
+        assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+}
 
-		System.out.println("Result: " + ctx.getAttributeKeySet());
-		System.out.println("INSTAR.keys : " + ctx.getAttribute("INSTAR.keys"));
-		System.out.println("INSTAR.LOCAL_CORE_ALT_IP_ADDR.request-logic : " + ctx.getAttribute("INSTAR.LOCAL_ACCESS_IP_ADDR"));
-		System.out.println("INSTAR.LOCAL_CORE_ALT_IP_ADDR.request-logic : " + ctx.getAttribute("INSTAR.LOCAL_CORE_ALT_IP_ADDR"));
+    @Test
+    public void mergeJsonData() throws Exception {
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-	}
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
-	public void mergeJsonData() throws Exception {
-		PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
-		Map<String, String> inParams = new HashMap<String, String>();
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA, mergeJsonData);
 
-		String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.mergeJsonData(inParams, ctx);
+        assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+    }
 
-		String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
-		inParams.put(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA, mergeJsonData);
+    @Test
+    public void testArtificatTransformer() throws Exception {
+        ArtificatTransformer transformer = new ArtificatTransformer();
+        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
 
-		SvcLogicContext ctx = new SvcLogicContext();
-		propertyDefinitionNode.mergeJsonData(inParams, ctx);
-		assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
-
-		System.out.println("Result: " + ctx.getAttributeKeySet()); 
-		System.out.println("Merged Value : " + ctx.getAttribute("test." +ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER) );
-
-
-	}
-
-//	@Test
-	public void testArtificatTransformer() throws Exception {
-		ArtificatTransformer transformer = new ArtificatTransformer();
-		String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
-
-		PropertyDefinition propertyDefinition = transformer.convertYAMLToPD(yamlData);
-
-		//		String json = transformer.transformYamlToJson(yamlData);
-		//		System.out.println("TestPropertyDefinitionNode.testArtificatTransformer()" + json);
-		String yaml = transformer.convertPDToYaml(propertyDefinition);
-		System.out.println("TestPropertyDefinitionNode.testArtificatTransformer():\n" + yaml);
-
-	}
-	
-	
-
-
+        PropertyDefinition propertyDefinition = transformer.convertYAMLToPD(yamlData);
+        String yaml = transformer.convertPDToYaml(propertyDefinition);
+    }
+    
 }
