@@ -1,0 +1,5 @@
+<service-logic xmlns='http://www.openecomp.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.openecomp.org/sdnc/svclogic ./svclogic.xsd' module='Appc' version='4.0.0'><method rpc='unitTestDG' mode='sync'>
+<block>
+<return status='success'>
+
+</return></block></method></service-logic>
