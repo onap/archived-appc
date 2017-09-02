@@ -24,12 +24,13 @@
 
 package org.openecomp.appc.adapter.chef.impl;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.io.File;
+import java.util.Map;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
@@ -41,20 +42,21 @@ import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.sdnc.sli.SvcLogicContext;
 
-import java.io.File;
-import java.util.Map;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 /**
  * This class implements the {@link ChefAdapter} interface. This interface
  * defines the behaviors that our service provides.
  */
 public class ChefAdapterImpl implements ChefAdapter {
-    //chef server Initialize variable
-    private String clientName="";
-    private String clientPrivatekey="";
-    private String chefserver="";
-    private String serverAddress="";
-    private String organizations="";
+    // chef server Initialize variable
+    private String clientName = "";
+    private String clientPrivatekey = "";
+    private String chefserver = "";
+    private String serverAddress = "";
+    private String organizations = "";
+
 
     /**
      * The constant for the status code for a successful outcome
@@ -66,23 +68,25 @@ public class ChefAdapterImpl implements ChefAdapter {
      */
     private final EELFLogger logger = EELFManager.getInstance().getLogger(ChefAdapterImpl.class);
 
+    private final String CANNOT_FIND_PRIVATE_KEY_STR = "Cannot find the private key in the APPC file system, please load the private key to ";
+    private final String CHEF_ACTION_STR = "org.openecomp.appc.instance.chefAction";
+    private final String ORGANIZATIONS_STR = "/organizations/";
     /**
      * A reference to the adapter configuration object.
      */
     private Configuration configuration;
 
     /**
-     * This default constructor is used as a work around because the activator
-     * wasnt getting called
+     * This default constructor is used as a work around because the activator wasnt
+     * getting called
      */
     public ChefAdapterImpl() {
         initialize();
-
     }
 
     /**
-     * This constructor is used primarily in the test cases to bypass
-     * initialization of the adapter for isolated, disconnected testing
+     * This constructor is used primarily in the test cases to bypass initialization
+     * of the adapter for isolated, disconnected testing
      *
      * @param initialize
      *            True if the adapter is to be initialized, can false if not
@@ -91,13 +95,11 @@ public class ChefAdapterImpl implements ChefAdapter {
         configuration = ConfigurationFactory.getConfiguration();
         if (initialize) {
             initialize();
-
         }
     }
 
     public ChefAdapterImpl(String key) {
         initialize(key);
-
     }
 
     /**
@@ -111,28 +113,9 @@ public class ChefAdapterImpl implements ChefAdapter {
         return configuration.getProperty(Constants.PROPERTY_ADAPTER_NAME);
     }
 
-    private void X__________________________________X() {
-    }
-
-    /**
-     * @see org.openecomp.appc.adapter.chef.ChefAdapter#evacuateServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
-     */
-
-    private void X___________________________________X() {
-    }
-
-    /**
-     * @see org.openecomp.appc.adapter.chef.ProviderAdapter#rebuildServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
-     */
-
-
     /**
      * build node object
      */
-
-    @SuppressWarnings("nls")
     @Override
     public void nodeObejctBuilder(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("nodeObejctBuilder");
@@ -140,29 +123,28 @@ public class ChefAdapterImpl implements ChefAdapter {
         String normal = params.get("org.openecomp.appc.instance.nodeobject.normal");
         String overrides = params.get("org.openecomp.appc.instance.nodeobject.overrides");
         String defaults = params.get("org.openecomp.appc.instance.nodeobject.defaults");
-        String run_list = params.get("org.openecomp.appc.instance.nodeobject.run_list");
-        String chef_environment = params.get("org.openecomp.appc.instance.nodeobject.chef_environment");
+        String runList = params.get("org.openecomp.appc.instance.nodeobject.run_list");
+        String chefEnvironment = params.get("org.openecomp.appc.instance.nodeobject.chef_environment");
         String nodeObject = "{\"json_class\":\"Chef::Node\",\"default\":{" + defaults
-            + "},\"chef_type\":\"node\",\"run_list\":[" + run_list + "],\"override\":{" + overrides
-            + "},\"normal\": {" + normal + "},\"automatic\":{},\"name\":\"" + name + "\",\"chef_environment\":\""
-            + chef_environment + "\"}";
+                + "},\"chef_type\":\"node\",\"run_list\":[" + runList + "],\"override\":{" + overrides
+                + "},\"normal\": {" + normal + "},\"automatic\":{},\"name\":\"" + name + "\",\"chef_environment\":\""
+                + chefEnvironment + "\"}";
         logger.info(nodeObject);
 
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setAttribute("org.openecomp.appc.chef.nodeObject", nodeObject);
-
     }
 
     /**
-     * Nicolas send get request to chef server
+     * send get request to chef server
      */
     public void chefInfo(Map<String, String> params) {
         clientName = params.get("org.openecomp.appc.instance.username");
         serverAddress = params.get("org.openecomp.appc.instance.serverAddress");
         organizations = params.get("org.openecomp.appc.instance.organizations");
-        chefserver = "https://" + serverAddress + "/organizations/" + organizations;
+        chefserver = "https://" + serverAddress + ORGANIZATIONS_STR + organizations;
         clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
     }
 
@@ -171,7 +153,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         return f.exists();
     }
 
-    @SuppressWarnings("nls")
     @Override
     public void retrieveData(Map<String, String> params, SvcLogicContext ctx) {
         String allConfigData = params.get("org.openecomp.appc.instance.allConfig");
@@ -196,31 +177,27 @@ public class ChefAdapterImpl implements ChefAdapter {
         svcLogic.setAttribute(dgContext, contextData);
     }
 
-    @SuppressWarnings("nls")
     @Override
     public void combineStrings(Map<String, String> params, SvcLogicContext ctx) {
 
-        String String1 = params.get("org.openecomp.appc.instance.String1");
-        String String2 = params.get("org.openecomp.appc.instance.String2");
+        String string1 = params.get("org.openecomp.appc.instance.String1");
+        String string2 = params.get("org.openecomp.appc.instance.String2");
         String dgContext = params.get("org.openecomp.appc.instance.dgContext");
-        String contextData = String1 + String2;
+        String contextData = string1 + string2;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setAttribute(dgContext, contextData);
     }
 
-
     /**
      * Send GET request to chef server
      */
-
-    @SuppressWarnings("nls")
     @Override
     public void chefGet(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("chef get method");
         chefInfo(params);
-        String chefAction = params.get("org.openecomp.appc.instance.chefAction");
+        String chefAction = params.get(CHEF_ACTION_STR);
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         int code;
@@ -233,22 +210,19 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         chefServerResult(rc, Integer.toString(code), message);
-
     }
 
     /**
      * Send PUT request to chef server
      */
-    @SuppressWarnings("nls")
     @Override
     public void chefPut(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
-        String chefAction = params.get("org.openecomp.appc.instance.chefAction");
-        String CHEF_NODE_STR = params.get("org.openecomp.appc.instance.chefRequestBody");
+        String chefAction = params.get(CHEF_ACTION_STR);
+        String chefNodeStr = params.get("org.openecomp.appc.instance.chefRequestBody");
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         int code;
@@ -256,32 +230,28 @@ public class ChefAdapterImpl implements ChefAdapter {
         if (privateKeyCheck()) {
             ChefApiClient cac = new ChefApiClient(clientName, clientPrivatekey, chefserver, organizations);
 
-            ApiMethod am = cac.put(chefAction).body(CHEF_NODE_STR);
+            ApiMethod am = cac.put(chefAction).body(chefNodeStr);
             am.execute();
             code = am.getReturnCode();
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
         chefServerResult(rc, Integer.toString(code), message);
-
     }
 
     /**
-     * Nicolas send Post request to chef server
+     *  send Post request to chef server
      */
-
-    @SuppressWarnings("nls")
     @Override
     public void chefPost(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
         logger.info("chef Post method");
         logger.info(clientName + " " + clientPrivatekey + " " + chefserver + " " + organizations);
-        String CHEF_NODE_STR = params.get("org.openecomp.appc.instance.chefRequestBody");
-        String chefAction = params.get("org.openecomp.appc.instance.chefAction");
+        String chefNodeStr = params.get("org.openecomp.appc.instance.chefRequestBody");
+        String chefAction = params.get(CHEF_ACTION_STR);
 
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -293,29 +263,26 @@ public class ChefAdapterImpl implements ChefAdapter {
 
             // need pass path into it
             // "/nodes/testnode"
-            ApiMethod am = cac.post(chefAction).body(CHEF_NODE_STR);
+            ApiMethod am = cac.post(chefAction).body(chefNodeStr);
             am.execute();
             code = am.getReturnCode();
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
         chefServerResult(rc, Integer.toString(code), message);
     }
 
     /**
-     * Nicolas send delete request to chef server
+     * send delete request to chef server
      */
-
-    @SuppressWarnings("nls")
     @Override
     public void chefDelete(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("chef delete method");
         chefInfo(params);
-        String chefAction = params.get("org.openecomp.appc.instance.chefAction");
+        String chefAction = params.get(CHEF_ACTION_STR);
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         int code;
@@ -328,44 +295,36 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
         chefServerResult(rc, Integer.toString(code), message);
     }
 
-
     /**
      * Trigger target vm run chef
      */
-
-    @SuppressWarnings("nls")
     @Override
     public void trigger(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run trigger method");
         String tVmIp = params.get("org.openecomp.appc.instance.ip");
-        //String tUrl = "http://" + tVmIp;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        try {
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(tVmIp);
-            HttpClient httpClient = HttpClients.createDefault();
             HttpResponse response;
             response = httpClient.execute(httpGet);
-            int responseCode=response.getStatusLine().getStatusCode();
+            int responseCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
-            String responseOutput=EntityUtils.toString(entity);
-            chefClientResult(rc,Integer.toString(responseCode),responseOutput);
+            String responseOutput = EntityUtils.toString(entity);
+            chefClientResult(rc, Integer.toString(responseCode), responseOutput);
             doSuccess(rc);
         } catch (Exception ex) {
-            doFailure(rc, 500 , ex.toString());
+            doFailure(rc, 500, ex.toString());
         }
     }
 
-
-    @SuppressWarnings("nls")
     @Override
     public void checkPushJob(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
@@ -392,17 +351,17 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = am.getResponseBodyAsString();
             JSONObject obj = new JSONObject(message);
             status = obj.getString("status");
-            if (!status.equals("running")) {
+            if (!"running".equals(status)) {
                 logger.info(i + " time " + code + "   " + status);
                 break;
             }
 
         }
-        if (status.equals("complete")) {
+        if ("complete".equals(status)) {
             svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "200");
             svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
         } else {
-            if (status.equals("running")) {
+            if ("running".equals(status)) {
                 svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "202");
                 svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", "chef client runtime out");
             } else {
@@ -412,8 +371,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         }
     }
 
-
-    @SuppressWarnings("nls")
     @Override
     public void pushJob(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
@@ -438,8 +395,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         chefServerResult(rc, Integer.toString(code), message);
     }
 
-
-    @SuppressWarnings("static-method")
     private void doFailure(RequestContext rc, int code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String msg = (message == null) ? Integer.toString(code) : message;
@@ -451,6 +406,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         try {
             status = Integer.toString(code);
         } catch (Exception e) {
+            logger.info("Couldn't covert " + code + " to an Integer, defaulting status to 500", e);
             status = "500";
         }
         svcLogic.setAttribute("org.openecomp.appc.chefAgent.code", status);
@@ -462,24 +418,19 @@ public class ChefAdapterImpl implements ChefAdapter {
      *            The request context that manages the state and recovery of the
      *            request for the life of its processing.
      */
-
-    @SuppressWarnings("static-method")
     private void doSuccess(RequestContext rc) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setAttribute("org.openecomp.appc.chefAgent.code", "200");
     }
 
-
-    @SuppressWarnings("static-method")
-    private void chefServerResult(RequestContext rc, String code ,String message) {
+    private void chefServerResult(RequestContext rc, String code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setStatus(OUTCOME_SUCCESS);
         svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", code);
         svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
     }
 
-    @SuppressWarnings("static-method")
-    private void chefClientResult(RequestContext rc, String code ,String message) {
+    private void chefClientResult(RequestContext rc, String code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setStatus(OUTCOME_SUCCESS);
         svcLogic.setAttribute("org.openecomp.appc.chefClientResult.code", code);
@@ -491,23 +442,23 @@ public class ChefAdapterImpl implements ChefAdapter {
      */
     private void initialize() {
         configuration = ConfigurationFactory.getConfiguration();
-        //need to fetch data from appc configurator or form some file in the appc vms
-        clientName="testnode";
-        clientPrivatekey="/etc/chef/client.pem";
-        serverAddress="http://example.com";
-        organizations="test";
-        chefserver=serverAddress+"/organizations/"+organizations;
+        // need to fetch data from appc configurator or form some file in the appc vms
+        clientName = "testnode";
+        clientPrivatekey = "/etc/chef/client.pem";
+        serverAddress = "http://example.com";
+        organizations = "test";
+        chefserver = serverAddress + ORGANIZATIONS_STR + organizations;
         logger.info("Initialize Chef Adapter");
     }
 
     private void initialize(String key) {
         configuration = ConfigurationFactory.getConfiguration();
-        //need to fetch data from appc configurator or form some file in the appc vms
-        clientName="testnode";
-        clientPrivatekey=key;
-        serverAddress="http://example.com";
-        organizations="test";
-        chefserver=serverAddress+"/organizations/"+organizations;
+        // need to fetch data from appc configurator or form some file in the appc vms
+        clientName = "testnode";
+        clientPrivatekey = key;
+        serverAddress = "http://example.com";
+        organizations = "test";
+        chefserver = serverAddress + ORGANIZATIONS_STR + organizations;
         logger.info("Initialize Chef Adapter");
     }
 
