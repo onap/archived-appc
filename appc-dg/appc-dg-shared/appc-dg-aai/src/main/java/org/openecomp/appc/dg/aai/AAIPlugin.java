@@ -27,8 +27,8 @@ package org.openecomp.appc.dg.aai;
 import java.util.Map;
 
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 public interface AAIPlugin extends SvcLogicJavaPlugin {
     void postGenericVnfData(Map<String, String> params, SvcLogicContext ctx) throws APPCException;

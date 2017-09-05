@@ -31,7 +31,7 @@ import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
 import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
 import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
 import org.openecomp.appc.adapter.netconf.util.Constants;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;

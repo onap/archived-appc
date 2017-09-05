@@ -37,7 +37,7 @@ import org.openecomp.appc.adapter.ssh.SshConnectionMock;
 import org.openecomp.appc.dg.ssh.SshService;
 import org.openecomp.appc.dg.ssh.impl.SshServiceImpl;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.HashMap;
 import java.util.List;

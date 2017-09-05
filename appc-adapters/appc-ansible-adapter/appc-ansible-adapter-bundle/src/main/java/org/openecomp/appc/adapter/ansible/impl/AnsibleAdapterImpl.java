@@ -46,8 +46,8 @@ import org.openecomp.appc.pool.PoolExtensionException;
 import org.openecomp.appc.util.StructuredPropertyHelper;
 import org.openecomp.appc.util.StructuredPropertyHelper.Node;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 
 import org.slf4j.MDC;
