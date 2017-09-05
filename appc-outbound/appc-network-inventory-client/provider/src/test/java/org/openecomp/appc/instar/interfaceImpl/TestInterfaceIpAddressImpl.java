@@ -29,7 +29,7 @@ import java.util.List;
 import org.junit.Test;
 import org.openecomp.sdnc.config.params.data.Parameter;
 import org.openecomp.sdnc.config.params.data.ResponseKey;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestInterfaceIpAddressImpl {
 

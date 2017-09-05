@@ -31,7 +31,7 @@
      <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
     
     <feature name='appc-ansible-adapter' description="appc-ansible-adapter" version='${project.version}'>
-        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
         <feature>sdnc-sli</feature>
          <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
         <bundle>mvn:org.openecomp.appc/appc-ansible-adapter-bundle/${project.version}</bundle>

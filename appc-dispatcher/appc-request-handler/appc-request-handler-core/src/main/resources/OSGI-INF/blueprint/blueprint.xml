@@ -77,7 +77,7 @@
     <reference id="commandExecutorRef" availability="optional" activation="eager" interface="org.openecomp.appc.executor.CommandExecutor" />
     <reference id="lockManagerRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.lockmanager.api.LockManager" />
     <reference id="transactionRecorderRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.transactionrecorder.TransactionRecorder" />
-    <reference xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" ext:proxy-method="classes" id="aaiServiceRef" availability="mandatory" activation="eager" interface="org.openecomp.sdnc.sli.aai.AAIService" />
+    <reference xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" ext:proxy-method="classes" id="aaiServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.adaptors.aai.AAIService" />
 
     <bean id="workingStateManagerBean" class="org.openecomp.appc.workingstatemanager.impl.WorkingStateManagerImpl" scope="singleton" >
         <property name="connectionFactory">

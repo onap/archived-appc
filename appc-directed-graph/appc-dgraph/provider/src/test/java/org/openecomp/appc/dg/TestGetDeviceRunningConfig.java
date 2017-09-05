@@ -32,7 +32,7 @@ import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
 import com.att.sdnctl.dgtestlibrary.DGTestCase;
 import com.att.sdnctl.dgtestlibrary.GraphKey;
 */
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestGetDeviceRunningConfig /* extends AbstractDGTestCase */ {
 	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestGetConfigParams.class);

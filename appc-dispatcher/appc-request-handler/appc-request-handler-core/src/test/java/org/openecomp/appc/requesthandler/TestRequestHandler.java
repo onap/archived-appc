@@ -86,7 +86,7 @@ import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
 import org.openecomp.appc.workflow.objects.WorkflowRequest;
 import org.openecomp.appc.workingstatemanager.WorkingStateManager;
 import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
-import org.openecomp.sdnc.sli.aai.AAIService;
+import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

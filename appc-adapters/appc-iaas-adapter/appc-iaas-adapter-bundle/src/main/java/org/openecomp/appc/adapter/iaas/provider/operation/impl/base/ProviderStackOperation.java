@@ -42,7 +42,7 @@ import com.att.cdp.zones.spi.RequestState;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import org.glassfish.grizzly.http.util.HttpStatus;
 

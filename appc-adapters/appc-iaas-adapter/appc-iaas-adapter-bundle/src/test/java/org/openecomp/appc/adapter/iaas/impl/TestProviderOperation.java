@@ -36,7 +36,7 @@ import org.junit.Test;
 import org.slf4j.MDC;
 
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
 

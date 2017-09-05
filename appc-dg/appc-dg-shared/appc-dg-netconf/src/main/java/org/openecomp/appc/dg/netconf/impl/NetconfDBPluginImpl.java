@@ -37,7 +37,7 @@ import org.openecomp.appc.dg.netconf.NetconfDBPlugin;
 import org.openecomp.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class NetconfDBPluginImpl implements NetconfDBPlugin {
 

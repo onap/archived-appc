@@ -27,8 +27,8 @@ package org.openecomp.appc.dg.ssh;
 import java.util.Map;
 
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 /**
  * Set of common methods that can be called from DG.

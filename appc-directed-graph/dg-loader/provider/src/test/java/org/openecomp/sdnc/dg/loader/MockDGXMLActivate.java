@@ -24,7 +24,7 @@
 
 package org.openecomp.sdnc.dg.loader;
 
-import org.openecomp.sdnc.sli.SvcLogicStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 
 public class MockDGXMLActivate extends DGXMLActivate {
     private final static SvcLogicStore storeChild=MockSvcLogicFactory.getMockSvcLogicStore();;

@@ -25,7 +25,7 @@
 package org.openecomp.appc.adapter.netconf;
 
 import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 
 @SuppressWarnings("JavaDoc")

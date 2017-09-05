@@ -28,15 +28,15 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicResource;
-import org.openecomp.sdnc.sli.aai.AAIClient;
-import org.openecomp.sdnc.sli.aai.AAIServiceException;
-import org.openecomp.sdnc.sli.aai.data.*;
-import org.openecomp.sdnc.sli.aai.data.notify.NotifyEvent;
-import org.openecomp.sdnc.sli.aai.data.v1507.VServer;
-import org.openecomp.sdnc.sli.aai.update.Update;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
+import org.onap.ccsdk.sli.adaptors.aai.AAIServiceException;
+import org.onap.ccsdk.sli.adaptors.aai.data.*;
+import org.onap.ccsdk.sli.adaptors.aai.data.notify.NotifyEvent;
+import org.onap.ccsdk.sli.adaptors.aai.data.v1507.VServer;
+import org.onap.ccsdk.sli.adaptors.aai.update.Update;
 
 
 public class AAIClientMock implements AAIClient {

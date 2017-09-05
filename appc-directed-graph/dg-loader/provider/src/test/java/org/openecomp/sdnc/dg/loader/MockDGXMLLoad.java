@@ -25,7 +25,7 @@
 package org.openecomp.sdnc.dg.loader;
 
 import org.mockito.internal.util.reflection.Whitebox;
-import org.openecomp.sdnc.sli.SvcLogicStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 
 public class MockDGXMLLoad extends DGXMLLoad{
 

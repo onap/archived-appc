@@ -23,35 +23,36 @@
 					</instructions>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.opendaylight.yangtools</groupId>
-				<artifactId>yang-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.opendaylight.mdsal</groupId>
-						<artifactId>maven-sal-api-gen-plugin</artifactId>
-						<version>${odl.sal.api.gen.plugin.version}</version>
-						<type>jar</type>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate-sources</goal>
-						</goals>
-						<configuration>
-							<yangFilesRootDir>${yang.file.directory}</yangFilesRootDir>
-							<codeGenerators>
-								<generator>
-									<codeGeneratorClass>org.opendaylight.yangtools.maven.sal.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
-									<outputBaseDir>${salGeneratorPath}</outputBaseDir>
-								</generator>
-							</codeGenerators>
-							<inspectDependencies>true</inspectDependencies>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.opendaylight.yangtools</groupId>
+                <artifactId>yang-maven-plugin</artifactId>
+                <version>${odl.yangtools.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.opendaylight.mdsal</groupId>
+                        <artifactId>maven-sal-api-gen-plugin</artifactId>
+                        <version>${odl.sal.api.gen.plugin.version}</version>
+                        <type>jar</type>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <yangFilesRootDir>${yang.file.directory}</yangFilesRootDir>
+                            <codeGenerators>
+                                <generator>
+                                    <codeGeneratorClass>org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
+                                    <outputBaseDir>${salGeneratorPath}</outputBaseDir>
+                                </generator>
+                            </codeGenerators>
+                            <inspectDependencies>true</inspectDependencies>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>

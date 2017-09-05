@@ -33,7 +33,7 @@ import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
 import com.att.sdnctl.dgtestlibrary.DGTestCase;
 import com.att.sdnctl.dgtestlibrary.GraphKey;
 */
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

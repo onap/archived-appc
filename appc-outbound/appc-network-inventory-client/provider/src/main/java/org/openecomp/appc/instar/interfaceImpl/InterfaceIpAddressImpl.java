@@ -34,7 +34,7 @@ import org.openecomp.appc.instar.node.InstarClientNode;
 import org.openecomp.appc.instar.utils.InstarClientConstant;
 import org.openecomp.sdnc.config.params.data.Parameter;
 import org.openecomp.sdnc.config.params.data.ResponseKey;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
