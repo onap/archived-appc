@@ -32,7 +32,7 @@
 
     <feature name='appc-chef-adapter' description="appc-chef-adapter" version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
         <feature>sdnc-sli</feature>
         <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
         <bundle>mvn:org.openecomp.appc/appc-chef-adapter-bundle/${project.version}</bundle>

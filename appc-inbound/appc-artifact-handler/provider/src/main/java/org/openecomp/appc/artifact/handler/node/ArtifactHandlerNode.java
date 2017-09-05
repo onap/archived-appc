@@ -37,9 +37,9 @@ import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.openecomp.appc.yang.YANGGenerator;
 import org.openecomp.appc.yang.impl.YANGGeneratorFactory;
 import org.openecomp.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

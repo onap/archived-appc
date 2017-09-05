@@ -148,26 +148,26 @@
         </dependency>
 
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-common</artifactId>
             <scope>compile</scope>
             <!-- Added exclusion to prevent missing dependency issue on dblib -->
             <exclusions>
                 <exclusion>
-                    <groupId>org.openecomp.sdnc.core</groupId>
+                    <groupId>org.onap.ccsdk.sli.core</groupId>
                     <artifactId>dblib-provider</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
             <scope>compile</scope>
             <!-- Added exclusion to prevent missing dependency issue on dblib -->
             <exclusions>
                 <exclusion>
-                    <groupId>org.openecomp.sdnc.core</groupId>
+                    <groupId>org.onap.ccsdk.sli.core</groupId>
                     <artifactId>dblib-provider</artifactId>
                 </exclusion>
             </exclusions>
@@ -224,7 +224,7 @@
                         <Bundle-Activator>org.openecomp.appc.adapter.chef.ChefActivator</Bundle-Activator>
                         <Export-Package>org.openecomp.appc.adapter.chef</Export-Package>
                         <Import-Package>
-                            org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
+                            org.onap.ccsdk.sli.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
                         </Import-Package>
                         <Embed-Dependency>
                             *;scope=compile|runtime;artifactId=!sli-common|!appc-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis

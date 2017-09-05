@@ -25,7 +25,7 @@
 package org.openecomp.appc.adapter.netconf;
 
 import org.openecomp.appc.adapter.netconf.internal.NetconfDataAccessServiceImpl;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.openecomp.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -72,7 +72,6 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
      */
     @Override
     public void start(BundleContext context) throws Exception {
-
         if (registration == null) {
             clientFactory = new NetconfClientFactory();
             factoryRegistration = context.registerService(NetconfClientFactory.class, clientFactory, null);
@@ -81,7 +80,11 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
             //set dblib service
             DbLibService dblibSvc = null;
             ServiceReference sref = context.getServiceReference(DbLibService.class.getName());
+            try{
             dblibSvc  = (DbLibService)context.getService(sref);
+            }catch(Exception e){
+            	logger.error(e.getMessage());
+            }
             DAService.setDbLibService(dblibSvc);
             ///////////////////////////////////
             factoryRegistration = context.registerService(NetconfDataAccessService.class, DAService, null);

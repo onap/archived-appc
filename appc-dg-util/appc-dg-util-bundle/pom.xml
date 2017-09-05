@@ -29,7 +29,7 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.sdnc.adaptors</groupId>
+			<groupId>org.onap.ccsdk.sli.adaptors</groupId>
 			<artifactId>aai-service-provider</artifactId>
 		</dependency>
 
@@ -91,26 +91,26 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.sdnc.core</groupId>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-common</artifactId>
 			<scope>compile</scope>
 			<!-- Added exclusion to prevent missing dependency issue on dblib -->
 			<exclusions>
 				<exclusion>
-					<groupId>org.openecomp.sdnc.core</groupId>
+					<groupId>org.onap.ccsdk.sli.core</groupId>
 					<artifactId>dblib-provider</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.sdnc.core</groupId>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-provider</artifactId>
 			<scope>compile</scope>
 			<!-- Added exclusion to prevent missing dependency issue on dblib -->
 			<exclusions>
 				<exclusion>
-					<groupId>org.openecomp.sdnc.core</groupId>
+					<groupId>org.onap.ccsdk.sli.core</groupId>
 					<artifactId>dblib-provider</artifactId>
 				</exclusion>
 			</exclusions>
@@ -196,7 +196,7 @@
 						<Export-Package>org.openecomp.appc.dg.util.*</Export-Package>
                   <Import-Package>
                      org.openecomp.appc.adapter.netconf,org.openecomp.appc.adapter.netconf.dao,org.openecomp.appc.adapter.netconf.util,com.att.eelf.*,
-                     org.openecomp.appc.adapter.netconf.exception, org.openecomp.appc.adapter.messaging.*,org.openecomp.sdnc.sli.*,
+                     org.openecomp.appc.adapter.netconf.exception, org.openecomp.appc.adapter.messaging.*,org.onap.ccsdk.sli.core.sli.*,
                      org.openecomp.appc.exceptions, org.openecomp.appc.i18n,
                      org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,
                      javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,

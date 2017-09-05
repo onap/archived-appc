@@ -26,11 +26,11 @@ import java.util.Map;
 import org.openecomp.appc.flow.controller.data.Transaction;
 import org.openecomp.appc.flow.controller.utils.EscapeUtils;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicResource;
-import org.openecomp.sdnc.sli.SvcLogicResource.QueryStatus;
-import org.openecomp.sdnc.sli.resource.sql.SqlResource;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
+import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

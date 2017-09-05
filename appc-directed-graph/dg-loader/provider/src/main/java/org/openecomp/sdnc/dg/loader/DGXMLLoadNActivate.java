@@ -33,11 +33,11 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicGraph;
-import org.openecomp.sdnc.sli.SvcLogicParser;
-import org.openecomp.sdnc.sli.SvcLogicStore;
-import org.openecomp.sdnc.sli.SvcLogicStoreFactory;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
+import org.onap.ccsdk.sli.core.sli.SvcLogicParser;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
 
 public class DGXMLLoadNActivate {
     private final static Logger logger = LoggerFactory.getLogger(DGXMLLoadNActivate.class);

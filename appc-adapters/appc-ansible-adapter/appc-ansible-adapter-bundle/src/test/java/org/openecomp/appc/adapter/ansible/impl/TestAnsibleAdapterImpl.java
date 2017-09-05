@@ -45,8 +45,8 @@ import org.junit.Test;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.slf4j.MDC;
 
 import org.openecomp.appc.adapter.ansible.AnsibleAdapter;

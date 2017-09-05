@@ -31,7 +31,7 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
 import org.openecomp.appc.design.services.util.DesignServiceConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import junit.framework.Assert;
