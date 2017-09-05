@@ -60,12 +60,12 @@ APPC:StartApplication_VM_vSCP:2.0.0:sync
 APPC:RestartVM_VM:2.0.0:sync
 APPC:Rebuild_VM:2.0.0:sync
 
-APPC:EvacuateVM:2:0:0:sync
-APPC:RebuildVM:2:0:0:sync
-APPC:CreateSnapshotVM:2:0:0:sync
-APPC:MigrateVM:2:0:0:sync
-APPC:RestartVMCommonFlow:2:0:0:sync
-APPC:RestartVMVNFCommonFlow:2:0:0:sync
+APPC:EvacuateVM:2.0.0:sync
+APPC:RebuildVM:2.0.0:sync
+APPC:CreateSnapShotVM:2.0.0:sync
+APPC:MigrateVM:2.0.0:sync
+APPC:RestartVMCommonFlow:2.0.0:sync
+APPC:RestartVMVNFCommonFlow:2.0.0:sync
 
 APPC:setInputParams:4:0:0:sync
 APPC:healthcheck:4:0:0:sync
@@ -75,4 +75,3 @@ APPC:Generic_AnsibleDG:4:0:0:sync
 APPC:GetTemplateConfig_Ansible:4:0:0:sync
 APPC:GetTemplateConfig_Chef:4:0:0:sync
 APPC_Generic_ChefDG:4:0:0:sync
-
