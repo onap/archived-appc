@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_dcbbde70",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/openecomp/appc/adapter/chef/ChefActivator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-05T20:25:59Z",
+      "side": 1,
+      "message": "I\u0027m assuming these are debugging log entries? They probably shouldn\u0027t go in final patch.",
+      "range": {
+        "startLine": 96,
+        "startChar": 8,
+        "endLine": 96,
+        "endChar": 30
+      },
+      "revId": "c127370f99dedd9fa46b50038ef4d873ebe60e62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fc6d8205",
+        "filename": "appc-dispatcher/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-05T20:25:59Z",
+      "side": 1,
+      "message": "Bit of extra space added.",
+      "revId": "c127370f99dedd9fa46b50038ef4d873ebe60e62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_dc72bee4",
+        "filename": "appc-metric/appc-metric-bundle/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-05T20:25:59Z",
+      "side": 1,
+      "message": "extraneous space",
+      "revId": "c127370f99dedd9fa46b50038ef4d873ebe60e62",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
