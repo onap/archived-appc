@@ -30,7 +30,7 @@ import org.openecomp.appc.adapter.netconf.ConnectionDetails;
 import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
 import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
 import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 class DAOServiceMock implements NetconfDataAccessService {
 

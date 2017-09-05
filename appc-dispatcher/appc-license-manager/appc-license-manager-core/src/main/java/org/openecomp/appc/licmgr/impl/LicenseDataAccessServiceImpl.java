@@ -31,7 +31,7 @@ import org.openecomp.appc.licmgr.LicenseDataAccessService;
 import org.openecomp.appc.licmgr.exception.DataAccessException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import static org.openecomp.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS;
 

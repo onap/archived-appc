@@ -84,17 +84,12 @@
       <artifactId>jackson-annotations</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.openecomp.sdnc.core</groupId>
+      <groupId>org.onap.ccsdk.sli.core</groupId>
       <artifactId>dblib-provider</artifactId>
       </dependency>
   <dependency>
     <groupId>org.mockito</groupId>
     <artifactId>mockito-core</artifactId>
-    <scope>test</scope>
-  </dependency>
-  <dependency>
-    <groupId>org.mockito</groupId>
-    <artifactId>mockito-all</artifactId>
     <scope>test</scope>
   </dependency>
 
@@ -135,6 +130,7 @@
       <plugin>
         <groupId>com.att.eelf</groupId>
         <artifactId>eelf-maven-plugin</artifactId>
+        <version>1.0.0</version>
         <executions>
           <execution>
             <id>validation</id>
