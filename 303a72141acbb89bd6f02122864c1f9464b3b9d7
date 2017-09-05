@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_49ef3288",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/openecomp/appc/adapter/chef/ChefActivator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-05T13:49:41Z",
+      "side": 1,
+      "message": "Leftover debugging?",
+      "revId": "303a72141acbb89bd6f02122864c1f9464b3b9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_c902023e",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/main/java/org/openecomp/appc/adapter/netconf/AppcNetconfAdapterActivator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-05T13:49:41Z",
+      "side": 1,
+      "message": "Should exception be re-thrown here?",
+      "revId": "303a72141acbb89bd6f02122864c1f9464b3b9d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
