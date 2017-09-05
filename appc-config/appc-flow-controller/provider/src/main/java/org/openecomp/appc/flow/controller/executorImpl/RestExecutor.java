@@ -38,7 +38,7 @@ import org.openecomp.appc.flow.controller.data.Response;
 import org.openecomp.appc.flow.controller.data.Transaction;
 import org.openecomp.appc.flow.controller.interfaces.FlowExecutorInterface;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;

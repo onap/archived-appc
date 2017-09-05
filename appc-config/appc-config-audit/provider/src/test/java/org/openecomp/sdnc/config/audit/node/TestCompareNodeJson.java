@@ -27,8 +27,8 @@ import org.openecomp.sdnc.config.audit.node.CompareNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class TestCompareNodeJson {
     private static final Logger log = LoggerFactory.getLogger(TestCompareNodeJson.class);

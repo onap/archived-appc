@@ -25,7 +25,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.openecomp.sdnc.sli.ConfigurationException;
+import org.onap.ccsdk.sli.core.sli.ConfigurationException;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

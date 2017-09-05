@@ -29,7 +29,7 @@ import java.util.Map;
 import org.openecomp.appc.dg.common.LegacyUtil;
 import org.openecomp.appc.dg.common.utils.JSONUtil;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 

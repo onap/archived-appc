@@ -31,7 +31,7 @@ import org.openecomp.appc.flow.controller.node.FlowControlNode;
 import org.openecomp.appc.flow.controller.node.JsonParsingNode;
 import org.openecomp.appc.flow.controller.node.RestServiceNode;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestParsingNode {
 

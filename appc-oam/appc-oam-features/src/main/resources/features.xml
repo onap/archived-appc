@@ -31,7 +31,7 @@
     <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
 
     <feature name='appc-oam' description="appc oam module" version='${project.version}'>
-        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
         <bundle>mvn:org.openecomp.appc/appc-oam-model/${project.version}</bundle>
         <bundle>mvn:org.openecomp.appc/appc-oam-bundle/${project.version}</bundle>
         <configfile finalname="etc/opendaylight/karaf/201-appc-oam.xml">mvn:org.openecomp.appc/appc-oam-bundle/${project.version}/xml/config</configfile>

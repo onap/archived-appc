@@ -31,8 +31,8 @@ import javax.sql.rowset.CachedRowSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openecomp.sdnc.sli.resource.dblib.DBResourceManager;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 public class DbServiceUtil
 {

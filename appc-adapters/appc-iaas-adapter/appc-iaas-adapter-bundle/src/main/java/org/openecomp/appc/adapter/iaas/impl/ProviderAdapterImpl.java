@@ -42,7 +42,7 @@ import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Stack;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.HashMap;
 import java.util.List;

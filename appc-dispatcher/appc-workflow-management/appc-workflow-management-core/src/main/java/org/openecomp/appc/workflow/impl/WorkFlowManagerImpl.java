@@ -39,8 +39,8 @@ import org.openecomp.appc.workflow.objects.WorkflowRequest;
 import org.openecomp.appc.workflow.objects.WorkflowResponse;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.provider.SvcLogicService;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 
 import java.text.SimpleDateFormat;
 import java.util.Enumeration;

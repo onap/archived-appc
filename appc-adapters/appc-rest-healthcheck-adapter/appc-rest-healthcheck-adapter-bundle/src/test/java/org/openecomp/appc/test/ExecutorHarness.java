@@ -34,8 +34,8 @@ import java.util.Map;
 
 import org.openecomp.appc.test.InterceptLogger;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 /**
  * This class is used as a test harness to wrap the call to an executor node.

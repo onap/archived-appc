@@ -34,7 +34,7 @@ import org.openecomp.appc.licmgr.exception.DataAccessException;
 import org.openecomp.appc.licmgr.objects.LicenseModel;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 

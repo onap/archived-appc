@@ -30,7 +30,7 @@ import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
 import com.att.sdnctl.dgtestlibrary.DGTestCase;
 import com.att.sdnctl.dgtestlibrary.GraphKey;
 */
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestConfigurationDocumentRequest /* extends AbstractDGTestCase */ {
 
