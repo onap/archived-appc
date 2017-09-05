@@ -49,7 +49,7 @@ import org.openecomp.appc.adapter.openstack.heat.SnapshotResource;
 import org.openecomp.appc.adapter.openstack.heat.StackResource;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;
 

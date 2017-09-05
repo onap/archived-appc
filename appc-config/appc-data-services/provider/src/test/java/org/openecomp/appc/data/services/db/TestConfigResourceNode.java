@@ -29,8 +29,8 @@ import java.util.Map;
 import org.junit.Test;
 import org.openecomp.appc.data.services.AppcDataServiceConstant;
 import org.openecomp.appc.data.services.node.ConfigResourceNode;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class TestConfigResourceNode {
 

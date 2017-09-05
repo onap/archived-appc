@@ -24,7 +24,7 @@
 
 package org.openecomp.appc.metadata;
 
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import com.sun.rowset.CachedRowSetImpl;
 import org.mockito.Mockito;
 import org.openecomp.appc.metadata.impl.MetadataServiceImpl;

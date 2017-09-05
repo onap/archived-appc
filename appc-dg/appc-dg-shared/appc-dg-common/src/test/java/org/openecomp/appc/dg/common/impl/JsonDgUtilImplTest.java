@@ -30,7 +30,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openecomp.appc.dg.common.impl.JsonDgUtilImpl;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.HashMap;
 import java.util.Map;

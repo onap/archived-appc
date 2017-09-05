@@ -31,15 +31,15 @@ import org.apache.commons.lang3.StringUtils;
 import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
 import org.openecomp.sdnc.config.generator.tool.EscapeUtils;
 import org.openecomp.sdnc.config.generator.tool.JSONTool;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class ConvertNode implements SvcLogicJavaPlugin {
 

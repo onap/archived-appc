@@ -53,7 +53,7 @@ import com.att.cdp.zones.Context;
 import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 

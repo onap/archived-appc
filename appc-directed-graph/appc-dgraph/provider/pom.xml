@@ -20,7 +20,7 @@
             <version>2.5</version>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
             <version>${sdnctl.sli.version}</version>
         </dependency>

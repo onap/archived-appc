@@ -30,7 +30,7 @@ import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
 import org.openecomp.sdnc.config.generator.transform.XSLTTransformerNode;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestXSLTTransformerNode {
     

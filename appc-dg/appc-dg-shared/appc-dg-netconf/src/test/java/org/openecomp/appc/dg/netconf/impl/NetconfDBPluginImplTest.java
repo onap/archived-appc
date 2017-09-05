@@ -32,7 +32,7 @@ import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
 import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
 import org.openecomp.appc.dg.netconf.impl.NetconfDBPluginImpl;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.IOException;
 import java.lang.reflect.Field;

@@ -30,7 +30,7 @@ import java.util.Properties;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
 
 public class ConfigComponentAdaptorTest {
