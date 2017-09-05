@@ -26,10 +26,10 @@ package org.openecomp.sdnc.dg.loader;
 
 import java.util.Properties;
 
-import org.openecomp.sdnc.sli.SvcLogicDblibStore;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicGraph;
-import org.openecomp.sdnc.sli.SvcLogicStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicDblibStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 
 public class MockSvcLogicDblibStore implements SvcLogicStore {
 

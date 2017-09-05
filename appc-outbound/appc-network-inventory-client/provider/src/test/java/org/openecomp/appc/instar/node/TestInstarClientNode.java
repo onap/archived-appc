@@ -38,7 +38,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openecomp.appc.instar.dme2client.SecureRestClientTrustManager;
 import org.openecomp.appc.instar.utils.InstarClientConstant;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

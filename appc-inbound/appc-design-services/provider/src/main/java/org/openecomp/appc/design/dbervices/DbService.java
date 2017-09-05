@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.openecomp.sdnc.sli.provider.SvcLogicService;
-import org.openecomp.sdnc.sli.resource.dblib.DBResourceManager;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
+import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 public class DbService {
 
     private static final Logger Log = LoggerFactory.getLogger(DbService.class);
-    private static final String DBLIB_SERVICE = "org.openecomp.sdnc.sli.resource.dblib.DBResourceManager";
+    private static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
     DbLibService dblibSvc = null;
     String errorMsg = null;
 

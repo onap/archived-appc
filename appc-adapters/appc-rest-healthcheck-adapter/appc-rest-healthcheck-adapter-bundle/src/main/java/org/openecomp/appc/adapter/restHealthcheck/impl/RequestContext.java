@@ -28,7 +28,7 @@ package org.openecomp.appc.adapter.restHealthcheck.impl;
 
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class RequestContext {
     /**

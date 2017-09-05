@@ -32,10 +32,10 @@
 
     <feature name='appc-netconf-adapter' description="appc-netconf-adapter" version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
 <!--         <bundle>mvn:org.openecomp.appc/appc-dmaap-adapter-bundle/${project.version}</bundle> -->
         <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
-        <bundle start-level="75">mvn:org.openecomp.sdnc.core/dblib-provider/${sdnctl.dblib.version}</bundle>
+        <bundle start-level="75">mvn:org.onap.ccsdk.sli.core/dblib-provider/${sdnctl.dblib.version}</bundle>
         <bundle start-level="83" start="true">mvn:org.openecomp.appc/appc-netconf-adapter-bundle/${project.version}</bundle>
     </feature>
 

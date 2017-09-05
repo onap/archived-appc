@@ -36,6 +36,7 @@ import com.att.cdp.zones.model.Server;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.adapter.iaas.ProviderAdapter;
@@ -49,7 +50,6 @@ import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
-import org.openecomp.sdnc.sli.SvcLogicContext;
 import org.slf4j.MDC;
 
 import java.text.DateFormat;

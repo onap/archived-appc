@@ -34,16 +34,16 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicResource;
-import org.openecomp.sdnc.sli.SvcLogicResource.QueryStatus;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 import org.openecomp.appc.aai.client.AppcAaiClientConstant;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.aai.AAIClient;
-import org.openecomp.sdnc.sli.aai.AAIService;
+import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
+import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;

@@ -24,7 +24,7 @@
 
 package org.openecomp.appc.dg.common.impl;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;
 

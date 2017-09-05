@@ -24,7 +24,7 @@
 
 package org.openecomp.appc.adapter.messaging.dmaap;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Ignore;

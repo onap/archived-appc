@@ -1,0 +1,658 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
+ * ============LICENSE_END=========================================================
+ */
+
+/*
+ * Yang model for the Application Controller (APP-C) component of ECOMP
+ *
+ * This model is used to define the data and services of the Application Controller 
+ * component of ECOMP.  The APP-C controller initiates the processing of directed 
+ * graphs, which define the actual process implementations used.  The name of the 
+ * directed graph is set by properties and cannot be changed dynamically.
+ *
+ * The services exposed by this provider are:
+ *
+ * restart-vnf: 
+ *    Used to request a restart of a virtual network function (a VM).   
+ *
+ * rebuild-vnf: 
+ *    Used to request a rebuild of a virtual network function (a VM).
+ *
+ */  
+
+module appc-provider {
+
+    yang-version 1;
+    namespace "org:openecomp:appc";
+    prefix appc-provider;
+    organization "Copyright 2017 AT&T Intellectual Property.";
+
+    description
+      "Defines the services and request/response requirements for the ECOMP APP-C component.";
+
+    /*
+     * Note, the revision changes the package name of the generated java code.  Do not 
+     * change the revision unless you also update all references to the bindings.
+     */ 
+    revision "2016-01-04" {
+      description
+        "APP-C interface version 1.0.48";
+    }
+   
+    /**********************************************************************************
+     * Data type definitions 
+     *
+     * The following data type definitions are used to define common data structures,
+     * define constraints, or to impart special meanings to data objects related to the 
+     * APP-C controller functions. 
+     **********************************************************************************/ 
+
+    /*
+     * Define a common definition of a UUID 
+     */ 
+    typedef UUID {
+        type string {
+            length "1..255";
+        }
+        description "Universally Unique ID";
+    }
+    
+    /*
+     * Define the name of the provider region/LCP to connect to 
+     */ 
+    typedef LCP { 
+        type string { 
+            length "1..255"; 
+        }
+        description "The local control plane name (OpenStack region name) of the provider"; 
+    }
+    
+    /*
+     * Define a common definition of a time stamp (expressed as a formatted string) as follows
+     *
+     * yyyy-MM-dd HH:mm:ss.SSSSSSSS
+     *
+     * yyyy ...... exactly 4 digit year, e.g., 2015 
+     * MM ........ 1 or 2 digit month of year, e.g., 7
+     * dd ........ 1 or 2 digit day of month, e.g., 29
+     * HH ........ 1 or 2 digit hour of day (24-hour clock) in UTC, e.g., 17
+     * mm ........ 1 or 2 digit minute of the hour, e.g. 31
+     * ss ........ 1 or 2 digit seconds of the minute, e.g., 28
+     * SSSSSS .... 1-6 digit microseconds
+     */ 
+    typedef TIMESTAMP { 
+        type string { 
+            length "16..28";
+            pattern "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{1,6}";
+        }
+    }
+    
+    typedef ZULU {
+        type string {
+            length "16..28";
+            pattern "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}T[0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}.[0-9]{1,6}Z";
+        }
+    }
+
+    typedef payload {
+           type string ;
+           description "The payload can be any valid JSON string value. Json escape characters need to be added when required to include an inner json within the payload to make it a valid json string value";
+    }
+
+    typedef action {
+         type enumeration {
+             enum "Restart";
+             enum "Rebuild";
+             enum "Migrate";
+             enum "Evacuate";
+             enum "Snapshot";
+             enum "ModifyConfig";
+         }
+         description "The action to be taken by APP-C, e.g. Test, Start, Terminate";
+    }
+
+    /**********************************************************************************
+     * All requests will include this standard header 
+     *
+     * The standard request header is used to define a correlation identification for 
+     * the request that is returned on all responses.  This correlation identifier 
+     * (called the service-request-id) is meaningful to the caller and is included on 
+     * all responses from the services.
+     **********************************************************************************/ 
+    grouping common-request-header {
+        description "A common header for all requests";
+        container common-request-header {  
+            leaf service-request-id {
+                description "An identifier meaningful to the caller to correlate all responses"; 
+                type string; 
+                mandatory true;
+            }
+            
+            leaf time-to-live { 
+                description "The alloted time to perform the operation, in seconds.  If the 
+                    operation cannot be completed in this amount of time, the operation is 
+                    aborted.  If set to zero, no timeout exists and the operation will continue 
+                    until it completes or fails.  If omitted, the default value of 0 is used.";
+                type uint32 {
+                    range "0..86400"; 
+                }
+                mandatory false;
+            }
+        }
+    }
+    
+    /**********************************************************************************
+     * Basic manipulation of a VNF (or VM) will typically include querying the current 
+     * state, restarting, rebuilding, stopping, starting, etc.  In all of these basic 
+     * "state"-type operations, the services require the identification of the VNF to 
+     * be operated on, and the region or LCP that contains that resource.  This 
+     * information is used across all of these services, so it has been defined as a 
+     * common structure here and is referenced in the appropriate RPC definitions.
+     **********************************************************************************/ 
+    grouping vnf-resource {
+        description "The data that uniquely identifies a virtual network function (or vm)";
+        container vnf-resource { 
+            leaf vm-id {
+                description "The UUID of the resource.  For backwards compatibility, this can be 
+                    the self-link URL of the VM.";  
+                type UUID; 
+                mandatory true;
+            } 
+            leaf identity-url { 
+                description "The identity url used to access the resource"; 
+                type UUID;
+                mandatory false;
+            }
+            leaf tenant-id { 
+                description "The id of the provider tenant that owns the resource"; 
+                type string;
+                mandatory false;
+            }
+        } 
+    }
+ 
+    /**********************************************************************************
+     * All responses will include this standard header 
+     *
+     * The standard response header includes the time of completion as well as a 
+     * success|failure indication
+     **********************************************************************************/ 
+    grouping common-response-header {
+        description "A common header for all responses defining success or failure 
+            and the time stamp when completed";
+        container common-response-header {  
+            leaf service-request-id {
+                description "An identifier meaningful to the caller to correlate all responses"; 
+                type string;  
+            }
+            leaf success {
+                description "True indicates the request was successful"; 
+                type boolean;  
+            }
+            leaf reason { 
+                description "If success=false, the failure reason.  Otherwise, undefined."; 
+                type string; 
+            }
+            leaf completed {
+                description "The formatted time stamp when the operation was completed."; 
+                type TIMESTAMP;  
+            }
+            leaf duration { 
+                description "The amount of time used (in seconds) to process the request"; 
+                type uint32; 
+            }
+        }
+    }
+
+
+       /**********************************************************************************
+         * All requests/response will include this standard header
+         *
+         * The standard common header is used to define a correlation identification for
+         * the request that is returned on all responses.
+         **********************************************************************************/
+        grouping common-header {
+            description "A common header for all APP-C requests";
+            container common-header {
+                description "A common header for all APP-C requests";
+                leaf timestamp {
+                    description "timestamp is in ISO 8601 timestamp format ZULU offset";
+                    type ZULU;
+                    mandatory true;
+                }
+
+                leaf api-ver {
+                    description "api-ver is the API version identifier. A given release of APPC should support all previous versions of APPC API (correlate with general requirements)";
+                    type string;
+                    mandatory true;
+                }
+
+                leaf originator-id {
+                    description "originator-id an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over DMaaP (especially in case of multiple consumers of APP-C APIs)";
+                    type string;
+                    mandatory true;
+                }
+
+                leaf request-id {
+                    description "UUID for the request ID. An OSS/BSS identifier for the request that caused the current action. Multiple API calls may be made with the same request-id The request-id shall be recorded throughout the operations on a single request";
+                    type string;
+                    mandatory true;
+                }
+
+                leaf sub-request-id {
+                    description "Uniquely identifies a specific LCM action. It is persistent over the life-cycle of a single request";
+                    type string;
+                    mandatory false;
+                }
+
+
+                /**********************************************************************************
+                 * Flags are generic flags that apply to any and all commands, all are optional
+                 *  force = TRUE/FALSE - Execute command even if target is in unstable (i.e. locked, transiting, etc) state. Specific behaviour of forced commands varies, but implies cancellation of previous command and an override by the new command. The FALSE value is used by default.
+                 *  ttl = <0....N> - The timeout value for command execution, expressed in seconds
+                 *  mode = EXCLUSIVE/NORMAL - defines execution mode as follows:
+                 *        - EXCLUSIVE ? on encountering an exclusive command, the APP-C will:
+                 *          * Cease accepting additional command requests
+                 *          * Complete execution of outstanding commands
+                 *          * Execute the exclusive command to completion
+                 *          * Optionally report the result of the command
+                 *          * Optionally resume command acceptance and processing
+                 *        - NORMAL - Obverse of EXCLUSIVE, the default one.
+                 **********************************************************************************/
+                container flags {
+                    description "Flags are generic flags that apply to any and all commands, all are optional";
+                    leaf mode {
+                        type enumeration {
+                                         enum "EXCLUSIVE";
+                                         enum "NORMAL";
+                                     }
+                        description "EXCLUSIVE (accept no queued requests on this VNF while processing) or NORMAL (queue other requests until complete)";
+                        mandatory false;
+                    }
+                    leaf force {
+                        type enumeration {
+                                    enum "TRUE";
+                                    enum "FALSE";
+                               }
+                        description "TRUE/FALSE - Execute action even if target is in unstable (i.e. locked, transiting, etc.) state";
+                        mandatory false;
+                    }
+                    leaf ttl {
+                        description "<0....N> -Â The timeout value (expressed in seconds) for action execution, between action being received by APPC and action initiation";
+                        type uint16;
+                        mandatory false;
+                    }
+                }
+            }
+        }
+        
+        grouping config-payload {
+            description "Payload for modify config on traffic generator";
+            container config-payload {
+                description "Payload for modify config on traffic generator";
+                leaf config-url {
+                    description "this is the restconf interface for  vTrafficGenerator";
+                    type string;
+                    mandatory true;
+                }
+
+                leaf config-json {
+                    description "this is the configuration data";
+                    type string;
+                    mandatory true;
+                }
+            }
+        }
+
+
+     grouping action-identifiers {
+            description "A block containing the action arguments. These are used to specify the object upon which APP-C LCM command is to operate";
+            container action-identifiers {
+                description "A block containing the action arguments. These are used to specify the object upon which APP-C LCM command is to operate";
+                leaf service-instance-id {
+                    description "identifies a specific service the command refers to. When multiple APP-C instances are used and applied to a subset of services, this will become significant . The field is mandatory when the vnf-id is empty";
+                    type string;
+                    mandatory false;
+                }
+                leaf vnf-id {
+                    description "identifies the VNF to which this action is to be applied(vnf-id uniquely identifies the service-instance referred to).  Note that some actions  are applied to multiple VNFs in the same service. When this is the case, vnf-id may be left out, but service-instance-id must appear. The field is mandatory when service-instance-id is empty";
+                    type string;
+                    mandatory false;
+                }
+                leaf vnfc-name {
+                    description "identifies the VNFC to which this action is to be applied. Some actions apply only to a component within a VNF (e.g. RESTART is sometimes applied to on VM only).  In such a case, the name of the VNFC is used to search for the component within the VNF";
+                    type string;
+                    mandatory false;
+                }
+                leaf vserver-id {
+                    description "identifies a specific VM within the given service/vnf to which this action is to be applied";
+                    type string;
+                    mandatory false;
+                }
+            }
+        }
+
+     grouping status {
+            description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
+            container status {
+                description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
+                leaf code {
+                    description "Response code";
+                    type uint16;
+                    mandatory true;
+                }
+                leaf message {
+                    description "Response message";
+                    type string;
+                    mandatory true;
+                }
+            }
+      }
+
+
+      /**********************************************************************************
+     * NEW API :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: 
+     * All requests will include this standard header
+     *
+     * The standard request header is used to define a correlation identification for
+     * the request that is returned on all responses.  This correlation identifier
+     * (called the service-request-id) is meaningful to the caller and is included on
+     * all responses from the services.
+     **********************************************************************************/
+    grouping RequestHeader {
+        container RequestHeader {
+            description "A common header for all APP-C requests";
+            leaf TimeStamp {
+                description "TimeStamp is in ISO 8601 timestamp format ZULU offset";
+                type TIMESTAMP;
+                mandatory true;
+            }
+
+            leaf APIver {
+                description "APIver is the API version identifier. A given release of APPC should support all previous versions of APPC API (correlate with general requirements)";
+                type string;
+                mandatory true;
+            }
+
+            leaf OriginatorID {
+                description "OriginatorID an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over DMaaP (especially in case of multiple consumers of APP-C APIs)";
+                type string;
+                mandatory true;
+            }
+
+            leaf TransactionID {
+                description "Identifiers that may be generated when multiple responses or handling passes are needed for a given request, allowing the request itself to be tracked";
+                type string;
+                mandatory true;
+            }
+
+            leaf-list RequestTrack {
+                description "Identifiers that may be generated when multiple responses or handling passes are needed for a given request, allowing the request itself to be tracked";
+                type string;
+            }
+
+            /**********************************************************************************
+             * Flags are generic flags that apply to any and all commands, all are optional
+             *  FORCE = TRUE/FALSE - Execute command even if target is in unstable (i.e. locked, transiting, etc) state. Specific behaviour of forced commands varies, but implies cancellation of previous command and an override by the new command. The FALSE value is used by default.
+             *  TTL = <0....N> - The timeout value for command execution, expressed in seconds
+             *  MODE = EXCLUSIVE/NORMAL - defines execution mode as follows:
+             *        - EXCLUSIVE � on encountering an exclusive command, the APP-C will:
+             *          * Cease accepting additional command requests
+
+             * Complete execution of outstanding commands
+             *          * Execute the exclusive command to completion
+             *          * Optionally report the result of the command
+             *          * Optionally resume command acceptance and processing
+             *        - NORMAL - Obverse of EXCLUSIVE, the default one.
+             **********************************************************************************/
+            container Flags {
+                description "Flags are generic flags that apply to any and all commands, all are optional";
+                leaf FORCE {
+                    description "TRUE/FALSE - Execute action even if target is in unstable (i.e. locked, transiting, etc) state.";
+                    type string;
+                    mandatory false;
+                }
+                leaf TTL {
+                    description "<0....N> - The timeout value for action execution, expressed in seconds";
+                    type string;
+                    mandatory false;
+                }
+                leaf MODE {
+                    description "EXCLUSIVE/NORMAL - defines execution mode";
+                    type string;
+                    mandatory false;
+                }
+            }
+        }
+    }
+
+    grouping RequestParameters {
+        description "The request contains the entry of command-specific and is opaque to the APP-C handler";
+        leaf Action {
+            description "The actual action to be taken";
+            type string;
+            mandatory true;
+        }
+        leaf TargetID {
+            description "The specific VF a component of which is to be affected";
+            type string;
+            mandatory true;
+        }
+        leaf ObjectID {
+            description "The specific VFC within a VF to be affected";
+            type string;
+            mandatory true;
+        }
+        leaf Payload {
+            description "An action-specific value opaque to the APPC handler.
+                         The value can be any valid JSON type (primitive, object, collection of those two).
+                         APPC will pass the value as raw JSON string to the executing LCM action.";
+            type string;
+            mandatory true;
+        }
+    }
+
+    grouping ResponseHeader {
+        description "The response to an APP-C command or control is, likewise, encoded in a JSON object. ";
+        container ResponseHeader {
+            description "The response to an APP-C command or control is, likewise, encoded in a JSON object. ";
+            leaf TimeStamp {
+                description "TimeStamp is in ISO 8601 timestamp format ZULU offset";
+                type TIMESTAMP;
+                mandatory true;
+            }
+
+            leaf APIver {
+                description "APIver is the API version identifier. A given release of APPC should support all previous versions of APPC API (correlate with general requirements)";
+                type string;
+                mandatory true;
+            }
+
+            leaf ResponseID {
+                description "ResponseID an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over DMaaP (especially in case of multiple consumers of APP-C APIs)";
+                type string;
+                mandatory true;
+            }
+
+            leaf-list SubResponseID {
+                description "Identifiers that may be generated when multiple responses or handling passes are needed for a given request, allowing the request itself to be tracked";
+                type string;
+            }
+        }
+    }
+
+    grouping ResponseAttributes {
+        description "The response contains the status of executed functionality";
+        container Status {
+            description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
+            leaf Code {
+                description "Response code value";
+                type uint32;
+                mandatory true;
+            }
+            leaf Value {
+                description "Response code description";
+                type string;
+                mandatory true;
+            }
+        }
+        leaf Payload {
+            description "Payload - the entry is command-specific and is opaque to the APP-C handler.
+                         The value can be any valid JSON type (primitive, object, collection of those two).
+                         APP-C will pass the value as raw JSON string to appropriate addressee";
+            type string;
+            mandatory false;
+        }
+    }
+
+    
+    
+
+    /**********************************************************************************
+     * Define the restart service
+     **********************************************************************************/
+    rpc restart {
+        description "An operation to restart a virtual network function (or VM)";
+        input {
+            uses common-request-header;
+            uses vnf-resource;
+        }
+        output {
+            uses common-response-header;
+            leaf vm-id {
+                description "The UUID of the VM that was restarted";
+                type UUID;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the rebuild service
+     **********************************************************************************/
+    rpc rebuild {
+        description "An operation to rebuild a virtual network function (or VM)";
+        input {
+            uses common-request-header;
+            uses vnf-resource;
+        }
+        output {
+            uses common-response-header;
+            leaf new-vm-id {
+                description "The UUID of the VM after rebuild.  If the UUID was changed,
+                    this contains the new UUID.  If it was not changed, this contains
+                    the original UUID";
+                type UUID;
+            }
+            leaf original-vm-id {
+                description "The UUID of the VM before rebuild (i.e., the original UUID)";
+                type UUID;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the migrate service
+     **********************************************************************************/
+    rpc migrate {
+        description "An operation to migrate a virtual network function (or VM)";
+        input {
+            uses common-request-header;
+            uses vnf-resource;
+        }
+        output {
+            uses common-response-header;
+            leaf vm-id {
+                description "The UUID of the VM that was migrated.";
+                type UUID;
+            }
+        }
+    }
+
+     /**********************************************************************************
+     * Define the evacuate service
+     **********************************************************************************/
+    rpc evacuate {
+        description "An operation to evacuate a virtual network function (or VM)";
+        input {
+            uses common-request-header;
+            uses vnf-resource;
+        }
+        output {
+            uses common-response-header;
+            leaf vm-id {
+                description "The UUID of the VM that was evacuated";
+                type UUID;
+            }
+        }
+    }
+
+	
+	 /**********************************************************************************
+     * Define the snapshot service
+     **********************************************************************************/
+    rpc snapshot {
+        description "An operation to create a snapshot of a virtual network function (or VM)";
+        input {
+            uses common-request-header;
+            uses vnf-resource;
+        }
+        output {
+            uses common-response-header;
+            leaf vm-id {
+                description "The UUID of the VM that was snapshot";
+                type UUID;
+            }
+        }
+    }
+    
+        rpc ModifyConfig {
+        description "An operation to modify-config the configurations of a virtual network function (or VM)";
+        input {
+            uses common-request-header;
+            uses config-payload;         
+            leaf action {
+                       type action;
+                       mandatory true;
+            }
+        }
+        output {
+            uses common-response-header;            
+        }
+    }
+    
+        rpc vmstatuscheck {
+            description "An operation to check status of a VM";
+            input {
+                uses common-request-header;
+                uses vnf-resource;
+            }
+            output {
+                uses common-response-header;
+                leaf stat-msg {
+                    description "The status of the VM requested";
+                    type string;
+                }
+            }
+        }
+
+}

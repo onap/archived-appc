@@ -39,7 +39,7 @@ import org.openecomp.appc.adapter.chef.chefapi.ApiMethod;
 import org.openecomp.appc.adapter.chef.chefclient.ChefApiClient;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.File;
 import java.util.Map;
