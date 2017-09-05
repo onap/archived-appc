@@ -23,8 +23,8 @@ package org.openecomp.appc.dg.mock.instance;
 
 import java.util.Map;
 
-import org.openecomp.sdnc.sli.SvcLogicAdaptor;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class MockConfigureNodeExecutor implements SvcLogicAdaptor{
 

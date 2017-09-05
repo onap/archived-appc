@@ -27,7 +27,7 @@ package org.openecomp.appc.adapter.chef.impl;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 /**
  * This class is used to track and maintain recovery and time-to-live information for a request as it is being

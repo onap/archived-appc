@@ -21,13 +21,13 @@
 			<version>${equinox.osgi.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.sdnc.core</groupId>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-provider</artifactId>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.sdnc.adaptors</groupId>
-			<artifactId>sql-resource-provider</artifactId>
+			<groupId>org.onap.ccsdk.sli.adaptors</groupId>
+			<artifactId>sql-resource</artifactId>
 			<version>${openecomp.sdnc.sql-resource.version}</version>
 			<scope>compile</scope>
 		</dependency>

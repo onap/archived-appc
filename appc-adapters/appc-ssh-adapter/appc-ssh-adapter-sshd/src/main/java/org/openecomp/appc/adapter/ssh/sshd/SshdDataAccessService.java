@@ -30,7 +30,7 @@ import org.openecomp.appc.adapter.ssh.Constants;
 import org.openecomp.appc.adapter.ssh.SshConnectionDetails;
 import org.openecomp.appc.adapter.ssh.SshDataAccessException;
 import org.openecomp.appc.adapter.ssh.SshDataAccessService;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

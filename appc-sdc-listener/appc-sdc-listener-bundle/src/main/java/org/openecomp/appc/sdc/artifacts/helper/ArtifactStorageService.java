@@ -29,7 +29,7 @@ import org.openecomp.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.openecomp.appc.sdc.artifacts.object.SDCReference;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

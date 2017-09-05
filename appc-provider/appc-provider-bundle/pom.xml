@@ -54,7 +54,7 @@
                             *;resolution:=optional
                         </Import-Package>
                         <Embed-Dependency>
-                            appc-common;scope=compile|runtime;inline=false
+                            appc-common,org.apache.http;scope=compile|runtime;inline=false
                         </Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
@@ -80,7 +80,7 @@
                                     </additionalConfiguration>
                                 </generator>
                                 <generator>
-                                    <codeGeneratorClass>org.opendaylight.yangtools.maven.sal.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
+                                    <codeGeneratorClass>org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
                                     <outputBaseDir>${salGeneratorPath}</outputBaseDir>
                                 </generator>
                             </codeGenerators>
@@ -206,11 +206,11 @@
             <artifactId>sal-common-util</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
         </dependency>
         <dependency>

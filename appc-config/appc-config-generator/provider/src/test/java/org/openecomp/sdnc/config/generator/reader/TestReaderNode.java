@@ -32,8 +32,8 @@ import org.junit.Test;
 import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
 import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
 import org.openecomp.sdnc.config.generator.reader.ReaderNode;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class TestReaderNode {
     @Test(expected = Exception.class)

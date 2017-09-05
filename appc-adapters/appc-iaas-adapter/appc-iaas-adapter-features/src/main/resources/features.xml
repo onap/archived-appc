@@ -36,7 +36,7 @@
     <feature name='appc-iaas-adapter' description="appc-iaas-adapter" version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
 <!--         <feature>pax-jetty</feature> -->
-        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
         <feature>sdnc-sli</feature>
         <bundle>mvn:org.openecomp.appc/appc-iaas-adapter-bundle/${project.version}</bundle>
 

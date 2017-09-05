@@ -105,26 +105,26 @@
        </dependency>
 
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-common</artifactId>
             <scope>provided</scope>
             <!-- Added exclusion to prevent missing dependency issue on dblib -->
             <exclusions>
                 <exclusion>
-                    <groupId>org.openecomp.sdnc.core</groupId>
+                    <groupId>org.onap.ccsdk.sli.core</groupId>
                     <artifactId>dblib-provider</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
 
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
             <scope>provided</scope>
             <!-- Added exclusion to prevent missing dependency issue on dblib -->
             <exclusions>
                 <exclusion>
-                    <groupId>org.openecomp.sdnc.core</groupId>
+                    <groupId>org.onap.ccsdk.sli.core</groupId>
                     <artifactId>dblib-provider</artifactId>
                 </exclusion>
             </exclusions>
@@ -219,9 +219,9 @@
 						<Bundle-Activator>org.openecomp.appc.adapter.iaas.AppcProviderAdapterActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.adapter.iaas,com.att.cdp.zones.model</Export-Package>
                         <DynamicImport-Package>javax.*</DynamicImport-Package>
-                        <Import-Package>org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,javax.net.ssl,org.xml.sax</Import-Package>
-<!--                         <Import-Package>org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,javax.ws.rs.*,javax.net.*,javax.xml.*,org.xml.*</Import-Package> -->
-<!-- 						<Import-Package>org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*,javax.xml.*</Import-Package> -->
+                        <Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,javax.net.ssl,org.xml.sax</Import-Package>
+<!--                         <Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,javax.ws.rs.*,javax.net.*,javax.xml.*,org.xml.*</Import-Package> -->
+<!-- 						<Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*,javax.xml.*</Import-Package> -->
                         <Embed-Dependency>*;scope=compile|runtime;artifactId=!org.eclipse.osgi|slf4j-api|jcl-over-slf4j|</Embed-Dependency>
 <!-- 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis</Embed-Dependency> -->
 						<Embed-Transitive>true</Embed-Transitive>

@@ -55,6 +55,17 @@
 -->
 
 		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>${apache.httpcomponents.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>equinoxSDK381</groupId>
 			<artifactId>org.eclipse.osgi</artifactId>
 		</dependency>
@@ -97,7 +108,7 @@
 						<Bundle-SymbolicName>org.openecomp.appc.listener</Bundle-SymbolicName>
 						<Bundle-Activator>org.openecomp.appc.listener.AppcEventListenerActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.listener</Export-Package>
-						<Import-Package>org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*
+						<Import-Package>org.apache.http,org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*
 							org.openecomp.appc.exceptions, org.openecomp.appc.util,
 							com.att.eelf.configuration, com.att.eelf.i18n,
 							*;resolution:=optional

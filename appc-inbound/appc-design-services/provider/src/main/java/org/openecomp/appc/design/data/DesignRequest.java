@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.openecomp.appc.design.services.util.DesignServiceConstants;
-import org.openecomp.sdnc.sli.resource.dblib.DBResourceManager;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.sli.resource.dblib.DBResourceManager;
+import org.onap.ccsdk.sli.core.sli.resource.dblib.DbLibService;
 
 public class DesignRequest{
 

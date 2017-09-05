@@ -93,13 +93,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-common</artifactId>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
             <scope>compile</scope>
         </dependency>
@@ -115,7 +115,7 @@
             </dependency>
 
         <dependency>
-            <groupId>org.openecomp.sdnc.core</groupId>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>dblib-provider</artifactId>
         </dependency>
 
@@ -169,9 +169,9 @@
                         <Bundle-Activator>org.openecomp.appc.adapter.netconf.AppcNetconfAdapterActivator</Bundle-Activator>
                         <Export-Package>org.openecomp.appc.adapter.netconf,org.openecomp.appc.adapter.netconf.dao,org.openecomp.appc.adapter.netconf.util,org.openecomp.appc.adapter.netconf.exception</Export-Package>
                         <Import-Package>
-                            !org.slf4j.event,org.w3c.dom.*,com.sun.org.apache.xerces.*,javax.sql.*,javax.sql.rowset.*,javax.xml.*,org.openecomp.appc.adapter.messaging.*,javax.crypto.*,org.openecomp.appc.common.exception.*,com.mysql.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
+                            !org.slf4j.event,org.w3c.dom.*,com.sun.org.apache.xerces.*,javax.sql.*,javax.sql.rowset.*,javax.xml.*,org.openecomp.appc.adapter.messaging.*,javax.crypto.*,org.openecomp.appc.common.exception.*,com.mysql.*,org.onap.ccsdk.sli.core.sli.*,org.onap.ccsdk.sli.core.dblib,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
                         </Import-Package>
-                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|dblib-provider|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|appc-dmaap-adapter-bundle</Embed-Dependency>
+                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!dblib-provider|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|appc-dmaap-adapter-bundle</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
 

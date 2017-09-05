@@ -40,7 +40,7 @@ import org.openecomp.appc.seqgen.impl.SequenceGeneratorFactory;
 import org.openecomp.appc.seqgen.objects.Constants;
 import org.openecomp.appc.seqgen.objects.SequenceGeneratorInput;
 import org.openecomp.appc.seqgen.objects.Transaction;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.IOException;
 import java.util.*;
