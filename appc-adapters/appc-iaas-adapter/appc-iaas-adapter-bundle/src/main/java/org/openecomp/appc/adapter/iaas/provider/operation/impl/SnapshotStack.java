@@ -51,7 +51,7 @@ import org.openecomp.appc.adapter.openstack.heat.model.CreateSnapshotParams;
 import org.openecomp.appc.adapter.openstack.heat.model.Snapshot;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 
 import java.text.DateFormat;

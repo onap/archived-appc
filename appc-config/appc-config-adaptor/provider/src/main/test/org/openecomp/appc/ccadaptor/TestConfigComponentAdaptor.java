@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.junit.Test;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestConfigComponentAdaptor {
 	

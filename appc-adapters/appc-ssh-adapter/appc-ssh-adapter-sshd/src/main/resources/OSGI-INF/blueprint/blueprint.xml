@@ -31,7 +31,7 @@
     <bean id="sshdBean" class="org.openecomp.appc.adapter.ssh.sshd.SshAdapterSshd" scope="singleton"/>
     <service id="sshAdapter" interface="org.openecomp.appc.adapter.ssh.SshAdapter" ref="sshdBean"/>
 
-    <reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.openecomp.sdnc.sli.resource.dblib.DbLibService" />
+    <reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.core.dblib.DbLibService" />
     <bean id="sshdDAServiceBean" class="org.openecomp.appc.adapter.ssh.sshd.SshdDataAccessService" scope="singleton">
         <property name="dbLibService" ref="dbLibServiceRef" />
     </bean>

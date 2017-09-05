@@ -30,7 +30,7 @@ import org.osgi.framework.ServiceRegistration;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.ConfigurationException;
+import org.onap.ccsdk.sli.core.sli.ConfigurationException;
 
 public class SliAuditActivator implements BundleActivator{
 

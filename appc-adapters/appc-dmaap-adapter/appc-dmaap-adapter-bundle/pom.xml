@@ -80,10 +80,6 @@
 			<artifactId>objenesis</artifactId>
 			<version>2.2</version>
 		</dependency>
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-all</artifactId>
-			</dependency>
 
 		<dependency>
 			<groupId>org.powermock</groupId>
@@ -100,13 +96,13 @@
             <artifactId>jcl-over-slf4j</artifactId>
             </dependency>
 		<dependency>
-			<groupId>org.openecomp.sdnc.core</groupId>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-common</artifactId>
 			<scope>compile</scope>
 			<!-- Added exclusion to prevent missing dependency issue on dblib -->
 			<exclusions>
 				<exclusion>
-					<groupId>org.openecomp.sdnc.core</groupId>
+					<groupId>org.onap.ccsdk.sli.core</groupId>
 					<artifactId>dblib-provider</artifactId>
 				</exclusion>
 				<exclusion>
@@ -117,13 +113,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.sdnc.core</groupId>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-provider</artifactId>
 			<scope>compile</scope>
 			<!-- Added exclusion to prevent missing dependency issue on dblib -->
 			<exclusions>
 				<exclusion>
-					<groupId>org.openecomp.sdnc.core</groupId>
+					<groupId>org.onap.ccsdk.sli.core</groupId>
 					<artifactId>dblib-provider</artifactId>
 				</exclusion>
 			</exclusions>
@@ -160,7 +156,7 @@
 						<!--<Bundle-SymbolicName>org.openecomp.appc.adapter.messaging.dmaap</Bundle-SymbolicName>-->
 						<Bundle-Activator>org.openecomp.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.adapter.messaging.*</Export-Package>
-						<Import-Package>!org.slf4j.event,org.openecomp.appc.adapter.message.*,org.openecomp.appc.metricservice.*,com.att.nsa.*,org.openecomp.sdnc.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
+						<Import-Package>!org.slf4j.event,org.openecomp.appc.adapter.message.*,org.openecomp.appc.metricservice.*,com.att.nsa.*,org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|appc-message-adapter-api|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis|pax-*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>

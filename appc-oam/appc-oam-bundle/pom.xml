@@ -64,7 +64,7 @@
                                 </generator>
                                 <generator>
                                     <codeGeneratorClass>
-                                        org.opendaylight.yangtools.maven.sal.api.gen.plugin.CodeGeneratorImpl
+                                        org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl
                                     </codeGeneratorClass>
                                     <outputBaseDir>${salGeneratorPath}</outputBaseDir>
                                 </generator>
@@ -225,14 +225,14 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-core</artifactId>
             <version>1.10.19</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-api-mockito</artifactId>
-            <version>1.6.2</version>
+            <version>1.6.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>

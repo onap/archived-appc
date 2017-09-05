@@ -35,9 +35,9 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicResource;
-import org.openecomp.sdnc.sli.aai.AAIClient;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.core.sli.aai.AAIClient;
 
 public class MockAaiService extends AaiService {
     

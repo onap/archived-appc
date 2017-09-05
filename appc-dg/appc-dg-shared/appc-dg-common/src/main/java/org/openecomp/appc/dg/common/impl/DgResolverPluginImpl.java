@@ -27,7 +27,7 @@ package org.openecomp.appc.dg.common.impl;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;
 

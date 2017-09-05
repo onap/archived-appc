@@ -21,14 +21,15 @@
 			<version>${equinox.osgi.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.sdnc.core</groupId>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-provider</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.sdnc.adaptors</groupId>
+			<groupId>org.onap.ccsdk.sli.adaptors</groupId>
 			<artifactId>aai-service-provider</artifactId>
+                        <version>${ccsdk.sli.plugins.version}</version>
 			<scope>compile</scope>
 		</dependency>
 

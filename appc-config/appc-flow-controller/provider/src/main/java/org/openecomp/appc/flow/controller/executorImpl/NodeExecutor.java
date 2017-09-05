@@ -25,9 +25,9 @@ import java.util.Properties;
 
 import org.openecomp.appc.flow.controller.data.Transaction;
 import org.openecomp.appc.flow.controller.interfaces.FlowExecutorInterface;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.provider.SvcLogicService;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
