@@ -29,7 +29,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openecomp.appc.flow.controller.node.FlowControlNode;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

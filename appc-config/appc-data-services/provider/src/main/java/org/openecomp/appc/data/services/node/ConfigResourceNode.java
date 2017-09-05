@@ -28,15 +28,15 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import org.openecomp.appc.data.services.AppcDataServiceConstant;
 import org.openecomp.appc.data.services.db.DGGeneralDBService;
 import org.openecomp.appc.data.services.utils.EscapeUtils;
 
-import org.openecomp.sdnc.sli.SvcLogicResource.QueryStatus;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 public class ConfigResourceNode implements SvcLogicJavaPlugin {
 

@@ -24,9 +24,9 @@
 
 package org.openecomp.sdnc.dg.loader;
 
-import org.openecomp.sdnc.sli.SvcLogicStore;
-import org.openecomp.sdnc.sli.SvcLogicStoreFactory;
-import org.openecomp.sdnc.sli.SvcLogicDblibStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
+import org.onap.ccsdk.sli.core.sli.SvcLogicDblibStore;
 
 public class MockSvcLogicFactory extends SvcLogicStoreFactory {
     static SvcLogicStore getMockSvcLogicStore() {

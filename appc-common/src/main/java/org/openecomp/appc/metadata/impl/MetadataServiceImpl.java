@@ -26,7 +26,7 @@ package org.openecomp.appc.metadata.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import javax.sql.rowset.CachedRowSet;
 

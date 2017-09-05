@@ -93,7 +93,6 @@ public class ChefActivator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         logger.info("Starting bundle " + getName());
-
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "chef adapter");

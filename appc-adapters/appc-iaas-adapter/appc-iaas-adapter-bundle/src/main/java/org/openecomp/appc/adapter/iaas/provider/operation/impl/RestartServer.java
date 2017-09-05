@@ -43,7 +43,7 @@ import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
 import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
 import org.openecomp.appc.exceptions.UnknownProviderException;
 import org.openecomp.appc.i18n.Msg;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 
 import java.text.DateFormat;

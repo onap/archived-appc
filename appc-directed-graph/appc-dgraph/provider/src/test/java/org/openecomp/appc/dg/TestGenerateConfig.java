@@ -45,9 +45,9 @@ import com.att.sdnctl.dgtestlibrary.DGTestCase;
 import com.att.sdnctl.dgtestlibrary.GraphKey;
 import org.apache.sling.testing.mock.osgi.MockOsgi;
 */
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.provider.ExecuteNodeExecutor;
-import org.openecomp.sdnc.sli.provider.SvcLogicAdaptorFactory;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.provider.ExecuteNodeExecutor;
+import org.onap.ccsdk.sli.core.sli.provider.SvcLogicAdaptorFactory;
 
 
 public class TestGenerateConfig /* extends AbstractDGTestCase */ {

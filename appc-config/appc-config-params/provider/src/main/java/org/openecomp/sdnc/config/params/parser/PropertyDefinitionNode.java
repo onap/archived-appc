@@ -34,9 +34,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.openecomp.sdnc.config.params.ParamsHandlerConstant;
 import org.openecomp.sdnc.config.params.data.Parameter;
 import org.openecomp.sdnc.config.params.data.PropertyDefinition;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

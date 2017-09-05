@@ -28,8 +28,8 @@ import java.util.Map;
 
 import org.openecomp.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.Server;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 /**
  * This interface defines the operations that the provider adapter exposes.

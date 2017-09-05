@@ -30,9 +30,9 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.sdnc.sli.SvcLogicGraph;
-import org.openecomp.sdnc.sli.SvcLogicStore;
-import org.openecomp.sdnc.sli.SvcLogicStoreFactory;
+import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
+import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

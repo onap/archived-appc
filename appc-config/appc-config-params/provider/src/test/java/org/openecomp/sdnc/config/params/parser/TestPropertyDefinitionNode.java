@@ -44,7 +44,7 @@ import org.openecomp.sdnc.config.params.data.PropertyDefinition;
 import org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode;
 import org.openecomp.sdnc.config.params.transformer.ArtificatTransformer;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

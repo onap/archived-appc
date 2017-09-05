@@ -42,7 +42,7 @@ import org.openecomp.appc.Constants;
 import org.openecomp.appc.adapter.rest.RestAdapter;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Iterator;
 import java.util.Map;
