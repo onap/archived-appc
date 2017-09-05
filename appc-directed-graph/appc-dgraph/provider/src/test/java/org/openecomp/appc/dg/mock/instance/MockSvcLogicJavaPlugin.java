@@ -28,9 +28,9 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 public class MockSvcLogicJavaPlugin implements SvcLogicJavaPlugin{
     private final static Logger logger = LoggerFactory.getLogger(MockSvcLogicJavaPlugin.class);

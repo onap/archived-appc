@@ -45,7 +45,7 @@ import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.UnknownProviderException;
 import org.openecomp.appc.i18n.Msg;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;
 

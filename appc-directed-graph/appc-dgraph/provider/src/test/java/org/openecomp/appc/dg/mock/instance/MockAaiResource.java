@@ -26,11 +26,11 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.openecomp.sdnc.sli.SvcLogicAdaptor;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicResource;
-import org.openecomp.sdnc.sli.SvcLogicResource.QueryStatus;
+import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import static org.junit.Assert.*;
 
 public class MockAaiResource implements SvcLogicResource {

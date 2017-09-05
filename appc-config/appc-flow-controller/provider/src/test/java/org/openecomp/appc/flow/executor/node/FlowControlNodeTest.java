@@ -22,8 +22,8 @@ import org.openecomp.appc.flow.controller.data.Transactions;
 import org.openecomp.appc.flow.controller.dbervices.FlowControlDBService;
 import org.openecomp.appc.flow.controller.node.FlowControlNode;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.reflect.Whitebox;
 

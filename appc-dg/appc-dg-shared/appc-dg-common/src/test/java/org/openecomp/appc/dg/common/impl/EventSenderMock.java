@@ -30,7 +30,7 @@ import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.appc.adapter.message.MessageDestination;
 import org.openecomp.appc.adapter.message.event.EventMessage;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 public class EventSenderMock implements EventSender {

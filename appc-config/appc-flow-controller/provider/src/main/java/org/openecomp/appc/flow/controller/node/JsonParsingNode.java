@@ -33,9 +33,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.flow.controller.data.Transaction;
 import org.openecomp.appc.flow.controller.executorImpl.RestExecutor;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
-import org.openecomp.sdnc.sli.SvcLogicContext;
-import org.openecomp.sdnc.sli.SvcLogicException;
-import org.openecomp.sdnc.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

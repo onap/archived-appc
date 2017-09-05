@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.openecomp.appc.encryptiontool.wrapper.DbServiceUtil;
 import org.openecomp.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.openecomp.appc.encryptiontool.wrapper.WrapperEncryptionTool;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestEncryptionTool {
 

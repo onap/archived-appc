@@ -24,7 +24,7 @@
 
 package org.openecomp.appc.adapter.ssh;
 
-import org.openecomp.sdnc.sli.resource.dblib.DbLibService;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 
 @SuppressWarnings("JavaDoc")

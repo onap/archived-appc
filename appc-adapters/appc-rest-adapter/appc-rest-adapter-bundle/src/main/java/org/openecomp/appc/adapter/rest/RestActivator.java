@@ -101,8 +101,6 @@ public class RestActivator implements BundleActivator {
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "rest adapter");
         adapter = new RestAdapterImpl();
         if (registration == null) {
-            logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
-                RestAdapter.class.getSimpleName());
             registration = context.registerService(RestAdapter.class, adapter, null);
         }
 

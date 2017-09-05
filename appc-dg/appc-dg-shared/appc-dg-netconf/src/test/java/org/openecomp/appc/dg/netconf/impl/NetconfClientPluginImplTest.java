@@ -35,7 +35,7 @@ import org.mockito.Mockito;
 import org.openecomp.appc.adapter.netconf.*;
 import org.openecomp.appc.adapter.netconf.util.Constants;
 import org.openecomp.appc.dg.netconf.impl.NetconfClientPluginImpl;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

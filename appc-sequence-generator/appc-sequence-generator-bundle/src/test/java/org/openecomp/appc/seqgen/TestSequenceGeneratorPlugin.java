@@ -26,7 +26,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openecomp.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
 import org.openecomp.appc.seqgen.dgplugin.impl.SequenceGeneratorPluginImpl;
-import org.openecomp.sdnc.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.File;
 import java.io.FileInputStream;
