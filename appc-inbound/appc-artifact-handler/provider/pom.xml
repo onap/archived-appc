@@ -143,7 +143,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 			<groupId>org.opendaylight.controller</groupId>
 			<artifactId>sal-common-util</artifactId>
 			</dependency>
-
 		<dependency>
 			<groupId>org.openecomp.sdnc.core</groupId>
 			<artifactId>sli-common</artifactId>
@@ -203,5 +202,15 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 			<version>${openecomp.sdnc.sql-resource.version}</version>
 			<scope>compile</scope>
 		</dependency>
+        	<dependency>
+            		<groupId>org.powermock</groupId>
+            		<artifactId>powermock-api-mockito</artifactId>
+            		<scope>test</scope>
+        	</dependency>
+        	<dependency>
+            		<groupId>org.mockito</groupId>
+            		<artifactId>mockito-core</artifactId>
+            		<scope>test</scope>
+        	</dependency>
 	</dependencies>
 </project>
