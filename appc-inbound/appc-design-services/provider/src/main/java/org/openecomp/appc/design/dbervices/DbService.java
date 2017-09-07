@@ -93,7 +93,7 @@ public class DbService {
         }
         if (dblibSvc == null) {
             try {
-                dblibSvc = DBResourceManager.create(System.getProperties());
+                dblibSvc = new DBResourceManager(System.getProperties());
             } catch (Exception e) {
                 Log.error("Caught exception trying to create db service", e);
             }
