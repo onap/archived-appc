@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Copyright (C) 2017 Intel Corp.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,72 +27,30 @@
 package org.openecomp.appc.adapter.rest.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.util.EntityUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.MDC;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.rest.RestAdapter;
-import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
 import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.zones.ComputeService;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.model.Server;
-import com.att.cdp.zones.model.Server.Status;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 /**
  * Test the ProviderAdapter implementation.
  */
-
-@Ignore
 public class TestRestAdapterImpl {
-
-    @SuppressWarnings("nls")
-    private static final String PROVIDER_NAME = "APPC";
-
-    @SuppressWarnings("nls")
-    private static final String PROVIDER_TYPE = "OpenStackProvider";
-
-    private static String IDENTITY_URL;
-
-    private static String PRINCIPAL;
-
-    private static String CREDENTIAL;
-
-    private static String TENANT_NAME;
-
-    private static String TENANT_ID;
-
-    private static String USER_ID;
-
-    private static String REGION_NAME;
-
-    private static String SERVER_URL;
-
-    private static Class<?> providerAdapterImplClass;
-    private static Class<?> configurationFactoryClass;
-    private static Field providerCacheField;
-    private static Field configField;
-
     private RestAdapterImpl adapter;
 
 
@@ -107,57 +67,73 @@ public class TestRestAdapterImpl {
     }
     
     @Test
-    public void testCommonGet() throws IOException, IllegalStateException, IllegalArgumentException,
-        ZoneException, APPCException {    
-         
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.URI", "http://example.com:8080/about/health");
-            params.put("org.openecomp.appc.instance.haveHeader","false");
-            SvcLogicContext svcContext = new SvcLogicContext();          
-            adapter.commonGet(params, svcContext);
-            String statusCode=svcContext.getAttribute("org.openecomp.rest.agent.result.code");
-            assertEquals("200",statusCode);
+    public void testCreateHttpRequestGet() throws IOException, IllegalStateException, IllegalArgumentException,
+        ZoneException, APPCException {
+
+        Map<String, String> params = new HashMap<>();
+        params.put("org.openecomp.appc.instance.URI", "http://example.com:8080/about/health");
+        params.put("org.openecomp.appc.instance.haveHeader","false");
+
+        HttpGet httpGet = ((HttpGet) givenParams(params, "GET"));
+
+        assertEquals("GET", httpGet.getMethod());
+        assertEquals("http://example.com:8080/about/health", httpGet.getURI().toURL().toString());
     }
     
     @Test
-    public void testCommonPost() throws IOException, IllegalStateException, IllegalArgumentException,
+    public void testCreateHttpRequestPost() throws IOException, IllegalStateException, IllegalArgumentException,
         ZoneException, APPCException {    
-         
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/posttest");
-            params.put("org.openecomp.appc.instance.haveHeader","false");
-            params.put("org.openecomp.appc.instance.requestBody", "{\"name\":\"MyNode\", \"width\":200, \"height\":100}");
-            SvcLogicContext svcContext = new SvcLogicContext();          
-            adapter.commonPost(params, svcContext);
-            String statusCode=svcContext.getAttribute("org.openecomp.rest.agent.result.code");
-            assertEquals("200",statusCode);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/posttest");
+        params.put("org.openecomp.appc.instance.haveHeader","false");
+        params.put("org.openecomp.appc.instance.requestBody", "{\"name\":\"MyNode\", \"width\":200, \"height\":100}");
+
+        HttpPost httpPost = ((HttpPost) givenParams(params, "POST"));
+
+        assertEquals("POST", httpPost.getMethod());
+        assertEquals("http://example.com:8081/posttest", httpPost.getURI().toURL().toString());
+        assertEquals("{\"name\":\"MyNode\", \"width\":200, \"height\":100}", EntityUtils.toString(httpPost.getEntity()));
     }
     
     @Test
-    public void testCommonPut() throws IOException, IllegalStateException, IllegalArgumentException,
+    public void testCreateHttpRequestPut() throws IOException, IllegalStateException, IllegalArgumentException,
         ZoneException, APPCException {    
-         
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/puttest");
-            params.put("org.openecomp.appc.instance.haveHeader","false");
-            params.put("org.openecomp.appc.instance.requestBody", "{\"name\":\"MyNode2\", \"width\":300, \"height\":300}");
-            SvcLogicContext svcContext = new SvcLogicContext();          
-            adapter.commonPut(params, svcContext);
-            String statusCode=svcContext.getAttribute("org.openecomp.rest.agent.result.code");
-            assertEquals("200",statusCode);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/puttest");
+        params.put("org.openecomp.appc.instance.haveHeader","false");
+        params.put("org.openecomp.appc.instance.requestBody", "{\"name\":\"MyNode2\", \"width\":300, \"height\":300}");
+
+        HttpPut httpPut = ((HttpPut) givenParams(params, "PUT"));
+        //Header headers[] = httpPut.getAllHeaders();
+
+        assertEquals("PUT", httpPut.getMethod());
+        assertEquals("http://example.com:8081/puttest", httpPut.getURI().toURL().toString());
+        assertEquals("{\"name\":\"MyNode2\", \"width\":300, \"height\":300}", EntityUtils.toString(httpPut.getEntity()));
     }
     
     @Test
-    public void testCommonDelete() throws IOException, IllegalStateException, IllegalArgumentException,
+    public void testCreateHttpRequestDelete() throws IOException, IllegalStateException, IllegalArgumentException,
         ZoneException, APPCException {    
-         
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/deletetest");
-            params.put("org.openecomp.appc.instance.haveHeader","false");
-            SvcLogicContext svcContext = new SvcLogicContext();          
-            adapter.commonDelete(params, svcContext);
-            String statusCode=svcContext.getAttribute("org.openecomp.rest.agent.result.code");
-            assertEquals("200",statusCode);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/deletetest");
+        params.put("org.openecomp.appc.instance.haveHeader","false");
+
+        HttpDelete httpDelete = ((HttpDelete) givenParams(params, "DELETE"));
+
+        assertEquals("DELETE", httpDelete.getMethod());
+        assertEquals("http://example.com:8081/deletetest", httpDelete.getURI().toURL().toString());
+    }
+
+    private HttpRequestBase givenParams(Map<String, String> params, String method){
+        SvcLogicContext ctx = new SvcLogicContext();
+        RequestContext rc = new RequestContext(ctx);
+        rc.isAlive();
+
+        adapter = new RestAdapterImpl();
+        return adapter.createHttpRequest(method, params, rc);
     }
 
 

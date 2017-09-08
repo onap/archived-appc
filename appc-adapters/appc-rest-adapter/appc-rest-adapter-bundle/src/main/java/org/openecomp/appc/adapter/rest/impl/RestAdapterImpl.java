@@ -33,6 +33,7 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -40,12 +41,14 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import org.json.JSONObject;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.adapter.rest.RestAdapter;
+import org.openecomp.appc.adapter.rest.RequestFactory;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.Supplier;
 
 /**
  * This class implements the {@link RestAdapter} interface. This interface
@@ -97,146 +100,42 @@ public class RestAdapterImpl implements RestAdapter {
 
     public void commonGet(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run get method");
-        String haveHeader;
-        String tUrl=params.get("org.openecomp.appc.instance.URI");
-        haveHeader=params.get("org.openecomp.appc.instance.haveHeader");
-        String headers=params.get("org.openecomp.appc.instance.headers");
+
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        try {
-            HttpGet httpGet = new HttpGet(tUrl);
-
-            if(haveHeader.equals("true"))
-            {
-                JSONObject JsonHeaders= new JSONObject(headers);
-                Iterator keys = JsonHeaders.keys();
-                while(keys.hasNext()) {
-                    String String1 = (String)keys.next();
-                    String String2 = JsonHeaders.getString(String1);
-                    httpGet.addHeader(String1,String2);
-                }
-
-            }
-
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpResponse response;
-            response = httpClient.execute(httpGet);
-            int responseCode=response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            String responseOutput=EntityUtils.toString(entity);
-            doSuccess(rc,responseCode,responseOutput);
-        } catch (Exception ex) {
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
-        }
+        HttpGet httpGet = (HttpGet) createHttpRequest("GET", params, rc);
+        executeHttpRequest(httpGet, rc);
     }
 
     public void commonDelete(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run Delete method");
-        String haveHeader;
-        String tUrl=params.get("org.openecomp.appc.instance.URI");
-        haveHeader=params.get("org.openecomp.appc.instance.haveHeader");
-        String headers=params.get("org.openecomp.appc.instance.headers");
+
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        try {
-            HttpDelete httpDelete = new HttpDelete(tUrl);
-            if(haveHeader.equals("true"))
-            {
-                JSONObject JsonHeaders= new JSONObject(headers);
-                Iterator keys = JsonHeaders.keys();
-                while(keys.hasNext()) {
-                    String String1 = (String)keys.next();
-                    String String2 = JsonHeaders.getString(String1);
-                    httpDelete.addHeader(String1,String2);
-                }
-
-            }
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpResponse response = httpClient.execute(httpDelete);
-            int responseCode=response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            String responseOutput=EntityUtils.toString(entity);
-            doSuccess(rc,responseCode,responseOutput);
-        } catch (Exception ex) {
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
-        }
+        HttpDelete httpDelete = (HttpDelete) createHttpRequest("DELETE", params, rc);
+        executeHttpRequest(httpDelete, rc);
     }
 
     public void commonPost(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run post method");
-        String tUrl=params.get("org.openecomp.appc.instance.URI");
-        String body=params.get("org.openecomp.appc.instance.requestBody");
-        String haveHeader=params.get("org.openecomp.appc.instance.haveHeader");
-        String headers=params.get("org.openecomp.appc.instance.headers");
+
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        try {
-            HttpPost httpPost = new HttpPost(tUrl);
-            if(haveHeader.equals("true"))
-            {
-                JSONObject JsonHeaders= new JSONObject(headers);
-                Iterator keys = JsonHeaders.keys();
-                while(keys.hasNext()) {
-                    String String1 = (String)keys.next();
-                    String String2 = JsonHeaders.getString(String1);
-                    httpPost.addHeader(String1,String2);
-                }
-
-            }
-            StringEntity bodyParams =new StringEntity (body,"UTF-8");
-            httpPost.setEntity(bodyParams);
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpResponse response = httpClient.execute(httpPost);
-            int responseCode=response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            String responseOutput=EntityUtils.toString(entity);
-            doSuccess(rc,responseCode,responseOutput);
-        } catch (Exception ex) {
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
-        }
+        HttpPost httpPost = (HttpPost) createHttpRequest("POST", params, rc);
+        executeHttpRequest(httpPost, rc);
     }
 
     public void commonPut(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run put method");
-        String tUrl=params.get("org.openecomp.appc.instance.URI");
-        String body=params.get("org.openecomp.appc.instance.requestBody");
-        String haveHeader=params.get("org.openecomp.appc.instance.haveHeader");
-        String headers=params.get("org.openecomp.appc.instance.headers");
+
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-    try {
-            HttpPut httpPut = new HttpPut(tUrl);
-            if(haveHeader.equals("true"))
-            {
-                JSONObject JsonHeaders= new JSONObject(headers);
-                Iterator keys = JsonHeaders.keys();
-                while(keys.hasNext()) {
-                    String String1 = (String)keys.next();
-                    String String2 = JsonHeaders.getString(String1);
-                    httpPut.addHeader(String1,String2);
-                }
-
-            }
-            StringEntity bodyParams =new StringEntity (body,"UTF-8");
-            httpPut.setEntity(bodyParams);
-            HttpClient httpClient = HttpClients.createDefault();
-            HttpResponse response = httpClient.execute(httpPut);
-            int responseCode=response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            String responseOutput=EntityUtils.toString(entity);
-            if(responseCode == 200){
-                doSuccess(rc,responseCode,responseOutput);
-            } else {
-                doFailure(rc, HttpStatus.getHttpStatus(responseCode), response.getStatusLine().getReasonPhrase());
-            }
-        }
-        catch (Exception ex) {
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
-        }
+        HttpPut httpPut = (HttpPut) createHttpRequest("PUT", params, rc);
+        executeHttpRequest(httpPut, rc);
     }
 
     @SuppressWarnings("static-method")
@@ -275,6 +174,61 @@ public class RestAdapterImpl implements RestAdapter {
         svcLogic.setAttribute("org.openecomp.rest.agent.result.code",Integer.toString(code));
         svcLogic.setAttribute("org.openecomp.rest.agent.result.message",message);
         svcLogic.setAttribute("org.openecomp.rest.result.code",Integer.toString(HttpStatus.OK_200.getStatusCode()));
+    }
+
+    public void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc){
+        try {
+            HttpClient httpClient = HttpClients.createDefault();
+            HttpResponse response = httpClient.execute(httpRequest);
+            int responseCode = response.getStatusLine().getStatusCode();
+            HttpEntity entity = response.getEntity();
+            String responseOutput = EntityUtils.toString(entity);
+            if(responseCode == 200){
+                doSuccess(rc,responseCode,responseOutput);
+            } else {
+                doFailure(rc, HttpStatus.getHttpStatus(responseCode), response.getStatusLine().getReasonPhrase());
+            }
+        }
+        catch (Exception ex) {
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
+        }
+    }
+
+    public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc){
+        HttpRequestBase httpRequest = null;
+        try {
+            String tUrl = params.get("org.openecomp.appc.instance.URI");
+            String haveHeader = params.get("org.openecomp.appc.instance.haveHeader");
+            String headers = params.get("org.openecomp.appc.instance.headers");
+
+            Supplier<RequestFactory> requestFactory =  RequestFactory::new;
+            httpRequest = requestFactory.get().getHttpRequest(method, tUrl);
+
+            if (haveHeader.equals("true")) {
+                JSONObject JsonHeaders = new JSONObject(headers);
+                Iterator keys = JsonHeaders.keys();
+                while (keys.hasNext()) {
+                    String String1 = (String) keys.next();
+                    String String2 = JsonHeaders.getString(String1);
+                    httpRequest.addHeader(String1, String2);
+                }
+            }
+            if (params.containsKey("org.openecomp.appc.instance.requestBody")) {
+                String body = params.get("org.openecomp.appc.instance.requestBody");
+                StringEntity bodyParams = new StringEntity (body,"UTF-8");
+                if (method.equals("PUT")){
+                    HttpPut httpPut = (HttpPut) httpRequest;
+                    httpPut.setEntity(bodyParams);
+                }
+                if (method.equals("POST")){
+                    HttpPost httpPost = (HttpPost) httpRequest;
+                    httpPost.setEntity(bodyParams);
+                }
+            }
+        } catch (Exception ex) {
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
+        }
+        return httpRequest;
     }
 
 
