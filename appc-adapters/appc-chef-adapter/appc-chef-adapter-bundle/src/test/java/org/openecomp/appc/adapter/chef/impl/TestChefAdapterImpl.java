@@ -25,97 +25,89 @@
 package org.openecomp.appc.adapter.chef.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.chef.ChefAdapter;
-import org.openecomp.appc.adapter.chef.impl.ChefAdapterImpl;
-import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
 import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.zones.ComputeService;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.model.Server;
-import com.att.cdp.zones.model.Server.Status;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.slf4j.MDC;
 
-@Ignore
 public class TestChefAdapterImpl {
-
+    private SvcLogicContext svcContext;
 
     private ChefAdapterImpl adapter;
 
-    @SuppressWarnings("nls")
-    @BeforeClass
-    public static void once() throws NoSuchFieldException, SecurityException, NoSuchMethodException {
-
-    }
+    private Map<String, String> params;
+    private String getAttribute;
 
     @Before
-    public void setup() throws IllegalArgumentException, IllegalAccessException {
+    public void setup() {
+        adapter = new ChefAdapterImpl(Boolean.TRUE);
+        params = new HashMap<>();
+        params.put("org.openecomp.appc.instance.pemPath",
+                "/src/test/resources/testclient.pem");
+    }
 
-        adapter = new ChefAdapterImpl(System.getProperty("user.dir")+"/src/main/resources/client.pem");
+    @After
+    public void tearDown() {
+        params = null;
+        svcContext = null;
+        getAttribute = null;
     }
 
     @Test
-    public void testChefGet() throws IOException, IllegalStateException, IllegalArgumentException,
-      ZoneException, APPCException {
+    public void testChefGetFail() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+        params.put("org.openecomp.appc.instance.chefAction", "/nodes");
 
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.chefAction", "/nodes");
-
-            SvcLogicContext svcContext = new SvcLogicContext();
-            adapter.chefGet(params, svcContext);
-            String status=svcContext.getAttribute("org.openecomp.appc.chefServerResult.code");
-            assertEquals("200",status);
-
+        givenParams(params, "chefGet");
+        thenResponseShouldFail();
     }
 
     @Test
-    public void testChefPut() throws IOException, IllegalStateException, IllegalArgumentException,
-        ZoneException, APPCException {
+    public void testChefPutFail() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+        params.put("org.openecomp.appc.instance.chefAction", "/nodes/testnode");
+        params.put("org.openecomp.appc.instance.runList", "recipe[commandtest]");
+        params.put("org.openecomp.appc.instance.attributes", "");
+        params.put("org.openecomp.appc.instance.chefRequestBody", "Test Body");
 
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.chefAction", "/nodes/testnode");
-            params.put("org.openecomp.appc.instance.runList", "recipe[commandtest]");
-            params.put("org.openecomp.appc.instance.attributes", "");
-            SvcLogicContext svcContext = new SvcLogicContext();
-            adapter.chefPut(params, svcContext);
-            String status=svcContext.getAttribute("org.openecomp.appc.chefServerResult.code");
-            assertEquals("200",status);
-
+        givenParams(params, "chefPut");
+        thenResponseShouldFail();
     }
 
     @Test
-    public void testTrigger() throws IOException, IllegalStateException, IllegalArgumentException,
-    ZoneException, APPCException {
+    public void testTriggerFail() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+        params.put("org.openecomp.appc.instance.ip", "");
 
-            Map<String, String> params = new HashMap<>();
-            params.put("org.openecomp.appc.instance.ip", "http://example.com/test");
-            SvcLogicContext svcContext = new SvcLogicContext();
-            adapter.trigger(params, svcContext);
-            String status=svcContext.getAttribute("org.openecomp.appc.chefAgent.code");
-            assertEquals("200",status);
-
+        givenParams(params, "trigger");
+        thenResponseShouldFail();
     }
 
+    private void givenParams(Map<String, String> adapterParams, String method) {
+        svcContext = new SvcLogicContext();
+        if (method == "chefGet"){
+            adapter.chefGet(adapterParams, svcContext);
+            getAttribute = "org.openecomp.appc.chefServerResult.code";
+        }
+        if (method == "chefPut"){
+            adapter.chefPut(adapterParams, svcContext);
+            getAttribute = "org.openecomp.appc.chefServerResult.code";
+        }
+        if (method == "trigger"){
+            adapter.trigger(adapterParams, svcContext);
+            getAttribute = "org.openecomp.appc.chefAgent.code";
+        }
+    }
 
+    private void thenResponseShouldFail(){
+        String status = svcContext.getAttribute(this.getAttribute);
+        assertEquals("500", status);
+    }
 }
