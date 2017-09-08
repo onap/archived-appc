@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_3c3bfdd2",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/openecomp/appc/flow/executor/node/FlowControlNodeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "Should not be wildcard imported, but this wasn\u0027t a change you introduced. It would be helpful to fix this also.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1c36f9e7",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/openecomp/appc/flow/executor/node/RestExecutorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5c0da136",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "You\u0027ll want to change these to org.onap.ccsdk.sli.core",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 29
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_1c0f1930",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/dbservices/MockSvcLogicResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "Change to org.onap.ccsdk.sli.core",
+      "range": {
+        "startLine": 29,
+        "startChar": 7,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_fc1d7567",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/dbservices/MockSvcLogicResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 30,
+        "startChar": 7,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_9c2ae97c",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/dbservices/MockSvcLogicResource.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "change to org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource",
+      "range": {
+        "startLine": 31,
+        "startChar": 7,
+        "endLine": 31,
+        "endChar": 54
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_dc2f5187",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "Should not be wildcard imported.",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 33
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_7c21859e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/node/MockArtifactHandlerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 30,
+        "startChar": 7,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_5c2481ae",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/openecomp/appc/artifact/handler/utils/ArtifactHandlerProviderUtilTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 667
+      },
+      "writtenOn": "2017-09-08T00:01:33Z",
+      "side": 1,
+      "message": "Should not be wildcard imported.",
+      "range": {
+        "startLine": 27,
+        "startChar": 7,
+        "endLine": 27,
+        "endChar": 32
+      },
+      "revId": "7e4b8a614f33581c6e304bda655d24aee466e039",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
