@@ -24,25 +24,19 @@
 
 package org.openecomp.appc.adapter.chef.chefapi;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.impl.client.*;
+import org.apache.http.HttpResponse;
+import org.apache.http.Header;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.util.EntityUtils;
 import org.openecomp.appc.adapter.chef.chefclient.Utils;
 
-import javax.net.ssl.SSLContext;
-import java.io.File;
 import org.apache.http.HttpEntity;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
 
 public class ApiMethod {
     private HttpClient client = null;
@@ -64,7 +58,7 @@ public class ApiMethod {
         this.methodName = methodName;
     }
 
-    public ApiMethod execute() {
+    public ApiMethod createRequest(){
         String hashedPath = Utils.sha1AndBase64("/organizations/"+organizations+chefPath);
         String hashedBody = Utils.sha1AndBase64(reqBody);
 
@@ -101,11 +95,15 @@ public class ApiMethod {
          * RHS=this.method.getHeaders(); for (int i = 0; i < RHS.length; i++) {
          * test=test+RHS[i]+"\n"; } test=test+this.reqBody+"\n";
          */
+        return this;
+    }
+
+    public ApiMethod execute() {
         try{
-        response = client.execute(method);
-        resCode = response.getStatusLine().getStatusCode();
-        HttpEntity entity1 = response.getEntity();
-        responseBody = EntityUtils.toString(entity1);}
+            response = client.execute(method);
+            resCode = response.getStatusLine().getStatusCode();
+            HttpEntity entity1 = response.getEntity();
+            responseBody = EntityUtils.toString(entity1);}
         catch(Exception ex){
             resCode=500;
             responseBody=ex.getMessage();

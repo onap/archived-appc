@@ -145,7 +145,11 @@ public class ChefAdapterImpl implements ChefAdapter {
         serverAddress = params.get("org.openecomp.appc.instance.serverAddress");
         organizations = params.get("org.openecomp.appc.instance.organizations");
         chefserver = "https://" + serverAddress + ORGANIZATIONS_STR + organizations;
-        clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
+        if (params.containsKey("org.openecomp.appc.instance.pemPath")) {
+
+        } else {
+            clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
+        }
     }
 
     public Boolean privateKeyCheck() {
@@ -444,7 +448,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         configuration = ConfigurationFactory.getConfiguration();
         // need to fetch data from appc configurator or form some file in the appc vms
         clientName = "testnode";
-        clientPrivatekey = "/etc/chef/client.pem";
+        clientPrivatekey = System.getProperty("user.dir") + "/src/test/resources/testclient.pem";
         serverAddress = "http://example.com";
         organizations = "test";
         chefserver = serverAddress + ORGANIZATIONS_STR + organizations;
