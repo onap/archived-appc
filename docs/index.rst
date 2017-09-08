@@ -5,4 +5,5 @@ TODO Add files to toctree and delete this header
 .. toctree::
    :maxdepth: 1
 
-
+	APPC API Guide
+	APPC Client Library Guide
