@@ -65,7 +65,7 @@ public class DbServiceUtil
         File file = new File("/opt/app/bvc/properties/dblib.properties");
         URL propURL = file.toURI().toURL();
         props.load(propURL.openStream());
-        jdbcDataSource = DBResourceManager.create(props);
+        jdbcDataSource = new DBResourceManager(props);
         return jdbcDataSource;
     }
 

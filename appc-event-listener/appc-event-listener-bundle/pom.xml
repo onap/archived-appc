@@ -114,7 +114,7 @@
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Dependency>
-							jasypt,commons-lang,commons-lang3,appc-common,
+							httpclient,httpcore,jasypt,commons-lang,commons-lang3,appc-common,
 							logback-core,logback-classic,eelf-core,commons-logging;scope=compile|runtime;inline=false
 						</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>

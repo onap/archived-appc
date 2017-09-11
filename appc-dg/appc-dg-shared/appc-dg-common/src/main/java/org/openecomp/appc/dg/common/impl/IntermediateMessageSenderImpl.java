@@ -29,7 +29,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.adapter.message.MessageAdapterFactory;
 import org.openecomp.appc.adapter.message.Producer;
 import org.openecomp.appc.configuration.Configuration;
