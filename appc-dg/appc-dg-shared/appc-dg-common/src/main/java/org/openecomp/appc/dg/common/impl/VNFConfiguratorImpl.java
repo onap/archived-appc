@@ -34,7 +34,7 @@ import org.openecomp.appc.mdsal.objects.BundleInfo;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

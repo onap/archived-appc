@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openecomp.appc.dg.common.JsonDgUtil;
 import org.openecomp.appc.exceptions.APPCException;
