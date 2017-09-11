@@ -22,15 +22,33 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.node;
+package org.openecomp.appc.artifact.handler.dbservices;
 
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.Enumeration;
-import java.util.Properties;
+import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
-import org.json.JSONObject;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 
-public class TestArtifactHandlerNode {
+public class MockSvcLogicResource extends SqlResource {
+
+    @Override
+    public QueryStatus query(String resource, boolean localOnly, String select, String key, String prefix,
+            String orderBy, SvcLogicContext ctx) throws SvcLogicException {
+        QueryStatus status = QueryStatus.SUCCESS;
+        ctx.setAttribute("id", "testId");
+        ctx.setAttribute("VNF_TYPE", "testvnf");
+        ctx.setAttribute("maximum", "1");
+        ctx.setAttribute("COUNT(*)", "1");
+        return status;
+    }
+
+
+    @Override
+    public QueryStatus save(String resource, boolean force, boolean localOnly, String key, Map<String, String> parms,
+            String prefix, SvcLogicContext ctx) throws SvcLogicException {
+        return QueryStatus.SUCCESS;
+    }
+
+
 }
