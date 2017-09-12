@@ -76,9 +76,6 @@ public class ArtifactProcessorFactory {
                 artifactProcessor = new LicenseArtifactProcessor(client,eventSender,notification,resource,
                         artifact,storeUri);
                 break;
-            case TOSCA_CSAR:
-                artifactProcessor = new ToscaCsarArtifactProcessor(client,eventSender,notification,resource,
-                        artifact,storeUri);
             default:
                 break;
         }
