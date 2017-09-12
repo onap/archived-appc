@@ -230,6 +230,22 @@ public class TestSequenceGeneratorPlugin {
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
+    @Test
+    public void testGenerateSequenceVnfcNotPresentInInventory() throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/CheckVNfcInInventory.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readOutput("/output/CheckVnfcInInventory.json");
+
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+
     private String readInput(String inputFile) throws URISyntaxException, IOException {
         File file = new File(this.getClass().getResource(inputFile).toURI());
 
@@ -249,7 +265,7 @@ public class TestSequenceGeneratorPlugin {
 
         String output=new String(bFile);
         int start=output.indexOf("[");
-        int last=output.length()-1;
+        int last=output.length();
         return output.substring(start,last);
 
     }

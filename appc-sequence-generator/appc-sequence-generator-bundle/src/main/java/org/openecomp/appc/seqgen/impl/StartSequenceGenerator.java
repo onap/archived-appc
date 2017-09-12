@@ -101,93 +101,77 @@ public class StartSequenceGenerator implements SequenceGenerator {
             for (Vnfc vnfc : vnfcs) {
                 List<Vserver> vms = vnfc.getVserverList();
                 List<Integer> transactionIds = new LinkedList<>();
-                transactionId = updateTransactions(input, transactionList, transactionId, vms, transactionIds);
+                if(!vms.isEmpty()) {
+                    for (Vserver vm : vms) {
+                        Transaction transaction = new Transaction();
+                        transaction.setTransactionId(transactionId);
+                        transactionIds.add(transactionId++);
+                        transaction.setAction(Action.START.getActionType());
+                        transaction.setActionLevel(ActionLevel.VM.getAction());
+                        ActionIdentifier actionIdentifier = new ActionIdentifier();
+                        actionIdentifier.setvServerId(vm.getId());
+                        transaction.setActionIdentifier(actionIdentifier);
+                        transaction.setPayload(input.getRequestInfo().getPayload());
+                        updateResponse(transaction);
+                        transactionList.add(transaction);
+                    }
+                    boolean startApplicationSupported = readApplicationStartCapability(input);
+                    if (startApplicationSupported) {
+                        Transaction startAppTransaction = new Transaction();
+                        startAppTransaction.setTransactionId(transactionId++);
+                        startAppTransaction.setAction(Action.START_APPLICATION.getActionType());
+                        startAppTransaction.setActionLevel(ActionLevel.VNFC.getAction());
+                        ActionIdentifier startActionIdentifier = new ActionIdentifier();
+                        startActionIdentifier.setVnfcName(vnfc.getVnfcName());
+                        startAppTransaction.setActionIdentifier(startActionIdentifier);
+                        startAppTransaction.setPayload(input.getRequestInfo().getPayload());
 
-                boolean startApplicationSupported = readApplicationStartCapability(input);
-                transactionId = checkAndUpdateStartApplication(input, transactionList, transactionId, vnfc, transactionIds, startApplicationSupported);
+                        List<PreCheckOption> preCheckOptions = new LinkedList<>();
+                        for (Integer vmTransactionId : transactionIds) {
+                            setPreCheckOptions(preCheckOptions, vmTransactionId);
+                        }
+                        startAppTransaction.setPreCheckOperator(PreCheckOperator.ANY.getOperator());
+                        startAppTransaction.setPrecheckOptions(preCheckOptions);
+                        transactionList.add(startAppTransaction);
+                    }
+                    boolean healthCheckSupported = readHealthCheckCapabilites(input.getCapability());
+                    if (healthCheckSupported) {
+                        Transaction healthCheckTransaction = new Transaction();
+                        healthCheckTransaction.setTransactionId(transactionId++);
+                        healthCheckTransaction.setAction(Action.HEALTH_CHECK.getActionType());
+                        healthCheckTransaction.setActionLevel(ActionLevel.VNFC.getAction());
+                        ActionIdentifier healthCheckActionIdentifier = new ActionIdentifier();
+                        healthCheckActionIdentifier.setVnfcName(vnfc.getVnfcName());
+                        healthCheckTransaction.setActionIdentifier(healthCheckActionIdentifier);
+                        healthCheckTransaction.setPayload(input.getRequestInfo().getPayload());
 
-                boolean healthCheckSupported = readHealthCheckCapabilites(input.getCapability());
-                transactionId = checkAndUpdateHealthCheck(input, waitTime, retryCount, transactionList, transactionId, vnfc, healthCheckSupported);
+                        Response retryResponse = new Response();
+                        retryResponse.setResponseMessage(ResponseMessage.UNHEALTHY.getResponse());
+                        Map<String, String> retryAction = new HashMap<>();
+                        retryAction.put(ResponseAction.RETRY.getAction(), retryCount.toString());
+                        retryAction.put(ResponseAction.WAIT.getAction(), waitTime.toString());
+                        retryResponse.setResponseAction(retryAction);
+                        healthCheckTransaction.addResponse(retryResponse);
+
+                        Response healthyResponse = new Response();
+                        healthyResponse.setResponseMessage(ResponseMessage.HEALTHY.getResponse());
+                        Map<String, String> healthyAction = new HashMap<>();
+                        healthyAction.put(ResponseAction.CONTINUE.getAction().toLowerCase(), Boolean.TRUE.toString());
+                        healthyResponse.setResponseAction(healthyAction);
+                        healthCheckTransaction.addResponse(healthyResponse);
+
+                        Response failureResponse = new Response();
+                        failureResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
+                        Map<String, String> failureResonseAction = new HashMap<>();
+                        failureResonseAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
+                        failureResponse.setResponseAction(failureResonseAction);
+                        healthCheckTransaction.addResponse(failureResponse);
+                        transactionList.add(healthCheckTransaction);
+                    }
+                }
             }
         }
         return transactionList;
-    }
-
-    private Integer checkAndUpdateHealthCheck(SequenceGeneratorInput input, Integer waitTime, Integer retryCount, List<Transaction> transactionList, Integer transactionId, Vnfc vnfc, boolean healthCheckSupported) {
-        if (healthCheckSupported) {
-            Transaction healthCheckTransaction = new Transaction();
-            healthCheckTransaction.setTransactionId(transactionId++);
-            healthCheckTransaction.setAction(Action.HEALTH_CHECK.getActionType());
-            healthCheckTransaction.setActionLevel(ActionLevel.VNFC.getAction());
-            ActionIdentifier healthCheckActionIdentifier = new ActionIdentifier();
-            healthCheckActionIdentifier.setVnfcName(vnfc.getVnfcName());
-            healthCheckTransaction.setActionIdentifier(healthCheckActionIdentifier);
-            healthCheckTransaction.setPayload(input.getRequestInfo().getPayload());
-
-            Response retryResponse = new Response();
-            retryResponse.setResponseMessage(ResponseMessage.UNHEALTHY.getResponse());
-            Map<String, String> retryAction = new HashMap<>();
-            retryAction.put(ResponseAction.RETRY.getAction(), retryCount.toString());
-            retryAction.put(ResponseAction.WAIT.getAction(), waitTime.toString());
-            retryResponse.setResponseAction(retryAction);
-            healthCheckTransaction.addResponse(retryResponse);
-
-            Response healthyResponse = new Response();
-            healthyResponse.setResponseMessage(ResponseMessage.HEALTHY.getResponse());
-            Map<String, String> healthyAction = new HashMap<>();
-            healthyAction.put(ResponseAction.CONTINUE.getAction().toLowerCase(), Boolean.TRUE.toString());
-            healthyResponse.setResponseAction(healthyAction);
-            healthCheckTransaction.addResponse(healthyResponse);
-
-            Response failureResponse = new Response();
-            failureResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
-            Map<String, String> failureResonseAction = new HashMap<>();
-            failureResonseAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
-            failureResponse.setResponseAction(failureResonseAction);
-            healthCheckTransaction.addResponse(failureResponse);
-            transactionList.add(healthCheckTransaction);
-        }
-        return transactionId;
-    }
-
-    private Integer checkAndUpdateStartApplication(SequenceGeneratorInput input, List<Transaction> transactionList, Integer transactionId, Vnfc vnfc, List<Integer> transactionIds, boolean startApplicationSupported) {
-        if (startApplicationSupported) {
-            Transaction startAppTransaction = new Transaction();
-            startAppTransaction.setTransactionId(transactionId++);
-            startAppTransaction.setAction(Action.START_APPLICATION.getActionType());
-            startAppTransaction.setActionLevel(ActionLevel.VNFC.getAction());
-            ActionIdentifier startActionIdentifier = new ActionIdentifier();
-            startActionIdentifier.setVnfcName(vnfc.getVnfcName());
-            startAppTransaction.setActionIdentifier(startActionIdentifier);
-            startAppTransaction.setPayload(input.getRequestInfo().getPayload());
-
-            List<PreCheckOption> preCheckOptions = new LinkedList<>();
-            for (Integer vmTransactionId : transactionIds) {
-                setPreCheckOptions(preCheckOptions, vmTransactionId);
-            }
-            startAppTransaction.setPreCheckOperator(PreCheckOperator.ANY.getOperator());
-            startAppTransaction.setPrecheckOptions(preCheckOptions);
-            transactionList.add(startAppTransaction);
-        }
-        return transactionId;
-    }
-
-    private Integer updateTransactions(SequenceGeneratorInput input, List<Transaction> transactionList, Integer transactionId, List<Vserver> vms, List<Integer> transactionIds) {
-        for (Vserver vm : vms) {
-            Transaction transaction = new Transaction();
-            transaction.setTransactionId(transactionId);
-            transactionIds.add(transactionId++);
-            transaction.setAction(Action.START.getActionType());
-            transaction.setActionLevel(ActionLevel.VM.getAction());
-            ActionIdentifier actionIdentifier = new ActionIdentifier();
-            actionIdentifier.setvServerId(vm.getId());
-            transaction.setActionIdentifier(actionIdentifier);
-            transaction.setPayload(input.getRequestInfo().getPayload());
-
-            updateResponse(transaction);
-            transactionList.add(transaction);
-        }
-        return transactionId;
     }
 
     private void setPreCheckOptions(List<PreCheckOption> preCheckOptions, Integer vmTransactionId) {
