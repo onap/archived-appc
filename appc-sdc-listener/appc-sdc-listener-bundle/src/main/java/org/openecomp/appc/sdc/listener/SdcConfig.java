@@ -176,6 +176,11 @@ public class SdcConfig implements IConfiguration {
         return user;
     }
 
+    @Override
+    public Boolean isUseHttpsWithDmaap(){
+        return  true;
+    }
+
     URI getStoreOpURI() {
         return storeOp;
     }
