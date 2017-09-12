@@ -113,7 +113,7 @@ public class StopSequenceGenerator implements SequenceGenerator {
             List<Vnfc> vnfcs = itr.next();
             for(Vnfc vnfc:vnfcs){
                 boolean stopApplicationSupported = readApplicationStopCapability(input);
-                if(stopApplicationSupported){
+                if(stopApplicationSupported && !vnfc.getVserverList().isEmpty()){
                     Transaction stopAppTransaction = new Transaction();
                     stopAppTransaction.setTransactionId(transactionId++);
                     stopAppTransaction.setAction(Action.STOP_APPLICATION.getActionType());
