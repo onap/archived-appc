@@ -158,11 +158,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.31</version>
-			<type>jar</type>
-			<scope>compile</scope>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
 		</dependency>
 
 		 <dependency>
@@ -201,7 +198,7 @@
 						<Bundle-Activator>org.openecomp.appc.adapter.ansible.AnsibleActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.adapter.ansible</Export-Package>
 						<Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*, javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*, javax.security.*</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mysql-connector-java|xml-apis</Embed-Dependency>
+						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>

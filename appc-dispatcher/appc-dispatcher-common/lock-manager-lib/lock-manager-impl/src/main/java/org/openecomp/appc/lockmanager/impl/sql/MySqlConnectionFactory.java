@@ -32,6 +32,6 @@ import org.openecomp.appc.dao.util.DefaultJdbcConnectionFactory;
 public class MySqlConnectionFactory extends DefaultJdbcConnectionFactory {
 
     protected void registedDriver() throws SQLException {
-        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
     }
 }
