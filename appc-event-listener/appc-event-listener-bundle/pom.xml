@@ -108,7 +108,7 @@
 						<Bundle-SymbolicName>org.openecomp.appc.listener</Bundle-SymbolicName>
 						<Bundle-Activator>org.openecomp.appc.listener.AppcEventListenerActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.listener</Export-Package>
-						<Import-Package>org.apache.http,org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*
+						<Import-Package>org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*
 							org.openecomp.appc.exceptions, org.openecomp.appc.util,
 							com.att.eelf.configuration, com.att.eelf.i18n,
 							*;resolution:=optional
