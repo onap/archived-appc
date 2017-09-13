@@ -3,7 +3,7 @@
 TODO Add files to toctree and delete this header
 ------------------------------------------------
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-	APPC API Guide
-	APPC Client Library Guide
+   APPC API Guide/APPC API Guide
+   APPC Client Library Guide/APPC Client Library Guide

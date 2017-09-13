@@ -16,8 +16,6 @@ NAP Application Controller (APPC) Client Library Guide
 
 |
 
-**
-**
 
 1. .. rubric:: Introduction
       :name: introduction
@@ -90,7 +88,7 @@ Authors and Contributors
     contributors to this document.
 
 +--------------------+----------------------+
-| **Contributors**   |
+| **Contributors**   |                      |
 +====================+======================+
 | Borislav Glozman   | Margrethe Fossberg   |
 +--------------------+----------------------+
@@ -245,7 +243,7 @@ APP-C Client Library Flow
     |image0|
 
 Asynchronous Flow
-~~~~~~~~~~~~~~~~~
+-----------------
 
 -  The APPC Client Library is called using an asynchronous API using a
    full command object, which is mapped to a JSON representation.
@@ -289,7 +287,7 @@ Asynchronous Flow
     /gerrit.onap.org/r/p/appc.git/appc-client.
 
 Initialization
-~~~~~~~~~~~~~~~~
+--------------
 
     Initialize the client by calling the following method:
 
@@ -318,7 +316,7 @@ Initialization
 -  "client.graceful.shutdown.timeout"
 
 Shutdown
-~~~~~~~~
+--------
 
 Shutdown the client by calling the following method:
 
@@ -332,7 +330,7 @@ If the isForceShutdown flag is set to true, the client shuts down
 immediately.
 
 Invoking LCM Commands
-~~~~~~~~~~~~~~~~~~~~~
+---------------------
 
 Invoke the LCM commands by:
 
