@@ -36,6 +36,10 @@
           <artifactId>appc-common</artifactId>
           <version>${project.version}</version>
       </dependency>
+      <dependency>
+          <groupId>org.mariadb.jdbc</groupId>
+          <artifactId>mariadb-java-client</artifactId>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -48,7 +52,7 @@
                     <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                     <Export-Package>org.openecomp.appc.dao.util</Export-Package>
                     <Import-Package>org.openecomp.appc.configuration,*;resolution:=optional</Import-Package>
-                    <Embed-Dependency>mysql-connector-java</Embed-Dependency>
+                    <Embed-Dependency>mariadb-java-client</Embed-Dependency>
                     <Embed-Transitive>true</Embed-Transitive>
                 </instructions>
             </configuration>
