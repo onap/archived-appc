@@ -31,7 +31,7 @@ import org.openecomp.appc.configuration.ConfigurationFactory;
 
 @Deprecated
 public class DBUtils {
-	private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
 	private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 	static {
 		try {
@@ -43,7 +43,7 @@ public class DBUtils {
 	}
 
 	public static Connection getConnection(String schema) throws SQLException {
-		DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+		DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
 		String dbURL = configuration.getProperty(String.format("org.openecomp.appc.db.url.%s", schema), "");
 		String userName = configuration.getProperty(String.format("org.openecomp.appc.db.user.%s", schema), "");
 		String password = configuration.getProperty(String.format("org.openecomp.appc.db.pass.%s", schema), "");

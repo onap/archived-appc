@@ -17,7 +17,6 @@
     <properties>
         <sdnctl.sql.resource.version>${sdnctl.sli.version}</sdnctl.sql.resource.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mysql.connector.version>5.1.39</mysql.connector.version>
     </properties>
 
     <dependencyManagement>
