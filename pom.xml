@@ -64,7 +64,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         <apache.httpcomponents.version>4.4</apache.httpcomponents.version>
         <commons.lang3.version>3.4</commons.lang3.version>
         <antlr.version>4.5.1</antlr.version>
-        <mysql.connector.version>5.1.39</mysql.connector.version>
         <logback.version>1.1.1</logback.version>
         <toscalib.version>1.1.0</toscalib.version>
         <sdc-client.version>1.1.13-SNAPSHOT</sdc-client.version>
@@ -396,6 +395,12 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <groupId>com.att.eelf</groupId>
                 <artifactId>eelf-core</artifactId>
                 <version>${eelf.version}</version>
+            </dependency>
+            <!-- Maria DB -->
+            <dependency>
+                <groupId>org.mariadb.jdbc</groupId>
+                <artifactId>mariadb-java-client</artifactId>
+                <version>1.2.3</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
