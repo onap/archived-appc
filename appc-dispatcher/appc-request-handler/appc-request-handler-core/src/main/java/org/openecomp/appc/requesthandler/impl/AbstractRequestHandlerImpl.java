@@ -411,7 +411,7 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to calculateRemainingTTL with RequestHeader = " + ObjectUtils.toString(commonHeader));
         }
-        long usedTimeInMillis = (System.currentTimeMillis() - commonHeader.getTimeStamp().getEpochSecond());
+        long usedTimeInMillis = (System.currentTimeMillis() - commonHeader.getTimeStamp().toEpochMilli());
         logger.debug("usedTimeInMillis = " + usedTimeInMillis);
         int usedTimeInSeconds = Math.round(usedTimeInMillis / 1000);
         logger.debug("usedTimeInSeconds = " + usedTimeInSeconds);
