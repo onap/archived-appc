@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_42735b15",
+        "filename": "appc-directed-graph/dg-loader/provider/src/main/java/org/openecomp/sdnc/dg/loader/DGXMLLoadNActivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-15T13:48:12Z",
+      "side": 1,
+      "message": "Looks good.   Is there a way to include links to the sonar issues that have been resolved?",
+      "revId": "78ad4dbe2169488c0aa426e7da6952381f85b170",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
