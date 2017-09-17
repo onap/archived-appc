@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_3662d53e",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/openecomp/appc/adapter/chef/chefapi/ApiMethod.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-17T14:34:47Z",
+      "side": 1,
+      "message": "Just for my understanding, does any of the license text need to be updated?",
+      "revId": "c7c1c563135c8e86d9e04ca7698f47580f5e9086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d65ee975",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/test/java/org/openecomp/appc/adapter/chef/chefclient/TestChefApiClient.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-17T14:34:47Z",
+      "side": 1,
+      "message": "Missing license text?",
+      "revId": "c7c1c563135c8e86d9e04ca7698f47580f5e9086",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
