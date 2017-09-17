@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_76785df2",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/main/java/org/openecomp/appc/adapter/rest/RequestFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-17T14:28:53Z",
+      "side": 1,
+      "message": "Line length \u003e 120",
+      "revId": "6475b40bcbb943aa52beec12fc8b54d671d9e429",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
