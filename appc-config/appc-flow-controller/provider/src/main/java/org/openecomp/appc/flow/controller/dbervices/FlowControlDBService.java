@@ -104,8 +104,7 @@ public class FlowControlDBService {
             if(status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error - while getting FlowReferenceData ");
         }
-                    
-        return localContext.getAttribute("artifact-content");
+        return localContext != null ? localContext.getAttribute("artifact-content") : null;
     }
     public QueryStatus loadSequenceIntoDB(SvcLogicContext localContext) throws SvcLogicException {
         String fn = "DBService.saveArtifacts";
@@ -121,7 +120,7 @@ public class FlowControlDBService {
         
         
         QueryStatus status = null;
-        if (serviceLogic != null && localContext != null) {
+        if (serviceLogic != null) {
             String queryString = "INSERT INTO " + FlowControllerConstants.DB_REQUEST_ARTIFACTS + 
                         " set request_id =  $" + FlowControllerConstants.REQUEST_ID + 
                         " , action =  $" + FlowControllerConstants.REQUEST_ACTION + 
@@ -142,7 +141,7 @@ public class FlowControlDBService {
         String fn = "FlowControlDBService.populateModuleAndRPC ";
         QueryStatus status = null;
         SvcLogicContext context = new SvcLogicContext();        
-        if (serviceLogic != null && context != null) {    
+        if (serviceLogic != null) {
             String key = "select execution_type, execution_module, execution_rpc from " + FlowControllerConstants.DB_PROCESS_FLOW_REFERENCE + 
                         " where action = '" + transaction.getAction() + "'" + 
                         " and action_level = '" + transaction.getActionLevel() + "'" + 
@@ -187,8 +186,9 @@ public class FlowControlDBService {
             if(status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error - while getting dependencyData ");
         }
-                    
-        return localContext.getAttribute("artifact-content");
+
+        return localContext != null ? localContext.getAttribute("artifact-content") : null;
+
     }
     
         public String getCapabilitiesData(SvcLogicContext localContext) throws SvcLogicException {
@@ -214,7 +214,6 @@ public class FlowControlDBService {
                 if(status.toString().equals("FAILURE"))
                     throw new SvcLogicException("Error - while getting capabilitiesData ");
             }
-                        
-            return localContext.getAttribute("artifact-content");
+            return localContext != null ? localContext.getAttribute("artifact-content") : null;
         }
 }
