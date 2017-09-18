@@ -24,18 +24,17 @@
 
 package org.openecomp.appc.artifact.handler.dbservices;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
+import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.sql.SQLException;
+import java.util.HashMap;
 
 public class DBService {
 
@@ -202,36 +201,39 @@ public class DBService {
         QueryStatus status = null;
         whereClause = " where VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
 
-        if (db != null && db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)
-                && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
-                        .equals(SdcArtifactHandlerConstants.CAPABILITY)
-                && context.getAttribute(SdcArtifactHandlerConstants.ACTION) == null) {
-            whereClause = whereClause + " and FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY;
+        if (db != null) {
+            if (db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)
+                    && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
+                    .equals(SdcArtifactHandlerConstants.CAPABILITY)
+                    && context.getAttribute(SdcArtifactHandlerConstants.ACTION) == null) {
+                whereClause = whereClause + " and FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY;
+            }
+
+            else if (db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)) {
+                whereClause = whereClause + " and VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE
+                        + " and FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY + " and ACTION = $"
+                        + SdcArtifactHandlerConstants.ACTION;
+            }
+
+            else if (db.equals(SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE)) {
+                whereClause = " where PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG)) {
+                whereClause = whereClause + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_VNFC_REFERENCE)) {
+                int vm_instance = -1;
+                if (context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE) != null)
+                    vm_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
+                int vnfc_instance = -1;
+                if (context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE) != null)
+                    vnfc_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
+                whereClause = whereClause + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION + " and VNFC_TYPE = $"
+                        + SdcArtifactHandlerConstants.VNFC_TYPE + " and VNFC_INSTANCE = $"
+                        + SdcArtifactHandlerConstants.VNFC_INSTANCE + " and VM_INSTANCE = $"
+                        + SdcArtifactHandlerConstants.VM_INSTANCE;
+
+            }
         }
 
-        else if (db != null && db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)) {
-            whereClause = whereClause + " and VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE
-                    + " and FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY + " and ACTION = $"
-                    + SdcArtifactHandlerConstants.ACTION;
-        }
-
-        else if (db.equals(SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE)) {
-            whereClause = " where PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
-        } else if (db.equals(SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG)) {
-            whereClause = whereClause + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION;
-        } else if (db.equals(SdcArtifactHandlerConstants.DB_VNFC_REFERENCE)) {
-            int vm_instance = -1;
-            if (context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE) != null)
-                vm_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
-            int vnfc_instance = -1;
-            if (context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE) != null)
-                vnfc_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
-            whereClause = whereClause + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION + " and VNFC_TYPE = $"
-                    + SdcArtifactHandlerConstants.VNFC_TYPE + " and VNFC_INSTANCE = $"
-                    + SdcArtifactHandlerConstants.VNFC_INSTANCE + " and VM_INSTANCE = $"
-                    + SdcArtifactHandlerConstants.VM_INSTANCE;
-
-        }
         if (serviceLogic != null && context != null) {
             String key = "select COUNT(*) from " + db + whereClause;
             log.info("SELECT String : " + key);
@@ -354,7 +356,7 @@ public class DBService {
 
         if (serviceLogic != null && context != null)
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
-        if (status.toString().equals("FAILURE"))
+        if ((status == null) || status.toString().equals("FAILURE"))
             throw new SvcLogicException("Error While processing DOWNLOAD_DG_REFERENCE table ");
     }
 
@@ -378,7 +380,7 @@ public class DBService {
 
             if (serviceLogic != null && context != null)
                 status = serviceLogic.save("SQL", false, false, key, null, null, context);
-            if (status.toString().equals("FAILURE"))
+            if ((status == null) || status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error While processing Configure DG Action table ");
         } else
             log.info("No Update required for Config DG Action");
@@ -420,7 +422,7 @@ public class DBService {
 
         if (serviceLogic != null && context != null)
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
-        if (status.toString().equals("FAILURE"))
+        if ((status == null) || status.toString().equals("FAILURE"))
             throw new SvcLogicException("Error While processing Configure DG Action table ");
 
     }
@@ -439,10 +441,7 @@ public class DBService {
 
         if (serviceLogic != null && context != null)
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
-        if (status.toString().equals("FAILURE"))
+        if ((status == null) || status.toString().equals("FAILURE"))
             throw new SvcLogicException("Error While processing insertProtocolReference ");
-
     }
-
-
 }
