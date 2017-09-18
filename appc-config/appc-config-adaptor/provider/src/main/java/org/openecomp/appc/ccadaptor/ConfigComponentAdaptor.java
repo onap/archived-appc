@@ -165,8 +165,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor
             password = EncryptionTool.getInstance().decrypt(password);
             String fullPathFileName = parameters.get("fullPathFileName");
             String data = null;
-            if (key.equals("put"))
-                data = parameters.get("data");
 
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             log.debug("SCP: SshJcraftWrapper has been instantiated");
@@ -175,21 +173,27 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor
             {
                 if (key.equals("put"))
                 {
-                    debugLog.printRTAriDebug(fnName, "Command is for put: Length of data is: " + data.length());
-                    InputStream is = new ByteArrayInputStream(data.getBytes());
-                    log.debug("SCP: Doing a put: fullPathFileName=" + fullPathFileName);
-                    debugLog.printRTAriDebug(fnName, "SCP: Doing a put: fullPathFileName=" + fullPathFileName);
-                    sshJcraftWrapper.put(is, fullPathFileName, host, loginId, password);
-                    try
-                    {
-                        debugLog.printRTAriDebug(fnName, "Sleeping for 180 seconds....");
-                        Thread.sleep(1000 * 180);
-                        debugLog.printRTAriDebug(fnName, "Woke up....");
-                    }
-                    catch (java.lang.InterruptedException ee)
-                    {
-                        boolean ignore = true;
-                    }
+                    data = parameters.get("data");
+                    if (data != null) {
+                        debugLog.printRTAriDebug(fnName, "Command is for put: Length of data is: " + data.length());
+                        InputStream is = new ByteArrayInputStream(data.getBytes());
+                        log.debug("SCP: Doing a put: fullPathFileName=" + fullPathFileName);
+                        debugLog.printRTAriDebug(fnName, "SCP: Doing a put: fullPathFileName=" + fullPathFileName);
+                        sshJcraftWrapper.put(is, fullPathFileName, host, loginId, password);
+                        try
+                        {
+                            debugLog.printRTAriDebug(fnName, "Sleeping for 180 seconds....");
+                            Thread.sleep(1000 * 180);
+                            debugLog.printRTAriDebug(fnName, "Woke up....");
+                        }
+                        catch (java.lang.InterruptedException ee)
+                        {
+                            boolean ignore = true;
+                        }
+                    } else {
+                        r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;                        
+                        log.debug(fnName + " Command is for put: data is null");
+                    }                    
                 }
                 else     // Must be a get
                 {
