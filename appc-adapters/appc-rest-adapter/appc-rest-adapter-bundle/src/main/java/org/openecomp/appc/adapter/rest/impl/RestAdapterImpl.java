@@ -197,7 +197,7 @@ public class RestAdapterImpl implements RestAdapter {
 
     public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc){
         HttpRequestBase httpRequest = null;
-        try {
+        try{
             String tUrl = params.get("org.openecomp.appc.instance.URI");
             String haveHeader = params.get("org.openecomp.appc.instance.haveHeader");
             String headers = params.get("org.openecomp.appc.instance.headers");
@@ -228,7 +228,6 @@ public class RestAdapterImpl implements RestAdapter {
             }
         } catch (Exception ex) {
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
-			httpRequest.close();
         }
         return httpRequest;
     }
