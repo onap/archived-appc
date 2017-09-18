@@ -165,8 +165,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor
             password = EncryptionTool.getInstance().decrypt(password);
             String fullPathFileName = parameters.get("fullPathFileName");
             String data = null;
-            if (key.equals("put"))
-                data = parameters.get("data");
 
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             log.debug("SCP: SshJcraftWrapper has been instantiated");
@@ -175,6 +173,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor
             {
                 if (key.equals("put"))
                 {
+                    data = parameters.get("data");
                     debugLog.printRTAriDebug(fnName, "Command is for put: Length of data is: " + data.length());
                     InputStream is = new ByteArrayInputStream(data.getBytes());
                     log.debug("SCP: Doing a put: fullPathFileName=" + fullPathFileName);
