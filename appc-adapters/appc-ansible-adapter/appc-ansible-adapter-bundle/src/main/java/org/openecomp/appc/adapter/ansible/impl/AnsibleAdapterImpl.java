@@ -230,18 +230,18 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         try{
             String clientType = props.getProperty("org.openecomp.appc.adapter.ansible.clientType");
-	    logger.info("Ansible http client type set to " + clientType);
+            logger.info("Ansible http client type set to " + clientType);
 
-            if (clientType.equals("TRUST_ALL")){
+            if ("TRUST_ALL".equals(clientType)){
                 logger.info("Creating http client to trust ALL ssl certificates. WARNING. This should be done only in dev environments");
                 http_client = new ConnectionBuilder(1);
             }
-            else if (clientType.equals("TRUST_CERT")){
+            else if ("TRUST_CERT".equals(clientType)){
                 // set path to keystore file
                 String trustStoreFile = props.getProperty("org.openecomp.appc.adapter.ansible.trustStore");
                 String key  = props.getProperty("org.openecomp.appc.adapter.ansible.trustStore.trustPasswd");
                 char [] trustStorePasswd = key.toCharArray();
-                String trustStoreType = "JKS";
+
                 logger.info("Creating http client with trustmanager from " + trustStoreFile);
                 http_client = new ConnectionBuilder(trustStoreFile, trustStorePasswd);
             }
