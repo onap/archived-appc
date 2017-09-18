@@ -47,8 +47,7 @@ import java.util.TimeZone;
 
 public class Converter {
     private static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
-
+    private final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
     static {
         isoFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
