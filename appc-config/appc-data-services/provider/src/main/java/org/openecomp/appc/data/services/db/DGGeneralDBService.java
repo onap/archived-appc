@@ -417,7 +417,7 @@ public class DGGeneralDBService {
          QueryStatus status = null;
          SvcLogicContext localContext = new SvcLogicContext();
          localContext.setAttribute("vnf-type", vnf_type);
-         if (serviceLogic != null && localContext  != null) {
+         if (serviceLogic != null) {
                  String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from ASDC_ARTIFACTS " +
                                   " where artifact_name in (select artifact_name from ASDC_REFERENCE  where vnf_type= $vnf-type "  +
                              " and file_category = 'capability' )" ;
