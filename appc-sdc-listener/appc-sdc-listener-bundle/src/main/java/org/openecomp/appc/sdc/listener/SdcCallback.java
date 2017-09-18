@@ -83,8 +83,8 @@ public class SdcCallback implements INotificationCallback {
                 BundleContext bctx = FrameworkUtil.getBundle(EventSender.class).getBundleContext();
                 ServiceReference sref = bctx.getServiceReference(EventSender.class);
                 eventSender = (EventSender) bctx.getService(sref);
-            } catch (Throwable t) {
-                logger.error("SdcCallback failed on initializing EventSender", t);
+            } catch (Exception e) {
+                logger.error("SdcCallback failed on initializing EventSender", e);
             }
         }
 
