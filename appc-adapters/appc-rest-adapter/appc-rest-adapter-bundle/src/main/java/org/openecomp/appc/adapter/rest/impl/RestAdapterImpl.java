@@ -179,8 +179,7 @@ public class RestAdapterImpl implements RestAdapter {
     }
 
     public void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc){
-        try {
-            CloseableHttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpResponse response = httpClient.execute(httpRequest);
             int responseCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
@@ -194,9 +193,6 @@ public class RestAdapterImpl implements RestAdapter {
         catch (Exception ex) {
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
         }
-		finally {
-			httpClient.close();
-		}
     }
 
     public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc){
