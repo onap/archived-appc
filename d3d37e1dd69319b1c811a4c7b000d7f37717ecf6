@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_c4274e63",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/openecomp/appc/flow/controller/dbervices/FlowControlDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-18T22:38:41Z",
+      "side": 1,
+      "message": "https://sonar.onap.org/issues/search#issues\u003dAV36PmxK89V-MRZU59E0",
+      "revId": "d3d37e1dd69319b1c811a4c7b000d7f37717ecf6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_a42a0a2a",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/openecomp/appc/flow/controller/dbervices/FlowControlDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-18T22:38:41Z",
+      "side": 1,
+      "message": "https://sonar.onap.org/issues/search#issues\u003dAV36PmxJ89V-MRZU59El\ncheck for localContext equal null instead of serviceLogic. serviceLogic is instantiated in the constructor and is never null.   localContext might be null.",
+      "revId": "d3d37e1dd69319b1c811a4c7b000d7f37717ecf6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_8421464f",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/openecomp/appc/flow/controller/dbervices/FlowControlDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-18T22:38:41Z",
+      "side": 1,
+      "message": "https://sonar.onap.org/issues/search#issues\u003dAV36PmxJ89V-MRZU59El\nThe entire if can be removed since both serviceLogic and context are never null.",
+      "revId": "d3d37e1dd69319b1c811a4c7b000d7f37717ecf6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_641c2214",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/openecomp/appc/flow/controller/dbervices/FlowControlDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-18T22:38:41Z",
+      "side": 1,
+      "message": "https://sonar.onap.org/issues/search#issues\u003dAV36PmxJ89V-MRZU59El",
+      "revId": "d3d37e1dd69319b1c811a4c7b000d7f37717ecf6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
