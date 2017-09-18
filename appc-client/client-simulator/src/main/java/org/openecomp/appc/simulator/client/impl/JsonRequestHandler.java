@@ -151,7 +151,7 @@ public class JsonRequestHandler implements RequestHandler {
             if ((mode % 2) == 0) {
                 return modeT.SYNCH;
             }
-        }catch (Throwable ex) {
+        }catch (Exception ex) {
             //use ASYNC as default, if value is not integer.
         }
         return modeT.ASYNCH;
