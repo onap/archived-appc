@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.glassfish.grizzly.http.util.HttpStatus;
@@ -44,6 +45,7 @@ import org.openecomp.appc.adapter.rest.RestAdapter;
 import org.openecomp.appc.adapter.rest.RequestFactory;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.openecomp.appc.util.httpClient;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Iterator;
@@ -178,7 +180,7 @@ public class RestAdapterImpl implements RestAdapter {
 
     public void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc){
         try {
-            HttpClient httpClient = HttpClients.createDefault();
+            CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpResponse response = httpClient.execute(httpRequest);
             int responseCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
@@ -192,6 +194,9 @@ public class RestAdapterImpl implements RestAdapter {
         catch (Exception ex) {
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
         }
+		finally {
+			httpClient.close();
+		}
     }
 
     public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc){
@@ -227,6 +232,7 @@ public class RestAdapterImpl implements RestAdapter {
             }
         } catch (Exception ex) {
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
+			httpRequest.close();
         }
         return httpRequest;
     }
