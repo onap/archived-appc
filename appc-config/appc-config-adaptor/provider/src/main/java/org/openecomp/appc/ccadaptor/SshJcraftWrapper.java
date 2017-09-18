@@ -1128,9 +1128,11 @@ public class SshJcraftWrapper
     }
     catch (Exception e)
     {
-		  debugLog.printRTAriDebug (fn, "Caught an Exception, e="+e);
-      sftpSession.disconnect();
-      sftpSession = null;
+		debugLog.printRTAriDebug (fn, "Caught an Exception, e="+e);
+		if (sftpSession != null) {
+			sftpSession.disconnect();
+		}
+		sftpSession = null;
       // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
 			throw new IOException(e.toString());
     }
@@ -1168,9 +1170,11 @@ public class SshJcraftWrapper
     }
     catch (Exception e)
     {
-		  debugLog.printRTAriDebug (fn, "Caught an Exception, e="+e);
-      sftpSession.disconnect();
-      sftpSession = null;
+		debugLog.printRTAriDebug (fn, "Caught an Exception, e="+e);
+		if (sftpSession != null) {
+			sftpSession.disconnect();
+		}
+		sftpSession = null;
       // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
 			throw new IOException(e.toString());
     }
