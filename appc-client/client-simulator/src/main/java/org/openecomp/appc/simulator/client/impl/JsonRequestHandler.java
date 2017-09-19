@@ -24,8 +24,13 @@
 
 package org.openecomp.appc.simulator.client.impl;
 
-import org.openecomp.appc.client.lcm.api.*;
-import org.openecomp.appc.client.lcm.exceptions.*;
+import org.openecomp.appc.client.lcm.api.AppcClientServiceFactoryProvider;
+import org.openecomp.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
+import org.openecomp.appc.client.lcm.api.ApplicationContext;
+import org.openecomp.appc.client.lcm.api.LifeCycleManagerStateful;
+import org.openecomp.appc.client.lcm.api.ResponseHandler;
+
+import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
 import org.openecomp.appc.simulator.client.RequestHandler;
 
 import com.att.eelf.configuration.EELFLogger;
@@ -34,7 +39,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Properties;
@@ -71,22 +80,15 @@ public class JsonRequestHandler implements RequestHandler {
     }
 
     private HashMap<String,String> prepareExceptionsMap() {
-        exceptRpcMap = new HashMap<String, String>();
+        exceptRpcMap = new HashMap<>();
 
-        String line;
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(properties.getProperty("client.rpc.exceptions.map.file")));
-        } catch (FileNotFoundException e) {
-            return exceptRpcMap;
-        }
-
-        try {
-            while ((line = reader.readLine()) != null)
-            {
+        try (BufferedReader reader = new BufferedReader(
+                 new FileReader(properties.getProperty(
+                      "client.rpc.exceptions.map.file")))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(":", 2);
-                if (parts.length >= 2)
-                {
+                if (parts.length >= 2) {
                     String key = parts[0];
                     String value = parts[1];
                     exceptRpcMap.put(key, value);
@@ -94,15 +96,12 @@ public class JsonRequestHandler implements RequestHandler {
                     System.out.println("ignoring line: " + line);
                 }
             }
+        } catch (FileNotFoundException e) {
+            return exceptRpcMap;
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        try {
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         return exceptRpcMap;
     }
 
