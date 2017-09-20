@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_f74b1d85",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/openecomp/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-20T01:00:57Z",
+      "side": 1,
+      "message": "Tabs should be removed.",
+      "revId": "201486d26f91e7943234ddbf32b1cb3ee688e511",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_d74ed995",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/openecomp/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-20T01:00:57Z",
+      "side": 1,
+      "message": "ditto on tabs",
+      "revId": "201486d26f91e7943234ddbf32b1cb3ee688e511",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
