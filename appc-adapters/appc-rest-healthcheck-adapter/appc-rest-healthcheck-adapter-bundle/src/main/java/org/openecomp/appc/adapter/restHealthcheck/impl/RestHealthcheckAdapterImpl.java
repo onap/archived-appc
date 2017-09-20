@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.adapter.restHealthcheck.RestHealthcheckAdapter;
@@ -258,9 +259,8 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
 
-		try {
+		try(CloseableHttpClient httpClient = HttpClients.createDefault()) {
 			HttpGet httpGet = new HttpGet(tUrl);
-			HttpClient httpClient = HttpClients.createDefault();
 			HttpResponse response = null;
 			response = httpClient.execute(httpGet);
 			int responseCode=response.getStatusLine().getStatusCode();
