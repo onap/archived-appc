@@ -443,5 +443,44 @@ public class DBService {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
         if ((status == null) || status.toString().equals("FAILURE"))
             throw new SvcLogicException("Error While processing insertProtocolReference ");
+        
     }
+    
+    public boolean isProtocolReferenceUpdateRequired(SvcLogicContext context, String vnfType, String protocol,
+             String action, String action_level, String template) throws SvcLogicException {
+        SvcLogicContext localContext = new SvcLogicContext();
+        String fn = "DBService.isProtocolReferenceUpdateRequired";
+        log.info(fn + "Starting DB operation for  isProtocolReferenceUpdateRequired");
+        String key = "";
+        QueryStatus status = null;
+
+        key = "select COUNT(*) from PROTOCOL_REFERENCE where ACTION='" + action + "' and ACTION_LEVEL='" + action_level
+                + "' and VNF_TYPE='" + vnfType + "'";
+        status = serviceLogic.query("SQL", false, null, key, null, null, localContext);
+        String countStr = localContext.getAttribute("COUNT(*)");
+        int count = Integer.parseInt(countStr);
+        if (count > 0)
+            return true;
+        else
+            return false;
+    }
+
+    public void updateProtocolReference(SvcLogicContext context, String vnfType, String protocol, String action,
+                String action_level, String template) throws SvcLogicException {
+
+        String fn = "DBService.isProtocolReferenceUpdateRequired";
+        log.info(fn + "Starting DB operation for  isProtocolReferenceUpdateRequired");
+        String key = "";
+        QueryStatus status = null;
+
+        key = "update PROTOCOL_REFERENCE set UPDATED_DATE=now(), template='" + template + "' where ACTION='" + action
+                + "' and ACTION_LEVEL='" + action_level + "' and VNF_TYPE='" + vnfType + "'";
+        status = serviceLogic.save("SQL", false, false, key, null, null, context);
+        if (status == QueryStatus.FAILURE) {
+            log.info("updateProtocolReference:: Error updating protocol reference");
+            throw new SvcLogicException("Error - updating PROTOCOL_REFERENCE_TABLE in updateProtocolReference");
+        }
+        return;
+    }
+
 }

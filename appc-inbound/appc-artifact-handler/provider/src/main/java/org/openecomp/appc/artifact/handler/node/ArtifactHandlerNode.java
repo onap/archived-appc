@@ -501,7 +501,11 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             if (content.has(SdcArtifactHandlerConstants.TEMPLATE)
                     && !content.isNull(SdcArtifactHandlerConstants.TEMPLATE))
                 template = content.getString(SdcArtifactHandlerConstants.TEMPLATE);
-            dbservice.insertProtocolReference(context, vnfType, protocol, action, actionLevel, template);
+            boolean isUpdateNeeded=dbservice.isProtocolReferenceUpdateRequired(context, vnfType, protocol, action, actionLevel, template);
+            if (isUpdateNeeded)
+                dbservice.updateProtocolReference(context, vnfType, protocol, action, actionLevel, template);
+            else
+                dbservice.insertProtocolReference(context, vnfType,protocol,action,actionLevel,template);
         } catch (Exception e) {
             log.error("Error inserting record into protocolReference: " + e.toString());
             throw e;
