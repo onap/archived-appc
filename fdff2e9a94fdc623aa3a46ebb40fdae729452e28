@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_630d2f3e",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/openecomp/appc/flow/controller/data/PrecheckOption.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-20T13:02:03Z",
+      "side": 1,
+      "message": "Please use google code sytle, replacing tabs with 4 spaces. \nhttps://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "fdff2e9a94fdc623aa3a46ebb40fdae729452e28",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
