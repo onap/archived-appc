@@ -79,6 +79,17 @@ public class PrecheckOption {
         this.rule = rule;
     }
 
+	 @Override
+		public int hashCode() {
+		  final int prime = 31;
+		  int result = 1;
+		  result = prime * result + this.pTransactionID;
+		  result = prime * result + this.paramName.hashCode();
+		  result = prime * result + this.paramValue.hashCode();
+		  result = prime * result + this.rule.hashCode();
+		  return result;
+		}
+		
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
