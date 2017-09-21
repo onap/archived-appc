@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_281b7a82",
+        "filename": "appc-common/src/main/java/org/openecomp/appc/util/StructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-09-21T14:47:15Z",
+      "side": 1,
+      "message": "It would be helpful to have a link to the sonar issue you are addressing.    https://sonar.onap.org/issues/search#issues\u003dAVplt-TPtgRA9ZMwXNQH",
+      "revId": "9647cc9074a6ba71cfad6e1ea4663f7fbdd947fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
