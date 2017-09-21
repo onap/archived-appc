@@ -219,6 +219,11 @@ public class StructuredPropertyHelper {
          */
         @Override
         public boolean equals(Object obj) {
+            if (obj == null)
+                return false;
+            if (this.getClass() != obj.getClass())
+                return false;
+
             Node other = (Node) obj;
             boolean result = name.equals(other.name);
 
