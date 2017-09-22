@@ -24,21 +24,28 @@
 
 package org.openecomp.appc.statemachine.objects;
 
+/**
+ * Event Object
+ */
 public class Event{
+    private final String eventName;
+    private final int hashCode;
 
-    private String eventName;
-
-    private Event(){
-        // do nothing
+    /**
+     * Constructor
+     * @param eventName String of the event name
+     */
+    public Event(String eventName) {
+        this.eventName = eventName;
+        this.hashCode = this.eventName.toLowerCase().hashCode();
     }
 
     @Override
-    public int hashCode(){
-        return this.eventName.hashCode();
+    public int hashCode() {
+        return hashCode;
     }
-
     @Override
-    public boolean equals(Object obj){
+    public boolean equals(Object obj) {
         if(obj == null){
             return false;
         }
@@ -46,15 +53,10 @@ public class Event{
             return false;
         }
         Event event = (Event)obj;
-        return this.eventName.equals(event.getEventName());
+        return this.eventName.equalsIgnoreCase(event.getEventName());
     }
 
-    public Event(String eventName){
-        this();
-        this.eventName = eventName;
-    }
-
-    private String getEventName() {
+    public String getEventName() {
         return eventName;
     }
 

@@ -36,11 +36,14 @@ import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
 import org.openecomp.appc.statemachine.objects.StateMachineResponse;
 import org.openecomp.appc.statemachine.objects.Transition;
 
-
+/**
+ * Implementation of StateMachine
+ */
 public class StateMachineImpl implements StateMachine {
+    private final String invalidInputFormat = "VNF State or incoming event is invalid. State = %s event = %s";
+    final String toStringFormat = "StateMachineImpl{states=%s, events=%s}";
 
     private final Set<State> states;
-
     private final Set<Event> events;
 
     StateMachineImpl(StateMachineMetadata metadata){
@@ -50,14 +53,16 @@ public class StateMachineImpl implements StateMachine {
         this.events.addAll(metadata.getEvents());
     }
 
+    @Override
     public StateMachineResponse handleEvent(State inputState, Event event) throws InvalidInputException{
 
         if(!validateInputs(inputState,event)){
-            throw new InvalidInputException("VNF State or incoming event is invalid. State = " +inputState + " event = " + event );
+            throw new InvalidInputException(String.format(invalidInputFormat, inputState, event));
         }
 
         StateMachineResponse response = new StateMachineResponse();
-        State currentState = null,nextState = null;
+        State currentState = null;
+        State nextState = null;
         for(State stateInSet:states){
             if(stateInSet.equals(inputState)){
                 currentState = stateInSet;
@@ -84,15 +89,15 @@ public class StateMachineImpl implements StateMachine {
         return response;
     }
 
-    private boolean validateInputs(State state,Event event) {
-        return state != null && event != null && this.states.contains(state) && this.events.contains(event);
+    boolean validateInputs(State state,Event event) {
+        return state != null
+                && event != null
+                && this.states.contains(state)
+                && this.events.contains(event);
     }
 
     @Override
     public String toString() {
-        return "StateMachineImpl{" +
-                "states=" + states +
-                ", events=" + events +
-                '}';
+        return String.format(toStringFormat, states, events);
     }
 }

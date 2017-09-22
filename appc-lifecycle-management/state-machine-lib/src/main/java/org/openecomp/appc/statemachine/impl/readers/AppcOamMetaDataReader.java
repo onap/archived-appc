@@ -29,8 +29,14 @@ import org.openecomp.appc.statemachine.objects.Event;
 import org.openecomp.appc.statemachine.objects.State;
 import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
 
+/**
+ * Reader for APPC OAM MetaData
+ */
 public class AppcOamMetaDataReader implements StateMetaDataReader {
 
+    /**
+     * APPC Operation Enum
+     */
     public enum AppcOperation {
         MaintenanceMode,
         Restart,
@@ -40,67 +46,67 @@ public class AppcOamMetaDataReader implements StateMetaDataReader {
 
     @Override
     public StateMachineMetadata readMetadata() {
-        State NOT_INSTANTIATED = new State(AppcOamStates.NotInstantiated.toString());
-        State INSTANTIATED = new State(AppcOamStates.Instantiated.toString());
-        State RESTARTING = new State(AppcOamStates.Restarting.toString());
-        State STARTING = new State(AppcOamStates.Starting.toString());
-        State STARTED = new State(AppcOamStates.Started.toString());
-        State ENTERING_MAINTENANCE_MODE = new State(AppcOamStates.EnteringMaintenanceMode.toString());
-        State MAINTENANCE_MODE = new State(AppcOamStates.MaintenanceMode.toString());
-        State ERROR = new State(AppcOamStates.Error.toString());
-        State UNKNOWN = new State(AppcOamStates.Unknown.toString());
-        State STOPPING = new State(AppcOamStates.Stopping.toString());
-        State STOPPED = new State(AppcOamStates.Stopped.toString());
+        State notInstantiated = new State(AppcOamStates.NotInstantiated.toString());
+        State instantiated = new State(AppcOamStates.Instantiated.toString());
+        State restarting = new State(AppcOamStates.Restarting.toString());
+        State starting = new State(AppcOamStates.Starting.toString());
+        State started = new State(AppcOamStates.Started.toString());
+        State enteringMaintenanceMode = new State(AppcOamStates.EnteringMaintenanceMode.toString());
+        State maintenanceMode = new State(AppcOamStates.MaintenanceMode.toString());
+        State error = new State(AppcOamStates.Error.toString());
+        State unknown = new State(AppcOamStates.Unknown.toString());
+        State stopping = new State(AppcOamStates.Stopping.toString());
+        State stopped = new State(AppcOamStates.Stopped.toString());
 
-        Event START = new Event(AppcOperation.Start.toString());
-        Event STOP = new Event(AppcOperation.Stop.toString());
-        Event MAINTENANCE_MODE_EVENT = new Event(AppcOperation.MaintenanceMode.toString());
-        Event RESTART = new Event(AppcOperation.Restart.toString());
+        Event start = new Event(AppcOperation.Start.toString());
+        Event stop = new Event(AppcOperation.Stop.toString());
+        Event maintenanceModeEvent = new Event(AppcOperation.MaintenanceMode.toString());
+        Event restart = new Event(AppcOperation.Restart.toString());
 
         StateMachineMetadata.StateMachineMetadataBuilder builder = new StateMachineMetadata
                 .StateMachineMetadataBuilder();
 
-        builder = builder.addState(NOT_INSTANTIATED);
-        builder = builder.addState(INSTANTIATED);
-        builder = builder.addState(STARTING);
-        builder = builder.addState(STARTED);
-        builder = builder.addState(ERROR);
-        builder = builder.addState(UNKNOWN);
-        builder = builder.addState(STOPPING);
-        builder = builder.addState(STOPPED);
-        builder = builder.addState(ENTERING_MAINTENANCE_MODE);
-        builder = builder.addState(MAINTENANCE_MODE);
-        builder = builder.addState(RESTARTING);
+        builder = builder.addState(notInstantiated);
+        builder = builder.addState(instantiated);
+        builder = builder.addState(starting);
+        builder = builder.addState(started);
+        builder = builder.addState(error);
+        builder = builder.addState(unknown);
+        builder = builder.addState(stopping);
+        builder = builder.addState(stopped);
+        builder = builder.addState(enteringMaintenanceMode);
+        builder = builder.addState(maintenanceMode);
+        builder = builder.addState(restarting);
 
-        builder = builder.addEvent(START);
-        builder = builder.addEvent(STOP);
-        builder = builder.addEvent(RESTART);
-        builder = builder.addEvent(MAINTENANCE_MODE_EVENT);
+        builder = builder.addEvent(start);
+        builder = builder.addEvent(stop);
+        builder = builder.addEvent(restart);
+        builder = builder.addEvent(maintenanceModeEvent);
 
         /*
          *  for addTransition:
          *  param 1: current state; param 2: received command/request; param 3: new transition state
          */
         // start
-        builder = builder.addTransition(STOPPED,                   START, STARTING);
-        builder = builder.addTransition(MAINTENANCE_MODE,          START, STARTING);
-        builder = builder.addTransition(ERROR,                     START, STARTING);
+        builder = builder.addTransition(stopped,                   start, starting);
+        builder = builder.addTransition(maintenanceMode,          start, starting);
+        builder = builder.addTransition(error,                     start, starting);
         // stop
-        builder = builder.addTransition(STARTED,                   STOP, STOPPING);
-        builder = builder.addTransition(STARTING,                  STOP, STOPPING);
-        builder = builder.addTransition(ENTERING_MAINTENANCE_MODE, STOP, STOPPING);
-        builder = builder.addTransition(MAINTENANCE_MODE,          STOP, STOPPING);
-        builder = builder.addTransition(ERROR,                     STOP, STOPPING);
+        builder = builder.addTransition(started,                   stop, stopping);
+        builder = builder.addTransition(starting,                  stop, stopping);
+        builder = builder.addTransition(enteringMaintenanceMode, stop, stopping);
+        builder = builder.addTransition(maintenanceMode,          stop, stopping);
+        builder = builder.addTransition(error,                     stop, stopping);
         // maintenance mode
         builder = builder.addTransition(
-                STARTED, MAINTENANCE_MODE_EVENT, ENTERING_MAINTENANCE_MODE);
+                started, maintenanceModeEvent, enteringMaintenanceMode);
         // restart
-        builder = builder.addTransition(STOPPED,                   RESTART, RESTARTING);
-        builder = builder.addTransition(STARTING,                  RESTART, RESTARTING);
-        builder = builder.addTransition(STARTED,                   RESTART, RESTARTING);
-        builder = builder.addTransition(ENTERING_MAINTENANCE_MODE, RESTART, RESTARTING);
-        builder = builder.addTransition(MAINTENANCE_MODE,          RESTART, RESTARTING);
-        builder = builder.addTransition(ERROR,                     RESTART, RESTARTING);
+        builder = builder.addTransition(stopped,                   restart, restarting);
+        builder = builder.addTransition(starting,                  restart, restarting);
+        builder = builder.addTransition(started,                   restart, restarting);
+        builder = builder.addTransition(enteringMaintenanceMode, restart, restarting);
+        builder = builder.addTransition(maintenanceMode,          restart, restarting);
+        builder = builder.addTransition(error,                     restart, restarting);
 
         return builder.build();
     }

@@ -24,58 +24,17 @@
 
 package org.openecomp.appc.statemachine.objects;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * State Object
- */
-public class State {
-    private final String stateName;
-    private final int hashCode;
-    private final List<Transition> transitions;
+public class ResponseTest {
 
-    /**
-     * Constructor
-     * @param stateName String of the state name
-     */
-    public State(String stateName) {
-        this.stateName = stateName;
-        this.hashCode = stateName.toLowerCase().hashCode();
-        this.transitions = new ArrayList<>();
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCode;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
+    @Test
+    public void testToString() throws Exception {
+        for (Response response : Response.values()) {
+            Assert.assertEquals("Should return the same as name",
+                    response.name(), response.toString());
         }
-        if (!(obj instanceof State)) {
-            return false;
-        }
-        State state = (State)obj;
-        return this.stateName.equalsIgnoreCase(state.getStateName());
     }
 
-    public String getStateName() {
-        return stateName;
-    }
-
-    void addTransition(Transition transition) {
-        this.transitions.add(transition);
-    }
-
-    public List<Transition> getTransitions() {
-        return transitions;
-    }
-
-    @Override
-    public String toString() {
-        return this.stateName;
-    }
 }

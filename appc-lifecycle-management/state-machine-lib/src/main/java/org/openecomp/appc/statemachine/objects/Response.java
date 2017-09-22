@@ -24,8 +24,15 @@
 
 package org.openecomp.appc.statemachine.objects;
 
+/**
+ * Response object
+ */
 public enum Response {
-    NO_TRANSITION_DEFINED,NO_STATE_CHANGE,VALID_TRANSITION;
+    NO_TRANSITION_DEFINED,
+    NO_STATE_CHANGE,
+    VALID_TRANSITION;
+
+    @Override
     public String toString(){
         return this.name();
     }

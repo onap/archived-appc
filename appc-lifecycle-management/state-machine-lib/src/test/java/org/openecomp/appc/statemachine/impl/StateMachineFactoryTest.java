@@ -24,19 +24,36 @@
 
 package org.openecomp.appc.statemachine.impl;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openecomp.appc.statemachine.StateMachine;
+import org.openecomp.appc.statemachine.objects.Event;
+import org.openecomp.appc.statemachine.objects.State;
 import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
 
-/**
- * Factory of StateMachine
- */
-public class StateMachineFactory {
+public class StateMachineFactoryTest {
+    private StateMachineMetadata metadata;
 
-    private StateMachineFactory(){
-        throw new IllegalAccessError("StateMachineFactory");
+    @Before
+    public void setUp() throws Exception {
+        StateMachineMetadata.StateMachineMetadataBuilder builder =
+                new StateMachineMetadata.StateMachineMetadataBuilder();
+        builder.addEvent(new Event("TestingEvent1"));
+        builder.addEvent(new Event("TestingEvent2"));
+        builder.addState(new State("TestingState1"));
+        builder.addState(new State("TestingState2"));
+        builder.addState(new State("TestingState3"));
+        builder.addTransition(
+                new State("TestingState1"), new Event("TestingEvent1"), new State("TestingState2"));
+
+        metadata = builder.build();
     }
 
-    public static StateMachine getStateMachine(StateMachineMetadata metadata){
-        return new StateMachineImpl(metadata);
+    @Test
+    public void testGetStateMachine() throws Exception {
+        StateMachine stateMachine = StateMachineFactory.getStateMachine(metadata);
+        Assert.assertTrue("Should return StateMachineImpl", stateMachine instanceof StateMachineImpl);
     }
+
 }

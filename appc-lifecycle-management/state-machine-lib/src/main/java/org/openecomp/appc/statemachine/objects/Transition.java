@@ -24,16 +24,19 @@
 
 package org.openecomp.appc.statemachine.objects;
 
+/**
+ * Transition Object
+ */
 public class Transition {
     private Event event;
     private State nextState;
 
-    private Transition(){
-        // do nothing
-    }
-
-    Transition(Event event, State nextState){
-        this();
+    /**
+     * Constructor
+     * @param event which triggers the transition
+     * @param nextState of State which indicates the transition targeted state
+     */
+    Transition(Event event, State nextState) {
         this.event = event;
         this.nextState = nextState;
     }

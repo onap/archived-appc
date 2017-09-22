@@ -24,58 +24,34 @@
 
 package org.openecomp.appc.statemachine.objects;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Assert;
+import org.junit.Test;
+import org.mockito.internal.util.reflection.Whitebox;
 
-/**
- * State Object
- */
-public class State {
-    private final String stateName;
-    private final int hashCode;
-    private final List<Transition> transitions;
+public class TransitionTest {
+    private final State state = new State("TestingState");
+    private final Event event = new Event("TestingEvent");
+    private Transition transition = new Transition(event, state);
 
-    /**
-     * Constructor
-     * @param stateName String of the state name
-     */
-    public State(String stateName) {
-        this.stateName = stateName;
-        this.hashCode = stateName.toLowerCase().hashCode();
-        this.transitions = new ArrayList<>();
+    @Test
+    public void testConstructor() {
+        transition = new Transition(event, state);
+        Assert.assertEquals("Should set event",
+                event, Whitebox.getInternalState(transition, "event"));
+        Assert.assertEquals("Should set nextState",
+                state, Whitebox.getInternalState(transition, "nextState"));
     }
 
-    @Override
-    public int hashCode() {
-        return hashCode;
+    @Test
+    public void testGetEvent() throws Exception {
+        Assert.assertEquals("Should return internal event",
+                Whitebox.getInternalState(transition, "event"), transition.getEvent());
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (!(obj instanceof State)) {
-            return false;
-        }
-        State state = (State)obj;
-        return this.stateName.equalsIgnoreCase(state.getStateName());
+    @Test
+    public void testGetNextState() throws Exception {
+        Assert.assertEquals("Should return internal nextState",
+                Whitebox.getInternalState(transition, "nextState"), transition.getNextState());
     }
 
-    public String getStateName() {
-        return stateName;
-    }
-
-    void addTransition(Transition transition) {
-        this.transitions.add(transition);
-    }
-
-    public List<Transition> getTransitions() {
-        return transitions;
-    }
-
-    @Override
-    public String toString() {
-        return this.stateName;
-    }
 }
