@@ -25,6 +25,7 @@
 package org.openecomp.appc.sdc.listener;
 
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
@@ -32,6 +33,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.appc.sdc.artifacts.helper.ArtifactStorageService;
+import org.openecomp.appc.sdc.artifacts.helper.DependencyModelGenerator;
 import org.openecomp.appc.sdc.artifacts.impl.ArtifactProcessorFactory;
 import org.openecomp.appc.sdc.artifacts.impl.ToscaCsarArtifactProcessor;
 import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
@@ -62,10 +64,11 @@ import java.util.List;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IDistributionClient.class,
-                EventSender.class,
-                ArtifactStorageService.class,
-                ToscaCsarArtifactProcessor.class,
-                ArtifactProcessorFactory.class})
+        EventSender.class,
+        ArtifactStorageService.class,
+        ToscaCsarArtifactProcessor.class,
+        ArtifactProcessorFactory.class,
+        DependencyModelGenerator.class})
 public class SdcCallbackTest {
 
     IDistributionClient client;
@@ -85,10 +88,11 @@ public class SdcCallbackTest {
                 ,getServiceArtifacts().get(0),null));
         storageService = PowerMockito.mock(ArtifactStorageService.class);
         Whitebox.setInternalState(artifactProcessor,"artifactStorageService", storageService);
-
+        DependencyModelGenerator dependencyModelGeneratorMock=PowerMockito.mock(DependencyModelGenerator.class);
+        Whitebox.setInternalState(artifactProcessor,"dependencyModelGenerator",dependencyModelGeneratorMock);
+        PowerMockito.when(dependencyModelGeneratorMock.getDependencyModel(Matchers.anyString(),Matchers.anyString())).thenReturn("Dependency_Model");
         PowerMockito.doCallRealMethod().when(artifactProcessor).processArtifact((IDistributionClientDownloadResult) Matchers.anyObject());
         PowerMockito.doCallRealMethod().when(artifactProcessor).run();
-
 
         PowerMockito.mockStatic(ArtifactProcessorFactory.class);
         PowerMockito.when(ArtifactProcessorFactory.getArtifactProcessor((IDistributionClient)Matchers.anyObject(), (EventSender)Matchers.anyObject(),
@@ -124,23 +128,23 @@ public class SdcCallbackTest {
     }
 
 
-//    @Test
+    @Test
     public void testSDCListener() throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
 
         INotificationData notificationData = getNotificationData();
         sdcCallback.activateCallback(notificationData);
 
-//        pause();
+        pause();
     }
 
-//    private void pause(){
-//        try {
-//            Thread.sleep(50000000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private void pause() {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
