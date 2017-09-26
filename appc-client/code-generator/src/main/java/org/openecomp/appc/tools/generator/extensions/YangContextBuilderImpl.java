@@ -39,36 +39,35 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.*;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Set;
 
 public class YangContextBuilderImpl implements ContextBuilder {
 
     @Override
     public Map<String, Object> buildContext(String sourceFile, String contextConf) throws FileNotFoundException {
-        InputStream source = new FileInputStream(sourceFile);
-        if (source == null) {
+        try ( InputStream source = new FileInputStream(sourceFile) ) {}
+        catch ( IOException ex) {
             throw new FileNotFoundException("YANG file <" + sourceFile + ">not found");
         }
 
-        YangTextSchemaContextResolver yangContextResolver = YangTextSchemaContextResolver
-                .create("yang-context-resolver");
-        try {
+        Optional<SchemaContext> sc = null;
+        try ( YangTextSchemaContextResolver yangContextResolver =
+              YangTextSchemaContextResolver.create("yang-context-resolver")) {
             yangContextResolver.registerSource(new URL("file:///" + sourceFile));
+            sc = yangContextResolver.getSchemaContext();
         } catch (SchemaSourceException | IOException | YangSyntaxErrorException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Optional<SchemaContext> sc = yangContextResolver.getSchemaContext();
 
         Map<String, Object> map = new HashMap<>();
-        if (sc.isPresent()) {
-
+        if ( null != sc && sc.isPresent()) {
             Set<Module> modules = sc.get().getModules();
             for (Module module : modules) {
                 ModuleEffectiveStatementImpl impl = (ModuleEffectiveStatementImpl) module;
                 map.put("module", module);
             }
-
         }
 
         return map;
