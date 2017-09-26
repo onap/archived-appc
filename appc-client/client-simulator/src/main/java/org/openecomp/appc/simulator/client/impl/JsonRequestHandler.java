@@ -41,7 +41,7 @@ import java.util.Properties;
 
 public class JsonRequestHandler implements RequestHandler {
 
-    private enum modeT {
+     private enum modeT {
         SYNCH,
         ASYNCH
     }
@@ -68,6 +68,10 @@ public class JsonRequestHandler implements RequestHandler {
             e.printStackTrace();
         }
         exceptRpcMap = prepareExceptionsMap();
+    }
+
+    public  JsonRequestHandler(){
+
     }
 
     private HashMap<String,String> prepareExceptionsMap() {
