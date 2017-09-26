@@ -31,7 +31,7 @@
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
 		<feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
 		
-		<feature version="${sdnc.dblib.version}">sdnc-dblib</feature>
+		<feature version="${sdnctl.dblib.version}">sdnc-dblib</feature>
 		<feature version="${sdnc.sli.version}">sdnc-sli</feature>
 		<feature version="${openecomp.sdnc.sql-resource.version}">sdnc-sql-resource</feature>
 		

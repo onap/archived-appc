@@ -36,7 +36,7 @@
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
 		<feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
 		
-		<feature version="${sdnc.sli.version}">sdnc-sli</feature>
+		<feature version="${sdnctl.sli.version}">sdnc-sli</feature>
 		<feature version="${sdnc.aai.version}">sdnc-aai-service</feature>
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		<!-- <bundle>mvn:org.apache.velocity/velocity/${velocity.version}</bundle> -->
