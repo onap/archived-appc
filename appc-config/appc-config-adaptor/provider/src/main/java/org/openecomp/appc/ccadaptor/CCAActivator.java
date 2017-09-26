@@ -70,28 +70,14 @@ public class CCAActivator implements BundleActivator
         if (!propFile.exists())
             throw new ConfigurationException("Missing configuration properties file: " + propFile);
 
-        InputStream in = new FileInputStream(propFile);
-        try
-        {
+        try(InputStream in = new FileInputStream(propFile)) {
             props.load(in);
+            log.info("Loaded properties: ");
         }
         catch (Exception e)
         {
             throw new ConfigurationException("Could not load properties file " + propFileName, e);
         }
-        finally
-        {
-            try
-            {
-                in.close();
-            }
-            catch (Exception e)
-            {
-                log.warn("Could not close FileInputStream", e);
-            }
-        }
-
-        log.info("Loaded properties: ");
 
         // Advertise adaptor
         ConfigComponentAdaptor adaptor = new ConfigComponentAdaptor(props);
