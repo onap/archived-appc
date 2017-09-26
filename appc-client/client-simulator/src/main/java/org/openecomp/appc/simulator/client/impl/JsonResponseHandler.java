@@ -65,7 +65,7 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         int errorCode = 0;
         boolean isFinal = true;
         try {
-            JsonNode code = OBJECT_MAPPER.readTree(output).findValue("status").findValue("code");
+            JsonNode code= OBJECT_MAPPER.readTree(output).findValue("status").findValue("code");
             if (code == null)
             {
                 LOG.error("Status code doesn't exist. Malformed response : " + output);
@@ -130,7 +130,7 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         this.flushToFile(output, ".error", isFinal);
     }
 
-    private void flushToFile(String output, String suffix, boolean isFinal) {
+    private   void flushToFile(String output, String suffix, boolean isFinal) {
         try (FileWriter fileWriter = new FileWriter(fileName + suffix);){
             LOG.info("Output file : " + fileName + suffix);
 

@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class ClientRunner {
+
     public static void main(String ... args) throws Exception {
         String folder = args[0];
         if (folder == null) {
@@ -66,7 +67,7 @@ public class ClientRunner {
 //        System.exit(0);
     }
 
-    private static Properties getProperties(String folder) {
+     private static Properties getProperties(String folder) {
         Properties prop = new Properties();
 
         InputStream conf = null;
@@ -91,7 +92,7 @@ public class ClientRunner {
         return prop;
     }
 
-    private static List<File> getJsonFiles(String folder) throws FileNotFoundException {
+     private static List<File> getJsonFiles(String folder) throws FileNotFoundException {
         Path dir = Paths.get(folder);
         FileFilter fileFilter = new WildcardFileFilter("*.json");
         return new ArrayList<File>(Arrays.asList(dir.toFile().listFiles(fileFilter)));
