@@ -1,0 +1,19 @@
+{"input": {
+    "common-header": {
+        "timestamp": "2017-07-21T9:30:40.958Z",
+        "api-ver": "2.00",
+        "originator-id": "ORTG_1",
+        "request-id": "ST_122",
+        "sub-request-id": "12",
+        "flags": {
+            "force": "TRUE",
+            "ttl": 12000
+        }
+    },
+    "action" : "Start",
+    "action-identifiers": {
+        "vnf-id": "mj123!!"
+    },
+    "payload":  " {\"vnf-host-ip-address\": \"10.147.124.163\" }"
+
+}}  
