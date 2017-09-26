@@ -1008,14 +1008,12 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor
     {
         StringBuffer strBuff = new StringBuffer();
         String line;
-        try
+        try(BufferedReader in = new BufferedReader(new FileReader(fileName)))
         {
-            BufferedReader in = new BufferedReader(new FileReader(fileName));
             while ((line = in.readLine()) != null)
             {
                 strBuff.append(line+"\n");
             }
-            in.close();
         }
         catch (IOException e)
         {
