@@ -20,20 +20,17 @@
 
 package org.openecomp.appc.ccadaptor;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.util.Properties;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.ConfigurationException;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class CCAActivator implements BundleActivator
 {
@@ -70,28 +67,14 @@ public class CCAActivator implements BundleActivator
         if (!propFile.exists())
             throw new ConfigurationException("Missing configuration properties file: " + propFile);
 
-        InputStream in = new FileInputStream(propFile);
-        try
-        {
+        try(InputStream in = new FileInputStream(propFile)) {
             props.load(in);
+            log.info("Loaded properties: ");
         }
         catch (Exception e)
         {
             throw new ConfigurationException("Could not load properties file " + propFileName, e);
         }
-        finally
-        {
-            try
-            {
-                in.close();
-            }
-            catch (Exception e)
-            {
-                log.warn("Could not close FileInputStream", e);
-            }
-        }
-
-        log.info("Loaded properties: ");
 
         // Advertise adaptor
         ConfigComponentAdaptor adaptor = new ConfigComponentAdaptor(props);
