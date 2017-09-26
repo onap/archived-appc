@@ -118,5 +118,10 @@
             <artifactId>maven-core</artifactId>
             <version>${maven.core.version}</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
