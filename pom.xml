@@ -87,6 +87,11 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         
         <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
 
+	<jackson.version>2.3.2</jackson.version>
+	<tosca.datatype.version>1707.0.1-SNAPSHOT</tosca.datatype.version>
+	<snakeyaml.version>1.12</snakeyaml.version>
+        <!-- License -->
+        <licenseDir>${project.basedir}</licenseDir>
     </properties>
 
 

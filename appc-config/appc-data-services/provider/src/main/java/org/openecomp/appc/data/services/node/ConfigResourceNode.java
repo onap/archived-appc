@@ -178,9 +178,9 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
 					if (status == QueryStatus.NOT_FOUND) {
 
-						status = db.getTemplateByVnfType(ctx, responsePrefix, fileCategory);
+						//status = db.getTemplateByVnfType(ctx, responsePrefix, fileCategory);
 
-						if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
+						//if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
 							throw new Exception("Unable to Read " + fileCategory );
 					}
 				}
