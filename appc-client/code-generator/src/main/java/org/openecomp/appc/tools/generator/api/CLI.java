@@ -36,29 +36,29 @@ public class CLI {
         if(destinationFile == null)
             throw new IllegalArgumentException("Destination file name is missing. Please add argument 'client "
                     + sourceFile
-                    + "<destination> <model template> <builder> <conf file>'");
+                    + " <destination> <model template> <builder> <conf file>'");
 
         String templateFile = args[2];
         if(templateFile == null)
             throw new IllegalArgumentException("template file name is missing. Please add argument 'client "
                     + sourceFile
-                    + destinationFile
+                    + " "+destinationFile
                     + " <model template> <builder> <conf file>'");
 
         String builderName = args[3];
         if(builderName == null)
             throw new IllegalArgumentException("builder FQDN is missing. Please add argument 'client "
                     + sourceFile
-                    + destinationFile
-                    + templateFile
+                    + " "+destinationFile
+                    + " "+templateFile
                     + " <builder> <conf file>'");
         String contextConfName = args[4];
         if(contextConfName == null)
             throw new IllegalArgumentException("context conf file is missing. Please add argument 'client "
                     + sourceFile
-                    + destinationFile
-                    + templateFile
-                    + builderName
+                    + " "+destinationFile
+                    + " "+templateFile
+                    + " "+builderName
                     + " <conf file>'");
         ModelGenerator generator = new ModelGenerator();
         generator.execute(sourceFile, destinationFile, templateFile, builderName, contextConfName);
