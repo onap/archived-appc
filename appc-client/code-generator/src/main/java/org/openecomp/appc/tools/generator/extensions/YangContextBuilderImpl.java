@@ -59,8 +59,9 @@ public class YangContextBuilderImpl implements ContextBuilder {
             sc = yangContextResolver.getSchemaContext();
         } catch (SchemaSourceException | IOException | YangSyntaxErrorException e) {
             e.printStackTrace();
+        } finally{
+        yangContextResolver.close();
         }
-
         Map<String, Object> map = new HashMap<>();
         if ( null != sc && sc.isPresent()) {
             Set<Module> modules = sc.get().getModules();
