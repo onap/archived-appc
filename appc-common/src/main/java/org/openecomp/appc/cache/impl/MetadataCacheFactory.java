@@ -25,16 +25,23 @@
 package org.openecomp.appc.cache.impl;
 
 import org.openecomp.appc.cache.CacheStrategies;
-import org.openecomp.appc.cache.CacheStrategy;
 import org.openecomp.appc.cache.MetadataCache;
 
+/**
+ * Metadata Cache Factory
+ */
 public class MetadataCacheFactory {
 
-    private static class ReferenceHolder{
+    private static class ReferenceHolder {
+        private ReferenceHolder() {
+            throw new IllegalAccessError("ReferenceHolder");
+        }
+
         private static final MetadataCacheFactory FACTORY = new MetadataCacheFactory();
     }
-    private MetadataCacheFactory(){
 
+    private MetadataCacheFactory() {
+        // do nothing
     }
 
     public static MetadataCacheFactory getInstance(){
@@ -44,7 +51,13 @@ public class MetadataCacheFactory {
     public MetadataCache getMetadataCache(){
         return new MetadataCacheImpl();
     }
-    public MetadataCache getMetadataCache(CacheStrategies cacheStrategy){
+
+    /**
+     * Get MetadataCache
+     * @param cacheStrategy the CacheStrategies to be used to build MetadataCacheImpl
+     * @return a new instance of MetadataCacheImpl
+     */
+    public MetadataCache getMetadataCache(CacheStrategies cacheStrategy) {
         return new MetadataCacheImpl(cacheStrategy);
     }
 

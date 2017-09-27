@@ -22,11 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache;
+package org.openecomp.appc.exceptions;
 
-/**
- * Enum of CacheStrategies
- */
-public enum CacheStrategies {
-    LRU
+import org.junit.Assert;
+import org.junit.Test;
+
+public class InvalidInputExceptionTest {
+    @Test
+    public void testConstructor() throws Exception {
+        String message = "testing message";
+        InvalidInputException invalidInputException = new InvalidInputException(message);
+        Assert.assertTrue(invalidInputException.getCause() == null);
+        Assert.assertEquals(message, invalidInputException.getLocalizedMessage());
+        Assert.assertEquals(message, invalidInputException.getMessage());
+    }
 }

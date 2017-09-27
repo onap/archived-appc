@@ -40,8 +40,8 @@ import org.openecomp.appc.statemachine.objects.Transition;
  * Implementation of StateMachine
  */
 public class StateMachineImpl implements StateMachine {
-    private final String invalidInputFormat = "VNF State or incoming event is invalid. State = %s event = %s";
-    final String toStringFormat = "StateMachineImpl{states=%s, events=%s}";
+    private static final String invalidInputFormat = "VNF State or incoming event is invalid. State = %s event = %s";
+    static final String toStringFormat = "StateMachineImpl{states=%s, events=%s}";
 
     private final Set<State> states;
     private final Set<Event> events;

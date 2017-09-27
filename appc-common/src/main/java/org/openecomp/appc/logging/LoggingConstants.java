@@ -24,9 +24,21 @@
 
 package org.openecomp.appc.logging;
 
+/**
+ * Constant definition of logging
+ */
 public class LoggingConstants {
+    private LoggingConstants() {
+        throw new IllegalAccessError("LoggingConstants");
+    }
 
+    /**
+     * Constants of MDC property keys
+     */
     public static class MDCKeys {
+        private MDCKeys() {
+            throw new IllegalAccessError("MDCKeys");
+        }
 
         public static final String ERROR_CODE = "ErrorCode";
         public static final String ERROR_DESCRIPTION = "ErrorDescription";
@@ -44,12 +56,24 @@ public class LoggingConstants {
         public static final String TARGET_VIRTUAL_ENTITY = "TargetVirtualEntity";
     }
 
+    /**
+     * Constants of status code values
+     */
     public static class StatusCodes {
+        private StatusCodes() {
+            throw new IllegalAccessError("StatusCodes");
+        }
         public static final String COMPLETE = "COMPLETE";
         public static final String ERROR = "ERROR";
     }
 
+    /**
+     * Constants of APPC target names
+     */
     public static class TargetNames {
+        private TargetNames() {
+            throw new IllegalAccessError("TargetNames");
+        }
         public static final String APPC = "APPC";
         public static final String AAI = "A&AI";
         public static final String DB = "DataBase";
@@ -62,9 +86,21 @@ public class LoggingConstants {
         public static final String REQUEST_HANDLER = "RequestHandler";
     }
 
-    public static class TargetServiceNames{
+    /**
+     * Constants of targeted service names
+     */
+    public static class TargetServiceNames {
+        private TargetServiceNames() {
+            throw new IllegalAccessError("TargetServiceNames");
+        }
 
-        public static class AAIServiceNames{
+        /**
+         * Constants of AAI service names
+         */
+        public static class AAIServiceNames {
+            private AAIServiceNames() {
+                throw new IllegalAccessError("AAIServiceNames");
+            }
             public static final String QUERY = "query";
             public static final String GET_VNF_DATA = "getVnfData";
         }

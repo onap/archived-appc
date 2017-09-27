@@ -29,6 +29,17 @@ import org.openecomp.appc.statemachine.objects.Event;
 import org.openecomp.appc.statemachine.objects.State;
 import org.openecomp.appc.statemachine.objects.StateMachineResponse;
 
+/**
+ * Interface of the StateMachine
+ */
 public interface StateMachine {
+    /**
+     * Handle event
+     * @param currentState the current State which the event should be handled from
+     * @param event the Event that needs to be handled
+     * @return StateMachineResponse
+     * @throws InvalidInputException
+     *     when the passed in currentState and event are not predefined or no relevant transition
+     */
     StateMachineResponse handleEvent(State currentState, Event event) throws InvalidInputException;
 }

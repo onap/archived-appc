@@ -22,11 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache;
+package org.openecomp.appc.exceptions;
 
-/**
- * Enum of CacheStrategies
- */
-public enum CacheStrategies {
-    LRU
+import org.junit.Assert;
+import org.junit.Test;
+
+public class InvalidStateExceptionTest {
+    @Test
+    public void testConstructor() throws Exception {
+        String message = "testing message";
+        InvalidStateException invalidStateException = new InvalidStateException(message);
+        Assert.assertTrue(invalidStateException.getCause() == null);
+        Assert.assertEquals(message, invalidStateException.getLocalizedMessage());
+        Assert.assertEquals(message, invalidStateException.getMessage());
+    }
 }
