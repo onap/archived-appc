@@ -49,6 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SdcCallback implements INotificationCallback {
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(SdcCallback.class);
+    private ArtifactProcessorFactory artifactProcessorFactory = new ArtifactProcessorFactory();
 
     private URI storeUri;
     private IDistributionClient client;
@@ -91,7 +92,7 @@ public class SdcCallback implements INotificationCallback {
         if (isRunning.get()) {
 
             for(IArtifactInfo artifact:data.getServiceArtifacts()){
-                ArtifactProcessor artifactProcessor = ArtifactProcessorFactory.getArtifactProcessor(client, eventSender, data, null, artifact, storeUri);
+                ArtifactProcessor artifactProcessor = artifactProcessorFactory.getArtifactProcessor(client, eventSender, data, null, artifact, storeUri);
                 if(artifactProcessor!=null){
                     executor.submit(artifactProcessor);
                 }
@@ -103,7 +104,7 @@ public class SdcCallback implements INotificationCallback {
                     if (executor.getQueue().size() >= threadCount) {
                         // log warning about job backlog
                     }
-                    ArtifactProcessor artifactProcessor = ArtifactProcessorFactory.getArtifactProcessor(client, eventSender, data, resource, artifact, storeUri);
+                    ArtifactProcessor artifactProcessor = artifactProcessorFactory.getArtifactProcessor(client, eventSender, data, resource, artifact, storeUri);
                     if(artifactProcessor != null){
                         executor.submit(artifactProcessor);
                     }
