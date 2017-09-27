@@ -9,65 +9,53 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
 package org.openecomp.appc.provider;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
-import org.json.JSONObject;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.controller.md.sal.binding.api.DataChangeListener;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.*;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotOutput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckInput;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutput;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.common.request.header.CommonRequestHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.responseattributes.StatusBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.responseheader.ResponseHeaderBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.config.payload.ConfigPayload;
-import org.opendaylight.yangtools.concepts.ListenerRegistration;
+import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.executor.objects.LCMCommandStatus;
-import org.openecomp.appc.executor.objects.Params;
 import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.provider.lcm.util.RequestInputBuilder;
-import org.openecomp.appc.provider.lcm.util.ValidationService;
 import org.openecomp.appc.provider.topology.TopologyService;
-import org.openecomp.appc.requesthandler.RequestHandler;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerOutput;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.status.Status;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.Action;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -109,8 +97,6 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AppcProviderClient.class);
 
     private final ExecutorService executor;
-
-    private ListenerRegistration<DataChangeListener> dclServices;
 
     /**
      * The ODL data store broker. Provides access to a conceptual data tree store and also provides the ability to
@@ -181,14 +167,13 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
         logger.info(Msg.COMPONENT_TERMINATED, appName, "provider");
     }
 
+    public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput input) {
+        CommonRequestHeader hdr = input.getCommonRequestHeader();
+        ConfigPayload data = input.getConfigPayload();
+        RpcResult<ModifyConfigOutput> result = getTopologyService().modifyConfig(hdr, data);
+        return Futures.immediateFuture(result);
+    }
 
-public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput input){
-	CommonRequestHeader hdr = input.getCommonRequestHeader();        
-	ConfigPayload data = input.getConfigPayload();
-    TopologyService topology = new TopologyService(this);
-    RpcResult<ModifyConfigOutput> result = topology.modifyConfig(hdr, data);
-    return Futures.immediateFuture(result);
-}
     /**
      * Rebuilds a specific VNF
      *
@@ -200,8 +185,7 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
-        TopologyService topology = new TopologyService(this);
-        RpcResult<RebuildOutput> result = topology.rebuild(hdr, vnf);
+        RpcResult<RebuildOutput> result = getTopologyService().rebuild(hdr, vnf);
         return Futures.immediateFuture(result);
     }
 
@@ -215,8 +199,7 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
-        TopologyService topology = new TopologyService(this);
-        RpcResult<RestartOutput> result = topology.restart(hdr, vnf);
+        RpcResult<RestartOutput> result = getTopologyService().restart(hdr, vnf);
         return Futures.immediateFuture(result);
     }
 
@@ -230,8 +213,7 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
-        TopologyService topology = new TopologyService(this);
-        RpcResult<MigrateOutput> result = topology.migrate(hdr, vnf);
+        RpcResult<MigrateOutput> result = getTopologyService().migrate(hdr, vnf);
         return Futures.immediateFuture(result);
     }
 
@@ -242,10 +224,7 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
      */
     @Override
     public Future<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
-        CommonRequestHeader hdr = input.getCommonRequestHeader();
-        VnfResource vnf = input.getVnfResource();
 
-        TopologyService topology = new TopologyService(this);
         return null;
     }
 
@@ -259,23 +238,24 @@ public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput inpu
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
-        TopologyService topology = new TopologyService(this);
-        RpcResult<SnapshotOutput> result = topology.snapshot(hdr, vnf);
+        RpcResult<SnapshotOutput> result = getTopologyService().snapshot(hdr, vnf);
         return Futures.immediateFuture(result);
     }
-    
-    
+
     /**
      * Checks status of a VM
-    */
+     */
     @Override
     public Future<RpcResult<VmstatuscheckOutput>> vmstatuscheck(VmstatuscheckInput input) {
-    CommonRequestHeader hdr = input.getCommonRequestHeader();
-    VnfResource vnf = input.getVnfResource();
+        CommonRequestHeader hdr = input.getCommonRequestHeader();
+        VnfResource vnf = input.getVnfResource();
 
-    TopologyService topology = new TopologyService(this);
-    RpcResult<VmstatuscheckOutput> result = topology.vmstatuscheck(hdr, vnf);
-    return Futures.immediateFuture(result);
-    }	
+        TopologyService topology = getTopologyService();
+        RpcResult<VmstatuscheckOutput> result = getTopologyService().vmstatuscheck(hdr, vnf);
+        return Futures.immediateFuture(result);
+    }
 
+    TopologyService getTopologyService() {
+        return new TopologyService(this);
+    }
 }
