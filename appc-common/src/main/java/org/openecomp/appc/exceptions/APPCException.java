@@ -22,8 +22,6 @@
  * ============LICENSE_END=========================================================
  */
 
-
-
 package org.openecomp.appc.exceptions;
 
 /**

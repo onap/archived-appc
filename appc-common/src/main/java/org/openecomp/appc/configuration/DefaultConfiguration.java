@@ -24,7 +24,6 @@
 
 package org.openecomp.appc.configuration;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -64,7 +63,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Construct the configuration object.
      */
-    public DefaultConfiguration() {
+    DefaultConfiguration() {
         // do nothing
     }
 
@@ -97,22 +96,20 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      */
     @SuppressWarnings("nls")
     private static String decrypt(String value) {
-        if (value != null) {
-            if (value.startsWith(EncryptionTool.ENCRYPTED_VALUE_PREFIX)) {
-                try {
-                    return EncryptionTool.getInstance().decrypt(value);
-                } catch (Exception e) {
-                    StringBuilder out = new StringBuilder();
-                    for (Provider p : Security.getProviders()) {
-                        for (Service s : p.getServices()) {
-                            String algo = s.getAlgorithm();
-                            out.append(String.format("\n==Found Algorithm [ %s ] in provider [ %s ] and service [ %s ]",
-                                    algo, p.getName(), s.getClassName()));
-                        }
+        if (value != null && value.startsWith(EncryptionTool.ENCRYPTED_VALUE_PREFIX)) {
+            try {
+                return EncryptionTool.getInstance().decrypt(value);
+            } catch (Exception e) {
+                StringBuilder out = new StringBuilder();
+                for (Provider p : Security.getProviders()) {
+                    for (Service s : p.getServices()) {
+                        String algo = s.getAlgorithm();
+                        out.append(String.format("\n==Found Algorithm [ %s ] in provider [ %s ] and service [ %s ]",
+                                algo, p.getName(), s.getClassName()));
                     }
-                    logger.debug(out.toString());
-                    logger.warn(String.format("Could not decrypt the configuration value [%s]", value), e);
                 }
+                logger.debug(out.toString());
+                logger.warn(String.format("Could not decrypt the configuration value [%s]", value), e);
             }
         }
         return value;
@@ -172,9 +169,9 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
         // template = decrypt(template); DH: Do not assign values to parameters, bad form! Also, Sonar complains
         // bitterly
 
-        StringBuffer buffer = new StringBuffer(decrypt(template));
+        StringBuilder builder = new StringBuilder(decrypt(template));
         Pattern pattern = Pattern.compile("\\$\\{([^\\}]+)\\}");
-        Matcher matcher = pattern.matcher(buffer);
+        Matcher matcher = pattern.matcher(builder);
         while (matcher.find()) {
             String variable = matcher.group(1);
             String value = properties.getProperty(variable);
@@ -184,11 +181,11 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
             if (value == null) {
                 value = "";
             }
-            buffer.replace(matcher.start(), matcher.end(), value);
+            builder.replace(matcher.start(), matcher.end(), value);
 
             matcher.reset();
         }
-        return buffer.toString().trim();
+        return builder.toString().trim();
     }
 
     /**
@@ -379,7 +376,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      */
     @Override
     public int hashCode() {
-        return (properties == null ? 0 : properties.hashCode());
+        return properties == null ? 0 : properties.hashCode();
     }
 
     /**
@@ -487,7 +484,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
         try {
             properties.load(is);
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn("setProperties with inputStream got exception", e);
         }
     }
 
@@ -524,8 +521,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return String.format("Configuration: %d properties, keys:[%s]", properties.size(), properties.keySet()
-                .toString());
+        return String.format("Configuration: %d properties, keys:[%s]",
+                properties.size(), properties.keySet().toString());
     }
 
     /**

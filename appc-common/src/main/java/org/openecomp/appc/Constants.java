@@ -168,10 +168,10 @@ public final class Constants {
     @SuppressWarnings("nls")
     public static final String STATUS_GETTER = "status-getter";
 
-	@SuppressWarnings("nls")
+    @SuppressWarnings("nls")
     public static final String VM_FUSION_STATUS_GETTER = "fusion-vm-status-getter";
 
-	/**
+    /**
      * The name for the status vm attribute to be set in the context when executing a vmstatuscheck.
      */
 

@@ -2,10 +2,17 @@ package org.openecomp.appc.i18n;
 
 import static org.junit.Assert.assertNotNull;
 
+import org.junit.Assert;
 import org.junit.Test;
 
-
 public class MsgTest {
+
+    @Test
+    public void testNameAndToString() throws Exception {
+        for (Msg msg : Msg.values()) {
+            Assert.assertEquals(msg.name(), msg.toString());
+        }
+    }
 
     @Test
     public void testCONFIGURATION_STARTED() {
@@ -760,5 +767,5 @@ public class MsgTest {
     @Test
     public void testOAM_OPERATION_INVALID_INPUT() {
         assertNotNull(Msg.valueOf("OAM_OPERATION_INVALID_INPUT"));
-    };
+    }
 }

@@ -22,8 +22,6 @@
  * ============LICENSE_END=========================================================
  */
 
-
-
 package org.openecomp.appc.exceptions;
 
 /**
@@ -100,7 +98,10 @@ public class UnknownProviderException extends APPCException {
     * @param writableStackTrace
     *            whether or not the stack trace should be writable
     */
-   public UnknownProviderException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+   public UnknownProviderException(String message,
+                                   Throwable cause,
+                                   boolean enableSuppression,
+                                   boolean writableStackTrace) {
        super(message, cause, enableSuppression, writableStackTrace);
    }
 

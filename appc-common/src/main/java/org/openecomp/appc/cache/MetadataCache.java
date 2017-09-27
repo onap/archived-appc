@@ -24,8 +24,23 @@
 
 package org.openecomp.appc.cache;
 
-
-public interface MetadataCache <K,V>{
+/**
+ * Interface of MetadataCache
+ * @param <K> key
+ * @param <V> value
+ */
+public interface MetadataCache <K,V> {
+    /**
+     * Get object
+     * @param key of the object
+     * @return value of the object
+     */
     V getObject(K key);
+
+    /**
+     * Put object
+     * @param key of the object
+     * @param value of the object
+     */
     void putObject(K key,V value);
 }

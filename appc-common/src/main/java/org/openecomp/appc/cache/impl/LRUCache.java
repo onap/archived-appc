@@ -29,12 +29,17 @@ import java.util.Map;
 
 import org.openecomp.appc.cache.CacheStrategy;
 
+/**
+ * LRU cache implements CacheStategy<K, V>
+ * @param <K> Key
+ * @param <V> Value
+ */
 public class LRUCache<K,V> implements CacheStrategy<K,V> {
 
     private Map<K,V> map;
 
     LRUCache(final Integer capacity){
-        map = new LinkedHashMap<K,V>(capacity, 0.75F, true){
+        map = new LinkedHashMap<K,V>(capacity, 0.75F, true) {
             @Override
             protected boolean removeEldestEntry(Map.Entry<K, V> eldest){
                 return size() > capacity;

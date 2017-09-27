@@ -24,46 +24,41 @@
 
 package org.openecomp.appc.cache.impl;
 
+import org.junit.Assert;
+import org.junit.Test;
 import org.openecomp.appc.cache.CacheStrategies;
-import org.openecomp.appc.cache.CacheStrategy;
-import org.openecomp.appc.cache.MetadataCache;
+import org.powermock.reflect.Whitebox;
 
-/**
- * Implementation of MetadataCache
- * @param <K> Key
- * @param <V> Value
- */
-public class MetadataCacheImpl<K,V> implements MetadataCache<K,V> {
+import static org.mockito.Mockito.spy;
 
-    private CacheStrategy strategy;
+public class MetadataCacheImplTest {
+    @Test
+    public void testConstructor() throws Exception {
+        // test without parameter
+        MetadataCacheImpl impl = new MetadataCacheImpl<>();
+        Assert.assertTrue("Should have initialized strategy",
+                Whitebox.getInternalState(impl, "strategy") != null);
 
-    MetadataCacheImpl(){
-        this(CacheStrategies.LRU);
+        // test with parameter
+        impl = new MetadataCacheImpl<>(CacheStrategies.LRU);
+        Assert.assertTrue("Should have initialized strategy",
+                Whitebox.getInternalState(impl, "strategy") != null);
+
+        impl = new MetadataCacheImpl<>(null);
+        Assert.assertTrue("Should not initialized strategy",
+                Whitebox.getInternalState(impl, "strategy") == null);
     }
 
-    MetadataCacheImpl(CacheStrategies strategy){
-        this.strategy = initializeStrategy(strategy);
-    }
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetAndPutObject() throws Exception {
+        MetadataCacheImpl impl = spy(new MetadataCacheImpl<>());
 
-    private CacheStrategy initializeStrategy(CacheStrategies strategy) {
-        if (strategy != null) {
-            switch (strategy) {
-                case LRU:
-                    return new LRUCache<>(50);
-                default:
-                    // do nothing
-            }
-        }
-        return null;
-    }
+        String key = "testing key";
+        Assert.assertTrue(impl.getObject(key) == null);
 
-    @Override
-    public V getObject(K key) {
-        return (V)strategy.getObject(key);
-    }
-
-    @Override
-    public void putObject(K key, V value) {
-        strategy.putObject(key,value);
+        String value = "testing value";
+        impl.putObject(key, value);
+        Assert.assertEquals(value, impl.getObject(key));
     }
 }
