@@ -22,11 +22,40 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache;
+package org.openecomp.appc.cache.impl;
 
-/**
- * Enum of CacheStrategies
- */
-public enum CacheStrategies {
-    LRU
+import org.junit.Assert;
+import org.junit.Test;
+import org.powermock.reflect.Whitebox;
+
+import java.util.Map;
+
+public class LRUCacheTest {
+
+    @Test
+    public void testConstructor() throws Exception {
+        LRUCache cache = new LRUCache(20);
+        Map internalMap = Whitebox.getInternalState(cache, "map");
+        Assert.assertTrue(internalMap != null);
+        Assert.assertTrue(internalMap.size() == 0);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetAndPutObject() throws Exception {
+        LRUCache cache = new LRUCache(20);
+
+        String key = "testing key";
+        Assert.assertTrue(cache.getObject(key) == null);
+
+        String value = "testing value";
+        cache.putObject(key, value);
+        Map internalMap = Whitebox.getInternalState(cache, "map");
+        Assert.assertTrue(internalMap.containsKey(key));
+        Assert.assertTrue(internalMap.containsValue(value));
+        Assert.assertTrue(internalMap.size() == 1);
+
+        Assert.assertEquals(value, cache.getObject(key));
+    }
+
 }
