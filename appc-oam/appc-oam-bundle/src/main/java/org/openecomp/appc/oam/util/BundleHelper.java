@@ -28,6 +28,7 @@ import com.att.eelf.configuration.EELFLogger;
 import org.apache.commons.lang3.ArrayUtils;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.oam.AppcOam;
+import org.openecomp.appc.oam.processor.BaseCommon;
 import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -73,8 +74,9 @@ public class BundleHelper {
      */
     public boolean bundleOperations(AppcOam.RPC rpc,
                                     Map<String, Future<?>> threads,
-                                    AsyncTaskHelper taskHelper)
-            throws APPCException {
+                                    AsyncTaskHelper taskHelper,
+                                    BaseCommon baseCommon)
+        throws APPCException {
         long mStartTime = System.currentTimeMillis();
         logDebug(String.format("Entering OAM bundleOperations with rpc (%s).", rpc.name()));
 
@@ -88,7 +90,6 @@ public class BundleHelper {
         boolean isBundleOperationComplete = true;
 
         Map<String, Bundle> appcLcmBundles = getAppcLcmBundles();
-        taskHelper.addThreadsToPool();
         for (Map.Entry<String, Bundle> bundleEntry : appcLcmBundles.entrySet()) {
             String bundleName = bundleEntry.getKey();
             Bundle bundle = bundleEntry.getValue();
@@ -99,30 +100,29 @@ public class BundleHelper {
                 // such as when a Stop request is receive while APPC is still trying to Start Up.
                 if (!stateHelper.isSameState(originalState)) {
                     logger.warn("OAM %s bundle operation aborted since OAM state is no longer %s!",
-                            originalState.name());
+                        originalState.name());
                     isBundleOperationComplete = false;
                     break;
                 }
             }
 
             threads.put(bundleName,
-                    taskHelper.submitBundleLcOperation(new BundleTask(rpc, bundle)));
+                taskHelper.submitBaseSubCallable(new BundleTask(rpc, bundle,baseCommon)));
         }
-        taskHelper.removeThreadsFromPoolWhenDone();
 
         logDebug(String.format("Leaving OAM bundleOperations with rpc (%s) with complete(%s), elasped (%d) ms.",
-                rpc.name(), Boolean.toString(isBundleOperationComplete), getElaspeTimeMs(mStartTime)));
+            rpc.name(), Boolean.toString(isBundleOperationComplete), getElapseTimeMs(mStartTime)));
 
         return isBundleOperationComplete;
     }
 
-    private long getElaspeTimeMs(long mStartTime) {
+    private long getElapseTimeMs(long mStartTime) {
         return System.currentTimeMillis() - mStartTime;
     }
 
     /**
      * Check if all BundleTasks are completed
-     * @param bundleNameFutureMap with bundler name and BundleTask Future object
+     * @param bundleNameFutureMap with bundle name and BundleTask Future object
      * @return true if all are done, otherwise, false
      */
     public boolean isAllTaskDone(Map<String, Future<?>> bundleNameFutureMap) {
@@ -131,20 +131,22 @@ public class BundleHelper {
     }
 
     /**
-     * Cancel BunldeTasks which are not finished
-     * @param bundleNameFutureMap with bundler name and BundleTask Future object
+     * Cancel BundleTasks which are not finished
+     * @param bundleNameFutureMap with bundle name and BundleTask Future object
      */
     public void cancelUnfinished(Map<String, Future<?>> bundleNameFutureMap) {
-        bundleNameFutureMap.values().stream().filter((f) -> !f.isDone()).forEach((f) -> f.cancel(true));
+        bundleNameFutureMap.values().stream().filter((f)
+            -> !f.isDone()).forEach((f)
+            -> f.cancel(true));
     }
 
     /**
      * Get number of failed BundleTasks
-     * @param bundleNameFurtureMap with bundler name and BundleTask Future object
+     * @param bundleNameFutureMap with bundle name and BundleTask Future object
      * @return number(long) of the failed BundleTasks
      */
-    public long getFailedMetrics(Map<String, Future<?>> bundleNameFurtureMap) {
-        return bundleNameFurtureMap.values().stream().map((f) -> {
+    public long getFailedMetrics(Map<String, Future<?>> bundleNameFutureMap) {
+        return bundleNameFutureMap.values().stream().map((f) -> {
             try {
                 return f.get();
             } catch (Exception e) {
@@ -168,10 +170,10 @@ public class BundleHelper {
         BundleFilter bundleList = new BundleFilter(bundlesToStop, regExBundleNotStop, getBundleList());
 
         logger.info(String.format("(%d) APPC bundles to Stop/Start: %s.", bundleList.getBundlesToStop().size(),
-                bundleList.getBundlesToStop().toString()));
+            bundleList.getBundlesToStop().toString()));
 
         logger.debug(String.format("(%d) APPC bundles that won't be Stopped/Started: %s.",
-                bundleList.getBundlesToNotStop().size(), bundleList.getBundlesToNotStop().toString()));
+            bundleList.getBundlesToNotStop().size(), bundleList.getBundlesToNotStop().toString()));
 
         return bundleList.getBundlesToStop();
     }
@@ -229,17 +231,21 @@ public class BundleHelper {
         private Bundle bundle;
         private String bundleName;
         private String actionName;
+        private final BaseCommon baseCommon;
 
-        BundleTask(AppcOam.RPC rpcIn, Bundle bundleIn) {
+        BundleTask(AppcOam.RPC rpcIn, Bundle bundleIn, BaseCommon baseCommon) {
             rpc = rpcIn;
             actionName = rpc.getAppcOperation().toString();
             bundle = bundleIn;
             bundleName = bundle.getSymbolicName();
+            this.baseCommon = baseCommon;
         }
 
         @Override
         public BundleTask call() throws Exception {
             try {
+                baseCommon.setInitialLogProperties();
+
                 long bundleOperStartTime = System.currentTimeMillis();
                 logDebug(String.format("OAM %s bundle %s ===>", actionName, bundleName));
                 switch (rpc) {
@@ -253,11 +259,14 @@ public class BundleHelper {
                         // should do nothing
                 }
                 logDebug(String.format("OAM %s bundle %s completed <=== elasped %d",
-                        actionName, bundleName, getElaspeTimeMs(bundleOperStartTime)));
+                    actionName, bundleName, getElapseTimeMs(bundleOperStartTime)));
             } catch (BundleException e) {
                 logger.error(String.format("Exception encountered when OAM %s bundle %s ",
-                        actionName, bundleName), e);
+                    actionName, bundleName), e);
                 failException = e;
+            }
+            finally {
+                baseCommon.clearRequestLogProperties();
             }
             return this;
         }

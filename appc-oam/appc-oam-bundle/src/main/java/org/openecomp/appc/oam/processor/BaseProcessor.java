@@ -40,6 +40,8 @@ import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
 
 import java.util.Date;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Base processor for OAM APIs, such as maintenance mode, restart, start and stop API.
@@ -48,11 +50,14 @@ import java.util.concurrent.Future;
  * <p>Specific API processor will overwrite the general methods to add specific behaviors.
  */
 public abstract class BaseProcessor extends BaseCommon {
+    /** lock to serialize incoming OAM operations.  */
+    private static final Object LOCK = new Object();
+
     final AsyncTaskHelper asyncTaskHelper;
     final BundleHelper bundleHelper;
 
-
-    Integer timeoutSeconds;
+    /** the requestTimeoutSeconds to use for this OAM operation */
+    private Integer requestTimeoutSeconds;
     Msg auditMsg;
     BaseActionRunnable runnable;
     private Future<?> scheduledRunnable = null;
@@ -90,7 +95,8 @@ public abstract class BaseProcessor extends BaseCommon {
 
         try {
             preProcess(requestInput);
-            timeoutSeconds = operationHelper.getParamRequestTimeout(requestInput);
+            //The OAM request may specify timeout value
+            requestTimeoutSeconds = operationHelper.getParamRequestTimeout(requestInput);
             scheduleAsyncTask();
         } catch (Exception e) {
             setErrorStatus(e);
@@ -112,13 +118,31 @@ public abstract class BaseProcessor extends BaseCommon {
      * @throws APPCException         when state validation failed
      */
     protected void preProcess(final Object requestInput)
-            throws InvalidInputException, APPCException, InvalidStateException {
+        throws InvalidInputException, APPCException, InvalidStateException,InterruptedException,TimeoutException {
+        setInitialLogProperties();
         operationHelper.isInputValid(requestInput);
 
-        AppcOamStates nextState = operationHelper.getNextState(
-                rpc.getAppcOperation(), stateHelper.getCurrentOamState());
-        setInitialLogProperties();
-        stateHelper.setState(nextState);
+        //All OAM operation pass through here first to validate if an OAM state change is allowed.
+        //If a state change is allowed cancel the occurring OAM (if any) before starting this one.
+        //we will synchronized so that only one can do this at any given time.
+        synchronized(LOCK) {
+            AppcOamStates currentOamState = stateHelper.getCurrentOamState();
+
+            //make sure this OAM operation can transition to the desired OAM operation
+            AppcOamStates nextState = operationHelper.getNextState(
+                    rpc.getAppcOperation(), currentOamState);
+
+            stateHelper.setState(nextState);
+
+            //cancel the  BaseActionRunnable currently executing
+            //it got to be completely terminated before proceeding
+            asyncTaskHelper.cancelBaseActionRunnable(
+                    rpc,
+                    currentOamState,
+                    getTimeoutMilliseconds(),
+                    TimeUnit.MILLISECONDS
+            );
+        }
     }
 
     /**
@@ -135,32 +159,49 @@ public abstract class BaseProcessor extends BaseCommon {
     protected void scheduleAsyncTask() {
         if (runnable == null) {
             logger.error(String.format(
-                    "Skipped schedule async task for rpc(%s) due to runnable is null", rpc.name()));
+                "Skipped schedule async task for rpc(%s) due to runnable is null", rpc.name()));
             return;
         }
 
-        scheduledRunnable = asyncTaskHelper.scheduleAsyncTask(rpc, runnable);
+        scheduledRunnable = asyncTaskHelper.scheduleBaseRunnable(
+            runnable, runnable::abortRunnable, getInitialDelayMillis(), getDelayMillis());
     }
 
+
     /**
-     * Check if current running task is the same as schedule task
-     * @return true if they are the same, otherwise false.
+     * The timeout for this OAM operation. The timeout source is chosen in the following order:
+     * request, config file, default value
+     * @return  - the timeout for this OAM operation.
      */
-    boolean isSameAsyncTask() {
-        return asyncTaskHelper.getCurrentAsyncTask() == scheduledRunnable;
+    long getTimeoutMilliseconds() {
+        return configurationHelper.getOAMOperationTimeoutValue(this.requestTimeoutSeconds);
+    }
+
+
+    /**
+     * @return initialDelayMillis - the time to delay first execution of {@link BaseActionRunnable}
+     */
+    protected long getInitialDelayMillis(){
+        return 0L;
     }
 
     /**
-     * Cancel schedueled async task through AsyncTaskHelper
+     * @return delayMillis the delay between the consecutive executions of  {@link BaseActionRunnable}
+     */
+    private long getDelayMillis(){
+        return 1000L;
+    }
+
+    /**
+     * Cancel the scheduled {@link BaseActionRunnable}  through AsyncTaskHelper
      */
     void cancelAsyncTask() {
         if (scheduledRunnable == null) {
             logger.error(String.format(
-                    "Skipped cancel schedule async task for rpc(%s) due to scheduledRunnable is null", rpc.name()));
+                "Skipped cancel schedule async task for rpc(%s) due to scheduledRunnable is null", rpc.name()));
             return;
         }
-
-        asyncTaskHelper.cancelAsyncTask(scheduledRunnable);
-        scheduledRunnable = null;
+        scheduledRunnable.cancel(true);
     }
+
 }

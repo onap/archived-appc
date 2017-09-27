@@ -163,11 +163,20 @@ public class BaseCommonTest {
         testBaseCommon.setInitialLogProperties();
 
         testBaseCommon.resetLogProperties(false);
-        Mockito.verify(testBaseCommon, times(2)).setInitialLogProperties();
+        Mockito.verify(mockCommonHeader, times(2)).getRequestId();
+        Mockito.verify(mockCommonHeader, times(2)).getOriginatorId();
         Map<String, String> oldMdcMap = Whitebox.getInternalState(testBaseCommon, "oldMdcContent");
         Assert.assertTrue("Should have 5 entries in persisted map", oldMdcMap.size() == 5);
 
         testBaseCommon.resetLogProperties(false);
-        Mockito.verify(testBaseCommon, times(3)).setInitialLogProperties();
+        Mockito.verify(mockCommonHeader, times(3)).getRequestId();
+        Mockito.verify(mockCommonHeader, times(3)).getOriginatorId();
+
+        // test oldMdcMap is cleared
+        testBaseCommon.resetLogProperties(false);
+        Mockito.verify(mockCommonHeader, times(4)).getRequestId();
+        Mockito.verify(mockCommonHeader, times(4)).getOriginatorId();
+        oldMdcMap = Whitebox.getInternalState(testBaseCommon, "oldMdcContent");
+        Assert.assertTrue("Should have 5 entries in persisted map", oldMdcMap.size() == 5);
     }
 }
