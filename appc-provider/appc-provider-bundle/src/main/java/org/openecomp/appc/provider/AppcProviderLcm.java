@@ -503,25 +503,6 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         return  buildStatus(statusCode, statusMessage);
     }
 
-    private RequestHandlerOutput executeRequest(RequestHandlerInput request){
-        RequestHandler handler = getRequestHandler();
-        RequestHandlerOutput requestHandlerOutput;
-        if (handler != null) {
-        try {
-            requestHandlerOutput = handler.handleRequest(request);
-        } catch (Exception e) {
-            logger.info("UNEXPECTED FAILURE while executing " + request.getRequestContext().getAction().name());
-            requestHandlerOutput = createErrorRequestHandlerObj(request,
-                    LCMCommandStatus.UNEXPECTED_ERROR, Msg.EXCEPTION_CALLING_DG, e);
-        }
-        } else {
-            String errorMsg = "LCM request cannot be processed at the moment because APPC isn't running";
-            requestHandlerOutput = createErrorRequestHandlerObj(request,
-                    LCMCommandStatus.REJECTED, Msg.REQUEST_HANDLER_UNAVAILABLE, new APPCException(errorMsg));
-        }
-        return requestHandlerOutput;
-    }
-
     private RequestHandlerOutput createErrorRequestHandlerObj(RequestHandlerInput request,
                                                               LCMCommandStatus cmdStatus,
                                                               Msg msg,
@@ -1006,33 +987,39 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     public Future<RpcResult<CheckLockOutput>> checkLock(CheckLockInput input) {
         logger.debug("Input received : " + input.toString());
         CheckLockOutputBuilder outputBuilder = new CheckLockOutputBuilder();
-        String action = Action.CheckLock.toString() ;
+        String action = Action.CheckLock.toString();
         String rpcName = Action.CheckLock.name().toLowerCase();
-        RequestHandlerOutput requestHandlerOutput=null;
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        RequestHandlerOutput requestHandlerOutput = null;
+        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(),
+            input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
-                requestHandlerOutput=executeRequest(request);
+                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input
+                    .getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action)
+                    .rpcName(rpcName).build();
+                requestHandlerOutput = executeRequest(request);
 
                 status = buildStatusWithDispatcherOutput(requestHandlerOutput);
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                    input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildParsingErrorStatus(e);
 
                 LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
-                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
-                        this.getClass().getName());
+                    LoggingConstants.TargetNames.APPC_PROVIDER,
+                    String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                    this.getClass().getName());
 
             }
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        if(requestHandlerOutput.getResponseContext().getStatus().getCode() == 400) {
-            outputBuilder.setLocked(CheckLockOutput.Locked.valueOf(requestHandlerOutput.getResponseContext().getAdditionalContext().get("locked").toUpperCase()));
+        if (requestHandlerOutput != null && requestHandlerOutput.getResponseContext().getStatus().getCode() == 400) {
+            outputBuilder.setLocked(CheckLockOutput.Locked.valueOf(requestHandlerOutput.getResponseContext()
+                .getAdditionalContext().get("locked").toUpperCase()));
         }
-        RpcResult<CheckLockOutput> result = RpcResultBuilder.<CheckLockOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<CheckLockOutput> result = RpcResultBuilder.<CheckLockOutput>status(true)
+            .withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1191,5 +1178,22 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
                 .toLowerCase();
     }
 
-
+    RequestHandlerOutput executeRequest(RequestHandlerInput request){
+        RequestHandler handler = getRequestHandler();
+        RequestHandlerOutput requestHandlerOutput;
+        if (handler != null) {
+            try {
+                requestHandlerOutput = handler.handleRequest(request);
+            } catch (Exception e) {
+                logger.info("UNEXPECTED FAILURE while executing " + request.getRequestContext().getAction().name());
+                requestHandlerOutput = createErrorRequestHandlerObj(request,
+                    LCMCommandStatus.UNEXPECTED_ERROR, Msg.EXCEPTION_CALLING_DG, e);
+            }
+        } else {
+            String errorMsg = "LCM request cannot be processed at the moment because APPC isn't running";
+            requestHandlerOutput = createErrorRequestHandlerObj(request,
+                LCMCommandStatus.REJECTED, Msg.REQUEST_HANDLER_UNAVAILABLE, new APPCException(errorMsg));
+        }
+        return requestHandlerOutput;
+    }
 }
