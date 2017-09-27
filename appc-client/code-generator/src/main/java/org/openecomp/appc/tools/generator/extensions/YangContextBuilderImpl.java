@@ -52,14 +52,16 @@ public class YangContextBuilderImpl implements ContextBuilder {
 
         YangTextSchemaContextResolver yangContextResolver = YangTextSchemaContextResolver
                 .create("yang-context-resolver");
+        Optional<SchemaContext> sc=null;
         try {
             yangContextResolver.registerSource(new URL("file:///" + sourceFile));
+            sc = yangContextResolver.getSchemaContext();
         } catch (SchemaSourceException | IOException | YangSyntaxErrorException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+        } finally{
+        yangContextResolver.close();
         }
-        Optional<SchemaContext> sc = yangContextResolver.getSchemaContext();
-
         Map<String, Object> map = new HashMap<>();
         if (sc.isPresent()) {
 
