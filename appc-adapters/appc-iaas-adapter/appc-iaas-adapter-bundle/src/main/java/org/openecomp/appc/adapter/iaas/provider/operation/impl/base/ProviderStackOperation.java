@@ -90,7 +90,8 @@ public abstract class ProviderStackOperation extends ProviderOperation{
         }
     }
 
-    private boolean checkStatus(String expectedStatus, int pollInterval, String actualStatus) {
+/* Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument */
+    private boolean checkStatus(String expectedStatus, long pollInterval, String actualStatus) {
         if (actualStatus.toUpperCase().equals(expectedStatus)) {
             return true;
         } else {
@@ -161,8 +162,8 @@ public abstract class ProviderStackOperation extends ProviderOperation{
         SvcLogicContext ctx = rc.getSvcLogicContext();
         Context context = stack.getContext();
         StackService stackService = context.getStackService();
-
-        int pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
+/* Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument */
+        long pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_STACK_STATE_CHANGE_TIMEOUT);
         long maxTimeToWait = System.currentTimeMillis() + (long) timeout * 1000;
         Stack.Status stackStatus;
