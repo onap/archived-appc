@@ -39,6 +39,8 @@ import org.openecomp.appc.requesthandler.LCMStateManager;
 import org.openecomp.appc.requesthandler.RequestHandler;
 import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
 
+import java.util.concurrent.TimeoutException;
+
 /**
  * Processor to handle maintenance mode OAM API.
  */
@@ -65,7 +67,7 @@ public class OamMmodeProcessor extends BaseProcessor {
 
     @Override
     protected void preProcess(final Object requestInput)
-            throws InvalidInputException, InvalidStateException, APPCException {
+            throws InvalidInputException, InvalidStateException, APPCException, InterruptedException, TimeoutException {
         super.preProcess(requestInput);
 
         //Close the gate so that no more new LCM request will be excepted.
@@ -80,14 +82,25 @@ public class OamMmodeProcessor extends BaseProcessor {
     }
 
     /**
+     * {@inheritDoc}
+     * For maintenance mode we want a longer delay before initial execution of {@link BaseActionRunnable}
+     * so that any accepted LCM actions have time to git scheduled in the Dispatcher.
+     */
+    @Override
+    protected long getInitialDelayMillis(){
+        //wait ten seconds before
+        return 10000L;
+    }
+
+    /**
      * This runnable does the async handling for the maintenance mode REST API, and will be scheduled to run
      * until terminating condition reaches.
      *
-     * <p>The runnable will conintue run if: <br>
+     * <p>The runnable will continue run if: <br>
      *   - the runnable is not canceled outside <br>
      *   - the in progress LCM request count is not zero<br>
      * <p> When LCM request count reaches to zero, this runnable will: <br>
-     *     - post message through operatonHelper <br>
+     *     - post message through operationHelper <br>
      *     - set APP-C OAM state to maintenance mode <br>
      *     - audit log the state <br>
      *     - terminate this runnable itself <br>
@@ -98,7 +111,7 @@ public class OamMmodeProcessor extends BaseProcessor {
         MyRunnable(BaseProcessor parent) {
             super(parent);
 
-            actionName = "OAM Maintanence mode";
+            actionName = "OAM Maintenance mode";
             auditMsg = Msg.OAM_OPERATION_MAINTENANCE_MODE;
             finalState = AppcOamStates.MaintenanceMode;
         }
@@ -113,12 +126,6 @@ public class OamMmodeProcessor extends BaseProcessor {
         boolean checkState() {
             logDebug(String.format("Executing %s task", actionName));
 
-            if (!myParent.isSameAsyncTask()) {
-                // cancel myself if I am not the current backgroundOamTask
-                myParent.cancelAsyncTask();
-                logDebug(String.format("Finished %s task due to task removed", actionName));
-                return true;
-            }
 
             boolean hasError = false;
             try {
@@ -156,8 +163,8 @@ public class OamMmodeProcessor extends BaseProcessor {
         @Override
         void keepWaiting() {
             logDebug("The application '%s' has '%s' outstanding LCM request to complete" +
-                            " before coming to a complete maintenance_mode.",
-                    configurationHelper.getAppcName(), inprogressRequestCount);
+                    " before coming to a complete maintenance_mode.",
+                configurationHelper.getAppcName(), inprogressRequestCount);
         }
     }
 }

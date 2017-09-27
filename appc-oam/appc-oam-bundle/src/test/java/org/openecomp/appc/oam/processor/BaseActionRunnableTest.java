@@ -22,7 +22,6 @@
  * ============LICENSE_END=========================================================
  */
 
-
 package org.openecomp.appc.oam.processor;
 
 import com.att.eelf.configuration.EELFLogger;
@@ -31,7 +30,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
-import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.i18n.Msg;
 import org.openecomp.appc.oam.AppcOam;
 import org.openecomp.appc.oam.OAMCommandStatus;
@@ -46,7 +44,6 @@ import org.powermock.reflect.Whitebox;
 import java.util.Date;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -102,7 +99,6 @@ public class BaseActionRunnableTest {
     private StateHelper mockStateHelper = mock(StateHelper.class);
     private OperationHelper mockOperHelper = mock(OperationHelper.class);
     private ConfigurationHelper mockConfigHelper = mock(ConfigurationHelper.class);
-    private Configuration mockConfig = mock(Configuration.class);
     private BundleHelper mockBundleHelper = mock(BundleHelper.class);
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -111,11 +107,8 @@ public class BaseActionRunnableTest {
         // to avoid operation on logger fail, mock up the logger
         EELFLogger mockLogger = mock(EELFLogger.class);
 
-        Mockito.doReturn(mockConfig).when(mockConfigHelper).getConfig();
-        Mockito.doReturn(10).when(mockConfig).getIntegerProperty(any(), anyInt());
-
         testProcessor = spy(
-                new TestProcessor(mockLogger, mockConfigHelper, mockStateHelper, null, mockOperHelper));
+            new TestProcessor(mockLogger, mockConfigHelper, mockStateHelper, null, mockOperHelper));
         Whitebox.setInternalState(testProcessor, "bundleHelper", mockBundleHelper);
 
         testBaseAcionRunnable = spy(new TestAbc(testProcessor));
@@ -127,41 +120,41 @@ public class BaseActionRunnableTest {
         Whitebox.setInternalState(testBaseAcionRunnable, "timeoutMs", 0);
         Whitebox.setInternalState(testBaseAcionRunnable, "startTimeMs", 0);
         Whitebox.setInternalState(testBaseAcionRunnable, "doTimeoutChecking", false);
+        long expectedTimeout = 10000L;
+        Mockito.doReturn(expectedTimeout).when(mockConfigHelper).getOAMOperationTimeoutValue(any());
         testBaseAcionRunnable.setTimeoutValues();
-        Assert.assertEquals("Should set timeoutMs", 10 * 1000, testBaseAcionRunnable.timeoutMs);
+        Assert.assertEquals("Should set timeoutMs", expectedTimeout, testBaseAcionRunnable.timeoutMs);
         Assert.assertTrue("Should set start time MS", testBaseAcionRunnable.startTimeMs != 0);
         Assert.assertTrue("Should do check", testBaseAcionRunnable.doTimeoutChecking);
 
         Whitebox.setInternalState(testBaseAcionRunnable, "timeoutMs", 0);
         Whitebox.setInternalState(testBaseAcionRunnable, "startTimeMs", 0);
         Whitebox.setInternalState(testBaseAcionRunnable, "doTimeoutChecking", false);
-        int timeoutSeconds = 20;
-        Whitebox.setInternalState(testProcessor, "timeoutSeconds", timeoutSeconds);
+        expectedTimeout = 20000L;
+        Mockito.doReturn(expectedTimeout).when(mockConfigHelper).getOAMOperationTimeoutValue(any());
         testBaseAcionRunnable.setTimeoutValues();
-        Assert.assertEquals("Should set timeoutMs", timeoutSeconds * 1000, testBaseAcionRunnable.timeoutMs);
+        Assert.assertEquals("Should set timeoutMs", expectedTimeout, testBaseAcionRunnable.timeoutMs);
         Assert.assertTrue("Should set start time MS", testBaseAcionRunnable.startTimeMs != 0);
         Assert.assertTrue("Should do check", testBaseAcionRunnable.doTimeoutChecking);
 
         Whitebox.setInternalState(testBaseAcionRunnable, "timeoutMs", 0);
         Whitebox.setInternalState(testBaseAcionRunnable, "startTimeMs", 0);
         Whitebox.setInternalState(testBaseAcionRunnable, "doTimeoutChecking", false);
-
-        timeoutSeconds = 0;
-        Whitebox.setInternalState(testProcessor, "timeoutSeconds", timeoutSeconds);
-        Mockito.doReturn(0).when(mockConfig).getIntegerProperty(
-                testBaseAcionRunnable.OAM_OPERATION_TIMEOUT_SECOND, testBaseAcionRunnable.DEFAULT_OAM_OPERATION_TIMEOUT);
+        expectedTimeout = 0L;
+        Mockito.doReturn(expectedTimeout).when(mockConfigHelper).getOAMOperationTimeoutValue(any());
         testBaseAcionRunnable.setTimeoutValues();
-        Assert.assertEquals("Should set timeoutMs", timeoutSeconds * 1000, testBaseAcionRunnable.timeoutMs);
+        Assert.assertEquals("Should set timeoutMs", expectedTimeout, testBaseAcionRunnable.timeoutMs);
         Assert.assertTrue("Should not set start time MS", testBaseAcionRunnable.startTimeMs == 0);
         Assert.assertFalse("Should not do check", testBaseAcionRunnable.doTimeoutChecking);
     }
+
     @Test
     public void testRun() throws Exception {
         // test doAction failed
         Whitebox.setInternalState(testBaseAcionRunnable, "doActionResult", false);
         testBaseAcionRunnable.run();
         Assert.assertFalse("isWaiting should still be false",
-                Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
+            Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
 
         // test doAction success
         Whitebox.setInternalState(testBaseAcionRunnable, "doActionResult", true);
@@ -170,13 +163,13 @@ public class BaseActionRunnableTest {
         Mockito.doReturn(true).when(testBaseAcionRunnable).checkState();
         testBaseAcionRunnable.run();
         Assert.assertFalse("isWaiting should still be false",
-                Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
+            Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
 
         // with checkState return false
         Mockito.doReturn(false).when(testBaseAcionRunnable).checkState();
         testBaseAcionRunnable.run();
         Assert.assertTrue("isWaiting should still be true",
-                Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
+            Whitebox.getInternalState(testBaseAcionRunnable, "isWaiting"));
 
         // should stay
         testBaseAcionRunnable.run();
@@ -187,11 +180,11 @@ public class BaseActionRunnableTest {
     public void testSetAbortStatus() throws Exception {
         testBaseAcionRunnable.setAbortStatus();
         Assert.assertEquals("Should return abort code", OAMCommandStatus.ABORT.getResponseCode(),
-                testBaseAcionRunnable.status.getCode().intValue());
+            testBaseAcionRunnable.status.getCode().intValue());
         Assert.assertTrue("Should set abort due to execution error message",
-                testBaseAcionRunnable.status.getMessage().endsWith(
-                        String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT,
-                                testRpc.name(), testBaseAcionRunnable.DUE_TO_EXECUTION_ERROR)));
+            testBaseAcionRunnable.status.getMessage().endsWith(
+                String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT,
+                    testRpc.name(), testBaseAcionRunnable.DUE_TO_EXECUTION_ERROR)));
     }
 
     @Test
@@ -261,10 +254,10 @@ public class BaseActionRunnableTest {
         Assert.assertTrue("Should be timeout", testBaseAcionRunnable.isTimeout(parentName));
         Mockito.verify(testBaseAcionRunnable, times(1)).postAction(any());
         Assert.assertEquals("Should return timeout code", OAMCommandStatus.TIMEOUT.getResponseCode(),
-                testBaseAcionRunnable.status.getCode().intValue());
+            testBaseAcionRunnable.status.getCode().intValue());
         Assert.assertTrue("Should set timeout message",
-                testBaseAcionRunnable.status.getMessage().endsWith(
-                        String.format(testBaseAcionRunnable.TIMEOUT_MESSAGE_FORMAT, testRpc.name(), timeoutMs)));
+            testBaseAcionRunnable.status.getMessage().endsWith(
+                String.format(testBaseAcionRunnable.TIMEOUT_MESSAGE_FORMAT, testRpc.name(), timeoutMs)));
     }
 
     @SuppressWarnings("unchecked")
@@ -277,9 +270,8 @@ public class BaseActionRunnableTest {
         long failedNumber = 1;
         Mockito.doReturn(failedNumber).when(mockBundleHelper).getFailedMetrics(anyMap());
         Assert.assertTrue("should return true", testBaseAcionRunnable.hasBundleOperationFailure());
-        Mockito.verify(testBaseAcionRunnable,
-                times(1)).setStatus(OAMCommandStatus.UNEXPECTED_ERROR,
-                String.format(testBaseAcionRunnable.BUNDLE_OPERATION_FAILED_FORMAT, failedNumber));
+        Mockito.verify(testBaseAcionRunnable, times(1)).setStatus(OAMCommandStatus.UNEXPECTED_ERROR,
+            String.format(testBaseAcionRunnable.BUNDLE_OPERATION_FAILED_FORMAT, failedNumber));
         Mockito.verify(testBaseAcionRunnable, times(1)).postAction(AppcOamStates.Error);
     }
 
@@ -289,11 +281,11 @@ public class BaseActionRunnableTest {
         AppcOam.RPC newRpc = AppcOam.RPC.restart;
         testBaseAcionRunnable.abortRunnable(newRpc);
         Assert.assertEquals("Should return abort code", OAMCommandStatus.ABORT.getResponseCode(),
-                testBaseAcionRunnable.status.getCode().intValue());
+            testBaseAcionRunnable.status.getCode().intValue());
         Assert.assertTrue("Should set abort due to new request message",
-                testBaseAcionRunnable.status.getMessage().endsWith(
-                        String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT, testRpc.name(),
-                                String.format(testBaseAcionRunnable.NEW_RPC_OPERATION_REQUEST, newRpc.name()))));
+            testBaseAcionRunnable.status.getMessage().endsWith(
+                String.format(testBaseAcionRunnable.ABORT_MESSAGE_FORMAT, testRpc.name(),
+                    String.format(testBaseAcionRunnable.NEW_RPC_OPERATION_REQUEST, newRpc.name()))));
         Mockito.verify(mockOperHelper, times(1)).sendNotificationMessage(any(), any(), any());
         Mockito.verify(testBaseAcionRunnable, times(1)).resetLogProperties(false);
         Mockito.verify(testBaseAcionRunnable, times(1)).resetLogProperties(true);

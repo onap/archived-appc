@@ -45,9 +45,6 @@ import java.util.concurrent.Future;
  *   <br>  - finalState
  */
 public abstract class BaseActionRunnable extends BaseCommon implements Runnable {
-    final String OAM_OPERATION_TIMEOUT_SECOND = "appc.OAM.api.timeout";
-    /** Default operation tiemout set to 1 minute */
-    final int DEFAULT_OAM_OPERATION_TIMEOUT = 60;
     /** Abort due to rejection message format with flexible operation name */
     final String ABORT_MESSAGE_FORMAT = "Aborting %s operation due to %s.";
     /** Timeout message format with flexible operation name */
@@ -58,7 +55,6 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
     final String DUE_TO_EXECUTION_ERROR = "due to execution error.";
 
     private boolean isWaiting = false;
-    private AppcOamStates currentState;
     long startTimeMs = 0;
     long timeoutMs = 0;
     boolean doTimeoutChecking = false;
@@ -80,31 +76,24 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
 
         rpc = parent.rpc;
         commonHeader = parent.commonHeader;
-        startTime = parent.startTime;
         myParent = parent;
-
         setTimeoutValues();
     }
 
     /**
-     * Set timeout in milliseconds
+     * Collect the timeout value for this {@link BaseActionRunnable}
      */
     void setTimeoutValues() {
-        Integer timeoutSeconds = myParent.timeoutSeconds;
-        if (timeoutSeconds == null) {
-            timeoutMs = configurationHelper.getConfig().getIntegerProperty(
-                    OAM_OPERATION_TIMEOUT_SECOND, DEFAULT_OAM_OPERATION_TIMEOUT) * 1000;
-        } else {
-            timeoutMs = timeoutSeconds.longValue() * 1000;
-        }
-
+        startTime = myParent.startTime;
+        timeoutMs = myParent.getTimeoutMilliseconds();
         doTimeoutChecking = timeoutMs != 0;
         if (doTimeoutChecking) {
             startTimeMs = startTime.getTime();
         }
         logDebug("%s action runnable check timeout (%s) with timeout (%d)ms, and startMs (%d)",
-                rpc.name(), Boolean.toString(doTimeoutChecking), timeoutMs, startTimeMs);
+            rpc.name(), Boolean.toString(doTimeoutChecking), timeoutMs, startTimeMs);
     }
+
 
     /**
      * Abort operation handling due to outside interruption, does<br>
@@ -114,7 +103,7 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
      *
      * @param newRpc of the new AppcOam.RPC operation.
      */
-    public void abortRunnable(final AppcOam.RPC newRpc) {
+    void abortRunnable(final AppcOam.RPC newRpc) {
         resetLogProperties(false);
 
         String additionalMsg = String.format(NEW_RPC_OPERATION_REQUEST, newRpc);
@@ -131,7 +120,7 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
         try {
             setInitialLogProperties();
             logDebug(String.format("===========in %s run (waiting: %s)=======",
-                    actionName, Boolean.toString(isWaiting)));
+                actionName, Boolean.toString(isWaiting)));
 
             if (isWaiting) {
                 if (!checkState()) {
@@ -159,7 +148,7 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
      */
     void keepWaiting() {
         logDebug(String.format("%s runnable waiting, current state is %s.",
-                actionName, currentState == null ? "null" : currentState.toString()));
+            actionName, stateHelper.getCurrentOamState()));
 
         isTimeout("keepWaiting");
     }
@@ -173,9 +162,9 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
     boolean isTimeout(String parentName) {
         logDebug(String.format("%s task isTimeout called from %s", actionName, parentName));
         if (doTimeoutChecking
-                && System.currentTimeMillis() - startTimeMs > timeoutMs) {
+            && System.currentTimeMillis() - startTimeMs > timeoutMs) {
             logger.error(String.format("%s operation timeout (%d) ms has reached, abort with error state.",
-                    actionName, timeoutMs));
+                actionName, timeoutMs));
 
             setStatus(OAMCommandStatus.TIMEOUT, String.format(TIMEOUT_MESSAGE_FORMAT, rpc.name(), timeoutMs));
             postAction(AppcOamStates.Error);
@@ -253,8 +242,7 @@ public abstract class BaseActionRunnable extends BaseCommon implements Runnable 
             return true;
         }
 
-        currentState = stateHelper.getBundlesState();
-        if (currentState == finalState) {
+        if (stateHelper.getBundlesState() == finalState) {
             setStatus(OAMCommandStatus.SUCCESS);
             postDoAction(true);
             return true;

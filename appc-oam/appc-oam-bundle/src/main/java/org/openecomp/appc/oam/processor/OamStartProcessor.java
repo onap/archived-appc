@@ -101,7 +101,7 @@ public class OamStartProcessor extends BaseProcessor {
                 if (stateHelper.getState() != AppcOamStates.Started) {
                     logDebug("Start - APPC OAM state is not started, start the bundles");
                     isBundleOperationCompleted = bundleHelper.bundleOperations(
-                            rpc, bundleNameToFuture, myParent.asyncTaskHelper);
+                        rpc, bundleNameToFuture, myParent.asyncTaskHelper, this);
                 }
 
                 if (isBundleOperationCompleted) {

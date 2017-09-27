@@ -30,12 +30,17 @@ import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Utility class provides general configuration helps
  */
 public class ConfigurationHelper {
     final static String PROP_KEY_APPC_NAME = Constants.PROPERTY_APPLICATION_NAME;
     final static String PROP_KEY_METRIC_STATE = "metric.enabled";
+    private final String OAM_OPERATION_TIMEOUT_SECOND = "appc.OAM.api.timeout";
+    /** Default operation timeout set to 1 minute */
+    private final int DEFAULT_OAM_OPERATION_TIMEOUT = 60;
 
     private final EELFLogger logger;
     private Configuration configuration = ConfigurationFactory.getConfiguration();
@@ -57,7 +62,7 @@ public class ConfigurationHelper {
     }
 
     /**
-     * Read property value of a specified proeprty key
+     * Read property value of a specified property key
      *
      * @param propertyKey string of the property key
      * @return String[] of the property values associated with the propertyKey
@@ -76,5 +81,24 @@ public class ConfigurationHelper {
             return propertyValue.split("\\s*,\\s*");
         }
         return new String[]{propertyValue};
+    }
+
+
+
+
+
+    /**
+     * This method returns timeout in milliseconds.  The source is chosen in the following order:
+     * The overrideTimeoutSeconds argument
+     * or {@link #OAM_OPERATION_TIMEOUT_SECOND} found in the configuration file
+     * or the {@link #DEFAULT_OAM_OPERATION_TIMEOUT}
+     * @param overrideTimeoutSeconds  or null to us the other sources
+     * @return timeout in milliseconds
+     */
+    public long getOAMOperationTimeoutValue(Integer overrideTimeoutSeconds) {
+        return overrideTimeoutSeconds == null ?
+            getConfig().getIntegerProperty(OAM_OPERATION_TIMEOUT_SECOND, DEFAULT_OAM_OPERATION_TIMEOUT) * 1000
+            :
+            TimeUnit.MILLISECONDS.toMillis(overrideTimeoutSeconds);
     }
 }

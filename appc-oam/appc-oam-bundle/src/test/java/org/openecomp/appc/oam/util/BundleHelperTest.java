@@ -80,7 +80,7 @@ public class BundleHelperTest {
         mapFromGetAppcLcmBundles.put("BundleString", mockBundle);
 
         PowerMockito.doReturn(mapFromGetAppcLcmBundles).when(bundleHelper, MemberMatcher.method(
-                BundleHelper.class, "getAppcLcmBundles")).withNoArguments();
+            BundleHelper.class, "getAppcLcmBundles")).withNoArguments();
 
         StateHelper mockStateHelper = mock(StateHelper.class);
         Whitebox.setInternalState(bundleHelper, "stateHelper", mockStateHelper);
@@ -90,25 +90,25 @@ public class BundleHelperTest {
 
         // test start
         Mockito.doReturn(true).when(mockStateHelper).isSameState(appcOamStates);
-        boolean result = bundleHelper.bundleOperations(AppcOam.RPC.start, new HashMap<>(), mockTaskHelper);
+        boolean result = bundleHelper.bundleOperations(AppcOam.RPC.start, new HashMap<>(), mockTaskHelper,null);
         Assert.assertTrue("Should be completed", result);
-        Mockito.verify(mockTaskHelper, times(1)).submitBundleLcOperation(any());
+        Mockito.verify(mockTaskHelper, times(1)).submitBaseSubCallable(any());
 
         // test start aborted
         Mockito.doReturn(false).when(mockStateHelper).isSameState(appcOamStates);
-        result = bundleHelper.bundleOperations(AppcOam.RPC.start, new HashMap<>(), mockTaskHelper);
+        result = bundleHelper.bundleOperations(AppcOam.RPC.start, new HashMap<>(), mockTaskHelper,null);
         Assert.assertFalse("Should be abort", result);
-        Mockito.verify(mockTaskHelper, times(1)).submitBundleLcOperation(any());
+        Mockito.verify(mockTaskHelper, times(1)).submitBaseSubCallable(any());
 
         // test stop
-        result = bundleHelper.bundleOperations(AppcOam.RPC.stop, new HashMap<>(), mockTaskHelper);
+        result = bundleHelper.bundleOperations(AppcOam.RPC.stop, new HashMap<>(), mockTaskHelper,null);
         Assert.assertTrue("Should be completed", result);
-        Mockito.verify(mockTaskHelper, times(2)).submitBundleLcOperation(any());
+        Mockito.verify(mockTaskHelper, times(2)).submitBaseSubCallable(any());
     }
 
     @Test(expected = APPCException.class)
     public void testBundleOperationsRpcException() throws Exception {
-        bundleHelper.bundleOperations(AppcOam.RPC.maintenance_mode, new HashMap<>(), mockTaskHelper);
+        bundleHelper.bundleOperations(AppcOam.RPC.maintenance_mode, new HashMap<>(), mockTaskHelper,null);
     }
 
     @Test
@@ -156,7 +156,7 @@ public class BundleHelperTest {
         Mockito.doReturn(null).when(fakeConf).getProperty(propKey);
         String[] propResult = bundleHelper.readPropsFromPropListName(propKey);
         Assert.assertArrayEquals("PropertyResult should be empty string array",
-                ArrayUtils.EMPTY_STRING_ARRAY, propResult);
+            ArrayUtils.EMPTY_STRING_ARRAY, propResult);
         // Property has one entry
         String propValue1 = "1234";
         String propValue2 = "5678";

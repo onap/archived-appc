@@ -112,14 +112,14 @@ public class OamRestartProcessor extends BaseProcessor {
         @Override
         boolean doAction() {
             logDebug(String.format("Executing %s task at phase (%s)",
-                    actionName, currentPhase == null ? "null" : currentPhase.name()));
+                actionName, currentPhase == null ? "null" : currentPhase.name()));
 
             boolean isBundleOperationCompleted = true;
             try {
                 switch (currentPhase) {
                     case ToStop:
                         isBundleOperationCompleted = bundleHelper.bundleOperations(
-                                AppcOam.RPC.stop, bundleNameToFuture, myParent.asyncTaskHelper);
+                            AppcOam.RPC.stop, bundleNameToFuture, myParent.asyncTaskHelper, this);
                         currentPhase = ActionPhases.Stopped;
                         break;
                     case Stopped:
@@ -129,12 +129,12 @@ public class OamRestartProcessor extends BaseProcessor {
                             currentPhase = ActionPhases.ToStart;
                         } else {
                             logDebug(String.format("%s task is waiting in stopped phase, current state is %s",
-                                    actionName, currentState));
+                                actionName, currentState));
                         }
                         break;
                     case ToStart:
                         isBundleOperationCompleted = bundleHelper.bundleOperations(
-                                AppcOam.RPC.start, bundleNameToFuture, myParent.asyncTaskHelper);
+                            AppcOam.RPC.start, bundleNameToFuture, myParent.asyncTaskHelper, this);
                         currentPhase = ActionPhases.Started;
                         break;
                     case Error:
@@ -143,13 +143,13 @@ public class OamRestartProcessor extends BaseProcessor {
                     default:
                         // Should not reach log it and return false;
                         logger.error("%s task doAction reached %s phase. not supported. return false.",
-                                actionName, currentPhase.name());
+                            actionName, currentPhase.name());
                         stateHelper.setState(AppcOamStates.Error);
                         return false;
                 }
 
                 if (isTimeout("restart doAction")
-                        || hasBundleOperationFailure()) {
+                    || hasBundleOperationFailure()) {
                     currentPhase = ActionPhases.Error;
                     return true;
                 }

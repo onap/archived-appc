@@ -94,7 +94,7 @@ public class OamStopProcessor extends BaseProcessor {
 
             try {
                 boolean isBundleOperationCompleted = bundleHelper.bundleOperations(
-                        rpc, bundleNameToFuture, myParent.asyncTaskHelper);
+                    rpc, bundleNameToFuture, myParent.asyncTaskHelper, this);
                 if (isBundleOperationCompleted) {
                     return true;
                 }

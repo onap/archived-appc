@@ -53,7 +53,6 @@ import static com.att.eelf.configuration.Configuration.MDC_INSTANCE_UUID;
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
 import static com.att.eelf.configuration.Configuration.MDC_SERVER_FQDN;
 import static com.att.eelf.configuration.Configuration.MDC_SERVER_IP_ADDRESS;
-import static com.att.eelf.configuration.Configuration.MDC_SERVICE_INSTANCE_ID;
 import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 /**
@@ -61,7 +60,7 @@ import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
  *     - BaseProcessor (for REST sync handling) <br>
  *     - BaseActionRunnable (for REST async handling)
  */
-abstract class BaseCommon {
+public abstract class BaseCommon {
     final EELFLogger logger;
     final ConfigurationHelper configurationHelper;
     final StateHelper stateHelper;
@@ -74,15 +73,14 @@ abstract class BaseCommon {
     CommonHeader commonHeader;
 
     private final List<String> MDC_KEYS = Arrays.asList(
-       LoggingConstants.MDCKeys.PARTNER_NAME,
-       LoggingConstants.MDCKeys.SERVER_NAME,
-       MDC_INSTANCE_UUID,
-       MDC_KEY_REQUEST_ID,
-       MDC_SERVER_FQDN,
-       MDC_SERVER_IP_ADDRESS,
-       MDC_SERVICE_NAME
+        LoggingConstants.MDCKeys.PARTNER_NAME,
+        LoggingConstants.MDCKeys.SERVER_NAME,
+        MDC_INSTANCE_UUID,
+        MDC_KEY_REQUEST_ID,
+        MDC_SERVER_FQDN,
+        MDC_SERVER_IP_ADDRESS,
+        MDC_SERVICE_NAME
     );
-
     private Map<String, String> oldMdcContent = new HashMap<>();
 
     /**
@@ -110,19 +108,19 @@ abstract class BaseCommon {
     void auditInfoLog(Msg msg) {
         LoggingUtils.auditInfo(startTime.toInstant(),
                 new Date(System.currentTimeMillis()).toInstant(),
-                String.valueOf(status.getCode()),
-                status.getMessage(),
-                getClass().getCanonicalName(),
-                msg,
-                configurationHelper.getAppcName(),
-                stateHelper.getCurrentOamState().toString()
+            String.valueOf(status.getCode()),
+            status.getMessage(),
+            getClass().getCanonicalName(),
+            msg,
+            configurationHelper.getAppcName(),
+            stateHelper.getCurrentOamState().toString()
         );
     }
 
     /**
      * Set MDC properties.
      */
-    void setInitialLogProperties() {
+    public final void setInitialLogProperties() {
         MDC.put(MDC_KEY_REQUEST_ID, commonHeader.getRequestId());
         MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, commonHeader.getOriginatorId());
         MDC.put(MDC_INSTANCE_UUID, ""); // value should be created in the future
@@ -141,15 +139,14 @@ abstract class BaseCommon {
     /**
      * Clear MDC properties.
      */
-    void clearRequestLogProperties() {
-        try {
-            MDC.remove(MDC_KEY_REQUEST_ID);
-            MDC.remove(MDC_SERVICE_INSTANCE_ID);
-            MDC.remove(MDC_SERVICE_NAME);
-            MDC.remove(LoggingConstants.MDCKeys.PARTNER_NAME);
-            MDC.remove(LoggingConstants.MDCKeys.TARGET_VIRTUAL_ENTITY);
-        } catch (Exception e) {
-            logger.error("Unable to clear the Request Log properties" + e.getMessage());
+    public final void clearRequestLogProperties() {
+        for (String key : MDC_KEYS) {
+            try {
+                MDC.remove(key);
+            } catch (Exception e) {
+                logger.error(
+                    String.format("Unable to clear the Log properties (%s) due to exception: %s", key, e.getMessage()));
+            }
         }
     }
 
@@ -227,24 +224,24 @@ abstract class BaseCommon {
             errorMessage = EELFResourceManager.format(Msg.OAM_OPERATION_INVALID_INPUT, t.getMessage());
         } else if (t instanceof InvalidStateException) {
             exceptionMessage = String.format(AppcOam.INVALID_STATE_MESSAGE_FORMAT,
-                    rpc.getAppcOperation(), appName, stateHelper.getCurrentOamState());
+                rpc.getAppcOperation(), appName, stateHelper.getCurrentOamState());
             oamCommandStatus = OAMCommandStatus.REJECTED;
             errorMessage = EELFResourceManager.format(Msg.INVALID_STATE_TRANSITION, exceptionMessage);
         } else {
             oamCommandStatus = OAMCommandStatus.UNEXPECTED_ERROR;
             errorMessage = EELFResourceManager.format(Msg.OAM_OPERATION_EXCEPTION, t,
-                    appName, t.getClass().getSimpleName(), rpc.name(), exceptionMessage);
+                appName, t.getClass().getSimpleName(), rpc.name(), exceptionMessage);
         }
 
         setStatus(oamCommandStatus, exceptionMessage);
 
         LoggingUtils.logErrorMessage(
-                String.valueOf(status.getCode()),
-                status.getMessage(),
-                LoggingConstants.TargetNames.APPC,
-                LoggingConstants.TargetNames.APPC_OAM_PROVIDER,
-                errorMessage,
-                AppcOam.class.getCanonicalName());
+            String.valueOf(status.getCode()),
+            status.getMessage(),
+            LoggingConstants.TargetNames.APPC,
+            LoggingConstants.TargetNames.APPC_OAM_PROVIDER,
+            errorMessage,
+            AppcOam.class.getCanonicalName());
 
         resetLogProperties(true);
     }
