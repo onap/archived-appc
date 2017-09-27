@@ -84,7 +84,6 @@ public class ExecuteNodeActionImplTest {
 
     @Before
     public void setUp() throws Exception {
-        Whitebox.setInternalState(mockedExecuteNodeActionImpl, "logger", eelfLogger);
         Whitebox.setInternalState(mockedExecuteNodeActionImpl, "aaiService", aaiService);
 
         params.put("resourceType", resourceType);

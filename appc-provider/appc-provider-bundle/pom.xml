@@ -23,7 +23,7 @@
  ============LICENSE_END=========================================================
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>appc-provider</artifactId>
@@ -40,7 +40,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>org.opendaylight.controller.config.yang.config.sample_provider.impl</Export-Package>
+                        <Export-Package>org.opendaylight.controller.config.yang.config.sample_provider.impl
+                        </Export-Package>
                         <Export-Package>org.openecomp.appc.provider</Export-Package>
                         <!-- <Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*;resolution:=optional</Import-Package> -->
                         <!-- <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false,domain-model-lib,appc-command-executor-api,appc-request-handler-api</Embed-Dependency> -->
@@ -73,14 +74,20 @@
                         <configuration>
                             <codeGenerators>
                                 <generator>
-                                    <codeGeneratorClass>org.opendaylight.controller.config.yangjmxgenerator.plugin.JMXGenerator</codeGeneratorClass>
+                                    <codeGeneratorClass>
+                                        org.opendaylight.controller.config.yangjmxgenerator.plugin.JMXGenerator
+                                    </codeGeneratorClass>
                                     <outputBaseDir>${jmxGeneratorPath}</outputBaseDir>
                                     <additionalConfiguration>
-                                        <namespaceToPackage1>urn:opendaylight:params:xml:ns:yang:controller==org.opendaylight.controller.config.yang</namespaceToPackage1>
+                                        <namespaceToPackage1>
+                                            urn:opendaylight:params:xml:ns:yang:controller==org.opendaylight.controller.config.yang
+                                        </namespaceToPackage1>
                                     </additionalConfiguration>
                                 </generator>
                                 <generator>
-                                    <codeGeneratorClass>org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
+                                    <codeGeneratorClass>
+                                        org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl
+                                    </codeGeneratorClass>
                                     <outputBaseDir>${salGeneratorPath}</outputBaseDir>
                                 </generator>
                             </codeGenerators>
@@ -146,7 +153,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -163,18 +170,18 @@
             <version>${project.version}</version>
             <type>bundle</type>
             <scope>provided</scope>
-<!--             <exclusions> -->
-<!--                 <exclusion> -->
-<!--                     <groupId>org.openecomp.appc</groupId> -->
-<!--                     <artifactId>domain-model-lib</artifactId> -->
-<!--                 </exclusion> -->
-<!--             </exclusions> -->
+            <!--             <exclusions> -->
+            <!--                 <exclusion> -->
+            <!--                     <groupId>org.openecomp.appc</groupId> -->
+            <!--                     <artifactId>domain-model-lib</artifactId> -->
+            <!--                 </exclusion> -->
+            <!--             </exclusions> -->
         </dependency>
         <dependency>
             <groupId>org.openecomp.appc</groupId>
             <artifactId>appc-common</artifactId>
             <version>${project.version}</version>
-<!--             <classifier>jar-with-dependencies</classifier> -->
+            <!--             <classifier>jar-with-dependencies</classifier> -->
         </dependency>
         <dependency>
             <groupId>org.openecomp.appc</groupId>
@@ -183,11 +190,11 @@
         </dependency>
 
         <!-- ADDED THIS ARTIFACT TO BE ABLE TO FIND org.openecomp.appc.domainmodel.lcm -->
-<!--         <dependency> -->
-<!--             <groupId>org.openecomp.appc</groupId> -->
-<!--             <artifactId>domain-model-lib</artifactId> -->
-<!--             <version>${project.version}</version> -->
-<!--         </dependency> -->
+        <!--         <dependency> -->
+        <!--             <groupId>org.openecomp.appc</groupId> -->
+        <!--             <artifactId>domain-model-lib</artifactId> -->
+        <!--             <version>${project.version}</version> -->
+        <!--         </dependency> -->
 
         <dependency>
             <groupId>org.opendaylight.controller</groupId>
@@ -239,6 +246,21 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- TEMP CODE -->
