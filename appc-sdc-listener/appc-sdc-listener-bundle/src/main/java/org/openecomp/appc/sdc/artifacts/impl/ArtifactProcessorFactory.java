@@ -43,7 +43,7 @@ public class ArtifactProcessorFactory {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ArtifactProcessorFactory.class);
 
-    private ArtifactProcessorFactory (){
+    public ArtifactProcessorFactory (){
 
     }
 
@@ -57,7 +57,7 @@ public class ArtifactProcessorFactory {
      * @param storeUri
      * @return
      */
-    public static ArtifactProcessor getArtifactProcessor(IDistributionClient client, EventSender eventSender,
+    public ArtifactProcessor getArtifactProcessor(IDistributionClient client, EventSender eventSender,
                                                          INotificationData notification, IResourceInstance resource,
                                                          IArtifactInfo artifact, URI storeUri) {
 

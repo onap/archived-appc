@@ -24,19 +24,21 @@
 
 package org.openecomp.appc.sdc.listener;
 
+
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.openecomp.appc.adapter.message.EventSender;
 import org.openecomp.appc.sdc.artifacts.helper.ArtifactStorageService;
+import org.openecomp.appc.sdc.artifacts.helper.DependencyModelGenerator;
 import org.openecomp.appc.sdc.artifacts.impl.ArtifactProcessorFactory;
 import org.openecomp.appc.sdc.artifacts.impl.ToscaCsarArtifactProcessor;
 import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
+import org.openecomp.appc.sdc.artifacts.object.SDCReference;
 import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.consumer.IDistributionStatusMessage;
 import org.openecomp.sdc.api.consumer.INotificationCallback;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;
@@ -55,63 +57,69 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.mockito.Matchers.anyObject;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({IDistributionClient.class,
-                EventSender.class,
-                ArtifactStorageService.class,
-                ToscaCsarArtifactProcessor.class,
-                ArtifactProcessorFactory.class})
+        EventSender.class,
+        ArtifactStorageService.class,
+        ToscaCsarArtifactProcessor.class,
+        ArtifactProcessorFactory.class,
+        DependencyModelGenerator.class})
 public class SdcCallbackTest {
 
-    IDistributionClient client;
-    private EventSender eventSender;
     private INotificationCallback sdcCallback;
     private ArtifactStorageService storageService;
     private ToscaCsarArtifactProcessor artifactProcessor;
+    private String resourceContent;
 
 
     @Before
     public void setup() throws Exception {
-        client =  PowerMockito.mock(IDistributionClient.class);
-        eventSender = PowerMockito.mock(EventSender.class);
-        sdcCallback = new SdcCallback(null,client);
-
-        artifactProcessor = Mockito.spy(new ToscaCsarArtifactProcessor(client,eventSender,getNotificationData(),getResources().get(0)
-                ,getServiceArtifacts().get(0),null));
+        IDistributionClient client = PowerMockito.mock(IDistributionClient.class);
+        EventSender eventSender = PowerMockito.mock(EventSender.class);
+        sdcCallback = new SdcCallback(null, client);
+        resourceContent=readInput("/output/resource-ResourceAppc-template.yml").replaceAll(System.lineSeparator(),"");
+        artifactProcessor = Mockito.spy(new ToscaCsarArtifactProcessor(client, eventSender, getNotificationData(), getResources().get(0)
+                , getServiceArtifacts().get(0), null));
         storageService = PowerMockito.mock(ArtifactStorageService.class);
         Whitebox.setInternalState(artifactProcessor,"artifactStorageService", storageService);
+        DependencyModelGenerator dependencyModelGeneratorMock=PowerMockito.mock(DependencyModelGenerator.class);
+        PowerMockito.when(dependencyModelGeneratorMock.getDependencyModel(Matchers.anyString(),Matchers.anyString()))
+                .thenReturn("Dependency_model");
+        Whitebox.setInternalState(artifactProcessor,"dependencyModelGenerator",dependencyModelGeneratorMock);
 
-        PowerMockito.doCallRealMethod().when(artifactProcessor).processArtifact((IDistributionClientDownloadResult) Matchers.anyObject());
+        PowerMockito.doCallRealMethod().when(artifactProcessor).processArtifact(anyObject());
         PowerMockito.doCallRealMethod().when(artifactProcessor).run();
 
-
-        PowerMockito.mockStatic(ArtifactProcessorFactory.class);
-        PowerMockito.when(ArtifactProcessorFactory.getArtifactProcessor((IDistributionClient)Matchers.anyObject(), (EventSender)Matchers.anyObject(),
-                (INotificationData)Matchers.anyObject(), (IResourceInstance)Matchers.anyObject(),
-                (IArtifactInfo)Matchers.anyObject(), (URI)Matchers.anyObject())).thenReturn(artifactProcessor);
+        //PowerMockito.mockStatic(ArtifactProcessorFactory.class);
+        ArtifactProcessorFactory artifactProcessorFactory=PowerMockito.mock(ArtifactProcessorFactory.class);
+        PowerMockito.when(artifactProcessorFactory.getArtifactProcessor(anyObject(), anyObject(),
+                anyObject(), anyObject(),
+                anyObject(), anyObject())).thenReturn(artifactProcessor);
 
         Whitebox.setInternalState(sdcCallback,"eventSender", eventSender);
-        PowerMockito.doReturn(readDownloadResult()).when(client).download((IArtifactInfo) Matchers.anyObject());
-        PowerMockito.doReturn(null).when(client).sendDownloadStatus((IDistributionStatusMessage) Matchers.anyObject());
+        PowerMockito.doReturn(readDownloadResult()).when(client).download(anyObject());
+        PowerMockito.doReturn(null).when(client).sendDownloadStatus(anyObject());
 
-        PowerMockito.doReturn(null).when(storageService).retrieveSDCArtifact(Matchers.anyString(),Matchers.anyString(),Matchers.anyString());
+        PowerMockito.doReturn(null).when(storageService).retrieveSDCArtifact(Matchers.anyString(),
+                Matchers.anyString(),Matchers.anyString());
 
-        PowerMockito.doAnswer(new Answer<Object>() {
-            @Override
-            public Object answer(InvocationOnMock invocationOnMock) throws Throwable {
-                System.out.print(invocationOnMock.getArguments()[0].toString());
-                return null;
-            }
-        }).when(storageService).storeSDCArtifact((SDCArtifact)Matchers.anyObject());
+        PowerMockito.doAnswer(invocationOnMock -> {
+            System.out.print(invocationOnMock.getArguments()[0].toString());
+            return null;
+        }).when(storageService).storeSDCArtifact(anyObject());
     }
 
     private IDistributionClientDownloadResult readDownloadResult() throws IOException, URISyntaxException {
-        DistributionClientDownloadResultImpl downloadResult = new DistributionClientDownloadResultImpl(DistributionActionResultEnum.SUCCESS,"Download success");
+        DistributionClientDownloadResultImpl downloadResult = new DistributionClientDownloadResultImpl
+                (DistributionActionResultEnum.SUCCESS,"Download success");
         File file = new File(this.getClass().getResource("/csar/service-ServiceAppc-csar.csar").toURI());
 
         byte[] bFile = new byte[(int) file.length()];
@@ -124,23 +132,52 @@ public class SdcCallbackTest {
     }
 
 
-//    @Test
+    @Test
     public void testSDCListener() throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-
-
         INotificationData notificationData = getNotificationData();
         sdcCallback.activateCallback(notificationData);
-
-//        pause();
+        pause();
     }
 
-//    private void pause(){
-//        try {
-//            Thread.sleep(50000000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Test
+    public void testArtifacts() throws Exception {
+        PowerMockito.doAnswer(invocationOnMock -> {
+            SDCArtifact artifact =(SDCArtifact)invocationOnMock.getArguments()[0];
+            SDCReference reference=(SDCReference)invocationOnMock.getArguments()[1];
+            Assert.assertEquals("abcd-efgh-ijkl",artifact.getArtifactUUID());
+            Assert.assertEquals("Resource-APPC",reference.getVnfType());
+            Assert.assertEquals(resourceContent.trim(),artifact.getArtifactContent().replaceAll(System.lineSeparator(),""));
+            return null;
+        }).doAnswer(invocation -> {
+            SDCArtifact artifact =(SDCArtifact)invocation.getArguments()[0];
+            SDCReference reference=(SDCReference)invocation.getArguments()[1];
+            Assert.assertEquals("Resource-APPC",reference.getVnfType());
+            Assert.assertEquals("tosca_dependency_model",reference.getFileCategory());
+            Assert.assertEquals("Dependency_model",artifact.getArtifactContent());
+            Assert.assertEquals("Resource-APPC",artifact.getResourceName());
+            return null;
+        }).when(storageService).storeSDCArtifactWithReference(anyObject(),anyObject());
+
+        artifactProcessor.processArtifact(readDownloadResult());
+    }
+
+    private void pause(){
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+        }
+    }
+
+    private String readInput(String inputFile) throws URISyntaxException {
+        File file = new File(this.getClass().getResource(inputFile).toURI());
+        byte[] bFile = new byte[(int) file.length()];
+        try(FileInputStream fileInputStream = new FileInputStream(file)){
+            fileInputStream.read(bFile);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return new String(bFile);
+    }
 
     private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
@@ -176,7 +213,11 @@ public class SdcCallbackTest {
     }
 
     private Object getObject(String fqcn) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
-        Constructor constructor = Class.forName(fqcn).getDeclaredConstructors()[0];
+        Constructor constructor = Arrays.asList(Class.forName(fqcn).getDeclaredConstructors())
+                .stream()
+                .filter(constructor1 -> constructor1.getParameterCount()==0)
+                .collect(Collectors.toList())
+                .get(0);
         constructor.setAccessible(true);
         return constructor.newInstance();
     }

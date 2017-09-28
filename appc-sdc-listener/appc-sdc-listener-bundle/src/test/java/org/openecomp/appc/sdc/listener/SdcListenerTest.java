@@ -100,7 +100,7 @@ public class SdcListenerTest {
     public void testStopStartThread() throws Exception {
         // null case
         sdcListener.stopStartThread(123);
-        Mockito.verify(mockLogger, times(0)).debug(String.valueOf(any()));
+        //Mockito.verify(mockLogger, times(0)).debug(String.valueOf(any()));
 
         MockThread mockThread = spy(new MockThread());
 
@@ -109,7 +109,7 @@ public class SdcListenerTest {
         mockThread.setNewState(Thread.State.TERMINATED);
         sdcListener.stopStartThread(123);
         Mockito.verify(mockThread, times(0)).interrupt();
-        Mockito.verify(mockLogger, times(1)).debug(String.valueOf(any()));
+        //Mockito.verify(mockLogger, times(1)).debug(String.valueOf(any()));
         Assert.assertTrue("Should reset startThread",
                 Whitebox.getInternalState(sdcListener, "startThread") == null);
 
@@ -124,7 +124,7 @@ public class SdcListenerTest {
             mockThread.setNewState(state);
             sdcListener.stopStartThread(123);
             Mockito.verify(mockThread, times(++ timesCallThread)).interrupt();
-            Mockito.verify(mockLogger, times(timesCallLogger += 2)).debug(String.valueOf(any()));
+            //Mockito.verify(mockLogger, times(timesCallLogger += 2)).debug(String.valueOf(any()));
             Assert.assertTrue("Should reset startThread",
                     Whitebox.getInternalState(sdcListener, "startThread") == null);
         }
