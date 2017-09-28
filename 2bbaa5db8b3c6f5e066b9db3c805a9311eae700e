@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a437d4f_1649c75f",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/openecomp/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2017-09-28T18:15:32Z",
+      "side": 1,
+      "message": "This file seems to contain carriage return line ending characters.",
+      "revId": "2bbaa5db8b3c6f5e066b9db3c805a9311eae700e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a437d4f_767133a7",
+        "filename": "pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2017-09-28T18:15:32Z",
+      "side": 1,
+      "message": "Are these new properties used for anything? I didn\u0027t see any reference to them in the other modified files.",
+      "revId": "2bbaa5db8b3c6f5e066b9db3c805a9311eae700e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
