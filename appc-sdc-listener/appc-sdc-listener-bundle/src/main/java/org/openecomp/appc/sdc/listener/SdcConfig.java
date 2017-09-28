@@ -107,7 +107,7 @@ public class SdcConfig implements IConfiguration {
         */
         types.add("APPC_CONFIG");
         types.add("VF_LICENSE");
-        types.add("TOSCA_CSAR");
+       // types.add("TOSCA_CSAR"); commenting it out as we are not listening to TOSCA_CSAR
 
         storeOp = new URI(props.getProperty("appc.sdc.provider.url"));
     }

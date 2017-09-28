@@ -112,6 +112,8 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                     <useStandardDocletOptions>true</useStandardDocletOptions>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </reporting>
 
@@ -574,6 +576,23 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                         <goals>
                             <goal>install-file</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>additional-install</id>
+                        <phase></phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
