@@ -43,7 +43,7 @@ class WorkflowResolver {
 
     private final ReentrantLock INIT_LOCK = new ReentrantLock();
 
-    WorkflowResolver(int interval) {
+    WorkflowResolver(long interval) {
         this.interval = interval * 1000;
     }
 
