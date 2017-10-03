@@ -28,7 +28,6 @@
 		<dependency>
 			<groupId>org.opendaylight.mdsal</groupId>
 			<artifactId>features-mdsal</artifactId>
-			<version>${odl.mdsal.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
 
