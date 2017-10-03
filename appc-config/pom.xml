@@ -14,7 +14,6 @@
     <description>Application Controller Config</description>
 
     <properties>
-        <odl.mdsal.version>2.1.1-Boron-SR1</odl.mdsal.version>
         <jackson.version>2.3.2</jackson.version>
         <snakeyaml.version>1.12</snakeyaml.version>
         <velocity.version>1.7</velocity.version>
