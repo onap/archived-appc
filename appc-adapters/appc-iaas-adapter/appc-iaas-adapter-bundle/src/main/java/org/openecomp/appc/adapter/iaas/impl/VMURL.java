@@ -37,7 +37,7 @@ public class VMURL {
      * various component parts of the URL.
      */
     private static Pattern pattern = Pattern
-        .compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/v2/([^/]+)/servers/([^/]+)");
+        .compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/(v[0-9\\.]+)/([^/]+)/servers/([^/]+)");
 
     /**
      * The URL scheme or protocol, such as HTTP or HTTPS
@@ -70,6 +70,11 @@ public class VMURL {
     private String serverId;
 
     /**
+     * The version of the service
+     */
+    private String version;
+
+    /**
      * A private default constructor prevents instantiation by any method other than the factory method
      * 
      * @see #parseURL(String)
@@ -96,8 +101,9 @@ public class VMURL {
                 obj.host = matcher.group(2);
                 obj.port = matcher.group(3);
                 obj.path = matcher.group(4);
-                obj.tenantId = matcher.group(5);
-                obj.serverId = matcher.group(6);
+                obj.version = matcher.group(5);
+                obj.tenantId = matcher.group(6);
+                obj.serverId = matcher.group(7);
             }
         }
 
@@ -146,6 +152,13 @@ public class VMURL {
         return serverId;
     }
 
+    /**
+     * @return The version of the service 
+     */
+    public String getVersion() {
+        return version;
+    }
+
     @Override
     public String toString() {
         StringBuilder str = new StringBuilder();
@@ -156,7 +169,7 @@ public class VMURL {
         if (path != null) {
             str.append(path);
         }
-        str.append("/v2/" + tenantId + "/servers/" + serverId);
+        str.append("/" + version + "/" + tenantId + "/servers/" + serverId);
         return str.toString();
     }
 
