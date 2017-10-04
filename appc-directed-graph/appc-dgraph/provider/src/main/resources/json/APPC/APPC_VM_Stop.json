@@ -51,7 +51,7 @@
     "id": "8896d091.49bc2",
     "type": "execute",
     "name": "Stop",
-    "xml": "<execute plugin='org.openecomp.appc.adapter.iaas.ProviderAdapter' method='stopServer'>\n<parameter name=\"org.openecomp.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.openecomp.appc.instance.url\" value=\"`$stop-vm-url`\" />\n<parameter name=\"org.openecomp.appc.identity.url\" value=\"`$AICIdentity`\" />\n",
+    "xml": "<execute plugin='org.openecomp.appc.adapter.iaas.ProviderAdapter' method='stopServer'>\n<parameter name=\"org.openecomp.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.openecomp.appc.instance.url\" value=\"`$vm-id`\" />\n<parameter name=\"org.openecomp.appc.identity.url\" value=\"`$identity-url`\" />\n",
     "comments": "",
     "outputs": 1,
     "x": 409,

@@ -51,7 +51,7 @@
     "id": "9c797c4b.fc3f8",
     "type": "execute",
     "name": "Start",
-    "xml": "<execute plugin='org.openecomp.appc.adapter.iaas.ProviderAdapter' method='startServer'>\n<parameter name=\"org.openecomp.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.openecomp.appc.instance.url\" value=\"`$start-vm-url`\" />\n<parameter name=\"org.openecomp.appc.identity.url\" value=\"`$AICIdentity`\" />",
+    "xml": "<execute plugin='org.openecomp.appc.adapter.iaas.ProviderAdapter' method='startServer'>\n<parameter name=\"org.openecomp.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.openecomp.appc.instance.url\" value=\"`$vm-id`\" />\n<parameter name=\"org.openecomp.appc.identity.url\" value=\"`$identity-url`\" />",
     "comments": "",
     "outputs": 1,
     "x": 496,
