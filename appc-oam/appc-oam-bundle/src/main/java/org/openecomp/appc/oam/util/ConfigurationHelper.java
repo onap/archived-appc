@@ -96,9 +96,11 @@ public class ConfigurationHelper {
      * @return timeout in milliseconds
      */
     public long getOAMOperationTimeoutValue(Integer overrideTimeoutSeconds) {
-        return overrideTimeoutSeconds == null ?
-            getConfig().getIntegerProperty(OAM_OPERATION_TIMEOUT_SECOND, DEFAULT_OAM_OPERATION_TIMEOUT) * 1000
+        return TimeUnit.SECONDS.toMillis(
+                overrideTimeoutSeconds == null ?
+            getConfig().getIntegerProperty(OAM_OPERATION_TIMEOUT_SECOND, DEFAULT_OAM_OPERATION_TIMEOUT)
             :
-            TimeUnit.MILLISECONDS.toMillis(overrideTimeoutSeconds);
+            overrideTimeoutSeconds
+        );
     }
 }

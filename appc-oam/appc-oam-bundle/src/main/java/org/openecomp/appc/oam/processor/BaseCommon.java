@@ -43,11 +43,13 @@ import org.openecomp.appc.oam.util.StateHelper;
 import org.slf4j.MDC;
 
 import java.net.InetAddress;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import static com.att.eelf.configuration.Configuration.MDC_INSTANCE_UUID;
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
@@ -107,7 +109,7 @@ public abstract class BaseCommon {
      */
     void auditInfoLog(Msg msg) {
         LoggingUtils.auditInfo(startTime.toInstant(),
-                new Date(System.currentTimeMillis()).toInstant(),
+            Instant.now(),
             String.valueOf(status.getCode()),
             status.getMessage(),
             getClass().getCanonicalName(),
@@ -227,6 +229,10 @@ public abstract class BaseCommon {
                 rpc.getAppcOperation(), appName, stateHelper.getCurrentOamState());
             oamCommandStatus = OAMCommandStatus.REJECTED;
             errorMessage = EELFResourceManager.format(Msg.INVALID_STATE_TRANSITION, exceptionMessage);
+        } else if (t instanceof TimeoutException) {
+            oamCommandStatus = OAMCommandStatus.TIMEOUT;
+            errorMessage = EELFResourceManager.format(Msg.OAM_OPERATION_EXCEPTION, t,
+                    appName, t.getClass().getSimpleName(), rpc.name(), exceptionMessage);
         } else {
             oamCommandStatus = OAMCommandStatus.UNEXPECTED_ERROR;
             errorMessage = EELFResourceManager.format(Msg.OAM_OPERATION_EXCEPTION, t,
