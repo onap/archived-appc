@@ -201,7 +201,11 @@ public class AsyncTaskHelper {
                 boolean cancel;
                 synchronized (AsyncTaskHelper.this) {
                     cancel = super.cancel(mayInterruptIfRunning);
-                    myFutureSet.stream().filter(f->!this.equals(f)).forEach(f->f.cancel(mayInterruptIfRunning));
+                    //clone the set to prevent java.util.ConcurrentModificationException.  The  synchronized prevents
+                    //other threads from modifying this set, but not itself.  The  f->f.cancel may modify myFutureSet by
+                    //removing an entry which breaks the iteration in the forEach.
+                    (new HashSet<MyFuture>(myFutureSet))
+                            .stream().filter(f->!this.equals(f)).forEach(f->f.cancel(mayInterruptIfRunning));
                 }
                 return cancel;
             }

@@ -95,8 +95,6 @@ public abstract class BaseProcessor extends BaseCommon {
 
         try {
             preProcess(requestInput);
-            //The OAM request may specify timeout value
-            requestTimeoutSeconds = operationHelper.getParamRequestTimeout(requestInput);
             scheduleAsyncTask();
         } catch (Exception e) {
             setErrorStatus(e);
@@ -122,6 +120,9 @@ public abstract class BaseProcessor extends BaseCommon {
         setInitialLogProperties();
         operationHelper.isInputValid(requestInput);
 
+        //The OAM request may specify timeout value
+        requestTimeoutSeconds = operationHelper.getParamRequestTimeout(requestInput);
+
         //All OAM operation pass through here first to validate if an OAM state change is allowed.
         //If a state change is allowed cancel the occurring OAM (if any) before starting this one.
         //we will synchronized so that only one can do this at any given time.
@@ -134,14 +135,22 @@ public abstract class BaseProcessor extends BaseCommon {
 
             stateHelper.setState(nextState);
 
-            //cancel the  BaseActionRunnable currently executing
-            //it got to be completely terminated before proceeding
-            asyncTaskHelper.cancelBaseActionRunnable(
-                    rpc,
-                    currentOamState,
-                    getTimeoutMilliseconds(),
-                    TimeUnit.MILLISECONDS
-            );
+
+            try {
+                //cancel the  BaseActionRunnable currently executing
+                //it got to be completely terminated before proceeding
+                asyncTaskHelper.cancelBaseActionRunnable(
+                        rpc,
+                        currentOamState,
+                        getTimeoutMilliseconds(),
+                        TimeUnit.MILLISECONDS
+                );
+            } catch (TimeoutException e) {
+                stateHelper.setState(AppcOamStates.Error);
+                throw e;
+            }
+
+
         }
     }
 
