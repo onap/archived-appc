@@ -43,6 +43,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
@@ -165,7 +166,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
 	}
 
 	private void populateDGContext(Properties workflowParams, WorkflowRequest workflowRequest) {
-        workflowParams.put("input.common-header.timestamp",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(workflowRequest.getRequestContext().getCommonHeader().getTimeStamp()));
+        workflowParams.put("input.common-header.timestamp",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date.from(workflowRequest.getRequestContext().getCommonHeader().getTimeStamp())));
         workflowParams.put("input.common-header.api-ver",workflowRequest.getRequestContext().getCommonHeader().getApiVer());
         workflowParams.put("input.common-header.request-id",workflowRequest.getRequestContext().getCommonHeader().getRequestId());
         workflowParams.put("input.common-header.originator-id",workflowRequest.getRequestContext().getCommonHeader().getOriginatorId());
