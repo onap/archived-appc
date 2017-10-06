@@ -30,7 +30,6 @@
                             org.openecomp.appc.adapter.messaging.*,
                             org.openecomp.appc.adapter.message.*,
                             org.openecomp.appc.adapter.factory.*,
-                            org.openecomp.appc.listener,
                             *;resolution:=optional
                         </Import-Package>
                         <Embed-Dependency>
@@ -263,12 +262,6 @@
         <dependency>
             <groupId>org.openecomp.appc</groupId>
             <artifactId>appc-dmaap-adapter-bundle</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.openecomp.appc</groupId>
-            <artifactId>appc-event-listener-bundle</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
