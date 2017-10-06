@@ -1,3 +1,4 @@
+
 /*-
  * ============LICENSE_START=======================================================
  * ONAP : APP-C
@@ -5,7 +6,7 @@
  * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+i * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  * 
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -28,6 +29,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
 import org.openecomp.sdnc.config.generator.tool.JSONTool;
 import org.openecomp.sdnc.config.generator.tool.MergeTool;
+import org.openecomp.sdnc.config.generator.tool.EscapeUtils;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -71,7 +73,9 @@ public class MergeNode implements SvcLogicJavaPlugin {
             if(dataMap != null){
                 String mergedData = MergeTool.mergeMap2TemplateData(templateData, dataMap);
                 if(mergedData != null){
-                    ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_MERGED_DATA,mergedData);
+                   // ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_MERGED_DATA,mergedData);
+                  ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_MERGED_DATA,EscapeUtils.unescapeSql(mergedData));
+			
                 }
             }
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS, ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
