@@ -283,13 +283,13 @@ public class DBService {
         QueryStatus status = null;
         if (isUpdate)
             key = "update " + SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION + " set USER_NAME = $"
-                    + SdcArtifactHandlerConstants.USER_NAME + " , PASSWORD = 'dummy' " + " , PORT_NUMBER = $"
+                    + SdcArtifactHandlerConstants.USER_NAME +/* " , PASSWORD = 'dummy' " +*/ " , PORT_NUMBER = $"
                     + SdcArtifactHandlerConstants.PORT_NUMBER + " where VNF_TYPE = $"
                     + SdcArtifactHandlerConstants.VNF_TYPE;
         else
             key = "insert into " + SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION + " set  VNF_TYPE = $"
                     + SdcArtifactHandlerConstants.VNF_TYPE + " , USER_NAME = $" + SdcArtifactHandlerConstants.USER_NAME
-                    + " , PASSWORD = 'dummy' " + " , PORT_NUMBER = $" + SdcArtifactHandlerConstants.PORT_NUMBER;
+                    +/* " , PASSWORD = 'dummy' " + */ " , PORT_NUMBER = $" + SdcArtifactHandlerConstants.PORT_NUMBER;
 
         if (serviceLogic != null && context != null) {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
