@@ -36,6 +36,17 @@ public class EscapeUtils {
         String replacementList[] = new String[]{ "''","\\\\"};
         return StringUtils.replaceEach(str,searchList, replacementList);
     }
+    
+    public static String unescapeSql(String str) {
+        if (str == null) {
+            return null;
+        }
+        
+        String searchList[] = new String[] {"''"};
+        String replacementList[] = new String[] {"'"};
+        return StringUtils.replaceEach(str, searchList, replacementList);
+    }
+
 
     // For Generic Purpose
     public static String escapeSQL(String s) {
