@@ -93,10 +93,6 @@
     <scope>test</scope>
   </dependency>
       <dependency>
-          <groupId>org.onap.ccsdk.sli.core</groupId>
-          <artifactId>dblib-provider</artifactId>
-      </dependency>
-      <dependency>
           <groupId>org.powermock</groupId>
           <artifactId>powermock-reflect</artifactId>
       </dependency>
