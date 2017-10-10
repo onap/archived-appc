@@ -6,13 +6,12 @@ Application Controller (APPC) Client Library Guide
 
 
 Revision History
-----------------
+================
 
 +--------------+------------+---------------+--------------------------------------------------+
 | Date         | Revision   | Author        | Changes                                          |
 +--------------+------------+---------------+--------------------------------------------------+
 | 2017-08-22   | 1.0.0      | Paul Miller   | First draft                                      |
-+--------------+------------+---------------+--------------------------------------------------+
 +--------------+------------+---------------+--------------------------------------------------+
 
 Introduction
@@ -26,7 +25,9 @@ This document is for an advanced technical audience, which includes engineers an
 Related Documentation
 ---------------------
 
-For additional information, see the ONAP Application Controller (APPC) API Guide.
+For additional information, see 
+
+	:ref:`appc_api_guide`
 
 
 Client Library Background
@@ -54,14 +55,16 @@ APP-C Client Library Flow
 
     |image0|
 
-**Asynchronous Flow**
+Asynchronous Flow
+^^^^^^^^^^^^^^^^^
 
 -  The APPC Client Library is called using an asynchronous API using a full command object, which is mapped to a JSON representation.
 -  The APPC client calls the UEB client and sends the JSON command to a configured topic.
 -  The APPC client pulls response messages from the configured topic.
 -  On receiving the response for the command, the APPC client runs the relevant callback method of the consumer ResponseHandler.
 
-**Synchronous Flow**
+Synchronous Flow
+^^^^^^^^^^^^^^^^
 
 -  The APPC Client Library is called using a synchronous API using a full command object, which is mapped to a JSON representation.
 -  The APPC client calls the UEB client and sends the JSON command to a configured topic.
