@@ -1,9 +1,11 @@
+.. _appc_api_guide:
+
 ============================================
 ONAP Application Controller (APPC) API Guide
 ============================================
 
 Revision History
-----------------
+================
 
 +--------------+------------+---------------+--------------------------------------------------------+
 | Date         | Revision   | Author        | Changes                                                |
@@ -21,7 +23,7 @@ Revision History
 | 2017-02-06   | 1.0.0      | mjf           | copyright updated                                      |
 +--------------+------------+---------------+--------------------------------------------------------+
 
-|
+
 
 Introduction
 ============
@@ -71,14 +73,16 @@ For more details, see the APPC Client Library Guide at:
 
 The client library supports both synchronous and asynchronous flows as follows.
 
-**Asynchronous Flow**
+Asynchronous Flow
+^^^^^^^^^^^^^^^^^
 
 - The APPC Client Library is called via an asynchronous API using a full command object, which is mapped to a JSON representation.
 - The APPC client calls the UEB/DMaaP client and sends the JSON command to a configured topic.
 - The APPC client pulls response messages from the configured topic.
 - On receiving the response for the command, APPC client runs the relevant callback method of the consumer ResponseHandler.
 
-**Synchronous Flow**
+Synchronous Flow
+^^^^^^^^^^^^^^^^
 
 - The APPC Client Library is called via a synchronous API using a full command object, which is mapped to a JSON representation.
 - The APPC client calls the UEB/DMaaP client and sends the JSON command to a configured topic.
@@ -128,7 +132,7 @@ Generic Request Format
 The LCM API general request format is applicable for both POST HTTP API and for the message body received via the EUB/DMaaP bus.
 
 LCM Request
------------
+^^^^^^^^^^^
 
 The LCM request comprises a common header and a section containing the details of the LCM action.
 The LCM request conforms to the following structure::
@@ -252,7 +256,7 @@ The response format is applicable for both POST HTTP API and for the message bod
 
 
 LCM Response
-------------
+^^^^^^^^^^^^
 
 The LCM response comprises a common header and a section containing the payload and action details.
 
@@ -633,7 +637,7 @@ The Audit action does not require any payload parameters.
 +----------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+----------------------------------+
 
 Audit Response
---------------
+^^^^^^^^^^^^^^
 
 The audit response returns an indication of success or failure of the audit. If a new configuration is uploaded to the APPC database, the payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ECOMP Data Router bus which may be received by an external configuration storage system.
 
@@ -664,7 +668,7 @@ The CheckLock action does not require any payload parameters.
 +------------------------------+--------------------------------------------------------+
 
 CheckLock Response
-------------------
+^^^^^^^^^^^^^^^^^^
 
 The CheckLock command returns a customized version of the LCM
 response.
@@ -751,7 +755,7 @@ A failed Configure action returns a failure response and the specific failure me
 
 
 Configure Response
-------------------
+^^^^^^^^^^^^^^^^^^
 
 The Configure response returns an indication of success or failure of the request. If successful, the return payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ECOMP Data Router bus  which may be received by an external configuration storage system.
 
@@ -809,7 +813,7 @@ If successful, this request returns a success response.
 A failed Configure action returns a failure response and the specific failure message in the response block.
 
 ConfigModify Response
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 The ConfigModify response returns an indication of success or failure of the request. If successful, the return payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ECOMP Data Router bus which may be received by an external configuration storage system.
 
@@ -855,7 +859,7 @@ A failed ConfigBackup action returns a failure response code and the specific fa
 +---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+-----------------------------------------------------------------+
 
 ConfigBackup Response
----------------------
+^^^^^^^^^^^^^^^^^^^^^
 
 The ConfigBackup response returns an indication of success or failure of the request.
 
@@ -901,7 +905,7 @@ A failed ConfigRestore action returns a failure response code and the specific f
 +---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+-----------------------------------------------------------------+
 
 ConfigRestore Response
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 The ConfigRestore response returns an indication of success or failure of the request.
 
@@ -1204,7 +1208,7 @@ Payload Parameters
 +---------------------+-------------------------------------------------------------------------+---------------------+------------------------------------+
 
 Snapshot Response
------------------
+^^^^^^^^^^^^^^^^^
 
 The Snapshot command returns an extended version of the LCM response.
 
@@ -1275,7 +1279,7 @@ A failed StartApplication action returns a failure response code and the specifi
 +---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+-----------------------------------------------------------------+
 
 StartApplication Response
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The StartApplication response returns an indication of success or failure of the request.
 
@@ -1335,7 +1339,7 @@ A failed StopApplication action returns a failure response code and the specific
 +---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+-----------------------------------------------------------------+
 
 StopApplication Response
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The StopApplication response returns an indication of success or failure of the request.
 
