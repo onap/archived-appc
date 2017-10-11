@@ -26,7 +26,6 @@ package org.openecomp.appc.adapter.openstack.heat;
 
 import org.openecomp.appc.adapter.openstack.heat.model.CreateSnapshotParams;
 import org.openecomp.appc.adapter.openstack.heat.model.Snapshot;
-
 import com.woorea.openstack.base.client.Entity;
 import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
@@ -55,19 +54,22 @@ public class SnapshotResource {
 
     public class CreateSnapshot extends OpenStackRequest<Snapshot> {
         public CreateSnapshot(String stackName, String stackID, CreateSnapshotParams params) {
-            super(client, HttpMethod.POST, "/stacks/" + stackName + "/" + stackID + "/snapshots", Entity.json(params), Snapshot.class);
+            super(client, HttpMethod.POST, "/stacks/" + stackName + "/" + stackID + "/snapshots", Entity.json(params),
+                    Snapshot.class);
         }
     }
 
     public class RestoreSnapshot extends OpenStackRequest<Void> {
         public RestoreSnapshot(String stackName, String stackID, String snapshotID) {
-            super(client, HttpMethod.POST, "/stacks/" + stackName + "/" + stackID + "/snapshots/" + snapshotID + "/restore", null, Void.class);
+            super(client, HttpMethod.POST,
+                    "/stacks/" + stackName + "/" + stackID + "/snapshots/" + snapshotID + "/restore", null, Void.class);
         }
     }
 
     public class ShowSnapshot extends OpenStackRequest<Snapshot> {
         public ShowSnapshot(String stackName, String stackID, String snapshotID) {
-            super(client, HttpMethod.GET, "/stacks/" + stackName + "/" + stackID + "/snapshots/" + snapshotID, null, Snapshot.class);
+            super(client, HttpMethod.GET, "/stacks/" + stackName + "/" + stackID + "/snapshots/" + snapshotID, null,
+                    Snapshot.class);
         }
     }
 }

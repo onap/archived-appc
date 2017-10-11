@@ -43,9 +43,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.START_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -54,7 +52,8 @@ public class StartServer extends ProviderServerOperation {
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(StartServer.class);
 
     /**
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#startServer(java.util.Map, org.openecomp.sdnc.sli.SvcLogicContext)
+     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#startServer(java.util.Map,
+     *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server startServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
@@ -71,7 +70,8 @@ public class StartServer extends ProviderServerOperation {
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -91,11 +91,9 @@ public class StartServer extends ProviderServerOperation {
                      */
 
                     /*
-                     * Pending is a bit of a special case. If we find the server is in a
-                     * pending state, then the provider is in the process of changing state
-                     * of the server. So, lets try to wait a little bit and see if the state
-                     * settles down to one we can deal with. If not, then we have to fail
-                     * the request.
+                     * Pending is a bit of a special case. If we find the server is in a pending state, then the
+                     * provider is in the process of changing state of the server. So, lets try to wait a little bit and
+                     * see if the state settles down to one we can deal with. If not, then we have to fail the request.
                      */
 
                     if (server.getStatus().equals(Server.Status.PENDING)) {
@@ -106,11 +104,11 @@ public class StartServer extends ProviderServerOperation {
                     switch (server.getStatus()) {
                         case DELETED:
                             // Nothing to do, the server is gone
-                            msg = EELFResourceManager.format(Msg.SERVER_DELETED,
-                                    server.getName(), server.getId(), server.getTenantId(), "started");
+                            msg = EELFResourceManager.format(Msg.SERVER_DELETED, server.getName(), server.getId(),
+                                    server.getTenantId(), "started");
                             logger.error(msg);
-                            throw new RequestFailedException(
-                                    "Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                    server);
 
                         case RUNNING:
                             // Nothing to do, the server is already running
@@ -119,11 +117,11 @@ public class StartServer extends ProviderServerOperation {
 
                         case ERROR:
                             // Server is in error state
-                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE,
-                                    server.getName(), server.getId(), server.getTenantId(), "start");
+                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE, server.getName(), server.getId(),
+                                    server.getTenantId(), "start");
                             logger.error(msg);
-                            throw new RequestFailedException(
-                                    "Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                    server);
 
                         case READY:
                             // Server is stopped attempt to start the server
@@ -149,15 +147,13 @@ public class StartServer extends ProviderServerOperation {
                                     server.getTenantId(), server.getStatus().name());
                             generateEvent(rc, false, msg);
                             logger.error(msg);
-                            throw new RequestFailedException(
-                                    "Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                    server);
                     }
                     context.close();
                     doSuccess(rc);
                     ctx.setAttribute("START_STATUS", "SUCCESS");
-                }
-                else
-                {
+                } else {
                     ctx.setAttribute("START_STATUS", "CONTEXT_NOT_FOUND");
                 }
             } catch (ResourceNotFoundException e) {
@@ -165,8 +161,9 @@ public class StartServer extends ProviderServerOperation {
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        START_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
+                        e1.getClass().getSimpleName(), START_SERVICE.toString(), vm_url,
+                        context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }

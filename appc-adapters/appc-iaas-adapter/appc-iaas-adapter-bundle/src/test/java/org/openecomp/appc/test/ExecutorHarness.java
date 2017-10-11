@@ -32,9 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.openecomp.appc.test.InterceptLogger;
-
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
@@ -55,38 +53,39 @@ public class ExecutorHarness {
     private Map<String, Method> methods;
 
     /**
-     * The field of the class being tested that contains the reference to the logger to be used. This is modified to
-     * point to our interception logger for the test.
+     * The field of the class being tested that contains the reference to the logger to be used.
+     * This is modified to point to our interception logger for the test.
      */
     private Field contextLogger;
 
     /**
-     * The interception logger that buffers all messages logged and allows us to look at them as part of the test case.
+     * The interception logger that buffers all messages logged and allows us to look at them as
+     * part of the test case.
      */
     private InterceptLogger logger;
 
     /**
      * Create the harness and initialize it
      * 
-     * @throws SecurityException
-     *             If a security manager, s, is present and any of the following conditions is met:
-     *             <ul>
-     *             <li>invocation of s.checkMemberAccess(this, Member.DECLARED) denies access to the declared field</li>
-     *             <li>the caller's class loader is not the same as or an ancestor of the class loader for the current
-     *             class and invocation of s.checkPackageAccess() denies access to the package of this class</li>
-     *             </ul>
-     * @throws NoSuchFieldException
-     *             if a field with the specified name is not found.
-     * @throws IllegalAccessException
-     *             if this Field object is enforcing Java language access control and the underlying field is either
-     *             inaccessible or final.
-     * @throws IllegalArgumentException
-     *             if the specified object is not an instance of the class or interface declaring the underlying field
-     *             (or a subclass or implementor thereof), or if an unwrapping conversion fails.
+     * @throws SecurityException If a security manager, s, is present and any of the following
+     *         conditions is met:
+     *         <ul>
+     *         <li>invocation of s.checkMemberAccess(this, Member.DECLARED) denies access to the
+     *         declared field</li>
+     *         <li>the caller's class loader is not the same as or an ancestor of the class loader
+     *         for the current class and invocation of s.checkPackageAccess() denies access to the
+     *         package of this class</li>
+     *         </ul>
+     * @throws NoSuchFieldException if a field with the specified name is not found.
+     * @throws IllegalAccessException if this Field object is enforcing Java language access control
+     *         and the underlying field is either inaccessible or final.
+     * @throws IllegalArgumentException if the specified object is not an instance of the class or
+     *         interface declaring the underlying field (or a subclass or implementor thereof), or
+     *         if an unwrapping conversion fails.
      */
     @SuppressWarnings("nls")
-    public ExecutorHarness() throws NoSuchFieldException, SecurityException, IllegalArgumentException,
-                    IllegalAccessException {
+    public ExecutorHarness()
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         methods = new HashMap<>();
         new SvcLogicContext();
 
@@ -100,33 +99,31 @@ public class ExecutorHarness {
     /**
      * Convenience constructor
      * 
-     * @param executor
-     *            The executor to be tested by the harness
-     * @throws SecurityException
-     *             If a security manager, s, is present and any of the following conditions is met:
-     *             <ul>
-     *             <li>invocation of s.checkMemberAccess(this, Member.DECLARED) denies access to the declared field</li>
-     *             <li>the caller's class loader is not the same as or an ancestor of the class loader for the current
-     *             class and invocation of s.checkPackageAccess() denies access to the package of this class</li>
-     *             </ul>
-     * @throws NoSuchFieldException
-     *             if a field with the specified name is not found.
-     * @throws IllegalAccessException
-     *             if this Field object is enforcing Java language access control and the underlying field is either
-     *             inaccessible or final.
-     * @throws IllegalArgumentException
-     *             if the specified object is not an instance of the class or interface declaring the underlying field
-     *             (or a subclass or implementor thereof), or if an unwrapping conversion fails.
+     * @param executor The executor to be tested by the harness
+     * @throws SecurityException If a security manager, s, is present and any of the following
+     *         conditions is met:
+     *         <ul>
+     *         <li>invocation of s.checkMemberAccess(this, Member.DECLARED) denies access to the
+     *         declared field</li>
+     *         <li>the caller's class loader is not the same as or an ancestor of the class loader
+     *         for the current class and invocation of s.checkPackageAccess() denies access to the
+     *         package of this class</li>
+     *         </ul>
+     * @throws NoSuchFieldException if a field with the specified name is not found.
+     * @throws IllegalAccessException if this Field object is enforcing Java language access control
+     *         and the underlying field is either inaccessible or final.
+     * @throws IllegalArgumentException if the specified object is not an instance of the class or
+     *         interface declaring the underlying field (or a subclass or implementor thereof), or
+     *         if an unwrapping conversion fails.
      */
-    public ExecutorHarness(SvcLogicJavaPlugin executor) throws NoSuchFieldException, SecurityException,
-                    IllegalArgumentException, IllegalAccessException {
+    public ExecutorHarness(SvcLogicJavaPlugin executor)
+            throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {
         this();
         setExecutor(executor);
     }
 
     /**
-     * @param executor
-     *            The java plugin class to be executed
+     * @param executor The java plugin class to be executed
      */
     public void setExecutor(SvcLogicJavaPlugin executor) {
         this.executor = executor;
@@ -150,20 +147,20 @@ public class ExecutorHarness {
     }
 
     /**
-     * Returns an indication if the named method is a valid executor method that could be called from a DG execute node
+     * Returns an indication if the named method is a valid executor method that could be called
+     * from a DG execute node
      * 
-     * @param methodName
-     *            The method name to be validated
-     * @return True if the method name meets the signature requirements, false if the method either does not exist or
-     *         does not meet the requirements.
+     * @param methodName The method name to be validated
+     * @return True if the method name meets the signature requirements, false if the method either
+     *         does not exist or does not meet the requirements.
      */
     public boolean isExecMethod(String methodName) {
         return methods.containsKey(methodName);
     }
 
     /**
-     * This method scans the executor class hierarchy to locate all methods that match the required signature of the
-     * executor and records these methods in a map.
+     * This method scans the executor class hierarchy to locate all methods that match the required
+     * signature of the executor and records these methods in a map.
      */
     private void scanExecutor() {
         methods.clear();
@@ -174,7 +171,7 @@ public class ExecutorHarness {
                 Class<?>[] paramTypes = method.getParameterTypes();
                 if (paramTypes.length == 2) {
                     if (Map.class.isAssignableFrom(paramTypes[0])
-                        && SvcLogicContext.class.isAssignableFrom(paramTypes[1])) {
+                            && SvcLogicContext.class.isAssignableFrom(paramTypes[1])) {
                         methods.put(method.getName(), method);
                     }
                 }

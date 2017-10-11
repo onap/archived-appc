@@ -36,8 +36,8 @@ public class VMURL {
      * The regular expression pattern used to parse the URL. Capturing groups are used to identify and extract the
      * various component parts of the URL.
      */
-    private static Pattern pattern = Pattern
-        .compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/(v[0-9\\.]+)/([^/]+)/servers/([^/]+)");
+    private static Pattern pattern =
+            Pattern.compile("(\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/(v[0-9\\.]+)/([^/]+)/servers/([^/]+)");
 
     /**
      * The URL scheme or protocol, such as HTTP or HTTPS
@@ -87,8 +87,7 @@ public class VMURL {
      * This static method is used to parse the provided server URL string and return a parse results object (VMURL)
      * which represents the state of the parse.
      * 
-     * @param serverUrl
-     *            The server URL to be parsed
+     * @param serverUrl The server URL to be parsed
      * @return The VMURL parse results object, or null if the URL was not valid or null.
      */
     public static VMURL parseURL(String serverUrl) {
@@ -153,7 +152,7 @@ public class VMURL {
     }
 
     /**
-     * @return The version of the service 
+     * @return The version of the service
      */
     public String getVersion() {
         return version;

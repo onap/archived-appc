@@ -81,8 +81,7 @@ public class RequestFailedException extends Exception {
     }
 
     /**
-     * @param message
-     *            The error message
+     * @param message The error message
      */
     public RequestFailedException(String message) {
         super(message);
@@ -92,14 +91,10 @@ public class RequestFailedException extends Exception {
      * Construct the request failed exception with the operation being performed, reason for the failure, http status
      * code that is most appropriate, and the server we were processing.
      * 
-     * @param operation
-     *            The operation being performed
-     * @param reason
-     *            The reason that the operation was failed
-     * @param status
-     *            The http status code that is most appropriate
-     * @param server
-     *            The server that we were processing
+     * @param operation The operation being performed
+     * @param reason The reason that the operation was failed
+     * @param status The http status code that is most appropriate
+     * @param server The server that we were processing
      */
     @SuppressWarnings("nls")
     public RequestFailedException(String operation, String reason, HttpStatus status, Server server) {
@@ -118,14 +113,10 @@ public class RequestFailedException extends Exception {
      * Construct the request failed exception with the operation being performed, reason for the failure, http status
      * code that is most appropriate, and the stack we were processing.
      *
-     * @param operation
-     *            The operation being performed
-     * @param reason
-     *            The reason that the operation was failed
-     * @param status
-     *            The http status code that is most appropriate
-     * @param stack
-     *            The stack that we were processing
+     * @param operation The operation being performed
+     * @param reason The reason that the operation was failed
+     * @param status The http status code that is most appropriate
+     * @param stack The stack that we were processing
      */
     @SuppressWarnings("nls")
     public RequestFailedException(String operation, String reason, HttpStatus status, Stack stack) {
@@ -143,16 +134,11 @@ public class RequestFailedException extends Exception {
      * Construct the request failed exception with the operation being performed, reason for the failure, http status
      * code that is most appropriate, and the server we were processing.
      * 
-     * @param ex
-     *            The exception that we are wrapping
-     * @param operation
-     *            The operation being performed
-     * @param reason
-     *            The reason that the operation was failed
-     * @param status
-     *            The http status code that is most appropriate
-     * @param server
-     *            The server that we were processing
+     * @param ex The exception that we are wrapping
+     * @param operation The operation being performed
+     * @param reason The reason that the operation was failed
+     * @param status The http status code that is most appropriate
+     * @param server The server that we were processing
      */
     @SuppressWarnings("nls")
     public RequestFailedException(Throwable ex, String operation, String reason, HttpStatus status, Server server) {
@@ -167,33 +153,27 @@ public class RequestFailedException extends Exception {
     }
 
     /**
-     * @param message
-     *            The error message
-     * @param cause
-     *            A nested exception
+     * @param message The error message
+     * @param cause A nested exception
      */
     public RequestFailedException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param message
-     *            The error message
-     * @param cause
-     *            A nested exception
-     * @param enableSuppression
-     *            whether or not suppression is enabled or disabled
-     * @param writableStackTrace
-     *            whether or not the stack trace should be writable
+     * @param message The error message
+     * @param cause A nested exception
+     * @param enableSuppression whether or not suppression is enabled or disabled
+     * @param writableStackTrace whether or not the stack trace should be writable
      */
-    public RequestFailedException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public RequestFailedException(String message, Throwable cause, boolean enableSuppression,
+            boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
     /**
-     * @param cause
-     *            the cause (which is saved for later retrieval by the {@link #getCause()} method). (A null value is
-     *            permitted, and indicates that the cause is nonexistent or unknown.)
+     * @param cause the cause (which is saved for later retrieval by the {@link #getCause()} method). (A null value is
+     *        permitted, and indicates that the cause is nonexistent or unknown.)
      */
     public RequestFailedException(Throwable cause) {
         super(cause);
@@ -235,24 +215,21 @@ public class RequestFailedException extends Exception {
     }
 
     /**
-     * @param operation
-     *            The operation being performed
+     * @param operation The operation being performed
      */
     public void setOperation(String operation) {
         this.operation = operation;
     }
 
     /**
-     * @param reason
-     *            The reason for the failure
+     * @param reason The reason for the failure
      */
     public void setReason(String reason) {
         this.reason = reason;
     }
 
     /**
-     * @param server
-     *            The server being operated upon
+     * @param server The server being operated upon
      */
     public void setServer(Server server) {
         this.server = server;
@@ -262,16 +239,14 @@ public class RequestFailedException extends Exception {
     }
 
     /**
-     * @param serverId
-     *            The id of the server being operated upon
+     * @param serverId The id of the server being operated upon
      */
     public void setServerId(String serverId) {
         this.serverId = serverId;
     }
 
     /**
-     * @param status
-     *            The status of the request
+     * @param status The status of the request
      */
     public void setStatus(HttpStatus status) {
         this.status = status;

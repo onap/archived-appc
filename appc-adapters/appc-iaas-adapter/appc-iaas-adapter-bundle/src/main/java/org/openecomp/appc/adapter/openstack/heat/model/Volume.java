@@ -33,10 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "type",
-    "properties"
-})
+@JsonPropertyOrder({"type", "properties"})
 public class Volume {
 
     @JsonProperty("type")
@@ -47,8 +44,7 @@ public class Volume {
 
     /**
      * 
-     * @return
-     *     The type
+     * @return The type
      */
     @JsonProperty("type")
     public String getType() {
@@ -57,8 +53,7 @@ public class Volume {
 
     /**
      * 
-     * @param type
-     *     The type
+     * @param type The type
      */
     @JsonProperty("type")
     public void setType(String type) {
@@ -67,8 +62,7 @@ public class Volume {
 
     /**
      * 
-     * @return
-     *     The properties
+     * @return The properties
      */
     @JsonProperty("properties")
     public Properties getProperties() {
@@ -77,8 +71,7 @@ public class Volume {
 
     /**
      * 
-     * @param properties
-     *     The properties
+     * @param properties The properties
      */
     @JsonProperty("properties")
     public void setProperties(Properties properties) {

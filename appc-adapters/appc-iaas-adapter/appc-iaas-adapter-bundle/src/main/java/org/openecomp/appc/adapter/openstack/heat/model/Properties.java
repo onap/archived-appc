@@ -32,9 +32,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "size"
-})
+@JsonPropertyOrder({"size"})
 public class Properties {
 
     @JsonProperty("size")
@@ -42,8 +40,7 @@ public class Properties {
 
     /**
      * 
-     * @return
-     *     The size
+     * @return The size
      */
     @JsonProperty("size")
     public int getSize() {
@@ -52,8 +49,7 @@ public class Properties {
 
     /**
      * 
-     * @param size
-     *     The size
+     * @param size The size
      */
     @JsonProperty("size")
     public void setSize(int size) {

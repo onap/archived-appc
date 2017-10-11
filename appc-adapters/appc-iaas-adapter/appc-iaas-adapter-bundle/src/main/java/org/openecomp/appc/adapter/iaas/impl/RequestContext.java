@@ -91,8 +91,7 @@ public class RequestContext {
     /**
      * Creates the request context
      * 
-     * @param context
-     *            The service logic (SLI) context associated with the current DG
+     * @param context The service logic (SLI) context associated with the current DG
      */
     public RequestContext(SvcLogicContext context) {
         setSvcLogicContext(context);
@@ -219,8 +218,7 @@ public class RequestContext {
     /**
      * Sets the time to live to the value, expressed in seconds
      * 
-     * @param time
-     *            The time to live, in seconds
+     * @param time The time to live, in seconds
      */
     public void setTimeToLiveSeconds(int time) {
         setTimeToLiveMS(time * 1000L);
@@ -229,8 +227,7 @@ public class RequestContext {
     /**
      * Sets the time to live to the value, expressed in milliseconds
      * 
-     * @param time
-     *            The time to live, in milliseconds
+     * @param time The time to live, in milliseconds
      */
     public void setTimeToLiveMS(long time) {
         this.timeToLive = time;
@@ -244,8 +241,7 @@ public class RequestContext {
     }
 
     /**
-     * @param svcLogicContext
-     *            The service logic context to be associated with this request
+     * @param svcLogicContext The service logic context to be associated with this request
      */
     public void setSvcLogicContext(SvcLogicContext svcLogicContext) {
         this.svcLogicContext = svcLogicContext;

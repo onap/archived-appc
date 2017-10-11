@@ -52,24 +52,19 @@ import java.util.List;
 /**
  * @since September 29, 2016
  */
-public abstract class ProviderServerOperation extends ProviderOperation{
+public abstract class ProviderServerOperation extends ProviderOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ProviderServerOperation.class);
 
     /**
      * Looks up the indicated server using the provided context and returns the server to the caller
      *
-     * @param rc
-     *            The request context
-     * @param context
-     *            The provider context
-     * @param id
-     *            The id of the server
+     * @param rc The request context
+     * @param context The provider context
+     * @param id The id of the server
      * @return The server, or null if there is a problem
-     * @throws ZoneException
-     *             If the server cannot be found
-     * @throws RequestFailedException
-     *             If the server cannot be found because we cant connect to the provider
+     * @throws ZoneException If the server cannot be found
+     * @throws RequestFailedException If the server cannot be found because we cant connect to the provider
      */
     @SuppressWarnings("nls")
     protected Server lookupServer(RequestContext rc, Context context, String id)
@@ -106,10 +101,8 @@ public abstract class ProviderServerOperation extends ProviderOperation{
     /**
      * Resume a suspended server and wait for it to enter a running state
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server to be resumed
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server to be resumed
      * @throws ZoneException
      * @throws RequestFailedException
      */
@@ -167,14 +160,10 @@ public abstract class ProviderServerOperation extends ProviderOperation{
      * exceptions are thrown from this method.
      * </p>
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param image
-     *            The server to wait on
-     * @param desiredStates
-     *            A variable list of desired states, any one of which is allowed.
-     * @throws RequestFailedException
-     *             If the request times out or fails for some reason
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param image The server to wait on
+     * @param desiredStates A variable list of desired states, any one of which is allowed.
+     * @throws RequestFailedException If the request times out or fails for some reason
      * @throws NotLoggedInException
      */
     @SuppressWarnings("nls")
@@ -246,14 +235,10 @@ public abstract class ProviderServerOperation extends ProviderOperation{
      * exceptions are thrown from this method.
      * </p>
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server to wait on
-     * @param desiredStates
-     *            A variable list of desired states, any one of which is allowed.
-     * @throws RequestFailedException
-     *             If the request times out or fails for some reason
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server to wait on
+     * @param desiredStates A variable list of desired states, any one of which is allowed.
+     * @throws RequestFailedException If the request times out or fails for some reason
      */
     @SuppressWarnings("nls")
     protected void waitForStateChange(RequestContext rc, Server server, Server.Status... desiredStates)
@@ -291,8 +276,8 @@ public abstract class ProviderServerOperation extends ProviderOperation{
                     list.add(desiredState.name());
                 }
                 String reason = EELFResourceManager.format(Msg.STATE_CHANGE_EXCEPTION, e.getClass().getSimpleName(),
-                        "server", server.getName(), server.getId(), StringHelper.asList(list), server.getStatus().name(),
-                        e.getMessage());
+                        "server", server.getName(), server.getId(), StringHelper.asList(list),
+                        server.getStatus().name(), e.getMessage());
                 logger.error(reason);
                 logger.error(EELFResourceManager.format(e));
 
@@ -317,10 +302,8 @@ public abstract class ProviderServerOperation extends ProviderOperation{
     /**
      * Stop the specified server and wait for it to stop
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server to be stopped
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server to be stopped
      * @throws ZoneException
      * @throws RequestFailedException
      */
@@ -357,10 +340,8 @@ public abstract class ProviderServerOperation extends ProviderOperation{
     /**
      * Start the server and wait for it to enter a running state
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server to be started
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server to be started
      * @throws ZoneException
      * @throws RequestFailedException
      */
@@ -397,10 +378,8 @@ public abstract class ProviderServerOperation extends ProviderOperation{
     /**
      * Un-Pause a paused server and wait for it to enter a running state
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server to be un-paused
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server to be un-paused
      * @throws ZoneException
      * @throws RequestFailedException
      */
@@ -438,153 +417,143 @@ public abstract class ProviderServerOperation extends ProviderOperation{
     /**
      * Generates the event indicating what happened
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param success
-     *            True if the event represents a successful outcome
-     * @param msg
-     *            The detailed message
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param success True if the event represents a successful outcome
+     * @param msg The detailed message
      */
-    protected void generateEvent(@SuppressWarnings("unused") RequestContext rc, @SuppressWarnings("unused") boolean success, @SuppressWarnings("unused") String msg) {
+    protected void generateEvent(@SuppressWarnings("unused") RequestContext rc,
+            @SuppressWarnings("unused") boolean success, @SuppressWarnings("unused") String msg) {
         // indication to the DG to generate the event?
     }
-    
+
     /**
      * Checks if the VM is connected to the Virtual Network and reachable
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *             The server object representing the server we want to operate on
-     * @param context
-     *            The interface cloud service provider to access services or the object model, or both
-
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server object representing the server we want to operate on
+     * @param context The interface cloud service provider to access services or the object model, or both
+     * 
      */
-	protected void checkVirtualMachineNetworkStatus(RequestContext rc, Server server, Context context)
-			throws ZoneException, RequestFailedException {
+    protected void checkVirtualMachineNetworkStatus(RequestContext rc, Server server, Context context)
+            throws ZoneException, RequestFailedException {
 
-		logger.info("Performing the VM Server networking status checks...");
-		List<Port> ports = server.getPorts();
+        logger.info("Performing the VM Server networking status checks...");
+        List<Port> ports = server.getPorts();
 
-		NetworkService netSvc = context.getNetworkService();
+        NetworkService netSvc = context.getNetworkService();
 
-		String msg;
-		for (Port port : ports) {
+        String msg;
+        for (Port port : ports) {
 
-			switch (port.getPortState().toString().toUpperCase()) {
-			/**
-			 * The port is connected, configured, and usable for communication
-			 */
-			case "ONLINE":
-				Network network = netSvc.getNetworkById(port.getNetwork());
-				// Subnet subnet = netSvc.getSubnetById(port.getSubnetId());
-				if (!network.getStatus().equals(Network.Status.ACTIVE.toString())) {
-					msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-					logger.error(msg);
-					doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-					throw new RequestFailedException("VM Server Network is DOWN", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
-							server);
-				}
-				break;
+            switch (port.getPortState().toString().toUpperCase()) {
+                /**
+                 * The port is connected, configured, and usable for communication
+                 */
+                case "ONLINE":
+                    Network network = netSvc.getNetworkById(port.getNetwork());
+                    // Subnet subnet = netSvc.getSubnetById(port.getSubnetId());
+                    if (!network.getStatus().equals(Network.Status.ACTIVE.toString())) {
+                        msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
+                        logger.error(msg);
+                        doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+                        throw new RequestFailedException("VM Server Network is DOWN", msg.toString(),
+                                HttpStatus.PRECONDITION_FAILED_412, server);
+                    }
+                    break;
 
-			/**
-			 * The port is disconnected or powered-off and cannot be used for
-			 * communication
-			 */
-			case "OFFLINE":
-				msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-				logger.error(msg);
-				doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-				throw new RequestFailedException("VM Server Port status is OFFLINE", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
-						server);
+                /**
+                 * The port is disconnected or powered-off and cannot be used for communication
+                 */
+                case "OFFLINE":
+                    msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
+                    logger.error(msg);
+                    doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+                    throw new RequestFailedException("VM Server Port status is OFFLINE", msg.toString(),
+                            HttpStatus.PRECONDITION_FAILED_412, server);
 
-			/**
-			 * The port's status is changing because of some event or operation.
-			 * The final state is yet to be determined.
-			 */
-			case "PENDING":
-				msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-				logger.error(msg);
-				doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-				throw new RequestFailedException("VM Server Port status is PENDING", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
-						server);
+                    /**
+                     * The port's status is changing because of some event or operation. The final state is yet to be
+                     * determined.
+                     */
+                case "PENDING":
+                    msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
+                    logger.error(msg);
+                    doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+                    throw new RequestFailedException("VM Server Port status is PENDING", msg.toString(),
+                            HttpStatus.PRECONDITION_FAILED_412, server);
 
-			/**
-			 * The port is in an unknown state and cannot be used.
-			 */
-			case "UNKNOWN":
-				msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-				logger.error(msg);
-				doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-				throw new RequestFailedException("VM Server Port status is UNKNOWN", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
-						server);
-			}
+                    /**
+                     * The port is in an unknown state and cannot be used.
+                     */
+                case "UNKNOWN":
+                    msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
+                    logger.error(msg);
+                    doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+                    throw new RequestFailedException("VM Server Port status is UNKNOWN", msg.toString(),
+                            HttpStatus.PRECONDITION_FAILED_412, server);
+            }
 
-		}
-		logger.info("Passed the VM Server the Hypervisor status checks..");
+        }
+        logger.info("Passed the VM Server the Hypervisor status checks..");
 
-	}
-    
-	/**
+    }
+
+    /**
      * Checks if the VM is connected to the Virtual Network and reachable
      *
-     * @param server
-     *             The server object representing the server we want to operate on
+     * @param server The server object representing the server we want to operate on
      */
-	protected void checkHypervisor(Server server)
-			throws ZoneException, RequestFailedException {
+    protected void checkHypervisor(Server server) throws ZoneException, RequestFailedException {
 
-		logger.info("Performing the Hypervisor status checks..");
-		
-		String msg = null;
-		if(server.getHypervisor() != null && server.getHypervisor().getStatus() != null && server.getHypervisor().getState() != null)
-		{
-			String status = null, state = null;
-		
-			status = server.getHypervisor().getStatus().toString();
-			state = server.getHypervisor().getState().toString();
-		
-			if (!status.equals(Hypervisor.Status.ENABLED.toString()) || !state.equals(Hypervisor.State.UP.toString())) 
-			{
-				msg = EELFResourceManager.format(Msg.HYPERVISOR_DOWN_ERROR, server.getHypervisor().getHostName(), server.getName());
-				logger.error(msg.toString());
-		
-				//doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-				throw new RequestFailedException("Hypervisor status DOWN or NOT ENABLED", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
-					server);
+        logger.info("Performing the Hypervisor status checks..");
 
-			}
-		}
-		else
-		{
-			msg = EELFResourceManager.format(Msg.HYPERVISOR_STATUS_UKNOWN, server.getName());
-			logger.error(msg.toString());
-	
-			throw new RequestFailedException("Unable to determine Hypervisor status", msg.toString(), HttpStatus.PRECONDITION_FAILED_412,
-				server);
-		}
-		
-		logger.info("Passed the Hypervisor status checks..");
-		
-	}
+        String msg = null;
+        if (server.getHypervisor() != null && server.getHypervisor().getStatus() != null
+                && server.getHypervisor().getState() != null) {
+            String status = null, state = null;
 
-	/**
+            status = server.getHypervisor().getStatus().toString();
+            state = server.getHypervisor().getState().toString();
+
+            if (!status.equals(Hypervisor.Status.ENABLED.toString()) || !state.equals(Hypervisor.State.UP.toString())) {
+                msg = EELFResourceManager.format(Msg.HYPERVISOR_DOWN_ERROR, server.getHypervisor().getHostName(),
+                        server.getName());
+                logger.error(msg.toString());
+
+                // doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+                throw new RequestFailedException("Hypervisor status DOWN or NOT ENABLED", msg.toString(),
+                        HttpStatus.PRECONDITION_FAILED_412, server);
+
+            }
+        } else {
+            msg = EELFResourceManager.format(Msg.HYPERVISOR_STATUS_UKNOWN, server.getName());
+            logger.error(msg.toString());
+
+            throw new RequestFailedException("Unable to determine Hypervisor status", msg.toString(),
+                    HttpStatus.PRECONDITION_FAILED_412, server);
+        }
+
+        logger.info("Passed the Hypervisor status checks..");
+
+    }
+
+    /**
      * Checks if a Host machine is reachable
      *
-     * @param ipAddress
-     *            IP Address of the Host Machine.
-     * @param server
-     *             The server object representing the Virtual Machine server
+     * @param ipAddress IP Address of the Host Machine.
+     * @param server The server object representing the Virtual Machine server
      * @return boolean
-     *            
+     * 
      */
-	/*private boolean isHostReachable(String ipAddress) throws IOException {
-		
-		InetAddress address = InetAddress.getByName(ipAddress);
-		
-		return address.isReachable(15000); 
-		
+    /*
+     * private boolean isHostReachable(String ipAddress) throws IOException {
+     * 
+     * InetAddress address = InetAddress.getByName(ipAddress);
+     * 
+     * return address.isReachable(15000);
+     * 
+     * 
+     * }
+     */
 
-	}*/
-    
 }

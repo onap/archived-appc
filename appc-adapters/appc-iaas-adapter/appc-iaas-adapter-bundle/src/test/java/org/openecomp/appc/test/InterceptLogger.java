@@ -28,14 +28,13 @@ package org.openecomp.appc.test;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.slf4j.Marker;
-
 import ch.qos.logback.classic.Level;
 
 /**
- * This class is used as an intercept logger that can be used in testing to intercept and record all messages that are
- * logged, thus allowing a junit test case to examine the log output and make assertions.
+ * This class is used as an intercept logger that can be used in testing to intercept and record all
+ * messages that are logged, thus allowing a junit test case to examine the log output and make
+ * assertions.
  */
 public class InterceptLogger implements org.slf4j.Logger {
 
@@ -81,24 +80,21 @@ public class InterceptLogger implements org.slf4j.Logger {
         }
 
         /**
-         * @param level
-         *            the value for level
+         * @param level the value for level
          */
         public void setLevel(Level level) {
             this.level = level;
         }
 
         /**
-         * @param message
-         *            the value for message
+         * @param message the value for message
          */
         public void setMessage(String message) {
             this.message = message;
         }
 
         /**
-         * @param timestamp
-         *            the value for timestamp
+         * @param timestamp the value for timestamp
          */
         public void setTimestamp(long timestamp) {
             this.timestamp = timestamp;
@@ -112,8 +108,7 @@ public class InterceptLogger implements org.slf4j.Logger {
         }
 
         /**
-         * @param t
-         *            the value for t
+         * @param t the value for t
          */
         public void setThrowable(Throwable t) {
             this.t = t;

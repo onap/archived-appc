@@ -29,7 +29,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -37,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -61,7 +59,6 @@ import com.att.cdp.zones.model.Image;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 
 /**
@@ -100,15 +97,12 @@ public class TestProviderAdapterImpl {
     private ProviderAdapterImpl adapter;
 
     /**
-     * Use reflection to locate fields and methods so that they can be manipulated during the test to change the
-     * internal state accordingly.
+     * Use reflection to locate fields and methods so that they can be manipulated during the test
+     * to change the internal state accordingly.
      * 
-     * @throws NoSuchFieldException
-     *             if the field(s) dont exist
-     * @throws SecurityException
-     *             if reflective access is not allowed
-     * @throws NoSuchMethodException
-     *             If the method(s) dont exist
+     * @throws NoSuchFieldException if the field(s) dont exist
+     * @throws SecurityException if reflective access is not allowed
+     * @throws NoSuchMethodException If the method(s) dont exist
      */
     @SuppressWarnings("nls")
     @BeforeClass
@@ -135,16 +129,14 @@ public class TestProviderAdapterImpl {
     /**
      * Setup the test environment.
      * 
-     * @throws IllegalAccessException
-     *             if this Field object is enforcing Java language access control and the underlying field is either
-     *             inaccessible or final.
-     * @throws IllegalArgumentException
-     *             if the specified object is not an instance of the class or interface declaring the underlying field
-     *             (or a subclass or implementor thereof), or if an unwrapping conversion fails.
-     * @throws NullPointerException
-     *             if the specified object is null and the field is an instance field.
-     * @throws ExceptionInInitializerError
-     *             if the initialization provoked by this method fails.
+     * @throws IllegalAccessException if this Field object is enforcing Java language access control
+     *         and the underlying field is either inaccessible or final.
+     * @throws IllegalArgumentException if the specified object is not an instance of the class or
+     *         interface declaring the underlying field (or a subclass or implementor thereof), or
+     *         if an unwrapping conversion fails.
+     * @throws NullPointerException if the specified object is null and the field is an instance
+     *         field.
+     * @throws ExceptionInInitializerError if the initialization provoked by this method fails.
      */
     @Before
     public void setup() throws IllegalArgumentException, IllegalAccessException {
@@ -154,19 +146,16 @@ public class TestProviderAdapterImpl {
     }
 
     /**
-     * This method inspects the provider adapter implementation to make sure that the cache of providers and tenants, as
-     * well as the service catalog, and all pools of contexts have been set up correctly.
+     * This method inspects the provider adapter implementation to make sure that the cache of
+     * providers and tenants, as well as the service catalog, and all pools of contexts have been
+     * set up correctly.
      * 
-     * @throws IllegalAccessException
-     *             if this Field object is enforcing Java language access control and the underlying field is
-     *             inaccessible.
-     * @throws IllegalArgumentException
-     *             if the specified object is not an instance of the class or interface declaring the underlying field
-     *             (or a subclass or implementor thereof).
+     * @throws IllegalAccessException if this Field object is enforcing Java language access control
+     *         and the underlying field is inaccessible.
+     * @throws IllegalArgumentException if the specified object is not an instance of the class or
+     *         interface declaring the underlying field (or a subclass or implementor thereof).
      */
-    @SuppressWarnings({
-        "unchecked"
-    })
+    @SuppressWarnings({"unchecked"})
     @Ignore
     @Test
     public void validateCacheIsCreatedCorrectly() throws IllegalArgumentException, IllegalAccessException {
@@ -199,18 +188,18 @@ public class TestProviderAdapterImpl {
         assertNotNull(serviceTypes);
         assertEquals(12, serviceTypes.size());
 
-        assertEquals(TENANT_NAME, catalog.getTenantName());
-        assertEquals(TENANT_ID, catalog.getTenantId());
+        assertEquals(TENANT_NAME, catalog.getProjectName());
+        assertEquals(TENANT_ID, catalog.getProjectId());
 
         Set<String> regionNames = catalog.getRegions();
         assertNotNull(regionNames);
         assertEquals(1, regionNames.size());
         assertTrue(regionNames.contains(REGION_NAME));
 
-        List<Endpoint> endpoints = catalog.getEndpoints(ServiceCatalog.IDENTITY_SERVICE);
+        List<?> endpoints = catalog.getEndpoints(ServiceCatalog.IDENTITY_SERVICE);
         assertNotNull(endpoints);
         assertEquals(1, endpoints.size());
-        Endpoint endpoint = endpoints.get(0);
+        Endpoint endpoint = (Endpoint) endpoints.get(0);
         assertNotNull(endpoint);
         assertEquals(REGION_NAME, endpoint.getRegion());
         assertEquals(IDENTITY_URL, endpoint.getPublicURL());
@@ -218,28 +207,28 @@ public class TestProviderAdapterImpl {
         endpoints = catalog.getEndpoints(ServiceCatalog.COMPUTE_SERVICE);
         assertNotNull(endpoints);
         assertEquals(1, endpoints.size());
-        endpoint = endpoints.get(0);
+        endpoint = (Endpoint) endpoints.get(0);
         assertNotNull(endpoint);
         assertEquals(REGION_NAME, endpoint.getRegion());
 
         endpoints = catalog.getEndpoints(ServiceCatalog.VOLUME_SERVICE);
         assertNotNull(endpoints);
         assertEquals(1, endpoints.size());
-        endpoint = endpoints.get(0);
+        endpoint = (Endpoint) endpoints.get(0);
         assertNotNull(endpoint);
         assertEquals(REGION_NAME, endpoint.getRegion());
 
         endpoints = catalog.getEndpoints(ServiceCatalog.IMAGE_SERVICE);
         assertNotNull(endpoints);
         assertEquals(1, endpoints.size());
-        endpoint = endpoints.get(0);
+        endpoint = (Endpoint) endpoints.get(0);
         assertNotNull(endpoint);
         assertEquals(REGION_NAME, endpoint.getRegion());
 
         endpoints = catalog.getEndpoints(ServiceCatalog.NETWORK_SERVICE);
         assertNotNull(endpoints);
         assertEquals(1, endpoints.size());
-        endpoint = endpoints.get(0);
+        endpoint = (Endpoint) endpoints.get(0);
         assertNotNull(endpoint);
         assertEquals(REGION_NAME, endpoint.getRegion());
 
@@ -251,23 +240,21 @@ public class TestProviderAdapterImpl {
     }
 
     /**
-     * This test case is used to actually validate that a server has been restarted from an already running state
+     * This test case is used to actually validate that a server has been restarted from an already
+     * running state
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException 
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException
      */
     // @Ignore
     @Test
     public void testRestartRunningServer()
-        throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
+            throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -297,27 +284,24 @@ public class TestProviderAdapterImpl {
         }
     }
 
-    
+
     /****************************************/
     /**
-     * Tests that the vmStatuschecker method works and returns the correct status of the VM requested
+     * Tests that the vmStatuschecker method works and returns the correct status of the VM
+     * requested
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws IOException if an I/O error occurs
+     * @throws UnknownProviderException If the provider cannot be found
      */
     // @Ignore
     @Test
     public void testVmStatuschecker() throws IllegalStateException, IllegalArgumentException, ZoneException,
-        UnknownProviderException, IOException {
+            UnknownProviderException, IOException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -333,33 +317,32 @@ public class TestProviderAdapterImpl {
             Server server = computeService.getServer(vm.getServerId());
             if (!server.getStatus().equals(Status.RUNNING)) {
                 server.start();
-                assertTrue(waitForStateChange(server, Status.RUNNING));}
-            //or instead of the if-block, can ensureRunning(server) be used?
+                assertTrue(waitForStateChange(server, Status.RUNNING));
+            }
+            // or instead of the if-block, can ensureRunning(server) be used?
             ensureRunning(server);
             assertEquals(Server.Status.RUNNING, server.getStatus());
-        }   
+        }
     }
+
     /****************************************/
-    
-    
+
+
     /**
      * Tests that we can restart a server that is already stopped
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid.
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException 
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException
      */
     // @Ignore
     @Test
     public void testRestartStoppedServer()
-        throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
+            throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -392,24 +375,19 @@ public class TestProviderAdapterImpl {
     /**
      * Tests that we can rebuild a running server (not created from a bootable volume)
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid.
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException
-     *             If the server cannot be rebuilt for some reason
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException If the server cannot be rebuilt for some reason
      */
     // @Ignore
     @Test
     public void testRebuildRunningServer()
-        throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
+            throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -438,24 +416,19 @@ public class TestProviderAdapterImpl {
     /**
      * Tests that we can rebuild a paused server (not created from a bootable volume)
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid.
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException
-     *             If the server cannot be rebuilt for some reason
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException If the server cannot be rebuilt for some reason
      */
     // @Ignore
     @Test
     public void testRebuildPausedServer()
-        throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
+            throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -483,24 +456,19 @@ public class TestProviderAdapterImpl {
     /**
      * Tests that we can rebuild a paused server (not created from a bootable volume)
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid.
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException
-     *             If the server cannot be rebuilt for some reason
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException If the server cannot be rebuilt for some reason
      */
     // @Ignore
     @Test
     public void testRebuildSuspendedServer()
-        throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
+            throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -528,24 +496,19 @@ public class TestProviderAdapterImpl {
     /**
      * Tests that we can rebuild a paused server (not created from a bootable volume)
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid.
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException
-     *             If the server cannot be rebuilt for some reason
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException If the server cannot be rebuilt for some reason
      */
     // @Ignore
     @Test
     public void testRebuildStoppedServer()
-        throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
+            throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
         properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
@@ -571,98 +534,97 @@ public class TestProviderAdapterImpl {
     }
 
     /**
-     * Test subsequent action on second vm in different Tenant resulting in {"itemNotFound": {"message": "Instance could not be found", "code": 404}}
+     * Test subsequent action on second vm in different Tenant resulting in {"itemNotFound":
+     * {"message": "Instance could not be found", "code": 404}}
      * 
-     * @throws ZoneException
-     *             If the login cannot be performed because the principal and/or credentials are invalid.
-     * @throws IllegalArgumentException
-     *             If the principal and/or credential are null or empty, or if the expected argument(s) are not defined
-     *             or are invalid
-     * @throws IllegalStateException
-     *             If the identity service is not available or cannot be created
-     * @throws IOException
-     *             if an I/O error occurs
-     * @throws APPCException 
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException
      */
 
     @Test
-    public void testTenantVerification() throws IllegalStateException, IllegalArgumentException, ZoneException,
-        IOException, APPCException {
-        
+    public void testTenantVerification()
+            throws IllegalStateException, IllegalArgumentException, ZoneException, IOException, APPCException {
+
         Properties properties = new Properties();
         properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, "http://example.com:5000");
         properties.setProperty(ContextFactory.PROPERTY_TENANT, "APP-C");
         properties.setProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS, "*");
 
         String vmUrl =
-            "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
+                "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
 
-        //try (Context context = ContextFactory.getContext(PROVIDER_TYPE, properties)) {
-        //    context.login("AppC", "AppC");
-            
-            // call lookupServer on vm in defined tenant "APP-C_TLV"
-            VMURL vm = VMURL.parseURL(vmUrl);
+        // try (Context context = ContextFactory.getContext(PROVIDER_TYPE, properties)) {
+        // context.login("AppC", "AppC");
 
-            Map<String, String> params = new HashMap<>();
-            params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, vmUrl);
-            params.put(ProviderAdapter.PROPERTY_IDENTITY_URL, "http://example.com:5000/v2.0");
-            params.put(ProviderAdapter.PROPERTY_PROVIDER_NAME, "http://example.com:5000/v2.0");
-            SvcLogicContext svcContext = new SvcLogicContext();
-            
-            long start, end = 0;
+        // call lookupServer on vm in defined tenant "APP-C_TLV"
+        VMURL vm = VMURL.parseURL(vmUrl);
 
-            System.out.println("\n--------------------Begin lookupServer on tenant 1--------------------");          
-            start = System.currentTimeMillis();
-            Server server = adapter.lookupServer(params, svcContext);
-            end = System.currentTimeMillis();
-            
-            System.out.println(String.format("lookupServer on tenant 1 took %ds", (end - start) / 1000));
-            System.out.println("----------------------------------------------------------------------\n");
-            assertNotNull(server);
-            
-            //repeat to show that context is reused for second request
-            System.out.println("\n-----------------Begin repeat lookupServer on tenant 1----------------");               
-            start = System.currentTimeMillis();
-            server = adapter.lookupServer(params, svcContext);
-            end = System.currentTimeMillis();
-            
-            System.out.println(String.format("Repeat lookupServer on tenant 1 took %ds", (end - start) / 1000));
-            System.out.println("----------------------------------------------------------------------\n");
-            assertNotNull(server);
-            
-            // call lookupServer on vm in second tenant "Play"
-            // This is where we would fail due to using the previous
-            // tenants context
-            vmUrl = "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
-            vm = VMURL.parseURL(vmUrl);
-            params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, vmUrl);
-            
-            System.out.println("\n--------------------Begin lookupServer on tenant 2--------------------");
-            start = System.currentTimeMillis();
-            server = adapter.lookupServer(params, svcContext);
-            end = System.currentTimeMillis();
-            System.out.println(String.format("\nlookupServer on tenant 2 took %ds", (end - start) / 1000));
-            System.out.println("----------------------------------------------------------------------\n");
-            assertNotNull(server);
-            
-            // call lookupServer on vm in non-existing tenant
-            vmUrl = "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
-            vm = VMURL.parseURL(vmUrl);
-            params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, vmUrl);
-            
-            System.out.println("\n--------------Begin lookupServer on non-existant tenant--------------");
-            start = System.currentTimeMillis();
-            server = adapter.lookupServer(params, svcContext);
-            end = System.currentTimeMillis();            
-            System.out.println(String.format("\nlookupServer on tenant 3 took %ds", (end - start) / 1000));
-            System.out.println("----------------------------------------------------------------------\n");
-            assertNull(server);
-            
-        //}
+        Map<String, String> params = new HashMap<>();
+        params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, vmUrl);
+        params.put(ProviderAdapter.PROPERTY_IDENTITY_URL, "http://example.com:5000/v2.0");
+        params.put(ProviderAdapter.PROPERTY_PROVIDER_NAME, "http://example.com:5000/v2.0");
+        SvcLogicContext svcContext = new SvcLogicContext();
+
+        long start, end = 0;
+
+        System.out.println("\n--------------------Begin lookupServer on tenant 1--------------------");
+        start = System.currentTimeMillis();
+        Server server = adapter.lookupServer(params, svcContext);
+        end = System.currentTimeMillis();
+
+        System.out.println(String.format("lookupServer on tenant 1 took %ds", (end - start) / 1000));
+        System.out.println("----------------------------------------------------------------------\n");
+        assertNotNull(server);
+
+        // repeat to show that context is reused for second request
+        System.out.println("\n-----------------Begin repeat lookupServer on tenant 1----------------");
+        start = System.currentTimeMillis();
+        server = adapter.lookupServer(params, svcContext);
+        end = System.currentTimeMillis();
+
+        System.out.println(String.format("Repeat lookupServer on tenant 1 took %ds", (end - start) / 1000));
+        System.out.println("----------------------------------------------------------------------\n");
+        assertNotNull(server);
+
+        // call lookupServer on vm in second tenant "Play"
+        // This is where we would fail due to using the previous
+        // tenants context
+        vmUrl = "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
+        vm = VMURL.parseURL(vmUrl);
+        params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, vmUrl);
+
+        System.out.println("\n--------------------Begin lookupServer on tenant 2--------------------");
+        start = System.currentTimeMillis();
+        server = adapter.lookupServer(params, svcContext);
+        end = System.currentTimeMillis();
+        System.out.println(String.format("\nlookupServer on tenant 2 took %ds", (end - start) / 1000));
+        System.out.println("----------------------------------------------------------------------\n");
+        assertNotNull(server);
+
+        // call lookupServer on vm in non-existing tenant
+        vmUrl = "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
+        vm = VMURL.parseURL(vmUrl);
+        params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, vmUrl);
+
+        System.out.println("\n--------------Begin lookupServer on non-existant tenant--------------");
+        start = System.currentTimeMillis();
+        server = adapter.lookupServer(params, svcContext);
+        end = System.currentTimeMillis();
+        System.out.println(String.format("\nlookupServer on tenant 3 took %ds", (end - start) / 1000));
+        System.out.println("----------------------------------------------------------------------\n");
+        assertNull(server);
+
+        // }
     }
+
     /****************************************/
 
-    
+
     @Test
     public void testSnapshotServer() throws Exception {
         Properties properties = new Properties();
@@ -672,7 +634,7 @@ public class TestProviderAdapterImpl {
         properties.setProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS, "*");
 
         String vmUrl =
-            "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
+                "http://192.168.1.2:8774/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
 
         try (Context context = ContextFactory.getContext(PROVIDER_TYPE, properties)) {
             context.login("AppC", "AppC");
@@ -704,10 +666,8 @@ public class TestProviderAdapterImpl {
     /**
      * Ensures that the server is in stopped (shutdown) state prior to test
      * 
-     * @param server
-     *            The server to ensure is stopped
-     * @throws ZoneException
-     *             If the server can't be operated upon for some reason
+     * @param server The server to ensure is stopped
+     * @throws ZoneException If the server can't be operated upon for some reason
      */
     @SuppressWarnings("nls")
     private static void ensureStopped(Server server) throws ZoneException {
@@ -717,7 +677,7 @@ public class TestProviderAdapterImpl {
 
             case PENDING:
                 waitForStateChange(server, Server.Status.READY, Server.Status.RUNNING, Server.Status.PAUSED,
-                    Server.Status.SUSPENDED, Server.Status.ERROR);
+                        Server.Status.SUSPENDED, Server.Status.ERROR);
                 ensureSuspended(server);
                 break;
 
@@ -750,10 +710,8 @@ public class TestProviderAdapterImpl {
     /**
      * Ensures that the server is in suspended state prior to test
      * 
-     * @param server
-     *            The server to ensure is suspended
-     * @throws ZoneException
-     *             If the server can't be operated upon for some reason
+     * @param server The server to ensure is suspended
+     * @throws ZoneException If the server can't be operated upon for some reason
      */
     @SuppressWarnings("nls")
     private static void ensureSuspended(Server server) throws ZoneException {
@@ -763,7 +721,7 @@ public class TestProviderAdapterImpl {
 
             case PENDING:
                 waitForStateChange(server, Server.Status.READY, Server.Status.RUNNING, Server.Status.PAUSED,
-                    Server.Status.SUSPENDED, Server.Status.ERROR);
+                        Server.Status.SUSPENDED, Server.Status.ERROR);
                 ensureSuspended(server);
                 break;
 
@@ -796,10 +754,8 @@ public class TestProviderAdapterImpl {
     /**
      * This method makes sure that the indicated server is running before performing a test
      * 
-     * @param server
-     *            The server to ensure is running
-     * @throws ZoneException
-     *             If the server can't be operated upon
+     * @param server The server to ensure is running
+     * @throws ZoneException If the server can't be operated upon
      */
     @SuppressWarnings("nls")
     private static void ensureRunning(Server server) throws ZoneException {
@@ -809,7 +765,7 @@ public class TestProviderAdapterImpl {
 
             case PENDING:
                 waitForStateChange(server, Server.Status.READY, Server.Status.RUNNING, Server.Status.PAUSED,
-                    Server.Status.SUSPENDED, Server.Status.ERROR);
+                        Server.Status.SUSPENDED, Server.Status.ERROR);
                 ensureRunning(server);
                 break;
 
@@ -838,10 +794,8 @@ public class TestProviderAdapterImpl {
     /**
      * This method will make sure that the server we are testing is paused
      * 
-     * @param server
-     *            The server to make sure is paused for the test
-     * @throws ZoneException
-     *             If anything fails
+     * @param server The server to make sure is paused for the test
+     * @throws ZoneException If anything fails
      */
     @SuppressWarnings("nls")
     private static void ensurePaused(Server server) throws ZoneException {
@@ -851,7 +805,7 @@ public class TestProviderAdapterImpl {
 
             case PENDING:
                 waitForStateChange(server, Server.Status.READY, Server.Status.RUNNING, Server.Status.PAUSED,
-                    Server.Status.SUSPENDED, Server.Status.ERROR);
+                        Server.Status.SUSPENDED, Server.Status.ERROR);
                 ensurePaused(server);
                 break;
 
@@ -882,23 +836,24 @@ public class TestProviderAdapterImpl {
     }
 
     /**
-     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not.
+     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired
+     * states or not.
      * <p>
-     * This method checks the state of the server periodically for one of the desired states. When the server enters one
-     * of the desired states, the method returns a successful indication (true). If the server never enters one of the
-     * desired states within the alloted timeout period, then the method returns a failed response (false). No
-     * exceptions are thrown from this method.
+     * This method checks the state of the server periodically for one of the desired states. When
+     * the server enters one of the desired states, the method returns a successful indication
+     * (true). If the server never enters one of the desired states within the alloted timeout
+     * period, then the method returns a failed response (false). No exceptions are thrown from this
+     * method.
      * </p>
      * 
-     * @param server
-     *            The server to wait on
-     * @param desiredStates
-     *            A variable list of desired states, any one of which is allowed.
-     * @return True if the server entered one of the desired states, and false if not and the wait loop timed out.
+     * @param server The server to wait on
+     * @param desiredStates A variable list of desired states, any one of which is allowed.
+     * @return True if the server entered one of the desired states, and false if not and the wait
+     *         loop timed out.
      */
     private static boolean waitForStateChange(Server server, Server.Status... desiredStates) {
-        int timeout =
-            ConfigurationFactory.getConfiguration().getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
+        int timeout = ConfigurationFactory.getConfiguration()
+                .getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         long limit = System.currentTimeMillis() + (timeout * 1000);
         Server vm = server;
 
@@ -925,20 +880,22 @@ public class TestProviderAdapterImpl {
     }
 
     /*
-     * @Test public void testTerminateStack() throws IllegalStateException, IllegalArgumentException, ZoneException,
-     * UnknownProviderException, IOException { Properties properties = new Properties();
-     * properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, IDENTITY_URL);
-     * properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
+     * @Test public void testTerminateStack() throws IllegalStateException,
+     * IllegalArgumentException, ZoneException, UnknownProviderException, IOException { Properties
+     * properties = new Properties(); properties.setProperty(ContextFactory.PROPERTY_IDENTITY_URL,
+     * IDENTITY_URL); properties.setProperty(ContextFactory.PROPERTY_REGION, REGION_NAME);
      * properties.setProperty(ContextFactory.PROPERTY_TENANT, TENANT_NAME);
      * properties.setProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS, "*");
      * properties.setProperty(ContextFactory.PROPERTY_DISABLE_PROXY, "true"); try (Context context =
-     * ContextFactory.getContext(PROVIDER_TYPE, properties)) { context.login(PRINCIPAL, CREDENTIAL); VMURL vm =
-     * VMURL.parseURL(SERVER_URL); ComputeService computeService = context.getComputeService(); Server server =
-     * computeService.getServer(vm.getServerId()); if (!server.getStatus().equals(Status.RUNNING)) { server.start();
-     * assertTrue(waitForStateChange(server, Status.RUNNING)); } Map<String, String> params = new HashMap<>();
-     * params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, SERVER_URL); params.put(ProviderAdapter.PROPERTY_PROVIDER_NAME,
-     * PROVIDER_NAME); SvcLogicContext svcContext = new SvcLogicContext(); Stack stack = adapter.terminateStack(params,
-     * svcContext); assertNotNull(stack); } }
+     * ContextFactory.getContext(PROVIDER_TYPE, properties)) { context.login(PRINCIPAL, CREDENTIAL);
+     * VMURL vm = VMURL.parseURL(SERVER_URL); ComputeService computeService =
+     * context.getComputeService(); Server server = computeService.getServer(vm.getServerId()); if
+     * (!server.getStatus().equals(Status.RUNNING)) { server.start();
+     * assertTrue(waitForStateChange(server, Status.RUNNING)); } Map<String, String> params = new
+     * HashMap<>(); params.put(ProviderAdapter.PROPERTY_INSTANCE_URL, SERVER_URL);
+     * params.put(ProviderAdapter.PROPERTY_PROVIDER_NAME, PROVIDER_NAME); SvcLogicContext svcContext
+     * = new SvcLogicContext(); Stack stack = adapter.terminateStack(params, svcContext);
+     * assertNotNull(stack); } }
      */
 
 }

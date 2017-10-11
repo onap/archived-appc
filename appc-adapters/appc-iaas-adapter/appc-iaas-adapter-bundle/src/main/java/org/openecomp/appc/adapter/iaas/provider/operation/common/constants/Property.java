@@ -32,6 +32,7 @@ public class Property {
     public static final String PROVIDER = "provider";
     public static final String PROVIDER_IDENTITY = "identity";
     public static final String PROVIDER_TENANT = "tenant";
+    public static final String PROVIDER_TENANT_DOMAIN = "Default";
     public static final String PROVIDER_TENANT_NAME = "name";
     public static final String PROVIDER_TENANT_PASSWORD = "password";
     public static final String PROVIDER_TENANT_USERID = "userid";

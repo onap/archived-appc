@@ -33,9 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "volume"
-})
+@JsonPropertyOrder({"volume"})
 public class Resources__ {
 
     @JsonProperty("volume")
@@ -44,8 +42,7 @@ public class Resources__ {
 
     /**
      * 
-     * @return
-     *     The volume
+     * @return The volume
      */
     @JsonProperty("volume")
     public Volume_ getVolume() {
@@ -54,8 +51,7 @@ public class Resources__ {
 
     /**
      * 
-     * @param volume
-     *     The volume
+     * @param volume The volume
      */
     @JsonProperty("volume")
     public void setVolume(Volume_ volume) {

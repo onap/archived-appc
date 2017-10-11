@@ -44,10 +44,8 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
 import java.io.IOException;
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class LookupServer extends ProviderServerOperation {
@@ -59,11 +57,11 @@ public class LookupServer extends ProviderServerOperation {
     public Server lookupServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
-        rc.isAlive(); //should we test the return and fail if false?
+        rc.isAlive(); // should we test the return and fail if false?
 
         String vm_url = null;
         try {
-            //process vm_url
+            // process vm_url
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
 
@@ -74,33 +72,31 @@ public class LookupServer extends ProviderServerOperation {
                 return null;
             }
 
-            //use try with resource to ensure context is closed (returned to pool)
+            // use try with resource to ensure context is closed (returned to pool)
             try (Context context = resolveContext(rc, params, appName, vm_url)) {
-                //resloveContext & getContext call doFailure and log errors before returning null
-                if (context != null){
+                // resloveContext & getContext call doFailure and log errors before returning null
+                if (context != null) {
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
                     ctx.setAttribute("serverFound", "success");
-                    String msg =
-                            EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
+                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
                     ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                     doSuccess(rc);
                 }
             } catch (ZoneException e) {
-                //server not found
+                // server not found
                 String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
                 ctx.setAttribute("serverFound", "failure");
-            }  catch (IOException e) {
-                //exception closing context
+            } catch (IOException e) {
+                // exception closing context
                 String msg = EELFResourceManager.format(Msg.CLOSE_CONTEXT_FAILED, e, vm_url);
                 logger.error(msg);
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
-                        e1, e1.getClass().getSimpleName(),
-                        Operation.LOOKUP_SERVICE.toString(), vm_url,  "Unknown" );
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
+                        e1.getClass().getSimpleName(), Operation.LOOKUP_SERVICE.toString(), vm_url, "Unknown");
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }

@@ -29,67 +29,67 @@ package org.openecomp.appc.adapter.iaas.provider.operation.common.enums;
  */
 public enum Operation {
     EVACUATE_SERVICE {
-        public String toString(){
+        public String toString() {
             return "evacuateServer";
         }
     },
     MIGRATE_SERVICE {
-        public String toString(){
+        public String toString() {
             return "migrateServer";
         }
     },
     REBUILD_SERVICE {
-        public String toString(){
+        public String toString() {
             return "rebuildServer";
         }
     },
     RESTART_SERVICE {
-        public String toString(){
+        public String toString() {
             return "restartServer";
         }
     },
     VMSTATUSCHECK_SERVICE {
-        public String toString(){
+        public String toString() {
             return "vmStatuschecker";
         }
     },
     SNAPSHOT_SERVICE {
-        public String toString(){
+        public String toString() {
             return "createSnapshot";
         }
     },
     TERMINATE_STACK {
-        public String toString(){
+        public String toString() {
             return "terminateStack";
         }
     },
     SNAPSHOT_STACK {
-        public String toString(){
+        public String toString() {
             return "snapshotStack";
         }
     },
     START_SERVICE {
-        public String toString(){
+        public String toString() {
             return "startServer";
         }
     },
     STOP_SERVICE {
-        public String toString(){
+        public String toString() {
             return "stopServer";
         }
     },
     TERMINATE_SERVICE {
-        public String toString(){
+        public String toString() {
             return "terminateServer";
         }
     },
     LOOKUP_SERVICE {
-        public String toString(){
+        public String toString() {
             return "lookupServer";
         }
     },
-    RESTORE_STACK{
-        public String toString(){
+    RESTORE_STACK {
+        public String toString() {
             return "restoreStack";
         }
     }

@@ -29,12 +29,12 @@ package org.openecomp.appc.adapter.iaas.provider.operation.common.enums;
  */
 public enum Outcome {
     FAILURE {
-        public String toString(){
+        public String toString() {
             return "failure";
         }
     },
     SUCCESS {
-        public String toString(){
+        public String toString() {
             return "success";
         }
     }

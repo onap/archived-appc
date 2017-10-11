@@ -43,9 +43,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class TerminateStack extends ProviderStackOperation {
@@ -99,8 +97,7 @@ public class TerminateStack extends ProviderStackOperation {
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
                     context.close();
                     doSuccess(rc);
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE,
-                            "TerminateStack", vm_url);
+                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "TerminateStack", vm_url);
                     ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 }
             } catch (ResourceNotFoundException e) {
@@ -108,8 +105,9 @@ public class TerminateStack extends ProviderStackOperation {
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        Operation.TERMINATE_STACK.toString(), vm_url, context.getTenantName());
+                String msg =
+                        EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
+                                Operation.TERMINATE_STACK.toString(), vm_url, context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }

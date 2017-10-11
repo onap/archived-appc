@@ -33,10 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "parameters",
-    "resource_registry"
-})
+@JsonPropertyOrder({"parameters", "resource_registry"})
 public class Environment {
 
     @JsonProperty("parameters")
@@ -48,8 +45,7 @@ public class Environment {
 
     /**
      * 
-     * @return
-     *     The parameters
+     * @return The parameters
      */
     @JsonProperty("parameters")
     public Parameters getParameters() {
@@ -58,8 +54,7 @@ public class Environment {
 
     /**
      * 
-     * @param parameters
-     *     The parameters
+     * @param parameters The parameters
      */
     @JsonProperty("parameters")
     public void setParameters(Parameters parameters) {
@@ -68,8 +63,7 @@ public class Environment {
 
     /**
      * 
-     * @return
-     *     The resourceRegistry
+     * @return The resourceRegistry
      */
     @JsonProperty("resource_registry")
     public ResourceRegistry getResourceRegistry() {
@@ -78,8 +72,7 @@ public class Environment {
 
     /**
      * 
-     * @param resourceRegistry
-     *     The resource_registry
+     * @param resourceRegistry The resource_registry
      */
     @JsonProperty("resource_registry")
     public void setResourceRegistry(ResourceRegistry resourceRegistry) {

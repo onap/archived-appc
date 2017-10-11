@@ -26,7 +26,6 @@
 package org.openecomp.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.openecomp.appc.Constants;
@@ -37,7 +36,8 @@ import org.openecomp.appc.configuration.ConfigurationFactory;
 /**
  * Test the RequestContext object
  * <p>
- * The request context is used to track retries, recovery attempts, and time to live of the processing of a request.
+ * The request context is used to track retries, recovery attempts, and time to live of the
+ * processing of a request.
  * </p>
  */
 
@@ -47,8 +47,8 @@ public class TestRequestContext {
     private Configuration config = ConfigurationFactory.getConfiguration();
 
     /**
-     * Set up the test environment by forcing the retry delay and limit to small values for the test and setting up the
-     * request context object.
+     * Set up the test environment by forcing the retry delay and limit to small values for the test
+     * and setting up the request context object.
      */
     @Before
     public void setup() {
@@ -95,8 +95,8 @@ public class TestRequestContext {
     }
 
     /**
-     * The RequestContext tracks the number of retry attempts against the limit. This test verifies that tracking logic
-     * works correctly.
+     * The RequestContext tracks the number of retry attempts against the limit. This test verifies
+     * that tracking logic works correctly.
      */
     @Test
     public void testCanRetry() {
@@ -116,10 +116,10 @@ public class TestRequestContext {
     }
 
     /**
-     * The same RequestContext is used throughout the processing, and retries need to be reset once successfully
-     * connected so that any earlier (successful) recoveries are not considered when performing any new future
-     * recoveries. This test ensures that a reset clears the retry counter and that we can attempt retries again up to
-     * the limit.
+     * The same RequestContext is used throughout the processing, and retries need to be reset once
+     * successfully connected so that any earlier (successful) recoveries are not considered when
+     * performing any new future recoveries. This test ensures that a reset clears the retry counter
+     * and that we can attempt retries again up to the limit.
      */
     @Test
     public void testResetAndCanRetry() {
@@ -137,10 +137,10 @@ public class TestRequestContext {
     }
 
     /**
-     * This test is used to test tracking of time to live for the request context. Because time is inexact, the
-     * assertions can only be ranges of values, such as at least some value or greater. The total duration tracking in
-     * the request context is only updated on each call to {@link RequestContext#isAlive()}. Also, durations are NOT
-     * affected by calls to reset.
+     * This test is used to test tracking of time to live for the request context. Because time is
+     * inexact, the assertions can only be ranges of values, such as at least some value or greater.
+     * The total duration tracking in the request context is only updated on each call to
+     * {@link RequestContext#isAlive()}. Also, durations are NOT affected by calls to reset.
      */
     @Test
     public void testTimeToLive() {

@@ -53,13 +53,11 @@ import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class SnapshotStack extends ProviderStackOperation {
@@ -73,10 +71,10 @@ public class SnapshotStack extends ProviderStackOperation {
         Snapshot snapshot = new Snapshot();
         Context context = stack.getContext();
 
-        OpenStackContext osContext = (OpenStackContext)context;
+        OpenStackContext osContext = (OpenStackContext) context;
 
         final HeatConnector heatConnector = osContext.getHeatConnector();
-        ((OpenStackContext)context).refreshIfStale(heatConnector);
+        ((OpenStackContext) context).refreshIfStale(heatConnector);
 
         trackRequest(context);
         RequestState.put("SERVICE", "Orchestration");
@@ -133,8 +131,8 @@ public class SnapshotStack extends ProviderStackOperation {
 
                 Snapshot snapshot = snapshotStack(rc, stack);
 
-                ctx.setAttribute(ProviderAdapter.DG_OUTPUT_PARAM_NAMESPACE +
-                        ProviderAdapter.PROPERTY_SNAPSHOT_ID, snapshot.getId());
+                ctx.setAttribute(ProviderAdapter.DG_OUTPUT_PARAM_NAMESPACE + ProviderAdapter.PROPERTY_SNAPSHOT_ID,
+                        snapshot.getId());
 
                 logger.info(EELFResourceManager.format(Msg.STACK_SNAPSHOTED, stack.getName(), snapshot.getId()));
                 metricsLogger.info(EELFResourceManager.format(Msg.STACK_SNAPSHOTED, stack.getName(), snapshot.getId()));
@@ -150,14 +148,12 @@ public class SnapshotStack extends ProviderStackOperation {
             metricsLogger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg, e);
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
-                    e.getReason(), "snapshotStack"));
-            metricsLogger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
-                    e.getReason(), "snapshotStack"));
+            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST, e.getReason(), "snapshotStack"));
+            metricsLogger.error(
+                    EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST, e.getReason(), "snapshotStack"));
             doFailure(rc, e.getStatus(), e.getMessage(), e);
         } catch (Exception e1) {
-            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION,
-                    e1, e1.getClass().getSimpleName(),
+            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
                     "snapshotStack", vm_url, null == context ? "n/a" : context.getTenantName());
             logger.error(msg, e1);
             metricsLogger.error(msg);
