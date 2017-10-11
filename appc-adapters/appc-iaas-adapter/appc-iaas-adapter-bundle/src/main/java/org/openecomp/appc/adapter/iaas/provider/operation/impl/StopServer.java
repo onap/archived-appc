@@ -43,9 +43,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -55,7 +53,8 @@ public class StopServer extends ProviderServerOperation {
     private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
 
     /**
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#stopServer(java.util.Map, org.openecomp.sdnc.sli.SvcLogicContext)
+     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#stopServer(java.util.Map,
+     *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server stopServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
@@ -73,7 +72,8 @@ public class StopServer extends ProviderServerOperation {
             ctx.setAttribute("STOP_STATUS", "SUCCESS");
 
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -86,18 +86,16 @@ public class StopServer extends ProviderServerOperation {
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
-                    
+
                     String msg;
                     /*
                      * We determine what to do based on the current state of the server
                      */
 
                     /*
-                     * Pending is a bit of a special case. If we find the server is in a
-                     * pending state, then the provider is in the process of changing state
-                     * of the server. So, lets try to wait a little bit and see if the state
-                     * settles down to one we can deal with. If not, then we have to fail
-                     * the request.
+                     * Pending is a bit of a special case. If we find the server is in a pending state, then the
+                     * provider is in the process of changing state of the server. So, lets try to wait a little bit and
+                     * see if the state settles down to one we can deal with. If not, then we have to fail the request.
                      */
 
                     if (server.getStatus().equals(Server.Status.PENDING)) {
@@ -108,13 +106,13 @@ public class StopServer extends ProviderServerOperation {
                     switch (server.getStatus()) {
                         case DELETED:
                             // Nothing to do, the server is gone
-                            msg = EELFResourceManager.format(Msg.SERVER_DELETED,
-                                    server.getName(), server.getId(), server.getTenantId(), "stopped");
+                            msg = EELFResourceManager.format(Msg.SERVER_DELETED, server.getName(), server.getId(),
+                                    server.getTenantId(), "stopped");
                             generateEvent(rc, false, msg);
                             logger.error(msg);
                             metricsLogger.error(msg);
-                            throw new RequestFailedException(
-                                    "Stop Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException("Stop Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                    server);
 
                         case RUNNING:
                             // Attempt to stop the server
@@ -125,13 +123,13 @@ public class StopServer extends ProviderServerOperation {
 
                         case ERROR:
                             // Server is in error state
-                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE,
-                                    server.getName(), server.getId(), server.getTenantId(), "stop");
+                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE, server.getName(), server.getId(),
+                                    server.getTenantId(), "stop");
                             generateEvent(rc, false, msg);
                             logger.error(msg);
                             metricsLogger.error(msg);
-                            throw new RequestFailedException(
-                                    "Stop Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException("Stop Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                    server);
 
                         case READY:
                             // Nothing to do, the server was already stopped
@@ -158,13 +156,13 @@ public class StopServer extends ProviderServerOperation {
 
                         default:
                             // Hmmm, unknown status, should never occur
-                            msg = EELFResourceManager.format(Msg.UNKNOWN_SERVER_STATE,
-                                    server.getName(), server.getId(), server.getTenantId(), server.getStatus().name());
+                            msg = EELFResourceManager.format(Msg.UNKNOWN_SERVER_STATE, server.getName(), server.getId(),
+                                    server.getTenantId(), server.getStatus().name());
                             generateEvent(rc, false, msg);
                             logger.error(msg);
                             metricsLogger.error(msg);
-                            throw new RequestFailedException(
-                                    "Stop Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                            throw new RequestFailedException("Stop Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                    server);
                     }
                     context.close();
                     doSuccess(rc);
@@ -172,7 +170,7 @@ public class StopServer extends ProviderServerOperation {
                     msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "StopServer", vm_url);
                     ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
 
-                }else{
+                } else {
                     ctx.setAttribute("STOP_STATUS", "CONTEXT_NOT_FOUND");
                 }
             } catch (ResourceNotFoundException e) {
@@ -180,14 +178,14 @@ public class StopServer extends ProviderServerOperation {
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        STOP_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                String msg =
+                        EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
+                                STOP_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.STOP_SERVER_FAILED,
-                    appName, "n/a", "n/a", e.getMessage()));
+            logger.error(EELFResourceManager.format(Msg.STOP_SERVER_FAILED, appName, "n/a", "n/a", e.getMessage()));
             doFailure(rc, e.getStatus(), e.getMessage());
         }
 

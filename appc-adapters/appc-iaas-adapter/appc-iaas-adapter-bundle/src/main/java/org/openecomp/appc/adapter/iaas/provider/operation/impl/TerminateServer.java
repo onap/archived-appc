@@ -47,9 +47,7 @@ import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServ
 import org.openecomp.appc.exceptions.UnknownProviderException;
 import org.openecomp.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.TERMINATE_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
@@ -61,10 +59,8 @@ public class TerminateServer extends ProviderServerOperation {
     /**
      * Start the server and wait for it to enter a running state
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server to be started
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server to be started
      * @throws ZoneException when error occurs
      * @throws RequestFailedException when request failed
      */
@@ -100,10 +96,8 @@ public class TerminateServer extends ProviderServerOperation {
      * This method handles the case of restarting a server once we have found the server and have obtained the abstract
      * representation of the server via the context (i.e., the "Server" object from the CDP-Zones abstraction).
      *
-     * @param rc
-     *            The request context that manages the state and recovery of the request for the life of its processing.
-     * @param server
-     *            The server object representing the server we want to operate on
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
+     * @param server The server object representing the server we want to operate on
      * @throws ZoneException when error occurs
      */
     @SuppressWarnings("nls")
@@ -167,18 +161,20 @@ public class TerminateServer extends ProviderServerOperation {
      * This method is used to delete an existing virtual machine given the fully qualified URL of the machine.
      * <p>
      * The fully qualified URL contains enough information to locate the appropriate server. The URL is of the form
+     * 
      * <pre>
      *  [scheme]://[host[:port]] / [path] / [tenant_id] / servers / [vm_id]
-     * </pre> Where the various parts of the URL can be parsed and extracted and used to locate the appropriate service
-     * in the provider service catalog. This then allows us to open a context using the CDP abstraction, obtain the
-     * server by its UUID, and then perform the restart.
+     * </pre>
+     * 
+     * Where the various parts of the URL can be parsed and extracted and used to locate the appropriate service in the
+     * provider service catalog. This then allows us to open a context using the CDP abstraction, obtain the server by
+     * its UUID, and then perform the restart.
      * </p>
      *
-     * @throws UnknownProviderException
-     *             If the provider cannot be found
-     * @throws IllegalArgumentException
-     *             if the expected argument(s) are not defined or are invalid
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#terminateServer(java.util.Map, org.openecomp.sdnc.sli.SvcLogicContext)
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IllegalArgumentException if the expected argument(s) are not defined or are invalid
+     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#terminateServer(java.util.Map,
+     *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server terminateServer(Map<String, String> params, SvcLogicContext ctx)
@@ -197,7 +193,8 @@ public class TerminateServer extends ProviderServerOperation {
             ctx.setAttribute("TERMINATE_STATUS", "SUCCESS");
 
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -222,15 +219,15 @@ public class TerminateServer extends ProviderServerOperation {
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
                 ctx.setAttribute("TERMINATE_STATUS", "SERVER_NOT_FOUND");
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
-                        e1, e1.getClass().getSimpleName(), RESTART_SERVICE.toString(),
-                        vm_url, context == null ? "Unknown" : context.getTenantName());
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
+                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url,
+                        context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.TERMINATE_SERVER_FAILED,
-                    appName, "n/a", "n/a", e.getMessage()));
+            logger.error(
+                    EELFResourceManager.format(Msg.TERMINATE_SERVER_FAILED, appName, "n/a", "n/a", e.getMessage()));
             doFailure(rc, e.getStatus(), e.getMessage());
             ctx.setAttribute("TERMINATE_STATUS", "ERROR");
         }
@@ -243,6 +240,6 @@ public class TerminateServer extends ProviderServerOperation {
             throws UnknownProviderException {
         setMDC(TERMINATE_SERVICE.toString(), "App-C IaaS Adapter:Terminate", ADAPTER_NAME);
         logOperation(Msg.TERMINATING_SERVER, params, context);
-        return terminateServer(params,context);
+        return terminateServer(params, context);
     }
 }

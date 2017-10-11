@@ -26,7 +26,6 @@ package org.openecomp.appc.adapter.iaas.impl;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-
 import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
 import org.openecomp.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.ModelObject;
@@ -34,21 +33,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.MDC;
-
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
 
 /**
- * This class is used to test methods and functions of the adapter implementation that do not require and do not set up
- * connections to any providers.
+ * This class is used to test methods and functions of the adapter implementation that do not
+ * require and do not set up connections to any providers.
  *
  * @since Jan 20, 2016
  * @version $Id$
  */
 
-public class TestProviderOperation extends ProviderOperation{
+public class TestProviderOperation extends ProviderOperation {
 
     private static Class<?> providerAdapterImplClass;
     private static Class<?> configurationFactoryClass;
@@ -56,15 +53,12 @@ public class TestProviderOperation extends ProviderOperation{
     private static Field configField;
 
     /**
-     * Use reflection to locate fields and methods so that they can be manipulated during the test to change the
-     * internal state accordingly.
+     * Use reflection to locate fields and methods so that they can be manipulated during the test
+     * to change the internal state accordingly.
      *
-     * @throws NoSuchFieldException
-     *             if the field(s) dont exist
-     * @throws SecurityException
-     *             if reflective access is not allowed
-     * @throws NoSuchMethodException
-     *             If the method(s) dont exist
+     * @throws NoSuchFieldException if the field(s) dont exist
+     * @throws SecurityException if reflective access is not allowed
+     * @throws NoSuchMethodException If the method(s) dont exist
      */
     @SuppressWarnings("nls")
     @BeforeClass
@@ -82,8 +76,7 @@ public class TestProviderOperation extends ProviderOperation{
     /**
      * This test expects a failure because the value to be validated is a null URL
      *
-     * @throws RequestFailedException
-     *             Expected
+     * @throws RequestFailedException Expected
      */
     @SuppressWarnings("nls")
     @Test(expected = RequestFailedException.class)
@@ -99,8 +92,7 @@ public class TestProviderOperation extends ProviderOperation{
     /**
      * This test expects a failure because the value to be validated is an empty URL
      *
-     * @throws RequestFailedException
-     *             Expected
+     * @throws RequestFailedException Expected
      */
     @SuppressWarnings("nls")
     @Test(expected = RequestFailedException.class)
@@ -116,8 +108,7 @@ public class TestProviderOperation extends ProviderOperation{
     /**
      * This test expects a failure because the value to be validated is a blank URL
      *
-     * @throws RequestFailedException
-     *             Expected
+     * @throws RequestFailedException Expected
      */
     @SuppressWarnings("nls")
     @Test(expected = RequestFailedException.class)
@@ -133,8 +124,7 @@ public class TestProviderOperation extends ProviderOperation{
     /**
      * This test expects a failure because the value to be validated is a bad URL
      *
-     * @throws RequestFailedException
-     *             Expected
+     * @throws RequestFailedException Expected
      */
     @SuppressWarnings("nls")
     @Test(expected = RequestFailedException.class)
@@ -150,8 +140,7 @@ public class TestProviderOperation extends ProviderOperation{
     /**
      * This test expects to pass
      *
-     * @throws RequestFailedException
-     *             Un-Expected
+     * @throws RequestFailedException Un-Expected
      */
     @SuppressWarnings("nls")
     @Test
@@ -160,13 +149,14 @@ public class TestProviderOperation extends ProviderOperation{
         SvcLogicContext svcContext = new SvcLogicContext();
         RequestContext rc = new RequestContext(svcContext);
         String link =
-            "http://some.host:1234/v2/01d82c08594a4b23a0f9260c94be0c4d/servers/f888f89f-096b-421e-ba36-34f714071551";
+                "http://some.host:1234/v2/01d82c08594a4b23a0f9260c94be0c4d/servers/f888f89f-096b-421e-ba36-34f714071551";
 
         validateVMURL(VMURL.parseURL(link));
     }
 
     @Override
-    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
+    protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
+            throws APPCException {
         return null;
     }
 }

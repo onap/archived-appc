@@ -33,9 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "resources"
-})
+@JsonPropertyOrder({"resources"})
 public class ResourceRegistry {
 
     @JsonProperty("resources")
@@ -44,8 +42,7 @@ public class ResourceRegistry {
 
     /**
      * 
-     * @return
-     *     The resources
+     * @return The resources
      */
     @JsonProperty("resources")
     public Resources getResources() {
@@ -54,8 +51,7 @@ public class ResourceRegistry {
 
     /**
      * 
-     * @param resources
-     *     The resources
+     * @param resources The resources
      */
     @JsonProperty("resources")
     public void setResources(Resources resources) {

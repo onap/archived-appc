@@ -49,7 +49,6 @@ import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -57,7 +56,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.MIGRATE_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -104,8 +102,8 @@ public class MigrateServer extends ProviderServerOperation {
         setTimeForMetricsLogger();
 
         // Is the skip Hypervisor check attribute populated?
-        String skipHypervisorCheck = null;
-        if (svcCtx != null) {
+        String skipHypervisorCheck = configuration.getProperty("org.openecomp.appc.iaas.skiphypervisorchek");
+        if (skipHypervisorCheck == null && svcCtx != null) {
             skipHypervisorCheck = svcCtx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }
 
@@ -154,7 +152,8 @@ public class MigrateServer extends ProviderServerOperation {
     }
 
     /**
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#migrateServer(java.util.Map, org.openecomp.sdnc.sli.SvcLogicContext)
+     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#migrateServer(java.util.Map,
+     *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     private Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;
@@ -171,7 +170,8 @@ public class MigrateServer extends ProviderServerOperation {
 
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();

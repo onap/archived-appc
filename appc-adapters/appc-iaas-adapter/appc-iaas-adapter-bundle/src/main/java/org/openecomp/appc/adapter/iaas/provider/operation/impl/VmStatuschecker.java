@@ -46,9 +46,7 @@ import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.UnknownProviderException;
 import org.openecomp.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -75,7 +73,8 @@ public class VmStatuschecker extends ProviderServerOperation {
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -137,9 +136,9 @@ public class VmStatuschecker extends ProviderServerOperation {
                 logger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION,
-                        e1, e1.getClass().getSimpleName(), RESTART_SERVICE.toString(),
-                        vm_url, context == null ? "Unknown" : context.getTenantName());
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
+                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url,
+                        context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }

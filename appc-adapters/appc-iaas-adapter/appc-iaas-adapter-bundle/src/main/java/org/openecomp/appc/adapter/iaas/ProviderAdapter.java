@@ -25,7 +25,6 @@
 package org.openecomp.appc.adapter.iaas;
 
 import java.util.Map;
-
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.exceptions.UnknownProviderException;
 import com.att.cdp.zones.model.Image;
@@ -68,17 +67,17 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
     static final String PROPERTY_IDENTITY_URL = "org.openecomp.appc.identity.url";
-    
+
     /**
      * The Rebuild VM flag is an optional payload parameter for the Evacuate API.
      */
     static final String PROPERTY_REBUILD_VM = "org.openecomp.appc.rebuildvm";
-    
+
     /**
      * The target host id is an optional payload parameter for the Evacuate API.
      */
     static final String PROPERTY_TARGETHOST_ID = "org.openecomp.appc.targethost.id";
-    
+
     /**
      * heat stack id to perform operation on stack
      */
@@ -89,7 +88,7 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
     static final String PROPERTY_INPUT_SNAPSHOT_ID = "org.openecomp.appc.snapshot.id";
 
     static final String DG_OUTPUT_PARAM_NAMESPACE = "output.";
-    
+
     static final String SKIP_HYPERVISOR_CHECK = "org.openecomp.appc.skiphypervisorcheck";
 
     /**
@@ -109,16 +108,13 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * </dl>
      * </p>
      *
-     * @param properties
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param context
-     *            The service logic context of the graph being executed.
+     * @param properties A map of name-value pairs that supply the parameters needed by this method. The properties
+     *        needed are defined above.
+     * @param context The service logic context of the graph being executed.
      * @return The <code>Server</code> object that represents the VM being restarted. The returned server object can be
      *         inspected for the final state of the server once the restart has been completed. The method does not
      *         return until the restart has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be restarted for some reason
+     * @throws APPCException If the server cannot be restarted for some reason
      */
     Server restartServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
@@ -139,16 +135,13 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * </dl>
      * </p>
      *
-     * @param properties
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param context
-     *            The service logic context of the graph being executed.
+     * @param properties A map of name-value pairs that supply the parameters needed by this method. The properties
+     *        needed are defined above.
+     * @param context The service logic context of the graph being executed.
      * @return The <code>Server</code> object that represents the VM being stopped. The returned server object can be
      *         inspected for the final state of the server once the stop has been completed. The method does not return
      *         until the stop has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be stopped for some reason
+     * @throws APPCException If the server cannot be stopped for some reason
      */
     Server stopServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
@@ -169,16 +162,13 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * </dl>
      * </p>
      *
-     * @param properties
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param context
-     *            The service logic context of the graph being executed.
+     * @param properties A map of name-value pairs that supply the parameters needed by this method. The properties
+     *        needed are defined above.
+     * @param context The service logic context of the graph being executed.
      * @return The <code>Server</code> object that represents the VM being started. The returned server object can be
      *         inspected for the final state of the server once the start has been completed. The method does not return
      *         until the start has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be started for some reason
+     * @throws APPCException If the server cannot be started for some reason
      */
     Server startServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
@@ -199,16 +189,13 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * </dl>
      * </p>
      *
-     * @param properties
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param context
-     *            The service logic context of the graph being executed.
+     * @param properties A map of name-value pairs that supply the parameters needed by this method. The properties
+     *        needed are defined above.
+     * @param context The service logic context of the graph being executed.
      * @return The <code>Server</code> object that represents the VM being rebuilt. The returned server object can be
      *         inspected for the final state of the server once the rebuild has been completed. The method does not
      *         return until the rebuild has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be rebuilt for some reason
+     * @throws APPCException If the server cannot be rebuilt for some reason
      */
     Server rebuildServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
@@ -229,16 +216,13 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * </dl>
      * </p>
      *
-     * @param properties
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param context
-     *            The service logic context of the graph being executed.
+     * @param properties A map of name-value pairs that supply the parameters needed by this method. The properties
+     *        needed are defined above.
+     * @param context The service logic context of the graph being executed.
      * @return The <code>Server</code> object that represents the VM being rebuilt. The returned server object can be
      *         inspected for the final state of the server once the rebuild has been completed. The method does not
      *         return until the rebuild has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be terminate for some reason
+     * @throws APPCException If the server cannot be terminate for some reason
      */
     Server terminateServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
@@ -278,32 +262,26 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * </dl>
      * </p>
      *
-     * @param properties
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param context
-     *            The service logic context of the graph being executed.
+     * @param properties A map of name-value pairs that supply the parameters needed by this method. The properties
+     *        needed are defined above.
+     * @param context The service logic context of the graph being executed.
      * @return The <code>Server</code> object that represents the VM being rebuilt. The returned server object can be
      *         inspected for the final state of the server once the rebuild has been completed. The method does not
      *         return until the rebuild has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be found for some reason
+     * @throws APPCException If the server cannot be found for some reason
      */
     Server lookupServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
     /**
      * The
      *
-     * @param params
-     *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
-     *            defined above.
-     * @param ctx
-     *            The service logic context of the graph being executed.
+     * @param params A map of name-value pairs that supply the parameters needed by this method. The properties needed
+     *        are defined above.
+     * @param ctx The service logic context of the graph being executed.
      * @return The <code>Image</code> object that represents the VM being restarted. The returned server object can be
      *         inspected for the final state of the server once the restart has been completed. The method does not
      *         return until the restart has either completed or has failed.
-     * @throws APPCException
-     *             If the server cannot be restarted for some reason
+     * @throws APPCException If the server cannot be restarted for some reason
      */
     Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 

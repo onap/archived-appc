@@ -33,17 +33,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "status",
-    "name",
-    "stack_user_project_id",
-    "environment",
-    "template",
-    "action",
-    "project_id",
-    "id",
-    "resources"
-})
+@JsonPropertyOrder({"status", "name", "stack_user_project_id", "environment", "template", "action", "project_id", "id",
+        "resources"})
 public class Data {
 
     @JsonProperty("status")
@@ -70,8 +61,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The status
+     * @return The status
      */
     @JsonProperty("status")
     public String getStatus() {
@@ -80,8 +70,7 @@ public class Data {
 
     /**
      * 
-     * @param status
-     *     The status
+     * @param status The status
      */
     @JsonProperty("status")
     public void setStatus(String status) {
@@ -90,8 +79,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -100,8 +88,7 @@ public class Data {
 
     /**
      * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -110,8 +97,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The stackUserProjectId
+     * @return The stackUserProjectId
      */
     @JsonProperty("stack_user_project_id")
     public String getStackUserProjectId() {
@@ -120,8 +106,7 @@ public class Data {
 
     /**
      * 
-     * @param stackUserProjectId
-     *     The stack_user_project_id
+     * @param stackUserProjectId The stack_user_project_id
      */
     @JsonProperty("stack_user_project_id")
     public void setStackUserProjectId(String stackUserProjectId) {
@@ -130,8 +115,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The environment
+     * @return The environment
      */
     @JsonProperty("environment")
     public Environment getEnvironment() {
@@ -140,8 +124,7 @@ public class Data {
 
     /**
      * 
-     * @param environment
-     *     The environment
+     * @param environment The environment
      */
     @JsonProperty("environment")
     public void setEnvironment(Environment environment) {
@@ -150,8 +133,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The template
+     * @return The template
      */
     @JsonProperty("template")
     public Template getTemplate() {
@@ -160,8 +142,7 @@ public class Data {
 
     /**
      * 
-     * @param template
-     *     The template
+     * @param template The template
      */
     @JsonProperty("template")
     public void setTemplate(Template template) {
@@ -170,8 +151,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The action
+     * @return The action
      */
     @JsonProperty("action")
     public String getAction() {
@@ -180,8 +160,7 @@ public class Data {
 
     /**
      * 
-     * @param action
-     *     The action
+     * @param action The action
      */
     @JsonProperty("action")
     public void setAction(String action) {
@@ -190,8 +169,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The projectId
+     * @return The projectId
      */
     @JsonProperty("project_id")
     public String getProjectId() {
@@ -200,8 +178,7 @@ public class Data {
 
     /**
      * 
-     * @param projectId
-     *     The project_id
+     * @param projectId The project_id
      */
     @JsonProperty("project_id")
     public void setProjectId(String projectId) {
@@ -210,8 +187,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The id
+     * @return The id
      */
     @JsonProperty("id")
     public String getId() {
@@ -220,8 +196,7 @@ public class Data {
 
     /**
      * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     @JsonProperty("id")
     public void setId(String id) {
@@ -230,8 +205,7 @@ public class Data {
 
     /**
      * 
-     * @return
-     *     The resources
+     * @return The resources
      */
     @JsonProperty("resources")
     public Resources__ getResources() {
@@ -240,8 +214,7 @@ public class Data {
 
     /**
      * 
-     * @param resources
-     *     The resources
+     * @param resources The resources
      */
     @JsonProperty("resources")
     public void setResources(Resources__ resources) {

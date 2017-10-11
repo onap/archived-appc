@@ -28,9 +28,7 @@ package org.openecomp.appc.adapter.iaas.impl;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-
 import java.util.Properties;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openecomp.appc.adapter.iaas.impl.IdentityURL;

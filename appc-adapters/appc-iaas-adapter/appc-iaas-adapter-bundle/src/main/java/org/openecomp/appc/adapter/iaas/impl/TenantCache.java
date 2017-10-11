@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
@@ -47,7 +46,7 @@ import com.att.cdp.zones.Provider;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.woorea.openstack.connector.JaxRs20Connector;
-//import com.sun.jersey.api.client.ClientHandlerException;
+// import com.sun.jersey.api.client.ClientHandlerException;
 import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 
 /**
@@ -63,8 +62,14 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
 
     public static final String POOL_PROVIDER_NAME = "pool.provider.name";
     public static final String POOL_TENANT_NAME = "pool.tenant.name";
-    //public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JerseyConnector";
+    // public static final String CLIENT_CONNECTOR_CLASS =
+    // "com.woorea.openstack.connector.JerseyConnector";
     public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JaxRs20Connector";
+    /**
+     * The domain to use to authenticate
+     */
+    private String domain;
+
     /**
      * The provider we are part of
      */
@@ -118,8 +123,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     /**
      * Construct the cache of tenants for the specified provider
      *
-     * @param provider
-     *            The provider
+     * @param provider The provider
      */
     public TenantCache(ProviderCache provider) {
         configuration = ConfigurationFactory.getConfiguration();
@@ -165,13 +169,19 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         String url = provider.getIdentityURL();
         String tenant = tenantName == null ? tenantId : tenantName;
         Properties properties = configuration.getProperties();
+        catalog = ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
+
+        if (catalog == null) {
+            logger.error(Msg.IAAS_UNSUPPORTED_IDENTITY_SERVICE, url);
+            return;
+        }
 
         int attempt = 1;
         while (attempt <= limit) {
             try {
-                catalog = new ServiceCatalog(url, tenant, userid, password, properties);
-                tenantId = catalog.getTenantId();
-                tenantName = catalog.getTenantName();
+                catalog.init();
+                tenantId = catalog.getProjectId();
+                tenantName = catalog.getProjectName();
 
                 for (String region : catalog.getRegions()) {
                     try {
@@ -180,13 +190,13 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
                         pool.setProperty(ContextFactory.PROPERTY_TENANT, tenantName);
                         pool.setProperty(ContextFactory.PROPERTY_CLIENT_CONNECTOR_CLASS, CLIENT_CONNECTOR_CLASS);
                         pool.setProperty(ContextFactory.PROPERTY_RETRY_DELAY,
-                            configuration.getProperty(Constants.PROPERTY_RETRY_DELAY));
+                                configuration.getProperty(Constants.PROPERTY_RETRY_DELAY));
                         pool.setProperty(ContextFactory.PROPERTY_RETRY_LIMIT,
-                            configuration.getProperty(Constants.PROPERTY_RETRY_LIMIT));
+                                configuration.getProperty(Constants.PROPERTY_RETRY_LIMIT));
                         pool.setProperty(ContextFactory.PROPERTY_REGION, region);
                         if (properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS) != null) {
                             pool.setProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS,
-                                properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS));
+                                    properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS));
                         }
                         pool.setAllocator(this);
                         pool.setDestructor(this);
@@ -202,7 +212,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
             } catch (ContextConnectionException e) {
                 attempt++;
                 if (attempt <= limit) {
-                    logger.error(Msg.CONNECTION_FAILED_RETRY, provider.getProviderName(), url, tenantName, tenantId, e.getMessage(), Integer.toString(delay), Integer.toString(attempt),
+                    logger.error(Msg.CONNECTION_FAILED_RETRY, provider.getProviderName(), url, tenantName, tenantId,
+                            e.getMessage(), Integer.toString(delay), Integer.toString(attempt),
                             Integer.toString(limit));
 
                     try {
@@ -211,7 +222,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
                         // ignore
                     }
                 }
-            } catch ( ZoneException e) {
+            } catch (ZoneException e) {
                 logger.error(e.getMessage());
                 break;
             }
@@ -226,35 +237,28 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
      * This method accepts a fully qualified compute node URL and uses that to determine which region of the provider
      * hosts that compute node.
      *
-     * @param url
-     *            The parsed URL of the compute node
+     * @param url The parsed URL of the compute node
      * @return The region name, or null if no region of this tenant hosts that compute node.
      */
     public String determineRegion(VMURL url) {
         logger.debug(String.format("Attempting to determine VM region for %s", url));
-        String region = null;
-        Pattern urlPattern = Pattern.compile("[^:]+://([^:/]+)(?::([0-9]+)).*");
-
-        if (url != null) {
-            for (Endpoint endpoint : catalog.getEndpoints(ServiceCatalog.COMPUTE_SERVICE)) {
-                String endpointUrl = endpoint.getPublicURL();
-                Matcher matcher = urlPattern.matcher(endpointUrl);
-                if (matcher.matches()) {
-                    if (url.getHost().equals(matcher.group(1))) {
-                        if (url.getPort() != null) {
-                            if (!url.getPort().equals(matcher.group(2))) {
-                                continue;
-                            }
-                        }
-
-                        region = endpoint.getRegion();
-                        break;
-                    }
-                }
-            }
-        }
+        String region = catalog.getVMRegion(url);
         logger.debug(String.format("Region for %s is %s", url, region));
         return region;
+    }
+
+    /**
+     * @return the value of the domain
+     */
+    public String getDomain() {
+        return domain;
+    }
+
+    /**
+     * @param domain the value for domain
+     */
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     /**
@@ -265,8 +269,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param provider
-     *            the value for provider
+     * @param provider the value for provider
      */
     public void setProvider(ProviderCache provider) {
         this.provider = provider;
@@ -280,8 +283,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param password
-     *            the value for password
+     * @param password the value for password
      */
     public void setPassword(String password) {
         this.password = password;
@@ -295,8 +297,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param tenantId
-     *            the value for tenantId
+     * @param tenantId the value for tenantId
      */
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
@@ -310,8 +311,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param tenantName
-     *            the value for tenantName
+     * @param tenantName the value for tenantName
      */
     public void setTenantName(String tenantName) {
         this.tenantName = tenantName;
@@ -325,8 +325,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param userid
-     *            the value for userid
+     * @param userid the value for userid
      */
     public void setUserid(String userid) {
         this.userid = userid;

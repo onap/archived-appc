@@ -32,9 +32,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "backup_id"
-})
+@JsonPropertyOrder({"backup_id"})
 public class ResourceData {
 
     @JsonProperty("backup_id")
@@ -42,8 +40,7 @@ public class ResourceData {
 
     /**
      * 
-     * @return
-     *     The backupId
+     * @return The backupId
      */
     @JsonProperty("backup_id")
     public String getBackupId() {
@@ -52,8 +49,7 @@ public class ResourceData {
 
     /**
      * 
-     * @param backupId
-     *     The backup_id
+     * @param backupId The backup_id
      */
     @JsonProperty("backup_id")
     public void setBackupId(String backupId) {

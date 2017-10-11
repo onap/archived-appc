@@ -33,14 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "id",
-    "name",
-    "status",
-    "status_reason",
-    "creation_time",
-    "data"
-})
+@JsonPropertyOrder({"id", "name", "status", "status_reason", "creation_time", "data"})
 public class Snapshot {
 
     @JsonProperty("id")
@@ -59,8 +52,7 @@ public class Snapshot {
 
     /**
      * 
-     * @return
-     *     The id
+     * @return The id
      */
     @JsonProperty("id")
     public String getId() {
@@ -69,8 +61,7 @@ public class Snapshot {
 
     /**
      * 
-     * @param id
-     *     The id
+     * @param id The id
      */
     @JsonProperty("id")
     public void setId(String id) {
@@ -79,8 +70,7 @@ public class Snapshot {
 
     /**
      * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -89,8 +79,7 @@ public class Snapshot {
 
     /**
      * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -99,8 +88,7 @@ public class Snapshot {
 
     /**
      * 
-     * @return
-     *     The status
+     * @return The status
      */
     @JsonProperty("status")
     public String getStatus() {
@@ -109,8 +97,7 @@ public class Snapshot {
 
     /**
      * 
-     * @param status
-     *     The status
+     * @param status The status
      */
     @JsonProperty("status")
     public void setStatus(String status) {
@@ -119,8 +106,7 @@ public class Snapshot {
 
     /**
      * 
-     * @return
-     *     The statusReason
+     * @return The statusReason
      */
     @JsonProperty("status_reason")
     public String getStatusReason() {
@@ -129,8 +115,7 @@ public class Snapshot {
 
     /**
      * 
-     * @param statusReason
-     *     The status_reason
+     * @param statusReason The status_reason
      */
     @JsonProperty("status_reason")
     public void setStatusReason(String statusReason) {
@@ -139,8 +124,7 @@ public class Snapshot {
 
     /**
      * 
-     * @return
-     *     The creationTime
+     * @return The creationTime
      */
     @JsonProperty("creation_time")
     public String getCreationTime() {
@@ -149,8 +133,7 @@ public class Snapshot {
 
     /**
      * 
-     * @param creationTime
-     *     The creation_time
+     * @param creationTime The creation_time
      */
     @JsonProperty("creation_time")
     public void setCreationTime(String creationTime) {
@@ -159,8 +142,7 @@ public class Snapshot {
 
     /**
      * 
-     * @return
-     *     The data
+     * @return The data
      */
     @JsonProperty("data")
     public Data getData() {
@@ -169,8 +151,7 @@ public class Snapshot {
 
     /**
      * 
-     * @param data
-     *     The data
+     * @param data The data
      */
     @JsonProperty("data")
     public void setData(Data data) {

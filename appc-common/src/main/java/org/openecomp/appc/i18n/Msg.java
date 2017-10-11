@@ -807,7 +807,13 @@ public enum Msg implements EELFResolvableErrorEnum {
     /**
      * {0}
      */
-    OAM_OPERATION_INVALID_INPUT
+    OAM_OPERATION_INVALID_INPUT, 
+
+    /**
+     * Unsupported identity service version, unable to retrieve ServiceCatalog
+     * for identity service {0}
+     */
+    IAAS_UNSUPPORTED_IDENTITY_SERVICE
     ;
     /*
      * Static initializer to ensure the resource bundles for this class are loaded...

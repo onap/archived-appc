@@ -50,9 +50,7 @@ import org.openecomp.appc.adapter.openstack.heat.StackResource;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import java.util.Map;
-
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class RestoreStack extends ProviderStackOperation {
@@ -62,10 +60,10 @@ public class RestoreStack extends ProviderStackOperation {
     private void restoreStack(Stack stack, String snapshotId) throws ZoneException, RequestFailedException {
         Context context = stack.getContext();
 
-        OpenStackContext osContext = (OpenStackContext)context;
+        OpenStackContext osContext = (OpenStackContext) context;
 
         final HeatConnector heatConnector = osContext.getHeatConnector();
-        ((OpenStackContext)context).refreshIfStale(heatConnector);
+        ((OpenStackContext) context).refreshIfStale(heatConnector);
 
         trackRequest(context);
         RequestState.put("SERVICE", "Orchestration");
@@ -105,10 +103,8 @@ public class RestoreStack extends ProviderStackOperation {
 
         try {
 
-            validateParametersExist(params,
-                    ProviderAdapter.PROPERTY_INSTANCE_URL,
-                    ProviderAdapter.PROPERTY_PROVIDER_NAME,
-                    ProviderAdapter.PROPERTY_STACK_ID,
+            validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
+                    ProviderAdapter.PROPERTY_PROVIDER_NAME, ProviderAdapter.PROPERTY_STACK_ID,
                     ProviderAdapter.PROPERTY_INPUT_SNAPSHOT_ID);
 
             String stackId = params.get(ProviderAdapter.PROPERTY_STACK_ID);
@@ -118,13 +114,13 @@ public class RestoreStack extends ProviderStackOperation {
             context = resolveContext(rc, params, appName, vm_url);
 
             if (context != null) {
-                    stack = lookupStack(rc, context, stackId);
-                    logger.debug(Msg.STACK_FOUND, vm_url, context.getTenantName(), stack.getStatus().toString());
-                    logger.info(EELFResourceManager.format(Msg.TERMINATING_STACK, stack.getName()));
-                    restoreStack(stack, snapshotId);
-                    logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
-                    context.close();
-                    doSuccess(rc);
+                stack = lookupStack(rc, context, stackId);
+                logger.debug(Msg.STACK_FOUND, vm_url, context.getTenantName(), stack.getStatus().toString());
+                logger.info(EELFResourceManager.format(Msg.TERMINATING_STACK, stack.getName()));
+                restoreStack(stack, snapshotId);
+                logger.info(EELFResourceManager.format(Msg.TERMINATE_STACK, stack.getName()));
+                context.close();
+                doSuccess(rc);
             } else {
                 ctx.setAttribute(Constants.DG_ATTRIBUTE_STATUS, "failure");
             }
@@ -134,12 +130,10 @@ public class RestoreStack extends ProviderStackOperation {
             logger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg, e);
         } catch (RequestFailedException e) {
-            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST,
-                    e.getReason(), "restoreStack"));
+            logger.error(EELFResourceManager.format(Msg.MISSING_PARAMETER_IN_REQUEST, e.getReason(), "restoreStack"));
             doFailure(rc, e.getStatus(), e.getMessage(), e);
         } catch (Exception e1) {
-            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION,
-                    e1, e1.getClass().getSimpleName(),
+            String msg = EELFResourceManager.format(Msg.STACK_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
                     "restoreStack", vm_url, null == context ? "n/a" : context.getTenantName());
             logger.error(msg, e1);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg, e1);
