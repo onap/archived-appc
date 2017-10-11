@@ -51,13 +51,11 @@ import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.i18n.Msg;
 import org.slf4j.MDC;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -72,7 +70,7 @@ public class CreateSnapshot extends ProviderServerOperation {
 
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         metricsLogger.info("Snapshot Name Generated: Snapshot of %s at %s", server, df.format(new Date()));
-        
+
         return String.format("Snapshot of %s at %s", server, df.format(new Date()));
     }
 
@@ -85,10 +83,10 @@ public class CreateSnapshot extends ProviderServerOperation {
 
         setTimeForMetricsLogger();
 
-        logger.info(String.format("Creating snapshot of server %s (%s) with name %s",
-                server.getName(), server.getId(), snapshotName));
-        metricsLogger.info(String.format("Creating snapshot of server %s (%s) with name %s",
-                server.getName(), server.getId(), snapshotName));
+        logger.info(String.format("Creating snapshot of server %s (%s) with name %s", server.getName(), server.getId(),
+                snapshotName));
+        metricsLogger.info(String.format("Creating snapshot of server %s (%s) with name %s", server.getName(),
+                server.getId(), snapshotName));
 
         // Request Snapshot
         String msg;
@@ -161,7 +159,8 @@ public class CreateSnapshot extends ProviderServerOperation {
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -177,8 +176,8 @@ public class CreateSnapshot extends ProviderServerOperation {
                         snapshot = createSnapshot(rc, server);
                         doSuccess(rc);
                     } else {
-                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED,
-                                server.getName(), server.getId(), "Accessing Image Service Failed");
+                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
+                                "Accessing Image Service Failed");
                         logger.error(msg);
                         metricsLogger.error(msg);
                         doFailure(rc, HttpStatus.FORBIDDEN_403, msg);
@@ -212,7 +211,7 @@ public class CreateSnapshot extends ProviderServerOperation {
         setTimeForMetricsLogger();
 
         metricsLogger.info("Executing Provider Operation: Create Snapshot");
-        
+
         return createSnapshot(params, context);
     }
 

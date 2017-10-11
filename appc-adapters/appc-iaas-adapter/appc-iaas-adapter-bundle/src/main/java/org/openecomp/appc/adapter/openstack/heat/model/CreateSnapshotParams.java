@@ -32,9 +32,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "name"
-})
+@JsonPropertyOrder({"name"})
 public class CreateSnapshotParams {
 
     @JsonProperty("name")
@@ -42,8 +40,7 @@ public class CreateSnapshotParams {
 
     /**
      * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -52,8 +49,7 @@ public class CreateSnapshotParams {
 
     /**
      * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {

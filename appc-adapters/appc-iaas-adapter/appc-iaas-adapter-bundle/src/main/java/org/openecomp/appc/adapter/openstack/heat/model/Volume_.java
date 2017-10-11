@@ -33,15 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "status",
-    "name",
-    "resource_data",
-    "resource_id",
-    "action",
-    "type",
-    "metadata"
-})
+@JsonPropertyOrder({"status", "name", "resource_data", "resource_id", "action", "type", "metadata"})
 public class Volume_ {
 
     @JsonProperty("status")
@@ -63,8 +55,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The status
+     * @return The status
      */
     @JsonProperty("status")
     public String getStatus() {
@@ -73,8 +64,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param status
-     *     The status
+     * @param status The status
      */
     @JsonProperty("status")
     public void setStatus(String status) {
@@ -83,8 +73,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The name
+     * @return The name
      */
     @JsonProperty("name")
     public String getName() {
@@ -93,8 +82,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param name
-     *     The name
+     * @param name The name
      */
     @JsonProperty("name")
     public void setName(String name) {
@@ -103,8 +91,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The resourceData
+     * @return The resourceData
      */
     @JsonProperty("resource_data")
     public ResourceData getResourceData() {
@@ -113,8 +100,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param resourceData
-     *     The resource_data
+     * @param resourceData The resource_data
      */
     @JsonProperty("resource_data")
     public void setResourceData(ResourceData resourceData) {
@@ -123,8 +109,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The resourceId
+     * @return The resourceId
      */
     @JsonProperty("resource_id")
     public String getResourceId() {
@@ -133,8 +118,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param resourceId
-     *     The resource_id
+     * @param resourceId The resource_id
      */
     @JsonProperty("resource_id")
     public void setResourceId(String resourceId) {
@@ -143,8 +127,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The action
+     * @return The action
      */
     @JsonProperty("action")
     public String getAction() {
@@ -153,8 +136,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param action
-     *     The action
+     * @param action The action
      */
     @JsonProperty("action")
     public void setAction(String action) {
@@ -163,8 +145,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The type
+     * @return The type
      */
     @JsonProperty("type")
     public String getType() {
@@ -173,8 +154,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param type
-     *     The type
+     * @param type The type
      */
     @JsonProperty("type")
     public void setType(String type) {
@@ -183,8 +163,7 @@ public class Volume_ {
 
     /**
      * 
-     * @return
-     *     The metadata
+     * @return The metadata
      */
     @JsonProperty("metadata")
     public Metadata getMetadata() {
@@ -193,8 +172,7 @@ public class Volume_ {
 
     /**
      * 
-     * @param metadata
-     *     The metadata
+     * @param metadata The metadata
      */
     @JsonProperty("metadata")
     public void setMetadata(Metadata metadata) {

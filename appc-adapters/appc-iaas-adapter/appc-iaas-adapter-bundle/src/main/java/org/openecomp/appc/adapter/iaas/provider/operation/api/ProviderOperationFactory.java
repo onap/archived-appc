@@ -27,12 +27,12 @@ package org.openecomp.appc.adapter.iaas.provider.operation.api;
 import org.openecomp.appc.adapter.iaas.provider.operation.impl.*;
 import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.openecomp.appc.exceptions.APPCException;
-
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Singleton factory of provider operations objects with cache
+ * 
  * @since September 26, 2016
  */
 public class ProviderOperationFactory {
@@ -115,7 +115,7 @@ public class ProviderOperationFactory {
                 default:
                     throw new APPCException("Unsupported provider operation.");
             }
-            operations.put(op,opObject);
+            operations.put(op, opObject);
         }
         return opObject;
     }

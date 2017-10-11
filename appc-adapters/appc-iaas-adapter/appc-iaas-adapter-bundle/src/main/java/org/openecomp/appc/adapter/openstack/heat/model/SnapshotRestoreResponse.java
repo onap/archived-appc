@@ -32,11 +32,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "code",
-    "message",
-    "title"
-})
+@JsonPropertyOrder({"code", "message", "title"})
 public class SnapshotRestoreResponse {
 
     @JsonProperty("code")
@@ -48,8 +44,7 @@ public class SnapshotRestoreResponse {
 
     /**
      * 
-     * @return
-     *     The code
+     * @return The code
      */
     @JsonProperty("code")
     public String getCode() {
@@ -58,8 +53,7 @@ public class SnapshotRestoreResponse {
 
     /**
      * 
-     * @param code
-     *     The code
+     * @param code The code
      */
     @JsonProperty("code")
     public void setCode(String code) {
@@ -68,8 +62,7 @@ public class SnapshotRestoreResponse {
 
     /**
      * 
-     * @return
-     *     The message
+     * @return The message
      */
     @JsonProperty("message")
     public String getMessage() {
@@ -78,8 +71,7 @@ public class SnapshotRestoreResponse {
 
     /**
      * 
-     * @param message
-     *     The message
+     * @param message The message
      */
     @JsonProperty("message")
     public void setMessage(String message) {
@@ -88,8 +80,7 @@ public class SnapshotRestoreResponse {
 
     /**
      * 
-     * @return
-     *     The title
+     * @return The title
      */
     @JsonProperty("title")
     public String getTitle() {
@@ -98,8 +89,7 @@ public class SnapshotRestoreResponse {
 
     /**
      * 
-     * @param title
-     *     The title
+     * @param title The title
      */
     @JsonProperty("title")
     public void setTitle(String title) {

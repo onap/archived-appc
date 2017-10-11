@@ -29,9 +29,7 @@ package org.openecomp.appc.adapter.iaas.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
 import java.util.Properties;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openecomp.appc.adapter.iaas.impl.VMURL;
@@ -94,22 +92,6 @@ public class TestVMURL {
         assertEquals("/api/multicloud/v0/cloudowner_region", url.getPath());
         assertEquals(TENANTID, url.getTenantId());
         assertEquals(VMID, url.getServerId());
-        assertEquals("v2",url.getVersion());
-        assertEquals(url.toString(), URL);
-    }
-
-    @Test
-    public void testValidURL4() {
-        URL = "http://msb.onap.org:80/api/multicloud/v0/cloudowner_region/v2.1/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
-        VMURL url = VMURL.parseURL(URL);
-        assertNotNull(url);
-        assertEquals("http", url.getScheme());
-        assertEquals("msb.onap.org", url.getHost());
-        assertEquals("80", url.getPort());
-        assertEquals("/api/multicloud/v0/cloudowner_region", url.getPath());
-        assertEquals(TENANTID, url.getTenantId());
-        assertEquals(VMID, url.getServerId());
-        assertEquals("v2.1",url.getVersion());
         assertEquals(url.toString(), URL);
     }
 

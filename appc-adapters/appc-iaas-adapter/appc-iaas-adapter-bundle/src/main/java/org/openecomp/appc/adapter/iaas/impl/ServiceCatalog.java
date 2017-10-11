@@ -38,7 +38,6 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.openstack.util.ExceptionMapper;
@@ -46,8 +45,9 @@ import com.att.cdp.pal.util.Time;
 import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.spi.AbstractService;
 import com.att.cdp.zones.spi.RequestState;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import com.att.cdp.zones.spi.AbstractService.State;
-
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.base.client.OpenStackClientConnector;
 import com.woorea.openstack.base.client.OpenStackResponseException;
@@ -87,13 +87,21 @@ import com.woorea.openstack.keystone.model.authentication.UsernamePassword;
  * caching the full service catalog since there is no way to list only a portion of it.
  * </p>
  */
-public class ServiceCatalog {
+public abstract class ServiceCatalog {
+    /**
+     * The openstack connector version to use
+     */
+    public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JaxRs20Connector";
 
     /**
      * The service name for the compute service endpoint
      */
     public static final String COMPUTE_SERVICE = "compute"; //$NON-NLS-1$
 
+    /**
+     * The default domain for authentication
+     */
+    public static final String DEFAULT_DOMAIN = "Default";
     /**
      * The service name for the identity service endpoint
      */
@@ -105,9 +113,19 @@ public class ServiceCatalog {
     public static final String IMAGE_SERVICE = "image"; //$NON-NLS-1$
 
     /**
+     * The service name for the metering service endpoint
+     */
+    public static final String METERING_SERVICE = "metering"; //$NON-NLS-1$
+
+    /**
      * The service name for the network service endpoint
      */
     public static final String NETWORK_SERVICE = "network"; //$NON-NLS-1$
+
+    /**
+     * The service name for the persistent object service endpoint
+     */
+    public static final String OBJECT_SERVICE = "object-store"; //$NON-NLS-1$
 
     /**
      * The service name for the orchestration service endpoint
@@ -120,176 +138,98 @@ public class ServiceCatalog {
     public static final String VOLUME_SERVICE = "volume"; //$NON-NLS-1$
 
     /**
-     * The service name for the persistent object service endpoint
+     * The logger to be used
      */
-    public static final String OBJECT_SERVICE = "object-store"; //$NON-NLS-1$
+    protected static final EELFLogger logger = EELFManager.getInstance().getLogger(ServiceCatalog.class);
 
     /**
-     * The service name for the metering service endpoint
+     * The password for authentication
      */
-    public static final String METERING_SERVICE = "metering"; //$NON-NLS-1$
+    protected String credential;
 
     /**
-     * The Openstack Access object that manages the authenticated token and access control
+     * The domain for authentication
      */
-    private Access access;
-
+    protected String domain;
     /**
      * The time (local) that the token expires and we need to re-authenticate
      */
-    @SuppressWarnings("unused")
-    private long expiresLocal;
+    protected long expiresLocal;
+
+    /**
+     * The url of the identity service
+     */
+    protected String identityURL;
+
+    /**
+     * The user id for authentication
+     */
+    protected String principal;
+
+    /**
+     * The project or tenant identifier
+     */
+    protected String projectIdentifier;
+
+    /**
+     * Properties for proxy information
+     */
+    protected Properties properties;
 
     /**
      * The set of all regions that have been defined
      */
-    private Set<String> regions;
+    protected Set<String> regions;
 
     /**
      * The read/write lock used to protect the cache contents
      */
-    private ReadWriteLock rwLock;
+    protected ReadWriteLock rwLock;
 
     /**
-     * A map of endpoints for each service organized by service type
-     */
-    private Map<String /* Service Type */, List<Service.Endpoint>> serviceEndpoints;
-
-    /**
-     * A map of service types that are published
-     */
-    private Map<String /* Service Type */, Service> serviceTypes;
-
-    /**
-     * The tenant that we are accessing
-     */
-    private Tenant tenant;
-
-    /**
-     * A "token provider" that manages the authentication token that we obtain when logging in
-     */
-    private OpenStackSimpleTokenProvider tokenProvider;
-
-    public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JaxRs20Connector";
-
-    /**
-     * Create the ServiceCatalog cache and load it from the specified provider
+     * Create the ServiceCatalog cache
      * 
-     * @param identityURL
-     *            The identity service URL to connect to
-     * @param tenantIdentifier
-     *            The name or id of the tenant to authenticate with. If the ID is a UUID format (32-character
-     *            hexadecimal string), then the authentication is done using the tenant ID, otherwise it is done using
-     *            the name.
-     * @param principal
-     *            The user id to authenticate to the provider
-     * @param credential
-     *            The password to authenticate to the provider
-     * @param properties
-     *            Additional properties used to configure the connection, such as proxy and trusted hosts lists
+     * @param identityURL The identity service URL to connect to
+     * @param tenantIdentifier The name or id of the tenant to authenticate with. If the ID is a UUID format
+     *        (32-character hexadecimal string), then the authentication is done using the tenant ID, otherwise it is
+     *        done using the name.
+     * @param principal The user id to authenticate to the provider
+     * @param credential The password to authenticate to the provider
+     * @param properties Additional properties used to configure the connection, such as proxy and trusted hosts lists
      * @throws ZoneException
      * @throws ClassNotFoundException
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public ServiceCatalog(String identityURL, String tenantIdentifier, String principal, String credential,
-                          Properties properties) throws ZoneException {
+    public ServiceCatalog(String identityURL, String projectIdentifier, String principal, String credential,
+            String domain, Properties properties) {
+        this.identityURL = identityURL;
+        this.projectIdentifier = projectIdentifier;
+        this.principal = principal;
+        this.credential = credential;
+        this.domain = domain;
+        this.properties = properties;
         rwLock = new ReentrantReadWriteLock();
-        serviceTypes = new HashMap<>();
-        serviceEndpoints = new HashMap<>();
         regions = new HashSet<>();
-
-        Class<?> connectorClass;
-        OpenStackClientConnector connector;
-        try {
-            connectorClass = Class.forName(CLIENT_CONNECTOR_CLASS);
-            connector = (OpenStackClientConnector) connectorClass.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            return;
-        }
-        Keystone keystone = new Keystone(identityURL, connector);
-
-        String proxyHost = properties.getProperty(ContextFactory.PROPERTY_PROXY_HOST);
-        String proxyPort = properties.getProperty(ContextFactory.PROPERTY_PROXY_PORT);
-        String trustedHosts = properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS, ""); //$NON-NLS-1$
-        if (proxyHost != null && proxyHost.length() > 0) {
-            keystone.getProperties().setProperty(com.woorea.openstack.common.client.Constants.PROXY_HOST, proxyHost);
-            keystone.getProperties().setProperty(com.woorea.openstack.common.client.Constants.PROXY_PORT, proxyPort);
-        }
-        if (trustedHosts != null) {
-            keystone.getProperties().setProperty(com.woorea.openstack.common.client.Constants.TRUST_HOST_LIST,
-                trustedHosts);
-        }
-
-        Authentication authentication = new UsernamePassword(principal, credential);
-        TokensResource tokens = keystone.tokens();
-        TokensResource.Authenticate authenticate = tokens.authenticate(authentication);
-        if (tenantIdentifier.length() == 32 && tenantIdentifier.matches("[0-9a-fA-F]+")) { //$NON-NLS-1$
-            authenticate = authenticate.withTenantId(tenantIdentifier);
-        } else {
-            authenticate = authenticate.withTenantName(tenantIdentifier);
-        }
-
-        /*
-         * We have to set up the TrackRequest TLS collection for the ExceptionMapper
-         */
-        trackRequest();
-        RequestState.put(RequestState.PROVIDER, "OpenStackProvider");
-        RequestState.put(RequestState.TENANT, tenantIdentifier);
-        RequestState.put(RequestState.PRINCIPAL, principal);
-
-        try {
-            access = authenticate.execute();
-            expiresLocal = getLocalExpiration(access);
-            tenant = access.getToken().getTenant();
-            tokenProvider = new OpenStackSimpleTokenProvider(access.getToken().getId());
-            keystone.setTokenProvider(tokenProvider);
-            parseServiceCatalog(access.getServiceCatalog());
-        } catch (OpenStackBaseException e) {
-            ExceptionMapper.mapException(e);
-        } catch (Exception ex) {
-            throw new ContextConnectionException(ex.getMessage());
-        }
     }
 
     /**
      * Returns the list of service endpoints for the published service type
      * 
-     * @param serviceType
-     *            The service type to obtain the endpoints for
+     * @param serviceType The service type to obtain the endpoints for
      * @return The list of endpoints for the service type, or null if none exist
      */
-    public List<Service.Endpoint> getEndpoints(String serviceType) {
-        Lock readLock = rwLock.readLock();
-        readLock.lock();
-        try {
-            return serviceEndpoints.get(serviceType);
-        } finally {
-            readLock.unlock();
-        }
-    }
+    public abstract List<?> getEndpoints(String serviceType);
 
     /**
-     * Computes the local time when the access token will expire, after which we will need to re-login to access the
-     * provider.
-     * 
-     * @param accessKey
-     *            The access key used to access the provider
-     * @return The local time the key expires
+     * @return The project or tenant id
      */
-    private static long getLocalExpiration(Access accessKey) {
-        Date now = Time.getCurrentUTCDate();
-        if (accessKey != null && accessKey.getToken() != null) {
-            Calendar issued = accessKey.getToken().getIssued_at();
-            Calendar expires = accessKey.getToken().getExpires();
-            if (issued != null && expires != null) {
-                long tokenLife = expires.getTimeInMillis() - issued.getTimeInMillis();
-                return now.getTime() + tokenLife;
-            }
-        }
-        return now.getTime();
-    }
+    public abstract String getProjectId();
+
+    /**
+     * @return The project or tenant name
+     */
+    public abstract String getProjectName();
 
     /**
      * @return The set of all regions that are defined
@@ -307,98 +247,31 @@ public class ServiceCatalog {
     /**
      * @return A list of service types that are published
      */
-    public List<String> getServiceTypes() {
-        Lock readLock = rwLock.readLock();
-        readLock.lock();
-        try {
-            ArrayList<String> result = new ArrayList<>();
-            result.addAll(serviceTypes.keySet());
-            return result;
-        } finally {
-            readLock.unlock();
-        }
-    }
+    public abstract List<String> getServiceTypes();
 
     /**
-     * @return The tenant id
+     * This method accepts a fully qualified compute node URL and uses that to determine which region of the provider
+     * hosts that compute node.
+     *
+     * @param url The parsed URL of the compute node
+     * @return The region name, or null if no region of this tenant hosts that compute node.
      */
-    public String getTenantId() {
-        Lock readLock = rwLock.readLock();
-        readLock.lock();
-        try {
-            return tenant.getId();
-        } finally {
-            readLock.unlock();
-        }
-    }
-
-    /**
-     * @return The tenant name
-     */
-    public String getTenantName() {
-        Lock readLock = rwLock.readLock();
-        readLock.lock();
-        try {
-            return tenant.getName();
-        } finally {
-            readLock.unlock();
-        }
-    }
+    public abstract String getVMRegion(VMURL url);
 
     /**
      * Returns an indication if the specified service type is published by this provider
      * 
-     * @param serviceType
-     *            The service type to check for
+     * @param serviceType The service type to check for
      * @return True if a service of that type is published
      */
-    public boolean isServicePublished(String serviceType) {
-        Lock readLock = rwLock.readLock();
-        readLock.lock();
-        try {
-            return serviceTypes.containsKey(serviceType);
-        } finally {
-            readLock.unlock();
-        }
-    }
+    public abstract boolean isServicePublished(String serviceType);
 
     /**
-     * Parses the service catalog and caches the results
+     * Load the Service Catalog from the specified provider
      * 
-     * @param services
-     *            The list of services published by this provider
+     * @throws ZoneException
      */
-    private void parseServiceCatalog(List<Service> services) {
-        Lock lock = rwLock.writeLock();
-        lock.lock();
-        try {
-            serviceTypes.clear();
-            serviceEndpoints.clear();
-            regions.clear();
-
-            for (Service service : services) {
-                String type = service.getType();
-                serviceTypes.put(type, service);
-
-                List<Service.Endpoint> endpoints = service.getEndpoints();
-                for (Service.Endpoint endpoint : endpoints) {
-                    List<Service.Endpoint> endpointList = serviceEndpoints.get(type);
-                    if (endpointList == null) {
-                        endpointList = new ArrayList<>();
-                        serviceEndpoints.put(type, endpointList);
-                    }
-                    endpointList.add(endpoint);
-
-                    String region = endpoint.getRegion();
-                    if (!regions.contains(region)) {
-                        regions.add(region);
-                    }
-                }
-            }
-        } finally {
-            lock.unlock();
-        }
-    }
+    public abstract void init() throws ZoneException;
 
     /**
      * This method is used to provide a diagnostic listing of the service catalog
@@ -406,38 +279,7 @@ public class ServiceCatalog {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
-
-        StringBuilder builder = new StringBuilder();
-        Lock lock = rwLock.readLock();
-        lock.lock();
-        try {
-            builder.append(String.format("Service Catalog: tenant %s, id[%s], description[%s]\n", tenant.getName(), //$NON-NLS-1$
-                tenant.getId(), tenant.getDescription()));
-            if (regions != null && !regions.isEmpty()) {
-                builder.append(String.format("%d regions:\n", regions.size())); //$NON-NLS-1$
-                for (String region : regions) {
-                    builder.append("\t" + region + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
-                }
-            }
-            builder.append(String.format("%d services:\n", serviceEndpoints.size())); //$NON-NLS-1$
-            for (String serviceType : serviceEndpoints.keySet()) {
-                List<Endpoint> endpoints = serviceEndpoints.get(serviceType);
-                Service service = serviceTypes.get(serviceType);
-
-                builder.append(String.format("\t%s [%s] - %d endpoints\n", service.getType(), service.getName(), //$NON-NLS-1$
-                    endpoints.size()));
-                for (Endpoint endpoint : endpoints) {
-                    builder.append(String.format("\t\tRegion [%s], public URL [%s]\n", endpoint.getRegion(), //$NON-NLS-1$
-                        endpoint.getPublicURL()));
-                }
-            }
-        } finally {
-            lock.unlock();
-        }
-
-        return builder.toString();
-    }
+    public abstract String toString();
 
     /**
      * Initializes the request state for the current requested service.
@@ -451,9 +293,8 @@ public class ServiceCatalog {
      * up one more call and assumes that method is the request that we are "tracking".
      * </p>
      * 
-     * @param states
-     *            A variable argument list of additional state values that the caller wants to add to the request state
-     *            thread-local object to track the context.
+     * @param states A variable argument list of additional state values that the caller wants to add to the request
+     *        state thread-local object to track the context.
      */
     protected void trackRequest(State... states) {
         RequestState.clear();
@@ -469,7 +310,7 @@ public class ServiceCatalog {
             StackTraceElement element = null;
             for (; index < stack.length; index++) {
                 element = stack[index];
-                if ("trackRequest".equals(element.getMethodName())) {  //$NON-NLS-1$
+                if ("trackRequest".equals(element.getMethodName())) { //$NON-NLS-1$
                     break;
                 }
             }

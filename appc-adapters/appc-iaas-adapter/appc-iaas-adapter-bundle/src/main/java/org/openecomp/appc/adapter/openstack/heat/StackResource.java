@@ -26,7 +26,6 @@ package org.openecomp.appc.adapter.openstack.heat;
 
 import org.openecomp.appc.adapter.openstack.heat.model.CreateSnapshotParams;
 import org.openecomp.appc.adapter.openstack.heat.model.Snapshot;
-
 import com.woorea.openstack.base.client.Entity;
 import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;

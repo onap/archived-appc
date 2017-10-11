@@ -45,13 +45,11 @@ import org.openecomp.appc.exceptions.UnknownProviderException;
 import org.openecomp.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-
 import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
 import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -65,8 +63,7 @@ public class RestartServer extends ProviderServerOperation {
      * This method handles the case of restarting a server once we have found the server and have obtained the abstract
      * representation of the server via the context (i.e., the "Server" object from the CDP-Zones abstraction).
      *
-     * @param rc     The request context that manages the state and recovery of the request for the life of
-     *               its processing.
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server object representing the server we want to operate on
      * @throws ZoneException when error occurs.
      * @throws RequestFailedException when server status is error.
@@ -75,11 +72,9 @@ public class RestartServer extends ProviderServerOperation {
     private void restartServer(RequestContext rc, Server server, SvcLogicContext ctx)
             throws ZoneException, RequestFailedException {
         /*
-         * Pending is a bit of a special case. If we find the server is in a
-         * pending state, then the provider is in the process of changing state
-         * of the server. So, lets try to wait a little bit and see if the state
-         * settles down to one we can deal with. If not, then we have to fail
-         * the request.
+         * Pending is a bit of a special case. If we find the server is in a pending state, then the provider is in the
+         * process of changing state of the server. So, lets try to wait a little bit and see if the state settles down
+         * to one we can deal with. If not, then we have to fail the request.
          */
         String msg;
         if (server.getStatus().equals(Server.Status.PENDING)) {
@@ -89,8 +84,8 @@ public class RestartServer extends ProviderServerOperation {
 
         setTimeForMetricsLogger("restart server");
 
-        String skipHypervisorCheck = null;
-        if (ctx != null) {
+        String skipHypervisorCheck = configuration.getProperty("org.openecomp.appc.iaas.skiphypervisorchek");
+        if (skipHypervisorCheck == null && ctx != null) {
             skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }
 
@@ -168,16 +163,20 @@ public class RestartServer extends ProviderServerOperation {
      * This method is used to restart an existing virtual machine given the fully qualified URL of the machine.
      * <p>
      * The fully qualified URL contains enough information to locate the appropriate server. The URL is of the form
+     * 
      * <pre>
      *  [scheme]://[host[:port]] / [path] / [tenant_id] / servers / [vm_id]
-     * </pre> Where the various parts of the URL can be parsed and extracted and used to locate the appropriate service
-     * in the provider service catalog. This then allows us to open a context using the CDP abstraction, obtain the
-     * server by its UUID, and then perform the restart.
+     * </pre>
+     * 
+     * Where the various parts of the URL can be parsed and extracted and used to locate the appropriate service in the
+     * provider service catalog. This then allows us to open a context using the CDP abstraction, obtain the server by
+     * its UUID, and then perform the restart.
      * </p>
      *
      * @throws UnknownProviderException If the provider cannot be found
      * @throws IllegalArgumentException if the expected argument(s) are not defined or are invalid
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#restartServer(java.util.Map, org.openecomp.sdnc.sli.SvcLogicContext)
+     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#restartServer(java.util.Map,
+     *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     private Server restartServer(Map<String, String> params, SvcLogicContext ctx)
@@ -201,7 +200,8 @@ public class RestartServer extends ProviderServerOperation {
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
 
             VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm)) return null;
+            if (validateVM(rc, appName, vm_url, vm))
+                return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
@@ -218,8 +218,7 @@ public class RestartServer extends ProviderServerOperation {
                     context.close();
                     doSuccess(rc);
                     ctx.setAttribute("RESTART_STATUS", "SUCCESS");
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE,
-                            "RestartServer", vm_url);
+                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "RestartServer", vm_url);
                     ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 }
             } catch (RequestFailedException e) {
@@ -230,8 +229,9 @@ public class RestartServer extends ProviderServerOperation {
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        RESTART_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
+                        e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url,
+                        context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 metricsLogger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);

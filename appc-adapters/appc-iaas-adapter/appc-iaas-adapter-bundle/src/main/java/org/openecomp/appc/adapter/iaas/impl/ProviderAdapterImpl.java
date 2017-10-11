@@ -43,7 +43,6 @@ import com.att.cdp.zones.model.Stack;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,6 +57,10 @@ import java.util.Properties;
  */
 @SuppressWarnings("javadoc")
 public class ProviderAdapterImpl implements ProviderAdapter {
+    /**
+     * The default domain name for authentication
+     */
+    public static final String DEFAULT_DOMAIN_NAME = "Default";
 
     /**
      * The logger to be used
@@ -79,10 +82,11 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     private Map<String /* provider name */, ProviderCache> providerCache;
 
     /**
-     * The username and password to use for dynamically created connections
+     * The username, password, and domain to use for dynamically created connections
      */
     private static String DEFAULT_USER;
     private static String DEFAULT_PASS;
+    private static String DEFAULT_DOMAIN;
 
 
     /**
@@ -98,8 +102,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
      * This constructor is used primarily in the test cases to bypass initialization of the adapter for isolated,
      * disconnected testing
      *
-     * @param initialize
-     *            True if the adapter is to be initialized, can false if not
+     * @param initialize True if the adapter is to be initialized, can false if not
      */
     @SuppressWarnings("all")
     public ProviderAdapterImpl(boolean initialize) {
@@ -110,8 +113,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     }
 
     /**
-     * @param props
-     *            not used
+     * @param props not used
      */
     public ProviderAdapterImpl(@SuppressWarnings("unused") Properties props) {
         initialize();
@@ -125,6 +127,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -135,6 +138,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -145,6 +149,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -155,6 +160,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -165,6 +171,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -175,6 +182,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         // pass this object's reference to EvacuateServer to allow rebuild after evacuate
         ((EvacuateServer) op).setProvideAdapterRef(this);
         return (Server) op.doOperation(params, context);
@@ -187,6 +195,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -197,6 +206,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -207,6 +217,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
     }
 
@@ -217,6 +228,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
     }
 
@@ -227,6 +239,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
     }
 
@@ -237,6 +250,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
 
@@ -247,6 +261,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Image) op.doOperation(params, context);
     }
 
@@ -273,27 +288,15 @@ public class ProviderAdapterImpl implements ProviderAdapter {
          * property set, where the names form a hierarchical name space (dotted notation, such as one.two.three). Each
          * name in the name space can also be serialized by appending a sequence number. All nodes at the same level
          * with the same serial number are grouped together in the namespace hierarchy. This allows a hierarchical
-         * multi-valued property to be defined, which can then be used to setup the provider and tenant caches.
-         * <p>
-         * For example, the following definitions show how the namespace hierarchy is defined for two providers, with
-         * two tenants on the first provider and a single tenant for the second provider. <pre>
-         * provider1.type=OpenStackProvider
-         * provider1.name=ILAB
-         * provider1.identity=http://provider1:5000/v2.0
-         * provider1.tenant1.name=CDP-ONAP-APPC
-         * provider1.tenant1.userid=testUser
-         * provider1.tenant1.password=testPassword
-         * provider1.tenant2.name=TEST-TENANT
-         * provider1.tenant2.userid=testUser
-         * provider1.tenant2.password=testPassword
-         * provider2.type=OpenStackProvider
-         * provider2.name=PDK1
-         * provider2.identity=http://provider2:5000/v2.0
-         * provider2.tenant1.name=someName
-         * provider2.tenant1.userid=someUser
-         * provider2.tenant1.password=somePassword
-         * </pre>
-         * </p>
+         * multi-valued property to be defined, which can then be used to setup the provider and tenant caches. <p> For
+         * example, the following definitions show how the namespace hierarchy is defined for two providers, with two
+         * tenants on the first provider and a single tenant for the second provider. <pre>
+         * provider1.type=OpenStackProvider provider1.name=ILAB provider1.identity=http://provider1:5000/v2.0
+         * provider1.tenant1.name=CDP-ONAP-APPC provider1.tenant1.userid=testUser
+         * provider1.tenant1.password=testPassword provider1.tenant2.name=TEST-TENANT provider1.tenant2.userid=testUser
+         * provider1.tenant2.password=testPassword provider2.type=OpenStackProvider provider2.name=PDK1
+         * provider2.identity=http://provider2:5000/v2.0 provider2.tenant1.name=someName
+         * provider2.tenant1.userid=someUser provider2.tenant1.password=somePassword </pre> </p>
          */
         providerCache = new HashMap<>();
         Properties properties = configuration.getProperties();
@@ -312,6 +315,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                     String tenantName = null;
                     String userId = null;
                     String password = null;
+                    // domain is not required so set a default
+                    String domain = DEFAULT_DOMAIN_NAME;
                     for (Node node2 : node.getChildren()) {
                         switch (node2.getName()) {
                             case Property.PROVIDER_TENANT_NAME:
@@ -325,10 +330,14 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                                 password = node2.getValue();
                                 DEFAULT_PASS = node2.getValue();
                                 break;
+                            case Property.PROVIDER_TENANT_DOMAIN:
+                                domain = node2.getValue();
+                                DEFAULT_DOMAIN = node2.getValue();
+                                break;
                         }
                     }
-                    
-                    cache.addTenant(null, tenantName, userId, password);
+
+                    cache.addTenant(null, tenantName, userId, password, domain);
                 }
             }
 

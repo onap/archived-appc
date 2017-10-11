@@ -33,10 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Generated("org.jsonschema2pojo")
-@JsonPropertyOrder({
-    "heat_template_version",
-    "resources"
-})
+@JsonPropertyOrder({"heat_template_version", "resources"})
 public class Template {
 
     @JsonProperty("heat_template_version")
@@ -47,8 +44,7 @@ public class Template {
 
     /**
      * 
-     * @return
-     *     The heatTemplateVersion
+     * @return The heatTemplateVersion
      */
     @JsonProperty("heat_template_version")
     public String getHeatTemplateVersion() {
@@ -57,8 +53,7 @@ public class Template {
 
     /**
      * 
-     * @param heatTemplateVersion
-     *     The heat_template_version
+     * @param heatTemplateVersion The heat_template_version
      */
     @JsonProperty("heat_template_version")
     public void setHeatTemplateVersion(String heatTemplateVersion) {
@@ -67,8 +62,7 @@ public class Template {
 
     /**
      * 
-     * @return
-     *     The resources
+     * @return The resources
      */
     @JsonProperty("resources")
     public Resources_ getResources() {
@@ -77,8 +71,7 @@ public class Template {
 
     /**
      * 
-     * @param resources
-     *     The resources
+     * @param resources The resources
      */
     @JsonProperty("resources")
     public void setResources(Resources_ resources) {

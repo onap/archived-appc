@@ -32,7 +32,6 @@ import org.openecomp.appc.i18n.Msg;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -83,12 +82,10 @@ public class AppcProviderAdapterActivator implements BundleActivator {
      * This method must complete and return to its caller in a timely manner.
      * </p>
      * 
-     * @param context
-     *            The execution context of the bundle being started.
-     * @throws java.lang.Exception
-     *             If this method throws an exception, this bundle is marked as stopped and the Framework will remove
-     *             this bundle's listeners, unregister all services registered by this bundle, and release all services
-     *             used by this bundle.
+     * @param context The execution context of the bundle being started.
+     * @throws java.lang.Exception If this method throws an exception, this bundle is marked as stopped and the
+     *         Framework will remove this bundle's listeners, unregister all services registered by this bundle, and
+     *         release all services used by this bundle.
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
@@ -100,14 +97,14 @@ public class AppcProviderAdapterActivator implements BundleActivator {
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "IAAS adapter");
         try {
             adapter = new ProviderAdapterImpl(configuration.getProperties());
-        } catch(Exception e){
-            logger.error("Error initializing APPC IAAS ProviderAdapterImpl",e);
+        } catch (Exception e) {
+            logger.error("Error initializing APPC IAAS ProviderAdapterImpl", e);
             throw e;
         }
-         
+
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
-                ProviderAdapter.class.getSimpleName());
+                    ProviderAdapter.class.getSimpleName());
             registration = context.registerService(ProviderAdapter.class, adapter, null);
         }
 
@@ -123,12 +120,10 @@ public class AppcProviderAdapterActivator implements BundleActivator {
      * This method must complete and return to its caller in a timely manner.
      * </p>
      * 
-     * @param context
-     *            The execution context of the bundle being stopped.
-     * @throws java.lang.Exception
-     *             If this method throws an exception, the bundle is still marked as stopped, and the Framework will
-     *             remove the bundle's listeners, unregister all services registered by the bundle, and release all
-     *             services used by the bundle. *
+     * @param context The execution context of the bundle being stopped.
+     * @throws java.lang.Exception If this method throws an exception, the bundle is still marked as stopped, and the
+     *         Framework will remove the bundle's listeners, unregister all services registered by the bundle, and
+     *         release all services used by the bundle. *
      * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
      */
     @Override

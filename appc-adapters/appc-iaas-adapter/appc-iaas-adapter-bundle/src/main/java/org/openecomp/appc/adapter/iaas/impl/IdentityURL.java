@@ -75,15 +75,14 @@ public class IdentityURL {
      * This static method is used to parse the provided server URL string and return a parse results object (VMURL)
      * which represents the state of the parse.
      * 
-     * @param serverUrl
-     *            The server URL to be parsed
+     * @param serverUrl The server URL to be parsed
      * @return The VMURL parse results object, or null if the URL was not valid or null.
      */
-    public static IdentityURL parseURL(String serverUrl) {
+    public static IdentityURL parseURL(String identUrl) {
         IdentityURL obj = null;
-        if (serverUrl != null) {
-            Matcher matcher = pattern.matcher(serverUrl.trim());
-            if (matcher.matches()) {
+        if (identUrl != null) {
+            Matcher matcher = pattern.matcher(identUrl.trim()); // http://msb.onap.org:80/api/multicloud/v0/cloudowner_region/identity/v3
+            if (matcher.matches()) { // (\\p{Alnum}+)://([^/:]+)(?::([0-9]+))?(/.*)?/(v[0-9\\.]+)/?"
                 obj = new IdentityURL();
                 obj.scheme = matcher.group(1);
                 obj.host = matcher.group(2);

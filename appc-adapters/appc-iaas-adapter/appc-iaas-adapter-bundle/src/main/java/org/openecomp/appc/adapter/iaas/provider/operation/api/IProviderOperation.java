@@ -28,7 +28,6 @@ import org.openecomp.appc.adapter.iaas.impl.ProviderCache;
 import org.openecomp.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.ModelObject;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import java.util.Map;
 
 /**
@@ -38,26 +37,37 @@ public interface IProviderOperation {
 
     /**
      * perform specific provider operation
+     * 
      * @param params
      * @param context
      * @return Object represents Stack, Server Or Image
      */
-    ModelObject doOperation(Map<String,String> params, SvcLogicContext context) throws APPCException;
+    ModelObject doOperation(Map<String, String> params, SvcLogicContext context) throws APPCException;
 
     /**
      * sets a cache of providers that are predefined.
+     * 
      * @param providerCache
      */
     void setProviderCache(Map<String /* provider name */, ProviderCache> providerCache);
 
     /**
      * should be initialized by user
+     * 
+     * @param defaultDomain
+     */
+    void setDefaultDomain(String defaultDomain);
+
+    /**
+     * should be initialized by user
+     * 
      * @param defaultUser
      */
     void setDefaultUser(String defaultUser);
 
     /**
      * should be initialized by user
+     * 
      * @param defaultPass
      */
     void setDefaultPass(String defaultPass);

@@ -45,13 +45,9 @@ import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import org.glassfish.grizzly.http.util.HttpStatus;
-
 import java.util.List;
 
-/**
- * @since September 29, 2016
- */
-public abstract class ProviderStackOperation extends ProviderOperation{
+public abstract class ProviderStackOperation extends ProviderOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ProviderStackOperation.class);
 
@@ -59,7 +55,8 @@ public abstract class ProviderStackOperation extends ProviderOperation{
     protected void trackRequest(Context context, AbstractService.State... states) {
         RequestState.clear();
 
-        if (null == states) return;
+        if (null == states)
+            return;
         for (AbstractService.State state : states) {
             RequestState.put(state.getName(), state.getValue());
         }
@@ -71,7 +68,7 @@ public abstract class ProviderStackOperation extends ProviderOperation{
             StackTraceElement element;
             for (; index < stack.length; index++) {
                 element = stack[index];
-                if ("trackRequest".equals(element.getMethodName())) {  //$NON-NLS-1$
+                if ("trackRequest".equals(element.getMethodName())) { //$NON-NLS-1$
                     break;
                 }
             }
@@ -90,7 +87,9 @@ public abstract class ProviderStackOperation extends ProviderOperation{
         }
     }
 
-/* Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument */
+    /*
+     * Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument
+     */
     private boolean checkStatus(String expectedStatus, long pollInterval, String actualStatus) {
         if (actualStatus.toUpperCase().equals(expectedStatus)) {
             return true;
@@ -112,8 +111,10 @@ public abstract class ProviderStackOperation extends ProviderOperation{
         while (System.currentTimeMillis() < maxTimeToWait) {
             String stackStatus = stackResource.show(stack.getName(), stack.getId()).execute().getStackStatus();
             logger.debug("Stack status : " + stackStatus);
-            if (stackStatus.toUpperCase().contains("FAILED")) return false;
-            if(checkStatus(expectedStatus, pollInterval, stackStatus)) return true;
+            if (stackStatus.toUpperCase().contains("FAILED"))
+                return false;
+            if (checkStatus(expectedStatus, pollInterval, stackStatus))
+                return true;
         }
         throw new TimeoutException("Timeout waiting for stack status change");
     }
@@ -158,11 +159,14 @@ public abstract class ProviderStackOperation extends ProviderOperation{
     }
 
 
-    protected boolean waitForStackStatus(RequestContext rc, Stack stack, Stack.Status expectedStatus) throws ZoneException, RequestFailedException {
+    protected boolean waitForStackStatus(RequestContext rc, Stack stack, Stack.Status expectedStatus)
+            throws ZoneException, RequestFailedException {
         SvcLogicContext ctx = rc.getSvcLogicContext();
         Context context = stack.getContext();
         StackService stackService = context.getStackService();
-/* Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument */
+        /*
+         * Changed the 'pollInterval' type as long. Thread.sleep method needs 'long millis' as an argument
+         */
         long pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_STACK_STATE_CHANGE_TIMEOUT);
         long maxTimeToWait = System.currentTimeMillis() + (long) timeout * 1000;

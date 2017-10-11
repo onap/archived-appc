@@ -72,14 +72,13 @@ public class ProviderCache {
      * discover all of the regions supported on the provider, and load all of the service catalogs for each provider.
      */
     public void initialize() {
-        for (Map.Entry<String, TenantCache> entry: tenants.entrySet()) { 
-            entry.getValue().initialize(); 
+        for (Map.Entry<String, TenantCache> entry : tenants.entrySet()) {
+            entry.getValue().initialize();
         }
     }
 
     /**
-     * @param providerType
-     *            the value for providerType
+     * @param providerType the value for providerType
      */
     public void setProviderType(String providerType) {
         this.providerType = providerType;
@@ -93,8 +92,7 @@ public class ProviderCache {
     }
 
     /**
-     * @param identityURL
-     *            the value for identityURL
+     * @param identityURL the value for identityURL
      */
     public void setIdentityURL(String identityURL) {
         this.identityURL = identityURL;
@@ -108,8 +106,7 @@ public class ProviderCache {
     }
 
     /**
-     * @param providerName
-     *            the value for providerName
+     * @param providerName the value for providerName
      */
     public void setProviderName(String providerName) {
         this.providerName = providerName;
@@ -121,42 +118,43 @@ public class ProviderCache {
     public Map<String, TenantCache> getTenants() {
         return tenants;
     }
-    
+
     /**
      * This method is a helper to return a specific TenantCache
      * 
-        * @param tenantId
-        * @return
+     * @param tenantId
+     * @return
      */
-    public TenantCache getTenant(String tenantId){        
-        return tenants.get(tenantId);       
+    public TenantCache getTenant(String tenantId) {
+        return tenants.get(tenantId);
     }
-    
+
     // Previously there was no way to add additional tenants to the tenant cache
     /**
      * This method is used to add a tenant to the provider cache
      * 
-        * @param tenantId
-        * @param UserId
-        * @param password
-        * @return the new initialized TenantCache or null if unsuccessful
-        */
-    public TenantCache addTenant(String tenantId, String tenantName, String userId, String password){
-        if(tenantId != null || tenantName != null && userId != null && password != null){        
+     * @param tenantId
+     * @param UserId
+     * @param password
+     * @return the new initialized TenantCache or null if unsuccessful
+     */
+    public TenantCache addTenant(String tenantId, String tenantName, String userId, String password, String domain) {
+        if (tenantId != null || tenantName != null && userId != null && password != null) {
             TenantCache tenant = new TenantCache(this);
-            if(tenantId != null){
+            if (tenantId != null) {
                 tenant.setTenantId(tenantId);
             }
-            if(tenantName != null){
+            if (tenantName != null) {
                 tenant.setTenantName(tenantName);
             }
             tenant.setUserid(userId);
             tenant.setPassword(password);
-            
-            if(identityURL != null){
+            tenant.setDomain(domain);
+
+            if (identityURL != null) {
                 tenant.initialize();
             }
-            
+
             if (tenant.isInitialized()) {
                 tenants.put(tenant.getTenantId(), tenant);
                 return tenant;
