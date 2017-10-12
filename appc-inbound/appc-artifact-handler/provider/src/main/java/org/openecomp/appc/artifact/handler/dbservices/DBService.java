@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -35,6 +35,7 @@ import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import org.apache.commons.lang.StringUtils;
 
 public class DBService {
 
@@ -151,20 +152,21 @@ public class DBService {
         String key = "";
         QueryStatus status = null;
 
-        if (isUpdate && SdcArtifactHandlerConstants.FILE_CATEGORY.equals(SdcArtifactHandlerConstants.CAPABILITY)) {
+        if (isUpdate && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY).equals(SdcArtifactHandlerConstants.CAPABILITY)) {
+            log.info("Updating capability artifact in ASDC_REFERENCE");
             key = "update " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
-                    + SdcArtifactHandlerConstants.ARTIFACT_NAME + " where VNFC_TYPE = $"
-                    + SdcArtifactHandlerConstants.VNFC_TYPE + " and FILE_CATEGORY = $"
-                    + SdcArtifactHandlerConstants.FILE_CATEGORY + " and ACTION = null";
+                    + SdcArtifactHandlerConstants.ARTIFACT_NAME + " where " + "FILE_CATEGORY = $"
+                    + SdcArtifactHandlerConstants.FILE_CATEGORY + " and VNF_TYPE = $"
+                    + SdcArtifactHandlerConstants.VNF_TYPE ;
         } else if (isUpdate)
             key = "update " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
                     + SdcArtifactHandlerConstants.ARTIFACT_NAME + " where VNFC_TYPE = $"
                     + SdcArtifactHandlerConstants.VNFC_TYPE + " and FILE_CATEGORY = $"
                     + SdcArtifactHandlerConstants.FILE_CATEGORY + " and ACTION = $"
-                    + SdcArtifactHandlerConstants.ACTION;
+                    + SdcArtifactHandlerConstants.ACTION + " and VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
 
         else {
-            if (SdcArtifactHandlerConstants.FILE_CATEGORY.equals(SdcArtifactHandlerConstants.CAPABILITY)) {
+            if (context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY).equals(SdcArtifactHandlerConstants.CAPABILITY)) {
                 key = "insert into " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + " set VNFC_TYPE = null "
                         + " , FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY + " , VNF_TYPE = $"
                         + SdcArtifactHandlerConstants.VNF_TYPE + " , ACTION = null " + " , ARTIFACT_TYPE = null "
@@ -443,9 +445,9 @@ public class DBService {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
         if ((status == null) || status.toString().equals("FAILURE"))
             throw new SvcLogicException("Error While processing insertProtocolReference ");
-        
+
     }
-    
+
     public boolean isProtocolReferenceUpdateRequired(SvcLogicContext context, String vnfType, String protocol,
              String action, String action_level, String template) throws SvcLogicException {
         SvcLogicContext localContext = new SvcLogicContext();
@@ -483,4 +485,31 @@ public class DBService {
         return;
     }
 
+    public String getDownLoadDGReference(SvcLogicContext context) throws Exception {
+        String fn = "DBService.setDownLoadDGReference";
+        String downloadConfigDg = null;
+        log.info(fn + "Setting Download DG Reference from DB");
+        String key = "";
+        QueryStatus status = null;
+        String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
+        if (StringUtils.isBlank(protocol)) {
+            log.info(fn + " :: Protocol is Blank!! Returning without querying DB");
+            throw new Exception(fn+":: Protocol is Blank!! Returning without querying DB");
+        }
+        key = "select download_config_dg from " + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE
+                + " where protocol = '" + protocol + "'";
+        SvcLogicContext localContext = new SvcLogicContext();
+        status = serviceLogic.query("SQL", false, null, key, null, null, localContext);
+        if (status == QueryStatus.FAILURE) {
+            log.info(fn + ":: Error retrieving download_config_dg");
+            throw new SvcLogicException("Error retrieving download_config_dg");
+        }
+        if (status == QueryStatus.NOT_FOUND) {
+            log.info(fn + ":: NOT_FOUND! No data found for download_config_dg!!");
+            throw new Exception(fn + ":: NOT_FOUND! No data found for download_config_dg!");
+        }
+        downloadConfigDg = localContext.getAttribute("download-config-dg");
+        log.info(fn + "download_config_dg::" + downloadConfigDg);
+        return downloadConfigDg;
+    }
 }

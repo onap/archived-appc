@@ -40,6 +40,7 @@ public class MockSvcLogicResource extends SqlResource {
         ctx.setAttribute("VNF_TYPE", "testvnf");
         ctx.setAttribute("maximum", "1");
         ctx.setAttribute("COUNT(*)", "1");
+        ctx.setAttribute("download-config-dg", "TestDG");
         return status;
     }
 
