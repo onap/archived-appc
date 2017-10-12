@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -246,6 +246,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             String vnfType = null;
             JSONObject contentObject = new JSONObject(contentString);
             JSONArray contentArray = contentObject.getJSONArray("reference_data");
+            boolean storeCapabilityArtifact=true;
             for (int a = 0; a < contentArray.length(); a++) {
 
                 JSONObject content = (JSONObject) contentArray.get(a);
@@ -276,9 +277,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                     vmActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
                 }
                 if (scope.has(SdcArtifactHandlerConstants.VNFC_TYPE)
-                        && !scope.isNull(SdcArtifactHandlerConstants.VNFC_TYPE))
+                        && !scope.isNull(SdcArtifactHandlerConstants.VNFC_TYPE)) {
                     context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE,
                             scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE));
+                    storeCapabilityArtifact=false;
+                    log.info("No capability Artifact for this reference data as it is ar VNFC level!!");
+                }
                 else
                     context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
                 if (content.has(SdcArtifactHandlerConstants.DEVICE_PROTOCOL))
@@ -330,7 +334,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                                 SdcArtifactHandlerConstants.DB_SDC_REFERENCE));
                     }
                 }
-                if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")) {
+                if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")
+                    || content.getString(SdcArtifactHandlerConstants.ACTION).equals("ConfigModify")) {
                     if (content.has(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE)
                             && content.getString(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE).length() > 0) {
                         context.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE,
@@ -338,13 +343,17 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                         dbservice.processDownloadDgReference(context, dbservice.isArtifactUpdateRequired(context,
                                 SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE));
                     }
-
+                    if (StringUtils.isBlank(context.getAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE)))
+                        context.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE,
+                                dbservice.getDownLoadDGReference(context));
                     dbservice.processConfigActionDg(context, dbservice.isArtifactUpdateRequired(context,
                             SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG));
-                    dbservice.processDeviceInterfaceProtocol(context, dbservice.isArtifactUpdateRequired(context,
-                            SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL));
-                    dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
-                            SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION));
+                    if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")) {
+                        dbservice.processDeviceInterfaceProtocol(context, dbservice.isArtifactUpdateRequired(context,
+                                SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL));
+                        dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
+                                SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION));
+                    }
 
                 }
 
@@ -391,12 +400,14 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
 
             }
-            capabilities.put("vnf", vnfActionList);
-            capabilities.put("vf-module", vfModuleActionList);
-            capabilities.put("vnfc", vnfcActionList);
-            capabilities.put("vm", vmActionList);
-            processAndStoreCapablitiesArtifact(dbservice, document_information, capabilities, capabilityArtifactName,
+            if (storeCapabilityArtifact) {
+                capabilities.put("vnf", vnfActionList);
+                capabilities.put("vf-module", vfModuleActionList);
+                capabilities.put("vnfc", vnfcActionList);
+                capabilities.put("vm", vmActionList);
+                processAndStoreCapablitiesArtifact(dbservice, document_information, capabilities, capabilityArtifactName,
                     vnfType);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
