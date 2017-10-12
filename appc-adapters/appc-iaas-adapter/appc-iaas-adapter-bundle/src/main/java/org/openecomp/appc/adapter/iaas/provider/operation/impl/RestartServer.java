@@ -39,6 +39,7 @@ import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
 import org.openecomp.appc.adapter.iaas.impl.RequestContext;
 import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
 import org.openecomp.appc.adapter.iaas.impl.VMURL;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Property;
 import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
 import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
 import org.openecomp.appc.exceptions.UnknownProviderException;
@@ -84,7 +85,7 @@ public class RestartServer extends ProviderServerOperation {
 
         setTimeForMetricsLogger("restart server");
 
-        String skipHypervisorCheck = configuration.getProperty("org.openecomp.appc.iaas.skiphypervisorchek");
+        String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
         if (skipHypervisorCheck == null && ctx != null) {
             skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }

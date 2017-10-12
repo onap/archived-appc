@@ -41,6 +41,7 @@ import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
 import org.openecomp.appc.adapter.iaas.impl.RequestContext;
 import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
 import org.openecomp.appc.adapter.iaas.impl.VMURL;
+import org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Property;
 import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
 import org.openecomp.appc.configuration.Configuration;
@@ -102,7 +103,7 @@ public class MigrateServer extends ProviderServerOperation {
         setTimeForMetricsLogger();
 
         // Is the skip Hypervisor check attribute populated?
-        String skipHypervisorCheck = configuration.getProperty("org.openecomp.appc.iaas.skiphypervisorchek");
+        String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
         if (skipHypervisorCheck == null && svcCtx != null) {
             skipHypervisorCheck = svcCtx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }
