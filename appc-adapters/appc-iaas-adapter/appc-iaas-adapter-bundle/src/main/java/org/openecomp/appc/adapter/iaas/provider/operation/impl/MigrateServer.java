@@ -102,7 +102,7 @@ public class MigrateServer extends ProviderServerOperation {
         setTimeForMetricsLogger();
 
         // Is the skip Hypervisor check attribute populated?
-        String skipHypervisorCheck = configuration.getProperty("org.openecomp.appc.iaas.skiphypervisorchek");
+        String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
         if (skipHypervisorCheck == null && svcCtx != null) {
             skipHypervisorCheck = svcCtx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }

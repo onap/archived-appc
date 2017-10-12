@@ -189,7 +189,7 @@ public class RebuildServer extends ProviderServerOperation {
         }
 
         // Is the skip Hypervisor check attribute populated?
-        String skipHypervisorCheck = configuration.getProperty("org.openecomp.appc.iaas.skiphypervisorchek");
+        String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
         if (skipHypervisorCheck == null && ctx != null) {
             skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }
