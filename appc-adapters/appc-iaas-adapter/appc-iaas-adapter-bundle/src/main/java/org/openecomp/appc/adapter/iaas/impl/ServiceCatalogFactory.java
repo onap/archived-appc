@@ -26,7 +26,13 @@ package org.openecomp.appc.adapter.iaas.impl;
 
 import java.util.Properties;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.jcraft.jsch.Logger;
+
 public class ServiceCatalogFactory {
+	
+	private static EELFLogger logger= EELFManager.getInstance().getLogger(org.openecomp.appc.adapter.iaas.impl.ServiceCatalogFactory.class);
 
     /**
      * This method accepts a fully qualified identity service URL and uses that to determine which version of the
@@ -41,9 +47,17 @@ public class ServiceCatalogFactory {
      */
     public static ServiceCatalog getServiceCatalog(String url, String projectIdentifier, String principal,
             String credential, String domain, Properties properties) {
-        String version = IdentityURL.parseURL(url).getVersion();
+    	IdentityURL idUrl = IdentityURL.parseURL(url);
+    	if(idUrl == null){
+    		logger.error("Url " + url + " could not be parsed.");
+    		return null;
+    	}
+        String version = idUrl.getVersion();
+        if(version == null){
+        	logger.error("Invalid Identity URL check configuration");
+        	return null;
+        }
         String prefix = version.split("\\.")[0];
-
         if (prefix != null) {
             switch (prefix) {
                 case "v2":
