@@ -280,8 +280,11 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                         && !scope.isNull(SdcArtifactHandlerConstants.VNFC_TYPE)) {
                     context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE,
                             scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE));
-                    storeCapabilityArtifact=false;
-                    log.info("No capability Artifact for this reference data as it is ar VNFC level!!");
+                    String vnfcTypeScope = scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE);
+                    if (StringUtils.isNotBlank(vnfcTypeScope)) {
+                        storeCapabilityArtifact = false;
+                        log.info("No capability Artifact for this reference data as it is at VNFC level!!");
+                    }
                 }
                 else
                     context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
