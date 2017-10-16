@@ -89,7 +89,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             Thread.sleep(Long.parseLong(waitTime));
             logger.info("DG waits for " + Long.parseLong(waitTime) + " milliseconds completed");
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Error In ExecuteNodeActionImpl for waitMethod() due to InterruptedException: reason = " + e.getMessage());
         }
     }
 
