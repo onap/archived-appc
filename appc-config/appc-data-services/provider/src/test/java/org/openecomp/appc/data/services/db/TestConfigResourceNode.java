@@ -26,6 +26,7 @@ package org.openecomp.appc.data.services.db;
 
 import java.util.HashMap;
 import java.util.Map;
+import static org.junit.Assert.assertFalse;
 import org.junit.Test;
 import org.openecomp.appc.data.services.AppcDataServiceConstant;
 import org.openecomp.appc.data.services.node.ConfigResourceNode;
@@ -146,6 +147,15 @@ public class TestConfigResourceNode {
         ctx.setAttribute("tmp.convertconfig.escapeData", "test");
         ctx.setAttribute("tmp.merge.mergedData", "test");
         node.saveConfigBlock(inParams, ctx);
+    }
+
+    @Test
+    public void testcheckIfCapabilityCheckNeeded ()  throws Exception {
+        ConfigResourceNode node = new ConfigResourceNode();
+        String findCapability="Start";
+        String capLevel="vnf";
+        boolean result=node.checkIfCapabilityCheckNeeded(capLevel,findCapability);
+        assertFalse(result);
     }
 
 }

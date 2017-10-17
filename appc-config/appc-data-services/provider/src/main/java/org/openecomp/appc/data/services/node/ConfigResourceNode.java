@@ -21,6 +21,9 @@
 package org.openecomp.appc.data.services.node;
 
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import com.att.eelf.configuration.EELFLogger;
@@ -672,6 +675,13 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         String caplevel = inParams.get("caplevel");
         String findCapability = inParams.get("checkCapability");
 
+        if (!checkIfCapabilityCheckNeeded(caplevel, findCapability))
+        {
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+            log.info("getCapability Successful - No need for capability check for this action");
+            return;
+        }
         try {            
             DGGeneralDBService db = DGGeneralDBService.initialise();            
             String cap = db.getCapability(ctx, inParams.get("vnf-type"));
@@ -720,6 +730,21 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             throw new SvcLogicException(e.getMessage());
         }
+    }
+
+    public boolean checkIfCapabilityCheckNeeded(String caplevel, String findCapability) {
+        boolean capabilityCheckNeeded = true;
+        if (!StringUtils.equalsIgnoreCase(caplevel, AppcDataServiceConstant.CAPABILITY_VM_LEVEL)) {
+            List<AppcDataServiceConstant.ACTIONS> actionList = new ArrayList<AppcDataServiceConstant.ACTIONS>(
+                    Arrays.asList(AppcDataServiceConstant.ACTIONS.values()));
+            for (AppcDataServiceConstant.ACTIONS action : actionList) {
+                if (StringUtils.equalsIgnoreCase(action.toString(), findCapability)) {
+                    capabilityCheckNeeded = false;
+                    break;
+                }
+            }
+        }
+        return capabilityCheckNeeded;
     }
 
 
