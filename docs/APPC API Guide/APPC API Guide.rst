@@ -39,7 +39,7 @@ This document is intended for an advanced technical audience, such as the engine
 Life Cycle Management Commands
 ==============================
 
-APPC receives commands from external ECOMP components, such as SO, Policy, DCAE, or the Portal, to manage the life cycle of virtual applications and their components.
+APPC receives commands from external ONAP components, such as SO, Policy, DCAE, or the Portal, to manage the life cycle of virtual applications and their components.
 
 A virtual application is composed of the following layers of network technology:
 
@@ -92,12 +92,12 @@ Synchronous Flow
 The client library adds the following wrapper around request and responses to the LCM API (described below)::
 
     {
-    	"version" : "2.0",
-    	"cambria.partition" : "<TOPIC>",
-    	"correlation-id" :"<CORRELATION_ID>",
-    	"rpc-name" : "<RPC_NME>",
-    	"type" : <MESSAGE_TYPE>
-    	"body" : <RPC_SPECIFIC_BODY>
+        "version" : "2.0",
+        "cambria.partition" : "<TOPIC>",
+        "correlation-id" :"<CORRELATION_ID>",
+        "rpc-name" : "<RPC_NME>",
+        "type" : <MESSAGE_TYPE>
+        "body" : <RPC_SPECIFIC_BODY>
     }
 
 
@@ -139,25 +139,25 @@ The LCM request conforms to the following structure::
 
     {
     "input": {
-     		"common-header": {"timestamp": "<TIMESTAMP>",
-     					"api-ver": "<API_VERSION>",
-    					"originator-id": "<ECOMP_SYSTEM_ID>",
-    					"request-id": "<ECOMP_REQUEST_ID>",
-    					"sub-request-id": "<ECOMP_SUBREQUEST_ID>",
-    					"flags": {
-    						   "mode": "<EXCLUSIVE|NORMAL>",
-    						   "force": "<TRUE|FALSE>",
-    						   "ttl": "<TTL_VALUE>"
-    						 }
-    	                         },
-    		"action": "<COMMAND_ACTION>",
-    		"action-identifiers": {
-    					"vnf-id": "<ECOMP_VNF_ID>",
-    					"vnfc-name": "<ECOMP_VNFC_NAME>",
-    					"vserver-id": "VSERVER_ID"
-    				      },
-    		["payload": "<PAYLOAD>"]
-    	    }
+                "common-header": {"timestamp": "<TIMESTAMP>",
+                                        "api-ver": "<API_VERSION>",
+                                        "originator-id": "<ECOMP_SYSTEM_ID>",
+                                        "request-id": "<ECOMP_REQUEST_ID>",
+                                        "sub-request-id": "<ECOMP_SUBREQUEST_ID>",
+                                        "flags": {
+                                                   "mode": "<EXCLUSIVE|NORMAL>",
+                                                   "force": "<TRUE|FALSE>",
+                                                   "ttl": "<TTL_VALUE>"
+                                                 }
+                                 },
+                "action": "<COMMAND_ACTION>",
+                "action-identifiers": {
+                                        "vnf-id": "<ECOMP_VNF_ID>",
+                                        "vnfc-name": "<ECOMP_VNFC_NAME>",
+                                        "vserver-id": "VSERVER_ID"
+                                      },
+                ["payload": "<PAYLOAD>"]
+             }
     }
 
 
@@ -263,26 +263,26 @@ The LCM response comprises a common header and a section containing the payload 
 The LCM response conforms to the following structure::
 
     {
-    	"output": {
-    		    "common-header": {
-    					"api-ver": "<API\_VERSION>",
-    					"flags": {
-    						   "ttl": <TTL\_VALUE>,
-    						   "force": "<TRUE\|FALSE>",
-    						   "mode": "<EXCLUSIVE\|NORMAL>"
-    						 },
-    					"originator-id": "<ECOMP\_SYSTEM\_ID>",
-    					"request-id": "<ECOMP\_REQUEST\_ID>",
-    					"sub-request-id": "<ECOMP\_SUBREQUEST\_ID>",
-    					"timestamp": "2016-08-08T23:09:00.11Z",
-    				     },
-    		   "payload": "<PAYLOAD>",
-    		   [Additional fields],
-    		   "status": {
-    				"code": <RESULT\_CODE>,
-    				"message": "<RESULT\_MESSAGE>"
-    			     }
-                 }
+        "output": {
+                    "common-header": {
+                                        "api-ver": "<API\_VERSION>",
+                                        "flags": {
+                                                   "ttl": <TTL\_VALUE>,
+                                                   "force": "<TRUE\|FALSE>",
+                                                   "mode": "<EXCLUSIVE\|NORMAL>"
+                                                 },
+                                        "originator-id": "<ECOMP\_SYSTEM\_ID>",
+                                        "request-id": "<ECOMP\_REQUEST\_ID>",
+                                        "sub-request-id": "<ECOMP\_SUBREQUEST\_ID>",
+                                        "timestamp": "2016-08-08T23:09:00.11Z",
+                                     },
+                    "payload": "<PAYLOAD>",
+                    [Additional fields],
+                    "status": {
+                                "code": <RESULT\_CODE>,
+                                "message": "<RESULT\_MESSAGE>"
+                              }
+                  }
     }
 
 
@@ -451,15 +451,15 @@ A malformed message is an invalid request based on the LCM API YANG scheme speci
 
     {
       "errors": {
-      		  "error": [
-    			    {	
-    			      "error-type": "protocol",
-    			      "error-tag": "malformed-message",
-    			      "error-message": "<ERROR-MESSAGE>",
-    			      "error-info": "<ERROR-INFO>"
-    			    }
-    			   ]
-    	 	}
+                  "error": [
+                            {
+                              "error-type": "protocol",
+                              "error-tag": "malformed-message",
+                              "error-message": "<ERROR-MESSAGE>",
+                              "error-info": "<ERROR-INFO>"
+                            }
+                           ]
+                }
     }
 
 
@@ -467,18 +467,18 @@ A malformed message is an invalid request based on the LCM API YANG scheme speci
 
     {
       "errors": {
-    		  "error": [
-    			    {
-    			      "error-type": "protocol",
-    			      "error-tag": "malformed-message",
-    			      "error-message": "Error parsing input: Invalid value 'Stopp' for
-    			       enum type. Allowed values are: [Sync, Audit, Stop, Terminate]",
-    			      "error-info": "java.lang.IllegalArgumentException: Invalid value
-    				'Stopp' for enum type. Allowed values are: [Sync, Audit, Stop,
-    				Terminate]..."
-    			    }
-    			   ]
-    		}
+                  "error": [
+                            {
+                              "error-type": "protocol",
+                              "error-tag": "malformed-message",
+                              "error-message": "Error parsing input: Invalid value 'Stopp' for
+                               enum type. Allowed values are: [Sync, Audit, Stop, Terminate]",
+                              "error-info": "java.lang.IllegalArgumentException: Invalid value
+                                'Stopp' for enum type. Allowed values are: [Sync, Audit, Stop,
+                                Terminate]..."
+                            }
+                           ]
+                }
     }
 
 
@@ -639,7 +639,7 @@ The Audit action does not require any payload parameters.
 Audit Response
 ^^^^^^^^^^^^^^
 
-The audit response returns an indication of success or failure of the audit. If a new configuration is uploaded to the APPC database, the payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ECOMP Data Router bus which may be received by an external configuration storage system.
+The audit response returns an indication of success or failure of the audit. If a new configuration is uploaded to the APPC database, the payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ONAP Data Router bus which may be received by an external configuration storage system.
 
 
 CheckLock
@@ -685,21 +685,21 @@ response.
 
     {
       "output": {
-    		  "status": {
-    		  	      "code": <RESULT\_CODE>, "message": "<RESULT\_MESSAGE>"
-    			    },
-    		  "common-header": {
-    				     "api-ver": "<API\_VERSION>",
-    				     "request-id": "<ECOMP\_REQUEST\_ID>", "originator-id":
-    				     "<ECOMP\_SYSTEM\_ID>",
-    				     "sub-request-id": "<ECOMP\_SUBREQUEST\_ID>", "timestamp":
-    				     "2016-08-08T23:09:00.11Z",
-    				     "flags": {
-    						"ttl": <TTL\_VALUE>, "force": "<TRUE\|FALSE>",
-    						"mode": "<EXCLUSIVE\|NORMAL>"
-    					      }
-    				   },
-    		  "locked": "<TRUE\|FALSE>"
+                  "status": {
+                              "code": <RESULT\_CODE>, "message": "<RESULT\_MESSAGE>"
+                            },
+                  "common-header": {
+                                     "api-ver": "<API\_VERSION>",
+                                     "request-id": "<ECOMP\_REQUEST\_ID>", "originator-id":
+                                     "<ECOMP\_SYSTEM\_ID>",
+                                     "sub-request-id": "<ECOMP\_SUBREQUEST\_ID>", "timestamp":
+                                     "2016-08-08T23:09:00.11Z",
+                                     "flags": {
+                                                "ttl": <TTL\_VALUE>, "force": "<TRUE\|FALSE>",
+                                                "mode": "<EXCLUSIVE\|NORMAL>"
+                                              }
+                                   },
+                  "locked": "<TRUE\|FALSE>"
     }
 
 
@@ -757,7 +757,7 @@ A failed Configure action returns a failure response and the specific failure me
 Configure Response
 ^^^^^^^^^^^^^^^^^^
 
-The Configure response returns an indication of success or failure of the request. If successful, the return payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ECOMP Data Router bus  which may be received by an external configuration storage system.
+The Configure response returns an indication of success or failure of the request. If successful, the return payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ONAP Data Router bus  which may be received by an external configuration storage system.
 
 SO is creating the VNFC records in A&AI. APPC is updating the VNFC status.
 
@@ -815,7 +815,7 @@ A failed Configure action returns a failure response and the specific failure me
 ConfigModify Response
 ^^^^^^^^^^^^^^^^^^^^^
 
-The ConfigModify response returns an indication of success or failure of the request. If successful, the return payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ECOMP Data Router bus which may be received by an external configuration storage system.
+The ConfigModify response returns an indication of success or failure of the request. If successful, the return payload contains the ‘upload\_config\_id’ and values for any records created. In addition, the configuration is sent to the ONAP Data Router bus which may be received by an external configuration storage system.
 
 ConfigBackup
 ------------
