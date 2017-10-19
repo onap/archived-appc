@@ -16,9 +16,9 @@
 .. ============LICENSE_END============================================
 .. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
-========================================
-Application Controller (APPC) User Guide
-========================================
+===============
+APPC User Guide
+===============
 
 APPC Overview and Architecture
 ==============================

@@ -18,9 +18,9 @@
 
 .. _appc_api_guide:
 
-============================================
-ONAP Application Controller (APPC) API Guide
-============================================
+==================
+APPC LCM API Guide
+==================
 
 Introduction
 ============
