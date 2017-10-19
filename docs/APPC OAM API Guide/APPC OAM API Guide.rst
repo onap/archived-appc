@@ -16,8 +16,8 @@
 .. ============LICENSE_END============================================
 .. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
-APPC OAM Guide
-==============
+APPC OAM API Guide
+==================
 
 This guide describes the APPC OAM API that allows the user to manage and control the APPC application/component itself.
 
