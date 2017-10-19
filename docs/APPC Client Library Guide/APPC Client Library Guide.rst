@@ -25,9 +25,9 @@ This document is for an advanced technical audience, which includes engineers an
 Related Documentation
 ---------------------
 
-For additional information, see 
+For additional information, see
 
-	:ref:`appc_api_guide`
+        :ref:`appc_api_guide`
 
 
 Client Library Background
@@ -73,7 +73,7 @@ Synchronous Flow
 
 Client Library Usage
 ====================
-      
+
 Jar Files
 ---------
 
@@ -84,7 +84,7 @@ The Java application that runs the APPC client kit uses the following jar files:
 
 The client library JAR files are located in the repository under ``com\\att\\appc\\client``.
 
-Initialization 
+Initialization
 --------------
 
 Initialize the client by calling the following method:
@@ -151,7 +151,7 @@ There may be multiple calls to the ResponseHandler for each response returned by
 LifeCycleManagerStateful Interface
 ----------------------------------
 
-Generated from the APPC Yang model, this interface defines the services and request/response requirements for the ECOMP APPC component. For example, for LCM Command Audit, the following is defined:
+Generated from the APPC Yang model, this interface defines the services and request/response requirements for the ONAP APPC component. For example, for LCM Command Audit, the following is defined:
 
 ``@RPC(name="audit", outputType=AuditOutput.class)``
 
@@ -175,8 +175,8 @@ appc-provider-lcm
 
 This defines the services and request/response requirements for the APPC component.
 
-Methods 
---------
+Methods
+-------
 
 The methods should match the actions described in the LCM API Guide. For each method:
 
