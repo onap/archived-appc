@@ -16,8 +16,8 @@
 .. ============LICENSE_END============================================
 .. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
-APPC Logging
-============
+APPC Logging Guide
+==================
 
 The APPC modules manage logging functionality according to the logging
 configuration file ``org.ops4j.pax.logging.cfg``. APPC configuration defines

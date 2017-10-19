@@ -18,9 +18,9 @@
 
 .. _appc_client_library:
 
-==================================================
-Application Controller (APPC) Client Library Guide
-==================================================
+=========================
+APPC Client Library Guide
+=========================
 
 
 Introduction
