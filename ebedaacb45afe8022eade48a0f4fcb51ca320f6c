@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a2f8d8d_7d6876ba",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/openecomp/appc/sdc/listener/SdcCallback.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-10-23T15:00:14Z",
+      "side": 1,
+      "message": "I believe output of the stack trace should be retained.   For example, use logger.error(String, Throwable).",
+      "revId": "ebedaacb45afe8022eade48a0f4fcb51ca320f6c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
