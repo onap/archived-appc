@@ -7,3 +7,4 @@ APPC Documentation Repository
 
    APPC API Guide/APPC API Guide
    APPC Client Library Guide/APPC Client Library Guide
+   APPC Logging Guide/APPC Logging Guide
