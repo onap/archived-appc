@@ -139,7 +139,7 @@ public class SdcCallback implements INotificationCallback {
             cleanShutdown = executor.awaitTermination(waitSec, TimeUnit.SECONDS);
             executor.shutdownNow(); // In case of timeout
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("Error in SdcCallback for stop(int waitSec) method due to InterruptedException: reason= " + e.getMessage(), e);
         }
         logger.info(String.format("Attempting to shutdown cleanly: %s", cleanShutdown ? "SUCCESS" : "FAILURE"));
         logger.info("Shutdown complete.");
