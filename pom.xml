@@ -27,7 +27,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent-carbon-sr1</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
 
 
