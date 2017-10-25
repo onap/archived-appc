@@ -100,6 +100,7 @@
                         <Export-Package>org.openecomp.sdnc.dg.loader</Export-Package>
                         <Import-Package>*</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
                     </instructions>
                     <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
                 </configuration>
@@ -128,6 +129,36 @@
                         <goals>
                             <goal>single</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Adding this plugin to be able to deploy the dg-loader JAR with dependencies to the Nexus Repo.
+                 This is needed to be able to run the java cmds in 
+                 deployment.git/platform-logic/installer/src/main/scripts/install-converted-dgs.sh -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
