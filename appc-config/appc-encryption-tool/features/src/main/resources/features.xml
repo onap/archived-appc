@@ -29,11 +29,11 @@
     <feature name='appc-config-encryption-tool' description="Application Controller Encription Tool"
         version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-        <feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
 
-        <feature version="${sdnctl.dblib.version}">sdnc-dblib</feature>
-        <feature version="${sdnctl.sli.version}">sdnc-sli</feature>
-        <feature version="${openecomp.sdnc.sql-resource.version}">sdnc-sql-resource</feature>
+        <feature>sdnc-dblib</feature>
+        <feature>sdnc-sli</feature>
+        <feature>sdnc-sql-resource</feature>
 
         <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
         <bundle>mvn:org.apache.velocity/velocity/${velocity.version}</bundle>

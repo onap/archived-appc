@@ -33,7 +33,7 @@
 	<feature name='app-cntrl-network-inventory' description="Application Controller Instar Client"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+		<feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
 		<feature version= "${sdnctl.sli.version}">sdnc-sli</feature>
 		
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>

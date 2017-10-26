@@ -29,11 +29,11 @@
 	<feature name='appc-config-data-services' description="Application Controller Config Data Service"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
+		<feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
 		
-		<feature version="${sdnctl.dblib.version}">sdnc-dblib</feature>
-		<feature version="${sdnc.sli.version}">sdnc-sli</feature>
-		<feature version="${openecomp.sdnc.sql-resource.version}">sdnc-sql-resource</feature>
+		<feature>sdnc-dblib</feature>
+		<feature>sdnc-sli</feature>
+		<feature>sdnc-sql-resource</feature>
 		
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		
@@ -42,6 +42,6 @@
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-data-services-provider/${project.version}</bundle>
+		<bundle>mvn:org.openecomp.appc/appc-config-data-services-provider/${project.version}</bundle>
 	</feature>
 </features>

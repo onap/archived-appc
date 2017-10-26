@@ -29,8 +29,8 @@
 	<feature name='appc-config-flow-controller' description="Application Controller Flow Executor"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
-		<feature version= '${sdnc.sli.version}'>sdnc-sli</feature>
+		<feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
+		<feature>sdnc-sli</feature>
 		
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		<bundle>mvn:commons-collections/commons-collections/${common.collections.version}</bundle>
@@ -38,6 +38,6 @@
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-flow-controller-provider/${project.version}</bundle>
+		<bundle>mvn:org.openecomp.appc/appc-config-flow-controller-provider/${project.version}</bundle>
 	</feature>
 </features>

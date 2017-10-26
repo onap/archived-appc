@@ -36,6 +36,14 @@
 			<groupId>org.openecomp.appc</groupId>
 			<artifactId>appc-artifact-handler-provider</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.openecomp.appc</groupId>
+			<artifactId>appc-artifact-handler-provider</artifactId>
+			<version>${project.version}</version>
+			<classifier>config</classifier>
+			<type>xml</type>
+		</dependency>
 
 	</dependencies>
 
