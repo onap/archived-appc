@@ -31,11 +31,11 @@
 
 	<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
 
-	<feature name='app-cntrl-artifact-handler' description="Application Controller Artifact Handler"
+	<feature name='appc-artifact-handler' description="Application Controller Artifact Handler"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature version="${broker-mdsal.version}">odl-mdsal-broker</feature>
-		<feature version='${sdnctl.sli.version}'>sdnc-sli</feature>
+		<feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
+		<feature>sdnc-sli</feature>
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>wrap:mvn:com.fasterxml.jackson.core/jackson-databind/${jackson.version}</bundle>
 		<bundle>wrap:mvn:com.fasterxml.jackson.core/jackson-annotations/${jackson.version}</bundle>

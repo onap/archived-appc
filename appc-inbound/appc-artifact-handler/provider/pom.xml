@@ -105,7 +105,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>${project.build.directory}/classes/initial/artifact-handler-provider.xml</file>
+									<file>${project.build.directory}/classes/initial/appc-artifact-handler-provider.xml</file>
 									<type>xml</type>
 									<classifier>config</classifier>
 								</artifact>
