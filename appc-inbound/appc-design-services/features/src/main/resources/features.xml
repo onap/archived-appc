@@ -40,12 +40,12 @@
 		<bundle>mvn:org.openecomp.appc/appc-design-services-model/${project.version}</bundle>
 
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature version='${broker-mdsal.version}'>odl-mdsal-broker</feature>
+		<feature version='${odl.mdsal.version}'>odl-mdsal-broker</feature>
 		<feature version='${sdnctl.sli.version}'>sdnc-sli</feature>
 		<bundle>mvn:org.openecomp.appc/appc-design-services-provider/${project.version}</bundle>
 		<bundle>wrap:mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.3.0</bundle>
 		
-		<feature version='${broker-mdsal.version}'>odl-restconf</feature>
+		<feature version='${odl.mdsal.version}'>odl-restconf</feature>
 
 	</feature>
 

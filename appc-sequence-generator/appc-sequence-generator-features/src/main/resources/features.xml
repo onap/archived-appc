@@ -29,7 +29,7 @@
 	<feature name='appc-sequence-generator' description="Appc Sequence Generator"
 		version='${project.version}'>
 		<!--<feature version="${odl.controller.mdsal.version}">odl-mdsal-broker</feature>-->
-		<!--<feature version="${sdnc.sli.version}">sdnc-sli</feature>-->
+		<!--<feature>sdnc-sli</feature>-->
 		<bundle dependency="true">mvn:org.openecomp.appc/domain-model-lib/${project.version}</bundle>
 		<bundle>mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
 		<bundle>mvn:org.openecomp.appc/appc-sequence-generator-model/${project.version}</bundle>
