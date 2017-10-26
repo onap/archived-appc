@@ -123,7 +123,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         <!-- This site is used for Javadocs -->
         <site>
             <id>ecomp-site</id>
-            <url>dav:${onap.nexus.url}/sites/site/org/onap/appc/${project.version}</url>
+            <url>dav:${onap.nexus.url}/content/sites/site/org/onap/appc/${project.version}</url>
         </site>
         <repository>
             <id>ecomp-releases</id>
