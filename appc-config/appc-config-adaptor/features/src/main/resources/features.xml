@@ -28,7 +28,7 @@
 
 	<feature name='appc-config-adaptor' description="Application Controller Config Adaptor"
 		version='${project.version}'>
-		<feature version= '${sdnc.sli.version}'>sdnc-sli</feature>
+		<feature>sdnc-sli</feature>
 		<bundle>wrap:mvn:com.jcraft/jsch/0.1.52</bundle>
 		<bundle>wrap:mvn:org.jasypt/jasypt/1.9.2</bundle>
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>

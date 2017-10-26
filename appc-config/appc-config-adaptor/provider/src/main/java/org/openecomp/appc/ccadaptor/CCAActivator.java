@@ -39,7 +39,7 @@ public class CCAActivator implements BundleActivator
 {
 
     private static final String CCA_PROP_FILE_VAR = "SDNC_CCA_PROPERTIES";
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    private static final String SDNC_CONFIG_DIR_VAR = "APPC_CONFIG_DIR";
 
     @SuppressWarnings("rawtypes")
     private ServiceRegistration registration = null;

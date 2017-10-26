@@ -106,7 +106,7 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>appc-config-data-services</Bundle-SymbolicName>
-						<Bundle-Activator>org.openecomp.appc.config.data.services.AppcDataServiceActivator</Bundle-Activator>
+						<Bundle-Activator>org.openecomp.appc.data.services.AppcDataServiceActivator</Bundle-Activator>
 						<Export-Package>org.openecomp.appc.data.services</Export-Package>
 						<Import-Package>*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
