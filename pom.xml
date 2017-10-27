@@ -51,7 +51,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         <!-- VERSIONS -->
 
 
-        <cdp.pal.version>1.1.25.2-oss</cdp.pal.version>
+        <cdp.pal.version>1.1.25.4-oss</cdp.pal.version>
         <dmaap.client.version>0.2.12</dmaap.client.version>
         <eelf.version>0.0.1</eelf.version>
         <eelf.maven.plugin.version>0.0.1</eelf.maven.plugin.version>
