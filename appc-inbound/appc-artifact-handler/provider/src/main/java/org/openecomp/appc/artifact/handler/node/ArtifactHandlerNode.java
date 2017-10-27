@@ -368,6 +368,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 if (content.has(SdcArtifactHandlerConstants.VM)
                         && content.get(SdcArtifactHandlerConstants.VM) instanceof JSONArray) {
                     JSONArray vmList = (JSONArray) content.get(SdcArtifactHandlerConstants.VM);
+                    dbservice.cleanUpVnfcReferencesForVnf(context);
                     for (int i = 0; i < vmList.length(); i++) {
                         JSONObject vmInstance = (JSONObject) vmList.get(i);
                         context.setAttribute(SdcArtifactHandlerConstants.VM_INSTANCE,
@@ -392,8 +393,9 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                                 if (vnfcInstance.has(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE))
                                     context.setAttribute(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE,
                                             vnfcInstance.getString(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE));
-                                dbservice.processVnfcReference(context, dbservice.isArtifactUpdateRequired(context,
-                                        SdcArtifactHandlerConstants.DB_VNFC_REFERENCE));
+                                if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")) {
+                                    dbservice.processVnfcReference(context,false);
+                                }
                                 cleanVnfcInstance(context);
                             }
                             context.setAttribute(SdcArtifactHandlerConstants.VM_INSTANCE, null);

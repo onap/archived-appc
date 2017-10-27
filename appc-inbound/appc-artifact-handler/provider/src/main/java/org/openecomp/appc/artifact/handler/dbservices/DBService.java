@@ -512,4 +512,20 @@ public class DBService {
         log.info(fn + "download_config_dg::" + downloadConfigDg);
         return downloadConfigDg;
     }
+
+    public void cleanUpVnfcReferencesForVnf(SvcLogicContext context) throws SvcLogicException {
+        String key1 = "delete from " + SdcArtifactHandlerConstants.DB_VNFC_REFERENCE
+                + " where action = 'Configure' and vnf_type = $" + SdcArtifactHandlerConstants.VNF_TYPE;
+        QueryStatus status = null;
+        log.info("cleanUpVnfcReferencesForVnf()::Query:" + key1);
+        if (serviceLogic != null && context != null) {
+            status = serviceLogic.save("SQL", false, false, key1, null, null, context);
+            if (status.toString().equals("FAILURE")) {
+                log.debug("Error deleting from VNFC_REFERENCE table");
+                throw new SvcLogicException("Error While processing VNFC_REFERENCE table ");
+            }
+        }
+    }
+
+
 }
