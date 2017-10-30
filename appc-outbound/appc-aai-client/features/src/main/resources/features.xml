@@ -24,20 +24,20 @@
   -->
 
 
-<features name="app-cntrl-aai-client-${project.version}"
+<features name="appc-aai-client-${project.version}"
 	xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
 <!-- 	<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.version}/xml/features</repository> -->
 	 <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
 
-	<feature name='app-cntrl-aai-client' description="Application Controller AAI Client"
+	<feature name='appc-aai-client' description="Application Controller AAI Client"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
 		<feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
 		
-		<feature version="${sdnctl.sli.version}">sdnc-sli</feature>
-		<feature version="${sdnc.aai.version}">sdnc-aai-service</feature>
+		<feature>sdnc-sli</feature>
+		<feature>sdnc-aai-service</feature>
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		<!-- <bundle>mvn:org.apache.velocity/velocity/${velocity.version}</bundle> -->
 		<bundle>mvn:commons-collections/commons-collections/3.2.1</bundle> 
