@@ -9,3 +9,4 @@ APPC Documentation Repository
    APPC Client Library Guide/APPC Client Library Guide
    APPC Logging Guide/APPC Logging Guide
    APPC User Guide/APPC User Guide
+   APPC OAM Guide/APPC OAM Guide
