@@ -1,23 +1,3 @@
-/*-
- * ============LICENSE_START=======================================================
- * ONAP : APP-C
- * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
- * ================================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ============LICENSE_END=========================================================
- */
-
 [{
   "id": "81a02ecc.e61b6",
   "type": "dgstart",
@@ -35,7 +15,7 @@
     "module": "APPC",
     "version": "2.0.0",
     "comments": "",
-    "xml": "<service-logic xmlns='http://www.openecomp.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.openecomp.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.0'>",
+    "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.0'>",
     "outputs": 1,
     "x": 299.66666412353516,
     "y": 84.08333426713943,
@@ -58,7 +38,7 @@
     "id": "7490fc55.b23eb4",
     "type": "get-resource",
     "name": "Retrieve current config details",
-    "xml": "<get-resource plugin='org.openecomp.sdnc.sli.resource.sql.SqlResource' resource='SQL' key=\"SELECT service_description, vnf_name, vm_name, vnf_type, vnfc_type, host_ip_address , content FROM UPLOAD_CONFIG WHERE vnf_id = $input.action-identifiers.vnf-id AND config_indicator='Current' AND (pending_delete IS NULL OR pending_delete != 'Y')\" pfx=\"currnt-config[]\">",
+    "xml": "<get-resource plugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' resource='SQL' key=\"SELECT service_description, vnf_name, vm_name, vnf_type, vnfc_type, host_ip_address , content FROM UPLOAD_CONFIG WHERE vnf_id = $input.action-identifiers.vnf-id AND config_indicator='Current' AND (pending_delete IS NULL OR pending_delete != 'Y')\" pfx=\"currnt-config[]\">",
     "comments": "",
     "outputs": 1,
     "x": 458.08617401123047,
@@ -370,7 +350,7 @@
     "id": "ac51bff5.352e5",
     "type": "record",
     "name": "Log error",
-    "xml": "<record plugin=\"org.openecomp.sdnc.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$error-message`\"/>\n",
+    "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$error-message`\"/>\n",
     "comments": "",
     "outputs": 1,
     "x": 1153.3589096069336,
@@ -382,7 +362,7 @@
     "id": "c4fa8668.3392a8",
     "type": "record",
     "name": "Log error",
-    "xml": "<record plugin=\"org.openecomp.sdnc.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$error-message`\"/>\n",
+    "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$error-message`\"/>\n",
     "comments": "",
     "outputs": 1,
     "x": 1493.024314880371,
@@ -394,7 +374,7 @@
     "id": "7c0de445.f1cc6c",
     "type": "record",
     "name": "Log message",
-    "xml": "<record plugin=\"org.openecomp.sdnc.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Retrieving current configuration details from the repository for vnf-id: ' + $input.action-identifiers.vnf-id`\"/>\n",
+    "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Retrieving current configuration details from the repository for vnf-id: ' + $input.action-identifiers.vnf-id`\"/>\n",
     "comments": "",
     "outputs": 1,
     "x": 440.08553314208984,
@@ -406,7 +386,7 @@
     "id": "925cca6f.85b738",
     "type": "record",
     "name": "Log message",
-    "xml": "<record plugin=\"org.openecomp.sdnc.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Audit action successful for vnf-id: ' + $input.action-identifiers.vnf-id`\"/>\n",
+    "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Audit action successful for vnf-id: ' + $input.action-identifiers.vnf-id`\"/>\n",
     "comments": "",
     "outputs": 1,
     "x": 524.6198310852051,
@@ -568,7 +548,7 @@
     "id": "e4322d3b.8d1ab",
     "type": "record",
     "name": "Log error",
-    "xml": "<record plugin=\"org.openecomp.sdnc.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$Error-Message`\"/>\n",
+    "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$Error-Message`\"/>\n",
     "comments": "",
     "outputs": 1,
     "x": 1624.6667098999023,
@@ -708,7 +688,7 @@
     "id": "58111dc9.5f25b4",
     "type": "get-resource",
     "name": "Retrieve Running config details DB",
-    "xml": "<get-resource plugin='org.openecomp.sdnc.sli.resource.sql.SqlResource' resource='SQL' key=\" SELECT upload_config_id, request_id, originator_id, service_description, action, upload_date, vnf_id, vnf_name, vm_name, vnf_type, vnfc_type, host_ip_address, config_indicator, pending_delete ,content FROM UPLOAD_CONFIG WHERE UPLOAD_CONFIG_ID = $runningConfig.UPLOAD-CONFIG-ID\" pfx=\"running-config\" >",
+    "xml": "<get-resource plugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' resource='SQL' key=\" SELECT upload_config_id, request_id, originator_id, service_description, action, upload_date, vnf_id, vnf_name, vm_name, vnf_type, vnfc_type, host_ip_address, config_indicator, pending_delete ,content FROM UPLOAD_CONFIG WHERE UPLOAD_CONFIG_ID = $runningConfig.UPLOAD-CONFIG-ID\" pfx=\"running-config\" >",
     "comments": "",
     "outputs": 1,
     "x": 865.6666488647461,
@@ -1228,7 +1208,7 @@
     "id": "45de7390.486dfc",
     "type": "record",
     "name": "Log error",
-    "xml": "<record plugin=\"org.openecomp.sdnc.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$error-message`\"/>",
+    "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$error-message`\"/>",
     "comments": "",
     "outputs": 1,
     "x": 3399.500015258789,
