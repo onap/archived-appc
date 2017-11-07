@@ -122,6 +122,7 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.openecomp.appc.domainmodel.lcm.ActionLevel;
 import org.openecomp.appc.domainmodel.lcm.ResponseContext;
 import org.openecomp.appc.exceptions.APPCException;
 import org.openecomp.appc.executor.objects.LCMCommandStatus;
@@ -136,12 +137,14 @@ import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
 import org.openecomp.appc.requesthandler.objects.RequestHandlerOutput;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.InvalidSyntaxException;
 import org.osgi.framework.ServiceReference;
 
 import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.Collection;
 
 public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
 
@@ -528,19 +531,25 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
         return requestHandlerOutput;
     }
 
-    private RequestHandler getRequestHandler(){
+    private RequestHandler getRequestHandler(ActionLevel actionLevel){
         final BundleContext context = FrameworkUtil.getBundle(RequestHandler.class).getBundleContext();
-        if (context == null) {
-            return null;
+        if (context != null) {
+            String filter = null;
+            try {
+                filter = "(level=" + actionLevel.name() + ")";
+                Collection<ServiceReference<RequestHandler>> serviceReferences = context.getServiceReferences(RequestHandler.class, filter);
+                if (serviceReferences.size() != 1) {
+                    logger.error("Cannot find service reference for " + RequestHandler.class.getName());
+                    throw new RuntimeException();
+                }
+                ServiceReference<RequestHandler> serviceReference = serviceReferences.iterator().next();
+                return context.getService(serviceReference);
+            } catch (InvalidSyntaxException e) {
+                logger.error("Cannot find service reference for " + RequestHandler.class.getName() + ": Invalid Syntax " + filter, e);
+                throw new RuntimeException(e);
+            }
         }
-
-        final ServiceReference reference = context.getServiceReference(RequestHandler.class.getName());
-        if (reference == null) {
-            logger.error("Cannot find service reference for " + RequestHandler.class.getName());
-            throw new RuntimeException();
-        }
-
-        return (RequestHandler) context.getService(reference);
+        return null;
     }
 
     @Override
@@ -1179,7 +1188,7 @@ public class AppcProviderLcm implements AutoCloseable, AppcProviderLcmService {
     }
 
     RequestHandlerOutput executeRequest(RequestHandlerInput request){
-        RequestHandler handler = getRequestHandler();
+        RequestHandler handler = getRequestHandler(request.getRequestContext().getActionLevel());
         RequestHandlerOutput requestHandlerOutput;
         if (handler != null) {
             try {
