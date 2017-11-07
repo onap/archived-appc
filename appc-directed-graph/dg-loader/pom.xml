@@ -28,14 +28,14 @@
     <parent>
         <groupId>org.openecomp.appc</groupId>
         <artifactId>appc-directed-graph</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.openecomp.appc.plugins</groupId>
     <artifactId>dg-loader</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Directed Graph Loader Node</name>
