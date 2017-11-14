@@ -88,8 +88,8 @@ Jar Files
 
 The Java application that runs the APPC client kit uses the following jar files:
 
-    -  com.att.appc.client.client-kit
-    -  com.att.appc.client.client-lib
+    -  org.openecomp.appc.client:client-kit
+    -  org.openecomp.appc.client:client-lib
 
 The client library JAR files are located in the repository under ``com\\att\\appc\\client``.
 

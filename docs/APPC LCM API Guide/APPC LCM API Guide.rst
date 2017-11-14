@@ -114,6 +114,10 @@ Table 1 Request / Response Message Fields
 | correlation- id      | Correlation ID used for associating responses in APPC Client Library. Built as: <request-id>-<sub-request-id>  |     Yes             |
 +----------------------+----------------------------------------------------------------------------------------------------------------+---------------------+
 | rpc-name             | The target Remote Processing Call (RPC) name which should match the LCM command name. For example: configure   |     Yes             |
+|                      |                                                                                                                |                     |
+|                      | The convention for RPC names and the target URL is that multi-word command names should have a dash between    |                     |
+|                      | words, e.g.,                                                                                                   |                     |
+|                      | /restconf/operations/appc-provider-lcm:config-modify                                                           |                     |
 +----------------------+----------------------------------------------------------------------------------------------------------------+---------------------+
 | type                 | Message type: request, response or error                                                                       |     Yes             |
 +----------------------+----------------------------------------------------------------------------------------------------------------+---------------------+
@@ -1039,7 +1043,7 @@ Migrate suspends the guest virtual machine, and moves an image of the guest virt
 
 The migrate action will leave the VM in the same Openstack state the VM had been in prior to the migrate action. If a VM was stopped before migration, a separate VM-level restart command would be needed to restart the VM after migration.
 
-A successful Migrate action returns a success response and the new node identity in the response payload block.
+A successful Migrate action returns a success response.
 
 A failed Migrate action returns a failure and the failure messages in the response payload block.
 

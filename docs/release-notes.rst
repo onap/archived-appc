@@ -63,6 +63,12 @@ Other key features added in this release include:
 	
 **Known Issues**
 
+ 	- `APPC-316 <https://jira.onap.org/browse/APPC-316>`_ - Null payload issue for Stop Application; Stop action will not work with a null payload. Ensure when testing Stop action that payload is included. 
+	
+	- `APPC-315 <https://jira.onap.org/browse/APPC-315>`_ - appc-request-handler is giving error java.lang.NoClassDefFoundError - This error results in vnf state and lock not being released. The workaround is to manually remove the entries from the VNF_LOCK_MANAGEMENT and VNF_STATE_MANAGEMENT tables.
+	   - ``DELETE FROM VNF_LOCK_MANAGEMENT where RESOURCE_ID="vnf-id"``
+	   - ``DELETE FROM VNF_STATE_MANAGEMENT where VNF_ID="vnf-id"``
+
 	- `APPC-312 <https://jira.onap.org/browse/APPC-312>`_ - APPC request is going to wrong request handler and rejecting request. Configure request failing with following error: ``REJECTED Action Configure is not supported on VM level``.
 	
 	- `APPC-311 <https://jira.onap.org/browse/APPC-311>`_ - The APPC LCM Provider Healthcheck, which does a healthceck on a VNF, is failing. No known workaround at this time. 
@@ -77,7 +83,7 @@ Other key features added in this release include:
 	 
 	- `APPC-154 <https://jira.onap.org/browse/APPC-154>`_ - Logging issue - Request REST API of APPC has RequestID (MDC) in Body or Payload section instead of Header.
 	
-		
+	
 **Security Issues**
 	- Communication over DMaaP currently does not use secure topics in this release.
 	- AAF is deactivated by default in this release and was not validated or committed as part of the Amsterdam Release.
@@ -101,3 +107,4 @@ Other key features added in this release include:
 ===========
 
 End of Release Notes
+
