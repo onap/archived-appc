@@ -22,7 +22,7 @@
         <common.io.version>2.5</common.io.version>
 
         <sdnc.sql.resource.version>1.1.0</sdnc.sql.resource.version>
-        <openecomp.sdnc.sql-resource.version>0.0.1-SNAPSHOT</openecomp.sdnc.sql-resource.version>
+        <openecomp.sdnc.sql-resource.version>${ccsdk.sli.adaptors.version}</openecomp.sdnc.sql-resource.version>
         <sdnc.sli.version>1.1.0</sdnc.sli.version>
         <tosca.datatype.version>1.1.0</tosca.datatype.version>
     </properties>
