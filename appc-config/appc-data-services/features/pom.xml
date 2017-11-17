@@ -4,7 +4,7 @@
 	<parent>
 		<artifactId>appc-config-data-services</artifactId>
 		<groupId>org.openecomp.appc</groupId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-config-data-services-features</artifactId>
 	<name>APPC Data Services Plugin - Features</name>
