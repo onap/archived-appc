@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>appc-network-inventory-client</artifactId>
 		<groupId>org.openecomp.appc</groupId>
-		<version>1.2.0-SNAPSHOT</version>
+		<version>1.2.1-SNAPSHOT</version>
 	</parent>
 	<name>APPC Network Inventory - Installer</name>
 	<packaging>pom</packaging>

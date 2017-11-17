@@ -4,7 +4,7 @@
   <parent>
     <artifactId>lock-manager-lib</artifactId>
     <groupId>org.openecomp.appc</groupId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
   </parent>
   <name>lock-manager-features</name>
   <artifactId>lock-manager-features</artifactId>
