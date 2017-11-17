@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.openecomp.appc</groupId>
     <artifactId>appc-sequence-generator</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
   </parent>
   <artifactId>appc-sequence-generator-installer</artifactId>
   <name>Appc Sequence Generator : Karaf Installer</name>

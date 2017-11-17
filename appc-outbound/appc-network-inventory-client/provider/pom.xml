@@ -29,11 +29,11 @@
     <parent>
         <groupId>org.openecomp.appc</groupId>
         <artifactId>appc-network-inventory-client</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-network-inventory-client-provider</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>APPC Network Client - Provider</name>
 
