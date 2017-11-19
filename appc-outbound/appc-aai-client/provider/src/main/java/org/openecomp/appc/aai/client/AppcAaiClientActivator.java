@@ -26,7 +26,6 @@ package org.openecomp.appc.aai.client;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.openecomp.appc.aai.client.node.AAIResourceNode;
 
