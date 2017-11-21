@@ -29,8 +29,8 @@
 	<feature name='sdnc-dg-loader' description="SDNC DG Loader"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature version="${odl.controller.mdsal.version}">odl-mdsal-broker</feature>
-		<feature version='${openecomp.sdnc.sli.version}'>sdnc-sli</feature>
+		<feature>odl-mdsal-broker</feature>
+		<feature>sdnc-sli</feature>
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>

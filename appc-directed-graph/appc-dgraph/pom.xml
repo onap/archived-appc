@@ -43,11 +43,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <odl.mdsal.version>2.1.1-Boron-SR1</odl.mdsal.version>
-        <odl.controller.mdsal.version>1.4.1-Boron-SR1</odl.controller.mdsal.version>
-        <openecomp.sdnc.sli.version>1.1.0</openecomp.sdnc.sli.version>
-        <openecomp.sdnc.dblib.version>1.1.0</openecomp.sdnc.dblib.version>
-        <openecomp.sdnc.sql-resource.version>1.1.0</openecomp.sdnc.sql-resource.version>
         <licenseDir>${project.parent.parent.basedir}</licenseDir>
     </properties>
 
