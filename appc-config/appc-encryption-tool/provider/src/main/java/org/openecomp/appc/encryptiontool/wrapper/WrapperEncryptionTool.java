@@ -74,9 +74,9 @@ public class WrapperEncryptionTool {
         String setClause = " password = ? ";
         String getselectData = " * ";
         DBResourceManager dbResourceManager = null;
-        try (CachedRowSet data = DbServiceUtil.getData(Constants.DEVICE_AUTHENTICATION, argList,
-                Constants.SCHEMA_SDNCTL, getselectData, clause);) {
+        try {
             dbResourceManager = DbServiceUtil.initDbLibService();
+            CachedRowSet data = DbServiceUtil.getData(Constants.DEVICE_AUTHENTICATION, argList,Constants.SCHEMA_SDNCTL, getselectData, clause);
 
             while (data.next()) {
                 rowCount++;
