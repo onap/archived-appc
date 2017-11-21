@@ -21,7 +21,7 @@
 			<dependency>
 				<groupId>org.openecomp.sdnc.adaptors</groupId>
 				<artifactId>sql-resource-provider</artifactId>
-				<version>${openecomp.sdnc.sql-resource.version}</version>
+				<version>${ccsdk.sli.adaptors.version}</version>
 			</dependency>
 
 			<dependency>

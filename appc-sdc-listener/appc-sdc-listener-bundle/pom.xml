@@ -199,11 +199,6 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 			<artifactId>jackson-core</artifactId>
 			<version>${jackson-yaml-version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>${snakeyaml.version}</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.mockito</groupId>
