@@ -166,7 +166,8 @@ public class Dme2Client {
 
 			}
 		} catch (Exception t) {
-			log.error("Error in Dme2Client for send() method while sending response: " +t.printStackTrace());
+			log.error("Error in Dme2Client for send() method while sending response: " +t.getMessage());
+			t.printStackTrace();
 		}
 		return response;
 	}
