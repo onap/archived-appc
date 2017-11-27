@@ -364,7 +364,7 @@ public class DesignDBService {
             }
         }
         catch(Exception e){
-            e.printStackTrace();
+            log.error("Error in DesignDBService for getSDCArtifactIDbyRequestID() method: " + e.getMessage());
             throw e;
         }
         log.info("Got SDC_ARTIFACTS_ID As :" + artifact_id);
