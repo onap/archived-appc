@@ -37,6 +37,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -64,6 +65,7 @@ public class FlowControlNodeTest {
 	{
 		FlowControlDBService dbservice = FlowControlDBService.initialise();
 	}
+	@Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public final void testProcessFlow() throws Exception {
 		SvcLogicContext  ctx = new SvcLogicContext();
@@ -105,6 +107,7 @@ public class FlowControlNodeTest {
 		Whitebox.invokeMethod(f, "getInventoryInfo", ctx, vnfid);
 		
 	}
+	@Ignore("Test is taking 60 seconds")
 		@Test(expected=Exception.class)
 	public void testprocessFlowSequence() throws Exception 
 	{
@@ -143,6 +146,7 @@ public class FlowControlNodeTest {
 	Whitebox.invokeMethod(f, "collectInputParams",ctx, transaction);
 	
 	}
+	@Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public void testgetDependencyInfo() throws Exception
 	{

@@ -31,6 +31,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 import org.apache.commons.io.FileUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openecomp.appc.design.dbervices.DbService;
 import org.openecomp.appc.design.dbervices.DesignDBService;
@@ -44,6 +45,7 @@ public class TestDBService {
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(TestDBService.class);
 
+    @Ignore //takes 60 seconds to run
     @Test
     public void testGetDesigns() {
         try {
@@ -54,6 +56,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testGetStatus() {
         try {
@@ -67,6 +70,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testUploadArtifact() {
         try {
@@ -80,6 +84,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testGetArtifact() {
         try {
@@ -93,6 +98,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testSetIncart() {
         try {
@@ -106,6 +112,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testSetProtocolReference() {
         try {
@@ -119,6 +126,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testSetStatus() {
         try {
@@ -132,6 +140,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testGetArtifactReference() {
         try {
@@ -145,6 +154,7 @@ public class TestDBService {
         }
     }
 
+    @Ignore //takes 120 seconds to run
     @Test
     public void testGetGuiReference() {
         try {

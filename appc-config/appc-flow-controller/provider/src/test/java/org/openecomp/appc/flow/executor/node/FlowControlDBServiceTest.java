@@ -32,6 +32,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -102,6 +103,7 @@ QueryStatus dblibSvc ;
 	}
 
 	
+	@Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public final void testGetDesignTimeFlowModel() throws Exception {
 		SvcLogicContext localContext = new SvcLogicContext();
@@ -114,6 +116,7 @@ QueryStatus dblibSvc ;
 
 	}
 
+	@Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public final void testLoadSequenceIntoDB() throws SvcLogicException {
 		  
@@ -146,6 +149,7 @@ QueryStatus dblibSvc ;
 
 	}
 
+	@Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public final void testGetDependencyInfo() throws SvcLogicException {
 		SvcLogicContext localContext = new SvcLogicContext();
@@ -155,6 +159,7 @@ QueryStatus dblibSvc ;
 		
 	}
 
+	@Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public final void testGetCapabilitiesData() throws SvcLogicException {
 		SvcLogicContext localContext = new SvcLogicContext();

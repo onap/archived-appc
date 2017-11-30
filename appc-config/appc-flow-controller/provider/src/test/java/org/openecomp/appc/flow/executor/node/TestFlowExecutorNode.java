@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openecomp.appc.flow.controller.node.FlowControlNode;
 import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
@@ -61,6 +62,8 @@ public class TestFlowExecutorNode {
                 }
 
 	}
+            
+    @Ignore("Test is taking 60 seconds")
 	@Test(expected=Exception.class)
 	public void testFlowExecutorNode() throws Exception {
 		
