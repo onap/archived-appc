@@ -32,6 +32,7 @@ import java.util.Properties;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
@@ -69,6 +70,7 @@ public class ArtifactHandlerNodeTest {
         ah.processArtifact(inParams, ctx);
     }
 
+    @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testStoreReferenceData() throws Exception {
         MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
@@ -121,6 +123,7 @@ public class ArtifactHandlerNodeTest {
         assertTrue(true);
     }
 
+    @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testGetArtifactIDException() throws Exception {
         ArtifactHandlerNode ah = new ArtifactHandlerNode();
@@ -128,6 +131,7 @@ public class ArtifactHandlerNodeTest {
         Whitebox.invokeMethod(ah, "getArtifactID", yFileName);
     }
 
+    @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testStoreUpdateSdcArtifacts() throws Exception {
         ArtifactHandlerNode ah = new ArtifactHandlerNode();
@@ -137,6 +141,7 @@ public class ArtifactHandlerNodeTest {
         Whitebox.invokeMethod(ah, "storeUpdateSdcArtifacts", postData);
     }
 
+    @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testUpdateStoreArtifacts() throws Exception {
         MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
@@ -157,6 +162,7 @@ public class ArtifactHandlerNodeTest {
         Whitebox.invokeMethod(ah, "cleanArtifactInstanceData", ctx);
     }
 
+    @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testUpdateYangContents() throws Exception {
         MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
