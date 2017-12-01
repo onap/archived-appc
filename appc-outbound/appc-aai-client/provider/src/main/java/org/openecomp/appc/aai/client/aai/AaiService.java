@@ -24,20 +24,14 @@
 
 package org.openecomp.appc.aai.client.aai;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
-import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 import org.openecomp.appc.aai.client.AppcAaiClientConstant;
 import com.att.eelf.configuration.EELFLogger;
