@@ -420,7 +420,6 @@ public class DesignDBService {
         catch(Exception e)
         {
             log.error("Error while DB operation : " + e.getMessage());
-            e.printStackTrace();
             throw e;
         }
 
