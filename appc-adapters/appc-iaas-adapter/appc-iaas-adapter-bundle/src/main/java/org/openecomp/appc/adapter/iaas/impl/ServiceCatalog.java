@@ -24,42 +24,21 @@
 
 package org.openecomp.appc.adapter.iaas.impl;
 
-import java.net.NoRouteToHostException;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.openstack.util.ExceptionMapper;
-import com.att.cdp.pal.util.Time;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.spi.AbstractService;
 import com.att.cdp.zones.spi.RequestState;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.cdp.zones.spi.AbstractService.State;
-import com.woorea.openstack.base.client.OpenStackBaseException;
-import com.woorea.openstack.base.client.OpenStackClientConnector;
-import com.woorea.openstack.base.client.OpenStackResponseException;
-import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
-import com.woorea.openstack.keystone.Keystone;
-import com.woorea.openstack.keystone.api.TokensResource;
 import com.woorea.openstack.keystone.model.Access;
 import com.woorea.openstack.keystone.model.Access.Service;
-import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
-import com.woorea.openstack.keystone.model.Authentication;
 import com.woorea.openstack.keystone.model.Tenant;
-import com.woorea.openstack.keystone.model.authentication.UsernamePassword;
 
 /**
  * This class is used to capture and cache the service catalog for a specific OpenStack provider.
