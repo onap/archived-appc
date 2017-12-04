@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_559fc703",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/openecomp/appc/instar/dme2client/Dme2Client.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-04T14:47:29Z",
+      "side": 1,
+      "message": "Does this change address the Sonar violation?",
+      "revId": "b96263afacdbc72712fd15a57eb1190dbb9f4d61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
