@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_35d8fbee",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/openecomp/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-04T14:42:23Z",
+      "side": 0,
+      "message": "Is it ok to remove the stack trace here?   Or does it just need to be logged through the logger?",
+      "revId": "c6f1695b9246e63c345c51fedb513c8f2e70ad48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
