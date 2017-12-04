@@ -24,42 +24,25 @@
 
 package org.openecomp.appc.adapter.ansible.impl;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
-import java.util.regex.Pattern;
 import java.lang.*;
     
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.exceptions.APPCException;
 
 import org.openecomp.appc.configuration.Configuration;
 import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.pool.Pool;
-import org.openecomp.appc.pool.PoolExtensionException;
-import org.openecomp.appc.util.StructuredPropertyHelper;
-import org.openecomp.appc.util.StructuredPropertyHelper.Node;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 
-import org.slf4j.MDC;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 
-import com.google.common.base.Strings;
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
 
 import org.openecomp.appc.adapter.ansible.AnsibleAdapter;
 
