@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_b5f3ab72",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/openecomp/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-04T14:43:48Z",
+      "side": 0,
+      "message": "Same issue.   Can you safely remove the stacktrace here?   Is it output later?",
+      "revId": "c6f1695b9246e63c345c51fedb513c8f2e70ad48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
