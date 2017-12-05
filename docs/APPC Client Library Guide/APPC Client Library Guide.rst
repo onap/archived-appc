@@ -67,7 +67,7 @@ APP-C Client Library Flow
 Asynchronous Flow
 ^^^^^^^^^^^^^^^^^
 
--  The APPC Client Library is called using an asynchronous API using a full command object, which is mapped to a JSON representation.
+-  The APPC Client Library is called using an asynchronous API utilizing a full command object, which is mapped to a JSON representation.
 -  The APPC client calls the UEB client and sends the JSON command to a configured topic.
 -  The APPC client pulls response messages from the configured topic.
 -  On receiving the response for the command, the APPC client runs the relevant callback method of the consumer ResponseHandler.
