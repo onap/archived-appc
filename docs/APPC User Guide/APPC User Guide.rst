@@ -159,7 +159,7 @@ A **synchronous** command, for example Lock or Unlock, results in a
 single response, which is either SUCCESS or ERROR. For this type of
 request, the first response is a synchronous HTTP response..
 
-For this release, APPC supports the HTTPS protocol, whereas the plain
+For the ONAP Amsterdam release, APPC supports the HTTPS protocol, whereas the plain
 HTTP requests are blocked..
 
 Endpoint format: 
@@ -1246,7 +1246,7 @@ Supported Actions
 -----------------
 
 The following actions are supported for the Sequence Generator API
-for this release:
+for the Amsterdam release:
 
 -  Generate Runtime Sequence Flow for Start Action with no dependency
    model
