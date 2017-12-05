@@ -71,7 +71,7 @@ public class TestCommonConfig /* extends AbstractDGTestCase */ {
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode",new org.openecomp.sdnc.config.generator.convert.ConvertNode());
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
-			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
+			//serviceReferences.put("org.openecomp.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 			serviceReferences.put("org.openecomp.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
 
 			GraphKey  graphKey = new GraphKey("APPC", null, "CommonConfiguration", null);

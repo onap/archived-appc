@@ -129,21 +129,15 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            com.brocade.developer
-                                        </groupId>
-                                        <artifactId>
-                                            providermodule-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.2.0.100-SNAPSHOT,)
-                                        </versionRange>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>build-helper-maven-plugin</artifactId>
+                                        <versionRange>[1.9.1,)</versionRange>
                                         <goals>
-                                            <goal>process</goal>
+                                            <goal>add-source</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
