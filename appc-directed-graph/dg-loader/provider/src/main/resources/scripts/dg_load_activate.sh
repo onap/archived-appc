@@ -21,8 +21,8 @@
 ###
 
 
-export BVC_DIR=/opt/app/bvc
-export DG_DIR=${BVC_DIR}/dg
+export APPC_DIR=/opt/appc
+export DG_DIR=${APPC_DIR}/svclogic/graphs/appc/json
 
 if (( "$#" != 1 )) 
 then
@@ -42,9 +42,9 @@ rm -rf ${DG_JSON_DIR}/xml
 $JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLGenerator ${DG_JSON_DIR} ${DG_JSON_DIR}/xml
 
 ################## To Load DG XML ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLLoad ${DG_JSON_DIR}/xml ${BVC_DIR}/properties/dblib.properties
+$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLLoad ${DG_JSON_DIR}/xml ${APPC_DIR}/properties/dblib.properties
 
 ################## To Activate ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLActivate ${DG_JSON_DIR}/dg_activate.txt ${BVC_DIR}/properties/dblib.properties
+$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLActivate ${DG_JSON_DIR}/dg_activate.txt ${APPC_DIR}/properties/dblib.properties
 
 exit 0

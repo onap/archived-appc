@@ -148,7 +148,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         if (params.containsKey("org.openecomp.appc.instance.pemPath")) {
             clientPrivatekey = params.get("org.openecomp.appc.instance.pemPath");
         } else {
-            clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
+            clientPrivatekey = "/opt/appc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
         }
     }
 
