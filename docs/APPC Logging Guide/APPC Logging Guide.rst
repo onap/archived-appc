@@ -54,7 +54,7 @@ operate, troubleshoot, and report on performance:
    conditions sensed (“exception handled”) by the APPC software
    components.
 
--  • **Debug Log**: The optional Debug Log captures data that may be required to debug and correct abnormal conditions of the application.
+-  **Debug Log**: The optional Debug Log captures data that may be required to debug and correct abnormal conditions of the application.
 
 
 The APPC modules manage logging functionality according to the logging
