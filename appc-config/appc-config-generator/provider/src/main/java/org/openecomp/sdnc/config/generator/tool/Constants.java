@@ -27,6 +27,6 @@ public class Constants
     public static final String DEVICE_AUTHENTICATION="DEVICE_AUTHENTICATION";
     public static final String SCHEMA_SDNCTL="SDNCTL";
 
-    public static final String APPC_CONFIG_DIR="/opt/app/bvc/properties";
+    public static final String APPC_CONFIG_DIR="/opt/appc/data/properties";
     
 }

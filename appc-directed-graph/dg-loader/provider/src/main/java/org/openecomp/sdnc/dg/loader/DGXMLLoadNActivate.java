@@ -160,7 +160,6 @@ public class DGXMLLoadNActivate {
                 throw new Exception("Sufficient inputs for DGXMLLoadNActivate are missing <xmlpath> <activatefile> <dbPropertyfile>");
             }
 
-            //propertyPath = "/Users/bs2796/0Source/ecomp/bvc-3.2.2/others/properties/dblib.properties";
             //xmlPath = DGXMLLoadNActivate.class.getClassLoader().getResource(".").getPath() +"/xml" ;
 
             DGXMLLoadNActivate dgXMLLoadDB = new DGXMLLoadNActivate(propertyPath);

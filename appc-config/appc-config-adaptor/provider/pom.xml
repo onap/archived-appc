@@ -70,22 +70,6 @@
 			<scope>test</scope>
 		</dependency>
 
-        <!--
-            this comes from brocade parent (app-cntrl) , not sure about opendaylight (onap)
-            value was <slf4j.version>1.7.2</slf4j.version>
-
-                <dependency>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                    <version>${slf4j.version}</version>
-                </dependency>
-                <dependency>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jcl-over-slf4j</artifactId>
-                    <version>${slf4j.version}</version>
-                </dependency>
-        -->
-
         <dependency>
             <groupId>com.att.eelf</groupId>
             <artifactId>eelf-core</artifactId>
@@ -155,17 +139,11 @@
                             <pluginExecutions>
                                 <pluginExecution>
                                     <pluginExecutionFilter>
-                                        <groupId>
-                                            com.brocade.developer
-                                        </groupId>
-                                        <artifactId>
-                                            providermodule-plugin
-                                        </artifactId>
-                                        <versionRange>
-                                            [1.2.0.100-SNAPSHOT,)
-                                        </versionRange>
+                                        <groupId>org.codehaus.mojo</groupId>
+                                        <artifactId>build-helper-maven-plugin</artifactId>
+                                        <versionRange>[1.9.1,)</versionRange>
                                         <goals>
-                                            <goal>process</goal>
+                                            <goal>add-source</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
