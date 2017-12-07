@@ -24,14 +24,12 @@
 
 package org.openecomp.appc.adapter.messaging.dmaap;
 
-import org.openecomp.appc.configuration.ConfigurationFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import java.util.Properties;
 
 /**
  * This activator is used to initialize and terminate the connection pool to one or more providers.

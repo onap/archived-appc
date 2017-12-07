@@ -510,7 +510,8 @@ public abstract class ProviderServerOperation extends ProviderOperation {
         String msg = null;
         if (server.getHypervisor() != null && server.getHypervisor().getStatus() != null
                 && server.getHypervisor().getState() != null) {
-            String status = null, state = null;
+            String status = null;
+            String state = null;
 
             status = server.getHypervisor().getStatus().toString();
             state = server.getHypervisor().getState().toString();
