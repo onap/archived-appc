@@ -27,6 +27,9 @@
 import org.onap.appc.encryption.EncryptionTool;
 
 public class CmdLine {
+	private CmdLine(){
+		
+	}
 
         public static void main(String[] args) {
         if(args.length <= 1 || args.length >= 3){
