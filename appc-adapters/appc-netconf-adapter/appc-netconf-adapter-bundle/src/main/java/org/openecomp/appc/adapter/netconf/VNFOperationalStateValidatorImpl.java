@@ -25,8 +25,6 @@
 package org.openecomp.appc.adapter.netconf;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
 import org.openecomp.appc.exceptions.APPCException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,7 +37,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.*;
 
 public class VNFOperationalStateValidatorImpl implements OperationalStateValidator {

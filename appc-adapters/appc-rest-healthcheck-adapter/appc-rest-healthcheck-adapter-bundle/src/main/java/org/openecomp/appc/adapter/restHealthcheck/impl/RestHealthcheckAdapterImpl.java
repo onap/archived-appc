@@ -24,53 +24,26 @@
 
 package org.openecomp.appc.adapter.restHealthcheck.impl;
 
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
-import java.util.regex.Pattern;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import org.openecomp.appc.Constants;
 import org.openecomp.appc.adapter.restHealthcheck.RestHealthcheckAdapter;
 import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.pool.Pool;
 import org.openecomp.appc.pool.PoolExtensionException;
 import org.openecomp.appc.util.StructuredPropertyHelper;
-import org.openecomp.appc.util.StructuredPropertyHelper.Node;
 
 
-import com.att.cdp.exceptions.ContextConnectionException;
-import com.att.cdp.exceptions.ResourceNotFoundException;
-import com.att.cdp.exceptions.TimeoutException;
-import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.pal.util.StringHelper;
-import com.att.cdp.zones.ComputeService;
-import com.att.cdp.zones.Context;
 import com.att.cdp.zones.ImageService;
 import com.att.cdp.zones.Provider;
-import com.att.cdp.zones.model.Image;
-import com.att.cdp.zones.model.Server;
-import com.att.cdp.zones.model.Server.Status;
-import com.att.cdp.zones.model.ServerBootSource;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import org.glassfish.grizzly.http.util.HttpStatus;
-import org.slf4j.MDC;
 
-import java.net.InetAddress;
-import java.util.Locale;
-import java.util.UUID;
 import static com.att.eelf.configuration.Configuration.*;
 
 import org.apache.http.*;
@@ -79,7 +52,6 @@ import org.apache.http.client.methods.*;
 import org.apache.http.impl.client.*;
 import org.apache.http.util.EntityUtils;
 import java.io.IOException;
-import org.apache.http.entity.StringEntity;
 import java.net.InetAddress;
 
 public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
