@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_2ae2c89f",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/openecomp/appc/instar/dme2client/Dme2Client.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 903
+      },
+      "writtenOn": "2017-12-12T17:10:01Z",
+      "side": 1,
+      "message": "You need to use log.error(String, Throwable) instead here to avoid swallowing exception stacktrace.",
+      "range": {
+        "startLine": 169,
+        "startChar": 3,
+        "endLine": 169,
+        "endChar": 95
+      },
+      "revId": "b96263afacdbc72712fd15a57eb1190dbb9f4d61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_559fc703",
         "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/openecomp/appc/instar/dme2client/Dme2Client.java",
         "patchSetId": 2
