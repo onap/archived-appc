@@ -43,7 +43,7 @@ public interface Configuration {
     String PROPERTY_BOOTSTRAP_FILE_NAME = "org_onap_appc_bootstrap_file"; //
     String DEFAULT_BOOTSTRAP_FILE_NAME = "appc.properties"; 
     String PROPERTY_BOOTSTRAP_FILE_PATH = "org_onap_appc_bootstrap_path"; //
-    String DEFAULT_BOOTSTRAP_FILE_PATH = "/opt/openecomp/appc/data/properties,${user.home},etc,../etc";
+    String DEFAULT_BOOTSTRAP_FILE_PATH = "/opt/onap/appc/data/properties,${user.home},etc,../etc";
     String PROPERTY_RESOURCE_BUNDLES = "org.onap.appc.resources"; 
     String DEFAULT_RESOURCE_BUNDLES = "org/onap/appc/i18n/MessageResources";
 

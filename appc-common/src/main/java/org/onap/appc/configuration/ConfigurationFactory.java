@@ -92,7 +92,7 @@ import com.att.eelf.i18n.EELFResourceManager;
  * <dd>This is a comma-delimited (,) path of directories to be searched to locate the specified file. The first
  * occurrence of the file is the one loaded, and no additional searching is performed. The path can be specified in
  * either, or both, the default values and the command line specification. If specified on the command line, the value
- * overrides the default values. If omitted, the default path is <code>$/opt/openecomp/appc/data/properties,${user.home},.</code></dd>
+ * overrides the default values. If omitted, the default path is <code>$/opt/onap/appc/data/properties,${user.home},.</code></dd>
  * </dl>
  *
  * @since Mar 18, 2014

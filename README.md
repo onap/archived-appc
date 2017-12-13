@@ -175,7 +175,7 @@ Each APPC component depends on the property values that are defined for them in 
 
 Currently, there are two ways to change properties for APPC Features:
 - Permanent Change: In appc.properties, change property values as needed and commit changes in your current git repo where your APPC Deployment code repo is at. Then, run your Jenkins job that deploys the APPC Docker Image (make sure the Jenkins Job configuration points to the branch where you just commited the properties change) to make sure that APPC Docker Image contains latest changes of appc.properties from the beginning (of course, the Host VM where the docker containers will be deployed at needs to update images with "docker-compose pull" to pick up the changes you just committed and compiled).
-- Temporary Change (for quick testing/debugging): In the APPC Docker Container, find the appc.properties file in /opt/openecomp/appc/properties/appc.properties and make changes as needed. Then, restart the APPC Docker Container by running "docker stop <APPC_DOCKER_CONTAINER>" then "docker start <APPC_DOCKER_CONTAINER>")  (NOTE: This approach will lose all changes done in appc.properties if the docker container is destroyed instead of stopped).
+- Temporary Change (for quick testing/debugging): In the APPC Docker Container, find the appc.properties file in /opt/onap/appc/properties/appc.properties and make changes as needed. Then, restart the APPC Docker Container by running "docker stop <APPC_DOCKER_CONTAINER>" then "docker start <APPC_DOCKER_CONTAINER>")  (NOTE: This approach will lose all changes done in appc.properties if the docker container is destroyed instead of stopped).
 
 # Additional Notes
 
