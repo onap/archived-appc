@@ -205,14 +205,23 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
     		ctx.setAttribute(responsePrefix+"vnf.vm-with-no-vnfcs-count", String.valueOf(vmWithNoVnfcsCount));
     		
 			
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
 					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
 			log.error("Failed in getAllVServersVnfcsInfo " + e.getMessage());
 
 			throw new SvcLogicException(e.getMessage());
-		}
+		}*/
+		} catch (SvcLogicException sl) {
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, sl.getMessage());
+			log.error("Failed in getAllVServersVnfcsInfo " + sl.getMessage());
+
+			} catch (Exception e) {
+				
+			}
 	}
 	
 	
