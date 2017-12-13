@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common;
+package org.onap.appc.dg.common;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;

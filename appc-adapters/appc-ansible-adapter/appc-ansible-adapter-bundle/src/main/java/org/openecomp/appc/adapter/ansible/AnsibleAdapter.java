@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ansible;
+package org.onap.appc.adapter.ansible;
 
 import java.util.Map;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;

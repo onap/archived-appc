@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef;
+package org.onap.appc.adapter.chef;
 
 import java.util.Map;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.Server;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
@@ -47,24 +47,24 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * correct provider support through the CDP IaaS abstraction layer and can be OpenStackProvider, BareMetalProvider,
      * or any other supported provider type.
      */
-    static final String PROPERTY_PROVIDER_TYPE = "org.openecomp.appc.provider.type";
+    static final String PROPERTY_PROVIDER_TYPE = "org.onap.appc.provider.type";
 
     /**
      * The adapter maintains a cache of providers organized by the name of the provider, not its type. This is
      * equivalent to the system or installation name. All regions within the same installation are assumed to be the
      * same type.
      */
-    static final String PROPERTY_PROVIDER_NAME = "org.openecomp.appc.provider.name";
+    static final String PROPERTY_PROVIDER_NAME = "org.onap.appc.provider.name";
 
     /**
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
-    static final String PROPERTY_INSTANCE_URL = "org.openecomp.appc.instance.url";
+    static final String PROPERTY_INSTANCE_URL = "org.onap.appc.instance.url";
 
     /**
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
-    static final String PROPERTY_IDENTITY_URL = "org.openecomp.appc.identity.url";
+    static final String PROPERTY_IDENTITY_URL = "org.onap.appc.identity.url";
 
     /**
      * This method is used to restart an existing virtual machine given the fully qualified URL of the machine.
@@ -73,11 +73,11 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be restarted, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -103,11 +103,11 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be stopped, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -133,11 +133,11 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be started, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -163,11 +163,11 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be rebuilt, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>

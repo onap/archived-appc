@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.exceptions;
+package org.onap.appc.exceptions;
 
 public class InvalidInputException extends Exception {
     public InvalidInputException(String message){

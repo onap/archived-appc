@@ -37,7 +37,7 @@
 module design-services {
 
     yang-version 1;
-    namespace "org:openecomp:appc";
+    namespace "org:onap:appc";
     prefix design-services;
     organization "AT&T.  Copyright (C) 2015. All rights reserved.";
 

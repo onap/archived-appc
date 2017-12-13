@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh.sshd;
+package org.onap.appc.adapter.ssh.sshd;
 
 import org.apache.sshd.SshServer;
 import org.apache.sshd.common.NamedFactory;
@@ -39,10 +39,10 @@ import org.apache.sshd.server.shell.ProcessShellFactory;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
-import org.openecomp.appc.adapter.ssh.SshAdapter;
-import org.openecomp.appc.adapter.ssh.SshConnection;
-import org.openecomp.appc.adapter.ssh.SshException;
-import org.openecomp.appc.adapter.ssh.sshd.SshAdapterSshd;
+import org.onap.appc.adapter.ssh.SshAdapter;
+import org.onap.appc.adapter.ssh.SshConnection;
+import org.onap.appc.adapter.ssh.SshException;
+import org.onap.appc.adapter.ssh.sshd.SshAdapterSshd;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

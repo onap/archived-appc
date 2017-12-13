@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor;
+package org.onap.appc.executor;
 
 
 public class UnstableVNFException extends Exception{

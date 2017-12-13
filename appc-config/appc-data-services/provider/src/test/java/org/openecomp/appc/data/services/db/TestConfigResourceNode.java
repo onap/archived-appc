@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services.db;
+package org.onap.appc.data.services.db;
 
 import java.util.HashMap;
 import java.util.Map;
 import static org.junit.Assert.assertFalse;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.data.services.AppcDataServiceConstant;
-import org.openecomp.appc.data.services.node.ConfigResourceNode;
+import org.onap.appc.data.services.AppcDataServiceConstant;
+import org.onap.appc.data.services.node.ConfigResourceNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 

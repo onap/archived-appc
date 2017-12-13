@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.jsch;
+package org.onap.appc.adapter.netconf.jsch;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
+import org.onap.appc.exceptions.APPCException;
 
 public class TestOperationalStates {
 
@@ -37,14 +37,14 @@ public class TestOperationalStates {
     private static final String USER = "test";
     private static final String PSWD = "test123";
     private static final int PORT = 830;
-    private static final List<String> CAPABILITIES = Collections.singletonList("<capability>urn:org:openecomp:appc:capability:1.1.0</capability>");
+    private static final List<String> CAPABILITIES = Collections.singletonList("<capability>urn:org:onap:appc:capability:1.1.0</capability>");
     private static final String GET_OPERATIONAL_STATES =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
             "       <get>\n" +
             "              <filter>\n" +
-            "                     <ManagedElement xmlns=\"urn:org:openecomp:appc:Test\">\n" +
-            "                           <VnfFunction xmlns=\"urn:org:openecomp:appc:Test\">\n" +
+            "                     <ManagedElement xmlns=\"urn:org:onap:appc:Test\">\n" +
+            "                           <VnfFunction xmlns=\"urn:org:onap:appc:Test\">\n" +
             "                                  <ProcessorManagement>\n" +
             "                                         <MatedPair>\n" +
             "                                                <operationalState/>\n" +

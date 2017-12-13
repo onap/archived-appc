@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
-import org.openecomp.appc.rankingframework.RankedAttributesContext;
+import org.onap.appc.rankingframework.RankedAttributesContext;
 
 
 public class VNFCResolver extends AbstractResolver {

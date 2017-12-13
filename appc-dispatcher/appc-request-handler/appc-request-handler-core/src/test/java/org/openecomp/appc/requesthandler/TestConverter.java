@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler;
+package org.onap.appc.requesthandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.domainmodel.lcm.*;
-import org.openecomp.appc.executor.objects.LCMCommandStatus;
-import org.openecomp.appc.requesthandler.conv.Converter;
+import org.onap.appc.domainmodel.lcm.*;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.requesthandler.conv.Converter;
 
 import java.text.ParseException;
 import java.time.Instant;

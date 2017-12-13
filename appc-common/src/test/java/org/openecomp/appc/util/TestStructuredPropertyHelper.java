@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.util;
+package org.onap.appc.util;
 
 import static org.junit.Assert.*;
 
@@ -32,8 +32,8 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.util.StructuredPropertyHelper;
-import org.openecomp.appc.util.StructuredPropertyHelper.Node;
+import org.onap.appc.util.StructuredPropertyHelper;
+import org.onap.appc.util.StructuredPropertyHelper.Node;
 
 /**
  * This class is used to test the structured property helper class.

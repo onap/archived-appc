@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.common.constants;
+package org.onap.appc.adapter.iaas.provider.operation.common.constants;
 
 /**
  * @since September 26, 2016
@@ -37,5 +37,5 @@ public class Property {
     public static final String PROVIDER_TENANT_PASSWORD = "password";
     public static final String PROVIDER_TENANT_USERID = "userid";
     public static final String PROVIDER_TYPE = "type";
-    public static final String SKIP_HYPERVISOR_CHECK = "org.openecomp.appc.iaas.skiphypervisorcheck";
+    public static final String SKIP_HYPERVISOR_CHECK = "org.onap.appc.iaas.skiphypervisorcheck";
 }

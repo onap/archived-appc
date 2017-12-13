@@ -23,7 +23,7 @@
  */
 
 
-package org.openecomp.appc.pool;
+package org.onap.appc.pool;
 
 public interface CacheManagement {
 

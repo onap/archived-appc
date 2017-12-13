@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.util;
+package org.onap.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.apache.commons.lang.ArrayUtils;
@@ -31,10 +31,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

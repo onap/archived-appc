@@ -40,6 +40,6 @@
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
 		<bundle>wrap:mvn:xmlunit/xmlunit/${xmlunit.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-config-audit-provider/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-config-audit-provider/${project.version}</bundle>
 	</feature>
 </features>

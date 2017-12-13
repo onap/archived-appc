@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework.impl;
+package org.onap.appc.rankingframework.impl;
 
 import java.util.HashMap;
 
-import org.openecomp.appc.rankingframework.ConfigurationEntry;
-import org.openecomp.appc.rankingframework.ConfigurationSet;
+import org.onap.appc.rankingframework.ConfigurationEntry;
+import org.onap.appc.rankingframework.ConfigurationSet;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

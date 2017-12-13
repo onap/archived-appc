@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.operation;
+package org.onap.appc.mdsal.operation;
 
-import org.openecomp.appc.mdsal.impl.Constants;
+import org.onap.appc.mdsal.impl.Constants;
 
 import java.net.URL;
 /**

@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.helper;
+package org.onap.appc.requesthandler.helper;
 
 import org.apache.commons.lang.ObjectUtils;
-import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
+import org.onap.appc.executor.objects.UniqueRequestIdentifier;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

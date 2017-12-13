@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.util;
+package org.onap.appc.util;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;

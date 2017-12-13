@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache;
+package org.onap.appc.cache;
 
 import org.junit.Assert;
 import org.junit.Test;

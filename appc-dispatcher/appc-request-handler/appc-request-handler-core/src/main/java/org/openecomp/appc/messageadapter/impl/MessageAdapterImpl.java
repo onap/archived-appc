@@ -22,24 +22,24 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.messageadapter.impl;
+package org.onap.appc.messageadapter.impl;
 
 
-import org.openecomp.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
-import org.openecomp.appc.adapter.factory.MessageService;
-import org.openecomp.appc.adapter.message.MessageAdapterFactory;
-import org.openecomp.appc.adapter.message.Producer;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
+import org.onap.appc.adapter.factory.MessageService;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.Producer;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang.ObjectUtils;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.messageadapter.MessageAdapter;
-import org.openecomp.appc.requesthandler.conv.Converter;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.messageadapter.MessageAdapter;
+import org.onap.appc.requesthandler.conv.Converter;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;

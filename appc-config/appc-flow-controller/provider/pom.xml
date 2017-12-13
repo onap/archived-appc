@@ -3,7 +3,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openecomp.appc</groupId>
+        <groupId>org.onap.appc</groupId>
         <artifactId>appc-config-flow-controller</artifactId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
@@ -106,9 +106,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.openecomp.appc.flow.controller</Bundle-SymbolicName>
-                        <Bundle-Activator>org.openecomp.appc.flow.controller.FlowControllerActivator</Bundle-Activator>
-                        <Export-Package>org.openecomp.appc.flow.controller</Export-Package>
+                        <Bundle-SymbolicName>org.onap.appc.flow.controller</Bundle-SymbolicName>
+                        <Bundle-Activator>org.onap.appc.flow.controller.FlowControllerActivator</Bundle-Activator>
+                        <Export-Package>org.onap.appc.flow.controller</Export-Package>
                         <Import-Package>*</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>

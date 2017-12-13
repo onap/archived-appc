@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 
 import com.att.eelf.configuration.EELFLogger;
@@ -30,12 +30,12 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.adapter.message.MessageAdapterFactory;
-import org.openecomp.appc.adapter.message.Producer;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.dg.common.IntermediateMessageSender;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.Producer;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.dg.common.IntermediateMessageSender;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

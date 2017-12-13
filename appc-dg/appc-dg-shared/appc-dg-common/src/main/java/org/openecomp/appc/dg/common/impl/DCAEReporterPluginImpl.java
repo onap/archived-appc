@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.adapter.message.MessageDestination;
-import org.openecomp.appc.adapter.message.event.EventHeader;
-import org.openecomp.appc.adapter.message.event.EventMessage;
-import org.openecomp.appc.adapter.message.event.EventStatus;
-import org.openecomp.appc.dg.common.DCAEReporterPlugin;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.adapter.message.MessageDestination;
+import org.onap.appc.adapter.message.event.EventHeader;
+import org.onap.appc.adapter.message.event.EventMessage;
+import org.onap.appc.adapter.message.event.EventStatus;
+import org.onap.appc.dg.common.DCAEReporterPlugin;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;

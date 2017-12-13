@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.executor.node;
+package org.onap.appc.flow.executor.node;
 
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -27,17 +27,17 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.executorImpl.RestExecutor;
-import org.openecomp.appc.flow.controller.interfaceData.ActionIdentifier;
-import org.openecomp.appc.flow.controller.interfaceData.InventoryInfo;
-import org.openecomp.appc.flow.controller.interfaceData.RequestInfo;
-import org.openecomp.appc.flow.controller.interfaceData.Vm;
-import org.openecomp.appc.flow.controller.interfaceData.VnfInfo;
-import org.openecomp.appc.flow.controller.interfaceData.Vnfcslist;
-import org.openecomp.appc.flow.controller.node.FlowControlNode;
-import org.openecomp.appc.flow.controller.node.RestServiceNode;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.executorImpl.RestExecutor;
+import org.onap.appc.flow.controller.interfaceData.ActionIdentifier;
+import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
+import org.onap.appc.flow.controller.interfaceData.RequestInfo;
+import org.onap.appc.flow.controller.interfaceData.Vm;
+import org.onap.appc.flow.controller.interfaceData.VnfInfo;
+import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
+import org.onap.appc.flow.controller.node.FlowControlNode;
+import org.onap.appc.flow.controller.node.RestServiceNode;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestRestServiceNode {

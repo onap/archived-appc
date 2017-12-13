@@ -18,13 +18,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.encryptiontool;
+package org.onap.appc.encryptiontool;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import org.openecomp.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
+import org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

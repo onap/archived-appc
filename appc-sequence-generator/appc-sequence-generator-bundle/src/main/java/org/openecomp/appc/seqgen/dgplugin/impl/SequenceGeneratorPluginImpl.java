@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.dgplugin.impl;
+package org.onap.appc.seqgen.dgplugin.impl;
 
 
 import com.att.eelf.configuration.EELFLogger;
@@ -28,18 +28,18 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.dg.objects.*;
-import org.openecomp.appc.domainmodel.Vnf;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.domainmodel.Vserver;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.seqgen.SequenceGenerator;
-import org.openecomp.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
-import org.openecomp.appc.seqgen.impl.SequenceGeneratorFactory;
-import org.openecomp.appc.seqgen.objects.Constants;
-import org.openecomp.appc.seqgen.objects.SequenceGeneratorInput;
-import org.openecomp.appc.seqgen.objects.Transaction;
+import org.onap.appc.dg.objects.*;
+import org.onap.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.domainmodel.Vserver;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.seqgen.SequenceGenerator;
+import org.onap.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
+import org.onap.appc.seqgen.impl.SequenceGeneratorFactory;
+import org.onap.appc.seqgen.objects.Constants;
+import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
+import org.onap.appc.seqgen.objects.Transaction;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.IOException;

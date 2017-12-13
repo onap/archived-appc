@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider.lcm.util;
+package org.onap.appc.provider.lcm.util;
 
 public final class LCMConstants {
 	private LCMConstants() {

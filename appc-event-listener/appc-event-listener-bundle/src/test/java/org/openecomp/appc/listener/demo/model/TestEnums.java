@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.model;
+package org.onap.appc.listener.demo.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
-import org.openecomp.appc.listener.demo.model.Action;
-import org.openecomp.appc.listener.demo.model.Status;
+import org.onap.appc.listener.demo.model.Action;
+import org.onap.appc.listener.demo.model.Status;
 
 public class TestEnums {
 

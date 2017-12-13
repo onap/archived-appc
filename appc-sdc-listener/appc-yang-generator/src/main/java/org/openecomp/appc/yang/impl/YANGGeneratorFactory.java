@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.yang.impl;
+package org.onap.appc.yang.impl;
 
-import org.openecomp.appc.yang.YANGGenerator;
+import org.onap.appc.yang.YANGGenerator;
 
 /**
  * A factory for creating YANGGenerator objects.

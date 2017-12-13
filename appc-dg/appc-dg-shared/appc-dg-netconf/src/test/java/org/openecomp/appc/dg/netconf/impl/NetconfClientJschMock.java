@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
-import org.openecomp.appc.adapter.netconf.NetconfClient;
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.NetconfClient;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.exceptions.APPCException;
 
 
 public class NetconfClientJschMock implements NetconfClient {

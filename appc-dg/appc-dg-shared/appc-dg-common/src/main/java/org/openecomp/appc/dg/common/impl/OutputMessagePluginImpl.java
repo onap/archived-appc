@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;
 
-import org.openecomp.appc.dg.common.OutputMessagePlugin;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.common.OutputMessagePlugin;
+import org.onap.appc.exceptions.APPCException;
 
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 

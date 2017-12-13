@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
-import org.openecomp.appc.client.impl.core.MessageContext;
-import org.openecomp.appc.client.impl.protocol.AsyncProtocol;
-import org.openecomp.appc.client.impl.protocol.AsyncProtocolImpl;
-import org.openecomp.appc.client.impl.protocol.RetrieveMessageCallback;
+import org.onap.appc.client.impl.core.MessageContext;
+import org.onap.appc.client.impl.protocol.AsyncProtocol;
+import org.onap.appc.client.impl.protocol.AsyncProtocolImpl;
+import org.onap.appc.client.impl.protocol.RetrieveMessageCallback;
 import org.junit.Assert;
 import org.junit.Test;
 

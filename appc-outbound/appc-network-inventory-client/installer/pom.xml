@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>appc-network-inventory-client</artifactId>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<name>APPC Network Inventory - Installer</name>
@@ -13,13 +13,13 @@
 	<properties>
 		<application.name>appc-network-inventory-client</application.name>
 		<features.boot>appc-network-inventory-client</features.boot>
-		<features.repositories>mvn:org.openecomp.appc/appc-network-inventory-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/appc-network-inventory-features/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-network-inventory-client-features</artifactId>
 			<classifier>features</classifier>
 			<type>xml</type>
@@ -31,7 +31,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-network-inventory-client-provider</artifactId>
 		</dependency>
 

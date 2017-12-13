@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts;
+package org.onap.appc.sdc.artifacts;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.openecomp.sdc.api.results.IDistributionClientDownloadResult;
 
 /**

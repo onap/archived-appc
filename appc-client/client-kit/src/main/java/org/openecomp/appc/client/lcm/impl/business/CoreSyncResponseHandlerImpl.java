@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.impl.business;
+package org.onap.appc.client.lcm.impl.business;
 
-import org.openecomp.appc.client.impl.core.CoreException;
-import org.openecomp.appc.client.impl.core.ICoreSyncResponseHandler;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientInternalException;
+import org.onap.appc.client.impl.core.CoreException;
+import org.onap.appc.client.impl.core.ICoreSyncResponseHandler;
+import org.onap.appc.client.lcm.exceptions.AppcClientInternalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 class CoreSyncResponseHandlerImpl<T> extends CoreResponseHandler implements ICoreSyncResponseHandler {

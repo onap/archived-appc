@@ -22,44 +22,44 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.apache.commons.lang.ObjectUtils;
-import org.openecomp.appc.requesthandler.constant.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.domainmodel.lcm.*;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executor.CommandExecutor;
-import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.LCMCommandStatus;
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.logging.LoggingConstants;
-import org.openecomp.appc.logging.LoggingUtils;
-import org.openecomp.appc.messageadapter.MessageAdapter;
-import org.openecomp.appc.messageadapter.impl.MessageAdapterImpl;
-import org.openecomp.appc.metricservice.MetricRegistry;
-import org.openecomp.appc.metricservice.MetricService;
-import org.openecomp.appc.metricservice.metric.DispatchingFuntionMetric;
-import org.openecomp.appc.metricservice.metric.Metric;
-import org.openecomp.appc.metricservice.metric.MetricType;
-import org.openecomp.appc.metricservice.policy.PublishingPolicy;
-import org.openecomp.appc.metricservice.publisher.LogPublisher;
-import org.openecomp.appc.requesthandler.RequestHandler;
-import org.openecomp.appc.requesthandler.exceptions.*;
-import org.openecomp.appc.requesthandler.helper.RequestRegistry;
-import org.openecomp.appc.requesthandler.helper.RequestValidator;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerOutput;
-import org.openecomp.appc.transactionrecorder.TransactionRecorder;
-import org.openecomp.appc.transactionrecorder.objects.TransactionRecord;
+import org.onap.appc.requesthandler.constant.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.domainmodel.lcm.*;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.executor.CommandExecutor;
+import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.executor.objects.UniqueRequestIdentifier;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.logging.LoggingUtils;
+import org.onap.appc.messageadapter.MessageAdapter;
+import org.onap.appc.messageadapter.impl.MessageAdapterImpl;
+import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.MetricService;
+import org.onap.appc.metricservice.metric.DispatchingFuntionMetric;
+import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.policy.PublishingPolicy;
+import org.onap.appc.metricservice.publisher.LogPublisher;
+import org.onap.appc.requesthandler.RequestHandler;
+import org.onap.appc.requesthandler.exceptions.*;
+import org.onap.appc.requesthandler.helper.RequestRegistry;
+import org.onap.appc.requesthandler.helper.RequestValidator;
+import org.onap.appc.requesthandler.objects.RequestHandlerInput;
+import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
+import org.onap.appc.transactionrecorder.TransactionRecorder;
+import org.onap.appc.transactionrecorder.objects.TransactionRecord;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -428,7 +428,7 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
         if (logger.isTraceEnabled())
             logger.trace("Entering in getInputTTL with RequestHeader = " + ObjectUtils.toString(header));
         if (!isValidTTL(String.valueOf(header.getFlags().getTtl()))) {
-            String defaultTTLStr = configuration.getProperty("org.openecomp.appc.workflow.default.ttl", String.valueOf(Constants.DEFAULT_TTL));
+            String defaultTTLStr = configuration.getProperty("org.onap.appc.workflow.default.ttl", String.valueOf(Constants.DEFAULT_TTL));
             Integer defaultTTL = Integer.parseInt(defaultTTLStr);
             if (logger.isTraceEnabled())
                 logger.trace("Exiting from getInputTTL with (defaultTTL = " + ObjectUtils.toString(defaultTTL) + ")");
@@ -457,14 +457,14 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
     }
 
     private Boolean isLoggingEnabled() {
-        String defaultFlagStr = configuration.getProperty("org.openecomp.appc.localTransactionRecorder.enable", String.valueOf(Constants.DEFAULT_LOGGING_FLAG));
+        String defaultFlagStr = configuration.getProperty("org.onap.appc.localTransactionRecorder.enable", String.valueOf(Constants.DEFAULT_LOGGING_FLAG));
         return Boolean.parseBoolean(defaultFlagStr);
     }
 
     private static RequestHandlerOutput buildRequestHandlerOutput(LCMCommandStatus response, Params params) {
         RequestHandlerOutput output = new RequestHandlerOutput();
         ResponseContext responseContext = new ResponseContext();
-        org.openecomp.appc.domainmodel.lcm.Status status = new org.openecomp.appc.domainmodel.lcm.Status(response.getResponseCode(),response.getFormattedMessage(params));
+        org.onap.appc.domainmodel.lcm.Status status = new org.onap.appc.domainmodel.lcm.Status(response.getResponseCode(),response.getFormattedMessage(params));
         responseContext.setStatus(status);
         output.setResponseContext(responseContext);
         return output;
@@ -607,7 +607,7 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
             return (MetricService) bctx.getService(sref);
         } else {
             logger.info("Metric Service error from bundlecontext");
-            logger.warn("Cannot find service reference for org.openecomp.appc.metricservice.MetricService");
+            logger.warn("Cannot find service reference for org.onap.appc.metricservice.MetricService");
             return null;
         }
     }

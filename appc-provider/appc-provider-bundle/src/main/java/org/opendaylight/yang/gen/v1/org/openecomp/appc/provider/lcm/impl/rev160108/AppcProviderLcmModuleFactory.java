@@ -31,7 +31,7 @@
 *
 * Do not modify this file unless it is present under src/main directory
 */
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.lcm.impl.rev160108;
-public class AppcProviderLcmModuleFactory extends org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.lcm.impl.rev160108.AbstractAppcProviderLcmModuleFactory {
+package org.opendaylight.yang.gen.v1.org.onap.appc.provider.lcm.impl.rev160108;
+public class AppcProviderLcmModuleFactory extends org.opendaylight.yang.gen.v1.org.onap.appc.provider.lcm.impl.rev160108.AbstractAppcProviderLcmModuleFactory {
 
 }

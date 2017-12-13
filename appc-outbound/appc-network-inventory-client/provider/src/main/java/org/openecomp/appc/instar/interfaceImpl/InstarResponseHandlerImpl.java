@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.interfaceImpl;
+package org.onap.appc.instar.interfaceImpl;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.openecomp.appc.instar.interfaces.ResponseHandlerInterface;
-import org.openecomp.appc.instar.utils.InstarClientConstant;
+import org.onap.appc.instar.interfaces.ResponseHandlerInterface;
+import org.onap.appc.instar.utils.InstarClientConstant;
 import org.openecomp.sdnc.config.params.data.ResponseKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 

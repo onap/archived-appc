@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.model;
+package org.onap.appc.listener.demo.model;
 
 import java.io.Serializable;
 import java.util.Collection;
 
 import org.json.JSONObject;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.listener.util.Mapper;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

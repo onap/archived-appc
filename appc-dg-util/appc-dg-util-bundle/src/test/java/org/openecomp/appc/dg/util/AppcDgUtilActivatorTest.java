@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.util;
+package org.onap.appc.dg.util;
 
 import org.junit.Before;
 import org.junit.Test;

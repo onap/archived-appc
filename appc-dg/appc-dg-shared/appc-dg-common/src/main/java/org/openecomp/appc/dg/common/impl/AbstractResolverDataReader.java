@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
-import org.openecomp.appc.dao.util.DBUtils;
-import org.openecomp.appc.rankingframework.AbstractRankedAttributesResolverFactory;
-import org.openecomp.appc.rankingframework.ConfigurationEntry;
-import org.openecomp.appc.rankingframework.ConfigurationSet;
-import org.openecomp.appc.rankingframework.RankedAttributesResolver;
+import org.onap.appc.dao.util.DBUtils;
+import org.onap.appc.rankingframework.AbstractRankedAttributesResolverFactory;
+import org.onap.appc.rankingframework.ConfigurationEntry;
+import org.onap.appc.rankingframework.ConfigurationSet;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework;
+package org.onap.appc.rankingframework;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -32,11 +32,11 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.rankingframework.AbstractRankedAttributesResolverFactory;
-import org.openecomp.appc.rankingframework.ConfigurationEntry;
-import org.openecomp.appc.rankingframework.ConfigurationSet;
-import org.openecomp.appc.rankingframework.RankedAttributesContext;
-import org.openecomp.appc.rankingframework.RankedAttributesResolver;
+import org.onap.appc.rankingframework.AbstractRankedAttributesResolverFactory;
+import org.onap.appc.rankingframework.ConfigurationEntry;
+import org.onap.appc.rankingframework.ConfigurationSet;
+import org.onap.appc.rankingframework.RankedAttributesContext;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 
 public class  TestRankingFramework {
 

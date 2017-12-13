@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.util;
+package org.onap.appc.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -42,6 +42,6 @@ public class JsonUtil {
     public static Map<String, String> convertJsonStringToFlatMap(String valueAsString) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Map readValueMap = objectMapper.readValue(valueAsString,Map.class);
-        return org.openecomp.appc.util.ObjectMapper.map(readValueMap);
+        return org.onap.appc.util.ObjectMapper.map(readValueMap);
     }
 }

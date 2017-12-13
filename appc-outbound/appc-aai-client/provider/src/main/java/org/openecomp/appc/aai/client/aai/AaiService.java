@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.aai.client.aai;
+package org.onap.appc.aai.client.aai;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 
-import org.openecomp.appc.aai.client.AppcAaiClientConstant;
+import org.onap.appc.aai.client.AppcAaiClientConstant;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;

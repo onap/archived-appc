@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql.pessimistic;
+package org.onap.appc.lockmanager.impl.sql.pessimistic;
 
 class LockRecord {
 

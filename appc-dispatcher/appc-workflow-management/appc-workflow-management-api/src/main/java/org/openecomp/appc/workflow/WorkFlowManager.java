@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow;
+package org.onap.appc.workflow;
 
-import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
-import org.openecomp.appc.workflow.objects.WorkflowRequest;
-import org.openecomp.appc.workflow.objects.WorkflowResponse;
+import org.onap.appc.workflow.objects.WorkflowExistsOutput;
+import org.onap.appc.workflow.objects.WorkflowRequest;
+import org.onap.appc.workflow.objects.WorkflowResponse;
 
 public interface WorkFlowManager {
 	/**

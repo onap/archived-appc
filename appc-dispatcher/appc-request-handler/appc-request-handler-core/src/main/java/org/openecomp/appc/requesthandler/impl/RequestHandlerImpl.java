@@ -22,25 +22,25 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.appc.requesthandler.constant.Constants;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.LCMCommandStatus;
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.lockmanager.api.LockException;
-import org.openecomp.appc.lockmanager.api.LockManager;
-import org.openecomp.appc.logging.LoggingConstants;
-import org.openecomp.appc.workingstatemanager.WorkingStateManager;
-import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
+import org.onap.appc.requesthandler.constant.Constants;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.Status;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.executor.objects.UniqueRequestIdentifier;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.lockmanager.api.LockException;
+import org.onap.appc.lockmanager.api.LockManager;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.workingstatemanager.WorkingStateManager;
+import org.onap.appc.workingstatemanager.objects.VNFWorkingState;
 
 /**
  * This class provides application logic for the Request/Response Handler Component.
@@ -51,7 +51,7 @@ public class RequestHandlerImpl extends AbstractRequestHandlerImpl {
     /**
      * APP-C VNF lock idle timeout in milliseconds. Applied only when locking VNF using northbound API "lock"
      */
-    private static final String PROP_IDLE_TIMEOUT = "org.openecomp.appc.lock.idleTimeout";
+    private static final String PROP_IDLE_TIMEOUT = "org.onap.appc.lock.idleTimeout";
 
     private LockManager lockManager;
 

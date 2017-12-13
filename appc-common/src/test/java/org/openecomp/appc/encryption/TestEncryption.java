@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.encryption;
+package org.onap.appc.encryption;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
 import org.junit.Test;
-import org.openecomp.appc.encryption.EncryptionTool;
+import org.onap.appc.encryption.EncryptionTool;
 
 public class TestEncryption {
 

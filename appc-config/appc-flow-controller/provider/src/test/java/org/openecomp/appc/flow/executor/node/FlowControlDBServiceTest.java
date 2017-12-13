@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.executor.node;
+package org.onap.appc.flow.executor.node;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyBoolean;
@@ -36,8 +36,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.dbervices.FlowControlDBService;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;

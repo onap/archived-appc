@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.dbservices;
+package org.onap.appc.artifact.handler.dbservices;
 
 import java.util.Map;
 

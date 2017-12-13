@@ -18,15 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller;
+package org.onap.appc.flow.controller;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import org.openecomp.appc.flow.controller.node.FlowControlNode;
-import org.openecomp.appc.flow.controller.node.JsonParsingNode;
-import org.openecomp.appc.flow.controller.node.RestServiceNode;
+import org.onap.appc.flow.controller.node.FlowControlNode;
+import org.onap.appc.flow.controller.node.JsonParsingNode;
+import org.onap.appc.flow.controller.node.RestServiceNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

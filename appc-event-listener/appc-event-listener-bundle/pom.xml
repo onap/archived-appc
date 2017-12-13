@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<artifactId>appc-event-listener</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
@@ -14,7 +14,7 @@
 	<dependencies>
 <!--
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-rest-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -24,31 +24,31 @@
 			<artifactId>eelf-core</artifactId>
 			</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-dmaap-adapter-bundle</artifactId>
 			<version>${project.version}</version>
             <scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-message-adapter-api</artifactId>
 			<version>${project.version}</version>
             <scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-message-adapter-factory</artifactId>
 			<version>${project.version}</version>
             <scope>provided</scope>
 		</dependency>
 <!--
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-rest-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -105,11 +105,11 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>org.openecomp.appc.listener</Bundle-SymbolicName>
-						<Bundle-Activator>org.openecomp.appc.listener.AppcEventListenerActivator</Bundle-Activator>
-						<Export-Package>org.openecomp.appc.listener</Export-Package>
-						<Import-Package>org.openecomp.appc.adapter.message.*,org.openecomp.appc.adapter.factory.*,org.openecomp.appc.adapter.messaging.*
-							org.openecomp.appc.exceptions, org.openecomp.appc.util,
+						<Bundle-SymbolicName>org.onap.appc.listener</Bundle-SymbolicName>
+						<Bundle-Activator>org.onap.appc.listener.AppcEventListenerActivator</Bundle-Activator>
+						<Export-Package>org.onap.appc.listener</Export-Package>
+						<Import-Package>org.onap.appc.adapter.message.*,org.onap.appc.adapter.factory.*,org.onap.appc.adapter.messaging.*
+							org.onap.appc.exceptions, org.onap.appc.util,
 							com.att.eelf.configuration, com.att.eelf.i18n,
 							*;resolution:=optional
 						</Import-Package>

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM.model;
+package org.onap.appc.listener.LCM.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -31,7 +31,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 
-import org.openecomp.appc.util.Time;
+import org.onap.appc.util.Time;
 
 public class CommonHeader implements Serializable {
     @JsonProperty("timestamp")

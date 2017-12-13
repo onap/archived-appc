@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.xinterface;
+package org.onap.appc.design.xinterface;
 
 import java.io.File;
 import java.io.IOException;

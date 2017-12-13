@@ -22,30 +22,30 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.services.impl;
+package org.onap.appc.design.services.impl;
 
 import java.util.concurrent.Future;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.DbserviceInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.DbserviceOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.DbserviceOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.DesignServicesService;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.ValidatorInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.ValidatorOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.ValidatorOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.XinterfaceserviceInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.XinterfaceserviceOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.XinterfaceserviceOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.data.DataBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.status.StatusBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.DbserviceInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.DbserviceOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.DbserviceOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.DesignServicesService;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.ValidatorInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.ValidatorOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.ValidatorOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.XinterfaceserviceInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.XinterfaceserviceOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.XinterfaceserviceOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.data.DataBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.status.StatusBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.openecomp.appc.design.dbervices.DbResponseProcessor;
-import org.openecomp.appc.design.dbervices.DesignDBService;
-import org.openecomp.appc.design.services.util.DesignServiceConstants;
-import org.openecomp.appc.design.validator.ValidatorResponseProcessor;
-import org.openecomp.appc.design.validator.ValidatorService;
-import org.openecomp.appc.design.xinterface.XInterfaceService;
-import org.openecomp.appc.design.xinterface.XResponseProcessor;
+import org.onap.appc.design.dbervices.DbResponseProcessor;
+import org.onap.appc.design.dbervices.DesignDBService;
+import org.onap.appc.design.services.util.DesignServiceConstants;
+import org.onap.appc.design.validator.ValidatorResponseProcessor;
+import org.onap.appc.design.validator.ValidatorService;
+import org.onap.appc.design.xinterface.XInterfaceService;
+import org.onap.appc.design.xinterface.XResponseProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

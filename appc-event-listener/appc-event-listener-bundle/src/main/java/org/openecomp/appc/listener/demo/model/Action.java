@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.model;
+package org.onap.appc.listener.demo.model;
 
 public enum Action {
     Restart("Restart"), Rebuild("Rebuild"), Migrate("Migrate"), Evacuate("Evacuate"), Snapshot("Snapshot"),modifyconfig("ModifyConfig");

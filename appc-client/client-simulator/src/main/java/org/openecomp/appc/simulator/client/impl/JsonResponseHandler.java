@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.simulator.client.impl;
+package org.onap.appc.simulator.client.impl;
 
-import org.openecomp.appc.client.lcm.api.ResponseHandler;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.client.lcm.api.ResponseHandler;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.core.JsonProcessingException;

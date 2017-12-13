@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import java.io.IOException;
 import org.junit.Test;
-import org.openecomp.appc.design.services.util.EscapeUtils;
-import org.openecomp.appc.design.xinterface.XInterfaceService;
-import org.openecomp.appc.design.xinterface.XResponseProcessor;
+import org.onap.appc.design.services.util.EscapeUtils;
+import org.onap.appc.design.xinterface.XInterfaceService;
+import org.onap.appc.design.xinterface.XResponseProcessor;
 import junit.framework.Assert;
 
 public class TestEscapeUtils {

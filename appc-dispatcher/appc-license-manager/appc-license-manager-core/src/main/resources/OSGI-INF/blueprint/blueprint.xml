@@ -32,13 +32,13 @@
 
     <reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.core.dblib.DbLibService" />
 
-    <bean id="licenseDataServiceBean" class="org.openecomp.appc.licmgr.impl.LicenseDataAccessServiceImpl" scope="singleton" activation="eager">
+    <bean id="licenseDataServiceBean" class="org.onap.appc.licmgr.impl.LicenseDataAccessServiceImpl" scope="singleton" activation="eager">
         <property name="dbLibService" ref="dbLibServiceRef" />
         <property name="schema" value="sdnctl" />
     </bean>
 
-    <bean id="licenseServiceBean" class="org.openecomp.appc.licmgr.impl.LicenseManagerImpl" scope="singleton" activation="lazy">
+    <bean id="licenseServiceBean" class="org.onap.appc.licmgr.impl.LicenseManagerImpl" scope="singleton" activation="lazy">
         <property name="DAService" ref="licenseDataServiceBean"/>
     </bean>
-    <service id="licenseService" interface="org.openecomp.appc.licmgr.LicenseManager" ref="licenseServiceBean"/>
+    <service id="licenseService" interface="org.onap.appc.licmgr.LicenseManager" ref="licenseServiceBean"/>
 </blueprint>

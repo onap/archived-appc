@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine;
+package org.onap.appc.statemachine;
 
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
 
 public interface StateMetaDataReader {
     StateMachineMetadata readMetadata();

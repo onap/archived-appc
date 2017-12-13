@@ -37,7 +37,7 @@
 module appc-oam {
 
     yang-version 1;
-    namespace "org:openecomp:appc:oam";
+    namespace "org:onap:appc:oam";
     prefix appc-oam;
     organization "Copyright 2017 AT&T Intellectual Property.";
 

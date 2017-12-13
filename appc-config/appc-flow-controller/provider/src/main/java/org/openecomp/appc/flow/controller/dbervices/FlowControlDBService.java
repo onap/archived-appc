@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.dbervices;
+package org.onap.appc.flow.controller.dbervices;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.utils.EscapeUtils;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.utils.EscapeUtils;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;

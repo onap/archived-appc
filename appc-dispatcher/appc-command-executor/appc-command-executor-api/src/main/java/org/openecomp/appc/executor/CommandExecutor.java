@@ -25,11 +25,11 @@
 /**
  *
  */
-package org.openecomp.appc.executor;
+package org.onap.appc.executor;
 
 
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.exceptions.APPCException;
 
 
 

@@ -1,14 +1,14 @@
-package org.openecomp.appc.sdc.artifacts.impl;
+package org.onap.appc.sdc.artifacts.impl;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.sdc.artifacts.helper.ArtifactStorageService;
-import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.sdc.artifacts.helper.ArtifactStorageService;
+import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;
@@ -47,7 +47,7 @@ public class TestLicenseArtifactProcessor {
         PowerMockito.doNothing().when(storageService).storeSDCArtifact(Matchers.anyObject());
     }
 
-    @Test(expected = org.openecomp.appc.exceptions.APPCException.class)
+    @Test(expected = org.onap.appc.exceptions.APPCException.class)
     public void testProcessArtifactWithMissingData() throws APPCException {
         SDCArtifact artifact=new SDCArtifact();
         artifact.setResourceVersion("RESOURCE VERSION");

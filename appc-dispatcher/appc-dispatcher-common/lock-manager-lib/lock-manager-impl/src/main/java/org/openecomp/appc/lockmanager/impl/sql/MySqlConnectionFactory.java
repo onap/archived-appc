@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql;
+package org.onap.appc.lockmanager.impl.sql;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.openecomp.appc.dao.util.DefaultJdbcConnectionFactory;
+import org.onap.appc.dao.util.DefaultJdbcConnectionFactory;
 
 public class MySqlConnectionFactory extends DefaultJdbcConnectionFactory {
 

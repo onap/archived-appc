@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder.impl;
+package org.onap.appc.dg.flowbuilder.impl;
 
-import org.openecomp.appc.dg.flowbuilder.FlowBuilder;
-import org.openecomp.appc.dg.objects.FlowStrategies;
+import org.onap.appc.dg.flowbuilder.FlowBuilder;
+import org.onap.appc.dg.objects.FlowStrategies;
 
 
 public class FlowBuilderFactory {

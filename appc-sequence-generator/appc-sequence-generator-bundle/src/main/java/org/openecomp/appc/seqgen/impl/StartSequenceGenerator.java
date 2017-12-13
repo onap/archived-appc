@@ -18,26 +18,26 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.impl;
+package org.onap.appc.seqgen.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.dg.flowbuilder.FlowBuilder;
-import org.openecomp.appc.dg.flowbuilder.impl.FlowBuilderFactory;
-import org.openecomp.appc.dg.objects.FlowStrategies;
-import org.openecomp.appc.dg.objects.InventoryModel;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.dg.objects.VnfcFlowModel;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.domainmodel.Vserver;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.seqgen.SequenceGenerator;
-import org.openecomp.appc.seqgen.objects.*;
+import org.onap.appc.dg.flowbuilder.FlowBuilder;
+import org.onap.appc.dg.flowbuilder.impl.FlowBuilderFactory;
+import org.onap.appc.dg.objects.FlowStrategies;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.objects.VnfcFlowModel;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.domainmodel.Vserver;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.seqgen.SequenceGenerator;
+import org.onap.appc.seqgen.objects.*;
 
 import java.util.*;
 
-import static org.openecomp.appc.seqgen.objects.Constants.*;
+import static org.onap.appc.seqgen.objects.Constants.*;
 
 public class StartSequenceGenerator implements SequenceGenerator {
 

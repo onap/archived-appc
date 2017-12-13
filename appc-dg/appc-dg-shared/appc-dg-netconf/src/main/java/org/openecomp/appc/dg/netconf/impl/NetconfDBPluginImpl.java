@@ -22,19 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
-import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
-import org.openecomp.appc.adapter.netconf.util.Constants;
-import org.openecomp.appc.dg.netconf.NetconfDBPlugin;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfDataAccessService;
+import org.onap.appc.adapter.netconf.exception.DataAccessException;
+import org.onap.appc.adapter.netconf.util.Constants;
+import org.onap.appc.dg.netconf.NetconfDBPlugin;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

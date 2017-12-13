@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.util.impl;
+package org.onap.appc.dg.util.impl;
 
-import org.openecomp.appc.dg.util.ExecuteNodeAction;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.dg.util.ExecuteNodeAction;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;

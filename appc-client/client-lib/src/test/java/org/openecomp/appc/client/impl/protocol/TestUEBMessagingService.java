@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
 import org.junit.*;
 import org.junit.runners.MethodSorters;
-import org.openecomp.appc.client.impl.protocol.MessagingService;
-import org.openecomp.appc.client.impl.protocol.UEBMessagingService;
+import org.onap.appc.client.impl.protocol.MessagingService;
+import org.onap.appc.client.impl.protocol.UEBMessagingService;
 
 import java.io.IOException;
 import java.io.InputStream;

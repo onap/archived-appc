@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.node;
+package org.onap.appc.artifact.handler.node;
 
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -37,10 +37,10 @@ import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
 import static org.junit.Assert.assertTrue;
-import org.openecomp.appc.artifact.handler.dbservices.DBService;
-import org.openecomp.appc.artifact.handler.dbservices.MockDBService;
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
-import org.openecomp.appc.artifact.handler.utils.ArtifactHandlerProviderUtilTest;
+import org.onap.appc.artifact.handler.dbservices.DBService;
+import org.onap.appc.artifact.handler.dbservices.MockDBService;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtilTest;
 
 import java.util.Map;
 import java.util.HashMap;

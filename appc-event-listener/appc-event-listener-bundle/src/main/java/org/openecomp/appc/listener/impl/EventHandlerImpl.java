@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.impl;
+package org.onap.appc.listener.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.appc.adapter.factory.MessageService;
-import org.openecomp.appc.adapter.message.Consumer;
-import org.openecomp.appc.adapter.message.MessageAdapterFactory;
-import org.openecomp.appc.adapter.message.Producer;
-import org.openecomp.appc.listener.EventHandler;
-import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.util.Mapper;
-import org.openecomp.appc.logging.LoggingConstants;
+import org.onap.appc.adapter.factory.MessageService;
+import org.onap.appc.adapter.message.Consumer;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.Producer;
+import org.onap.appc.listener.EventHandler;
+import org.onap.appc.listener.ListenerProperties;
+import org.onap.appc.listener.util.Mapper;
+import org.onap.appc.logging.LoggingConstants;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;

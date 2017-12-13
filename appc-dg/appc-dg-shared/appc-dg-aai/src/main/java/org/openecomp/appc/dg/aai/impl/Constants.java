@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.aai.impl;
+package org.onap.appc.dg.aai.impl;
 
 
 public class Constants {
     public final static String VNF_ID_PARAM_NAME = "aai.vnfID";
     public static final String AAI_PREFIX_PARAM_NAME = "aai.prefix";
     public static final String AAI_INPUT_DATA = "aai.input.data";
-    public static final String AAI_ERROR_MESSAGE = "org.openecomp.appc.dg.error";
+    public static final String AAI_ERROR_MESSAGE = "org.onap.appc.dg.error";
 
     public static final String CONFIGURE_PATH = "/restconf/config/opendaylight-inventory:nodes/node/";
     public static final String CONNECT_PATH = "/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules";
@@ -64,20 +64,20 @@ public class Constants {
     public static final String PAYLOAD = "payload";
 
     // constants fo DG
-    public static final String VNF_TYPE_FIELD_NAME = "org.openecomp.appc.vftype";
-    public static final String VNF_VERSION_FIELD_NAME = "org.openecomp.appc.vfversion";
-    public static final String VNF_RESOURCE_VERSION_FIELD_NAME = "org.openecomp.appc.resource-version";
+    public static final String VNF_TYPE_FIELD_NAME = "org.onap.appc.vftype";
+    public static final String VNF_VERSION_FIELD_NAME = "org.onap.appc.vfversion";
+    public static final String VNF_RESOURCE_VERSION_FIELD_NAME = "org.onap.appc.resource-version";
     public static final String TARGET_VNF_TYPE = "target-vnf-type";
     public static final String FILE_CONTENT_FIELD_NAME = "file-content";
     public static final String CONNECTION_DETAILS_FIELD_NAME = "connection-details";
     public static final String CONFIGURATION_FILE_FIELD_NAME = "configuration-file-name";
     public static final String VNF_HOST_IP_ADDRESS_FIELD_NAME = "vnf-host-ip-address";
     public static final String UPGRADE_VERSION = "upgrade-version";
-    public static final String DG_ERROR_FIELD_NAME = "org.openecomp.appc.dg.error";
+    public static final String DG_ERROR_FIELD_NAME = "org.onap.appc.dg.error";
     public static final String ATTRIBUTE_ERROR_MESSAGE = "error-message";
     public static final String RESOURCEKEY = "resourceKey";
-    public static final String REQ_ID_FIELD_NAME = "org.openecomp.appc.reqid";
-    public static final String API_VERSION_FIELD_NAME = "org.openecomp.appc.apiversion";
+    public static final String REQ_ID_FIELD_NAME = "org.onap.appc.reqid";
+    public static final String API_VERSION_FIELD_NAME = "org.onap.appc.apiversion";
     public static final String MODEL_ENTITLMENT_POOL_UUID_NAME = "model.entitlement.pool.uuid";
     public static final String MODEL_LICENSE_KEY_UUID_NAME = "model.license.key.uuid";
     public static final String ENTITLMENT_POOL_UUID_NAME = "entitlement.pool.uuid";

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.configuration;
+package org.onap.appc.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +39,8 @@ import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.openecomp.appc.encryption.EncryptionTool;
-import org.openecomp.appc.util.UnmodifiableProperties;
+import org.onap.appc.encryption.EncryptionTool;
+import org.onap.appc.util.UnmodifiableProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -208,7 +208,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key          The property key
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The value of the property expressed as a boolean, or false if it does not exist.
-     * @see org.openecomp.appc.configuration.Configuration#getBooleanProperty(java.lang.String, boolean)
+     * @see org.onap.appc.configuration.Configuration#getBooleanProperty(java.lang.String, boolean)
      */
     @Override
     public boolean getBooleanProperty(String key, boolean defaultValue) {
@@ -223,7 +223,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      *
      * @param key The property to retrieve
      * @return The value of the property, or 0.0 if not found
-     * @see org.openecomp.appc.configuration.Configuration#getDoubleProperty(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#getDoubleProperty(java.lang.String)
      */
     @SuppressWarnings("nls")
     @Override
@@ -241,7 +241,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key          The key of the property
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The string value, or null if it does not exist.
-     * @see org.openecomp.appc.configuration.Configuration#getDoubleProperty(java.lang.String, double)
+     * @see org.onap.appc.configuration.Configuration#getDoubleProperty(java.lang.String, double)
      */
     @Override
     public double getDoubleProperty(String key, double defaultValue) {
@@ -257,7 +257,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      *
      * @param key The property name to retrieve.
      * @return The value of the property, or 0 if it does not exist or is invalid.
-     * @see org.openecomp.appc.configuration.Configuration#getIntegerProperty(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#getIntegerProperty(java.lang.String)
      */
     @SuppressWarnings("nls")
     @Override
@@ -276,7 +276,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key          The property name to retrieve.
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The value of the property, or 0 if it does not exist or is invalid.
-     * @see org.openecomp.appc.configuration.Configuration#getIntegerProperty(java.lang.String, int)
+     * @see org.onap.appc.configuration.Configuration#getIntegerProperty(java.lang.String, int)
      */
     @Override
     public int getIntegerProperty(String key, int defaultValue) {
@@ -292,7 +292,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key The key of the property desired.
      * @return The value of the property expressed as an integer long value, or zero if the property does not exist or
      * is not a valid integer long.
-     * @see org.openecomp.appc.configuration.Configuration#getLongProperty(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#getLongProperty(java.lang.String)
      */
     @SuppressWarnings("nls")
     @Override
@@ -312,7 +312,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param defaultValue the value to be returned if the property is not valid or does not exist.
      * @return The value of the property expressed as an integer long value, or the default value if the property does
      * not exist or is not a valid integer long.
-     * @see org.openecomp.appc.configuration.Configuration#getLongProperty(java.lang.String, long)
+     * @see org.onap.appc.configuration.Configuration#getLongProperty(java.lang.String, long)
      */
     @Override
     public long getLongProperty(String key, long defaultValue) {
@@ -328,7 +328,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * properties.
      *
      * @return An unmodifiable properties object.
-     * @see org.openecomp.appc.configuration.Configuration#getProperties()
+     * @see org.onap.appc.configuration.Configuration#getProperties()
      */
     @Override
     public Properties getProperties() {
@@ -356,7 +356,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key          The key of the property
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The string value, or null if it does not exist.
-     * @see org.openecomp.appc.configuration.Configuration#getProperty(java.lang.String, java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#getProperty(java.lang.String, java.lang.String)
      */
     @Override
     public String getProperty(String key, String defaultValue) {
@@ -396,7 +396,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      *
      * @param key The property to be checked
      * @return True if the value is a boolean constant, or false if it does not exist or is not a correct string
-     * @see org.openecomp.appc.configuration.Configuration#isValidBoolean(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#isValidBoolean(java.lang.String)
      */
     @SuppressWarnings("nls")
     @Override
@@ -415,7 +415,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key The property to be examined
      * @return True if the property is a valid representation of a double, or false if it does not exist or contains
      * illegal characters.
-     * @see org.openecomp.appc.configuration.Configuration#isValidDouble(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#isValidDouble(java.lang.String)
      */
     @Override
     public boolean isValidDouble(String key) {
@@ -437,7 +437,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key The key of the property to check
      * @return True if the value is a valid integer string, or false if it does not exist or contains illegal
      * characters.
-     * @see org.openecomp.appc.configuration.Configuration#isValidInteger(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#isValidInteger(java.lang.String)
      */
     @Override
     public boolean isValidInteger(String key) {
@@ -459,7 +459,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * @param key The property to be checked
      * @return True if the property is a valid representation of an integer long value, and false if it either does not
      * exist or is not valid.
-     * @see org.openecomp.appc.configuration.Configuration#isValidLong(java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#isValidLong(java.lang.String)
      */
     @Override
     public boolean isValidLong(String key) {
@@ -493,7 +493,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      *
      * @param props An optional Properties object to be merged into the configuration, replacing any same-named
      *              properties.
-     * @see org.openecomp.appc.configuration.Configuration#setProperties(java.util.Properties)
+     * @see org.onap.appc.configuration.Configuration#setProperties(java.util.Properties)
      */
     @Override
     public void setProperties(Properties props) {
@@ -508,7 +508,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      *
      * @param key   The key of the property to be defined
      * @param value The value of the property to be defined
-     * @see org.openecomp.appc.configuration.Configuration#setProperty(java.lang.String, java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#setProperty(java.lang.String, java.lang.String)
      */
     @Override
     public void setProperty(String key, String value) {

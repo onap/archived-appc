@@ -30,17 +30,17 @@
 		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		   xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-	<reference id="DataAccessServiceRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.adapter.netconf.NetconfDataAccessService" />
+	<reference id="DataAccessServiceRef" availability="mandatory" activation="eager" interface="org.onap.appc.adapter.netconf.NetconfDataAccessService" />
 
 
-	<bean id="NetconfDBPluginBean" class="org.openecomp.appc.dg.netconf.impl.NetconfDBPluginImpl" scope="singleton">
+	<bean id="NetconfDBPluginBean" class="org.onap.appc.dg.netconf.impl.NetconfDBPluginImpl" scope="singleton">
 		<property name="daoService" ref="DataAccessServiceRef" />
 	</bean>
-	<service id="NetconfDBPlugin" interface="org.openecomp.appc.dg.netconf.NetconfDBPlugin" ref="NetconfDBPluginBean"/>
+	<service id="NetconfDBPlugin" interface="org.onap.appc.dg.netconf.NetconfDBPlugin" ref="NetconfDBPluginBean"/>
 
-	<bean id="NetconfClientPluginBean" class="org.openecomp.appc.dg.netconf.impl.NetconfClientPluginImpl" scope="singleton">
+	<bean id="NetconfClientPluginBean" class="org.onap.appc.dg.netconf.impl.NetconfClientPluginImpl" scope="singleton">
 		<property name="dao" ref="DataAccessServiceRef" />
 	</bean>
-	<service id="NetconfClientPlugin" interface="org.openecomp.appc.dg.netconf.NetconfClientPlugin" ref="NetconfClientPluginBean"/>
+	<service id="NetconfClientPlugin" interface="org.onap.appc.dg.netconf.NetconfClientPlugin" ref="NetconfClientPluginBean"/>
 
 </blueprint>

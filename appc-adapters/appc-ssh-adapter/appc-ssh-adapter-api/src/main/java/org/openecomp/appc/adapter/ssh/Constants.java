@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh;
+package org.onap.appc.adapter.ssh;
 
 public class Constants {
 
@@ -49,8 +49,8 @@ public class Constants {
     // input fields names
     public static final String PAYLOAD = "payload";
 
-    public static final String CONNECTION_RETRY_DELAY = "org.openecomp.appc.ssh.connection.retry.delay";
-    public static final String CONNECTION_RETRY_COUNT = "org.openecomp.appc.ssh.connection.retry.count";
+    public static final String CONNECTION_RETRY_DELAY = "org.onap.appc.ssh.connection.retry.delay";
+    public static final String CONNECTION_RETRY_COUNT = "org.onap.appc.ssh.connection.retry.count";
     public static final int DEFAULT_CONNECTION_RETRY_DELAY = 60;
     public static final int DEFAULT_CONNECTION_RETRY_COUNT = 5;
 

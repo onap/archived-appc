@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider;
+package org.onap.appc.provider;
 
 import org.junit.Assert;
 import org.junit.Before;

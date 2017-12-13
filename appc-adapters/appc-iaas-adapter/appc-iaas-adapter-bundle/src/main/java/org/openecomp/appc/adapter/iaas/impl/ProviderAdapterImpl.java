@@ -23,20 +23,20 @@
  */
 
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.provider.operation.api.IProviderOperation;
-import org.openecomp.appc.adapter.iaas.provider.operation.api.ProviderOperationFactory;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Property;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.EvacuateServer;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.util.StructuredPropertyHelper;
-import org.openecomp.appc.util.StructuredPropertyHelper.Node;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.provider.operation.api.IProviderOperation;
+import org.onap.appc.adapter.iaas.provider.operation.api.ProviderOperationFactory;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.onap.appc.adapter.iaas.provider.operation.impl.EvacuateServer;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.util.StructuredPropertyHelper;
+import org.onap.appc.util.StructuredPropertyHelper.Node;
 import com.att.cdp.zones.model.Image;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Stack;
@@ -269,7 +269,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
      * Returns the symbolic name of the adapter
      *
      * @return The adapter name
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#getAdapterName()
+     * @see org.onap.appc.adapter.iaas.ProviderAdapter#getAdapterName()
      */
     @Override
     public String getAdapterName() {

@@ -21,7 +21,7 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.data.services.db;
+package org.onap.appc.data.services.db;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
@@ -34,7 +34,7 @@ import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.openecomp.appc.data.services.db.DGGeneralDBService;
+import org.onap.appc.data.services.db.DGGeneralDBService;
 
 public class TestDGGeneralDBService {
     DGGeneralDBService dbService;

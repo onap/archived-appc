@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.dme2client;
+package org.onap.appc.instar.dme2client;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
@@ -35,7 +35,7 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.IOUtils;
-import org.openecomp.appc.instar.utils.InstarClientConstant;
+import org.onap.appc.instar.utils.InstarClientConstant;
 
 
 import com.att.eelf.configuration.EELFLogger;

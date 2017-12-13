@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder.impl;
+package org.onap.appc.dg.flowbuilder.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,11 +31,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.openecomp.appc.dg.flowbuilder.FlowStrategy;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.flowbuilder.helper.Graph;
-import org.openecomp.appc.dg.objects.*;
-import org.openecomp.appc.domainmodel.Vnfc;
+import org.onap.appc.dg.flowbuilder.FlowStrategy;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.helper.Graph;
+import org.onap.appc.dg.objects.*;
+import org.onap.appc.domainmodel.Vnfc;
 
 
 public abstract class AbstractFlowStrategy implements FlowStrategy {

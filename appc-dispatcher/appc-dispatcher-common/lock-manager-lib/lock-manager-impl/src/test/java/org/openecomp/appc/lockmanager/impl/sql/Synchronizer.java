@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql;
+package org.onap.appc.lockmanager.impl.sql;
 
 public class Synchronizer {
 

@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache.impl;
+package org.onap.appc.cache.impl;
 
-import org.openecomp.appc.cache.CacheStrategies;
-import org.openecomp.appc.cache.MetadataCache;
+import org.onap.appc.cache.CacheStrategies;
+import org.onap.appc.cache.MetadataCache;
 
 /**
  * Metadata Cache Factory

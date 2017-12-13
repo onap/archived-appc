@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.metric.impl;
+package org.onap.appc.metricservice.metric.impl;
 
-import org.openecomp.appc.metricservice.metric.DispatchingFunctionCounterBuilder;
-import org.openecomp.appc.metricservice.metric.MetricBuilderFactory;
-import org.openecomp.appc.metricservice.metric.PrimitiveCounterBuilder;
-import org.openecomp.appc.metricservice.metric.DmaapRequestCounterBuilder;
+import org.onap.appc.metricservice.metric.DispatchingFunctionCounterBuilder;
+import org.onap.appc.metricservice.metric.MetricBuilderFactory;
+import org.onap.appc.metricservice.metric.PrimitiveCounterBuilder;
+import org.onap.appc.metricservice.metric.DmaapRequestCounterBuilder;
 
 
 public class MetricBuilderFactoryImpl implements MetricBuilderFactory {

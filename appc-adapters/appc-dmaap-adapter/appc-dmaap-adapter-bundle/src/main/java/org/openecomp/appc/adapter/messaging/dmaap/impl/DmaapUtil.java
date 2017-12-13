@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap.impl;
+package org.onap.appc.adapter.messaging.dmaap.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;

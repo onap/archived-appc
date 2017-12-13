@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.exceptions;
+package org.onap.appc.exceptions;
 
 /**
  * This is a base class for all APPC defined exceptions.

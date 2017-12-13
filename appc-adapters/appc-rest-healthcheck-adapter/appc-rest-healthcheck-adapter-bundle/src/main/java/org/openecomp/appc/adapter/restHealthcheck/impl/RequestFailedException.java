@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.adapter.restHealthcheck.impl;
+package org.onap.appc.adapter.restHealthcheck.impl;
 
 import org.glassfish.grizzly.http.util.HttpStatus;
 

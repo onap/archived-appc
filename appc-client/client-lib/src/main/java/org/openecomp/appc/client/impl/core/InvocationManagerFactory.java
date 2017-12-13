@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.core;
+package org.onap.appc.client.impl.core;
 
 public abstract class InvocationManagerFactory {
     private static IInvocationManager invocationManager = null;

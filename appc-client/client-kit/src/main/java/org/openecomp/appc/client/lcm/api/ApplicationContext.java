@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.api;
+package org.onap.appc.client.lcm.api;
 
 /**
  * Created by gital on 11/27/2016.

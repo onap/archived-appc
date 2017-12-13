@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql;
+package org.onap.appc.lockmanager.impl.sql;
 
 import org.junit.Rule;
 import org.junit.rules.TestName;
-import org.openecomp.appc.dao.util.DefaultJdbcConnectionFactory;
-import org.openecomp.appc.lockmanager.api.LockManager;
-import org.openecomp.appc.lockmanager.api.LockManagerBaseTests;
-import org.openecomp.appc.lockmanager.impl.sql.JdbcLockManager;
-import org.openecomp.appc.lockmanager.impl.sql.MySqlConnectionFactory;
+import org.onap.appc.dao.util.DefaultJdbcConnectionFactory;
+import org.onap.appc.lockmanager.api.LockManager;
+import org.onap.appc.lockmanager.api.LockManagerBaseTests;
+import org.onap.appc.lockmanager.impl.sql.JdbcLockManager;
+import org.onap.appc.lockmanager.impl.sql.MySqlConnectionFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,11 +1,11 @@
-package org.openecomp.appc.sdc.artifacts.impl;
+package org.onap.appc.sdc.artifacts.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;

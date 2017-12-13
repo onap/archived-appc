@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.impl;
+package org.onap.appc.listener.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -32,14 +32,14 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.listener.Listener;
-import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.demo.impl.ListenerImpl;
+import org.onap.appc.listener.Listener;
+import org.onap.appc.listener.ListenerProperties;
+import org.onap.appc.listener.demo.impl.ListenerImpl;
 
 @Ignore
 public class TestListener {
 
-    private static final String PROP_FILE = "/org/openecomp/appc/default.properties";
+    private static final String PROP_FILE = "/org/onap/appc/default.properties";
 
     private Listener listener;
 

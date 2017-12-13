@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.utils;
+package org.onap.appc.artifact.handler.utils;
 
 import java.io.IOException;
 import java.security.SecureRandom;
@@ -31,8 +31,8 @@ import java.util.HashMap;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.UploadartifactInput;
-import org.openecomp.appc.artifact.handler.node.ArtifactHandlerNode;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactInput;
+import org.onap.appc.artifact.handler.node.ArtifactHandlerNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf;
+package org.onap.appc.dg.netconf;
 
 import java.util.Map;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 

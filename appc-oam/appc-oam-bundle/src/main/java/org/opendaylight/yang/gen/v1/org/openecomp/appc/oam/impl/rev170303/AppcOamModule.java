@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.impl.rev170303;
+package org.opendaylight.yang.gen.v1.org.onap.appc.oam.impl.rev170303;
 
-import org.openecomp.appc.oam.AppcOam;
+import org.onap.appc.oam.AppcOam;
 
-public class AppcOamModule extends org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.impl.rev170303.AbstractAppcOamModule {
+public class AppcOamModule extends org.opendaylight.yang.gen.v1.org.onap.appc.oam.impl.rev170303.AbstractAppcOamModule {
     public AppcOamModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
     }
 
-    public AppcOamModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.impl.rev170303.AppcOamModule oldModule, java.lang.AutoCloseable oldInstance) {
+    public AppcOamModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.onap.appc.oam.impl.rev170303.AppcOamModule oldModule, java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 

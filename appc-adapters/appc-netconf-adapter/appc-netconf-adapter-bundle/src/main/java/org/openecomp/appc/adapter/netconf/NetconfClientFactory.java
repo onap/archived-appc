@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf;
+package org.onap.appc.adapter.netconf;
 
-import org.openecomp.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.openecomp.appc.adapter.netconf.odlconnector.NetconfClientRestconfImpl;
+import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
+import org.onap.appc.adapter.netconf.odlconnector.NetconfClientRestconfImpl;
 
 
 public class NetconfClientFactory {

@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.message;
+package org.onap.appc.adapter.message;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import java.util.Map;
 
-import org.openecomp.appc.adapter.message.event.EventMessage;
+import org.onap.appc.adapter.message.event.EventMessage;
 
 public interface EventSender  extends SvcLogicJavaPlugin{
     boolean sendEvent(MessageDestination destination, EventMessage msg);

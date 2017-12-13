@@ -23,15 +23,15 @@
  */
 
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 /**
  * Test the RequestContext object

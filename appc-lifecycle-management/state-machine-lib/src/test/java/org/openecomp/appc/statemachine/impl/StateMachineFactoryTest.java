@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl;
+package org.onap.appc.statemachine.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.statemachine.StateMachine;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.StateMachine;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
 
 public class StateMachineFactoryTest {
     private StateMachineMetadata metadata;

@@ -22,22 +22,22 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc;
+package org.onap.appc;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.statemachine.StateMetaDataReader;
-import org.openecomp.appc.lifecyclemanager.impl.LifecycleManagerImpl;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.statemachine.impl.readers.VnfMetaDataReader;
-import org.openecomp.appc.statemachine.impl.readers.VnfMetaDataReader.VNFOperation;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
-import org.openecomp.appc.statemachine.objects.Transition;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.statemachine.StateMetaDataReader;
+import org.onap.appc.lifecyclemanager.impl.LifecycleManagerImpl;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.statemachine.impl.readers.VnfMetaDataReader;
+import org.onap.appc.statemachine.impl.readers.VnfMetaDataReader.VNFOperation;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.objects.Transition;
 
 import java.util.*;
 

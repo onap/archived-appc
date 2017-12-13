@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.common.constants;
+package org.onap.appc.adapter.iaas.provider.operation.common.constants;
 
 /**
  * @since September 26, 2016

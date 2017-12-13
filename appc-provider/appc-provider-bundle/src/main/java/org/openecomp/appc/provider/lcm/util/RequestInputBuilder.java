@@ -22,22 +22,22 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider.lcm.util;
+package org.onap.appc.provider.lcm.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
 import org.apache.commons.lang.StringUtils;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Payload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags;
-import org.openecomp.appc.domainmodel.lcm.Flags.Mode;
-import org.openecomp.appc.domainmodel.lcm.ActionLevel;
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Payload;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags;
+import org.onap.appc.domainmodel.lcm.Flags.Mode;
+import org.onap.appc.domainmodel.lcm.ActionLevel;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -91,7 +91,7 @@ public class RequestInputBuilder {
     }
 
     public RequestInputBuilder commonHeader(CommonHeader commonHeader) throws ParseException {
-        org.openecomp.appc.domainmodel.lcm.CommonHeader header = new org.openecomp.appc.domainmodel.lcm.CommonHeader();
+        org.onap.appc.domainmodel.lcm.CommonHeader header = new org.onap.appc.domainmodel.lcm.CommonHeader();
         this.requestContext.setCommonHeader(header);
 
         try {
@@ -129,13 +129,13 @@ public class RequestInputBuilder {
             }
 
         }
-        this.requestContext.getCommonHeader().setFlags(new org.openecomp.appc.domainmodel.lcm.Flags(mode, force, ttl));
+        this.requestContext.getCommonHeader().setFlags(new org.onap.appc.domainmodel.lcm.Flags(mode, force, ttl));
         return this;
     }
 
     public RequestInputBuilder actionIdentifiers(ActionIdentifiers actionIdentifiers)  throws ParseException  {
         if(null!= actionIdentifiers) {
-            org.openecomp.appc.domainmodel.lcm.ActionIdentifiers actionIds = new org.openecomp.appc.domainmodel.lcm.ActionIdentifiers();
+            org.onap.appc.domainmodel.lcm.ActionIdentifiers actionIds = new org.onap.appc.domainmodel.lcm.ActionIdentifiers();
             actionIds.setServiceInstanceId(actionIdentifiers.getServiceInstanceId());
             actionIds.setVnfcName(actionIdentifiers.getVnfcName());
             actionIds.setvServerId(actionIdentifiers.getVserverId());
@@ -151,7 +151,7 @@ public class RequestInputBuilder {
         }
     }
 
-    private ActionLevel readActionLevel(org.openecomp.appc.domainmodel.lcm.ActionIdentifiers actionIds) {
+    private ActionLevel readActionLevel(org.onap.appc.domainmodel.lcm.ActionIdentifiers actionIds) {
         if(!StringUtils.isEmpty(actionIds.getVserverId())){
             return ActionLevel.VM;
         }

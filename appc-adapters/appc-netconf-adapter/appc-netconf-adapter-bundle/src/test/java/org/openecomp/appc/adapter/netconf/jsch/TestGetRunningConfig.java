@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.jsch;
+package org.onap.appc.adapter.netconf.jsch;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
+import org.onap.appc.exceptions.APPCException;
 
 public class TestGetRunningConfig {
 
@@ -37,7 +37,7 @@ public class TestGetRunningConfig {
     private static final String USER = "test";
     private static final String PSWD = "test123";
     private static final int PORT = 830;
-    private static final List<String> CAPABILITIES = Collections.singletonList("<capability>urn:org:openecomp:appc:capability:1.1.0</capability>");
+    private static final List<String> CAPABILITIES = Collections.singletonList("<capability>urn:org:onap:appc:capability:1.1.0</capability>");
 
     public static void main(String[] args) throws APPCException {
         try {

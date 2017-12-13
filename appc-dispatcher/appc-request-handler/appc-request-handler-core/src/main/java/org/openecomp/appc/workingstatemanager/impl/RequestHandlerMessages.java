@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workingstatemanager.impl;
+package org.onap.appc.workingstatemanager.impl;
 
 
 public class RequestHandlerMessages {

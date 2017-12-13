@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf;
+package org.onap.appc.adapter.netconf;
 
 import java.util.List;
 import java.util.Properties;

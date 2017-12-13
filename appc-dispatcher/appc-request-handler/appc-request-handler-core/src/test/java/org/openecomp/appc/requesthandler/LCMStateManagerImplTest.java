@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler;
+package org.onap.appc.requesthandler;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.requesthandler.impl.LCMStateManagerImpl;
+import org.onap.appc.requesthandler.impl.LCMStateManagerImpl;
 
 public class LCMStateManagerImplTest {
 

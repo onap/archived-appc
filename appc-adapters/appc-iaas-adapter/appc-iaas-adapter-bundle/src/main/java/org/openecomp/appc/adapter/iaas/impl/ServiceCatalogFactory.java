@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import java.util.Properties;
 
@@ -31,7 +31,7 @@ import com.att.eelf.configuration.EELFManager;
 
 public class ServiceCatalogFactory {
 	
-	private static EELFLogger logger= EELFManager.getInstance().getLogger(org.openecomp.appc.adapter.iaas.impl.ServiceCatalogFactory.class);
+	private static EELFLogger logger= EELFManager.getInstance().getLogger(org.onap.appc.adapter.iaas.impl.ServiceCatalogFactory.class);
 
     /**
      * This method accepts a fully qualified identity service URL and uses that to determine which version of the

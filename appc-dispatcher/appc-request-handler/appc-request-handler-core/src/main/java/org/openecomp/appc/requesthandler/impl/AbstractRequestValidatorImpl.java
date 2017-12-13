@@ -22,35 +22,35 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.appc.requesthandler.constant.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.domainmodel.lcm.CommonHeader;
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.VNFContext;
-import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.logging.LoggingConstants;
-import org.openecomp.appc.logging.LoggingUtils;
-import org.openecomp.appc.requesthandler.LCMStateManager;
-import org.openecomp.appc.requesthandler.exceptions.*;
-import org.openecomp.appc.requesthandler.helper.RequestRegistry;
-import org.openecomp.appc.requesthandler.helper.RequestValidator;
-import org.openecomp.appc.workflow.WorkFlowManager;
-import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
-import org.openecomp.appc.workflow.objects.WorkflowRequest;
+import org.onap.appc.requesthandler.constant.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.domainmodel.lcm.CommonHeader;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.VNFContext;
+import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.executor.objects.UniqueRequestIdentifier;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.logging.LoggingUtils;
+import org.onap.appc.requesthandler.LCMStateManager;
+import org.onap.appc.requesthandler.exceptions.*;
+import org.onap.appc.requesthandler.helper.RequestRegistry;
+import org.onap.appc.requesthandler.helper.RequestValidator;
+import org.onap.appc.workflow.WorkFlowManager;
+import org.onap.appc.workflow.objects.WorkflowExistsOutput;
+import org.onap.appc.workflow.objects.WorkflowRequest;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
@@ -225,7 +225,7 @@ public abstract class AbstractRequestValidatorImpl implements RequestValidator {
             logger.trace("Entering to readTTL with RequestHandlerInput = "+ ObjectUtils.toString(header));
         }
         if (header.getFlags()== null || !isValidTTL(String.valueOf(header.getFlags().getTtl()))) {
-            String defaultTTLStr = configuration.getProperty("org.openecomp.appc.workflow.default.ttl", String.valueOf(Constants.DEFAULT_TTL));
+            String defaultTTLStr = configuration.getProperty("org.onap.appc.workflow.default.ttl", String.valueOf(Constants.DEFAULT_TTL));
             return Integer.parseInt(defaultTTLStr);
         }
         if (logger.isTraceEnabled()) {

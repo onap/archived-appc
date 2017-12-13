@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.concurrent;
+package org.onap.appc.concurrent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import org.openecomp.appc.util.StringHelper;
+import org.onap.appc.util.StringHelper;
 
 /**
  * This class is used to synchronize signaling of status between threads.

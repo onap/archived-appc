@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder.impl;
+package org.onap.appc.dg.flowbuilder.impl;
 
-import org.openecomp.appc.dg.flowbuilder.FlowBuilder;
-import org.openecomp.appc.dg.flowbuilder.FlowStrategy;
-import org.openecomp.appc.dg.objects.InventoryModel;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.dg.objects.VnfcFlowModel;
+import org.onap.appc.dg.flowbuilder.FlowBuilder;
+import org.onap.appc.dg.flowbuilder.FlowStrategy;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.objects.VnfcFlowModel;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

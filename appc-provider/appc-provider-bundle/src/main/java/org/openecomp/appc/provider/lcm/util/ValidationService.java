@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider.lcm.util;
+package org.onap.appc.provider.lcm.util;
 
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.executor.objects.LCMCommandStatus;
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.i18n.Msg;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.StatusBuilder;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;

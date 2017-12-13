@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.message;
+package org.onap.appc.message;
 
 
 public class RequestHandlerMessages {

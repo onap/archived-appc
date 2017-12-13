@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.client.impl.protocol.AsyncProtocol;
-import org.openecomp.appc.client.impl.protocol.AsyncProtocolImpl;
-import org.openecomp.appc.client.impl.protocol.ProtocolException;
+import org.onap.appc.client.impl.protocol.AsyncProtocol;
+import org.onap.appc.client.impl.protocol.AsyncProtocolImpl;
+import org.onap.appc.client.impl.protocol.ProtocolException;
 
 import java.io.IOException;
 import java.io.InputStream;

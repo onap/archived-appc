@@ -31,7 +31,7 @@
 *
 * Do not modify this file unless it is present under src/main directory
 */
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.impl.rev170303;
-public class AppcOamModuleFactory extends org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.impl.rev170303.AbstractAppcOamModuleFactory {
+package org.opendaylight.yang.gen.v1.org.onap.appc.oam.impl.rev170303;
+public class AppcOamModuleFactory extends org.opendaylight.yang.gen.v1.org.onap.appc.oam.impl.rev170303.AbstractAppcOamModuleFactory {
 
 }

@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.processor;
+package org.onap.appc.oam.processor;
 
 import com.att.eelf.configuration.EELFLogger;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.oam.util.AsyncTaskHelper;
-import org.openecomp.appc.oam.util.ConfigurationHelper;
-import org.openecomp.appc.oam.util.OperationHelper;
-import org.openecomp.appc.oam.util.StateHelper;
-import org.openecomp.appc.requesthandler.LCMStateManager;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.util.AsyncTaskHelper;
+import org.onap.appc.oam.util.ConfigurationHelper;
+import org.onap.appc.oam.util.OperationHelper;
+import org.onap.appc.oam.util.StateHelper;
+import org.onap.appc.requesthandler.LCMStateManager;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 
 /**
  * Processor to handle restart OAM API.

@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dao.util;
+package org.onap.appc.dao.util;
 
 import java.sql.*;
 
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 @Deprecated
 public class DBUtils {
@@ -44,9 +44,9 @@ public class DBUtils {
 
 	public static Connection getConnection(String schema) throws SQLException {
 		DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
-		String dbURL = configuration.getProperty(String.format("org.openecomp.appc.db.url.%s", schema), "");
-		String userName = configuration.getProperty(String.format("org.openecomp.appc.db.user.%s", schema), "");
-		String password = configuration.getProperty(String.format("org.openecomp.appc.db.pass.%s", schema), "");
+		String dbURL = configuration.getProperty(String.format("org.onap.appc.db.url.%s", schema), "");
+		String userName = configuration.getProperty(String.format("org.onap.appc.db.user.%s", schema), "");
+		String password = configuration.getProperty(String.format("org.onap.appc.db.pass.%s", schema), "");
 		return DriverManager.getConnection(dbURL, userName, password);
 	}
 

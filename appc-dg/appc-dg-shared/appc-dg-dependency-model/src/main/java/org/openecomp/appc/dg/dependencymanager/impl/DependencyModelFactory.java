@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.dependencymanager.impl;
+package org.onap.appc.dg.dependencymanager.impl;
 
-import org.openecomp.appc.dg.dependencymanager.DependencyManager;
+import org.onap.appc.dg.dependencymanager.DependencyManager;
 
 
 public class DependencyModelFactory {

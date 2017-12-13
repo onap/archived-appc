@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workingstatemanager.impl;
+package org.onap.appc.workingstatemanager.impl;
 
 import java.sql.Connection;
 
-import org.openecomp.appc.dao.util.JdbcConnectionFactory;
-import org.openecomp.appc.workingstatemanager.WorkingStateManager;
+import org.onap.appc.dao.util.JdbcConnectionFactory;
+import org.onap.appc.workingstatemanager.WorkingStateManager;
 
 public abstract class JdbcWorkingStateManager implements WorkingStateManager {
 

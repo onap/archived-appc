@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.concurrent;
+package org.onap.appc.concurrent;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.Test;
-import org.openecomp.appc.concurrent.Signal;
+import org.onap.appc.concurrent.Signal;
 
 public class TestSignal {
 

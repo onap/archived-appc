@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -48,7 +48,7 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
-import org.openecomp.appc.design.services.util.DesignServiceConstants;
+import org.onap.appc.design.services.util.DesignServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

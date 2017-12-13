@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -40,7 +40,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.configuration.ConfigurationFactory;
 import com.att.cdp.exceptions.ZoneException;
 import com.woorea.openstack.keystone.model.Access.Service;
 

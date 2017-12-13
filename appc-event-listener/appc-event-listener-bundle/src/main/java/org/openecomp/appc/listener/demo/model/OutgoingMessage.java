@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.model;
+package org.onap.appc.listener.demo.model;
 
 import java.net.InetAddress;
 import java.security.SecureRandom;
@@ -31,8 +31,8 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.json.JSONObject;
-import org.openecomp.appc.listener.util.Mapper;
-import org.openecomp.appc.util.Time;
+import org.onap.appc.listener.util.Mapper;
+import org.onap.appc.util.Time;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

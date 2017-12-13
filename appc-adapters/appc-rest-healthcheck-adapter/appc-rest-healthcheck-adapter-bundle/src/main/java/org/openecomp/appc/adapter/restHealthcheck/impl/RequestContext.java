@@ -24,10 +24,10 @@
 
 
 
-package org.openecomp.appc.adapter.restHealthcheck.impl;
+package org.onap.appc.adapter.restHealthcheck.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class RequestContext {

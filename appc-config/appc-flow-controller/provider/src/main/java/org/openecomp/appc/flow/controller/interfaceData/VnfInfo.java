@@ -26,7 +26,7 @@
 //
 
 
-package org.openecomp.appc.flow.controller.interfaceData;
+package org.onap.appc.flow.controller.interfaceData;
 
 import java.util.ArrayList;
 import java.util.List;

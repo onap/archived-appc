@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.encryptiontool.wrapper;
+package org.onap.appc.encryptiontool.wrapper;
 
 public class Constants
 {

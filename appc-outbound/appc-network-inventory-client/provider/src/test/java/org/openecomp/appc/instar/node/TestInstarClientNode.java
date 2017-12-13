@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.node;
+package org.onap.appc.instar.node;
 
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -36,8 +36,8 @@ import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.instar.dme2client.SecureRestClientTrustManager;
-import org.openecomp.appc.instar.utils.InstarClientConstant;
+import org.onap.appc.instar.dme2client.SecureRestClientTrustManager;
+import org.onap.appc.instar.utils.InstarClientConstant;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.sun.jersey.api.client.Client;

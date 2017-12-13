@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.model;
+package org.onap.appc.listener.demo.model;
 
 public enum Status {
     /*

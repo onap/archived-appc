@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ansible.impl;
+package org.onap.appc.adapter.ansible.impl;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -56,9 +56,9 @@ import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 
 
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.adapter.ansible.model.AnsibleResult;
-import org.openecomp.appc.adapter.ansible.model.AnsibleResultCodes;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.adapter.ansible.model.AnsibleResult;
+import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
 
 
 /** 

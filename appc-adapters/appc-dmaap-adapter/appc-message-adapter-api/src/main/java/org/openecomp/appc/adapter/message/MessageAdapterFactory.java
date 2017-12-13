@@ -21,13 +21,13 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.adapter.message;
+package org.onap.appc.adapter.message;
 
 import java.util.Collection;
 import java.util.Set;
 
-import org.openecomp.appc.adapter.message.Consumer;
-import org.openecomp.appc.adapter.message.Producer;
+import org.onap.appc.adapter.message.Consumer;
+import org.onap.appc.adapter.message.Producer;
 
 public interface MessageAdapterFactory {
 	

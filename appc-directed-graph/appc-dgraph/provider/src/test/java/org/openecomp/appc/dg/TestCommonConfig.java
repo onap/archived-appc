@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.openecomp.appc.dg.mock.instance.MockConfigureNodeExecutor;
-import org.openecomp.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
+import org.onap.appc.dg.mock.instance.MockConfigureNodeExecutor;
+import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 import org.openecomp.sdnc.config.generator.convert.ConvertNode;
 import org.openecomp.sdnc.config.generator.merge.MergeNode;
 /*  move to open source
@@ -72,7 +72,7 @@ public class TestCommonConfig /* extends AbstractDGTestCase */ {
 			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode",new org.openecomp.sdnc.config.generator.convert.ConvertNode());
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
 			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
-			serviceReferences.put("org.openecomp.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
 
 			GraphKey  graphKey = new GraphKey("APPC", null, "CommonConfiguration", null);
 			DGTestCase tc = new DGTestCase(graphKey);

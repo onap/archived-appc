@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.utils;
+package org.onap.appc.instar.utils;
 
 public class InstarClientConstant
 {

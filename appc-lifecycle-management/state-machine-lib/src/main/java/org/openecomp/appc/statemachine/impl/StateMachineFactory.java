@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl;
+package org.onap.appc.statemachine.impl;
 
-import org.openecomp.appc.statemachine.StateMachine;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.StateMachine;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
 
 /**
  * Factory of StateMachine

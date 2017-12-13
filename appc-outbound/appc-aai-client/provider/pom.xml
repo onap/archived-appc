@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<artifactId>appc-aai-client</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
@@ -107,9 +107,9 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>org.openecomp.appc.aai.client</Bundle-SymbolicName>
-						<Bundle-Activator>org.openecomp.appc.aai.client.AppcAaiClientActivator</Bundle-Activator>
-						<Export-Package>org.openecomp.appc.aai.client</Export-Package>
+						<Bundle-SymbolicName>org.onap.appc.aai.client</Bundle-SymbolicName>
+						<Bundle-Activator>org.onap.appc.aai.client.AppcAaiClientActivator</Bundle-Activator>
+						<Export-Package>org.onap.appc.aai.client</Export-Package>
 						<Import-Package>*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
 					</instructions>

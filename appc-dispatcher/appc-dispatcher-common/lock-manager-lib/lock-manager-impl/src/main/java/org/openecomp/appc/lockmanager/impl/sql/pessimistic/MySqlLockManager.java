@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql.pessimistic;
+package org.onap.appc.lockmanager.impl.sql.pessimistic;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.openecomp.appc.lockmanager.api.LockRuntimeException;
+import org.onap.appc.lockmanager.api.LockRuntimeException;
 
 public class MySqlLockManager extends SqlLockManager {
 

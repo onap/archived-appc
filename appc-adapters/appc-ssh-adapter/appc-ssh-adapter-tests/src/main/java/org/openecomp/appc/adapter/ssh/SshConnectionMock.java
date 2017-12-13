@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh;
+package org.onap.appc.adapter.ssh;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.openecomp.appc.adapter.ssh.SshConnection;
+import org.onap.appc.adapter.ssh.SshConnection;
 
 public class SshConnectionMock implements SshConnection {
 

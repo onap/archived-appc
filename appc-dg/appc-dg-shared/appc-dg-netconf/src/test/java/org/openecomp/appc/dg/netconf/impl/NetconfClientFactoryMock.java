@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
-import org.openecomp.appc.adapter.netconf.NetconfClient;
-import org.openecomp.appc.adapter.netconf.NetconfClientFactory;
-import org.openecomp.appc.adapter.netconf.NetconfClientType;
-import org.openecomp.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.openecomp.appc.adapter.netconf.odlconnector.NetconfClientRestconfImpl;
+import org.onap.appc.adapter.netconf.NetconfClient;
+import org.onap.appc.adapter.netconf.NetconfClientFactory;
+import org.onap.appc.adapter.netconf.NetconfClientType;
+import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
+import org.onap.appc.adapter.netconf.odlconnector.NetconfClientRestconfImpl;
 
 
 public class NetconfClientFactoryMock extends NetconfClientFactory {

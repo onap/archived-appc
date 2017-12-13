@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 public class ResolverFactory {
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
     private static class ReferenceHolder{
-        private static final AbstractResolver VNFC_RESOLVER = new VNFCResolver(configuration.getIntegerProperty("org.openecomp.appc.workflow.resolver.refresh_interval", 300));
-        private static final AbstractResolver VNF_RESOLVER = new VNFResolver(configuration.getIntegerProperty("org.openecomp.appc.workflow.resolver.refresh_interval", 300));
+        private static final AbstractResolver VNFC_RESOLVER = new VNFCResolver(configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
+        private static final AbstractResolver VNF_RESOLVER = new VNFResolver(configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
     }
 
     public static AbstractResolver createResolver(String resolverType){

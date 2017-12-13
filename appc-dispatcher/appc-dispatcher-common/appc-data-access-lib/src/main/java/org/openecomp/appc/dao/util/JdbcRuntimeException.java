@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dao.util;
+package org.onap.appc.dao.util;
 
 public class JdbcRuntimeException extends RuntimeException {
 

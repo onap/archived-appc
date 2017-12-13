@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.interfaceImpl;
+package org.onap.appc.instar.interfaceImpl;
 
 import java.util.HashMap;
 import java.util.List;
 
-import org.openecomp.appc.instar.interfaces.ResponseHandlerInterface;
-import org.openecomp.appc.instar.interfaces.RestClientInterface;
-import org.openecomp.appc.instar.interfaces.RuleHandlerInterface;
-import org.openecomp.appc.instar.node.InstarClientNode;
-import org.openecomp.appc.instar.utils.InstarClientConstant;
+import org.onap.appc.instar.interfaces.ResponseHandlerInterface;
+import org.onap.appc.instar.interfaces.RestClientInterface;
+import org.onap.appc.instar.interfaces.RuleHandlerInterface;
+import org.onap.appc.instar.node.InstarClientNode;
+import org.onap.appc.instar.utils.InstarClientConstant;
 import org.openecomp.sdnc.config.params.data.Parameter;
 import org.openecomp.sdnc.config.params.data.ResponseKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

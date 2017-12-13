@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.jsch;
+package org.onap.appc.adapter.netconf.jsch;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

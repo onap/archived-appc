@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.operation;
+package org.onap.appc.mdsal.operation;
 
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.mdsal.impl.Constants;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.mdsal.impl.Constants;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;

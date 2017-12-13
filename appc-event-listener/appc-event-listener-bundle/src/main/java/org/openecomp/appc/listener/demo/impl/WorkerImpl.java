@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.impl;
+package org.onap.appc.listener.demo.impl;
 
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.listener.EventHandler;
-import org.openecomp.appc.listener.demo.model.IncomingMessage;
-import org.openecomp.appc.listener.demo.model.Status;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.listener.EventHandler;
+import org.onap.appc.listener.demo.model.IncomingMessage;
+import org.onap.appc.listener.demo.model.Status;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

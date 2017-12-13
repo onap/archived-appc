@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.util;
+package org.onap.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.junit.After;
@@ -31,8 +31,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 import org.powermock.api.mockito.PowerMockito;

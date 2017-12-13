@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.dbservices;
+package org.onap.appc.artifact.handler.dbservices;
 
 import java.nio.charset.Charset;
 import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
 import static org.junit.Assert.assertEquals;

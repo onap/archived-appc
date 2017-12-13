@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.api;
+package org.onap.appc.adapter.iaas.provider.operation.api;
 
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.*;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.iaas.provider.operation.impl.*;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.onap.appc.exceptions.APPCException;
 import java.util.HashMap;
 import java.util.Map;
 

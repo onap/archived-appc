@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.common.enums;
+package org.onap.appc.adapter.iaas.provider.operation.common.enums;
 
 /**
  * @since September 26, 2016

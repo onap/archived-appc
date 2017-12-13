@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder.impl;
+package org.onap.appc.dg.flowbuilder.impl;
 
 import java.util.*;
 
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.domainmodel.Vnfc;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.domainmodel.Vnfc;
 
 
 public class ForwardFlowStrategy extends AbstractFlowStrategy {

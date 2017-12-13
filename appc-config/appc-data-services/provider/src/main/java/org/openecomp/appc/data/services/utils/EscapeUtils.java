@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services.utils;
+package org.onap.appc.data.services.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

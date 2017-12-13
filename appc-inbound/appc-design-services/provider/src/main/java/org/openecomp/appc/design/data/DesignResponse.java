@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.data;
+package org.onap.appc.design.data;
 
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap;
+package org.onap.appc.adapter.messaging.dmaap;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.openecomp.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator;
+import org.onap.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator;
 
 public class TestAppcDmaapAdapterActivator {
 

@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.impl;
+package org.onap.appc.metricservice.impl;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.openecomp.appc.metricservice.MetricRegistry;
-import org.openecomp.appc.metricservice.MetricService;
+import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.MetricService;
 
 
 public class MetricServiceImpl implements MetricService {

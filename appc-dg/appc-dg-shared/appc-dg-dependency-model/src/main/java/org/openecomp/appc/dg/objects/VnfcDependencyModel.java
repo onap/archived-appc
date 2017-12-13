@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.objects;
+package org.onap.appc.dg.objects;
 
 import java.util.Set;
 
-import org.openecomp.appc.domainmodel.Vnfc;
+import org.onap.appc.domainmodel.Vnfc;
 
 
 public class VnfcDependencyModel {

@@ -22,20 +22,20 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import java.lang.reflect.Field;
 import java.util.Map;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
+import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.ModelObject;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.MDC;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
 
 /**
  * This class is used to test methods and functions of the adapter implementation that do not

@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.mock.instance;
+package org.onap.appc.dg.mock.instance;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

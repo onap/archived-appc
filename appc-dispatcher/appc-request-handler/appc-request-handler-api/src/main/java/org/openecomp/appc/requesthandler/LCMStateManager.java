@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler;
+package org.onap.appc.requesthandler;
 
 /**
  */

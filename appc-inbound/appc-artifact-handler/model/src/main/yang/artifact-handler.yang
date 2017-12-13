@@ -25,7 +25,7 @@
 module artifact-handler {
     yang-version 1;
 
-    namespace "org.openecomp.appc:artifacthandler";
+    namespace "org.onap.appc:artifacthandler";
     prefix artifacthandler;
 
     import ietf-inet-types { prefix "ietf"; revision-date "2010-09-24"; }

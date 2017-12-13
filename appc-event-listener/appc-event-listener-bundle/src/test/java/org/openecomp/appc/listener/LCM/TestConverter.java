@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM;
+package org.onap.appc.listener.LCM;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.listener.LCM.conv.Converter;
-import org.openecomp.appc.listener.LCM.model.DmaapIncomingMessage;
-import org.openecomp.appc.listener.LCM.model.DmaapOutgoingMessage;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.listener.LCM.conv.Converter;
+import org.onap.appc.listener.LCM.model.DmaapIncomingMessage;
+import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
+import org.onap.appc.listener.util.Mapper;
 
 public class TestConverter {
 

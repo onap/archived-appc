@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services.db;
+package org.onap.appc.data.services.db;
 
 import java.util.Map;
 import java.util.Set;
@@ -31,8 +31,8 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 
-import org.openecomp.appc.data.services.AppcDataServiceConstant;
-import org.openecomp.appc.data.services.utils.EscapeUtils;
+import org.onap.appc.data.services.AppcDataServiceConstant;
+import org.onap.appc.data.services.utils.EscapeUtils;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

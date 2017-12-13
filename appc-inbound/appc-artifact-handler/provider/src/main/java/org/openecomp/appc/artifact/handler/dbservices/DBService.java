@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.dbservices;
+package org.onap.appc.artifact.handler.dbservices;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,7 +31,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 
 import java.sql.SQLException;
 import java.util.HashMap;

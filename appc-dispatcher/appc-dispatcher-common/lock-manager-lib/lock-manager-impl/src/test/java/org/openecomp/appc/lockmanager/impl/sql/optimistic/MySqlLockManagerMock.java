@@ -22,17 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql.optimistic;
+package org.onap.appc.lockmanager.impl.sql.optimistic;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.openecomp.appc.lockmanager.impl.sql.Synchronizer;
-import org.openecomp.appc.lockmanager.impl.sql.SynchronizerReceiver;
-import org.openecomp.appc.lockmanager.impl.sql.optimistic.LockRecord;
-import org.openecomp.appc.lockmanager.impl.sql.optimistic.MySqlLockManager;
+import org.onap.appc.lockmanager.impl.sql.Synchronizer;
+import org.onap.appc.lockmanager.impl.sql.SynchronizerReceiver;
+import org.onap.appc.lockmanager.impl.sql.optimistic.LockRecord;
+import org.onap.appc.lockmanager.impl.sql.optimistic.MySqlLockManager;
 
 class MySqlLockManagerMock extends MySqlLockManager implements SynchronizerReceiver {
 

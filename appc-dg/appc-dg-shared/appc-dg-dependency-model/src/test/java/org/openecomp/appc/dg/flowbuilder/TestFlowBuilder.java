@@ -22,17 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder;
+package org.onap.appc.dg.flowbuilder;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.dg.flowbuilder.FlowBuilder;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.flowbuilder.impl.FlowBuilderFactory;
-import org.openecomp.appc.dg.objects.*;
-import org.openecomp.appc.domainmodel.Vnf;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.domainmodel.Vserver;
+import org.onap.appc.dg.flowbuilder.FlowBuilder;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.impl.FlowBuilderFactory;
+import org.onap.appc.dg.objects.*;
+import org.onap.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.domainmodel.Vserver;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.utils;
+package org.onap.appc.adapter.utils;
 
 
 public class Constants {

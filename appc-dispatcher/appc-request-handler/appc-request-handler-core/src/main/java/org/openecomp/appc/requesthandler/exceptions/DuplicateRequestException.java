@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.exceptions;
+package org.onap.appc.requesthandler.exceptions;
 
 
 public class DuplicateRequestException extends Exception {

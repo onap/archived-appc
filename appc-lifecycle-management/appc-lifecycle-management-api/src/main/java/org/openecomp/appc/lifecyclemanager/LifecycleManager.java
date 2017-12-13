@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lifecyclemanager;
+package org.onap.appc.lifecyclemanager;
 
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 
 public interface LifecycleManager {
     String getNextState(String vnfType, String currentState, String event)

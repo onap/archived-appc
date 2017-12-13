@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.utils;
+package org.onap.appc.flow.controller.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

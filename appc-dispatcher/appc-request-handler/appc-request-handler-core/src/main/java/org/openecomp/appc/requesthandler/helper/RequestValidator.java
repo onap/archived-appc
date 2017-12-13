@@ -22,20 +22,20 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.helper;
+package org.onap.appc.requesthandler.helper;
 
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
-import org.openecomp.appc.requesthandler.exceptions.DuplicateRequestException;
-import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
-import org.openecomp.appc.requesthandler.exceptions.LCMOperationsDisabledException;
-import org.openecomp.appc.requesthandler.exceptions.MissingVNFDataInAAIException;
-import org.openecomp.appc.requesthandler.exceptions.RequestExpiredException;
-import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
-import org.openecomp.appc.requesthandler.exceptions.WorkflowNotFoundException;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.requesthandler.exceptions.DGWorkflowNotFoundException;
+import org.onap.appc.requesthandler.exceptions.DuplicateRequestException;
+import org.onap.appc.requesthandler.exceptions.InvalidInputException;
+import org.onap.appc.requesthandler.exceptions.LCMOperationsDisabledException;
+import org.onap.appc.requesthandler.exceptions.MissingVNFDataInAAIException;
+import org.onap.appc.requesthandler.exceptions.RequestExpiredException;
+import org.onap.appc.requesthandler.exceptions.VNFNotFoundException;
+import org.onap.appc.requesthandler.exceptions.WorkflowNotFoundException;
 
 public interface RequestValidator {
     public void validateRequest(RuntimeContext runtimeContext) throws VNFNotFoundException, RequestExpiredException, UnstableVNFException, InvalidInputException, DuplicateRequestException, NoTransitionDefinedException, LifecycleException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException;

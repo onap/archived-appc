@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework.impl;
+package org.onap.appc.rankingframework.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.openecomp.appc.rankingframework.ConfigurationSet;
-import org.openecomp.appc.rankingframework.RankedAttributesResolver;
-import org.openecomp.appc.rankingframework.RankedAttributesResolverFactory;
+import org.onap.appc.rankingframework.ConfigurationSet;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
+import org.onap.appc.rankingframework.RankedAttributesResolverFactory;
 
 public final class DefaultRankedAttributesTreeFactory implements RankedAttributesResolverFactory {
 

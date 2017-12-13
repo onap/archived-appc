@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.pool;
+package org.onap.appc.pool;
 
 /**
  * A pool exception is a specialization of checked exceptions that define various pool abnormal states or requests.

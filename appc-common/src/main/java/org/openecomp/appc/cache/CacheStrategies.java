@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache;
+package org.onap.appc.cache;
 
 /**
  * Enum of CacheStrategies

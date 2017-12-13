@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap;
+package org.onap.appc.adapter.messaging.dmaap;
 
 import java.io.*;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.att.nsa.mr.client.MRConsumer;
 import org.json.JSONObject;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapUtil;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapUtil;
 
 import com.att.nsa.mr.client.MRBatchingPublisher;
 import com.att.nsa.mr.client.MRClientFactory;
@@ -51,7 +51,7 @@ public class SimpleExamplePublisher
 
         int i=0;
 
-        String topicProducerPropFileName = DmaapUtil.createProducerPropFile("org.openecomp.appc.UNIT-TEST", null);
+        String topicProducerPropFileName = DmaapUtil.createProducerPropFile("org.onap.appc.UNIT-TEST", null);
         while (i< msgCount)
         {
             publisher.publishMessage(topicProducerPropFileName,i);
@@ -93,7 +93,7 @@ public class SimpleExamplePublisher
 
         try
         {
-            String topic = "org.openecomp.appc.UNIT-TEST";
+            String topic = "org.onap.appc.UNIT-TEST";
             Properties props = new Properties();
             props.put("id", "1");
             props.put("group", "group1");

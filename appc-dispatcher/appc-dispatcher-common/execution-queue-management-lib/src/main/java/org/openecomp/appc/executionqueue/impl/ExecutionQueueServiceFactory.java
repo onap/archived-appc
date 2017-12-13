@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue.impl;
+package org.onap.appc.executionqueue.impl;
 
-import org.openecomp.appc.executionqueue.ExecutionQueueService;
+import org.onap.appc.executionqueue.ExecutionQueueService;
 
 public class ExecutionQueueServiceFactory {
 

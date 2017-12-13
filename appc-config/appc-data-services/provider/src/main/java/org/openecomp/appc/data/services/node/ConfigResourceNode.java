@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services.node;
+package org.onap.appc.data.services.node;
 
 import java.util.Map;
 import java.util.ArrayList;
@@ -35,9 +35,9 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
-import org.openecomp.appc.data.services.AppcDataServiceConstant;
-import org.openecomp.appc.data.services.db.DGGeneralDBService;
-import org.openecomp.appc.data.services.utils.EscapeUtils;
+import org.onap.appc.data.services.AppcDataServiceConstant;
+import org.onap.appc.data.services.db.DGGeneralDBService;
+import org.onap.appc.data.services.utils.EscapeUtils;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 

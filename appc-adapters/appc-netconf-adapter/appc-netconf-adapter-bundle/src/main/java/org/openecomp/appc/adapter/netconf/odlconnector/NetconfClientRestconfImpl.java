@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.odlconnector;
+package org.onap.appc.adapter.netconf.odlconnector;
 
 import org.apache.http.HttpStatus;
-import org.openecomp.appc.adapter.netconf.NetconfClient;
-import org.openecomp.appc.adapter.netconf.NetconfClientRestconf;
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.util.Constants;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.util.httpClient;
+import org.onap.appc.adapter.netconf.NetconfClient;
+import org.onap.appc.adapter.netconf.NetconfClientRestconf;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.util.Constants;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.util.httpClient;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

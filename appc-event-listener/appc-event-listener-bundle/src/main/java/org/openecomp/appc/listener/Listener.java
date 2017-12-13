@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
 /**
  * This interface defines a listener that subscribes to a DMaaP topic and continually polls for messages. The

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ansible.model;
+package org.onap.appc.adapter.ansible.model;
 
 
 import java.util.*;

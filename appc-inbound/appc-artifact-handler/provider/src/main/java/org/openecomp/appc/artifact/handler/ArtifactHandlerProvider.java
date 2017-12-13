@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler;
+package org.onap.appc.artifact.handler;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -41,12 +41,12 @@ import org.opendaylight.controller.md.sal.common.api.data.TransactionCommitFaile
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.ArtifactHandlerService;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.UploadartifactInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.UploadartifactInputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.UploadartifactOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.UploadartifactOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.artifacthandler.rev170321.uploadartifact.output.ConfigDocumentResponseBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.ArtifactHandlerService;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactInputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.uploadartifact.output.ConfigDocumentResponseBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.Services;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServicesBuilder;
 import org.opendaylight.yangtools.concepts.ListenerRegistration;
@@ -54,9 +54,9 @@ import org.opendaylight.yangtools.yang.binding.DataObject;
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.openecomp.appc.artifact.handler.node.ArtifactHandlerNode;
-import org.openecomp.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.artifact.handler.node.ArtifactHandlerNode;
+import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workingstatemanager.objects;
+package org.onap.appc.workingstatemanager.objects;
 
 
 public class VnfWorkingStateDto {

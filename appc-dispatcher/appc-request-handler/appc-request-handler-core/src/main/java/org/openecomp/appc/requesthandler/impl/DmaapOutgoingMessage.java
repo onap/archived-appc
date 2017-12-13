@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
 
 
@@ -32,7 +32,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * This class represents a message being sent out to DMaaP by APPC as async response.
- * note the structure of this class must be adapted to the sync message sent to DMaaP represened in org.openecomp.appc.listener.LCM.domainmodel.DmaapOutgoingMessage
+ * note the structure of this class must be adapted to the sync message sent to DMaaP represened in org.onap.appc.listener.LCM.domainmodel.DmaapOutgoingMessage
  *
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)

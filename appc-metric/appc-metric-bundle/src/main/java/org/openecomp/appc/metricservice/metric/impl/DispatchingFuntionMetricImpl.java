@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.metric.impl;
+package org.onap.appc.metricservice.metric.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,8 +30,8 @@ import java.util.HashMap;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.openecomp.appc.metricservice.metric.DispatchingFuntionMetric;
-import org.openecomp.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.metric.DispatchingFuntionMetric;
+import org.onap.appc.metricservice.metric.MetricType;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

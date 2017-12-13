@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.adapter.rest.impl;
+package org.onap.appc.adapter.rest.impl;
 
 import org.glassfish.grizzly.http.util.HttpStatus;
 import com.att.cdp.zones.model.Server;

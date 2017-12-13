@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.aai.client.aai;
+package org.onap.appc.aai.client.aai;
 import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.fail;

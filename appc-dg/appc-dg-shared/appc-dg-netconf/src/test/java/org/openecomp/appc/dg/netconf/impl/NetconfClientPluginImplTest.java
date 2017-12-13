@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
@@ -32,9 +32,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.openecomp.appc.adapter.netconf.*;
-import org.openecomp.appc.adapter.netconf.util.Constants;
-import org.openecomp.appc.dg.netconf.impl.NetconfClientPluginImpl;
+import org.onap.appc.adapter.netconf.*;
+import org.onap.appc.adapter.netconf.util.Constants;
+import org.onap.appc.dg.netconf.impl.NetconfClientPluginImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -90,7 +90,7 @@ public class NetconfClientPluginImplTest {
     String operationalState = "<rpc message-id=\"101\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
             "       <get>\n" +
             "              <filter>\n" +
-            "                     <ManagedElement xmlns=\"urn:org:openecomp:appc:Test\">\n" +
+            "                     <ManagedElement xmlns=\"urn:org:onap:appc:Test\">\n" +
             "                           <VnfFunction xmlns=\"urn:org:openecomop:appc:Test\">\n" +
             "                                  <ProcessorManagement>\n" +
             "                                         <MatedPair>\n" +

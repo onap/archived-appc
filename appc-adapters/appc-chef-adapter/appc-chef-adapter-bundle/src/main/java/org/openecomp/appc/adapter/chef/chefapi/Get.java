@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef.chefapi;
+package org.onap.appc.adapter.chef.chefapi;
 
 import org.apache.http.client.methods.HttpGet;
 

@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.tools.generator.api;
+package org.onap.appc.tools.generator.api;
 
-import org.openecomp.appc.tools.generator.impl.ModelGenerator;
+import org.onap.appc.tools.generator.impl.ModelGenerator;
 
 public class CLI {
     public static void main(String... args) throws Exception {

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider.topology;
+package org.onap.appc.provider.topology;
 
 import static com.att.eelf.configuration.Configuration.MDC_ALERT_SEVERITY;
 import static com.att.eelf.configuration.Configuration.MDC_INSTANCE_UUID;
@@ -40,31 +40,31 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.TimeZone;
 
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.UUID;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.common.request.header.CommonRequestHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.config.payload.ConfigPayload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.UUID;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.request.header.CommonRequestHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.vnf.resource.VnfResource;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.config.payload.ConfigPayload;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckOutputBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.provider.AppcProvider;
-import org.openecomp.appc.provider.AppcProviderClient;
-import org.openecomp.appc.provider.ResponseHeaderBuilder;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.provider.AppcProvider;
+import org.onap.appc.provider.AppcProviderClient;
+import org.onap.appc.provider.ResponseHeaderBuilder;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
@@ -224,8 +224,8 @@ public class TopologyService {
         	url = configuration.getProperty("appc.provider.vfodl.url");
         }
         logger.trace("Final URL to VF ODL: "+url);
-        properties.put("org.openecomp.appc.configURL", url);
-        properties.put("org.openecomp.appc.configJson", data.getConfigJson());
+        properties.put("org.onap.appc.configURL", url);
+        properties.put("org.onap.appc.configJson", data.getConfigJson());
 
         //UUID identityUrl = vnf.getIdentityUrl();
         //if (identityUrl != null) {

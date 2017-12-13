@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.objects;
+package org.onap.appc.statemachine.objects;
 
 import java.util.HashSet;
 import java.util.Set;

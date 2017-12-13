@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-    package org.openecomp.appc;
+    package org.onap.appc;
 
-import org.openecomp.appc.encryption.EncryptionTool;
+import org.onap.appc.encryption.EncryptionTool;
 
 public class CmdLine {
 

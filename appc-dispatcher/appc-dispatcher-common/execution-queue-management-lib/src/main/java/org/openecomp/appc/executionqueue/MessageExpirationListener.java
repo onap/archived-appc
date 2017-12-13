@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue;
+package org.onap.appc.executionqueue;
 
 public interface MessageExpirationListener<M> {
     void onMessageExpiration(M message);

@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh.sshd;
+package org.onap.appc.adapter.ssh.sshd;
 
-import org.openecomp.appc.adapter.ssh.SshAdapter;
-import org.openecomp.appc.adapter.ssh.SshConnection;
+import org.onap.appc.adapter.ssh.SshAdapter;
+import org.onap.appc.adapter.ssh.SshConnection;
 
 public class SshAdapterSshd implements SshAdapter {
 

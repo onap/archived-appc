@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.messageadapter;
+package org.onap.appc.oam.messageadapter;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openecomp.appc.adapter.message.MessageAdapterFactory;
-import org.openecomp.appc.adapter.message.Producer;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.Producer;
 
 import org.mockito.Mockito;
 import org.osgi.framework.Bundle;

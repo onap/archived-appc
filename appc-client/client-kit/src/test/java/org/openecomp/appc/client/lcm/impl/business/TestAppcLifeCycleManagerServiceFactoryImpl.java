@@ -1,13 +1,13 @@
-package org.openecomp.appc.client.lcm.impl.business;
+package org.onap.appc.client.lcm.impl.business;
 
 
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.client.lcm.api.ApplicationContext;
-import org.openecomp.appc.client.lcm.api.LifeCycleManagerStateful;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
-import org.openecomp.appc.client.lcm.impl.business.LCMRequestProcessor;
+import org.onap.appc.client.lcm.api.ApplicationContext;
+import org.onap.appc.client.lcm.api.LifeCycleManagerStateful;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.client.lcm.impl.business.LCMRequestProcessor;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

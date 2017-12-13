@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.interfaceImpl;
+package org.onap.appc.instar.interfaceImpl;
 
 import java.util.HashMap;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.instar.dme2client.Dme2Client;
+import org.onap.appc.instar.dme2client.Dme2Client;
 
 public class TestInstarRestClientImpl {
 

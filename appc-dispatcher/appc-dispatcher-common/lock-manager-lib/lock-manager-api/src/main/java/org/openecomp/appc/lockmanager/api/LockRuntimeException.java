@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.api;
+package org.onap.appc.lockmanager.api;
 
 public class LockRuntimeException extends RuntimeException {
 

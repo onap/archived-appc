@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import org.glassfish.grizzly.http.util.HttpStatus;
 import com.att.cdp.zones.model.Server;

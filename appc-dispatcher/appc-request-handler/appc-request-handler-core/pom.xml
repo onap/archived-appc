@@ -14,7 +14,7 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<artifactId>appc-request-handler</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
@@ -26,66 +26,66 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-metric-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-dmaap-adapter-bundle</artifactId>
 			<version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-message-adapter-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
 		</dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-message-adapter-factory</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-command-executor-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-workflow-management-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-request-handler-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>execution-queue-management-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-lifecycle-management-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-data-access-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>lock-manager-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -95,17 +95,17 @@
 			<artifactId>aai-service-provider</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>domain-model-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-provider-model</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>transaction-recorder</artifactId>
 			<version>${project.version}</version>
 		</dependency>
@@ -125,13 +125,13 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Export-Service>org.openecomp.appc.requesthandler.RequestHandler</Export-Service>
+						<Export-Service>org.onap.appc.requesthandler.RequestHandler</Export-Service>
                         <Import-Package>
-                            org.openecomp.appc.adapter.messaging.*,
-                            org.openecomp.appc.adapter.message.*,
-                            org.openecomp.appc.adapter.factory.*,
-                            org.openecomp.appc.lockmanager.api.*,org.openecomp.appc.requesthandler,org.openecomp.appc.requesthandler.objects,org.openecomp.appc.transactionrecorder,
-                            org.openecomp.appc.transactionrecorder.objects, org.openecomp.appc.dao.util,
+                            org.onap.appc.adapter.messaging.*,
+                            org.onap.appc.adapter.message.*,
+                            org.onap.appc.adapter.factory.*,
+                            org.onap.appc.lockmanager.api.*,org.onap.appc.requesthandler,org.onap.appc.requesthandler.objects,org.onap.appc.transactionrecorder,
+                            org.onap.appc.transactionrecorder.objects, org.onap.appc.dao.util,
                             *;resolution:=optional
                         </Import-Package>
 					</instructions>

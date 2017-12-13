@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.encryption;
+package org.onap.appc.encryption;
 
 public class EncryptionException extends RuntimeException {
 

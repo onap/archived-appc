@@ -18,12 +18,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.interfaces;
+package org.onap.appc.flow.controller.interfaces;
 
 import java.util.HashMap;
 
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

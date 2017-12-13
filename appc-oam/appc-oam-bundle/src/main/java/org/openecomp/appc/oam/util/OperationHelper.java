@@ -22,28 +22,28 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.util;
+package org.onap.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.MaintenanceModeInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.RestartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StopInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.common.header.Flags;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.Status;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.exceptions.InvalidStateException;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.oam.messageadapter.MessageAdapter;
-import org.openecomp.appc.oam.messageadapter.OAMContext;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamMetaDataReader;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.MaintenanceModeInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.RestartInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.StartInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.StopInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.common.header.Flags;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.exceptions.InvalidStateException;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.messageadapter.MessageAdapter;
+import org.onap.appc.oam.messageadapter.OAMContext;
+import org.onap.appc.statemachine.impl.readers.AppcOamMetaDataReader;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;

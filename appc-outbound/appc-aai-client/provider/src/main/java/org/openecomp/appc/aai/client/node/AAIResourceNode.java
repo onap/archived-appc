@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.aai.client.node;
+package org.onap.appc.aai.client.node;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import org.openecomp.appc.aai.client.AppcAaiClientConstant;
-import org.openecomp.appc.aai.client.aai.AaiService;
+import org.onap.appc.aai.client.AppcAaiClientConstant;
+import org.onap.appc.aai.client.aai.AaiService;
 
 
 import com.att.eelf.configuration.EELFLogger;

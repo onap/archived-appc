@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.pool;
+package org.onap.appc.pool;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -39,13 +39,13 @@ import java.lang.reflect.Proxy;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.pool.Allocator;
-import org.openecomp.appc.pool.Destructor;
-import org.openecomp.appc.pool.Pool;
-import org.openecomp.appc.pool.PoolDrainedException;
-import org.openecomp.appc.pool.PoolExtensionException;
-import org.openecomp.appc.pool.PoolSpecificationException;
-import org.openecomp.appc.pool.*;
+import org.onap.appc.pool.Allocator;
+import org.onap.appc.pool.Destructor;
+import org.onap.appc.pool.Pool;
+import org.onap.appc.pool.PoolDrainedException;
+import org.onap.appc.pool.PoolExtensionException;
+import org.onap.appc.pool.PoolSpecificationException;
+import org.onap.appc.pool.*;
 
 
 public class PoolTest implements Allocator<Testable>, Destructor<Testable> {
@@ -299,7 +299,7 @@ public class PoolTest implements Allocator<Testable>, Destructor<Testable> {
     }
 
     /**
-     * @see org.openecomp.appc.pool.Destructor#destroy(java.io.Closeable, org.openecomp.appc.pool.Pool)
+     * @see org.onap.appc.pool.Destructor#destroy(java.io.Closeable, org.onap.appc.pool.Pool)
      */
     @Override
     public void destroy(Testable obj, Pool<Testable> pool) {
@@ -312,7 +312,7 @@ public class PoolTest implements Allocator<Testable>, Destructor<Testable> {
     }
 
     /**
-     * @see org.openecomp.appc.pool.Allocator#allocate(org.openecomp.appc.pool.Pool)
+     * @see org.onap.appc.pool.Allocator#allocate(org.onap.appc.pool.Pool)
      */
     @Override
     public Testable allocate(Pool<Testable> pool) {

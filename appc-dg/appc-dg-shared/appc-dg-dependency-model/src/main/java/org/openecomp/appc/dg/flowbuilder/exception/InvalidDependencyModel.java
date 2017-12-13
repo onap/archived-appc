@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder.exception;
+package org.onap.appc.dg.flowbuilder.exception;
 
 
 public class InvalidDependencyModel extends RuntimeException {

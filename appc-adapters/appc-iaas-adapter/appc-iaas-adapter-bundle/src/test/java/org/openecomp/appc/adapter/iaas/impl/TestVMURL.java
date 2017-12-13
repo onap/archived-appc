@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,8 +32,8 @@ import static org.junit.Assert.assertNull;
 import java.util.Properties;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.adapter.iaas.impl.VMURL;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 public class TestVMURL {
 

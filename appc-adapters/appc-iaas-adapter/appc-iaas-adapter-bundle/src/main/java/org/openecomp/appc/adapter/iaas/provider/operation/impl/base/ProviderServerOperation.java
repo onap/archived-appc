@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl.base;
+package org.onap.appc.adapter.iaas.provider.operation.impl.base;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.impl.*;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.impl.*;
+import org.onap.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.NotLoggedInException;
 import com.att.cdp.exceptions.TimeoutException;

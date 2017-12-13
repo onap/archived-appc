@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc;
+package org.onap.appc;
 
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
-import org.openecomp.appc.yang.YANGGenerator;
-import org.openecomp.appc.yang.exception.YANGGenerationException;
-import org.openecomp.appc.yang.impl.YANGGeneratorFactory;
+import org.onap.appc.yang.YANGGenerator;
+import org.onap.appc.yang.exception.YANGGenerationException;
+import org.onap.appc.yang.impl.YANGGeneratorFactory;
 
 import java.io.*;
 

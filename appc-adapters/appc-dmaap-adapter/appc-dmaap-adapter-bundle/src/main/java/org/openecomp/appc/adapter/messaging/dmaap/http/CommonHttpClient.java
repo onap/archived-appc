@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap.http;
+package org.onap.appc.adapter.messaging.dmaap.http;
 
 import java.net.URI;
 

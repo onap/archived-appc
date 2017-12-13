@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.exception;
+package org.onap.appc.mdsal.exception;
 
 /**
  * This is custom exception type defined for MD-SAL store. All exceptions thrown by mdsal store module need to be wrapped in this class.

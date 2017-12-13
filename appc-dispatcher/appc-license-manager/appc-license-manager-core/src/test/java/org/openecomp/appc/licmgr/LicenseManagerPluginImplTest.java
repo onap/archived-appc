@@ -22,4 +22,4 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr;
+package org.onap.appc.licmgr;

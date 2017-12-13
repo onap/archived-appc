@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.yang.impl;
+package org.onap.appc.yang.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -35,10 +35,10 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.opendaylight.yangtools.yang.parser.stmt.rfc6020.YangStatementSourceImpl;
-import org.openecomp.appc.yang.YANGGenerator;
-import org.openecomp.appc.yang.exception.YANGGenerationException;
-import org.openecomp.appc.yang.objects.Leaf;
-import org.openecomp.appc.yang.type.YangTypes;
+import org.onap.appc.yang.YANGGenerator;
+import org.onap.appc.yang.exception.YANGGenerationException;
+import org.onap.appc.yang.objects.Leaf;
+import org.onap.appc.yang.type.YangTypes;
 import org.openecomp.sdc.tosca.datatypes.model.NodeType;
 import org.openecomp.sdc.tosca.datatypes.model.PropertyDefinition;
 import org.openecomp.sdc.tosca.datatypes.model.ServiceTemplate;
@@ -59,7 +59,7 @@ public class YANGGeneratorImpl implements YANGGenerator {
 
 
 	/* (non-Javadoc)
-	 * @see org.openecomp.appc.yang.YANGGenerator#generateYANG(java.lang.String, java.lang.String, java.io.OutputStream)
+	 * @see org.onap.appc.yang.YANGGenerator#generateYANG(java.lang.String, java.lang.String, java.io.OutputStream)
 	 */
 	@Override
 	public void generateYANG(String uniqueID, String tosca, OutputStream stream)

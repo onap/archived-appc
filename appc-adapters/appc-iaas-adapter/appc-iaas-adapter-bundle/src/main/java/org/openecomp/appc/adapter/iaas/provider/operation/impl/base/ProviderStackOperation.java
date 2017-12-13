@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl.base;
+package org.onap.appc.adapter.iaas.provider.operation.impl.base;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.openstack.heat.StackResource;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.adapter.openstack.heat.StackResource;
+import org.onap.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.TimeoutException;

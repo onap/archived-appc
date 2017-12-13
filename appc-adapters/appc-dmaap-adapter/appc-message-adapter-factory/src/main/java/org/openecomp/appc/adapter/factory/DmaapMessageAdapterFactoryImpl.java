@@ -22,20 +22,20 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.factory;
+package org.onap.appc.adapter.factory;
 
 import java.util.Collection;
 import java.util.Set;
 
-import org.openecomp.appc.adapter.message.Consumer;
-import org.openecomp.appc.adapter.message.MessageAdapterFactory;
-import org.openecomp.appc.adapter.message.Producer;
+import org.onap.appc.adapter.message.Consumer;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.Producer;
 
-import org.openecomp.appc.adapter.messaging.dmaap.http.HttpDmaapConsumerImpl;
-import org.openecomp.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapConsumerImpl;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
 
 public class DmaapMessageAdapterFactoryImpl implements MessageAdapterFactory {
 

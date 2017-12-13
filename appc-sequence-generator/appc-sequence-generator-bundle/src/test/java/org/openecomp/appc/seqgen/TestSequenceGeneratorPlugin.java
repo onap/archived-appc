@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen;
+package org.onap.appc.seqgen;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
-import org.openecomp.appc.seqgen.dgplugin.impl.SequenceGeneratorPluginImpl;
+import org.onap.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
+import org.onap.appc.seqgen.dgplugin.impl.SequenceGeneratorPluginImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.File;

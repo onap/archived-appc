@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM.operation;
+package org.onap.appc.listener.LCM.operation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.json.JSONObject;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.listener.LCM.model.InputBody;
-import org.openecomp.appc.listener.LCM.model.ResponseStatus;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.listener.LCM.model.InputBody;
+import org.onap.appc.listener.LCM.model.ResponseStatus;
 
 import java.net.URL;
 

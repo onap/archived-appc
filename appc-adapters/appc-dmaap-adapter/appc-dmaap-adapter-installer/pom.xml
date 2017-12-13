@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>appc-dmaap-adapter</artifactId>
-    <groupId>org.openecomp.appc</groupId>
+    <groupId>org.onap.appc</groupId>
     <version>1.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-dmaap-adapter-installer</artifactId>
@@ -13,13 +13,13 @@
   <properties>
     <application.name>appc-dmaap-adapter</application.name>
     <features.boot>appc-dmaap-adapter</features.boot>
-    <features.repositories>mvn:org.openecomp.appc/appc-dmaap-adapter-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.onap.appc/appc-dmaap-adapter-features/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>appc-dmaap-adapter-features</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
@@ -33,17 +33,17 @@
     </dependency>
 
     <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>appc-dmaap-adapter-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>appc-message-adapter-api</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>appc-message-adapter-factory</artifactId>
       <version>${project.version}</version>
     </dependency>

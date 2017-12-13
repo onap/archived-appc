@@ -27,7 +27,7 @@
 *
 * Do not modify this file unless it is present under src/main directory
 */
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.impl.rev170706;
-public class SequenceGeneratorModuleFactory extends org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.impl.rev170706.AbstractSequenceGeneratorModuleFactory {
+package org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.impl.rev170706;
+public class SequenceGeneratorModuleFactory extends org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.impl.rev170706.AbstractSequenceGeneratorModuleFactory {
 
 }

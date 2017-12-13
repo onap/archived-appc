@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dao.util;
+package org.onap.appc.dao.util;
 
 public enum Messages {
     EXP_JDBC_CONNECT("Error connecting to JDBC URL [%s]."),

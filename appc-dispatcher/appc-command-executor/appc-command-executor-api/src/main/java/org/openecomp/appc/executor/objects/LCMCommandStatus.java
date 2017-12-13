@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.objects;
+package org.onap.appc.executor.objects;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.util.MessageFormatter;
+import org.onap.appc.domainmodel.lcm.Status;
+import org.onap.appc.util.MessageFormatter;
 
 import java.util.Map;
 

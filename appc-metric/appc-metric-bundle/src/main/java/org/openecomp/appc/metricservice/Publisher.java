@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice;
+package org.onap.appc.metricservice;
 
-import org.openecomp.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.metric.Metric;
 
 /**
  * Low-level logic of exposing metric values in certain way. There might be plenty of options such as logging, JMX, etc.

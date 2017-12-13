@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 
 import static org.junit.Assert.assertNotNull;

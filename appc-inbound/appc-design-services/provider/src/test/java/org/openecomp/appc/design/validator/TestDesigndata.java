@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
-import org.openecomp.appc.design.data.ArtifactInfo;
-import org.openecomp.appc.design.data.DesignInfo;
-import org.openecomp.appc.design.data.DesignRequest;
-import org.openecomp.appc.design.data.DesignResponse;
-import org.openecomp.appc.design.data.StatusInfo;
+import org.onap.appc.design.data.ArtifactInfo;
+import org.onap.appc.design.data.DesignInfo;
+import org.onap.appc.design.data.DesignRequest;
+import org.onap.appc.design.data.DesignResponse;
+import org.onap.appc.design.data.StatusInfo;
 
 public class TestDesigndata {
 

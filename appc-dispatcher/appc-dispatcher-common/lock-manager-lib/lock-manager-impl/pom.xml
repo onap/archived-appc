@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>lock-manager-lib</artifactId>
-        <groupId>org.openecomp.appc</groupId>
+        <groupId>org.onap.appc</groupId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
 
@@ -12,7 +12,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>lock-manager-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -22,7 +22,7 @@
             <artifactId>mariadb-java-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-data-access-lib</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -43,12 +43,12 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Export-Service>org.openecomp.appc.lockmanager.api.LockManager</Export-Service>
+                        <Export-Service>org.onap.appc.lockmanager.api.LockManager</Export-Service>
                         <Import-Package>
-                            org.openecomp.appc.lockmanager.api.*,
-                            org.openecomp.appc.dao.util,com.att.eelf.configuration, *;resolution:=optional
+                            org.onap.appc.lockmanager.api.*,
+                            org.onap.appc.dao.util,com.att.eelf.configuration, *;resolution:=optional
                         </Import-Package>
-                        <Private-Package>org.openecomp.appc.lockmanager.impl.*</Private-Package>
+                        <Private-Package>org.onap.appc.lockmanager.impl.*</Private-Package>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
                     </instructions>

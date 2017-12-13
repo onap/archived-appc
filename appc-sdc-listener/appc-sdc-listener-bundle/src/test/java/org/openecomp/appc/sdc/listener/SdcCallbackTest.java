@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.listener;
+package org.onap.appc.sdc.listener;
 
 
 import org.junit.Assert;
@@ -31,13 +31,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.sdc.artifacts.helper.ArtifactStorageService;
-import org.openecomp.appc.sdc.artifacts.helper.DependencyModelGenerator;
-import org.openecomp.appc.sdc.artifacts.impl.ArtifactProcessorFactory;
-import org.openecomp.appc.sdc.artifacts.impl.ToscaCsarArtifactProcessor;
-import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
-import org.openecomp.appc.sdc.artifacts.object.SDCReference;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.sdc.artifacts.helper.ArtifactStorageService;
+import org.onap.appc.sdc.artifacts.helper.DependencyModelGenerator;
+import org.onap.appc.sdc.artifacts.impl.ArtifactProcessorFactory;
+import org.onap.appc.sdc.artifacts.impl.ToscaCsarArtifactProcessor;
+import org.onap.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.sdc.artifacts.object.SDCReference;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.consumer.INotificationCallback;
 import org.openecomp.sdc.api.notification.IArtifactInfo;

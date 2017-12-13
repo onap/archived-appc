@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workingstatemanager;
+package org.onap.appc.workingstatemanager;
 
-import org.openecomp.appc.requesthandler.exceptions.VNFNotFoundException;
-import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
+import org.onap.appc.requesthandler.exceptions.VNFNotFoundException;
+import org.onap.appc.workingstatemanager.objects.VNFWorkingState;
 
 
 public interface WorkingStateManager {

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.aai.client;
+package org.onap.appc.aai.client;
 
 public class AppcAaiClientConstant {
 

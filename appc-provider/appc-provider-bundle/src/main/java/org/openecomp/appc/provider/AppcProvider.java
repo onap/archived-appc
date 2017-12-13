@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider;
+package org.onap.appc.provider;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,30 +31,30 @@ import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.common.request.header.CommonRequestHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.config.payload.ConfigPayload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.AppcProviderService;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.EvacuateInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.EvacuateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.request.header.CommonRequestHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.config.payload.ConfigPayload;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.provider.topology.TopologyService;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.provider.topology.TopologyService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -177,7 +177,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
     /**
      * Rebuilds a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService#rebuild(org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildInput)
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.AppcProviderService#rebuild(org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildInput)
      */
     @Override
     public Future<RpcResult<RebuildOutput>> rebuild(RebuildInput input) {
@@ -192,7 +192,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
     /**
      * Restarts a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService#restart(org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartInput)
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.AppcProviderService#restart(org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartInput)
      */
     @Override
     public Future<RpcResult<RestartOutput>> restart(RestartInput input) {
@@ -206,7 +206,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
     /**
      * Migrates a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService#migrate(org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateInput)
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.AppcProviderService#migrate(org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateInput)
      */
     @Override
     public Future<RpcResult<MigrateOutput>> migrate(MigrateInput input) {
@@ -220,7 +220,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
     /**
      * Evacuates a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService#evacuate(org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateInput)
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.AppcProviderService#evacuate(org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.EvacuateInput)
      */
     @Override
     public Future<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
@@ -231,7 +231,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
     /**
      * Evacuates a specific VNF
      *
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.AppcProviderService#evacuate(org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateInput)
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.AppcProviderService#evacuate(org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.EvacuateInput)
      */
     @Override
     public Future<RpcResult<SnapshotOutput>> snapshot(SnapshotInput input) {

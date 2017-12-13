@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.impl;
+package org.onap.appc.listener.impl;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,9 +33,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-import org.openecomp.appc.listener.Controller;
-import org.openecomp.appc.listener.Listener;
-import org.openecomp.appc.listener.ListenerProperties;
+import org.onap.appc.listener.Controller;
+import org.onap.appc.listener.Listener;
+import org.onap.appc.listener.ListenerProperties;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

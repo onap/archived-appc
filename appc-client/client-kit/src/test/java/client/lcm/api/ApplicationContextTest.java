@@ -2,7 +2,7 @@ package client.lcm.api;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.client.lcm.api.ApplicationContext;
+import org.onap.appc.client.lcm.api.ApplicationContext;
 
 
 public class ApplicationContextTest {

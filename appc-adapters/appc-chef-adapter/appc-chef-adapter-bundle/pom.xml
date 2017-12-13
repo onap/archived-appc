@@ -27,7 +27,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openecomp.appc</groupId>
+        <groupId>org.onap.appc</groupId>
         <artifactId>appc-chef-adapter</artifactId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
@@ -78,7 +78,7 @@
             <version>1.55</version>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-common</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -224,8 +224,8 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>appc-chef-adapter</Bundle-SymbolicName>
-                        <Bundle-Activator>org.openecomp.appc.adapter.chef.ChefActivator</Bundle-Activator>
-                        <Export-Package>org.openecomp.appc.adapter.chef</Export-Package>
+                        <Bundle-Activator>org.onap.appc.adapter.chef.ChefActivator</Bundle-Activator>
+                        <Export-Package>org.onap.appc.adapter.chef</Export-Package>
                         <Import-Package>
                             org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*
                         </Import-Package>

@@ -42,7 +42,7 @@
 		<bundle>mvn:com.sun.jersey/jersey-client/1.17</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>		
-		<bundle>mvn:org.openecomp.appc/appc-config-params-provider/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-network-inventory-client-provider/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-config-params-provider/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-network-inventory-client-provider/${project.version}</bundle>
 	</feature>
 </features>

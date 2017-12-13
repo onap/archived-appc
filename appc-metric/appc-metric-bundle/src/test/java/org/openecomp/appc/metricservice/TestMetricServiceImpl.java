@@ -22,20 +22,20 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice;
+package org.onap.appc.metricservice;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.metricservice.impl.MetricServiceImpl;
-import org.openecomp.appc.metricservice.metric.MetricType;
-import org.openecomp.appc.metricservice.metric.PrimitiveCounter;
-import org.openecomp.appc.metricservice.metric.DmaapRequestCounterMetric;
-import org.openecomp.appc.metricservice.metric.DispatchingFuntionMetric;
-import org.openecomp.appc.metricservice.metric.impl.DefaultPrimitiveCounter;
-import org.openecomp.appc.metricservice.metric.impl.DmaapRequestCounterMetricImpl;
-import org.openecomp.appc.metricservice.metric.impl.DispatchingFuntionMetricImpl;
-import org.openecomp.appc.metricservice.metric.impl.DispatchingFunctionCounterBuilderImpl;
-import org.openecomp.appc.metricservice.metric.impl.DmaapRequestCounterBuilderImpl;
-import org.openecomp.appc.metricservice.metric.impl.PrimitiveCounterBuilderImpl;
+import org.onap.appc.metricservice.impl.MetricServiceImpl;
+import org.onap.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.metric.PrimitiveCounter;
+import org.onap.appc.metricservice.metric.DmaapRequestCounterMetric;
+import org.onap.appc.metricservice.metric.DispatchingFuntionMetric;
+import org.onap.appc.metricservice.metric.impl.DefaultPrimitiveCounter;
+import org.onap.appc.metricservice.metric.impl.DmaapRequestCounterMetricImpl;
+import org.onap.appc.metricservice.metric.impl.DispatchingFuntionMetricImpl;
+import org.onap.appc.metricservice.metric.impl.DispatchingFunctionCounterBuilderImpl;
+import org.onap.appc.metricservice.metric.impl.DmaapRequestCounterBuilderImpl;
+import org.onap.appc.metricservice.metric.impl.PrimitiveCounterBuilderImpl;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

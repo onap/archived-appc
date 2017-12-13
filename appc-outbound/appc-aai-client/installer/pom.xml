@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>appc-aai-client</artifactId>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-aai-client-installer</artifactId>
@@ -14,14 +14,14 @@
 	<properties>
 		<application.name>appc-aai-client</application.name>
 		<features.boot>appc-aai-client</features.boot>
-		<features.repositories>mvn:org.openecomp.appc/appc-aai-client-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/appc-aai-client-features/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
 	<dependencies>
 
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-aai-client-features</artifactId>
 			<version>${project.version}</version>
 			<classifier>features</classifier>
@@ -34,7 +34,7 @@
 			</exclusions>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-aai-client-provider</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -25,7 +25,7 @@
 module appc-oam-impl {
 
     yang-version 1;
-    namespace "org:openecomp:appc:oam:impl";
+    namespace "org:onap:appc:oam:impl";
     prefix "appc-oam-impl";
 
     import config { prefix config; revision-date 2013-04-05; }

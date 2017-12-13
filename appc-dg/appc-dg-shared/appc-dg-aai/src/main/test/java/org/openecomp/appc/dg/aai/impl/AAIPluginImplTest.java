@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.aai.impl;
+package org.onap.appc.dg.aai.impl;
 
 import org.junit.runner.RunWith;
-import org.openecomp.appc.dg.aai.Constants;
-import org.openecomp.appc.dg.aai.impl.AAIPluginImpl;
-import org.openecomp.appc.dg.common.dao.DAOService;
-import org.openecomp.appc.dg.common.impl.LicenseManagerImpl;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.aai.Constants;
+import org.onap.appc.dg.aai.impl.AAIPluginImpl;
+import org.onap.appc.dg.common.dao.DAOService;
+import org.onap.appc.dg.common.impl.LicenseManagerImpl;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;

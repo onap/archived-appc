@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.openecomp.appc</groupId>
+        <groupId>org.onap.appc</groupId>
         <artifactId>appc-dg-shared</artifactId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
@@ -11,12 +11,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-dg-common</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -31,7 +31,7 @@
             <artifactId>aai-service-provider</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-dg-dependency-model</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -60,7 +60,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-dg-domain-model-lib</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -76,8 +76,8 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>appc-dg-aai</Bundle-SymbolicName>
-                        <Export-Package>org.openecomp.appc.dg.aai</Export-Package>
-                        <Private-Package>org.openecomp.appc.dg.aai.exception,org.openecomp.appc.dg.aai.objects,org.openecomp.appc.dg.aai.impl.*</Private-Package>
+                        <Export-Package>org.onap.appc.dg.aai</Export-Package>
+                        <Private-Package>org.onap.appc.dg.aai.exception,org.onap.appc.dg.aai.objects,org.onap.appc.dg.aai.impl.*</Private-Package>
                         <Import-Package>
                             *;resolution:=optional
                         </Import-Package>

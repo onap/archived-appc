@@ -18,13 +18,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services;
+package org.onap.appc.data.services;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
-import org.openecomp.appc.data.services.node.ConfigResourceNode;
+import org.onap.appc.data.services.node.ConfigResourceNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

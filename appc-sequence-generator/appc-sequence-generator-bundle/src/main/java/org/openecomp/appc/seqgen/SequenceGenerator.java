@@ -18,13 +18,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen;
+package org.onap.appc.seqgen;
 
 
-import org.openecomp.appc.dg.objects.VnfcFlowModel;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.seqgen.objects.SequenceGeneratorInput;
-import org.openecomp.appc.seqgen.objects.Transaction;
+import org.onap.appc.dg.objects.VnfcFlowModel;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
+import org.onap.appc.seqgen.objects.Transaction;
 
 import java.util.List;
 import java.util.Map;

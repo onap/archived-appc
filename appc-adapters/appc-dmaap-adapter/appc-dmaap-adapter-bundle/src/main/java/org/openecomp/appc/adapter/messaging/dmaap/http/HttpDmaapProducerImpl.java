@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap.http;
+package org.onap.appc.adapter.messaging.dmaap.http;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import com.att.eelf.configuration.EELFManager;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.openecomp.appc.adapter.message.Producer;
+import org.onap.appc.adapter.message.Producer;
 
 public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer {
 

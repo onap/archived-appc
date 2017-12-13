@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl;
+package org.onap.appc.statemachine.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.Response;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
-import org.openecomp.appc.statemachine.objects.StateMachineResponse;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.Response;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.objects.StateMachineResponse;
 
 public class StateMachineImplTest {
     private StateMachineMetadata metadata;

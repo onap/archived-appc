@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache.impl;
+package org.onap.appc.cache.impl;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.cache.CacheStrategies;
+import org.onap.appc.cache.CacheStrategies;
 import org.powermock.reflect.Whitebox;
 
 import static org.mockito.Mockito.spy;

@@ -21,7 +21,7 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.adapter.restHealthcheck.impl;
+package org.onap.appc.adapter.restHealthcheck.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -42,11 +42,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.MDC;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.restHealthcheck.*;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.restHealthcheck.*;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.UnknownProviderException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.ComputeService;
 import com.att.cdp.zones.Context;

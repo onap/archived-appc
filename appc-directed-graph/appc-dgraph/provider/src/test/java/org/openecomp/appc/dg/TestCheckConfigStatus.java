@@ -18,15 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.openecomp.appc.dg.mock.instance.MockConfigureNodeExecutor;
-import org.openecomp.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
+import org.onap.appc.dg.mock.instance.MockConfigureNodeExecutor;
+import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 
 /* TODO:  move the dgtest to opensource
 import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
@@ -123,7 +123,7 @@ public class TestCheckConfigStatus /* extends AbstractDGTestCase */ {
 			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
 		
 			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
 			DGTestCase tc = new DGTestCase(graphKey);
@@ -156,7 +156,7 @@ public class TestCheckConfigStatus /* extends AbstractDGTestCase */ {
 			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
 		
 			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
 			DGTestCase tc = new DGTestCase(graphKey);
@@ -190,7 +190,7 @@ public class TestCheckConfigStatus /* extends AbstractDGTestCase */ {
 			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
 		
 			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
 			DGTestCase tc = new DGTestCase(graphKey);

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl.readers;
+package org.onap.appc.statemachine.impl.readers;
 
 import org.osgi.framework.Bundle;
 

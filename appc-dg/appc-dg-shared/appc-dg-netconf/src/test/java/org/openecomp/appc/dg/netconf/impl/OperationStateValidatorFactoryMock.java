@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.openecomp.appc.adapter.netconf.*;
+import org.onap.appc.adapter.netconf.*;
 
 
 public class OperationStateValidatorFactoryMock extends OperationalStateValidatorFactory {

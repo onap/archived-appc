@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.impl;
+package org.onap.appc.listener.demo.impl;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -31,9 +31,9 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.RejectedExecutionException;
 
-import org.openecomp.appc.listener.AbstractListener;
-import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.demo.model.IncomingMessage;
+import org.onap.appc.listener.AbstractListener;
+import org.onap.appc.listener.ListenerProperties;
+import org.onap.appc.listener.demo.model.IncomingMessage;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

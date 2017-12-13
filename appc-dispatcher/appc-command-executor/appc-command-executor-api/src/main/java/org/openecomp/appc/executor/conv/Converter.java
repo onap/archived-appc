@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.conv;
+package org.onap.appc.executor.conv;
 
 import java.io.IOException;
 
-import org.openecomp.appc.executor.objects.Params;
+import org.onap.appc.executor.objects.Params;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -25,5 +25,5 @@
 // Generated on: 2017.07.31 at 10:30:39 AM EDT 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "http:org.openecomp.appc/sequence/v1", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package org.openecomp.appc.flow.controller.interfaceData;
+@javax.xml.bind.annotation.XmlSchema(namespace = "http:org.onap.appc/sequence/v1", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
+package org.onap.appc.flow.controller.interfaceData;

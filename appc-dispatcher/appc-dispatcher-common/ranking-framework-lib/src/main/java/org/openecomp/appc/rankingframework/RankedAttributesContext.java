@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework;
+package org.onap.appc.rankingframework;
 
 public interface RankedAttributesContext {
     Object getAttributeValue(String name);

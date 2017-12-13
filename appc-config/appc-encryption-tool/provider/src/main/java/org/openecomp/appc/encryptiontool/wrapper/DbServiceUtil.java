@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.encryptiontool.wrapper;
+package org.onap.appc.encryptiontool.wrapper;
 
 import java.io.File;
 import java.net.URL;

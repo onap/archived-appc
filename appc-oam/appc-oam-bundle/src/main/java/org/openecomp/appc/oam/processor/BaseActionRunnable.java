@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.processor;
+package org.onap.appc.oam.processor;
 
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.oam.OAMCommandStatus;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.OAMCommandStatus;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 
 import java.util.HashMap;
 import java.util.Map;

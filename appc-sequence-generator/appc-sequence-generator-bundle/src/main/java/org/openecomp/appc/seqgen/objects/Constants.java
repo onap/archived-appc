@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.objects;
+package org.onap.appc.seqgen.objects;
 
 public class Constants {
     public static final String RETRY_COUNT = "retry-count";

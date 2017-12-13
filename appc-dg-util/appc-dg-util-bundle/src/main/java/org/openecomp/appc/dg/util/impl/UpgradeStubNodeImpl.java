@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.util.impl;
+package org.onap.appc.dg.util.impl;
 
 import java.util.Map;
 
-import org.openecomp.appc.dg.util.UpgradeStubNode;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.util.UpgradeStubNode;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

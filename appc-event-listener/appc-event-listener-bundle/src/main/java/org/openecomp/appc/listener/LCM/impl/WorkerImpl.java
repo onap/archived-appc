@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM.impl;
+package org.onap.appc.listener.LCM.impl;
 
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.listener.EventHandler;
-import org.openecomp.appc.listener.LCM.conv.Converter;
-import org.openecomp.appc.listener.LCM.model.DmaapMessage;
-import org.openecomp.appc.listener.LCM.model.DmaapOutgoingMessage;
-import org.openecomp.appc.listener.LCM.operation.ProviderOperations;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.listener.EventHandler;
+import org.onap.appc.listener.LCM.conv.Converter;
+import org.onap.appc.listener.LCM.model.DmaapMessage;
+import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
+import org.onap.appc.listener.LCM.operation.ProviderOperations;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

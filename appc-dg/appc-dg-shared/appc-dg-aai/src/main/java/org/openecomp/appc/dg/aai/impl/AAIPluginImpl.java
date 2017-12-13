@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.aai.impl;
-import org.openecomp.appc.domainmodel.Vnf;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.domainmodel.Vserver;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+package org.onap.appc.dg.aai.impl;
+import org.onap.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.domainmodel.Vserver;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.i18n.EELFResourceManager;
 
-import org.openecomp.appc.dg.aai.AAIPlugin;
-import org.openecomp.appc.dg.aai.exception.AAIQueryException;
-import org.openecomp.appc.dg.aai.objects.AAIQueryResult;
-import org.openecomp.appc.dg.aai.objects.Relationship;
+import org.onap.appc.dg.aai.AAIPlugin;
+import org.onap.appc.dg.aai.exception.AAIQueryException;
+import org.onap.appc.dg.aai.objects.AAIQueryResult;
+import org.onap.appc.dg.aai.objects.Relationship;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -92,7 +92,7 @@ public class AAIPluginImpl implements AAIPlugin {
                 throw new APPCException(msg);
             }
             String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "PostGenericVnfData", "VNF ID " + vnf_id);
-            ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+            ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
 
         } catch (SvcLogicException e) {
             String msg = EELFResourceManager.format(Msg.AAI_QUERY_FAILED, vnf_id);
@@ -128,7 +128,7 @@ public class AAIPluginImpl implements AAIPlugin {
             ctx.setAttribute(Constants.IS_RELEASE_ENTITLEMENT_REQUIRE, Boolean.toString(!aaiEntitlementPoolUuid.isEmpty()));
             ctx.setAttribute(Constants.IS_RELEASE_LICENSE_REQUIRE, Boolean.toString(!aaiLicenseKeyGroupUuid.isEmpty()));
             String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "GetGenericVnfData","VNF ID " + vnf_id);
-            ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+            ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
 
             logger.info("AAIResponse: " + response.toString());
         } catch (SvcLogicException e) {
@@ -207,7 +207,7 @@ public class AAIPluginImpl implements AAIPlugin {
         populateContext(vnf,ctx);
         ctx.setAttribute("getVnfHierarchy_result", "SUCCESS");
         String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "GetVNFHierarchy","VNF ID " + vnfId);
-        ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+        ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
 
     }
 

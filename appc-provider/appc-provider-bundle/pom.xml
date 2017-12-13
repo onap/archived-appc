@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>appc-provider</artifactId>
-        <groupId>org.openecomp.appc</groupId>
+        <groupId>org.onap.appc</groupId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>appc-provider-bundle</artifactId>
@@ -42,14 +42,14 @@
                     <instructions>
                         <Export-Package>org.opendaylight.controller.config.yang.config.sample_provider.impl
                         </Export-Package>
-                        <Export-Package>org.openecomp.appc.provider</Export-Package>
+                        <Export-Package>org.onap.appc.provider</Export-Package>
                         <!-- <Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*;resolution:=optional</Import-Package> -->
                         <!-- <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false,domain-model-lib,appc-command-executor-api,appc-request-handler-api</Embed-Dependency> -->
                         <Import-Package>
-                            org.openecomp.appc.domainmodel.lcm,
-                            org.openecomp.appc.i18n,
-                            org.openecomp.appc.logging,
-                            org.openecomp.appc.util,
+                            org.onap.appc.domainmodel.lcm,
+                            org.onap.appc.i18n,
+                            org.onap.appc.logging,
+                            org.onap.appc.util,
                             com.att.eelf.configuration,
                             com.att.eelf.i18n,
                             *;resolution:=optional
@@ -165,33 +165,33 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-request-handler-api</artifactId>
             <version>${project.version}</version>
             <type>bundle</type>
             <scope>provided</scope>
             <!--             <exclusions> -->
             <!--                 <exclusion> -->
-            <!--                     <groupId>org.openecomp.appc</groupId> -->
+            <!--                     <groupId>org.onap.appc</groupId> -->
             <!--                     <artifactId>domain-model-lib</artifactId> -->
             <!--                 </exclusion> -->
             <!--             </exclusions> -->
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-common</artifactId>
             <version>${project.version}</version>
             <!--             <classifier>jar-with-dependencies</classifier> -->
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-provider-model</artifactId>
             <version>${project.version}</version>
         </dependency>
 
-        <!-- ADDED THIS ARTIFACT TO BE ABLE TO FIND org.openecomp.appc.domainmodel.lcm -->
+        <!-- ADDED THIS ARTIFACT TO BE ABLE TO FIND org.onap.appc.domainmodel.lcm -->
         <!--         <dependency> -->
-        <!--             <groupId>org.openecomp.appc</groupId> -->
+        <!--             <groupId>org.onap.appc</groupId> -->
         <!--             <artifactId>domain-model-lib</artifactId> -->
         <!--             <version>${project.version}</version> -->
         <!--         </dependency> -->

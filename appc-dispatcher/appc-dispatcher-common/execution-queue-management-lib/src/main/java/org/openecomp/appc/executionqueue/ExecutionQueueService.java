@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue;
+package org.onap.appc.executionqueue;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 
 public interface ExecutionQueueService<M extends Runnable> {
     void putMessage(M message) throws APPCException;

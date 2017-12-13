@@ -23,7 +23,7 @@
  */
 
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -31,8 +31,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.Properties;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.adapter.iaas.impl.IdentityURL;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 public class TestIdentityUrl {
 

@@ -1,4 +1,4 @@
-package org.openecomp.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -14,11 +14,11 @@ import java.util.regex.Pattern;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.adapter.chef.chefapi.ApiMethod;
-import org.openecomp.appc.adapter.chef.chefapi.Delete;
-import org.openecomp.appc.adapter.chef.chefapi.Get;
-import org.openecomp.appc.adapter.chef.chefapi.Post;
-import org.openecomp.appc.adapter.chef.chefapi.Put;
+import org.onap.appc.adapter.chef.chefapi.ApiMethod;
+import org.onap.appc.adapter.chef.chefapi.Delete;
+import org.onap.appc.adapter.chef.chefapi.Get;
+import org.onap.appc.adapter.chef.chefapi.Post;
+import org.onap.appc.adapter.chef.chefapi.Put;
 
 public class TestChefApiClient {
 
@@ -41,16 +41,16 @@ public class TestChefApiClient {
             fail("Could not initialize properties");
         }
         client = new ChefApiClient(
-                props.getProperty("org.openecomp.appc.adapter.chef.chefclient.userId"),
+                props.getProperty("org.onap.appc.adapter.chef.chefclient.userId"),
                 System.getProperty("user.dir") +
-                        props.getProperty("org.openecomp.appc.adapter.chef.chefclient.pemPath"),
-                props.getProperty("org.openecomp.appc.adapter.chef.chefclient.endPoint"),
-                props.getProperty("org.openecomp.appc.adapter.chef.chefclient.organizations"));
+                        props.getProperty("org.onap.appc.adapter.chef.chefclient.pemPath"),
+                props.getProperty("org.onap.appc.adapter.chef.chefclient.endPoint"),
+                props.getProperty("org.onap.appc.adapter.chef.chefclient.organizations"));
     }
 
     @Test
     public void testGet(){
-        Get get = client.get(props.getProperty("org.openecomp.appc.adapter.chef.chefclient.path"));
+        Get get = client.get(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
         ApiMethod method = get.createRequest();
         String[] response = method.test.split("\n");
 
@@ -59,7 +59,7 @@ public class TestChefApiClient {
 
     @Test
     public void testPut(){
-        Put put = client.put(props.getProperty("org.openecomp.appc.adapter.chef.chefclient.path"));
+        Put put = client.put(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
         ApiMethod method = put.createRequest();
         String[] response = method.test.split("\n");
 
@@ -68,7 +68,7 @@ public class TestChefApiClient {
 
     @Test
     public void testPost() {
-        Post post = client.post(props.getProperty("org.openecomp.appc.adapter.chef.chefclient.path"));
+        Post post = client.post(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
         ApiMethod method = post.createRequest();
         String[] response = method.test.split("\n");
 
@@ -77,7 +77,7 @@ public class TestChefApiClient {
 
     @Test
     public void testDelete(){
-        Delete delete = client.delete(props.getProperty("org.openecomp.appc.adapter.chef.chefclient.path"));
+        Delete delete = client.delete(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
         ApiMethod method = delete.createRequest();
         String[] response = method.test.split("\n");
 

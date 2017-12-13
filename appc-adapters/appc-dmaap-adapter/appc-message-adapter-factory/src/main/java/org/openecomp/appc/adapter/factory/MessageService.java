@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.factory;
+package org.onap.appc.adapter.factory;
 /**
  * The message service types that are available. Only DMaaP available
  **/

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.executor.node;
+package org.onap.appc.flow.executor.node;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -46,7 +46,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.openecomp.appc.flow.controller.executorImpl.RestExecutor;
+import org.onap.appc.flow.controller.executorImpl.RestExecutor;
 import org.powermock.api.mockito.PowerMockito;
 
 import com.sun.jersey.api.client.Client;

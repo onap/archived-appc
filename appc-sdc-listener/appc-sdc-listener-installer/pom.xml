@@ -26,7 +26,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<artifactId>appc-sdc-listener</artifactId>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-sdc-listener-installer</artifactId>
@@ -36,14 +36,14 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 	<properties>
 		<application.name>appc-sdc-listener</application.name>
 		<features.boot>appc-sdc-listener</features.boot>
-		<features.repositories>mvn:org.openecomp.appc/appc-sdc-listener-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/appc-sdc-listener-features/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
 	<dependencies>
 
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-sdc-listener-features</artifactId>
 			<version>${project.version}</version>
 			<classifier>features</classifier>
@@ -57,7 +57,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-sdc-listener-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework.impl;
+package org.onap.appc.rankingframework.impl;
 
 class LeafNode<R> extends NodeBase<R> {
 

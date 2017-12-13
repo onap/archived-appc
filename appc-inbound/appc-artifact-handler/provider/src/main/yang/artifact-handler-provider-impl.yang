@@ -25,7 +25,7 @@
 module artifact-handler-provider-impl {
 
     yang-version 1;
-    namespace "org:openecomp:appc:artifact:handler:provider:impl";
+    namespace "org:onap:appc:artifact:handler:provider:impl";
     prefix "artifact-handler-provider-impl";
 
     import config { prefix config; revision-date 2013-04-05; }

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr.objects;
+package org.onap.appc.licmgr.objects;
 
 public class LicenseModel {
 

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.conv;
+package org.onap.appc.requesthandler.conv;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -36,18 +36,18 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.*;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.FlagsBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.Status;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.status.StatusBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.FlagsBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.StatusBuilder;
 import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.yang.binding.DataContainer;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.requesthandler.impl.DmaapOutgoingMessage;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.requesthandler.impl.DmaapOutgoingMessage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -270,7 +270,7 @@ public class Converter {
         }
 
         CommonHeaderBuilder commonHeaderBuilder = new CommonHeaderBuilder();
-        org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags commonHeaderFlags = null;
+        org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags commonHeaderFlags = null;
         if(inObj.getCommonHeader().getFlags() != null){
             commonHeaderFlags = Converter.convFlagsMapTorev160108Flags(inObj.getCommonHeader().getFlags());
             commonHeaderBuilder.setFlags(commonHeaderFlags);
@@ -301,8 +301,8 @@ public class Converter {
         return isoFormatter.format(timeStamp);
     }
 
-    public static org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags
-    convFlagsMapTorev160108Flags(org.openecomp.appc.domainmodel.lcm.Flags flags) {
+    public static org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags
+    convFlagsMapTorev160108Flags(org.onap.appc.domainmodel.lcm.Flags flags) {
         Flags rev160108flags = null;
         boolean anyFlag = false;
         FlagsBuilder flagsBuilder = new FlagsBuilder();
@@ -311,14 +311,14 @@ public class Converter {
          */
         /*
         if(flags.containsKey(FORCE_FLAG)){
-            org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Force force =
-                    org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Force.valueOf(flags.get(FORCE_FLAG).toString());
+            org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Force force =
+                    org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Force.valueOf(flags.get(FORCE_FLAG).toString());
             flagsBuilder.setForce(force);
             anyFlag = true;
         }
         if(flags.containsKey(MODE_FLAG)){
-            org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Mode mode =
-                    org.opendaylight.yang.gen.v1.org.openecomp.appc.lcm.rev160108.common.header.common.header.Flags.Mode.valueOf(flags.get(MODE_FLAG).toString());
+            org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Mode mode =
+                    org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags.Mode.valueOf(flags.get(MODE_FLAG).toString());
             flagsBuilder.setMode(mode);
             anyFlag = true;
         }

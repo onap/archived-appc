@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.tools.generator.api;
+package org.onap.appc.tools.generator.api;
 
-import org.openecomp.appc.tools.generator.impl.ModelGenerator;
+import org.onap.appc.tools.generator.impl.ModelGenerator;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;

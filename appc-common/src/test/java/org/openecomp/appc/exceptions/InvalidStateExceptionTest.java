@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.exceptions;
+package org.onap.appc.exceptions;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.exceptions;
+package org.onap.appc.exceptions;
 
 public class InvalidStateException extends Exception {
     public InvalidStateException(String message) {

@@ -1,4 +1,4 @@
-package org.openecomp.appc.simulator.client.impl;
+package org.onap.appc.simulator.client.impl;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.junit.Assert;

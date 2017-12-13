@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,14 +30,14 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.pool.Allocator;
-import org.openecomp.appc.pool.Destructor;
-import org.openecomp.appc.pool.Pool;
-import org.openecomp.appc.pool.PoolSpecificationException;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.pool.Allocator;
+import org.onap.appc.pool.Destructor;
+import org.onap.appc.pool.Pool;
+import org.onap.appc.pool.PoolSpecificationException;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.Context;
@@ -339,7 +339,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @see org.openecomp.appc.pool.Allocator#allocate(org.openecomp.appc.pool.Pool)
+     * @see org.onap.appc.pool.Allocator#allocate(org.onap.appc.pool.Pool)
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -362,7 +362,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @see org.openecomp.appc.pool.Destructor#destroy(java.lang.Object, org.openecomp.appc.pool.Pool)
+     * @see org.onap.appc.pool.Destructor#destroy(java.lang.Object, org.onap.appc.pool.Pool)
      */
     @Override
     public void destroy(Context context, Pool<Context> pool) {

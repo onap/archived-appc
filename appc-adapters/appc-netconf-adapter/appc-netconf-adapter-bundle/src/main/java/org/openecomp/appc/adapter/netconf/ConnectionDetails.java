@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf;
+package org.onap.appc.adapter.netconf;
 
 
 public class ConnectionDetails {

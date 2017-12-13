@@ -24,7 +24,7 @@
 
 
   
-package org.openecomp.appc.pool;
+package org.onap.appc.pool;
 
 /**
  * This exception is thrown whenever the pool is not specified correctly

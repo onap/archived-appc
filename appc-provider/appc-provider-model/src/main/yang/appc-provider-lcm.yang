@@ -43,7 +43,7 @@
 module appc-provider-lcm {
 
     yang-version 1;
-    namespace "org:openecomp:appc:lcm";
+    namespace "org:onap:appc:lcm";
     prefix appc-provider-lcm;
     organization "Copyright 2017 AT&T Intellectual Property.";
 

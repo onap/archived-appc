@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef;
+package org.onap.appc.adapter.chef;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.chef.impl.ChefAdapterImpl;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.chef.impl.ChefAdapterImpl;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;

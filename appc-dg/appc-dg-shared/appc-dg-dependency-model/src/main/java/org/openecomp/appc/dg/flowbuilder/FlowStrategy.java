@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder;
+package org.onap.appc.dg.flowbuilder;
 
-import org.openecomp.appc.dg.objects.InventoryModel;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.dg.objects.VnfcFlowModel;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.objects.VnfcFlowModel;
 
 
 public interface FlowStrategy {

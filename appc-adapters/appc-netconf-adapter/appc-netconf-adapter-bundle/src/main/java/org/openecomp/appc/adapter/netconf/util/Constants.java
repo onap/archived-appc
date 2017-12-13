@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.util;
+package org.onap.appc.adapter.netconf.util;
 
 public class Constants {
 
@@ -54,13 +54,13 @@ public class Constants {
     public static final String LOG_FIELD_NAME = "LOG";
 
     // input fields names
-    public static final String VNF_TYPE_FIELD_NAME = "org.openecomp.appc.vftype";
+    public static final String VNF_TYPE_FIELD_NAME = "org.onap.appc.vftype";
     public static final String TARGET_VNF_TYPE = "target-vnf-type";
     public static final String FILE_CONTENT_FIELD_NAME = "file-content";
     public static final String CONNECTION_DETAILS_FIELD_NAME = "connection-details";
     public static final String CONFIGURATION_FILE_FIELD_NAME = "configuration-file-name";
     public static final String VNF_HOST_IP_ADDRESS_FIELD_NAME = "vnf-host-ip-address";
-    public static final String DG_ERROR_FIELD_NAME = "org.openecomp.appc.dg.error";
+    public static final String DG_ERROR_FIELD_NAME = "org.onap.appc.dg.error";
     public static final String RESOURCEKEY = "resourceKey";
     public static final String ATTRIBUTE_ERROR_MESSAGE = "error-message";
     public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";

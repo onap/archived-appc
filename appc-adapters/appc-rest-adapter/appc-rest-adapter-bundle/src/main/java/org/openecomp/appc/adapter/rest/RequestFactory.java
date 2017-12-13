@@ -12,7 +12,7 @@
  *
  */
 
-package org.openecomp.appc.adapter.rest;
+package org.onap.appc.adapter.rest;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

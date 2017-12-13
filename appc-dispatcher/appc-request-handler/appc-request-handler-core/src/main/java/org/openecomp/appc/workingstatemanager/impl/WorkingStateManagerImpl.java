@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workingstatemanager.impl;
+package org.onap.appc.workingstatemanager.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,12 +33,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.message.RequestHandlerMessages;
-import org.openecomp.appc.util.MessageFormatter;
-import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
-import org.openecomp.appc.workingstatemanager.objects.VnfWorkingStateDto;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.message.RequestHandlerMessages;
+import org.onap.appc.util.MessageFormatter;
+import org.onap.appc.workingstatemanager.objects.VNFWorkingState;
+import org.onap.appc.workingstatemanager.objects.VnfWorkingStateDto;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang3.StringUtils;
@@ -50,7 +50,7 @@ public class WorkingStateManagerImpl extends JdbcWorkingStateManager {
     private static final String SQL_INSERT_VNF_STATE_MANAGEMENT = "INSERT IGNORE INTO VNF_STATE_MANAGEMENT (VNF_ID,STATE,OWNER_ID,UPDATED,VER) VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE_VNF_STATE_MANAGEMENT = "UPDATE VNF_STATE_MANAGEMENT SET OWNER_ID=?, UPDATED=?, STATE=?, VER=? WHERE VNF_ID=? AND VER=?";
     private static final String SQL_CURRENT_TIMESTAMP = "SELECT CURRENT_TIMESTAMP()";
-    private static int maxAttempts = ConfigurationFactory.getConfiguration().getIntegerProperty("org.openecomp.appc.workingstatemanager.maxAttempts",20);
+    private static int maxAttempts = ConfigurationFactory.getConfiguration().getIntegerProperty("org.onap.appc.workingstatemanager.maxAttempts",20);
 
     private static Map<String,VNFWorkingState> workingStateMap = new ConcurrentHashMap<>();
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(WorkingStateManagerImpl.class);

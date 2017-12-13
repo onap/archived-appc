@@ -30,16 +30,16 @@
 		   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		   xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-	<reference id="sshAdapterRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.adapter.ssh.SshAdapter" />
-	<bean id="sshServiceBean" class="org.openecomp.appc.dg.ssh.impl.SshServiceImpl" scope="singleton">
+	<reference id="sshAdapterRef" availability="mandatory" activation="eager" interface="org.onap.appc.adapter.ssh.SshAdapter" />
+	<bean id="sshServiceBean" class="org.onap.appc.dg.ssh.impl.SshServiceImpl" scope="singleton">
 		<property name="sshAdapter" ref="sshAdapterRef" />
 	</bean>
-	<service id="sshService" interface="org.openecomp.appc.dg.ssh.SshService" ref="sshServiceBean"/>
+	<service id="sshService" interface="org.onap.appc.dg.ssh.SshService" ref="sshServiceBean"/>
 
-	<reference id="sshDAServiceRef" availability="mandatory" activation="eager" interface="org.openecomp.appc.adapter.ssh.SshDataAccessService" />
-	<bean id="sshDBPluginBean" class="org.openecomp.appc.dg.ssh.impl.SshDBPluginImpl" scope="singleton">
+	<reference id="sshDAServiceRef" availability="mandatory" activation="eager" interface="org.onap.appc.adapter.ssh.SshDataAccessService" />
+	<bean id="sshDBPluginBean" class="org.onap.appc.dg.ssh.impl.SshDBPluginImpl" scope="singleton">
 		<property name="dataAccessService" ref="sshDAServiceRef" />
 	</bean>
-	<service id="sshDBPlugin" interface="org.openecomp.appc.dg.ssh.SshDBPlugin" ref="sshDBPluginBean"/>
+	<service id="sshDBPlugin" interface="org.onap.appc.dg.ssh.SshDBPlugin" ref="sshDBPluginBean"/>
 
 </blueprint>

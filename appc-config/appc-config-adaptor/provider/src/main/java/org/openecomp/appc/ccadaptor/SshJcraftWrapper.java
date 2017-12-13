@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.ccadaptor;
+package org.onap.appc.ccadaptor;
 
 import java.io.BufferedReader;
 import java.io.IOException;

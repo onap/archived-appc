@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl;
+package org.onap.appc.adapter.iaas.provider.operation.impl;
 
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ResourceNotFoundException;
@@ -38,26 +38,26 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.IdentityURL;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.adapter.iaas.impl.VMURL;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 import org.slf4j.MDC;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
+import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class CreateSnapshot extends ProviderServerOperation {
 
@@ -228,6 +228,6 @@ public class CreateSnapshot extends ProviderServerOperation {
         MDC.put("ElapsedTime", durationStr);
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "create snapshot");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.CreateSnapshot");
+        MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.CreateSnapshot");
     }
 }

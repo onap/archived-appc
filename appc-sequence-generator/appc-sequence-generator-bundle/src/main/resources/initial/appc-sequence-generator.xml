@@ -28,7 +28,7 @@
                 
                     <!-- This xmlns:prefix should match the namespace in the *-impl.yang file
                          The prefix: inside type should match the prefix of the yang file. -->
-                    <type xmlns:prefix="org:openecomp:appc:sequencegenerator:impl">
+                    <type xmlns:prefix="org:onap:appc:sequencegenerator:impl">
                         prefix:sequence-generator-impl
                     </type>
                     <name>sequence-generator-impl</name>
@@ -65,7 +65,7 @@
           our service can be resolved. Capabilities for dependencies defined above are implied which is
           why we do not have define a required capability for the data broker, for example. -->
     <required-capabilities>
-        <capability>org:openecomp:appc:sequencegenerator:impl?module=sequence-generator-impl&amp;revision=2017-07-06</capability>
+        <capability>org:onap:appc:sequencegenerator:impl?module=sequence-generator-impl&amp;revision=2017-07-06</capability>
     </required-capabilities>
 
 </snapshot>

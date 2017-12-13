@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.aai.objects;
+package org.onap.appc.dg.aai.objects;
 
 import java.util.ArrayList;
 import java.util.HashMap;

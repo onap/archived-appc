@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.publisher;
+package org.onap.appc.metricservice.publisher;
 
-import org.openecomp.appc.metricservice.MetricRegistry;
-import org.openecomp.appc.metricservice.Publisher;
-import org.openecomp.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.Publisher;
+import org.onap.appc.metricservice.metric.Metric;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

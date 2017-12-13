@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts.helper;
+package org.onap.appc.sdc.artifacts.helper;
 
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.appc.sdc.artifacts.object.SDCReference;
+import org.onap.appc.sdc.artifacts.object.SDCReference;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
-import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -39,8 +39,8 @@ import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static org.openecomp.appc.sdc.artifacts.helper.Constants.COMMA;
-import static org.openecomp.appc.sdc.artifacts.helper.Constants.AND;
+import static org.onap.appc.sdc.artifacts.helper.Constants.COMMA;
+import static org.onap.appc.sdc.artifacts.helper.Constants.AND;
 
 /**
  * Provides methods for storing sdc artifacts into app-c database

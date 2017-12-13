@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.provider;
+package org.onap.appc.seqgen.provider;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -28,30 +28,30 @@ import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.GenerateSequenceInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.GenerateSequenceOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.GenerateSequenceOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.SequenceGeneratorService;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.dependency.info.dependency.info.Vnfcs;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.inventory.info.inventory.info.vnf.info.Vm;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.response.StatusBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.response.Transactions;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.response.TransactionsBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.response.transactions.ActionIdentifier;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.response.transactions.*;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.rev170706.response.transactions.responses.ResponseActionBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.SequenceGeneratorService;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.dependency.info.dependency.info.Vnfcs;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.inventory.info.inventory.info.vnf.info.Vm;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.StatusBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.Transactions;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.TransactionsBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.ActionIdentifier;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.*;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.responses.ResponseActionBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.openecomp.appc.dg.objects.InventoryModel;
-import org.openecomp.appc.dg.objects.Node;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.domainmodel.Vnf;
-import org.openecomp.appc.domainmodel.Vserver;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.seqgen.SequenceGenerator;
-import org.openecomp.appc.seqgen.impl.SequenceGeneratorFactory;
-import org.openecomp.appc.seqgen.objects.*;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.Node;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vserver;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.seqgen.SequenceGenerator;
+import org.onap.appc.seqgen.impl.SequenceGeneratorFactory;
+import org.onap.appc.seqgen.objects.*;
 
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -263,12 +263,12 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
             return null;
         }
         List<Vnfcs> vnfcs = input.getDependencyInfo().getVnfcs();
-        Set<Node<org.openecomp.appc.domainmodel.Vnfc>> dependencies = new HashSet<>();
+        Set<Node<org.onap.appc.domainmodel.Vnfc>> dependencies = new HashSet<>();
         for(Vnfcs vnfcObj:vnfcs){
-            org.openecomp.appc.domainmodel.Vnfc vnfc;
-            Node<org.openecomp.appc.domainmodel.Vnfc> currentNode = readNode(vnfcObj.getVnfcType(),dependencies);
+            org.onap.appc.domainmodel.Vnfc vnfc;
+            Node<org.onap.appc.domainmodel.Vnfc> currentNode = readNode(vnfcObj.getVnfcType(),dependencies);
             if(currentNode == null){
-                vnfc = new org.openecomp.appc.domainmodel.Vnfc(vnfcObj.getVnfcType(),vnfcObj.getResilience());
+                vnfc = new org.onap.appc.domainmodel.Vnfc(vnfcObj.getVnfcType(),vnfcObj.getResilience());
                 currentNode = new Node<>(vnfc);
                 dependencies.add(currentNode);
             }
@@ -277,9 +277,9 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
                 currentNode.getChild().setMandatory(vnfcObj.isMandatory());
             }
             for(String parentVnfcType:vnfcObj.getParents()){
-                Node<org.openecomp.appc.domainmodel.Vnfc> parentNode = readNode(parentVnfcType,dependencies);
+                Node<org.onap.appc.domainmodel.Vnfc> parentNode = readNode(parentVnfcType,dependencies);
                 if(parentNode == null){
-                    org.openecomp.appc.domainmodel.Vnfc parentVnfc = new org.openecomp.appc.domainmodel.Vnfc(parentVnfcType,null);
+                    org.onap.appc.domainmodel.Vnfc parentVnfc = new org.onap.appc.domainmodel.Vnfc(parentVnfcType,null);
                     parentNode = new Node<>(parentVnfc);
                     currentNode.addParent(parentVnfc);
                     dependencies.add(parentNode);
@@ -292,8 +292,8 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         return new VnfcDependencyModel(dependencies);
     }
 
-    private Node<org.openecomp.appc.domainmodel.Vnfc> readNode(String vnfcType, Set<Node<org.openecomp.appc.domainmodel.Vnfc>> dependencies) {
-        for(Node<org.openecomp.appc.domainmodel.Vnfc> node : dependencies){
+    private Node<org.onap.appc.domainmodel.Vnfc> readNode(String vnfcType, Set<Node<org.onap.appc.domainmodel.Vnfc>> dependencies) {
+        for(Node<org.onap.appc.domainmodel.Vnfc> node : dependencies){
             if(node.getChild().getVnfcType().equalsIgnoreCase(vnfcType)){
                 return node;
             }
@@ -309,7 +309,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         Vnf vnf = new Vnf(input.getInventoryInfo().getVnfInfo().getVnfId(),
                 input.getInventoryInfo().getVnfInfo().getVnfType(),null);
 
-        Map<org.openecomp.appc.domainmodel.Vnfc,List<Vserver>> map = new HashMap<>();
+        Map<org.onap.appc.domainmodel.Vnfc,List<Vserver>> map = new HashMap<>();
         for(Vm vm:input.getInventoryInfo().getVnfInfo().getVm()){
             if(StringUtils.isBlank(vm.getVserverId())){
                 throw new APPCException("vserver-id not found ");
@@ -321,7 +321,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
                 throw new APPCException("vnfc-name not found for vserver " + vm.getVserverId());
             }
 
-            org.openecomp.appc.domainmodel.Vnfc vnfc = new org.openecomp.appc.domainmodel.Vnfc(vm.getVnfc().getVnfcType(),null,vm.getVnfc().getVnfcName());
+            org.onap.appc.domainmodel.Vnfc vnfc = new org.onap.appc.domainmodel.Vnfc(vm.getVnfc().getVnfcType(),null,vm.getVnfc().getVnfcName());
             List<Vserver> vms = map.get(vnfc);
             if(vms ==null){
                 vms = new LinkedList<>();
@@ -329,8 +329,8 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
             }
             vms.add(new Vserver(null,null,vm.getVserverId(),null,null));
         }
-        for(Map.Entry<org.openecomp.appc.domainmodel.Vnfc,List<Vserver>> entry:map.entrySet()){
-            org.openecomp.appc.domainmodel.Vnfc vnfc = entry.getKey();
+        for(Map.Entry<org.onap.appc.domainmodel.Vnfc,List<Vserver>> entry:map.entrySet()){
+            org.onap.appc.domainmodel.Vnfc vnfc = entry.getKey();
             List<Vserver> vmList = entry.getValue();
             vnfc.addVms(vmList);
             vnf.addVnfc(vnfc);

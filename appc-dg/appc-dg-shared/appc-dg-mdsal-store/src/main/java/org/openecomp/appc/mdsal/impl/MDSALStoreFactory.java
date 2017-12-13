@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.impl;
+package org.onap.appc.mdsal.impl;
 
-import org.openecomp.appc.mdsal.MDSALStore;
+import org.onap.appc.mdsal.MDSALStore;
 
 /*
  * Factory class to create/get instance of MDSALStore

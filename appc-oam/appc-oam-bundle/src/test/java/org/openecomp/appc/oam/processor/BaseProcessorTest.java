@@ -22,27 +22,27 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.processor;
+package org.onap.appc.oam.processor;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.Status;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.exceptions.InvalidStateException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.oam.OAMCommandStatus;
-import org.openecomp.appc.oam.util.AsyncTaskHelper;
-import org.openecomp.appc.oam.util.ConfigurationHelper;
-import org.openecomp.appc.oam.util.OperationHelper;
-import org.openecomp.appc.oam.util.StateHelper;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.StartInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.exceptions.InvalidStateException;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.OAMCommandStatus;
+import org.onap.appc.oam.util.AsyncTaskHelper;
+import org.onap.appc.oam.util.ConfigurationHelper;
+import org.onap.appc.oam.util.OperationHelper;
+import org.onap.appc.oam.util.StateHelper;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.powermock.reflect.Whitebox;
 
 import static org.mockito.Matchers.any;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -31,10 +31,10 @@ import java.util.Set;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.dg.common.JsonDgUtil;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.util.JsonUtil;
+import org.onap.appc.dg.common.JsonDgUtil;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.util.JsonUtil;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

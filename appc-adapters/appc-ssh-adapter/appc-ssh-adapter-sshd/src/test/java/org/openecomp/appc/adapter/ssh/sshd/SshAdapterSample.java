@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh.sshd;
+package org.onap.appc.adapter.ssh.sshd;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 
-import org.openecomp.appc.adapter.ssh.SshAdapter;
-import org.openecomp.appc.adapter.ssh.SshConnection;
-import org.openecomp.appc.adapter.ssh.sshd.SshAdapterSshd;
+import org.onap.appc.adapter.ssh.SshAdapter;
+import org.onap.appc.adapter.ssh.SshConnection;
+import org.onap.appc.adapter.ssh.sshd.SshAdapterSshd;
 
 public class SshAdapterSample {
 

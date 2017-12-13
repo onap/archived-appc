@@ -22,19 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.impl;
+package org.onap.appc.metricservice.impl;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.openecomp.appc.metricservice.MetricRegistry;
-import org.openecomp.appc.metricservice.metric.Counter;
-import org.openecomp.appc.metricservice.metric.Metric;
-import org.openecomp.appc.metricservice.metric.MetricBuilderFactory;
-import org.openecomp.appc.metricservice.metric.impl.MetricBuilderFactoryImpl;
-import org.openecomp.appc.metricservice.policy.PolicyBuilderFactory;
-import org.openecomp.appc.metricservice.policy.PublishingPolicy;
-import org.openecomp.appc.metricservice.policy.impl.PolicyBuilderFactoryImpl;
+import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.metric.Counter;
+import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.metric.MetricBuilderFactory;
+import org.onap.appc.metricservice.metric.impl.MetricBuilderFactoryImpl;
+import org.onap.appc.metricservice.policy.PolicyBuilderFactory;
+import org.onap.appc.metricservice.policy.PublishingPolicy;
+import org.onap.appc.metricservice.policy.impl.PolicyBuilderFactoryImpl;
 
 
 public class MetricRegistryImpl implements MetricRegistry {

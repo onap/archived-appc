@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.objects;
+package org.onap.appc.executor.objects;
 
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
 
 
 public class CommandResponse {

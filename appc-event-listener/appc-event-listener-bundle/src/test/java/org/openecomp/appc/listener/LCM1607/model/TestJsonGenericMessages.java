@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM1607.model;
+package org.onap.appc.listener.LCM1607.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.listener.util.Mapper;
 
 import java.io.IOException;
 import java.util.HashMap;

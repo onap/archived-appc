@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.internal;
+package org.onap.appc.adapter.netconf.internal;
 
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,7 @@ public class NetconfAdapter {
     private InputStream in;
     // device output stream
     private OutputStream out;
-    private long maxWaitingTime = ConfigurationFactory.getConfiguration().getLongProperty("org.openecomp.appc.netconf.recv.timeout", MAX_WAITING_TIME);
+    private long maxWaitingTime = ConfigurationFactory.getConfiguration().getLongProperty("org.onap.appc.netconf.recv.timeout", MAX_WAITING_TIME);
 
     /**
      * Constructor.

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.services.util;
+package org.onap.appc.design.services.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;

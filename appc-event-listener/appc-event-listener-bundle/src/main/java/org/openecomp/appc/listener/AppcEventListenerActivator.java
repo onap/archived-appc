@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.listener.impl.ControllerImpl;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.listener.impl.ControllerImpl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -123,20 +123,20 @@ public class AppcEventListenerActivator implements BundleActivator {
 
         // Configure event listener for the demo use case
         ListenerProperties demoProps = new ListenerProperties("appc.demo", props);
-        demoProps.setListenerClass(org.openecomp.appc.listener.demo.impl.ListenerImpl.class);
+        demoProps.setListenerClass(org.onap.appc.listener.demo.impl.ListenerImpl.class);
         listeners.add(demoProps);
 
         // ===========================================================================
 
         ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
-        clLCMProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+        clLCMProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
         listeners.add(clLCMProps);
 
         // Configure the OAM properties
         String oamPropKeyPrefix = "appc.OAM";
         ListenerProperties oamProps  = new ListenerProperties(oamPropKeyPrefix, props);
         if (isAppcOamPropsListenerEnabled(oamProps)) {
-            oamProps.setListenerClass(org.openecomp.appc.listener.LCM.impl.ListenerImpl.class);
+            oamProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
             listeners.add(oamProps);
         } else {
             LOG.warn(String.format("The listener %s is disabled and will not be run", oamPropKeyPrefix));

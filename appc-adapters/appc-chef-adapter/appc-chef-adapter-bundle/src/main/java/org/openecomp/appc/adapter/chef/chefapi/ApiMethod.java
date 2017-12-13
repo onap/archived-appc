@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef.chefapi;
+package org.onap.appc.adapter.chef.chefapi;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,7 +33,7 @@ import org.apache.http.Header;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.util.EntityUtils;
-import org.openecomp.appc.adapter.chef.chefclient.Utils;
+import org.onap.appc.adapter.chef.chefclient.Utils;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.impl.client.HttpClients;

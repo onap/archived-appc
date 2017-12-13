@@ -44,6 +44,6 @@
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-aai-client-provider/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-aai-client-provider/${project.version}</bundle>
 	</feature>
 </features>

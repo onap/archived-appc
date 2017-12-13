@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.transactionrecorder.objects;
+package org.onap.appc.transactionrecorder.objects;
 
 import java.time.Instant;
 

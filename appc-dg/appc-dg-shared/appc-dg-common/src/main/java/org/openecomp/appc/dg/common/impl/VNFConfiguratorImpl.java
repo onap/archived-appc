@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.dg.common.VNFConfigurator;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.mdsal.MDSALStore;
-import org.openecomp.appc.mdsal.exception.MDSALStoreException;
-import org.openecomp.appc.mdsal.impl.MDSALStoreFactory;
-import org.openecomp.appc.mdsal.objects.BundleInfo;
+import org.onap.appc.Constants;
+import org.onap.appc.dg.common.VNFConfigurator;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.mdsal.MDSALStore;
+import org.onap.appc.mdsal.exception.MDSALStoreException;
+import org.onap.appc.mdsal.impl.MDSALStoreFactory;
+import org.onap.appc.mdsal.objects.BundleInfo;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

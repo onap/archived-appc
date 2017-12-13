@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf;
+package org.onap.appc.adapter.netconf;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 
 
 public class MockOperationalStateValidatorImpl implements OperationalStateValidator {

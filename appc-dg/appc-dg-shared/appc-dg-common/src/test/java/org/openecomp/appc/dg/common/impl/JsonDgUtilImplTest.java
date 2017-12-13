@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import ch.qos.logback.core.Appender;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.dg.common.impl.JsonDgUtilImpl;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.common.impl.JsonDgUtilImpl;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.HashMap;

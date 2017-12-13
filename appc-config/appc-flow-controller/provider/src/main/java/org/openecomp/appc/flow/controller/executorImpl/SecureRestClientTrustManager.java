@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.executorImpl;
+package org.onap.appc.flow.controller.executorImpl;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

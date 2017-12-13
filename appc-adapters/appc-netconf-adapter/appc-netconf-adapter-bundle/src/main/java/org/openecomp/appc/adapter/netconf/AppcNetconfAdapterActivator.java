@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf;
+package org.onap.appc.adapter.netconf;
 
-import org.openecomp.appc.adapter.netconf.internal.NetconfDataAccessServiceImpl;
+import org.onap.appc.adapter.netconf.internal.NetconfDataAccessServiceImpl;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;

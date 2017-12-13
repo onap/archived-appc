@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler;
+package org.onap.appc.requesthandler;
 
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerOutput;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.requesthandler.objects.RequestHandlerInput;
+import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 
 /**
  * This class provides application logic for the Request/Response Handler Component.

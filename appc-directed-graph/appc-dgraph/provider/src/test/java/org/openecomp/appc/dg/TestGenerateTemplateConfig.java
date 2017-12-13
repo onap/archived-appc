@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 
 import static org.junit.Assert.*;
@@ -27,8 +27,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.openecomp.appc.dg.mock.instance.MockConfigureNodeExecutor;
-import org.openecomp.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
+import org.onap.appc.dg.mock.instance.MockConfigureNodeExecutor;
+import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -52,7 +52,7 @@ public class TestGenerateTemplateConfig /* extends AbstractDGTestCase */ {
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 			
-			serviceReferences.put("org.openecomp.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
+			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
 
 			// Register Call graphs
@@ -84,7 +84,7 @@ public class TestGenerateTemplateConfig /* extends AbstractDGTestCase */ {
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 		
-			serviceReferences.put("org.openecomp.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
+			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
 
 			// Register Call graphs

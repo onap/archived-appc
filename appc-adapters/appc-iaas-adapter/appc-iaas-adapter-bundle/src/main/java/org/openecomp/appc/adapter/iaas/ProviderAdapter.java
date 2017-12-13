@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas;
+package org.onap.appc.adapter.iaas;
 
 import java.util.Map;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.UnknownProviderException;
 import com.att.cdp.zones.model.Image;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Stack;
@@ -49,47 +49,47 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * correct provider support through the CDP IaaS abstraction layer and can be OpenStackProvider, BareMetalProvider,
      * or any other supported provider type.
      */
-    static final String PROPERTY_PROVIDER_TYPE = "org.openecomp.appc.provider.type";
+    static final String PROPERTY_PROVIDER_TYPE = "org.onap.appc.provider.type";
 
     /**
      * The adapter maintains a cache of providers organized by the name of the provider, not its type. This is
      * equivalent to the system or installation name. All regions within the same installation are assumed to be the
      * same type.
      */
-    static final String PROPERTY_PROVIDER_NAME = "org.openecomp.appc.provider.name";
+    static final String PROPERTY_PROVIDER_NAME = "org.onap.appc.provider.name";
 
     /**
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
-    static final String PROPERTY_INSTANCE_URL = "org.openecomp.appc.instance.url";
+    static final String PROPERTY_INSTANCE_URL = "org.onap.appc.instance.url";
 
     /**
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
-    static final String PROPERTY_IDENTITY_URL = "org.openecomp.appc.identity.url";
+    static final String PROPERTY_IDENTITY_URL = "org.onap.appc.identity.url";
 
     /**
      * The Rebuild VM flag is an optional payload parameter for the Evacuate API.
      */
-    static final String PROPERTY_REBUILD_VM = "org.openecomp.appc.rebuildvm";
+    static final String PROPERTY_REBUILD_VM = "org.onap.appc.rebuildvm";
 
     /**
      * The target host id is an optional payload parameter for the Evacuate API.
      */
-    static final String PROPERTY_TARGETHOST_ID = "org.openecomp.appc.targethost.id";
+    static final String PROPERTY_TARGETHOST_ID = "org.onap.appc.targethost.id";
 
     /**
      * heat stack id to perform operation on stack
      */
-    static final String PROPERTY_STACK_ID = "org.openecomp.appc.stack.id";
+    static final String PROPERTY_STACK_ID = "org.onap.appc.stack.id";
 
     static final String PROPERTY_SNAPSHOT_ID = "snapshot.id";
 
-    static final String PROPERTY_INPUT_SNAPSHOT_ID = "org.openecomp.appc.snapshot.id";
+    static final String PROPERTY_INPUT_SNAPSHOT_ID = "org.onap.appc.snapshot.id";
 
     static final String DG_OUTPUT_PARAM_NAMESPACE = "output.";
 
-    static final String SKIP_HYPERVISOR_CHECK = "org.openecomp.appc.skiphypervisorcheck";
+    static final String SKIP_HYPERVISOR_CHECK = "org.onap.appc.skiphypervisorcheck";
 
     /**
      * This method is used to restart an existing virtual machine given the fully qualified URL of the machine.
@@ -98,11 +98,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be restarted, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -125,11 +125,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be stopped, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -152,11 +152,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be started, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -179,11 +179,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be rebuilt, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -206,11 +206,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be terminate, as it is known to the provider (i.e., the self-link
      * URL of the server)</dd>
      * </dl>
@@ -252,11 +252,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * passed to the method are passed as properties in a map. This method expects the following properties to be
      * defined:
      * <dl>
-     * <dt>org.openecomp.appc.provider.type</dt>
+     * <dt>org.onap.appc.provider.type</dt>
      * <dd>The appropriate provider type, such as <code>OpenStackProvider</code>. This is used by the CDP IaaS
      * abstraction layer to dynamically load and open a connection to the appropriate provider type. All CDP supported
      * provider types are legal.</dd>
-     * <dt>org.openecomp.appc.instance.url</dt>
+     * <dt>org.onap.appc.instance.url</dt>
      * <dd>The fully qualified URL of the instance to be lookup, as it is known to the provider (i.e., the self-link URL
      * of the server)</dd>
      * </dl>

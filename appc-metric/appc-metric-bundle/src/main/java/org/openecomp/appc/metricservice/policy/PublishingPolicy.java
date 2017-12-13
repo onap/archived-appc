@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.policy;
+package org.onap.appc.metricservice.policy;
 
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.metricservice.metric.Metric;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.metricservice.metric.Metric;
 
 /**
  *

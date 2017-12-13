@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.flowbuilder.helper;
+package org.onap.appc.dg.flowbuilder.helper;
 
 import java.util.*;
 
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
 
 
 public class Graph<T> {

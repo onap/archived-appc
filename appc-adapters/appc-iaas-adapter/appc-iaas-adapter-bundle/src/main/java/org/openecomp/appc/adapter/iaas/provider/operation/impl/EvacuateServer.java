@@ -22,21 +22,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl;
+package org.onap.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.adapter.iaas.impl.ProviderAdapterImpl;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.IdentityURL;
+import org.onap.appc.adapter.iaas.impl.ProviderAdapterImpl;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.adapter.iaas.impl.VMURL;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
@@ -62,7 +62,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
+import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class EvacuateServer extends ProviderServerOperation {
 
@@ -137,7 +137,7 @@ public class EvacuateServer extends ProviderServerOperation {
 
 
     /**
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#evacuateServer(java.util.Map,
+     * @see org.onap.appc.adapter.iaas.ProviderAdapter#evacuateServer(java.util.Map,
      *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     private Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
@@ -233,17 +233,17 @@ public class EvacuateServer extends ProviderServerOperation {
                             // Check error code for rebuild errors. Evacuate had set it to 200 after
                             // a successful evacuate. Rebuild updates the error code.
                             String rebuildErrorCode =
-                                    ctx.getAttribute(org.openecomp.appc.Constants.ATTRIBUTE_ERROR_CODE);
+                                    ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE);
                             if (rebuildErrorCode != null) {
                                 try {
                                     int error_code = Integer.parseInt(rebuildErrorCode);
                                     if (error_code != HttpStatus.OK_200.getStatusCode()) {
                                         logger.debug("Rebuild after evacuate failed - error code=" + error_code
                                                 + ", message=" + ctx.getAttribute(
-                                                        org.openecomp.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+                                                        org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
                                         msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_REBUILD_FAILED,
                                                 server.getName(), hypervisor, hypervisor_after_evacuate,
-                                                ctx.getAttribute(org.openecomp.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+                                                ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
                                         logger.error(msg);
                                         metricsLogger.error(msg);
                                         ctx.setAttribute("EVACUATE_STATUS", "ERROR");
@@ -346,7 +346,7 @@ public class EvacuateServer extends ProviderServerOperation {
         MDC.put("ElapsedTime", durationStr);
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "evacuate server");
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.EvacuateServer");
+        MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.EvacuateServer");
     }
 
     public void setProvideAdapterRef(ProviderAdapterImpl pai) {

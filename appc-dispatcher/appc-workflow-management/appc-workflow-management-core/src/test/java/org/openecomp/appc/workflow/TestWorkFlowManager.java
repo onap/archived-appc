@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow;
+package org.onap.appc.workflow;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.openecomp.appc.workflow.impl.WorkFlowManagerImpl;
-import org.openecomp.appc.workflow.objects.WorkflowRequest;
+import org.onap.appc.workflow.impl.WorkFlowManagerImpl;
+import org.onap.appc.workflow.objects.WorkflowRequest;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
 import org.onap.ccsdk.sli.core.sli.SvcLogicNode;
@@ -177,7 +177,7 @@ public class TestWorkFlowManager {
         try {
             svcLogicConfigureNode.setAttribute("status", "success");
             svcLogicOtherNode.setAttribute("status", "failure");
-            svcLogicRootNode.setAttribute("test", "$org.openecomp.appc.action");
+            svcLogicRootNode.setAttribute("test", "$org.onap.appc.action");
             svcLogicRootNode.addOutcome("Configure", svcLogicConfigureNode);
             svcLogicRootNode.addOutcome("Other", svcLogicOtherNode);
         } catch (SvcLogicException e) {

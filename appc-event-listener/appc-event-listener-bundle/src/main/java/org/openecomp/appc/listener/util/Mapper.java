@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.util;
+package org.onap.appc.listener.util;
 
 import java.io.IOException;
 import java.util.ArrayList;

@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.objects;
+package org.onap.appc.dg.objects;
 
-import org.openecomp.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vnf;
 
 
 public class InventoryModel {

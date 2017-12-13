@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.dbervices;
+package org.onap.appc.design.dbervices;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

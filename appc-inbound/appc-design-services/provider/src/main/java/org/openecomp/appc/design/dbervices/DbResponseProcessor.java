@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.dbervices;
+package org.onap.appc.design.dbervices;
 
-import org.openecomp.appc.design.services.util.DesignServiceConstants;
+import org.onap.appc.design.services.util.DesignServiceConstants;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

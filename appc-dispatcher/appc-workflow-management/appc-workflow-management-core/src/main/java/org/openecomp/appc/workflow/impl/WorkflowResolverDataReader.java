@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.impl;
+package org.onap.appc.workflow.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,11 +32,11 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.openecomp.appc.dao.util.DBUtils;
-import org.openecomp.appc.rankingframework.AbstractRankedAttributesResolverFactory;
-import org.openecomp.appc.rankingframework.ConfigurationEntry;
-import org.openecomp.appc.rankingframework.ConfigurationSet;
-import org.openecomp.appc.rankingframework.RankedAttributesResolver;
+import org.onap.appc.dao.util.DBUtils;
+import org.onap.appc.rankingframework.AbstractRankedAttributesResolverFactory;
+import org.onap.appc.rankingframework.ConfigurationEntry;
+import org.onap.appc.rankingframework.ConfigurationSet;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 
 class WorkflowResolverDataReader {
 

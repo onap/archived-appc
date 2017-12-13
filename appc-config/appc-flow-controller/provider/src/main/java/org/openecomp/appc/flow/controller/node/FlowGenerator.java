@@ -18,17 +18,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.node;
+package org.onap.appc.flow.controller.node;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.openecomp.appc.flow.controller.data.Response;
-import org.openecomp.appc.flow.controller.data.ResponseAction;
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.data.Transactions;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.data.Response;
+import org.onap.appc.flow.controller.data.ResponseAction;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.data.Transactions;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

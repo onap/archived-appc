@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.ccadaptor;
+package org.onap.appc.ccadaptor;
 
 import java.util.ArrayList;
 import java.util.HashMap;

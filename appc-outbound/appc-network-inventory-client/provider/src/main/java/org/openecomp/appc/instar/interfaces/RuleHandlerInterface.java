@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.interfaces;
+package org.onap.appc.instar.interfaces;
 
 
 public interface RuleHandlerInterface {

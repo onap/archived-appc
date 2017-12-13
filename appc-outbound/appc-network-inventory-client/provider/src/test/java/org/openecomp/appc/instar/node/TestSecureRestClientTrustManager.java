@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.node;
+package org.onap.appc.instar.node;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.instar.dme2client.SecureRestClientTrustManager;
+import org.onap.appc.instar.dme2client.SecureRestClientTrustManager;
 
 public class TestSecureRestClientTrustManager {
 

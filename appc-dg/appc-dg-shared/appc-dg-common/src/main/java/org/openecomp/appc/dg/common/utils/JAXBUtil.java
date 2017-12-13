@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.utils;
+package org.onap.appc.dg.common.utils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

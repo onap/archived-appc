@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.node;
+package org.onap.appc.instar.node;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -34,11 +34,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.instar.interfaceImpl.InstarRestClientImpl;
-import org.openecomp.appc.instar.interfaceImpl.InterfaceIpAddressImpl;
-import org.openecomp.appc.instar.interfaces.RestClientInterface;
-import org.openecomp.appc.instar.interfaces.RuleHandlerInterface;
-import org.openecomp.appc.instar.utils.InstarClientConstant;
+import org.onap.appc.instar.interfaceImpl.InstarRestClientImpl;
+import org.onap.appc.instar.interfaceImpl.InterfaceIpAddressImpl;
+import org.onap.appc.instar.interfaces.RestClientInterface;
+import org.onap.appc.instar.interfaces.RuleHandlerInterface;
+import org.onap.appc.instar.utils.InstarClientConstant;
 import org.openecomp.sdnc.config.params.data.Parameter;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;

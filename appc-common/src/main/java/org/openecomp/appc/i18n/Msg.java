@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.i18n;
+package org.onap.appc.i18n;
 
 import com.att.eelf.i18n.EELFResolvableErrorEnum;
 import com.att.eelf.i18n.EELFResourceManager;
@@ -819,6 +819,6 @@ public enum Msg implements EELFResolvableErrorEnum {
      * Static initializer to ensure the resource bundles for this class are loaded...
      */
     static {
-        EELFResourceManager.loadMessageBundle("org/openecomp/appc/i18n/MessageResources");
+        EELFResourceManager.loadMessageBundle("org/onap/appc/i18n/MessageResources");
     }
 }

@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.licmgr.impl;
+package org.onap.appc.dg.licmgr.impl;
 
 import java.util.Map;
 
-import org.openecomp.appc.dg.licmgr.LicenseManagerPlugin;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.licmgr.Constants;
-import org.openecomp.appc.licmgr.LicenseManager;
-import org.openecomp.appc.licmgr.exception.DataAccessException;
-import org.openecomp.appc.licmgr.objects.LicenseModel;
+import org.onap.appc.dg.licmgr.LicenseManagerPlugin;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.licmgr.Constants;
+import org.onap.appc.licmgr.LicenseManager;
+import org.onap.appc.licmgr.exception.DataAccessException;
+import org.onap.appc.licmgr.objects.LicenseModel;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -52,8 +52,8 @@ public class LicenseManagerPluginImpl implements LicenseManagerPlugin {
     /**
      * Retrieves license model from APPC database and populate flags into svc context
      * @param params map with parameters:
-     *               org.openecomp.appc.vftype - the vnf type / service type;
-     *               org.openecomp.appc.resource-version - the vnf version / service version
+     *               org.onap.appc.vftype - the vnf type / service type;
+     *               org.onap.appc.resource-version - the vnf version / service version
      * @param ctx service logic context
      *            1. supposed properties already in context:
      *            aai.input.data.entitlement-assignment-group-uuid - entitlement-group-uuid asset tag already stored in AAI

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.tools.generator.api;
+package org.onap.appc.tools.generator.api;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

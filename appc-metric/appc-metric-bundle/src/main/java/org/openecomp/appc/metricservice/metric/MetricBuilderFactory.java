@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.metric;
+package org.onap.appc.metricservice.metric;
 
 
 public interface MetricBuilderFactory {

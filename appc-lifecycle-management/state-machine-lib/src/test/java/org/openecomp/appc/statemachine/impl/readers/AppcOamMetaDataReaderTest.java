@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl.readers;
+package org.onap.appc.statemachine.impl.readers;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
 
 import java.util.ArrayList;
 import java.util.List;

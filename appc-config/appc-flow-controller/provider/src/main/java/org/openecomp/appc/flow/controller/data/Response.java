@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.data;    
+package org.onap.appc.flow.controller.data;    
 
 import java.util.List;
 

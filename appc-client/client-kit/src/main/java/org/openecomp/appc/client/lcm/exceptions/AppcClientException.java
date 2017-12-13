@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.exceptions;
+package org.onap.appc.client.lcm.exceptions;
 
 public class AppcClientException extends Exception {
 

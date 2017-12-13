@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;

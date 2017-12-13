@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -38,7 +38,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 /**
  * This class tests the service catalog against a known provider.

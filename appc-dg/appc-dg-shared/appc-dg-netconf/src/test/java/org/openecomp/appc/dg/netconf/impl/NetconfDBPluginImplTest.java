@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.*;
-import org.openecomp.appc.adapter.netconf.ConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
-import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
-import org.openecomp.appc.dg.netconf.impl.NetconfDBPluginImpl;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.ConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfDataAccessService;
+import org.onap.appc.adapter.netconf.exception.DataAccessException;
+import org.onap.appc.dg.netconf.impl.NetconfDBPluginImpl;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.IOException;
@@ -66,7 +66,7 @@ public class NetconfDBPluginImplTest {
     public void testRetrieveDSConfiguration() throws Exception {
         init();
         params = new HashMap<>();
-        params.put("org.openecomp.appc.vftype", "VNF");
+        params.put("org.onap.appc.vftype", "VNF");
         params.put("configuration-file-name", "VnfGetRunningConfig");
         SvcLogicContext ctx = new SvcLogicContext();
         netconfDBPlugin.retrieveDSConfiguration(params, ctx);
@@ -86,7 +86,7 @@ public class NetconfDBPluginImplTest {
         try {
             netconfDBPlugin.retrieveDSConfiguration(params, ctx);
         } catch (DataAccessException e) {
-            //Assert.assertNotNull(ctx.getAttribute("org.openecomp.appc.dg.error"));
+            //Assert.assertNotNull(ctx.getAttribute("org.onap.appc.dg.error"));
             Assert.assertNull(ctx.getAttribute("file-content"));
         }
 
@@ -161,7 +161,7 @@ public class NetconfDBPluginImplTest {
     public void testRetrieveConnectionDetails() throws Exception {
         init();
         params = new HashMap<>();
-        params.put("org.openecomp.appc.vftype", "VNF");
+        params.put("org.onap.appc.vftype", "VNF");
         params.put("vnf-host-ip-address", host1);
         SvcLogicContext ctx = new SvcLogicContext();
         netconfDBPlugin.retrieveConnectionDetails(params, ctx);
@@ -173,7 +173,7 @@ public class NetconfDBPluginImplTest {
     public void testRetrieveConnectionDetailsNegativeJsonProcessingException() throws Exception {
         init();
         params = new HashMap<>();
-        params.put("org.openecomp.appc.vftype", "MOCK");
+        params.put("org.onap.appc.vftype", "MOCK");
         params.put("vnf-host-ip-address", host1);
         SvcLogicContext ctx = new SvcLogicContext();
 
@@ -192,7 +192,7 @@ public class NetconfDBPluginImplTest {
     public void testRetrieveConnectionDetailsNegativeMissingConfiguration() throws Exception {
         init();
         params = new HashMap<>();
-        params.put("org.openecomp.appc.vftype", "VNF");
+        params.put("org.onap.appc.vftype", "VNF");
         params.put("vnf-host-ip-address", host1);
         SvcLogicContext ctx = new SvcLogicContext();
         substituteMapper(true);

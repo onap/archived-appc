@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.utils;
+package org.onap.appc.artifact.handler.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

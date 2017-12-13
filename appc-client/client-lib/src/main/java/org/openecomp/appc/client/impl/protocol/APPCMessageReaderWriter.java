@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
-import org.openecomp.appc.client.impl.core.MessageContext;
+import org.onap.appc.client.impl.core.MessageContext;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;

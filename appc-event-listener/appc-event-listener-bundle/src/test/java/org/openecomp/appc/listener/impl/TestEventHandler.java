@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.impl;
+package org.onap.appc.listener.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -40,9 +40,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.listener.EventHandler;
-import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.impl.EventHandlerImpl;
+import org.onap.appc.listener.EventHandler;
+import org.onap.appc.listener.ListenerProperties;
+import org.onap.appc.listener.impl.EventHandlerImpl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -58,7 +58,7 @@ public class TestEventHandler {
 
     private EventHandler adapter;
 
-    private static final String PROP_FILE = "/org/openecomp/appc/default.properties";
+    private static final String PROP_FILE = "/org/onap/appc/default.properties";
 
     private static final String MESSAGE_FILE = "/DCAEResponse.txt";
 

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.internal;
+package org.onap.appc.adapter.netconf.internal;
 
 import java.io.ByteArrayOutputStream;
 

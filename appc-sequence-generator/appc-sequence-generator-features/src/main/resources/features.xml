@@ -30,14 +30,14 @@
 		version='${project.version}'>
 		<!--<feature version="${odl.controller.mdsal.version}">odl-mdsal-broker</feature>-->
 		<!--<feature>sdnc-sli</feature>-->
-		<bundle dependency="true">mvn:org.openecomp.appc/domain-model-lib/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-sequence-generator-model/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-sequence-generator-bundle/${project.version}</bundle>
-        <bundle>wrap:mvn:org.openecomp.appc/appc-dg-domain-model-lib/${project.version}</bundle>
-		<bundle>wrap:mvn:org.openecomp.appc/appc-dg-dependency-model/${project.version}</bundle>
+		<bundle dependency="true">mvn:org.onap.appc/domain-model-lib/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-common/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-sequence-generator-model/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-sequence-generator-bundle/${project.version}</bundle>
+        <bundle>wrap:mvn:org.onap.appc/appc-dg-domain-model-lib/${project.version}</bundle>
+		<bundle>wrap:mvn:org.onap.appc/appc-dg-dependency-model/${project.version}</bundle>
 		<configfile finalname="etc/opendaylight/karaf/201-appc-sequence-generator.xml">
-			mvn:org.openecomp.appc/appc-sequence-generator-bundle/${project.version}/xml/config</configfile>
+			mvn:org.onap.appc/appc-sequence-generator-bundle/${project.version}/xml/config</configfile>
 	</feature>
 
 </features>

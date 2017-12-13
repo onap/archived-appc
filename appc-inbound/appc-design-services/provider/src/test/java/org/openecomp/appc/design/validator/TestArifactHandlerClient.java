@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.design.services.util.ArtifactHandlerClient;
+import org.onap.appc.design.services.util.ArtifactHandlerClient;
 import junit.framework.Assert;
 import static org.mockito.Mockito.*;
 import java.io.File;

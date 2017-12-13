@@ -29,7 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.generator.JsonHelper;
+import org.onap.appc.generator.JsonHelper;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,8 +41,8 @@ import java.util.regex.Pattern;
 public class Json2JavaGeneratorTest {
 
     private static JsonNode jsonNode = null;
-    private static final String MODEL_PACKAGE = "org.openecomp.appc.client.lcm.model";
-    private static final String GENERATED_LCM_API_CLASS = "org.openecomp.appc.client.lcm.api.LifeCycleManagerStateful";
+    private static final String MODEL_PACKAGE = "org.onap.appc.client.lcm.model";
+    private static final String GENERATED_LCM_API_CLASS = "org.onap.appc.client.lcm.api.LifeCycleManagerStateful";
 
     //@Before
     public void readIOfiles() throws IOException{

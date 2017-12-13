@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.api;
+package org.onap.appc.lockmanager.api;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.lockmanager.api.LockException;
-import org.openecomp.appc.lockmanager.api.LockManager;
+import org.onap.appc.lockmanager.api.LockException;
+import org.onap.appc.lockmanager.api.LockManager;
 
 public abstract class LockManagerBaseTests {
 

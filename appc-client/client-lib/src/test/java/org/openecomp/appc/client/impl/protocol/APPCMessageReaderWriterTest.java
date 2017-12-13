@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
-import org.openecomp.appc.client.impl.core.MessageContext;
-import org.openecomp.appc.client.impl.protocol.APPCMessageReaderWriter;
-import org.openecomp.appc.client.impl.protocol.ProtocolException;
+import org.onap.appc.client.impl.core.MessageContext;
+import org.onap.appc.client.impl.protocol.APPCMessageReaderWriter;
+import org.onap.appc.client.impl.protocol.ProtocolException;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;

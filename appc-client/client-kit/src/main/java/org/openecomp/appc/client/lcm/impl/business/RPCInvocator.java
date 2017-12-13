@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.impl.business;
+package org.onap.appc.client.lcm.impl.business;
 
-import org.openecomp.appc.RPC;
-import org.openecomp.appc.client.lcm.api.ResponseHandler;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientBusinessException;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientInternalException;
+import org.onap.appc.RPC;
+import org.onap.appc.client.lcm.api.ResponseHandler;
+import org.onap.appc.client.lcm.exceptions.AppcClientBusinessException;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.client.lcm.exceptions.AppcClientInternalException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.interfaceImpl;
+package org.onap.appc.instar.interfaceImpl;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 
 import org.apache.commons.io.IOUtils;
-import org.openecomp.appc.instar.dme2client.Dme2Client;
-import org.openecomp.appc.instar.interfaces.RestClientInterface;
-import org.openecomp.appc.instar.utils.InstarClientConstant;
+import org.onap.appc.instar.dme2client.Dme2Client;
+import org.onap.appc.instar.interfaces.RestClientInterface;
+import org.onap.appc.instar.utils.InstarClientConstant;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

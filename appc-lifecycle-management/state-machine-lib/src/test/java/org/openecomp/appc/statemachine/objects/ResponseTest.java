@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.objects;
+package org.onap.appc.statemachine.objects;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice;
+package org.onap.appc.metricservice;
 
-import org.openecomp.appc.metricservice.metric.Counter;
-import org.openecomp.appc.metricservice.metric.Metric;
-import org.openecomp.appc.metricservice.metric.MetricBuilderFactory;
-import org.openecomp.appc.metricservice.policy.PolicyBuilderFactory;
-import org.openecomp.appc.metricservice.policy.PublishingPolicy;
+import org.onap.appc.metricservice.metric.Counter;
+import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.metric.MetricBuilderFactory;
+import org.onap.appc.metricservice.policy.PolicyBuilderFactory;
+import org.onap.appc.metricservice.policy.PublishingPolicy;
 
 /**
  *

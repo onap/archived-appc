@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.policy.impl;
+package org.onap.appc.metricservice.policy.impl;
 
-import org.openecomp.appc.metricservice.Publisher;
-import org.openecomp.appc.metricservice.metric.Metric;
-import org.openecomp.appc.metricservice.policy.PublishingPolicy;
-import org.openecomp.appc.metricservice.policy.ScheduledPolicyBuilder;
+import org.onap.appc.metricservice.Publisher;
+import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.policy.PublishingPolicy;
+import org.onap.appc.metricservice.policy.ScheduledPolicyBuilder;
 
 
 public class ScheduledPolicyBuilderImpl implements ScheduledPolicyBuilder {

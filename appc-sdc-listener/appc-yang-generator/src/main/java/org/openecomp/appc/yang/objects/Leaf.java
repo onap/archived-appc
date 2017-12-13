@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.yang.objects;
+package org.onap.appc.yang.objects;
 
 public class Leaf {
 	private String name;

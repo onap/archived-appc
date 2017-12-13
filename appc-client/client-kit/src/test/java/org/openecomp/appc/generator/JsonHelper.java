@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.generator;
+package org.onap.appc.generator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metadata;
+package org.onap.appc.metadata;
 
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 
 
 public interface MetadataService {

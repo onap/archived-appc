@@ -271,7 +271,7 @@ Log File Locations
 The logging configuration file, ``org.ops4j.pax.logging.cfg`` are located in
 appc Git repository:
 
-``/appc/appc-common/src/main/resources/org/openecomp/appc/org.ops4j.pax.logging.cfg``
+``/appc/appc-common/src/main/resources/org/onap/appc/org.ops4j.pax.logging.cfg``
 
 
 The logs are stored at the location defined by the appropriate appender:
@@ -296,7 +296,7 @@ To enable EELF logging:
 
    with the configuration file that is checked into git:
 
-   ``/appc/appc-common/src/main/resources/org/openecomp/appc/org.ops4j.pax.logging.cfg``
+   ``/appc/appc-common/src/main/resources/org/onap/appc/org.ops4j.pax.logging.cfg``
 
 2. Stop and restart ODL controller for the configuration changes to take
    effect.

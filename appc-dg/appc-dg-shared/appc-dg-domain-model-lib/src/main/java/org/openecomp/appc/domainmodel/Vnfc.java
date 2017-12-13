@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.domainmodel;
+package org.onap.appc.domainmodel;
 
 import java.util.LinkedList;
 import java.util.List;

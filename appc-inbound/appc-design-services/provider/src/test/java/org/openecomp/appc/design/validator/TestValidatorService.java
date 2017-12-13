@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Properties;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.design.services.util.DesignServiceConstants;
+import org.onap.appc.design.services.util.DesignServiceConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

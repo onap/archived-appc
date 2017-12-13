@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.impl;
+package org.onap.appc.executor.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;

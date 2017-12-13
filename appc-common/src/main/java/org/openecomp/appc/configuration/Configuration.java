@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.configuration;
+package org.onap.appc.configuration;
 
 import java.util.Properties;
 
@@ -40,12 +40,12 @@ import org.slf4j.Logger;
  */
 public interface Configuration {
 
-    String PROPERTY_BOOTSTRAP_FILE_NAME = "org_openecomp_appc_bootstrap_file"; //
+    String PROPERTY_BOOTSTRAP_FILE_NAME = "org_onap_appc_bootstrap_file"; //
     String DEFAULT_BOOTSTRAP_FILE_NAME = "appc.properties"; 
-    String PROPERTY_BOOTSTRAP_FILE_PATH = "org_openecomp_appc_bootstrap_path"; //
+    String PROPERTY_BOOTSTRAP_FILE_PATH = "org_onap_appc_bootstrap_path"; //
     String DEFAULT_BOOTSTRAP_FILE_PATH = "/opt/openecomp/appc/data/properties,${user.home},etc,../etc";
-    String PROPERTY_RESOURCE_BUNDLES = "org.openecomp.appc.resources"; 
-    String DEFAULT_RESOURCE_BUNDLES = "org/openecomp/appc/i18n/MessageResources";
+    String PROPERTY_RESOURCE_BUNDLES = "org.onap.appc.resources"; 
+    String DEFAULT_RESOURCE_BUNDLES = "org/onap/appc/i18n/MessageResources";
 
    /**
      * This method is called to obtain a property expressed as a boolean value (true or false). The standard rules for

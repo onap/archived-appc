@@ -30,8 +30,8 @@
 
     <feature name='appc-license-manager' description="application license manager" version='${project.version}'>
         <bundle>mvn:com.sun.mail/javax.mail/1.5.0</bundle>
-        <bundle>mvn:org.openecomp.appc/appc-license-manager-api/${project.version}</bundle>
-        <bundle>mvn:org.openecomp.appc/appc-license-manager-core/${project.version}</bundle>
+        <bundle>mvn:org.onap.appc/appc-license-manager-api/${project.version}</bundle>
+        <bundle>mvn:org.onap.appc/appc-license-manager-core/${project.version}</bundle>
     </feature>
 
 </features>

@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.listener;
+package org.onap.appc.sdc.listener;
 import org.openecomp.sdc.utils.DistributionStatusEnum;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.consumer.IDistributionStatusMessage;
 import org.openecomp.sdc.api.notification.IArtifactInfo;

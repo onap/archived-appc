@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.impl.business;
+package org.onap.appc.client.lcm.impl.business;
 
-import org.openecomp.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
-import org.openecomp.appc.client.lcm.api.ApplicationContext;
-import org.openecomp.appc.client.lcm.api.LifeCycleManagerStateful;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
+import org.onap.appc.client.lcm.api.ApplicationContext;
+import org.onap.appc.client.lcm.api.LifeCycleManagerStateful;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
 
 import java.lang.reflect.Proxy;
 import java.util.Properties;

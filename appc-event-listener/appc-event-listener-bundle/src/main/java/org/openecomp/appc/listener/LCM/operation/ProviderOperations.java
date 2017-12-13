@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM.operation;
+package org.onap.appc.listener.LCM.operation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.codec.binary.Base64;
@@ -44,9 +44,9 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.listener.LCM.model.ResponseStatus;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.listener.LCM.model.ResponseStatus;
+import org.onap.appc.listener.util.Mapper;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

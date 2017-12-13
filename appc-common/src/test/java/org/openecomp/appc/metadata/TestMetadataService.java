@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metadata;
+package org.onap.appc.metadata;
 
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import com.sun.rowset.CachedRowSetImpl;
 import org.mockito.Mockito;
-import org.openecomp.appc.metadata.impl.MetadataServiceImpl;
+import org.onap.appc.metadata.impl.MetadataServiceImpl;
 
 import javax.sql.rowset.CachedRowSet;
 import java.sql.SQLException;

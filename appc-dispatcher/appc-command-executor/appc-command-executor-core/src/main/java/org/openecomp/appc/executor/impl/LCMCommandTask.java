@@ -22,30 +22,30 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.impl;
+package org.onap.appc.executor.impl;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.domainmodel.lcm.CommonHeader;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.executor.UnstableVNFException;
-import org.openecomp.appc.executor.objects.CommandResponse;
-import org.openecomp.appc.executor.objects.LCMCommandStatus;
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.executor.objects.UniqueRequestIdentifier;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.lifecyclemanager.objects.VNFOperationOutcome;
-import org.openecomp.appc.logging.LoggingConstants;
-import org.openecomp.appc.requesthandler.RequestHandler;
-import org.openecomp.appc.workflow.WorkFlowManager;
-import org.openecomp.appc.workflow.objects.WorkflowResponse;
+import org.onap.appc.domainmodel.lcm.CommonHeader;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.Status;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.executor.objects.CommandResponse;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.executor.objects.UniqueRequestIdentifier;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.lifecyclemanager.objects.VNFOperationOutcome;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.requesthandler.RequestHandler;
+import org.onap.appc.workflow.WorkFlowManager;
+import org.onap.appc.workflow.objects.WorkflowResponse;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;

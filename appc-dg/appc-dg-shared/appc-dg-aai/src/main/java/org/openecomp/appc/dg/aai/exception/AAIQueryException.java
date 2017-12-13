@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.aai.exception;
+package org.onap.appc.dg.aai.exception;
 
 
 public class AAIQueryException extends Exception{

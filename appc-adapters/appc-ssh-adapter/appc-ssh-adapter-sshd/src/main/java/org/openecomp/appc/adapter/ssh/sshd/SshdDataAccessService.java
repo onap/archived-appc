@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh.sshd;
+package org.onap.appc.adapter.ssh.sshd;
 
 import javax.sql.rowset.CachedRowSet;
 
-import org.openecomp.appc.adapter.ssh.Constants;
-import org.openecomp.appc.adapter.ssh.SshConnectionDetails;
-import org.openecomp.appc.adapter.ssh.SshDataAccessException;
-import org.openecomp.appc.adapter.ssh.SshDataAccessService;
+import org.onap.appc.adapter.ssh.Constants;
+import org.onap.appc.adapter.ssh.SshConnectionDetails;
+import org.onap.appc.adapter.ssh.SshDataAccessException;
+import org.onap.appc.adapter.ssh.SshDataAccessService;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import java.sql.SQLException;

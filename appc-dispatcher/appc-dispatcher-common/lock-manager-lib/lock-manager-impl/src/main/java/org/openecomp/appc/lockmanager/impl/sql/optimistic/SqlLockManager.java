@@ -22,17 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql.optimistic;
+package org.onap.appc.lockmanager.impl.sql.optimistic;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.openecomp.appc.lockmanager.api.LockException;
-import org.openecomp.appc.lockmanager.api.LockRuntimeException;
-import org.openecomp.appc.lockmanager.impl.sql.JdbcLockManager;
-import org.openecomp.appc.lockmanager.impl.sql.Messages;
+import org.onap.appc.lockmanager.api.LockException;
+import org.onap.appc.lockmanager.api.LockRuntimeException;
+import org.onap.appc.lockmanager.impl.sql.JdbcLockManager;
+import org.onap.appc.lockmanager.impl.sql.Messages;
 
 abstract class SqlLockManager extends JdbcLockManager {
 

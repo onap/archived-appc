@@ -32,9 +32,9 @@
 
     <feature name='appc-oam' description="appc oam module" version='${project.version}'>
         <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
-        <bundle>mvn:org.openecomp.appc/appc-oam-model/${project.version}</bundle>
-        <bundle>mvn:org.openecomp.appc/appc-oam-bundle/${project.version}</bundle>
-        <configfile finalname="etc/opendaylight/karaf/201-appc-oam.xml">mvn:org.openecomp.appc/appc-oam-bundle/${project.version}/xml/config</configfile>
+        <bundle>mvn:org.onap.appc/appc-oam-model/${project.version}</bundle>
+        <bundle>mvn:org.onap.appc/appc-oam-bundle/${project.version}</bundle>
+        <configfile finalname="etc/opendaylight/karaf/201-appc-oam.xml">mvn:org.onap.appc/appc-oam-bundle/${project.version}/xml/config</configfile>
     </feature>
 
 </features>

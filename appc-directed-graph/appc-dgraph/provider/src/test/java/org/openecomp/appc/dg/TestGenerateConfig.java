@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 
 import static org.junit.Assert.*;
@@ -29,8 +29,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.dg.mock.instance.MockConfigureNodeExecutor;
-import org.openecomp.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
+import org.onap.appc.dg.mock.instance.MockConfigureNodeExecutor;
+import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.powermock.api.mockito.PowerMockito;
@@ -71,7 +71,7 @@ public class TestGenerateConfig /* extends AbstractDGTestCase */ {
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
 			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 			
-			serviceReferences.put("org.openecomp.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
+			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 
 		
 			GraphKey  graphKey = new GraphKey("APPC", null, "GenerateConfig", null);
@@ -108,7 +108,7 @@ public class TestGenerateConfig /* extends AbstractDGTestCase */ {
 			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
 			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 			
-			serviceReferences.put("org.openecomp.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
+			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 
 
 			GraphKey  graphKey = new GraphKey("APPC", null, "GenerateConfig", null);

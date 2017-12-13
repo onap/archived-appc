@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.ccadaptor;
+package org.onap.appc.ccadaptor;
 
 import java.security.Provider;
 import java.security.Provider.Service;

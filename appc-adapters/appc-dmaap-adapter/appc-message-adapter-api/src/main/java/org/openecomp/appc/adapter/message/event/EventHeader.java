@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.message.event;
+package org.onap.appc.adapter.message.event;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

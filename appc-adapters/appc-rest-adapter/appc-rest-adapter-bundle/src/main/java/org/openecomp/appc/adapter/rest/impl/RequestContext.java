@@ -24,11 +24,11 @@
 
 
 
-package org.openecomp.appc.adapter.rest.impl;
+package org.onap.appc.adapter.rest.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 /**

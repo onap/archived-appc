@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import java.io.File;
 import java.io.InputStream;
@@ -33,9 +33,9 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.design.dbervices.DbService;
-import org.openecomp.appc.design.dbervices.DesignDBService;
-import org.openecomp.appc.design.propertyServices.PropertyUpdateService;
+import org.onap.appc.design.dbervices.DbService;
+import org.onap.appc.design.dbervices.DesignDBService;
+import org.onap.appc.design.propertyServices.PropertyUpdateService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import junit.framework.Assert;

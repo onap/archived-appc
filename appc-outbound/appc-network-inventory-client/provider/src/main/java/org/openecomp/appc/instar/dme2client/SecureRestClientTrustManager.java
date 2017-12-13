@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.dme2client;
+package org.onap.appc.instar.dme2client;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;

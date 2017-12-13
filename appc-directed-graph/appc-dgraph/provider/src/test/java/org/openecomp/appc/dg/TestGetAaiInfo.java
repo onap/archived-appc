@@ -18,15 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.openecomp.appc.dg.mock.instance.MockConfigureNodeExecutor;
-import org.openecomp.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
+import org.onap.appc.dg.mock.instance.MockConfigureNodeExecutor;
+import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

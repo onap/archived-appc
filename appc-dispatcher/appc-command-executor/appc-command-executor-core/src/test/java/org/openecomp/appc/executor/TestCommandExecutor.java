@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor;
+package org.onap.appc.executor;
 /**
  *
  */
@@ -34,19 +34,19 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
-import org.openecomp.appc.domainmodel.lcm.CommonHeader;
-import org.openecomp.appc.domainmodel.lcm.Flags;
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.VNFContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executionqueue.ExecutionQueueService;
-import org.openecomp.appc.executor.impl.*;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.requesthandler.RequestHandler;
-import org.openecomp.appc.workflow.WorkFlowManager;
+import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
+import org.onap.appc.domainmodel.lcm.CommonHeader;
+import org.onap.appc.domainmodel.lcm.Flags;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.VNFContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.executionqueue.ExecutionQueueService;
+import org.onap.appc.executor.impl.*;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.requesthandler.RequestHandler;
+import org.onap.appc.workflow.WorkFlowManager;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.util.Date;

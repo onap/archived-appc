@@ -24,7 +24,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.rest.impl;
+package org.onap.appc.adapter.rest.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,7 +42,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.exceptions.ZoneException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
@@ -71,8 +71,8 @@ public class TestRestAdapterImpl {
         ZoneException, APPCException {
 
         Map<String, String> params = new HashMap<>();
-        params.put("org.openecomp.appc.instance.URI", "http://example.com:8080/about/health");
-        params.put("org.openecomp.appc.instance.haveHeader","false");
+        params.put("org.onap.appc.instance.URI", "http://example.com:8080/about/health");
+        params.put("org.onap.appc.instance.haveHeader","false");
 
         HttpGet httpGet = ((HttpGet) givenParams(params, "GET"));
 
@@ -85,9 +85,9 @@ public class TestRestAdapterImpl {
         ZoneException, APPCException {    
 
         Map<String, String> params = new HashMap<>();
-        params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/posttest");
-        params.put("org.openecomp.appc.instance.haveHeader","false");
-        params.put("org.openecomp.appc.instance.requestBody", "{\"name\":\"MyNode\", \"width\":200, \"height\":100}");
+        params.put("org.onap.appc.instance.URI", "http://example.com:8081/posttest");
+        params.put("org.onap.appc.instance.haveHeader","false");
+        params.put("org.onap.appc.instance.requestBody", "{\"name\":\"MyNode\", \"width\":200, \"height\":100}");
 
         HttpPost httpPost = ((HttpPost) givenParams(params, "POST"));
 
@@ -101,9 +101,9 @@ public class TestRestAdapterImpl {
         ZoneException, APPCException {    
 
         Map<String, String> params = new HashMap<>();
-        params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/puttest");
-        params.put("org.openecomp.appc.instance.haveHeader","false");
-        params.put("org.openecomp.appc.instance.requestBody", "{\"name\":\"MyNode2\", \"width\":300, \"height\":300}");
+        params.put("org.onap.appc.instance.URI", "http://example.com:8081/puttest");
+        params.put("org.onap.appc.instance.haveHeader","false");
+        params.put("org.onap.appc.instance.requestBody", "{\"name\":\"MyNode2\", \"width\":300, \"height\":300}");
 
         HttpPut httpPut = ((HttpPut) givenParams(params, "PUT"));
         //Header headers[] = httpPut.getAllHeaders();
@@ -118,8 +118,8 @@ public class TestRestAdapterImpl {
         ZoneException, APPCException {    
 
         Map<String, String> params = new HashMap<>();
-        params.put("org.openecomp.appc.instance.URI", "http://example.com:8081/deletetest");
-        params.put("org.openecomp.appc.instance.haveHeader","false");
+        params.put("org.onap.appc.instance.URI", "http://example.com:8081/deletetest");
+        params.put("org.onap.appc.instance.haveHeader","false");
 
         HttpDelete httpDelete = ((HttpDelete) givenParams(params, "DELETE"));
 

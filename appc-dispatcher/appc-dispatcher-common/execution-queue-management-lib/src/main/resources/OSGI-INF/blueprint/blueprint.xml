@@ -28,20 +28,20 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-    <bean id="ExecutionQueueUtilBean" class="org.openecomp.appc.executionqueue.helper.Util" scope="singleton"
+    <bean id="ExecutionQueueUtilBean" class="org.onap.appc.executionqueue.helper.Util" scope="singleton"
           init-method="init">
     </bean>
 
-    <bean id="QueueManagerBean" class="org.openecomp.appc.executionqueue.impl.QueueManager" scope="singleton"
+    <bean id="QueueManagerBean" class="org.onap.appc.executionqueue.impl.QueueManager" scope="singleton"
           init-method="init" destroy-method="stop">
         <property name="executionQueueUtil" ref="ExecutionQueueUtilBean"/>
     </bean>
 
-    <bean id="ExecutionQueueServiceBean" class="org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceImpl"
+    <bean id="ExecutionQueueServiceBean" class="org.onap.appc.executionqueue.impl.ExecutionQueueServiceImpl"
           scope="singleton">
         <property name="queueManager" ref="QueueManagerBean"/>
     </bean>
 
-    <service id="ExecutionQueueService" interface="org.openecomp.appc.executionqueue.ExecutionQueueService"
+    <service id="ExecutionQueueService" interface="org.onap.appc.executionqueue.ExecutionQueueService"
              ref="ExecutionQueueServiceBean"/>
 </blueprint>

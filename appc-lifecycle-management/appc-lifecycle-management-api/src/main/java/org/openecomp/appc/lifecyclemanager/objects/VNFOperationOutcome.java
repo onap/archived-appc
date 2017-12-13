@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lifecyclemanager.objects;
+package org.onap.appc.lifecyclemanager.objects;
 
 public enum VNFOperationOutcome {
     SUCCESS,FAILURE,EXPIRE;

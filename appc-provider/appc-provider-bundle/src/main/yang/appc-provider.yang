@@ -25,7 +25,7 @@
 module appc-provider-impl {
 
     yang-version 1;
-    namespace "org:openecomp:appc:provider:impl";
+    namespace "org:onap:appc:provider:impl";
     prefix "appc-provider-impl";
 
     import config { prefix config; revision-date 2013-04-05; }

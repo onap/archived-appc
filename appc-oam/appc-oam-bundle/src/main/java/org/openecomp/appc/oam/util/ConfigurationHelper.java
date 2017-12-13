@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.util;
+package org.onap.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.apache.commons.lang3.ArrayUtils;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 import java.util.concurrent.TimeUnit;
 

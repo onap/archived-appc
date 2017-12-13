@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
 import java.security.SecureRandom;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
-import org.openecomp.appc.listener.impl.EventHandlerImpl;
+import org.onap.appc.listener.impl.EventHandlerImpl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

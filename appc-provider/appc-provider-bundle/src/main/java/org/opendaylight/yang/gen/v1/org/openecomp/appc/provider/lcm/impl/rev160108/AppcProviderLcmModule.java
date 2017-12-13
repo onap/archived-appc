@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.lcm.impl.rev160108;
+package org.opendaylight.yang.gen.v1.org.onap.appc.provider.lcm.impl.rev160108;
 
-import org.openecomp.appc.provider.AppcProviderLcm;
+import org.onap.appc.provider.AppcProviderLcm;
 
-public class AppcProviderLcmModule extends org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.lcm.impl.rev160108.AbstractAppcProviderLcmModule {
+public class AppcProviderLcmModule extends org.opendaylight.yang.gen.v1.org.onap.appc.provider.lcm.impl.rev160108.AbstractAppcProviderLcmModule {
     public AppcProviderLcmModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
     }
 
-    public AppcProviderLcmModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.lcm.impl.rev160108.AppcProviderLcmModule oldModule, java.lang.AutoCloseable oldInstance) {
+    public AppcProviderLcmModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.onap.appc.provider.lcm.impl.rev160108.AppcProviderLcmModule oldModule, java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 

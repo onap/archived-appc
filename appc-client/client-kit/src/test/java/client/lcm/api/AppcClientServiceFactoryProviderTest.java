@@ -26,8 +26,8 @@ package client.lcm.api;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.client.lcm.api.AppcClientServiceFactoryProvider;
-import org.openecomp.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
+import org.onap.appc.client.lcm.api.AppcClientServiceFactoryProvider;
+import org.onap.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
 
 public class AppcClientServiceFactoryProviderTest {
 

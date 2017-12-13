@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.util;
+package org.onap.appc.listener.util;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -36,7 +36,7 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.listener.util.Mapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

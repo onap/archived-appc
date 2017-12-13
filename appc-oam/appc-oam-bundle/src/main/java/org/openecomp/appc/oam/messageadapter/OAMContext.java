@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.messageadapter;
+package org.onap.appc.oam.messageadapter;
 
 
 
 
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.*;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeaderBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.Status;import org.openecomp.appc.oam.AppcOam;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.*;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeaderBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;import org.onap.appc.oam.AppcOam;
 
 public class OAMContext {
 

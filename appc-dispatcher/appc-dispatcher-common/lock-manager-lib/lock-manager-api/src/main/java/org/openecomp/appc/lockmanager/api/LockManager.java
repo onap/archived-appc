@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.api;
+package org.onap.appc.lockmanager.api;
 
 /**
  * Enables locking and unlocking of a resource by id.

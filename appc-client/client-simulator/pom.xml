@@ -27,7 +27,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>appc-java-client</artifactId>
-        <groupId>org.openecomp.appc.client</groupId>
+        <groupId>org.onap.appc.client</groupId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
     <artifactId>client-simulator</artifactId>
@@ -51,7 +51,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>org.openecomp.appc.simulator.client.main.ClientRunner</mainClass>
+                                    <mainClass>org.onap.appc.simulator.client.main.ClientRunner</mainClass>
                                 </manifest>
                             </archive>
                             <descriptors>
@@ -96,7 +96,7 @@
             <version>${jackson.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.openecomp.appc.client</groupId>
+            <groupId>org.onap.appc.client</groupId>
             <artifactId>client-kit</artifactId>
             <version>${project.version}</version>
         </dependency>

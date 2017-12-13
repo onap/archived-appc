@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.messageadapter;
+package org.onap.appc.oam.messageadapter;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -32,15 +32,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.MaintenanceModeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.RestartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.StopOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.Status;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.MaintenanceModeOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.RestartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.StartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.StopOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;
 import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.yang.binding.DataContainer;
-import org.openecomp.appc.oam.AppcOam;
+import org.onap.appc.oam.AppcOam;
 
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;

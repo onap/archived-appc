@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.objects;
+package org.onap.appc.workflow.objects;
 
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.VNFContext;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.VNFContext;
 
 
 public class WorkflowRequest {

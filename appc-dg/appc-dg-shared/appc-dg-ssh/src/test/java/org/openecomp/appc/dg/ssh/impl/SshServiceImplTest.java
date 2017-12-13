@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.ssh.impl;
+package org.onap.appc.dg.ssh.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,12 +31,12 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.openecomp.appc.adapter.ssh.SshAdapterMock;
-import org.openecomp.appc.adapter.ssh.SshConnectionDetails;
-import org.openecomp.appc.adapter.ssh.SshConnectionMock;
-import org.openecomp.appc.dg.ssh.SshService;
-import org.openecomp.appc.dg.ssh.impl.SshServiceImpl;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.ssh.SshAdapterMock;
+import org.onap.appc.adapter.ssh.SshConnectionDetails;
+import org.onap.appc.adapter.ssh.SshConnectionMock;
+import org.onap.appc.dg.ssh.SshService;
+import org.onap.appc.dg.ssh.impl.SshServiceImpl;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.HashMap;

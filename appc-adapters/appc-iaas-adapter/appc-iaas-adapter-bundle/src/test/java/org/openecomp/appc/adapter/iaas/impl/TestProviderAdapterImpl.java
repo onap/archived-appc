@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -41,16 +41,16 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.ProviderAdapterImpl;
-import org.openecomp.appc.adapter.iaas.impl.ProviderCache;
-import org.openecomp.appc.adapter.iaas.impl.ServiceCatalog;
-import org.openecomp.appc.adapter.iaas.impl.TenantCache;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.exceptions.UnknownProviderException;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.ProviderAdapterImpl;
+import org.onap.appc.adapter.iaas.impl.ProviderCache;
+import org.onap.appc.adapter.iaas.impl.ServiceCatalog;
+import org.onap.appc.adapter.iaas.impl.TenantCache;
+import org.onap.appc.adapter.iaas.impl.VMURL;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.UnknownProviderException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.ComputeService;
 import com.att.cdp.zones.Context;
@@ -64,7 +64,7 @@ import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 /**
  * Test the ProviderAdapter implementation.
  */
-@Category(org.openecomp.appc.adapter.iaas.impl.TestProviderAdapterImpl.class)
+@Category(org.onap.appc.adapter.iaas.impl.TestProviderAdapterImpl.class)
 public class TestProviderAdapterImpl {
 
     @SuppressWarnings("nls")

@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
 import java.util.HashMap;
 
-import org.openecomp.appc.adapter.netconf.ConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
-import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
+import org.onap.appc.adapter.netconf.ConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfDataAccessService;
+import org.onap.appc.adapter.netconf.exception.DataAccessException;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 class DAOServiceMock implements NetconfDataAccessService {

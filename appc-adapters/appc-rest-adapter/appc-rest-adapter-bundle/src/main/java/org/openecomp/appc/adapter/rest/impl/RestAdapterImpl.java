@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.rest.impl;
+package org.onap.appc.adapter.rest.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -39,11 +39,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.json.JSONObject;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.rest.RestAdapter;
-import org.openecomp.appc.adapter.rest.RequestFactory;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.rest.RestAdapter;
+import org.onap.appc.adapter.rest.RequestFactory;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Iterator;
@@ -91,7 +91,7 @@ public class RestAdapterImpl implements RestAdapter {
      * Returns the symbolic name of the adapter
      *
      * @return The adapter name
-     * @see org.openecomp.appc.adapter.rest.RestAdapter#getAdapterName()
+     * @see org.onap.appc.adapter.rest.RestAdapter#getAdapterName()
      */
     @Override
     public String getAdapterName() {
@@ -197,9 +197,9 @@ public class RestAdapterImpl implements RestAdapter {
     public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc){
         HttpRequestBase httpRequest = null;
         try {
-            String tUrl = params.get("org.openecomp.appc.instance.URI");
-            String haveHeader = params.get("org.openecomp.appc.instance.haveHeader");
-            String headers = params.get("org.openecomp.appc.instance.headers");
+            String tUrl = params.get("org.onap.appc.instance.URI");
+            String haveHeader = params.get("org.onap.appc.instance.haveHeader");
+            String headers = params.get("org.onap.appc.instance.headers");
 
             Supplier<RequestFactory> requestFactory =  RequestFactory::new;
             httpRequest = requestFactory.get().getHttpRequest(method, tUrl);
@@ -213,8 +213,8 @@ public class RestAdapterImpl implements RestAdapter {
                     httpRequest.addHeader(String1, String2);
                 }
             }
-            if (params.containsKey("org.openecomp.appc.instance.requestBody")) {
-                String body = params.get("org.openecomp.appc.instance.requestBody");
+            if (params.containsKey("org.onap.appc.instance.requestBody")) {
+                String body = params.get("org.onap.appc.instance.requestBody");
                 StringEntity bodyParams = new StringEntity (body,"UTF-8");
                 if (method.equals("PUT")){
                     HttpPut httpPut = (HttpPut) httpRequest;

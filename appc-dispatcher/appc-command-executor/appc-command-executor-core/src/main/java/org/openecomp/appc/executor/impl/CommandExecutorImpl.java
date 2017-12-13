@@ -25,16 +25,16 @@
 /**
  *
  */
-package org.openecomp.appc.executor.impl;
+package org.onap.appc.executor.impl;
 
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang.ObjectUtils;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executionqueue.ExecutionQueueService;
-import org.openecomp.appc.executor.CommandExecutor;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.executionqueue.ExecutionQueueService;
+import org.onap.appc.executor.CommandExecutor;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;

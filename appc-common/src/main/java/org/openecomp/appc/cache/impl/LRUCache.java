@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.cache.impl;
+package org.onap.appc.cache.impl;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.openecomp.appc.cache.CacheStrategy;
+import org.onap.appc.cache.CacheStrategy;
 
 /**
  * LRU cache implements CacheStategy<K, V>

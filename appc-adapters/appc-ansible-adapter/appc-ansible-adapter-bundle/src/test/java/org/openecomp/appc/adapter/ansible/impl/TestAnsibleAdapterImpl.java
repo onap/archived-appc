@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ansible.impl;
+package org.onap.appc.adapter.ansible.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -42,15 +42,15 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.Constants;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.slf4j.MDC;
 
-import org.openecomp.appc.adapter.ansible.AnsibleAdapter;
-import org.openecomp.appc.adapter.ansible.impl.AnsibleAdapterImpl;
+import org.onap.appc.adapter.ansible.AnsibleAdapter;
+import org.onap.appc.adapter.ansible.impl.AnsibleAdapterImpl;
 
 public class TestAnsibleAdapterImpl {
 
@@ -85,14 +85,14 @@ public class TestAnsibleAdapterImpl {
             try{
 		String Pending = "100";
 		adapter.reqExec(params, svcContext);
-		String status=svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.code");
-		TestId=svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.Id");
+		String status=svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
+		TestId=svcContext.getAttribute("org.onap.appc.adapter.ansible.result.Id");
 		System.out.println("Comparing " + Pending + " and " + status);
 		assertEquals(Pending,status);
 	    }
 	    catch(SvcLogicException e){
-	        String message  =svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.message");	
-		String status=svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.code");
+	        String message  =svcContext.getAttribute("org.onap.appc.adapter.ansible.result.message");	
+		String status=svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
 		fail(e.getMessage() + " Code = " + status);
 	    }
 	    catch(Exception e){
@@ -120,12 +120,12 @@ public class TestAnsibleAdapterImpl {
 
             try{
 		adapter.reqExecResult(params, svcContext);
-		String status=svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.code");
+		String status=svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
 		assertEquals("400",status);
 	    }
 	    catch(SvcLogicException e){
-	        String message  = svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.message");	
-		String status=svcContext.getAttribute("org.openecomp.appc.adapter.ansible.result.code");
+	        String message  = svcContext.getAttribute("org.onap.appc.adapter.ansible.result.message");	
+		String status=svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
 		fail(e.getMessage()  + " Code = " + status);
 	    }
 	    catch(Exception e){

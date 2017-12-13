@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh.sshd;
+package org.onap.appc.adapter.ssh.sshd;
 
-import org.openecomp.appc.adapter.ssh.Constants;
-import org.openecomp.appc.adapter.ssh.SshConnection;
-import org.openecomp.appc.adapter.ssh.SshException;
-import org.openecomp.appc.encryption.EncryptionTool;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.adapter.ssh.Constants;
+import org.onap.appc.adapter.ssh.SshConnection;
+import org.onap.appc.adapter.ssh.SshException;
+import org.onap.appc.encryption.EncryptionTool;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.apache.sshd.ClientChannel;
 import org.apache.sshd.ClientSession;
 import org.apache.sshd.SshClient;

@@ -1,4 +1,4 @@
-package org.openecomp.appc.i18n;
+package org.onap.appc.i18n;
 
 import static org.junit.Assert.assertNotNull;
 

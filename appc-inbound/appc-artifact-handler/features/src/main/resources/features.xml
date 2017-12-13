@@ -42,12 +42,12 @@
 		<bundle>wrap:mvn:com.fasterxml.jackson.core/jackson-core/${jackson.version}</bundle>
 		<bundle>wrap:mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/${jackson.version}</bundle>
 		<bundle>wrap:mvn:org.yaml/snakeyaml/${snakeyaml.version}</bundle>
-		<bundle>wrap:mvn:org.openecomp.appc/appc-yang-generator/${project.version}</bundle>
+		<bundle>wrap:mvn:org.onap.appc/appc-yang-generator/${project.version}</bundle>
 		<bundle>wrap:mvn:org.openecomp.sdc.common/openecomp-tosca-datatype/${tosca.datatype.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-config-params-provider/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-artifact-handler-model/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-artifact-handler-provider/${project.version}</bundle>
-		<configfile finalname="etc/opendaylight/karaf/200-artifact-handler-provider.xml">mvn:org.openecomp.appc/appc-artifact-handler-provider/${project.version}/xml/config</configfile>
+		<bundle>mvn:org.onap.appc/appc-config-params-provider/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-artifact-handler-model/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-artifact-handler-provider/${project.version}</bundle>
+		<configfile finalname="etc/opendaylight/karaf/200-artifact-handler-provider.xml">mvn:org.onap.appc/appc-artifact-handler-provider/${project.version}/xml/config</configfile>
 	</feature>
 
 </features>

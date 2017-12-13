@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services;
+package org.onap.appc.data.services;
 
 public class AppcDataServiceConstant {
 

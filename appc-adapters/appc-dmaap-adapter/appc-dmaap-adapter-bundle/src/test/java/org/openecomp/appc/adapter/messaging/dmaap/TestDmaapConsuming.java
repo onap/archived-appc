@@ -22,17 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap;
+package org.onap.appc.adapter.messaging.dmaap;
 
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openecomp.appc.adapter.message.Consumer;
-import org.openecomp.appc.adapter.messaging.dmaap.http.HttpDmaapConsumerImpl;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.adapter.message.Consumer;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapConsumerImpl;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.junit.Ignore;
 
 import java.util.Arrays;
@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Must have a DMaaP cluster or simulator up and running
  * Update the hostname, topic, client properties in
- * resources/org/openecomp/appc/default.properties
+ * resources/org/onap/appc/default.properties
  *
  */
 public class TestDmaapConsuming {

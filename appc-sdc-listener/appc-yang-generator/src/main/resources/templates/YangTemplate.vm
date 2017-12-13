@@ -1,6 +1,6 @@
 module $moduleName {
 	yang-version 1;
-	namespace "org:openecomp:appc:vnf:$moduleName";
+	namespace "org:onap:appc:vnf:$moduleName";
     prefix appc-vnf;
     organization "Copyright 2017 AT&T Intellectual Property.";
 

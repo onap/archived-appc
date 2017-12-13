@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.impl.business;
+package org.onap.appc.client.lcm.impl.business;
 
-import org.openecomp.appc.client.impl.core.*;
-import org.openecomp.appc.client.lcm.api.ApplicationContext;
-import org.openecomp.appc.client.lcm.api.ResponseHandler;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientBusinessException;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientInternalException;
-import org.openecomp.appc.client.lcm.model.CommonHeader;
+import org.onap.appc.client.impl.core.*;
+import org.onap.appc.client.lcm.api.ApplicationContext;
+import org.onap.appc.client.lcm.api.ResponseHandler;
+import org.onap.appc.client.lcm.exceptions.AppcClientBusinessException;
+import org.onap.appc.client.lcm.exceptions.AppcClientInternalException;
+import org.onap.appc.client.lcm.model.CommonHeader;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

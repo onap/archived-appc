@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.node;
+package org.onap.appc.instar.node;
 
 import java.util.HashMap;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.openecomp.appc.instar.dme2client.Dme2Client;
+import org.onap.appc.instar.dme2client.Dme2Client;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.modules.junit4.PowerMockRunner;
 

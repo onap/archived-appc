@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.policy;
+package org.onap.appc.metricservice.policy;
 
 
 public interface PolicyBuilderFactory {

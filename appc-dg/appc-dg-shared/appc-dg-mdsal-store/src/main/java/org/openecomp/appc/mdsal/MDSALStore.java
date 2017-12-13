@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal;
+package org.onap.appc.mdsal;
 
-import org.openecomp.appc.mdsal.exception.MDSALStoreException;
-import org.openecomp.appc.mdsal.objects.BundleInfo;
+import org.onap.appc.mdsal.exception.MDSALStoreException;
+import org.onap.appc.mdsal.objects.BundleInfo;
 
 import java.util.Date;
 

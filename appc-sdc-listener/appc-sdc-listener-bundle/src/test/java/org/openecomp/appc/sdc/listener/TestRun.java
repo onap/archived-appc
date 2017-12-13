@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.listener;
+package org.onap.appc.sdc.listener;
 
 import org.junit.Test;
 

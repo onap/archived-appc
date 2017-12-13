@@ -27,17 +27,17 @@
 <features name="appc-dg-shared-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
 		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		  xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
-	<repository>mvn:org.openecomp.appc/appc-ssh-adapter-features/${project.version}/xml/features</repository>
-	<repository>mvn:org.openecomp.appc/appc-netconf-adapter-features/${project.version}/xml/features</repository>
+	<repository>mvn:org.onap.appc/appc-ssh-adapter-features/${project.version}/xml/features</repository>
+	<repository>mvn:org.onap.appc/appc-netconf-adapter-features/${project.version}/xml/features</repository>
 	<feature name='appc-dg-shared' description="appc-dg-shared" version='${project.version}'>
 		<feature version='${project.version}'>appc-ssh-adapter</feature>
 		<feature version='${project.version}'>appc-netconf-adapter</feature>
 		<feature>sdnc-sli</feature>
-        <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
-        <bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-dg-common/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-dg-ssh/${project.version}</bundle>
-		<bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-dg-netconf/${project.version}</bundle>
-		<bundle>mvn:org.openecomp.appc/appc-dg-license-manager/${project.version}</bundle>
-		<bundle start-level="85" start="true">mvn:org.openecomp.appc/appc-dg-aai/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle start-level="85" start="true">mvn:org.onap.appc/appc-dg-common/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-dg-ssh/${project.version}</bundle>
+		<bundle start-level="85" start="true">mvn:org.onap.appc/appc-dg-netconf/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-dg-license-manager/${project.version}</bundle>
+		<bundle start-level="85" start="true">mvn:org.onap.appc/appc-dg-aai/${project.version}</bundle>
 	</feature>
 </features>

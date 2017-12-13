@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr.impl;
+package org.onap.appc.licmgr.impl;
 
 import javax.sql.rowset.CachedRowSet;
 
-import org.openecomp.appc.licmgr.Constants;
-import org.openecomp.appc.licmgr.LicenseDataAccessService;
-import org.openecomp.appc.licmgr.exception.DataAccessException;
+import org.onap.appc.licmgr.Constants;
+import org.onap.appc.licmgr.LicenseDataAccessService;
+import org.onap.appc.licmgr.exception.DataAccessException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
-import static org.openecomp.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS;
+import static org.onap.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

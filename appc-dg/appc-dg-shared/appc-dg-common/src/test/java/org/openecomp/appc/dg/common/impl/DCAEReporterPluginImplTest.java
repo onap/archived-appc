@@ -22,17 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.adapter.message.MessageDestination;
-import org.openecomp.appc.adapter.message.event.EventMessage;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.adapter.message.MessageDestination;
+import org.onap.appc.adapter.message.event.EventMessage;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

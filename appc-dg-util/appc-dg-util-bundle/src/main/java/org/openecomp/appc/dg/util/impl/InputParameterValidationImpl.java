@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.util.impl;
+package org.onap.appc.dg.util.impl;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.openecomp.appc.dg.util.InputParameterValidation;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.util.InputParameterValidation;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

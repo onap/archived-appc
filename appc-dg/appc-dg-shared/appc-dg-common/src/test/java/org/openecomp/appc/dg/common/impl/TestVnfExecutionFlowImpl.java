@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,18 +31,18 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
-import org.openecomp.appc.dg.common.VnfExecutionFlow;
-import org.openecomp.appc.dg.common.impl.Constants;
-import org.openecomp.appc.dg.common.impl.VnfExecutionFlowImpl;
-import org.openecomp.appc.dg.dependencymanager.DependencyManager;
-import org.openecomp.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.openecomp.appc.dg.dependencymanager.impl.DependencyModelFactory;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.objects.DependencyTypes;
-import org.openecomp.appc.dg.objects.Node;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.dg.common.VnfExecutionFlow;
+import org.onap.appc.dg.common.impl.Constants;
+import org.onap.appc.dg.common.impl.VnfExecutionFlowImpl;
+import org.onap.appc.dg.dependencymanager.DependencyManager;
+import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
+import org.onap.appc.dg.dependencymanager.impl.DependencyModelFactory;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.objects.DependencyTypes;
+import org.onap.appc.dg.objects.Node;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 import org.osgi.framework.FrameworkUtil;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;

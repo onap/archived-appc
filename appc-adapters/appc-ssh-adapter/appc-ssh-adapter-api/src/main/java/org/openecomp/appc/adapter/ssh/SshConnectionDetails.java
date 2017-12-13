@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ssh;
+package org.onap.appc.adapter.ssh;
 
 /**
  * Provides details required for connecting to device.

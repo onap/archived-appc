@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.impl;
+package org.onap.appc.workflow.impl;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.openecomp.appc.rankingframework.RankedAttributesContext;
-import org.openecomp.appc.rankingframework.RankedAttributesResolver;
+import org.onap.appc.rankingframework.RankedAttributesContext;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

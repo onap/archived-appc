@@ -18,11 +18,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.impl;
+package org.onap.appc.seqgen.impl;
 
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.seqgen.SequenceGenerator;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.seqgen.SequenceGenerator;
 
 public class SequenceGeneratorFactory {
 

@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.impl;
+package org.onap.appc.executor.impl;
 
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.ActionLevel;
-import org.openecomp.appc.executionqueue.MessageExpirationListener;
-import org.openecomp.appc.requesthandler.RequestHandler;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.ActionLevel;
+import org.onap.appc.executionqueue.MessageExpirationListener;
+import org.onap.appc.requesthandler.RequestHandler;
 
 
 public class ExpiredMessageHandler<M> implements MessageExpirationListener<M>{

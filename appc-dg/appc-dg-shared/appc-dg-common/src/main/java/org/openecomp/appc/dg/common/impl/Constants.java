@@ -22,20 +22,20 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 
 
 class Constants {
 
-    public static final String DG_ERROR_FIELD_NAME = "org.openecomp.appc.dg.error";
+    public static final String DG_ERROR_FIELD_NAME = "org.onap.appc.dg.error";
     public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
     public static final String EVENT_MESSAGE = "event-message";
     public static final String ATTRIBUTE_ERROR_MESSAGE = "error-message";
     public static final String ATTRIBUTE_SUCCESS_MESSAGE = "success-message";
     public static final String DG_ERROR_CODE = "output.status.dgerror.code";
-    public static final String API_VERSION_FIELD_NAME = "org.openecomp.appc.apiversion";
-    public static final String REQ_ID_FIELD_NAME = "org.openecomp.appc.reqid";
+    public static final String API_VERSION_FIELD_NAME = "org.onap.appc.apiversion";
+    public static final String REQ_ID_FIELD_NAME = "org.onap.appc.reqid";
     public static final String PAYLOAD = "payload";
     public static final String OUTPUT_PAYLOAD = "output.payload";
 
@@ -54,11 +54,11 @@ class Constants {
     public static final String CVAAS_FILE_CONTENT = "cvaas-file-content";
 
     enum LegacyAttributes {
-        Action("org.openecomp.appc.action"),
-        VMID("org.openecomp.appc.vmid"),
-        IdentityURL("org.openecomp.appc.identity.url"),
-        TenantID("org.openecomp.appc.tenant.id"),
-        SkipHypervisorCheck("org.openecomp.appc.skiphypervisorcheck");
+        Action("org.onap.appc.action"),
+        VMID("org.onap.appc.vmid"),
+        IdentityURL("org.onap.appc.identity.url"),
+        TenantID("org.onap.appc.tenant.id"),
+        SkipHypervisorCheck("org.onap.appc.skiphypervisorcheck");
 
         private String value;
         LegacyAttributes(String value) {this.value = value;}

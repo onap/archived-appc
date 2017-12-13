@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.api;
+package org.onap.appc.client.lcm.api;
 
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
 
 public interface ResponseHandler<T> {
 

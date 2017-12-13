@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.policy.impl;
+package org.onap.appc.metricservice.policy.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,14 +32,14 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.metricservice.MetricRegistry;
-import org.openecomp.appc.metricservice.MetricService;
-import org.openecomp.appc.metricservice.Publisher;
-import org.openecomp.appc.metricservice.metric.Metric;
-import org.openecomp.appc.metricservice.policy.ScheduledPublishingPolicy;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.MetricService;
+import org.onap.appc.metricservice.Publisher;
+import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.policy.ScheduledPublishingPolicy;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

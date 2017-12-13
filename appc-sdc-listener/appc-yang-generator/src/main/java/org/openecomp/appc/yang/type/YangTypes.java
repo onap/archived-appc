@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.yang.type;
+package org.onap.appc.yang.type;
 
 import java.util.Collections;
 import java.util.HashMap;

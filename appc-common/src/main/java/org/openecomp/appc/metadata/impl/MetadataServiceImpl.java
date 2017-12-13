@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metadata.impl;
+package org.onap.appc.metadata.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -30,10 +30,10 @@ import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import javax.sql.rowset.CachedRowSet;
 
-import org.openecomp.appc.cache.MetadataCache;
-import org.openecomp.appc.cache.impl.MetadataCacheFactory;
-import org.openecomp.appc.metadata.MetadataService;
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.cache.MetadataCache;
+import org.onap.appc.cache.impl.MetadataCacheFactory;
+import org.onap.appc.metadata.MetadataService;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

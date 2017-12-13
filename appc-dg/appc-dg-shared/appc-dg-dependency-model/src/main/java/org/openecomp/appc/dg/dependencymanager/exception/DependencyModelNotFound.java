@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.dependencymanager.exception;
+package org.onap.appc.dg.dependencymanager.exception;
 
 
 public class DependencyModelNotFound extends Exception {

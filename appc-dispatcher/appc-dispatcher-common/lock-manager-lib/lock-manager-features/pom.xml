@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>lock-manager-lib</artifactId>
-    <groupId>org.openecomp.appc</groupId>
+    <groupId>org.onap.appc</groupId>
     <version>1.3.0-SNAPSHOT</version>
   </parent>
   <name>lock-manager-features</name>
@@ -13,12 +13,12 @@
 
   <dependencies>
      <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>lock-manager-api</artifactId>
       <version>${project.version}</version>
     </dependency>  	
      <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>lock-manager-impl</artifactId>
       <version>${project.version}</version>
     </dependency>

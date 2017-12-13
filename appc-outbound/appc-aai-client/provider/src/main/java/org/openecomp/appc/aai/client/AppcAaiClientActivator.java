@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.aai.client;
+package org.onap.appc.aai.client;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.openecomp.appc.aai.client.node.AAIResourceNode;
+import org.onap.appc.aai.client.node.AAIResourceNode;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

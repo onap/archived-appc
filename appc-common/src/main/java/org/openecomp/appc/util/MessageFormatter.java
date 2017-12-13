@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.util;
+package org.onap.appc.util;
 
 import org.apache.commons.lang3.StringUtils;
 

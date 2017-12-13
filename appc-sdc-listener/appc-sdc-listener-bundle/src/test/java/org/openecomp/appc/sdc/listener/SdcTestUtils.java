@@ -1,4 +1,4 @@
-package org.openecomp.appc.sdc.listener;
+package org.onap.appc.sdc.listener;
 
 import org.junit.Assert;
 import org.junit.Test;

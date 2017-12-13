@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue;
+package org.onap.appc.executionqueue;
 
-import org.openecomp.appc.executionqueue.MessageExpirationListener;
+import org.onap.appc.executionqueue.MessageExpirationListener;
 
 
 public class Listener implements MessageExpirationListener {

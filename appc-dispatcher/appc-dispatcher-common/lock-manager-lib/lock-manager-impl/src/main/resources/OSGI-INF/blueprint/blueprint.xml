@@ -28,13 +28,13 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-    <!--<bean id="lockManagerInMemoryBean" class="org.openecomp.appc.lockmanager.impl.inmemory.LockManagerInMemoryImpl" factory-method="getLockManager" scope="singleton"/>-->
-    <!--<service id="lockManagerInMemoryService" interface="org.openecomp.appc.lockmanager.api.LockManager" ref="lockManagerInMemoryBean"/>-->
+    <!--<bean id="lockManagerInMemoryBean" class="org.onap.appc.lockmanager.impl.inmemory.LockManagerInMemoryImpl" factory-method="getLockManager" scope="singleton"/>-->
+    <!--<service id="lockManagerInMemoryService" interface="org.onap.appc.lockmanager.api.LockManager" ref="lockManagerInMemoryBean"/>-->
 
-    <service id="lockManagerMySqlOptimisticService" interface="org.openecomp.appc.lockmanager.api.LockManager">
-        <bean class="org.openecomp.appc.lockmanager.impl.sql.optimistic.MySqlLockManager">
+    <service id="lockManagerMySqlOptimisticService" interface="org.onap.appc.lockmanager.api.LockManager">
+        <bean class="org.onap.appc.lockmanager.impl.sql.optimistic.MySqlLockManager">
             <property name="connectionFactory">
-                <bean class="org.openecomp.appc.dao.util.AppcJdbcConnectionFactory">
+                <bean class="org.onap.appc.dao.util.AppcJdbcConnectionFactory">
                     <property name="schema" value="sdnctl"/>
                 </bean>
             </property>

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue;
+package org.onap.appc.executionqueue;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -31,10 +31,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.executionqueue.helper.Util;
-import org.openecomp.appc.executionqueue.impl.ExecutionQueueServiceImpl;
-import org.openecomp.appc.executionqueue.impl.QueueManager;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.executionqueue.helper.Util;
+import org.onap.appc.executionqueue.impl.ExecutionQueueServiceImpl;
+import org.onap.appc.executionqueue.impl.QueueManager;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import static org.mockito.Matchers.any;

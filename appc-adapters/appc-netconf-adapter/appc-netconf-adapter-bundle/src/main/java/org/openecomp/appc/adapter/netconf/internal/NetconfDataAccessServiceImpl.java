@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.internal;
+package org.onap.appc.adapter.netconf.internal;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.appc.adapter.netconf.ConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.NetconfDataAccessService;
-import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
-import org.openecomp.appc.adapter.netconf.util.Constants;
+import org.onap.appc.adapter.netconf.ConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfDataAccessService;
+import org.onap.appc.adapter.netconf.exception.DataAccessException;
+import org.onap.appc.adapter.netconf.util.Constants;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import javax.sql.rowset.CachedRowSet;

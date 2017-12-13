@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.impl;
+package org.onap.appc.workflow.impl;
 
 class WorkflowKey {
     private final String name;

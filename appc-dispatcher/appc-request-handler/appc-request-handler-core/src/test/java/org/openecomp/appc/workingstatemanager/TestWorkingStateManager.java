@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workingstatemanager;
+package org.onap.appc.workingstatemanager;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.dao.util.AppcJdbcConnectionFactory;
-import org.openecomp.appc.workingstatemanager.impl.WorkingStateManagerImpl;
-import org.openecomp.appc.workingstatemanager.objects.VNFWorkingState;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.dao.util.AppcJdbcConnectionFactory;
+import org.onap.appc.workingstatemanager.impl.WorkingStateManagerImpl;
+import org.onap.appc.workingstatemanager.objects.VNFWorkingState;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -50,7 +50,7 @@ public class TestWorkingStateManager {
         String schema = "sdnctl";
         appcJdbcConnectionFactory.setSchema(schema);
         workingStateManager.setConnectionFactory(appcJdbcConnectionFactory);
-        String property = ConfigurationFactory.getConfiguration().getProperty(String.format("org.openecomp.appc.db.url.%s", schema));
+        String property = ConfigurationFactory.getConfiguration().getProperty(String.format("org.onap.appc.db.url.%s", schema));
         logger.info(property+" will be used as connection URL to mySQL.");
         logger.warn("you can set connection URL to other IP by adding -DmysqlIp=<MYSQL_IP> in VM Option");
 //        System.getProperties().getProperty("mys")

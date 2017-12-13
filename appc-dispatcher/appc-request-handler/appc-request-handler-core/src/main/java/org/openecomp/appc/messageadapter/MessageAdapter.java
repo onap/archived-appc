@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.messageadapter;
+package org.onap.appc.messageadapter;
 
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
 
 public interface MessageAdapter {
     /**

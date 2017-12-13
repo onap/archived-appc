@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.tools.generator.extensions;
+package org.onap.appc.tools.generator.extensions;
 
-import org.openecomp.appc.tools.generator.api.ContextBuilder;
+import org.onap.appc.tools.generator.api.ContextBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;

@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.node;
+package org.onap.appc.flow.controller.node;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -33,27 +33,27 @@ import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.flow.controller.ResponseHandlerImpl.DefaultResponseHandler;
-import org.openecomp.appc.flow.controller.data.PrecheckOption;
-import org.openecomp.appc.flow.controller.data.ResponseAction;
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.data.Transactions;
-import org.openecomp.appc.flow.controller.dbervices.FlowControlDBService;
-import org.openecomp.appc.flow.controller.executorImpl.GraphExecutor;
-import org.openecomp.appc.flow.controller.executorImpl.NodeExecutor;
-import org.openecomp.appc.flow.controller.executorImpl.RestExecutor;
-import org.openecomp.appc.flow.controller.interfaceData.ActionIdentifier;
-import org.openecomp.appc.flow.controller.interfaceData.Capabilities;
-import org.openecomp.appc.flow.controller.interfaceData.DependencyInfo;
-import org.openecomp.appc.flow.controller.interfaceData.Input;
-import org.openecomp.appc.flow.controller.interfaceData.InventoryInfo;
-import org.openecomp.appc.flow.controller.interfaceData.RequestInfo;
-import org.openecomp.appc.flow.controller.interfaceData.Vm;
-import org.openecomp.appc.flow.controller.interfaceData.VnfInfo;
-import org.openecomp.appc.flow.controller.interfaceData.Vnfcs;
-import org.openecomp.appc.flow.controller.interfaceData.Vnfcslist;
-import org.openecomp.appc.flow.controller.interfaces.FlowExecutorInterface;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.ResponseHandlerImpl.DefaultResponseHandler;
+import org.onap.appc.flow.controller.data.PrecheckOption;
+import org.onap.appc.flow.controller.data.ResponseAction;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.data.Transactions;
+import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
+import org.onap.appc.flow.controller.executorImpl.GraphExecutor;
+import org.onap.appc.flow.controller.executorImpl.NodeExecutor;
+import org.onap.appc.flow.controller.executorImpl.RestExecutor;
+import org.onap.appc.flow.controller.interfaceData.ActionIdentifier;
+import org.onap.appc.flow.controller.interfaceData.Capabilities;
+import org.onap.appc.flow.controller.interfaceData.DependencyInfo;
+import org.onap.appc.flow.controller.interfaceData.Input;
+import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
+import org.onap.appc.flow.controller.interfaceData.RequestInfo;
+import org.onap.appc.flow.controller.interfaceData.Vm;
+import org.onap.appc.flow.controller.interfaceData.VnfInfo;
+import org.onap.appc.flow.controller.interfaceData.Vnfcs;
+import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
+import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;

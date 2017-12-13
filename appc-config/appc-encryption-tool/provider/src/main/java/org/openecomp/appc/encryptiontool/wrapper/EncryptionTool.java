@@ -21,7 +21,7 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.encryptiontool.wrapper;
+package org.onap.appc.encryptiontool.wrapper;
 
 import java.security.Provider;
 import java.security.Provider.Service;

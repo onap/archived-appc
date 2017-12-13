@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr.exception;
+package org.onap.appc.licmgr.exception;
 
 
 

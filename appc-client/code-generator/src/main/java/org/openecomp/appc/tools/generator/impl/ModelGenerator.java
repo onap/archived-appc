@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.tools.generator.impl;
+package org.onap.appc.tools.generator.impl;
 
-import org.openecomp.appc.tools.generator.api.ContextBuilder;
+import org.onap.appc.tools.generator.api.ContextBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

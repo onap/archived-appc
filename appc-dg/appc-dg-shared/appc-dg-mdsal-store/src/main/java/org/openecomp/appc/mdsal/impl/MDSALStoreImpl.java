@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.impl;
+package org.onap.appc.mdsal.impl;
 
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.mdsal.MDSALStore;
-import org.openecomp.appc.mdsal.exception.MDSALStoreException;
-import org.openecomp.appc.mdsal.objects.BundleInfo;
-import org.openecomp.appc.mdsal.operation.ConfigOperation;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.mdsal.MDSALStore;
+import org.onap.appc.mdsal.exception.MDSALStoreException;
+import org.onap.appc.mdsal.objects.BundleInfo;
+import org.onap.appc.mdsal.operation.ConfigOperation;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.Bundle;
@@ -113,7 +113,7 @@ public class MDSALStoreImpl implements MDSALStore{
     public void storeJson( String module , String requestId ,String configJSON) throws MDSALStoreException {
 
         try {
-            ConfigOperation.storeConfig(configJSON , module , org.openecomp.appc.Constants.YANG_BASE_CONTAINER, org.openecomp.appc.Constants.YANG_VNF_CONFIG_LIST,requestId,org.openecomp.appc.Constants.YANG_VNF_CONFIG);
+            ConfigOperation.storeConfig(configJSON , module , org.onap.appc.Constants.YANG_BASE_CONTAINER, org.onap.appc.Constants.YANG_VNF_CONFIG_LIST,requestId,org.onap.appc.Constants.YANG_VNF_CONFIG);
         } catch (APPCException e) {
             throw new MDSALStoreException("Exception while storing config json to MDSAL store." +e.getMessage(), e);
         }

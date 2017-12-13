@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr;
+package org.onap.appc.licmgr;
 
-import org.openecomp.appc.licmgr.exception.DataAccessException;
+import org.onap.appc.licmgr.exception.DataAccessException;
 
 import java.util.Map;
 

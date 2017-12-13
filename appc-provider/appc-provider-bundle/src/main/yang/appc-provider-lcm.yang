@@ -25,7 +25,7 @@
 module appc-provider-lcm-impl {
 
     yang-version 1;
-    namespace "org:openecomp:appc:provider:lcm:impl";
+    namespace "org:onap:appc:provider:lcm:impl";
     prefix "appc-provider-lcm-impl";
 
     import config { prefix config; revision-date 2013-04-05; }

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts.helper;
+package org.onap.appc.sdc.artifacts.helper;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,11 +31,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import org.openecomp.appc.dg.dependencymanager.helper.DependencyModelParser;
-import org.openecomp.appc.dg.objects.Node;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.dependencymanager.helper.DependencyModelParser;
+import org.onap.appc.dg.objects.Node;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.exceptions.APPCException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,10 +62,10 @@ public class DependencyModelGenerator {
 
         if (vnfcDependencyModel != null && !vnfcDependencyModel.getDependencies().isEmpty()) {
             logger.debug(String.format("Dependency Model generated : %s ", vnfcDependencyModel.toString()));
-            List<org.openecomp.appc.sdc.artifacts.object.Vnfc> vnfcs = new ArrayList<>();
+            List<org.onap.appc.sdc.artifacts.object.Vnfc> vnfcs = new ArrayList<>();
 
             for (Node<Vnfc> node : vnfcDependencyModel.getDependencies()) {
-                org.openecomp.appc.sdc.artifacts.object.Vnfc vnfc = new org.openecomp.appc.sdc.artifacts.object.Vnfc();
+                org.onap.appc.sdc.artifacts.object.Vnfc vnfc = new org.onap.appc.sdc.artifacts.object.Vnfc();
                 vnfc.setVnfcType(node.getChild().getVnfcType());
                 vnfc.setMandatory(node.getChild().isMandatory());
                 vnfc.setResilienceType(node.getChild().getResilienceType());

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.openstack.heat.model;
+package org.onap.appc.adapter.openstack.heat.model;
 
 import javax.annotation.Generated;
 import com.fasterxml.jackson.annotation.JsonInclude;

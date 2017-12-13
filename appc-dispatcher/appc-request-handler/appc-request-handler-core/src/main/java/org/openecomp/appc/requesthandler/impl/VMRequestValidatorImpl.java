@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.VNFContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.logging.LoggingConstants;
-import org.openecomp.appc.logging.LoggingUtils;
-import org.openecomp.appc.requesthandler.exceptions.*;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.VNFContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.logging.LoggingUtils;
+import org.onap.appc.requesthandler.exceptions.*;
 
 import java.util.HashSet;
 import java.util.LinkedList;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc;
+package org.onap.appc;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

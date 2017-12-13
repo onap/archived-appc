@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.impl;
+package org.onap.appc.adapter.iaas.impl;
 
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ZoneException;

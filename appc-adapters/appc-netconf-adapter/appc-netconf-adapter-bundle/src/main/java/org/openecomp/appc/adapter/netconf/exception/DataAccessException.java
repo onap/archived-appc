@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.exception;
+package org.onap.appc.adapter.netconf.exception;
 
 
 public class DataAccessException extends RuntimeException {

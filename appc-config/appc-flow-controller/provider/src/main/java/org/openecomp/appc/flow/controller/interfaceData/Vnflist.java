@@ -26,7 +26,7 @@
 //
 
 
-package org.openecomp.appc.flow.controller.interfaceData;
+package org.onap.appc.flow.controller.interfaceData;
 
 import javax.xml.bind.annotation.XmlEnum;
 import javax.xml.bind.annotation.XmlEnumValue;

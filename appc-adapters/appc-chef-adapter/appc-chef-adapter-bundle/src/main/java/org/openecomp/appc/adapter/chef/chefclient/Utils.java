@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

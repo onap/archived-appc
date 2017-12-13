@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar;
+package org.onap.appc.instar;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.openecomp.appc.instar.node.InstarClientNode;
+import org.onap.appc.instar.node.InstarClientNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

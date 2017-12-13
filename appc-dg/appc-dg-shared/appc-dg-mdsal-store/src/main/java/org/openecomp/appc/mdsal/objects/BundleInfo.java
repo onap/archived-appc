@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.objects;
+package org.onap.appc.mdsal.objects;
 /**
  * Holds bundle information which includes name , description , version and location. This information will be used to create osgi bundle.
  */

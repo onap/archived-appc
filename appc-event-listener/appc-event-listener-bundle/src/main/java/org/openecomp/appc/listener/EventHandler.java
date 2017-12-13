@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
 import java.util.Collection;
 import java.util.List;

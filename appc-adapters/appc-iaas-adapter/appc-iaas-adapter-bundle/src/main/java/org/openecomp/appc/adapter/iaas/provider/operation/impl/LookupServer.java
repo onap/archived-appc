@@ -22,19 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl;
+package org.onap.appc.adapter.iaas.provider.operation.impl;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.adapter.iaas.impl.VMURL;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
+import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.Context;
 import com.att.cdp.zones.model.ModelObject;
@@ -46,7 +46,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import java.io.IOException;
 import java.util.Map;
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
+import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class LookupServer extends ProviderServerOperation {
 
@@ -81,7 +81,7 @@ public class LookupServer extends ProviderServerOperation {
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
                     ctx.setAttribute("serverFound", "success");
                     String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
-                    ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+                    ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                     doSuccess(rc);
                 }
             } catch (ZoneException e) {

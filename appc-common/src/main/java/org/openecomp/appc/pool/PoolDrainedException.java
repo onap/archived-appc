@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.pool;
+package org.onap.appc.pool;
 
 /**
  * This exception is thrown whenever an attempt is made to access a pool of resources where the pool has been drained.

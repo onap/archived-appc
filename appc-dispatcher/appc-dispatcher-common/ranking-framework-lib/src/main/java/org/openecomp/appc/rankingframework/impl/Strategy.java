@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework.impl;
+package org.onap.appc.rankingframework.impl;
 
 import java.util.List;
 
-import org.openecomp.appc.rankingframework.RankedAttributesContext;
+import org.onap.appc.rankingframework.RankedAttributesContext;
 
 interface Strategy {
     <R> R resolve(CompositeNode<R> root, List<String> rankedNames, RankedAttributesContext context);

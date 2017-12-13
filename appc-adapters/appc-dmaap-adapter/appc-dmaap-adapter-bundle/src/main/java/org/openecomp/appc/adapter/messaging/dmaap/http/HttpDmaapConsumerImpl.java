@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap.http;
+package org.onap.appc.adapter.messaging.dmaap.http;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
-import org.openecomp.appc.adapter.message.Consumer;
+import org.onap.appc.adapter.message.Consumer;
 
 public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer {
 

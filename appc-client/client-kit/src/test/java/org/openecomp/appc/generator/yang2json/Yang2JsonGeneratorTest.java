@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.generator.yang2json;
+package org.onap.appc.generator.yang2json;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +36,7 @@ import org.opendaylight.yangtools.yang.model.api.SchemaContext;
 import org.opendaylight.yangtools.yang.model.parser.api.YangSyntaxErrorException;
 import org.opendaylight.yangtools.yang.model.repo.api.SchemaSourceException;
 import org.opendaylight.yangtools.yang.parser.repo.YangTextSchemaContextResolver;
-import org.openecomp.appc.generator.JsonHelper;
+import org.onap.appc.generator.JsonHelper;
 
 import java.io.File;
 import java.io.IOException;

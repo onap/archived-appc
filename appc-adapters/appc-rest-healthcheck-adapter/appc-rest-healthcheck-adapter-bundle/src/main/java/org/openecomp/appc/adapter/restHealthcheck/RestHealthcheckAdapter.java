@@ -21,11 +21,11 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.adapter.restHealthcheck;
+package org.onap.appc.adapter.restHealthcheck;
 
 import java.util.Map;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.Server;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
@@ -34,15 +34,15 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 public interface RestHealthcheckAdapter extends SvcLogicJavaPlugin {
 
 
-    static final String PROPERTY_PROVIDER_TYPE = "org.openecomp.appc.provider.type";
+    static final String PROPERTY_PROVIDER_TYPE = "org.onap.appc.provider.type";
 
 
-    static final String PROPERTY_PROVIDER_NAME = "org.openecomp.appc.provider.name";
+    static final String PROPERTY_PROVIDER_NAME = "org.onap.appc.provider.name";
 
-    static final String PROPERTY_INSTANCE_URL = "org.openecomp.appc.instance.url";
+    static final String PROPERTY_INSTANCE_URL = "org.onap.appc.instance.url";
 
 
-    static final String PROPERTY_IDENTITY_URL = "org.openecomp.appc.identity.url";
+    static final String PROPERTY_IDENTITY_URL = "org.onap.appc.identity.url";
 
     String getAdapterName();
 

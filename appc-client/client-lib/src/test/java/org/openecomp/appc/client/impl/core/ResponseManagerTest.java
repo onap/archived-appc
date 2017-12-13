@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.core;
+package org.onap.appc.client.impl.core;
 
-import org.openecomp.appc.client.impl.core.AsyncRequestResponseHandler;
-import org.openecomp.appc.client.impl.core.CoreException;
-import org.openecomp.appc.client.impl.core.CoreManager;
-import org.openecomp.appc.client.impl.core.ICoreAsyncResponseHandler;
-import org.openecomp.appc.client.impl.core.MessageContext;
-import org.openecomp.appc.client.impl.protocol.AsyncProtocol;
-import org.openecomp.appc.client.impl.protocol.ProtocolException;
-import org.openecomp.appc.client.impl.protocol.RetrieveMessageCallback;
+import org.onap.appc.client.impl.core.AsyncRequestResponseHandler;
+import org.onap.appc.client.impl.core.CoreException;
+import org.onap.appc.client.impl.core.CoreManager;
+import org.onap.appc.client.impl.core.ICoreAsyncResponseHandler;
+import org.onap.appc.client.impl.core.MessageContext;
+import org.onap.appc.client.impl.protocol.AsyncProtocol;
+import org.onap.appc.client.impl.protocol.ProtocolException;
+import org.onap.appc.client.impl.protocol.RetrieveMessageCallback;
 import org.junit.Before;
 
 import java.util.Properties;

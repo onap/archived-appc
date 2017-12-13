@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.aai.impl;
+package org.onap.appc.dg.aai.impl;
 
 import java.net.URL;
 import java.util.HashMap;

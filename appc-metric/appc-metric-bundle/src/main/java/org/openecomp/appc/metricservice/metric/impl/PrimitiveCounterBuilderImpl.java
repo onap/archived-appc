@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.metric.impl;
+package org.onap.appc.metricservice.metric.impl;
 
-import org.openecomp.appc.metricservice.metric.MetricType;
-import org.openecomp.appc.metricservice.metric.PrimitiveCounter;
-import org.openecomp.appc.metricservice.metric.PrimitiveCounterBuilder;
+import org.onap.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.metric.PrimitiveCounter;
+import org.onap.appc.metricservice.metric.PrimitiveCounterBuilder;
 
 
 public class PrimitiveCounterBuilderImpl implements PrimitiveCounterBuilder {

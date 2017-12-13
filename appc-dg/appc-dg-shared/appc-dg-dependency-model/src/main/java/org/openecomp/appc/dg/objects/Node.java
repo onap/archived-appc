@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.objects;
+package org.onap.appc.dg.objects;
 
 import java.util.LinkedList;
 import java.util.List;

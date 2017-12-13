@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,8 +34,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.listener.AbstractListener;
-import org.openecomp.appc.listener.ListenerProperties;
+import org.onap.appc.listener.AbstractListener;
+import org.onap.appc.listener.ListenerProperties;
 
 public class TestAbstractListener {
 
@@ -59,7 +59,7 @@ public class TestAbstractListener {
     @Before
     public void setup() throws Exception {
         Properties regularProps = new Properties();
-        regularProps.load(getClass().getResourceAsStream("/org/openecomp/appc/default.properties"));
+        regularProps.load(getClass().getResourceAsStream("/org/onap/appc/default.properties"));
         props = new ListenerProperties("", regularProps);
         listener = new DummyListener(props);
     }

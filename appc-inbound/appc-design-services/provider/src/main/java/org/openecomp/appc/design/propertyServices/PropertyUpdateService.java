@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.propertyServices;
+package org.onap.appc.design.propertyServices;
 
 public class PropertyUpdateService {
     

@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.util;
+package org.onap.appc.util;
 
 import java.io.IOException;
 import java.io.InputStream;

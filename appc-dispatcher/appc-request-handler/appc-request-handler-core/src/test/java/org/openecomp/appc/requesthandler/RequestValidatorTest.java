@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler;
+package org.onap.appc.requesthandler;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -30,26 +30,26 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.openecomp.appc.domainmodel.lcm.ActionIdentifiers;
-import org.openecomp.appc.domainmodel.lcm.CommonHeader;
-import org.openecomp.appc.domainmodel.lcm.Flags;
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.domainmodel.lcm.VNFContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.requesthandler.exceptions.InvalidInputException;
-import org.openecomp.appc.requesthandler.exceptions.LCMOperationsDisabledException;
-import org.openecomp.appc.requesthandler.impl.RequestHandlerImpl;
-import org.openecomp.appc.requesthandler.impl.RequestValidatorImpl;
-import org.openecomp.appc.requesthandler.objects.RequestHandlerInput;
-import org.openecomp.appc.transactionrecorder.TransactionRecorder;
-import org.openecomp.appc.workflow.WorkFlowManager;
-import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
-import org.openecomp.appc.workingstatemanager.WorkingStateManager;
+import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
+import org.onap.appc.domainmodel.lcm.CommonHeader;
+import org.onap.appc.domainmodel.lcm.Flags;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.Status;
+import org.onap.appc.domainmodel.lcm.VNFContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.requesthandler.exceptions.InvalidInputException;
+import org.onap.appc.requesthandler.exceptions.LCMOperationsDisabledException;
+import org.onap.appc.requesthandler.impl.RequestHandlerImpl;
+import org.onap.appc.requesthandler.impl.RequestValidatorImpl;
+import org.onap.appc.requesthandler.objects.RequestHandlerInput;
+import org.onap.appc.transactionrecorder.TransactionRecorder;
+import org.onap.appc.workflow.WorkFlowManager;
+import org.onap.appc.workflow.objects.WorkflowExistsOutput;
+import org.onap.appc.workingstatemanager.WorkingStateManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.adaptors.aai.AAIService;

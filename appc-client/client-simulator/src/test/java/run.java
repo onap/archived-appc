@@ -25,7 +25,7 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.openecomp.appc.simulator.client.main.ClientRunner;
+import org.onap.appc.simulator.client.main.ClientRunner;
 
 public class run {
     public static void main(String ... args) throws Exception, IOException, RuntimeException, FileNotFoundException {

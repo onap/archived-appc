@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef.impl;
+package org.onap.appc.adapter.chef.impl;
 
 import static org.junit.Assert.assertEquals;
 
@@ -33,7 +33,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.exceptions.ZoneException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
@@ -49,7 +49,7 @@ public class TestChefAdapterImpl {
     public void setup() {
         adapter = new ChefAdapterImpl(Boolean.TRUE);
         params = new HashMap<>();
-        params.put("org.openecomp.appc.instance.pemPath",
+        params.put("org.onap.appc.instance.pemPath",
                 "/src/test/resources/testclient.pem");
     }
 
@@ -63,7 +63,7 @@ public class TestChefAdapterImpl {
     @Test
     public void testChefGetFail() throws IOException, IllegalStateException, IllegalArgumentException,
             ZoneException, APPCException {
-        params.put("org.openecomp.appc.instance.chefAction", "/nodes");
+        params.put("org.onap.appc.instance.chefAction", "/nodes");
 
         givenParams(params, "chefGet");
         thenResponseShouldFail();
@@ -72,10 +72,10 @@ public class TestChefAdapterImpl {
     @Test
     public void testChefPutFail() throws IOException, IllegalStateException, IllegalArgumentException,
             ZoneException, APPCException {
-        params.put("org.openecomp.appc.instance.chefAction", "/nodes/testnode");
-        params.put("org.openecomp.appc.instance.runList", "recipe[commandtest]");
-        params.put("org.openecomp.appc.instance.attributes", "");
-        params.put("org.openecomp.appc.instance.chefRequestBody", "Test Body");
+        params.put("org.onap.appc.instance.chefAction", "/nodes/testnode");
+        params.put("org.onap.appc.instance.runList", "recipe[commandtest]");
+        params.put("org.onap.appc.instance.attributes", "");
+        params.put("org.onap.appc.instance.chefRequestBody", "Test Body");
 
         givenParams(params, "chefPut");
         thenResponseShouldFail();
@@ -84,7 +84,7 @@ public class TestChefAdapterImpl {
     @Test
     public void testTriggerFail() throws IOException, IllegalStateException, IllegalArgumentException,
             ZoneException, APPCException {
-        params.put("org.openecomp.appc.instance.ip", "");
+        params.put("org.onap.appc.instance.ip", "");
 
         givenParams(params, "trigger");
         thenResponseShouldFail();
@@ -94,15 +94,15 @@ public class TestChefAdapterImpl {
         svcContext = new SvcLogicContext();
         if (method == "chefGet"){
             adapter.chefGet(adapterParams, svcContext);
-            getAttribute = "org.openecomp.appc.chefServerResult.code";
+            getAttribute = "org.onap.appc.chefServerResult.code";
         }
         if (method == "chefPut"){
             adapter.chefPut(adapterParams, svcContext);
-            getAttribute = "org.openecomp.appc.chefServerResult.code";
+            getAttribute = "org.onap.appc.chefServerResult.code";
         }
         if (method == "trigger"){
             adapter.trigger(adapterParams, svcContext);
-            getAttribute = "org.openecomp.appc.chefAgent.code";
+            getAttribute = "org.onap.appc.chefAgent.code";
         }
     }
 

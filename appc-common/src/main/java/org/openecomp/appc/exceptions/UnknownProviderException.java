@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.exceptions;
+package org.onap.appc.exceptions;
 
 /**
  * This exception indicates that the named provider could not be found or was unidentifiable.

@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
 import java.util.ArrayList;
 import org.junit.Test;
-import org.openecomp.appc.design.dbervices.DbResponseProcessor;
+import org.onap.appc.design.dbervices.DbResponseProcessor;
 
 public class TestDbResponse {
 

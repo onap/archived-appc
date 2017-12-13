@@ -26,7 +26,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>appc-ansible-adapter</artifactId>
-    <groupId>org.openecomp.appc</groupId>
+    <groupId>org.onap.appc</groupId>
     <version>1.3.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-ansible-adapter-features</artifactId>
@@ -36,7 +36,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.openecomp.appc</groupId>
+      <groupId>org.onap.appc</groupId>
       <artifactId>appc-ansible-adapter-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>

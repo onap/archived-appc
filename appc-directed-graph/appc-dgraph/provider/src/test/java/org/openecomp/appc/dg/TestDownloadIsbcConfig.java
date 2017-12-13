@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg;
+package org.onap.appc.dg;
 
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.openecomp.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
+import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 
 /* need to move to open source
 import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;

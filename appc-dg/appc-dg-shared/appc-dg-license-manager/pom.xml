@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<artifactId>appc-dg-shared</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
@@ -11,13 +11,13 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-dg-common</artifactId>
 			<version>${project.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-license-manager-api</artifactId>
 			<version>1.3.0-SNAPSHOT</version>
 			<scope>compile</scope>
@@ -43,12 +43,12 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>appc-dg-license-manager</Bundle-SymbolicName>
-						<Export-Package>org.openecomp.appc.dg.licmgr</Export-Package>
-						<Export-Service>org.openecomp.appc.dg.licmgr.LicenseManagerPlugin</Export-Service>
-						<Private-Package>org.openecomp.appc.dg.licmgr.impl</Private-Package>
+						<Export-Package>org.onap.appc.dg.licmgr</Export-Package>
+						<Export-Service>org.onap.appc.dg.licmgr.LicenseManagerPlugin</Export-Service>
+						<Private-Package>org.onap.appc.dg.licmgr.impl</Private-Package>
 						<Import-Package>
-							org.openecomp.appc.licmgr,org.openecomp.appc.licmgr.exception,org.openecomp.appc.licmgr.objects,
-							org.openecomp.appc.exceptions, com.att.eelf.configuration,
+							org.onap.appc.licmgr,org.onap.appc.licmgr.exception,org.onap.appc.licmgr.objects,
+							org.onap.appc.exceptions, com.att.eelf.configuration,
 							*;resolution:=optional
 						</Import-Package>
 					</instructions>

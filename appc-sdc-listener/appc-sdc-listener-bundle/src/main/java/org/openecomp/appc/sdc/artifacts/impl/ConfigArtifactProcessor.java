@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts.impl;
+package org.onap.appc.sdc.artifacts.impl;
 
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.sdc.listener.ProviderOperations;
-import org.openecomp.appc.sdc.listener.ProviderResponse;
-import org.openecomp.appc.sdc.listener.Util;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.sdc.listener.ProviderOperations;
+import org.onap.appc.sdc.listener.ProviderResponse;
+import org.onap.appc.sdc.listener.Util;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap;
+package org.onap.appc.adapter.messaging.dmaap;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.junit.Assert;
@@ -31,16 +31,16 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.openecomp.appc.adapter.message.MessageDestination;
-import org.openecomp.appc.adapter.message.Producer;
-import org.openecomp.appc.adapter.message.event.EventHeader;
-import org.openecomp.appc.adapter.message.event.EventMessage;
-import org.openecomp.appc.adapter.message.event.EventStatus;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.EventSenderDmaapImpl;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.message.MessageDestination;
+import org.onap.appc.adapter.message.Producer;
+import org.onap.appc.adapter.message.event.EventHeader;
+import org.onap.appc.adapter.message.event.EventMessage;
+import org.onap.appc.adapter.message.event.EventStatus;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
+import org.onap.appc.adapter.messaging.dmaap.impl.EventSenderDmaapImpl;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
 
 import java.util.HashMap;
 import java.util.Map;

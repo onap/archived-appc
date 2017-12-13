@@ -1,8 +1,8 @@
-package org.openecomp.appc.sdc.listener;
+package org.onap.appc.sdc.listener;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.sdc.artifacts.object.Vnfc;
+import org.onap.appc.sdc.artifacts.object.Vnfc;
 
 public class SdcTestObjects {
 

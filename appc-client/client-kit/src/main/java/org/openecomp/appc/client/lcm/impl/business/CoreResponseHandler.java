@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.lcm.impl.business;
+package org.onap.appc.client.lcm.impl.business;
 
-import org.openecomp.appc.client.lcm.exceptions.AppcClientInternalException;
+import org.onap.appc.client.lcm.exceptions.AppcClientInternalException;
 
-import org.openecomp.appc.client.lcm.model.Status;
+import org.onap.appc.client.lcm.model.Status;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;

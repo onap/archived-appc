@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.core;
+package org.onap.appc.client.impl.core;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -22,24 +22,24 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.processor;
+package org.onap.appc.oam.processor;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.common.header.CommonHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.Status;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.oam.rev170303.status.StatusBuilder;
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.exceptions.InvalidStateException;
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.logging.LoggingConstants;
-import org.openecomp.appc.logging.LoggingUtils;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.oam.OAMCommandStatus;
-import org.openecomp.appc.oam.util.ConfigurationHelper;
-import org.openecomp.appc.oam.util.OperationHelper;
-import org.openecomp.appc.oam.util.StateHelper;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.StatusBuilder;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.exceptions.InvalidStateException;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.logging.LoggingUtils;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.OAMCommandStatus;
+import org.onap.appc.oam.util.ConfigurationHelper;
+import org.onap.appc.oam.util.OperationHelper;
+import org.onap.appc.oam.util.StateHelper;
 import org.slf4j.MDC;
 
 import java.net.InetAddress;

@@ -40,7 +40,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.openecomp.appc.dg.util;
+package org.onap.appc.dg.util;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler;
+package org.onap.appc.artifact.handler;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.openecomp.appc.artifact.handler.node.ArtifactHandlerNode;
+import org.onap.appc.artifact.handler.node.ArtifactHandlerNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.inmemory;
+package org.onap.appc.lockmanager.impl.inmemory;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.openecomp.appc.lockmanager.api.LockException;
-import org.openecomp.appc.lockmanager.api.LockManager;
+import org.onap.appc.lockmanager.api.LockException;
+import org.onap.appc.lockmanager.api.LockManager;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

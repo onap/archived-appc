@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.node;
+package org.onap.appc.artifact.handler.node;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
@@ -31,11 +31,11 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.openecomp.appc.artifact.handler.dbservices.DBService;
-import org.openecomp.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
-import org.openecomp.appc.yang.YANGGenerator;
-import org.openecomp.appc.yang.impl.YANGGeneratorFactory;
+import org.onap.appc.artifact.handler.dbservices.DBService;
+import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.yang.YANGGenerator;
+import org.onap.appc.yang.impl.YANGGeneratorFactory;
 import org.openecomp.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;

@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework.impl;
+package org.onap.appc.rankingframework.impl;
 
 import java.util.List;
 
-import org.openecomp.appc.rankingframework.RankedAttributesContext;
-import org.openecomp.appc.rankingframework.RankedAttributesResolver;
+import org.onap.appc.rankingframework.RankedAttributesContext;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 
 class RankedAttributesTree<R> implements RankedAttributesResolver<R> {
 

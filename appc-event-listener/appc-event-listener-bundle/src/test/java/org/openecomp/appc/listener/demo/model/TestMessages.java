@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.demo.model;
+package org.onap.appc.listener.demo.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -35,10 +35,10 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.listener.demo.model.IncomingMessage;
-import org.openecomp.appc.listener.demo.model.OutgoingMessage;
-import org.openecomp.appc.listener.demo.model.Status;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.listener.demo.model.IncomingMessage;
+import org.onap.appc.listener.demo.model.OutgoingMessage;
+import org.onap.appc.listener.demo.model.Status;
+import org.onap.appc.listener.util.Mapper;
 
 public class TestMessages {
     private IncomingMessage in;

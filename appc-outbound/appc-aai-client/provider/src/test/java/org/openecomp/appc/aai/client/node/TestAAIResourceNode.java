@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.aai.client.node;
+package org.onap.appc.aai.client.node;
 
 import static org.junit.Assert.*;
 
@@ -39,9 +39,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.aai.client.AppcAaiClientConstant;
-import org.openecomp.appc.aai.client.aai.AaiService;
-import org.openecomp.appc.aai.client.aai.TestAaiService;
+import org.onap.appc.aai.client.AppcAaiClientConstant;
+import org.onap.appc.aai.client.aai.AaiService;
+import org.onap.appc.aai.client.aai.TestAaiService;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

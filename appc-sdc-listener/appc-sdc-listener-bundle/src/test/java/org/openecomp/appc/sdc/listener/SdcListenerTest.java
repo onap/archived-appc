@@ -21,7 +21,7 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.sdc.listener;
+package org.onap.appc.sdc.listener;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.junit.Assert;

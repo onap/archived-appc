@@ -22,19 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl.base;
+package org.onap.appc.adapter.iaas.provider.operation.impl.base;
 
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.*;
-import org.openecomp.appc.adapter.iaas.provider.operation.api.IProviderOperation;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.pool.Pool;
-import org.openecomp.appc.pool.PoolExtensionException;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.*;
+import org.onap.appc.adapter.iaas.provider.operation.api.IProviderOperation;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Outcome;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.pool.Pool;
+import org.onap.appc.pool.PoolExtensionException;
 import com.att.cdp.zones.Context;
 import com.att.cdp.zones.model.ModelObject;
 import com.att.cdp.zones.model.Server;
@@ -48,8 +48,8 @@ import java.net.URI;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_ADAPTER;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_ADAPTER;
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
 import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 public abstract class ProviderOperation implements IProviderOperation {
@@ -110,7 +110,7 @@ public abstract class ProviderOperation implements IProviderOperation {
      */
     protected void logOperation(Msg msg, Map<String, String> params, SvcLogicContext context) {
 
-        String appName = configuration.getProperty(org.openecomp.appc.Constants.PROPERTY_APPLICATION_NAME);
+        String appName = configuration.getProperty(org.onap.appc.Constants.PROPERTY_APPLICATION_NAME);
         logger.info(msg, appName);
 
         debugParameters(params);
@@ -223,8 +223,8 @@ public abstract class ProviderOperation implements IProviderOperation {
             status = "500";
         }
         svcLogic.setStatus(Outcome.FAILURE.toString());
-        svcLogic.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_ERROR_CODE, status);
-        svcLogic.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
+        svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE, status);
+        svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
 
         if (null != cause)
             throw new APPCException(cause);
@@ -237,7 +237,7 @@ public abstract class ProviderOperation implements IProviderOperation {
     protected void doSuccess(RequestContext rc) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setStatus(Outcome.SUCCESS.toString());
-        svcLogic.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_ERROR_CODE,
+        svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE,
                 Integer.toString(HttpStatus.OK_200.getStatusCode()));
     }
 
@@ -317,7 +317,7 @@ public abstract class ProviderOperation implements IProviderOperation {
     protected Context getContext(RequestContext rc, String selfLinkURL, String providerName) {
         VMURL vm = VMURL.parseURL(selfLinkURL);
         IdentityURL ident = IdentityURL.parseURL(providerName);
-        String appName = configuration.getProperty(org.openecomp.appc.Constants.PROPERTY_APPLICATION_NAME);
+        String appName = configuration.getProperty(org.onap.appc.Constants.PROPERTY_APPLICATION_NAME);
 
         if (vm == null) {
             String msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, selfLinkURL);

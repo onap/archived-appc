@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.logging;
+package org.onap.appc.logging;
 
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;

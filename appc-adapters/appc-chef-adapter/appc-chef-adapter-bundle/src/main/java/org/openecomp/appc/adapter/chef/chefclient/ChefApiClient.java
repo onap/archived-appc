@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient;
 import org.apache.http.client.methods.*;
-import org.openecomp.appc.adapter.chef.chefapi.*;
+import org.onap.appc.adapter.chef.chefapi.*;
 
 public class ChefApiClient {
     private String endpoint;

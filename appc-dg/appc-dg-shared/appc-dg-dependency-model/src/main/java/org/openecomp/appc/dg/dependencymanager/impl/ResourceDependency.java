@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.dependencymanager.impl;
+package org.onap.appc.dg.dependencymanager.impl;
 
-import org.openecomp.appc.metadata.MetadataService;
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.metadata.MetadataService;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-import org.openecomp.appc.dg.dependencymanager.DependencyType;
-import org.openecomp.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.openecomp.appc.dg.dependencymanager.helper.DependencyModelParser;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.dependencymanager.DependencyType;
+import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
+import org.onap.appc.dg.dependencymanager.helper.DependencyModelParser;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -60,7 +60,7 @@ public class ResourceDependency implements DependencyType{
 
         } else {
             logger.info("MetadataService error from bundlecontext");
-            logger.warn("Cannot find service reference for org.openecomp.appc.metadata.MetadataService");
+            logger.warn("Cannot find service reference for org.onap.appc.metadata.MetadataService");
         }
     }
 

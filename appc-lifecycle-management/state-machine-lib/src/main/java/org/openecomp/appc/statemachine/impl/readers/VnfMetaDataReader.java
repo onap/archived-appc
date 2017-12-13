@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl.readers;
+package org.onap.appc.statemachine.impl.readers;
 
-import org.openecomp.appc.statemachine.StateMetaDataReader;
-import org.openecomp.appc.lifecyclemanager.objects.VNFOperationOutcome;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.StateMetaDataReader;
+import org.onap.appc.lifecyclemanager.objects.VNFOperationOutcome;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
 
 /**
  * Reader for VNF MetaData

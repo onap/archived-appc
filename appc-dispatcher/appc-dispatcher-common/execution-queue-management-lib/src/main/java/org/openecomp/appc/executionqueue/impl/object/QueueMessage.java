@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue.impl.object;
+package org.onap.appc.executionqueue.impl.object;
 
 import java.time.Instant;
 import java.util.Objects;

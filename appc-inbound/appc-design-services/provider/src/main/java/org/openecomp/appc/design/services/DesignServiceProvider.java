@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.services;
+package org.onap.appc.design.services;
 
 import java.util.concurrent.Future;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker.RpcRegistration;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev170627.DesignServicesService;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev170627.DesignServicesService;
 import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.openecomp.appc.design.services.impl.DesignServicesImpl;
+import org.onap.appc.design.services.impl.DesignServicesImpl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

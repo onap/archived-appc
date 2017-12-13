@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
-import org.openecomp.appc.listener.AppcEventListenerActivator;
+import org.onap.appc.listener.AppcEventListenerActivator;
 
 public class TestAppcDmaapListenerActivator {
 

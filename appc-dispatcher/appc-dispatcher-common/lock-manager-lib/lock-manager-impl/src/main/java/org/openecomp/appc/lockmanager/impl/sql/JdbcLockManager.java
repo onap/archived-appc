@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql;
+package org.onap.appc.lockmanager.impl.sql;
 
 import java.sql.Connection;
 
-import org.openecomp.appc.dao.util.JdbcConnectionFactory;
-import org.openecomp.appc.lockmanager.api.LockManager;
+import org.onap.appc.dao.util.JdbcConnectionFactory;
+import org.onap.appc.lockmanager.api.LockManager;
 
 public abstract class JdbcLockManager implements LockManager {
 

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ansible.model;
+package org.onap.appc.adapter.ansible.model;
 
 /**
  * This module imples the APP-C/Ansible Server interface
@@ -36,8 +36,8 @@ import com.google.common.base.Strings;
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.adapter.ansible.model.AnsibleResult;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.adapter.ansible.model.AnsibleResult;
 
 
 /**

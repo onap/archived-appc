@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.configuration;
+package org.onap.appc.configuration;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -37,7 +37,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
@@ -84,11 +84,11 @@ import com.att.eelf.i18n.EELFResourceManager;
  * to define the name and path. These are:
  * </p>
  * <dl>
- * <dt>org.openecomp.appc.bootstrap.file</dt>
+ * <dt>org.onap.appc.bootstrap.file</dt>
  * <dd>This property defines the name of the file that will be loaded. If not specified, the default value is
  * "appc.properties". This can be specified in either (or both) the default properties or the command line. The command
  * line specification will always override.</dd>
- * <dt>org.openecomp.appc.bootstrap.path</dt>
+ * <dt>org.onap.appc.bootstrap.path</dt>
  * <dd>This is a comma-delimited (,) path of directories to be searched to locate the specified file. The first
  * occurrence of the file is the one loaded, and no additional searching is performed. The path can be specified in
  * either, or both, the default values and the command line specification. If specified on the command line, the value
@@ -116,7 +116,7 @@ public final class ConfigurationFactory {
     /**
      * The default properties resource to be loaded
      */
-    private static final String DEFAULT_PROPERTIES = "org/openecomp/appc/default.properties";
+    private static final String DEFAULT_PROPERTIES = "org/onap/appc/default.properties";
 
     /**
      * This collection allows for special configurations to be created and maintained, organized by some identification

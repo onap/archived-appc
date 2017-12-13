@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.netconf.impl;
+package org.onap.appc.dg.netconf.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.adapter.netconf.*;
-import org.openecomp.appc.adapter.netconf.util.Constants;
-import org.openecomp.appc.dg.netconf.NetconfClientPlugin;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.*;
+import org.onap.appc.adapter.netconf.util.Constants;
+import org.onap.appc.dg.netconf.NetconfClientPlugin;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -48,7 +48,7 @@ import java.util.Map;
 
 public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
-    private static final String NETCONF_CLIENT_FACTORY_NAME = "org.openecomp.appc.adapter.netconf.NetconfClientFactory";
+    private static final String NETCONF_CLIENT_FACTORY_NAME = "org.onap.appc.adapter.netconf.NetconfClientFactory";
     private static ObjectMapper mapper = new ObjectMapper();
     private static EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
 

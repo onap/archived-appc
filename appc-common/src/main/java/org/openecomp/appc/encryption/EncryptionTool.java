@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.encryption;
+package org.onap.appc.encryption;
 
 import java.security.Provider;
 import java.security.Provider.Service;

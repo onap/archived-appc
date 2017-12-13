@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam;
+package org.onap.appc.oam;
 
-import org.openecomp.appc.executor.objects.Params;
-import org.openecomp.appc.util.MessageFormatter;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.util.MessageFormatter;
 
 import java.util.Map;
 

@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam;
+package org.onap.appc.oam;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.executor.objects.Params;
+import org.onap.appc.executor.objects.Params;
 
 import java.util.HashMap;
 import java.util.Map;

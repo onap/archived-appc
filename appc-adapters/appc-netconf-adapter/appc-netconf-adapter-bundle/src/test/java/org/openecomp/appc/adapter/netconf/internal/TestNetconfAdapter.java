@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.internal;
+package org.onap.appc.adapter.netconf.internal;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.adapter.netconf.internal.NetconfAdapter;
+import org.onap.appc.adapter.netconf.internal.NetconfAdapter;
 
 import java.io.IOException;
 import java.io.PipedInputStream;

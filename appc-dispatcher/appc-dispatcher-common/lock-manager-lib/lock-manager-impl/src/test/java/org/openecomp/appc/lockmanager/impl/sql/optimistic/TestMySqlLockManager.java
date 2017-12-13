@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql.optimistic;
+package org.onap.appc.lockmanager.impl.sql.optimistic;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.appc.lockmanager.api.LockException;
-import org.openecomp.appc.lockmanager.impl.sql.JdbcLockManager;
-import org.openecomp.appc.lockmanager.impl.sql.MySqlLockManagerBaseTests;
-import org.openecomp.appc.lockmanager.impl.sql.Synchronizer;
+import org.onap.appc.lockmanager.api.LockException;
+import org.onap.appc.lockmanager.impl.sql.JdbcLockManager;
+import org.onap.appc.lockmanager.impl.sql.MySqlLockManagerBaseTests;
+import org.onap.appc.lockmanager.impl.sql.Synchronizer;
 
 import java.util.concurrent.*;
 

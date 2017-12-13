@@ -34,7 +34,7 @@
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
         <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
         <feature>sdnc-sli</feature>
-        <bundle>mvn:org.openecomp.appc/appc-rest-adapter-bundle/${project.version}</bundle>
+        <bundle>mvn:org.onap.appc/appc-rest-adapter-bundle/${project.version}</bundle>
     </feature>
 
 </features>

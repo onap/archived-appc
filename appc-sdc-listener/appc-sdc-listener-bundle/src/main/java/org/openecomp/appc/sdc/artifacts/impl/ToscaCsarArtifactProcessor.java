@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts.impl;
+package org.onap.appc.sdc.artifacts.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -30,13 +30,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.appc.adapter.message.EventSender;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.licmgr.Constants;
-import org.openecomp.appc.sdc.artifacts.helper.DependencyModelGenerator;
-import org.openecomp.appc.sdc.artifacts.object.Resource;
-import org.openecomp.appc.sdc.artifacts.object.SDCArtifact;
-import org.openecomp.appc.sdc.artifacts.object.SDCReference;
+import org.onap.appc.adapter.message.EventSender;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.licmgr.Constants;
+import org.onap.appc.sdc.artifacts.helper.DependencyModelGenerator;
+import org.onap.appc.sdc.artifacts.object.Resource;
+import org.onap.appc.sdc.artifacts.object.SDCArtifact;
+import org.onap.appc.sdc.artifacts.object.SDCReference;
 import org.openecomp.sdc.api.IDistributionClient;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;

@@ -25,7 +25,7 @@
 /**
  * NOTE: This file is auto-generated and should not be changed manually.
  */
-package org.openecomp.appc.client.lcm.model;
+package org.onap.appc.client.lcm.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

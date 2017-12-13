@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.executor.node;
+package org.onap.appc.flow.executor.node;
 
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -28,8 +28,8 @@ import java.util.Properties;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.flow.controller.node.FlowControlNode;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.node.FlowControlNode;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

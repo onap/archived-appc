@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.simulator.client;
+package org.onap.appc.simulator.client;
 
 import java.io.File;
 import java.io.IOException;

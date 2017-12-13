@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap.impl;
+package org.onap.appc.adapter.messaging.dmaap.impl;
 
 import java.io.IOException;
 import java.util.*;
@@ -36,17 +36,17 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.nsa.mr.client.MRClientFactory;
 import com.att.nsa.mr.client.MRConsumer;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.adapter.message.Consumer;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.metricservice.MetricRegistry;
-import org.openecomp.appc.metricservice.MetricService;
-import org.openecomp.appc.metricservice.impl.MetricServiceImpl;
-import org.openecomp.appc.metricservice.metric.Metric;
-import org.openecomp.appc.metricservice.metric.MetricType;
-import org.openecomp.appc.metricservice.metric.DmaapRequestCounterMetric;
-import org.openecomp.appc.metricservice.policy.PublishingPolicy;
-import org.openecomp.appc.metricservice.publisher.LogPublisher;
+import org.onap.appc.adapter.message.Consumer;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.MetricService;
+import org.onap.appc.metricservice.impl.MetricServiceImpl;
+import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.metric.DmaapRequestCounterMetric;
+import org.onap.appc.metricservice.policy.PublishingPolicy;
+import org.onap.appc.metricservice.publisher.LogPublisher;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -222,7 +222,7 @@ public class DmaapConsumerImpl implements Consumer {
 
         } else {
             LOG.info("Metric Service error from bundlecontext");
-            LOG.warn("Cannot find service reference for org.openecomp.appc.metricservice.MetricService");
+            LOG.warn("Cannot find service reference for org.onap.appc.metricservice.MetricService");
             return null;
 
         }

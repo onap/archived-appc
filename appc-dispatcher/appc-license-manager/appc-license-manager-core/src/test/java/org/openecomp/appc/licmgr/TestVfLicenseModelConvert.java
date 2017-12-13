@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr;
+package org.onap.appc.licmgr;
 
 /*
-import org.openecomp.appc.licmgr.objects.VfLicenseModel;
+import org.onap.appc.licmgr.objects.VfLicenseModel;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;

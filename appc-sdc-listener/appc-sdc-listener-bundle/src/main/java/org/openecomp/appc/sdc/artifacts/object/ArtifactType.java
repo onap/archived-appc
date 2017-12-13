@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts.object;
+package org.onap.appc.sdc.artifacts.object;
 
 /**
  * Enummration listing SDC artifact types

@@ -1,4 +1,4 @@
-package org.openecomp.appc.tools.generator.impl;
+package org.onap.appc.tools.generator.impl;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.mdsal.impl;
+package org.onap.appc.mdsal.impl;
 /**
  * This class contains the definitions of all constant values used in the appc-dg-mdsal-store
  * These properties are used for creating osgi bundle zip file. It also defines contents for Blueprint.xml file of bundle

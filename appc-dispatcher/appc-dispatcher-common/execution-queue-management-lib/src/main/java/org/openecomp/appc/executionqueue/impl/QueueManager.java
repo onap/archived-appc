@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executionqueue.impl;
+package org.onap.appc.executionqueue.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.appc.executionqueue.MessageExpirationListener;
-import org.openecomp.appc.executionqueue.helper.Util;
-import org.openecomp.appc.executionqueue.impl.object.QueueMessage;
+import org.onap.appc.executionqueue.MessageExpirationListener;
+import org.onap.appc.executionqueue.helper.Util;
+import org.onap.appc.executionqueue.impl.object.QueueMessage;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

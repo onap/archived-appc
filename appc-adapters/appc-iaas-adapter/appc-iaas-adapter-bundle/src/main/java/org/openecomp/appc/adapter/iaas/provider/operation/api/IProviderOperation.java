@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.api;
+package org.onap.appc.adapter.iaas.provider.operation.api;
 
-import org.openecomp.appc.adapter.iaas.impl.ProviderCache;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.iaas.impl.ProviderCache;
+import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.ModelObject;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import java.util.Map;

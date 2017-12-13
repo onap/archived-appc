@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine;
+package org.onap.appc.statemachine;
 
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineResponse;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineResponse;
 
 /**
  * Interface of the StateMachine

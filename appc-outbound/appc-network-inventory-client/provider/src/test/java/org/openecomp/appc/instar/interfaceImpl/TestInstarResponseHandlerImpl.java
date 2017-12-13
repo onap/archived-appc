@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.instar.interfaceImpl;
+package org.onap.appc.instar.interfaceImpl;
 
 import org.junit.Test;
 import org.openecomp.sdnc.config.params.data.ResponseKey;

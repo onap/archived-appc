@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.core;
+package org.onap.appc.client.impl.core;
 
 public interface ICoreAsyncResponseHandler extends  ICoreResponseHandler{
 

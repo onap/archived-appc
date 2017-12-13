@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.data;
+package org.onap.appc.design.data;
 
 import java.io.File;
 import java.net.URL;
@@ -38,7 +38,7 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import org.openecomp.appc.design.services.util.DesignServiceConstants;
+import org.onap.appc.design.services.util.DesignServiceConstants;
 import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 

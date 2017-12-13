@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.executor.impl;
+package org.onap.appc.executor.impl;
 
 
-import org.openecomp.appc.domainmodel.lcm.ActionLevel;
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.domainmodel.lcm.VNFOperation;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.requesthandler.RequestHandler;
-import org.openecomp.appc.workflow.WorkFlowManager;
+import org.onap.appc.domainmodel.lcm.ActionLevel;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.requesthandler.RequestHandler;
+import org.onap.appc.workflow.WorkFlowManager;
 
 
 

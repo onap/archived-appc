@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
-import org.openecomp.appc.domainmodel.lcm.RuntimeContext;
-import org.openecomp.appc.executor.UnstableVNFException;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.executor.UnstableVNFException;
 
 public class VMRequestHandlerImpl extends AbstractRequestHandlerImpl{
 

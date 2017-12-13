@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.objects;
+package org.onap.appc.requesthandler.objects;
 
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
 
 public class RequestHandlerOutput {
 

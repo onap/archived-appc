@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.openecomp.appc</groupId>
+		<groupId>org.onap.appc</groupId>
 		<artifactId>appc-dmaap-adapter</artifactId>
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
@@ -13,20 +13,20 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-common</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.appc</groupId>
+			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-dmaap-adapter-bundle</artifactId>
 			<version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
-            <groupId>org.openecomp.appc</groupId>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-message-adapter-api</artifactId>
             <version>${project.version}</version>
             <scope>provided</scope>
@@ -130,10 +130,10 @@
 					<instructions>
 						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Export-Package>org.openecomp.appc.adapter.factory</Export-Package>
-						<Bundle-Activator>org.openecomp.appc.adapter.factory.DmaapMessageAdapterFactoryActivator</Bundle-Activator>
-						<Export-Service>org.openecomp.appc.adapter.message.MessageAdapterFactory</Export-Service>
-						<Import-Package>org.openecomp.appc.adapter.messaging.*,org.openecomp.appc.adapter.message.*,org.openecomp.appc.metricservice.*,com.att.nsa.*org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
+						<Export-Package>org.onap.appc.adapter.factory</Export-Package>
+						<Bundle-Activator>org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryActivator</Bundle-Activator>
+						<Export-Service>org.onap.appc.adapter.message.MessageAdapterFactory</Export-Service>
+						<Import-Package>org.onap.appc.adapter.messaging.*,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis|pax-*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>

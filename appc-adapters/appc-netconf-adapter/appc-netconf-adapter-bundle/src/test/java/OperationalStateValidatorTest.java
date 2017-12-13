@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.junit.Test;
-import org.openecomp.appc.adapter.netconf.OperationalStateValidator;
-import org.openecomp.appc.adapter.netconf.OperationalStateValidatorFactory;
-import org.openecomp.appc.adapter.netconf.VnfType;
+import org.onap.appc.adapter.netconf.OperationalStateValidator;
+import org.onap.appc.adapter.netconf.OperationalStateValidatorFactory;
+import org.onap.appc.adapter.netconf.VnfType;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -39,9 +39,9 @@ public class OperationalStateValidatorTest {
         String validResponse = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"101\">\n" +
                 "    <data>\n" +
-                "        <ManagedElement xmlns=\"urn:org:openecomp:appc:Test\">\n" +
+                "        <ManagedElement xmlns=\"urn:org:onap:appc:Test\">\n" +
                 "            <managedElementId>1</managedElementId>\n" +
-                "            <VnfFunction xmlns=\"urn:org:openecomp:appc:Test\">\n" +
+                "            <VnfFunction xmlns=\"urn:org:onap:appc:Test\">\n" +
                 "                <id>1</id>\n" +
                 "                <ProcessorManagement>\n" +
                 "                    <id>1</id>\n" +
@@ -102,9 +102,9 @@ public class OperationalStateValidatorTest {
         response = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"101\">\n" +
                 "    <data>\n" +
-                "        <ManagedElement xmlns=\"urn:org:openecomp:appc:Test\">\n" +
+                "        <ManagedElement xmlns=\"urn:org:onap:appc:Test\">\n" +
                 "            <managedElementId>1</managedElementId>\n" +
-                "            <VnfFunction xmlns=\"urn:org:openecomp:appc:Test\">\n" +
+                "            <VnfFunction xmlns=\"urn:org:onap:appc:Test\">\n" +
                 "                <id>1</id>\n" +
                 "                <ProcessorManagement>\n" +
                 "                    <id>1</id>\n" +

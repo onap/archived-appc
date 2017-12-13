@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.metric.impl;
+package org.onap.appc.metricservice.metric.impl;
 
-import org.openecomp.appc.metricservice.metric.DispatchingFunctionCounterBuilder;
-import org.openecomp.appc.metricservice.metric.DispatchingFuntionMetric;
-import org.openecomp.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.metric.DispatchingFunctionCounterBuilder;
+import org.onap.appc.metricservice.metric.DispatchingFuntionMetric;
+import org.onap.appc.metricservice.metric.MetricType;
 
 
 public class DispatchingFunctionCounterBuilderImpl implements DispatchingFunctionCounterBuilder {

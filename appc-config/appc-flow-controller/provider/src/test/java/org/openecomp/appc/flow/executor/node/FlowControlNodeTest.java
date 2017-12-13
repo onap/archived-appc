@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.executor.node;
+package org.onap.appc.flow.executor.node;
 
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.verify;
@@ -41,11 +41,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.data.Transactions;
-import org.openecomp.appc.flow.controller.dbervices.FlowControlDBService;
-import org.openecomp.appc.flow.controller.node.FlowControlNode;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.data.Transactions;
+import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
+import org.onap.appc.flow.controller.node.FlowControlNode;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.powermock.api.mockito.PowerMockito;

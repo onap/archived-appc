@@ -18,16 +18,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.impl.rev170706;
+package org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.impl.rev170706;
 
-import org.openecomp.appc.seqgen.provider.SequenceGeneratorProvider;
+import org.onap.appc.seqgen.provider.SequenceGeneratorProvider;
 
-public class SequenceGeneratorModule extends org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.impl.rev170706.AbstractSequenceGeneratorModule {
+public class SequenceGeneratorModule extends org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.impl.rev170706.AbstractSequenceGeneratorModule {
     public SequenceGeneratorModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
     }
 
-    public SequenceGeneratorModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.openecomp.appc.sequencegenerator.impl.rev170706.SequenceGeneratorModule oldModule, java.lang.AutoCloseable oldInstance) {
+    public SequenceGeneratorModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.impl.rev170706.SequenceGeneratorModule oldModule, java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 

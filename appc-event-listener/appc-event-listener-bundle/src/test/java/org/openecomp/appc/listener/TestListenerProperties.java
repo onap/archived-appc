@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener;
+package org.onap.appc.listener;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -35,10 +35,10 @@ import java.util.Properties;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openecomp.appc.adapter.factory.MessageService;
-import org.openecomp.appc.listener.AbstractListener;
-import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.ListenerProperties.KEYS;
+import org.onap.appc.adapter.factory.MessageService;
+import org.onap.appc.listener.AbstractListener;
+import org.onap.appc.listener.ListenerProperties;
+import org.onap.appc.listener.ListenerProperties.KEYS;
 
 public class TestListenerProperties {
 
@@ -126,7 +126,7 @@ public class TestListenerProperties {
 
         Properties tmp = new Properties();
         try {
-            tmp.load(getClass().getResourceAsStream("/org/openecomp/appc/default.properties"));
+            tmp.load(getClass().getResourceAsStream("/org/onap/appc/default.properties"));
         } catch (Exception e) {
             fail("Could not load properties to test");
         }

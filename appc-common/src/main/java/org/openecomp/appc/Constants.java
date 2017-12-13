@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc;
+package org.onap.appc;
 
 /**
  * This class contains the definitions of all constant values used in the APPC provider, adapters, and other components.
@@ -91,27 +91,27 @@ public final class Constants {
     /**
      * The name of the property that contains the service request enumerated value in the graph's context
      */
-    public static final String CONTEXT_SERVICE = "org.openecomp.appc.service";
+    public static final String CONTEXT_SERVICE = "org.onap.appc.service";
 
     /**
      * The name of the property that contains the VM id value in the graph's context
      */
-    public static final String CONTEXT_VMID = "org.openecomp.appc.vmid";
+    public static final String CONTEXT_VMID = "org.onap.appc.vmid";
 
     /**
      * The name of the property that contains the VM id value in the graph's context
      */
-    public static final String CONTEXT_IDENTITY_URL = "org.openecomp.appc.identity.url";
+    public static final String CONTEXT_IDENTITY_URL = "org.onap.appc.identity.url";
 
     /**
      * The name of the property that contains the service request id value in the graph's context
      */
-    public static final String CONTEXT_REQID = "org.openecomp.appc.reqid";
+    public static final String CONTEXT_REQID = "org.onap.appc.reqid";
 
     /**
      * The name of the property that indicates which method of the IaaS adapter to call
      */
-    public static final String CONTEXT_ACTION = "org.openecomp.appc.action";
+    public static final String CONTEXT_ACTION = "org.onap.appc.action";
 
     /**
      * The enumerated value for restart of a VM. This is a constant for one possible value of CONTEXT_SERVICE.
@@ -126,44 +126,44 @@ public final class Constants {
     /**
      * The name of the adapter. We get the name from a property file so that it can be changed easily if needed.
      */
-    public static final String PROPERTY_ADAPTER_NAME = "org.openecomp.appc.provider.adaptor.name";
+    public static final String PROPERTY_ADAPTER_NAME = "org.onap.appc.provider.adaptor.name";
 
     /**
      * The minimum number of contexts to cache in each provider/tenant pool
      */
-    public static final String PROPERTY_MIN_POOL_SIZE = "org.openecomp.appc.provider.min.pool";
+    public static final String PROPERTY_MIN_POOL_SIZE = "org.onap.appc.provider.min.pool";
 
     /**
      * The maximum number of contexts to cache in each provider/tenant pool
      */
-    public static final String PROPERTY_MAX_POOL_SIZE = "org.openecomp.appc.provider.max.pool";
+    public static final String PROPERTY_MAX_POOL_SIZE = "org.onap.appc.provider.max.pool";
 
     /**
      * The amount of time, in seconds, that the application waits for a change of state of a server to a known valid
      * state before giving up and failing the request.
      */
-    public static final String PROPERTY_SERVER_STATE_CHANGE_TIMEOUT = "org.openecomp.appc.server.state.change.timeout";
+    public static final String PROPERTY_SERVER_STATE_CHANGE_TIMEOUT = "org.onap.appc.server.state.change.timeout";
 
     /**
      * The amount of time, in seconds, between subsequent polls to the openstack provider to update the state of a
      * resource
      */
-    public static final String PROPERTY_OPENSTACK_POLL_INTERVAL = "org.openecomp.appc.openstack.poll.interval";
+    public static final String PROPERTY_OPENSTACK_POLL_INTERVAL = "org.onap.appc.openstack.poll.interval";
 
     /**
      * The amount of time, in seconds, to wait between retry attempts when a connection to a provider fails.
      */
-    public static final String PROPERTY_RETRY_DELAY = "org.openecomp.appc.provider.retry.delay";
+    public static final String PROPERTY_RETRY_DELAY = "org.onap.appc.provider.retry.delay";
 
     /**
      * The maximum number of times a connection retry will be attempted before the application fails the request
      */
-    public static final String PROPERTY_RETRY_LIMIT = "org.openecomp.appc.provider.retry.limit";
+    public static final String PROPERTY_RETRY_LIMIT = "org.onap.appc.provider.retry.limit";
     /**
      * The amount of time, in seconds, that the application waits for a change of state of a stacj to a known valid
      * state before giving up and failing the request.
      */
-    public static final String PROPERTY_STACK_STATE_CHANGE_TIMEOUT ="org.openecomp.appc.stack.state.change.timeout" ;
+    public static final String PROPERTY_STACK_STATE_CHANGE_TIMEOUT ="org.onap.appc.stack.state.change.timeout" ;
 
     @SuppressWarnings("nls")
     public static final String STATUS_GETTER = "status-getter";

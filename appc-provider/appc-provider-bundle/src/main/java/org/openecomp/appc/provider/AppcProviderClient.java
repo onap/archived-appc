@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider;
+package org.onap.appc.provider;
 
-import org.openecomp.appc.util.StringHelper;
+import org.onap.appc.util.StringHelper;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
@@ -94,7 +94,7 @@ public class AppcProviderClient {
         MDC.put("ElapsedTime", durationStr);
         MDC.put("TargetEntity", "sli");
         MDC.put("TargetServiceName", "execute");
-        MDC.put("ClassName", "org.openecomp.appc.provider.AppcProviderClient"); 
+        MDC.put("ClassName", "org.onap.appc.provider.AppcProviderClient"); 
 
         LOG.debug("Parameters passed to SLI: " + StringHelper.propertiesToString(parms));
         metricsLogger.info("Parameters passed to SLI: " + StringHelper.propertiesToString(parms));

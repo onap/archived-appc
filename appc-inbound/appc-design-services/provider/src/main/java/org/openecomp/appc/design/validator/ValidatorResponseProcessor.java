@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.design.validator;
+package org.onap.appc.design.validator;
 
-import org.openecomp.appc.design.services.impl.DesignServicesImpl;
+import org.onap.appc.design.services.impl.DesignServicesImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

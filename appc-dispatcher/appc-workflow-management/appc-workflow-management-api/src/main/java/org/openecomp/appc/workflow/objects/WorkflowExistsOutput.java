@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.objects;
+package org.onap.appc.workflow.objects;
 
 public class WorkflowExistsOutput {
 

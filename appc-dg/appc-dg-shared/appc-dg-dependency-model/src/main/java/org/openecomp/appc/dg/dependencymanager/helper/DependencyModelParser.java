@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.dependencymanager.helper;
+package org.onap.appc.dg.dependencymanager.helper;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,10 +31,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.objects.Node;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
-import org.openecomp.appc.domainmodel.Vnfc;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.objects.Node;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.domainmodel.Vnfc;
 
 import java.io.IOException;
 import java.util.*;

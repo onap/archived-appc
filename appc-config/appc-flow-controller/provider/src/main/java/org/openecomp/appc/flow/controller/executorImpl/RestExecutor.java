@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.flow.controller.executorImpl;
+package org.onap.appc.flow.controller.executorImpl;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -34,10 +34,10 @@ import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.IOUtils;
-import org.openecomp.appc.flow.controller.data.Response;
-import org.openecomp.appc.flow.controller.data.Transaction;
-import org.openecomp.appc.flow.controller.interfaces.FlowExecutorInterface;
-import org.openecomp.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.appc.flow.controller.data.Response;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;

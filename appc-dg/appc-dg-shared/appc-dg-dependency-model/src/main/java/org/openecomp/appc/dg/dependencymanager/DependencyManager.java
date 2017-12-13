@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.dependencymanager;
+package org.onap.appc.dg.dependencymanager;
 
-import org.openecomp.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.objects.DependencyTypes;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.objects.DependencyTypes;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
 
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 
 public interface DependencyManager {
     VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier, DependencyTypes dependencyType) throws InvalidDependencyModel, DependencyModelNotFound;

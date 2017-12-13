@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.inmemory;
+package org.onap.appc.lockmanager.impl.inmemory;
 
 
 public class LockValue {

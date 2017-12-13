@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.data.services.db;
+package org.onap.appc.data.services.db;
 
 import java.util.Set;
 

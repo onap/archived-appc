@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.message;
+package org.onap.appc.adapter.message;
 
 import java.util.Set;
 

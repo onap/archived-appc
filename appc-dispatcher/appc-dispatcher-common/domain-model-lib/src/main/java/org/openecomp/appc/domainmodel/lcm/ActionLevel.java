@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.domainmodel.lcm;
+package org.onap.appc.domainmodel.lcm;
 
 public enum ActionLevel {
     VNF,VM,VNFC

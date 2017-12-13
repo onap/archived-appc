@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.requesthandler.impl;
+package org.onap.appc.requesthandler.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.openecomp.appc.requesthandler.LCMStateManager;
+import org.onap.appc.requesthandler.LCMStateManager;
 
 public class LCMStateManagerImpl implements LCMStateManager {
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(LCMStateManagerImpl.class);

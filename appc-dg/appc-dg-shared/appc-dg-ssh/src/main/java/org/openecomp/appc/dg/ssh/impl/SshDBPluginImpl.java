@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.ssh.impl;
+package org.onap.appc.dg.ssh.impl;
 
 import com.att.eelf.i18n.EELFResourceManager;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -30,13 +30,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
-import org.openecomp.appc.adapter.ssh.Constants;
-import org.openecomp.appc.adapter.ssh.SshConnectionDetails;
-import org.openecomp.appc.adapter.ssh.SshDataAccessException;
-import org.openecomp.appc.adapter.ssh.SshDataAccessService;
-import org.openecomp.appc.dg.ssh.SshDBPlugin;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.adapter.ssh.Constants;
+import org.onap.appc.adapter.ssh.SshConnectionDetails;
+import org.onap.appc.adapter.ssh.SshDataAccessException;
+import org.onap.appc.adapter.ssh.SshDataAccessService;
+import org.onap.appc.dg.ssh.SshDBPlugin;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

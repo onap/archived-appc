@@ -22,13 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import java.util.Map;
 
-import org.openecomp.appc.dg.common.LegacyUtil;
-import org.openecomp.appc.dg.common.utils.JSONUtil;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.dg.common.LegacyUtil;
+import org.onap.appc.dg.common.utils.JSONUtil;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 

@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.simulator.client.impl;
+package org.onap.appc.simulator.client.impl;
 
-import org.openecomp.appc.client.lcm.api.AppcClientServiceFactoryProvider;
-import org.openecomp.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
-import org.openecomp.appc.client.lcm.api.ApplicationContext;
-import org.openecomp.appc.client.lcm.api.LifeCycleManagerStateful;
-import org.openecomp.appc.client.lcm.api.ResponseHandler;
+import org.onap.appc.client.lcm.api.AppcClientServiceFactoryProvider;
+import org.onap.appc.client.lcm.api.AppcLifeCycleManagerServiceFactory;
+import org.onap.appc.client.lcm.api.ApplicationContext;
+import org.onap.appc.client.lcm.api.LifeCycleManagerStateful;
+import org.onap.appc.client.lcm.api.ResponseHandler;
 
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
-import org.openecomp.appc.simulator.client.RequestHandler;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.simulator.client.RequestHandler;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

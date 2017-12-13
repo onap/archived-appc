@@ -33,8 +33,8 @@
     <feature name='appc-ansible-adapter' description="appc-ansible-adapter" version='${project.version}'>
         <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
         <feature>sdnc-sli</feature>
-         <bundle dependency="true">mvn:org.openecomp.appc/appc-common/${project.version}</bundle>
-        <bundle>mvn:org.openecomp.appc/appc-ansible-adapter-bundle/${project.version}</bundle>
+         <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle>mvn:org.onap.appc/appc-ansible-adapter-bundle/${project.version}</bundle>
     </feature>
 
 </features>

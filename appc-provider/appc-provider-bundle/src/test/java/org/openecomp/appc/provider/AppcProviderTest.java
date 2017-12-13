@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider;
+package org.onap.appc.provider;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -35,25 +35,25 @@ import org.opendaylight.controller.md.sal.binding.test.AbstractDataBrokerTest;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.EvacuateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.MigrateOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.ModifyConfigOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RebuildOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.RestartOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.SnapshotOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckInput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.VmstatuscheckOutput;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.common.request.header.CommonRequestHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.config.payload.ConfigPayload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.EvacuateInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.EvacuateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.request.header.CommonRequestHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.config.payload.ConfigPayload;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.openecomp.appc.provider.topology.TopologyService;
+import org.onap.appc.provider.topology.TopologyService;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;

@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.metric.impl;
+package org.onap.appc.metricservice.metric.impl;
 
-import org.openecomp.appc.metricservice.metric.MetricType;
-import org.openecomp.appc.metricservice.metric.DmaapRequestCounterBuilder;
-import org.openecomp.appc.metricservice.metric.DmaapRequestCounterMetric;
+import org.onap.appc.metricservice.metric.MetricType;
+import org.onap.appc.metricservice.metric.DmaapRequestCounterBuilder;
+import org.onap.appc.metricservice.metric.DmaapRequestCounterMetric;
 
 
 public class DmaapRequestCounterBuilderImpl implements DmaapRequestCounterBuilder {

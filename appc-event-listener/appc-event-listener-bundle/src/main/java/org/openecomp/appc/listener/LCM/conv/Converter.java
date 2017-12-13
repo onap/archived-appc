@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM.conv;
+package org.onap.appc.listener.LCM.conv;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
-import org.openecomp.appc.listener.LCM.model.DmaapMessage;
-import org.openecomp.appc.listener.LCM.model.DmaapOutgoingMessage;
-import org.openecomp.appc.listener.util.Mapper;
+import org.onap.appc.listener.LCM.model.DmaapMessage;
+import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
+import org.onap.appc.listener.util.Mapper;
 
 public class Converter {
    

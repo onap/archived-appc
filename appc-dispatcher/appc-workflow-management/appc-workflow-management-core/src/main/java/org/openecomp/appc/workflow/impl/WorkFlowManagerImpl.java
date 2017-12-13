@@ -22,21 +22,21 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.impl;
+package org.onap.appc.workflow.impl;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.common.constant.Constants;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.domainmodel.lcm.RequestContext;
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
-import org.openecomp.appc.domainmodel.lcm.Status;
-import org.openecomp.appc.util.ObjectMapper;
-import org.openecomp.appc.workflow.WorkFlowManager;
-import org.openecomp.appc.workflow.objects.WorkflowExistsOutput;
-import org.openecomp.appc.workflow.objects.WorkflowRequest;
-import org.openecomp.appc.workflow.objects.WorkflowResponse;
+import org.onap.appc.common.constant.Constants;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.Status;
+import org.onap.appc.util.ObjectMapper;
+import org.onap.appc.workflow.WorkFlowManager;
+import org.onap.appc.workflow.objects.WorkflowExistsOutput;
+import org.onap.appc.workflow.objects.WorkflowRequest;
+import org.onap.appc.workflow.objects.WorkflowResponse;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -55,7 +55,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
 	private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
 	private final WorkflowResolver workflowResolver = new WorkflowResolver(
-			configuration.getIntegerProperty("org.openecomp.appc.workflow.resolver.refresh_interval", 300)
+			configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300)
 	);
 
 	public void setSvcLogicServiceRef(SvcLogicService svcLogic) {
@@ -94,20 +94,20 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
 				/*
 				The following method call (populateDGContext) populates DG context with the
 				request parameters to maintain backward compatibility with old DGs,
-				 we are not altering the old way of passing (org.openecomp.appc.vnfId and so on..)
+				 we are not altering the old way of passing (org.onap.appc.vnfId and so on..)
 				This is still a temporary solution, the end solution should be agreed with
 				all stakeholders and implemented.
 			 */
 				populateDGContext(workflowParams,workflowRequest);
             } else {
-				actionProperty = configuration.getProperty("org.openecomp.appc.workflow.action", String.valueOf(Constants.ACTION));
-				requestIdProperty = configuration.getProperty("org.openecomp.appc.workflow.request.id", String.valueOf(Constants.REQUEST_ID));
-				vfIdProperty = configuration.getProperty("org.openecomp.appc.workflow.vfid", String.valueOf(Constants.VF_ID));
-				String payloadProperty = configuration.getProperty("org.openecomp.appc.workflow.payload", String.valueOf(Constants.PAYLOAD));
-				String vfTypeProperty = configuration.getProperty("org.openecomp.appc.workflow.vftype", String.valueOf(Constants.VF_TYPE));
-				String apiVerProperty = configuration.getProperty("org.openecomp.appc.workflow.apiVersion", String.valueOf(Constants.API_VERSION));
-				String originatorIdProperty = configuration.getProperty("org.openecomp.appc.workflow.originatorId",Constants.ORIGINATOR_ID);
-				String subRequestId = configuration.getProperty("org.openecomp.appc.workflow.subRequestId",Constants.SUB_REQUEST_ID);
+				actionProperty = configuration.getProperty("org.onap.appc.workflow.action", String.valueOf(Constants.ACTION));
+				requestIdProperty = configuration.getProperty("org.onap.appc.workflow.request.id", String.valueOf(Constants.REQUEST_ID));
+				vfIdProperty = configuration.getProperty("org.onap.appc.workflow.vfid", String.valueOf(Constants.VF_ID));
+				String payloadProperty = configuration.getProperty("org.onap.appc.workflow.payload", String.valueOf(Constants.PAYLOAD));
+				String vfTypeProperty = configuration.getProperty("org.onap.appc.workflow.vftype", String.valueOf(Constants.VF_TYPE));
+				String apiVerProperty = configuration.getProperty("org.onap.appc.workflow.apiVersion", String.valueOf(Constants.API_VERSION));
+				String originatorIdProperty = configuration.getProperty("org.onap.appc.workflow.originatorId",Constants.ORIGINATOR_ID);
+				String subRequestId = configuration.getProperty("org.onap.appc.workflow.subRequestId",Constants.SUB_REQUEST_ID);
 
                 workflowParams.put(actionProperty,workflowRequest.getRequestContext().getAction().name());
                 workflowParams.put(requestIdProperty, workflowRequest.getRequestContext().getCommonHeader().getRequestId());

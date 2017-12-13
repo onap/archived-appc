@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.impl;
+package org.onap.appc.listener.impl;
 
 public class TestController {
 

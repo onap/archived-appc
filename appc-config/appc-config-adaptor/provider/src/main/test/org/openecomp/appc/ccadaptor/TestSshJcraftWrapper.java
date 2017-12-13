@@ -1,4 +1,4 @@
-package org.openecomp.appc.ccadaptor;
+package org.onap.appc.ccadaptor;
 
 import org.junit.Assert;
 import org.junit.Test;

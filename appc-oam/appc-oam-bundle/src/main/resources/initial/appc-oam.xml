@@ -32,7 +32,7 @@
 
 					<!-- This xmlns:prefix should match the namespace in the *-oam-impl.yang
 						file The prefix: inside type should match the prefix of the yang file. -->
-					<type xmlns:prefix="org:openecomp:appc:oam:impl">
+					<type xmlns:prefix="org:onap:appc:oam:impl">
 						prefix:appc-oam-impl
 					</type>
 					<name>appc-oam-impl</name>
@@ -73,7 +73,7 @@
 		defined above are implied which is why we do not have define a required capability 
 		for the data broker, for example. -->
 	<required-capabilities>
-		<capability>org:openecomp:appc:oam:impl?module=appc-oam-impl&amp;revision=2017-03-03
+		<capability>org:onap:appc:oam:impl?module=appc-oam-impl&amp;revision=2017-03-03
 		</capability>
 	</required-capabilities>
 

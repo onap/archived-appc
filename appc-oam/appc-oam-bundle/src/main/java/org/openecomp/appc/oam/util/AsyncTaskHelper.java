@@ -22,12 +22,12 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.util;
+package org.onap.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
-import org.openecomp.appc.oam.AppcOam;
-import org.openecomp.appc.oam.processor.BaseActionRunnable;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.processor.BaseActionRunnable;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 

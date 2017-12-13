@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.ansible.impl;
+package org.onap.appc.adapter.ansible.impl;
 
 import java.util.Map;
 import java.util.Properties;
 import java.lang.*;
     
 
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -44,12 +44,12 @@ import org.json.JSONException;
 
 
 
-import org.openecomp.appc.adapter.ansible.AnsibleAdapter;
+import org.onap.appc.adapter.ansible.AnsibleAdapter;
 
-import org.openecomp.appc.adapter.ansible.model.AnsibleResult;
-import org.openecomp.appc.adapter.ansible.model.AnsibleMessageParser;
-import org.openecomp.appc.adapter.ansible.model.AnsibleResultCodes;
-import org.openecomp.appc.adapter.ansible.model.AnsibleServerEmulator;
+import org.onap.appc.adapter.ansible.model.AnsibleResult;
+import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
+import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
+import org.onap.appc.adapter.ansible.model.AnsibleServerEmulator;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -166,7 +166,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
      * Returns the symbolic name of the adapter
      * 
      * @return The adapter name
-     * @see org.openecomp.appc.adapter.rest.AnsibleAdapter#getAdapterName()
+     * @see org.onap.appc.adapter.rest.AnsibleAdapter#getAdapterName()
      */
     @Override
     public String getAdapterName() {
@@ -184,8 +184,8 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private void doFailure(SvcLogicContext svcLogic,  int code, String message)  throws SvcLogicException {
 
 	svcLogic.setStatus(OUTCOME_FAILURE);
-	svcLogic.setAttribute("org.openecomp.appc.adapter.ansible.result.code",Integer.toString(code));
-	svcLogic.setAttribute("org.openecomp.appc.adapter.ansible.message",message);
+	svcLogic.setAttribute("org.onap.appc.adapter.ansible.result.code",Integer.toString(code));
+	svcLogic.setAttribute("org.onap.appc.adapter.ansible.message",message);
 	
 	throw new SvcLogicException("Ansible Adapter Error = " + message );
     }
@@ -204,7 +204,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         // Create the http client instance
         // type of client is extracted from the property file parameter
-        // org.openecomp.appc.adapter.ansible.clientType
+        // org.onap.appc.adapter.ansible.clientType
         // It can be :
         //     1. TRUST_ALL  (trust all SSL certs). To be used ONLY in dev
         //     2. TRUST_CERT (trust only those whose certificates have been stored in the trustStore file)
@@ -212,7 +212,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         //     revert. To be used in PROD
 
         try{
-            String clientType = props.getProperty("org.openecomp.appc.adapter.ansible.clientType");
+            String clientType = props.getProperty("org.onap.appc.adapter.ansible.clientType");
 	    logger.info("Ansible http client type set to " + clientType);
 
             if (clientType.equals("TRUST_ALL")){
@@ -221,8 +221,8 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             }
             else if (clientType.equals("TRUST_CERT")){
                 // set path to keystore file
-                String trustStoreFile = props.getProperty("org.openecomp.appc.adapter.ansible.trustStore");
-                String key  = props.getProperty("org.openecomp.appc.adapter.ansible.trustStore.trustPasswd");
+                String trustStoreFile = props.getProperty("org.onap.appc.adapter.ansible.trustStore");
+                String key  = props.getProperty("org.onap.appc.adapter.ansible.trustStore.trustPasswd");
                 char [] trustStorePasswd = key.toCharArray();
                 String trustStoreType = "JKS";
                 logger.info("Creating http client with trustmanager from " + trustStoreFile);
@@ -251,9 +251,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
     // Public Method to post request to execute playbook. Posts the following back
     // to Svc context memory
-    //  org.openecomp.appc.adapter.ansible.req.code : 100 if successful
-    //  org.openecomp.appc.adapter.ansible.req.messge : any message
-    //  org.openecomp.appc.adapter.ansible.req.Id : a unique uuid to reference the request
+    //  org.onap.appc.adapter.ansible.req.code : 100 if successful
+    //  org.onap.appc.adapter.ansible.req.messge : any message
+    //  org.onap.appc.adapter.ansible.req.Id : a unique uuid to reference the request
 
     public void reqExec(Map <String, String> params, SvcLogicContext ctx) throws SvcLogicException {
 
@@ -329,9 +329,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 	}
 
 
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.result.code", Integer.toString(code));
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.message", message );
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.Id", Id);
+	ctx.setAttribute("org.onap.appc.adapter.ansible.result.code", Integer.toString(code));
+	ctx.setAttribute("org.onap.appc.adapter.ansible.message", message );
+	ctx.setAttribute("org.onap.appc.adapter.ansible.Id", Id);
 	
     }
 
@@ -394,15 +394,15 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 	}
 	else {
 	    logger.info(String.format("Ansible Request  %s finished with Result %s, Message = %s", params.get("Id"), OUTCOME_FAILURE, message));
-	    ctx.setAttribute("org.openecomp.appc.adapter.ansible.results", results);
+	    ctx.setAttribute("org.onap.appc.adapter.ansible.results", results);
 	    doFailure(ctx, code, message );
 	    return;	    
 	}
 	
       
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.result.code", Integer.toString(400));
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.message",message);
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.results", results);
+	ctx.setAttribute("org.onap.appc.adapter.ansible.result.code", Integer.toString(400));
+	ctx.setAttribute("org.onap.appc.adapter.ansible.message",message);
+	ctx.setAttribute("org.onap.appc.adapter.ansible.results", results);
 	ctx.setStatus(OUTCOME_SUCCESS);
     }
     
@@ -410,7 +410,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     // Public method to get logs  from plyabook execution for a  specifcic request
     // It blocks till the Ansible Server responds or the session times out
     // very similar to reqExecResult
-    // logs are returned in the DG context variable org.openecomp.appc.adapter.ansible.log
+    // logs are returned in the DG context variable org.onap.appc.adapter.ansible.log
     
     public void reqExecLog(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException{
 
@@ -442,7 +442,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 	    doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(), "Exception encountered retreiving output : " + e.getMessage());
 	}
 	
-	ctx.setAttribute("org.openecomp.appc.adapter.ansible.log",message);
+	ctx.setAttribute("org.onap.appc.adapter.ansible.log",message);
 	ctx.setStatus(OUTCOME_SUCCESS);
     }
     

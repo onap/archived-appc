@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.jsch;
+package org.onap.appc.adapter.netconf.jsch;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
+import org.onap.appc.exceptions.APPCException;
 
 public class TestModifyConfigMock {
 
@@ -37,7 +37,7 @@ public class TestModifyConfigMock {
     private static final String USER = "test";
     private static final String PSWD = "test123";
     private static final int PORT = 830;
-    private static final List<String> CAPABILITIES = Collections.singletonList("<capability>urn:org:openecomp:appc:capability:1.1.0</capability>");
+    private static final List<String> CAPABILITIES = Collections.singletonList("<capability>urn:org:onap:appc:capability:1.1.0</capability>");
     private static final String CONFIG =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
             "<rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n" +
@@ -47,9 +47,9 @@ public class TestModifyConfigMock {
             "    </target>\n" +
             "    <default-operation>merge</default-operation>\n" +
             "    <config xmlns:xc=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
-            "      <ManagedElement xmlns=\"urn:org.openecomp.appc:Test\">\n" +
+            "      <ManagedElement xmlns=\"urn:org.onap.appc:Test\">\n" +
             "        <managedElementId>1</managedElementId>\n" +
-            "        <VnfFunction xmlns=\"urn:org:openecomp:appc:VnfFunction\">\n" +
+            "        <VnfFunction xmlns=\"urn:org:onap:appc:VnfFunction\">\n" +
             "          <id>1</id>\n" +
             "          <Interfaces>\n" +
             "            <id>1</id>\n" +

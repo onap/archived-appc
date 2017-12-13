@@ -30,30 +30,30 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-    <bean id="inputParameterValidationBean" class="org.openecomp.appc.dg.util.impl.InputParameterValidationImpl" scope="prototype" >
+    <bean id="inputParameterValidationBean" class="org.onap.appc.dg.util.impl.InputParameterValidationImpl" scope="prototype" >
     </bean>
 
-    <service id="inputParameterValidationService" interface="org.openecomp.appc.dg.util.InputParameterValidation" ref="inputParameterValidationBean"/>
+    <service id="inputParameterValidationService" interface="org.onap.appc.dg.util.InputParameterValidation" ref="inputParameterValidationBean"/>
 
-    <bean id="executeNodeActionBean" class="org.openecomp.appc.dg.util.impl.ExecuteNodeActionImpl" scope="prototype" >
+    <bean id="executeNodeActionBean" class="org.onap.appc.dg.util.impl.ExecuteNodeActionImpl" scope="prototype" >
     </bean>
 
-    <service id="executeNodeActionService" interface="org.openecomp.appc.dg.util.ExecuteNodeAction" ref="executeNodeActionBean"/>
+    <service id="executeNodeActionService" interface="org.onap.appc.dg.util.ExecuteNodeAction" ref="executeNodeActionBean"/>
 
-    <!--bean id="DCAEReporterPlugin" class="org.openecomp.appc.dg.util.impl.DCAEReporterPluginImpl" scope="prototype" >
+    <!--bean id="DCAEReporterPlugin" class="org.onap.appc.dg.util.impl.DCAEReporterPluginImpl" scope="prototype" >
         <property name="eventSender" ref="eventSenderServiceRef"/>
     </bean-->
 
-    <!--reference interface="org.openecomp.appc.adapter.messaging.dmaap.EventSender" id="eventSenderServiceRef"/-->
-    <!--service id = "DCAEReporterPluginService" interface="org.openecomp.appc.dg.util.DCAEReporterPlugin" ref="DCAEReporterPlugin"/-->
+    <!--reference interface="org.onap.appc.adapter.messaging.dmaap.EventSender" id="eventSenderServiceRef"/-->
+    <!--service id = "DCAEReporterPluginService" interface="org.onap.appc.dg.util.DCAEReporterPlugin" ref="DCAEReporterPlugin"/-->
 
-    <!--bean id="NetconfClientPlugin" class="org.openecomp.appc.dg.util.impl.NetconfClientPluginImpl" scope="prototype" ></bean-->
-    <!--service id = "NetconfClientService" interface="org.openecomp.appc.dg.util.NetconfClientPlugin" ref="NetconfClientPlugin"/-->
+    <!--bean id="NetconfClientPlugin" class="org.onap.appc.dg.util.impl.NetconfClientPluginImpl" scope="prototype" ></bean-->
+    <!--service id = "NetconfClientService" interface="org.onap.appc.dg.util.NetconfClientPlugin" ref="NetconfClientPlugin"/-->
 
-    <!--bean id="NetconfDBPlugin" class="org.openecomp.appc.dg.util.impl.NetconfDBPluginImpl" scope="prototype" ></bean-->
-    <!--service id = "NetconfDBService" interface="org.openecomp.appc.dg.util.NetconfDBPlugin" ref="NetconfDBPlugin"/-->
+    <!--bean id="NetconfDBPlugin" class="org.onap.appc.dg.util.impl.NetconfDBPluginImpl" scope="prototype" ></bean-->
+    <!--service id = "NetconfDBService" interface="org.onap.appc.dg.util.NetconfDBPlugin" ref="NetconfDBPlugin"/-->
 
-    <bean id="upgradeNode" class="org.openecomp.appc.dg.util.impl.UpgradeStubNodeImpl" scope="prototype"/>
-    <service id = "upgradeNodeService" interface="org.openecomp.appc.dg.util.UpgradeStubNode" ref="upgradeNode"/>
+    <bean id="upgradeNode" class="org.onap.appc.dg.util.impl.UpgradeStubNodeImpl" scope="prototype"/>
+    <service id = "upgradeNodeService" interface="org.onap.appc.dg.util.UpgradeStubNode" ref="upgradeNode"/>
 
 </blueprint>

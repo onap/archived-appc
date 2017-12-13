@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.licmgr.impl;
+package org.onap.appc.licmgr.impl;
 
-import static org.openecomp.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT;
+import static org.onap.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT;
 
 import java.util.Map;
 
-import org.openecomp.appc.licmgr.LicenseDataAccessService;
-import org.openecomp.appc.licmgr.LicenseManager;
-import org.openecomp.appc.licmgr.exception.DataAccessException;
-import org.openecomp.appc.licmgr.objects.LicenseModel;
+import org.onap.appc.licmgr.LicenseDataAccessService;
+import org.onap.appc.licmgr.LicenseManager;
+import org.onap.appc.licmgr.exception.DataAccessException;
+import org.onap.appc.licmgr.objects.LicenseModel;
 
 
 @SuppressWarnings("all")

@@ -194,10 +194,10 @@ Maintenance Mode API
     -
     /restconf/operations/appc-oam:maintenance-mode\|appc\|maintenance\_mode\|ecompController\|COMPLETE\|100\|ACCEPTED
     - request accepted\|\|INFO
-    \|\|127.0.0.1\|9\|localhost\|\|org.openecomp.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0154W
+    \|\|127.0.0.1\|9\|localhost\|\|org.onap.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0154W
     Application APPC is entering maintenance mode...
 
-    2017-06-02T13:58:55Z\|2017-06-02T13:59:05Z\|demo-oam-maintenance-mode-id#1\|\|org.openecomp.appc.oam-bundle
+    2017-06-02T13:58:55Z\|2017-06-02T13:59:05Z\|demo-oam-maintenance-mode-id#1\|\|org.onap.appc.oam-bundle
     scheduledExecutor\|appc\|maintenance\_mode\|ecompController\|COMPLETE\|400\|SUCCESS
     - request has been processed successfully\|\|INFO
     \|\|127.0.0.1\|10033\|localhost\|\|\|\|\|\|\|\|\|APPC0155W
@@ -446,13 +446,13 @@ Restart API
 		-
 		/restconf/operations/appc-oam:restart\|appc\|restart\|ecompController\|COMPLETE\|100\|ACCEPTED
 		- request accepted\|\|INFO
-		\|\|127.0.0.1\|13\|localhost\|\|org.openecomp.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0162W
+		\|\|127.0.0.1\|13\|localhost\|\|org.onap.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0162W
 		Application APPC is Restarting
 
-		2017-06-23T16:11:02Z\|2017-06-23T16:11:51Z\|demo-oam-restart-id#1\|\|org.openecomp.appc.oam-bundle
+		2017-06-23T16:11:02Z\|2017-06-23T16:11:51Z\|demo-oam-restart-id#1\|\|org.onap.appc.oam-bundle
 		scheduledExecutor\|appc\|restart\|ecompController\|COMPLETE\|400\|SUCCESS
 		- request has been processed successfully\|\|INFO
-		\|\|127.0.0.1\|49198\|localhost\|\|org.openecomp.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0157I
+		\|\|127.0.0.1\|49198\|localhost\|\|org.onap.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0157I
 		Application APPC is Started
 
 
@@ -529,7 +529,7 @@ Start API
 		2017-06-02T13:58:39Z\|2017-06-02T13:58:39Z\|\|\|qtp1068080075-57 -
 		/restconf/operations/appc-oam:start\|\|\|\|ERROR\|300\|REJECTED -
 		Invalid State Transition\|\|INFO
-		\|\|\|15\|\|\|org.openecomp.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0156I
+		\|\|\|15\|\|\|org.onap.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0156I
 		Application APPC is starting...
 
     **Audit Log - Success case**
@@ -539,9 +539,9 @@ Start API
 		2017-06-02T13:59:16Z\|2017-06-02T13:59:16Z\|demo-oam-start-id#1\|\|qtp1068080075-58-
 		/restconf/operations/appc-oam:start\|appc\|start\|ecompController\|COMPLETE\|100\|ACCEPTED
 		- request accepted\|\|INFO
-		\|\|127.0.0.1\|2\|localhost\|\|org.openecomp.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0156I
+		\|\|127.0.0.1\|2\|localhost\|\|org.onap.appc.oam.AppcOam\|\|\|\|\|\|\|APPC0156I
 		Application APPC is starting...
-		2017-06-02T13:59:16Z\|2017-06-02T13:59:17Z\|demo-oam-start-id#1\|\|org.openecomp.appc.oam-bundle
+		2017-06-02T13:59:16Z\|2017-06-02T13:59:17Z\|demo-oam-start-id#1\|\|org.onap.appc.oam-bundle
 		scheduledExecutor\|appc\|start\|ecompController\|COMPLETE\|400\|SUCCESS
 		- request has been processed successfully\|\|INFO
 		\|\|127.0.0.1\|1007\|localhost\|\|\|\|\|\|\|\|\|APPC0157I

@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.simulator.client.main;
+package org.onap.appc.simulator.client.main;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.openecomp.appc.simulator.client.RequestHandler;
-import org.openecomp.appc.simulator.client.impl.JsonRequestHandler;
+import org.onap.appc.simulator.client.RequestHandler;
+import org.onap.appc.simulator.client.impl.JsonRequestHandler;
 
 import java.io.*;
 import java.nio.file.Path;

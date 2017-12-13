@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.workflow.objects;
+package org.onap.appc.workflow.objects;
 
 import java.util.Properties;
 
-import org.openecomp.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
 
 
 public class WorkflowResponse {

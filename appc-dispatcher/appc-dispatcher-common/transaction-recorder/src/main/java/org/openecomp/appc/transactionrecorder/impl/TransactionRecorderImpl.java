@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.transactionrecorder.impl;
+package org.onap.appc.transactionrecorder.impl;
 
-import org.openecomp.appc.dao.util.DBUtils;
-import org.openecomp.appc.transactionrecorder.TransactionRecorder;
-import org.openecomp.appc.transactionrecorder.objects.TransactionRecord;
+import org.onap.appc.dao.util.DBUtils;
+import org.onap.appc.transactionrecorder.TransactionRecorder;
+import org.onap.appc.transactionrecorder.objects.TransactionRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

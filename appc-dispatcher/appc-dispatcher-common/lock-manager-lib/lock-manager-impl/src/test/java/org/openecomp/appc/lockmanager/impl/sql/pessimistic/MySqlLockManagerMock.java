@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.sql.pessimistic;
+package org.onap.appc.lockmanager.impl.sql.pessimistic;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -32,11 +32,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.openecomp.appc.lockmanager.api.LockRuntimeException;
-import org.openecomp.appc.lockmanager.impl.sql.Synchronizer;
-import org.openecomp.appc.lockmanager.impl.sql.SynchronizerReceiver;
-import org.openecomp.appc.lockmanager.impl.sql.pessimistic.LockRecord;
-import org.openecomp.appc.lockmanager.impl.sql.pessimistic.MySqlLockManager;
+import org.onap.appc.lockmanager.api.LockRuntimeException;
+import org.onap.appc.lockmanager.impl.sql.Synchronizer;
+import org.onap.appc.lockmanager.impl.sql.SynchronizerReceiver;
+import org.onap.appc.lockmanager.impl.sql.pessimistic.LockRecord;
+import org.onap.appc.lockmanager.impl.sql.pessimistic.MySqlLockManager;
 
 class MySqlLockManagerMock extends MySqlLockManager implements SynchronizerReceiver {
 

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.yang.exception;
+package org.onap.appc.yang.exception;
 
 /**
  * The Class YANGGenerationException.

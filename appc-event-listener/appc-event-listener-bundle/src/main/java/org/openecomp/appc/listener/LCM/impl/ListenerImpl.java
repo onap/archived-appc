@@ -22,15 +22,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.listener.LCM.impl;
+package org.onap.appc.listener.LCM.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.appc.listener.AbstractListener;
-import org.openecomp.appc.listener.ListenerProperties;
-import org.openecomp.appc.listener.LCM.conv.Converter;
-import org.openecomp.appc.listener.LCM.model.DmaapIncomingMessage;
-import org.openecomp.appc.listener.LCM.operation.ProviderOperations;
+import org.onap.appc.listener.AbstractListener;
+import org.onap.appc.listener.ListenerProperties;
+import org.onap.appc.listener.LCM.conv.Converter;
+import org.onap.appc.listener.LCM.model.DmaapIncomingMessage;
+import org.onap.appc.listener.LCM.operation.ProviderOperations;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

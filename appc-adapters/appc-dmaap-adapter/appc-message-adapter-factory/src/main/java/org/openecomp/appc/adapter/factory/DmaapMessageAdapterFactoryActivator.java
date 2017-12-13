@@ -21,9 +21,9 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.openecomp.appc.adapter.factory;
+package org.onap.appc.adapter.factory;
 
-import org.openecomp.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

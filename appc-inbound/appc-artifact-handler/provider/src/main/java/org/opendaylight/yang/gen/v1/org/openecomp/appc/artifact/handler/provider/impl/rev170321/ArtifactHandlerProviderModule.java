@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.artifact.handler.provider.impl.rev170321;
+package org.opendaylight.yang.gen.v1.org.onap.appc.artifact.handler.provider.impl.rev170321;
 
-import org.openecomp.appc.artifact.handler.ArtifactHandlerProvider;
+import org.onap.appc.artifact.handler.ArtifactHandlerProvider;
 
-public class ArtifactHandlerProviderModule extends org.opendaylight.yang.gen.v1.org.openecomp.appc.artifact.handler.provider.impl.rev170321.AbstractArtifactHandlerProviderModule {
+public class ArtifactHandlerProviderModule extends org.opendaylight.yang.gen.v1.org.onap.appc.artifact.handler.provider.impl.rev170321.AbstractArtifactHandlerProviderModule {
     public ArtifactHandlerProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver) {
         super(identifier, dependencyResolver);
     }
 
-    public ArtifactHandlerProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.openecomp.appc.artifact.handler.provider.impl.rev170321.ArtifactHandlerProviderModule oldModule, java.lang.AutoCloseable oldInstance) {
+    public ArtifactHandlerProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier, org.opendaylight.controller.config.api.DependencyResolver dependencyResolver, org.opendaylight.yang.gen.v1.org.onap.appc.artifact.handler.provider.impl.rev170321.ArtifactHandlerProviderModule oldModule, java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 

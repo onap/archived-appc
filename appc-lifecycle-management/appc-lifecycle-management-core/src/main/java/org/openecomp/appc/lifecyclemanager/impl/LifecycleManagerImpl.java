@@ -22,22 +22,22 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lifecyclemanager.impl;
+package org.onap.appc.lifecyclemanager.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.lifecyclemanager.LifecycleManager;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.statemachine.StateMachine;
-import org.openecomp.appc.statemachine.StateMetaDataReader;
-import org.openecomp.appc.statemachine.impl.StateMachineFactory;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamMetaDataReader;
-import org.openecomp.appc.statemachine.impl.readers.VnfMetaDataReader;
-import org.openecomp.appc.statemachine.objects.*;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.lifecyclemanager.LifecycleManager;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.statemachine.StateMachine;
+import org.onap.appc.statemachine.StateMetaDataReader;
+import org.onap.appc.statemachine.impl.StateMachineFactory;
+import org.onap.appc.statemachine.impl.readers.AppcOamMetaDataReader;
+import org.onap.appc.statemachine.impl.readers.VnfMetaDataReader;
+import org.onap.appc.statemachine.objects.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

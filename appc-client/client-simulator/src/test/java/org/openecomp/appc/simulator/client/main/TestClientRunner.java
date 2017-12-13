@@ -1,4 +1,4 @@
-package org.openecomp.appc.simulator.client.main;
+package org.onap.appc.simulator.client.main;
 
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.junit.After;
@@ -8,8 +8,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.openecomp.appc.client.lcm.exceptions.AppcClientException;
-import org.openecomp.appc.simulator.client.impl.JsonRequestHandler;
+import org.onap.appc.client.lcm.exceptions.AppcClientException;
+import org.onap.appc.simulator.client.impl.JsonRequestHandler;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;

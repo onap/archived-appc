@@ -29,10 +29,10 @@
 
 	<reference id="svcLogicServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.core.sli.provider.SvcLogicService" />
 
-	<bean id="workflowManagementBean" class="org.openecomp.appc.workflow.impl.WorkFlowManagerImpl" scope="singleton">
+	<bean id="workflowManagementBean" class="org.onap.appc.workflow.impl.WorkFlowManagerImpl" scope="singleton">
 		<property name="svcLogicServiceRef" ref="svcLogicServiceRef" />
 	</bean>
 
-	<service id="workflowManagementService" interface="org.openecomp.appc.workflow.WorkFlowManager" ref="workflowManagementBean" />
+	<service id="workflowManagementService" interface="org.onap.appc.workflow.WorkFlowManager" ref="workflowManagementBean" />
 
 </blueprint>

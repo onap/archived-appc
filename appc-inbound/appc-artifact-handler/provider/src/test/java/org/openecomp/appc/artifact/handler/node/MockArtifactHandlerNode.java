@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.artifact.handler.node;
+package org.onap.appc.artifact.handler.node;
 
 import org.json.JSONObject;
-import org.openecomp.appc.artifact.handler.dbservices.MockDBService;
-import org.openecomp.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.artifact.handler.dbservices.MockDBService;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class MockArtifactHandlerNode extends ArtifactHandlerNode {

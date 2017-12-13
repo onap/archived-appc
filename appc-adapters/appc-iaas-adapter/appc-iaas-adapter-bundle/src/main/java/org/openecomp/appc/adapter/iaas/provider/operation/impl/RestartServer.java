@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.iaas.provider.operation.impl;
+package org.onap.appc.adapter.iaas.provider.operation.impl;
 
 import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
@@ -33,17 +33,17 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.glassfish.grizzly.http.util.HttpStatus;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.iaas.ProviderAdapter;
-import org.openecomp.appc.adapter.iaas.impl.IdentityURL;
-import org.openecomp.appc.adapter.iaas.impl.RequestContext;
-import org.openecomp.appc.adapter.iaas.impl.RequestFailedException;
-import org.openecomp.appc.adapter.iaas.impl.VMURL;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.constants.Property;
-import org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Outcome;
-import org.openecomp.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import org.openecomp.appc.exceptions.UnknownProviderException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.IdentityURL;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.adapter.iaas.impl.VMURL;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Outcome;
+import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.onap.appc.exceptions.UnknownProviderException;
+import org.onap.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 import java.text.DateFormat;
@@ -51,8 +51,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-import static org.openecomp.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
-import static org.openecomp.appc.adapter.utils.Constants.ADAPTER_NAME;
+import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.RESTART_SERVICE;
+import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class RestartServer extends ProviderServerOperation {
 
@@ -176,7 +176,7 @@ public class RestartServer extends ProviderServerOperation {
      *
      * @throws UnknownProviderException If the provider cannot be found
      * @throws IllegalArgumentException if the expected argument(s) are not defined or are invalid
-     * @see org.openecomp.appc.adapter.iaas.ProviderAdapter#restartServer(java.util.Map,
+     * @see org.onap.appc.adapter.iaas.ProviderAdapter#restartServer(java.util.Map,
      *      org.openecomp.sdnc.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
@@ -220,7 +220,7 @@ public class RestartServer extends ProviderServerOperation {
                     doSuccess(rc);
                     ctx.setAttribute("RESTART_STATUS", "SUCCESS");
                     String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "RestartServer", vm_url);
-                    ctx.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+                    ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
                 }
             } catch (RequestFailedException e) {
                 doFailure(rc, e.getStatus(), e.getMessage());
@@ -270,6 +270,6 @@ public class RestartServer extends ProviderServerOperation {
         MDC.put("ElapsedTime", durationStr);
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", targetServiceName);
-        MDC.put("ClassName", "org.openecomp.appc.adapter.iaas.provider.operation.impl.RestartServer");
+        MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.RestartServer");
     }
 }

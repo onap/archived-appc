@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metadata.objects;
+package org.onap.appc.metadata.objects;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
-import static org.openecomp.appc.metadata.objects.DependencyModelIdentifier.prime;
+import static org.onap.appc.metadata.objects.DependencyModelIdentifier.prime;
 
 public class DependencyModelIdentifierTest {
     private static final String vnfType = "vnfType";

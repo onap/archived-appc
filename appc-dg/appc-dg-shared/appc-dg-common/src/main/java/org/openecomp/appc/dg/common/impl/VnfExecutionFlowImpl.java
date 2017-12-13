@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -31,19 +31,19 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.*;
 
-import org.openecomp.appc.dg.common.VnfExecutionFlow;
-import org.openecomp.appc.dg.dependencymanager.DependencyManager;
-import org.openecomp.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.openecomp.appc.dg.dependencymanager.impl.DependencyModelFactory;
-import org.openecomp.appc.dg.flowbuilder.FlowBuilder;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.flowbuilder.impl.FlowBuilderFactory;
-import org.openecomp.appc.dg.objects.*;
-import org.openecomp.appc.domainmodel.Vnf;
-import org.openecomp.appc.domainmodel.Vnfc;
-import org.openecomp.appc.domainmodel.Vserver;
-import org.openecomp.appc.i18n.Msg;
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.dg.common.VnfExecutionFlow;
+import org.onap.appc.dg.dependencymanager.DependencyManager;
+import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
+import org.onap.appc.dg.dependencymanager.impl.DependencyModelFactory;
+import org.onap.appc.dg.flowbuilder.FlowBuilder;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.impl.FlowBuilderFactory;
+import org.onap.appc.dg.objects.*;
+import org.onap.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vnfc;
+import org.onap.appc.domainmodel.Vserver;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 
 public class VnfExecutionFlowImpl implements VnfExecutionFlow {
 
@@ -134,7 +134,7 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
             logContext(context);
         }
         String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "GetVnfExecutionFlowData","VNF ID " + params.get(Constants.VNF_TYPE));
-        context.setAttribute(org.openecomp.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+        context.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
     }
 
     private void validateInput(String dependencyType, String flowStrategy, Map<String, String> params) {

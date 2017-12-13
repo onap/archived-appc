@@ -1,7 +1,7 @@
 module sequence-generator {
     yang-version 1;
 
-    namespace "org:openecomp:appc:sequencegenerator";
+    namespace "org:onap:appc:sequencegenerator";
     prefix sequencegenerator;
 
     description

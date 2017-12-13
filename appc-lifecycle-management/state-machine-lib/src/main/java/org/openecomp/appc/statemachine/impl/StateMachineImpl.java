@@ -22,19 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.statemachine.impl;
+package org.onap.appc.statemachine.impl;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.openecomp.appc.exceptions.InvalidInputException;
-import org.openecomp.appc.statemachine.StateMachine;
-import org.openecomp.appc.statemachine.objects.Event;
-import org.openecomp.appc.statemachine.objects.Response;
-import org.openecomp.appc.statemachine.objects.State;
-import org.openecomp.appc.statemachine.objects.StateMachineMetadata;
-import org.openecomp.appc.statemachine.objects.StateMachineResponse;
-import org.openecomp.appc.statemachine.objects.Transition;
+import org.onap.appc.exceptions.InvalidInputException;
+import org.onap.appc.statemachine.StateMachine;
+import org.onap.appc.statemachine.objects.Event;
+import org.onap.appc.statemachine.objects.Response;
+import org.onap.appc.statemachine.objects.State;
+import org.onap.appc.statemachine.objects.StateMachineMetadata;
+import org.onap.appc.statemachine.objects.StateMachineResponse;
+import org.onap.appc.statemachine.objects.Transition;
 
 /**
  * Implementation of StateMachine

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf.jsch;
+package org.onap.appc.adapter.netconf.jsch;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSubsystem;
@@ -33,13 +33,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
-import org.openecomp.appc.adapter.netconf.NetconfClient;
-import org.openecomp.appc.adapter.netconf.NetconfConnectionDetails;
-import org.openecomp.appc.adapter.netconf.internal.NetconfAdapter;
-import org.openecomp.appc.adapter.netconf.internal.NetconfConstMessages;
-import org.openecomp.appc.encryption.EncryptionTool;
-import org.openecomp.appc.exceptions.APPCException;
-import org.openecomp.appc.i18n.Msg;
+import org.onap.appc.adapter.netconf.NetconfClient;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.internal.NetconfAdapter;
+import org.onap.appc.adapter.netconf.internal.NetconfConstMessages;
+import org.onap.appc.encryption.EncryptionTool;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.i18n.Msg;
 import com.att.eelf.i18n.EELFResourceManager;
 
 /**

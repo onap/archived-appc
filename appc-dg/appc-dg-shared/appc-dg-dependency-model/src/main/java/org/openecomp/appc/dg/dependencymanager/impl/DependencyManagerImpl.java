@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.dependencymanager.impl;
+package org.onap.appc.dg.dependencymanager.impl;
 
-import org.openecomp.appc.dg.dependencymanager.DependencyManager;
-import org.openecomp.appc.dg.dependencymanager.DependencyType;
-import org.openecomp.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.openecomp.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.openecomp.appc.dg.objects.DependencyTypes;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.dependencymanager.DependencyManager;
+import org.onap.appc.dg.dependencymanager.DependencyType;
+import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.objects.DependencyTypes;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
 
-import org.openecomp.appc.cache.MetadataCache;
-import org.openecomp.appc.cache.impl.MetadataCacheFactory;
-import org.openecomp.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.appc.cache.MetadataCache;
+import org.onap.appc.cache.impl.MetadataCacheFactory;
+import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

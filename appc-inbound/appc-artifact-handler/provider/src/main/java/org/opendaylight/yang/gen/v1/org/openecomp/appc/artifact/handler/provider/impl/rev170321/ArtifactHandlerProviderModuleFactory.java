@@ -31,7 +31,7 @@
 *
 * Do not modify this file unless it is present under src/main directory
 */
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.artifact.handler.provider.impl.rev170321;
-public class ArtifactHandlerProviderModuleFactory extends org.opendaylight.yang.gen.v1.org.openecomp.appc.artifact.handler.provider.impl.rev170321.AbstractArtifactHandlerProviderModuleFactory {
+package org.opendaylight.yang.gen.v1.org.onap.appc.artifact.handler.provider.impl.rev170321;
+public class ArtifactHandlerProviderModuleFactory extends org.opendaylight.yang.gen.v1.org.onap.appc.artifact.handler.provider.impl.rev170321.AbstractArtifactHandlerProviderModuleFactory {
 
 }

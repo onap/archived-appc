@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.messaging.dmaap.impl;
+package org.onap.appc.adapter.messaging.dmaap.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -34,12 +34,12 @@ import java.util.*;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.openecomp.appc.adapter.message.Consumer;
-import org.openecomp.appc.adapter.message.Producer;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
-import org.openecomp.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.adapter.message.Consumer;
+import org.onap.appc.adapter.message.Producer;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
+import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 
 public class TestConsumerProducerImpl {
 

@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.netconf;
+package org.onap.appc.adapter.netconf;
 
-import org.openecomp.appc.adapter.netconf.exception.DataAccessException;
+import org.onap.appc.adapter.netconf.exception.DataAccessException;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 

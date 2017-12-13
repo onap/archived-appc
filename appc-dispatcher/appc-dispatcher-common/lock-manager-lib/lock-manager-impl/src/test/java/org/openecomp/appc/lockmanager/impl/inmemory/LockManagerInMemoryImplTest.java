@@ -22,11 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.lockmanager.impl.inmemory;
+package org.onap.appc.lockmanager.impl.inmemory;
 
-import org.openecomp.appc.lockmanager.api.LockManager;
-import org.openecomp.appc.lockmanager.api.LockManagerBaseTests;
-import org.openecomp.appc.lockmanager.impl.inmemory.LockManagerInMemoryImpl;
+import org.onap.appc.lockmanager.api.LockManager;
+import org.onap.appc.lockmanager.api.LockManagerBaseTests;
+import org.onap.appc.lockmanager.impl.inmemory.LockManagerInMemoryImpl;
 
 
 public class LockManagerInMemoryImplTest extends LockManagerBaseTests {

@@ -22,18 +22,18 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc;
+package org.onap.appc;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.openecomp.appc.lifecyclemanager.impl.LifecycleManagerImpl;
-import org.openecomp.appc.lifecyclemanager.objects.LifecycleException;
-import org.openecomp.appc.lifecyclemanager.objects.NoTransitionDefinedException;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamMetaDataReader;
-import org.openecomp.appc.statemachine.impl.readers.AppcOamStates;
+import org.onap.appc.lifecyclemanager.impl.LifecycleManagerImpl;
+import org.onap.appc.lifecyclemanager.objects.LifecycleException;
+import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
+import org.onap.appc.statemachine.impl.readers.AppcOamMetaDataReader;
+import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 
 import java.util.Arrays;
 import java.util.List;

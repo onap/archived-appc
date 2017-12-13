@@ -22,19 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.provider.topology;
+package org.onap.appc.provider.topology;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.UUID;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.common.request.header.CommonRequestHeader;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.config.payload.ConfigPayload;
-import org.opendaylight.yang.gen.v1.org.openecomp.appc.rev160104.vnf.resource.VnfResource;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
-import org.openecomp.appc.provider.AppcProvider;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.UUID;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.request.header.CommonRequestHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.config.payload.ConfigPayload;
+import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.vnf.resource.VnfResource;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.provider.AppcProvider;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;

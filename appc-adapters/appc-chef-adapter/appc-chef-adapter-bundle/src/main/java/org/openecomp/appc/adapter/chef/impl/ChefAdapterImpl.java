@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.chef.impl;
+package org.onap.appc.adapter.chef.impl;
 
 import java.io.File;
 import java.util.Map;
@@ -34,12 +34,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.chef.ChefAdapter;
-import org.openecomp.appc.adapter.chef.chefapi.ApiMethod;
-import org.openecomp.appc.adapter.chef.chefclient.ChefApiClient;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.configuration.ConfigurationFactory;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.chef.ChefAdapter;
+import org.onap.appc.adapter.chef.chefapi.ApiMethod;
+import org.onap.appc.adapter.chef.chefclient.ChefApiClient;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;
@@ -69,7 +69,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(ChefAdapterImpl.class);
 
     private final String CANNOT_FIND_PRIVATE_KEY_STR = "Cannot find the private key in the APPC file system, please load the private key to ";
-    private final String CHEF_ACTION_STR = "org.openecomp.appc.instance.chefAction";
+    private final String CHEF_ACTION_STR = "org.onap.appc.instance.chefAction";
     private final String ORGANIZATIONS_STR = "/organizations/";
     /**
      * A reference to the adapter configuration object.
@@ -106,7 +106,7 @@ public class ChefAdapterImpl implements ChefAdapter {
      * Returns the symbolic name of the adapter
      *
      * @return The adapter name
-     * @see org.openecomp.appc.adapter.chef.ChefAdapter#getAdapterName()
+     * @see org.onap.appc.adapter.chef.ChefAdapter#getAdapterName()
      */
     @Override
     public String getAdapterName() {
@@ -119,12 +119,12 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void nodeObejctBuilder(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("nodeObejctBuilder");
-        String name = params.get("org.openecomp.appc.instance.nodeobject.name");
-        String normal = params.get("org.openecomp.appc.instance.nodeobject.normal");
-        String overrides = params.get("org.openecomp.appc.instance.nodeobject.overrides");
-        String defaults = params.get("org.openecomp.appc.instance.nodeobject.defaults");
-        String runList = params.get("org.openecomp.appc.instance.nodeobject.run_list");
-        String chefEnvironment = params.get("org.openecomp.appc.instance.nodeobject.chef_environment");
+        String name = params.get("org.onap.appc.instance.nodeobject.name");
+        String normal = params.get("org.onap.appc.instance.nodeobject.normal");
+        String overrides = params.get("org.onap.appc.instance.nodeobject.overrides");
+        String defaults = params.get("org.onap.appc.instance.nodeobject.defaults");
+        String runList = params.get("org.onap.appc.instance.nodeobject.run_list");
+        String chefEnvironment = params.get("org.onap.appc.instance.nodeobject.chef_environment");
         String nodeObject = "{\"json_class\":\"Chef::Node\",\"default\":{" + defaults
                 + "},\"chef_type\":\"node\",\"run_list\":[" + runList + "],\"override\":{" + overrides
                 + "},\"normal\": {" + normal + "},\"automatic\":{},\"name\":\"" + name + "\",\"chef_environment\":\""
@@ -134,19 +134,19 @@ public class ChefAdapterImpl implements ChefAdapter {
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setAttribute("org.openecomp.appc.chef.nodeObject", nodeObject);
+        svcLogic.setAttribute("org.onap.appc.chef.nodeObject", nodeObject);
     }
 
     /**
      * send get request to chef server
      */
     public void chefInfo(Map<String, String> params) {
-        clientName = params.get("org.openecomp.appc.instance.username");
-        serverAddress = params.get("org.openecomp.appc.instance.serverAddress");
-        organizations = params.get("org.openecomp.appc.instance.organizations");
+        clientName = params.get("org.onap.appc.instance.username");
+        serverAddress = params.get("org.onap.appc.instance.serverAddress");
+        organizations = params.get("org.onap.appc.instance.organizations");
         chefserver = "https://" + serverAddress + ORGANIZATIONS_STR + organizations;
-        if (params.containsKey("org.openecomp.appc.instance.pemPath")) {
-            clientPrivatekey = params.get("org.openecomp.appc.instance.pemPath");
+        if (params.containsKey("org.onap.appc.instance.pemPath")) {
+            clientPrivatekey = params.get("org.onap.appc.instance.pemPath");
         } else {
             clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + clientName + ".pem";
         }
@@ -159,9 +159,9 @@ public class ChefAdapterImpl implements ChefAdapter {
 
     @Override
     public void retrieveData(Map<String, String> params, SvcLogicContext ctx) {
-        String allConfigData = params.get("org.openecomp.appc.instance.allConfig");
-        String key = params.get("org.openecomp.appc.instance.key");
-        String dgContext = params.get("org.openecomp.appc.instance.dgContext");
+        String allConfigData = params.get("org.onap.appc.instance.allConfig");
+        String key = params.get("org.onap.appc.instance.key");
+        String dgContext = params.get("org.onap.appc.instance.dgContext");
         JSONObject josnConfig = new JSONObject(allConfigData);
 
         String contextData;
@@ -184,9 +184,9 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void combineStrings(Map<String, String> params, SvcLogicContext ctx) {
 
-        String string1 = params.get("org.openecomp.appc.instance.String1");
-        String string2 = params.get("org.openecomp.appc.instance.String2");
-        String dgContext = params.get("org.openecomp.appc.instance.dgContext");
+        String string1 = params.get("org.onap.appc.instance.String1");
+        String string2 = params.get("org.onap.appc.instance.String2");
+        String dgContext = params.get("org.onap.appc.instance.dgContext");
         String contextData = string1 + string2;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -226,7 +226,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     public void chefPut(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
         String chefAction = params.get(CHEF_ACTION_STR);
-        String chefNodeStr = params.get("org.openecomp.appc.instance.chefRequestBody");
+        String chefNodeStr = params.get("org.onap.appc.instance.chefRequestBody");
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         int code;
@@ -254,7 +254,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         chefInfo(params);
         logger.info("chef Post method");
         logger.info(clientName + " " + clientPrivatekey + " " + chefserver + " " + organizations);
-        String chefNodeStr = params.get("org.openecomp.appc.instance.chefRequestBody");
+        String chefNodeStr = params.get("org.onap.appc.instance.chefRequestBody");
         String chefAction = params.get(CHEF_ACTION_STR);
 
         RequestContext rc = new RequestContext(ctx);
@@ -311,7 +311,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void trigger(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run trigger method");
-        String tVmIp = params.get("org.openecomp.appc.instance.ip");
+        String tVmIp = params.get("org.onap.appc.instance.ip");
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
@@ -332,9 +332,9 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void checkPushJob(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
-        String jobID = params.get("org.openecomp.appc.instance.jobid");
-        int retryTimes = Integer.parseInt(params.get("org.openecomp.appc.instance.retryTimes"));
-        int retryInterval = Integer.parseInt(params.get("org.openecomp.appc.instance.retryInterval"));
+        String jobID = params.get("org.onap.appc.instance.jobid");
+        int retryTimes = Integer.parseInt(params.get("org.onap.appc.instance.retryTimes"));
+        int retryInterval = Integer.parseInt(params.get("org.onap.appc.instance.retryInterval"));
         String chefAction = "/pushy/jobs/" + jobID;
 
         RequestContext rc = new RequestContext(ctx);
@@ -362,15 +362,15 @@ public class ChefAdapterImpl implements ChefAdapter {
 
         }
         if ("complete".equals(status)) {
-            svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "200");
-            svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
+            svcLogic.setAttribute("org.onap.appc.chefServerResult.code", "200");
+            svcLogic.setAttribute("org.onap.appc.chefServerResult.message", message);
         } else {
             if ("running".equals(status)) {
-                svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "202");
-                svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", "chef client runtime out");
+                svcLogic.setAttribute("org.onap.appc.chefServerResult.code", "202");
+                svcLogic.setAttribute("org.onap.appc.chefServerResult.message", "chef client runtime out");
             } else {
-                svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", "500");
-                svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
+                svcLogic.setAttribute("org.onap.appc.chefServerResult.code", "500");
+                svcLogic.setAttribute("org.onap.appc.chefServerResult.message", message);
             }
         }
     }
@@ -378,7 +378,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void pushJob(Map<String, String> params, SvcLogicContext ctx) {
         chefInfo(params);
-        String pushRequest = params.get("org.openecomp.appc.instance.pushRequest");
+        String pushRequest = params.get("org.onap.appc.instance.pushRequest");
         String chefAction = "/pushy/jobs";
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -393,7 +393,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             int startIndex = message.indexOf("jobs") + 6;
             int endIndex = message.length() - 2;
             String jobID = message.substring(startIndex, endIndex);
-            svcLogic.setAttribute("org.openecomp.appc.jobID", jobID);
+            svcLogic.setAttribute("org.onap.appc.jobID", jobID);
             logger.info(jobID);
         }
         chefServerResult(rc, Integer.toString(code), message);
@@ -413,8 +413,8 @@ public class ChefAdapterImpl implements ChefAdapter {
             logger.info("Couldn't covert " + code + " to an Integer, defaulting status to 500", e);
             status = "500";
         }
-        svcLogic.setAttribute("org.openecomp.appc.chefAgent.code", status);
-        svcLogic.setAttribute("org.openecomp.appc.chefAgent.message", msg);
+        svcLogic.setAttribute("org.onap.appc.chefAgent.code", status);
+        svcLogic.setAttribute("org.onap.appc.chefAgent.message", msg);
     }
 
     /**
@@ -424,21 +424,21 @@ public class ChefAdapterImpl implements ChefAdapter {
      */
     private void doSuccess(RequestContext rc) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setAttribute("org.openecomp.appc.chefAgent.code", "200");
+        svcLogic.setAttribute("org.onap.appc.chefAgent.code", "200");
     }
 
     private void chefServerResult(RequestContext rc, String code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setStatus(OUTCOME_SUCCESS);
-        svcLogic.setAttribute("org.openecomp.appc.chefServerResult.code", code);
-        svcLogic.setAttribute("org.openecomp.appc.chefServerResult.message", message);
+        svcLogic.setAttribute("org.onap.appc.chefServerResult.code", code);
+        svcLogic.setAttribute("org.onap.appc.chefServerResult.message", message);
     }
 
     private void chefClientResult(RequestContext rc, String code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setStatus(OUTCOME_SUCCESS);
-        svcLogic.setAttribute("org.openecomp.appc.chefClientResult.code", code);
-        svcLogic.setAttribute("org.openecomp.appc.chefClientResult.message", message);
+        svcLogic.setAttribute("org.onap.appc.chefClientResult.code", code);
+        svcLogic.setAttribute("org.onap.appc.chefClientResult.message", message);
     }
 
     /**

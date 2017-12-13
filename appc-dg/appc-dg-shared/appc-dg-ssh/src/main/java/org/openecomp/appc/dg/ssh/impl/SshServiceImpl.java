@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.ssh.impl;
+package org.onap.appc.dg.ssh.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,11 +30,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 
-import org.openecomp.appc.adapter.ssh.SshAdapter;
-import org.openecomp.appc.adapter.ssh.SshConnection;
-import org.openecomp.appc.adapter.ssh.SshConnectionDetails;
-import org.openecomp.appc.dg.ssh.SshService;
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.adapter.ssh.SshAdapter;
+import org.onap.appc.adapter.ssh.SshConnection;
+import org.onap.appc.adapter.ssh.SshConnectionDetails;
+import org.onap.appc.dg.ssh.SshService;
+import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

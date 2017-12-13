@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.dg.common.impl;
+package org.onap.appc.dg.common.impl;
 
-import org.openecomp.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.util.Map;
 
-public class VNFCDgResolverPluginImpl implements org.openecomp.appc.dg.common.VNFCDgResolverPlugin {
+public class VNFCDgResolverPluginImpl implements org.onap.appc.dg.common.VNFCDgResolverPlugin {
     @Override
     public void resolveVNFCDg(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         DgResolverPluginImpl dgResolverPlugin = new DgResolverPluginImpl();

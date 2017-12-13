@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>appc-adapters</artifactId>
-        <groupId>org.openecomp.appc</groupId>
+        <groupId>org.onap.appc</groupId>
         <version>1.3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -103,14 +103,14 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.openecomp.appc</groupId>
+                <groupId>org.onap.appc</groupId>
                 <artifactId>appc-netconf-adapter-features</artifactId>
                 <classifier>features</classifier>
                 <type>xml</type>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.openecomp.appc</groupId>
+                <groupId>org.onap.appc</groupId>
                 <artifactId>appc-netconf-adapter-provider</artifactId>
                 <version>${project.version}</version>
             </dependency>

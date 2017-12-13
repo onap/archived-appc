@@ -39,7 +39,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="org.openecomp.appc" level="DEBUG" additivity="false">
+	<logger name="org.onap.appc" level="DEBUG" additivity="false">
 		<appender-ref ref="FILE" />
 	</logger>
 

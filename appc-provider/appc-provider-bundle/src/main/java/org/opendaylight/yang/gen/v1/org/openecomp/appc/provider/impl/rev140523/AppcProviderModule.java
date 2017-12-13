@@ -22,16 +22,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.impl.rev140523;
+package org.opendaylight.yang.gen.v1.org.onap.appc.provider.impl.rev140523;
 
-import org.openecomp.appc.provider.AppcProvider;
+import org.onap.appc.provider.AppcProvider;
 
 /**
  * This was generated code. It was generated into the source tree because it has to be manually modified.
  * 
  */
 public class AppcProviderModule extends
-                org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.impl.rev140523.AbstractAppcProviderModule {
+                org.opendaylight.yang.gen.v1.org.onap.appc.provider.impl.rev140523.AbstractAppcProviderModule {
 
     /**
      * @param identifier
@@ -52,13 +52,13 @@ public class AppcProviderModule extends
     @SuppressWarnings("javadoc")
     public AppcProviderModule(org.opendaylight.controller.config.api.ModuleIdentifier identifier,
                               org.opendaylight.controller.config.api.DependencyResolver dependencyResolver,
-                              org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.impl.rev140523.AppcProviderModule oldModule,
+                              org.opendaylight.yang.gen.v1.org.onap.appc.provider.impl.rev140523.AppcProviderModule oldModule,
                               java.lang.AutoCloseable oldInstance) {
         super(identifier, dependencyResolver, oldModule, oldInstance);
     }
 
     /**
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.impl.rev140523.AbstractAppcProviderModule#customValidation()
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.impl.rev140523.AbstractAppcProviderModule#customValidation()
      */
     @Override
     public void customValidation() {
@@ -68,7 +68,7 @@ public class AppcProviderModule extends
     /**
      * This method is manually updated to actually invoke the provider implementation
      * 
-     * @see org.opendaylight.yang.gen.v1.org.openecomp.appc.provider.impl.rev140523.AbstractAppcProviderModule#createInstance()
+     * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.impl.rev140523.AbstractAppcProviderModule#createInstance()
      */
     @Override
     public java.lang.AutoCloseable createInstance() {

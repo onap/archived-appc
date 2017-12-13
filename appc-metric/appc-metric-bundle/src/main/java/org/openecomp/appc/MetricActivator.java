@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc;
+package org.onap.appc;
 
-import org.openecomp.appc.metricservice.MetricService;
-import org.openecomp.appc.metricservice.impl.MetricServiceImpl;
+import org.onap.appc.metricservice.MetricService;
+import org.onap.appc.metricservice.impl.MetricServiceImpl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;

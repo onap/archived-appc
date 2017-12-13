@@ -24,7 +24,7 @@
 
 module ATD456 {
 	yang-version 1;
-	namespace "org:openecomp:appc:vnf:ATD456";
+	namespace "org:onap:appc:vnf:ATD456";
     prefix appc-vnf;
     organization "Copyright 2017 AT&T Intellectual Property.";
 

@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice.policy.impl;
+package org.onap.appc.metricservice.policy.impl;
 
-import org.openecomp.appc.metricservice.policy.PolicyBuilderFactory;
-import org.openecomp.appc.metricservice.policy.ScheduledPolicyBuilder;
+import org.onap.appc.metricservice.policy.PolicyBuilderFactory;
+import org.onap.appc.metricservice.policy.ScheduledPolicyBuilder;
 
 
 public class PolicyBuilderFactoryImpl implements PolicyBuilderFactory {

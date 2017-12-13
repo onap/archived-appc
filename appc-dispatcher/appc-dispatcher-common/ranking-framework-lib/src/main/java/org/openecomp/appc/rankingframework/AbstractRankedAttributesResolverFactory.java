@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.rankingframework;
+package org.onap.appc.rankingframework;
 
-import org.openecomp.appc.rankingframework.impl.DefaultRankedAttributesTreeFactory;
+import org.onap.appc.rankingframework.impl.DefaultRankedAttributesTreeFactory;
 
 public abstract class AbstractRankedAttributesResolverFactory implements RankedAttributesResolverFactory {
 

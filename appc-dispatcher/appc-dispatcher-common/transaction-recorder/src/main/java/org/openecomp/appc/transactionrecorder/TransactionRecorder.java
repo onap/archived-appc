@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.transactionrecorder;
+package org.onap.appc.transactionrecorder;
 
 
-import org.openecomp.appc.transactionrecorder.objects.TransactionRecord;
+import org.onap.appc.transactionrecorder.objects.TransactionRecord;
 
 
 public interface TransactionRecorder {

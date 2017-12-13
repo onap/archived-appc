@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.test;
+package org.onap.appc.test;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;

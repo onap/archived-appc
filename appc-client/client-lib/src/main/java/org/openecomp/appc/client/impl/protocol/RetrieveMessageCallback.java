@@ -22,10 +22,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.client.impl.protocol;
+package org.onap.appc.client.impl.protocol;
 
 
-import org.openecomp.appc.client.impl.core.MessageContext;
+import org.onap.appc.client.impl.core.MessageContext;
 
 public interface RetrieveMessageCallback {
 

@@ -24,7 +24,7 @@
 
 
 
-package org.openecomp.appc.pool;
+package org.onap.appc.pool;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -200,7 +200,7 @@ public class CachedElement<T extends Closeable> implements Closeable, Invocation
     /**
      * This method is used to be able to access the wrapped object underneath the dynamic proxy
      * 
-     * @see org.openecomp.appc.pool.CacheManagement#getWrappedObject()
+     * @see org.onap.appc.pool.CacheManagement#getWrappedObject()
      */
     @Override
     public T getWrappedObject() {

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.oam.util;
+package org.onap.appc.oam.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import org.apache.commons.lang3.ArrayUtils;
@@ -30,7 +30,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openecomp.appc.configuration.Configuration;
+import org.onap.appc.configuration.Configuration;
 import org.powermock.reflect.Whitebox;
 
 import static org.mockito.Mockito.mock;

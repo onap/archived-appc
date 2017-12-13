@@ -18,10 +18,10 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.objects;
+package org.onap.appc.seqgen.objects;
 
-import org.openecomp.appc.dg.objects.InventoryModel;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
 
 import java.util.HashMap;
 import java.util.List;

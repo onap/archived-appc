@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.seqgen.objects;
+package org.onap.appc.seqgen.objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.openecomp.appc.dg.objects.InventoryModel;
-import org.openecomp.appc.dg.objects.VnfcDependencyModel;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

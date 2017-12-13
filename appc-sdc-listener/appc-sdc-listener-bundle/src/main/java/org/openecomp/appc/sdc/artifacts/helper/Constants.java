@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.sdc.artifacts.helper;
+package org.onap.appc.sdc.artifacts.helper;
 
 /**
  * Constants required in SDC listener module

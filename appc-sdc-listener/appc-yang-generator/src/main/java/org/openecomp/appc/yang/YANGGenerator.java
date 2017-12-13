@@ -22,9 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.yang;
+package org.onap.appc.yang;
 
-import org.openecomp.appc.yang.exception.YANGGenerationException;
+import org.onap.appc.yang.exception.YANGGenerationException;
 
 import java.io.OutputStream;
 

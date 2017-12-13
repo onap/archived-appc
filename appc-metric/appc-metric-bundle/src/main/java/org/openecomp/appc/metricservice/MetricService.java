@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.metricservice;
+package org.onap.appc.metricservice;
 
 
 import java.util.Map;

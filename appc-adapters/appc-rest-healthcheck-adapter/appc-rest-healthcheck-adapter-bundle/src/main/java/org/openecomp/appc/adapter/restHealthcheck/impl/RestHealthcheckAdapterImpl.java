@@ -22,17 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.adapter.restHealthcheck.impl;
+package org.onap.appc.adapter.restHealthcheck.impl;
 
 import java.util.Map;
 import java.util.Properties;
 import org.apache.http.impl.client.CloseableHttpClient;
 
-import org.openecomp.appc.Constants;
-import org.openecomp.appc.adapter.restHealthcheck.RestHealthcheckAdapter;
-import org.openecomp.appc.configuration.Configuration;
-import org.openecomp.appc.pool.PoolExtensionException;
-import org.openecomp.appc.util.StructuredPropertyHelper;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.restHealthcheck.RestHealthcheckAdapter;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.pool.PoolExtensionException;
+import org.onap.appc.util.StructuredPropertyHelper;
 
 
 import com.att.cdp.zones.ImageService;

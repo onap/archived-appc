@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.appc.common.constant;
+package org.onap.appc.common.constant;
 
 public class Constants {
 
@@ -36,34 +36,34 @@ public class Constants {
     /**
      * The name of the property that contains the VM id value in the graph's context
      */
-    public static final String VF_ID = "org.openecomp.appc.vfid";
+    public static final String VF_ID = "org.onap.appc.vfid";
 
     /**
      * The name of the property that contains the VF Type value in the graph's context
      */
-    public static final String VF_TYPE = "org.openecomp.appc.vftype";
+    public static final String VF_TYPE = "org.onap.appc.vftype";
 
     /**
      * The name of the property that contains the service request id value in the graph's context
      */
-    public static final String REQUEST_ID = "org.openecomp.appc.reqid";
+    public static final String REQUEST_ID = "org.onap.appc.reqid";
 
     /**
      * The name of the property that indicates which method of the IaaS adapter to call
      */
-    public static final String ACTION = "org.openecomp.appc.action";
+    public static final String ACTION = "org.onap.appc.action";
 
     public static final String PAYLOAD = "payload";
 
-    public static final String CONF_ID = "org.openecomp.appc.confid";
+    public static final String CONF_ID = "org.onap.appc.confid";
 
-    public static final String API_VERSION = "org.openecomp.appc.apiversion";
+    public static final String API_VERSION = "org.onap.appc.apiversion";
 
-    public static final String ORIGINATOR_ID = "org.openecomp.appc.originatorid";
+    public static final String ORIGINATOR_ID = "org.onap.appc.originatorid";
 
-    public static final String OBJECT_ID ="org.openecomp.appc.objectid";
+    public static final String OBJECT_ID ="org.onap.appc.objectid";
 
-    public static final String SUB_REQUEST_ID = "org.openecomp.appc.subrequestid";
+    public static final String SUB_REQUEST_ID = "org.onap.appc.subrequestid";
 
     public static final String ERROR_MESSAGE = "error-message";
 

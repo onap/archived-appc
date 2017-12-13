@@ -1,4 +1,4 @@
-package org.openecomp.appc.client.lcm.model;
+package org.onap.appc.client.lcm.model;
 
 import org.junit.Assert;
 import org.junit.Test;

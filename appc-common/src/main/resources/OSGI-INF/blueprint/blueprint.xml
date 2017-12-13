@@ -32,10 +32,10 @@
 
     <reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.core.dblib.DbLibService" />
 
-    <bean id="MetadataServiceImplBean" class="org.openecomp.appc.metadata.impl.MetadataServiceImpl" scope="singleton">
+    <bean id="MetadataServiceImplBean" class="org.onap.appc.metadata.impl.MetadataServiceImpl" scope="singleton">
         <property name="dbLibService" ref="dbLibServiceRef" />
     </bean>
 
-    <service id="MetadataService" interface="org.openecomp.appc.metadata.MetadataService" ref="MetadataServiceImplBean"/>
+    <service id="MetadataService" interface="org.onap.appc.metadata.MetadataService" ref="MetadataServiceImplBean"/>
 
 </blueprint>
