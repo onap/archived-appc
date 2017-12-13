@@ -80,16 +80,25 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
 					AppcAaiClientConstant.OUTPUT_STATUS_SUCCESS);
 			log.info("getVnfInfo Successful ");
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
 					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
 			log.error("Failed in getVnfInfo " + e.getMessage());
 
 			throw new SvcLogicException(e.getMessage());
+		}*/
+		}catch (SvcLogicException sl) {
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, sl.getMessage());
+			log.error("Failed in getVnfInfo " + sl.getMessage());
+
+			 throw sl;
+			} catch (Exception e) {
+			    
+			}
 		}
-	}
-	
 	
 	
 	public void getAllVServersVnfcsInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
