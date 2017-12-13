@@ -335,14 +335,25 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 					AppcAaiClientConstant.OUTPUT_STATUS_SUCCESS);
 			
 			log.info("addVnfcs Successful ");
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
 					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
 			log.error("Failed in addVnfcs " + e.getMessage());
 
 			throw new SvcLogicException(e.getMessage());
-		}
+		}*/
+		} catch (SvcLogicException sl) {
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, sl.getMessage());
+			log.error("Failed in addVnfcs " + sl.getMessage());
+			throw sl;
+			  
+			} catch (Exception e) {
+				
+			}
+		
 	}
 	
 	
