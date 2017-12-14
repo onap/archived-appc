@@ -234,7 +234,8 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             }
         }
         catch (Exception e){
-            logger.error("Error Initializing Ansible Adapter due to Unknown Exception: reason = " + e.getMessage());
+            //logger.error("Error Initializing Ansible Adapter due to Unknown Exception: reason = " + e.getMessage());
+			logger.error("Error Initializing Ansible Adapter due to Unknown Exception: reason = " + e);
         }
 
 	logger.info("Intitialized Ansible Adapter");
