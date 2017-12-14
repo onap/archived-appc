@@ -381,7 +381,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 					AppcAaiClientConstant.OUTPUT_STATUS_SUCCESS);
 			
 			log.info("updateVnfAndVServerStatus Successful ");
-		} catch (Exception e) {
+		/*} catch (Exception e) {
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
 					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
 			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
@@ -389,6 +389,18 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
 			throw new SvcLogicException(e.getMessage());
 		}
+		*/
+		} catch (SvcLogicException sl) {
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+					AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+			ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, sl.getMessage());
+			log.error("Failed in updateVnfAndVServerStatus " + sl.getMessage());
+			
+			  throw sl;
+			  
+			} catch (Exception e) {
+			  
+			}
 	}
 	
 	/*public void getDummyValues(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
