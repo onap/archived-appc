@@ -16,6 +16,24 @@
       "revId": "a116a838777f00e5aa8b31304fc1888a039ee48c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c1e786e3",
+        "filename": "appc-common/src/main/java/org/onap/appc/CmdLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-15T23:31:29Z",
+      "side": 1,
+      "message": "Moving this to a -1.",
+      "parentUuid": "5a93c517_6173124e",
+      "revId": "a116a838777f00e5aa8b31304fc1888a039ee48c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
