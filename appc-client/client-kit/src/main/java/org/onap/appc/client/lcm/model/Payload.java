@@ -34,8 +34,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * The payload can be any valid JSON string value. Json escape characters need to be added when required to include an inner json within the payload to make it a valid json string value
  */
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.472+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.292Z",
     comments = "Auto-generated from Open API specification")
 public class Payload {
 

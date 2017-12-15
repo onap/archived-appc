@@ -59,7 +59,15 @@ public enum Action {
     ConfigRestore("ConfigRestore"),
     ConfigBackup("ConfigBackup"),
     ConfigBackupDelete("ConfigBackupDelete"),
-    ConfigExport("ConfigExport");
+    ConfigExport("ConfigExport"),
+    StopApplication("StopApplication"),
+    StartApplication("StartApplication"),
+    ActionStatus("ActionStatus"),
+    Query("Query"),
+    Reboot("Reboot"),
+    AttachVolume("AttachVolume"),
+    DetachVolume("DetachVolume"),
+    Quiesce("Quiesce");
 
     private String value;
 

@@ -34,8 +34,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Define a common definition of a time stamp (expressed as a formatted string) as follows yyyy-MM-ddTHH:mm:ss.SSSSSSSSZ
  */
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.441+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.189Z",
     comments = "Auto-generated from Open API specification")
 public class ZULU {
 

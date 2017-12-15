@@ -30,8 +30,8 @@ package org.onap.appc.client.lcm.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.698+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.441Z",
     comments = "Auto-generated from Open API specification")
 public class SyncOutput {
 
@@ -59,14 +59,14 @@ public class SyncOutput {
     }
 
     /**
-     * The specific response codes are to be aligned with ASDC reference doc (main table removed to avoid duplication and digression from main table). See ASDC and ECOMP Distribution Consumer Interface Agreement
+     * The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement
      */
     public Status getStatus() {
         return status;
     }
 
     /**
-     * The specific response codes are to be aligned with ASDC reference doc (main table removed to avoid duplication and digression from main table). See ASDC and ECOMP Distribution Consumer Interface Agreement
+     * The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement
      */
     public void setStatus(Status status) {
         this.status = status;
