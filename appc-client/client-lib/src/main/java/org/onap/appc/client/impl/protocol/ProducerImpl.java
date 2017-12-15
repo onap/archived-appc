@@ -62,6 +62,14 @@ class ProducerImpl implements Producer {
     private CambriaBatchingPublisher getProducer() throws MalformedURLException, GeneralSecurityException {
 
         PublisherBuilder builder = new PublisherBuilder().usingHosts(hosts);
+        
+        //added for loop for defect 354330
+        for (String url : hosts) {
+            if (url.contains("3905") || url.contains("https")) {
+            	builder.usingHttps(true);
+                break;
+            }
+        }
 
         // Add credentials if provided
         if (authKey != null && authSecret != null) {
