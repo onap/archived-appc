@@ -105,6 +105,14 @@ class ConsumerImpl implements Consumer {
         builder.usingHosts(hosts).onTopic(topic).knownAs(group, groupId);
         builder.withSocketTimeout(timeout + 5000).waitAtServer(timeout);
         builder.receivingAtMost(DEFAULT_LIMIT);
+        
+        //added for loop for defect 354330
+        for (String url : hosts) {
+            if (url.contains("3905") || url.contains("https")) {
+            	builder.usingHttps(true);
+                break;
+            }
+        }
 
         // Add credentials if provided
         if (authKey != null && authSecret != null) {

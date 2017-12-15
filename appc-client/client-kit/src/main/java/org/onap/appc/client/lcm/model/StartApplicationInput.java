@@ -30,8 +30,8 @@ package org.onap.appc.client.lcm.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-07-19T14:31:26.579+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.436Z",
     comments = "Auto-generated from Open API specification")
 public class StartApplicationInput {
 

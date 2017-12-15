@@ -33,8 +33,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * A common header for all APP-C requests
  */
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.49+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.312Z",
     comments = "Auto-generated from Open API specification")
 public class CommonHeader {
 
@@ -85,14 +85,14 @@ public class CommonHeader {
     }
 
     /**
-     * originator-id an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over UEB (especially in case of multiple consumers of APP-C APIs)
+     * originator-id an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over DMaaP (especially in case of multiple consumers of APP-C APIs)
      */
     public String getOriginatorId() {
         return originatorId;
     }
 
     /**
-     * originator-id an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over UEB (especially in case of multiple consumers of APP-C APIs)
+     * originator-id an identifier of the calling system which can be used addressing purposes, i.e. returning asynchronous response to the proper destination over DMaaP (especially in case of multiple consumers of APP-C APIs)
      */
     public void setOriginatorId(String originatorId) {
         this.originatorId = originatorId;

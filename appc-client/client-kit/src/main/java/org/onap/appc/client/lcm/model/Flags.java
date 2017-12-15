@@ -33,8 +33,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * Flags are generic flags that apply to any and all commands, all are optional
  */
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.498+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.32Z",
     comments = "Auto-generated from Open API specification")
 public class Flags {
 

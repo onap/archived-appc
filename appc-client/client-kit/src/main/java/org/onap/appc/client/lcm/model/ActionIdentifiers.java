@@ -33,8 +33,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * A block containing the action arguments. These are used to specify the object upon which APP-C LCM command is to operate
  */
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.501+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.322Z",
     comments = "Auto-generated from Open API specification")
 public class ActionIdentifiers {
 
@@ -43,6 +43,9 @@ public class ActionIdentifiers {
 
     @JsonProperty("vnf-id")
     private String vnfId;
+
+    @JsonProperty("vf-module-id")
+    private String vfModuleId;
 
     @JsonProperty("vnfc-name")
     private String vnfcName;
@@ -76,6 +79,20 @@ public class ActionIdentifiers {
      */
     public void setVnfId(String vnfId) {
         this.vnfId = vnfId;
+    }
+
+    /**
+     * identifies the VF module to which this action is to be applied.
+     */
+    public String getVfModuleId() {
+        return vfModuleId;
+    }
+
+    /**
+     * identifies the VF module to which this action is to be applied.
+     */
+    public void setVfModuleId(String vfModuleId) {
+        this.vfModuleId = vfModuleId;
     }
 
     /**

@@ -30,8 +30,8 @@ package org.onap.appc.client.lcm.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @javax.annotation.Generated(
-    value = {"templates/client-kit/open-api-to-java.ftl"},
-    date = "2017-05-04T20:09:01.612+05:30",
+    value = {"client-kit/open-api-to-java.ftl"},
+    date = "2017-11-16T17:10:10.401Z",
     comments = "Auto-generated from Open API specification")
 public class MigrateInput {
 
