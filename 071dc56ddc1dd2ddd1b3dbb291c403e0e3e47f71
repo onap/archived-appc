@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e1a40259",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-16T23:28:24Z",
+      "side": 1,
+      "message": "Please rework this change, it does not address the Sonar violation and creates a new one.  A SvcLogicException is never thrown from the try so it should not be caught.    All of the processing in the catch block for the Exception has been removed and needs to be put back.\n\nAddressing the \"log or rethrow\" violation should be addresses by logging the exception in the original catch, e.g.,\n\nlogger.error(\"Failed in getVnfInfo \", e);",
+      "revId": "071dc56ddc1dd2ddd1b3dbb291c403e0e3e47f71",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c19f8602",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-16T23:28:24Z",
+      "side": 1,
+      "message": "Avoid tabs and unnecessary white space. https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "071dc56ddc1dd2ddd1b3dbb291c403e0e3e47f71",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
