@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_61f9d24c",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-16T23:20:04Z",
+      "side": 1,
+      "message": "Avoid using tabs for new code. https://wiki.onap.org/display/DW/Java+code+style\n\nIndent should be 4 spaces.   \n\nSvcLogicException is not thrown in the try block.  I\u0027m surprised this passes the verification build.",
+      "revId": "057f6c038fc70b4ce115e8e05163e3b2c2a8b3f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0196cef0",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-16T23:20:04Z",
+      "side": 1,
+      "message": "Never add an empty catch block.",
+      "revId": "057f6c038fc70b4ce115e8e05163e3b2c2a8b3f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
