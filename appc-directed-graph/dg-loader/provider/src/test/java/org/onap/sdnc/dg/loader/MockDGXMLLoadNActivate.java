@@ -22,13 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.dg.loader;
+package org.onap.sdnc.dg.loader;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 
 public class MockDGXMLLoadNActivate extends DGXMLLoadNActivate {
-    private final static SvcLogicStore storeChild=MockSvcLogicFactory.getMockSvcLogicStore();;
-        MockDGXMLLoadNActivate() throws Exception {
+    private final static SvcLogicStore storeChild = MockSvcLogicFactory.getMockSvcLogicStore();;
+
+    MockDGXMLLoadNActivate() throws Exception {
         super(storeChild);
     }
 }

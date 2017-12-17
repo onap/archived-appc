@@ -22,15 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.dg.loader;
+package org.onap.sdnc.dg.loader;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
-import org.onap.ccsdk.sli.core.sli.SvcLogicDblibStore;
 
 public class MockSvcLogicFactory extends SvcLogicStoreFactory {
     static SvcLogicStore getMockSvcLogicStore() {
-         SvcLogicStore store=new MockSvcLogicDblibStore();
-         return store;
+        SvcLogicStore store = new MockSvcLogicDblibStore();
+        return store;
     }
 }
