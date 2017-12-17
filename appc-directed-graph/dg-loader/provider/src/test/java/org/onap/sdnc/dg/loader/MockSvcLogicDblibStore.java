@@ -22,11 +22,9 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.dg.loader;
+package org.onap.sdnc.dg.loader;
 
 import java.util.Properties;
-
-import org.onap.ccsdk.sli.core.sli.SvcLogicDblibStore;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
@@ -34,53 +32,61 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 public class MockSvcLogicDblibStore implements SvcLogicStore {
 
     @Override
-    public boolean hasGraph(String module, String rpc, String version,
-            String mode) {
+    public boolean hasGraph(String module, String rpc, String version, String mode) {
         return true;
     }
+
     @Override
-    public SvcLogicGraph fetch(String module, String rpc, String version,
-            String mode) throws SvcLogicException {
-        SvcLogicGraph retVal=new SvcLogicGraph();
+    public SvcLogicGraph fetch(String module, String rpc, String version, String mode)
+            throws SvcLogicException {
+        SvcLogicGraph retVal = new SvcLogicGraph();
         retVal.setMode("sync");
         retVal.setModule("Appc");
         retVal.setRpc("unitTestDG");
         retVal.setVersion("4.0.0");
         return retVal;
-        
+
     }
+
     @Override
     public void store(SvcLogicGraph graph) throws SvcLogicException {
 
     }
+
     @Override
     public void init(Properties props) throws SvcLogicException {
         // TODO Auto-generated method stub
-        
+
     }
+
     @Override
     public void registerNodeType(String nodeType) throws SvcLogicException {
         // TODO Auto-generated method stub
-        
+
     }
+
     @Override
     public void unregisterNodeType(String nodeType) throws SvcLogicException {
         // TODO Auto-generated method stub
-        
+
     }
+
     @Override
     public boolean isValidNodeType(String nodeType) throws SvcLogicException {
         // TODO Auto-generated method stub
         return true;
     }
+
     @Override
-    public void delete(String module, String rpc, String version, String mode) throws SvcLogicException {
+    public void delete(String module, String rpc, String version, String mode)
+            throws SvcLogicException {
         // TODO Auto-generated method stub
-        
+
     }
+
     @Override
     public void activate(SvcLogicGraph graph) throws SvcLogicException {
         // TODO Auto-generated method stub
-        
+
     }
 }
