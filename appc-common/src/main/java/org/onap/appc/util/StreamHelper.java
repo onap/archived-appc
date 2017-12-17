@@ -22,39 +22,42 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.cache.impl;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.powermock.reflect.Whitebox;
+package org.onap.appc.util;
 
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 
-public class LRUCacheTest {
+public class StreamHelper {
 
-    @Test
-    public void testConstructor() throws Exception {
-        LRUCache cache = new LRUCache(20);
-        Map internalMap = Whitebox.getInternalState(cache, "map");
-        Assert.assertTrue(internalMap != null);
-        Assert.assertTrue(internalMap.size() == 0);
+    /**
+     * private default constructor prevents instantiation
+     */
+    private StreamHelper() {
     }
 
-    @Test
-    public void testGetAndPutObject() throws Exception {
-        LRUCache cache = new LRUCache(20);
+    /**
+     * @param inputStream
+     * @return Input stream converted to string
+     */
+    public static String getStringFromInputStream(InputStream inputStream) {
+        StringBuffer buffer = new StringBuffer();
+        byte[] array = new byte[4096];
 
-        String key = "testing key";
-        Assert.assertTrue(cache.getObject(key) == null);
+        if (inputStream != null) {
+            try {
+                int len = inputStream.read(array);
+                while (len != -1) {
+                    buffer.append(new String(array, 0, len, Charset.forName("UTF-8")));
+                    len = inputStream.read(array);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
-        String value = "testing value";
-        cache.putObject(key, value);
-        Map internalMap = Whitebox.getInternalState(cache, "map");
-        Assert.assertTrue(internalMap.containsKey(key));
-        Assert.assertTrue(internalMap.containsValue(value));
-        Assert.assertTrue(internalMap.size() == 1);
-
-        Assert.assertEquals(value, cache.getObject(key));
+        return buffer.toString();
     }
 
 }

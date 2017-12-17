@@ -174,7 +174,6 @@ public final class Constants {
     /**
      * The name for the status vm attribute to be set in the context when executing a vmstatuscheck.
      */
-
     @SuppressWarnings("nls")
     public static final String STATUS_OF_VM = "status-vm";
 
@@ -203,10 +202,9 @@ public final class Constants {
     public static final String YANG_VNF_CONFIG = "vnf-config";
 
     /**
-     * Private default constructor prevents instantiation
+     * default constructor prevents instantiation
      */
-
-    private Constants() {
-
+    Constants() {
+        throw new IllegalAccessError("Constants");
     }
 }

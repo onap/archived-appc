@@ -9,27 +9,26 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.metadata.objects;
 
+import static org.onap.appc.metadata.objects.DependencyModelIdentifier.prime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
-
-import static org.onap.appc.metadata.objects.DependencyModelIdentifier.prime;
 
 public class DependencyModelIdentifierTest {
     private static final String vnfType = "vnfType";
@@ -56,16 +55,18 @@ public class DependencyModelIdentifierTest {
         Assert.assertEquals(vnfType, identifier.getVnfType());
         Assert.assertEquals(cVersion, identifier.getCatalogVersion());
 
-        Assert.assertEquals(String.format(DependencyModelIdentifier.TO_STRING_FORMAT, vnfType, cVersion),
+        Assert.assertEquals(
+                String.format(DependencyModelIdentifier.TO_STRING_FORMAT, vnfType, cVersion),
                 identifier.toString());
     }
 
     @Test
     public void testHashCode() throws Exception {
-        Assert.assertEquals((prime + vnfType.hashCode()) * prime + cVersion.hashCode(), identifier.hashCode());
+        Assert.assertEquals((prime + vnfType.hashCode()) * prime + cVersion.hashCode(),
+                identifier.hashCode());
         Assert.assertEquals(prime * prime, identifier1.hashCode());
-        Assert.assertEquals((prime + vnfType.hashCode()) * prime , identifier2.hashCode());
-        Assert.assertEquals(prime* prime + cVersion.hashCode(), identifier3.hashCode());
+        Assert.assertEquals((prime + vnfType.hashCode()) * prime, identifier2.hashCode());
+        Assert.assertEquals(prime * prime + cVersion.hashCode(), identifier3.hashCode());
     }
 
     @Test
