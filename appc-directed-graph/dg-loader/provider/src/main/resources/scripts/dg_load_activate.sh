@@ -39,12 +39,12 @@ cd ${DG_JSON_DIR}
 rm -rf ${DG_JSON_DIR}/xml
 
 ################## To Genetare XML from JSON ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLGenerator ${DG_JSON_DIR} ${DG_JSON_DIR}/xml
+$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.onap.sdnc.dg.loader.DGXMLGenerator ${DG_JSON_DIR} ${DG_JSON_DIR}/xml
 
 ################## To Load DG XML ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLLoad ${DG_JSON_DIR}/xml ${BVC_DIR}/properties/dblib.properties
+$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.onap.sdnc.dg.loader.DGXMLLoad ${DG_JSON_DIR}/xml ${BVC_DIR}/properties/dblib.properties
 
 ################## To Activate ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.openecomp.sdnc.dg.loader.DGXMLActivate ${DG_JSON_DIR}/dg_activate.txt ${BVC_DIR}/properties/dblib.properties
+$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.onap.sdnc.dg.loader.DGXMLActivate ${DG_JSON_DIR}/dg_activate.txt ${BVC_DIR}/properties/dblib.properties
 
 exit 0

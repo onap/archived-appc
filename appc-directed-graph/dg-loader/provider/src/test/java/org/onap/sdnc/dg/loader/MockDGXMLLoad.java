@@ -22,14 +22,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.dg.loader;
+package org.onap.sdnc.dg.loader;
 
-import org.mockito.internal.util.reflection.Whitebox;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 
-public class MockDGXMLLoad extends DGXMLLoad{
+public class MockDGXMLLoad extends DGXMLLoad {
 
-    private final static SvcLogicStore storeChild=MockSvcLogicFactory.getMockSvcLogicStore();;
+    private final static SvcLogicStore storeChild = MockSvcLogicFactory.getMockSvcLogicStore();;
+
     MockDGXMLLoad() throws Exception {
         super(storeChild);
     }
