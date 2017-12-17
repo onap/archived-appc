@@ -26,8 +26,8 @@ import java.util.Map;
 import org.junit.Test;
 import org.onap.appc.dg.mock.instance.MockConfigureNodeExecutor;
 import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
-import org.openecomp.sdnc.config.generator.convert.ConvertNode;
-import org.openecomp.sdnc.config.generator.merge.MergeNode;
+import org.onap.sdnc.config.generator.convert.ConvertNode;
+import org.onap.sdnc.config.generator.merge.MergeNode;
 /*  move to open source
 import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
 import com.att.sdnctl.dgtestlibrary.DGTestCase;

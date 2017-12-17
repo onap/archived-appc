@@ -18,37 +18,34 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.dg.loader;
+package org.onap.sdnc.dg.loader;
 
 import java.util.LinkedList;
 import java.util.List;
-
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-public class DGLoaderActivator implements BundleActivator{
+public class DGLoaderActivator implements BundleActivator {
 
     private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
 
 
-    private static final EELFLogger log = EELFManager.getInstance().getLogger(DGLoaderActivator.class);
+    private static final EELFLogger log =
+            EELFManager.getInstance().getLogger(DGLoaderActivator.class);
 
     @Override
-    public void start(BundleContext ctx) throws Exception
-    {
+    public void start(BundleContext ctx) throws Exception {
 
-        
+
 
     }
+
     @Override
-    public void stop(BundleContext arg0) throws Exception
-    {
-        for (ServiceRegistration registration: registrations)
-        {
+    public void stop(BundleContext arg0) throws Exception {
+        for (ServiceRegistration registration : registrations) {
             registration.unregister();
             registration = null;
         }
