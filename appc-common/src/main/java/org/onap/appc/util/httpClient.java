@@ -24,12 +24,15 @@
 
 package org.onap.appc.util;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -37,18 +40,12 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 
 public class httpClient {
@@ -58,7 +55,8 @@ public class httpClient {
     private static Configuration configuration = ConfigurationFactory.getConfiguration();
 
     @SuppressWarnings("deprecation")
-    public static int postMethod(String protocol, String ip, int port, String path, String payload, String contentType) throws APPCException {
+    public static int postMethod(String protocol, String ip, int port, String path, String payload,
+            String contentType) throws APPCException {
 
         logger.info("Sending POST request to " + path);
 
@@ -79,11 +77,10 @@ public class httpClient {
         logger.debug("Sending request " + post);
 
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-                new AuthScope(ip, port),
-                new UsernamePasswordCredentials(configuration.getProperty("username"), configuration.getProperty("password")));
-        CloseableHttpClient client = HttpClients.custom()
-                .setDefaultCredentialsProvider(credsProvider).build();
+        credsProvider.setCredentials(new AuthScope(ip, port), new UsernamePasswordCredentials(
+                configuration.getProperty("username"), configuration.getProperty("password")));
+        CloseableHttpClient client =
+                HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
 
         int httpCode;
         try {
@@ -96,7 +93,8 @@ public class httpClient {
     }
 
     @SuppressWarnings("deprecation")
-    public static int putMethod(String protocol, String ip, int port, String path, String payload, String contentType) throws APPCException {
+    public static int putMethod(String protocol, String ip, int port, String path, String payload,
+            String contentType) throws APPCException {
 
         logger.info("Sending PUT request to " + path);
 
@@ -117,11 +115,10 @@ public class httpClient {
         logger.debug("Sending request " + put);
 
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-                new AuthScope(ip, port),
-                new UsernamePasswordCredentials(configuration.getProperty("username"), configuration.getProperty("password")));
-        CloseableHttpClient client = HttpClients.custom()
-                .setDefaultCredentialsProvider(credsProvider).build();
+        credsProvider.setCredentials(new AuthScope(ip, port), new UsernamePasswordCredentials(
+                configuration.getProperty("username"), configuration.getProperty("password")));
+        CloseableHttpClient client =
+                HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
 
         int httpCode;
         try {
@@ -134,7 +131,8 @@ public class httpClient {
     }
 
     @SuppressWarnings("deprecation")
-    public static String getMethod(String protocol, String ip, int port, String path, String contentType) throws APPCException {
+    public static String getMethod(String protocol, String ip, int port, String path,
+            String contentType) throws APPCException {
 
         logger.info("Sending GET request to " + path);
 
@@ -151,11 +149,10 @@ public class httpClient {
         logger.debug("Sending request " + get);
 
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-                new AuthScope(ip, port),
-                new UsernamePasswordCredentials(configuration.getProperty("username"), configuration.getProperty("password")));
-        CloseableHttpClient client = HttpClients.custom()
-                .setDefaultCredentialsProvider(credsProvider).build();
+        credsProvider.setCredentials(new AuthScope(ip, port), new UsernamePasswordCredentials(
+                configuration.getProperty("username"), configuration.getProperty("password")));
+        CloseableHttpClient client =
+                HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
 
         int httpCode;
         String result;
@@ -172,7 +169,8 @@ public class httpClient {
     }
 
     @SuppressWarnings("deprecation")
-    public static int deleteMethod(String protocol, String ip, int port, String path, String contentType) throws APPCException {
+    public static int deleteMethod(String protocol, String ip, int port, String path,
+            String contentType) throws APPCException {
 
         logger.info("Sending DELETE request to " + path);
 
@@ -189,14 +187,12 @@ public class httpClient {
         logger.debug("Sending request " + delete);
 
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
-        credsProvider.setCredentials(
-                new AuthScope(ip, port),
-                new UsernamePasswordCredentials(configuration.getProperty("username"), configuration.getProperty("password")));
-        CloseableHttpClient client = HttpClients.custom()
-                .setDefaultCredentialsProvider(credsProvider).build();
+        credsProvider.setCredentials(new AuthScope(ip, port), new UsernamePasswordCredentials(
+                configuration.getProperty("username"), configuration.getProperty("password")));
+        CloseableHttpClient client =
+                HttpClients.custom().setDefaultCredentialsProvider(credsProvider).build();
 
         int httpCode;
-        String result;
 
         try {
             HttpResponse response = client.execute(delete);

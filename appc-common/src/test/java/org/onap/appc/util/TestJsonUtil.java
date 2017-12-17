@@ -71,4 +71,13 @@ public class TestJsonUtil {
             Assert.fail(e.toString());
         }
     }
+
+    @Test
+    public void testEscapeDollarInMessgeFormatter(){
+        String msg="${SYNC_NEW201}";
+        Map<String,Object> respMsg=new HashMap<String,Object>();
+        respMsg.put("vnfid",msg);
+        String formatedMsg=MessageFormatter.format(msg,respMsg);
+        Assert.assertEquals(msg,formatedMsg);
+    }
 }

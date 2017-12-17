@@ -24,6 +24,7 @@
 
 package org.onap.appc.cache.impl;
 
+import static org.mockito.Mockito.mock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,9 +33,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
-import static org.mockito.Mockito.mock;
-
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({MetadataCacheFactory.class, MetadataCacheImpl.class})
@@ -62,8 +60,10 @@ public class MetadataCacheFactoryTest {
     public void testGetMetadataCacheWithArgument() throws Exception {
         CacheStrategies cacheStrategies = CacheStrategies.LRU;
         MetadataCacheImpl mockImpl = mock(MetadataCacheImpl.class);
-        PowerMockito.whenNew(MetadataCacheImpl.class).withArguments(cacheStrategies).thenReturn(mockImpl);
-        Assert.assertEquals(mockImpl, MetadataCacheFactory.getInstance().getMetadataCache(cacheStrategies));
+        PowerMockito.whenNew(MetadataCacheImpl.class).withArguments(cacheStrategies)
+                .thenReturn(mockImpl);
+        Assert.assertEquals(mockImpl,
+                MetadataCacheFactory.getInstance().getMetadataCache(cacheStrategies));
     }
 
 }

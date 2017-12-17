@@ -25,11 +25,11 @@
 package org.onap.appc.metadata.objects;
 
 /**
- * Object of identifier for dependency model.
- * Currently uses VNF type and catalog version
+ * Object of identifier for dependency model. Currently uses VNF type and catalog version
  */
 public class DependencyModelIdentifier {
-    static final String TO_STRING_FORMAT = "DependencyModelIdentifier : vnfType = %s , catalogVersion = %s";
+    static final String TO_STRING_FORMAT =
+            "DependencyModelIdentifier : vnfType = %s , catalogVersion = %s";
     static final int prime = 31;
 
     private String vnfType;
@@ -37,6 +37,7 @@ public class DependencyModelIdentifier {
 
     /**
      * Constructor
+     * 
      * @param vnfType String of the VNF type
      * @param catalogVersion String of the catalog version
      */
@@ -48,23 +49,24 @@ public class DependencyModelIdentifier {
     @Override
     public int hashCode() {
         int result = 1;
-        result = result * prime + (this.vnfType == null ? 0 :this.vnfType.hashCode());
-        result = result * prime + (this.catalogVersion == null ? 0 :this.catalogVersion.hashCode());
+        result = result * prime + (this.vnfType == null ? 0 : this.vnfType.hashCode());
+        result = result * prime
+                + (this.catalogVersion == null ? 0 : this.catalogVersion.hashCode());
         return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (obj ==null) {
+        if (obj == null) {
             return false;
         }
         if (!(obj instanceof DependencyModelIdentifier)) {
             return false;
         }
 
-        DependencyModelIdentifier modelIdentifier = (DependencyModelIdentifier)obj;
+        DependencyModelIdentifier modelIdentifier = (DependencyModelIdentifier) obj;
         if (this.vnfType == null) {
-            if (modelIdentifier.vnfType !=null) {
+            if (modelIdentifier.vnfType != null) {
                 return false;
             }
         } else if (!this.vnfType.equals(modelIdentifier.vnfType)) {
@@ -72,13 +74,12 @@ public class DependencyModelIdentifier {
         }
 
         if (this.catalogVersion == null) {
-            if (modelIdentifier.catalogVersion !=null) {
+            if (modelIdentifier.catalogVersion != null) {
                 return false;
             }
         } else if (!this.catalogVersion.equals(modelIdentifier.catalogVersion)) {
             return false;
         }
-
         return true;
     }
 

@@ -22,39 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.cache.impl;
+package org.onap.appc;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.powermock.reflect.Whitebox;
 
-import java.util.Map;
-
-public class LRUCacheTest {
-
-    @Test
+public class ConstantsTest {
+    @Test (expected = IllegalAccessError.class)
     public void testConstructor() throws Exception {
-        LRUCache cache = new LRUCache(20);
-        Map internalMap = Whitebox.getInternalState(cache, "map");
-        Assert.assertTrue(internalMap != null);
-        Assert.assertTrue(internalMap.size() == 0);
+        Constants constants = new Constants();
     }
-
-    @Test
-    public void testGetAndPutObject() throws Exception {
-        LRUCache cache = new LRUCache(20);
-
-        String key = "testing key";
-        Assert.assertTrue(cache.getObject(key) == null);
-
-        String value = "testing value";
-        cache.putObject(key, value);
-        Map internalMap = Whitebox.getInternalState(cache, "map");
-        Assert.assertTrue(internalMap.containsKey(key));
-        Assert.assertTrue(internalMap.containsValue(value));
-        Assert.assertTrue(internalMap.size() == 1);
-
-        Assert.assertEquals(value, cache.getObject(key));
-    }
-
 }

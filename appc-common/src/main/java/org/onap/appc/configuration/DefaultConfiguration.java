@@ -38,17 +38,15 @@ import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import org.onap.appc.encryption.EncryptionTool;
 import org.onap.appc.util.UnmodifiableProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This class provides the implementation of the <code>Configuration</code> interface. It is created by the
- * ConfigurationFactory and initialized with the configuration values for the process.
+ * This class provides the implementation of the <code>Configuration</code> interface. It is created
+ * by the ConfigurationFactory and initialized with the configuration values for the process.
  *
- * @version $Id$
  * @since Mar 18, 2014
  */
 public final class DefaultConfiguration implements Configuration, Cloneable {
@@ -63,9 +61,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Construct the configuration object.
      */
-    DefaultConfiguration() {
-        // do nothing
-    }
+    DefaultConfiguration() {}
 
     /**
      * Clears all properties
@@ -88,8 +84,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Decrypts an encrypted value, if it is encrypted, and returns the clear text. Performs no operation on the string
-     * if it is not encrypted.
+     * Decrypts an encrypted value, if it is encrypted, and returns the clear text. Performs no
+     * operation on the string if it is not encrypted.
      *
      * @param value The value to (optionally) be decrypted
      * @return The clear text
@@ -104,12 +100,14 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
                 for (Provider p : Security.getProviders()) {
                     for (Service s : p.getServices()) {
                         String algo = s.getAlgorithm();
-                        out.append(String.format("\n==Found Algorithm [ %s ] in provider [ %s ] and service [ %s ]",
+                        out.append(String.format(
+                                "\n==Found Algorithm [ %s ] in provider [ %s ] and service [ %s ]",
                                 algo, p.getName(), s.getClassName()));
                     }
                 }
                 logger.debug(out.toString());
-                logger.warn(String.format("Could not decrypt the configuration value [%s]", value), e);
+                logger.warn(String.format("Could not decrypt the configuration value [%s]", value),
+                        e);
             }
         }
         return value;
@@ -151,10 +149,11 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method will use the properties object to expand any variables that may be present in the template provided.
-     * Variables are represented by the string "${name}", where "name" is the name of a property defined in either the
-     * current configuration object, or system properties if undefined. If the value cannot be found, the variable is
-     * removed and an empty string is used to replace the variable.
+     * This method will use the properties object to expand any variables that may be present in the
+     * template provided. Variables are represented by the string "${name}", where "name" is the
+     * name of a property defined in either the current configuration object, or system properties
+     * if undefined. If the value cannot be found, the variable is removed and an empty string is
+     * used to replace the variable.
      *
      * @param template The template to be expanded
      * @return The expanded template where each variable is replaced with its value
@@ -166,7 +165,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
         }
 
         // Decrypt the template if needed
-        // template = decrypt(template); DH: Do not assign values to parameters, bad form! Also, Sonar complains
+        // template = decrypt(template); DH: Do not assign values to parameters, bad form! Also,
+        // Sonar complains
         // bitterly
 
         StringBuilder builder = new StringBuilder(decrypt(template));
@@ -189,8 +189,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method is called to obtain a property expressed as a boolean value (true or false). The standard rules for
-     * Boolean.parseBoolean() are used.
+     * This method is called to obtain a property expressed as a boolean value (true or false). The
+     * standard rules for Boolean.parseBoolean() are used.
      *
      * @param key The property key
      * @return The value of the property expressed as a boolean, or false if it does not exist.
@@ -202,10 +202,10 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method is called to obtain a property expressed as a boolean value (true or false). The standard rules for
-     * Boolean.valueOf(String) are used.
+     * This method is called to obtain a property expressed as a boolean value (true or false). The
+     * standard rules for Boolean.valueOf(String) are used.
      *
-     * @param key          The property key
+     * @param key The property key
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The value of the property expressed as a boolean, or false if it does not exist.
      * @see org.onap.appc.configuration.Configuration#getBooleanProperty(java.lang.String, boolean)
@@ -219,7 +219,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Returns the indicated property value expressed as a floating point double-precision value (double).
+     * Returns the indicated property value expressed as a floating point double-precision value
+     * (double).
      *
      * @param key The property to retrieve
      * @return The value of the property, or 0.0 if not found
@@ -238,7 +239,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * This method is called to obtain a property as a string value
      *
-     * @param key          The key of the property
+     * @param key The key of the property
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The string value, or null if it does not exist.
      * @see org.onap.appc.configuration.Configuration#getDoubleProperty(java.lang.String, double)
@@ -270,10 +271,10 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Returns the property indicated expressed as an integer. The standard rules for Integer.parseInt(String, int)
-     * using a radix of 10 are used.
+     * Returns the property indicated expressed as an integer. The standard rules for
+     * Integer.parseInt(String, int) using a radix of 10 are used.
      *
-     * @param key          The property name to retrieve.
+     * @param key The property name to retrieve.
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The value of the property, or 0 if it does not exist or is invalid.
      * @see org.onap.appc.configuration.Configuration#getIntegerProperty(java.lang.String, int)
@@ -290,8 +291,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * Returns the specified property as a long integer value, if it exists, or zero if it does not.
      *
      * @param key The key of the property desired.
-     * @return The value of the property expressed as an integer long value, or zero if the property does not exist or
-     * is not a valid integer long.
+     * @return The value of the property expressed as an integer long value, or zero if the property
+     *         does not exist or is not a valid integer long.
      * @see org.onap.appc.configuration.Configuration#getLongProperty(java.lang.String)
      */
     @SuppressWarnings("nls")
@@ -305,13 +306,13 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Returns the specified property as a long integer value, if it exists, or the default value if it does not exist
-     * or is invalid.
+     * Returns the specified property as a long integer value, if it exists, or the default value if
+     * it does not exist or is invalid.
      *
-     * @param key          The key of the property desired.
+     * @param key The key of the property desired.
      * @param defaultValue the value to be returned if the property is not valid or does not exist.
-     * @return The value of the property expressed as an integer long value, or the default value if the property does
-     * not exist or is not a valid integer long.
+     * @return The value of the property expressed as an integer long value, or the default value if
+     *         the property does not exist or is not a valid integer long.
      * @see org.onap.appc.configuration.Configuration#getLongProperty(java.lang.String, long)
      */
     @Override
@@ -323,9 +324,9 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method can be called to retrieve a properties object that is immutable. Any attempt to modify the properties
-     * object returned will result in an exception. This allows a caller to view the current configuration as a set of
-     * properties.
+     * This method can be called to retrieve a properties object that is immutable. Any attempt to
+     * modify the properties object returned will result in an exception. This allows a caller to
+     * view the current configuration as a set of properties.
      *
      * @return An unmodifiable properties object.
      * @see org.onap.appc.configuration.Configuration#getProperties()
@@ -353,10 +354,11 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * This method is called to obtain a property as a string value
      *
-     * @param key          The key of the property
+     * @param key The key of the property
      * @param defaultValue The default value to be returned if the property does not exist
      * @return The string value, or null if it does not exist.
-     * @see org.onap.appc.configuration.Configuration#getProperty(java.lang.String, java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#getProperty(java.lang.String,
+     *      java.lang.String)
      */
     @Override
     public String getProperty(String key, String defaultValue) {
@@ -391,11 +393,12 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Returns an indication of the validity of the boolean property. A boolean property is considered to be valid only
-     * if it has the value "true" or "false" (ignoring case).
+     * Returns an indication of the validity of the boolean property. A boolean property is
+     * considered to be valid only if it has the value "true" or "false" (ignoring case).
      *
      * @param key The property to be checked
-     * @return True if the value is a boolean constant, or false if it does not exist or is not a correct string
+     * @return True if the value is a boolean constant, or false if it does not exist or is not a
+     *         correct string
      * @see org.onap.appc.configuration.Configuration#isValidBoolean(java.lang.String)
      */
     @SuppressWarnings("nls")
@@ -410,11 +413,12 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Returns an indication if the indicated property represents a valid double-precision floating point number.
+     * Returns an indication if the indicated property represents a valid double-precision floating
+     * point number.
      *
      * @param key The property to be examined
-     * @return True if the property is a valid representation of a double, or false if it does not exist or contains
-     * illegal characters.
+     * @return True if the property is a valid representation of a double, or false if it does not
+     *         exist or contains illegal characters.
      * @see org.onap.appc.configuration.Configuration#isValidDouble(java.lang.String)
      */
     @Override
@@ -435,8 +439,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
      * Returns an indication if the property is a valid integer value or not.
      *
      * @param key The key of the property to check
-     * @return True if the value is a valid integer string, or false if it does not exist or contains illegal
-     * characters.
+     * @return True if the value is a valid integer string, or false if it does not exist or
+     *         contains illegal characters.
      * @see org.onap.appc.configuration.Configuration#isValidInteger(java.lang.String)
      */
     @Override
@@ -454,11 +458,12 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * Determines is the specified property exists and is a valid representation of an integer long value.
+     * Determines is the specified property exists and is a valid representation of an integer long
+     * value.
      *
      * @param key The property to be checked
-     * @return True if the property is a valid representation of an integer long value, and false if it either does not
-     * exist or is not valid.
+     * @return True if the property is a valid representation of an integer long value, and false if
+     *         it either does not exist or is not valid.
      * @see org.onap.appc.configuration.Configuration#isValidLong(java.lang.String)
      */
     @Override
@@ -476,7 +481,8 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method allows an implementation to load configuration properties that may override default values.
+     * This method allows an implementation to load configuration properties that may override
+     * default values.
      *
      * @param is An input stream that contains the properties to be loaded
      */
@@ -489,10 +495,11 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method allows an implementation to load configuration properties that may override default values.
+     * This method allows an implementation to load configuration properties that may override
+     * default values.
      *
-     * @param props An optional Properties object to be merged into the configuration, replacing any same-named
-     *              properties.
+     * @param props An optional Properties object to be merged into the configuration, replacing any
+     *        same-named properties.
      * @see org.onap.appc.configuration.Configuration#setProperties(java.util.Properties)
      */
     @Override
@@ -502,13 +509,14 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     }
 
     /**
-     * This method allows a caller to insert a new property definition into the configuration object. This allows the
-     * application to adjust or add to the current configuration. If the property already exists, it is replaced with
-     * the new value.
+     * This method allows a caller to insert a new property definition into the configuration
+     * object. This allows the application to adjust or add to the current configuration. If the
+     * property already exists, it is replaced with the new value.
      *
-     * @param key   The key of the property to be defined
+     * @param key The key of the property to be defined
      * @param value The value of the property to be defined
-     * @see org.onap.appc.configuration.Configuration#setProperty(java.lang.String, java.lang.String)
+     * @see org.onap.appc.configuration.Configuration#setProperty(java.lang.String,
+     *      java.lang.String)
      */
     @Override
     public void setProperty(String key, String value) {
@@ -521,20 +529,20 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     @SuppressWarnings("nls")
     @Override
     public String toString() {
-        return String.format("Configuration: %d properties, keys:[%s]",
-                properties.size(), properties.keySet().toString());
+        return String.format("Configuration: %d properties, keys:[%s]", properties.size(),
+                properties.keySet().toString());
     }
 
     /**
-     * This is a helper method to read the manifest of the jar file that this class was loaded from. Note that this will
-     * only work if the code is packaged in a jar file. If it is an open deployment, such as under eclipse, this will
-     * not work and there is code added to detect that case.
+     * This is a helper method to read the manifest of the jar file that this class was loaded from.
+     * Note that this will only work if the code is packaged in a jar file. If it is an open
+     * deployment, such as under eclipse, this will not work and there is code added to detect that
+     * case.
      *
-     * @return The manifest object from the jar file, or null if the code is not packaged in a jar file.
+     * @return The manifest object from the jar file, or null if the code is not packaged in a jar
+     *         file.
      */
-    @SuppressWarnings({
-            "unused", "nls"
-    })
+    @SuppressWarnings({"unused", "nls"})
     private Manifest getManifest() {
         ProtectionDomain domain = getClass().getProtectionDomain();
         CodeSource source = domain.getCodeSource();
