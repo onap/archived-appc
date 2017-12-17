@@ -24,18 +24,16 @@
 
 package org.onap.appc.metadata;
 
-import org.onap.ccsdk.sli.core.dblib.DbLibService;
-import com.sun.rowset.CachedRowSetImpl;
-import org.mockito.Mockito;
-import org.onap.appc.metadata.impl.MetadataServiceImpl;
-
-import javax.sql.rowset.CachedRowSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import static org.mockito.Matchers.anyCollection;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.sql.rowset.CachedRowSet;
+import org.mockito.Mockito;
+import org.onap.appc.metadata.impl.MetadataServiceImpl;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
+import com.sun.rowset.CachedRowSetImpl;
 
 
 
@@ -46,8 +44,10 @@ public class TestMetadataService {
     TestMetadataService() throws SQLException {
         DbLibService dbLibService = mock(DbLibService.class);
         metadataService.setDbLibService(dbLibService);
-        CachedRowSet mockRS  = new CachedRowSetImpl();
-        Mockito.when(dbLibService.getData(anyString(), (ArrayList<String>)anyCollection(), anyString())).thenReturn(mockRS);
+        CachedRowSet mockRS = new CachedRowSetImpl();
+        Mockito.when(
+                dbLibService.getData(anyString(), (ArrayList<String>) anyCollection(), anyString()))
+                .thenReturn(mockRS);
     }
 
 

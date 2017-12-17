@@ -38,11 +38,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.SimpleTimeZone;
 import java.util.TimeZone;
-
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -82,24 +80,19 @@ public final class Time {
     }
 
     /**
-     * Increments a date by the indicated months, days, hours, minutes, and seconds, and returns the updated date.
+     * Increments a date by the indicated months, days, hours, minutes, and seconds, and returns the
+     * updated date.
      *
-     * @param date
-     *            The date to be manipulated
-     * @param months
-     *            The number of months to be added to the date
-     * @param days
-     *            The number of days to be added to the date
-     * @param hours
-     *            The number of hours to be added to the date
-     * @param minutes
-     *            The number of minutes to be added to the date
-     * @param seconds
-     *            The number of seconds to be added to the date
+     * @param date The date to be manipulated
+     * @param months The number of months to be added to the date
+     * @param days The number of days to be added to the date
+     * @param hours The number of hours to be added to the date
+     * @param minutes The number of minutes to be added to the date
+     * @param seconds The number of seconds to be added to the date
      * @return The updated date.
      */
-    public static Date addTime(final Date date, final int months, final int days, final int hours, final int minutes,
-        final int seconds) {
+    public static Date addTime(final Date date, final int months, final int days, final int hours,
+            final int minutes, final int seconds) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.add(Calendar.MONTH, months);
@@ -113,8 +106,7 @@ public final class Time {
     /**
      * Clears the time components of a calendar to zero, leaving the date components unchanged.
      *
-     * @param cal
-     *            the calendar to be updated
+     * @param cal the calendar to be updated
      * @return The updated calendar object
      */
     public static Calendar dateOnly(final Calendar cal) {
@@ -135,11 +127,10 @@ public final class Time {
     }
 
     /**
-     * This method returns the last moment of the day for the supplied local time. This is defined as the millisecond
-     * before midnight of the current date represented by the local time.
+     * This method returns the last moment of the day for the supplied local time. This is defined
+     * as the millisecond before midnight of the current date represented by the local time.
      *
-     * @param localTime
-     *            The local time for which the last moment of the day is desired.
+     * @param localTime The local time for which the last moment of the day is desired.
      * @return The millisecond prior to midnight, local time.
      */
     public static Date endOfDayLocal(final Date localTime) {
@@ -166,26 +157,27 @@ public final class Time {
     }
 
     /**
-     * Returns the UTC time that corresponds to the end of the day for the local time specified, using the current
-     * (default) time zone.
+     * Returns the UTC time that corresponds to the end of the day for the local time specified,
+     * using the current (default) time zone.
      *
-     * @param localTime
-     *            The local time for which we are requesting the UTC time that corresponds to the end of the day
-     * @return The UTC time that corresponds to the end of the local day specified by the local time.
+     * @param localTime The local time for which we are requesting the UTC time that corresponds to
+     *        the end of the day
+     * @return The UTC time that corresponds to the end of the local day specified by the local
+     *         time.
      */
     public static Date endOfDayUTC(final Date localTime) {
         return endOfDayUTC(localTime, TimeZone.getDefault());
     }
 
     /**
-     * Returns the time expressed in UTC time of the end of the day specified in local time and within the local time
-     * zone.
+     * Returns the time expressed in UTC time of the end of the day specified in local time and
+     * within the local time zone.
      *
-     * @param localTime
-     *            The local time for which we will compute the end of the local day, and then convert to UTC time.
-     * @param localTimeZone
-     *            The time zone that the local time is within.
-     * @return The UTC date that corresponds to the end of the day local time and in the local time zone.
+     * @param localTime The local time for which we will compute the end of the local day, and then
+     *        convert to UTC time.
+     * @param localTimeZone The time zone that the local time is within.
+     * @return The UTC date that corresponds to the end of the day local time and in the local time
+     *         zone.
      */
     public static Date endOfDayUTC(final Date localTime, final TimeZone localTimeZone) {
         Date endOfDay = endOfDayLocal(localTime);
@@ -200,7 +192,8 @@ public final class Time {
     @SuppressWarnings("nls")
     public static Date getCurrentUTCDate() {
 
-        // This code incorrectly changes the default timezone for the entire JVM in order to compute the UTC
+        // This code incorrectly changes the default timezone for the entire JVM in order to compute
+        // the UTC
         // date for the current time.
 
         GregorianCalendar calendar = new GregorianCalendar();
@@ -228,17 +221,16 @@ public final class Time {
     /**
      * Gives the date-time String based on given Locale and Timezone
      *
-     * @param date
-     *            The date to be formatted
-     * @param locale
-     *            The locale that we want to format the value for
-     * @param timezone
-     *            The time zone that the date is within
+     * @param date The date to be formatted
+     * @param locale The locale that we want to format the value for
+     * @param timezone The time zone that the date is within
      * @return The formatted value
      */
-    public static String getDateByLocaleAndTimeZone(final Date date, final Locale locale, final TimeZone timezone) {
+    public static String getDateByLocaleAndTimeZone(final Date date, final Locale locale,
+            final TimeZone timezone) {
         String strDate = null;
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
+        DateFormat df =
+                DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM, locale);
         df.setTimeZone(timezone);
         synchronized (df) {
             strDate = df.format(date);
@@ -261,10 +253,11 @@ public final class Time {
     }
 
     /**
-     * This method returns the local time that corresponds to a given UTC time in the current time zone.
+     * This method returns the local time that corresponds to a given UTC time in the current time
+     * zone.
      *
-     * @param utcTime
-     *            The UTC time for which we desire the equivalent local time in the current time zone.
+     * @param utcTime The UTC time for which we desire the equivalent local time in the current time
+     *        zone.
      * @return The local time that is equivalent to the given UTC time for the current time zone
      */
     public static long localTime(final long utcTime) {
@@ -274,16 +267,14 @@ public final class Time {
     /**
      * This method can be used to get the local time that corresponds to a specific UTC time.
      * <p>
-     * This method has a problem since the offset can only be determined by having a local time. So, we take the UTC
-     * time and add the raw offset to it to come up with an approximation of the local time. This gives us a local time
-     * that we can use to determine what the offset should be, which is what we actually add to the UTC time to get the
-     * local time.
+     * This method has a problem since the offset can only be determined by having a local time. So,
+     * we take the UTC time and add the raw offset to it to come up with an approximation of the
+     * local time. This gives us a local time that we can use to determine what the offset should
+     * be, which is what we actually add to the UTC time to get the local time.
      * </p>
      *
-     * @param utcTime
-     *            The UTC time for which we want to obtain the equivalent local time
-     * @param localTZ
-     *            The time zone that we want the local time to be within
+     * @param utcTime The UTC time for which we want to obtain the equivalent local time
+     * @param localTZ The time zone that we want the local time to be within
      * @return The local time for the specified time zone and the given UTC time
      */
     public static long localTime(final long utcTime, final TimeZone localTZ) {
@@ -294,19 +285,17 @@ public final class Time {
     }
 
     /**
-     * Sets the date components of a calendar to the specified values, leaving the time components unchanged.
+     * Sets the date components of a calendar to the specified values, leaving the time components
+     * unchanged.
      *
-     * @param cal
-     *            The calendar to be updated
-     * @param year
-     *            The year to be set
-     * @param month
-     *            The month to be set
-     * @param day
-     *            The day to be set
+     * @param cal The calendar to be updated
+     * @param year The year to be set
+     * @param month The month to be set
+     * @param day The day to be set
      * @return The updated calendar object
      */
-    public static Calendar setDate(final Calendar cal, final int year, final int month, final int day) {
+    public static Calendar setDate(final Calendar cal, final int year, final int month,
+            final int day) {
         cal.set(Calendar.YEAR, year);
         cal.set(Calendar.MONTH, month);
         cal.set(Calendar.DAY_OF_MONTH, day);
@@ -323,12 +312,12 @@ public final class Time {
     }
 
     /**
-     * This method returns the date that corresponds to the start of the day local time. The date returned represents
-     * midnight of the previous day represented in local time. If the UTC time is desired, use the methods
-     * {@link #startOfDayUTC(Date, TimeZone)}, {@link #startOfDayUTC(Date)}, or {@link #startOfDayUTC()}
+     * This method returns the date that corresponds to the start of the day local time. The date
+     * returned represents midnight of the previous day represented in local time. If the UTC time
+     * is desired, use the methods {@link #startOfDayUTC(Date, TimeZone)},
+     * {@link #startOfDayUTC(Date)}, or {@link #startOfDayUTC()}
      *
-     * @param localTime
-     *            The local date that we wish to compute the start of day for.
+     * @param localTime The local date that we wish to compute the start of day for.
      * @return The date that corresponds to the start of the local day
      */
     public static Date startOfDayLocal(final Date localTime) {
@@ -344,8 +333,8 @@ public final class Time {
     }
 
     /**
-     * This method returns the UTC date that corresponds to the start of the local day based on the current time and the
-     * default time zone (the time zone we are running in).
+     * This method returns the UTC date that corresponds to the start of the local day based on the
+     * current time and the default time zone (the time zone we are running in).
      *
      * @return The start of the local day expressed as a UTC time.
      */
@@ -354,11 +343,10 @@ public final class Time {
     }
 
     /**
-     * This method returns the UTC date that corresponds to the start of the local day specified in the current time
-     * zone.
+     * This method returns the UTC date that corresponds to the start of the local day specified in
+     * the current time zone.
      *
-     * @param localTime
-     *            The local time to be used to compute the start of the day
+     * @param localTime The local time to be used to compute the start of the day
      * @return The start of the local day expressed as a UTC time.
      */
     public static Date startOfDayUTC(final Date localTime) {
@@ -366,12 +354,11 @@ public final class Time {
     }
 
     /**
-     * This method returns the UTC date that corresponds to the start of the local day specified in the local timezone.
+     * This method returns the UTC date that corresponds to the start of the local day specified in
+     * the local timezone.
      *
-     * @param localTime
-     *            The local time to be used to compute start of day
-     * @param localTimeZone
-     *            The time zone that the local time was recorded within
+     * @param localTime The local time to be used to compute start of day
+     * @param localTimeZone The time zone that the local time was recorded within
      * @return The corresponding UTC date
      */
     public static Date startOfDayUTC(final Date localTime, final TimeZone localTimeZone) {
@@ -380,9 +367,9 @@ public final class Time {
     }
 
     /**
-     * This method creates and returns an XML timestamp expressed as the current UTC value for the system. The caller
-     * does not specify the time value or time zone using this method. This ensures that the timestamp value is always
-     * expressed as UTC time.
+     * This method creates and returns an XML timestamp expressed as the current UTC value for the
+     * system. The caller does not specify the time value or time zone using this method. This
+     * ensures that the timestamp value is always expressed as UTC time.
      *
      * @return The XMLGregorianCalendar that can be used to record the timestamp
      */
@@ -407,8 +394,7 @@ public final class Time {
     /**
      * Converts XMLGregorianCalendar to java.util.Date in Java
      *
-     * @param calendar
-     *            the calendar object to be converted
+     * @param calendar the calendar object to be converted
      * @return The equivalent Date object
      */
     public static Date toDate(final XMLGregorianCalendar calendar) {
@@ -421,8 +407,7 @@ public final class Time {
     /**
      * Converts java Date to XMLGregorianCalendar.
      *
-     * @param date
-     *            The date to convert
+     * @param date The date to convert
      * @return The XMLGregorianCalendar for the specified date
      */
     @SuppressWarnings("nls")
@@ -440,11 +425,10 @@ public final class Time {
     }
 
     /**
-     * Truncates the provided date so that only the date, hours, and minutes portions are significant. This method
-     * returns the date with the seconds and milliseconds forced to zero.
+     * Truncates the provided date so that only the date, hours, and minutes portions are
+     * significant. This method returns the date with the seconds and milliseconds forced to zero.
      *
-     * @param date
-     *            The date to truncate
+     * @param date The date to truncate
      * @return The date with only the year, month, day, hours, and minutes significant.
      */
     public static Date truncDate(final Date date) {
@@ -467,8 +451,7 @@ public final class Time {
     /**
      * The UTC date for the specified date in the current (default) time zone.
      *
-     * @param date
-     *            The local date for which the UTC date is desired.
+     * @param date The local date for which the UTC date is desired.
      * @return The UTC date that corresponds to the date in the current time zone.
      */
     public static Date utcDate(final Date date) {
@@ -479,10 +462,8 @@ public final class Time {
     /**
      * Returns the UTC date for the specified date in the specified time zone.
      *
-     * @param date
-     *            The date for which the UTC date is desired in the specified zone
-     * @param tz
-     *            The time zone that corresponds to the date to be converted to UTC
+     * @param date The date for which the UTC date is desired in the specified zone
+     * @param tz The time zone that corresponds to the date to be converted to UTC
      * @return The UTC date that corresponds to the local date in the local time zone.
      */
     public static Date utcDate(final Date date, final TimeZone tz) {
@@ -492,8 +473,7 @@ public final class Time {
     /**
      * Format incoming date as string in GMT or UTC.
      *
-     * @param dt
-     *            The date to be formatted
+     * @param dt The date to be formatted
      * @return The date formatted for UTC timezone
      */
     public static String utcFormat(final Date dt) {
@@ -508,26 +488,24 @@ public final class Time {
     /**
      * Parse previously formated Date object back to a Date object.
      *
-     * @param dateStr
-     *            The representation of a UTC date as a string
-     * @return The date object containing the parsed representation, or null if the representation cannot be parsed
+     * @param dateStr The representation of a UTC date as a string
+     * @return The date object containing the parsed representation, or null if the representation
+     *         cannot be parsed
      */
     @SuppressWarnings("nls")
     public static Date utcParse(final String dateStr) {
-        String[] adtl = {
-            "yyyy-MM-dd"
-        };
+        String[] adtl = {"yyyy-MM-dd"};
         return utcParse(dateStr, adtl);
     }
 
     /**
      * Parse previously formated Date object back to a Date object.
      *
-     * @param dateStr
-     *            The representation of a UTC date as a string
-     * @param adtlFormatStrings
-     *            A list of strings that represent additional date format representations to try and parse.
-     * @return The date object containing the parsed representation, or null if the representation cannot be parsed
+     * @param dateStr The representation of a UTC date as a string
+     * @param adtlFormatStrings A list of strings that represent additional date format
+     *        representations to try and parse.
+     * @return The date object containing the parsed representation, or null if the representation
+     *         cannot be parsed
      */
     @SuppressWarnings("nls")
     public static Date utcParse(final String dateStr, String... adtlFormatStrings) {
@@ -548,8 +526,8 @@ public final class Time {
                 try {
                     return df.parse(dateStr);
                 } catch (ParseException e) {
-                    LOG.debug(String.format("IGNORE - Date string [%s] does not fit pattern [%s]", dateStr,
-                        df.toString()));
+                    LOG.debug(String.format("IGNORE - Date string [%s] does not fit pattern [%s]",
+                            dateStr, df.toString()));
                 }
             }
         }
@@ -566,10 +544,10 @@ public final class Time {
     }
 
     /**
-     * Get the UTC time that corresponds to the given time in the default time zone (current time zone for the system).
+     * Get the UTC time that corresponds to the given time in the default time zone (current time
+     * zone for the system).
      *
-     * @param localTime
-     *            The time in the current time zone for which the UTC time is desired.
+     * @param localTime The time in the current time zone for which the UTC time is desired.
      * @return The UTC time
      */
     public static long utcTime(final long localTime) {
@@ -580,15 +558,14 @@ public final class Time {
     /**
      * Get the UTC time that corresponds to the given time in the specified timezone.
      * <p>
-     * Note that the java <code>getOffset()</code> method works a little counter-intuitive. It returns the offset that
-     * would be added to the current UTC time to get the LOCAL time represented by the local time zone. That means to
-     * get the UTC time, we need to SUBTRACT this offset from the local time.
+     * Note that the java <code>getOffset()</code> method works a little counter-intuitive. It
+     * returns the offset that would be added to the current UTC time to get the LOCAL time
+     * represented by the local time zone. That means to get the UTC time, we need to SUBTRACT this
+     * offset from the local time.
      * </p>
      *
-     * @param localTime
-     *            The time in the specified time zone for which the UTC time is desired.
-     * @param localTZ
-     *            The time zone which the local time is in.
+     * @param localTime The time in the specified time zone for which the UTC time is desired.
+     * @param localTZ The time zone which the local time is in.
      * @return The UTC time for the specified local time in the specified local time zone.
      */
     public static long utcTime(final long localTime, final TimeZone localTZ) {
@@ -600,12 +577,24 @@ public final class Time {
     /**
      * Creates a timestamp value from a time
      *
-     * @param utcTime
-     *            The UTC time to convert to a timestamp
+     * @param utcTime The UTC time to convert to a timestamp
      * @return The timestamp
      */
     public static Timestamp utcTimestamp(final long utcTime) {
         TimeZone tz = TimeZone.getDefault();
         return new Timestamp(utcTime(utcTime, tz));
+    }
+
+    public static String dateToStringConverterMillis(Date date) {
+        SimpleDateFormat customDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        if (date != null) {
+            return customDate.format(date);
+        }
+        return null;
+    }
+
+    public static Date stringToDateConverterMillis(String dateString) throws ParseException {
+        SimpleDateFormat customDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");
+        return customDate.parse(dateString);
     }
 }

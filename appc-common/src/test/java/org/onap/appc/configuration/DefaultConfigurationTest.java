@@ -24,17 +24,15 @@
 
 package org.onap.appc.configuration;
 
+import static org.mockito.Mockito.mock;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import static org.mockito.Mockito.mock;
 
 public class DefaultConfigurationTest {
     private static final String propKey1 = "testKey1";
@@ -64,7 +62,8 @@ public class DefaultConfigurationTest {
     @Test
     public void testClone() throws Exception {
         Object clonedObject = defaultConfiguration.clone();
-        Assert.assertTrue("Should be DefaultConfiguration", clonedObject instanceof DefaultConfiguration);
+        Assert.assertTrue("Should be DefaultConfiguration",
+                clonedObject instanceof DefaultConfiguration);
         Properties internalProp = Whitebox.getInternalState(defaultConfiguration, "properties");
         Properties clonedInternalProp = Whitebox.getInternalState(clonedObject, "properties");
         Assert.assertEquals(internalProp, clonedInternalProp);
@@ -332,6 +331,7 @@ public class DefaultConfigurationTest {
     public void testToString() throws Exception {
         Properties internalProp = Whitebox.getInternalState(defaultConfiguration, "properties");
         Assert.assertEquals(String.format("Configuration: %d properties, keys:[%s]",
-                internalProp.size(), internalProp.keySet().toString()), defaultConfiguration.toString());
+                internalProp.size(), internalProp.keySet().toString()),
+                defaultConfiguration.toString());
     }
 }

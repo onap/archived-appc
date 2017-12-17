@@ -24,12 +24,11 @@
 
 package org.onap.appc.cache.impl;
 
+import static org.mockito.Mockito.spy;
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.appc.cache.CacheStrategies;
 import org.powermock.reflect.Whitebox;
-
-import static org.mockito.Mockito.spy;
 
 public class MetadataCacheImplTest {
     @Test
@@ -49,7 +48,6 @@ public class MetadataCacheImplTest {
                 Whitebox.getInternalState(impl, "strategy") == null);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testGetAndPutObject() throws Exception {
         MetadataCacheImpl impl = spy(new MetadataCacheImpl<>());

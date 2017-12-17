@@ -64,6 +64,6 @@ public class MetadataCacheImpl<K,V> implements MetadataCache<K,V> {
 
     @Override
     public void putObject(K key, V value) {
-        strategy.putObject(key,value);
+        strategy.putObject(key, value);
     }
 }
