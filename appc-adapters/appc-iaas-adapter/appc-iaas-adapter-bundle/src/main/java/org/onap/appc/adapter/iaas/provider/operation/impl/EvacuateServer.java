@@ -138,7 +138,7 @@ public class EvacuateServer extends ProviderServerOperation {
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#evacuateServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     private Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;

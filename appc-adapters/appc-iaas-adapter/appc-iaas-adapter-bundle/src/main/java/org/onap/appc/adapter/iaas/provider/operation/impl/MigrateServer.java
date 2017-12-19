@@ -154,7 +154,7 @@ public class MigrateServer extends ProviderServerOperation {
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#migrateServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     private Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;

@@ -85,7 +85,7 @@ public class LCMCommandTask extends CommandTask {
 
 		} else {
 			logger.info("AAIService error from bundlecontext");
-			logger.warn("Cannot find service reference for org.openecomp.sdnc.sli.aai.AAIService");
+			logger.warn("Cannot find service reference for org.onap.ccsdk.sli.adaptors.aai.AAIService");
 			aaiService = null;
 		}
 	}

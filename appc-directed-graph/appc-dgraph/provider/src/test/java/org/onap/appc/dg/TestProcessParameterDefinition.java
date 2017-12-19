@@ -56,7 +56,7 @@ public class TestProcessParameterDefinition /* extends AbstractDGTestCase */ {
 
 			
 		
-			serviceReferences.put("org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode", new org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode());
+			serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
 			
 			
@@ -92,7 +92,7 @@ public class TestProcessParameterDefinition /* extends AbstractDGTestCase */ {
 
 			
 		
-			serviceReferences.put("org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode", new org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode());
+			serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
 			
 			
@@ -125,7 +125,7 @@ public class TestProcessParameterDefinition /* extends AbstractDGTestCase */ {
 
 				
 			
-				serviceReferences.put("org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode", new org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode());
+				serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
 				
 				
@@ -223,7 +223,7 @@ public class TestProcessParameterDefinition /* extends AbstractDGTestCase */ {
 
 			
 		
-			serviceReferences.put("org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode", new org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode());
+			serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
 			
 			

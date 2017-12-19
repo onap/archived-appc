@@ -47,8 +47,8 @@ public class TestConfigurationDocumentRequest /* extends AbstractDGTestCase */ {
 			String injectGraphXmls[] = new String[] { configurationDocumentRequestXML};
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode",new org.openecomp.sdnc.config.generator.convert.ConvertNode());
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode",new org.onap.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 
 			GraphKey  graphKey = new GraphKey("SDC-MESSAGE", null, "configuration-document-request", null);
 			DGTestCase tc = new DGTestCase(graphKey);
