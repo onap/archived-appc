@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,10 +17,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.convert;
+package org.onap.sdnc.config.generator.convert;
 
 import static org.junit.Assert.assertEquals;
 import java.io.IOException;
@@ -26,17 +30,18 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.merge.TestMergeNode;
 import org.powermock.reflect.Whitebox;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 public class TestConvertNode {
-    
-    private static final EELFLogger log = EELFManager.getInstance().getLogger(TestConvertNode.class);
+    private static final EELFLogger log =
+            EELFManager.getInstance().getLogger(TestConvertNode.class);
+
     @Test(expected = Exception.class)
     public void testPayloadParametersConfig() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
@@ -45,8 +50,10 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
                 "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
         convertJson2Context("convert/payload_parameters_config.json", inParams, ctx);
-        Whitebox.invokeMethod("convertJson2Context", "convert/payload_parameters_config.json", inParams, ctx);
-        log.info("testPayloadParametersConfig Result: " + ctx.getAttribute("block_configuration-parameters"));
+        Whitebox.invokeMethod("convertJson2Context", "convert/payload_parameters_config.json",
+                inParams, ctx);
+        log.info("testPayloadParametersConfig Result: "
+                + ctx.getAttribute("block_configuration-parameters"));
     }
 
     @Test
@@ -57,8 +64,10 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
                 "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
         convertJson2Context("convert/payload_cli_config.json", inParams, ctx);
-        log.info("testPayloadCliConfig Result: " + ctx.getAttribute("block_configuration-parameters"));
-        log.info("testPayloadCliConfig Result: " + ctx.getAttribute("block_configuration.configuration-string"));
+        log.info("testPayloadCliConfig Result: "
+                + ctx.getAttribute("block_configuration-parameters"));
+        log.info("testPayloadCliConfig Result: "
+                + ctx.getAttribute("block_configuration.configuration-string"));
     }
 
     @Test(expected = Exception.class)
@@ -69,8 +78,11 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
                 "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
         convertJson2Context("convert/payload_xml_config.json", inParams, ctx);
-        log.info("testPayloadXMLConfig Result: " + ctx.getAttribute("block_configuration-parameters"));
-        log.info("testPayloadXMLConfig Result: " + ctx.getAttribute("block_configuration.configuration-string"));
+
+        log.info("testPayloadXMLConfig Result: "
+                + ctx.getAttribute("block_configuration-parameters"));
+        log.info("testPayloadXMLConfig Result: "
+                + ctx.getAttribute("block_configuration.configuration-string"));
     }
 
     @Test(expected = Exception.class)
@@ -81,15 +93,18 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
                 "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
         convertJson2Context("convert/payload_json_config.json", inParams, ctx);
-        log.info("testPayloadJsonConfig Result: " + ctx.getAttribute("block_configuration-parameters"));
-        log.info("testPayloadJsonConfig Result: " + ctx.getAttribute("block_configuration.configuration-json"));
+        log.info("testPayloadJsonConfig Result: "
+                + ctx.getAttribute("block_configuration-parameters"));
+        log.info("testPayloadJsonConfig Result: "
+                + ctx.getAttribute("block_configuration.configuration-json"));
     }
 
-    private void convertJson2Context(String jsonFile, Map<String, String> inParams, SvcLogicContext ctx)
-            throws IOException, SvcLogicException {
+    private void convertJson2Context(String jsonFile, Map<String, String> inParams,
+            SvcLogicContext ctx) throws IOException, SvcLogicException {
         ConvertNode convertNode = new ConvertNode();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String jsonData = IOUtils.toString(TestMergeNode.class.getClassLoader().getResourceAsStream(jsonFile));
+        String jsonData = IOUtils
+                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream(jsonFile));
         log.info("TestConvertNode.testConvertJson2DGContext()" + jsonData);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
         convertNode.convertJson2DGContext(inParams, ctx);
@@ -101,12 +116,13 @@ public class TestConvertNode {
     public void testEscapeData() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> inParams = new HashMap<String, String>();
-        String unescapeData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("convert/escape/config_ssc.txt"));
+        String unescapeData = IOUtils.toString(TestMergeNode.class.getClassLoader()
+                .getResourceAsStream("convert/escape/config_ssc.txt"));
         log.info("TestConvertNode.testEscapeData() unescapeData :" + unescapeData);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, unescapeData);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_SQL);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE,
+                ConfigGeneratorConstant.DATA_TYPE_SQL);
         ConvertNode convertNode = new ConvertNode();
         convertNode.escapeData(inParams, ctx);
         log.info("testEscapeData Result: "
@@ -131,6 +147,7 @@ public class TestConvertNode {
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
 
     }
+
     @Test(expected = Exception.class)
     public void testunEscapeData() throws Exception {
         ConvertNode convertNode = new ConvertNode();

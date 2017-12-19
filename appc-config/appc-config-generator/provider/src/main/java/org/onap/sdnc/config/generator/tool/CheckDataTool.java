@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,33 +17,33 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import java.io.StringReader;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 public class CheckDataTool {
 
-    public static String checkData(String data){
+    public static String checkData(String data) {
         boolean isJSON = isJSON(data);
-        if(isJSON){
+        if (isJSON) {
             return ConfigGeneratorConstant.DATA_TYPE_JSON;
         }
 
         boolean isXML = isXML(data);
-        if(isXML){
+        if (isXML) {
             return ConfigGeneratorConstant.DATA_TYPE_XML;
         }
 
@@ -60,13 +62,13 @@ public class CheckDataTool {
         }
         return true;
 
-        //        try {
-        //            final ObjectMapper mapper = new ObjectMapper();
-        //            mapper.readTree(data);
-        //            return true;
-        //         } catch (IOException e) {
-        //            return false;
-        //         }
+        // try {
+        // final ObjectMapper mapper = new ObjectMapper();
+        // mapper.readTree(data);
+        // return true;
+        // } catch (IOException e) {
+        // return false;
+        // }
     }
 
     public static boolean isXML(String data) {
