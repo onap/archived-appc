@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,25 +17,26 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-public class LogParserTool  {
-    private static final  EELFLogger log = EELFManager.getInstance().getLogger(JSONTool.class);
+public class LogParserTool {
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(JSONTool.class);
 
     private String[] singleLines;
-    private List<String> recentErrors = new ArrayList<String> ();;
+    private List<String> recentErrors = new ArrayList<String>();;
     private Date todaysDate = new Date();
     private SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private final int minMilli = 60000;
@@ -41,7 +44,7 @@ public class LogParserTool  {
     private final int NOT_IN_TIME = 1;
     private final int NO_DATE = 2;
 
-    public String parseErrorLog(String data){
+    public String parseErrorLog(String data) {
         singleLines = data.split("\\r?\\n");
         try {
             getNearestDates();
@@ -49,40 +52,42 @@ public class LogParserTool  {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(recentErrors.size() == 0){
+        if (recentErrors.size() == 0) {
             recentErrors.clear();
             return "Did not find the string 'Starting orchestration of file backed up to /var/opt/MetaSwitch/orch/orch_conf.json' in the log file with timestamp within the last 5 minutes";
-        }else if(recentErrors.size() == 1){
+        } else if (recentErrors.size() == 1) {
             recentErrors.clear();
-            return "Did not find the string ‘Error parsing orchestration file’ in the log file with timestamp within the last 5 minutes";
-        }else{
+            return "Did not find the string ?Error parsing orchestration file? in the log file with timestamp within the last 5 minutes";
+        } else {
             String error = recentErrors.get(0);
             recentErrors.clear();
-            return "Error: "+ error.substring(error.indexOf("Error parsing orchestration file:")+34);
+            return "Error: "
+                    + error.substring(error.indexOf("Error parsing orchestration file:") + 34);
         }
     }
 
-    public void getNearestDates() throws ParseException{
+    public void getNearestDates() throws ParseException {
         int result;
-        for( int i = singleLines.length-1; i >= 0 ; i--){
-            if(singleLines[i].contains("Starting orchestration of file backed up to") || singleLines[i].contains("Error parsing orchestration file:")){
+        for (int i = singleLines.length - 1; i >= 0; i--) {
+            if (singleLines[i].contains("Starting orchestration of file backed up to")
+                    || singleLines[i].contains("Error parsing orchestration file:")) {
                 result = checkDateTime(singleLines[i]);
-                if( result == IN_TIME)
+                if (result == IN_TIME)
                     recentErrors.add(singleLines[i]);
-                else if(result == NOT_IN_TIME){
+                else if (result == NOT_IN_TIME) {
                     return;
                 }
             }
         }
     }
 
-    private int checkDateTime(String line){
+    private int checkDateTime(String line) {
         Date newDate;
         try {
             newDate = dFormat.parse(line.substring(0, 19));
-            if((todaysDate.getTime() - newDate.getTime()) <= 5*minMilli){
+            if ((todaysDate.getTime() - newDate.getTime()) <= 5 * minMilli) {
                 return IN_TIME;
-            }else
+            } else
                 return NOT_IN_TIME;
         } catch (ParseException e) {
             e.printStackTrace();
