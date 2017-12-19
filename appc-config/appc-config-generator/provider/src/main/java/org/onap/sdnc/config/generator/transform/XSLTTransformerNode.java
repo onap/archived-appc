@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.transform;
+package org.onap.sdnc.config.generator.transform;
 
 import java.io.File;
 import java.io.StringReader;
@@ -28,7 +28,7 @@ import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

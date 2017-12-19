@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.pattern;
+package org.onap.sdnc.config.generator.pattern;
 
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.tool.CheckDataTool;
-import org.openecomp.sdnc.config.generator.tool.LogParserTool;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.tool.CheckDataTool;
+import org.onap.sdnc.config.generator.tool.LogParserTool;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

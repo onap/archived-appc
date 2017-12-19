@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import java.io.File;
 import java.net.URL;

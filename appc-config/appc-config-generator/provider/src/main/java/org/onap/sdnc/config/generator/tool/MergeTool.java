@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -33,7 +33,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

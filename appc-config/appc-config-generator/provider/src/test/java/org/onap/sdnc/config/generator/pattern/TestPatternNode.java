@@ -18,15 +18,15 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.pattern;
+package org.onap.sdnc.config.generator.pattern;
 
 import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.pattern.PatternNode;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.pattern.PatternNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestPatternNode {

@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,9 +32,9 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.pattern.TestPatternNode;
-import org.openecomp.sdnc.config.generator.tool.CheckDataTool;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.pattern.TestPatternNode;
+import org.onap.sdnc.config.generator.tool.CheckDataTool;
 import org.powermock.reflect.Whitebox;
 
 public class TestDataTool {
