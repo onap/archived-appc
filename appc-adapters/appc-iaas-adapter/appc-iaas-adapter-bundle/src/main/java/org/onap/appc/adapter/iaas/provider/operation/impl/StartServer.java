@@ -53,7 +53,7 @@ public class StartServer extends ProviderServerOperation {
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#startServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server startServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {

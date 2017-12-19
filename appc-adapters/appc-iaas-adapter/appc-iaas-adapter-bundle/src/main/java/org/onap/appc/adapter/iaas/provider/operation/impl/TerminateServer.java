@@ -174,7 +174,7 @@ public class TerminateServer extends ProviderServerOperation {
      * @throws UnknownProviderException If the provider cannot be found
      * @throws IllegalArgumentException if the expected argument(s) are not defined or are invalid
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#terminateServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server terminateServer(Map<String, String> params, SvcLogicContext ctx)

@@ -68,7 +68,7 @@ public class TestGenerateConfig /* extends AbstractDGTestCase */ {
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 	
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 			
 			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
@@ -105,7 +105,7 @@ public class TestGenerateConfig /* extends AbstractDGTestCase */ {
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 	
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 			
 			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());

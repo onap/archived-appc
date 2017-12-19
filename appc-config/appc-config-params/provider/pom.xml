@@ -75,11 +75,11 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>org.openecomp.sdnc.config.params</Bundle-SymbolicName>
-						<Bundle-Activator>org.openecomp.sdnc.config.params.ParamsHandlerActivator</Bundle-Activator>
-						<Export-Package>org.openecomp.sdnc.config.params,org.openecomp.sdnc.config.params.data,
-							org.openecomp.sdnc.config.params.parser,org.openecomp.sdnc.config.params.transformer,
-							org.openecomp.sdnc.config.params.transformer.tosca,org.openecomp.sdnc.config.params.transformer.tosca.exceptions</Export-Package>
+						<Bundle-SymbolicName>org.onap.sdnc.config.params</Bundle-SymbolicName>
+						<Bundle-Activator>org.onap.sdnc.config.params.ParamsHandlerActivator</Bundle-Activator>
+						<Export-Package>org.onap.sdnc.config.params,org.onap.sdnc.config.params.data,
+							org.onap.sdnc.config.params.parser,org.onap.sdnc.config.params.transformer,
+							org.onap.sdnc.config.params.transformer.tosca,org.onap.sdnc.config.params.transformer.tosca.exceptions</Export-Package>
 						<Import-Package>*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
 					</instructions>

@@ -329,7 +329,7 @@ public class RebuildServer extends ProviderServerOperation {
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#rebuildServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server rebuildServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
