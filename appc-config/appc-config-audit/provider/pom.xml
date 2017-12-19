@@ -67,9 +67,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.openecomp.sdnc.config.audit</Bundle-SymbolicName>
-                        <Bundle-Activator>org.openecomp.sdnc.config.audit.SliAuditActivator</Bundle-Activator>
-                        <Export-Package>org.openecomp.sdnc.config.audit,org.openecomp.sdnc.config.audit.node</Export-Package>
+                        <Bundle-SymbolicName>org.onap.sdnc.config.audit</Bundle-SymbolicName>
+                        <Bundle-Activator>org.onap.sdnc.config.audit.SliAuditActivator</Bundle-Activator>
+                        <Export-Package>org.onap.sdnc.config.audit,org.onap.sdnc.config.audit.node</Export-Package>
                         <Import-Package>*</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>

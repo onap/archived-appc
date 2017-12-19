@@ -87,11 +87,11 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.openecomp.sdnc.config.generator</Bundle-SymbolicName>
-                        <Bundle-Activator>org.openecomp.sdnc.config.generator.ConfigGeneratorActivator</Bundle-Activator>
-                        <Export-Package>org.openecomp.sdnc.config.generator,org.openecomp.sdnc.config.generator.compare,org.openecomp.sdnc.config.generator.convert,
-                            org.openecomp.sdnc.config.generator.merge,org.openecomp.sdnc.config.generator.pattern,org.openecomp.sdnc.config.generator.tool,
-                            org.openecomp.sdnc.config.generator.transform</Export-Package>
+                        <Bundle-SymbolicName>org.onap.sdnc.config.generator</Bundle-SymbolicName>
+                        <Bundle-Activator>org.onap.sdnc.config.generator.ConfigGeneratorActivator</Bundle-Activator>
+                        <Export-Package>org.onap.sdnc.config.generator,org.onap.sdnc.config.generator.compare,org.onap.sdnc.config.generator.convert,
+                            org.onap.sdnc.config.generator.merge,org.onap.sdnc.config.generator.pattern,org.onap.sdnc.config.generator.tool,
+                            org.onap.sdnc.config.generator.transform</Export-Package>
                         <Import-Package>*</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>

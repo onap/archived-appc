@@ -95,9 +95,9 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.openecomp.sdnc.dg.loader</Bundle-SymbolicName>
-                        <Bundle-Activator>org.openecomp.sdnc.dg.loader.DGLoaderActivator</Bundle-Activator>
-                        <Export-Package>org.openecomp.sdnc.dg.loader</Export-Package>
+                        <Bundle-SymbolicName>org.onap.sdnc.dg.loader</Bundle-SymbolicName>
+                        <Bundle-Activator>org.onap.sdnc.dg.loader.DGLoaderActivator</Bundle-Activator>
+                        <Export-Package>org.onap.sdnc.dg.loader</Export-Package>
                         <Import-Package>*</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                         <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
@@ -117,7 +117,7 @@
                     <finalName>dg-loader</finalName>
                     <archive>
                         <manifest>
-                            <mainClass>org.openecomp.sdnc.dg.loader.DGXMLLoadNActivate</mainClass>
+                            <mainClass>org.onap.sdnc.dg.loader.DGXMLLoadNActivate</mainClass>
                         </manifest>
                     </archive>
                     <attach>false</attach>
