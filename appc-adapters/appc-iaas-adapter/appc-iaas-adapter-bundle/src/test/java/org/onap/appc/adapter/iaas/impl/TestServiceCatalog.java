@@ -26,23 +26,20 @@
 
 package org.onap.appc.adapter.iaas.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import com.att.cdp.exceptions.ZoneException;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.onap.appc.configuration.ConfigurationFactory;
+
 import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.mockito.Mockito;
-import org.onap.appc.configuration.ConfigurationFactory;
-import com.att.cdp.exceptions.ZoneException;
-import com.woorea.openstack.keystone.model.Access.Service;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.mock;
 
 /**
  * This class tests the service catalog against a known provider.
@@ -87,7 +84,7 @@ public class TestServiceCatalog {
     @Before
     public void setup() throws ZoneException {
         properties = new Properties();
-        catalog = Mockito.mock(ServiceCatalog.class, Mockito.CALLS_REAL_METHODS);
+        catalog = mock(ServiceCatalog.class, CALLS_REAL_METHODS);
         catalog.rwLock = new ReentrantReadWriteLock();
 
         Set<String> testdata = new HashSet<>();
