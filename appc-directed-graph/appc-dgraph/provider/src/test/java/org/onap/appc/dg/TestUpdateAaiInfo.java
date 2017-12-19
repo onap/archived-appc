@@ -72,7 +72,7 @@ public class TestUpdateAaiInfo /* extends AbstractDGTestCase */ {
 			Map<String, Object> resourceReferences = new HashMap<String, Object>();
 
 			
-			resourceReferences.put("org.openecomp.sdnc.sli.aai.AAIService", new MockAaiResource());
+			resourceReferences.put("org.onap.ccsdk.sli.adaptors.aai.AAIService", new MockAaiResource());
 
 			GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
 			DGTestCase tc = new DGTestCase(graphKey);

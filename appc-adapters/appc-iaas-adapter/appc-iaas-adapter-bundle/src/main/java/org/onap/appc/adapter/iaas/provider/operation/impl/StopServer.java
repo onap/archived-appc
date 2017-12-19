@@ -54,7 +54,7 @@ public class StopServer extends ProviderServerOperation {
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#stopServer(java.util.Map,
-     *      org.openecomp.sdnc.sli.SvcLogicContext)
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
     public Server stopServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {

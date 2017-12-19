@@ -53,7 +53,7 @@ public class TestGenerateTemplateConfig /* extends AbstractDGTestCase */ {
 
 			
 			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { generateConfigXML };
@@ -85,7 +85,7 @@ public class TestGenerateTemplateConfig /* extends AbstractDGTestCase */ {
 
 		
 			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { generateConfigXML };

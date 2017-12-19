@@ -53,7 +53,7 @@ public class TestGetConfigParams /* extends AbstractDGTestCase */ {
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 			
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { getConfigParamsXML };
@@ -87,7 +87,7 @@ public class TestGetConfigParams /* extends AbstractDGTestCase */ {
 			String propertyfileName = "APPC/GetConfigParams/TemplateName.properties";
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { getConfigParamsXML };
@@ -118,7 +118,7 @@ public class TestGetConfigParams /* extends AbstractDGTestCase */ {
 
 			String propertyfileName = "APPC/GetConfigParams/CliString.properties";
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
 			
 			// Register Call graphs
@@ -152,7 +152,7 @@ public class TestGetConfigParams /* extends AbstractDGTestCase */ {
 
 			
 		
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { getConfigParamsXML };
@@ -186,7 +186,7 @@ public class TestGetConfigParams /* extends AbstractDGTestCase */ {
 
 		
 		
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { getConfigParamsXML };
@@ -216,7 +216,7 @@ public class TestGetConfigParams /* extends AbstractDGTestCase */ {
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 		
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode", new org.openecomp.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
 			// Register Call graphs
 			String injectGraphXmls[] = new String[] { getConfigParamsXML };

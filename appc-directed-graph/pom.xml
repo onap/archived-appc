@@ -53,7 +53,7 @@
         <dependencies>
 
             <dependency>
-                <groupId>org.openecomp.sdnc.adaptors</groupId>
+                <groupId>org.onap.ccsdk.sli.adaptors</groupId>
                 <artifactId>sql-resource-provider</artifactId>
                 <version>${ccsdk.sli.adaptors.version}</version>
             </dependency>

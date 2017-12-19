@@ -69,8 +69,8 @@ public class TestCommonConfig /* extends AbstractDGTestCase */ {
 		
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode",new org.openecomp.sdnc.config.generator.convert.ConvertNode());
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode",new org.onap.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
 
@@ -198,8 +198,8 @@ public class TestCommonConfig /* extends AbstractDGTestCase */ {
 					callGraph10XML };
 
 			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.openecomp.sdnc.config.generator.convert.ConvertNode",new org.openecomp.sdnc.config.generator.convert.ConvertNode());
-			serviceReferences.put("org.openecomp.sdnc.config.generator.merge.MergeNode", new org.openecomp.sdnc.config.generator.merge.MergeNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode",new org.onap.sdnc.config.generator.convert.ConvertNode());
+			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 		
 			
 
