@@ -177,7 +177,7 @@ public class SdcListener {
             try {
                 final String jsonTemplate =
                         "{\"consumerName\": \"%s\",\"consumerSalt\": \"%s\",\"consumerPassword\":\"%s\"}";
-                String saltedPassStr = org.openecomp.tlv.sdc.security.Passwords.hashPassword(config.getPassword());
+                String saltedPassStr = org.onap.tlv.sdc.security.Passwords.hashPassword(config.getPassword());
                 if (saltedPassStr == null || !saltedPassStr.contains(":")) {
                     return false;
                 }
