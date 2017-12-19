@@ -22,18 +22,23 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer.tosca;
+package org.onap.sdnc.config.params.transformer.tosca;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.openecomp.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
+import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
-import java.io.*;
-import java.net.URL;
-
-public class TestGenerateArtifactString{
+public class TestGenerateArtifactString {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -42,58 +47,56 @@ public class TestGenerateArtifactString{
     public void testStringArtifactGenerator() throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
-        OutputStream outstream=null;
+        OutputStream outstream = null;
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
         outstream = new FileOutputStream(tempFile);
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
-        arp.generateArtifact(pdString,outstream);
+        arp.generateArtifact(pdString, outstream);
         outstream.flush();
         outstream.close();
 
         String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
         String toscaString = getFileContent(tempFile);
-        Assert.assertEquals(expectedTosca,toscaString);
+        Assert.assertEquals(expectedTosca, toscaString);
 
     }
 
     @Test
-    public void testArtifactGeneratorWithParameterNameBlank() throws IOException, ArtifactProcessorException {
+    public void testArtifactGeneratorWithParameterNameBlank()
+            throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition2.yml");
-        OutputStream outstream=null;
-        String expectedMsg ="Parameter name is empty,null or contains whitespace";
+        OutputStream outstream = null;
+        String expectedMsg = "Parameter name is empty,null or contains whitespace";
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
         outstream = new FileOutputStream(tempFile);
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
         try {
             arp.generateArtifact(pdString, outstream);
-        }
-        catch (ArtifactProcessorException e)
-        {
-            Assert.assertEquals(expectedMsg,e.getMessage());
+        } catch (ArtifactProcessorException e) {
+            Assert.assertEquals(expectedMsg, e.getMessage());
         }
         outstream.flush();
         outstream.close();
     }
 
     @Test
-    public void testArtifactGeneratorWithParameterNameNull() throws IOException, ArtifactProcessorException {
+    public void testArtifactGeneratorWithParameterNameNull()
+            throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition3.yml");
-        OutputStream outstream=null;
-        String expectedMsg ="Parameter name is empty,null or contains whitespace";
+        OutputStream outstream = null;
+        String expectedMsg = "Parameter name is empty,null or contains whitespace";
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
         outstream = new FileOutputStream(tempFile);
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
         try {
             arp.generateArtifact(pdString, outstream);
-        }
-        catch (ArtifactProcessorException e)
-        {
-            Assert.assertEquals(expectedMsg,e.getMessage());
+        } catch (ArtifactProcessorException e) {
+            Assert.assertEquals(expectedMsg, e.getMessage());
         }
         outstream.flush();
         outstream.close();
@@ -103,25 +106,22 @@ public class TestGenerateArtifactString{
     public void testArtifactGeneratorWithKindNull() throws IOException, ArtifactProcessorException {
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition4.yml");
-        OutputStream outstream=null;
-        String expectedMsg ="Kind in PropertyDefinition is blank or null";
+        OutputStream outstream = null;
+        String expectedMsg = "Kind in PropertyDefinition is blank or null";
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
         outstream = new FileOutputStream(tempFile);
         ArtifactProcessorImpl arp = new ArtifactProcessorImpl();
         try {
             arp.generateArtifact(pdString, outstream);
-        }
-        catch (ArtifactProcessorException e)
-        {
-            Assert.assertEquals(expectedMsg,e.getMessage());
+        } catch (ArtifactProcessorException e) {
+            Assert.assertEquals(expectedMsg, e.getMessage());
         }
         outstream.flush();
         outstream.close();
     }
 
-    private String getFileContent(String fileName) throws IOException
-    {
+    private String getFileContent(String fileName) throws IOException {
         ClassLoader classLoader = new TestGenerateArtifactString().getClass().getClassLoader();
         InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -137,8 +137,7 @@ public class TestGenerateArtifactString{
         return fileString;
     }
 
-    private String getFileContent(File file) throws IOException
-    {
+    private String getFileContent(File file) throws IOException {
         InputStream is = new FileInputStream(file);
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
         String line = buf.readLine();

@@ -22,35 +22,40 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.data;
+package org.onap.sdnc.config.params.data;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PropertyDefinition {
-	public String kind = "Property Definition";
-	public String version = "V1";
-	
-	@JsonProperty("vnf-parameter-list")
-	public List<Parameter> parameters;
-	public String getKind() {
-		return kind;
-	}
-	public void setKind(String kind) {
-		this.kind = kind;
-	}
-	public String getVersion() {
-		return version;
-	}
-	public void setVersion(String version) {
-		this.version = version;
-	}
-	public List<Parameter> getParameters() {
-		return parameters;
-	}
-	public void setParameters(List<Parameter> parameters) {
-		this.parameters = parameters;
-	}	
-	
+    public String kind = "Property Definition";
+    public String version = "V1";
+
+    @JsonProperty("vnf-parameter-list")
+    public List<Parameter> parameters;
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<Parameter> parameters) {
+        this.parameters = parameters;
+    }
+
 }

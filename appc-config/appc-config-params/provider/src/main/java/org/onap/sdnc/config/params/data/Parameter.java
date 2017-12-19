@@ -22,104 +22,101 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.data;
+package org.onap.sdnc.config.params.data;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Parameter {
-	private String name;
-	private String description;
-	private String type;
-	private boolean required;
-	private String source;
+    private String name;
+    private String description;
+    private String type;
+    private boolean required;
+    private String source;
 
-	@JsonProperty("rule-type")
-	private String ruleType;
+    @JsonProperty("rule-type")
+    private String ruleType;
 
-	@JsonProperty("default")
-	private String defaultValue;
+    @JsonProperty("default")
+    private String defaultValue;
 
-	@JsonProperty("request-keys")
-	private List<RequestKey> requestKeys;
+    @JsonProperty("request-keys")
+    private List<RequestKey> requestKeys;
 
-	@JsonProperty("response-keys")
-	private List<ResponseKey> responseKeys;
+    @JsonProperty("response-keys")
+    private List<ResponseKey> responseKeys;
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public boolean isRequired() {
-		return required;
-	}
+    public boolean isRequired() {
+        return required;
+    }
 
-	public void setRequired(boolean required) {
-		this.required = required;
-	}
+    public void setRequired(boolean required) {
+        this.required = required;
+    }
 
-	public String getSource() {
-		return source;
-	}
+    public String getSource() {
+        return source;
+    }
 
-	public void setSource(String source) {
-		this.source = source;
-	}
+    public void setSource(String source) {
+        this.source = source;
+    }
 
-	public String getRuleType() {
-		return ruleType;
-	}
+    public String getRuleType() {
+        return ruleType;
+    }
 
-	public void setRuleType(String ruleType) {
-		this.ruleType = ruleType;
-	}
+    public void setRuleType(String ruleType) {
+        this.ruleType = ruleType;
+    }
 
-	public String getDefaultValue() {
-		return defaultValue;
-	}
+    public String getDefaultValue() {
+        return defaultValue;
+    }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
 
-	public List<RequestKey> getRequestKeys() {
-		return requestKeys;
-	}
+    public List<RequestKey> getRequestKeys() {
+        return requestKeys;
+    }
 
-	public void setRequestKeys(List<RequestKey> requestKeys) {
-		this.requestKeys = requestKeys;
-	}
+    public void setRequestKeys(List<RequestKey> requestKeys) {
+        this.requestKeys = requestKeys;
+    }
 
-	public List<ResponseKey> getResponseKeys() {
-		return responseKeys;
-	}
+    public List<ResponseKey> getResponseKeys() {
+        return responseKeys;
+    }
 
-	public void setResponseKeys(List<ResponseKey> responseKeys) {
-		this.responseKeys = responseKeys;
-	}
-
-
+    public void setResponseKeys(List<ResponseKey> responseKeys) {
+        this.responseKeys = responseKeys;
+    }
 
 
 

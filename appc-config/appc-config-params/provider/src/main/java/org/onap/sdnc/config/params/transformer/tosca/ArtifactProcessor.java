@@ -22,47 +22,38 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer.tosca;
-
-import org.openecomp.sdnc.config.params.data.PropertyDefinition;
-import org.openecomp.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
+package org.onap.sdnc.config.params.transformer.tosca;
 
 import java.io.OutputStream;
+import org.onap.sdnc.config.params.data.PropertyDefinition;
+import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
-public interface ArtifactProcessor
-{
+public interface ArtifactProcessor {
     /**
      * Generates Tosca artifact from PropertyDefinition object.
      *
-     * @param artifact
-     *                PropertyDefinition object which is to be converted to Tosca.
-     * @param stream
-     *                Stream to which the generated Tosca is to be written.
-     * @throws ArtifactProcessorException
-     *                If the Tosca Generation failed
+     * @param artifact PropertyDefinition object which is to be converted to Tosca.
+     * @param stream Stream to which the generated Tosca is to be written.
+     * @throws ArtifactProcessorException If the Tosca Generation failed
      */
-    void generateArtifact(PropertyDefinition artifact, OutputStream stream) throws ArtifactProcessorException;
+    void generateArtifact(PropertyDefinition artifact, OutputStream stream)
+            throws ArtifactProcessorException;
 
     /**
      * Generates Tosca artifact from PropertyDefinition string.
      *
-     * @param artifact
-     *               PropertyDefinition string which is to be converted to Tosca.
-     * @param stream
-     *               Stream to which the generated Tosca is to be written.
-     * @throws ArtifactProcessorException
-     *               If the Tosca Generation failed
+     * @param artifact PropertyDefinition string which is to be converted to Tosca.
+     * @param stream Stream to which the generated Tosca is to be written.
+     * @throws ArtifactProcessorException If the Tosca Generation failed
      */
     void generateArtifact(String artifact, OutputStream stream) throws ArtifactProcessorException;
 
     /**
      * Generates the PropertyDefinition object from a Tosca artifact.
      *
-     * @param toscaArtifact
-     *                Tosca artifact which is to be converted.
+     * @param toscaArtifact Tosca artifact which is to be converted.
      * @return PropertyDefinition object generated from Tosca
-     * @throws ArtifactProcessorException
-     *                If the PropertyDefinition Generation failed
+     * @throws ArtifactProcessorException If the PropertyDefinition Generation failed
      */
     PropertyDefinition readArtifact(String toscaArtifact) throws ArtifactProcessorException;
 }
