@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.tlv.sdc.security;
+package org.onap.tlv.sdc.security;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -32,7 +32,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * A copy from the org.openecomp.sdc:security-utils artifact that works with java 7.
+ * A copy from the org.onap.sdc:security-utils artifact that works with java 7.
  */
 public class Passwords {
 
