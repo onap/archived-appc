@@ -28,7 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.appc.instar.interfaces.ResponseHandlerInterface;
 import org.onap.appc.instar.utils.InstarClientConstant;
-import org.openecomp.sdnc.config.params.data.ResponseKey;
+import org.onap.sdnc.config.params.data.ResponseKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

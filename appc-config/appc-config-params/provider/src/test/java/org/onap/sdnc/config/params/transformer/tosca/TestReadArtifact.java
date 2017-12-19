@@ -22,14 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer.tosca;
+package org.onap.sdnc.config.params.transformer.tosca;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.sdnc.config.params.data.PropertyDefinition;
-import org.openecomp.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
-
-import java.io.*;
+import org.onap.sdnc.config.params.data.PropertyDefinition;
+import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
 public class TestReadArtifact {
     @Test
@@ -38,38 +41,53 @@ public class TestReadArtifact {
         String toscaArtifact = getFileContent("tosca/ReadArtifactPositiveInputTosca.yml");
         ArtifactProcessorImpl artifact = new ArtifactProcessorImpl();
         PropertyDefinition ouptPD = artifact.readArtifact(toscaArtifact);
-        Assert.assertEquals(ouptPD.getKind(),"Property Definition");
-        Assert.assertEquals(ouptPD.getVersion(),"V1");
+        Assert.assertEquals(ouptPD.getKind(), "Property Definition");
+        Assert.assertEquals(ouptPD.getVersion(), "V1");
 
-        Assert.assertEquals(ouptPD.getParameters().get(0).getDefaultValue(),"0.0.0.0");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getName(),"abc");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getSource(),"source");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getRuleType(),"interface-ip-address");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getDescription(),"param_desc");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getType(),"param1_type");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyName(),"address_fqdn");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyValue(),"0");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyName(),"address_fqdn");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyValue(),"0");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getResponseKeys().get(0).getUniqueKeyName(),"address-0");
-        Assert.assertEquals(ouptPD.getParameters().get(0).getResponseKeys().get(0).getFieldKeyName(),"0");
+        Assert.assertEquals(ouptPD.getParameters().get(0).getDefaultValue(), "0.0.0.0");
+        Assert.assertEquals(ouptPD.getParameters().get(0).getName(), "abc");
+        Assert.assertEquals(ouptPD.getParameters().get(0).getSource(), "source");
+        Assert.assertEquals(ouptPD.getParameters().get(0).getRuleType(), "interface-ip-address");
+        Assert.assertEquals(ouptPD.getParameters().get(0).getDescription(), "param_desc");
+        Assert.assertEquals(ouptPD.getParameters().get(0).getType(), "param1_type");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyName(),
+                "address_fqdn");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyValue(),
+                "0");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyName(),
+                "address_fqdn");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyValue(),
+                "0");
+        Assert.assertEquals(
+                ouptPD.getParameters().get(0).getResponseKeys().get(0).getUniqueKeyName(),
+                "address-0");
+        Assert.assertEquals(
+                ouptPD.getParameters().get(0).getResponseKeys().get(0).getFieldKeyName(), "0");
 
-        Assert.assertEquals(ouptPD.getParameters().get(1).getDefaultValue(),"value");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getName(),"param 2");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getSource(),"source");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRuleType(),"interface-ip-address");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getDescription(),"param2");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getType(),"param2 type");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyName(),"address_fqdn");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyValue(),"0");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(1).getKeyName(),"address_type");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(1).getKeyValue(),"v4");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getResponseKeys().get(0).getUniqueKeyName(),"address-0");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getResponseKeys().get(0).getUniqueKeyValue(),"0");
-        Assert.assertEquals(ouptPD.getParameters().get(1).getResponseKeys().get(0).getFieldKeyName(),"0");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getDefaultValue(), "value");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getName(), "param 2");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getSource(), "source");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRuleType(), "interface-ip-address");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getDescription(), "param2");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getType(), "param2 type");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyName(),
+                "address_fqdn");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(0).getKeyValue(),
+                "0");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(1).getKeyName(),
+                "address_type");
+        Assert.assertEquals(ouptPD.getParameters().get(1).getRequestKeys().get(1).getKeyValue(),
+                "v4");
+        Assert.assertEquals(
+                ouptPD.getParameters().get(1).getResponseKeys().get(0).getUniqueKeyName(),
+                "address-0");
+        Assert.assertEquals(
+                ouptPD.getParameters().get(1).getResponseKeys().get(0).getUniqueKeyValue(), "0");
+        Assert.assertEquals(
+                ouptPD.getParameters().get(1).getResponseKeys().get(0).getFieldKeyName(), "0");
 
     }
-    
+
     @Test
     public void testReadArtifactNegetive() throws IOException {
 
@@ -79,13 +97,13 @@ public class TestReadArtifact {
             PropertyDefinition ouptPD = artifact.readArtifact(toscaArtifact);
         } catch (ArtifactProcessorException e) {
             Assert.assertNotNull(e);
-            Assert.assertEquals(e.getMessage(),"Invalid input found <> source1 <reqk1:reqv1 , reqk2:reqv2>");
+            Assert.assertEquals(e.getMessage(),
+                    "Invalid input found <> source1 <reqk1:reqv1 , reqk2:reqv2>");
         }
     }
 
-    private String getFileContent(String fileName) throws IOException
-    {
-        ClassLoader classLoader = new  TestReadArtifact().getClass().getClassLoader();
+    private String getFileContent(String fileName) throws IOException {
+        ClassLoader classLoader = new TestReadArtifact().getClass().getClassLoader();
         InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
         String line = buf.readLine();

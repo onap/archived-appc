@@ -22,49 +22,48 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params;
+package org.onap.sdnc.config.params;
 
 import java.util.LinkedList;
 import java.util.List;
-
-import org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode;
+import org.onap.sdnc.config.params.parser.PropertyDefinitionNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-public class ParamsHandlerActivator implements BundleActivator{
+public class ParamsHandlerActivator implements BundleActivator {
 
-	private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
 
 
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(ParamsHandlerActivator.class);
+    private static final EELFLogger log =
+            EELFManager.getInstance().getLogger(ParamsHandlerActivator.class);
 
-	@Override
-	public void start(BundleContext ctx) throws Exception
-	{
+    @Override
+    public void start(BundleContext ctx) throws Exception {
 
-		try {
-			PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
-			log.info("Registering service "+ propertyDefinitionNode.getClass().getName());
-			registrations.add(ctx.registerService(propertyDefinitionNode.getClass().getName(), propertyDefinitionNode, null));
-			log.info("Registering service sccessful for  "+ propertyDefinitionNode.getClass().getName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        try {
+            PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+            log.info("Registering service " + propertyDefinitionNode.getClass().getName());
+            registrations.add(ctx.registerService(propertyDefinitionNode.getClass().getName(),
+                    propertyDefinitionNode, null));
+            log.info("Registering service sccessful for  "
+                    + propertyDefinitionNode.getClass().getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
-	@Override
-	public void stop(BundleContext arg0) throws Exception
-	{
-		for (ServiceRegistration registration: registrations)
-		{
-			registration.unregister();
-			registration = null;
-		}
+    }
 
-	}
+    @Override
+    public void stop(BundleContext arg0) throws Exception {
+        for (ServiceRegistration registration : registrations) {
+            registration.unregister();
+            registration = null;
+        }
+
+    }
 
 }

@@ -22,27 +22,23 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer.tosca.exceptions;
+package org.onap.sdnc.config.params.transformer.tosca.exceptions;
 
 /**
  * Created by pranavdi on 3/17/2017.
  */
-public class ArtifactProcessorException extends Exception
-{
+public class ArtifactProcessorException extends Exception {
     public ArtifactProcessorException() {}
 
-    public ArtifactProcessorException(String message)
-    {
+    public ArtifactProcessorException(String message) {
         super(message);
     }
 
-    public ArtifactProcessorException(Throwable cause)
-    {
+    public ArtifactProcessorException(Throwable cause) {
         super(cause);
     }
 
-    public ArtifactProcessorException(String message, Throwable cause)
-    {
-        super(message,cause);
+    public ArtifactProcessorException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

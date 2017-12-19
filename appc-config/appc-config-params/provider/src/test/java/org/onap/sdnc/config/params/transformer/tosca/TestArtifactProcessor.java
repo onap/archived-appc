@@ -22,17 +22,24 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer.tosca;
+package org.onap.sdnc.config.params.transformer.tosca;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.openecomp.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
+import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
-import java.io.*;
-
-public class TestArtifactProcessor{
+public class TestArtifactProcessor {
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
@@ -42,37 +49,38 @@ public class TestArtifactProcessor{
         ArtifactProcessor arp = ArtifactProcessorFactory.getArtifactProcessor();
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
-        OutputStream outstream=null;
+        OutputStream outstream = null;
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
         outstream = new FileOutputStream(tempFile);
-        arp.generateArtifact(pdString,outstream);
+        arp.generateArtifact(pdString, outstream);
         outstream.flush();
         outstream.close();
 
         String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
         String toscaString = getFileContent(tempFile);
-        Assert.assertEquals(expectedTosca,toscaString);
+        Assert.assertEquals(expectedTosca, toscaString);
     }
 
     @Test
-    public void testArtifactProcessorWithStringOutput() throws IOException, ArtifactProcessorException {
+    public void testArtifactProcessorWithStringOutput()
+            throws IOException, ArtifactProcessorException {
 
         ArtifactProcessor arp = ArtifactProcessorFactory.getArtifactProcessor();
 
         String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
-        OutputStream outstream=null;
+        OutputStream outstream = null;
 
         outstream = new ByteArrayOutputStream();
-        arp.generateArtifact(pdString,outstream);
+        arp.generateArtifact(pdString, outstream);
         outstream.flush();
         outstream.close();
 
         String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
-        String toscaString = outstream.toString();    
+        String toscaString = outstream.toString();
     }
 
-    private String getFileContent(String fileName) throws IOException{
+    private String getFileContent(String fileName) throws IOException {
         ClassLoader classLoader = new TestArtifactProcessor().getClass().getClassLoader();
         InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
@@ -88,7 +96,7 @@ public class TestArtifactProcessor{
         return fileString;
     }
 
-    private String getFileContent(File file) throws IOException{
+    private String getFileContent(File file) throws IOException {
         InputStream is = new FileInputStream(file);
         BufferedReader buf = new BufferedReader(new InputStreamReader(is));
         String line = buf.readLine();

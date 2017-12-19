@@ -22,15 +22,13 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer;
+package org.onap.sdnc.config.params.transformer;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.sdnc.config.params.data.Parameter;
-import org.openecomp.sdnc.config.params.data.PropertyDefinition;
-
+import org.onap.sdnc.config.params.data.Parameter;
+import org.onap.sdnc.config.params.data.PropertyDefinition;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,48 +38,52 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 public class ArtificatTransformer {
 
 
-	public String convertPDToYaml(PropertyDefinition propertyDefinition) throws JsonParseException, JsonMappingException, IOException{
-		String yamlContent = null;
-		if(propertyDefinition != null){
-			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-			mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
-			yamlContent = mapper.writeValueAsString(propertyDefinition);	        
-		}
-		return yamlContent;
-	}
+    public String convertPDToYaml(PropertyDefinition propertyDefinition)
+            throws JsonParseException, JsonMappingException, IOException {
+        String yamlContent = null;
+        if (propertyDefinition != null) {
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            mapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
+            yamlContent = mapper.writeValueAsString(propertyDefinition);
+        }
+        return yamlContent;
+    }
 
-	public String transformYamlToJson(String yaml) throws JsonParseException, JsonMappingException, IOException {
-		ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
-		Object obj = yamlReader.readValue(yaml, Object.class);
-		ObjectMapper jsonWriter = new ObjectMapper();
-		jsonWriter.enable(SerializationFeature.INDENT_OUTPUT);	    
-		return jsonWriter.writeValueAsString(obj);
-	}
+    public String transformYamlToJson(String yaml)
+            throws JsonParseException, JsonMappingException, IOException {
+        ObjectMapper yamlReader = new ObjectMapper(new YAMLFactory());
+        Object obj = yamlReader.readValue(yaml, Object.class);
+        ObjectMapper jsonWriter = new ObjectMapper();
+        jsonWriter.enable(SerializationFeature.INDENT_OUTPUT);
+        return jsonWriter.writeValueAsString(obj);
+    }
 
-	public PropertyDefinition convertYAMLToPD(String pdContent) throws JsonParseException, JsonMappingException, IOException{
-		PropertyDefinition propertyDefinition = null;
-		if(StringUtils.isNotBlank(pdContent)){
-			ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-			propertyDefinition = mapper.readValue(pdContent, PropertyDefinition.class);
-		}
-		return propertyDefinition;
-	}
+    public PropertyDefinition convertYAMLToPD(String pdContent)
+            throws JsonParseException, JsonMappingException, IOException {
+        PropertyDefinition propertyDefinition = null;
+        if (StringUtils.isNotBlank(pdContent)) {
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            propertyDefinition = mapper.readValue(pdContent, PropertyDefinition.class);
+        }
+        return propertyDefinition;
+    }
 
-	public String convertYAMLToParams(String pdContent) throws JsonParseException, JsonMappingException, IOException{
-		String paramJson = null;
-		if(StringUtils.isNotBlank(pdContent)){
-			paramJson = convertPdToParams(convertYAMLToPD(pdContent));
-		}
-		return paramJson;
-	}
+    public String convertYAMLToParams(String pdContent)
+            throws JsonParseException, JsonMappingException, IOException {
+        String paramJson = null;
+        if (StringUtils.isNotBlank(pdContent)) {
+            paramJson = convertPdToParams(convertYAMLToPD(pdContent));
+        }
+        return paramJson;
+    }
 
-	public String convertPdToParams(PropertyDefinition propertyDefinition) throws JsonParseException, JsonMappingException, IOException{
-		String paramJson = null;
-		if(propertyDefinition != null  && propertyDefinition.getParameters() != null){
-			List<Parameter> parameters = propertyDefinition.getParameters();
+    public String convertPdToParams(PropertyDefinition propertyDefinition)
+            throws JsonParseException, JsonMappingException, IOException {
+        String paramJson = null;
+        if (propertyDefinition != null && propertyDefinition.getParameters() != null) {
+            List<Parameter> parameters = propertyDefinition.getParameters();
 
-		}
-		return paramJson;
-	}
-
+        }
+        return paramJson;
+    }
 }

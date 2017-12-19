@@ -22,36 +22,59 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.data;
+package org.onap.sdnc.config.params.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class ResponseKey{
-	@JsonProperty("unique-key-name")
-	private String uniqueKeyName;
-	@JsonProperty("unique-key-value")
-	private String uniqueKeyValue;
-	@JsonProperty("field-key-name")
-	private String fieldKeyName;
-	
-	public String getUniqueKeyName() {
-		return uniqueKeyName;
-	}
-	public void setUniqueKeyName(String uniqueKeyName) {
-		this.uniqueKeyName = uniqueKeyName;
-	}
-	public String getUniqueKeyValue() {
-		return uniqueKeyValue;
-	}
-	public void setUniqueKeyValue(String uniqueKeyValue) {
-		this.uniqueKeyValue = uniqueKeyValue;
-	}
-	public String getFieldKeyName() {
-		return fieldKeyName;
-	}
-	public void setFieldKeyName(String fieldKeyName) {
-		this.fieldKeyName = fieldKeyName;
-	}
-	
-	
+public class ResponseKey {
+    @JsonProperty("unique-key-name")
+    private String uniqueKeyName;
+    @JsonProperty("unique-key-value")
+    private String uniqueKeyValue;
+    @JsonProperty("field-key-name")
+    private String fieldKeyName;
+    @JsonProperty("filter-by-field")
+    private String filterByField;
+    @JsonProperty("filter-by-value")
+    private String filterByValue;
+
+    public String getUniqueKeyName() {
+        return uniqueKeyName;
+    }
+
+    public void setUniqueKeyName(String uniqueKeyName) {
+        this.uniqueKeyName = uniqueKeyName;
+    }
+
+    public String getUniqueKeyValue() {
+        return uniqueKeyValue;
+    }
+
+    public void setUniqueKeyValue(String uniqueKeyValue) {
+        this.uniqueKeyValue = uniqueKeyValue;
+    }
+
+    public String getFieldKeyName() {
+        return fieldKeyName;
+    }
+
+    public void setFieldKeyName(String fieldKeyName) {
+        this.fieldKeyName = fieldKeyName;
+    }
+
+    public String getFilterByField() {
+        return filterByField;
+    }
+
+    public void setFilterByField(String filterByField) {
+        this.filterByField = filterByField;
+    }
+
+    public String getFilterByValue() {
+        return filterByValue;
+    }
+
+    public void setFilterByValue(String filterByValue) {
+        this.filterByValue = filterByValue;
+    }
 }

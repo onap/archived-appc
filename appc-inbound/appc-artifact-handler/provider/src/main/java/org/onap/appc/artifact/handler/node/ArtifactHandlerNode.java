@@ -36,7 +36,7 @@ import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.appc.yang.YANGGenerator;
 import org.onap.appc.yang.impl.YANGGeneratorFactory;
-import org.openecomp.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
+import org.onap.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;

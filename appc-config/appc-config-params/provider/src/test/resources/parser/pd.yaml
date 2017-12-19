@@ -19,7 +19,7 @@ vnf-parameter-list:
   description: null
   type: null 
   required: false
-  source: "INSTAR"
+  source: "A&AI"
   rule-type: null
   default: "0:0:0:0"
   request-keys:
@@ -59,7 +59,7 @@ vnf-parameter-list:
   description: null
   type: null 
   required: false
-  source: "INSTAR"
+  source: "Manual"
   rule-type: null
   default: "0.0.0.0"
   request-keys: null
@@ -68,7 +68,7 @@ vnf-parameter-list:
   description: null
   type: null 
   required: false
-  source: null
+  source: INSTAR
   rule-type: null
   default: "32"
   request-keys: null
