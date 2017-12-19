@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_47762640",
+        "filename": "appc-client/client-kit/src/main/java/org/onap/appc/client/lcm/model/AuditOutput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2017-12-19T04:13:10Z",
+      "side": 1,
+      "message": "should probably be changed to onap, but that\u0027s not a issue specific to this commit",
+      "revId": "e93220b59ceb8592c96ecdf49305f3377e86e2c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_87d18efd",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/protocol/ConsumerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2017-12-19T04:13:10Z",
+      "side": 1,
+      "message": "should this be spaces instead of a tab",
+      "revId": "e93220b59ceb8592c96ecdf49305f3377e86e2c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a7ce0a59",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/protocol/ProducerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2017-12-19T04:13:10Z",
+      "side": 1,
+      "message": "should this also be spaces instead of tab?",
+      "revId": "e93220b59ceb8592c96ecdf49305f3377e86e2c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
