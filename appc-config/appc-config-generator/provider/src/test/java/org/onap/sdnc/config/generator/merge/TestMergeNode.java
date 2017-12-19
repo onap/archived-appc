@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,20 +17,21 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.merge;
+package org.onap.sdnc.config.generator.merge;
 
-import org.apache.commons.io.IOUtils;
-import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.merge.MergeNode;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.io.IOUtils;
+import org.junit.Test;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 
 public class TestMergeNode {
 
@@ -37,11 +40,11 @@ public class TestMergeNode {
         MergeNode mergeNode = new MergeNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String jsonData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("merge/vdbe_data.json"));
+        String jsonData = IOUtils.toString(
+                TestMergeNode.class.getClassLoader().getResourceAsStream("merge/vdbe_data.json"));
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
-        String templateData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("merge/vdbe_template.xml"));
+        String templateData = IOUtils.toString(TestMergeNode.class.getClassLoader()
+                .getResourceAsStream("merge/vdbe_template.xml"));
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, templateData);
         SvcLogicContext ctx = new SvcLogicContext();
         mergeNode.mergeJsonDataOnTemplate(inParams, ctx);
@@ -55,14 +58,16 @@ public class TestMergeNode {
         MergeNode mergeNode = new MergeNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String jsonData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("merge/complex/vdbe_data.json"));
+
+        String jsonData = IOUtils.toString(TestMergeNode.class.getClassLoader()
+                .getResourceAsStream("merge/complex/vdbe_data.json"));
         System.out.println("TestMergeNode.testMergeJsonComplexDataOnTemplate()" + jsonData);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
-        String templateData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("merge/complex/vdbe_template.xml"));
+        String templateData = IOUtils.toString(TestMergeNode.class.getClassLoader()
+                .getResourceAsStream("merge/complex/vdbe_template.xml"));
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, templateData);
+
         SvcLogicContext ctx = new SvcLogicContext();
         mergeNode.mergeComplexJsonDataOnTemplate(inParams, ctx);
         assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
@@ -75,8 +80,9 @@ public class TestMergeNode {
         MergeNode mergeNode = new MergeNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String jsonData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("merge/vdbe_data.json"));
+
+        String jsonData = IOUtils.toString(
+                TestMergeNode.class.getClassLoader().getResourceAsStream("merge/vdbe_data.json"));
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE, "merge/vdbe_template.xml");
 
@@ -85,6 +91,7 @@ public class TestMergeNode {
         assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
     }
+
     @Test
     public void testMmergeDataOnTemplate() throws SvcLogicException {
         MergeNode mergeNode = new MergeNode();

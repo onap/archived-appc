@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,24 +17,25 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 
 import com.fasterxml.jackson.core.io.CharTypes;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-public class CustomTextNode extends TextNode{
+public class CustomTextNode extends TextNode {
 
     public CustomTextNode(String v) {
         super(v);
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         int len = textValue().length();
         len = len + 2 + (len >> 4);
         StringBuilder sb = new StringBuilder(len);
@@ -40,11 +43,10 @@ public class CustomTextNode extends TextNode{
         return sb.toString();
     }
 
-    protected static void appendQuoted(StringBuilder sb, String content)
-    {
-       // sb.append('"');
+    protected static void appendQuoted(StringBuilder sb, String content) {
+        // sb.append('"');
         CharTypes.appendQuoted(sb, content);
-       // sb.append('"');
+        // sb.append('"');
     }
-    
+
 }
