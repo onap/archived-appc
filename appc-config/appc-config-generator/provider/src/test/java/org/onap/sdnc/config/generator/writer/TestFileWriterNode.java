@@ -18,14 +18,14 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.writer;
+package org.onap.sdnc.config.generator.writer;
 
 import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.writer.FileWriterNode;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.writer.FileWriterNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestFileWriterNode {

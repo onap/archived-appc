@@ -19,17 +19,17 @@ i * you may not use this file except in compliance with the License.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.merge;
+package org.onap.sdnc.config.generator.merge;
 
 import java.nio.charset.Charset;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.tool.JSONTool;
-import org.openecomp.sdnc.config.generator.tool.MergeTool;
-import org.openecomp.sdnc.config.generator.tool.EscapeUtils;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.tool.JSONTool;
+import org.onap.sdnc.config.generator.tool.MergeTool;
+import org.onap.sdnc.config.generator.tool.EscapeUtils;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

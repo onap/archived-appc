@@ -18,16 +18,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.transform;
+package org.onap.sdnc.config.generator.transform;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
-import org.openecomp.sdnc.config.generator.transform.XSLTTransformerNode;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.merge.TestMergeNode;
+import org.onap.sdnc.config.generator.transform.XSLTTransformerNode;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

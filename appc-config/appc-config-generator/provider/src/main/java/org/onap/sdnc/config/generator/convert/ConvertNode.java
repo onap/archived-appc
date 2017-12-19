@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.convert;
+package org.onap.sdnc.config.generator.convert;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,9 +28,9 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.tool.EscapeUtils;
-import org.openecomp.sdnc.config.generator.tool.JSONTool;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.tool.EscapeUtils;
+import org.onap.sdnc.config.generator.tool.JSONTool;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import com.att.eelf.configuration.EELFLogger;

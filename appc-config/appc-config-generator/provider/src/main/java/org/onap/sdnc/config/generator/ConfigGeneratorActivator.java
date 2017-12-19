@@ -18,16 +18,16 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator;
+package org.onap.sdnc.config.generator;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import org.openecomp.sdnc.config.generator.convert.ConvertNode;
-import org.openecomp.sdnc.config.generator.merge.MergeNode;
-import org.openecomp.sdnc.config.generator.pattern.PatternNode;
-import org.openecomp.sdnc.config.generator.reader.ReaderNode;
-import org.openecomp.sdnc.config.generator.writer.FileWriterNode;
+import org.onap.sdnc.config.generator.convert.ConvertNode;
+import org.onap.sdnc.config.generator.merge.MergeNode;
+import org.onap.sdnc.config.generator.pattern.PatternNode;
+import org.onap.sdnc.config.generator.reader.ReaderNode;
+import org.onap.sdnc.config.generator.writer.FileWriterNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator;
+package org.onap.sdnc.config.generator;
 
 public class ConfigGeneratorConstant {
 

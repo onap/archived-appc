@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import java.io.StringReader;
 
@@ -28,7 +28,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
