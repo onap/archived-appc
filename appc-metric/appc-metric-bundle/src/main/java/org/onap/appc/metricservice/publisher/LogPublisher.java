@@ -32,7 +32,7 @@ import com.att.eelf.configuration.EELFManager;
 
 
 public class LogPublisher implements Publisher {
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(LogPublisher.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(LogPublisher.class);
     private MetricRegistry metricRegistry;
     private Metric[] metrics;
 

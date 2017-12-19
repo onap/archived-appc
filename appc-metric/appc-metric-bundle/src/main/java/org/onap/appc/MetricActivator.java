@@ -37,7 +37,7 @@ public class MetricActivator implements BundleActivator {
 
     private ServiceRegistration registration = null;
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(MetricActivator.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(MetricActivator.class);
 
     @Override
     public void start(BundleContext bundleContext) throws Exception {

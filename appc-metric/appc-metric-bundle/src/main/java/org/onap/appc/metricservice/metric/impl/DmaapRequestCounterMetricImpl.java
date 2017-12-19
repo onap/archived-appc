@@ -47,7 +47,7 @@ public class DmaapRequestCounterMetricImpl implements DmaapRequestCounterMetric 
     private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("YYYY-MM-dd:HH:mm:ss");
 
     private String lastResetTime = dateTimeFormat.format(Calendar.getInstance().getTime());
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(DmaapRequestCounterMetricImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(DmaapRequestCounterMetricImpl.class);
 
     public DmaapRequestCounterMetricImpl(String name, MetricType metricType, long recievedMessage,
                                        long publishedMessage) {

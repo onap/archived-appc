@@ -34,7 +34,7 @@ public interface MetricService {
 
     /**
      * This API will be used to get the Map of all the registered Registry for the Metric Service
-     * @return Map<String,MetricRegistry> where String will be the name of the Metric Registry
+     * @return Map<String,MetricRegistry> where String will be the name of the Metric Registry
      * and MetricRegistry will be the actual object for that Registry
      */
     Map<String,MetricRegistry> getAllRegistry();

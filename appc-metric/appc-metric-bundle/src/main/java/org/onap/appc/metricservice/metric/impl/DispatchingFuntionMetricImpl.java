@@ -46,7 +46,7 @@ public class DispatchingFuntionMetricImpl implements DispatchingFuntionMetric {
     private final SimpleDateFormat dateTimeFormat = new SimpleDateFormat("YYYY-MM-dd:HH:mm:ss");
 
     private String lastResetTime = dateTimeFormat.format(Calendar.getInstance().getTime());
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(DispatchingFuntionMetricImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(DispatchingFuntionMetricImpl.class);
 
     public DispatchingFuntionMetricImpl(String name, MetricType metricType, long acceptedRequested,
                                         long rejectedRequest) {

@@ -50,7 +50,7 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
     private Publisher[] publishers;
     private Metric[] metrics;
     private MetricRegistry metricRegistry;
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ScheduledPublishingPolicyImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(ScheduledPublishingPolicyImpl.class);
     private ScheduledExecutorService scheduleExecutor;
     private Configuration configuration;
 
