@@ -25,7 +25,7 @@
 package org.onap.appc.instar.interfaceImpl;
 
 import org.junit.Test;
-import org.openecomp.sdnc.config.params.data.ResponseKey;
+import org.onap.sdnc.config.params.data.ResponseKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestInstarResponseHandlerImpl {

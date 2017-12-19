@@ -22,34 +22,34 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params;
+package org.onap.sdnc.config.params;
 
 public class ParamsHandlerConstant {
 
-	public static String STRING_ENCODING = "utf-8";
-	public static String Y = "Y";
-	public static String N = "N";
-	public static String DATA_TYPE_TEXT = "TEXT";
-	public static String DATA_TYPE_JSON = "JSON";
-	public static String DATA_TYPE_XML = "XML";
-	public static String DATA_TYPE_SQL = "SQL";
-
-	
-	public static String INPUT_PARAM_PD_CONTENT = "pdContent";
-	public static String INPUT_PARAM_SYSTEM_NAME = "systemName";
-	public static String INPUT_PARAM_JSON_DATA = "jsonData";	
-	public static String INPUT_PARAM_MERGE__JSON_DATA = "mergeJsonData";
+    public static String STRING_ENCODING = "utf-8";
+    public static String Y = "Y";
+    public static String N = "N";
+    public static String DATA_TYPE_TEXT = "TEXT";
+    public static String DATA_TYPE_JSON = "JSON";
+    public static String DATA_TYPE_XML = "XML";
+    public static String DATA_TYPE_SQL = "SQL";
 
 
-	public static String INPUT_PARAM_REQUEST_DATA = "requestData";
-	public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
-	public static String OUTPUT_PARAM_CONFIGURATION_PARAMETER = "configuration-parameters";
-	
+    public static String INPUT_PARAM_PD_CONTENT = "pdContent";
+    public static String INPUT_PARAM_SYSTEM_NAME = "systemName";
+    public static String INPUT_PARAM_JSON_DATA = "jsonData";
+    public static String INPUT_PARAM_MERGE__JSON_DATA = "mergeJsonData";
 
 
-	public static String OUTPUT_PARAM_STATUS = "status";
-	public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
-	public static String OUTPUT_STATUS_SUCCESS = "success";
-	public static String OUTPUT_STATUS_FAILURE = "failure";
+    public static String INPUT_PARAM_REQUEST_DATA = "requestData";
+    public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
+    public static String OUTPUT_PARAM_CONFIGURATION_PARAMETER = "configuration-parameters";
+
+
+
+    public static String OUTPUT_PARAM_STATUS = "status";
+    public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static String OUTPUT_STATUS_SUCCESS = "success";
+    public static String OUTPUT_STATUS_FAILURE = "failure";
 
 }

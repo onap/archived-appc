@@ -22,22 +22,19 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.transformer.tosca;
+package org.onap.sdnc.config.params.transformer.tosca;
 
 /**
  * Created by pranavdi on 3/29/2017.
  */
-public class ArtifactProcessorFactory
-{
-    private static class InstanceHolder
-    {
+public class ArtifactProcessorFactory {
+    private static class InstanceHolder {
         private static ArtifactProcessorImpl instance = new ArtifactProcessorImpl();
     }
 
-    private ArtifactProcessorFactory(){}
+    private ArtifactProcessorFactory() {}
 
-    public static ArtifactProcessor getArtifactProcessor()
-    {
+    public static ArtifactProcessor getArtifactProcessor() {
         return InstanceHolder.instance;
     }
 }

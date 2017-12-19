@@ -22,49 +22,44 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.parser;
+package org.onap.sdnc.config.params.parser;
+
+
 
 import static org.junit.Assert.assertEquals;
-
-import java.io.File;
+import static org.junit.Assert.assertNotNull;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.io.IOUtils;
-import org.junit.Test;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
-import org.openecomp.sdnc.config.params.ParamsHandlerConstant;
-import org.openecomp.sdnc.config.params.data.PropertyDefinition;
-import org.openecomp.sdnc.config.params.parser.PropertyDefinitionNode;
-import org.openecomp.sdnc.config.params.transformer.ArtificatTransformer;
-
+import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.onap.sdnc.config.params.ParamsHandlerConstant;
+import org.onap.sdnc.config.params.data.PropertyDefinition;
+import org.onap.sdnc.config.params.transformer.ArtificatTransformer;
 
 public class TestPropertyDefinitionNode {
 
-   @Ignore
+    @Ignore
     public void testProcessMissingParamKeys() throws Exception {
         PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
 
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.processMissingParamKeys(inParams, ctx);
-        assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+        assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
+                ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
 
     }
 
@@ -74,18 +69,29 @@ public class TestPropertyDefinitionNode {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
 
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
 
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
-        assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
-}
+
+        for (Object key : ctx.getAttributeKeySet()) {
+            String parmName = (String) key;
+            String parmValue = ctx.getAttribute(parmName);
+            if (StringUtils.contains(parmName, "keys")) {
+                System.out.println("Key: " + parmName + ",    Value: " + parmValue);
+            }
+        }
+        assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
+                ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+    }
 
     @Test
     public void mergeJsonData() throws Exception {
@@ -93,24 +99,47 @@ public class TestPropertyDefinitionNode {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
-        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
+        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA, mergeJsonData);
 
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.mergeJsonData(inParams, ctx);
-        assertEquals(ctx.getAttribute("test."+ParamsHandlerConstant.OUTPUT_PARAM_STATUS), ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+        String mergedParams = ctx
+                .getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER);
+        assertNotNull(mergedParams);
+        assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
+                ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
     }
 
     @Test
     public void testArtificatTransformer() throws Exception {
         ArtificatTransformer transformer = new ArtificatTransformer();
-        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
 
         PropertyDefinition propertyDefinition = transformer.convertYAMLToPD(yamlData);
         String yaml = transformer.convertPDToYaml(propertyDefinition);
     }
-    
+
+
+    @Test
+    public void testValidationPd() throws Exception {
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, jsonData);
+        inParams.put(ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER, mergeJsonData);
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "INSTAR");
+        propertyDefinitionNode.validateParams(inParams, ctx);
+    }
+
 }

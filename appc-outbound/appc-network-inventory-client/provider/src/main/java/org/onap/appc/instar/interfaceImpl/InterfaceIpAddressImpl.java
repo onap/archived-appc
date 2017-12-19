@@ -32,8 +32,8 @@ import org.onap.appc.instar.interfaces.RestClientInterface;
 import org.onap.appc.instar.interfaces.RuleHandlerInterface;
 import org.onap.appc.instar.node.InstarClientNode;
 import org.onap.appc.instar.utils.InstarClientConstant;
-import org.openecomp.sdnc.config.params.data.Parameter;
-import org.openecomp.sdnc.config.params.data.ResponseKey;
+import org.onap.sdnc.config.params.data.Parameter;
+import org.onap.sdnc.config.params.data.ResponseKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;

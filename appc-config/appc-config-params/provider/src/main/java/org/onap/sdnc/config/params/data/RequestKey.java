@@ -22,30 +22,29 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.params.data;
+package org.onap.sdnc.config.params.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class RequestKey{
-	@JsonProperty("key-name")
-	private String keyName;
-	@JsonProperty("key-value")
-	private String keyValue;	
+public class RequestKey {
+    @JsonProperty("key-name")
+    private String keyName;
+    @JsonProperty("key-value")
+    private String keyValue;
 
-	public String getKeyName() {
-		return keyName;
-	}
-	public void setKeyName(String keyName) {
-		this.keyName = keyName;
-	}
-	public String getKeyValue() {
-		return keyValue;
-	}
-	public void setKeyValue(String keyValue) {
-		this.keyValue = keyValue;
-	}
-	
-	
-	
+    public String getKeyName() {
+        return keyName;
+    }
 
+    public void setKeyName(String keyName) {
+        this.keyName = keyName;
+    }
+
+    public String getKeyValue() {
+        return keyValue;
+    }
+
+    public void setKeyValue(String keyValue) {
+        this.keyValue = keyValue;
+    }
 }

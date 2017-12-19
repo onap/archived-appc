@@ -39,7 +39,7 @@ import org.onap.appc.instar.interfaceImpl.InterfaceIpAddressImpl;
 import org.onap.appc.instar.interfaces.RestClientInterface;
 import org.onap.appc.instar.interfaces.RuleHandlerInterface;
 import org.onap.appc.instar.utils.InstarClientConstant;
-import org.openecomp.sdnc.config.params.data.Parameter;
+import org.onap.sdnc.config.params.data.Parameter;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
