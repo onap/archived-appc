@@ -22,18 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.reader;
+package org.onap.sdnc.config.generator.reader;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
-import org.openecomp.sdnc.config.generator.reader.ReaderNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.merge.TestMergeNode;
 
 public class TestReaderNode {
     @Test(expected = Exception.class)
@@ -41,8 +40,9 @@ public class TestReaderNode {
         ReaderNode r = new ReaderNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME, IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream("convert/payload_cli_config.json")));
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME,
+                IOUtils.toString(TestMergeNode.class.getClassLoader()
+                        .getResourceAsStream("convert/payload_cli_config.json")));
         SvcLogicContext ctx = new SvcLogicContext();
         r.getFileData(inParams, ctx);
     }

@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,10 +17,12 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.tool;
+package org.onap.sdnc.config.generator.tool;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -32,16 +36,20 @@ public class EscapeUtils {
         if (str == null) {
             return null;
         }
-        String searchList[] = new String[]{"'","\\"};
-        String replacementList[] = new String[]{ "''","\\\\"};
-        return StringUtils.replaceEach(str,searchList, replacementList);
+        String searchList[] = new String[] {"'", "\\"};
+        String replacementList[] = new String[] {"''", "\\\\"};
+        return StringUtils.replaceEach(str, searchList, replacementList);
     }
-    
+
+    // Added for E2E defect 266908 Quote issue
     public static String unescapeSql(String str) {
         if (str == null) {
             return null;
         }
-        
+        /*
+         * String searchList[] = new String[]{"''", "\\\\"}; String replacementList[] = new
+         * String[]{ "'", "\\"};
+         */
         String searchList[] = new String[] {"''"};
         String replacementList[] = new String[] {"'"};
         return StringUtils.replaceEach(str, searchList, replacementList);
@@ -59,13 +67,13 @@ public class EscapeUtils {
         for (int i = 0; i < length; i++) {
             char c = s.charAt(i);
             switch (c) {
-            case '\\':
-            case '\"':
-            case '\'':
-            case '\0': {
-                newLength += 1;
-            }
-                break;
+                case '\\':
+                case '\"':
+                case '\'':
+                case '\0': {
+                    newLength += 1;
+                }
+                    break;
             }
         }
         if (length == newLength) {
@@ -76,25 +84,25 @@ public class EscapeUtils {
         for (int i = 0; i < length; i++) {
             char c = s.charAt(i);
             switch (c) {
-            case '\\': {
-                sb.append("\\\\");
-            }
-                break;
-            case '\"': {
-                sb.append("\\\"");
-            }
-                break;
-            case '\'': {
-                sb.append("\\\'");
-            }
-                break;
-            case '\0': {
-                sb.append("\\0");
-            }
-                break;
-            default: {
-                sb.append(c);
-            }
+                case '\\': {
+                    sb.append("\\\\");
+                }
+                    break;
+                case '\"': {
+                    sb.append("\\\"");
+                }
+                    break;
+                case '\'': {
+                    sb.append("\\\'");
+                }
+                    break;
+                case '\0': {
+                    sb.append("\\0");
+                }
+                    break;
+                default: {
+                    sb.append(c);
+                }
             }
         }
         return sb.toString();

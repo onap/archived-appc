@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,19 +17,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.pattern;
+package org.onap.sdnc.config.generator.pattern;
 
 import static org.junit.Assert.assertEquals;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.pattern.PatternNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 
 public class TestPatternNode {
 
@@ -36,46 +39,60 @@ public class TestPatternNode {
         PatternNode patternNode = new PatternNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String logData = IOUtils.toString(TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/errorlog.txt"),ConfigGeneratorConstant.STRING_ENCODING);
+        String logData = IOUtils.toString(
+                TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/errorlog.txt"),
+                ConfigGeneratorConstant.STRING_ENCODING);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_LOG_DATA, logData);
         SvcLogicContext ctx = new SvcLogicContext();
         patternNode.parseErrorLog(inParams, ctx);
-        assertEquals(ctx.getAttribute("test."+ConfigGeneratorConstant.OUTPUT_PARAM_STATUS), ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
-    
-   }
-//    @Test(expected=Exception.class)
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+
+    }
+
+    // @Test(expected=Exception.class)
     public void checkXMLData() throws Exception {
         PatternNode patternNode = new PatternNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String xmlData = IOUtils.toString(TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/xml_data.xml"),ConfigGeneratorConstant.STRING_ENCODING);
+        String xmlData = IOUtils.toString(
+                TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/xml_data.xml"),
+                ConfigGeneratorConstant.STRING_ENCODING);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA, xmlData);
         SvcLogicContext ctx = new SvcLogicContext();
         patternNode.checkDataType(inParams, ctx);
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
     }
 
-    //@Test
+    // @Test
     public void checkJsonData() throws Exception {
         PatternNode patternNode = new PatternNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String xmlData = IOUtils.toString(TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/json_data.json"),ConfigGeneratorConstant.STRING_ENCODING);
+        String xmlData =
+                IOUtils.toString(TestPatternNode.class.getClassLoader().getResourceAsStream(
+                        "pattern/json_data.json"), ConfigGeneratorConstant.STRING_ENCODING);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA, xmlData);
         SvcLogicContext ctx = new SvcLogicContext();
         patternNode.checkDataType(inParams, ctx);
-        assertEquals(ctx.getAttribute("test."+ConfigGeneratorConstant.OUTPUT_PARAM_STATUS), ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
     }
 
-    @Test(expected=Exception.class)
+    @Test(expected = Exception.class)
     public void checStringData() throws Exception {
         PatternNode patternNode = new PatternNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String stringData = IOUtils.toString(TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/text_data.txt"),ConfigGeneratorConstant.STRING_ENCODING);
+        String stringData = IOUtils.toString(
+                TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/text_data.txt"),
+                ConfigGeneratorConstant.STRING_ENCODING);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA, stringData);
         SvcLogicContext ctx = new SvcLogicContext();
         patternNode.checkDataType(inParams, ctx);
-        assertEquals(ctx.getAttribute("test."+ConfigGeneratorConstant.OUTPUT_PARAM_STATUS), ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
     }
 }

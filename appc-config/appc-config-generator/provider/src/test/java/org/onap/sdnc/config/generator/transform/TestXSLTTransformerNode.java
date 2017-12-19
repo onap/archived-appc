@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,26 +17,28 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
-package org.openecomp.sdnc.config.generator.transform;
+package org.onap.sdnc.config.generator.transform;
 
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
-import org.openecomp.sdnc.config.generator.ConfigGeneratorConstant;
-import org.openecomp.sdnc.config.generator.merge.TestMergeNode;
-import org.openecomp.sdnc.config.generator.transform.XSLTTransformerNode;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.merge.TestMergeNode;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestXSLTTransformerNode {
-    
-    private static final EELFLogger log = EELFManager.getInstance().getLogger(TestXSLTTransformerNode.class);
+
+    private static final EELFLogger log =
+            EELFManager.getInstance().getLogger(TestXSLTTransformerNode.class);
 
     @Test
     public void transformData() throws Exception {
@@ -50,7 +54,9 @@ public class TestXSLTTransformerNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA, requestData);
         XSLTTransformerNode transformerNode = new XSLTTransformerNode();
         transformerNode.transformData(inParams, ctx);
-        log.info("transformData Result: " + ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_TRANSFORMED_DATA));
+        log.info("transformData Result: "
+                + ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_TRANSFORMED_DATA));
 
     }
+
 }
