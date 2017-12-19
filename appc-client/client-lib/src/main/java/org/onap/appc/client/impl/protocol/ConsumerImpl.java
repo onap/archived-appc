@@ -109,7 +109,7 @@ class ConsumerImpl implements Consumer {
         //added for loop for defect 354330
         for (String url : hosts) {
             if (url.contains("3905") || url.contains("https")) {
-            	builder.usingHttps(true);
+                builder.usingHttps(true);
                 break;
             }
         }

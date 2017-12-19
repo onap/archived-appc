@@ -59,14 +59,14 @@ public class AuditOutput {
     }
 
     /**
-     * The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement
+     * The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ONAP Distribution Consumer Interface Agreement
      */
     public Status getStatus() {
         return status;
     }
 
     /**
-     * The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement
+     * The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ONAP Distribution Consumer Interface Agreement
      */
     public void setStatus(Status status) {
         this.status = status;
