@@ -24,12 +24,6 @@
 
 package org.onap.appc.design.xinterface;
 
-import java.io.File;
-import java.io.IOException;
-
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-
 public class XResponseProcessor {
 
     public String parseResponse(Object execute, String action) {

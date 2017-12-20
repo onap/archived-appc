@@ -53,9 +53,9 @@ public enum AnsibleResultCodes{
     INITRESPONSE(0),
     FINALRESPONSE(1); 
     
-    private final Set<Integer> InitCodes = new HashSet<Integer>(Arrays.asList(100, 101));
-    private final Set<Integer> FinalCodes = new HashSet<Integer>(Arrays.asList(200, 500));
-    private final ArrayList<Set<Integer>>CodeSets = new ArrayList<Set<Integer>>(Arrays.asList(InitCodes, FinalCodes));
+    private final Set<Integer> initCodes = new HashSet<Integer>(Arrays.asList(100, 101));
+    private final Set<Integer> finalCodes = new HashSet<Integer>(Arrays.asList(200, 500));
+    private final ArrayList<Set<Integer>>codeSets = new ArrayList<Set<Integer>>(Arrays.asList(initCodes, finalCodes));
     
     private  final Set<String> MessageSet = new HashSet<String>(Arrays.asList("PENDING", "FINISHED", "TERMINATED"));
 
@@ -72,7 +72,7 @@ public enum AnsibleResultCodes{
 
 
     public boolean checkValidCode(int Type, int Code){
-	Set<Integer>CodeSet = CodeSets.get(Type);
+	Set<Integer>CodeSet = codeSets.get(Type);
 	if (CodeSet.contains(Code)){
 	    return true;
 	}
@@ -83,7 +83,7 @@ public enum AnsibleResultCodes{
 
 
     public String getValidCodes(int Type){
-	Set<Integer>CodeSet = CodeSets.get(Type);
+	Set<Integer>CodeSet = codeSets.get(Type);
 	
 	Iterator iter = CodeSet.iterator();
 	String ValidCodes = "[ ";

@@ -25,10 +25,7 @@
 package org.onap.appc.design.dbervices;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Properties;
-import java.util.UUID;
 
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.onap.ccsdk.sli.core.dblib.DBResourceManager;

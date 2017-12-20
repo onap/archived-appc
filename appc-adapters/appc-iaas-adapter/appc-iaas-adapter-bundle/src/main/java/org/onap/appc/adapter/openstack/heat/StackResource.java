@@ -24,9 +24,6 @@
 
 package org.onap.appc.adapter.openstack.heat;
 
-import org.onap.appc.adapter.openstack.heat.model.CreateSnapshotParams;
-import org.onap.appc.adapter.openstack.heat.model.Snapshot;
-import com.woorea.openstack.base.client.Entity;
 import com.woorea.openstack.base.client.HttpMethod;
 import com.woorea.openstack.base.client.OpenStackClient;
 import com.woorea.openstack.base.client.OpenStackRequest;

@@ -49,7 +49,6 @@ import org.onap.appc.design.xinterface.XResponseProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Futures;
 
 public class DesignServicesImpl implements DesignServicesService {
