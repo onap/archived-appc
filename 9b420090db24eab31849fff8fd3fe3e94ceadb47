@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fbcfcbae",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2017-12-20T21:26:01Z",
+      "side": 1,
+      "message": "Why is nothing being done with this exception?",
+      "revId": "9b420090db24eab31849fff8fd3fe3e94ceadb47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
