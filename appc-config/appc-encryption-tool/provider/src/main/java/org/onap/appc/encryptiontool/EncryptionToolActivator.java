@@ -22,7 +22,6 @@ package org.onap.appc.encryptiontool;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.osgi.framework.BundleActivator;

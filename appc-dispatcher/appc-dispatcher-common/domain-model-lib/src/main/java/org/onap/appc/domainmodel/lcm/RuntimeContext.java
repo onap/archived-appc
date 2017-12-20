@@ -25,7 +25,6 @@
 package org.onap.appc.domainmodel.lcm;
 
 import java.time.Instant;
-import java.util.Date;
 
 
 public class RuntimeContext {

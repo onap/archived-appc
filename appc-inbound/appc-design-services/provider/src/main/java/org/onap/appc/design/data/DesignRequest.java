@@ -24,23 +24,8 @@
 
 package org.onap.appc.design.data;
 
-import java.io.File;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.sql.rowset.CachedRowSet;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import org.onap.appc.design.services.util.DesignServiceConstants;
-import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
-import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 public class DesignRequest{
 

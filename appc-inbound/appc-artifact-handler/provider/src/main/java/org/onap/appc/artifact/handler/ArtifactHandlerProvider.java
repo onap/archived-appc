@@ -24,14 +24,11 @@
 
 package org.onap.appc.artifact.handler;
 
-import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
@@ -54,10 +51,8 @@ import org.opendaylight.yangtools.yang.binding.DataObject;
 import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.onap.appc.artifact.handler.node.ArtifactHandlerNode;
 import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

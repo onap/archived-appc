@@ -27,59 +27,59 @@ package org.onap.appc.adapter.ansible.model;
 
 /* Simple class to store code and message returned by POST/GET to an Ansible Server */
 public class AnsibleResult{
-    private int StatusCode;
-    private String StatusMessage;
-    private String Results;
+    private int statusCode;
+    private String statusMessage;
+    private String results;
     
 
     public    AnsibleResult(){
-	StatusCode = -1;
-	StatusMessage = "UNKNOWN";
-	Results = "UNKNOWN";
+	statusCode = -1;
+	statusMessage = "UNKNOWN";
+	results = "UNKNOWN";
 
     }
 
     // constructor
     public AnsibleResult(int code, String message, String result){
-	StatusCode = code;
-	StatusMessage = message;
-	Results = result;
+	statusCode = code;
+	statusMessage = message;
+	results = result;
     }
 
     //*************************************************
     // Various set methods
     public void setStatusCode(int code){
-	this.StatusCode = code;
+	this.statusCode = code;
     }
 
     public void setStatusMessage(String message){
-	this.StatusMessage = message;
+	this.statusMessage = message;
     }
 
     public void setResults(String results){
-	this.Results = results;
+	this.results = results;
     }
     
 
     void set(int code, String message, String results){
-	this.StatusCode = code;
-	this.StatusMessage = message;
-	this.Results = results;
+	this.statusCode = code;
+	this.statusMessage = message;
+	this.results = results;
 
     }
 
     //*********************************************
     // Various get methods
     public int getStatusCode(){
-	return this.StatusCode;
+	return this.statusCode;
     }
 
     public String getStatusMessage(){
-	return this.StatusMessage;
+	return this.statusMessage;
     }
 
     public String getResults(){
-	return this.Results;
+	return this.results;
     }
 
 

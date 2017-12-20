@@ -24,7 +24,6 @@
 
 package org.onap.appc.design.dbervices;
 
-import org.onap.appc.design.services.util.ArtifactHandlerClient;
 import org.onap.appc.design.services.util.DesignServiceConstants;
 
 import com.att.eelf.configuration.EELFLogger;

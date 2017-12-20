@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -45,9 +43,7 @@ import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.Provider;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.woorea.openstack.connector.JaxRs20Connector;
 // import com.sun.jersey.api.client.ClientHandlerException;
-import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 
 /**
  * This class maintains a cache of tenants within a specific provider.
