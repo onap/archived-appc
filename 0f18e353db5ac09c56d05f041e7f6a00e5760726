@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_db576f01",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/MetricService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-20T17:24:13Z",
+      "side": 0,
+      "message": "removed some special characters from this line\n-     * @return Map\u003cString,MetricRegistry\u003e\u003cC2\u003e\u003cA0\u003ewhere \n+     * @return Map\u003cString,MetricRegistry\u003e where",
+      "revId": "0f18e353db5ac09c56d05f041e7f6a00e5760726",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
