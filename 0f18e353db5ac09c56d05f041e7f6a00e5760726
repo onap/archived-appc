@@ -16,6 +16,23 @@
       "revId": "0f18e353db5ac09c56d05f041e7f6a00e5760726",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1b75d797",
+        "filename": "appc-metric/appc-metric-installer/src/main/resources/scripts/install-feature.sh",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-20T17:42:05Z",
+      "side": 0,
+      "message": "Just in case you have the ignore whitespace option selected and don\u0027t see any diff, the change to this file is to replace tabs with spaces.",
+      "revId": "0f18e353db5ac09c56d05f041e7f6a00e5760726",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
