@@ -538,7 +538,7 @@ public class DesignDBService {
         catch(Exception e)
         {
             log.error("Error while DB operation : " + e.getMessage());
-            e.printStackTrace();
+            log.error("Exception : ",e);
             throw e;
         }
     }
