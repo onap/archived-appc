@@ -635,7 +635,7 @@ public class DesignDBService {
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            log.error("Error while Starting getDesgins DB operation : ",e);
             throw e;
         }
     }
