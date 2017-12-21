@@ -34,8 +34,6 @@ import org.onap.appc.logging.LoggingUtils;
 import org.onap.appc.requesthandler.exceptions.*;
 
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 public class VMRequestValidatorImpl extends AbstractRequestValidatorImpl {

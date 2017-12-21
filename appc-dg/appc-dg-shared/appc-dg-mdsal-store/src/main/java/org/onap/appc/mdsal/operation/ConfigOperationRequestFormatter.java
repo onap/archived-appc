@@ -26,7 +26,6 @@ package org.onap.appc.mdsal.operation;
 
 import org.onap.appc.mdsal.impl.Constants;
 
-import java.net.URL;
 /**
  * Creates request url path for config actions based on parameter like module name , container-name and sub modules if any.
  */

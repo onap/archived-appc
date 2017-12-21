@@ -22,7 +22,6 @@ package org.onap.appc.flow.controller;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 
 import org.onap.appc.flow.controller.node.FlowControlNode;
 import org.onap.appc.flow.controller.node.JsonParsingNode;

@@ -25,7 +25,6 @@
 package org.onap.appc.messageadapter.impl;
 
 
-import org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
 import org.onap.appc.adapter.factory.MessageService;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;

@@ -26,8 +26,6 @@ import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public interface FlowExecutorInterface {
 

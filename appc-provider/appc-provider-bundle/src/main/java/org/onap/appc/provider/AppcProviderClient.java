@@ -27,7 +27,6 @@ package org.onap.appc.provider;
 import org.onap.appc.util.StringHelper;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.osgi.framework.BundleContext;

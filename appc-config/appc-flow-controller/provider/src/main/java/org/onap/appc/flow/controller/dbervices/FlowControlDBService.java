@@ -20,7 +20,6 @@
 
 package org.onap.appc.flow.controller.dbervices;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.onap.appc.flow.controller.data.Transaction;

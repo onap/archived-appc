@@ -27,7 +27,6 @@ package org.onap.appc.executor.impl;
 
 import org.onap.appc.domainmodel.lcm.ActionLevel;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.domainmodel.lcm.VNFOperation;
 import org.onap.appc.lifecyclemanager.LifecycleManager;
 import org.onap.appc.requesthandler.RequestHandler;
 import org.onap.appc.workflow.WorkFlowManager;

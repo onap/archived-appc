@@ -34,7 +34,6 @@ import org.json.JSONObject;
 import org.onap.appc.listener.util.Mapper;
 import org.onap.appc.util.Time;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

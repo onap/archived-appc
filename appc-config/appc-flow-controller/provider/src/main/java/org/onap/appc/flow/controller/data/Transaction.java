@@ -20,7 +20,6 @@
 
 package org.onap.appc.flow.controller.data;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

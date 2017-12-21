@@ -23,7 +23,6 @@ package org.onap.appc.flow.controller.executorImpl;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -33,7 +32,6 @@ import javax.net.ssl.SSLContext;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.io.IOUtils;
 import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;

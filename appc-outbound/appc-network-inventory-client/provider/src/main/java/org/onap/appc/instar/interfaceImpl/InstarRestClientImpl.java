@@ -24,11 +24,8 @@
 
 package org.onap.appc.instar.interfaceImpl;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 
-import org.apache.commons.io.IOUtils;
 import org.onap.appc.instar.dme2client.Dme2Client;
 import org.onap.appc.instar.interfaces.RestClientInterface;
 import org.onap.appc.instar.utils.InstarClientConstant;

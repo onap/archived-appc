@@ -20,7 +20,6 @@
 
 package org.onap.appc.flow.controller.data;    
 
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -24,10 +24,7 @@
 
 package org.onap.appc.executor.impl;
 
-import org.onap.appc.domainmodel.lcm.Status;
 import org.onap.appc.executor.objects.CommandResponse;
-import org.onap.appc.executor.objects.LCMCommandStatus;
-import org.onap.appc.executor.objects.Params;
 import org.onap.appc.requesthandler.RequestHandler;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.workflow.WorkFlowManager;

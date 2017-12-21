@@ -32,7 +32,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.apache.commons.lang.StringUtils;
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.exceptions.APPCException;
-import org.onap.appc.licmgr.Constants;
 import org.onap.appc.sdc.artifacts.helper.DependencyModelGenerator;
 import org.onap.appc.sdc.artifacts.object.Resource;
 import org.onap.appc.sdc.artifacts.object.SDCArtifact;
@@ -43,7 +42,6 @@ import org.openecomp.sdc.api.notification.INotificationData;
 import org.openecomp.sdc.api.notification.IResourceInstance;
 import org.openecomp.sdc.api.results.IDistributionClientDownloadResult;
 
-import javax.json.Json;
 import java.io.*;
 import java.net.URI;
 import java.util.*;

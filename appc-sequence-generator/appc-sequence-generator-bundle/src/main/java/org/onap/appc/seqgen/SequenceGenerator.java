@@ -21,13 +21,11 @@
 package org.onap.appc.seqgen;
 
 
-import org.onap.appc.dg.objects.VnfcFlowModel;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
 import org.onap.appc.seqgen.objects.Transaction;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Sequence Generator API generates runtime sequence for LCM operations execution

@@ -33,7 +33,6 @@ import org.openecomp.sdc.api.consumer.IDistributionStatusMessage;
 import org.openecomp.sdc.api.notification.IArtifactInfo;
 import org.openecomp.sdc.api.notification.INotificationData;
 import org.openecomp.sdc.api.notification.IResourceInstance;
-import org.openecomp.sdc.utils.DistributionStatusEnum;
 
 public class Util {
 

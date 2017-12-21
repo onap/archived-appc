@@ -29,9 +29,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.instar.interfaceImpl.InstarRestClientImpl;

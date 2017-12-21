@@ -25,7 +25,6 @@
 package org.onap.appc.executor.objects;
 
 
-import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.domainmodel.lcm.Status;
 import org.onap.appc.util.MessageFormatter;
 

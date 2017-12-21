@@ -21,16 +21,10 @@
 package org.onap.appc.flow.controller.executorImpl;
 
 import java.util.HashMap;
-import java.util.Properties;
 
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;

@@ -24,13 +24,11 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.onap.appc.flow.controller.data.Parameters;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;

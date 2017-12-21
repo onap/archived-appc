@@ -20,18 +20,12 @@
 
 package org.onap.appc.flow.controller.node;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.flow.controller.data.Transaction;
-import org.onap.appc.flow.controller.executorImpl.RestExecutor;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
