@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_562016f7",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-21T16:08:22Z",
+      "side": 1,
+      "message": "Use spaces for indentation.  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "437162efa4e50341ea2a9dedb01b08b721740a2a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
