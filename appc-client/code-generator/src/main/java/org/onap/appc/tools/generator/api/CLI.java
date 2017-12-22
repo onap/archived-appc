@@ -26,6 +26,8 @@ package org.onap.appc.tools.generator.api;
 
 import org.onap.appc.tools.generator.impl.ModelGenerator;
 
+import java.io.File;
+
 public class CLI {
     public static void main(String... args) throws Exception {
         String sourceFile = args[0];
@@ -61,6 +63,6 @@ public class CLI {
                     + " "+builderName
                     + " <conf file>'");
         ModelGenerator generator = new ModelGenerator();
-        generator.execute(sourceFile, destinationFile, templateFile, builderName, contextConfName);
+        generator.execute((new File(sourceFile)).toURI().toURL(), destinationFile, templateFile, builderName, contextConfName);
     }
 }
