@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_6a544254",
+        "filename": "appc-client/client-kit/src/main/java/org/onap/appc/client/lcm/impl/business/CoreAsyncResponseHandlerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-22T16:57:32Z",
+      "side": 1,
+      "message": "Unused import",
+      "revId": "597c843653e8c05e798f6435c9b6cc79332ef334",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8a518e64",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/protocol/MessageWriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2017-12-22T16:57:32Z",
+      "side": 1,
+      "message": "Unused import",
+      "revId": "597c843653e8c05e798f6435c9b6cc79332ef334",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
