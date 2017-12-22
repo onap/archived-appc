@@ -56,7 +56,6 @@
         <eelf.core.version>1.0.0</eelf.core.version>
         <eelf.version>0.0.4</eelf.version>
         <freemarker.version>2.3.23</freemarker.version>
-        <jackson.version>2.8.5</jackson.version>
         <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
         <maven.compiler.plugin.version>3.6.0</maven.compiler.plugin.version>

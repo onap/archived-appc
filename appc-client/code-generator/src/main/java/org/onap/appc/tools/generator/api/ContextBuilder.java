@@ -24,11 +24,11 @@
 
 package org.onap.appc.tools.generator.api;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 
 public interface ContextBuilder {
 
-    Map<String, Object> buildContext(String sourceFile, String contextConf) throws IOException;
+    Map<String, Object> buildContext(URL sourceURL, String contextConf) throws IOException;
 }

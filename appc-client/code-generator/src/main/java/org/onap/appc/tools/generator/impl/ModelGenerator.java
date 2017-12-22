@@ -24,13 +24,14 @@
 
 package org.onap.appc.tools.generator.impl;
 
-import org.onap.appc.tools.generator.api.ContextBuilder;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.onap.appc.tools.generator.api.ContextBuilder;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,10 +39,10 @@ import java.util.Map;
 
 public class ModelGenerator {
 
-    public void execute(String sourceFile, String destinationFile, String templateFile, String builderName, String contextConfName) throws IOException, ReflectiveOperationException {
+    public void execute(URL sourceFileURL, String destinationFile, String templateFile, String builderName, String contextConfName) throws IOException, ReflectiveOperationException {
 
         ContextBuilder contextBuilder = (ContextBuilder) Class.forName(builderName).newInstance();
-        Map<String, Object> context = contextBuilder.buildContext(sourceFile, contextConfName);
+        Map<String, Object> context = contextBuilder.buildContext(sourceFileURL, contextConfName);
 
         Path destinationPath = Paths.get(destinationFile);
         if (!Files.isDirectory(destinationPath))
@@ -68,4 +69,6 @@ public class ModelGenerator {
         }
     }
 
+
 }
+
