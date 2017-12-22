@@ -1,22 +1,22 @@
 [
     {
-        "id": "77efa2fe.5906a4",
+        "id": "af6a33f9.dc3c3",
         "type": "method",
         "name": "Generic_Restart_2.0.1",
         "xml": "<method rpc='Generic_Restart' mode='sync'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 114,
-        "y": 119,
-        "z": "f3233724.949d7",
+        "x": 157.515625,
+        "y": 178.99999749660492,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "d57f60ae.3596c8"
+                "9395984d.615e28"
             ]
         ]
     },
     {
-        "id": "f3fc277b.fcf008",
+        "id": "79060c35.dc7f14",
         "type": "service-logic",
         "name": "APPC 2.0.1",
         "module": "APPC",
@@ -24,1843 +24,956 @@
         "comments": "",
         "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.1'>",
         "outputs": 1,
-        "x": 97,
-        "y": 70,
-        "z": "f3233724.949d7",
+        "x": 140.515625,
+        "y": 129.99999749660492,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "77efa2fe.5906a4"
+                "af6a33f9.dc3c3"
             ]
         ]
     },
     {
-        "id": "f74c7201.958e3",
+        "id": "fe1d53a6.8c464",
         "type": "dgstart",
         "name": "DGSTART",
         "outputs": 1,
-        "x": 89,
-        "y": 20,
-        "z": "f3233724.949d7",
+        "x": 132.515625,
+        "y": 79.99999749660492,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "f3fc277b.fcf008"
+                "79060c35.dc7f14"
             ]
         ]
     },
     {
-        "id": "3569147a.725ba4",
+        "id": "aef52fb.8daedd",
         "type": "execute",
         "name": "execute_getVNF_Hierarchy",
         "xml": "<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='getVnfHierarchy'>\n<parameter name=\"resourceKey\" value=\"`$input.action-identifiers.vnf-id`\" />",
         "comments": "",
         "outputs": 1,
-        "x": 285,
-        "y": 255,
-        "z": "f3233724.949d7",
+        "x": 328.515625,
+        "y": 314.9999974966049,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "4078cbb6.058144",
-                "85bd466a.1b45c8"
+                "1f8913a9.8ae10c",
+                "c0153585.a3f598"
             ]
         ]
     },
     {
-        "id": "4078cbb6.058144",
+        "id": "1f8913a9.8ae10c",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 520.2857208251953,
-        "y": 251.85713386535645,
-        "z": "f3233724.949d7",
+        "x": 563.8013458251953,
+        "y": 311.85713136196136,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "39e4ac19.01b06c"
+                "52b0bec9.4c371"
             ]
         ]
     },
     {
-        "id": "4e5804f3.f136ec",
+        "id": "81620c9e.a3735",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>\n",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 1345.8573913574219,
-        "y": 246.5713963508606,
-        "z": "f3233724.949d7",
+        "x": 1389.3730163574219,
+        "y": 306.5713938474655,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "a4d10066.c8a438",
-                "2da822c4.8d41b6"
+                "56897be6.6401b4",
+                "f5b43313.3ca52"
             ]
         ]
     },
     {
-        "id": "a4d10066.c8a438",
+        "id": "56897be6.6401b4",
         "type": "for",
         "name": "for_each_VMs",
         "xml": "<for index=\"i\" start=\"0\" end=\"`$VNF.VMCount`\" >",
         "comments": "",
         "outputs": 1,
-        "x": 1538.5717239379883,
-        "y": 256.42853116989136,
-        "z": "f3233724.949d7",
+        "x": 1582.0873489379883,
+        "y": 316.4285286664963,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "e1242460.1b48"
+                "320b17c2.41ca48"
             ]
         ]
     },
     {
-        "id": "e1242460.1b48",
+        "id": "320b17c2.41ca48",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>\n",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 1650.5717010498047,
-        "y": 189.7142515182495,
-        "z": "f3233724.949d7",
+        "x": 1806.0872421264648,
+        "y": 309.71425342559814,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "89f6a89.5a2f1d8"
+                "d7583b82.ca48a8"
             ]
         ]
     },
     {
-        "id": "89f6a89.5a2f1d8",
-        "type": "execute",
-        "name": "execute_UpdateAA&I",
-        "xml": "<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name = $VNF.VM[$i].VNFC' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"Restarting\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1759.286018371582,
-        "y": 256.42854022979736,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "f889439d.898128",
-                "112a7308.0a5275"
-            ]
-        ]
-    },
-    {
-        "id": "f889439d.898128",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2022.4285888671875,
-        "y": 257.57142639160156,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "29ba3770.c1f3c8"
-            ]
-        ]
-    },
-    {
-        "id": "2da822c4.8d41b6",
+        "id": "f5b43313.3ca52",
         "type": "returnSuccess",
         "name": "return success",
         "xml": "<return status='success'>\n",
         "comments": "",
-        "x": 1532.2859420776367,
-        "y": 313.71416425704956,
-        "z": "f3233724.949d7",
+        "x": 1575.8015670776367,
+        "y": 373.7141617536545,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "85bd466a.1b45c8",
+        "id": "c0153585.a3f598",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 517.28564453125,
-        "y": 29.28571319580078,
-        "z": "f3233724.949d7",
+        "x": 560.80126953125,
+        "y": 89.2857106924057,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "c3caa195.b3d0f8"
+                "8944e410.f05578"
             ]
         ]
     },
     {
-        "id": "fd3ec61c.d74f5",
+        "id": "14ed926a.f1008e",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n",
         "comments": "",
-        "x": 886.5714340209961,
-        "y": 78.57142579555511,
-        "z": "f3233724.949d7",
+        "x": 930.0870590209961,
+        "y": 138.57142329216003,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "3f21932e.ae5b5c",
+        "id": "7480a7be.e83688",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 3470.0000076293945,
-        "y": 368.5714588165283,
-        "z": "f3233724.949d7",
+        "x": 2302.5163497924805,
+        "y": 340.5714693069458,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "96461915.52e788"
+                "cfcc7195.d7b1c"
             ]
         ]
     },
     {
-        "id": "33439619.cba012",
-        "type": "execute",
-        "name": "execute_update_AA&I",
-        "xml": "<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name = $VNF.VM[$i].VNFC' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"Restarted\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4306.71378326416,
-        "y": 917.1429214477539,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "9dc27e7a.e97958",
-                "223bf714.c63b38"
-            ]
-        ]
-    },
-    {
-        "id": "9dc27e7a.e97958",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4500.142219543457,
-        "y": 1022.2858295440674,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "ad2a7678.0ff04"
-            ]
-        ]
-    },
-    {
-        "id": "7524bbc6.5b1bd4",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 4847.142219543457,
-        "y": 1073.2858295440674,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "223bf714.c63b38",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4499.428039550781,
-        "y": 825.0000867843628,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "33c4bf37.aa002"
-            ]
-        ]
-    },
-    {
-        "id": "112a7308.0a5275",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1834.0000381469727,
-        "y": 549.571478843689,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "ae268e7b.227458"
-            ]
-        ]
-    },
-    {
-        "id": "6a0490e7.9a9978",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 2157.57137298584,
-        "y": 638.4286470413208,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "dab9037a.73cc8",
-        "type": "execute",
-        "name": "execute_Update_AA&I",
-        "xml": "<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name = $VNF.VM[$i].VNFC' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"Error\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4832.285980224609,
-        "y": 531.7143478393555,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "437746e2.a8208",
-                "87adabfd.985408"
-            ]
-        ]
-    },
-    {
-        "id": "437746e2.a8208",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5103.999912261963,
-        "y": 266.00002574920654,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "233c297.2dd7356"
-            ]
-        ]
-    },
-    {
-        "id": "296c8838.727ac8",
-        "type": "comment",
-        "name": "update VNFCs to Restarting",
-        "info": "",
-        "comments": "",
-        "x": 1839.8574600219727,
-        "y": 218.71423721313477,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "61ae8f41.05e9e",
+        "id": "e7898ad9.fecd98",
         "type": "comment",
         "name": "call south bound to Restart VMs",
         "info": "",
         "comments": "",
-        "x": 3296.4278717041016,
-        "y": 189.4285831451416,
-        "z": "f3233724.949d7",
+        "x": 2136.9437408447266,
+        "y": 256.42858695983887,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "5e33f37e.9d54bc",
-        "type": "comment",
-        "name": "if failure from south bound then update as Error",
-        "info": "",
-        "comments": "",
-        "x": 4827.571907043457,
-        "y": 601.1428642272949,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "9d3cd0b7.0545b",
-        "type": "comment",
-        "name": "Restarted VNFCs in AA&I",
-        "info": "",
-        "comments": "",
-        "x": 4337.571113586426,
-        "y": 954.714334487915,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "7ee87617.54b68",
+        "id": "e9132973.e97d28",
         "type": "comment",
         "name": "Fetch all VMs and VNFCs from AA&I for given VNF_ID",
         "info": "",
         "comments": "",
-        "x": 855.7142944335938,
-        "y": 109.85714149475098,
-        "z": "f3233724.949d7",
+        "x": 899.2299194335938,
+        "y": 169.8571389913559,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "87adabfd.985408",
+        "id": "4033070f.087248",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 5095.857753753662,
-        "y": 359.14294624328613,
-        "z": "f3233724.949d7",
+        "x": 2343.8015327453613,
+        "y": 220.85716438293457,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "cf6d241.f3ffb58"
+                "a4067085.ee7b4"
             ]
         ]
     },
     {
-        "id": "fc9c6442.f66668",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 3434.285758972168,
-        "y": 39.85716247558594,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "f38fb44e.7e9a2"
-            ]
-        ]
-    },
-    {
-        "id": "75d96b60.4e9e54",
+        "id": "54514bc5.74c594",
         "type": "switchNode",
         "name": "switch",
         "xml": "<switch test='`$VNF.VMCount`'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 962.857421875,
-        "y": 249.28571701049805,
-        "z": "f3233724.949d7",
+        "x": 1006.373046875,
+        "y": 309.28571450710297,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "5e4b3ef1.333968",
-                "7a443d49.8b5ba4"
+                "5e3eef25.c40b4",
+                "410f290.be2b4d8"
             ]
         ]
     },
     {
-        "id": "5e4b3ef1.333968",
+        "id": "5e3eef25.c40b4",
         "type": "other",
         "name": "outcome_0",
         "xml": "<outcome value='0'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1231.2858276367188,
-        "y": 29.428585052490234,
-        "z": "f3233724.949d7",
+        "x": 1274.8014526367188,
+        "y": 89.42858254909515,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "603266f2.4e3b68"
+                "24a33f0c.5c66d"
             ]
         ]
     },
     {
-        "id": "7a443d49.8b5ba4",
+        "id": "410f290.be2b4d8",
         "type": "other",
         "name": "other",
         "xml": "<outcome value='Other'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1180.1430282592773,
-        "y": 245.14288139343262,
-        "z": "f3233724.949d7",
+        "x": 1223.6586532592773,
+        "y": 305.14287889003754,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "4e5804f3.f136ec"
+                "81620c9e.a3735"
             ]
         ]
     },
     {
-        "id": "96461915.52e788",
+        "id": "cfcc7195.d7b1c",
         "type": "switchNode",
         "name": "switch",
         "xml": "<switch test='`$RESTART_STATUS`'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 3652.0000076293945,
-        "y": 367.5714588165283,
-        "z": "f3233724.949d7",
+        "x": 2378.5162963867188,
+        "y": 696.5714845657349,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "a5b69edc.1371e",
-                "921d5fa7.b64fd",
-                "c1dede1c.287e1"
+                "53d1ef1b.d4ccd",
+                "ddf1bec4.e5768",
+                "93038779.082858"
             ]
         ]
     },
     {
-        "id": "c1dede1c.287e1",
+        "id": "93038779.082858",
         "type": "success",
         "name": "outcome_SUCCESS",
         "xml": "<outcome value='SUCCESS'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 3939.4285583496094,
-        "y": 704.0000228881836,
-        "z": "f3233724.949d7",
+        "x": 2650.944465637207,
+        "y": 812.0000534057617,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "5f0bb2d7.73d944"
+                "2ff43640.be312a"
             ]
         ]
     },
     {
-        "id": "a5b69edc.1371e",
+        "id": "53d1ef1b.d4ccd",
         "type": "other",
         "name": "outcome_CONTEXT_NOT_FOUND",
         "xml": "<outcome value='CONTEXT_NOT_FOUND'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 3954.857635498047,
-        "y": 563.4286317825317,
-        "z": "f3233724.949d7",
+        "x": 2653.3734130859375,
+        "y": 704.4287443161011,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "c015eed1.b1284"
+                "e8979745.ebc758"
             ]
         ]
     },
     {
-        "id": "921d5fa7.b64fd",
+        "id": "ddf1bec4.e5768",
         "type": "other",
         "name": "outcome_ERROR",
         "xml": "<outcome value='ERROR'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 3851.9998474121094,
-        "y": 321.0000534057617,
-        "z": "f3233724.949d7",
+        "x": 2632.5158767700195,
+        "y": 607.0000715255737,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "fb86a599.d6e52"
+                "b89b10f8.54c03"
             ]
         ]
     },
     {
-        "id": "5fc462ef.902c24",
+        "id": "d7583b82.ca48a8",
         "type": "execute",
         "name": "execute_Restart",
         "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='restartServer'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$VNF.VM[$i].URL`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n\n",
         "comments": "",
         "outputs": 1,
-        "x": 3294.2858657836914,
-        "y": 256.8571901321411,
-        "z": "f3233724.949d7",
+        "x": 2052.801918029785,
+        "y": 301.85722255706787,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "3f21932e.ae5b5c",
-                "fc9c6442.f66668"
+                "7480a7be.e83688",
+                "4033070f.087248"
             ]
         ]
     },
     {
-        "id": "39e4ac19.01b06c",
+        "id": "52b0bec9.4c371",
         "type": "switchNode",
         "name": "switch",
         "xml": "<switch test='`$getVnfHierarchy_result`'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 670.5714340209961,
-        "y": 249.85720825195312,
-        "z": "f3233724.949d7",
+        "x": 714.0870590209961,
+        "y": 309.85720574855804,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "cf51ca13.06e278",
-                "72819038.6fa4c8"
+                "dc9fcbbd.45f078",
+                "421fac7b.b6dc54"
             ]
         ]
     },
     {
-        "id": "72819038.6fa4c8",
+        "id": "421fac7b.b6dc54",
         "type": "outcome",
         "name": "FAILURE",
         "xml": "<outcome value='FAILURE'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 818.7858428955078,
-        "y": 520.5714192390442,
-        "z": "f3233724.949d7",
+        "x": 862.3014678955078,
+        "y": 580.5714167356491,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "a5478728.ff0ec"
+                "6d512cc6.dfb4f4"
             ]
         ]
     },
     {
-        "id": "34e62453.208ac4",
+        "id": "3c5fe469.391bec",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n",
         "comments": "",
-        "x": 1299.3571891784668,
-        "y": 597.285737991333,
-        "z": "f3233724.949d7",
+        "x": 1342.8728141784668,
+        "y": 657.2857354879379,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "cf51ca13.06e278",
+        "id": "dc9fcbbd.45f078",
         "type": "outcome",
         "name": "SUCCESS",
         "xml": "<outcome value='SUCCESS'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 822.9999771118164,
-        "y": 250.14290809631348,
-        "z": "f3233724.949d7",
+        "x": 866.5156021118164,
+        "y": 310.1429055929184,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "75d96b60.4e9e54"
+                "54514bc5.74c594"
             ]
         ]
     },
     {
-        "id": "ffc6f747.0a0218",
+        "id": "7c57afb3.7065c",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n",
         "comments": "",
-        "x": 1585.5717468261719,
-        "y": 83.85710144042969,
-        "z": "f3233724.949d7",
+        "x": 1629.0873718261719,
+        "y": 143.8570989370346,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "29ba3770.c1f3c8",
-        "type": "switchNode",
-        "name": "switch",
-        "xml": "<switch test='`$postResource_result`'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2357.4286003112793,
-        "y": 250.4285650253296,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "8dd97536.3861",
-                "298028ac.19fed8",
-                "5a5aa624.6ed6f8"
-            ]
-        ]
-    },
-    {
-        "id": "8dd97536.3861",
-        "type": "outcome",
-        "name": "SUCCESS",
-        "xml": "<outcome value='SUCCESS'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 3083.0001907348633,
-        "y": 261.7142677307129,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "5fc462ef.902c24"
-            ]
-        ]
-    },
-    {
-        "id": "298028ac.19fed8",
-        "type": "outcome",
-        "name": "NOT_FOUND",
-        "xml": "<outcome value='NOT_FOUND'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2462.1429176330566,
-        "y": 33.428611755371094,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "73a1e1e1.3f12d8"
-            ]
-        ]
-    },
-    {
-        "id": "31507432.c47354",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 2853.142868041992,
-        "y": 125.42854309082031,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "5a5aa624.6ed6f8",
-        "type": "outcome",
-        "name": "FAILURE",
-        "xml": "<outcome value='FAILURE'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2474.7142753601074,
-        "y": 541.857063293457,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "92e5a6d6.1d8d2"
-            ]
-        ]
-    },
-    {
-        "id": "e0f4b3fe.b8cd18",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 2794.5710678100586,
-        "y": 637.2857112884521,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "33c4bf37.aa002",
-        "type": "switchNode",
-        "name": "switch",
-        "xml": "<switch test='`$postResource_result`'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4662.142288208008,
-        "y": 825.428671836853,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "4d8b21a6.9f2a08",
-                "8347ff07.484e9",
-                "664cf859.147678"
-            ]
-        ]
-    },
-    {
-        "id": "4d8b21a6.9f2a08",
-        "type": "outcome",
-        "name": "SUCCESS",
-        "xml": "<outcome value='SUCCESS'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4847.856781005859,
-        "y": 824.1429166793823,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "8347ff07.484e9",
-        "type": "outcome",
-        "name": "NOT_FOUND",
-        "xml": "<outcome value='NOT_FOUND'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4852.856986999512,
-        "y": 756.2857484817505,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "a2d56bc1.16762"
-            ]
-        ]
-    },
-    {
-        "id": "664cf859.147678",
-        "type": "outcome",
-        "name": "FAILURE",
-        "xml": "<outcome value='FAILURE'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4835.856498718262,
-        "y": 890.142897605896,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "afa5d8ee.9872e"
-            ]
-        ]
-    },
-    {
-        "id": "67272fcc.070ee",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 5216.285415649414,
-        "y": 818.8571405410767,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "90242f4f.02c65",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 5243.714195251465,
-        "y": 940.4285669326782,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "233c297.2dd7356",
-        "type": "switchNode",
-        "name": "switch",
-        "xml": "<switch test='`$postResource_result`'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5230.429107666016,
-        "y": 259.8571615219116,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "1d50340e.419374",
-                "10f7012f.31d01f",
-                "59e82f88.e7b6b"
-            ]
-        ]
-    },
-    {
-        "id": "1d50340e.419374",
-        "type": "outcome",
-        "name": "SUCCESS",
-        "xml": "<outcome value='SUCCESS'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5478.142833709717,
-        "y": 206.0000228881836,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "4761e71e.e2f208"
-            ]
-        ]
-    },
-    {
-        "id": "4761e71e.e2f208",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 5730.000324249268,
-        "y": 205.00002098083496,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "10f7012f.31d01f",
-        "type": "outcome",
-        "name": "NOT_FOUND",
-        "xml": "<outcome value='NOT_FOUND'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5480.143047332764,
-        "y": 260.85716438293457,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "51906d2a.ba1574"
-            ]
-        ]
-    },
-    {
-        "id": "59e82f88.e7b6b",
-        "type": "outcome",
-        "name": "FAILURE",
-        "xml": "<outcome value='FAILURE'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5473.000049591064,
-        "y": 326.42859840393066,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "892ff529.01f29"
-            ]
-        ]
-    },
-    {
-        "id": "c3caa195.b3d0f8",
+        "id": "8944e410.f05578",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 681.2856864929199,
-        "y": 28.99999713897705,
-        "z": "f3233724.949d7",
+        "x": 724.8013114929199,
+        "y": 88.99999463558197,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "2bab1708.35229",
-                "fd3ec61c.d74f5"
+                "2d4b92a0.39884e",
+                "14ed926a.f1008e"
             ]
         ]
     },
     {
-        "id": "2bab1708.35229",
+        "id": "2d4b92a0.39884e",
         "type": "execute",
         "name": "execute",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"Exception in getting VNF Hierachy\" />\n\n",
         "comments": "",
         "outputs": 1,
-        "x": 886.4285926818848,
-        "y": 27.857141494750977,
-        "z": "f3233724.949d7",
+        "x": 929.9442176818848,
+        "y": 87.8571389913559,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "4f2e980a.047948"
+                "f85ab919.b77d18"
             ]
         ]
     },
     {
-        "id": "4f2e980a.047948",
+        "id": "f85ab919.b77d18",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1033.1428756713867,
-        "y": 24.14285659790039,
-        "z": "f3233724.949d7",
+        "x": 1076.6585006713867,
+        "y": 84.14285409450531,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "a5478728.ff0ec",
+        "id": "6d512cc6.dfb4f4",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 1088.023910522461,
-        "y": 522.7620143890381,
-        "z": "f3233724.949d7",
+        "x": 1131.539535522461,
+        "y": 582.762011885643,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "34e62453.208ac4",
-                "587f4ad0.9d068c"
+                "3c5fe469.391bec",
+                "1243c742.ab67a9"
             ]
         ]
     },
     {
-        "id": "587f4ad0.9d068c",
+        "id": "1243c742.ab67a9",
         "type": "execute",
         "name": "execute",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"Failure in getting VNF Hierachy\" />",
         "comments": "",
         "outputs": 1,
-        "x": 1280.928638458252,
-        "y": 522.1429443359375,
-        "z": "f3233724.949d7",
+        "x": 1324.444263458252,
+        "y": 582.1429418325424,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "617e8a47.dee6d4"
+                "b53d39a2.379b98"
             ]
         ]
     },
     {
-        "id": "617e8a47.dee6d4",
+        "id": "b53d39a2.379b98",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1462.2144165039062,
-        "y": 521.5715417861938,
-        "z": "f3233724.949d7",
+        "x": 1505.7300415039062,
+        "y": 581.5715392827988,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "603266f2.4e3b68",
+        "id": "24a33f0c.5c66d",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 1411.571662902832,
-        "y": 30.857173919677734,
-        "z": "f3233724.949d7",
+        "x": 1455.087287902832,
+        "y": 90.85717141628265,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "ffc6f747.0a0218",
-                "1b7172ec.01ee45"
+                "7c57afb3.7065c",
+                "a7039c76.e8bc"
             ]
         ]
     },
     {
-        "id": "1b7172ec.01ee45",
+        "id": "a7039c76.e8bc",
         "type": "execute",
         "name": "execute",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"VM Count is 0\" />\n",
         "comments": "",
         "outputs": 1,
-        "x": 1595.0003547668457,
-        "y": 27.857142448425293,
-        "z": "f3233724.949d7",
+        "x": 1638.5159797668457,
+        "y": 87.85713994503021,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "558b37ad.8521a"
+                "4a8bce0d.ce1b2"
             ]
         ]
     },
     {
-        "id": "558b37ad.8521a",
+        "id": "4a8bce0d.ce1b2",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1768.8574447631836,
-        "y": 29.57139015197754,
-        "z": "f3233724.949d7",
+        "x": 1812.3730697631836,
+        "y": 89.57138764858246,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "ae268e7b.227458",
+        "id": "a4067085.ee7b4",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 1981.571434020996,
-        "y": 548.1428813934326,
-        "z": "f3233724.949d7",
+        "x": 2535.372848510742,
+        "y": 219.57143592834473,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "4ee323c7.76dfa4",
-                "6a0490e7.9a9978"
+                "51faf7d9.2c2d78",
+                "1d564539.a927cb"
             ]
         ]
     },
     {
-        "id": "4ee323c7.76dfa4",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Failure in updating AAI for' + $VNF.VM[$i].VNFC`\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2153.000244140625,
-        "y": 545.0000610351562,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "fbf65c23.908008"
-            ]
-        ]
-    },
-    {
-        "id": "fbf65c23.908008",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2286.28564453125,
-        "y": 544.857177734375,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "92e5a6d6.1d8d2",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 2639.2854232788086,
-        "y": 539.2856788635254,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "aa960cd9.883948",
-                "e0f4b3fe.b8cd18"
-            ]
-        ]
-    },
-    {
-        "id": "aa960cd9.883948",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Exception in AAI Update for vnfc ' + $VNF.VM[$i].VNFC`\" />\n\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2796.28564453125,
-        "y": 540.142822265625,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "81652814.1359b"
-            ]
-        ]
-    },
-    {
-        "id": "81652814.1359b",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2923.428066253662,
-        "y": 539.8570718765259,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "73a1e1e1.3f12d8",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 2650.714412689209,
-        "y": 29.42860984802246,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "e89f00f2.e11a58",
-                "31507432.c47354"
-            ]
-        ]
-    },
-    {
-        "id": "e89f00f2.e11a58",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'VNFC not found in AAI : ' + $VNF.VM[$i].VNFC`\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 2850.4287300109863,
-        "y": 28.857165336608887,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "62a54c9a.9e4184"
-            ]
-        ]
-    },
-    {
-        "id": "62a54c9a.9e4184",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 3009.8572311401367,
-        "y": 28.00004768371582,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f38fb44e.7e9a2",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 4662.856857299805,
-        "y": 41.57143783569336,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "3e633dc7.8349aa",
-                "dab9037a.73cc8"
-            ]
-        ]
-    },
-    {
-        "id": "3e633dc7.8349aa",
+        "id": "51faf7d9.2c2d78",
         "type": "execute",
         "name": "Report_Failure_in_Restart",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Failure in restart for:' + $VNF.VM[$i].URL`\" />",
         "comments": "",
         "outputs": 1,
-        "x": 4882.428768157959,
-        "y": 68.28573799133301,
-        "z": "f3233724.949d7",
+        "x": 2782.9448776245117,
+        "y": 159.28574752807617,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "21eabfb9.c71688"
+                "9ba9fdba.a5bdb"
             ]
         ]
     },
     {
-        "id": "21eabfb9.c71688",
+        "id": "9ba9fdba.a5bdb",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 5066.428413391113,
-        "y": 70.2857437133789,
-        "z": "f3233724.949d7",
+        "x": 3050.9442749023438,
+        "y": 159.28573989868164,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "c015eed1.b1284",
+        "id": "e8979745.ebc758",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 4237.428771972656,
-        "y": 557.5714626312256,
-        "z": "f3233724.949d7",
+        "x": 2909.944835662842,
+        "y": 710.5715665817261,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "dab9037a.73cc8",
-                "44f3a34b.72d604"
+                "af8d62c6.4acba",
+                "bcc63431.460308"
             ]
         ]
     },
     {
-        "id": "44f3a34b.72d604",
+        "id": "af8d62c6.4acba",
         "type": "execute",
         "name": "Report_Context_not_found",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Stop : Context not found:' + $VNF.VM[$i].URL`\" />",
         "comments": "",
         "outputs": 1,
-        "x": 4446.571556091309,
-        "y": 302.571475982666,
-        "z": "f3233724.949d7",
+        "x": 3112.0876083374023,
+        "y": 660.571626663208,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "c42b52c.ae354b"
+                "e7d5e844.90a2e8"
             ]
         ]
     },
     {
-        "id": "c42b52c.ae354b",
+        "id": "e7d5e844.90a2e8",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 4814.430023193359,
-        "y": 313.1428756713867,
-        "z": "f3233724.949d7",
+        "x": 3342.9460678100586,
+        "y": 660.1430530548096,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "fb86a599.d6e52",
+        "id": "b89b10f8.54c03",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 4069.4290466308594,
-        "y": 297.0000228881836,
-        "z": "f3233724.949d7",
+        "x": 2861.945022583008,
+        "y": 572.0000715255737,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "dab9037a.73cc8",
-                "5592e4e8.e05cac"
+                "4e8f5ae7.5cb144",
+                "cb06fc63.a2228"
             ]
         ]
     },
     {
-        "id": "5592e4e8.e05cac",
+        "id": "4e8f5ae7.5cb144",
         "type": "execute",
         "name": "Report_Error_occoured_while_restarting_the_server",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Stop : Error occoured while restarting the server:' + $VNF.VM[$i].URL`\" />",
         "comments": "",
         "outputs": 1,
-        "x": 4264.857406616211,
-        "y": 157.85715770721436,
-        "z": "f3233724.949d7",
+        "x": 3155.373489379883,
+        "y": 514.8572015762329,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "a4cef39e.6a4a08"
+                "5183ae4.107e85"
             ]
         ]
     },
     {
-        "id": "a4cef39e.6a4a08",
+        "id": "5183ae4.107e85",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 4607.429046630859,
-        "y": 134.99999237060547,
-        "z": "f3233724.949d7",
+        "x": 3450.9449768066406,
+        "y": 514.0000162124634,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "a2d56bc1.16762",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 5049.857124328613,
-        "y": 754.7143201828003,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "7391fda3.691d64",
-                "67272fcc.070ee"
-            ]
-        ]
-    },
-    {
-        "id": "afa5d8ee.9872e",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 5046.713916778564,
-        "y": 886.8571300506592,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "740c3416.6b040c",
-                "90242f4f.02c65"
-            ]
-        ]
-    },
-    {
-        "id": "ad2a7678.0ff04",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 4637.142219543457,
-        "y": 1018.2858295440674,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "e598f194.bdfb48",
-                "7524bbc6.5b1bd4"
-            ]
-        ]
-    },
-    {
-        "id": "7391fda3.691d64",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'VNFC not found in AAI : ' + $VNF.VM[$i].VNFC`\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 5214.142913818359,
-        "y": 753.5714340209961,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "fd1d078.c828b78"
-            ]
-        ]
-    },
-    {
-        "id": "740c3416.6b040c",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Exception in AAI Update for vnfc' + $VNF.VM[$i].VNFC`\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 5229.999771118164,
-        "y": 885.5713906288147,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "aee3e63f.bf945"
-            ]
-        ]
-    },
-    {
-        "id": "fd1d078.c828b78",
+        "id": "cc582df4.db246",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 5387.142486572266,
-        "y": 758.2857761383057,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "aee3e63f.bf945",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5397.285621643066,
-        "y": 883.857105255127,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "e598f194.bdfb48",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Failure in updating AAI for' + $VNF.VM[$i].VNFC`\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 4839.428146362305,
-        "y": 1014.1429538726807,
-        "z": "f3233724.949d7",
+        "x": 126.515625,
+        "y": 317.8888829946518,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "56657801.8f8888"
+                "aef52fb.8daedd"
             ]
         ]
     },
     {
-        "id": "56657801.8f8888",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 4996.999572753906,
-        "y": 1008.1429538726807,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "2bba13e0.e34864",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 83,
-        "y": 257.8888854980469,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "3569147a.725ba4"
-            ]
-        ]
-    },
-    {
-        "id": "d57f60ae.3596c8",
+        "id": "9395984d.615e28",
         "type": "execute",
         "name": "execute: flatAndAddToContext",
         "xml": "<execute plugin='org.onap.appc.dg.common.JsonDgUtil' method='flatAndAddToContext' >\n<parameter name=\"payload\" value=\"`$input.payload`\" />",
         "comments": "",
         "outputs": 1,
-        "x": 131,
-        "y": 182.99999237060547,
-        "z": "f3233724.949d7",
+        "x": 174.515625,
+        "y": 242.9999898672104,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "2bba13e0.e34864",
-                "16ffb706.800841",
-                "88c60367.bb96e"
+                "cc582df4.db246",
+                "14af60bb.47e3cf",
+                "4e14bb77.d41174"
             ]
         ]
     },
     {
-        "id": "ba028240.e7a8a",
+        "id": "bcc63431.460308",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n",
         "comments": "",
-        "x": 5391.999938964844,
-        "y": 626.9999990463257,
-        "z": "f3233724.949d7",
+        "x": 3073.516311645508,
+        "y": 770.0000820159912,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "cf6d241.f3ffb58",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 5216,
-        "y": 536.7142333984375,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "322113ac.4683e4",
-                "ba028240.e7a8a"
-            ]
-        ]
-    },
-    {
-        "id": "322113ac.4683e4",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Failure in updating AAI for' + $VNF.VM[$i].VNFC`\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5387.428810119629,
-        "y": 533.571403503418,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "43a18246.8cfea4"
-            ]
-        ]
-    },
-    {
-        "id": "43a18246.8cfea4",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5520.714210510254,
-        "y": 533.4285297393799,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "b53ebe9c.be94d8",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 6101,
-        "y": 345,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "51906d2a.ba1574",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 5893.57177734375,
-        "y": 265.00006103515625,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "472e9f56.80f4f8",
-                "b53ebe9c.be94d8"
-            ]
-        ]
-    },
-    {
-        "id": "472e9f56.80f4f8",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'VNFC not found in AAI : ' + $VNF.VM[$i].VNFC`\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 6098.285861968994,
-        "y": 248.42862224578857,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "82130f17.965c48"
-            ]
-        ]
-    },
-    {
-        "id": "82130f17.965c48",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 6257.7143630981445,
-        "y": 247.5715045928955,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "8db8f4e2.db5058",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n",
-        "comments": "",
-        "x": 5834,
-        "y": 519,
-        "z": "f3233724.949d7",
-        "wires": []
-    },
-    {
-        "id": "892ff529.01f29",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic='true'>",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 5678.71435546875,
-        "y": 420.99996757507324,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "af2136b6.655e3",
-                "8db8f4e2.db5058"
-            ]
-        ]
-    },
-    {
-        "id": "af2136b6.655e3",
-        "type": "execute",
-        "name": "execute",
-        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value='Exception in AAI Update for vnfc $VNF.VM[$i].VNFC' />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5835.714576721191,
-        "y": 421.85711097717285,
-        "z": "f3233724.949d7",
-        "wires": [
-            [
-                "39fcdeee.9b20a2"
-            ]
-        ]
-    },
-    {
-        "id": "39fcdeee.9b20a2",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 5962.8569984436035,
-        "y": 421.57136058807373,
-        "z": "f3233724.949d7",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "31af661a.87d042",
+        "id": "5e5f549.175e7ac",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n<parameter name=\"output.status.message\" value=\"Failure in flattening payload Json\" />",
         "comments": "",
-        "x": 452.9999694824219,
-        "y": 461.66674041748047,
-        "z": "f3233724.949d7",
+        "x": 496.5155944824219,
+        "y": 521.6667379140854,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "9fe0dada.80a3d8",
+        "id": "dacc5100.4d49b",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 239.66671752929688,
-        "y": 416.1429672241211,
-        "z": "f3233724.949d7",
+        "x": 283.1823425292969,
+        "y": 476.142964720726,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "31af661a.87d042",
-                "60ae25ab.2f83ec"
+                "5e5f549.175e7ac",
+                "fce24037.dd8"
             ]
         ]
     },
     {
-        "id": "60ae25ab.2f83ec",
+        "id": "fce24037.dd8",
         "type": "execute",
         "name": "Report_Error_Flattening_Payload_Json",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"Failure in flattening payload Json\" />",
         "comments": "",
         "outputs": 1,
-        "x": 528.5714111328125,
-        "y": 343.52388763427734,
-        "z": "f3233724.949d7",
+        "x": 572.0870361328125,
+        "y": 403.52388513088226,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "2d8913a1.9de424"
+                "76012751.ab8c18"
             ]
         ]
     },
     {
-        "id": "2d8913a1.9de424",
+        "id": "76012751.ab8c18",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 613.8572235107422,
-        "y": 414.95249462127686,
-        "z": "f3233724.949d7",
+        "x": 657.3728485107422,
+        "y": 474.9524921178818,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "16ffb706.800841",
+        "id": "14af60bb.47e3cf",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 64,
-        "y": 417.66666412353516,
-        "z": "f3233724.949d7",
+        "x": 107.515625,
+        "y": 477.6666616201401,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "9fe0dada.80a3d8"
+                "dacc5100.4d49b"
             ]
         ]
     },
     {
-        "id": "37fd60d7.04ebb8",
+        "id": "1bb8f6fe.bd3509",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n<parameter name=\"output.status.message\" value=\"Failure in loading Json flattening plugin\" />",
         "comments": "",
-        "x": 435,
-        "y": 677.6666793823242,
-        "z": "f3233724.949d7",
+        "x": 478.515625,
+        "y": 737.6666768789291,
+        "z": "552bc61c.5a6cf8",
         "wires": []
     },
     {
-        "id": "ad612df9.15d468",
+        "id": "2064a14.03d845e",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic='true'>",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 246.66672134399414,
-        "y": 639.1429634094238,
-        "z": "f3233724.949d7",
+        "x": 290.18234634399414,
+        "y": 699.1429609060287,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "37fd60d7.04ebb8",
-                "2e5d2a6.945f0d6"
+                "1bb8f6fe.bd3509",
+                "ffb635d7.5302e8"
             ]
         ]
     },
     {
-        "id": "2e5d2a6.945f0d6",
+        "id": "ffb635d7.5302e8",
         "type": "execute",
         "name": "Report_Error_Loading_Json_Flattening_Plugin",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"Failure in loading Json flattening plugin\" />",
         "comments": "",
         "outputs": 1,
-        "x": 535.5714149475098,
-        "y": 566.5238838195801,
-        "z": "f3233724.949d7",
+        "x": 579.0870399475098,
+        "y": 626.523881316185,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "5ad01465.ced2dc"
+                "1e11c16.878ad3f"
             ]
         ]
     },
     {
-        "id": "5ad01465.ced2dc",
+        "id": "1e11c16.878ad3f",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 620.8572273254395,
-        "y": 637.9524908065796,
-        "z": "f3233724.949d7",
+        "x": 664.3728523254395,
+        "y": 697.9524883031845,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
     },
     {
-        "id": "88c60367.bb96e",
+        "id": "4e14bb77.d41174",
         "type": "not-found",
         "name": "not-found",
         "xml": "<outcome value='not-found'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 71,
-        "y": 637.6666641235352,
-        "z": "f3233724.949d7",
+        "x": 114.515625,
+        "y": 697.6666616201401,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "ad612df9.15d468"
+                "2064a14.03d845e"
             ]
         ]
     },
     {
-        "id": "5f0bb2d7.73d944",
+        "id": "2ff43640.be312a",
         "type": "execute",
         "name": "Report_Success_in_Restart",
         "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='reportSuccess' >\n<parameter name=\"eventId\" value=\"`$input.action-identifiers.vnf-id`\" />\n<parameter name=\"output.status.message\" value=\"`'Restart event executed successfully for ' + $VNF.VM[$i].URL`\" />\n",
         "comments": "",
         "outputs": 1,
-        "x": 3797.3333435058594,
-        "y": 911.6667098999023,
-        "z": "f3233724.949d7",
+        "x": 2937.849365234375,
+        "y": 826.6667461395264,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             [
-                "63c7e096.1a801",
-                "4ed44065.488a58"
+                "9961b241.892d8",
+                "88f3bd16.d9abb"
             ]
         ]
     },
     {
-        "id": "63c7e096.1a801",
+        "id": "9961b241.892d8",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 4023.333333333334,
-        "y": 953.6666641235352,
-        "z": "f3233724.949d7",
+        "x": 3210.8493843078613,
+        "y": 902.6667432785034,
+        "z": "552bc61c.5a6cf8",
         "wires": [
-            [
-                "33439619.cba012"
-            ]
+            []
         ]
     },
     {
-        "id": "4ed44065.488a58",
+        "id": "88f3bd16.d9abb",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 4057.333333333334,
-        "y": 845.6666641235352,
-        "z": "f3233724.949d7",
+        "x": 3230.849395751953,
+        "y": 794.6667728424072,
+        "z": "552bc61c.5a6cf8",
         "wires": [
             []
         ]
+    },
+    {
+        "id": "cb06fc63.a2228",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 3044.0154037475586,
+        "y": 603.5156373977661,
+        "z": "552bc61c.5a6cf8",
+        "wires": []
+    },
+    {
+        "id": "1d564539.a927cb",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 2747.0154037475586,
+        "y": 271.51563835144043,
+        "z": "552bc61c.5a6cf8",
+        "wires": []
     }
 ]

@@ -1,1 +1,601 @@
-[{"id":"17fdf157.d14c8f","type":"service-logic","name":"APPC 4.0.0","module":"APPC","version":"4.0.0","comments":"","xml":"<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>","outputs":1,"x":320,"y":53.75,"z":"85d5f290.0432b","wires":[["989f4ec5.54141"]]},{"id":"4b7a7d8a.aede34","type":"dgstart","name":"DGSTART","outputs":1,"x":165.83331298828125,"y":52.083343505859375,"z":"85d5f290.0432b","wires":[["17fdf157.d14c8f"]]},{"id":"989f4ec5.54141","type":"method","name":"method UpdateAaiInfo","xml":"<method rpc='UpdateAaiInfo' mode='sync'>","comments":"","outputs":1,"x":578.333381652832,"y":52.41666507720947,"z":"85d5f290.0432b","wires":[["246c33ee.325e3c"]]},{"id":"246c33ee.325e3c","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":192,"y":121.75000762939453,"z":"85d5f290.0432b","wires":[["25f09202.68f34e","56e6ecf6.411024"]]},{"id":"25f09202.68f34e","type":"set","name":"set DCAE Message to Initialise","xml":"<set>\n<parameter name=\"dcae-error-message\" value=\"\"/>\n","comments":"","x":463.1111145019531,"y":123.8611011505127,"z":"85d5f290.0432b","wires":[]},{"id":"56e6ecf6.411024","type":"switchNode","name":"switch VMNAME","xml":"<switch test='`$VMNAME0`'>\n","comments":"","outputs":1,"x":240.11111450195312,"y":471.52777099609375,"z":"85d5f290.0432b","wires":[["3f4eb5a1.98132a","cbe78139.de9e4"]]},{"id":"3f4eb5a1.98132a","type":"success","name":"outcome: Other","xml":"<outcome value='Other'>","comments":"","outputs":1,"x":486.8611373901367,"y":516.1388349533081,"z":"85d5f290.0432b","wires":[["f1b02edf.c1e2d"]]},{"id":"cbe78139.de9e4","type":"success","name":"outcome:null","xml":"<outcome value=''>","comments":"","outputs":1,"x":471.4722595214844,"y":288.3055419921875,"z":"85d5f290.0432b","wires":[["e0740ca2.40979"]]},{"id":"e0740ca2.40979","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":712.6388549804688,"y":285.8611145019531,"z":"85d5f290.0432b","wires":[["bb65b932.69d368"]]},{"id":"bb65b932.69d368","type":"call","name":"call: UpdateAaiforReferenceData","xml":"<call module=\"APPC\" rpc=\"UpdateAaiforReferenceData\" mode=\"sync\">","comments":"","outputs":1,"x":987.47216796875,"y":281.0833435058594,"z":"85d5f290.0432b","wires":[["f7b24d7a.2bc04"]]},{"id":"f7b24d7a.2bc04","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1221.055419921875,"y":282.7221984863281,"z":"85d5f290.0432b","wires":[["da291abd.c33048"]]},{"id":"da291abd.c33048","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","comments":"","outputs":1,"x":1389.9998779296875,"y":281.6943664550781,"z":"85d5f290.0432b","wires":[["6394e117.9a32e","e93b5abd.e1d8c8"]]},{"id":"6394e117.9a32e","type":"set","name":"set:  dcae-error message","xml":"<set>\n\t  <parameter name=\"dcae-error-message\" value=\"DG Workflow UpdateAaiforReferenceData not found\"/>\n\t  ","comments":"","x":1656.8609619140625,"y":281.5832824707031,"z":"85d5f290.0432b","wires":[]},{"id":"e93b5abd.e1d8c8","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"DCAEERRORMESSAGE\" value=\"`$dcae-error-message`\"/>\n","comments":"","outputs":1,"x":1602.16650390625,"y":335.88885498046875,"z":"85d5f290.0432b","wires":[[]]},{"id":"f1b02edf.c1e2d","type":"call","name":"call: UpdateAaiforPayloadInput","xml":"<call module=\"APPC\" rpc=\"UpdateAaiforPayloadInput\" mode=\"sync\">","comments":"","outputs":1,"x":748.8889007568359,"y":515.9722051620483,"z":"85d5f290.0432b","wires":[["1e45aff3.f0d15"]]},{"id":"1e45aff3.f0d15","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":988.1665954589844,"y":517.2777919769287,"z":"85d5f290.0432b","wires":[["90c4daac.170898"]]},{"id":"90c4daac.170898","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","comments":"","outputs":1,"x":1159.1110305786133,"y":518.749906539917,"z":"85d5f290.0432b","wires":[["3077a87f.eb3848","604f6585.fedb0c"]]},{"id":"3077a87f.eb3848","type":"set","name":"set:  dcae-error message","xml":"<set>\n\t  <parameter name=\"dcae-error-message\" value=\"DG Workflow UpdateAaiforPayloadInput not found\"/>\n\t  ","comments":"","x":1384.1942977905273,"y":486.16663360595703,"z":"85d5f290.0432b","wires":[]},{"id":"604f6585.fedb0c","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"DCAEERRORMESSAGE\" value=\"`$dcae-error-message`\"/>\n","comments":"","outputs":1,"x":1363.4165687561035,"y":526.6666488647461,"z":"85d5f290.0432b","wires":[[]]}]
+[
+    {
+        "id": "17fdf157.d14c8f",
+        "type": "service-logic",
+        "name": "APPC 4.0.0",
+        "module": "APPC",
+        "version": "4.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+        "outputs": 1,
+        "x": 320,
+        "y": 53.75,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "989f4ec5.54141"
+            ]
+        ]
+    },
+    {
+        "id": "4b7a7d8a.aede34",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 165.83331298828125,
+        "y": 52.083343505859375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "17fdf157.d14c8f"
+            ]
+        ]
+    },
+    {
+        "id": "989f4ec5.54141",
+        "type": "method",
+        "name": "method UpdateAaiInfo",
+        "xml": "<method rpc='UpdateAaiInfo' mode='sync'>",
+        "comments": "",
+        "outputs": 1,
+        "x": 578.333381652832,
+        "y": 52.41666507720947,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "246c33ee.325e3c"
+            ]
+        ]
+    },
+    {
+        "id": "246c33ee.325e3c",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 112.66667175292969,
+        "y": 148.41666984558105,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "25f09202.68f34e",
+                "56e6ecf6.411024",
+                "aa45fcda.3a5ec"
+            ]
+        ]
+    },
+    {
+        "id": "25f09202.68f34e",
+        "type": "set",
+        "name": "set DCAE Message to Initialise",
+        "xml": "<set>\n<parameter name=\"dcae-error-message\" value=\"\"/>\n",
+        "comments": "",
+        "x": 398.11112785339355,
+        "y": 165.52777099609375,
+        "z": "85d5f290.0432b",
+        "wires": []
+    },
+    {
+        "id": "56e6ecf6.411024",
+        "type": "switchNode",
+        "name": "switch VM NAME in request",
+        "xml": "<switch test='`$VMNAME0`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 336.1111068725586,
+        "y": 294.0992088317871,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "3f4eb5a1.98132a",
+                "cbe78139.de9e4"
+            ]
+        ]
+    },
+    {
+        "id": "3f4eb5a1.98132a",
+        "type": "success",
+        "name": "outcome: Other",
+        "xml": "<outcome value='Other'>",
+        "comments": "",
+        "outputs": 1,
+        "x": 558.5278396606445,
+        "y": 351.805477142334,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "ea002fec.7d778"
+            ]
+        ]
+    },
+    {
+        "id": "cbe78139.de9e4",
+        "type": "success",
+        "name": "outcome:null",
+        "xml": "<outcome value=''>",
+        "comments": "",
+        "outputs": 1,
+        "x": 552.4722595214844,
+        "y": 217.3055419921875,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "e0740ca2.40979"
+            ]
+        ]
+    },
+    {
+        "id": "e0740ca2.40979",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 746.6388549804688,
+        "y": 216.86111450195312,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "bb65b932.69d368"
+            ]
+        ]
+    },
+    {
+        "id": "bb65b932.69d368",
+        "type": "call",
+        "name": "call: UpdateAaiforReferenceData",
+        "xml": "<call module=\"APPC\" rpc=\"UpdateAaiforReferenceData\" mode=\"sync\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 984.47216796875,
+        "y": 210.08334350585938,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "f7b24d7a.2bc04",
+                "54ead351.39420c"
+            ]
+        ]
+    },
+    {
+        "id": "f7b24d7a.2bc04",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1297.4839630126953,
+        "y": 211.7221999168396,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "da291abd.c33048"
+            ]
+        ]
+    },
+    {
+        "id": "da291abd.c33048",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1497.571273803711,
+        "y": 209.6943645477295,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "6394e117.9a32e",
+                "e93b5abd.e1d8c8"
+            ]
+        ]
+    },
+    {
+        "id": "6394e117.9a32e",
+        "type": "set",
+        "name": "set:  dcae-error message",
+        "xml": "<set>\n\t  <parameter name=\"dcae-error-message\" value=\"DG Workflow UpdateAaiforReferenceData not found\"/>\n\t  ",
+        "comments": "",
+        "x": 1736.289535522461,
+        "y": 191.4404296875,
+        "z": "85d5f290.0432b",
+        "wires": []
+    },
+    {
+        "id": "e93b5abd.e1d8c8",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"DCAEERRORMESSAGE\" value=\"`$dcae-error-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1701.9284133911133,
+        "y": 254.84122848510742,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f1b02edf.c1e2d",
+        "type": "call",
+        "name": "call: UpdateAaiforPayloadInput",
+        "xml": "<call module=\"APPC\" rpc=\"UpdateAaiforPayloadInput\" mode=\"sync\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 969.8888854980469,
+        "y": 344.30549812316895,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "1e45aff3.f0d15",
+                "d26bc33f.c48e"
+            ]
+        ]
+    },
+    {
+        "id": "1e45aff3.f0d15",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1196.1666259765625,
+        "y": 371.27783203125,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "90c4daac.170898"
+            ]
+        ]
+    },
+    {
+        "id": "90c4daac.170898",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1361.111083984375,
+        "y": 371.7498779296875,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "3077a87f.eb3848",
+                "604f6585.fedb0c"
+            ]
+        ]
+    },
+    {
+        "id": "3077a87f.eb3848",
+        "type": "set",
+        "name": "set:  dcae-error message",
+        "xml": "<set>\n\t  <parameter name=\"dcae-error-message\" value=\"DG Workflow UpdateAaiforPayloadInput not found\"/>\n\t  ",
+        "comments": "",
+        "x": 1614.1943359375,
+        "y": 419.1666259765625,
+        "z": "85d5f290.0432b",
+        "wires": []
+    },
+    {
+        "id": "604f6585.fedb0c",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"DCAEERRORMESSAGE\" value=\"`$dcae-error-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1564.2738037109375,
+        "y": 371.3809509277344,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea002fec.7d778",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 742.6666946411133,
+        "y": 351.66667556762695,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "f1b02edf.c1e2d"
+            ]
+        ]
+    },
+    {
+        "id": "2e5b89e.19bac76",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"level\" value=\"info\" />\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"RETURNEDERRORMSG\" value=\"`$dcae-error-message`\"/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 782.357177734375,
+        "y": 733.4285888671875,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3334060b.6801ca",
+        "type": "execute",
+        "name": "execute saveTxLog",
+        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"saveConfigTransactionLog\">\n<parameter name=\"messageType\" value=\"log\" />\n<parameter name=\"message\" value=\"`'501:' + $dcae-error-message`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.saveTxLog\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 855.357177734375,
+        "y": 546.34521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "526b6fe0.b13b4"
+            ]
+        ]
+    },
+    {
+        "id": "1d18d81e.6824c8",
+        "type": "execute",
+        "name": "execute IntermediateMessageSender",
+        "xml": "<execute plugin='org.onap.appc.dg.common.IntermediateMessageSender' method='sendMessage' >\n<parameter name='code' value=\"501\" />\n<parameter name='message' value=\"`$dcae-error-message`\" />\n<parameter name='prefix' value=\"tmp.intermediateerror\"/>",
+        "comments": "",
+        "outputs": 1,
+        "x": 883.107177734375,
+        "y": 626.34521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "7eb3335b.a2f35c",
+                "261ea27b.8f75fe"
+            ]
+        ]
+    },
+    {
+        "id": "7eb3335b.a2f35c",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1139.107177734375,
+        "y": 599.84521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "952bb464.99ef08"
+            ]
+        ]
+    },
+    {
+        "id": "261ea27b.8f75fe",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1132.857177734375,
+        "y": 669.09521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "952bb464.99ef08"
+            ]
+        ]
+    },
+    {
+        "id": "952bb464.99ef08",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 1320.357177734375,
+        "y": 617.34521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "3816c1d5.30bdbe"
+            ]
+        ]
+    },
+    {
+        "id": "3816c1d5.30bdbe",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"MSGSENDERERERROR\" value=\"Unable to call IntermediateErrorMessageSender\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1464.357177734375,
+        "y": 618.84521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "aa45fcda.3a5ec",
+        "type": "switchNode",
+        "name": "switch dcae message",
+        "xml": "<switch test='`$dcae-error-message`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 247.85714721679688,
+        "y": 460.51190185546875,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "7208fb1.e905604",
+                "a197a490.2bd768"
+            ]
+        ]
+    },
+    {
+        "id": "7208fb1.e905604",
+        "type": "outcome",
+        "name": "outcome null",
+        "xml": "<outcome value=''>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 493.3571472167969,
+        "y": 460.84521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "a672f215.a9695"
+            ]
+        ]
+    },
+    {
+        "id": "a197a490.2bd768",
+        "type": "other",
+        "name": "other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 461.1071472167969,
+        "y": 543.09521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "41f6f759.0b9d48"
+            ]
+        ]
+    },
+    {
+        "id": "41f6f759.0b9d48",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 651.1071472167969,
+        "y": 543.59521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "3334060b.6801ca",
+                "1d18d81e.6824c8",
+                "2e5b89e.19bac76"
+            ]
+        ]
+    },
+    {
+        "id": "a672f215.a9695",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 663.357177734375,
+        "y": 459.59521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "526b6fe0.b13b4",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1027.357177734375,
+        "y": 546.09521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "1f437509.05092b"
+            ]
+        ]
+    },
+    {
+        "id": "1f437509.05092b",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 1172.357177734375,
+        "y": 545.09521484375,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "54ead351.39420c",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1265.5555801391602,
+        "y": 298.88890171051025,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "8835758b.e184e8"
+            ]
+        ]
+    },
+    {
+        "id": "8835758b.e184e8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1460.2777824401855,
+        "y": 299.47223472595215,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d26bc33f.c48e",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1186.9999656677246,
+        "y": 474.2222375869751,
+        "z": "85d5f290.0432b",
+        "wires": [
+            [
+                "496d6b7f.ae7024"
+            ]
+        ]
+    },
+    {
+        "id": "496d6b7f.ae7024",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1346.5,
+        "y": 472.8055419921875,
+        "z": "85d5f290.0432b",
+        "wires": [
+            []
+        ]
+    }
+]
