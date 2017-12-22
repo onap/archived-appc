@@ -21,7 +21,7 @@
  ECOMP is a trademark and service mark of AT&T Intellectual Property.
  ============LICENSE_END=========================================================
 -->
-
+<#setting number_format="computer">
 <#global _ = "    ">
 <#global __ = _ + _>
 <#global ___ = __ + _>
@@ -162,11 +162,11 @@ ${indent}]
     statement or locally (in-line withing a leaf node definition).
  -->
 <#macro constraints yangType indent = "">
-<#if yangType.patternConstraints?size != 0>
+<#if yangType.patternConstraints?has_content>
 ${indent},
 ${indent}"pattern" : "${yangType.patternConstraints?first.regularExpression?replace('\\\\', '\\\\\\\\', 'r')}"
 </#if>
-<#if yangType.lengthConstraints?size != 0>
+<#if yangType.lengthConstraints?has_content>
 ${indent},
 ${indent}"minLength" : ${yangType.lengthConstraints?first.min},
 ${indent}"maxLength"  : ${yangType.lengthConstraints?first.max}
@@ -234,9 +234,12 @@ ${_}"swagger": "2.0",
 ${_}"info": {
 ${__}"version": "${module.QNameModule.formattedRevision}"
 <@description obj = module indent = __ />,
+<#if module.contact??>
 ${__}"contact": {
 ${_____}"name" : "${module.contact}"
 ${__}},
+</#if>
+
 ${__}"title": "${moduleName}"
 ${_}},
 ${_}"basePath": "/restconf",

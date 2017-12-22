@@ -24,14 +24,14 @@
 
 package org.onap.appc.tools.generator.extensions;
 
-import org.onap.appc.tools.generator.api.ContextBuilder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.onap.appc.tools.generator.api.ContextBuilder;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -39,15 +39,18 @@ import java.util.Properties;
 public class JsonContextBuilderImpl implements ContextBuilder {
 
     @Override
-    public Map<String, Object> buildContext(String sourceFile, String contextConf) throws IOException {
+    public Map<String, Object> buildContext(URL sourceURL, String contextConf) throws IOException {
         //read json file
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode model = mapper.readTree(new File(sourceFile));
+        JsonNode model = mapper.readTree(sourceURL);
 
         //get context config file
         Properties properties = new Properties();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
         InputStream inputStream = classloader.getResourceAsStream(contextConf);
+        if(inputStream == null){
+            throw new IOException(String.format("The file [%s] cannot be found in the class path",contextConf));
+        }
         properties.load(inputStream);
 
         //get context related properties

@@ -38,6 +38,52 @@
         <licenseDir>${project.parent.parent.basedir}</licenseDir>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.onap.appc.client</groupId>
+                <artifactId>code-generator</artifactId>
+                <version>${project.parent.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.onap.appc</groupId>
+                        <artifactId>appc-provider-model</artifactId>
+                        <version>${project.parent.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>code-generate-json</id>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFileName>META-INF/yang/appc-provider-lcm.yang</sourceFileName>
+                            <outputFileName>target/generated-sources/appc-provider-lcm/appc-provider-lcm.json</outputFileName>
+                            <templateName>templates/open-api/yang-to-open-api.ftl</templateName>
+                            <contextBuilderClassName>org.onap.appc.tools.generator.extensions.YangContextBuilderImpl
+                            </contextBuilderClassName>
+                            <contextConfigFileName>APPC</contextConfigFileName>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>code-generate-java</id>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <sourceFileName>target/generated-sources/appc-provider-lcm/appc-provider-lcm.json</sourceFileName>
+                            <outputFileName>target/generated-sources/appc-provider-lcm/output.txt</outputFileName>
+                            <templateName>templates/client-kit/open-api-to-java.ftl</templateName>
+                            <contextBuilderClassName>org.onap.appc.tools.generator.extensions.JsonContextBuilderImpl</contextBuilderClassName>
+                            <contextConfigFileName>configuration/client-kit.properties</contextConfigFileName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.onap.appc.client</groupId>
@@ -50,5 +96,6 @@
             <version>${yang.parser.impl.version}</version>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 </project>

@@ -24,6 +24,7 @@
 
 package org.onap.appc.client.lcm.impl.business;
 
+import org.onap.appc.client.impl.core.CoreException;
 import org.onap.appc.client.impl.core.ICoreAsyncResponseHandler;
 import org.onap.appc.client.lcm.api.ResponseHandler;
 import org.onap.appc.client.lcm.exceptions.AppcClientException;

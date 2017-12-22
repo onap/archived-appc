@@ -25,6 +25,7 @@
 package org.onap.appc.client.impl.protocol;
 
 import org.onap.appc.client.impl.core.MessageContext;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public interface MessageWriter {
 
