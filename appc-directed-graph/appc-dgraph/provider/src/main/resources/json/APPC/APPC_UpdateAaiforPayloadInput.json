@@ -1,1 +1,1120 @@
-[{"id":"9333f052.3d35c","type":"service-logic","name":"APPC 3.0.0","module":"APPC","version":"3.0.0","comments":"","xml":"<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='3.0.0'>","outputs":1,"x":267,"y":42.333335876464844,"z":"2c29979c.085788","wires":[["b5bc2ae5.c3ccb8"]]},{"id":"ccfc3135.e932f","type":"dgstart","name":"DGSTART","outputs":1,"x":96.83331298828125,"y":41.66667938232422,"z":"2c29979c.085788","wires":[["9333f052.3d35c"]]},{"id":"b5bc2ae5.c3ccb8","type":"method","name":"method UpdateAaiforPayloadInput","xml":"<method rpc='UpdateAaiforPayloadInput' mode='sync'>\n","comments":"","outputs":1,"x":490.3333740234375,"y":39,"z":"2c29979c.085788","wires":[["6f4f9cf7.421284"]]},{"id":"6f4f9cf7.421284","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":120,"y":262.33333587646484,"z":"2c29979c.085788","wires":[["dacd8a6.62c3978","46ce8310.34f23c","16298fb8.22c27","f50ba4be.268618"]]},{"id":"46ce8310.34f23c","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"level\" value=\"info\" />\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"RETURNEDERRORMSG\" value=\"`$aai-error-message`\"/>\n\n","comments":"","outputs":1,"x":327,"y":717.3333969116211,"z":"2c29979c.085788","wires":[[]]},{"id":"dacd8a6.62c3978","type":"switchNode","name":"switch: vm length","xml":"<switch test=\"`$size_request-parameters.vm`\">","comments":"","outputs":1,"x":356,"y":165.44445037841797,"z":"2c29979c.085788","wires":[["44fdeb61.aa9034","72261fcd.ca467","2a6d9b73.a96634"]]},{"id":"daef72.bdc6c09","type":"for","name":"for: vm","xml":"<for index=\"j\" start=\"0\" end=\"`$size_request-parameters.vm`\" >","comments":"","outputs":1,"x":365,"y":319.3333969116211,"z":"2c29979c.085788","wires":[["9ed29edc.ebe52"]]},{"id":"44fdeb61.aa9034","type":"other","name":"outcome: Length=0","xml":"<outcome value='0'>\n","comments":"","outputs":1,"x":591.0000610351562,"y":142.44445037841797,"z":"2c29979c.085788","wires":[["bfe524b3.a8b848"]]},{"id":"72261fcd.ca467","type":"other","name":"outcome: NULL","xml":"<outcome value=''>\n","comments":"","outputs":1,"x":581.0000610351562,"y":201.44445037841797,"z":"2c29979c.085788","wires":[["bfe524b3.a8b848"]]},{"id":"9ed29edc.ebe52","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":540.0000610351562,"y":320.3333969116211,"z":"2c29979c.085788","wires":[["8a8c3760.6f71b8"]]},{"id":"bfe524b3.a8b848","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":785.0000610351562,"y":171.44445037841797,"z":"2c29979c.085788","wires":[["270c634c.7568ec","a13ad30b.4366c"]]},{"id":"6ef24474.a983ec","type":"get-resource","name":"get-resource: A&AI Data for VNFC Name ","xml":"<get-resource plugin=\"org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource\" resource=\"vnfc\" key=\"vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name\" pfx=\"tmp.aai-data-vnfc\" >\n\n\n","comments":"","outputs":1,"x":1249.5001220703125,"y":677.5555648803711,"z":"2c29979c.085788","wires":[["a751861e.5d43a8","52d5b700.fd5458"]]},{"id":"270c634c.7568ec","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"VM data not found in request\"/>\n\n\n","comments":"","outputs":1,"x":975.0000610351562,"y":152.44445037841797,"z":"2c29979c.085788","wires":[[]]},{"id":"a751861e.5d43a8","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1511,"y":680.3333358764648,"z":"2c29979c.085788","wires":[["3e894fae.eed92"]]},{"id":"3e894fae.eed92","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1682,"y":685.3333358764648,"z":"2c29979c.085788","wires":[["29d3772.e8a1788"]]},{"id":"defef68c.efd408","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1274.1664962768555,"y":1023.5833148956299,"z":"2c29979c.085788","wires":[["1b7742ee.646d8d"]]},{"id":"1b7742ee.646d8d","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1465.1664962768555,"y":1023.0833148956299,"z":"2c29979c.085788","wires":[["484c0808.c6a598","22e0181c.878b98"]]},{"id":"484c0808.c6a598","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"Insert to AnAI Request Failed\"/>\n<parameter name=\"field3\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n\n","comments":"","outputs":1,"x":1641.6665000915527,"y":977.5833759307861,"z":"2c29979c.085788","wires":[[]]},{"id":"22e0181c.878b98","type":"set","name":"set: Append to aai error message","xml":"<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'Insert to A&amp;AI Failed for ' + $request-parameters.vm[$j].vnfc[$k].vnfc-name + '.' + $aai-error-message`\"/>","comments":"","x":1718.1664962768555,"y":1071.8333158493042,"z":"2c29979c.085788","wires":[]},{"id":"8ffddb97.757d58","type":"for","name":"for: vm.vnfc","xml":"<for index=\"k\" start=\"0\" end=\"`$size_request-parameters.vm[$j].vnfc`\" >","comments":"","outputs":1,"x":875.2143783569336,"y":614.7619743347168,"z":"2c29979c.085788","wires":[["c2298a98.0adbd8"]]},{"id":"c2298a98.0adbd8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1060.5001831054688,"y":615.3333358764648,"z":"2c29979c.085788","wires":[["b61d1503.913e98","6ef24474.a983ec"]]},{"id":"b61d1503.913e98","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n\n<parameter name=\"VNFCNAME\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n\n<parameter name=\"VMNAME\" value=\"`$request-parameters.vm[$j].vm-name`\"/>\n","comments":"","outputs":1,"x":1245.5001831054688,"y":597.3333358764648,"z":"2c29979c.085788","wires":[[]]},{"id":"2a6d9b73.a96634","type":"other","name":"outcome: Other","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":373.00006103515625,"y":248.1111068725586,"z":"2c29979c.085788","wires":[["b4699d7b.74cfd"]]},{"id":"b4699d7b.74cfd","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":560,"y":253.1111068725586,"z":"2c29979c.085788","wires":[["daef72.bdc6c09"]]},{"id":"e4aab88c.91de48","type":"switchNode","name":"switch: vnfc length","xml":"<switch test=\"`$size_request-parameters.vm[$j].vnfc`\">","comments":"","outputs":1,"x":704.3572540283203,"y":477.9047508239746,"z":"2c29979c.085788","wires":[["cc76df4b.79195","b9647e56.5428","515b427.0838abc"]]},{"id":"cc76df4b.79195","type":"other","name":"outcome: Length=0","xml":"<outcome value='0'>\n","comments":"","outputs":1,"x":1012.5001831054688,"y":465.33333587646484,"z":"2c29979c.085788","wires":[["daca7ad3.6849a8"]]},{"id":"b9647e56.5428","type":"other","name":"outcome: NULL","xml":"<outcome value=''>\n","comments":"","outputs":1,"x":999.5001831054688,"y":503.33333587646484,"z":"2c29979c.085788","wires":[["daca7ad3.6849a8"]]},{"id":"515b427.0838abc","type":"other","name":"outcome: Other","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":1002.5001831054688,"y":555.3333358764648,"z":"2c29979c.085788","wires":[["85b4db72.6fea78"]]},{"id":"daca7ad3.6849a8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1233.500244140625,"y":493.33333587646484,"z":"2c29979c.085788","wires":[["a51065d2.dda8e8","84809a16.798bb8"]]},{"id":"a51065d2.dda8e8","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"VNFC data not in request\"/>\n\n\n","comments":"","outputs":1,"x":1425.500244140625,"y":459.33333587646484,"z":"2c29979c.085788","wires":[[]]},{"id":"85b4db72.6fea78","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":663.5001220703125,"y":615.3333358764648,"z":"2c29979c.085788","wires":[["8ffddb97.757d58"]]},{"id":"8a8c3760.6f71b8","type":"get-resource","name":"get-resource: A&AI Data for VM Name","xml":"<get-resource plugin=\"org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource\" resource=\"vserver\" key=\"vserver-name = $request-parameters.vm[$j].vm-name\" pfx=\"tmp.aai-data-vm\" >\n\n","comments":"","outputs":1,"x":813.1666870117188,"y":323.1111068725586,"z":"2c29979c.085788","wires":[["891fa503.2eb248","8165f2d1.c2795","760228ff.b17788"]]},{"id":"891fa503.2eb248","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1074.166748046875,"y":284.1111068725586,"z":"2c29979c.085788","wires":[["ffbb360a.0f9b98"]]},{"id":"8165f2d1.c2795","type":"failure","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1083.166748046875,"y":335.1111068725586,"z":"2c29979c.085788","wires":[["ffbb360a.0f9b98"]]},{"id":"760228ff.b17788","type":"failure","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1060,"y":396.33333587646484,"z":"2c29979c.085788","wires":[["9ead1868.e9e0d8"]]},{"id":"ffbb360a.0f9b98","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1265.166748046875,"y":310.1111068725586,"z":"2c29979c.085788","wires":[["23cd0ec8.29e192"]]},{"id":"23cd0ec8.29e192","type":"set","name":"set: Append to aai-error message","xml":"<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'Get from A&amp;AI Failed for ' + $request-parameters.vm[$j].vm-name + '.' + $aai-error-message`\"/>","comments":"","x":1538.166748046875,"y":315.1111068725586,"z":"2c29979c.085788","wires":[]},{"id":"a13ad30b.4366c","type":"set","name":"set: Append to aai-error message","xml":"<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'VM Info not found in request.' + $aai-error-message`\"/>","comments":"","x":1055.1666870117188,"y":198.1111068725586,"z":"2c29979c.085788","wires":[]},{"id":"84809a16.798bb8","type":"set","name":"set: Append to aai-error message","xml":"<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'VNFC Info not found in request.' + $aai-error-message`\"/>","comments":"","x":1505.6668701171875,"y":520.3333358764648,"z":"2c29979c.085788","wires":[]},{"id":"16298fb8.22c27","type":"switchNode","name":"switch: aai-error-message","xml":"<switch test=\"`$aai-error-message`\">","comments":"","outputs":1,"x":131.16668701171875,"y":859.1111068725586,"z":"2c29979c.085788","wires":[["ccb9af83.f0c75","d8d6fa14.d6e7e8"]]},{"id":"ccb9af83.f0c75","type":"other","name":"outcome: not populated","xml":"<outcome value=''>\n","comments":"","outputs":1,"x":387.16668701171875,"y":858.1111068725586,"z":"2c29979c.085788","wires":[["8e4f6b95.1df068"]]},{"id":"8e4f6b95.1df068","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":589.1666870117188,"y":872.1111068725586,"z":"2c29979c.085788","wires":[["18c23b39.337805"]]},{"id":"d8d6fa14.d6e7e8","type":"other","name":"outcome: Other","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":362.16668701171875,"y":936.1111068725586,"z":"2c29979c.085788","wires":[["94c6b29b.e6273"]]},{"id":"94c6b29b.e6273","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":554.1666870117188,"y":938.1111068725586,"z":"2c29979c.085788","wires":[["73ce9597.b49bcc","715964cb.dde1bc"]]},{"id":"18c23b39.337805","type":"returnSuccess","name":"return success","xml":"<return status='success'>\n\n","comments":"","x":782.1666870117188,"y":874.1111068725586,"z":"2c29979c.085788","wires":[]},{"id":"73ce9597.b49bcc","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n\n","comments":"","x":746.1666870117188,"y":1004.1111679077148,"z":"2c29979c.085788","wires":[]},{"id":"f50ba4be.268618","type":"set","name":"set prov-status and orch-status","xml":"<set>\n<parameter name=\"tmp.aai-prov-status\" value=\"NVTPROV\" />\n\t<parameter name=\"tmp.aai-orch-status\" value=\"CONFIGURED\" />\n","comments":"","x":403,"y":84.33333587646484,"z":"2c29979c.085788","wires":[]},{"id":"c46d035a.6bbd7","type":"save","name":"save Put VNFC","xml":"<save plugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' resource='vnfc' key='vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name' force='true' pfx='tmp.vnfc-sys-controller'>\n<parameter name='vnfc-function-code' value='`$request-parameters.vm[$j].vnfc[$k].vnfc-function-code`'/>\n<parameter name='vnfc-type' value='`$request-parameters.vm[$j].vnfc[$k].vnfc-type`'/>\n<parameter name='ipaddress-v4-oam-vip' value='`$request-parameters.vm[$j].vnfc[$k].ipaddress-v4-oam-vip`'/>\n<parameter name='prov-status' value='`$tmp.aai-prov-status`'/>\n<parameter name='orchestration-status' value='`$tmp.aai-orch-status`'/>\n<parameter name='in-maint' value = 'false'/>\n<parameter name='is-closed-loop' value = 'false'/>\n<parameter name='group-notation' value='`$request-parameters.vm[$j].vnfc[$k].group-notation`'/>\n\n\n<parameter name=\"relationship-list.relationship[0].related-to\" value=\"vserver\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[0].relationship-key\"   value=\"vserver.vserver-id\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[0].relationship-value\" value='`$tmp.aai-data-vm.vserver-id`'/>\n\n\n<parameter name=\"relationship-list.relationship[0].relationship-data[1].relationship-key\"   value=\"tenant.tenant-id\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[1].relationship-value\" value='`$tmp.aai-data-vm.tenant-id`'/>\n\n<parameter name=\"relationship-list.relationship[0].relationship-data[2].relationship-key\"   value=\"cloud-region.cloud-owner\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[2].relationship-value\" value=\"att-aic\"/>\n\n<parameter name=\"relationship-list.relationship[0].relationship-data[3].relationship-key\"   value=\"cloud-region.cloud-region-id\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[3].relationship-value\" value='`$tmp.aai-data-vm.cloud-region-id`'/>\n\n\n<parameter name=\"relationship-list.relationship[1].related-to\" value=\"generic-vnf\" />\n<parameter name=\"relationship-list.relationship[1].relationship-data[0].relationship-key\"   value=\"generic-vnf.vnf-id\" />\n<parameter name=\"relationship-list.relationship[1].relationship-data[0].relationship-value\" value='`$vnf-id`'/>\n\n<parameter name=\"relationship-list.relationship[2].related-to\" value=\"vf-module\" />\n<parameter name=\"relationship-list.relationship[2].relationship-data[0].relationship-key\"   value=\"generic-vnf.vnf-id\" />\n<parameter name=\"relationship-list.relationship[2].relationship-data[0].relationship-value\" value='`$vnf-id`'/>\n\n<parameter name=\"relationship-list.relationship[2].relationship-data[1].relationship-key\"   value=\"vf-module.vf-module-id\" />\n<parameter name=\"relationship-list.relationship[2].relationship-data[1].relationship-value\" value='`$tmp.vf-module-id`'/>\n\n\n\n","comments":"","outputs":1,"x":1553.749984741211,"y":896.8333148956299,"z":"2c29979c.085788","wires":[["defef68c.efd408"]]},{"id":"29d3772.e8a1788","type":"call","name":"call: GetVfModuleInfo","xml":"<call module=\"APPC\" rpc=\"GetVfModuleInfo\" mode=\"sync\">","comments":"","outputs":1,"x":1110.5,"y":771.3333358764648,"z":"2c29979c.085788","wires":[["c6141f12.05436","9041ddd8.6b377"]]},{"id":"c6141f12.05436","type":"failure","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1109.5,"y":901.3333358764648,"z":"2c29979c.085788","wires":[["e0ced342.2ee9"]]},{"id":"e0ced342.2ee9","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1349.9999885559082,"y":893.0833740234375,"z":"2c29979c.085788","wires":[["c46d035a.6bbd7"]]},{"id":"9ead1868.e9e0d8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1241,"y":397.33333587646484,"z":"2c29979c.085788","wires":[["e4aab88c.91de48"]]},{"id":"9041ddd8.6b377","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1329,"y":770.3333358764648,"z":"2c29979c.085788","wires":[["745b11d2.f9797"]]},{"id":"efef03f8.81d38","type":"switchNode","name":"switch: tmp.vf-module-id","xml":"<switch test=\"`$tmp.vf-module-id`\">","comments":"","outputs":1,"x":1744,"y":771.3333358764648,"z":"2c29979c.085788","wires":[["525acc69.20d3e4","9b2ee4c2.6db578"]]},{"id":"745b11d2.f9797","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1505,"y":769.3333358764648,"z":"2c29979c.085788","wires":[["efef03f8.81d38"]]},{"id":"525acc69.20d3e4","type":"outcome","name":"NULL","xml":"<outcome value=''>","comments":"","outputs":1,"x":1965,"y":767.3333358764648,"z":"2c29979c.085788","wires":[["8cf964a5.579d18"]]},{"id":"8cf964a5.579d18","type":"block","name":"block","xml":"<block>\n","atomic":"false","comments":"","outputs":1,"x":2120,"y":768.3333358764648,"z":"2c29979c.085788","wires":[[]]},{"id":"9b2ee4c2.6db578","type":"outcome","name":"Other","xml":"<outcome value='Other'>","comments":"","outputs":1,"x":1962,"y":821.3333358764648,"z":"2c29979c.085788","wires":[["e0ced342.2ee9"]]},{"id":"715964cb.dde1bc","type":"execute","name":"execute saveTxLog","xml":"<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"saveConfigTransactionLog\">\n<parameter name=\"messageType\" value=\"log\" />\n<parameter name=\"message\" value=\"`'501:' + $aai-error-message`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.saveTxLog\" />\n","comments":"","outputs":1,"x":768,"y":947.3333358764648,"z":"2c29979c.085788","wires":[[]]},{"id":"52d5b700.fd5458","type":"failure","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1515.928581237793,"y":622.6904859542847,"z":"2c29979c.085788","wires":[["ca342217.314c8"]]},{"id":"ca342217.314c8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1674.678581237793,"y":622.6904859542847,"z":"2c29979c.085788","wires":[["56cad9d9.774ac8"]]},{"id":"56cad9d9.774ac8","type":"get-resource","name":"update: A&AI Data for VNFC status update","xml":"<update plugin=\"org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource\" resource=\"vnfc\" key=\"vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name\" pfx=\"tmp.aai-data-vnfc-update\" >\n<parameter name='vnfc-name' value='`$request-parameters.vm[$j].vnfc[$k].vnfc-name`'/>\n<parameter name='prov-status' value='`$tmp.aai-prov-status`'/>\n<parameter name='orchestration-status' value='`$tmp.aai-orch-status`'/>\n\n","comments":"","outputs":1,"x":1952.1785888671875,"y":622.6904859542847,"z":"2c29979c.085788","wires":[["cc410b82.8ebc38","e8d3d750.465eb8"]]},{"id":"cc410b82.8ebc38","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":2238.6787109375,"y":599.9404907226562,"z":"2c29979c.085788","wires":[["df90a4f2.8e71d8"]]},{"id":"df90a4f2.8e71d8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2390.6785583496094,"y":617.1904773712158,"z":"2c29979c.085788","wires":[["69ebc07.edf0c4","4743ee44.6c93f"]]},{"id":"69ebc07.edf0c4","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"Update VNFC status to AnAI Request Failed\"/>\n<parameter name=\"field3\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n<parameter name=\"field4\" value=\"`$tmp.aai-data-vnfc-update`\"/>\n\n","comments":"","outputs":1,"x":2584.6785583496094,"y":599.1904773712158,"z":"2c29979c.085788","wires":[[]]},{"id":"4743ee44.6c93f","type":"set","name":"set: Append to aai error message","xml":"<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'Update VNFC status to A&amp;AI Failed for ' + $request-parameters.vm[$j].vnfc[$k].vnfc-name + '.' + $aai-error-message`\"/>","comments":"","x":2666.178596496582,"y":660.940486907959,"z":"2c29979c.085788","wires":[]},{"id":"e8d3d750.465eb8","type":"failure","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2225.9285583496094,"y":683.9404773712158,"z":"2c29979c.085788","wires":[["c21aabb4.5a6d58"]]},{"id":"c21aabb4.5a6d58","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2387.1785926818848,"y":682.690486907959,"z":"2c29979c.085788","wires":[["a5bec166.b3913"]]},{"id":"a5bec166.b3913","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"Update VNFC status to AnAI Request Success\"/>\n<parameter name=\"field3\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n<parameter name=\"field4\" value=\"`$tmp.aai-data-vnfc-update`\"/>\n\n","comments":"","outputs":1,"x":2568.4285583496094,"y":707.6904773712158,"z":"2c29979c.085788","wires":[[]]}]
+[
+    {
+        "id": "ed4f50ed.3f25a",
+        "type": "service-logic",
+        "name": "APPC 4.0.0",
+        "module": "APPC",
+        "version": "4.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+        "outputs": 1,
+        "x": 292.8571472167969,
+        "y": 47.14285659790039,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "b0fe756.78be888"
+            ]
+        ]
+    },
+    {
+        "id": "c6c877e9.c792e8",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 122.69046020507812,
+        "y": 46.47620105743408,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "ed4f50ed.3f25a"
+            ]
+        ]
+    },
+    {
+        "id": "b0fe756.78be888",
+        "type": "method",
+        "name": "method UpdateAaiforPayloadInput",
+        "xml": "<method rpc='UpdateAaiforPayloadInput' mode='sync'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 516.1905212402344,
+        "y": 43.80952167510986,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "ebd5a571.57fd08"
+            ]
+        ]
+    },
+    {
+        "id": "ebd5a571.57fd08",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 145.85714721679688,
+        "y": 267.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "472e56b6.7ca748",
+                "cdc637e6.9f3b38",
+                "e83828f9.4c3c18",
+                "d63bd02e.54e15"
+            ]
+        ]
+    },
+    {
+        "id": "cdc637e6.9f3b38",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"level\" value=\"info\" />\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"RETURNEDERRORMSG\" value=\"`$aai-error-message`\"/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 311.1904830932617,
+        "y": 720.4762163162231,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "472e56b6.7ca748",
+        "type": "switchNode",
+        "name": "switch: vm length",
+        "xml": "<switch test=\"`$size_request-parameters.vm`\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 390.8571472167969,
+        "y": 188.25397968292236,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "41b99a79.2b5924",
+                "bfb1338f.4d423",
+                "5f0b17e1.c8bef8"
+            ]
+        ]
+    },
+    {
+        "id": "3c2ed556.185e5a",
+        "type": "for",
+        "name": "for: vm",
+        "xml": "<for index=\"j\" start=\"0\" end=\"`$size_request-parameters.vm`\" >",
+        "comments": "",
+        "outputs": 1,
+        "x": 390.8571472167969,
+        "y": 324.14291858673096,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "a3d1de4b.cf707"
+            ]
+        ]
+    },
+    {
+        "id": "41b99a79.2b5924",
+        "type": "other",
+        "name": "outcome: Length=0",
+        "xml": "<outcome value='0'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 616.8572082519531,
+        "y": 147.25397205352783,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "4ca41ead.07256"
+            ]
+        ]
+    },
+    {
+        "id": "bfb1338f.4d423",
+        "type": "other",
+        "name": "outcome: NULL",
+        "xml": "<outcome value=''>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 606.8572082519531,
+        "y": 206.25397205352783,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "4ca41ead.07256"
+            ]
+        ]
+    },
+    {
+        "id": "a3d1de4b.cf707",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 565.8572082519531,
+        "y": 325.14291858673096,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "3f944a74.23cc16"
+            ]
+        ]
+    },
+    {
+        "id": "4ca41ead.07256",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 810.8572082519531,
+        "y": 176.25397205352783,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "71d48711.12d348",
+                "72842467.2acc7c"
+            ]
+        ]
+    },
+    {
+        "id": "73e1f668.6f9e88",
+        "type": "get-resource",
+        "name": "get-resource: A&AI Data for VNFC Name ",
+        "xml": "<!-- get-resource plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"vnfc\" key=\"vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name\" pfx=\"tmp.aai-data-vnfc\" -->\n<get-resource plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"vnfc\" key=\"vnfc.vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name\" pfx=\"tmp.aai-data-vnfc\" >\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1275.3572692871094,
+        "y": 682.365086555481,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "45257d79.989894",
+                "69a31e4f.3f8db"
+            ]
+        ]
+    },
+    {
+        "id": "71d48711.12d348",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"VM data not found in request\"/>\n\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1000.8572082519531,
+        "y": 157.25397205352783,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "45257d79.989894",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1535.190544128418,
+        "y": 690.1428422927856,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "92711585.e303d8"
+            ]
+        ]
+    },
+    {
+        "id": "92711585.e303d8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1707.8571472167969,
+        "y": 690.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "9c8c44f.58601b8"
+            ]
+        ]
+    },
+    {
+        "id": "4e1dcff8.2ca55",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1745.7378959655762,
+        "y": 896.9642629623413,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "ce53bc18.81dc2"
+            ]
+        ]
+    },
+    {
+        "id": "ce53bc18.81dc2",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1898.1665878295898,
+        "y": 906.4642810821533,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "ed9b4d64.3c06c",
+                "96ca3bdb.743588"
+            ]
+        ]
+    },
+    {
+        "id": "ed9b4d64.3c06c",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"Insert to AnAI Request Failed\"/>\n<parameter name=\"field3\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2077.5236587524414,
+        "y": 885.2500047683716,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "96ca3bdb.743588",
+        "type": "set",
+        "name": "set: Append to aai error message",
+        "xml": "<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'Insert to A&amp;AI Failed for ' + $request-parameters.vm[$j].vnfc[$k].vnfc-name + '.' + $aai-error-message`\"/>",
+        "comments": "",
+        "x": 2162.595115661621,
+        "y": 950.9286623001099,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "ef4f5395.ae1c8",
+        "type": "for",
+        "name": "for: vm.vnfc",
+        "xml": "<for index=\"k\" start=\"0\" end=\"`$size_request-parameters.vm[$j].vnfc`\" >",
+        "comments": "",
+        "outputs": 1,
+        "x": 901.0715255737305,
+        "y": 619.5714960098267,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "48702be4.bdc704"
+            ]
+        ]
+    },
+    {
+        "id": "48702be4.bdc704",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1086.3573303222656,
+        "y": 620.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "96e67086.ec41",
+                "73e1f668.6f9e88"
+            ]
+        ]
+    },
+    {
+        "id": "96e67086.ec41",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n\n<parameter name=\"VNFCNAME\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n\n<parameter name=\"VMNAME\" value=\"`$request-parameters.vm[$j].vm-name`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1271.3573303222656,
+        "y": 602.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5f0b17e1.c8bef8",
+        "type": "other",
+        "name": "outcome: Other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 408.8572082519531,
+        "y": 267.9206209182739,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "cb247400.faf888"
+            ]
+        ]
+    },
+    {
+        "id": "cb247400.faf888",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 585.8571472167969,
+        "y": 257.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "3c2ed556.185e5a"
+            ]
+        ]
+    },
+    {
+        "id": "1a18dba4.815f24",
+        "type": "switchNode",
+        "name": "switch: vnfc length",
+        "xml": "<switch test=\"`$size_request-parameters.vm[$j].vnfc`\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 730.2144012451172,
+        "y": 482.7142724990845,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "f408e448.dc6e18",
+                "784e5cc1.2e9ae4",
+                "41c73c7f.eb83b4"
+            ]
+        ]
+    },
+    {
+        "id": "f408e448.dc6e18",
+        "type": "other",
+        "name": "outcome: Length=0",
+        "xml": "<outcome value='0'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1038.3573303222656,
+        "y": 470.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "2f7e6d3f.0ff402"
+            ]
+        ]
+    },
+    {
+        "id": "784e5cc1.2e9ae4",
+        "type": "other",
+        "name": "outcome: NULL",
+        "xml": "<outcome value=''>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1025.3573303222656,
+        "y": 508.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "2f7e6d3f.0ff402"
+            ]
+        ]
+    },
+    {
+        "id": "41c73c7f.eb83b4",
+        "type": "other",
+        "name": "outcome: Other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1028.3573303222656,
+        "y": 560.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "f3114c5c.74ffd"
+            ]
+        ]
+    },
+    {
+        "id": "2f7e6d3f.0ff402",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1259.3573913574219,
+        "y": 498.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "758e272d.4dae48",
+                "dfe77560.cb9aa8"
+            ]
+        ]
+    },
+    {
+        "id": "758e272d.4dae48",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"VNFC data not in request\"/>\n\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1451.3573913574219,
+        "y": 464.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f3114c5c.74ffd",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 689.3572692871094,
+        "y": 620.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "ef4f5395.ae1c8"
+            ]
+        ]
+    },
+    {
+        "id": "3f944a74.23cc16",
+        "type": "get-resource",
+        "name": "get-resource: A&AI Data for VM Name",
+        "xml": "<!-- Changed as per sli 1.1.14 \nget-resource plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"vserver\" key=\"vserver-name = $request-parameters.vm[$j].vm-name\" pfx=\"tmp.aai-data-vm\" -->\n<get-resource plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"vserver\" key=\"vserver.vserver-name = $request-parameters.vm[$j].vm-name\" pfx=\"tmp.aai-data-vm\" >\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 839.0238342285156,
+        "y": 327.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "3a9fb426.04912c",
+                "759b7530.046e6c",
+                "76029387.b595ec"
+            ]
+        ]
+    },
+    {
+        "id": "3a9fb426.04912c",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1100.0238952636719,
+        "y": 288.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "5afa94ad.bfe59c"
+            ]
+        ]
+    },
+    {
+        "id": "759b7530.046e6c",
+        "type": "failure",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1109.0238952636719,
+        "y": 339.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "5afa94ad.bfe59c"
+            ]
+        ]
+    },
+    {
+        "id": "76029387.b595ec",
+        "type": "failure",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1085.8571472167969,
+        "y": 401.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "5cd181d8.d8e65"
+            ]
+        ]
+    },
+    {
+        "id": "5afa94ad.bfe59c",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1291.0238952636719,
+        "y": 314.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "e35a39ff.9a6908"
+            ]
+        ]
+    },
+    {
+        "id": "e35a39ff.9a6908",
+        "type": "set",
+        "name": "set: Append to aai-error message",
+        "xml": "<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'Get from A&amp;AI Failed for ' + $request-parameters.vm[$j].vm-name + '.' + $aai-error-message`\"/>",
+        "comments": "",
+        "x": 1564.0238952636719,
+        "y": 319.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "72842467.2acc7c",
+        "type": "set",
+        "name": "set: Append to aai-error message",
+        "xml": "<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'VM Info not found in request.' + $aai-error-message`\"/>",
+        "comments": "",
+        "x": 1081.0238342285156,
+        "y": 202.92062854766846,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "dfe77560.cb9aa8",
+        "type": "set",
+        "name": "set: Append to aai-error message",
+        "xml": "<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'VNFC Info not found in request.' + $aai-error-message`\"/>",
+        "comments": "",
+        "x": 1531.5240173339844,
+        "y": 525.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "e83828f9.4c3c18",
+        "type": "switchNode",
+        "name": "switch: aai-error-message",
+        "xml": "<switch test=\"`$aai-error-message`\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 237.02383422851562,
+        "y": 845.9206056594849,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "aed33c7.e9169c",
+                "7daf802f.66582"
+            ]
+        ]
+    },
+    {
+        "id": "aed33c7.e9169c",
+        "type": "other",
+        "name": "outcome: not populated",
+        "xml": "<outcome value=''>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 510.0238342285156,
+        "y": 789.9206056594849,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "555ab55e.5384ac"
+            ]
+        ]
+    },
+    {
+        "id": "555ab55e.5384ac",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 714.0238342285156,
+        "y": 789.9206056594849,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "8389b454.ffde38"
+            ]
+        ]
+    },
+    {
+        "id": "7daf802f.66582",
+        "type": "other",
+        "name": "outcome: Other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 479.0238342285156,
+        "y": 891.9206056594849,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "e996926c.6f5ec"
+            ]
+        ]
+    },
+    {
+        "id": "e996926c.6f5ec",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 697.0238342285156,
+        "y": 891.9206056594849,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "83214261.6da0f"
+            ]
+        ]
+    },
+    {
+        "id": "8389b454.ffde38",
+        "type": "returnSuccess",
+        "name": "return success",
+        "xml": "<return status='success'>\n\n",
+        "comments": "",
+        "x": 896.0238342285156,
+        "y": 790.9206056594849,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "83214261.6da0f",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n<parameter name=\"dcae-error-message\" value=\"`$dcae-error-message + $aai-error-message` \"/>\n\n",
+        "comments": "",
+        "x": 901.0238265991211,
+        "y": 895.2540159225464,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "d63bd02e.54e15",
+        "type": "set",
+        "name": "set prov-status and orch-status",
+        "xml": "<set>\n<parameter name=\"tmp.aai-prov-status\" value=\"NVTPROV\" />\n\t<parameter name=\"tmp.aai-orch-status\" value=\"CONFIGURED\" />\n",
+        "comments": "",
+        "x": 428.8571472167969,
+        "y": 89.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "4ee1c404.52ef6c",
+        "type": "save",
+        "name": "save Put VNFC",
+        "xml": "<!--save plugin='org.onap.ccsdk.sli.adaptors.aai.AAIService' resource='vnfc' key='vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name' force='true' pfx='tmp.vnfc-sys-controller'-->\n<save plugin='org.onap.ccsdk.sli.adaptors.aai.AAIService' resource='vnfc' key='vnfc.vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name' force='true' pfx='tmp.vnfc-sys-controller'>\n<parameter name='nfc-naming-code' value='`$request-parameters.vm[$j].vnfc[$k].vnfc-function-code`'/>\n<parameter name='nfc-function' value='`$request-parameters.vm[$j].vnfc[$k].vnfc-type`'/>\n<parameter name='ipaddress-v4-oam-vip' value='`$request-parameters.vm[$j].vnfc[$k].ipaddress-v4-oam-vip`'/>\n<parameter name='prov-status' value='`$tmp.aai-prov-status`'/>\n<parameter name='orchestration-status' value='`$tmp.aai-orch-status`'/>\n<parameter name='in-maint' value = 'false'/>\n<parameter name='is-closed-loop' value = 'false'/>\n<parameter name='group-notation' value='`$request-parameters.vm[$j].vnfc[$k].group-notation`'/>\n\n\n<parameter name=\"relationship-list.relationship[0].related-to\" value=\"vserver\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[0].relationship-key\"   value=\"vserver.vserver-id\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[0].relationship-value\" value='`$tmp.aai-data-vm.vserver-id`'/>\n\n\n<parameter name=\"relationship-list.relationship[0].relationship-data[1].relationship-key\"   value=\"tenant.tenant-id\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[1].relationship-value\" value='`$tmp.aai-data-vm.tenant-id`'/>\n\n<parameter name=\"relationship-list.relationship[0].relationship-data[2].relationship-key\"   value=\"cloud-region.cloud-owner\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[2].relationship-value\" value=\"`$tmp.aai-data-vm.cloud-owner`\"/>\n\n<parameter name=\"relationship-list.relationship[0].relationship-data[3].relationship-key\"   value=\"cloud-region.cloud-region-id\" />\n<parameter name=\"relationship-list.relationship[0].relationship-data[3].relationship-value\" value='`$tmp.aai-data-vm.cloud-region-id`'/>\n\n\n<parameter name=\"relationship-list.relationship[1].related-to\" value=\"generic-vnf\" />\n<parameter name=\"relationship-list.relationship[1].relationship-data[0].relationship-key\"   value=\"generic-vnf.vnf-id\" />\n<parameter name=\"relationship-list.relationship[1].relationship-data[0].relationship-value\" value='`$vnf-id`'/>\n\n<parameter name=\"relationship-list.relationship[2].related-to\" value=\"vf-module\" />\n<parameter name=\"relationship-list.relationship[2].relationship-data[0].relationship-key\"   value=\"generic-vnf.vnf-id\" />\n<parameter name=\"relationship-list.relationship[2].relationship-data[0].relationship-value\" value='`$vnf-id`'/>\n\n<parameter name=\"relationship-list.relationship[2].relationship-data[1].relationship-key\"   value=\"vf-module.vf-module-id\" />\n<parameter name=\"relationship-list.relationship[2].relationship-data[1].relationship-value\" value='`$tmp.vf-module-id`'/>\n\n\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1579.6071319580078,
+        "y": 901.6428365707397,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "4e1dcff8.2ca55",
+                "86d99a42.6151c8"
+            ]
+        ]
+    },
+    {
+        "id": "9c8c44f.58601b8",
+        "type": "call",
+        "name": "call: GetVfModuleInfo",
+        "xml": "<call module=\"APPC\" rpc=\"GetVfModuleInfo\" mode=\"sync\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 1136.357192993164,
+        "y": 777.8095331192017,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "afceb7d7.f96e38",
+                "e9a85b53.c990b8"
+            ]
+        ]
+    },
+    {
+        "id": "afceb7d7.f96e38",
+        "type": "failure",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1135.3571472167969,
+        "y": 906.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "a06012c.2a0acf"
+            ]
+        ]
+    },
+    {
+        "id": "a06012c.2a0acf",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1380.8571166992188,
+        "y": 899.5595579147339,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "4ee1c404.52ef6c"
+            ]
+        ]
+    },
+    {
+        "id": "5cd181d8.d8e65",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1266.8571472167969,
+        "y": 402.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "1a18dba4.815f24"
+            ]
+        ]
+    },
+    {
+        "id": "e9a85b53.c990b8",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1354.8571472167969,
+        "y": 775.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "464a5da.0ae04a4"
+            ]
+        ]
+    },
+    {
+        "id": "25620711.cea6c8",
+        "type": "switchNode",
+        "name": "switch: tmp.vf-module-id",
+        "xml": "<switch test=\"`$tmp.vf-module-id`\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 1769.8571472167969,
+        "y": 776.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "effb01d2.8a5f3",
+                "661b5fe1.d4017"
+            ]
+        ]
+    },
+    {
+        "id": "464a5da.0ae04a4",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1530.8571472167969,
+        "y": 774.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "25620711.cea6c8"
+            ]
+        ]
+    },
+    {
+        "id": "effb01d2.8a5f3",
+        "type": "outcome",
+        "name": "NULL",
+        "xml": "<outcome value=''>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1990.8571472167969,
+        "y": 772.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "9bc0de60.5fa72"
+            ]
+        ]
+    },
+    {
+        "id": "9bc0de60.5fa72",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 2145.857147216797,
+        "y": 773.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "661b5fe1.d4017",
+        "type": "outcome",
+        "name": "Other",
+        "xml": "<outcome value='Other'>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1987.8571472167969,
+        "y": 826.1428575515747,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "a06012c.2a0acf"
+            ]
+        ]
+    },
+    {
+        "id": "69a31e4f.3f8db",
+        "type": "failure",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1541.7857284545898,
+        "y": 627.5000076293945,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "767da0a.31af36"
+            ]
+        ]
+    },
+    {
+        "id": "767da0a.31af36",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1700.5357284545898,
+        "y": 627.5000076293945,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "8d7a5064.9bb5c"
+            ]
+        ]
+    },
+    {
+        "id": "8d7a5064.9bb5c",
+        "type": "get-resource",
+        "name": "update: A&AI Data for VNFC status update",
+        "xml": "<!-- update plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"vnfc\" key=\"vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name\" pfx=\"tmp.aai-data-vnfc-update\" -->\n<update plugin=\"org.onap.ccsdk.sli.adaptors.aai.AAIService\" resource=\"vnfc\" key=\"vnfc.vnfc-name = $request-parameters.vm[$j].vnfc[$k].vnfc-name\" pfx=\"tmp.aai-data-vnfc-update\" >\n<parameter name='vnfc-name' value='`$request-parameters.vm[$j].vnfc[$k].vnfc-name`'/>\n<parameter name='prov-status' value='`$tmp.aai-prov-status`'/>\n<parameter name='orchestration-status' value='`$tmp.aai-orch-status`'/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1978.0357360839844,
+        "y": 627.5000076293945,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "8c17bc0f.cb94b",
+                "b9264b68.395fb8"
+            ]
+        ]
+    },
+    {
+        "id": "8c17bc0f.cb94b",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2264.535858154297,
+        "y": 604.7500123977661,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "40ca8b7c.888974"
+            ]
+        ]
+    },
+    {
+        "id": "40ca8b7c.888974",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 2416.5357055664062,
+        "y": 621.9999990463257,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "54023dc6.d78444",
+                "bb406758.d3b448"
+            ]
+        ]
+    },
+    {
+        "id": "54023dc6.d78444",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"Update VNFC status to AnAI Request Failed\"/>\n<parameter name=\"field3\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n<parameter name=\"field4\" value=\"`$tmp.aai-data-vnfc-update`\"/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2610.5357055664062,
+        "y": 603.9999990463257,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bb406758.d3b448",
+        "type": "set",
+        "name": "set: Append to aai error message",
+        "xml": "<set>\n\t  <parameter name=\"aai-error-message\" value=\"`'Update VNFC status to A&amp;AI Failed for ' + $request-parameters.vm[$j].vnfc[$k].vnfc-name + '.' + $aai-error-message`\"/>",
+        "comments": "",
+        "x": 2692.035743713379,
+        "y": 665.7500085830688,
+        "z": "1a897865.ea2138",
+        "wires": []
+    },
+    {
+        "id": "b9264b68.395fb8",
+        "type": "failure",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2250.1190338134766,
+        "y": 700.4166860580444,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "a053cddc.ba766"
+            ]
+        ]
+    },
+    {
+        "id": "a053cddc.ba766",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 2416.369285583496,
+        "y": 704.1667060852051,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "459dcac6.66f124"
+            ]
+        ]
+    },
+    {
+        "id": "459dcac6.66f124",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"Update VNFC status to AnAI Request Success\"/>\n<parameter name=\"field3\" value=\"`$request-parameters.vm[$j].vnfc[$k].vnfc-name`\"/>\n<parameter name=\"field4\" value=\"`$tmp.aai-data-vnfc-update`\"/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2594.2857055664062,
+        "y": 712.4999990463257,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "86d99a42.6151c8",
+        "type": "failure",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1771.0954971313477,
+        "y": 1015.5238370895386,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "2f17e022.67191"
+            ]
+        ]
+    },
+    {
+        "id": "2f17e022.67191",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1941.9880828857422,
+        "y": 1016.476149559021,
+        "z": "1a897865.ea2138",
+        "wires": [
+            [
+                "e97bc483.0b2fd8"
+            ]
+        ]
+    },
+    {
+        "id": "e97bc483.0b2fd8",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"level\" value=\"info\" />\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"RETURNEDERRORMSG\" value=\"`'Insert to AAI Succesful for ' + $request-parameters.vm[$j].vnfc[$k].vnfc-name `\"/>\n\n\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2127.5237770080566,
+        "y": 1014.8095026016235,
+        "z": "1a897865.ea2138",
+        "wires": [
+            []
+        ]
+    }
+]

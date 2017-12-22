@@ -1,1 +1,655 @@
-[{"id":"f7089b6e.27e52","type":"dgstart","name":"DGSTART","outputs":1,"x":138,"y":98,"z":"30436ccd.4adc14","wires":[["a81660a2.acdb6"]]},{"id":"a81660a2.acdb6","type":"service-logic","name":"APPC 4.0.0","module":"APPC","version":"4.0.0","comments":"","xml":"<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>","outputs":1,"x":292,"y":97,"z":"30436ccd.4adc14","wires":[["6912640f.71411c"]]},{"id":"6912640f.71411c","type":"method","name":"method SaveRunningConfig","xml":"<method rpc='SaveRunningConfig' mode='sync'>\n","comments":"","outputs":1,"x":520,"y":100,"z":"30436ccd.4adc14","wires":[["33c4539f.9dc64c"]]},{"id":"94be0ae2.28833","type":"set","name":"set call DG Parameters","xml":"<set>\n<parameter name='config.vnf-id' value=\"`$vnf-id`\" />\n<parameter name='config.vm-name' value=\"`$vm-name`\" />\n<parameter name='config.vnf-type' value=\"`$vnf-type`\" />\n<parameter name='config.vnf-name' value=\"`$vnf-name`\" />\n<parameter name='config.protocol' value=\"`$tmp.deviceinterfaceprotocol.PROTOCOL`\" />\n<parameter name='config.host-ip-address' value=\"`$vnf-host-ip-address`\" />\n<parameter name='config.user-name' value=\"`$device-authentication.USER-NAME`\" />\n<parameter name='config.password' value=\"`$device-authentication.PASSWORD`\" />\n<parameter name='config.port-number' value=\"`$device-authentication.PORT-NUMBER`\" />\n","comments":"","x":426,"y":154,"z":"30436ccd.4adc14","wires":[]},{"id":"33c4539f.9dc64c","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":167,"y":154,"z":"30436ccd.4adc14","wires":[["94be0ae2.28833","c2d0c3c1.33fe58","efc0edd.6d55e1"]]},{"id":"efc0edd.6d55e1","type":"call","name":"call: GetDeviceRunningConfig","xml":"<call module='APPC' rpc='GetDeviceRunningConfig' mode='sync' >\n","comments":"","outputs":1,"x":224,"y":575,"z":"30436ccd.4adc14","wires":[["2b84bd3f.c43e22","8e9e97db.0c6f3","c67b35a7.d90cc"]]},{"id":"2b84bd3f.c43e22","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":484,"y":594,"z":"30436ccd.4adc14","wires":[["4793b4e7.03b284"]]},{"id":"8e9e97db.0c6f3","type":"other","name":"other","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":479,"y":659,"z":"30436ccd.4adc14","wires":[["4793b4e7.03b284"]]},{"id":"c67b35a7.d90cc","type":"not-found","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":489,"y":539,"z":"30436ccd.4adc14","wires":[["b634a873.25805"]]},{"id":"4793b4e7.03b284","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":660,"y":629,"z":"30436ccd.4adc14","wires":[["815c662d.84ab88","e44ffe63.65498","67e0c003.fc637"]]},{"id":"b634a873.25805","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":654,"y":541,"z":"30436ccd.4adc14","wires":[["10d69be.e94b2e4"]]},{"id":"e44ffe63.65498","type":"execute","name":"execute IntermediateMessageSender","xml":"<execute plugin='org.onap.appc.dg.common.IntermediateMessageSender' method='sendMessage' >\n<parameter name='code' value=\"501\" />\n<parameter name='message' value=\"`$dcae-error-message`\" />\n<parameter name='prefix' value=\"tmp.intermediateerror\"/>","comments":"","outputs":1,"x":1389,"y":676,"z":"30436ccd.4adc14","wires":[["860f3f46.08ddc","72f4d895.e59d38"]]},{"id":"860f3f46.08ddc","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1618,"y":642,"z":"30436ccd.4adc14","wires":[["1f235b69.85d695"]]},{"id":"72f4d895.e59d38","type":"failure","name":"failure","xml":"<outcome value='failure'>","comments":"","outputs":1,"x":1610,"y":710,"z":"30436ccd.4adc14","wires":[["1f235b69.85d695"]]},{"id":"1f235b69.85d695","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":1789,"y":642,"z":"30436ccd.4adc14","wires":[["cf2797ac.14177"]]},{"id":"2032452c.51d42a","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":1314,"y":548,"z":"30436ccd.4adc14","wires":[["dec2c7fd.e23a58","e44ffe63.65498","67e0c003.fc637"]]},{"id":"cf2797ac.14177","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"MSGSENDERERERROR\" value=\"Unable to call IntermediateErrorMessageSender\"/>\n","comments":"","outputs":1,"x":1960,"y":642,"z":"30436ccd.4adc14","wires":[[]]},{"id":"10d69be.e94b2e4","type":"execute","name":"execute updateUploadConfig","xml":"<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"updateUploadConfig\">\n<parameter name=\"responsePrefix\" value=\"tmp.uploadconfig\" />\n\n","comments":"","outputs":1,"x":896,"y":536,"z":"30436ccd.4adc14","wires":[["60922c75.3eea14","bf243306.adc27","a2c86ad3.ec63f8"]]},{"id":"60922c75.3eea14","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1110,"y":537,"z":"30436ccd.4adc14","wires":[["2032452c.51d42a"]]},{"id":"bf243306.adc27","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1111,"y":571,"z":"30436ccd.4adc14","wires":[["2032452c.51d42a"]]},{"id":"a2c86ad3.ec63f8","type":"not-found","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1081,"y":296,"z":"30436ccd.4adc14","wires":[["eac20556.00c348"]]},{"id":"67e0c003.fc637","type":"execute","name":"execute saveTxLog","xml":"<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"saveConfigTransactionLog\">\n<parameter name=\"messageType\" value=\"log\" />\n<parameter name=\"message\" value=\"`'501:' + $dcae-error-message`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.saveTxLog\" />\n","comments":"","outputs":1,"x":1357.5,"y":776,"z":"30436ccd.4adc14","wires":[["26fc329c.a59e4e"]]},{"id":"26fc329c.a59e4e","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1553.5,"y":776,"z":"30436ccd.4adc14","wires":[["bb8dff26.bccd28"]]},{"id":"bb8dff26.bccd28","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":1725.5,"y":778,"z":"30436ccd.4adc14","wires":[[]]},{"id":"c2d0c3c1.33fe58","type":"execute","name":"execute Read Properties","xml":"<execute plugin='org.onap.ccsdk.sli.plugins.prop.PropertiesNode' method='readProperties' >\n\t<parameter name=\"fileName\" value=\"%SDNC_CONFIG_DIR%/appc.properties\"/>\n\t<parameter name=\"contextPrefix\" value=\"prop\"/>\n\n","comments":"","outputs":1,"x":400,"y":202,"z":"30436ccd.4adc14","wires":[["9bfb70c8.4c792","b78d6023.fd1328"]]},{"id":"9bfb70c8.4c792","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":625,"y":175,"z":"30436ccd.4adc14","wires":[["7501ba71.939a9c"]]},{"id":"b78d6023.fd1328","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":600,"y":216,"z":"30436ccd.4adc14","wires":[["7501ba71.939a9c"]]},{"id":"7501ba71.939a9c","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":787,"y":189,"z":"30436ccd.4adc14","wires":[["ccc94347.bf78e","9cef9dac.6442d"]]},{"id":"ccc94347.bf78e","type":"record","name":"record","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"DCAEREPORTERERROR\" value=\"Unable to read appc.properties File\"/>\n","comments":"","outputs":1,"x":947,"y":156,"z":"30436ccd.4adc14","wires":[[]]},{"id":"9cef9dac.6442d","type":"set","name":"set topic name to null","xml":"<set>\n<parameter name='prop.appc.LCM.topic.write' value=\"\" />\n","comments":"","x":999,"y":215,"z":"30436ccd.4adc14","wires":[]},{"id":"eac20556.00c348","type":"call","name":"call: PublishConfiguration","xml":"<call module=\"APPC\" rpc=\"PublishConfiguration\" mode=\"sync\">","comments":"","outputs":1,"x":1298,"y":294,"z":"30436ccd.4adc14","wires":[["a15a38a7.876bc"]]},{"id":"a15a38a7.876bc","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1512,"y":298,"z":"30436ccd.4adc14","wires":[["4f5647e3.e12ca"]]},{"id":"4f5647e3.e12ca","type":"block","name":"block : atomic","xml":"<block atomic=\"true\">","atomic":"true","outputs":1,"x":1694,"y":300,"z":"30436ccd.4adc14","wires":[["a2df8d58.688c38","e44ffe63.65498","67e0c003.fc637"]]},{"id":"dec2c7fd.e23a58","type":"set","name":"set dcae-error-message","xml":"<set>\n<parameter name='dcae-error-message' value=\"`'Configuration is successful but unable to save the running config.' + $tmp.uploadconfig.error-message`\" />\n","comments":"","x":1581,"y":542,"z":"30436ccd.4adc14","wires":[]},{"id":"815c662d.84ab88","type":"set","name":"set dcae-error-message","xml":"<set>\n<parameter name='dcae-error-message' value=\"Configuration is successful but unable to get the running config.\" />\n","comments":"","x":896,"y":605,"z":"30436ccd.4adc14","wires":[]},{"id":"a2df8d58.688c38","type":"set","name":"set dcae-error-message","xml":"<set>\n<parameter name='dcae-error-message' value='Configuration is successful.DG Workflow PublishConfiguration not found' />\n","comments":"","x":1924,"y":301,"z":"30436ccd.4adc14","wires":[]}]
+[
+    {
+        "id": "7c3474f1.1cd03c",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 122,
+        "y": 48,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "a83bd040.8282b"
+            ]
+        ]
+    },
+    {
+        "id": "a83bd040.8282b",
+        "type": "service-logic",
+        "name": "APPC 4.0.0",
+        "module": "APPC",
+        "version": "4.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+        "outputs": 1,
+        "x": 276,
+        "y": 47,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "e1894372.30cdd"
+            ]
+        ]
+    },
+    {
+        "id": "e1894372.30cdd",
+        "type": "method",
+        "name": "method SaveRunningConfig",
+        "xml": "<method rpc='SaveRunningConfig' mode='sync'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 504,
+        "y": 50,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "765e52ba.92d4ec"
+            ]
+        ]
+    },
+    {
+        "id": "1a5b77c4.054a08",
+        "type": "set",
+        "name": "set call DG Parameters",
+        "xml": "<set>\n<parameter name='config.vnf-id' value=\"`$vnf-id`\" />\n<parameter name='config.vm-name' value=\"`$vm-name`\" />\n<parameter name='config.vnf-type' value=\"`$vnf-type`\" />\n<parameter name='config.vnf-name' value=\"`$vnf-name`\" />\n<parameter name='config.protocol' value=\"`$tmp.deviceinterfaceprotocol.PROTOCOL`\" />\n<parameter name='config.host-ip-address' value=\"`$vnf-host-ip-address`\" />\n<parameter name='config.user-name' value=\"`$device-authentication.USER-NAME`\" />\n<parameter name='config.password' value=\"`$device-authentication.PASSWORD`\" />\n<parameter name='config.port-number' value=\"`$device-authentication.PORT-NUMBER`\" />\n",
+        "comments": "",
+        "x": 390,
+        "y": 224,
+        "z": "b65e8435.fe44e8",
+        "wires": []
+    },
+    {
+        "id": "765e52ba.92d4ec",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 151,
+        "y": 104,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "1a5b77c4.054a08",
+                "6ba67872.c10128",
+                "ed29f122.78c98",
+                "f1e5ace2.29b46"
+            ]
+        ]
+    },
+    {
+        "id": "ed29f122.78c98",
+        "type": "call",
+        "name": "call: GetDeviceRunningConfig",
+        "xml": "<call module='APPC' rpc='GetDeviceRunningConfig' mode='sync' >\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 208,
+        "y": 525,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "66a3421e.8ee46c",
+                "1758c96b.0bfac7",
+                "1205b1c1.01b1fe"
+            ]
+        ]
+    },
+    {
+        "id": "66a3421e.8ee46c",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 468,
+        "y": 544,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "2cf3d154.43afee"
+            ]
+        ]
+    },
+    {
+        "id": "1758c96b.0bfac7",
+        "type": "other",
+        "name": "other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 463,
+        "y": 609,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "2cf3d154.43afee"
+            ]
+        ]
+    },
+    {
+        "id": "1205b1c1.01b1fe",
+        "type": "not-found",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 473,
+        "y": 489,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "c415d4b1.46ebb8"
+            ]
+        ]
+    },
+    {
+        "id": "2cf3d154.43afee",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 644,
+        "y": 579,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "4b738eae.bebbf",
+                "c326e29b.a53c5",
+                "15e176d7.f4fa69"
+            ]
+        ]
+    },
+    {
+        "id": "c415d4b1.46ebb8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 638,
+        "y": 491,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "343da92f.ea2d36"
+            ]
+        ]
+    },
+    {
+        "id": "c326e29b.a53c5",
+        "type": "execute",
+        "name": "execute IntermediateMessageSender",
+        "xml": "<execute plugin='org.onap.appc.dg.common.IntermediateMessageSender' method='sendMessage' >\n<parameter name='code' value=\"501\" />\n<parameter name='message' value=\"`$dcae-error-message`\" />\n<parameter name='prefix' value=\"tmp.intermediateerror\"/>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1373,
+        "y": 626,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "d561706d.6cc1f",
+                "2cc85644.7e2dda"
+            ]
+        ]
+    },
+    {
+        "id": "d561706d.6cc1f",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1602,
+        "y": 592,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "acd3a913.aef658"
+            ]
+        ]
+    },
+    {
+        "id": "2cc85644.7e2dda",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1594,
+        "y": 660,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "acd3a913.aef658"
+            ]
+        ]
+    },
+    {
+        "id": "acd3a913.aef658",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 1773,
+        "y": 592,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "11937500.5cc44b"
+            ]
+        ]
+    },
+    {
+        "id": "4482b188.2de78",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 1298,
+        "y": 498,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "9444113f.a9b7f",
+                "c326e29b.a53c5",
+                "15e176d7.f4fa69"
+            ]
+        ]
+    },
+    {
+        "id": "11937500.5cc44b",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"MSGSENDERERERROR\" value=\"Unable to call IntermediateErrorMessageSender\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1944,
+        "y": 592,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "343da92f.ea2d36",
+        "type": "execute",
+        "name": "execute updateUploadConfig",
+        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"updateUploadConfig\">\n<parameter name=\"responsePrefix\" value=\"tmp.uploadconfig\" />\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 880,
+        "y": 486,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "5f1d1c6.72869e4",
+                "899f9e.eae2d06",
+                "83081ae4.fe0218"
+            ]
+        ]
+    },
+    {
+        "id": "5f1d1c6.72869e4",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1094,
+        "y": 487,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "4482b188.2de78"
+            ]
+        ]
+    },
+    {
+        "id": "899f9e.eae2d06",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1095,
+        "y": 521,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "4482b188.2de78"
+            ]
+        ]
+    },
+    {
+        "id": "83081ae4.fe0218",
+        "type": "not-found",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1100,
+        "y": 414,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "81dc42e5.641e2"
+            ]
+        ]
+    },
+    {
+        "id": "15e176d7.f4fa69",
+        "type": "execute",
+        "name": "execute saveTxLog",
+        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"saveConfigTransactionLog\">\n<parameter name=\"messageType\" value=\"log\" />\n<parameter name=\"message\" value=\"`'501:' + $dcae-error-message`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.saveTxLog\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1341.5,
+        "y": 726,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "6e98fbd2.1138c4"
+            ]
+        ]
+    },
+    {
+        "id": "6e98fbd2.1138c4",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1537.5,
+        "y": 726,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "b24c0738.704288"
+            ]
+        ]
+    },
+    {
+        "id": "b24c0738.704288",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 1709.5,
+        "y": 728,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6ba67872.c10128",
+        "type": "execute",
+        "name": "execute Read Properties",
+        "xml": "<execute plugin='org.onap.ccsdk.sli.plugins.prop.PropertiesNode' method='readProperties' >\n\t<parameter name=\"fileName\" value=\"%SDNC_CONFIG_DIR%/appc.properties\"/>\n\t<parameter name=\"contextPrefix\" value=\"prop\"/>\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 353,
+        "y": 328,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "85a4642e.9e6498",
+                "56546486.120c5c"
+            ]
+        ]
+    },
+    {
+        "id": "85a4642e.9e6498",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 560,
+        "y": 284,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "9b0db7e4.9df908"
+            ]
+        ]
+    },
+    {
+        "id": "56546486.120c5c",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 570,
+        "y": 353,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "9b0db7e4.9df908"
+            ]
+        ]
+    },
+    {
+        "id": "9b0db7e4.9df908",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 735,
+        "y": 320,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "6e458aaa.aa8b54",
+                "9f1686a1.b5d648"
+            ]
+        ]
+    },
+    {
+        "id": "6e458aaa.aa8b54",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"DCAEREPORTERERROR\" value=\"Unable to read appc.properties File\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 912,
+        "y": 364,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9f1686a1.b5d648",
+        "type": "set",
+        "name": "set topic name to null",
+        "xml": "<set>\n<parameter name='prop.appc.LCM.topic.write' value=\"\" />\n",
+        "comments": "",
+        "x": 913,
+        "y": 417,
+        "z": "b65e8435.fe44e8",
+        "wires": []
+    },
+    {
+        "id": "81dc42e5.641e2",
+        "type": "call",
+        "name": "call: PublishConfiguration",
+        "xml": "<call module=\"APPC\" rpc=\"PublishConfiguration\" mode=\"sync\">",
+        "comments": "",
+        "outputs": 1,
+        "x": 1305,
+        "y": 414,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "eb6085f2.5a8a38"
+            ]
+        ]
+    },
+    {
+        "id": "eb6085f2.5a8a38",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1503,
+        "y": 299,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "de2a437b.88707"
+            ]
+        ]
+    },
+    {
+        "id": "de2a437b.88707",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic=\"true\">",
+        "atomic": "true",
+        "outputs": 1,
+        "x": 1678,
+        "y": 250,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "69555cd3.e33e24",
+                "c326e29b.a53c5",
+                "15e176d7.f4fa69"
+            ]
+        ]
+    },
+    {
+        "id": "9444113f.a9b7f",
+        "type": "set",
+        "name": "set dcae-error-message",
+        "xml": "<set>\n<parameter name='dcae-error-message' value=\"`'Configuration is successful but unable to save the running config.' + $tmp.uploadconfig.error-message`\" />\n",
+        "comments": "",
+        "x": 1565,
+        "y": 492,
+        "z": "b65e8435.fe44e8",
+        "wires": []
+    },
+    {
+        "id": "4b738eae.bebbf",
+        "type": "set",
+        "name": "set dcae-error-message",
+        "xml": "<set>\n<parameter name='dcae-error-message' value=\"Configuration is successful but unable to get the running config.\" />\n",
+        "comments": "",
+        "x": 880,
+        "y": 555,
+        "z": "b65e8435.fe44e8",
+        "wires": []
+    },
+    {
+        "id": "69555cd3.e33e24",
+        "type": "set",
+        "name": "set dcae-error-message",
+        "xml": "<set>\n<parameter name='dcae-error-message' value='Configuration is successful.DG Workflow PublishConfiguration not found' />\n",
+        "comments": "",
+        "x": 1908,
+        "y": 251,
+        "z": "b65e8435.fe44e8",
+        "wires": []
+    },
+    {
+        "id": "f1e5ace2.29b46",
+        "type": "switchNode",
+        "name": "switch VM NAME in request",
+        "xml": "<switch test='`$VMNAME0`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 417,
+        "y": 161,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "7fef9209.46d47c",
+                "3da9dca1.ce1034"
+            ]
+        ]
+    },
+    {
+        "id": "7fef9209.46d47c",
+        "type": "success",
+        "name": "outcome: Other",
+        "xml": "<outcome value='Other'>",
+        "comments": "",
+        "outputs": 1,
+        "x": 659.75,
+        "y": 192.61105346679688,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "f3795793.19b688"
+            ]
+        ]
+    },
+    {
+        "id": "3da9dca1.ce1034",
+        "type": "success",
+        "name": "outcome:null",
+        "xml": "<outcome value=''>",
+        "comments": "",
+        "outputs": 1,
+        "x": 649.3611450195312,
+        "y": 126.77777099609375,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "e74d3cad.0ea56"
+            ]
+        ]
+    },
+    {
+        "id": "e74d3cad.0ea56",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 828,
+        "y": 125,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f3795793.19b688",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 842,
+        "y": 192,
+        "z": "b65e8435.fe44e8",
+        "wires": [
+            [
+                "f10135f1.0d9068"
+            ]
+        ]
+    },
+    {
+        "id": "f10135f1.0d9068",
+        "type": "set",
+        "name": "set VM name",
+        "xml": "<set>\n<!-- 17.07 If VM is in the request in array list set VM Name  -->\n<parameter name='vm-name' value='`$VMNAME0`' />\n",
+        "comments": "",
+        "x": 1027,
+        "y": 192,
+        "z": "b65e8435.fe44e8",
+        "wires": []
+    }
+]
