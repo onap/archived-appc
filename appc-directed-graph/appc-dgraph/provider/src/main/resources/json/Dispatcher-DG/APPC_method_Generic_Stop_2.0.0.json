@@ -1,1 +1,759 @@
-[{"id":"7e2fb931.5cb6a8","type":"method","name":"Generic_Stop","xml":"<method rpc='Generic_Stop' mode='sync'>\n","comments":"","outputs":1,"x":246,"y":93,"z":"a4e67f56.cb2c9","wires":[["2587b8bb.e5e958"]]},{"id":"ec3c7234.5264c","type":"service-logic","name":"APPC 2.0.0","module":"APPC","version":"2.0.0","comments":"","xml":"<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.0'>","outputs":1,"x":327,"y":29,"z":"a4e67f56.cb2c9","wires":[["7e2fb931.5cb6a8"]]},{"id":"315a077d.12b998","type":"dgstart","name":"DGSTART","outputs":1,"x":151,"y":29,"z":"a4e67f56.cb2c9","wires":[["ec3c7234.5264c"]]},{"id":"2587b8bb.e5e958","type":"execute","name":"execute_getVNF_Hierarchy","xml":"<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='getVnfHierarchy'>\n<parameter name=\"resourceKey\" value=\"`$org.onap.appc.vfid`\" />","comments":"","outputs":1,"x":171,"y":198,"z":"a4e67f56.cb2c9","wires":[["9dcb5f4b.e5edc","cbcbe34a.531c7"]]},{"id":"9dcb5f4b.e5edc","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":142,"y":374,"z":"a4e67f56.cb2c9","wires":[["682f2d38.85dcf4"]]},{"id":"ef252110.98a58","type":"block","name":"block : atomic","xml":"<block atomic='true'>\n","atomic":"true","comments":"","outputs":1,"x":459,"y":643,"z":"a4e67f56.cb2c9","wires":[["8564038a.20f11","99f8b9e.6458b48"]]},{"id":"8564038a.20f11","type":"for","name":"for_each_VMs","xml":"<for index=\"i\" start=\"0\" end=\"`$VNF.VMCount`\" >","comments":"","outputs":1,"x":606,"y":470,"z":"a4e67f56.cb2c9","wires":[["d55f4a78.4ab358"]]},{"id":"d55f4a78.4ab358","type":"block","name":"block : atomic","xml":"<block atomic='true'>\n","atomic":"true","comments":"","outputs":1,"x":748,"y":399,"z":"a4e67f56.cb2c9","wires":[["8fc22181.f2a49"]]},{"id":"8fc22181.f2a49","type":"execute","name":"execute_UpdateAA&I","xml":"<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name = $VNF.VM[$i].VNFC' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"STOPPING\" />\n","comments":"","outputs":1,"x":901,"y":470,"z":"a4e67f56.cb2c9","wires":[["a9079be8.d4a478","9876fdec.6f37b"]]},{"id":"a9079be8.d4a478","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1007,"y":244,"z":"a4e67f56.cb2c9","wires":[["8115b889.f550c8"]]},{"id":"99f8b9e.6458b48","type":"returnSuccess","name":"return success","xml":"<return status='success'>\n","comments":"","x":624,"y":833,"z":"a4e67f56.cb2c9","wires":[]},{"id":"cbcbe34a.531c7","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":403,"y":156,"z":"a4e67f56.cb2c9","wires":[["e1b9b789.f64058"]]},{"id":"88300794.7ebab8","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":774,"y":125,"z":"a4e67f56.cb2c9","wires":[]},{"id":"16f41970.2b9937","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1436,"y":335,"z":"a4e67f56.cb2c9","wires":[["209159f2.bcb756"]]},{"id":"c8ee356c.0659d8","type":"execute","name":"execute_update_AA&I","xml":"<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name = $VNF.VM[$i].VNFC' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"STOPPED\" />\n","comments":"","outputs":1,"x":1857,"y":585,"z":"a4e67f56.cb2c9","wires":[["4d7443c4.c8179c","8b55dde0.3bbb"]]},{"id":"4d7443c4.c8179c","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":2089,"y":733,"z":"a4e67f56.cb2c9","wires":[["f46b9146.02c08"]]},{"id":"e8c9cfc3.43aba","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2436,"y":784,"z":"a4e67f56.cb2c9","wires":[]},{"id":"8b55dde0.3bbb","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2074,"y":400,"z":"a4e67f56.cb2c9","wires":[["c7b8b650.debeb8"]]},{"id":"9876fdec.6f37b","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":740,"y":596,"z":"a4e67f56.cb2c9","wires":[["ee34ffbb.23891"]]},{"id":"e0f1fadf.9c0e38","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":995,"y":762,"z":"a4e67f56.cb2c9","wires":[]},{"id":"25ea35c8.19f71a","type":"execute","name":"execute_Update_AA&I","xml":"<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name = $VNF.VM[$i].VNFC' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"ERROR\" />\n","comments":"","outputs":1,"x":1920.0000305175781,"y":236,"z":"a4e67f56.cb2c9","wires":[["34ca0aa7.90eda6","a0a350ed.07716"]]},{"id":"34ca0aa7.90eda6","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2120,"y":312,"z":"a4e67f56.cb2c9","wires":[["e98338be.9afa58"]]},{"id":"4b5d9174.e2d7d","type":"comment","name":"update VNFCs to STOPPING","info":"","comments":"","x":863,"y":518,"z":"a4e67f56.cb2c9","wires":[]},{"id":"fd5a214f.ebac2","type":"comment","name":"call south bound to STOP VMs","info":"","comments":"","x":1321,"y":63,"z":"a4e67f56.cb2c9","wires":[]},{"id":"69e7f6ee.f0f488","type":"comment","name":"if failure from south bound then update as Error","info":"","comments":"","x":1905,"y":69,"z":"a4e67f56.cb2c9","wires":[]},{"id":"5a8b51ce.7d4ff","type":"comment","name":"STOPPED VNFCs in AA&I","info":"","comments":"","x":2105,"y":574,"z":"a4e67f56.cb2c9","wires":[]},{"id":"6c7dacf5.ea4894","type":"comment","name":"Fetch all VMs and VNFCs from AA&I for given VNF_ID","info":"","comments":"","x":596,"y":182,"z":"a4e67f56.cb2c9","wires":[]},{"id":"84f683a0.d9fcb","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2233,"y":110,"z":"a4e67f56.cb2c9","wires":[]},{"id":"a0a350ed.07716","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":2099,"y":148,"z":"a4e67f56.cb2c9","wires":[["84f683a0.d9fcb"]]},{"id":"74105ed4.70bad","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1416,"y":102,"z":"a4e67f56.cb2c9","wires":[["b8a6176c.8ff0e8"]]},{"id":"333d173e.eb68a8","type":"switchNode","name":"switch","xml":"<switch test='`$VNF.VMCount`'>\n","comments":"","outputs":1,"x":136,"y":670.0000305175781,"z":"a4e67f56.cb2c9","wires":[["f1e14e66.f97c6","ddd6b13.e25e15"]]},{"id":"f1e14e66.f97c6","type":"other","name":"outcome_0","xml":"<outcome value='0'>\n","comments":"","outputs":1,"x":333,"y":552.0000305175781,"z":"a4e67f56.cb2c9","wires":[["debeaa94.ae7058"]]},{"id":"ddd6b13.e25e15","type":"other","name":"other","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":319,"y":683.0000305175781,"z":"a4e67f56.cb2c9","wires":[["ef252110.98a58"]]},{"id":"209159f2.bcb756","type":"switchNode","name":"switch","xml":"<switch test='`$STOP_STATUS`'>\n","comments":"","outputs":1,"x":1618,"y":334,"z":"a4e67f56.cb2c9","wires":[["727f90cf.4e78e","6bc80951.a39408","5a17e4b6.24cc2c"]]},{"id":"727f90cf.4e78e","type":"success","name":"outcome_SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":1845,"y":464,"z":"a4e67f56.cb2c9","wires":[["c8ee356c.0659d8"]]},{"id":"6bc80951.a39408","type":"other","name":"outcome_SERVER_NOT_FOUND","xml":"<outcome value='SERVER_NOT_FOUND'>\n","comments":"","outputs":1,"x":1608,"y":227,"z":"a4e67f56.cb2c9","wires":[["f58c9809.cd0798"]]},{"id":"5a17e4b6.24cc2c","type":"other","name":"outcome_ERROR","xml":"<outcome value='ERROR'>\n","comments":"","outputs":1,"x":1783,"y":324,"z":"a4e67f56.cb2c9","wires":[["22896989.a0c9c6"]]},{"id":"6a7166f0.3d8308","type":"execute","name":"execute_STOP","xml":"<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='stopServer'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$VNF.VM[$i].URL`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n","comments":"","outputs":1,"x":1326,"y":239,"z":"a4e67f56.cb2c9","wires":[["16f41970.2b9937","74105ed4.70bad"]]},{"id":"682f2d38.85dcf4","type":"switchNode","name":"switch","xml":"<switch test='`$getVnfHierarchy_result`'>\n","comments":"","outputs":1,"x":128,"y":492.0000305175781,"z":"a4e67f56.cb2c9","wires":[["cbff0a6a.206938","bf5be080.c5c5e"]]},{"id":"bf5be080.c5c5e","type":"outcome","name":"FAILURE","xml":"<outcome value='FAILURE'>\n","comments":"","outputs":1,"x":271,"y":437,"z":"a4e67f56.cb2c9","wires":[["646e1f85.cb186"]]},{"id":"c13b792d.778058","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":483,"y":318,"z":"a4e67f56.cb2c9","wires":[]},{"id":"cbff0a6a.206938","type":"outcome","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":129,"y":568.0000305175781,"z":"a4e67f56.cb2c9","wires":[["333d173e.eb68a8"]]},{"id":"10c91a07.a117c6","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":583,"y":425,"z":"a4e67f56.cb2c9","wires":[]},{"id":"8115b889.f550c8","type":"switchNode","name":"switch","xml":"<switch test='`$postResource_result`'>\n","comments":"","outputs":1,"x":1092,"y":344,"z":"a4e67f56.cb2c9","wires":[["1127dc8f.3f9963","c9595f20.2a9c8","a2f5ef46.94c16"]]},{"id":"1127dc8f.3f9963","type":"outcome","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":1209,"y":111,"z":"a4e67f56.cb2c9","wires":[["6a7166f0.3d8308"]]},{"id":"c9595f20.2a9c8","type":"outcome","name":"NOT_FOUND","xml":"<outcome value='NOT_FOUND'>\n","comments":"","outputs":1,"x":1341,"y":427,"z":"a4e67f56.cb2c9","wires":[["f8f3a23a.eb879"]]},{"id":"8217861.f831678","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":1572,"y":559,"z":"a4e67f56.cb2c9","wires":[]},{"id":"a2f5ef46.94c16","type":"outcome","name":"FAILURE","xml":"<outcome value='FAILURE'>\n","comments":"","outputs":1,"x":1205,"y":514,"z":"a4e67f56.cb2c9","wires":[["e97be688.52f7b8"]]},{"id":"833e99d3.8e1fc8","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":1392,"y":748,"z":"a4e67f56.cb2c9","wires":[]},{"id":"c7b8b650.debeb8","type":"switchNode","name":"switch","xml":"<switch test='`$postResource_result`'>\n","comments":"","outputs":1,"x":2251,"y":519,"z":"a4e67f56.cb2c9","wires":[["b7c2ee30.1eb72","e4923dfa.c9afb","b90b071c.055b78"]]},{"id":"b7c2ee30.1eb72","type":"outcome","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":2451,"y":422,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"e4923dfa.c9afb","type":"outcome","name":"NOT_FOUND","xml":"<outcome value='NOT_FOUND'>\n","comments":"","outputs":1,"x":2456,"y":527,"z":"a4e67f56.cb2c9","wires":[["801303e7.59ed6"]]},{"id":"b90b071c.055b78","type":"outcome","name":"FAILURE","xml":"<outcome value='FAILURE'>\n","comments":"","outputs":1,"x":2459,"y":638,"z":"a4e67f56.cb2c9","wires":[["cfc89854.f4d468"]]},{"id":"a69ecbbf.1d5bc8","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2798,"y":531,"z":"a4e67f56.cb2c9","wires":[]},{"id":"2edb4a8d.6d3ab6","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2854,"y":664,"z":"a4e67f56.cb2c9","wires":[]},{"id":"e98338be.9afa58","type":"switchNode","name":"switch","xml":"<switch test='`$postResource_result`'>\n","comments":"","outputs":1,"x":2225,"y":213,"z":"a4e67f56.cb2c9","wires":[["8822689b.0636b8","d848ce46.2a685","f77fa469.3a14b8"]]},{"id":"8822689b.0636b8","type":"outcome","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":2437,"y":102,"z":"a4e67f56.cb2c9","wires":[["81c78045.cc4b7"]]},{"id":"81c78045.cc4b7","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2696,"y":101,"z":"a4e67f56.cb2c9","wires":[]},{"id":"d848ce46.2a685","type":"outcome","name":"NOT_FOUND","xml":"<outcome value='NOT_FOUND'>\n","comments":"","outputs":1,"x":2449,"y":184,"z":"a4e67f56.cb2c9","wires":[["9b1f5185.99c3d"]]},{"id":"9b1f5185.99c3d","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2700,"y":185,"z":"a4e67f56.cb2c9","wires":[]},{"id":"f77fa469.3a14b8","type":"outcome","name":"FAILURE","xml":"<outcome value='FAILURE'>\n","comments":"","outputs":1,"x":2449,"y":291,"z":"a4e67f56.cb2c9","wires":[["8a3cbd67.71ce4"]]},{"id":"8a3cbd67.71ce4","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":2705,"y":293,"z":"a4e67f56.cb2c9","wires":[]},{"id":"e1b9b789.f64058","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":623,"y":74,"z":"a4e67f56.cb2c9","wires":[["ad90eade.1e4318","88300794.7ebab8"]]},{"id":"ad90eade.1e4318","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name=\"org.onap.appc.dg.error\" value=\"Exception in getting VNF Hierachy\" />\n<parameter name=\"output.status.message\" value=\"Exception in getting VNF Hierachy\" />\n","comments":"","outputs":1,"x":761,"y":20,"z":"a4e67f56.cb2c9","wires":[["5162c75b.63a0f8"]]},{"id":"5162c75b.63a0f8","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":922,"y":32,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"646e1f85.cb186","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":415,"y":253,"z":"a4e67f56.cb2c9","wires":[["c13b792d.778058","cfce6271.431d"]]},{"id":"cfce6271.431d","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name=\"org.onap.appc.dg.error\" value=\"Failure in getting VNF Hierachy\" />\n<parameter name=\"output.status.message\" value=\"Failure in getting VNF Hierachy\" />","comments":"","outputs":1,"x":576,"y":230,"z":"a4e67f56.cb2c9","wires":[["b23db4a.b34b848"]]},{"id":"b23db4a.b34b848","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":713,"y":218,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"debeaa94.ae7058","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":569,"y":352,"z":"a4e67f56.cb2c9","wires":[["10c91a07.a117c6","30d4ccc8.122954"]]},{"id":"30d4ccc8.122954","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name=\"org.onap.appc.dg.error\" value=\"VM Count is 0\" />\n<parameter name=\"output.status.message\" value=\"VM Count is 0\" />","comments":"","outputs":1,"x":671,"y":289,"z":"a4e67f56.cb2c9","wires":[["7e7f8d2.f243e74"]]},{"id":"7e7f8d2.f243e74","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":812,"y":305,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"ee34ffbb.23891","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":819,"y":686,"z":"a4e67f56.cb2c9","wires":[["9c0e0f69.b19d1","e0f1fadf.9c0e38"]]},{"id":"9c0e0f69.b19d1","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Failure in updating AAI for '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Failure in updating AAI for '+$VNF.VM[$i].VNFC`\"/>\n \n","comments":"","outputs":1,"x":1009,"y":630,"z":"a4e67f56.cb2c9","wires":[["46b448f9.a03378"]]},{"id":"46b448f9.a03378","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1209,"y":717,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"e97be688.52f7b8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1201,"y":590,"z":"a4e67f56.cb2c9","wires":[["c7dca449.abdeb8","833e99d3.8e1fc8"]]},{"id":"c7dca449.abdeb8","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Exception in AAI Update for vnfc '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Exception in AAI Update for vnfc '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":1390,"y":658,"z":"a4e67f56.cb2c9","wires":[["26eaa68f.bf82ea"]]},{"id":"26eaa68f.bf82ea","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1568,"y":652,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"f8f3a23a.eb879","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1431,"y":503,"z":"a4e67f56.cb2c9","wires":[["8b3b5e98.1be6d","8217861.f831678"]]},{"id":"8b3b5e98.1be6d","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'VNFC not found in AAI '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'VNFC not found in AAI '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":1585,"y":461,"z":"a4e67f56.cb2c9","wires":[["13b89cf6.a36ed3"]]},{"id":"13b89cf6.a36ed3","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1693,"y":513,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"b8a6176c.8ff0e8","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1446,"y":48,"z":"a4e67f56.cb2c9","wires":[["a45ba5fc.9feb68","25ea35c8.19f71a"]]},{"id":"a45ba5fc.9feb68","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Failure in stop for '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Failure in stop for '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":1587,"y":29,"z":"a4e67f56.cb2c9","wires":[["9bacb3e0.f2d41"]]},{"id":"9bacb3e0.f2d41","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1741,"y":31,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"f58c9809.cd0798","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1582,"y":164,"z":"a4e67f56.cb2c9","wires":[["25ea35c8.19f71a","10bd5099.1c07bf"]]},{"id":"10bd5099.1c07bf","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Stop : Server not found '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Stop : Server not found '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":1706,"y":99,"z":"a4e67f56.cb2c9","wires":[["677f73ad.c6c76c"]]},{"id":"677f73ad.c6c76c","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1863,"y":102,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"22896989.a0c9c6","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1853.9999389648438,"y":163,"z":"a4e67f56.cb2c9","wires":[["25ea35c8.19f71a","1a1bb1b5.d95e6e"]]},{"id":"1a1bb1b5.d95e6e","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Stop : Error occoured while stopping the server '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Stop : Error occoured while stopping the server '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":1954,"y":144,"z":"a4e67f56.cb2c9","wires":[["89e55d1b.8bacb"]]},{"id":"89e55d1b.8bacb","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2083,"y":109,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"801303e7.59ed6","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2623,"y":514,"z":"a4e67f56.cb2c9","wires":[["6cc2dd3a.5ab1c4","a69ecbbf.1d5bc8"]]},{"id":"cfc89854.f4d468","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2627,"y":629,"z":"a4e67f56.cb2c9","wires":[["4f117e3b.87012","2edb4a8d.6d3ab6"]]},{"id":"f46b9146.02c08","type":"block","name":"block : atomic","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2226,"y":729,"z":"a4e67f56.cb2c9","wires":[["30bc77c5.9a7ea8","e8c9cfc3.43aba"]]},{"id":"6cc2dd3a.5ab1c4","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'VNFC not found in AAI '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'VNFC not found in AAI '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":2793,"y":473,"z":"a4e67f56.cb2c9","wires":[["b58381a3.ec774"]]},{"id":"4f117e3b.87012","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Exception in AAI Update for vnfc '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Exception in AAI Update for vnfc '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":2816,"y":592,"z":"a4e67f56.cb2c9","wires":[["ca332e3a.6a09e"]]},{"id":"b58381a3.ec774","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2966,"y":479,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"ca332e3a.6a09e","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":3049,"y":586,"z":"a4e67f56.cb2c9","wires":[[]]},{"id":"30bc77c5.9a7ea8","type":"execute","name":"execute","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Failure in updating AAI for '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Failure in updating AAI for '+$VNF.VM[$i].VNFC`\"/>","comments":"","outputs":1,"x":2434,"y":702,"z":"a4e67f56.cb2c9","wires":[["2a4d844.64b3b7c"]]},{"id":"2a4d844.64b3b7c","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2593,"y":706,"z":"a4e67f56.cb2c9","wires":[[]]}]
+[
+    {
+        "id": "ca7dff7a.9094d",
+        "type": "method",
+        "name": "Generic_Stop",
+        "xml": "<method rpc='Generic_Stop' mode='sync'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 240.515625,
+        "y": 163.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "1a5a41f2.1d5d1e"
+            ]
+        ]
+    },
+    {
+        "id": "a4084d81.f30ab",
+        "type": "service-logic",
+        "name": "APPC 2.0.0",
+        "module": "APPC",
+        "version": "2.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.0'>",
+        "outputs": 1,
+        "x": 321.515625,
+        "y": 99.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "ca7dff7a.9094d"
+            ]
+        ]
+    },
+    {
+        "id": "c6c533c7.a83e1",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 145.515625,
+        "y": 99.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "a4084d81.f30ab"
+            ]
+        ]
+    },
+    {
+        "id": "1a5a41f2.1d5d1e",
+        "type": "execute",
+        "name": "execute_getVNF_Hierarchy",
+        "xml": "<execute plugin='org.onap.appc.dg.util.ExecuteNodeAction' method='getVnfHierarchy'>\n<parameter name=\"resourceKey\" value=\"`$org.onap.appc.vfid`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 165.515625,
+        "y": 268.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "efd21b46.8816f8",
+                "ed27a5b5.b50f98"
+            ]
+        ]
+    },
+    {
+        "id": "efd21b46.8816f8",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 136.515625,
+        "y": 444.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "c04dc9bf.f2eb68"
+            ]
+        ]
+    },
+    {
+        "id": "877024dd.875ad8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>\n",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 418.5156555175781,
+        "y": 812.5156593322754,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "e04acb4c.378ec8",
+                "c5408647.b48898"
+            ]
+        ]
+    },
+    {
+        "id": "e04acb4c.378ec8",
+        "type": "for",
+        "name": "for_each_VMs",
+        "xml": "<for index=\"i\" start=\"0\" end=\"`$VNF.VMCount`\" >",
+        "comments": "",
+        "outputs": 1,
+        "x": 600.5156402587891,
+        "y": 751.5156717300415,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "dbb8f0fa.9e0b3"
+            ]
+        ]
+    },
+    {
+        "id": "dbb8f0fa.9e0b3",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>\n",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 816.5157852172852,
+        "y": 732.5157337188721,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "6d56f0ff.3dd59"
+            ]
+        ]
+    },
+    {
+        "id": "c5408647.b48898",
+        "type": "returnSuccess",
+        "name": "return success",
+        "xml": "<return status='success'>\n",
+        "comments": "",
+        "x": 618.515625,
+        "y": 903.515625,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "ed27a5b5.b50f98",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 397.515625,
+        "y": 226.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "acdb8393.ea85c"
+            ]
+        ]
+    },
+    {
+        "id": "d00e5710.5de668",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 753.5156593322754,
+        "y": 277.51562881469727,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "5db910d8.c5b43",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1167.5156936645508,
+        "y": 779.5156507492065,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "803e4626.09a418"
+            ]
+        ]
+    },
+    {
+        "id": "1024a058.50944",
+        "type": "comment",
+        "name": "call south bound to STOP VMs",
+        "info": "",
+        "comments": "",
+        "x": 991.5157775878906,
+        "y": 642.5157160758972,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "e850001b.1e176",
+        "type": "comment",
+        "name": "if failure from south bound then update as Error",
+        "info": "",
+        "comments": "",
+        "x": 1580.5157318115234,
+        "y": 771.5156402587891,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "7b36d153.c79a3",
+        "type": "comment",
+        "name": "Fetch all VMs and VNFCs from AA&I for given VNF_ID",
+        "info": "",
+        "comments": "",
+        "x": 205.5,
+        "y": 321.5156307220459,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "cfc7559f.a713e8",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1193.5159339904785,
+        "y": 601.5156688690186,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "8ea909b3.9986f8"
+            ]
+        ]
+    },
+    {
+        "id": "b0a70389.467fe",
+        "type": "switchNode",
+        "name": "switch",
+        "xml": "<switch test='`$VNF.VMCount`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 130.515625,
+        "y": 740.5156555175781,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "d708b7d2.075828",
+                "6a96238a.4fa3fc"
+            ]
+        ]
+    },
+    {
+        "id": "d708b7d2.075828",
+        "type": "other",
+        "name": "outcome_0",
+        "xml": "<outcome value='0'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 327.515625,
+        "y": 622.5156555175781,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "ae027dd.7a07f8"
+            ]
+        ]
+    },
+    {
+        "id": "6a96238a.4fa3fc",
+        "type": "other",
+        "name": "other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 313.515625,
+        "y": 753.5156555175781,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "877024dd.875ad8"
+            ]
+        ]
+    },
+    {
+        "id": "803e4626.09a418",
+        "type": "switchNode",
+        "name": "switch",
+        "xml": "<switch test='`$STOP_STATUS`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1320.515697479248,
+        "y": 817.515682220459,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "80e1612e.f1656",
+                "e09cd63d.1543d8",
+                "ca381933.f82c48"
+            ]
+        ]
+    },
+    {
+        "id": "80e1612e.f1656",
+        "type": "success",
+        "name": "outcome_SUCCESS",
+        "xml": "<outcome value='SUCCESS'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1438.5159759521484,
+        "y": 922.5157642364502,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e09cd63d.1543d8",
+        "type": "other",
+        "name": "outcome_SERVER_NOT_FOUND",
+        "xml": "<outcome value='SERVER_NOT_FOUND'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1548.5156707763672,
+        "y": 705.5156316757202,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "5c6438d1.7312f8"
+            ]
+        ]
+    },
+    {
+        "id": "ca381933.f82c48",
+        "type": "other",
+        "name": "outcome_ERROR",
+        "xml": "<outcome value='ERROR'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1564.5162200927734,
+        "y": 817.5157880783081,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "f4074405.cd8f08"
+            ]
+        ]
+    },
+    {
+        "id": "6d56f0ff.3dd59",
+        "type": "execute",
+        "name": "execute_STOP",
+        "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='stopServer'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$VNF.VM[$i].URL`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1014.5158386230469,
+        "y": 699.5156421661377,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "5db910d8.c5b43",
+                "cfc7559f.a713e8"
+            ]
+        ]
+    },
+    {
+        "id": "c04dc9bf.f2eb68",
+        "type": "switchNode",
+        "name": "switch",
+        "xml": "<switch test='`$getVnfHierarchy_result`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 122.515625,
+        "y": 562.5156555175781,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "2ab2d7.6e453d2a",
+                "bec897cf.c43018"
+            ]
+        ]
+    },
+    {
+        "id": "bec897cf.c43018",
+        "type": "outcome",
+        "name": "FAILURE",
+        "xml": "<outcome value='FAILURE'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 328.5156478881836,
+        "y": 513.5156383514404,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "9cdbbbf5.033ca8"
+            ]
+        ]
+    },
+    {
+        "id": "d83304f2.66e5a8",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 720.5157051086426,
+        "y": 543.5156841278076,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "2ab2d7.6e453d2a",
+        "type": "outcome",
+        "name": "SUCCESS",
+        "xml": "<outcome value='SUCCESS'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 123.515625,
+        "y": 638.5156555175781,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "b0a70389.467fe"
+            ]
+        ]
+    },
+    {
+        "id": "cb3e9caf.8319",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 726.5156593322754,
+        "y": 673.5157794952393,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "acdb8393.ea85c",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 576.5156707763672,
+        "y": 225.51562690734863,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "9125ec23.5af1e",
+                "d00e5710.5de668"
+            ]
+        ]
+    },
+    {
+        "id": "9125ec23.5af1e",
+        "type": "execute",
+        "name": "execute",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name=\"org.onap.appc.dg.error\" value=\"Exception in getting VNF Hierachy\" />\n<parameter name=\"output.status.message\" value=\"Exception in getting VNF Hierachy\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 740.5156745910645,
+        "y": 167.515625,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "34f84fa0.3a691"
+            ]
+        ]
+    },
+    {
+        "id": "34f84fa0.3a691",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 904.5156478881836,
+        "y": 159.51562690734863,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9cdbbbf5.033ca8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 540.5156402587891,
+        "y": 496.5156831741333,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "d83304f2.66e5a8",
+                "af7e9776.180f88"
+            ]
+        ]
+    },
+    {
+        "id": "af7e9776.180f88",
+        "type": "execute",
+        "name": "execute",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name=\"org.onap.appc.dg.error\" value=\"Failure in getting VNF Hierachy\" />\n<parameter name=\"output.status.message\" value=\"Failure in getting VNF Hierachy\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 715.5156478881836,
+        "y": 422.5156660079956,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "681ab88c.171628"
+            ]
+        ]
+    },
+    {
+        "id": "681ab88c.171628",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 909.5157737731934,
+        "y": 430.5156497955322,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ae027dd.7a07f8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 536.5156707763672,
+        "y": 625.5156555175781,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "cb3e9caf.8319",
+                "c474f9c9.17d698"
+            ]
+        ]
+    },
+    {
+        "id": "c474f9c9.17d698",
+        "type": "execute",
+        "name": "execute",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name=\"org.onap.appc.dg.error\" value=\"VM Count is 0\" />\n<parameter name=\"output.status.message\" value=\"VM Count is 0\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 704.5157661437988,
+        "y": 585.5157165527344,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "82640172.803ee"
+            ]
+        ]
+    },
+    {
+        "id": "82640172.803ee",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 893.5157089233398,
+        "y": 587.5156536102295,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ea909b3.9986f8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1371.5159072875977,
+        "y": 596.5156952142715,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "7582f708.24e738",
+                "e0b313cc.a9ff"
+            ]
+        ]
+    },
+    {
+        "id": "7582f708.24e738",
+        "type": "execute",
+        "name": "execute",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Failure in stop for '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Failure in stop for '+$VNF.VM[$i].VNFC`\"/>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1519.5158462524414,
+        "y": 544.5156502723694,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "67dd3d00.c106f4"
+            ]
+        ]
+    },
+    {
+        "id": "67dd3d00.c106f4",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1701.5156707763672,
+        "y": 545.5156326293945,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5c6438d1.7312f8",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1814.5158081054688,
+        "y": 704.5156326293945,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "33f2f58b.14107a",
+                "e46cf1e4.8837e"
+            ]
+        ]
+    },
+    {
+        "id": "33f2f58b.14107a",
+        "type": "execute",
+        "name": "execute",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Stop : Server not found '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Stop : Server not found '+$VNF.VM[$i].VNFC`\"/>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1982.5161743164062,
+        "y": 648.5156497955322,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "3d16d953.a6ba16"
+            ]
+        ]
+    },
+    {
+        "id": "3d16d953.a6ba16",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2155.5163345336914,
+        "y": 644.5156421661377,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e46cf1e4.8837e",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 2000.5159912109375,
+        "y": 730.5156602859497,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "e0b313cc.a9ff",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 1541.0156631469727,
+        "y": 641.5156307220459,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "f4074405.cd8f08",
+        "type": "block",
+        "name": "block : atomic",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1815.0156784057617,
+        "y": 807.5156669616699,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "e70c442a.c81dd8",
+                "2878d96.6c81326"
+            ]
+        ]
+    },
+    {
+        "id": "e70c442a.c81dd8",
+        "type": "execute",
+        "name": "execute",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"apiVer\" value=\"1.01\"/>\n<parameter name=\"eventId\" value=\"`$org.onap.appc.vfid`\" />\n<parameter name='org.onap.appc.dg.error' value=\"`'Stop : Error while stopping '+$VNF.VM[$i].VNFC`\"/>\n<parameter name=\"output.status.message\" value=\"`'Stop : Error while stopping '+$VNF.VM[$i].VNFC`\"/>",
+        "comments": "",
+        "outputs": 1,
+        "x": 1992.0164184570312,
+        "y": 776.5157022476196,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            [
+                "ac0f66e4.3fcbe8"
+            ]
+        ]
+    },
+    {
+        "id": "2878d96.6c81326",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n",
+        "comments": "",
+        "x": 2005.0160522460938,
+        "y": 850.5156841278076,
+        "z": "e684c611.19f8f8",
+        "wires": []
+    },
+    {
+        "id": "ac0f66e4.3fcbe8",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2167.016181945801,
+        "y": 775.5156650543213,
+        "z": "e684c611.19f8f8",
+        "wires": [
+            []
+        ]
+    }
+]
