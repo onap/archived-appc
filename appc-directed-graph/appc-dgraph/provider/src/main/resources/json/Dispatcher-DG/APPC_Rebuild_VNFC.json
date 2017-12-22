@@ -1,1 +1,1357 @@
-[{"id":"d0c7cb01.587088","type":"dgstart","name":"DGSTART","outputs":1,"x":95.80625915527344,"y":66.82500457763672,"z":"1d241215.b25dde","wires":[["dd12bd67.a0f56"]]},{"id":"dd12bd67.a0f56","type":"service-logic","name":"APPC 2.0.0","module":"APPC","version":"2.0.0","comments":"","xml":"<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.0'>","outputs":1,"x":254.8063735961914,"y":66.8249921798706,"z":"1d241215.b25dde","wires":[["5f7f02ec.a69dbc"]]},{"id":"5f7f02ec.a69dbc","type":"method","name":"Rebuild_VNFC","xml":"<method rpc='Rebuild_VNFC' mode='sync'>\n","comments":"","outputs":1,"x":168.80636978149414,"y":213.8249807357788,"z":"1d241215.b25dde","wires":[["4d5149f1.260ce8"]]},{"id":"4d5149f1.260ce8","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"false","comments":"","outputs":1,"x":170.16352081298828,"y":986.6821060180664,"z":"1d241215.b25dde","wires":[["ebd0580f.b36a18","758341ee.5afe2","8f3931fa.2e44a","67cc2227.82d17c","86eb9e9c.6b536"]]},{"id":"ebd0580f.b36a18","type":"execute","name":"Resolve Healthcheck DG","xml":"<execute plugin='org.onap.appc.dg.common.VNFCDgResolverPlugin' method='resolveVNFCDg'>\n<parameter name=\"vnfType\" value='`$vnf.type`' />\n<parameter name=\"vnfcType\" value='`$vnfcType`' />\n<parameter name=\"action\" value=\"HealthCheck\" />\n<parameter name=\"api-ver\" value='`$input.common-header.api-ver`' />\n<parameter name=\"prefix\" value=\"HealthCheckDG\" />\n","comments":"","outputs":1,"x":617.806396484375,"y":436.07499980926514,"z":"1d241215.b25dde","wires":[["3adb353.99b99ca","c46da7cb.0edfd8","62240bdd.b27214"]]},{"id":"3adb353.99b99ca","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":912.806396484375,"y":381.32499980926514,"z":"1d241215.b25dde","wires":[["ae0cdeda.66656"]]},{"id":"ae0cdeda.66656","type":"block","name":"block","xml":"<block>\n","atomic":"false","comments":"","outputs":1,"x":1099.5286884307861,"y":380.49382305145264,"z":"1d241215.b25dde","wires":[["5c9c676a.abbfb8","65d3ed59.5345c4","57e27acc.e98974","1aebb7be.5306f8"]]},{"id":"5c9c676a.abbfb8","type":"set","name":"Set Message","xml":"<set>\n<parameter name='event-message' value=\"`'Healthcheck DG resolution plugin not found for VNFC : ' + $vnfcName`\"/>\n","comments":"","x":1285.0564041137695,"y":368.0749988555908,"z":"1d241215.b25dde","wires":[]},{"id":"c46da7cb.0edfd8","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":929.5564575195312,"y":435.07499980926514,"z":"1d241215.b25dde","wires":[["befd0327.5a538"]]},{"id":"befd0327.5a538","type":"block","name":"block","xml":"<block>\n","atomic":"false","comments":"","outputs":1,"x":1076.0286903381348,"y":434.9638547897339,"z":"1d241215.b25dde","wires":[["f008480f.166a88","65d3ed59.5345c4","57e27acc.e98974","1aebb7be.5306f8"]]},{"id":"f008480f.166a88","type":"set","name":"Set Message","xml":"<set>\n<parameter name='event-message' value=\"`'Error while resolving Healthcheck DG for VNFC : ' + $vnfcName`\"/>\n","comments":"","x":1286.278450012207,"y":408.96391582489014,"z":"1d241215.b25dde","wires":[]},{"id":"62240bdd.b27214","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":818.9451293945312,"y":499.7138566970825,"z":"1d241215.b25dde","wires":[["6080e29d.eac52c"]]},{"id":"2940d020.da57b","type":"record","name":"Log message","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Healthchek DG resolved to : ' + $HealthCheckDG.dg_name`\"/>\n","comments":"","outputs":1,"x":1111.3619422912598,"y":492.2138566970825,"z":"1d241215.b25dde","wires":[[]]},{"id":"65d3ed59.5345c4","type":"record","name":"Log error","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n","comments":"","outputs":1,"x":1307.8472995758057,"y":450.263783454895,"z":"1d241215.b25dde","wires":[[]]},{"id":"1aebb7be.5306f8","type":"execute","name":"OutputMessageBuilder","xml":"<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":1349.7229080200195,"y":489.07500171661377,"z":"1d241215.b25dde","wires":[["d60d692e.990628"]]},{"id":"57e27acc.e98974","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n<parameter name='error-message' value=\"`$error-message`\"/>","comments":"","x":1318.834186553955,"y":528.4339361190796,"z":"1d241215.b25dde","wires":[]},{"id":"d60d692e.990628","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1844.722339630127,"y":496.07498836517334,"z":"1d241215.b25dde","wires":[["145d9131.e1d4cf"]]},{"id":"145d9131.e1d4cf","type":"execute","name":"Report Error to DCAE","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2030.2939949035645,"y":495.78925228118896,"z":"1d241215.b25dde","wires":[[]]},{"id":"758341ee.5afe2","type":"execute","name":"Update AAI Status","xml":"<execute plugin='org.onap.appc.dg.aai.AAIPlugin' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name =  $vnfcName' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"Rebuilding\" />","comments":"","outputs":1,"x":652.3063011169434,"y":724.0750169754028,"z":"1d241215.b25dde","wires":[["dfd330fa.83396","bc51b6b6.be5498"]]},{"id":"dfd330fa.83396","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":857.3057975769043,"y":724.0750017166138,"z":"1d241215.b25dde","wires":[["13d3c724.57ca69"]]},{"id":"13d3c724.57ca69","type":"switchNode","name":"switch","xml":"<switch test='`$postResource_result`'>\n","comments":"","outputs":1,"x":1020.2739448547363,"y":722.1067428588867,"z":"1d241215.b25dde","wires":[["28827390.015fdc","52dcec48.33a434","d0b6d307.edd5e"]]},{"id":"a2de3da7.a56b5","type":"block","name":"block","xml":"<block>\n","atomic":"false","comments":"","outputs":1,"x":1411.9095191955566,"y":725.9639024734497,"z":"1d241215.b25dde","wires":[["993e98c.e0c8868","7b879bdd.4e64d4"]]},{"id":"7b879bdd.4e64d4","type":"execute","name":"OutputMessageBuilder","xml":"<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`'Error occurred while updating VNFC details in A&amp;AI for VNFC ' + $vnfcName`\" />","comments":"","outputs":1,"x":1599.9565200805664,"y":687.0750160217285,"z":"1d241215.b25dde","wires":[["d60d692e.990628"]]},{"id":"993e98c.e0c8868","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":1573.8138542175293,"y":752.356743812561,"z":"1d241215.b25dde","wires":[]},{"id":"8f3931fa.2e44a","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":484.8062400817871,"y":919.1107482910156,"z":"1d241215.b25dde","wires":[["888c87ed.367a08","51109337.2748fc"]]},{"id":"888c87ed.367a08","type":"set","name":"init","xml":"<set>\n<parameter name='rebuildFailedCount' value='0' />\n<parameter name='rebuildSuccessCount' value='0' />\n","comments":"","x":680.7853965759277,"y":875.3965349197388,"z":"1d241215.b25dde","wires":[]},{"id":"51109337.2748fc","type":"for","name":"For Each VM","xml":"<for index=\"index1\" start=\"0\" end=\"`$vmCount`\" >","comments":"","outputs":1,"x":686.820613861084,"y":969.1465358734131,"z":"1d241215.b25dde","wires":[["8db2e331.18b49"]]},{"id":"adb5e84a.4c3068","type":"comment","name":"Rebuild server","info":"","comments":"","x":489.7518119812012,"y":872.405366897583,"z":"1d241215.b25dde","wires":[]},{"id":"e9be6721.06d0e8","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1340.6279067993164,"y":978.9679269790649,"z":"1d241215.b25dde","wires":[["cebfb71a.399308","45d955de.ffd76c","257e0cb.97519f4"]]},{"id":"cebfb71a.399308","type":"record","name":"Log message","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Attempting to rebuild the server : ' + $vm[$index1].url`\"/>\n","comments":"","outputs":1,"x":1540.4853630065918,"y":939.2535924911499,"z":"1d241215.b25dde","wires":[[]]},{"id":"257e0cb.97519f4","type":"set","name":"Set Parameters","xml":"<set>\n<parameter name=\"rebuild-vm-url\" value=\"`$vm[$index1].url`\" />\n<parameter name='rebuildRetryCount' value='3'/>\n","comments":"","x":1530.1462478637695,"y":986.6823034286499,"z":"1d241215.b25dde","wires":[]},{"id":"45d955de.ffd76c","type":"call","name":"Rebuild","xml":"<call module='APPC' rpc='Rebuild_VM' mode='sync' >\n","comments":"","outputs":1,"x":1537.1463737487793,"y":1037.6820602416992,"z":"1d241215.b25dde","wires":[["4821dca9.597c04","acffa2c8.84ab5","3b311d1c.0273c2"]]},{"id":"3b311d1c.0273c2","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1733.4795379638672,"y":958.6821508407593,"z":"1d241215.b25dde","wires":[["a831888e.1f1638"]]},{"id":"4821dca9.597c04","type":"failure","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1741.3467254638672,"y":1039.6107397079468,"z":"1d241215.b25dde","wires":[["4229269a.bab898"]]},{"id":"acffa2c8.84ab5","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1734.7016906738281,"y":1123.6821508407593,"z":"1d241215.b25dde","wires":[["3727c6bd.c3842a"]]},{"id":"a831888e.1f1638","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1869.4795379638672,"y":958.682089805603,"z":"1d241215.b25dde","wires":[["6c160aea.84b384","be1298ee.227198","8541099f.4e46e8"]]},{"id":"4229269a.bab898","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1887.1304168701172,"y":1039.539267539978,"z":"1d241215.b25dde","wires":[["be1298ee.227198","8541099f.4e46e8","faf4f9eb.717e58"]]},{"id":"3727c6bd.c3842a","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1887.8442687988281,"y":1123.8250341415405,"z":"1d241215.b25dde","wires":[["5192b20a.4107fc","d7a887d6.a9e708","6158eeca.5f084"]]},{"id":"6c160aea.84b384","type":"set","name":"Set message","xml":"<set>\n<parameter name='event-message' value=\"`'DG to execute Rebuild action not found for VM: ' + $vm[$index1].url`\"/>\n<parameter name=\"rebuildFailedCount\" value=\"`$rebuildFailedCount + 1`\" />","comments":"","x":2116.550678253174,"y":900.6465406417847,"z":"1d241215.b25dde","wires":[]},{"id":"be1298ee.227198","type":"record","name":"Log error","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n","comments":"","outputs":1,"x":2109.381244659424,"y":994.1226167678833,"z":"1d241215.b25dde","wires":[[]]},{"id":"8541099f.4e46e8","type":"execute","name":"OutputMessageBuilder","xml":"<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2125.7230377197266,"y":1040.6504487991333,"z":"1d241215.b25dde","wires":[["951f2311.e3f1b"]]},{"id":"d7a887d6.a9e708","type":"set","name":"Increment Rebuilt vm count","xml":"<set>\n<parameter name='rebuildSuccessCount' value='`$rebuildSuccessCount+1`' />\n","comments":"","x":2121.9837799072266,"y":1138.459776878357,"z":"1d241215.b25dde","wires":[]},{"id":"5192b20a.4107fc","type":"record","name":"Log message","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Rebuild succeeded for the server : ' + $vm[$index1].url`\"/>\n","comments":"","outputs":1,"x":2081.2371978759766,"y":1188.2535953521729,"z":"1d241215.b25dde","wires":[[]]},{"id":"134d6532.cc4ccb","type":"call","name":"Call Healthcheck DG","xml":"<call rpc='`$HealthCheckDG.dg_name`' version='`$HealthCheckDG.dg_version`' module='`$HealthCheckDG.dg_module`' mode='sync' >\n","comments":"","outputs":1,"x":1127.7873611450195,"y":1460.7326030731201,"z":"1d241215.b25dde","wires":[["9955c6b2.3a20f8","c3075985.85d5c8","eb07eb85.4d0ce8"]]},{"id":"9955c6b2.3a20f8","type":"outcome","name":"failure","xml":"<outcome value='failure'>\n","comments":"","outputs":1,"x":1334.4823684692383,"y":1460.4997491836548,"z":"1d241215.b25dde","wires":[["e108e61a.0b54c8"]]},{"id":"c3075985.85d5c8","type":"not-found","name":"not-found","xml":"<outcome value='not-found'>\n","comments":"","outputs":1,"x":1342.9990921020508,"y":1418.8376398086548,"z":"1d241215.b25dde","wires":[["db553441.3b6ad8"]]},{"id":"eb07eb85.4d0ce8","type":"outcome","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1341.7326126098633,"y":1508.9996271133423,"z":"1d241215.b25dde","wires":[["aaccc107.0bdfa"]]},{"id":"aaccc107.0bdfa","type":"for","name":"For Each VM","xml":"<for index=\"index1\" start=\"0\" end=\"`$healthcheck.vmCount`\" >","comments":"","outputs":1,"x":1526.2326736450195,"y":1530.8212323188782,"z":"1d241215.b25dde","wires":[["43ac397d.ec34c8"]]},{"id":"db553441.3b6ad8","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1532.4824829101562,"y":1417.2497177124023,"z":"1d241215.b25dde","wires":[["b734f6e2.e9c078","c9cb0dac.8ad56","aeea61b7.91b7d","c4c875e.5363488"]]},{"id":"e108e61a.0b54c8","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1537.232494354248,"y":1464.249656677246,"z":"1d241215.b25dde","wires":[["7f1fd1b5.693fb","b734f6e2.e9c078","aeea61b7.91b7d","c4c875e.5363488"]]},{"id":"43ac397d.ec34c8","type":"switchNode","name":"Healthcheck status ?","xml":"<switch test=\"`$healthcheck.vm[$index1].status`\">\n","comments":"","outputs":1,"x":1789.947036743164,"y":1530.8209829330444,"z":"1d241215.b25dde","wires":[["dceaf505.ff0098","f36ff68e.abe4e8"]]},{"id":"dceaf505.ff0098","type":"other","name":"UP","xml":"<outcome value='UP'>\n","comments":"","outputs":1,"x":2042.483139038086,"y":1562.1426229476929,"z":"1d241215.b25dde","wires":[["51697d75.cd6674"]]},{"id":"7f1fd1b5.693fb","type":"set","name":"Set Message","xml":"<set>\n<parameter name='event-message' value=\"Error occurred during health check of the rebuilt servers\"/>","comments":"","x":1785.2325592041016,"y":1315.249568939209,"z":"1d241215.b25dde","wires":[]},{"id":"c9cb0dac.8ad56","type":"set","name":"Set Message","xml":"<set>\n<parameter name='event-message' value=\"VNFC Health check DG not found\"/>","comments":"","x":1783.8995513916016,"y":1352.2495698928833,"z":"1d241215.b25dde","wires":[]},{"id":"b734f6e2.e9c078","type":"record","name":"Log error","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n","comments":"","outputs":1,"x":1771.3658599853516,"y":1389.0623140335083,"z":"1d241215.b25dde","wires":[[]]},{"id":"d45c9614.ff8588","type":"set","name":"Set Message","xml":"<set>\n<parameter name='event-message' value=\"`'Health check failed for the rebuilt server : ' + $healthcheck.vm[$index1].url`\"/>\n<parameter name=\"healthCheckFailedCount\" value=\"`$healthCheckFailedCount + 1`\" />","comments":"","x":2491.161521911621,"y":1413.5354585647583,"z":"1d241215.b25dde","wires":[]},{"id":"89862589.b9b638","type":"record","name":"Log error","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n","comments":"","outputs":1,"x":2485.857322692871,"y":1457.8856801986694,"z":"1d241215.b25dde","wires":[[]]},{"id":"10d8313b.6051bf","type":"set","name":"Set Success Message","xml":"<set>\n<parameter name='success-message' value=\"`'Rebuild succeeded for the server : ' + $healthcheck.vm[$index1].url`\"/>\n<parameter name=\"HealthyVMCountAfterRebuild\" value=\"`$HealthyVMCountAfterRebuild + 1`\" />\n\n","comments":"","x":2447.537498474121,"y":1598.0661010742188,"z":"1d241215.b25dde","wires":[]},{"id":"df716347.e6da2","type":"record","name":"Log message","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$success-message`\"/>\n","comments":"","outputs":1,"x":2429.359275817871,"y":1639.2800912857056,"z":"1d241215.b25dde","wires":[[]]},{"id":"ed2f324f.da23d","type":"execute","name":"Report Success","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='reportSuccess' >\n<parameter name=\"event-message\" value=\"`$success-message`\" />\n\n","comments":"","outputs":1,"x":2430.697410583496,"y":1682.8208627700806,"z":"1d241215.b25dde","wires":[[]]},{"id":"951f2311.e3f1b","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2333.702350616455,"y":1039.4829206466675,"z":"1d241215.b25dde","wires":[["64179684.35f708"]]},{"id":"64179684.35f708","type":"execute","name":"Report Error to DCAE","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2536.218650817871,"y":1037.9474458694458,"z":"1d241215.b25dde","wires":[[]]},{"id":"aeea61b7.91b7d","type":"execute","name":"OutputMessageBuilder","xml":"<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":1802.5201034545898,"y":1464.2884397506714,"z":"1d241215.b25dde","wires":[["1e2450dd.4a0e2f"]]},{"id":"cc6dfd01.896b3","type":"execute","name":"OutputMessageBuilder","xml":"<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2517.595359802246,"y":1494.3715200424194,"z":"1d241215.b25dde","wires":[["b4a8bb45.c9f6d8"]]},{"id":"c4c875e.5363488","type":"set","name":"update failed count","xml":"<set>\n<parameter name=\"healthCheckFailedCount\" value=\"`$healthcheck.vmCount`\" />\n","comments":"","x":1802.7420806884766,"y":1426.6218852996826,"z":"1d241215.b25dde","wires":[]},{"id":"b4a8bb45.c9f6d8","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2708.318546295166,"y":1493.8884372711182,"z":"1d241215.b25dde","wires":[["716d9887.b27778"]]},{"id":"716d9887.b27778","type":"execute","name":"Report Error to DCAE","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2885.3351135253906,"y":1493.6029653549194,"z":"1d241215.b25dde","wires":[[]]},{"id":"414e92f3.6ca7cc","type":"execute","name":"Update_AAI_Status_Success","xml":"<execute plugin='org.onap.appc.dg.aai.AAIPlugin' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name =  $vnfcName' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"Running\" />\n","comments":"","outputs":1,"x":1017.029541015625,"y":1923.084303855896,"z":"1d241215.b25dde","wires":[["e4f8a2ae.c664b","8830d2e7.45daa"]]},{"id":"dd55a83.d95aa58","type":"returnSuccess","name":"return success","xml":"<return status='success'>\n\n","comments":"","x":992.0296249389648,"y":2025.084433555603,"z":"1d241215.b25dde","wires":[]},{"id":"cb3909f7.d8a288","type":"block","name":"block","xml":"<block atomic='true'>\n","atomic":"false","comments":"","outputs":1,"x":797.4740219116211,"y":1923.0842504501343,"z":"1d241215.b25dde","wires":[["414e92f3.6ca7cc","dd55a83.d95aa58","a61ca9c.4fa5b58"]]},{"id":"a61ca9c.4fa5b58","type":"record","name":"Log message","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'VNFC Rebuilt successfully : ' + $vnfcName`\"/>\n","comments":"","outputs":1,"x":1001.91845703125,"y":1971.9732208251953,"z":"1d241215.b25dde","wires":[[]]},{"id":"8029027e.f9658","type":"execute","name":"Update_AAI_Status_Failure","xml":"<execute plugin='org.onap.appc.dg.aai.AAIPlugin' method='postResource'>\n<parameter name=\"resourceType\" value=\"vnfc\" />\n<parameter name=\"prefix\" value=\"vnfc\" />\n<parameter name=\"resourceKey\" value='vnfc-name =  $vnfcName' />\n<parameter name=\"attributeName\" value=\"orchestration-status\" />\n<parameter name=\"attributeValue\" value=\"Error\" />","comments":"","outputs":1,"x":1007.0296630859375,"y":1780.08429813385,"z":"1d241215.b25dde","wires":[["e4f8a2ae.c664b","8830d2e7.45daa"]]},{"id":"2cac2089.b4761","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n\n","comments":"","x":979.0297470092773,"y":1857.084891319275,"z":"1d241215.b25dde","wires":[]},{"id":"4ac23437.50ab0c","type":"block","name":"block","xml":"<block atomic='true'>\n","atomic":"false","comments":"","outputs":1,"x":790.8073348999023,"y":1780.9731664657593,"z":"1d241215.b25dde","wires":[["2cac2089.b4761","8029027e.f9658"]]},{"id":"e4f8a2ae.c664b","type":"not-found","name":"not-found/failure","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":1314.743911743164,"y":1797.2271070480347,"z":"1d241215.b25dde","wires":[["9b043e36.9d60c"]]},{"id":"8830d2e7.45daa","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1263.0293502807617,"y":1922.0841588974,"z":"1d241215.b25dde","wires":[["10442df8.10d6a2"]]},{"id":"9b043e36.9d60c","type":"block","name":"block","xml":"<block>\n","atomic":"false","comments":"","outputs":1,"x":1768.918628692627,"y":1801.8659811019897,"z":"1d241215.b25dde","wires":[["868194ed.771f68","5c1ea7a.87a7d58","91badf68.35f46"]]},{"id":"10442df8.10d6a2","type":"switchNode","name":"switch","xml":"<switch test='`$postResource_result`'>\n","comments":"","outputs":1,"x":1390.1400680541992,"y":1921.973074913025,"z":"1d241215.b25dde","wires":[["10aa9304.7c72bd","a63ab149.af106"]]},{"id":"10aa9304.7c72bd","type":"outcome","name":"NOT_FOUND/FAILURE","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":1587.9982528686523,"y":1911.1159162521362,"z":"1d241215.b25dde","wires":[["9b043e36.9d60c"]]},{"id":"868194ed.771f68","type":"returnFailure","name":"return failure","xml":"<return status='failure'>\n","comments":"","x":1935.1451568603516,"y":1882.1873254776,"z":"1d241215.b25dde","wires":[]},{"id":"67cc2227.82d17c","type":"switchNode","name":"switch_server_rebuild_success","xml":"<switch test='`$rebuildFailedCount == 0 and $healthCheckFailedCount == 0`'>\n","comments":"","outputs":1,"x":426.8077926635742,"y":1807.94855594635,"z":"1d241215.b25dde","wires":[["4e97dabd.435314","167e8229.670afe"]]},{"id":"167e8229.670afe","type":"outcomeTrue","name":"true","xml":"<outcome value='true'>\n","comments":"","outputs":1,"x":648.5578231811523,"y":1923.6986303329468,"z":"1d241215.b25dde","wires":[["cb3909f7.d8a288"]]},{"id":"4e97dabd.435314","type":"outcomeFalse","name":"false","xml":"<outcome value='false'>\n","comments":"","outputs":1,"x":654.0578231811523,"y":1780.698691368103,"z":"1d241215.b25dde","wires":[["4ac23437.50ab0c"]]},{"id":"a63ab149.af106","type":"outcome","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":1567.8079071044922,"y":1967.0047960281372,"z":"1d241215.b25dde","wires":[["ec1e6eda.5ef93"]]},{"id":"ec1e6eda.5ef93","type":"set","name":"Set AAI update Flag","xml":"<set>\n<parameter name='AAIUpdateSuccessFlag' value='true' />\n","comments":"","x":1760.3475456237793,"y":1967.0049495697021,"z":"1d241215.b25dde","wires":[]},{"id":"5c1ea7a.87a7d58","type":"execute","name":"OutputMessageBuilder","xml":"<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`'Error occurred while updating VNFC details in A&amp;AI for VNFC ' + $vnfcName`\" />","comments":"","outputs":1,"x":1947.2247467041016,"y":1773.7151613235474,"z":"1d241215.b25dde","wires":[["d297d0a9.cd082"]]},{"id":"d297d0a9.cd082","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":2171.545925140381,"y":1812.0364608764648,"z":"1d241215.b25dde","wires":[["fef71859.ed0688"]]},{"id":"fef71859.ed0688","type":"execute","name":"Report Error to DCAE","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2388.553768157959,"y":1811.8262910842896,"z":"1d241215.b25dde","wires":[[]]},{"id":"8db2e331.18b49","type":"switchNode","name":"switch STATUS","xml":"<switch test='`$REBUILD_STATUS`'>\n","comments":"","outputs":1,"x":932.1458740234375,"y":970.3964147567749,"z":"1d241215.b25dde","wires":[["695a1648.2fabf8","dc52391e.29dc48","6cbcba39.209574"]]},{"id":"dc52391e.29dc48","type":"other","name":"ERROR/EMPTY","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":1142.1458587646484,"y":1018.9678344726562,"z":"1d241215.b25dde","wires":[["e9be6721.06d0e8"]]},{"id":"695a1648.2fabf8","type":"success","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":1137.5746994018555,"y":907.6821279525757,"z":"1d241215.b25dde","wires":[["e9be6721.06d0e8"]]},{"id":"6cbcba39.209574","type":"other","name":"CONTEXT_NOT_FOUND","xml":"<outcome value='CONTEXT_NOT_FOUND'>\n","comments":"","outputs":1,"x":1113.5743942260742,"y":1123.2534818649292,"z":"1d241215.b25dde","wires":[["4ac23437.50ab0c"]]},{"id":"faf4f9eb.717e58","type":"set","name":"Set error message","xml":"<set>\n<parameter name='error-message' value=\"`$error-message`\"/>\n<parameter name=\"rebuildFailedCount\" value=\"`$rebuildFailedCount + 1`\" />","comments":"","x":2132.056537628174,"y":945.2179517745972,"z":"1d241215.b25dde","wires":[]},{"id":"1e2450dd.4a0e2f","type":"success","name":"success","xml":"<outcome value='success'>\n","comments":"","outputs":1,"x":1989.2350997924805,"y":1356.372338294983,"z":"1d241215.b25dde","wires":[["b3f01f64.5a4bb"]]},{"id":"b3f01f64.5a4bb","type":"execute","name":"Report Error to DCAE","xml":"<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />","comments":"","outputs":1,"x":2191.751609802246,"y":1359.122859954834,"z":"1d241215.b25dde","wires":[[]]},{"id":"51697d75.cd6674","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2201.734573364258,"y":1632.0866012573242,"z":"1d241215.b25dde","wires":[["10d8313b.6051bf","df716347.e6da2","ed2f324f.da23d"]]},{"id":"6cc7ff9b.69bb7","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":2259.2346572875977,"y":1483.5153160095215,"z":"1d241215.b25dde","wires":[["d45c9614.ff8588","89862589.b9b638","cc6dfd01.896b3"]]},{"id":"bc51b6b6.be5498","type":"failure","name":"failure/notFound","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":1068.0204811096191,"y":788.6107168197632,"z":"1d241215.b25dde","wires":[["a2de3da7.a56b5"]]},{"id":"86eb9e9c.6b536","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":587.4069175720215,"y":1158.584038734436,"z":"1d241215.b25dde","wires":[["c43287cc.92e448","2a43c35e.5e84ac"]]},{"id":"6158eeca.5f084","type":"set","name":"Mark vm Started","xml":"<set>\n<parameter name=\"rebuildServerList[$rebuildSuccessCount].url\" value=\"`$vm[$index1].url`\" />\n","comments":"","x":2082.5562896728516,"y":1090.2626266479492,"z":"1d241215.b25dde","wires":[]},{"id":"2a43c35e.5e84ac","type":"set","name":"init","xml":"<set>\n<parameter name='healthCheckFailedCount' value='0' />\n","comments":"","x":774.9135131835938,"y":1155.896544456482,"z":"1d241215.b25dde","wires":[]},{"id":"c43287cc.92e448","type":"switchNode","name":"rebuilt server > 0","xml":"<switch test='`$rebuildSuccessCount > 0`'>\n","comments":"","outputs":1,"x":755.5587158203125,"y":1207.3251333236694,"z":"1d241215.b25dde","wires":[["4b48e794.82cd18"]]},{"id":"4b48e794.82cd18","type":"outcomeTrue","name":"true","xml":"<outcome value='true'>\n","comments":"","outputs":1,"x":902.594482421875,"y":1286.360993385315,"z":"1d241215.b25dde","wires":[["d6ae113.fa83bf"]]},{"id":"d6ae113.fa83bf","type":"block","name":"block","xml":"<block atomic='true'>","atomic":"true","comments":"","outputs":1,"x":1033.056411743164,"y":1286.6108713150024,"z":"1d241215.b25dde","wires":[["dbe107fc.610df8","6ce69f34.f7c1c","7b94b5cb.b2ec5c","134d6532.cc4ccb"]]},{"id":"dbe107fc.610df8","type":"record","name":"Log message","xml":"<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"Attempting to health check the rebuilt servers of the VNFC\"/>\n","comments":"","outputs":1,"x":1244.913459777832,"y":1254.468073606491,"z":"1d241215.b25dde","wires":[[]]},{"id":"6ce69f34.f7c1c","type":"for","name":"for_each_vm","xml":"<for index=\"index1\" start=\"0\" end=\"`$rebuildSuccessCount`\" >","comments":"","outputs":1,"x":1249.004035949707,"y":1299.087098121643,"z":"1d241215.b25dde","wires":[["abaea328.b02c7"]]},{"id":"7b94b5cb.b2ec5c","type":"set","name":"set","xml":"<set>\n<parameter name=\"healthcheck.vmCount\" value=\"`$rebuildSuccessCount`\" />\n<parameter name=\"retry-healthcheck\" value=\"true\"/>\n","comments":"","x":1235.003791809082,"y":1342.0870933532715,"z":"1d241215.b25dde","wires":[]},{"id":"abaea328.b02c7","type":"set","name":"set : health check input list","xml":"<set>\n<parameter name=\"healthcheck.vm[$index1].url\" value=\"`$rebuildServerList[$index1].url`\" />\n","comments":"","x":1467.448257446289,"y":1300.1979331970215,"z":"1d241215.b25dde","wires":[]},{"id":"a3f09da0.00751","type":"comment","name":"Healthcheck Rebuilt servers","info":"","comments":"","x":564.9135284423828,"y":1243.0394353866577,"z":"1d241215.b25dde","wires":[]},{"id":"f36ff68e.abe4e8","type":"other","name":"UNKNOWN/DOWN","xml":"<outcome value='Other'>\n","comments":"","outputs":1,"x":2058.485061645508,"y":1484.4680242538452,"z":"1d241215.b25dde","wires":[["6cc7ff9b.69bb7"]]},{"id":"28827390.015fdc","type":"outcome","name":"NOT_FOUND","xml":"<outcome value='NOT_FOUND'>\n","comments":"","outputs":1,"x":1204.02054977417,"y":696.646445274353,"z":"1d241215.b25dde","wires":[["a2de3da7.a56b5"]]},{"id":"52dcec48.33a434","type":"outcome","name":"FAILURE","xml":"<outcome value='FAILURE'>\n","comments":"","outputs":1,"x":1191.020793914795,"y":744.646445274353,"z":"1d241215.b25dde","wires":[["a2de3da7.a56b5"]]},{"id":"55a13b8.748e8c4","type":"set","name":"Set flag","xml":"<set>\n<parameter name='HealthcheckDGResolutionFlag' value=\"true\"/>\n","comments":"","x":1112.3687782287598,"y":535.2625017166138,"z":"1d241215.b25dde","wires":[]},{"id":"6080e29d.eac52c","type":"block","name":"block","xml":"<block>\n","atomic":"false","comments":"","outputs":1,"x":957.3687782287598,"y":500.26250171661377,"z":"1d241215.b25dde","wires":[["2940d020.da57b","55a13b8.748e8c4"]]},{"id":"d0b6d307.edd5e","type":"outcome","name":"SUCCESS","xml":"<outcome value='SUCCESS'>\n","comments":"","outputs":1,"x":1193.618782043457,"y":642.7625036239624,"z":"1d241215.b25dde","wires":[["b1345184.f11"]]},{"id":"b1345184.f11","type":"set","name":"Set AAI update Flag","xml":"<set>\n<parameter name='AAIUpdateSuccessFlag' value='true' />\n","comments":"","x":1401.118782043457,"y":644.0125036239624,"z":"1d241215.b25dde","wires":[]},{"id":"91badf68.35f46","type":"set","name":"Set AAI update Flag","xml":"<set>\n<parameter name='AAIUpdateSuccessFlag' value='false' />\n","comments":"","x":1966.1187896728516,"y":1825.2625207901,"z":"1d241215.b25dde","wires":[]}]
+[
+    {
+        "id": "eaad909.4847f7",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 121.515625,
+        "y": 44.00001049041748,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "477245bd.489fdc"
+            ]
+        ]
+    },
+    {
+        "id": "477245bd.489fdc",
+        "type": "service-logic",
+        "name": "APPC 2.0.0",
+        "module": "APPC",
+        "version": "2.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.0'>",
+        "outputs": 1,
+        "x": 280.51573944091797,
+        "y": 43.99999809265137,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "46f888eb.bb8db8"
+            ]
+        ]
+    },
+    {
+        "id": "46f888eb.bb8db8",
+        "type": "method",
+        "name": "Rebuild_VNFC",
+        "xml": "<method rpc='Rebuild_VNFC' mode='sync'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 194.5157356262207,
+        "y": 190.99998664855957,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "876cb51c.0c7748"
+            ]
+        ]
+    },
+    {
+        "id": "876cb51c.0c7748",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 195.87288665771484,
+        "y": 963.8571119308472,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "3845d833.9cc418",
+                "197554a7.de417b",
+                "cf9627f2.a3c948",
+                "625d23ed.e5485c"
+            ]
+        ]
+    },
+    {
+        "id": "3845d833.9cc418",
+        "type": "execute",
+        "name": "Resolve Healthcheck DG",
+        "xml": "<execute plugin='org.onap.appc.dg.common.VNFCDgResolverPlugin' method='resolveVNFCDg'>\n<parameter name=\"vnfType\" value='`$vnf.type`' />\n<parameter name=\"vnfcType\" value='`$vnfcType`' />\n<parameter name=\"action\" value=\"HealthCheck\" />\n<parameter name=\"api-ver\" value='`$input.common-header.api-ver`' />\n<parameter name=\"prefix\" value=\"HealthCheckDG\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 643.5157623291016,
+        "y": 413.2500057220459,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "5a60e452.417a2c",
+                "ab5b99a4.bff1b8",
+                "28c18ec0.2bae92"
+            ]
+        ]
+    },
+    {
+        "id": "5a60e452.417a2c",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 938.5157623291016,
+        "y": 358.5000057220459,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b1452b21.d0ac28"
+            ]
+        ]
+    },
+    {
+        "id": "b1452b21.d0ac28",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 1125.2380542755127,
+        "y": 357.6688289642334,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "5a24165.45c37e8",
+                "b89ec226.426eb",
+                "e4c5a25b.7b6df",
+                "eff7000a.1592d"
+            ]
+        ]
+    },
+    {
+        "id": "5a24165.45c37e8",
+        "type": "set",
+        "name": "Set Message",
+        "xml": "<set>\n<parameter name='event-message' value=\"`'Healthcheck DG resolution plugin not found for VNFC : ' + $vnfcName`\"/>\n",
+        "comments": "",
+        "x": 1310.765769958496,
+        "y": 345.2500047683716,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "ab5b99a4.bff1b8",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 955.2658233642578,
+        "y": 412.2500057220459,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "5f723a69.644e74"
+            ]
+        ]
+    },
+    {
+        "id": "5f723a69.644e74",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 1101.7380561828613,
+        "y": 412.13886070251465,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "a494b597.fdd5b8",
+                "b89ec226.426eb",
+                "e4c5a25b.7b6df",
+                "eff7000a.1592d"
+            ]
+        ]
+    },
+    {
+        "id": "a494b597.fdd5b8",
+        "type": "set",
+        "name": "Set Message",
+        "xml": "<set>\n<parameter name='event-message' value=\"`'Error while resolving Healthcheck DG for VNFC : ' + $vnfcName`\"/>\n",
+        "comments": "",
+        "x": 1311.9878158569336,
+        "y": 386.1389217376709,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "28c18ec0.2bae92",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 844.6544952392578,
+        "y": 476.8888626098633,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "bf7f7850.7be178"
+            ]
+        ]
+    },
+    {
+        "id": "d0e66bd6.9a5cf8",
+        "type": "record",
+        "name": "Log message",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Healthchek DG resolved to : ' + $HealthCheckDG.dg_name`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1137.0713081359863,
+        "y": 469.3888626098633,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b89ec226.426eb",
+        "type": "record",
+        "name": "Log error",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1333.5566654205322,
+        "y": 427.4387893676758,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "eff7000a.1592d",
+        "type": "execute",
+        "name": "OutputMessageBuilder",
+        "xml": "<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 1375.432273864746,
+        "y": 466.25000762939453,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "f8d36fce.144d4"
+            ]
+        ]
+    },
+    {
+        "id": "e4c5a25b.7b6df",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n<parameter name='error-message' value=\"`$error-message`\"/>",
+        "comments": "",
+        "x": 1344.5435523986816,
+        "y": 505.60894203186035,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "f8d36fce.144d4",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1870.4317054748535,
+        "y": 473.2499942779541,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "6ed1f54a.cc218c"
+            ]
+        ]
+    },
+    {
+        "id": "6ed1f54a.cc218c",
+        "type": "execute",
+        "name": "Report Error to DCAE",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 2056.003360748291,
+        "y": 472.9642581939697,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "197554a7.de417b",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 510.5156059265137,
+        "y": 896.2857542037964,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "2da692a3.f3d24e",
+                "696563.76d13a9c"
+            ]
+        ]
+    },
+    {
+        "id": "2da692a3.f3d24e",
+        "type": "set",
+        "name": "init",
+        "xml": "<set>\n<parameter name='rebuildFailedCount' value='0' />\n<parameter name='rebuildSuccessCount' value='0' />\n",
+        "comments": "",
+        "x": 706.4947624206543,
+        "y": 852.5715408325195,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "696563.76d13a9c",
+        "type": "for",
+        "name": "For Each VM",
+        "xml": "<for index=\"index1\" start=\"0\" end=\"`$vmCount`\" >",
+        "comments": "",
+        "outputs": 1,
+        "x": 712.5299797058105,
+        "y": 946.3215417861938,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "f936d415.cdf5d8"
+            ]
+        ]
+    },
+    {
+        "id": "f0d7c3c0.3357",
+        "type": "comment",
+        "name": "Rebuild server",
+        "info": "",
+        "comments": "",
+        "x": 515.4611778259277,
+        "y": 849.5803728103638,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "b95231a7.306f8",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1366.337272644043,
+        "y": 956.1429328918457,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "eefe17be.bcb8c8",
+                "d5774ec5.0c02c",
+                "5d776bb0.ca76f4"
+            ]
+        ]
+    },
+    {
+        "id": "eefe17be.bcb8c8",
+        "type": "record",
+        "name": "Log message",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Attempting to rebuild the server : ' + $vm[$index1].url`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1566.1947288513184,
+        "y": 916.4285984039307,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d776bb0.ca76f4",
+        "type": "set",
+        "name": "Set Parameters",
+        "xml": "<set>\n<parameter name=\"rebuild-vm-url\" value=\"`$vm[$index1].url`\" />\n<parameter name='rebuildRetryCount' value='3'/>\n",
+        "comments": "",
+        "x": 1555.855613708496,
+        "y": 963.8573093414307,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "d5774ec5.0c02c",
+        "type": "call",
+        "name": "Rebuild",
+        "xml": "<call module='APPC' rpc='Rebuild_VM' mode='sync' >\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1562.8557395935059,
+        "y": 1014.85706615448,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "59a4e75d.d38548",
+                "1f0d98cc.b704c7",
+                "9f141c25.7249a"
+            ]
+        ]
+    },
+    {
+        "id": "9f141c25.7249a",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1759.1889038085938,
+        "y": 935.85715675354,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b61d3aa4.e67e18"
+            ]
+        ]
+    },
+    {
+        "id": "59a4e75d.d38548",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1767.0560913085938,
+        "y": 1016.7857456207275,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "d956dbae.d9ba68"
+            ]
+        ]
+    },
+    {
+        "id": "1f0d98cc.b704c7",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1760.4110565185547,
+        "y": 1100.85715675354,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "85d276ba.d6de78"
+            ]
+        ]
+    },
+    {
+        "id": "b61d3aa4.e67e18",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1895.1889038085938,
+        "y": 935.8570957183838,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "7fc83896.9017f8",
+                "45467de.9c3d884",
+                "ec8d8517.b5e138"
+            ]
+        ]
+    },
+    {
+        "id": "d956dbae.d9ba68",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1912.8397827148438,
+        "y": 1016.7142734527588,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "45467de.9c3d884",
+                "ec8d8517.b5e138",
+                "45772e5e.74203"
+            ]
+        ]
+    },
+    {
+        "id": "85d276ba.d6de78",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1913.5536346435547,
+        "y": 1101.0000400543213,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "2920713b.8ecbee",
+                "2f8f457d.9069ca",
+                "a56e38db.669e48"
+            ]
+        ]
+    },
+    {
+        "id": "7fc83896.9017f8",
+        "type": "set",
+        "name": "Set message",
+        "xml": "<set>\n<parameter name='event-message' value=\"`'DG to execute Rebuild action not found for VM: ' + $vm[$index1].url`\"/>\n<parameter name=\"rebuildFailedCount\" value=\"`$rebuildFailedCount + 1`\" />",
+        "comments": "",
+        "x": 2142.2600440979004,
+        "y": 877.8215465545654,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "45467de.9c3d884",
+        "type": "record",
+        "name": "Log error",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2135.0906105041504,
+        "y": 971.2976226806641,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ec8d8517.b5e138",
+        "type": "execute",
+        "name": "OutputMessageBuilder",
+        "xml": "<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 2151.432403564453,
+        "y": 1017.8254547119141,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "5dba5725.37ed08"
+            ]
+        ]
+    },
+    {
+        "id": "2f8f457d.9069ca",
+        "type": "set",
+        "name": "Increment Rebuilt vm count",
+        "xml": "<set>\n<parameter name='rebuildSuccessCount' value='`$rebuildSuccessCount+1`' />\n",
+        "comments": "",
+        "x": 2147.693145751953,
+        "y": 1115.6347827911377,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "2920713b.8ecbee",
+        "type": "record",
+        "name": "Log message",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`'Rebuild succeeded for the server : ' + $vm[$index1].url`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2106.946563720703,
+        "y": 1165.4286012649536,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bcefbe85.1105a",
+        "type": "call",
+        "name": "Call Healthcheck DG",
+        "xml": "<call rpc='`$HealthCheckDG.dg_name`' version='`$HealthCheckDG.dg_version`' module='`$HealthCheckDG.dg_module`' mode='sync' >\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1153.496726989746,
+        "y": 1437.9076089859009,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "5d9bf492.adff0c",
+                "74b4379f.bebfb8",
+                "d033214b.0aeb8"
+            ]
+        ]
+    },
+    {
+        "id": "5d9bf492.adff0c",
+        "type": "outcome",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1360.1917343139648,
+        "y": 1437.6747550964355,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "7331efc9.7750b"
+            ]
+        ]
+    },
+    {
+        "id": "74b4379f.bebfb8",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1368.7084579467773,
+        "y": 1396.0126457214355,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "4beb1e4e.47a8f"
+            ]
+        ]
+    },
+    {
+        "id": "d033214b.0aeb8",
+        "type": "outcome",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1367.4419784545898,
+        "y": 1486.174633026123,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "f73a2115.bc8a4"
+            ]
+        ]
+    },
+    {
+        "id": "f73a2115.bc8a4",
+        "type": "for",
+        "name": "For Each VM",
+        "xml": "<for index=\"index1\" start=\"0\" end=\"`$healthcheck.vmCount`\" >",
+        "comments": "",
+        "outputs": 1,
+        "x": 1551.942039489746,
+        "y": 1507.996238231659,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "630851d7.42d62"
+            ]
+        ]
+    },
+    {
+        "id": "4beb1e4e.47a8f",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1558.1918487548828,
+        "y": 1394.424723625183,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "4bdeb116.8627e",
+                "b225d38f.9918c",
+                "c27e0644.371e18",
+                "6c91e733.9441c8"
+            ]
+        ]
+    },
+    {
+        "id": "7331efc9.7750b",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1562.9418601989746,
+        "y": 1441.4246625900269,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b0a53c62.1f05c",
+                "4bdeb116.8627e",
+                "c27e0644.371e18",
+                "6c91e733.9441c8"
+            ]
+        ]
+    },
+    {
+        "id": "630851d7.42d62",
+        "type": "switchNode",
+        "name": "Healthcheck status ?",
+        "xml": "<switch test=\"`$healthcheck.vm[$index1].status`\">\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1815.6564025878906,
+        "y": 1507.9959888458252,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "c669c1cf.8ea34",
+                "e2f83365.f181d"
+            ]
+        ]
+    },
+    {
+        "id": "c669c1cf.8ea34",
+        "type": "other",
+        "name": "UP",
+        "xml": "<outcome value='UP'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2068.1925048828125,
+        "y": 1539.3176288604736,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "de6f6d2d.6003b"
+            ]
+        ]
+    },
+    {
+        "id": "b0a53c62.1f05c",
+        "type": "set",
+        "name": "Set Message",
+        "xml": "<set>\n<parameter name='event-message' value=\"Error occurred during health check of the rebuilt servers\"/>",
+        "comments": "",
+        "x": 1810.9419250488281,
+        "y": 1292.4245748519897,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "b225d38f.9918c",
+        "type": "set",
+        "name": "Set Message",
+        "xml": "<set>\n<parameter name='event-message' value=\"VNFC Health check DG not found\"/>",
+        "comments": "",
+        "x": 1809.6089172363281,
+        "y": 1329.424575805664,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "4bdeb116.8627e",
+        "type": "record",
+        "name": "Log error",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1797.0752258300781,
+        "y": 1366.237319946289,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "471fcde.b748a34",
+        "type": "set",
+        "name": "Set Message",
+        "xml": "<set>\n<parameter name='event-message' value=\"`'Health check failed for the rebuilt server : ' + $healthcheck.vm[$index1].url`\"/>\n<parameter name=\"healthCheckFailedCount\" value=\"`$healthCheckFailedCount + 1`\" />",
+        "comments": "",
+        "x": 2516.8708877563477,
+        "y": 1390.710464477539,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "e63d0e68.bd4f3",
+        "type": "record",
+        "name": "Log error",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"error\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$event-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2511.5666885375977,
+        "y": 1435.0606861114502,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ca5672e7.4dc8b",
+        "type": "set",
+        "name": "Set Success Message",
+        "xml": "<set>\n<parameter name='success-message' value=\"`'Rebuild succeeded for the server : ' + $healthcheck.vm[$index1].url`\"/>\n<parameter name=\"HealthyVMCountAfterRebuild\" value=\"`$HealthyVMCountAfterRebuild + 1`\" />\n\n",
+        "comments": "",
+        "x": 2473.2468643188477,
+        "y": 1575.2411069869995,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "eeedd6c9.b99c68",
+        "type": "record",
+        "name": "Log message",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"`$success-message`\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2455.0686416625977,
+        "y": 1616.4550971984863,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a27cf10.51a0e",
+        "type": "execute",
+        "name": "Report Success",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='reportSuccess' >\n<parameter name=\"event-message\" value=\"`$success-message`\" />\n\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2456.4067764282227,
+        "y": 1659.9958686828613,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5dba5725.37ed08",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2359.4117164611816,
+        "y": 1016.6579265594482,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "c4ac0807.bbe838"
+            ]
+        ]
+    },
+    {
+        "id": "c4ac0807.bbe838",
+        "type": "execute",
+        "name": "Report Error to DCAE",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 2561.9280166625977,
+        "y": 1015.1224517822266,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c27e0644.371e18",
+        "type": "execute",
+        "name": "OutputMessageBuilder",
+        "xml": "<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 1828.2294692993164,
+        "y": 1441.4634456634521,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "54cd71b0.adc9a"
+            ]
+        ]
+    },
+    {
+        "id": "d6588952.ede9e8",
+        "type": "execute",
+        "name": "OutputMessageBuilder",
+        "xml": "<execute plugin='org.onap.appc.dg.common.OutputMessagePlugin' method='outputMessageBuilder' >\n<parameter name=\"error-message\" value=\"`$error-message`\" />\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 2543.3047256469727,
+        "y": 1471.5465259552002,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "2f5dff14.0d363"
+            ]
+        ]
+    },
+    {
+        "id": "6c91e733.9441c8",
+        "type": "set",
+        "name": "update failed count",
+        "xml": "<set>\n<parameter name=\"healthCheckFailedCount\" value=\"`$healthcheck.vmCount`\" />\n",
+        "comments": "",
+        "x": 1828.4514465332031,
+        "y": 1403.7968912124634,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "2f5dff14.0d363",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2734.0279121398926,
+        "y": 1471.063443183899,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "1e52cac0.5406d5"
+            ]
+        ]
+    },
+    {
+        "id": "1e52cac0.5406d5",
+        "type": "execute",
+        "name": "Report Error to DCAE",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 2911.044479370117,
+        "y": 1470.7779712677002,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b7bc492c.e7d788",
+        "type": "returnSuccess",
+        "name": "return success",
+        "xml": "<return status='success'>\n\n",
+        "comments": "",
+        "x": 882.7390403747559,
+        "y": 1903.259358406067,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "86a6c187.16524",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n\n",
+        "comments": "",
+        "x": 881.7392272949219,
+        "y": 1755.2599039077759,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "cf9627f2.a3c948",
+        "type": "switchNode",
+        "name": "switch_server_rebuild_success",
+        "xml": "<switch test='`$rebuildFailedCount == 0 and $healthCheckFailedCount == 0`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 452.5171585083008,
+        "y": 1785.1235618591309,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b55430d2.12c3a",
+                "4e364f61.3d66"
+            ]
+        ]
+    },
+    {
+        "id": "4e364f61.3d66",
+        "type": "outcomeTrue",
+        "name": "true",
+        "xml": "<outcome value='true'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 674.2671890258789,
+        "y": 1900.8736362457275,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b7bc492c.e7d788"
+            ]
+        ]
+    },
+    {
+        "id": "b55430d2.12c3a",
+        "type": "outcomeFalse",
+        "name": "false",
+        "xml": "<outcome value='false'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 679.7671890258789,
+        "y": 1757.8736972808838,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "86a6c187.16524"
+            ]
+        ]
+    },
+    {
+        "id": "f936d415.cdf5d8",
+        "type": "switchNode",
+        "name": "switch STATUS",
+        "xml": "<switch test='`$REBUILD_STATUS`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 957.8552398681641,
+        "y": 947.5714206695557,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "855b6f1.b3f689",
+                "68734288.4e6dcc",
+                "9cfc922d.098f4"
+            ]
+        ]
+    },
+    {
+        "id": "68734288.4e6dcc",
+        "type": "other",
+        "name": "ERROR/EMPTY",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1167.855224609375,
+        "y": 996.142840385437,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b95231a7.306f8"
+            ]
+        ]
+    },
+    {
+        "id": "855b6f1.b3f689",
+        "type": "success",
+        "name": "SUCCESS",
+        "xml": "<outcome value='SUCCESS'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1163.284065246582,
+        "y": 884.8571338653564,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b95231a7.306f8"
+            ]
+        ]
+    },
+    {
+        "id": "9cfc922d.098f4",
+        "type": "other",
+        "name": "CONTEXT_NOT_FOUND",
+        "xml": "<outcome value='CONTEXT_NOT_FOUND'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1139.2837600708008,
+        "y": 1100.42848777771,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "e21406fe.870978"
+            ]
+        ]
+    },
+    {
+        "id": "45772e5e.74203",
+        "type": "set",
+        "name": "Set error message",
+        "xml": "<set>\n<parameter name='error-message' value=\"`$error-message`\"/>\n<parameter name=\"rebuildFailedCount\" value=\"`$rebuildFailedCount + 1`\" />",
+        "comments": "",
+        "x": 2157.7659034729004,
+        "y": 922.3929576873779,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "54cd71b0.adc9a",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2014.944465637207,
+        "y": 1333.5473442077637,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "96eac2ee.4a631"
+            ]
+        ]
+    },
+    {
+        "id": "96eac2ee.4a631",
+        "type": "execute",
+        "name": "Report Error to DCAE",
+        "xml": "<execute plugin='org.onap.appc.dg.common.DCAEReporterPlugin' method='report' >\n<parameter name=\"event-message\" value=\"`$event-message`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 2217.4609756469727,
+        "y": 1336.2978658676147,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "de6f6d2d.6003b",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 2227.4439392089844,
+        "y": 1609.261607170105,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "ca5672e7.4dc8b",
+                "eeedd6c9.b99c68",
+                "9a27cf10.51a0e"
+            ]
+        ]
+    },
+    {
+        "id": "9789eed7.59185",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 2284.944023132324,
+        "y": 1460.6903219223022,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "471fcde.b748a34",
+                "e63d0e68.bd4f3",
+                "d6588952.ede9e8"
+            ]
+        ]
+    },
+    {
+        "id": "625d23ed.e5485c",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 613.116283416748,
+        "y": 1135.7590446472168,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "34b74e1f.8b03a2",
+                "e13b093e.4b89d8"
+            ]
+        ]
+    },
+    {
+        "id": "a56e38db.669e48",
+        "type": "set",
+        "name": "Mark vm Started",
+        "xml": "<set>\n<parameter name=\"rebuildServerList[$rebuildSuccessCount].url\" value=\"`$vm[$index1].url`\" />\n",
+        "comments": "",
+        "x": 2108.265655517578,
+        "y": 1067.43763256073,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "e13b093e.4b89d8",
+        "type": "set",
+        "name": "init",
+        "xml": "<set>\n<parameter name='healthCheckFailedCount' value='0' />\n",
+        "comments": "",
+        "x": 800.6228790283203,
+        "y": 1133.0715503692627,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "34b74e1f.8b03a2",
+        "type": "switchNode",
+        "name": "rebuilt server > 0",
+        "xml": "<switch test='`$rebuildSuccessCount > 0`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 781.2680816650391,
+        "y": 1184.5001392364502,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "fd385bf3.f3af58"
+            ]
+        ]
+    },
+    {
+        "id": "fd385bf3.f3af58",
+        "type": "outcomeTrue",
+        "name": "true",
+        "xml": "<outcome value='true'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 928.3038482666016,
+        "y": 1263.5359992980957,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "b30e5a44.ec1d68"
+            ]
+        ]
+    },
+    {
+        "id": "b30e5a44.ec1d68",
+        "type": "block",
+        "name": "block",
+        "xml": "<block atomic='true'>",
+        "atomic": "true",
+        "comments": "",
+        "outputs": 1,
+        "x": 1058.7657775878906,
+        "y": 1263.7858772277832,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "cf4f0246.98a17",
+                "1de1c606.06eb0a",
+                "1592ea7b.84e196",
+                "bcefbe85.1105a"
+            ]
+        ]
+    },
+    {
+        "id": "cf4f0246.98a17",
+        "type": "record",
+        "name": "Log message",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"debug\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"record\" value=\"Attempting to health check the rebuilt servers of the VNFC\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1270.6228256225586,
+        "y": 1231.6430795192719,
+        "z": "a3df70df.04e24",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1de1c606.06eb0a",
+        "type": "for",
+        "name": "for_each_vm",
+        "xml": "<for index=\"index1\" start=\"0\" end=\"`$rebuildSuccessCount`\" >",
+        "comments": "",
+        "outputs": 1,
+        "x": 1274.7134017944336,
+        "y": 1276.2621040344238,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "f20611f4.79fd9"
+            ]
+        ]
+    },
+    {
+        "id": "1592ea7b.84e196",
+        "type": "set",
+        "name": "set",
+        "xml": "<set>\n<parameter name=\"healthcheck.vmCount\" value=\"`$rebuildSuccessCount`\" />\n<parameter name=\"retry-healthcheck\" value=\"true\"/>\n",
+        "comments": "",
+        "x": 1260.7131576538086,
+        "y": 1319.2620992660522,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "f20611f4.79fd9",
+        "type": "set",
+        "name": "set : health check input list",
+        "xml": "<set>\n<parameter name=\"healthcheck.vm[$index1].url\" value=\"`$rebuildServerList[$index1].url`\" />\n",
+        "comments": "",
+        "x": 1493.1576232910156,
+        "y": 1277.3729391098022,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "7c6710be.b224d",
+        "type": "comment",
+        "name": "Healthcheck Rebuilt servers",
+        "info": "",
+        "comments": "",
+        "x": 590.6228942871094,
+        "y": 1220.2144412994385,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "e2f83365.f181d",
+        "type": "other",
+        "name": "UNKNOWN/DOWN",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 2084.1944274902344,
+        "y": 1461.643030166626,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "9789eed7.59185"
+            ]
+        ]
+    },
+    {
+        "id": "17c0b900.0992d7",
+        "type": "set",
+        "name": "Set flag",
+        "xml": "<set>\n<parameter name='HealthcheckDGResolutionFlag' value=\"true\"/>\n",
+        "comments": "",
+        "x": 1138.0781440734863,
+        "y": 512.4375076293945,
+        "z": "a3df70df.04e24",
+        "wires": []
+    },
+    {
+        "id": "bf7f7850.7be178",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 983.0781440734863,
+        "y": 477.43750762939453,
+        "z": "a3df70df.04e24",
+        "wires": [
+            [
+                "d0e66bd6.9a5cf8",
+                "17c0b900.0992d7"
+            ]
+        ]
+    },
+    {
+        "id": "e21406fe.870978",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n\n",
+        "comments": "",
+        "x": 1385.5156707763672,
+        "y": 1102.5157146453857,
+        "z": "a3df70df.04e24",
+        "wires": []
+    }
+]
