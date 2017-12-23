@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -51,100 +55,100 @@ import org.onap.ccsdk.sli.core.sli.provider.SvcLogicAdaptorFactory;
 
 
 public class TestSaveRunningConfig /* extends AbstractDGTestCase */{
-	//private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestSaveRunningConfig.class);
-	public static String SaveRunningConfigXML = "src/main/resources/xml/APPC_SaveRunningConfig.xml";
+    //private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestSaveRunningConfig.class);
+    public static String SaveRunningConfigXML = "src/main/resources/xml/APPC_SaveRunningConfig.xml";
 
 /*
 
 
-	@Test
-	public void testSaveRunningConfigSuccess() {
-		try {
+    @Test
+    public void testSaveRunningConfigSuccess() {
+        try {
 
-			String propertyfileName = "APPC/SaveRunningConfig/SaveRunningConfig_Success.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-
-
-
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { SaveRunningConfigXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "SaveRunningConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-	
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+            String propertyfileName = "APPC/SaveRunningConfig/SaveRunningConfig_Success.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 
 
-
-	@Test
-	public void testSaveRunningConfigFailure() {
-		try {
-
-			String propertyfileName = "APPC/SaveRunningConfig/SaveRunningConfig_Failure.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { SaveRunningConfigXML };
 
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { SaveRunningConfigXML };
+            GraphKey  graphKey = new GraphKey("APPC", null, "SaveRunningConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+    
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "SaveRunningConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    @Test
+    public void testSaveRunningConfigFailure() {
+        try {
 
-	}
-
-	@Test
-	public void testSaveRunningUploadConfigFailure() {
-		try {
-
-			String propertyfileName = "APPC/SaveRunningConfig/UploadConfig_Failure.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/SaveRunningConfig/SaveRunningConfig_Failure.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { SaveRunningConfigXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { SaveRunningConfigXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "SaveRunningConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
+            GraphKey  graphKey = new GraphKey("APPC", null, "SaveRunningConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
+
+    @Test
+    public void testSaveRunningUploadConfigFailure() {
+        try {
+
+            String propertyfileName = "APPC/SaveRunningConfig/UploadConfig_Failure.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { SaveRunningConfigXML };
+
+
+            GraphKey  graphKey = new GraphKey("APPC", null, "SaveRunningConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 */

@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -37,241 +41,241 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 public class TestGetConfigParams /* extends AbstractDGTestCase */ {
-	
+    
 
 /*
-	
-	public static String getConfigParamsXML = "src/main/resources/xml/APPC_GetConfigParams.xml";
+    
+    public static String getConfigParamsXML = "src/main/resources/xml/APPC_GetConfigParams.xml";
 
 
 
-	@Test
-	public void testGetConfigParamsWithDefaultTemplate() {
-		try {
+    @Test
+    public void testGetConfigParamsWithDefaultTemplate() {
+        try {
 
-			String propertyfileName = "APPC/GetConfigParams/DefaultTemplate.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/GetConfigParams/DefaultTemplate.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
+            
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			
+            
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
 
 
 
-	@Test
-	public void testGetConfigParamsWithTemplateName() {
-		try {
+    @Test
+    public void testGetConfigParamsWithTemplateName() {
+        try {
 
 
-			String propertyfileName = "APPC/GetConfigParams/TemplateName.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/GetConfigParams/TemplateName.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
 
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
-	@Test
-	public void testGetConfigParamsWithCliString() {
-		try {
+    @Test
+    public void testGetConfigParamsWithCliString() {
+        try {
 
-			String propertyfileName = "APPC/GetConfigParams/CliString.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
+            String propertyfileName = "APPC/GetConfigParams/CliString.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
-			
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
-				
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+                
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Test
-	public void testGetConfigParamsWithCliJson() {
-		try {
+    @Test
+    public void testGetConfigParamsWithCliJson() {
+        try {
 
 
-			String propertyfileName = "APPC/GetConfigParams/CliJson.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/GetConfigParams/CliJson.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			
-		
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
+            
+        
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
 
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
-	@Test
-	public void testGetConfigParamsForRestore() {
-		try {
-			String propertyfileName = "APPC/GetConfigParams/Restore.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    @Test
+    public void testGetConfigParamsForRestore() {
+        try {
+            String propertyfileName = "APPC/GetConfigParams/Restore.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-		
-		
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
+        
+        
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
-	@Test
-	public void testGetConfigParamsCommonConfigFail() {
-		try {
-			String propertyfileName = "APPC/GetConfigParams/CommonConfigFail.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    @Test
+    public void testGetConfigParamsCommonConfigFail() {
+        try {
+            String propertyfileName = "APPC/GetConfigParams/CommonConfigFail.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-		
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
+        
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode", new org.onap.sdnc.config.generator.convert.ConvertNode());
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
-	
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
-	@Test
-	public void testGetConfigParamsJson2DGContextFail() {
-		try {
-			String propertyfileName = "APPC/GetConfigParams/Json2DGContextFail.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    @Test
+    public void testGetConfigParamsJson2DGContextFail() {
+        try {
+            String propertyfileName = "APPC/GetConfigParams/Json2DGContextFail.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			
-		
-			
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getConfigParamsXML };
+            
+        
+            
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getConfigParamsXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetConfigParams", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
-	
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 */
 }

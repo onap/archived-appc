@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -38,248 +42,248 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 public class TestConfigure /* extends AbstractDGTestCase */ {
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestConfigure.class);
-	public static String ConfigureXML = "src/main/resources/xml/APPC_Configure.xml";
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestConfigure.class);
+    public static String ConfigureXML = "src/main/resources/xml/APPC_Configure.xml";
 
 /*
-	@Test
-	public void testTemplateConfigureSuccess() {
-		try {
+    @Test
+    public void testTemplateConfigureSuccess() {
+        try {
 
-			String propertyfileName = "APPC/Configure/Configure_Success.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
+            String propertyfileName = "APPC/Configure/Configure_Success.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-		
-	
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+        
+    
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
 
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-		
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
 
 
-	@Test
-	public void testTemplateConfigureFailure() {
-		try {
-
-			String propertyfileName = "APPC/Configure/Configure_Failure.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-		
-		
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+    @Test
+    public void testTemplateConfigureFailure() {
+        try {
 
-		
+            String propertyfileName = "APPC/Configure/Configure_Failure.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
 
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+        
+        
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	
-	@Test
-	public void testGetTemplateFailure() {
-		try {
-
-			String propertyfileName = "APPC/Configure/GetTemplate_Failure.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-		
-		
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-		
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        
 
 
-	
-	@Test
-	public void testGenerateTemplateConfigFailure() {
-		try {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-			String propertyfileName = "APPC/Configure/GenerateTemplateConfig_Failure.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
+    
+    @Test
+    public void testGetTemplateFailure() {
+        try {
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-	
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
+            String propertyfileName = "APPC/Configure/GetTemplate_Failure.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
 
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+        
+        
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
 
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-		
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
-	public void testConfigBlockConfigureSuccess() {
-		try {
-
-			String propertyfileName = "APPC/Configure/ConfigBlockConfigure_Success.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-		
-	
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-		
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testConfigBlockConfigureFailure() {
-		try {
-
-			String propertyfileName = "APPC/Configure/ConfigBlockConfigure_Failure.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-		
-	
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+        
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-		
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	@Test
-	public void testGenerateConfigFailure() {
-		try {
-
-			String propertyfileName = "APPC/Configure/GenerateConfig_Failure.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { ConfigureXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-		
-	
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+    
+    @Test
+    public void testGenerateTemplateConfigFailure() {
+        try {
 
-		
+            String propertyfileName = "APPC/Configure/GenerateTemplateConfig_Failure.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testConfigBlockConfigureSuccess() {
+        try {
+
+            String propertyfileName = "APPC/Configure/ConfigBlockConfigure_Success.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+        
+    
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testConfigBlockConfigureFailure() {
+        try {
+
+            String propertyfileName = "APPC/Configure/ConfigBlockConfigure_Failure.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+        
+    
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    @Test
+    public void testGenerateConfigFailure() {
+        try {
+
+            String propertyfileName = "APPC/Configure/GenerateConfig_Failure.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { ConfigureXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+        
+    
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "Configure", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 */
 }

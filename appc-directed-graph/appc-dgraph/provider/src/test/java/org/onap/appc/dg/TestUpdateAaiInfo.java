@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -52,115 +56,115 @@ import org.onap.ccsdk.sli.core.sli.provider.SvcLogicAdaptorFactory;
 
 
 public class TestUpdateAaiInfo /* extends AbstractDGTestCase */ {
-	//private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestUpdateAaiInfo.class);
-	public static String UpdateAaiInfoXML = "src/main/resources/xml/APPC_UpdateAaiInfo.xml";
+    //private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestUpdateAaiInfo.class);
+    public static String UpdateAaiInfoXML = "src/main/resources/xml/APPC_UpdateAaiInfo.xml";
 
 /*
 
-	@Test
-	public void testUpdateAaiInfoSuccess() {
-		try {
+    @Test
+    public void testUpdateAaiInfoSuccess() {
+        try {
 
-			String propertyfileName = "APPC/UpdateAaiInfo/Update_Success.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/UpdateAaiInfo/Update_Success.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { UpdateAaiInfoXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { UpdateAaiInfoXML };
 
-			
-			Map<String, Object> resourceReferences = new HashMap<String, Object>();
+            
+            Map<String, Object> resourceReferences = new HashMap<String, Object>();
 
-			
-			resourceReferences.put("org.onap.ccsdk.sli.adaptors.aai.AAIService", new MockAaiResource());
+            
+            resourceReferences.put("org.openecomp.sdnc.sli.aai.AAIService", new MockAaiResource());
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			tc.setResourceReferences(resourceReferences);
+            GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            tc.setResourceReferences(resourceReferences);
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	@Test
-	public void testUpdateAaiInfoFail() {
-		try {
-
-			String propertyfileName = "APPC/UpdateAaiInfo/Update_Fail.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    }
 
 
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { UpdateAaiInfoXML };
+    @Test
+    public void testUpdateAaiInfoFail() {
+        try {
 
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			
-			Map<String, Object> resourceReferences = new HashMap<String, Object>();
-			tc.setResourceReferences(resourceReferences);
-			
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-		
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+            String propertyfileName = "APPC/UpdateAaiInfo/Update_Fail.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 
 
-	@Test
-	public void testGetVnfcRefFail() {
-		try {
-
-			String propertyfileName = "APPC/UpdateAaiInfo/GetVnfcRef_Fail.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { UpdateAaiInfoXML };
 
 
+            GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { UpdateAaiInfoXML };
+            
+            Map<String, Object> resourceReferences = new HashMap<String, Object>();
+            tc.setResourceReferences(resourceReferences);
+            
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
 
-			Map<String, Object> resourceReferences = new HashMap<String, Object>();
-			tc.setResourceReferences(resourceReferences);
-			
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+    @Test
+    public void testGetVnfcRefFail() {
+        try {
 
-		
+            String propertyfileName = "APPC/UpdateAaiInfo/GetVnfcRef_Fail.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-	}
+
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { UpdateAaiInfoXML };
+
+
+            GraphKey  graphKey = new GraphKey("APPC", null, "UpdateAaiInfo", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+
+            Map<String, Object> resourceReferences = new HashMap<String, Object>();
+            tc.setResourceReferences(resourceReferences);
+            
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 */
 }

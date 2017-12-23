@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -39,216 +43,216 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
 public class TestProcessParameterDefinition /* extends AbstractDGTestCase */ {
-	
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestProcessParameterDefinition.class);
-	public static String getProcessPDXML = "src/main/resources/xml/APPC_ProcessParameterDefinition.xml";
+    
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestProcessParameterDefinition.class);
+    public static String getProcessPDXML = "src/main/resources/xml/APPC_ProcessParameterDefinition.xml";
 
 /*
 
-	
-	@Test
-	public void testProcessPD() {
-		try {
+    
+    @Test
+    public void testProcessPD() {
+        try {
 
 
-			String propertyfileName = "APPC/ProcessParameterDefinition/ProcessPD.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/ProcessParameterDefinition/ProcessPD.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			
-		
-			serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
+            
+        
+            serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
-			
-			
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getProcessPDXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-			//System.out.println(ctx.getAttribute("tmp.allParams.configuration-parameters"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	
-	@Test
-	public void testGetPDFail() {
-		try {
+            
+            
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getProcessPDXML };
 
 
-			String propertyfileName = "APPC/ProcessParameterDefinition/GetPDFail.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-			
-		
-			serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
-
-			
-			
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getProcessPDXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}	
-	@Test
-	public void testNoInstarParams() {
-			try {
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+            
+            //System.out.println(ctx.getAttribute("tmp.allParams.configuration-parameters"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    @Test
+    public void testGetPDFail() {
+        try {
 
 
-				String propertyfileName = "APPC/ProcessParameterDefinition/NoInstarParams.properties";
-				Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            String propertyfileName = "APPC/ProcessParameterDefinition/GetPDFail.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-				
-			
-				serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
+            
+        
+            serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
-				
-				
-				// Register Call graphs
-				String injectGraphXmls[] = new String[] { getProcessPDXML };
-
-
-				GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
-				DGTestCase tc = new DGTestCase(graphKey);
-				tc.setInjectGraphXmls(injectGraphXmls);
-				tc.setServiceReferences(serviceReferences);
-				tc.setPropertyfileName(propertyfileName);
-				
-
-				SvcLogicContext ctx = new SvcLogicContext();
-				processTestCase(tc, ctx);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-	
-	
-	@Test
-	public void testGetInstarParamsFail() {
-			try {
+            
+            
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getProcessPDXML };
 
 
-				String propertyfileName = "APPC/ProcessParameterDefinition/GetInstarParamsFail.properties";
-				Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
-				
-			
-								
-				
-				// Register Call graphs
-				String injectGraphXmls[] = new String[] { getProcessPDXML };
-
-
-				GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
-				DGTestCase tc = new DGTestCase(graphKey);
-				tc.setInjectGraphXmls(injectGraphXmls);
-				tc.setServiceReferences(serviceReferences);
-				tc.setPropertyfileName(propertyfileName);
-				
-
-				SvcLogicContext ctx = new SvcLogicContext();
-				processTestCase(tc, ctx);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-	
-	
-	@Test
-	public void testMergeParamsFail() {
-			try {
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }    
+    @Test
+    public void testNoInstarParams() {
+            try {
 
 
-				String propertyfileName = "APPC/ProcessParameterDefinition/MergeParamsFail.properties";
-				Map<String, Object> serviceReferences = new HashMap<String, Object>();
+                String propertyfileName = "APPC/ProcessParameterDefinition/NoInstarParams.properties";
+                Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-				
-			
-								
-				
-				// Register Call graphs
-				String injectGraphXmls[] = new String[] { getProcessPDXML };
+                
+            
+                serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
 
-
-				GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
-				DGTestCase tc = new DGTestCase(graphKey);
-				tc.setInjectGraphXmls(injectGraphXmls);
-				tc.setServiceReferences(serviceReferences);
-				tc.setPropertyfileName(propertyfileName);
-				
-
-				SvcLogicContext ctx = new SvcLogicContext();
-				processTestCase(tc, ctx);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-	}
-	
-	
-	@Test
-	public void testSaveMdSal() {
-		try {
+                
+                
+                // Register Call graphs
+                String injectGraphXmls[] = new String[] { getProcessPDXML };
 
 
-			String propertyfileName = "APPC/ProcessParameterDefinition/SaveMdsalFail.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+                GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
+                DGTestCase tc = new DGTestCase(graphKey);
+                tc.setInjectGraphXmls(injectGraphXmls);
+                tc.setServiceReferences(serviceReferences);
+                tc.setPropertyfileName(propertyfileName);
+                
 
-			
-		
-			serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
+                SvcLogicContext ctx = new SvcLogicContext();
+                processTestCase(tc, ctx);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    
+    
+    @Test
+    public void testGetInstarParamsFail() {
+            try {
 
-			
-			
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getProcessPDXML };
+
+                String propertyfileName = "APPC/ProcessParameterDefinition/GetInstarParamsFail.properties";
+                Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+                
+            
+                                
+                
+                // Register Call graphs
+                String injectGraphXmls[] = new String[] { getProcessPDXML };
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+                GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
+                DGTestCase tc = new DGTestCase(graphKey);
+                tc.setInjectGraphXmls(injectGraphXmls);
+                tc.setServiceReferences(serviceReferences);
+                tc.setPropertyfileName(propertyfileName);
+                
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-			//System.out.println(ctx.getAttribute("tmp.allParams.configuration-parameters"));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-*/	
+                SvcLogicContext ctx = new SvcLogicContext();
+                processTestCase(tc, ctx);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    
+    
+    @Test
+    public void testMergeParamsFail() {
+            try {
+
+
+                String propertyfileName = "APPC/ProcessParameterDefinition/MergeParamsFail.properties";
+                Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+                
+            
+                                
+                
+                // Register Call graphs
+                String injectGraphXmls[] = new String[] { getProcessPDXML };
+
+
+                GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
+                DGTestCase tc = new DGTestCase(graphKey);
+                tc.setInjectGraphXmls(injectGraphXmls);
+                tc.setServiceReferences(serviceReferences);
+                tc.setPropertyfileName(propertyfileName);
+                
+
+                SvcLogicContext ctx = new SvcLogicContext();
+                processTestCase(tc, ctx);
+                
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+    }
+    
+    
+    @Test
+    public void testSaveMdSal() {
+        try {
+
+
+            String propertyfileName = "APPC/ProcessParameterDefinition/SaveMdsalFail.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+            
+        
+            serviceReferences.put("org.onap.sdnc.config.params.parser.PropertyDefinitionNode", new org.onap.sdnc.config.params.parser.PropertyDefinitionNode());
+
+            
+            
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getProcessPDXML };
+
+
+            GraphKey  graphKey = new GraphKey("APPC", null, "ProcessParameterDefinition", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+            
+            //System.out.println(ctx.getAttribute("tmp.allParams.configuration-parameters"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+*/    
 }
 
 
 
-	
+    

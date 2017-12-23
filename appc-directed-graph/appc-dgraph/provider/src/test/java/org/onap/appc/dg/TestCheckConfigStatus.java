@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -38,180 +42,180 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 public class TestCheckConfigStatus /* extends AbstractDGTestCase */ {
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestCheckConfigStatus.class);
-	public static String CheckConfigStatusXML = "src/main/resources/xml/APPC_CheckConfigStatus.xml";
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestCheckConfigStatus.class);
+    public static String CheckConfigStatusXML = "src/main/resources/xml/APPC_CheckConfigStatus.xml";
 
 
 
 /*
-	@Test
-	public void testCheckConfigStatusSuccess() {
-		try {
+    @Test
+    public void testCheckConfigStatusSuccess() {
+        try {
 
-			String propertyfileName = "APPC/CheckConfigStatus/CheckConfigStatus_Success.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
+            String propertyfileName = "APPC/CheckConfigStatus/CheckConfigStatus_Success.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-	
-			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    
+            GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
 
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-		
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+        
 
 
-	@Test
-	public void testCheckConfigStatusFailure() {
-		try {
-
-			String propertyfileName = "APPC/CheckConfigStatus/CheckConfigStatus_Failure.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+    @Test
+    public void testCheckConfigStatusFailure() {
+        try {
 
-		
+            String propertyfileName = "APPC/CheckConfigStatus/CheckConfigStatus_Failure.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
 
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	
-	
-
-	@Test
-	public void testParseErrorLogFail() {
-		try {
-
-			String propertyfileName = "APPC/CheckConfigStatus/ParseErrorLogFail.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			//System.out.println("error-message "+  ctx.getAttribute("error-message"));
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
-	public void testParseErrorLogSuccess() { 
-		try {
-
-			String propertyfileName = "APPC/CheckConfigStatus/ParseErrorLogSuccess.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+        
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-			
+    
+    
 
+    @Test
+    public void testParseErrorLogFail() {
+        try {
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	@Test
-	public void testMaxRetries() { 
-		try {
+            String propertyfileName = "APPC/CheckConfigStatus/ParseErrorLogFail.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
 
-			String propertyfileName = "APPC/CheckConfigStatus/MaxRetries.properties";
-		
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			
+            //System.out.println("error-message "+  ctx.getAttribute("error-message"));
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @Test
+    public void testParseErrorLogSuccess() { 
+        try {
+
+            String propertyfileName = "APPC/CheckConfigStatus/ParseErrorLogSuccess.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+            
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    @Test
+    public void testMaxRetries() { 
+        try {
+
+            String propertyfileName = "APPC/CheckConfigStatus/MaxRetries.properties";
+        
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { CheckConfigStatusXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            serviceReferences.put("org.onap.appc.ccadaptor.ConfigComponentAdaptor", new MockConfigureNodeExecutor());
+        
+            GraphKey  graphKey = new GraphKey("APPC", null, "CheckConfigStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+            
+
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+            
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 */
 }

@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -35,97 +39,97 @@ import com.att.sdnctl.dgtestlibrary.GraphKey;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestGetDeviceRunningConfig /* extends AbstractDGTestCase */ {
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestGetConfigParams.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestGetConfigParams.class);
 /*
-	public String jsonPath = "src/main/resources/json";
-	public String xmlpath = "src/main/resources/xml";
+    public String jsonPath = "src/main/resources/json";
+    public String xmlpath = "src/main/resources/xml";
 
-	@Test
-	public void testChefRunningConfigSuccess() {
-		try {
-			logger.info("********************************* testChefRunningConfigSuccess *************************************");
-			//DGMockUtils.generateXMLFile(jsonPath, xmlpath);
+    @Test
+    public void testChefRunningConfigSuccess() {
+        try {
+            logger.info("********************************* testChefRunningConfigSuccess *************************************");
+            //DGMockUtils.generateXMLFile(jsonPath, xmlpath);
 
-			String propertyfileName = "APPC/GetDeviceRunningConfig/Chef_Success.properties";
+            String propertyfileName = "APPC/GetDeviceRunningConfig/Chef_Success.properties";
 
-			String getDeviceRunningConfigXML = "src/main/resources/xml/APPC_GetDeviceRunningConfig.xml";
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getDeviceRunningConfigXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetDeviceRunningConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-			assertContextWithProperty(ctx);
+            String getDeviceRunningConfigXML = "src/main/resources/xml/APPC_GetDeviceRunningConfig.xml";
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getDeviceRunningConfigXML };
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetDeviceRunningConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setPropertyfileName(propertyfileName);
 
-	@Test
-	public void testChefRunningConfigFailure() {
-		try {
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			logger.info("********************************* testChefRunningConfigFailure *************************************");
-			String propertyfileName = "APPC/GetDeviceRunningConfig/Chef_Failure.properties";
-
-			String getDeviceRunningConfigXML = "src/main/resources/xml/APPC_GetDeviceRunningConfig.xml";
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getDeviceRunningConfigXML };
+            assertContextWithProperty(ctx);
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetDeviceRunningConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setPropertyfileName(propertyfileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testChefRunningConfigFailure() {
+        try {
+
+            logger.info("********************************* testChefRunningConfigFailure *************************************");
+            String propertyfileName = "APPC/GetDeviceRunningConfig/Chef_Failure.properties";
+
+            String getDeviceRunningConfigXML = "src/main/resources/xml/APPC_GetDeviceRunningConfig.xml";
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getDeviceRunningConfigXML };
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-			assertContextWithProperty(ctx);
-
-			//DGMockUtils.printContext(ctx);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Test
-	public void testChefRunningConfigOthers() {
-		try {
-			logger.info("********************************* testChefRunningConfigOthers *************************************");
-			String propertyfileName = "APPC/GetDeviceRunningConfig/Chef_Others.properties";
-
-			String getDeviceRunningConfigXML = "src/main/resources/xml/APPC_GetDeviceRunningConfig.xml";
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { getDeviceRunningConfigXML };
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetDeviceRunningConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setPropertyfileName(propertyfileName);
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "GetDeviceRunningConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setPropertyfileName(propertyfileName);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+            assertContextWithProperty(ctx);
+
+            //DGMockUtils.printContext(ctx);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testChefRunningConfigOthers() {
+        try {
+            logger.info("********************************* testChefRunningConfigOthers *************************************");
+            String propertyfileName = "APPC/GetDeviceRunningConfig/Chef_Others.properties";
+
+            String getDeviceRunningConfigXML = "src/main/resources/xml/APPC_GetDeviceRunningConfig.xml";
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { getDeviceRunningConfigXML };
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            GraphKey  graphKey = new GraphKey("APPC", null, "GetDeviceRunningConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setPropertyfileName(propertyfileName);
 
-			assertContextWithProperty(ctx);
 
-			//DGMockUtils.printContext(ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            assertContextWithProperty(ctx);
+
+            //DGMockUtils.printContext(ctx);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 */
 }
