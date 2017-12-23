@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -51,102 +55,102 @@ import org.onap.ccsdk.sli.core.sli.provider.SvcLogicAdaptorFactory;
 
 
 public class TestSetStatus /* extends AbstractDGTestCase */ {
-	//private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestSetStatus.class);
-	public static String SetStatusXML = "src/main/resources/xml/APPC_SetStatus.xml";
+    //private final static Logger logger = LoggerFactory.getLogger(TestGetParams.class);
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestSetStatus.class);
+    public static String SetStatusXML = "src/main/resources/xml/APPC_SetStatus.xml";
 
 
 /*
-	@Test
-	public void testSetStatusSuccess() {
-		try {
+    @Test
+    public void testSetStatusSuccess() {
+        try {
 
-			String propertyfileName = "APPC/SetStatus/SetStatus_Success.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-
-
-
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { SetStatusXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "SetStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-
-	
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
+            String propertyfileName = "APPC/SetStatus/SetStatus_Success.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 
 
-
-	@Test
-	public void testSetStatusAaiFailure() {
-		try {
-
-			String propertyfileName = "APPC/SetStatus/SetStatus_AaiFailure.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { SetStatusXML };
 
 
+            GraphKey  graphKey = new GraphKey("APPC", null, "SetStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { SetStatusXML };
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "SetStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
-
-
-	@Test
-	public void testSetStatusFailure() {
-		try {
-
-			String propertyfileName = "APPC/SetStatus/SetStatus_SaveRunningFailure.properties";
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+    }
 
 
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { SetStatusXML };
+
+    @Test
+    public void testSetStatusAaiFailure() {
+        try {
+
+            String propertyfileName = "APPC/SetStatus/SetStatus_AaiFailure.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
 
-			GraphKey  graphKey = new GraphKey("APPC", null, "SetStatus", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { SetStatusXML };
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+            GraphKey  graphKey = new GraphKey("APPC", null, "SetStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-	}
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    @Test
+    public void testSetStatusFailure() {
+        try {
+
+            String propertyfileName = "APPC/SetStatus/SetStatus_SaveRunningFailure.properties";
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+
+
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { SetStatusXML };
+
+
+            GraphKey  graphKey = new GraphKey("APPC", null, "SetStatus", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 */
