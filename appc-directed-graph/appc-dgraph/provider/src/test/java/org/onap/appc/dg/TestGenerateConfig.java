@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -51,82 +55,82 @@ import org.onap.ccsdk.sli.core.sli.provider.SvcLogicAdaptorFactory;
 
 
 public class TestGenerateConfig /* extends AbstractDGTestCase */ {
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestGenerateConfig.class);
-	public static String generateConfigXML = "src/main/resources/xml/APPC_GenerateConfig.xml";
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestGenerateConfig.class);
+    public static String generateConfigXML = "src/main/resources/xml/APPC_GenerateConfig.xml";
 
 /*
 
-	@Test
-	public void testGenerateConfigWithParameters() {
-		try {
+    @Test
+    public void testGenerateConfigWithParameters() {
+        try {
 
-			String propertyfileName = "APPC/GenerateConfig/GenerateConfigWithParams.properties";
-			//String generateConfigXML = "src/main/resources/xml/APPC_GenerateConfig.xml";
+            String propertyfileName = "APPC/GenerateConfig/GenerateConfigWithParams.properties";
+            //String generateConfigXML = "src/main/resources/xml/APPC_GenerateConfig.xml";
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { generateConfigXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { generateConfigXML };
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-	
-			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
-			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
-			
-			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-		
-			GraphKey  graphKey = new GraphKey("APPC", null, "GenerateConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
+            serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
+            //serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
+
+            serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            GraphKey  graphKey = new GraphKey("APPC", null, "GenerateConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
 
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
 
 
-	@Test
-	public void testGenerateConfigWithNoParameters() {
-		try {
-
-			String propertyfileName = "APPC/GenerateConfig/GenerateConfigNoParams.properties";
-			//String generateConfigXML = "src/main/resources/xml/APPC_GenerateConfig.xml";
-
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { generateConfigXML };
-
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-	
-			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
-			//serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
-			
-			serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
-
-
-			GraphKey  graphKey = new GraphKey("APPC", null, "GenerateConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Test
+    public void testGenerateConfigWithNoParameters() {
+        try {
+
+            String propertyfileName = "APPC/GenerateConfig/GenerateConfigNoParams.properties";
+            //String generateConfigXML = "src/main/resources/xml/APPC_GenerateConfig.xml";
+
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { generateConfigXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+            serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
+            //serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
+
+            serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
+
+
+            GraphKey  graphKey = new GraphKey("APPC", null, "GenerateConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
 */

@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -35,35 +39,35 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 public class TestConfigurationDocumentRequest /* extends AbstractDGTestCase */ {
 
 /*
-	@Test
-	public void testSDCMessage() {
-		try {
-			String propertyfileName = "SDC-MESSAGE_method_configuration-document-request_TC1.properties";
+    @Test
+    public void testSDCMessage() {
+        try {
+            String propertyfileName = "SDC-MESSAGE_method_configuration-document-request_TC1.properties";
 
-			String configurationDocumentRequestXML = "src/main/resources/xml/SDC-MESSAGE_method_configuration-document-request_3.0.0.xml";
+            String configurationDocumentRequestXML = "src/main/resources/xml/SDC-MESSAGE_method_configuration-document-request_3.0.0.xml";
 
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { configurationDocumentRequestXML};
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { configurationDocumentRequestXML};
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-			serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode",new org.onap.sdnc.config.generator.convert.ConvertNode());
-			serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            serviceReferences.put("org.onap.sdnc.config.generator.convert.ConvertNode",new org.onap.sdnc.config.generator.convert.ConvertNode());
+            serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
 
-			GraphKey  graphKey = new GraphKey("SDC-MESSAGE", null, "configuration-document-request", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
+            GraphKey  graphKey = new GraphKey("SDC-MESSAGE", null, "configuration-document-request", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 */
 
 }

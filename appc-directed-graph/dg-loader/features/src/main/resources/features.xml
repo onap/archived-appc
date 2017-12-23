@@ -22,19 +22,19 @@
 
 
 <features name="sdnc-dg-loader-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
-	<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.version}/xml/features</repository>
-	<feature name='sdnc-dg-loader' description="SDNC DG Loader"
-		version='${project.version}'>
-		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature>odl-mdsal-broker</feature>
-		<feature>sdnc-sli</feature>
-		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
-		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
-		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
-		<bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
-		<bundle>mvn:org.onap.appc.plugins/dg-loader-provider/${project.version}</bundle>
-	</feature>
+    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.version}/xml/features</repository>
+    <feature name='sdnc-dg-loader' description="SDNC DG Loader"
+        version='${project.version}'>
+        <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
+        <feature>odl-mdsal-broker</feature>
+        <feature>sdnc-sli</feature>
+        <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
+        <bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
+        <bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
+        <bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
+        <bundle>mvn:org.onap.appc.plugins/dg-loader-provider/${project.version}</bundle>
+    </feature>
 </features>
