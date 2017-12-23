@@ -59,19 +59,18 @@ public class MockSvcLogicDblibStore implements SvcLogicStore {
 
     }
 
-    @Override
+
     public void registerNodeType(String nodeType) throws SvcLogicException {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
     public void unregisterNodeType(String nodeType) throws SvcLogicException {
         // TODO Auto-generated method stub
 
     }
 
-    @Override
+
     public boolean isValidNodeType(String nodeType) throws SvcLogicException {
         // TODO Auto-generated method stub
         return true;
@@ -81,12 +80,14 @@ public class MockSvcLogicDblibStore implements SvcLogicStore {
     public void delete(String module, String rpc, String version, String mode)
             throws SvcLogicException {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void activate(SvcLogicGraph graph) throws SvcLogicException {
         // TODO Auto-generated method stub
-
+    }
+    public void activate(String module, String rpc, String version, String mode)
+            throws SvcLogicException {
+        // TODO Auto-generated method stub
     }
 }
