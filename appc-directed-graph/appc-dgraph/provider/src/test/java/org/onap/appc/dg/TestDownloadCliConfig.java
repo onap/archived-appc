@@ -1,9 +1,11 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -15,6 +17,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -38,96 +42,96 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 public class TestDownloadCliConfig /* extends AbstractDGTestCase */ {
 
 /*
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestDownloadIsbcConfig.class);
-	public static String DownloadCliConfigXML = "src/main/resources/xml/APPC_DownloadCliConfig.xml";
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestDownloadIsbcConfig.class);
+    public static String DownloadCliConfigXML = "src/main/resources/xml/APPC_DownloadCliConfig.xml";
 
-	@Test
-	public void testDownloadCliConfigSuccess() {
-		try {
-			String propertyfileName = "APPC/DownloadCliConfig/DownloadCliConfig_Success.properties";
+    @Test
+    public void testDownloadCliConfigSuccess() {
+        try {
+            String propertyfileName = "APPC/DownloadCliConfig/DownloadCliConfig_Success.properties";
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { DownloadCliConfigXML };
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { DownloadCliConfigXML };
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-			GraphKey graphKey = new GraphKey("APPC", null, "DownloadCliConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-			Map<String, Object> resourceReferences = new HashMap<String, Object>();
-			tc.setResourceReferences(resourceReferences);
+            GraphKey graphKey = new GraphKey("APPC", null, "DownloadCliConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-			//DGMockUtils.printContext(ctx);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
-	public void testDownloadCliConfigDBFailure() {
-		try {
+            Map<String, Object> resourceReferences = new HashMap<String, Object>();
+            tc.setResourceReferences(resourceReferences);
 
-			String propertyfileName = "APPC/DownloadCliConfig/DownloadCliConfig_DB_Failure.properties";
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { DownloadCliConfigXML };
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			GraphKey graphKey = new GraphKey("APPC", null, "DownloadCliConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-			Map<String, Object> resourceReferences = new HashMap<String, Object>();
-			tc.setResourceReferences(resourceReferences);
+            //DGMockUtils.printContext(ctx);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-			//DGMockUtils.printContext(ctx);
+    @Test
+    public void testDownloadCliConfigDBFailure() {
+        try {
 
+            String propertyfileName = "APPC/DownloadCliConfig/DownloadCliConfig_DB_Failure.properties";
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { DownloadCliConfigXML };
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	@Test
-	public void testDownloadCliConfigAdaptorFailure() {
-		try {
+            GraphKey graphKey = new GraphKey("APPC", null, "DownloadCliConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
 
-			String propertyfileName = "APPC/DownloadCliConfig/DownloadCliConfig_Adaptor_Failure.properties";
+            Map<String, Object> resourceReferences = new HashMap<String, Object>();
+            tc.setResourceReferences(resourceReferences);
 
-			// Register Call graphs
-			String injectGraphXmls[] = new String[] { DownloadCliConfigXML };
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
 
-			Map<String, Object> serviceReferences = new HashMap<String, Object>();
-
-			GraphKey graphKey = new GraphKey("APPC", null, "DownloadCliConfig", null);
-			DGTestCase tc = new DGTestCase(graphKey);
-
-			tc.setInjectGraphXmls(injectGraphXmls);
-			tc.setServiceReferences(serviceReferences);
-			tc.setPropertyfileName(propertyfileName);
-			
-			Map<String, Object> resourceReferences = new HashMap<String, Object>();
-			tc.setResourceReferences(resourceReferences);
-
-			SvcLogicContext ctx = new SvcLogicContext();
-			processTestCase(tc, ctx);
-			
-			//DGMockUtils.printContext(ctx);
+            //DGMockUtils.printContext(ctx);
 
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDownloadCliConfigAdaptorFailure() {
+        try {
+
+            String propertyfileName = "APPC/DownloadCliConfig/DownloadCliConfig_Adaptor_Failure.properties";
+
+            // Register Call graphs
+            String injectGraphXmls[] = new String[] { DownloadCliConfigXML };
+
+            Map<String, Object> serviceReferences = new HashMap<String, Object>();
+
+            GraphKey graphKey = new GraphKey("APPC", null, "DownloadCliConfig", null);
+            DGTestCase tc = new DGTestCase(graphKey);
+
+            tc.setInjectGraphXmls(injectGraphXmls);
+            tc.setServiceReferences(serviceReferences);
+            tc.setPropertyfileName(propertyfileName);
+
+            Map<String, Object> resourceReferences = new HashMap<String, Object>();
+            tc.setResourceReferences(resourceReferences);
+
+            SvcLogicContext ctx = new SvcLogicContext();
+            processTestCase(tc, ctx);
+
+            //DGMockUtils.printContext(ctx);
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 */
 }

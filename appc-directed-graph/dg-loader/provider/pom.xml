@@ -73,7 +73,7 @@
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
        <dependency>
-		<groupId>org.powermock</groupId>
+        <groupId>org.powermock</groupId>
                 <artifactId>powermock-api-mockito</artifactId>
                 <version>1.6.4</version>
                 <scope>test</scope>
