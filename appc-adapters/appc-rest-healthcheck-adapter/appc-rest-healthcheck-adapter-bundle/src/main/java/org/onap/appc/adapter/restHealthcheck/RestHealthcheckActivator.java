@@ -42,11 +42,6 @@ public class RestHealthcheckActivator implements BundleActivator {
      */
     private ServiceRegistration registration = null;
 
-    /**
-     * The reference to the actual implementation object that implements the services
-     */
-    private RestHealthcheckAdapter adapter;
-
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckActivator.class);
 
     /**
@@ -72,8 +67,9 @@ public class RestHealthcheckActivator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         logger.info("Starting bundle " + getName());
-
-        adapter = new RestHealthcheckAdapterImpl();
+       /* The reference to the actual implementation object that implements the services */
+        RestHealthcheckAdapter adapter = new RestHealthcheckAdapterImpl();
+       
         if (registration == null) {
             registration = context.registerService(RestHealthcheckAdapter.class, adapter, null);
         }

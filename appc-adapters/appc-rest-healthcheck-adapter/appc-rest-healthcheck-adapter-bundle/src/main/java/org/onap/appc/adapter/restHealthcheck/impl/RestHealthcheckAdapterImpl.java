@@ -55,144 +55,19 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
-
-	/**
-	 * The constant used to define the adapter name in the mapped diagnostic
-	 * context
-	 */
-
-
-	@SuppressWarnings("nls")
-	public static final String MDC_ADAPTER = "adapter";
-
-	/**
-	 * The constant used to define the service name in the mapped diagnostic
-	 * context
-	 */
-	@SuppressWarnings("nls")
-	public static final String MDC_SERVICE = "service";
-
 	/**
 	 * The constant for the status code for a failed outcome
 	 */
 	@SuppressWarnings("nls")
 	public static final String OUTCOME_FAILURE = "failure";
-
-	/**
-	 * The constant for the status code for a successful outcome
-	 */
-	@SuppressWarnings("nls")
-	public static final String OUTCOME_SUCCESS = "success";
-
-	/**
-	 * A constant for the property token "provider" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER = "provider";
-
-	/**
-	 * A constant for the property token "identity" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_IDENTITY = "identity";
-
-	/**
-	 * A constant for the property token "name" used in the structured property
-	 * specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_NAME = "name";
-
-	/**
-	 * A constant for the property token "tenant" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT = "tenant";
-
-	/**
-	 * A constant for the property token "tenant name" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT_NAME = "name";
-
-	/**
-	 * A constant for the property token "password" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT_PASSWORD = "password"; // NOSONAR
-
-	/**
-	 * A constant for the property token "userid" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT_USERID = "userid";
-
-	/**
-	 * A constant for the property token "type" used in the structured property
-	 * specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TYPE = "type";
-
-
-	@SuppressWarnings("nls")
-	public static final String PING_SERVICE = "pingServer";
-
 	/**
 	 * The logger to be used
 	 */
 	private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckAdapterImpl.class);
-
-	/**
-	 * The constant for a left parenthesis
-	 */
-	private static final char LPAREN = '(';
-
-	/**
-	 * The constant for a new line control code
-	 */
-	private static final char NL = '\n';
-
-	/**
-	 * The constant for a single quote
-	 */
-	private static final char QUOTE = '\'';
-
-	/**
-	 * The constant for a right parenthesis
-	 */
-	private static final char RPAREN = ')';
-
-	/**
-	 * The constant for a space
-	 */
-	private static final char SPACE = ' ';
-
 	/**
 	 * A reference to the adapter configuration object.
 	 */
 	private Configuration configuration;
-
-	/**
-	 * A cache of providers that are predefined.
-	 */
-	// private Map<String /* provider name */, ProviderCache> providerCache;
-
-	/**
-	 * This default constructor is used as a work around because the activator
-	 * wasnt getting called
-	 */
-	/**
-	 * A cache of providers that are predefined.
-	 */
-	// private Map<String /* provider name */, ProviderCache> providerCache;
-
 	/**
 	 * This default constructor is used as a work around because the activator
 	 * wasnt getting called
@@ -201,22 +76,6 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
 		initialize();
 
 	}
-
-
-	public RestHealthcheckAdapterImpl(boolean initialize) {
-
-		if (initialize) {
-			initialize();
-
-		}
-	}
-
-
-	public RestHealthcheckAdapterImpl(Properties props) {
-		initialize();
-
-	}
-
 
 	@Override
 	public String getAdapterName() {
@@ -230,10 +89,10 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
 		String tUrl=uri+"/"+endPoint;
 		RequestContext rc = new RequestContext(ctx);
 		rc.isAlive();
-
-		try(CloseableHttpClient httpClient = HttpClients.createDefault()) {
+		try {
 			HttpGet httpGet = new HttpGet(tUrl);
-			HttpResponse response = null;
+			HttpClient httpClient = HttpClients.createDefault();
+			HttpResponse response ;
 			response = httpClient.execute(httpGet);
 			int responseCode=response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
