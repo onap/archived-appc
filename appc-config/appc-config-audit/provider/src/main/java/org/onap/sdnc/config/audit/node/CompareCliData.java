@@ -39,9 +39,10 @@ public class CompareCliData implements CompareDataInterface{
     @Override
     public boolean compare() throws Exception
     {
-        if(payloadX != null && payloadX.equals(payloadY))
+        if(payloadX != null && payloadX.equals(payloadY)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 }
