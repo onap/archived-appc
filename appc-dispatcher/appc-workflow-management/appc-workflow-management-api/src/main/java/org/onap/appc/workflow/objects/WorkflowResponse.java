@@ -24,7 +24,6 @@
 
 package org.onap.appc.workflow.objects;
 
-import java.util.Properties;
 
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 

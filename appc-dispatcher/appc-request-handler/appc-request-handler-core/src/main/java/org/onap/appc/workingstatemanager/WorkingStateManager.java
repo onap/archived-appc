@@ -24,7 +24,6 @@
 
 package org.onap.appc.workingstatemanager;
 
-import org.onap.appc.requesthandler.exceptions.VNFNotFoundException;
 import org.onap.appc.workingstatemanager.objects.VNFWorkingState;
 
 

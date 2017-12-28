@@ -41,7 +41,6 @@ import org.onap.appc.workingstatemanager.objects.VNFWorkingState;
 import org.onap.appc.workingstatemanager.objects.VnfWorkingStateDto;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.apache.commons.lang3.StringUtils;
 
 
 public class WorkingStateManagerImpl extends JdbcWorkingStateManager {
