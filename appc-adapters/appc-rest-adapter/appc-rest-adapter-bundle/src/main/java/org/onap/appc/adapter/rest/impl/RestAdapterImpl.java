@@ -35,6 +35,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.glassfish.grizzly.http.util.HttpStatus;
@@ -177,8 +178,7 @@ public class RestAdapterImpl implements RestAdapter {
     }
 
     public void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc){
-        try {
-            HttpClient httpClient = HttpClients.createDefault();
+        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpResponse response = httpClient.execute(httpRequest);
             int responseCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
