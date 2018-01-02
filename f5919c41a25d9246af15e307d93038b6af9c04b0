@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d5541256",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-02T21:04:28Z",
+      "side": 1,
+      "message": "For new code, use tabs instead of spaces.   Refer to the ONAP coding guidelines:  https://wiki.onap.org/display/DW/Java+code+style.",
+      "revId": "f5919c41a25d9246af15e307d93038b6af9c04b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_954e8ac0",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-02T21:04:28Z",
+      "side": 1,
+      "message": "This exception needs to be handled.",
+      "revId": "f5919c41a25d9246af15e307d93038b6af9c04b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b54b86af",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-02T21:04:28Z",
+      "side": 1,
+      "message": "Remove unnecessary spaces.",
+      "revId": "f5919c41a25d9246af15e307d93038b6af9c04b0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
