@@ -24,6 +24,7 @@
 
 package org.onap.appc.data.services.db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import static org.junit.Assert.assertFalse;
@@ -33,6 +34,13 @@ import org.onap.appc.data.services.AppcDataServiceConstant;
 import org.onap.appc.data.services.node.ConfigResourceNode;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 public class TestConfigResourceNode {
 
@@ -156,6 +164,25 @@ public class TestConfigResourceNode {
         ctx.setAttribute("tmp.convertconfig.escapeData", "test");
         ctx.setAttribute("tmp.merge.mergedData", "test");
         node.saveConfigBlock(inParams, ctx);
+    }
+
+    @Test
+    public void testProcessCapabilitiesForVMLevel ()  throws Exception {
+        //{"capabilities":{"vnfc":[],"vm":[{"ConfigureTest":["SSC","MMSC"]}],"vf-module":[],"vnf":["ConfigModify","HealthCheck"]}}
+        SvcLogicContext ctx = new SvcLogicContext();
+        ConfigResourceNode node = new ConfigResourceNode();
+        String findCapability="Restart";
+        JsonNode subCapabilities = JsonNodeFactory.instance.objectNode();
+        String subCaps= "[{\"Restart\":[\"SSC\",\"MMC\"]},{\"Rebuild\":[\"SSC\"]},{\"Migrate\":[\"SSC\"]},{\"Snapshot\":[\"SSC\"]},{\"Start\":[\"SSC\"]},{\"Stop\":[\"SSC\"]}]";
+        ObjectMapper m = new ObjectMapper();
+        subCapabilities = m.readTree(subCaps);
+        String vServerId="testServer";
+        ctx.setAttribute("tmp.vnfInfo.vm.vnfc.vnfc-function-code", "MMC");
+        ctx.setAttribute("tmp.vnfInfo.vm.vnfc.vnfc-name","testVnfc")    ;
+        node.processCapabilitiesForVMLevel( vServerId,    ctx,
+                 findCapability,  subCapabilities);
+        String result=ctx.getAttribute("capabilities");
+        assertEquals(result,"Supported");
     }
 
     @Test
