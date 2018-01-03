@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e3e4f40e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-03T19:35:57Z",
+      "side": 1,
+      "message": "Please add a descriptive message without company specific reference.",
+      "revId": "0bae0452455a5c15ccdcd8446bf727be59dc809b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_63c0e450",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-bundle/src/main/java/org/onap/appc/adapter/restHealthcheck/RestHealthcheckActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-03T19:35:57Z",
+      "side": 1,
+      "message": "spaces not allowed here - https://google.github.io/styleguide/javaguide.html#s4.6.2-horizontal-whitespace",
+      "revId": "0bae0452455a5c15ccdcd8446bf727be59dc809b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e3cb9470",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-bundle/src/main/java/org/onap/appc/adapter/restHealthcheck/impl/RestHealthcheckAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-03T19:35:57Z",
+      "side": 1,
+      "message": "note - from discussion with author, the original try-with-resources doesn\u0027t work properly inside the jvm used by appc.",
+      "revId": "0bae0452455a5c15ccdcd8446bf727be59dc809b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_83c89075",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-bundle/src/main/java/org/onap/appc/adapter/restHealthcheck/impl/RestHealthcheckAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-03T19:35:57Z",
+      "side": 1,
+      "message": "This resource needs to be closed in finally block.",
+      "revId": "0bae0452455a5c15ccdcd8446bf727be59dc809b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
