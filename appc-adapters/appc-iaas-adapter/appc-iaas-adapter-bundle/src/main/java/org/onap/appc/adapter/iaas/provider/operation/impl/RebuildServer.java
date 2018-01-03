@@ -69,6 +69,8 @@ public class RebuildServer extends ProviderServerOperation {
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RebuildServer.class);
     private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
+    //the sleep time used by thread.sleep to give "some time for OpenStack to start processing the request"
+    private long rebuildSleepTime = 10L * 1000L;
 
     /**
      * Rebuild the indicated server with the indicated image. This method assumes the server has been determined to be
@@ -113,7 +115,7 @@ public class RebuildServer extends ProviderServerOperation {
              * We need to provide some time for OpenStack to start processing the request.
              */
             try {
-                Thread.sleep(10L * 1000L);
+                Thread.sleep(rebuildSleepTime);
             } catch (InterruptedException e) {
                 logger.trace("Sleep threw interrupted exception, should never occur");
                 metricsLogger.trace("Sleep threw interrupted exception, should never occur");
@@ -430,5 +432,15 @@ public class RebuildServer extends ProviderServerOperation {
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "rebuild server");
         MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.RebuildServer");
+    }
+    
+    /**
+     * Sets the sleep time used by thread.sleep to give
+     * "some time for OpenStack to start processing the request".
+     *
+     * @param millis Time to sleep in milliseconds
+     */
+    public void setRebuildSleepTime(long millis){
+        this.rebuildSleepTime = millis;
     }
 }
