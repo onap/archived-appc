@@ -36,6 +36,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import org.onap.appc.data.services.AppcDataServiceConstant;
+import org.onap.appc.data.services.AppcDataServiceConstant.ACTIONS;
 import org.onap.appc.data.services.db.DGGeneralDBService;
 import org.onap.appc.data.services.utils.EscapeUtils;
 
@@ -102,12 +103,8 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
-            QueryStatus status = db.getDeviceAuthenticationByVnfType(ctx, "device-authentication");
 
-            if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
-                throw new Exception("Unable to Read device_authentication");
-
-            status = db.getDeviceProtocolByVnfType(ctx, "tmp.deviceinterfaceprotocol");
+            QueryStatus status = db.getDeviceProtocolByVnfType(ctx, "tmp.deviceinterfaceprotocol");
 
             if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read device_interface_protocol");
@@ -674,7 +671,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
         String caplevel = inParams.get("caplevel");
         String findCapability = inParams.get("checkCapability");
-
+        String vServerId=inParams.get("vServerId");
         if (!checkIfCapabilityCheckNeeded(caplevel, findCapability))
         {
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
@@ -688,11 +685,10 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             log.info("getCapability::returned from DB::+cap");
             if (StringUtils.isBlank(cap)) {
                 ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
-                AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+                        AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
                 log.info("getCapability Successful - No capability blocks found");
                 return;
             }
-
             ObjectMapper mapper = new ObjectMapper();
             JsonNode caps = mapper.readTree(cap);
             log.info("From DB =   " + caps);
@@ -701,13 +697,24 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             if(caplevel !=null && !caplevel.isEmpty()){
                 JsonNode subCapabilities = capabilities.get(caplevel);
                 log.info("subCapabilities =  " +  caplevel + " : " + subCapabilities);
+                if (caplevel.equalsIgnoreCase(AppcDataServiceConstant.CAPABILITY_VM_LEVEL)
+                        && (null == subCapabilities || subCapabilities.isNull() || subCapabilities.size()==0)) {
+                    ctx.setAttribute("capabilities", "None");
+                    ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                            AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+                    log.info("getCapability Successful ");
+                    return;
+                }
                 if(findCapability !=null && !findCapability.isEmpty()){
-                    if(subCapabilities != null && subCapabilities.toString().contains(findCapability))
-                        ctx.setAttribute(responsePrefix + "capabilities." + caplevel + "." +  findCapability,
-                                "Supported");
-                    else
-                        ctx.setAttribute(responsePrefix + "capabilities." + caplevel + "." +  findCapability,
-                                "Not-Supported");
+                    if(subCapabilities != null && subCapabilities.toString().contains(findCapability)){
+                        if (caplevel.equalsIgnoreCase(AppcDataServiceConstant.CAPABILITY_VM_LEVEL))
+                            processCapabilitiesForVMLevel(vServerId, ctx, findCapability, subCapabilities);
+                        else
+                            ctx.setAttribute("capabilities" , "Supported");
+                    }
+                    else {
+                        ctx.setAttribute("capabilities" , "Not-Supported");
+                    }
                 }
                 else
                 {
@@ -732,6 +739,46 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         }
     }
 
+    public void processCapabilitiesForVMLevel(String vServerId, SvcLogicContext ctx, String findCapability,
+            JsonNode subCapabilities) throws Exception {
+        log.info("processCapabilitiesForVMLevel():::subCapabilities::" + subCapabilities.toString() + ",vServerId::"
+                + vServerId);
+        if (subCapabilities.size()==0) {
+            ctx.setAttribute("capabilities", "None");
+            log.info("processCapabilitiesForVMLevel :: No VM block found!!");
+            return;
+        }
+        JsonNode vmCaps = null;
+        for (JsonNode cap : subCapabilities) {
+            if (null != cap && null != cap.get(findCapability)
+                    && StringUtils.isNotBlank(cap.get(findCapability).toString())) {
+                vmCaps = cap.get(findCapability);
+                log.info("processCapabilitiesForVMLevel()::vmCaps found" + vmCaps.toString());
+                break;
+            }
+        }
+            
+        if (null == vmCaps || vmCaps.isNull() || vmCaps.size() == 0) {
+            ctx.setAttribute("capabilities", "Not-Supported");
+            log.info("processCapabilitiesForVMLevel :: Found non-empty VM block but Not desired capability!!");
+            return;
+        }
+        
+        String vnfcFunctionCode = getVnfcFunctionCodeForVserver(ctx, vServerId);
+        if (vmCaps != null && vmCaps.toString().contains(vnfcFunctionCode)) 
+            ctx.setAttribute("capabilities", "Supported");
+        else
+            ctx.setAttribute("capabilities", "Not-Supported");
+        log.info("End processCapabilitiesForVMLevel():capabilities is ::"+ctx.getAttribute("capabilities"));
+    }
+
+    private String getVnfcFunctionCodeForVserver(SvcLogicContext ctx, String vServerId) throws Exception {
+        log.debug("getVnfcFunctionCodeForVserver()::vServerId=" + vServerId);
+        String vnfcFunctionCode = ctx.getAttribute("tmp.vnfInfo.vm.vnfc.vnfc-function-code");
+        log.debug("getVnfcFunctionCodeForVserver()::vnfcFunctionCode=" + vnfcFunctionCode);
+        return vnfcFunctionCode;
+    }
+
     public boolean checkIfCapabilityCheckNeeded(String caplevel, String findCapability) {
         boolean capabilityCheckNeeded = true;
         if (!StringUtils.equalsIgnoreCase(caplevel, AppcDataServiceConstant.CAPABILITY_VM_LEVEL)) {
@@ -747,5 +794,45 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         return capabilityCheckNeeded;
     }
 
+
+
+    /*public void getUploadConfigInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+
+        log.info("Received getUploadConfigInfo call with params : " + inParams);
+
+        String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
+
+        String uploadConfigId = inParams.get(AppcDataServiceConstant.INPUT_PARAM_UPLOAD_CONFIG_ID);
+        QueryStatus status = null;
+
+        int id = 0;
+        try {
+
+
+            DGGeneralDBService db = DGGeneralDBService.initialise();
+
+            if ( uploadConfigId != null )
+                id = Integer.parseInt(uploadConfigId);
+
+            status = db.getUploadConfigInfo(ctx, responsePrefix,id);
+
+            if ( status == QueryStatus.FAILURE || status == QueryStatus.NOT_FOUND)
+                throw new Exception("Unable to Read upload-config");
+
+
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+            log.info("getUploadConfigInfo Successful ");
+        } catch (Exception e) {
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            log.error("Failed in getUploadConfigInfo " + e.getMessage());
+
+            throw new SvcLogicException(e.getMessage());
+        }
+    }
+     */
 
 }

@@ -313,9 +313,9 @@ public class DGGeneralDBService {
             
             String key = "SELECT  file_content ,  config_file_id "
                     + " FROM CONFIGFILES "
-                    + " WHERE config_file_id = ( SELECT MAX(config_file_id) configfileid " + " FROM CONFIGFILES " 
-                    + " WHERE file_category = '"    + fileCategory + "'" 
-                    + " AND vnf_id =  '" + vnfId + "'" 
+                    + " WHERE config_file_id = ( SELECT MAX(config_file_id) configfileid " + " FROM CONFIGFILES "
+                    + " WHERE file_category = '"    + fileCategory + "'"
+                    + " AND vnf_id =  '" + vnfId + "'"
                     + " AND vm_name = '" + vmName + "' ) ; ";
             
             
@@ -366,7 +366,7 @@ public class DGGeneralDBService {
             
             String key = "SELECT  * "
                     + " FROM VNFC_REFERENCE "
-                    + " WHERE vnf_type =  $vnf-type " 
+                    + " WHERE vnf_type =  $vnf-type "
                     + " AND vnfc_type = $vnfc-type "
                     + " AND action =  $request-action "
                     + " ORDER BY vm_instance, vnfc_instance ; ";
@@ -385,7 +385,7 @@ public class DGGeneralDBService {
             
             String key = "SELECT  * "
                     + " FROM VNFC_REFERENCE "
-                    + " WHERE vnf_type =  $vnf-type " 
+                    + " WHERE vnf_type =  $vnf-type "
                     + " AND action =  $request-action   "
                     + " ORDER BY vm_instance, vnfc_instance ; ";
             
@@ -402,7 +402,7 @@ public class DGGeneralDBService {
             
             String key = "SELECT  * , UNIX_TIMESTAMP(UPLOAD_DATE) UPLOAD_TIMESTAMP "
                     + " FROM UPLOAD_CONFIG "
-                    + " WHERE upload_config_id = " + 
+                    + " WHERE upload_config_id = " +
                     "( SELECT MAX(upload_config_id) uploadconfigid " + " FROM UPLOAD_CONFIG "
                     + " WHERE vnf_id =  $vnf-id  AND vm_name = $vm-name ) ; ";
                 
@@ -435,9 +435,8 @@ public class DGGeneralDBService {
                  status = serviceLogic.query("SQL", false, null, queryString1, null, null, localContext);
                  if (status.toString().equals("NOT_FOUND"))
                      return null;
-
                  if(status.toString().equals("FAILURE"))
-                     throw new SvcLogicException("Error - while getting capabilitiesData ");
+                         throw new SvcLogicException("Error - while getting capabilitiesData ");
          }
 
          return localContext.getAttribute("artifact-content");

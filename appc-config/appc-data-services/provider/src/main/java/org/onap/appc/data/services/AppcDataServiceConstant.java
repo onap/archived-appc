@@ -42,6 +42,8 @@ public class AppcDataServiceConstant {
     
     public static String INPUT_PARAM_UPLOAD_CONFIG_ID= "uploadConfigId";
     public static String CAPABILITY_VM_LEVEL="vm";
+    public static String KEY_VSERVER_ID = "vserver-id";
+    public static String KEY_VNFC_FUNCTION_CODE = "vnfc-function-code";
     public enum ACTIONS
     {
        Start, Stop, Restart;
