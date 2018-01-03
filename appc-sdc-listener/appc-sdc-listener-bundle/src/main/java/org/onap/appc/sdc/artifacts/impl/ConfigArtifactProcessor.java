@@ -64,7 +64,8 @@ public class ConfigArtifactProcessor extends AbstractArtifactProcessor {
     public void processArtifact(SDCArtifact artifact) throws APPCException {
         String postData = Util.toSdcStoreDocumentInput(notification, resource, super.artifact, artifact.getArtifactContent());
         try {
-            ProviderResponse result = ProviderOperations.post(storeUri.toURL(), postData, null);
+            ProviderOperations providerOperations = new ProviderOperations();
+            ProviderResponse result = providerOperations.post(storeUri.toURL(), postData, null);
             if (result.getStatus() == 200) {
                 Util.parseResponse(result.getBody());
             }

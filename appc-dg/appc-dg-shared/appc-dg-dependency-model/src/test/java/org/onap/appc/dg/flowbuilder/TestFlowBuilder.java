@@ -27,7 +27,7 @@ package org.onap.appc.dg.flowbuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.appc.dg.flowbuilder.FlowBuilder;
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.flowbuilder.impl.FlowBuilderFactory;
 import org.onap.appc.dg.objects.*;
 import org.onap.appc.domainmodel.Vnf;
@@ -41,9 +41,8 @@ import java.util.Set;
 
 
 public class TestFlowBuilder {
-    
     @Test
-    public void testForwardFlowBuilder(){
+    public void testForwardFlowBuilder() throws InvalidDependencyModelException {
         FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.FORWARD);
         VnfcDependencyModel dependencyModel = readDependencyModel();
         InventoryModel inventoryModel = readInventoryModel();
@@ -51,17 +50,25 @@ public class TestFlowBuilder {
         Iterator<List<Vnfc>> itr = flowModel.getModelIterator();
 
         List<Vnfc> list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("SMP","Active-Passive","SMP_Name")));
+        Assert.assertTrue(list.contains(createVnfc("SMP","Active-Passive","SMP_Name")));
 
         list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("BE","Active-Active","BE_Name")));
+        Assert.assertTrue(list.contains(createVnfc("BE","Active-Active","BE_Name")));
 
         list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("FE","Active-Active","FE_Name")));
+        Assert.assertTrue(list.contains(createVnfc("FE","Active-Active","FE_Name")));
+    }
+
+    private Vnfc createVnfc(String vnfcType,String resilienceType,String vnfcName) {
+        Vnfc vnfc = new Vnfc();
+        vnfc.setVnfcType(vnfcType);
+        vnfc.setVnfcName(vnfcName);
+        vnfc.setResilienceType(resilienceType);
+        return vnfc;
     }
 
     @Test
-    public void testReverseFlowBuilder(){
+    public void testReverseFlowBuilder() throws InvalidDependencyModelException {
         FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.REVERSE);
         VnfcDependencyModel dependencyModel = readDependencyModel();
         InventoryModel inventoryModel = readInventoryModel();
@@ -69,42 +76,45 @@ public class TestFlowBuilder {
         Iterator<List<Vnfc>> itr = flowModel.getModelIterator();
 
         List<Vnfc> list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("FE","Active-Active","FE_Name")));
+        Assert.assertTrue(list.contains(createVnfc("FE","Active-Active","FE_Name")));
 
         list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("BE","Active-Active","BE_Name")));
+        Assert.assertTrue(list.contains(createVnfc("BE","Active-Active","BE_Name")));
 
         list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("SMP","Active-Passive","SMP_Name")));
+        Assert.assertTrue(list.contains(createVnfc("SMP","Active-Passive","SMP_Name")));
     }
 
     @Test
-    public void testComplexFlowBuilderForward(){
+    public void testComplexFlowBuilderForward() throws InvalidDependencyModelException {
         FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.FORWARD);
         VnfcDependencyModel dependencyModel = readComplexDependencyModel();
         InventoryModel inventoryModel = readComplexInventoryModel();
         VnfcFlowModel flowModel = builder.buildFlowModel(dependencyModel,inventoryModel);
         Iterator<List<Vnfc>> itr = flowModel.getModelIterator();
+        try{
+            List<Vnfc> list = itr.next();
+            Assert.assertTrue(list.contains(createVnfc("A","Active-Active","A_Name")));
+            Assert.assertTrue(list.contains(createVnfc("E","Active-Active","E_Name")));
 
-        List<Vnfc> list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("A","Active-Active","A_Name")));
-        Assert.assertTrue(list.contains(new Vnfc("E","Active-Active","E_Name")));
+            list = itr.next();
+            Assert.assertTrue(list.contains(createVnfc("B","Active-Active","B_Name")));
+            Assert.assertTrue(list.contains(createVnfc("C","Active-Active","C_Name")));
 
-        list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("B","Active-Active","B_Name")));
-        Assert.assertTrue(list.contains(new Vnfc("C","Active-Active","C_Name")));
+            list = itr.next();
+            Assert.assertTrue(list.contains(createVnfc("D","Active-Active","D_Name")));
+            Assert.assertTrue(list.contains(createVnfc("F","Active-Active","F_Name")));
 
-        list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("D","Active-Active","D_Name")));
-        Assert.assertTrue(list.contains(new Vnfc("F","Active-Active","F_Name")));
-
-        list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("G","Active-Active","G_Name")));
-
+            list = itr.next();
+            Assert.assertTrue(list.contains(createVnfc("G","Active-Active","G_Name")));
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testComplexFlowBuilderReverse(){
+    public void testComplexFlowBuilderReverse() throws InvalidDependencyModelException {
         FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.REVERSE);
         VnfcDependencyModel dependencyModel = readComplexDependencyModel();
         InventoryModel inventoryModel = readComplexInventoryModel();
@@ -112,33 +122,33 @@ public class TestFlowBuilder {
         Iterator<List<Vnfc>> itr = flowModel.getModelIterator();
 
         List<Vnfc> list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("D","Active-Active","D_Name")));
+        Assert.assertTrue(list.contains(createVnfc("D","Active-Active","D_Name")));
 
-        Assert.assertTrue(list.contains(new Vnfc("G","Active-Active","G_Name")));
-
-        list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("B","Active-Active","B_Name")));
-        Assert.assertTrue(list.contains(new Vnfc("F","Active-Active","F_Name")));
+        Assert.assertTrue(list.contains(createVnfc("G","Active-Active","G_Name")));
 
         list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("C","Active-Active","C_Name")));
+        Assert.assertTrue(list.contains(createVnfc("B","Active-Active","B_Name")));
+        Assert.assertTrue(list.contains(createVnfc("F","Active-Active","F_Name")));
 
         list = itr.next();
-        Assert.assertTrue(list.contains(new Vnfc("E","Active-Active","E_Name")));
-        Assert.assertTrue(list.contains(new Vnfc("A","Active-Active","A_Name")));
+        Assert.assertTrue(list.contains(createVnfc("C","Active-Active","C_Name")));
+
+        list = itr.next();
+        Assert.assertTrue(list.contains(createVnfc("E","Active-Active","E_Name")));
+        Assert.assertTrue(list.contains(createVnfc("A","Active-Active","A_Name")));
 
     }
 
-    @Test(expected = InvalidDependencyModel.class)
-    public void testCyclicBuilder(){
+    @Test(expected = InvalidDependencyModelException.class)
+    public void testCyclicBuilder() throws InvalidDependencyModelException {
         FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.FORWARD);
         VnfcDependencyModel dependencyModel = readCyclicDependencyModel();
         InventoryModel inventoryModel = readInventoryModel();
         builder.buildFlowModel(dependencyModel,inventoryModel);
     }
 
-    @Test(expected = InvalidDependencyModel.class)
-    public void testCyclicBuilderWithRootNode(){
+    @Test(expected = InvalidDependencyModelException.class)
+    public void testCyclicBuilderWithRootNode() throws InvalidDependencyModelException {
         FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.FORWARD);
         VnfcDependencyModel dependencyModel = readCyclicDependencyModelWithRootNode();
         InventoryModel inventoryModel = readInventoryModel();
@@ -146,9 +156,9 @@ public class TestFlowBuilder {
     }
 
     private VnfcDependencyModel readCyclicDependencyModelWithRootNode() {
-        Vnfc a = new Vnfc("A","Active-Passive",null);
-        Vnfc b = new Vnfc("B","Active-Active",null);
-        Vnfc c = new Vnfc("C","Active-Active",null);
+        Vnfc a = createVnfc("A","Active-Passive",null);
+        Vnfc b = createVnfc("B","Active-Active",null);
+        Vnfc c = createVnfc("C","Active-Active",null);
 
 
         Node aNode = new Node(a);
@@ -168,43 +178,43 @@ public class TestFlowBuilder {
     }
 
     private InventoryModel readComplexInventoryModel() {
-        Vnf vnf = new Vnf("vnf_1","vABCD","1");
+        Vnf vnf = createVnf("vnf_1","vABCD","1");
 
-        Vnfc vnfcA = new Vnfc("A","Active-Active","A_Name");
-        Vnfc vnfcB = new Vnfc("B","Active-Active","B_Name");
-        Vnfc vnfcC = new Vnfc("C","Active-Active","C_Name");
-        Vnfc vnfcD = new Vnfc("D","Active-Active","D_Name");
-        Vnfc vnfcE = new Vnfc("E","Active-Active","E_Name");
-        Vnfc vnfcF = new Vnfc("F","Active-Active","F_Name");
-        Vnfc vnfcG = new Vnfc("G","Active-Active","G_Name");
+        Vnfc vnfcA = createVnfc("A","Active-Active","A_Name");
+        Vnfc vnfcB = createVnfc("B","Active-Active","B_Name");
+        Vnfc vnfcC = createVnfc("C","Active-Active","C_Name");
+        Vnfc vnfcD = createVnfc("D","Active-Active","D_Name");
+        Vnfc vnfcE = createVnfc("E","Active-Active","E_Name");
+        Vnfc vnfcF = createVnfc("F","Active-Active","F_Name");
+        Vnfc vnfcG = createVnfc("G","Active-Active","G_Name");
 
-        vnfcA.addVm(new Vserver("VM_URL_A1"));
-        vnfcB.addVm(new Vserver("VM_URL_B1"));
-        vnfcC.addVm(new Vserver("VM_URL_C1"));
-        vnfcD.addVm(new Vserver("VM_URL_D1"));
-        vnfcE.addVm(new Vserver("VM_URL_E1"));
-        vnfcF.addVm(new Vserver("VM_URL_F1"));
-        vnfcG.addVm(new Vserver("VM_URL_G1"));
-
-        vnf.addVnfc(vnfcA);
-        vnf.addVnfc(vnfcB);
-        vnf.addVnfc(vnfcC);
-        vnf.addVnfc(vnfcD);
-        vnf.addVnfc(vnfcE);
-        vnf.addVnfc(vnfcF);
-        vnf.addVnfc(vnfcG);
+        vnf.addVserver(createVserver("VM_URL_A1",vnfcA));
+        vnf.addVserver(createVserver("VM_URL_B1",vnfcB));
+        vnf.addVserver(createVserver("VM_URL_C1",vnfcC));
+        vnf.addVserver(createVserver("VM_URL_D1",vnfcD));
+        vnf.addVserver(createVserver("VM_URL_E1",vnfcE));
+        vnf.addVserver(createVserver("VM_URL_F1",vnfcF));
+        vnf.addVserver(createVserver("VM_URL_G1",vnfcG));
 
         return new InventoryModel(vnf);
     }
 
+    private Vnf createVnf(String vnfId,String vnfType,String vnfVersion) {
+        Vnf vnf = new Vnf();
+        vnf.setVnfId(vnfId);
+        vnf.setVnfType(vnfType);
+        vnf.setVnfVersion(vnfVersion);
+        return vnf;
+    }
+
     private VnfcDependencyModel readComplexDependencyModel() {
-        Vnfc a = new Vnfc("A","Active-Active",null);
-        Vnfc b = new Vnfc("B","Active-Active",null);
-        Vnfc c = new Vnfc("C","Active-Active",null);
-        Vnfc d = new Vnfc("D","Active-Active",null);
-        Vnfc e = new Vnfc("E","Active-Active",null);
-        Vnfc f = new Vnfc("F","Active-Active",null);
-        Vnfc g = new Vnfc("G","Active-Active",null);
+        Vnfc a = createVnfc("A","Active-Active",null);
+        Vnfc b = createVnfc("B","Active-Active",null);
+        Vnfc c = createVnfc("C","Active-Active",null);
+        Vnfc d = createVnfc("D","Active-Active",null);
+        Vnfc e = createVnfc("E","Active-Active",null);
+        Vnfc f = createVnfc("F","Active-Active",null);
+        Vnfc g = createVnfc("G","Active-Active",null);
 
 
         Node aNode = new Node(a);
@@ -242,10 +252,10 @@ public class TestFlowBuilder {
 
     private VnfcDependencyModel readCyclicDependencyModel() {
 
-        Vnfc a = new Vnfc("A","Active-Passive",null);
-        Vnfc b = new Vnfc("B","Active-Active",null);
-        Vnfc c = new Vnfc("C","Active-Active",null);
-        Vnfc d = new Vnfc("D","Active-Active",null);
+        Vnfc a = createVnfc("A","Active-Passive",null);
+        Vnfc b = createVnfc("B","Active-Active",null);
+        Vnfc c = createVnfc("C","Active-Active",null);
+        Vnfc d = createVnfc("D","Active-Active",null);
 
 
         Node aNode = new Node(a);
@@ -271,48 +281,52 @@ public class TestFlowBuilder {
     }
 
     private InventoryModel readInventoryModel() {
-        Vnf vnf = new Vnf("vnf_1","vSCP","1");
+        Vnf vnf = createVnf("vnf_1","vSCP","1");
 
-        Vnfc smp = new Vnfc("SMP",null,"SMP_Name");
-        Vserver smpVm1 = new Vserver("SMP_URL1");
-        Vserver smpVm2 = new Vserver("SMP_URL2");
+        Vnfc smp = createVnfc("SMP",null,"SMP_Name");
+        Vserver smpVm1 = createVserver("SMP_URL1",smp);
+        Vserver smpVm2 = createVserver("SMP_URL2",smp);
 
-        smp.addVm(smpVm1);
-        smp.addVm(smpVm2);
+        vnf.addVserver(smpVm1);
+        vnf.addVserver(smpVm2);
 
-        Vnfc be = new Vnfc("BE",null,"BE_Name");
+        Vnfc be = createVnfc("BE",null,"BE_Name");
 
-        Vserver beVm1 = new Vserver("BE_URL1");
-        Vserver beVm2 = new Vserver("BE_URL2");
-        Vserver beVm3 = new Vserver("BE_URL3");
-        Vserver beVm4 = new Vserver("BE_URL4");
-        Vserver beVm5 = new Vserver("BE_URL5");
+        Vserver beVm1 = createVserver("BE_URL1",be);
+        Vserver beVm2 = createVserver("BE_URL2",be);
+        Vserver beVm3 = createVserver("BE_URL3",be);
+        Vserver beVm4 = createVserver("BE_URL4",be);
+        Vserver beVm5 = createVserver("BE_URL5",be);
 
-        be.addVm(beVm1);
-        be.addVm(beVm2);
-        be.addVm(beVm3);
-        be.addVm(beVm4);
-        be.addVm(beVm5);
+        vnf.addVserver(beVm1);
+        vnf.addVserver(beVm2);
+        vnf.addVserver(beVm3);
+        vnf.addVserver(beVm4);
+        vnf.addVserver(beVm5);
 
-        Vnfc fe = new Vnfc("FE",null,"FE_Name");
+        Vnfc fe = createVnfc("FE",null,"FE_Name");
 
-        Vserver feVm1 = new Vserver("FE_URL1");
-        Vserver feVm2 = new Vserver("FE_URL2");
+        Vserver feVm1 = createVserver("FE_URL1",fe);
+        Vserver feVm2 = createVserver("FE_URL2",fe);
 
-        fe.addVm(feVm1);
-        fe.addVm(feVm2);
-
-        vnf.addVnfc(smp);
-        vnf.addVnfc(be);
-        vnf.addVnfc(fe);
+        vnf.addVserver(feVm1);
+        vnf.addVserver(feVm2);
 
         return new InventoryModel(vnf);
     }
 
+    private Vserver createVserver(String url,Vnfc vnfc) {
+        Vserver vserver = new Vserver();
+        vserver.setUrl(url);
+        vserver.setVnfc(vnfc);
+        vnfc.addVserver(vserver);
+        return vserver;
+    }
+
     private VnfcDependencyModel readDependencyModel() {
-        Vnfc smp = new Vnfc("SMP","Active-Passive",null);
-        Vnfc be = new Vnfc("BE","Active-Active",null);
-        Vnfc fe = new Vnfc("FE","Active-Active",null);
+        Vnfc smp = createVnfc("SMP","Active-Passive",null);
+        Vnfc be = createVnfc("BE","Active-Active",null);
+        Vnfc fe = createVnfc("FE","Active-Active",null);
 
 
         Node smpNode = new Node(smp);

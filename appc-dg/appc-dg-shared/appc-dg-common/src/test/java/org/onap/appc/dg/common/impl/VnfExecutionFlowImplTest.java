@@ -26,23 +26,19 @@ package org.onap.appc.dg.common.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.onap.appc.dg.common.VnfExecutionFlow;
-import org.onap.appc.dg.common.impl.Constants;
-import org.onap.appc.dg.common.impl.VnfExecutionFlowImpl;
 import org.onap.appc.dg.dependencymanager.DependencyManager;
 import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
 import org.onap.appc.dg.dependencymanager.impl.DependencyModelFactory;
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
-import org.onap.appc.dg.objects.DependencyTypes;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.Node;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.domainmodel.Vnfc;
-import org.onap.appc.metadata.objects.DependencyModelIdentifier;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.FrameworkUtil;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -54,10 +50,11 @@ import java.util.Map;
 import java.util.Set;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({TestVnfExecutionFlowImpl.class, FrameworkUtil.class,DependencyManager.class,DependencyModelFactory.class})
-public class TestVnfExecutionFlowImpl {
+@PrepareForTest({VnfExecutionFlowImplTest.class, FrameworkUtil.class,DependencyManager.class,DependencyModelFactory.class})
+@SuppressWarnings("unchecked")
+public class VnfExecutionFlowImplTest {
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestVnfExecutionFlowImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(VnfExecutionFlowImplTest.class);
 
     @Before
     public void setUp() {
@@ -65,7 +62,7 @@ public class TestVnfExecutionFlowImpl {
     }
 
     @Test
-    public void testPositiveFlow() throws DependencyModelNotFound {
+    public void testPositiveFlow() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         VnfcDependencyModel dependencyModel = readDependencyModel();
@@ -74,8 +71,7 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
@@ -83,7 +79,7 @@ public class TestVnfExecutionFlowImpl {
     }
 
     @Test
-    public void testComplexFlow() throws DependencyModelNotFound {
+    public void testComplexFlow() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContextForComplexDependency();
         VnfcDependencyModel dependencyModel = readComplexDependencyModel();
@@ -92,16 +88,15 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         vnfExecutionFlow.getVnfExecutionFlowData(params,context);
     }
 
-    @Test(expected = InvalidDependencyModel.class)
-    public void testCycleFlow() throws DependencyModelNotFound {
+    @Test(expected = RuntimeException.class)
+    public void testCycleFlow() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContextForComplexDependency();
         VnfcDependencyModel dependencyModel = readCyclicDependencyModel();
@@ -109,8 +104,7 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
@@ -119,13 +113,13 @@ public class TestVnfExecutionFlowImpl {
 
     private VnfcDependencyModel readCyclicDependencyModel() {
 
-        Vnfc a = new Vnfc("A","Active-Passive",null);
-        Vnfc b = new Vnfc("B","Active-Active",null);
-        Vnfc c = new Vnfc("C","Active-Active",null);
-        Vnfc d = new Vnfc("D","Active-Active",null);
-        Vnfc e = new Vnfc("E","Active-Active",null);
-        Vnfc f = new Vnfc("F","Active-Active",null);
-        Vnfc g = new Vnfc("G","Active-Active",null);
+        Vnfc a = createVnfc("A","Active-Passive",null,false);
+        Vnfc b = createVnfc("B","Active-Active",null,false);
+        Vnfc c = createVnfc("C","Active-Active",null,false);
+        Vnfc d = createVnfc("D","Active-Active",null,false);
+        Vnfc e = createVnfc("E","Active-Active",null,false);
+        Vnfc f = createVnfc("F","Active-Active",null,false);
+        Vnfc g = createVnfc("G","Active-Active",null,false);
 
         Node aNode = new Node(a);
         Node bNode = new Node(b);
@@ -153,6 +147,15 @@ public class TestVnfExecutionFlowImpl {
 
         return new VnfcDependencyModel(dependencies);
 
+    }
+
+    private Vnfc createVnfc(String vnfcType,String resilienceType,String vnfcName,boolean mandatory) {
+        Vnfc vnfc = new Vnfc();
+        vnfc.setVnfcType(vnfcType);
+        vnfc.setResilienceType(resilienceType);
+        vnfc.setVnfcName(vnfcName);
+        vnfc.setMandatory(mandatory);
+        return vnfc;
     }
 
     private SvcLogicContext prepareContextForComplexDependency() {
@@ -212,13 +215,13 @@ public class TestVnfExecutionFlowImpl {
     }
 
     private VnfcDependencyModel readComplexDependencyModel() {
-        Vnfc a = new Vnfc("A","Active-Passive",null);
-        Vnfc b = new Vnfc("B","Active-Active",null);
-        Vnfc c = new Vnfc("C","Active-Active",null);
-        Vnfc d = new Vnfc("D","Active-Active",null);
-        Vnfc e = new Vnfc("E","Active-Active",null);
-        Vnfc f = new Vnfc("F","Active-Active",null);
-        Vnfc g = new Vnfc("G","Active-Active",null);
+        Vnfc a = createVnfc("A","Active-Passive",null,false);
+        Vnfc b = createVnfc("B","Active-Active",null,false);
+        Vnfc c = createVnfc("C","Active-Active",null,false);
+        Vnfc d = createVnfc("D","Active-Active",null,false);
+        Vnfc e = createVnfc("E","Active-Active",null,false);
+        Vnfc f = createVnfc("F","Active-Active",null,false);
+        Vnfc g = createVnfc("G","Active-Active",null,false);
 
 
         Node aNode = new Node(a);
@@ -254,9 +257,9 @@ public class TestVnfExecutionFlowImpl {
 
     private VnfcDependencyModel readDependencyModel() {
 
-        Vnfc smp = new Vnfc("SMP","Active-Passive",null);
-        Vnfc be = new Vnfc("BE","Active-Active",null);
-        Vnfc fe = new Vnfc("FE","Active-Active",null);
+        Vnfc smp = createVnfc("SMP","Active-Passive",null,false);
+        Vnfc be = createVnfc("BE","Active-Active",null,false);
+        Vnfc fe = createVnfc("FE","Active-Active",null,false);
 
 
         Node smpNode = new Node(smp);
@@ -316,7 +319,7 @@ public class TestVnfExecutionFlowImpl {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testMissingVnfcTypeInDependencyModel() throws DependencyModelNotFound {
+    public void testMissingVnfcTypeInDependencyModel() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         context.setAttribute("vnf.vnfc[3].name","XEname");
@@ -332,8 +335,7 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
@@ -341,12 +343,12 @@ public class TestVnfExecutionFlowImpl {
     }
 
     @Test(expected = RuntimeException.class)
-    public void testMissingMandatoryVnfcTypeInInventoryModel() throws DependencyModelNotFound {
+    public void testMissingMandatoryVnfcTypeInInventoryModel() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
-        Vnfc xe = new Vnfc("XE","Active-Active",null, true);
+        Vnfc xe = createVnfc("XE","Active-Active",null, true);
         Node xeNode = new Node(xe);
         dependencyModel.getDependencies().add(xeNode);
 
@@ -354,8 +356,7 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
@@ -363,12 +364,12 @@ public class TestVnfExecutionFlowImpl {
     }
 
     @Test
-    public void testMissingOptionalVnfcTypeInInventoryModel() throws DependencyModelNotFound {
+    public void testMissingOptionalVnfcTypeInInventoryModel() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
-        Vnfc xe = new Vnfc("XE","Active-Active",null, false);
+        Vnfc xe = createVnfc("XE","Active-Active",null, false);
         Node xeNode = new Node(xe);
         dependencyModel.getDependencies().add(xeNode);
 
@@ -376,8 +377,7 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
@@ -385,7 +385,7 @@ public class TestVnfExecutionFlowImpl {
     }
 
     @Test
-    public void testMissingOptionalVnfcTypeInInventoryModelWithDependentChild() throws DependencyModelNotFound {
+    public void testMissingOptionalVnfcTypeInInventoryModelWithDependentChild() throws DependencyModelNotFound, InvalidDependencyModelException {
         Map<String, String> params = prepareParams();
         SvcLogicContext context = prepareContext();
         context.setAttribute("vnf.vnfc[3].name","YEname");
@@ -397,8 +397,8 @@ public class TestVnfExecutionFlowImpl {
 
         VnfcDependencyModel dependencyModel = readDependencyModel();
 
-        Vnfc xe = new Vnfc("XE","Active-Active",null, false);
-        Vnfc ye = new Vnfc("YE","Active-Active",null, true);
+        Vnfc xe = createVnfc("XE","Active-Active",null, false);
+        Vnfc ye = createVnfc("YE","Active-Active",null, true);
         Node xeNode = new Node(xe);
         Node yeNode = new Node(ye);
         yeNode.addParent(xe);
@@ -410,11 +410,12 @@ public class TestVnfExecutionFlowImpl {
         DependencyManager dependencyManager = PowerMockito.mock(DependencyManager.class);
 
         PowerMockito.when(DependencyModelFactory.createDependencyManager()).thenReturn(dependencyManager);
-        PowerMockito.when(dependencyManager.getVnfcDependencyModel((
-                DependencyModelIdentifier) Matchers.any(),(DependencyTypes) Matchers.any()))
+        PowerMockito.when(dependencyManager.getVnfcDependencyModel(Matchers.any(), Matchers.any()))
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
         vnfExecutionFlow.getVnfExecutionFlowData(params,context);
     }
+
+
 }

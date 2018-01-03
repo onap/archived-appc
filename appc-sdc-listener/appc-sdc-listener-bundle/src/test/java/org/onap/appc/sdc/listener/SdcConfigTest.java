@@ -22,14 +22,25 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.dg.flowbuilder;
+package org.onap.appc.sdc.listener;
 
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
-import org.onap.appc.dg.objects.InventoryModel;
-import org.onap.appc.dg.objects.VnfcDependencyModel;
-import org.onap.appc.dg.objects.VnfcFlowModel;
+import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+import java.util.Properties;
 
-public interface FlowBuilder {
-    VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel,InventoryModel inventoryModel) throws InvalidDependencyModelException;
+import org.junit.Test;
+
+public class SdcConfigTest {
+
+    @Test
+    public void testGetMsgBusProperties() throws Exception {
+        Properties properties = new Properties();
+        properties.setProperty("appc.sdc.provider.url",
+                "http://localhost:8181/restconf/operations/SdcMessage:configuration-document-request");
+        properties.setProperty("appc.ClosedLoop.poolMembers","uebsb91bodc.it.att.com:3905,uebsb92bodc.it.att.com:3905,uebsb93bodc.it.att.com:3905");
+        SdcConfig sdc = new SdcConfig(properties);
+        List<String> uebAddresses = sdc.getMsgBusProperties();
+        assertNotNull(uebAddresses);
+    }
 }

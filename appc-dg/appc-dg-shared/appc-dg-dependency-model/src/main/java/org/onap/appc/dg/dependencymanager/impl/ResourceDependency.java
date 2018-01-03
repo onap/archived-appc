@@ -32,7 +32,7 @@ import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.dg.dependencymanager.DependencyType;
 import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
 import org.onap.appc.dg.dependencymanager.helper.DependencyModelParser;
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -68,7 +68,7 @@ public class ResourceDependency implements DependencyType{
         this.metadataService = metadataService;
     }
 
-    public VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier) throws InvalidDependencyModel, DependencyModelNotFound {
+    public VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier) throws InvalidDependencyModelException, DependencyModelNotFound {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to getVnfcDependencyModel with DependencyModelIdentifier = "+ modelIdentifier);
         }

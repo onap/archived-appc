@@ -25,8 +25,8 @@
 package org.onap.appc.dg.flowbuilder.exception;
 
 
-public class InvalidDependencyModel extends RuntimeException {
-    public InvalidDependencyModel(String message){
+public class InvalidDependencyModelException extends Exception {
+    public InvalidDependencyModelException(String message){
         super(message);
     }
 }

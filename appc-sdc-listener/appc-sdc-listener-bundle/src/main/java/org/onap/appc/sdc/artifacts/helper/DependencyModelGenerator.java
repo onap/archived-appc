@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.onap.appc.dg.dependencymanager.helper.DependencyModelParser;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.Node;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.domainmodel.Vnfc;
@@ -58,7 +59,13 @@ public class DependencyModelGenerator {
         logger.debug(String.format("Generating dependency model for vnfType : %s , TOSCA: %s ",  vnfType ,tosca));
         String dependencyJson;
         DependencyModelParser dependencyModelParser = new DependencyModelParser();
-        VnfcDependencyModel vnfcDependencyModel = dependencyModelParser.generateDependencyModel(tosca, vnfType);
+        VnfcDependencyModel vnfcDependencyModel = null;
+        try {
+            vnfcDependencyModel = dependencyModelParser.generateDependencyModel(tosca, vnfType);
+        } catch (InvalidDependencyModelException e) {
+            logger.error("Error generating dependency model");
+            throw new APPCException(e.getMessage(),e);
+        }
 
         if (vnfcDependencyModel != null && !vnfcDependencyModel.getDependencies().isEmpty()) {
             logger.debug(String.format("Dependency Model generated : %s ", vnfcDependencyModel.toString()));

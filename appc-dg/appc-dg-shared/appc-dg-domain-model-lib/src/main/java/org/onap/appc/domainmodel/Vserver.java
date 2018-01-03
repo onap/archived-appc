@@ -28,51 +28,67 @@ package org.onap.appc.domainmodel;
 public class Vserver {
 
     private String url;
-
     private String tenantId;
     private String id;
     private String relatedLink;
     private String name;
+    private Vnfc vnfc;
 
-    public Vserver(String url){
-        this(url,null,null,null,null);
+    public Vserver(){
+
     }
 
-    public Vserver(String url,
-                   String tenantId,
-                   String id,
-                   String relatedLink,
-                   String name){
-        this.url = url;
-        this.tenantId =tenantId;
-        this.id = id;
-        this.relatedLink =relatedLink;
-        this.name = name;
-
+    @Override
+    public String toString() {
+        return  new StringBuilder().append("Vserver : url = ").append(url).append(", tenantId = ").append(tenantId).append(", id = ").append(id).append(" ,relatedLink = ").append(relatedLink).append(" , name = ").append(name).toString();
     }
 
     public String getUrl() {
         return url;
     }
 
-    @Override
-    public String toString() {
-        return "Vserver : url = " +url + ", tenantId = " +tenantId +", id = " +id + " ,relatedLink = " +relatedLink +" , name = "+name;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getTenantId() {
         return tenantId;
     }
 
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getRelatedLink() {
         return relatedLink;
     }
 
+    public void setRelatedLink(String relatedLink) {
+        this.relatedLink = relatedLink;
+    }
+
     public String getName() {
         return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Vnfc getVnfc() {
+        return vnfc;
+    }
+
+    public void setVnfc(Vnfc vnfc) {
+        this.vnfc = vnfc;
+    }
+
 }

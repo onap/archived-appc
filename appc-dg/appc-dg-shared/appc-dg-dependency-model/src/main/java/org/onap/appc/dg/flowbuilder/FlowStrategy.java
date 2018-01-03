@@ -24,6 +24,7 @@
 
 package org.onap.appc.dg.flowbuilder;
 
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.dg.objects.VnfcFlowModel;
@@ -31,5 +32,5 @@ import org.onap.appc.dg.objects.VnfcFlowModel;
 
 public interface FlowStrategy {
 
-    VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel);
+    VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel) throws InvalidDependencyModelException;
 }

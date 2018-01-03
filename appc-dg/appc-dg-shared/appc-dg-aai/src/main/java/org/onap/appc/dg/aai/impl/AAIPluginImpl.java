@@ -49,14 +49,16 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 public class AAIPluginImpl implements AAIPlugin {
-    private AAIClient aaiClient;
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(AAIPluginImpl.class);
 
-    @SuppressWarnings("unchecked")
-    public AAIPluginImpl() {
+    protected AAIClient aaiClient;
+
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(AAIPluginImpl.class);
+
+    public void initialize(){
         BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
         ServiceReference sref = bctx.getServiceReference(AAIService.class);
         aaiClient = (AAIClient) bctx.getService(sref);
@@ -142,7 +144,7 @@ public class AAIPluginImpl implements AAIPlugin {
     @Override
     public void getVnfHierarchy(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
 
-        Map<Vnfc,Set<Vserver>> vnfcMap = new HashMap<>();
+        Set<Vnfc> vnfcSet = new HashSet<>();
         String vnfType,vnfVersion;
         String vnfId = params.get("resourceKey");
         AAIQueryResult vnfQueryResult;
@@ -152,6 +154,8 @@ public class AAIPluginImpl implements AAIPlugin {
 
             vnfType = vnfQueryResult.getAdditionProperties().get("vnf-type");
             vnfVersion = vnfQueryResult.getAdditionProperties().get(Constants.AAI_VNF_MODEL_VERSION_ID);
+
+            Vnf vnf = createVnf(vnfType, vnfVersion, vnfId);
 
             for(Relationship vnfRelationship:vnfQueryResult.getRelationshipList()){
                 if("vserver".equalsIgnoreCase(vnfRelationship.getRelatedTo())){
@@ -166,7 +170,8 @@ public class AAIPluginImpl implements AAIPlugin {
                     AAIQueryResult vmQueryResult = readVM(vmId,tenantId,cloudOwner,cloudRegionId);
                     String vmURL = vmQueryResult.getAdditionProperties().get("vserver-selflink");
 
-                    Vserver vm = new Vserver(vmURL,tenantId,vmId,vmRelatedLink,vmName);
+                    Vserver vm = createVserver(tenantId, vmId, vmRelatedLink, vmName, vmURL);
+                    vnf.addVserver(vm);
                     for(Relationship vmRelation:vmQueryResult.getRelationshipList()){
 
                         if("vnfc".equalsIgnoreCase(vmRelation.getRelatedTo())){
@@ -174,18 +179,23 @@ public class AAIPluginImpl implements AAIPlugin {
                             AAIQueryResult vnfcQueryResult = readVnfc(vnfcName);
                             String vnfcType = vnfcQueryResult.getAdditionProperties().get("vnfc-type");
 
-                            Vnfc vnfc = new Vnfc(vnfcType,null,vnfcName);
-                            Set<Vserver> vmSet = vnfcMap.get(vnfc);
-                            if(vmSet == null){
-                                vmSet = new HashSet<>();
-                                vnfcMap.put(vnfc,vmSet);
+                            Vnfc newVnfc = createVnfc(vnfcName, vnfcType);
+                            if(vnfcSet.contains(newVnfc)){
+                                Vnfc vnfcFromSet = vnfcSet.stream().filter(vnfc -> vnfc.equals(newVnfc)).collect(Collectors.toList()).get(0);
+                                vnfcFromSet.addVserver(vm);
+                                vm.setVnfc(vnfcFromSet);
                             }
-                            vmSet.add(vm);
+                            else{
+                                vm.setVnfc(newVnfc);
+                                newVnfc.addVserver(vm);
+                                vnfcSet.add(newVnfc);
+                            }
                         }
                     }
                 }
             }
             ctx.setAttribute("VNF.VMCount",String.valueOf(vmCount));
+            populateContext(vnf,ctx);
         } catch (AAIQueryException e) {
             ctx.setAttribute("getVnfHierarchy_result", "FAILURE");
             String msg = EELFResourceManager.format(Msg.AAI_QUERY_FAILED, vnfId);
@@ -195,20 +205,35 @@ public class AAIPluginImpl implements AAIPlugin {
             logger.warn("Incorrect or Incomplete VNF Hierarchy");
             throw new APPCException("Error Retrieving VNF hierarchy");
         }
-
-        Vnf vnf = new Vnf(vnfId,vnfType,vnfVersion);
-        for(Vnfc vnfc:vnfcMap.keySet()){
-            for(Vserver vm:vnfcMap.get(vnfc)){
-                vnfc.addVm(vm);
-            }
-            vnf.addVnfc(vnfc);
-        }
-
-        populateContext(vnf,ctx);
         ctx.setAttribute("getVnfHierarchy_result", "SUCCESS");
         String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "GetVNFHierarchy","VNF ID " + vnfId);
         ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
 
+    }
+
+    private Vnf createVnf(String vnfType, String vnfVersion, String vnfId) {
+        Vnf vnf = new Vnf();
+        vnf.setVnfId(vnfId);
+        vnf.setVnfType(vnfType);
+        vnf.setVnfVersion(vnfVersion);
+        return vnf;
+    }
+
+    private Vnfc createVnfc(String vnfcName, String vnfcType) {
+        Vnfc vnfc = new Vnfc();
+        vnfc.setVnfcName(vnfcName);
+        vnfc.setVnfcType(vnfcType);
+        return vnfc;
+    }
+
+    private Vserver createVserver(String tenantId, String vmId, String vmRelatedLink, String vmName, String vmURL) {
+        Vserver vserver = new Vserver();
+        vserver.setTenantId(tenantId);
+        vserver.setId(vmId);
+        vserver.setRelatedLink(vmRelatedLink);
+        vserver.setName(vmName);
+        vserver.setUrl(vmURL);
+        return vserver;
     }
 
     private void populateContext(Vnf vnf ,SvcLogicContext ctx) {
@@ -239,11 +264,9 @@ public class AAIPluginImpl implements AAIPlugin {
         return readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
     }
 
-    private AAIQueryResult readVM(String vmId,String tenantId,String cloudOwner,String cloudRegionId)
-            throws AAIQueryException {
-        String query = "vserver.vserver-id = '" + vmId + "' AND tenant.tenant_id = '" + tenantId
-                + "' AND cloud-region.cloud-owner = '" + cloudOwner
-                + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
+    private AAIQueryResult readVM(String vmId,String tenantId,String cloudOwner,String cloudRegionId) throws AAIQueryException {
+        String query = "vserver.vserver-id = '" + vmId + "' AND tenant.tenant_id = '" + tenantId + "' AND cloud-region.cloud-owner = '"
+                + cloudOwner + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
         String prefix = "VM";
         String resourceType = "vserver";
         SvcLogicContext vnfContext = readResource(query,prefix,resourceType);
@@ -267,21 +290,18 @@ public class AAIPluginImpl implements AAIPlugin {
         return readRelationDataAndProperties(prefix, vnfContext,additionalProperties);
     }
 
-    private AAIQueryResult readRelationDataAndProperties(String prefix,
-                                                         SvcLogicContext context,
-                                                         String[] additionalProperties) {
+    private AAIQueryResult readRelationDataAndProperties(String prefix, SvcLogicContext context,String[] additionalProperties) {
         AAIQueryResult result = new AAIQueryResult();
 
         if (context != null && context.getAttribute(prefix + ".relationship-list.relationship_length") != null) {
             Integer relationsCount = Integer.parseInt(context.getAttribute(
-                    prefix + ".relationship-list.relationship_length"));
+                prefix + ".relationship-list.relationship_length"));
             for (int i = 0; i < relationsCount; i++) {
                 String rsKey = prefix + ".relationship-list.relationship[" + i + "]";
                 Relationship relationShip = new Relationship();
                 relationShip.setRelatedLink(context.getAttribute(rsKey + ".related-link"));
                 relationShip.setRelatedTo(context.getAttribute(rsKey + ".related-to"));
-                Integer relationDataCount =
-                        Integer.parseInt(context.getAttribute(rsKey + ".relationship-data_length"));
+                Integer relationDataCount = Integer.parseInt(context.getAttribute(rsKey + ".relationship-data_length"));
                 for (int j = 0; j < relationDataCount; j++) {
                     String rsDataKey = rsKey + ".relationship-data[" + j + "]";
                     String key = context.getAttribute(rsDataKey + ".relationship-key");
@@ -294,8 +314,7 @@ public class AAIPluginImpl implements AAIPlugin {
                     relatedPropertyCountStr = context.getAttribute(rsKey + ".related-to-property_length");
                     relatedPropertyCount = Integer.parseInt(relatedPropertyCountStr);
                 } catch (NumberFormatException e) {
-                    logger.debug(
-                            "Invalid value in the context for Related Property Count " + relatedPropertyCountStr);
+                    logger.debug("Invalid value in the context for Related Property Count " + relatedPropertyCountStr);
                 }
 
                 for (int j = 0; j < relatedPropertyCount; j++) {
@@ -308,7 +327,7 @@ public class AAIPluginImpl implements AAIPlugin {
             }
         } else {
             logger.error("Relationship-list not present in the SvcLogicContext attributes set."
-                    + (context == null ? "" : "Attribute KeySet = "+ context.getAttributeKeySet()));
+                + (context == null ? "" : "Attribute KeySet = "+ context.getAttributeKeySet()));
         }
 
         if (context != null) {
@@ -322,8 +341,7 @@ public class AAIPluginImpl implements AAIPlugin {
     private SvcLogicContext readResource(String query, String prefix, String resourceType) throws AAIQueryException {
         SvcLogicContext resourceContext = new SvcLogicContext();
         try {
-            SvcLogicResource.QueryStatus response =
-                    aaiClient.query(resourceType,false,null,query,prefix,null,resourceContext);
+            SvcLogicResource.QueryStatus response = aaiClient.query(resourceType,false,null,query,prefix,null,resourceContext);
             logger.info("AAIResponse: " + response.toString());
             if(!SvcLogicResource.QueryStatus.SUCCESS.equals(response)){
                 throw new AAIQueryException("Error Retrieving VNF hierarchy from A&AI");
@@ -348,8 +366,7 @@ public class AAIPluginImpl implements AAIPlugin {
             logger.info("AAIResponse: " + response.toString());
             ctx.setAttribute("getResource_result", response.toString());
         } catch (SvcLogicException e) {
-            logger.error(
-                    EELFResourceManager.format(Msg.AAI_GET_DATA_FAILED, resourceKey, "", e.getMessage()));
+            logger.error(EELFResourceManager.format(Msg.AAI_GET_DATA_FAILED, resourceKey, "", e.getMessage()));
         }
         if (logger.isDebugEnabled()) {
             logger.debug("exiting getResource======");
