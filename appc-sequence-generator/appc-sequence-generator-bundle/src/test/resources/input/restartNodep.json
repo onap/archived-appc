@@ -2,8 +2,8 @@
 
 {
   "request-info": {
-    "action": "Stop",
-    "action-level": "vnf",
+    "action": "Restart",
+    "action-level": "vm",
     "action-identifier": {
       "vnf-id": "dbgx0001v"
     },
@@ -18,16 +18,15 @@
       "vnf-version" : "1.0",
       "vm": [
         {
-          "vserver-id" : "be_vserverid1",
+          "vserver-id" : "smp_vserverid2",
           "vnfc":
           {
-            "vnfc-type": "BE",
-            "vnfc-name": "BE - Name"
+            "vnfc-type": "SMP",
+            "vnfc-name": "SMP - Name"
           }
-
         },
         {
-          "vserver-id" : "fe_vserverid1",
+          "vserver-id" : "be_vserverid2",
           "vnfc":
           {
             "vnfc-type": "FE",
@@ -39,56 +38,12 @@
           "vserver-id" : "fe_vserverid2",
           "vnfc":
           {
-            "vnfc-type": "FE",
-            "vnfc-name": "FE - Name"
-          }
-
-        },
-        {
-          "vserver-id" : "be_vserverid2",
-          "vnfc":
-          {
             "vnfc-type": "BE",
             "vnfc-name": "BE - Name"
           }
 
         },
-        {
-          "vserver-id" : "be_vserverid3",
-          "vnfc":
-          {
-            "vnfc-type": "BE",
-            "vnfc-name": "BE - Name"
-          }
-
-        },
-        {
-          "vserver-id" : "smp_vserverid1",
-          "vnfc":
-          {
-            "vnfc-type": "SMP",
-            "vnfc-name": "SMP - Name"
-          }
-
-        },
-        {
-          "vserver-id" : "smp_vserverid2",
-          "vnfc":
-          {
-            "vnfc-type": "SMP",
-            "vnfc-name": "SMP - Name"
-          }
-        },
-        {
-          "vserver-id" : "be_vserverid4",
-          "vnfc":
-          {
-            "vnfc-type": "BE",
-            "vnfc-name": "BE - Name"
-          }
-
-        },
-        {
+               {
           "vserver-id" : "be_vserverid5",
           "vnfc":
           {
@@ -100,7 +55,7 @@
       ]
     }
   },
-  "dependency-info": {
+  "dependency-info" : {
     "vnfcs" : [
       {
         "vnfc-type" : "BE",
@@ -126,10 +81,10 @@
       }
     ]
   },
-  "tunable-parameters": {
+  "tunable-parameters" : {
     "strategy" : "FORWARD",
-    "wait-time": "120",
-    "retry-count": "5"
+    "waitTime" : "120",
+    "retryCount" : "5"
   },
   "capabilities" : {
     "vnf": ["Stop", "Start", "StartApplication","StopApplication"],

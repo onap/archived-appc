@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import org.apache.commons.lang.StringUtils;
 
 public class SdcConfig implements IConfiguration {
 
@@ -181,6 +182,31 @@ public class SdcConfig implements IConfiguration {
         return  true;
     }
 
+    @Override
+    public  List <String> getMsgBusAddress() {
+        return (getMsgBusProperties());
+    }
+    
+    public List<String> getMsgBusProperties() {
+        List<String> uebAddresses = new ArrayList<String>();
+        String uebAddressesList=null;
+        if (null != this.props) 
+            uebAddressesList = this.props.getProperty("appc.ClosedLoop.poolMembers");
+        else {
+            logger.info("SdcConfig:SdcConfig:getMsgBusProperties()::props is null for SdcConfig");
+            return null;
+        }
+        if (null == uebAddressesList) {
+            logger.info("SdcConfig:SdcConfig:getMsgBusProperties()::uebAddressesList is null for SdcConfig");
+            return null;
+        }
+        logger.debug("SdcConfig:SdcConfig:getMsgBusProperties()::uebAddressesList is="+ uebAddressesList);
+        String[] sList = uebAddressesList.split(",");
+        uebAddresses= formatAddresses(sList);
+        logger.debug("SdcConfig:getMsgBusProperties:::Returning addresses as "+uebAddresses.toString());
+        return uebAddresses;
+    }
+
     URI getStoreOpURI() {
         return storeOp;
     }
@@ -198,5 +224,20 @@ public class SdcConfig implements IConfiguration {
         params.put("Poll Timeout", String.valueOf(getPollingTimeout()));
 
         logger.info(String.format("SDC Params: %s", params));
+    }
+    
+    protected List<String> formatAddresses(String[] sList) {
+        List<String> uebAddresses = new ArrayList<String>();
+        for (String fqdnPort:sList) {
+            if (fqdnPort.startsWith("http")) {
+                fqdnPort=StringUtils.substringAfter(fqdnPort, "://");
+            }
+            if (null != fqdnPort && fqdnPort.contains(":")) {
+                fqdnPort=StringUtils.substringBefore(fqdnPort,":");
+            }
+            logger.debug("SdcConfig:formatAddresses:: "+fqdnPort);
+            uebAddresses.add(fqdnPort);
+        }
+        return uebAddresses;
     }
 }

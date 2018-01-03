@@ -24,6 +24,7 @@
 
 package org.onap.appc.sdc.artifacts.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.sdc.listener.ProviderOperations;
 import org.onap.appc.sdc.listener.ProviderResponse;
@@ -63,10 +64,20 @@ public class ConfigArtifactProcessor extends AbstractArtifactProcessor {
     @Override
     public void processArtifact(SDCArtifact artifact) throws APPCException {
         String postData = Util.toSdcStoreDocumentInput(notification, resource, super.artifact, artifact.getArtifactContent());
+        logger.debug("ConfigArtifactProcessor::processArtifact::postData="+postData);
         try {
-            ProviderResponse result = ProviderOperations.post(storeUri.toURL(), postData, null);
+            ProviderOperations providerOperations = new ProviderOperations();
+            if (null != storeUri)
+               logger.debug("ConfigArtifactProcessor::processArtifact::URI is"+storeUri.toString());
+            ProviderResponse result = providerOperations.post(storeUri.toURL(), postData, null);
             if (result.getStatus() == 200) {
+                logger.debug("ConfigArtifactProcessor::processArtifact::post request success!!");
                 Util.parseResponse(result.getBody());
+            }
+            else {
+                logger.debug("ConfigArtifactProcessor::processArtifact()::post request failed!! Returned :"
+                    +result.getStatus()+"-Result body- "+result.getBody());
+                throw new APPCException("ConfigArtifactProcessor::processArtifact: Invalid status retrurned from post "+result.getStatus());
             }
         } catch (MalformedURLException | APPCException e) {
             logger.error("Error processing artifact : " + this.artifact.toString(),e);

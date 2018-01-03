@@ -42,7 +42,16 @@ import org.openecomp.sdc.api.notification.INotificationData;
 import org.openecomp.sdc.api.notification.IResourceInstance;
 import org.openecomp.sdc.api.results.IDistributionClientDownloadResult;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.net.URI;
 import java.util.*;
 import java.util.zip.ZipEntry;
@@ -54,8 +63,12 @@ public class ToscaCsarArtifactProcessor extends AbstractArtifactProcessor{
 
     private DependencyModelGenerator dependencyModelGenerator;
 
-    public ToscaCsarArtifactProcessor(IDistributionClient client, EventSender eventSender, INotificationData notification, IResourceInstance resource,
-                                      IArtifactInfo artifact, URI storeUri){
+    public ToscaCsarArtifactProcessor(IDistributionClient client,
+                                      EventSender eventSender,
+                                      INotificationData notification,
+                                      IResourceInstance resource,
+                                      IArtifactInfo artifact,
+                                      URI storeUri){
         super(client,eventSender,notification,resource,artifact,storeUri);
         dependencyModelGenerator = new DependencyModelGenerator();
     }

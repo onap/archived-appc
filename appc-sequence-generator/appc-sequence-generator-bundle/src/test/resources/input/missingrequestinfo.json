@@ -1,185 +1,132 @@
-/*-
- * ============LICENSE_START=======================================================
- * ONAP : APPC
- * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Copyright (C) 2017 Amdocs
- * =============================================================================
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
- * ============LICENSE_END=========================================================
- */
-
-
 
 
 {
-	"inventory-info":
-	{
-		"vnf-info":
-		{
+	"inventory-info": {
+		"vnf-info": {
 			"vnf-id" : "abc",
-			"vnf-name": "vVNF",
-			"vnf-type": "vVNF",
+			"vnf-name": "vSCP",
+			"vnf-type": "vSCP",
 			"vnf-version" : "1.0",
-			"vm":
-			[
+			"vm": [
 					{
-						"vserver-id" : "vnfc2_vserverid1",
+						"vserver-id" : "be_vserverid1",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC2",
-									"vnfc-name": "VNFC2 - Name"
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
 								}
 								
 					},
 					{
-						"vserver-id" : "vnfc3_vserverid1",
+						"vserver-id" : "fe_vserverid1",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC3",
-									"vnfc-name": "VNFC3 - Name"
+									"vnfc-type": "FE",
+									"vnfc-name": "FE - Name"
 								}
 								
 					},
 					{
-						"vserver-id" : "vnfc3_vserverid2",
+						"vserver-id" : "fe_vserverid2",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC3",
-									"vnfc-name": "VNFC3 - Name"
+									"vnfc-type": "FE",
+									"vnfc-name": "FE - Name"
 								}
 								
 					},
 					{
-						"vserver-id" : "vnfc2_vserverid2",
+						"vserver-id" : "be_vserverid2",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC2",
-									"vnfc-name": "VNFC2 - Name"
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
 								}
 								
 					},
 					{
-						"vserver-id" : "vnfc2_vserverid3",
+						"vserver-id" : "be_vserverid3",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC2",
-									"vnfc-name": "VNFC2 - Name"
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
 								}
 								
 					},
 					{
-						"vserver-id" : "vnfc1_vserverid1",
+						"vserver-id" : "smp_vserverid1",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC1",
-									"vnfc-name": "VNFC1 - Name"
+									"vnfc-type": "SMP",
+									"vnfc-name": "SMP - Name"
 								}
 								
 					},
 					{
-						"vserver-id" : "vnfc1_vserverid2",
+						"vserver-id" : "smp_vserverid2",
 						"vnfc": 
 								{
-									"vnfc-type": "VNFC1",
-									"vnfc-name": "VNFC1 - Name"
+									"vnfc-type": "SMP",
+									"vnfc-name": "SMP - Name"
 								}								
 					},
 					{
-						"vserver-id" : "vnfc2_vserverid4",
+						"vserver-id" : "be_vserverid4",
 						"vnfc":
 						{
-							"vnfc-type": "VNFC2",
-							"vnfc-name": "VNFC2 - Name"
+							"vnfc-type": "BE",
+							"vnfc-name": "BE - Name"
 						}
 
 					},
 					{
-						"vserver-id" : "vnfc2_vserverid5",
+						"vserver-id" : "be_vserverid5",
 						"vnfc":
 						{
-							"vnfc-type": "VNFC2",
-							"vnfc-name": "VNFC2 - Name"
+							"vnfc-type": "BE",
+							"vnfc-name": "BE - Name"
 						}
 
 					}
 			]
 		}
 	},
-	"dependency-info":
-	{
-		"vnfcs" :
-		[
+	"dependency-info": {
+		"vnfcs" : [
 			{
-				"vnfc-type" : "VNFC2",
+				"vnfc-type" : "BE",
 				"mandatory" : "true",
 				"resilience": "Active-Active",
-				"parents" :
-				[
-					"VNFC1"
+				"parents" : [
+					"SMP"
 				]
 			},
 			{
-				"vnfc-type" : "VNFC3",
+				"vnfc-type" : "FE",
 				"mandatory" : "true",
 				"resilience": "Active-Active",
-				"parents" :
-				[
-					"VNFC2"
+				"parents" : [
+					"BE"
 				]
 			},
 			{
-				"vnfc-type" : "VNFC1",
+				"vnfc-type" : "SMP",
 				"mandatory" : "true",
 				"resilience": "Active-Passive",
 				"parents" : []
 			}
 		]
 	},
-	"tunable-parameters":
-	{
+	"tunable-parameters": {
 		"strategy" : "FORWARD",
 		"wait-time": "120",
 		"retry-count": "5"
 	},
-	"capabilities" :
-	{
-		"vnf":
-		[
-			"Stop",
-			"Start",
-			"StartApplication",
-			"StopApplication"
-		],
-		"vf-module":
-		[
-			"Stop",
-			"Start"
-		],
-		"vm" :
-		[
-			"Stop",
-			"Start"
-		],
-		"vnfc":
-		[
-			"StopApplication",
-			"StartApplication",
-			"HealthCheck"
-		]
+	"capabilities" : {
+		"vnf": ["Stop", "Start", "StartApplication","StopApplication"],
+		"vf-module": ["Stop", "Start"],
+		"vm" : ["Stop", "Start"],
+		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
 	}
 }
 

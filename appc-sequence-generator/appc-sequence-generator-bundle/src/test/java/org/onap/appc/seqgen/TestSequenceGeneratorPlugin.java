@@ -51,15 +51,13 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/start.json");
+        String actualOutput = readOutput("/output/Start.json");
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
-
-
     @Test
-    public void testGenerateSequenceSingleVM()throws URISyntaxException, IOException {
-        String inputJSON = readInput("/input/start-single-vm.json");
+    public void testGenerateSequenceWODependencyInfo()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/start-withoutDependency.json");
 
         Map<String,String> params = new HashMap<>();
         SvcLogicContext context = new SvcLogicContext();
@@ -69,7 +67,23 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/start-single-vm.json");
+        String actualOutput = readOutput("/output/start-withoutDependency.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+
+    @Test
+    public void testGenerateSequenceSingleVM()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/start-singleVM-.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readOutput("/output/start-singleVM-.json");
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
@@ -85,7 +99,7 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/start.json");
+        String actualOutput = readOutput("/output/Start.json");
 
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
@@ -102,7 +116,7 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/stop.json");
+        String actualOutput = readOutput("/output/Output-stop.json");
 
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
@@ -144,7 +158,6 @@ public class TestSequenceGeneratorPlugin {
         Assert.assertEquals(errorMessage,"Error generating sequence There seems to be no Root/Independent node for Vnfc dependencies");
     }
 
-
     @Test
     public void testGenerateSequenceWrongAction() throws URISyntaxException, IOException {
         String inputJSON = readInput("/input/wrongaction.json");
@@ -184,7 +197,7 @@ public class TestSequenceGeneratorPlugin {
 
     @Test
     public void testGenerateSequenceStopSingleVM() throws URISyntaxException, IOException{
-        String inputJSON = readInput("/input/stop-single-vm.json");
+        String inputJSON = readInput("/input/stop-singleVM.json");
 
         Map<String,String> params = new HashMap<>();
         SvcLogicContext context = new SvcLogicContext();
@@ -194,13 +207,13 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/stop-single-vm.json");
+        String actualOutput = readOutput("/output/stop-singleVM.json");
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
     @Test
     public void testGenerateSequenceStopSingleVmPerVnfc() throws URISyntaxException, IOException{
-        String inputJSON = readInput("/input/stop-single-vm-per-vnfc.json");
+        String inputJSON = readInput("/input/stop-singleVmPerVnfc.json");
 
         Map<String,String> params = new HashMap<>();
         SvcLogicContext context = new SvcLogicContext();
@@ -210,13 +223,46 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/stop-single-vm-per-vnfc.json");
+        String actualOutput = readOutput("/output/stop-singleVmPerVnfc.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+
+    @Test
+    public void testGenerateSequenceRestartNoDep() throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/restartNodep.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readInput("/output/restart-NoDep.json");
+        outputJSON.trim();
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+
+    @Test
+    public void testGenerateSequenceRestartNoDepSingleVM() throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/NoDep-SingleVM.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readInput("/output/restart-Nodep-SingleVM.json");
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
     @Test
     public void testGenerateSequenceStartSingleVmPerVnfc() throws URISyntaxException, IOException{
-        String inputJSON = readInput("/input/start-single-vm-per-vnfc.json");
+        String inputJSON = readInput("/input/start-singleVmPerVnfc-.json");
 
         Map<String,String> params = new HashMap<>();
         SvcLogicContext context = new SvcLogicContext();
@@ -226,7 +272,24 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/start-single-vm-per-vnfc.json");
+        String actualOutput = readOutput("/output/start-singleVmPerVnfc.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+
+    @Test
+    public  void testGenerateSequenceStopWithoutDep() throws  URISyntaxException,IOException{
+        String inputJSON = readInput("/input/stop-WithoutDep.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readOutput("/output/stop-WithoutDep.json");
+
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
@@ -246,6 +309,60 @@ public class TestSequenceGeneratorPlugin {
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
+    @Test
+    public void testGenerateSequenceCheckMandatoryVnfc() throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/CheckMandatoryVnfc.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String errorCode = context.getAttribute("error-code");
+        String errorMessage = context.getAttribute("error-message");
+        logger.debug("errorCode = " + errorCode);
+        Assert.assertEquals(errorCode,"401");
+        Assert.assertEquals(errorMessage,"Error generating sequence VMs missing for the mandatory VNFC : [smp]");
+    }
+
+    @Test
+    public void testGenerateSequenceCheckMissingDependencyInfo() throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/MissingDependencyInfo.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String errorCode = context.getAttribute("error-code");
+        String errorMessage = context.getAttribute("error-message");
+        logger.debug("errorCode = " + errorCode);
+        Assert.assertEquals(errorCode,"401");
+        Assert.assertEquals(errorMessage,"Error generating sequence Dependency model is missing following vnfc type(s): [smp]");
+    }
+
+    @Test
+    public void testGenerateSequenceExtraVnfcInDependency() throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/WrongDependencyModel.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String errorCode = context.getAttribute("error-code");
+        String errorMessage = context.getAttribute("error-message");
+        logger.debug("errorCode = " + errorCode);
+        Assert.assertEquals(errorCode,"401");
+        Assert.assertEquals(errorMessage,"Error generating sequence Dependency model missing vnfc type SMP");
+    }
+
     private String readInput(String inputFile) throws URISyntaxException, IOException {
         File file = new File(this.getClass().getResource(inputFile).toURI());
 
@@ -262,11 +379,10 @@ public class TestSequenceGeneratorPlugin {
         FileInputStream fileInputStream = new FileInputStream(file);
         fileInputStream.read(bFile);
         fileInputStream.close();
-
         String output=new String(bFile);
         int start=output.indexOf("[");
-        int last=output.length();
-        return output.substring(start,last);
+        return output.substring(start,output.length());
 
     }
 }
+

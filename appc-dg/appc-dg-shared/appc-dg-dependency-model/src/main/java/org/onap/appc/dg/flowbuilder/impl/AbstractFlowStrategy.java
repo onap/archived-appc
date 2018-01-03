@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.onap.appc.dg.flowbuilder.FlowStrategy;
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.flowbuilder.helper.Graph;
 import org.onap.appc.dg.objects.*;
 import org.onap.appc.domainmodel.Vnfc;
@@ -40,11 +40,11 @@ import org.onap.appc.domainmodel.Vnfc;
 
 public abstract class AbstractFlowStrategy implements FlowStrategy {
 
-    protected Graph<Vnfc> graph;
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(AbstractFlowStrategy.class);
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(AbstractFlowStrategy.class);
+    Graph<Vnfc> graph;
 
-    public VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel) {
+    public VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel) throws InvalidDependencyModelException {
         if(logger.isTraceEnabled()){
             logger.trace("Entering into buildFlowModel with dependency model = " + dependencyModel
                     + "inventory model = " +inventoryModel);
@@ -54,7 +54,7 @@ public abstract class AbstractFlowStrategy implements FlowStrategy {
                 || dependencyModel.getDependencies() ==null
                 || dependencyModel.getDependencies().size() ==0){
             logger.debug("Dependency model not available, building flow model with sequence");
-            throw new InvalidDependencyModel("Dependency model either null or does not contain any dependency");
+            throw new InvalidDependencyModelException("Dependency model either null or does not contain any dependency");
         }
 
         VnfcFlowModel flowModel = buildFlowModel(dependencyModel);
@@ -72,7 +72,7 @@ public abstract class AbstractFlowStrategy implements FlowStrategy {
     }
 
     private void populateFlowModel(VnfcFlowModel flowModel, InventoryModel inventoryModel) {
-        Iterator<List<Vnfc>> flowIterator = null;
+        Iterator<List<Vnfc>> flowIterator;
 
         for(Vnfc vnfcFromInventory:inventoryModel.getVnf().getVnfcs()){
             flowIterator = flowModel.getModelIterator();
@@ -81,7 +81,7 @@ public abstract class AbstractFlowStrategy implements FlowStrategy {
                 for(Vnfc vnfcFromFlowModel:flowIterator.next() ){
                     if(vnfcType.equalsIgnoreCase(vnfcFromFlowModel.getVnfcType())){
                         vnfcFromFlowModel.setVnfcName(vnfcFromInventory.getVnfcName());
-                        vnfcFromFlowModel.addVms(vnfcFromInventory.getVserverList());
+                        vnfcFromFlowModel.setVserverList(vnfcFromInventory.getVserverList());
                     }
                 }
             }
@@ -90,7 +90,8 @@ public abstract class AbstractFlowStrategy implements FlowStrategy {
 
     }
 
-    private VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel) throws InvalidDependencyModel {
+    @SuppressWarnings("unchecked")
+    private VnfcFlowModel buildFlowModel(VnfcDependencyModel dependencyModel) throws InvalidDependencyModelException {
         Set<Node<Vnfc>> dependencies = dependencyModel.getDependencies();
         graph = new Graph(dependencies.size());
 
@@ -116,21 +117,11 @@ public abstract class AbstractFlowStrategy implements FlowStrategy {
             count++;
         }
         if(flowModelSize != dependencies.size()){
-            throw new InvalidDependencyModel("Cycle detected in the VNFC dependencies");
+            throw new InvalidDependencyModelException("Cyclic dependency detected between the VNFC's");
         }
 
         return builder.build();
     }
 
-    protected abstract List<List<Vnfc>> orderDependencies();
-
-    /*private VnfcFlowModel buildFlowModelWithoutSequence(InventoryModel inventoryModel) {
-        VnfcFlowModel.VnfcFlowModelBuilder builder = new VnfcFlowModel.VnfcFlowModelBuilder();
-
-        for(Vnfc vnfc:inventoryModel.getVnf().getVnfcs()){
-            builder = builder.addMetadata(0,vnfc);
-        }
-
-        return builder.build();
-    }*/
+    protected abstract List<List<Vnfc>> orderDependencies() throws InvalidDependencyModelException;
 }

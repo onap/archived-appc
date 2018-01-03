@@ -24,6 +24,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.dg.flowbuilder.FlowBuilder;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.flowbuilder.impl.FlowBuilderFactory;
 import org.onap.appc.dg.objects.FlowStrategies;
 import org.onap.appc.dg.objects.InventoryModel;
@@ -33,11 +34,30 @@ import org.onap.appc.domainmodel.Vnfc;
 import org.onap.appc.domainmodel.Vserver;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.SequenceGenerator;
-import org.onap.appc.seqgen.objects.*;
+import org.onap.appc.seqgen.objects.ActionIdentifier;
+import org.onap.appc.seqgen.objects.Constants;
+import org.onap.appc.seqgen.objects.PreCheckOption;
+import org.onap.appc.seqgen.objects.Response;
+import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
+import org.onap.appc.seqgen.objects.Transaction;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import static org.onap.appc.seqgen.objects.Constants.*;
+import static org.onap.appc.seqgen.objects.Constants.Action;
+import static org.onap.appc.seqgen.objects.Constants.ActionLevel;
+import static org.onap.appc.seqgen.objects.Constants.ResponseAction;
+import static org.onap.appc.seqgen.objects.Constants.ResponseMessage;
+import static org.onap.appc.seqgen.objects.Constants.PreCheckOperator;
+import static org.onap.appc.seqgen.objects.Constants.Capabilties;
+import static org.onap.appc.seqgen.objects.Constants.CapabilityLevel;
+import static org.onap.appc.seqgen.objects.Constants.RETRY_COUNT_VALUE;
+import static org.onap.appc.seqgen.objects.Constants.WAIT_TIME;
+import static org.onap.appc.seqgen.objects.Constants.RETRY_COUNT;
+import static org.onap.appc.seqgen.objects.Constants.WAIT_TIME_VALUE;;
 
 public class StartSequenceGenerator implements SequenceGenerator {
 
@@ -47,27 +67,27 @@ public class StartSequenceGenerator implements SequenceGenerator {
 
         List<Transaction> transactionList = new LinkedList<>();
         Integer transactionId = 1;
-        List<Vnfc> invVnfcList = input.getInventoryModel().getVnf().getVnfcs();
-        boolean singleTransaction=checkSingleTransaction(invVnfcList);
-        for (Vnfc vnfc : invVnfcList) {
-            List<Vserver> vms = vnfc.getVserverList();
-            List<Integer> transactionIds = new LinkedList<>();
-            for (Vserver vm : vms) {
-                Transaction transaction = new Transaction();
-                transaction.setTransactionId(transactionId);
-                transactionIds.add(transactionId++);
-                transaction.setAction(Action.START.getActionType());
-                transaction.setActionLevel(ActionLevel.VM.getAction());
-                ActionIdentifier actionIdentifier = new ActionIdentifier();
-                actionIdentifier.setvServerId(vm.getId());
-                transaction.setActionIdentifier(actionIdentifier);
-                transaction.setPayload(input.getRequestInfo().getPayload());
-                if(!singleTransaction){
-                    updateResponse(transaction);
-                }
-
-                transactionList.add(transaction);
+        List<Vserver> vservers = input.getInventoryModel().getVnf().getVservers();
+        List<Integer> transactionIds = new LinkedList<>();
+        for (Vserver vm : vservers) {
+            Transaction transaction = new Transaction();
+            transaction.setTransactionId(transactionId);
+            transactionIds.add(transactionId++);
+            transaction.setAction(Action.START.getActionType());
+            transaction.setActionLevel(ActionLevel.VM.getAction());
+            ActionIdentifier actionIdentifier = new ActionIdentifier();
+            actionIdentifier.setvServerId(vm.getId());
+            transaction.setActionIdentifier(actionIdentifier);
+            transaction.setPayload(input.getRequestInfo().getPayload());
+            if(vservers.size()>1){
+                Response ignoreResponse = new Response();
+                ignoreResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
+                Map<String, String> ignoreAction = new HashMap<>();
+                ignoreAction.put(ResponseAction.IGNORE.getAction(), Boolean.TRUE.toString());
+                ignoreResponse.setResponseAction(ignoreAction);
+                transaction.addResponse(ignoreResponse);
             }
+            transactionList.add(transaction);
         }
         return transactionList;
     }
@@ -112,7 +132,12 @@ public class StartSequenceGenerator implements SequenceGenerator {
                         actionIdentifier.setvServerId(vm.getId());
                         transaction.setActionIdentifier(actionIdentifier);
                         transaction.setPayload(input.getRequestInfo().getPayload());
-                        updateResponse(transaction);
+                        Response ignoreResponse = new Response();
+                        ignoreResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
+                        Map<String, String> ignoreAction = new HashMap<>();
+                        ignoreAction.put(ResponseAction.IGNORE.getAction(), Boolean.TRUE.toString());
+                        ignoreResponse.setResponseAction(ignoreAction);
+                        transaction.addResponse(ignoreResponse);
                         transactionList.add(transaction);
                     }
                     boolean startApplicationSupported = readApplicationStartCapability(input);
@@ -126,10 +151,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
                         startAppTransaction.setActionIdentifier(startActionIdentifier);
                         startAppTransaction.setPayload(input.getRequestInfo().getPayload());
 
-                        List<PreCheckOption> preCheckOptions = new LinkedList<>();
-                        for (Integer vmTransactionId : transactionIds) {
-                            setPreCheckOptions(preCheckOptions, vmTransactionId);
-                        }
+                        List<PreCheckOption> preCheckOptions = buildPreCheckOptions(transactionIds);
                         startAppTransaction.setPreCheckOperator(PreCheckOperator.ANY.getOperator());
                         startAppTransaction.setPrecheckOptions(preCheckOptions);
                         transactionList.add(startAppTransaction);
@@ -174,32 +196,42 @@ public class StartSequenceGenerator implements SequenceGenerator {
         return transactionList;
     }
 
-    private void setPreCheckOptions(List<PreCheckOption> preCheckOptions, Integer vmTransactionId) {
-        PreCheckOption option = new PreCheckOption();
-        option.setPreTransactionId(vmTransactionId);
-        option.setParamName("status");
-        option.setParamValue("success");
-        preCheckOptions.add(option);
+    private List<PreCheckOption> buildPreCheckOptions(List<Integer> transactionIds) {
+        List<PreCheckOption> preCheckOptions = new LinkedList<>();
+        for (Integer vmTransactionId : transactionIds) {
+            PreCheckOption option = new PreCheckOption();
+            option.setPreTransactionId(vmTransactionId);
+            option.setParamName("status");
+            option.setParamValue("success");
+            preCheckOptions.add(option);
+        }
+        return preCheckOptions;
     }
 
     @Override
     public List<Transaction> generateSequence(SequenceGeneratorInput input) throws APPCException {
-        if(input.getRequestInfo().getActionLevel().equals(ActionLevel.VM.getAction())||input.getRequestInfo().getActionLevel().equals(ActionLevel.VNFC.getAction())||
-                input.getRequestInfo().getActionLevel().equals(ActionLevel.VNF.getAction())||input.getRequestInfo().getActionLevel().equals(ActionLevel.VF_MODULE.getAction())) {
             if (input.getRequestInfo().getActionLevel().equals(ActionLevel.VNF.getAction()) && input.getDependencyModel() != null) {
-                FlowStrategies flowStrategy = readStartFlowStrategy(input);
-                VnfcFlowModel flowModel = buildFlowModel(input.getInventoryModel()
-                        , input.getDependencyModel(), flowStrategy);
-                logger.debug("Flow Model " + flowModel);
-                return generateSequenceWithDependencyModel(flowModel, input);
+                if(isVnfcPresent(input)) {
+                    FlowStrategies flowStrategy = readFlowStrategy(input);
+                    VnfcFlowModel flowModel = null;
+                    try {
+                        flowModel = buildFlowModel(input.getInventoryModel()
+                                , input.getDependencyModel(), flowStrategy);
+                    } catch (InvalidDependencyModelException invalidDependencyModelException) {
+                        logger.error("Error Generating Sequence", invalidDependencyModelException);
+                        throw  new APPCException(invalidDependencyModelException.getMessage(), invalidDependencyModelException);
+                    }
+                    logger.debug("Flow Model " + flowModel);
+                    return generateSequenceWithDependencyModel(flowModel, input);
+                }
+                 else throw new APPCException("Vnfc details is missing in the input");
             } else {
                 logger.info("Generating sequence without dependency model");
                 return generateSequenceWithOutDependency(input);
             }
-        }throw new  APPCException("Invalid action level "+input.getRequestInfo().getActionLevel());
     }
 
-    private VnfcFlowModel buildFlowModel(InventoryModel inventoryModel, VnfcDependencyModel dependencyModel, FlowStrategies flowStrategy) throws APPCException {
+    private VnfcFlowModel buildFlowModel(InventoryModel inventoryModel, VnfcDependencyModel dependencyModel, FlowStrategies flowStrategy) throws APPCException, InvalidDependencyModelException {
         FlowBuilder flowBuilder = FlowBuilderFactory.getInstance().getFlowBuilder(flowStrategy);
         if (flowBuilder == null) {
             throw new APPCException("Flow Strategy not supported " + flowStrategy);
@@ -207,22 +239,17 @@ public class StartSequenceGenerator implements SequenceGenerator {
         return flowBuilder.buildFlowModel(dependencyModel, inventoryModel);
     }
 
-    private FlowStrategies readStartFlowStrategy(SequenceGeneratorInput sequenceGeneratorInput) throws APPCException {
+    private FlowStrategies readFlowStrategy(SequenceGeneratorInput sequenceGeneratorInput) {
         Map<String, String> tunableParams = sequenceGeneratorInput.getTunableParams();
-        FlowStrategies strategy;
+        FlowStrategies strategy=null;
         String strategyStr = null;
         if (tunableParams != null) {
             strategyStr = tunableParams.get(Constants.STRATEGY);
-            if (StringUtils.isBlank(strategyStr)) {
-                return FlowStrategies.FORWARD;
-            }
-
             strategy = FlowStrategies.findByString(strategyStr);
-            if (strategy != null) {
-                return strategy;
-            }
         }
-        throw new APPCException("Invalid Strategy " + strategyStr);
+        if (strategy == null)
+            strategy= FlowStrategies.FORWARD;
+        return strategy;
     }
 
     private boolean readHealthCheckCapabilites(Map<String, List<String>> capabilities) {
@@ -257,6 +284,17 @@ public class StartSequenceGenerator implements SequenceGenerator {
             logger.error(message, e);
             throw new APPCException(message);
         }
+    }
+
+    private boolean isVnfcPresent(SequenceGeneratorInput input){
+        boolean vnfcPresent=true;
+        List<Vserver> vservers = input.getInventoryModel().getVnf().getVservers();
+        for (Vserver vm : vservers) {
+            if(!(vm.getVnfc()!=null&& vm.getVnfc().getVnfcType()!=null&& vm.getVnfc().getVnfcName()!=null)){
+                vnfcPresent=false;break;
+            }
+        }
+        return vnfcPresent;
     }
 
     private Integer readWaitTime(SequenceGeneratorInput input) throws APPCException {
