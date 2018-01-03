@@ -16,6 +16,24 @@
       "revId": "7be2f06aa804284910820be8bb466f24a15ffe23",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_58059778",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/CCAActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-01-03T12:55:15Z",
+      "side": 1,
+      "message": "Done - Removed all redundant 4-space indents present in empty lines from this class and others.",
+      "parentUuid": "5a93c517_b5c5c65c",
+      "revId": "7be2f06aa804284910820be8bb466f24a15ffe23",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
