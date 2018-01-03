@@ -47,7 +47,9 @@ public class SequenceGeneratorFactory {
                 return new StartSequenceGenerator();
             case Stop:
                 return  new StopSequenceGenerator();
-                default:
+            case Restart:
+                return new RestartSequenceGenerator();
+            default:
                     throw new APPCException("Sequence Generator does not support operation "  + operation.name());
         }
     }

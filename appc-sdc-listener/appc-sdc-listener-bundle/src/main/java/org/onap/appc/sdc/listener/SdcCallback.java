@@ -49,7 +49,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class SdcCallback implements INotificationCallback {
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(SdcCallback.class);
-    private ArtifactProcessorFactory artifactProcessorFactory=new ArtifactProcessorFactory();
+    private ArtifactProcessorFactory artifactProcessorFactory = new ArtifactProcessorFactory();
 
     private URI storeUri;
     private IDistributionClient client;
@@ -92,7 +92,8 @@ public class SdcCallback implements INotificationCallback {
         if (isRunning.get()) {
 
             for(IArtifactInfo artifact:data.getServiceArtifacts()){
-                ArtifactProcessor artifactProcessor = artifactProcessorFactory.getArtifactProcessor(client, eventSender, data, null, artifact, storeUri);
+                ArtifactProcessor artifactProcessor = artifactProcessorFactory.getArtifactProcessor(
+                    client, eventSender, data, null, artifact, storeUri);
                 if(artifactProcessor!=null){
                     executor.submit(artifactProcessor);
                 }
@@ -102,9 +103,11 @@ public class SdcCallback implements INotificationCallback {
                 for (IArtifactInfo artifact : resource.getArtifacts()) {
                     logger.info(Util.toSdcStoreDocumentInput(data, resource, artifact, "abc"));
                     if (executor.getQueue().size() >= threadCount) {
-                        // log warning about job backlog
+                        logger.warn(String.format("excuter queue size (%d) is exceeding thread count (%s).",
+                            executor.getQueue().size(), threadCount));
                     }
-                    ArtifactProcessor artifactProcessor = artifactProcessorFactory.getArtifactProcessor(client, eventSender, data, resource, artifact, storeUri);
+                    ArtifactProcessor artifactProcessor = artifactProcessorFactory.getArtifactProcessor(
+                        client, eventSender, data, resource, artifact, storeUri);
                     if(artifactProcessor != null){
                         executor.submit(artifactProcessor);
                     }
@@ -115,7 +118,8 @@ public class SdcCallback implements INotificationCallback {
                             we are sending the download status as positive just to have the same behaviour as before
                             refactoring.
                          */
-                        client.sendDownloadStatus(Util.buildDistributionStatusMessage(client, data, artifact, DistributionStatusEnum.DOWNLOAD_OK));
+                        client.sendDownloadStatus(Util.buildDistributionStatusMessage(
+                            client, data, artifact, DistributionStatusEnum.DOWNLOAD_OK));
                         logger.error("Artifact type not supported : " + artifact.getArtifactType());
                     }
                 }

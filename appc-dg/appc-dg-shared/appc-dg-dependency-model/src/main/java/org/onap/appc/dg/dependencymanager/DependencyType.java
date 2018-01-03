@@ -25,11 +25,11 @@
 package org.onap.appc.dg.dependencymanager;
 
 import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 
 import org.onap.appc.metadata.objects.DependencyModelIdentifier;
 
 public interface DependencyType {
-    VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier) throws InvalidDependencyModel, DependencyModelNotFound;
+    VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier) throws InvalidDependencyModelException, DependencyModelNotFound;
 }

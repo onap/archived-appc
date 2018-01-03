@@ -26,13 +26,13 @@ package org.onap.appc.dg.flowbuilder.impl;
 
 import java.util.*;
 
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.domainmodel.Vnfc;
 
 
 public class ForwardFlowStrategy extends AbstractFlowStrategy {
     @Override
-    protected List<List<Vnfc>> orderDependencies() {
+    protected List<List<Vnfc>> orderDependencies() throws InvalidDependencyModelException{
         ArrayList<List<Vnfc>> arrayList = new ArrayList<>();
 
         Queue<Vnfc> queue1 = new LinkedList();
@@ -53,7 +53,7 @@ public class ForwardFlowStrategy extends AbstractFlowStrategy {
             }
         }
         if(queue1.isEmpty()){
-            throw new InvalidDependencyModel("There seems to be no Root/Independent node for Vnfc dependencies");
+            throw new InvalidDependencyModelException("There seems to be no Root/Independent node for Vnfc dependencies");
         }
         arrayList.add((List<Vnfc>)queue1);
         queue1 = new LinkedList<>(queue1);
@@ -86,7 +86,7 @@ public class ForwardFlowStrategy extends AbstractFlowStrategy {
                 if(arrayList.size()>graph.getSize()){
                     // dependency list cannot be larger than total number of nodes
                     // if it happens indicates cycle in the dependency
-                    throw new InvalidDependencyModel("Cycle detected in the VNFC dependencies");
+                    throw new InvalidDependencyModelException("Cycle detected in the VNFC dependencies");
                 }
                 queue1.addAll(queue2);
                 queue2 = new LinkedHashSet<>();

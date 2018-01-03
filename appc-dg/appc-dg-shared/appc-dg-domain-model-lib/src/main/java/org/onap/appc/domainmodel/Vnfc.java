@@ -31,35 +31,18 @@ import java.util.List;
 public class Vnfc {
 
     private String vnfcType;
-
-    public void setResilienceType(String resilienceType) {
-        this.resilienceType = resilienceType;
-    }
-
     private String resilienceType;
     private boolean mandatory;
     private String vnfcName;
     private List<Vserver> vserverList;
 
-    public Vnfc(String vnfcType,String resilienceType){
-        this(vnfcType,resilienceType,null, false);
-    }
-
-    public Vnfc(String vnfcType,String resilienceType,String vnfcName){
-        this(vnfcType,resilienceType,vnfcName, false);
-    }
-
-    public Vnfc(String vnfcType,String resilienceType,String vnfcName, boolean mandatory){
-        this.vnfcName = vnfcName;
-        this.vnfcType = vnfcType;
-        this.resilienceType = resilienceType;
-        this.mandatory = mandatory;
+    public Vnfc(){
         this.vserverList = new LinkedList<>();
     }
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("Vnfc : vnfcType = " + vnfcType + ", vnfcName = " +vnfcName + ", resilienceType = " + resilienceType+", mandatory = " + mandatory);
+        StringBuilder stringBuilder = new StringBuilder().append("Vnfc : vnfcType = ").append(vnfcType).append(", vnfcName = ").append(vnfcName).append(", resilienceType = " ).append(resilienceType).append(", mandatory = ").append(mandatory);
         for(Vserver vserver:vserverList){
             stringBuilder.append(vserver.toString()).append(", \n");
         }
@@ -111,31 +94,20 @@ public class Vnfc {
         return true;
     }
 
-    public void addVm(Vserver vserver){
-        this.vserverList.add(vserver);
-    }
-    public void addVms(List<Vserver> vserverList){
-        this.vserverList.addAll(vserverList);
-    }
-
-    public void setVnfcName(String vnfcName) {
-        this.vnfcName = vnfcName;
-    }
-
     public String getVnfcType() {
         return vnfcType;
+    }
+
+    public void setVnfcType(String vnfcType) {
+        this.vnfcType = vnfcType;
     }
 
     public String getResilienceType() {
         return resilienceType;
     }
 
-    public String getVnfcName() {
-        return vnfcName;
-    }
-
-    public List<Vserver> getVserverList() {
-        return vserverList;
+    public void setResilienceType(String resilienceType) {
+        this.resilienceType = resilienceType;
     }
 
     public boolean isMandatory() {
@@ -145,4 +117,30 @@ public class Vnfc {
     public void setMandatory(boolean mandatory) {
         this.mandatory = mandatory;
     }
+
+    public String getVnfcName() {
+        return vnfcName;
+    }
+
+    public void setVnfcName(String vnfcName) {
+        this.vnfcName = vnfcName;
+    }
+
+    public List<Vserver> getVserverList() {
+        return vserverList;
+    }
+
+    public void setVserverList(List<Vserver> vserverList) {
+        this.vserverList = vserverList;
+    }
+
+    public void addVservers(List<Vserver> vserverList){
+        this.vserverList.addAll(vserverList);
+    }
+
+    public void addVserver(Vserver vm) {
+        this.vserverList.add(vm);
+    }
+
+
 }

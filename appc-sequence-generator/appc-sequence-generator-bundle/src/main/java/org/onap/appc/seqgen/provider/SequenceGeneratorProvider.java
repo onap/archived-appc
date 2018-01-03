@@ -46,14 +46,26 @@ import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.Node;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.domainmodel.Vnf;
+import org.onap.appc.domainmodel.Vnfc;
 import org.onap.appc.domainmodel.Vserver;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.SequenceGenerator;
 import org.onap.appc.seqgen.impl.SequenceGeneratorFactory;
-import org.onap.appc.seqgen.objects.*;
-
-import java.util.*;
+import org.onap.appc.seqgen.objects.Constants;
+import org.onap.appc.seqgen.objects.PreCheckOption;
+import org.onap.appc.seqgen.objects.RequestInfo;
+import org.onap.appc.seqgen.objects.RequestInfoBuilder;
+import org.onap.appc.seqgen.objects.Response;
+import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
+import org.onap.appc.seqgen.objects.SequenceGeneratorInputBuilder;
+import org.onap.appc.seqgen.objects.Transaction;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -100,6 +112,9 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         RpcResult<GenerateSequenceOutput> rpcResult=null;
         log.debug("Received input = " + input );
         try {
+            if(input.getRequestInfo()==null){
+                throw new APPCException("Request info is missing in the input");
+            }
             SequenceGenerator seqGenerator = SequenceGeneratorFactory.getInstance()
                     .createSequenceGenerator(VNFOperation.findByString(input.getRequestInfo().getAction().name()));
             SequenceGeneratorInput seqGenInput = buildSeqGenInput(input);
@@ -113,33 +128,12 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     }
 
     private RpcResult<GenerateSequenceOutput> buildSuccessResponse(List<Transaction> transactions) {
-
+        log.info("Building response from the list of transactions");
         List<Transactions> transactionList = new LinkedList<>();
         for(Transaction transaction:transactions){
-            ActionIdentifier actionIdentifier = null;
-            if(transaction.getActionIdentifier() != null){
-                actionIdentifier = new ActionIdentifierBuilder()
-                        .setVnfId(transaction.getActionIdentifier().getVnfId())
-                        .setVnfcName(transaction.getActionIdentifier().getVnfcName())
-                        .setVserverId(transaction.getActionIdentifier().getvServerId())
-                        .build();
-            }
-
-            List<PrecheckOptions> precheckOptions = new LinkedList<>();
-            if(transaction.getPrecheckOptions()!=null){
-                for(PreCheckOption option:transaction.getPrecheckOptions()){
-                    PrecheckOptions precheckOption = new PrecheckOptionsBuilder()
-                            .setParamName(option.getParamName())
-                            .setParamValue(option.getParamValue())
-                            .setPreTransactionId(option.getPreTransactionId())
-                            .setRule(option.getRule())
-                            .build();
-                    precheckOptions.add(precheckOption);
-                }
-            }
-
+            ActionIdentifier actionIdentifier = buildActionIdentifierForResponse(transaction);
+            List<PrecheckOptions> precheckOptions = buildPrecheckOptionsForResponse(transaction);
             List<Responses> responseList = getResponses(transaction);
-
             Transactions transactionObj
                     = new TransactionsBuilder()
                     .setActionIdentifier(actionIdentifier)
@@ -162,6 +156,35 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
                 .withResult(builder.build()).build();
     }
 
+    private ActionIdentifier buildActionIdentifierForResponse(Transaction transaction) {
+        log.info("Adding action identifiers to response.");
+        ActionIdentifier actionIdentifier = null;
+        if(transaction.getActionIdentifier() != null){
+            actionIdentifier = new ActionIdentifierBuilder()
+                    .setVnfId(transaction.getActionIdentifier().getVnfId())
+                    .setVnfcName(transaction.getActionIdentifier().getVnfcName())
+                    .setVserverId(transaction.getActionIdentifier().getvServerId())
+                    .build();
+        }
+        return actionIdentifier;
+    }
+
+    private List<PrecheckOptions> buildPrecheckOptionsForResponse(Transaction transaction) {
+        log.info("Adding Precheck options to response");
+        List<PrecheckOptions> precheckOptions = new LinkedList<>();
+        if(transaction.getPrecheckOptions()!=null){
+            for(PreCheckOption option:transaction.getPrecheckOptions()){
+                PrecheckOptions precheckOption = new PrecheckOptionsBuilder()
+                        .setParamName(option.getParamName())
+                        .setParamValue(option.getParamValue())
+                        .setPreTransactionId(option.getPreTransactionId())
+                        .setRule(option.getRule())
+                        .build();
+                precheckOptions.add(precheckOption);
+            }
+        }
+        return precheckOptions;
+    }
     private List<Responses> getResponses(Transaction transaction) {
         List<Responses> responseList = new LinkedList<>();
         for(Response resp : transaction.getResponses()){
@@ -183,6 +206,9 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
             if(responseActions.get(Constants.ResponseAction.STOP.getAction()) !=null){
                 responseActionBuilder = responseActionBuilder.setStop(Boolean.parseBoolean(responseActions.get(Constants.ResponseAction.STOP.getAction())));
             }
+            if(responseActions.get(Constants.ResponseAction.JUMP.getAction()) !=null){
+                responseActionBuilder = responseActionBuilder.setJump(Integer.parseInt(responseActions.get(Constants.ResponseAction.JUMP.getAction())));
+            }
             Responses response = new ResponsesBuilder()
                     .setResponseMessage(resp.getResponseMessage())
                     .setResponseAction(responseActionBuilder.build())
@@ -194,32 +220,43 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
 
     private SequenceGeneratorInput buildSeqGenInput(GenerateSequenceInput input) throws APPCException {
 
+        log.info("Building SequenceGeneratorInput from Yang object GenerateSequenceInput.");
         validateMandatory(input);
 
-        RequestInfoBuilder requestInfobuilder = new RequestInfoBuilder()
-                .action(input.getRequestInfo().getAction().name())
-                .actionLevel(input.getRequestInfo().getActionLevel().getName().toLowerCase())
-                .payload(input.getRequestInfo().getPayload());
-
-        if(input.getRequestInfo().getActionIdentifier() !=null){
-            requestInfobuilder = requestInfobuilder
-                    .actionIdentifier()
-                    .vnfId(input.getRequestInfo().getActionIdentifier().getVnfId())
-                    .vnfcName(input.getRequestInfo().getActionIdentifier().getVnfcName())
-                    .vServerId(input.getRequestInfo().getActionIdentifier().getVserverId());
-        }
-
-        RequestInfo requestInfo = requestInfobuilder.build();
-
+        RequestInfo requestInfo = buildRequestInfoForSeqGenInput(input);
         InventoryModel inventoryModel = readInventoryModel(input);
 
         VnfcDependencyModel dependencyModel = readDependencyModel(input);
+        if(dependencyModel!=null){
+            validateInventoryModelWithDependencyModel(dependencyModel,inventoryModel);
+        }
 
         SequenceGeneratorInputBuilder builder = new SequenceGeneratorInputBuilder()
                 .requestInfo(requestInfo)
                 .inventoryModel(inventoryModel)
                 .dependendcyModel(dependencyModel);
 
+        builder = buildCapabilitiesForSeqGenInput(input, builder);
+
+        builder = buildTunableParamsForSeqGenInput(input, builder);
+
+        return builder.build();
+    }
+
+    private SequenceGeneratorInputBuilder buildTunableParamsForSeqGenInput(GenerateSequenceInput input, SequenceGeneratorInputBuilder builder) {
+        log.info("Initializing Tunable Parameters based on YANG object.");
+        if(input.getTunableParameters() != null){
+            builder = builder.tunableParameter(Constants.RETRY_COUNT,String.valueOf(input.getTunableParameters().getRetryCount()))
+                    .tunableParameter(Constants.WAIT_TIME,String.valueOf(input.getTunableParameters().getWaitTime()));
+            if(input.getTunableParameters().getStrategy() !=null){
+                builder  = builder.tunableParameter(Constants.STRATEGY,input.getTunableParameters().getStrategy().name());
+            }
+        }
+        return builder;
+    }
+
+    private SequenceGeneratorInputBuilder buildCapabilitiesForSeqGenInput(GenerateSequenceInput input, SequenceGeneratorInputBuilder builder) {
+        log.info("Initializing capabilities based on YANG object.");
         if(input.getCapabilities() !=null){
             if(input.getCapabilities().getVnf()!=null){
                 builder = builder.capability("vnf",input.getCapabilities().getVnf());
@@ -235,16 +272,73 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
             }
         }
 
-        if(input.getTunableParameters() != null){
-            builder = builder.tunableParameter(Constants.RETRY_COUNT,String.valueOf(input.getTunableParameters().getRetryCount()))
-                    .tunableParameter(Constants.WAIT_TIME,String.valueOf(input.getTunableParameters().getWaitTime()));
-            if(input.getTunableParameters().getStrategy() !=null){
-                builder  = builder.tunableParameter(Constants.STRATEGY,input.getTunableParameters().getStrategy().name());
-            }
-        }
-        return builder.build();
+        return builder;
     }
 
+    private void validateInventoryModelWithDependencyModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel) throws APPCException {
+        Set<String> dependencyModelVnfcSet = new HashSet<>();
+        Set<String> dependencyModelMandatoryVnfcSet = new HashSet<>();
+        Set<String> inventoryModelVnfcsSet = new HashSet<>();
+
+        for (Node<Vnfc> node : dependencyModel.getDependencies()) {
+            dependencyModelVnfcSet.add(node.getChild().getVnfcType().toLowerCase());
+            if (node.getChild().isMandatory()) {
+                dependencyModelMandatoryVnfcSet.add(node.getChild().getVnfcType().toLowerCase());
+            }
+        }
+
+        for (Vnfc vnfc : inventoryModel.getVnf().getVnfcs()) {
+            inventoryModelVnfcsSet.add(vnfc.getVnfcType().toLowerCase());
+        }
+
+        // if dependency model and inventory model contains same set of VNFCs, validation succeed and hence return
+        if (dependencyModelVnfcSet.equals(inventoryModelVnfcsSet)) {
+            return;
+        }
+
+        if (inventoryModelVnfcsSet.size() >= dependencyModelVnfcSet.size()) {
+            Set<String> difference = new HashSet<>(inventoryModelVnfcsSet);
+            difference.removeAll(dependencyModelVnfcSet);
+            log.error("Dependency model is missing following vnfc type(s): " + difference);
+            throw new APPCException("Dependency model is missing following vnfc type(s): " + difference);
+        } else {
+            Set<String> difference = new HashSet<>(dependencyModelMandatoryVnfcSet);
+            difference.removeAll(inventoryModelVnfcsSet);
+            if (difference.size() > 0) {
+                log.error("Inventory model is missing following mandatory vnfc type(s): " + difference);
+                throw new APPCException("VMs missing for the mandatory VNFC : " + difference);
+            }
+        }
+    }
+
+    private RequestInfo buildRequestInfoForSeqGenInput(GenerateSequenceInput input) {
+        log.info("Building RequestInfo from Yang object");
+        RequestInfoBuilder requestInfobuilder = buildRequestInformation(input);
+
+        if(input.getRequestInfo().getActionIdentifier() !=null){
+            requestInfobuilder = buildActionIdentifiers(input, requestInfobuilder);
+        }
+
+        return requestInfobuilder.build();
+    }
+
+    private RequestInfoBuilder buildActionIdentifiers(GenerateSequenceInput input, RequestInfoBuilder requestInfobuilder) {
+        log.info("Initializing actionIdentifier for RequestInfo");
+        requestInfobuilder = requestInfobuilder
+                .actionIdentifier()
+                .vnfId(input.getRequestInfo().getActionIdentifier().getVnfId())
+                .vnfcName(input.getRequestInfo().getActionIdentifier().getVnfcName())
+                .vServerId(input.getRequestInfo().getActionIdentifier().getVserverId());
+        return requestInfobuilder;
+    }
+
+    private RequestInfoBuilder buildRequestInformation(GenerateSequenceInput input) {
+        log.info("Initializing action, actionLevel and payload for RequestInfo");
+        return new RequestInfoBuilder()
+                .action(input.getRequestInfo().getAction().name())
+                .actionLevel(input.getRequestInfo().getActionLevel().getName().toLowerCase())
+                .payload(input.getRequestInfo().getPayload());
+    }
 
     private void validateMandatory(GenerateSequenceInput input) throws APPCException {
         if(input.getRequestInfo() ==null){
@@ -256,30 +350,39 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         if(input.getInventoryInfo() ==null){
             throw new APPCException("inventoryInfo is not provided in the input");
         }
+        if (input.getInventoryInfo().getVnfInfo()== null) {
+            log.error("vnfInfo is null in the input");
+            throw new APPCException("vnfInfo is missing in the input");
+        }
+        if(input.getInventoryInfo().getVnfInfo().getVm().isEmpty()){
+            log.error("Null vm information in input.");
+            throw new APPCException("VnfInfo is missing in the input");
+        }
+        log.info("Mandatory information present in the request.");
     }
 
-    private VnfcDependencyModel readDependencyModel(GenerateSequenceInput input) {
+    private VnfcDependencyModel readDependencyModel(GenerateSequenceInput input) throws APPCException{
+        log.info("Initializing DependencyModel from YANG model.");
         if(input.getDependencyInfo() == null || input.getDependencyInfo().getVnfcs() ==null || input.getDependencyInfo().getVnfcs().isEmpty()){
+            log.info("No dependency model information is present for the request.");
             return null;
         }
         List<Vnfcs> vnfcs = input.getDependencyInfo().getVnfcs();
         Set<Node<org.onap.appc.domainmodel.Vnfc>> dependencies = new HashSet<>();
+        Set<String> parentVnfcs=new HashSet<>();
+        Set<String> allVnfcTypes=new HashSet<>();
         for(Vnfcs vnfcObj:vnfcs){
-            org.onap.appc.domainmodel.Vnfc vnfc;
-            Node<org.onap.appc.domainmodel.Vnfc> currentNode = readNode(vnfcObj.getVnfcType(),dependencies);
-            if(currentNode == null){
-                vnfc = new org.onap.appc.domainmodel.Vnfc(vnfcObj.getVnfcType(),vnfcObj.getResilience());
-                currentNode = new Node<>(vnfc);
-                dependencies.add(currentNode);
-            }
-            else{
-                currentNode.getChild().setResilienceType(vnfcObj.getResilience());
-                currentNode.getChild().setMandatory(vnfcObj.isMandatory());
-            }
+            org.onap.appc.domainmodel.Vnfc vnfc = new org.onap.appc.domainmodel.Vnfc();
+            vnfc.setVnfcType(vnfcObj.getVnfcType());
+            allVnfcTypes.add(vnfcObj.getVnfcType());
+            vnfc.setResilienceType(vnfcObj.getResilience());
+            Node<Vnfc> currentNode = buildVnfcNodeForDependenyInfo(dependencies, vnfcObj, vnfc);
             for(String parentVnfcType:vnfcObj.getParents()){
-                Node<org.onap.appc.domainmodel.Vnfc> parentNode = readNode(parentVnfcType,dependencies);
+                parentVnfcs.add(parentVnfcType);
+                Node<Vnfc> parentNode = readNode(parentVnfcType,dependencies);
                 if(parentNode == null){
-                    org.onap.appc.domainmodel.Vnfc parentVnfc = new org.onap.appc.domainmodel.Vnfc(parentVnfcType,null);
+                    Vnfc parentVnfc = new Vnfc();
+                    parentVnfc.setVnfcType(parentVnfcType);
                     parentNode = new Node<>(parentVnfc);
                     currentNode.addParent(parentVnfc);
                     dependencies.add(parentNode);
@@ -289,7 +392,25 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
                 }
             }
         }
+        for(String parent:parentVnfcs){
+            if(!allVnfcTypes.contains(parent)){
+                throw new APPCException("Dependency model missing vnfc type "+parent);
+            }
+        }
         return new VnfcDependencyModel(dependencies);
+    }
+
+    private Node<Vnfc> buildVnfcNodeForDependenyInfo(Set<Node<Vnfc>> dependencies, Vnfcs vnfcObj, Vnfc vnfc) {
+        Node<Vnfc> currentNode = readNode(vnfcObj.getVnfcType(),dependencies);
+        if(currentNode == null){
+            currentNode = new Node<>(vnfc);
+            dependencies.add(currentNode);
+        }
+        else{
+            currentNode.getChild().setResilienceType(vnfcObj.getResilience());
+            currentNode.getChild().setMandatory(vnfcObj.isMandatory());
+        }
+        return currentNode;
     }
 
     private Node<org.onap.appc.domainmodel.Vnfc> readNode(String vnfcType, Set<Node<org.onap.appc.domainmodel.Vnfc>> dependencies) {
@@ -302,40 +423,52 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     }
 
     private InventoryModel readInventoryModel(GenerateSequenceInput input) throws APPCException {
-        if (input.getInventoryInfo().getVnfInfo()== null) {
-            throw new APPCException("vnfInfo is not provided in the input");
-        }
 
-        Vnf vnf = new Vnf(input.getInventoryInfo().getVnfInfo().getVnfId(),
-                input.getInventoryInfo().getVnfInfo().getVnfType(),null);
-
+        log.info("Initializing InventoryModel from Yang input model");
+        Vnf vnf = createVnfForInventoryModel(input);
         Map<org.onap.appc.domainmodel.Vnfc,List<Vserver>> map = new HashMap<>();
+        buildVserverDetailsForInventoryModel(input, vnf, map);
+        for(Map.Entry<org.onap.appc.domainmodel.Vnfc,List<Vserver>> entry:map.entrySet()){
+            org.onap.appc.domainmodel.Vnfc vnfc = entry.getKey();
+            List<Vserver> vmList = entry.getValue();
+            vnfc.addVservers(vmList);
+        }
+        return new InventoryModel(vnf);
+    }
+
+    private void buildVserverDetailsForInventoryModel(GenerateSequenceInput input, Vnf vnf, Map<Vnfc, List<Vserver>> map) throws APPCException {
+        if(input.getInventoryInfo().getVnfInfo().getVm().size()<1){
+            throw  new APPCException("vnfInfo is missing  in the input");
+        }
         for(Vm vm:input.getInventoryInfo().getVnfInfo().getVm()){
             if(StringUtils.isBlank(vm.getVserverId())){
                 throw new APPCException("vserver-id not found ");
             }
-            if(StringUtils.isBlank(vm.getVnfc().getVnfcType())){
-                throw new APPCException("vnfc-type not found for vserver " + vm.getVserverId());
+            Vserver vserver=new Vserver();
+            vserver.setId(vm.getVserverId());
+            if(!StringUtils.isBlank(vm.getVnfc().getVnfcName()) &&
+                !StringUtils.isBlank(vm.getVnfc().getVnfcType())){
+                Vnfc vfc = new Vnfc();
+                vfc.setVnfcName(vm.getVnfc().getVnfcName());
+                vfc.setVnfcType(vm.getVnfc().getVnfcType());
+                vserver.setVnfc(vfc);
+                List<Vserver> vms = map.get(vfc);
+                if(vms ==null){
+                    vms = new LinkedList<>();
+                    map.put(vfc,vms);
+                }
+                vms.add(vserver);
             }
-            if(StringUtils.isBlank(vm.getVnfc().getVnfcName())){
-                throw new APPCException("vnfc-name not found for vserver " + vm.getVserverId());
-            }
+            vnf.addVserver(vserver);
+         }
+    }
 
-            org.onap.appc.domainmodel.Vnfc vnfc = new org.onap.appc.domainmodel.Vnfc(vm.getVnfc().getVnfcType(),null,vm.getVnfc().getVnfcName());
-            List<Vserver> vms = map.get(vnfc);
-            if(vms ==null){
-                vms = new LinkedList<>();
-                map.put(vnfc,vms);
-            }
-            vms.add(new Vserver(null,null,vm.getVserverId(),null,null));
-        }
-        for(Map.Entry<org.onap.appc.domainmodel.Vnfc,List<Vserver>> entry:map.entrySet()){
-            org.onap.appc.domainmodel.Vnfc vnfc = entry.getKey();
-            List<Vserver> vmList = entry.getValue();
-            vnfc.addVms(vmList);
-            vnf.addVnfc(vnfc);
-        }
-        return new InventoryModel(vnf);
+    private Vnf createVnfForInventoryModel(GenerateSequenceInput input) {
+        log.info("Setting VnfId and VnfType values for Vnf Inventory Model ");
+        Vnf vnf=new Vnf();
+        vnf.setVnfId(input.getInventoryInfo().getVnfInfo().getVnfId());
+        vnf.setVnfType(input.getInventoryInfo().getVnfInfo().getVnfType());
+        return vnf;
     }
 
     private RpcResult<GenerateSequenceOutput> buildFailureResponse(String errorMessage){

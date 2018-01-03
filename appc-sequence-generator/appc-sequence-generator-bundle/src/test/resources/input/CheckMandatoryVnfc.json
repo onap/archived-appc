@@ -1,14 +1,11 @@
-
-
 {
   "request-info": {
-    "action": "Stop",
+    "action": "Start",
     "action-level": "vnf",
     "action-identifier": {
       "vnf-id": "dbgx0001v"
     },
-    "payload":  " {\"vnf-host-ip-address\": \"10.147.124.163\" }"
-
+    "payload": "ABC"
   },
   "inventory-info": {
     "vnf-info": {
@@ -63,23 +60,6 @@
 
         },
         {
-          "vserver-id" : "smp_vserverid1",
-          "vnfc":
-          {
-            "vnfc-type": "SMP",
-            "vnfc-name": "SMP - Name"
-          }
-
-        },
-        {
-          "vserver-id" : "smp_vserverid2",
-          "vnfc":
-          {
-            "vnfc-type": "SMP",
-            "vnfc-name": "SMP - Name"
-          }
-        },
-        {
           "vserver-id" : "be_vserverid4",
           "vnfc":
           {
@@ -122,8 +102,11 @@
         "vnfc-type" : "SMP",
         "mandatory" : "true",
         "resilience": "Active-Passive",
-        "parents" : []
+        "parents" : [
+
+        ]
       }
+
     ]
   },
   "tunable-parameters": {
@@ -138,5 +121,4 @@
     "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
   }
 }
-
 

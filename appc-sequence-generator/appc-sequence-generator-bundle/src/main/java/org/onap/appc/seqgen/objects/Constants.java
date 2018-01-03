@@ -67,7 +67,7 @@ public class Constants {
     }
 
     public enum ResponseAction{
-        STOP("stop"),RETRY("retry"),IGNORE("ignore"),WAIT("wait"),CONTINUE("Continue");
+        STOP("stop"),RETRY("retry"),IGNORE("ignore"),WAIT("wait"),CONTINUE("Continue"),JUMP("jump");
 
         ResponseAction(String action) {
             this.action=action;
@@ -101,8 +101,17 @@ public class Constants {
         ActionLevel(String action){
             this.action=action;
         }
+
         public String getAction() {
             return action;
+        }
+
+        public static ActionLevel findByString(String actoinLevel) {
+            for (ActionLevel acnlevel : ActionLevel.values()) {
+                if (acnlevel.name().equals(actoinLevel))
+                    return acnlevel;
+            }
+            return  null;
         }
     }
 
