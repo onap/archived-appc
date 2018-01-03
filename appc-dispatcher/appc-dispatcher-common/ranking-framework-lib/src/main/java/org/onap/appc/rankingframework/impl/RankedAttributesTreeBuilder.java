@@ -45,9 +45,7 @@ class RankedAttributesTreeBuilder {
         CompositeNode<R> root = new CompositeNode<>("ROOT", Constants.DEFAULT_MATCH, null,
                 new HashMap<Object, Node<R>>());
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(String.format("Building decision tree for ranked attributes: %s", config.getRankedAttributeNames()));
-        }
+        logDebugWhenEnabled(String.format("Building decision tree for ranked attributes: %s", config.getRankedAttributeNames()));
 
         for (ConfigurationEntry<R> entry : config.getEntries()) {
             process(entry, names, root);
@@ -57,12 +55,8 @@ class RankedAttributesTreeBuilder {
     }
 
     private static <R> void process(ConfigurationEntry<R> entry, Object[] names, CompositeNode<R> root) {
-        CompositeNode<R> parentNode = null;
+        CompositeNode<R> parentNode = root;
         for (int i = 0; i < names.length; i++) {
-
-            if (i == 0) {
-                parentNode = root;
-            }
 
             final String name = (String) names[i];
 
@@ -78,12 +72,10 @@ class RankedAttributesTreeBuilder {
             } else {
                 LeafNode<R> currentNode = (LeafNode<R>) parentNode.children().get(value);
                 if (currentNode == null) {
-                    currentNode = new LeafNode<R>(name, value, parentNode, entry.getResult());
+                    currentNode = new LeafNode<>(name, value, parentNode, entry.getResult());
                     parentNode.children().put(value, currentNode);
 
-                    if (logger.isDebugEnabled()) {
-                        logger.debug(String.format("Branch has been created: %s", currentNode));
-                    }
+                    logDebugWhenEnabled(String.format("Branch has been created: %s", currentNode));
                 } else {
                     logger.error(
                             String.format("Duplicated configuration entry has been detected for attribute '%s' with value '%s' - the node '%s'exists already",
@@ -93,6 +85,12 @@ class RankedAttributesTreeBuilder {
                     throw new IllegalArgumentException("Duplicated configuration entry: " + currentNode);
                 }
             }
+        }
+    }
+
+    private static void logDebugWhenEnabled(String message) {
+        if(logger.isDebugEnabled()) {
+            logger.debug(message);
         }
     }
 
