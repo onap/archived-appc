@@ -3,7 +3,7 @@
 {
   "request-info": {
     "action": "Stop",
-    "action-level": "vnf",
+    "action-level": "vm",
     "action-identifier": {
       "vnf-id": "dbgx0001v"
     },

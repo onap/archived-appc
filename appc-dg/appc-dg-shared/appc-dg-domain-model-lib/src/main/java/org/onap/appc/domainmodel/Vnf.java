@@ -24,49 +24,75 @@
 
 package org.onap.appc.domainmodel;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class Vnf {
+
     private String vnfId;
     private String vnfType;
     private String vnfVersion;
+    private  List <Vserver> vservers;
 
-    private List<Vnfc> vnfcs;
-
-    public Vnf(String vnfId,String vnfType,String vnfVersion){
-        this.vnfId = vnfId;
-        this.vnfType = vnfType;
-        this.vnfVersion = vnfVersion;
-        this.vnfcs = new LinkedList<>();
-    }
-
-    public String getVnfVersion() {
-        return vnfVersion;
+    public Vnf(){
+        vservers = new LinkedList<>();
     }
 
     public String getVnfId() {
         return vnfId;
     }
 
+    public void setVnfId(String vnfId) {
+        this.vnfId = vnfId;
+    }
+
     public String getVnfType() {
         return vnfType;
     }
 
-    public void addVnfc(Vnfc vnfc){
-        this.vnfcs.add(vnfc);
+    public void setVnfType(String vnfType) {
+        this.vnfType = vnfType;
     }
 
-    public List<Vnfc> getVnfcs() {
-        return vnfcs;
+    public String getVnfVersion() {
+        return vnfVersion;
+    }
+
+    public void setVnfVersion(String vnfVersion) {
+        this.vnfVersion = vnfVersion;
+    }
+
+    public List<Vserver> getVservers() {
+        return vservers;
+    }
+
+    public void setVservers(List<Vserver> vservers) {
+        this.vservers = vservers;
     }
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("Vnf : vnfId = " + vnfId +" , vnfType = " + vnfType);
-        for(Vnfc vnfc:vnfcs){
-            stringBuilder.append(vnfc.toString()).append(",");
+        StringBuilder stringBuilder = new StringBuilder().append("Vnf : vnfId = ").append(vnfId ).append(" , vnfType = ").append( vnfType);
+        for(Vserver vserver:vservers){
+            stringBuilder.append(vserver.toString()).append(",");
         }
         return stringBuilder.toString();
     }
+
+    public void addVserver(Vserver vserver) {
+        this.vservers.add(vserver);
+    }
+
+    public List<Vnfc> getVnfcs(){
+        Set<Vnfc> vnfcs = new HashSet<>();
+        for(Vserver vserver:vservers){
+            if(vserver.getVnfc() != null)
+                vnfcs.add(vserver.getVnfc());
+        }
+        return new LinkedList<>(vnfcs);
+    }
+
+
 }

@@ -27,7 +27,7 @@ package org.onap.appc.dg.dependencymanager.impl;
 import org.onap.appc.dg.dependencymanager.DependencyManager;
 import org.onap.appc.dg.dependencymanager.DependencyType;
 import org.onap.appc.dg.dependencymanager.exception.DependencyModelNotFound;
-import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModel;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.DependencyTypes;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 
@@ -47,7 +47,7 @@ public class DependencyManagerImpl implements DependencyManager {
         cache = MetadataCacheFactory.getInstance().getMetadataCache();
     }
 
-    public VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier,DependencyTypes dependencyType) throws InvalidDependencyModel, DependencyModelNotFound {
+    public VnfcDependencyModel getVnfcDependencyModel(DependencyModelIdentifier modelIdentifier,DependencyTypes dependencyType) throws InvalidDependencyModelException, DependencyModelNotFound {
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to getVnfcDependencyModel with DependencyModelIdentifier = "+ modelIdentifier
                     + " , DependencyTypes = " + dependencyType);

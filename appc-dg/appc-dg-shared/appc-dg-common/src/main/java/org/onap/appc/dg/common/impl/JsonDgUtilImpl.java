@@ -29,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.dg.common.JsonDgUtil;
 import org.onap.appc.exceptions.APPCException;
@@ -63,7 +63,7 @@ public class JsonDgUtilImpl implements JsonDgUtil {
         try {
             String paramName = Constants.PAYLOAD;
             String payload = params.get(paramName);
-            if (payload == "")
+            if (payload == null || payload.isEmpty())
                 payload = ctx.getAttribute("input.payload");
             if (!StringUtils.isEmpty(payload)) {
                 Map<String, String> flatMap = JsonUtil.convertJsonStringToFlatMap(payload);

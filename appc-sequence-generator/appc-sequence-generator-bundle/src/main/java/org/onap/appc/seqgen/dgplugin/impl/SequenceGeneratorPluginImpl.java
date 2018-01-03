@@ -27,8 +27,10 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.dg.objects.*;
+import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
+import org.onap.appc.dg.objects.InventoryModel;
+import org.onap.appc.dg.objects.Node;
+import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.domainmodel.Vnf;
 import org.onap.appc.domainmodel.Vnfc;
 import org.onap.appc.domainmodel.Vserver;
@@ -43,7 +45,12 @@ import org.onap.appc.seqgen.objects.Transaction;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Map;
+import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
 
@@ -79,6 +86,9 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
         sequenceGeneratorInput.setInventoryModel(inventoryModel);
 
         VnfcDependencyModel dependencyModel = buildDependencyModel(inputJson);
+        if(dependencyModel!=null){
+            validateInventoryModelWithDependencyModel(dependencyModel,inventoryModel);
+        }
         sequenceGeneratorInput.setDependencyModel(dependencyModel);
 
         return sequenceGeneratorInput;
@@ -92,13 +102,54 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
         if (operation == null) {
             throw new APPCException("Invalid Action " + action);
         }
+        if(Constants.ActionLevel.findByString(sequenceGeneratorInput.getRequestInfo().getActionLevel().toUpperCase())==null){
+            throw new APPCException("Invalid Action Level " + sequenceGeneratorInput.getRequestInfo().getActionLevel());
+        }
         SequenceGenerator sequenceGenerator = SequenceGeneratorFactory.getInstance().createSequenceGenerator(operation);
         return sequenceGenerator.generateSequence(sequenceGeneratorInput);
+    }
+
+    private void validateInventoryModelWithDependencyModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel) throws APPCException {
+        Set<String> dependencyModelVnfcSet = new HashSet<>();
+        Set<String> dependencyModelMandatoryVnfcSet = new HashSet<>();
+        Set<String> inventoryModelVnfcsSet = new HashSet<>();
+
+        for (Node<Vnfc> node : dependencyModel.getDependencies()) {
+            dependencyModelVnfcSet.add(node.getChild().getVnfcType().toLowerCase());
+            if (node.getChild().isMandatory()) {
+                dependencyModelMandatoryVnfcSet.add(node.getChild().getVnfcType().toLowerCase());
+            }
+        }
+
+        for (Vnfc vnfc : inventoryModel.getVnf().getVnfcs()) {
+            inventoryModelVnfcsSet.add(vnfc.getVnfcType().toLowerCase());
+        }
+
+        // if dependency model and inventory model contains same set of VNFCs, validation succeed and hence return
+        if (dependencyModelVnfcSet.equals(inventoryModelVnfcsSet)) {
+            return;
+        }
+
+        if (inventoryModelVnfcsSet.size() >= dependencyModelVnfcSet.size()) {
+            Set<String> difference = new HashSet<>(inventoryModelVnfcsSet);
+            difference.removeAll(dependencyModelVnfcSet);
+            logger.error("Dependency model is missing following vnfc type(s): " + difference);
+            throw new APPCException("Dependency model is missing following vnfc type(s): " + difference);
+        } else {
+            Set<String> difference = new HashSet<>(dependencyModelMandatoryVnfcSet);
+            difference.removeAll(inventoryModelVnfcsSet);
+            if (difference.size() > 0) {
+                logger.error("Inventory model is missing following mandatory vnfc type(s): " + difference);
+                throw new APPCException("VMs missing for the mandatory VNFC : " + difference);
+            }
+        }
     }
 
     // Dependency model is an optional attribute and may contain null values
     private VnfcDependencyModel buildDependencyModel(String inputJson) throws IOException, APPCException {
         Set<Node<Vnfc>> dependency = new HashSet<>();
+        Set<String> parentVnfcs=new HashSet<>();
+        Set<String> allVnfcTypes=new HashSet<>();
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         JsonNode rootNode = objectMapper.readTree(inputJson);
@@ -106,9 +157,13 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
         if (vnfcs != null) {
             for (JsonNode vnfcNode : vnfcs) {
                 String vnfcType = readVnfcType(vnfcNode);
+                allVnfcTypes.add(vnfcType);
                 String mandatory = readMandatory(vnfcNode);
                 String resilience = readResilience(vnfcNode);
-                Vnfc vnfc = new Vnfc(vnfcType, resilience, null, Boolean.parseBoolean(mandatory));
+                Vnfc vnfc = new Vnfc();
+                vnfc.setVnfcType(vnfcType);
+                vnfc.setResilienceType(resilience);
+                vnfc.setMandatory(Boolean.parseBoolean(mandatory));
                 Node<Vnfc> currentNode = getNode(dependency, vnfcType);
                 if (currentNode == null) {
                     currentNode = new Node<>(vnfc);
@@ -120,17 +175,25 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
                 JsonNode parents = vnfcNode.get("parents");
                 for (JsonNode parent : parents) {
                     String parentVnfcType = parent.asText();
+                    parentVnfcs.add(parentVnfcType);
                     Node<Vnfc> parentNode = getNode(dependency, parentVnfcType);
                     if (parentNode != null) {
                         currentNode.addParent(parentNode.getChild());
                     } else {
-                        Vnfc parentVnfc = new Vnfc(parentVnfcType, null, null, false);
+                        Vnfc parentVnfc=new Vnfc();
+                        parentVnfc.setVnfcType(parentVnfcType);
+                        parentVnfc.setMandatory(false);
                         parentNode = new Node<>(parentVnfc);
                         currentNode.addParent(parentVnfc);
                         dependency.add(parentNode);
                     }
                 }
 
+            }
+            for(String parent:parentVnfcs){
+                if(!allVnfcTypes.contains(parent)){
+                    throw new APPCException("Dependency model missing vnfc type "+parent);
+                }
             }
             return new VnfcDependencyModel(dependency);
         }
@@ -184,7 +247,6 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
 
     private InventoryModel buildInventoryModel(String inputJson) throws IOException, APPCException {
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         JsonNode jsonNode = objectMapper.readTree(inputJson);
         JsonNode inventoryInfo = jsonNode.get("inventory-info");
         if (inventoryInfo == null) {
@@ -197,45 +259,40 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
 
         String vnfId = vnfInfo.get("vnf-id").asText();
         String vnfType = vnfInfo.get("vnf-type").asText();
-        String vnfVersion = vnfInfo.get("vnf-version").asText();
-
-        Vnf vnf = new Vnf(vnfId, vnfType, vnfVersion);
-
-        JsonNode vms = vnfInfo.get("vm");
-
+        Vnf vnf =new Vnf();
+        vnf.setVnfId(vnfId);
+        vnf.setVnfType(vnfType);
         Map<Vnfc, List<Vserver>> vfcs = new HashMap<>();
+        JsonNode vms = vnfInfo.get("vm");
+        if(vms.size()<1){
+            throw new APPCException("vm info not provided in the input");
+        }
         for (JsonNode vm : vms) {
             if(vm.get("vserver-id")== null){
                 throw new APPCException("vserver-id not found ");
             }
             String vserverId = vm.get("vserver-id").asText();
-            Vserver vserver = new Vserver(null, null, vserverId, null, null);
-            JsonNode vnfc = vm.get("vnfc");
-            if (vnfc.get("vnfc-name") == null) {
-                throw new APPCException("vnfc-name not found for vserver " + vserverId);
+            Vserver vserver = new Vserver();
+            vserver.setId(vserverId);
+            if (vm.get("vnfc")!=null&& vm.get("vnfc").get("vnfc-name") != null && vm.get("vnfc").get("vnfc-type")!= null) {
+                Vnfc vfc = new Vnfc();
+                vfc.setVnfcType(vm.get("vnfc").get("vnfc-type").asText());
+                vfc.setVnfcName(vm.get("vnfc").get("vnfc-name").asText());
+                vserver.setVnfc(vfc);
+                List<Vserver> vServers = vfcs.get(vfc);
+                if (vServers == null) {
+                    vServers = new LinkedList<>();
+                    vfcs.put(vfc, vServers);
+                }
+                vServers.add(vserver);
             }
-            String vnfcName = vnfc.get("vnfc-name").asText();
-            if (vnfc.get("vnfc-type") == null) {
-                throw new APPCException("vnfc-type not found for vserver " + vserverId);
-            }
-            String vnfcType = vnfc.get("vnfc-type").asText();
-            if (StringUtils.isEmpty(vnfcType)) {
-                throw new APPCException("vserver " + vserverId + " is not associated with any vnfc");
-            }
-            Vnfc vfc = new Vnfc(vnfcType, null, vnfcName);
-            List<Vserver> vServers = vfcs.get(vfc);
-            if (vServers == null) {
-                vServers = new LinkedList<>();
-                vfcs.put(vfc, vServers);
-            }
-            vServers.add(vserver);
+            vnf.addVserver(vserver);
         }
 
         for (Map.Entry<Vnfc, List<Vserver>> entry : vfcs.entrySet()) {
             Vnfc vnfc = entry.getKey();
             List<Vserver> vServers = vfcs.get(vnfc);
-            vnfc.addVms(vServers);
-            vnf.addVnfc(vnfc);
+            vnfc.addVservers(vServers);
         }
 
         return new InventoryModel(vnf);
