@@ -28,7 +28,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceRegistration;
+
 
 
 /**
@@ -50,7 +50,6 @@ import org.osgi.framework.ServiceRegistration;
  * </p>
  */
 public class AppcDmaapAdapterActivator implements BundleActivator {
-    private ServiceRegistration registration = null;
 
     /**
      * The logger to be used

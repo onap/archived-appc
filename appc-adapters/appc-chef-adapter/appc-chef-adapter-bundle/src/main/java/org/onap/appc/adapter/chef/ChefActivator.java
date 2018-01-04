@@ -81,7 +81,7 @@ public class ChefActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     *
+     * 
      * @param context
      *            The execution context of the bundle being started.
      * @throws java.lang.Exception
@@ -93,10 +93,11 @@ public class ChefActivator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         logger.info("Starting bundle " + getName());
+
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "chef adapter");
-        adapter = new ChefAdapterImpl();
+        adapter = new ChefAdapterImpl(configuration.getProperties());
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
                 ChefAdapter.class.getSimpleName());
@@ -114,7 +115,7 @@ public class ChefActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     *
+     * 
      * @param context
      *            The execution context of the bundle being stopped.
      * @throws java.lang.Exception

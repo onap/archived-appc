@@ -41,7 +41,7 @@ import org.onap.appc.adapter.message.Producer;
 
 public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer {
 
-    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(HttpDmaapProducerImpl.class);
+    private final EELFLogger LOG = EELFManager.getInstance().getLogger(HttpDmaapProducerImpl.class);
 
     private static final String CONTENT_TYPE = "application/cambria";
     private static final String URL_TEMPLATE = "%s/events/%s";
@@ -52,8 +52,8 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
     private boolean useHttps = false;
 
     public HttpDmaapProducerImpl(Collection<String> urls, String topicName) {
-        hosts = new ArrayList<String>();
-        topics = new HashSet<String>();
+        hosts = new ArrayList<>();
+        topics = new HashSet<>();
         topics.add(topicName);
 
         for (String host : urls) {
@@ -61,14 +61,6 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
         }
     }
 
-    public HttpDmaapProducerImpl(Collection<String> urls, Set<String> topicNames) {
-        hosts = new ArrayList<String>();
-        topics = topicNames;
-
-        for (String host : urls) {
-            hosts.add(formatHostString(host));
-        }
-    }
 
     @Override
     public void updateCredentials(String user, String pass) {
@@ -131,8 +123,8 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
         return String.format("%d.%d.%s%s", p.length(), m.length(), p, m);
     }
 
-	@Override
-	public void close() {
-		// Nothing to do		
-	}
+    @Override
+    public void close() {
+        // Nothing to do        
+    }
 }

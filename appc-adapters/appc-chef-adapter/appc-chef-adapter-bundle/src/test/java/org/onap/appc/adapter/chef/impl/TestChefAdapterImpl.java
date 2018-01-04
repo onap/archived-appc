@@ -36,6 +36,7 @@ import org.junit.Test;
 import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.exceptions.ZoneException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class TestChefAdapterImpl {
     private SvcLogicContext svcContext;
@@ -49,7 +50,7 @@ public class TestChefAdapterImpl {
     public void setup() {
         adapter = new ChefAdapterImpl(Boolean.TRUE);
         params = new HashMap<>();
-        params.put("org.onap.appc.instance.pemPath",
+        params.put("pemPath",
                 "/src/test/resources/testclient.pem");
     }
 
@@ -59,23 +60,23 @@ public class TestChefAdapterImpl {
         svcContext = null;
         getAttribute = null;
     }
-
-    @Test
+    
+        @Test(expected=Exception.class)
     public void testChefGetFail() throws IOException, IllegalStateException, IllegalArgumentException,
-            ZoneException, APPCException {
-        params.put("org.onap.appc.instance.chefAction", "/nodes");
+            ZoneException, APPCException,SvcLogicException {
+        params.put("chefAction", "/nodes");
 
         givenParams(params, "chefGet");
         thenResponseShouldFail();
     }
 
-    @Test
+      @Test(expected=Exception.class)
     public void testChefPutFail() throws IOException, IllegalStateException, IllegalArgumentException,
-            ZoneException, APPCException {
-        params.put("org.onap.appc.instance.chefAction", "/nodes/testnode");
-        params.put("org.onap.appc.instance.runList", "recipe[commandtest]");
-        params.put("org.onap.appc.instance.attributes", "");
-        params.put("org.onap.appc.instance.chefRequestBody", "Test Body");
+            ZoneException, APPCException,SvcLogicException {
+        params.put("chefAction", "/nodes/testnode");
+        params.put("runList", "recipe[commandtest]");
+        params.put("attributes", "");
+        params.put("chefRequestBody", "Test Body");
 
         givenParams(params, "chefPut");
         thenResponseShouldFail();
@@ -83,26 +84,26 @@ public class TestChefAdapterImpl {
 
     @Test
     public void testTriggerFail() throws IOException, IllegalStateException, IllegalArgumentException,
-            ZoneException, APPCException {
-        params.put("org.onap.appc.instance.ip", "");
+            ZoneException, APPCException,SvcLogicException {
+        params.put("ip", "");
 
         givenParams(params, "trigger");
         thenResponseShouldFail();
     }
 
-    private void givenParams(Map<String, String> adapterParams, String method) {
+    private void givenParams(Map<String, String> adapterParams, String method) throws SvcLogicException {
         svcContext = new SvcLogicContext();
         if (method == "chefGet"){
             adapter.chefGet(adapterParams, svcContext);
-            getAttribute = "org.onap.appc.chefServerResult.code";
+            getAttribute = "chefServerResult.code";
         }
         if (method == "chefPut"){
             adapter.chefPut(adapterParams, svcContext);
-            getAttribute = "org.onap.appc.chefServerResult.code";
+            getAttribute = "chefServerResult.code";
         }
         if (method == "trigger"){
             adapter.trigger(adapterParams, svcContext);
-            getAttribute = "org.onap.appc.chefAgent.code";
+            getAttribute = "chefAgent.code";
         }
     }
 

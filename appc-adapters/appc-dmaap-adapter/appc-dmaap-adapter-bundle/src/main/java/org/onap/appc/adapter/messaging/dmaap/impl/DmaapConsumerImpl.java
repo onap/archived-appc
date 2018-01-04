@@ -53,14 +53,13 @@ import org.osgi.framework.ServiceReference;
 
 public class DmaapConsumerImpl implements Consumer {
 
-    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(DmaapConsumerImpl.class);
-    private static final Configuration configuration = ConfigurationFactory.getConfiguration();
+    private final EELFLogger LOG = EELFManager.getInstance().getLogger(DmaapConsumerImpl.class);
+    private final Configuration configuration = ConfigurationFactory.getConfiguration();
     // Default values
     private static final int DEFAULT_TIMEOUT_MS = 60000;
     private static final int DEFAULT_LIMIT = 1000;
     private static MetricRegistry metricRegistry;
     private String topic;
-    private DmaapRequestCounterMetric dmaapKpiMetric;
     private boolean isMetricEnabled=false;
     private boolean useHttps = false;
     private MRConsumer client = null;
@@ -91,7 +90,7 @@ public class DmaapConsumerImpl implements Consumer {
         LOG.debug("Metric getting initialized");
         MetricService metricService = getMetricservice();
         metricRegistry = metricService.createRegistry("APPC");
-        dmaapKpiMetric = metricRegistry.metricBuilderFactory().
+        DmaapRequestCounterMetric dmaapKpiMetric = metricRegistry.metricBuilderFactory().
                 dmaapRequestCounterBuilder().
                 withName("DMAAP_KPI").withType(MetricType.COUNTER).
                 withRecievedMessage(0)
@@ -111,9 +110,7 @@ public class DmaapConsumerImpl implements Consumer {
             LOG.debug("Metric initialized");
         }
     }
-    private MRConsumer getClient() {
-        return getClient(DEFAULT_TIMEOUT_MS, DEFAULT_LIMIT);
-    }
+    
 
     /**
      * @return An instance of MRConsumer created from our class variables
@@ -133,10 +130,8 @@ public class DmaapConsumerImpl implements Consumer {
     @Override
     public synchronized void updateCredentials(String key, String secret) {
         LOG.info(String.format("Setting auth to %s for %s", key, this.toString()));
-        String user = key;
-        String password = secret;
-        props.setProperty("user",String.valueOf(user));
-        props.setProperty("password",String.valueOf(password));
+        props.setProperty("user",String.valueOf(key));
+        props.setProperty("password",String.valueOf(secret));
         client = null;
     }
 
@@ -150,13 +145,13 @@ public class DmaapConsumerImpl implements Consumer {
             initMetric();
         }
         LOG.debug(String.format("Fetching up to %d records with %dms wait on %s", limit, waitMs, this.toString()));
-        List<String> out = new ArrayList<String>();
+        List<String> out = new ArrayList<>();
 
         // Create client once and reuse it on subsequent fetches. This is
         // to support failover to other servers in the DMaaP cluster.
         if (client == null) {
-        	LOG.info("Getting DMaaP Client ...");
-        	client = getClient(waitMs, limit);
+            LOG.info("Getting DMaaP Client ...");
+            client = getClient(waitMs, limit);
         }
         try {
             for (String s : client.fetch(waitMs, limit)) {
@@ -187,10 +182,10 @@ public class DmaapConsumerImpl implements Consumer {
      */
     @Override
     public void close() {
-    	LOG.debug("Closing Dmaap consumer client....");
-    	if (client != null) {
-    		client.close();
-    	}
+        LOG.debug("Closing Dmaap consumer client....");
+        if (client != null) {
+            client.close();
+        }
     }
 
     @Override
@@ -228,7 +223,5 @@ public class DmaapConsumerImpl implements Consumer {
         }
     }
 
-    public  Metric getMetric(String name){
-        return metricRegistry.metric(name);
-    }
+    
 }
