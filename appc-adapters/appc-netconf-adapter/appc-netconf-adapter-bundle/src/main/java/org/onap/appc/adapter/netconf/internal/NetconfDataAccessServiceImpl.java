@@ -39,7 +39,7 @@ import java.util.ArrayList;
 
 public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
 
-    private static EELFLogger logger = EELFManager.getInstance().getLogger(NetconfDataAccessServiceImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(NetconfDataAccessServiceImpl.class);
 
     public void setSchema(String schema) {
         this.schema = schema;

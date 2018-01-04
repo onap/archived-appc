@@ -43,13 +43,6 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
     private ServiceRegistration reporterRegistration = null;
     private ServiceRegistration factoryRegistration = null;
     private ServiceRegistration dbRegistration = null;
-
-    /**
-     * The reference to the actual implementation object that implements the services
-     */
-    private NetconfClientFactory clientFactory;
-    private NetconfDataAccessService DAService;
-
     /**
      * The logger to be used
      */
@@ -73,24 +66,22 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         if (registration == null) {
-            clientFactory = new NetconfClientFactory();
+            /*
+            * The reference to the actual implementation object that implements the services
+            */
+            NetconfClientFactory clientFactory = new NetconfClientFactory();                
             factoryRegistration = context.registerService(NetconfClientFactory.class, clientFactory, null);
-
-            DAService = new NetconfDataAccessServiceImpl();
+            NetconfDataAccessService DAService = new NetconfDataAccessServiceImpl();
             //set dblib service
             DbLibService dblibSvc = null;
             ServiceReference sref = context.getServiceReference(DbLibService.class.getName());
-            try{
             dblibSvc  = (DbLibService)context.getService(sref);
-            }catch(Exception e){
-            	logger.error(e.getMessage());
-            }
             DAService.setDbLibService(dblibSvc);
             ///////////////////////////////////
             factoryRegistration = context.registerService(NetconfDataAccessService.class, DAService, null);
         }
 
-        logger.info(Msg.COMPONENT_INITIALIZED, "NETCONF adapter");
+        //logger.info(Msg.COMPONENT_INITIALIZED, "NETCONF adapter");
     }
 
     /**

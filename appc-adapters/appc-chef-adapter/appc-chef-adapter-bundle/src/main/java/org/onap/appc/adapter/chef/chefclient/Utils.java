@@ -25,6 +25,7 @@
 package org.onap.appc.adapter.chef.chefclient;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -73,6 +74,7 @@ public class Utils {
             instance.update(inStr.getBytes());
             byte[] signature = instance.sign();
             outStr = Base64.encode(signature);
+            String tmp = new String(outStr);
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -88,7 +90,6 @@ public class Utils {
     public static String[] splitAs60(String inStr) {
         int count = inStr.length() / 60;
         String[] out = new String[count + 1];
-
         for (int i = 0; i < count; i++) {
             String tmp = inStr.substring(i * 60, i * 60 + 60);
             out[i] = tmp;
@@ -99,4 +100,5 @@ public class Utils {
         }
         return out;
     }
+    
 }

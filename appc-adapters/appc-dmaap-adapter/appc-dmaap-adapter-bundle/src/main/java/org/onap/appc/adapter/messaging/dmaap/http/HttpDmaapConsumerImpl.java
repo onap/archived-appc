@@ -44,12 +44,11 @@ import org.onap.appc.adapter.message.Consumer;
 
 public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer {
 
-    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(HttpDmaapConsumerImpl.class);
+    private final EELFLogger LOG = EELFManager.getInstance().getLogger(HttpDmaapConsumerImpl.class);
 
     // Default values
     private static final int DEFAULT_TIMEOUT_MS = 15000;
     private static final int DEFAULT_LIMIT = 1000;
-    private static final String HTTPS_PORT = ":3905";
     private static final String URL_TEMPLATE = "%s/events/%s/%s/%s";
 
     private List<String> urls;
@@ -57,9 +56,6 @@ public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer 
 
     private boolean useHttps = false;
 
-    public HttpDmaapConsumerImpl(Collection<String> hosts, String topicName, String consumerName, String consumerId) {
-        this(hosts, topicName, consumerName, consumerId, null);
-    }
 
     public HttpDmaapConsumerImpl(Collection<String> hosts, String topicName, String consumerName, String consumerId,
                                  String filter) {
@@ -85,9 +81,9 @@ public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer 
     @Override
     public List<String> fetch(int waitMs, int limit) {
         LOG.debug(String.format("Fetching up to %d records with %dms wait on %s", limit, waitMs, this.toString()));
-        List<String> out = new ArrayList<String>();
+        List<String> out = new ArrayList<>();
         try {
-            List<NameValuePair> urlParams = new ArrayList<NameValuePair>();
+            List<NameValuePair> urlParams = new ArrayList<>();
             urlParams.add(new BasicNameValuePair("timeout", String.valueOf(waitMs)));
             urlParams.add(new BasicNameValuePair("limit", String.valueOf(limit)));
             if (filter != null) {
@@ -141,7 +137,7 @@ public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer 
 
     @Override
     public String toString() {
-        String hostStr = (urls == null || urls.isEmpty()) ? "N/A" : urls.get(0);
+        String hostStr = (urls == null && !urls.isEmpty()) ? "N/A" : urls.get(0);
         return String.format("Consumer listening to [%s]", hostStr);
     }
 
@@ -159,9 +155,9 @@ public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer 
         }
     }
 
-	@Override
-	public void close() {
-		// Nothing to do		
-	}
+    @Override
+    public void close() {
+        // Nothing to do        
+    }
 
 }

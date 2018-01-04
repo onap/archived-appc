@@ -55,257 +55,115 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
+    /**
+     * The constant for the status code for a failed outcome
+     */
+    @SuppressWarnings("nls")
+    public static final String OUTCOME_FAILURE = "failure";
+    /**
+     * The logger to be used
+     */
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckAdapterImpl.class);
+    /**
+     * A reference to the adapter configuration object.
+     */
+    private Configuration configuration;
+    /**
+     * This default constructor is used as a work around because the activator
+     * wasnt getting called
+     */
+    public RestHealthcheckAdapterImpl() {
+        initialize();
 
-	/**
-	 * The constant used to define the adapter name in the mapped diagnostic
-	 * context
-	 */
+    }
 
+    @Override
+    public String getAdapterName() {
+        return configuration.getProperty(Constants.PROPERTY_ADAPTER_NAME);
+    }
 
-	@SuppressWarnings("nls")
-	public static final String MDC_ADAPTER = "adapter";
-
-	/**
-	 * The constant used to define the service name in the mapped diagnostic
-	 * context
-	 */
-	@SuppressWarnings("nls")
-	public static final String MDC_SERVICE = "service";
-
-	/**
-	 * The constant for the status code for a failed outcome
-	 */
-	@SuppressWarnings("nls")
-	public static final String OUTCOME_FAILURE = "failure";
-
-	/**
-	 * The constant for the status code for a successful outcome
-	 */
-	@SuppressWarnings("nls")
-	public static final String OUTCOME_SUCCESS = "success";
-
-	/**
-	 * A constant for the property token "provider" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER = "provider";
-
-	/**
-	 * A constant for the property token "identity" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_IDENTITY = "identity";
-
-	/**
-	 * A constant for the property token "name" used in the structured property
-	 * specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_NAME = "name";
-
-	/**
-	 * A constant for the property token "tenant" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT = "tenant";
-
-	/**
-	 * A constant for the property token "tenant name" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT_NAME = "name";
-
-	/**
-	 * A constant for the property token "password" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT_PASSWORD = "password"; // NOSONAR
-
-	/**
-	 * A constant for the property token "userid" used in the structured
-	 * property specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TENANT_USERID = "userid";
-
-	/**
-	 * A constant for the property token "type" used in the structured property
-	 * specifications
-	 */
-	@SuppressWarnings("nls")
-	public static final String PROPERTY_PROVIDER_TYPE = "type";
-
-
-	@SuppressWarnings("nls")
-	public static final String PING_SERVICE = "pingServer";
-
-	/**
-	 * The logger to be used
-	 */
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckAdapterImpl.class);
-
-	/**
-	 * The constant for a left parenthesis
-	 */
-	private static final char LPAREN = '(';
-
-	/**
-	 * The constant for a new line control code
-	 */
-	private static final char NL = '\n';
-
-	/**
-	 * The constant for a single quote
-	 */
-	private static final char QUOTE = '\'';
-
-	/**
-	 * The constant for a right parenthesis
-	 */
-	private static final char RPAREN = ')';
-
-	/**
-	 * The constant for a space
-	 */
-	private static final char SPACE = ' ';
-
-	/**
-	 * A reference to the adapter configuration object.
-	 */
-	private Configuration configuration;
-
-	/**
-	 * A cache of providers that are predefined.
-	 */
-	// private Map<String /* provider name */, ProviderCache> providerCache;
-
-	/**
-	 * This default constructor is used as a work around because the activator
-	 * wasnt getting called
-	 */
-	/**
-	 * A cache of providers that are predefined.
-	 */
-	// private Map<String /* provider name */, ProviderCache> providerCache;
-
-	/**
-	 * This default constructor is used as a work around because the activator
-	 * wasnt getting called
-	 */
-	public RestHealthcheckAdapterImpl() {
-		initialize();
-
-	}
-
-
-	public RestHealthcheckAdapterImpl(boolean initialize) {
-
-		if (initialize) {
-			initialize();
-
-		}
-	}
-
-
-	public RestHealthcheckAdapterImpl(Properties props) {
-		initialize();
-
-	}
-
-
-	@Override
-	public String getAdapterName() {
-		return configuration.getProperty(Constants.PROPERTY_ADAPTER_NAME);
-	}
-
-	public void checkHealth(Map<String, String> params, SvcLogicContext ctx) {
-		logger.info("VNF rest health check");
-		String uri=params.get("VNF.URI");
-		String endPoint=params.get("VNF.endpoint");
-		String tUrl=uri+"/"+endPoint;
-		RequestContext rc = new RequestContext(ctx);
-		rc.isAlive();
-
-		try(CloseableHttpClient httpClient = HttpClients.createDefault()) {
-			HttpGet httpGet = new HttpGet(tUrl);
-			HttpResponse response = null;
-			response = httpClient.execute(httpGet);
-			int responseCode=response.getStatusLine().getStatusCode();
-			HttpEntity entity = response.getEntity();
-			String responseOutput=EntityUtils.toString(entity);
-			if(responseCode==200)
-			{
-				doSuccess(rc,responseCode,responseOutput);
-			}
-			else
-			{
-				doHealthCheckFailure(rc,responseCode,responseOutput);
-			}
-		} catch (Exception ex) {
-			doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
-		}
-	}
+    public void checkHealth(Map<String, String> params, SvcLogicContext ctx) {
+        logger.info("VNF rest health check");
+        String uri=params.get("VNF.URI");
+        String endPoint=params.get("VNF.endpoint");
+        String tUrl=uri+"/"+endPoint;
+        RequestContext rc = new RequestContext(ctx);
+        rc.isAlive();
+        try(CloseableHttpClient httpClient = HttpClients.createDefault()) {
+            HttpGet httpGet = new HttpGet(tUrl);
+            HttpResponse response =null ;
+            response = httpClient.execute(httpGet);
+            int responseCode=response.getStatusLine().getStatusCode();
+            HttpEntity entity = response.getEntity();
+            String responseOutput=EntityUtils.toString(entity);
+            if(responseCode==200)
+            {
+                doSuccess(rc,responseCode,responseOutput);
+            }
+            else
+            {
+                doHealthCheckFailure(rc,responseCode,responseOutput);
+            }
+        } catch (Exception ex) {
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
+        }
+    }
 
 
 
 
-	@SuppressWarnings("static-method")
-	private void doFailure(RequestContext rc, HttpStatus code, String message) {
-		SvcLogicContext svcLogic = rc.getSvcLogicContext();
-		String msg = (message == null) ? code.getReasonPhrase() : message;
-		if (msg.contains("\n")) {
-			msg = msg.substring(msg.indexOf("\n"));
-		}
+    @SuppressWarnings("static-method")
+    private void doFailure(RequestContext rc, HttpStatus code, String message) {
+        SvcLogicContext svcLogic = rc.getSvcLogicContext();
+        String msg = (message == null) ? code.getReasonPhrase() : message;
+        if (msg.contains("\n")) {
+            msg = msg.substring(msg.indexOf("\n"));
+        }
 
-		String status;
-		try {
-			status = Integer.toString(code.getStatusCode());
-		} catch (Exception e) {
-			status = "500";
-		}
-		svcLogic.setStatus(OUTCOME_FAILURE);
-		svcLogic.setAttribute("healthcheck.result.code", "200");
-		svcLogic.setAttribute("healthcheck.result.message", status+" "+msg);
-	}
-
-
-	/**
-	 * @param rc
-	 *            The request context that manages the state and recovery of the
-	 *            request for the life of its processing.
-	 */
-	@SuppressWarnings("static-method")
-	private void doHealthCheckFailure(RequestContext rc, int code, String message) {
-		SvcLogicContext svcLogic = rc.getSvcLogicContext();
-		String msg = Integer.toString(code)+" "+message;
-		svcLogic.setAttribute("healthcheck.result.code", "200");
-		svcLogic.setAttribute("healthcheck.result.message", msg);
-
-	}
+        String status;
+        try {
+            status = Integer.toString(code.getStatusCode());
+        } catch (Exception e) {
+            status = "500";
+        }
+        svcLogic.setStatus(OUTCOME_FAILURE);
+        svcLogic.setAttribute("healthcheck.result.code", "200");
+        svcLogic.setAttribute("healthcheck.result.message", status+" "+msg);
+    }
 
 
-	@SuppressWarnings("static-method")
-	private void doSuccess(RequestContext rc, int code, String message) {
-		SvcLogicContext svcLogic = rc.getSvcLogicContext();
-		String msg = Integer.toString(code)+" "+message;
-		svcLogic.setAttribute("healthcheck.result.code", "400");
-		svcLogic.setAttribute("healthcheck.result.message", msg);
+    /**
+     * @param rc
+     *            The request context that manages the state and recovery of the
+     *            request for the life of its processing.
+     */
+    @SuppressWarnings("static-method")
+    private void doHealthCheckFailure(RequestContext rc, int code, String message) {
+        SvcLogicContext svcLogic = rc.getSvcLogicContext();
+        String msg = Integer.toString(code)+" "+message;
+        svcLogic.setAttribute("healthcheck.result.code", "200");
+        svcLogic.setAttribute("healthcheck.result.message", msg);
 
-	}
+    }
 
 
-	/**
-	 * initialize the provider adapter by building the context cache
-	 */
-	private void initialize() {
+    @SuppressWarnings("static-method")
+    private void doSuccess(RequestContext rc, int code, String message) {
+        SvcLogicContext svcLogic = rc.getSvcLogicContext();
+        String msg = Integer.toString(code)+" "+message;
+        svcLogic.setAttribute("healthcheck.result.code", "400");
+        svcLogic.setAttribute("healthcheck.result.message", msg);
+
+    }
 
 
-		logger.info("init rest health check adapter!!!!!");
-	}
+    /**
+     * initialize the provider adapter by building the context cache
+     */
+    private void initialize() {
+
+
+        logger.info("init rest health check adapter!!!!!");
+    }
 
 }
