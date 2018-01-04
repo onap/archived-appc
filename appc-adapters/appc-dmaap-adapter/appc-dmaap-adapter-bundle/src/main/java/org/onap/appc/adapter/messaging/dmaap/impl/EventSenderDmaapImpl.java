@@ -27,24 +27,27 @@ package org.onap.appc.adapter.messaging.dmaap.impl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.adapter.message.MessageDestination;
 import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.adapter.message.event.EventHeader;
 import org.onap.appc.adapter.message.event.EventMessage;
 import org.onap.appc.adapter.message.event.EventStatus;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.concurrent.ConcurrentHashMap;
+
 
 public class EventSenderDmaapImpl implements EventSender
 {
-    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(EventSenderDmaapImpl.class);
+    private final EELFLogger LOG = EELFManager.getInstance().getLogger(EventSenderDmaapImpl.class);
     public static final String EVENT_TOPIC_WRITE = "dmaap.event.topic.write";
     public static final String DMAAP_USERNAME = "dmaap.appc.username";
     public static final String DMAAP_PASSWORD = "dmaap.appc.password";
