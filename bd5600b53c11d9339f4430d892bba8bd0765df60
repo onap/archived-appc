@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_b86db634",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-04T20:48:55Z",
+      "side": 1,
+      "message": "Both the old and new lines are wrong. Assuming this is supposed to be the path to the properties directory, it should be \"/opt/onap/appc/data/properties\". I\u0027m not sure what the appcauth directory is though.",
+      "parentUuid": "5a93c517_78208ef7",
+      "revId": "bd5600b53c11d9339f4430d892bba8bd0765df60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_f80c9e96",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
         "patchSetId": 1
