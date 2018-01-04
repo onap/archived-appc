@@ -29,8 +29,8 @@ import java.util.Map;
 import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.zones.model.Server;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
-
 /**
  * This interface defines the operations that the provider adapter exposes.
  * <p>
@@ -82,7 +82,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     *
+     * 
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -112,7 +112,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     *
+     * 
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -142,7 +142,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     *
+     * 
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -172,7 +172,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * URL of the server)</dd>
      * </dl>
      * </p>
-     *
+     * 
      * @param properties
      *            A map of name-value pairs that supply the parameters needed by this method. The properties needed are
      *            defined above.
@@ -188,7 +188,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
 
     /**
      * Returns the symbolic name of the adapter
-     *
+     * 
      * @return The adapter name
      */
     String getAdapterName();
@@ -196,25 +196,33 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
    // Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 
     //Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
+    
     void trigger(Map<String, String> params, SvcLogicContext ctx) ;
-
-    void chefGet(Map<String, String> params, SvcLogicContext ctx) ;
-
-    void chefPut(Map<String, String> params, SvcLogicContext ctx) ;
-
-    void chefPost(Map<String, String> params, SvcLogicContext ctx) ;
-
-    void chefDelete(Map<String, String> params, SvcLogicContext ctx) ;
-
+    
+    void chefGet(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
+    void chefPut(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
+    void chefPost(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
+    void chefDelete(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
     void nodeObejctBuilder(Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void checkPushJob(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
 
-    void checkPushJob(Map<String, String> params, SvcLogicContext ctx) ;
-
-    void pushJob(Map<String, String> params, SvcLogicContext ctx) ;
-
+    void pushJob(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
     void retrieveData (Map<String, String> params, SvcLogicContext ctx) ;
-
+    
     void combineStrings (Map<String, String> params, SvcLogicContext ctx) ;
+    
+    void VnfcEnvironment (Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
+    void VnfcNodeobjects (Map<String, String> params, SvcLogicContext ctx)throws SvcLogicException ;
+    
+    void VnfcPushJob (Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
+    
+    void fetchResults (Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;
 
 }

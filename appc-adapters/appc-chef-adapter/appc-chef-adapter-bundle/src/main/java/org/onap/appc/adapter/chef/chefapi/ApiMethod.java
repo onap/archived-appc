@@ -52,13 +52,22 @@ public class ApiMethod {
     private String methodName = "GET";
     public String test = "";
     private int returnCode;
+    final String KEY_STORE_PATH = "/etc/chef/trusted_certs/mykeystore.jks";
+    final String KEY_STORE_PASSWORD = "adminadmin";
+    static
+   {
+    System.setProperty("javax.net.ssl.trustStore", "/opt/app/bvc/chef/chefServerSSL.jks");
+    System.setProperty("javax.net.ssl.trustStorePassword", "adminadmin");
+        }
 
     public ApiMethod(String methodName) {
         client=HttpClients.createDefault();
         this.methodName = methodName;
     }
 
-    public ApiMethod createRequest(){
+   
+
+    public ApiMethod execute() {
         String hashedPath = Utils.sha1AndBase64("/organizations/"+organizations+chefPath);
         String hashedBody = Utils.sha1AndBase64(reqBody);
 
@@ -90,15 +99,6 @@ public class ApiMethod {
         for (int i = 0; i < auth_headers.length; i++) {
             method.addHeader("X-Ops-Authorization-" + (i + 1), auth_headers[i]);
         }
-        /*
-         * test=test+this.method.getMethod()+"\n"; Header[]
-         * RHS=this.method.getHeaders(); for (int i = 0; i < RHS.length; i++) {
-         * test=test+RHS[i]+"\n"; } test=test+this.reqBody+"\n";
-         */
-        return this;
-    }
-
-    public ApiMethod execute() {
         try{
             response = client.execute(method);
             resCode = response.getStatusLine().getStatusCode();

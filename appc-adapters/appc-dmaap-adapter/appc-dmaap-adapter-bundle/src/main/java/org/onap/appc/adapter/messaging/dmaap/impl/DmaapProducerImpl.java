@@ -24,16 +24,9 @@
 
 package org.onap.appc.adapter.messaging.dmaap.impl;
 
-import java.io.*;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-//import com.att.nsa.cambria.client.CambriaBatchingPublisher;
-//import com.att.nsa.cambria.client.CambriaClientBuilders;
-//import com.att.nsa.cambria.client.CambriaClientBuilders.PublisherBuilder;
-
 import com.att.nsa.mr.client.MRBatchingPublisher;
 import com.att.nsa.mr.client.MRClientFactory;
 import org.apache.commons.lang3.StringUtils;
@@ -51,6 +44,14 @@ import org.onap.appc.metricservice.publisher.LogPublisher;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
 
 public class DmaapProducerImpl implements Producer {
 
@@ -62,7 +63,6 @@ public class DmaapProducerImpl implements Producer {
     private Properties props = null;
     private static MetricRegistry metricRegistry;
     private boolean useHttps = false;
-    private DmaapRequestCounterMetric dmaapKpiMetric;
     private boolean isMetricEnabled=false;
     
     private Set<MRBatchingPublisher> clients;
@@ -94,7 +94,7 @@ public class DmaapProducerImpl implements Producer {
         LOG.debug("Metric getting initialized");
         MetricService metricService = getMetricservice();
         metricRegistry=metricService.createRegistry("APPC");
-        dmaapKpiMetric = metricRegistry.metricBuilderFactory().
+       DmaapRequestCounterMetric dmaapKpiMetric = metricRegistry.metricBuilderFactory().
                 dmaapRequestCounterBuilder().
                 withName("DMAAP_KPI").withType(MetricType.COUNTER).
                 withRecievedMessage(0)
@@ -116,7 +116,7 @@ public class DmaapProducerImpl implements Producer {
 
     }
     private Set<MRBatchingPublisher> getClients() {
-        Set<MRBatchingPublisher> out = new HashSet<MRBatchingPublisher>();
+        Set<MRBatchingPublisher> out = new HashSet<>();
         for (String topic : topics) {
             try {
                 String topicProducerPropFileName = DmaapUtil.createProducerPropFile(topic,props);
@@ -133,10 +133,8 @@ public class DmaapProducerImpl implements Producer {
     @Override
     public synchronized void updateCredentials(String key, String secret) {
         LOG.info(String.format("Setting auth to %s for %s", key, this.toString()));
-        String user = key;
-        String password = secret;
-        props.setProperty("user",String.valueOf(user));
-        props.setProperty("password",String.valueOf(password));
+        props.setProperty("user",String.valueOf(key));
+        props.setProperty("password",String.valueOf(secret));
         clients = null;
     }
 
@@ -154,8 +152,8 @@ public class DmaapProducerImpl implements Producer {
         // Create clients once and reuse them on subsequent posts. This is 
         // to support failover to other servers in the Dmaap cluster.
         if ((clients == null) || (clients.isEmpty())) {
-        	LOG.info("Getting CambriaBatchingPublisher Clients ...");
-        	clients = getClients();
+            LOG.info("Getting CambriaBatchingPublisher Clients ...");
+            clients = getClients();
         }
         
         for (MRBatchingPublisher client : clients) {
@@ -178,14 +176,14 @@ public class DmaapProducerImpl implements Producer {
      */
     @Override
     public void close() {
-    	if ((clients == null) || (clients.isEmpty())) {
-    		return;
-    	}
+        if ((clients == null) || (clients.isEmpty())) {
+            return;
+        }
 
-    	LOG.debug("Closing Dmaap producer clients....");
-    	for (MRBatchingPublisher client : clients) {
+        LOG.debug("Closing Dmaap producer clients....");
+        for (MRBatchingPublisher client : clients) {
             try {
-            	client.close(1, TimeUnit.SECONDS);
+                client.close(1, TimeUnit.SECONDS);
             }  catch (IOException | InterruptedException e) {
                 LOG.warn(String.format("Failed to cleanly close Dmaap connection for [%s]", client));
                 e.printStackTrace();
@@ -199,10 +197,6 @@ public class DmaapProducerImpl implements Producer {
     }
 
     private MetricService getMetricservice() {
-/*
-        return AppcDmaapAdapterActivator.getMetricService();
-*/
-
         BundleContext bctx = FrameworkUtil.getBundle(MetricService.class).getBundleContext();
         ServiceReference sref = bctx.getServiceReference(MetricService.class.getName());
         if (sref != null) {

@@ -1,3 +1,27 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
+ * ============LICENSE_END=========================================================
+ */
+
 package org.onap.appc.adapter.chef.chefclient;
 
 import static org.junit.Assert.assertEquals;
@@ -51,7 +75,7 @@ public class TestChefApiClient {
     @Test
     public void testGet(){
         Get get = client.get(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
-        ApiMethod method = get.createRequest();
+        ApiMethod method = get.execute();
         String[] response = method.test.split("\n");
 
         thenStringShouldMatch("GET", response);
@@ -60,7 +84,7 @@ public class TestChefApiClient {
     @Test
     public void testPut(){
         Put put = client.put(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
-        ApiMethod method = put.createRequest();
+        ApiMethod method = put.execute();
         String[] response = method.test.split("\n");
 
         thenStringShouldMatch("PUT", response);
@@ -69,7 +93,7 @@ public class TestChefApiClient {
     @Test
     public void testPost() {
         Post post = client.post(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
-        ApiMethod method = post.createRequest();
+        ApiMethod method = post.execute();
         String[] response = method.test.split("\n");
 
         thenStringShouldMatch("POST", response);
@@ -78,7 +102,7 @@ public class TestChefApiClient {
     @Test
     public void testDelete(){
         Delete delete = client.delete(props.getProperty("org.onap.appc.adapter.chef.chefclient.path"));
-        ApiMethod method = delete.createRequest();
+        ApiMethod method = delete.execute();
         String[] response = method.test.split("\n");
 
         thenStringShouldMatch("DELETE", response);

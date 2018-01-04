@@ -25,6 +25,7 @@
 package org.onap.appc.adapter.chef.chefclient;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -61,8 +62,15 @@ public class Utils {
     
     public static String signWithRSA(String inStr, String pemPath) {
         byte[] outStr = null;
-        try ( BufferedReader br  = new BufferedReader(new FileReader(pemPath))) {
-            Security.addProvider(new BouncyCastleProvider());
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader(pemPath));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        Security.addProvider(new BouncyCastleProvider());
+        try {
+
             PEMParser pemParser = new PEMParser(br);
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             Object object = pemParser.readObject();
@@ -71,8 +79,10 @@ public class Utils {
             Signature instance = Signature.getInstance("RSA");
             instance.initSign(privateKey);
             instance.update(inStr.getBytes());
+
             byte[] signature = instance.sign();
             outStr = Base64.encode(signature);
+            String tmp = new String(outStr);
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -99,4 +109,5 @@ public class Utils {
         }
         return out;
     }
+    
 }
