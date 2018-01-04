@@ -29,47 +29,76 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.appc.encryptiontool.wrapper.DbServiceUtil;
+import org.onap.appc.encryptiontool.wrapper.EncryptionTool;
 import org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.onap.appc.encryptiontool.wrapper.WrapperEncryptionTool;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestEncryptionTool {
 
-	@Test
-	public void testEncryptionTool() throws Exception{
-		String [] input = new String[] {"testVnf_Type","testUser","testPassword11", "testAction1", "8080", "http://localhost:8080/restconf/healthcheck"};
-		WrapperEncryptionTool.main(input);
+    //@Test
+    public void testEncryptionTool() throws Exception{
+        String [] input = new String[] {"testVnf_Type","testUser","testPassword11", "testAction1", "8080", "http://localhost:8080/restconf/healthcheck"};
+        WrapperEncryptionTool.main(input);
 
-	}
-//	@Test(expected=Exception.class)
-	public void testgetPropertyDG() throws Exception{
-		EncryptionToolDGWrapper et = new EncryptionToolDGWrapper();		
-		SvcLogicContext ctx = new SvcLogicContext();		
-		Map<String, String> inParams = new HashMap<String, String>();
-		inParams.put("prefix", "test");
-		inParams.put("propertyName", "testVnf_Type.testAction1.url");
-		et.getProperty(inParams, ctx);
-	}
-	@Test(expected=Exception.class)
-	public void testgetData() throws Exception
-	{
-		DbServiceUtil d = new DbServiceUtil();
-		ArrayList argList = null;
-		String schema ="sdnctl";
-		String tableName ="dual";
-		String getselectData ="123";
-		String getDataClasue="123='123'";
-		d.getData(tableName, argList, schema, getselectData, getDataClasue);
-	}
-	@Test(expected=Exception.class)
-	public void testupdateDB() throws Exception
-	{
-		DbServiceUtil d = new DbServiceUtil();
-		String setCluase = null;
-		String schema ="sdnctl";
-		String tableName ="dual";
-		ArrayList inputArgs = null;
-		String whereClause="123='123'";
-		d.updateDB(tableName, inputArgs, schema, whereClause, setCluase);
-	}
+    }
+    @Test(expected=Exception.class)
+    public void testgetPropertyDG() throws Exception{
+        EncryptionToolDGWrapper et = new EncryptionToolDGWrapper();        
+        SvcLogicContext ctx = new SvcLogicContext();        
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("prefix", "test");
+        inParams.put("propertyName", "testVnf_Type.testAction1.url");
+        et.getProperty(inParams, ctx);
+    }
+    @Test(expected=Exception.class)
+    public void testgetData() throws Exception
+    {
+        DbServiceUtil d = new DbServiceUtil();
+        ArrayList argList = null;
+        String schema ="sdnctl";
+        String tableName ="dual";
+        String getselectData ="123";
+        String getDataClasue="123='123'";
+        d.getData(tableName, argList, schema, getselectData, getDataClasue);
+    }
+    @Test(expected=Exception.class)
+    public void testupdateDB() throws Exception
+    {
+        DbServiceUtil d = new DbServiceUtil();
+        String setCluase = null;
+        String schema ="sdnctl";
+        String tableName ="dual";
+        ArrayList inputArgs = null;
+        String whereClause="123='123'";
+        d.updateDB(tableName, inputArgs, schema, whereClause, setCluase);
+    }
+    @Test
+    public void decrypt() throws Exception{
+        EncryptionTool et = EncryptionTool.getInstance();        
+        System.out.println(et.decrypt("enc:Ai8KLw==").toString());
+    }
+        
+        
+    //@Test(expected=Exception.class)
+    public void testupdateProperties() throws Exception{
+        WrapperEncryptionTool et =  new WrapperEncryptionTool();
+        et.updateProperties("testuser2", "", "abc3", "", "22", "testhost1", "Ansible");
+            
+    }
+        
+    //@Test(expected=Exception.class)
+    public void testgetProperties() throws Exception{
+        EncryptionToolDGWrapper et =  new EncryptionToolDGWrapper();
+        Map<String, String> inParams = new HashMap<String,String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "test2");
+        ctx.setAttribute("input.action", "Configure");
+        ctx.setAttribute("APPC.protocol.PROTOCOL", "Ansible");
+        inParams.put("propertyName", "user");
+        inParams.put("prefix", "user");
+        et.getProperty(inParams, ctx);
+            
+    }
+        
 }
