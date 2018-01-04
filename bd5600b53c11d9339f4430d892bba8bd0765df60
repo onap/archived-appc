@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_78208ef7",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T20:44:26Z",
+      "side": 1,
+      "message": "Patrick - can you take a look at this line?",
+      "revId": "bd5600b53c11d9339f4430d892bba8bd0765df60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f80c9e96",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T20:44:26Z",
+      "side": 1,
+      "message": "remove horizontal whitepace per ONAP (google) code style: https://wiki.onap.org/display/DW/Java+code+style, https://google.github.io/styleguide/javaguide.html#s4.6-whitespace,",
+      "revId": "bd5600b53c11d9339f4430d892bba8bd0765df60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
