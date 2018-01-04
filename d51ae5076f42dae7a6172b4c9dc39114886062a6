@@ -206,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_78772e03",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/Output-stop.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-01-04T21:09:09Z",
+      "side": 1,
+      "message": "The unit test cases read the files in the output directory as String and compare them as Strings for a successful case. So formatting these files would cause these cases to fail. I\u0027m leaving these files \"as is\" for this reason. Thanks.",
+      "parentUuid": "5a93c517_38d4461f",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_58d91256",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/Start.json",
         "patchSetId": 2
