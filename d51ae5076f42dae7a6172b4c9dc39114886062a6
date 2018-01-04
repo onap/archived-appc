@@ -1,0 +1,361 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d86f6291",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/main/java/org/onap/appc/dg/common/impl/VnfExecutionFlowImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "eliminate horizontal whitespace.",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_380686cf",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "couple of whitespaces in this file",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_580b52d6",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f80fbedf",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d8f682d7",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/CheckVNfcInInventory.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9800faab",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/start-singleVM-.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_382d2647",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/start-singleVmPerVnfc-.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_583272a8",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/start-withoutDependency.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b820564a",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/start.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs for changed code (at a minimum)",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d81d2211",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/wrongaction.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs for changed code (at a minimum)",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_781ace18",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/wrongnumber.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "use spaces instead of tabs for changed code (at a minimum)",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_38d4461f",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/Output-stop.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_58d91256",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/Start.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f8dd7e43",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/restart-NoDep.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_18e38a08",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/restart-Nodep-SingleVM.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b8e7f611",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/start-singleVM-.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d8e4420f",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/start-singleVmPerVnfc.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_78f16ecc",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/start-withoutDependency.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_98eebaeb",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/stop-WithoutDep.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_38bbe6e6",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/stop-singleVM.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_58c03250",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/stop-singleVmPerVnfc.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-04T19:48:20Z",
+      "side": 1,
+      "message": "not formatted",
+      "revId": "d51ae5076f42dae7a6172b4c9dc39114886062a6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
