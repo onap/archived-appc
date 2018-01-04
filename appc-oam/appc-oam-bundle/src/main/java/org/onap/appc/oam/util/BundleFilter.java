@@ -45,7 +45,7 @@ import java.util.regex.Pattern;
  * the bundleToStopSet
  *
  */
-class BundleFilter {
+public class BundleFilter {
 
     private final Map<String, Bundle> bundleToStopSet;
     private final Map<String, Bundle> bundleToNotStopSet;
@@ -57,7 +57,7 @@ class BundleFilter {
      * @param exceptRegexes - An array of regular expression used to override which bundles are candidates for stopping
      * @param bundles - An array of the bundle to be split into {@link #getBundlesToStop()} {@link #getBundlesToNotStop()}
      */
-    BundleFilter(String[] stopRegexes, String[] exceptRegexes, Bundle[] bundles) {
+    public  BundleFilter(String[] stopRegexes, String[] exceptRegexes, Bundle[] bundles) {
 
         Pattern[] stopPatterns = toPattern(stopRegexes);
         Pattern[] exceptPatterns = toPattern(exceptRegexes);
@@ -114,7 +114,7 @@ class BundleFilter {
 
 
     /**@return Map of bundles that are to be stopped  */
-    Map<String, Bundle> getBundlesToStop(){
+    public Map<String, Bundle> getBundlesToStop(){
         return bundleToStopSet;
     }
 
@@ -122,7 +122,7 @@ class BundleFilter {
      *
      * @return Map of bundles that are not to be stopped
      */
-    Map<String, Bundle> getBundlesToNotStop() {
+    public Map<String, Bundle> getBundlesToNotStop() {
         return bundleToNotStopSet;
     }
 }
