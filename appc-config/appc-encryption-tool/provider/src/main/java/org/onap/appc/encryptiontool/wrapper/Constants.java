@@ -29,5 +29,5 @@ public class Constants
 
     private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
 
-    public static final String APPC_CONFIG_DIR="/opt/app/bvc/properties";
+    public static final String APPC_CONFIG_DIR="/opt/onap/appc/data/properties";
 }
