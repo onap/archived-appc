@@ -24,23 +24,22 @@
 
 package org.onap.appc.executionqueue.impl.object;
 
-import java.time.Instant;
-import java.util.Objects;
+import java.util.Date;
 
 
 public class QueueMessage<M extends Runnable> {
-    private final M message;
-    private final Instant expirationTime;
-    public QueueMessage(M message, Instant expirationTime){
+    M message;
+    Date expirationTime;
+    public QueueMessage(M message, Date expirationTime){
         this.message = message;
-        this.expirationTime = Objects.requireNonNull(expirationTime);
+        this.expirationTime = expirationTime;
     }
 
     public M getMessage() {
         return message;
     }
 
-    public boolean isExpired() {
-        return expirationTime.isBefore(Instant.now());
+    public Date getExpirationTime() {
+        return expirationTime;
     }
 }

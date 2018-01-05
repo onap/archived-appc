@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * 
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -36,6 +36,9 @@ import org.opendaylight.controller.md.sal.binding.test.AbstractDataBrokerTest;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AttachVolumeInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AttachVolumeOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AttachVolumeOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AuditInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AuditOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.CheckLockInput;
@@ -54,6 +57,9 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutIn
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.EvacuateInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.EvacuateOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.HealthCheckInput;
@@ -64,6 +70,33 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LockInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LockOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.MigrateInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QueryInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QueryOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QueryOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QuiesceTrafficInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QuiesceTrafficOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QuiesceTrafficOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ResumeTrafficInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ResumeTrafficOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ResumeTrafficOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebuildInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebuildOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RestartInput;
@@ -100,6 +133,7 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.StatusBui
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.provider.lcm.service.*;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 import org.osgi.framework.FrameworkUtil;
@@ -122,13 +156,16 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 /**
  * Integration Test class for AppcProviderLcm.
  */
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({FrameworkUtil.class, AppcProviderLcm.class, ValidationService.class})
+@PrepareForTest({FrameworkUtil.class, AppcProviderLcm.class, QueryService.class, VolumeService.class,
+    QuiesceTrafficService.class, ValidationService.class})
 public class AppcProviderLcmTest extends AbstractDataBrokerTest {
     private Status successStatus = new StatusBuilder().setCode(400).setMessage("success").build();
     private Status failStatus = new StatusBuilder().setCode(401).setMessage("failure").build();
@@ -1091,12 +1128,190 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         verify(appcProviderLcm, times(1)).executeRequest(any());
     }
 
+    @Test
+    public void testQuery() throws Exception {
+        QueryInput mockInput = mock(QueryInput.class);
+        QueryOutput mockOutput = mock(QueryOutput.class);
+        QueryOutputBuilder mockQueryOutputBuilder = mock(QueryOutputBuilder.class);
+        QueryService mockQuery = mock(QueryService.class);
+
+        whenNew(QueryService.class).withNoArguments().thenReturn(mockQuery);
+        when(mockQuery.process(mockInput)).thenReturn(mockQueryOutputBuilder);
+        when(mockQueryOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<QueryOutput>> results = appcProviderLcm.query(mockInput);
+        verify(mockQuery, times(1)).process(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testReboot() throws Exception {
+        RebootInput mockInput = mock(RebootInput.class);
+        RebootOutput mockOutput = mock(RebootOutput.class);
+        RebootOutputBuilder mockRebootOutputBuilder = mock(RebootOutputBuilder.class);
+        RebootService mockReboot = mock(RebootService.class);
+
+        whenNew(RebootService.class).withNoArguments().thenReturn(mockReboot);
+        when(mockReboot.process(mockInput)).thenReturn(mockRebootOutputBuilder);
+        when(mockRebootOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<RebootOutput>> results = appcProviderLcm.reboot(mockInput);
+        verify(mockReboot, times(1)).process(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testAttachVolume() throws Exception {
+        AttachVolumeInput mockInput = mock(AttachVolumeInput.class);
+        AttachVolumeOutput mockOutput = mock(AttachVolumeOutput.class);
+        AttachVolumeOutputBuilder mockOutputBuilder = mock(AttachVolumeOutputBuilder.class);
+        VolumeService mockVolumeService = mock(VolumeService.class);
+
+        whenNew(VolumeService.class).withArguments(true).thenReturn(mockVolumeService);
+        when(mockVolumeService.attachVolume(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<AttachVolumeOutput>> results = appcProviderLcm.attachVolume(mockInput);
+        verify(mockVolumeService, times(1)).attachVolume(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testDetachVolume() throws Exception {
+        DetachVolumeInput mockInput = mock(DetachVolumeInput.class);
+        DetachVolumeOutput mockOutput = mock(DetachVolumeOutput.class);
+        DetachVolumeOutputBuilder mockOutputBuilder = mock(DetachVolumeOutputBuilder.class);
+        VolumeService mockVolumeService = mock(VolumeService.class);
+
+        whenNew(VolumeService.class).withArguments(false).thenReturn(mockVolumeService);
+        when(mockVolumeService.detachVolume(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<DetachVolumeOutput>> results = appcProviderLcm.detachVolume(mockInput);
+        verify(mockVolumeService, times(1)).detachVolume(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testQuiesceTraffic() throws Exception {
+        QuiesceTrafficInput mockInput = mock(QuiesceTrafficInput.class);
+        QuiesceTrafficOutput mockOutput = mock(QuiesceTrafficOutput.class);
+        QuiesceTrafficOutputBuilder mockOutputBuilder = mock(QuiesceTrafficOutputBuilder.class);
+        QuiesceTrafficService mockService = mock(QuiesceTrafficService.class);
+
+        whenNew(QuiesceTrafficService.class).withNoArguments().thenReturn(mockService);
+        when(mockService.process(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<QuiesceTrafficOutput>> results = appcProviderLcm.quiesceTraffic(mockInput);
+        verify(mockService, times(1)).process(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testResumeTraffic() throws Exception {
+        ResumeTrafficInput mockInput = mock(ResumeTrafficInput.class);
+        ResumeTrafficOutput mockOutput = mock(ResumeTrafficOutput.class);
+        ResumeTrafficOutputBuilder mockOutputBuilder = mock(ResumeTrafficOutputBuilder.class);
+        ResumeTrafficService mockService = mock(ResumeTrafficService.class);
+
+        whenNew(ResumeTrafficService.class).withNoArguments().thenReturn(mockService);
+        when(mockService.process(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<ResumeTrafficOutput>> results = appcProviderLcm.resumeTraffic(mockInput);
+        verify(mockService, times(1)).process(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testUpgradePreCheck() throws Exception {
+        UpgradePreCheckInput mockInput = mock(UpgradePreCheckInput.class);
+        UpgradePreCheckOutput mockOutput = mock(UpgradePreCheckOutput.class);
+        UpgradePreCheckOutputBuilder mockOutputBuilder = mock(UpgradePreCheckOutputBuilder.class);
+        UpgradeService mockService = mock(UpgradeService.class);
+
+        whenNew(UpgradeService.class).withAnyArguments().thenReturn(mockService);
+        when(mockService.upgradePreCheck(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<UpgradePreCheckOutput>> results = appcProviderLcm.upgradePreCheck(mockInput);
+        verify(mockService, times(1)).upgradePreCheck(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+
+    @Test
+    public void testUpgradePostCheck() throws Exception {
+        UpgradePostCheckInput mockInput = mock(UpgradePostCheckInput.class);
+        UpgradePostCheckOutput mockOutput = mock(UpgradePostCheckOutput.class);
+        UpgradePostCheckOutputBuilder mockOutputBuilder = mock(UpgradePostCheckOutputBuilder.class);
+        UpgradeService mockService = mock(UpgradeService.class);
+
+        whenNew(UpgradeService.class).withAnyArguments().thenReturn(mockService);
+        when(mockService.upgradePostCheck(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<UpgradePostCheckOutput>> results = appcProviderLcm.upgradePostCheck(mockInput);
+        verify(mockService, times(1)).upgradePostCheck(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testUpgradeSoftware() throws Exception {
+        UpgradeSoftwareInput mockInput = mock(UpgradeSoftwareInput.class);
+        UpgradeSoftwareOutput mockOutput = mock(UpgradeSoftwareOutput.class);
+        UpgradeSoftwareOutputBuilder mockOutputBuilder = mock(UpgradeSoftwareOutputBuilder.class);
+        UpgradeService mockService = mock(UpgradeService.class);
+
+        whenNew(UpgradeService.class).withAnyArguments().thenReturn(mockService);
+        when(mockService.upgradeSoftware(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<UpgradeSoftwareOutput>> results = appcProviderLcm.upgradeSoftware(mockInput);
+        verify(mockService, times(1)).upgradeSoftware(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testUpgradeBackup() throws Exception {
+        UpgradeBackupInput mockInput = mock(UpgradeBackupInput.class);
+        UpgradeBackupOutput mockOutput = mock(UpgradeBackupOutput.class);
+        UpgradeBackupOutputBuilder mockOutputBuilder = mock(UpgradeBackupOutputBuilder.class);
+        UpgradeService mockService = mock(UpgradeService.class);
+
+        whenNew(UpgradeService.class).withAnyArguments().thenReturn(mockService);
+        when(mockService.upgradeBackup(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<UpgradeBackupOutput>> results = appcProviderLcm.upgradeBackup(mockInput);
+        verify(mockService, times(1)).upgradeBackup(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void testUpgradeBackout() throws Exception {
+        UpgradeBackoutInput mockInput = mock(UpgradeBackoutInput.class);
+        UpgradeBackoutOutput mockOutput = mock(UpgradeBackoutOutput.class);
+        UpgradeBackoutOutputBuilder mockOutputBuilder = mock(UpgradeBackoutOutputBuilder.class);
+        UpgradeService mockService = mock(UpgradeService.class);
+
+        whenNew(UpgradeService.class).withAnyArguments().thenReturn(mockService);
+        when(mockService.upgradeBackout(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<UpgradeBackoutOutput>> results = appcProviderLcm.upgradeBackout(mockInput);
+        verify(mockService, times(1)).upgradeBackout(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
     @After
     public void tearDown() throws Exception {
         if (appcProviderLcm != null) {
             appcProviderLcm.close();
         }
     }
+
 
     private ActionIdentifiers newActionIdentifier(String vnfId, String vnfcId, String vserverId) {
         ActionIdentifiersBuilder actionIdentifiersBuilder = new ActionIdentifiersBuilder();

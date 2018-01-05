@@ -29,49 +29,33 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
+import org.onap.appc.domainmodel.lcm.TransactionRecord;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.requesthandler.constant.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.domainmodel.lcm.CommonHeader;
-import org.onap.appc.domainmodel.lcm.RequestContext;
-import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.domainmodel.lcm.VNFContext;
-import org.onap.appc.executor.UnstableVNFException;
-import org.onap.appc.executor.objects.UniqueRequestIdentifier;
+import org.onap.appc.exceptions.InvalidInputException;
 import org.onap.appc.i18n.Msg;
-import org.onap.appc.lifecyclemanager.LifecycleManager;
-import org.onap.appc.lifecyclemanager.objects.LifecycleException;
-import org.onap.appc.lifecyclemanager.objects.NoTransitionDefinedException;
 import org.onap.appc.logging.LoggingConstants;
 import org.onap.appc.logging.LoggingUtils;
 import org.onap.appc.requesthandler.LCMStateManager;
 import org.onap.appc.requesthandler.exceptions.*;
-import org.onap.appc.requesthandler.helper.RequestRegistry;
 import org.onap.appc.requesthandler.helper.RequestValidator;
-import org.onap.appc.workflow.WorkFlowManager;
-import org.onap.appc.workflow.objects.WorkflowExistsOutput;
-import org.onap.appc.workflow.objects.WorkflowRequest;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
-import org.onap.ccsdk.sli.adaptors.aai.AAIService;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
+import org.onap.appc.transactionrecorder.TransactionRecorder;
 
-import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
 public abstract class AbstractRequestValidatorImpl implements RequestValidator {
 
     protected final EELFLogger logger = EELFManager.getInstance().getLogger(RequestValidatorImpl.class);
-    private final Configuration configuration = ConfigurationFactory.getConfiguration();
-    protected LifecycleManager lifecyclemanager;
-    protected LCMStateManager lcmStateManager;
-    private AAIService aaiService;
-    private WorkFlowManager workflowManager;
-    private RequestRegistry requestRegistry = new RequestRegistry();
+    protected final Configuration configuration = ConfigurationFactory.getConfiguration();
+
+    LCMStateManager lcmStateManager;
+    TransactionRecorder transactionRecorder;
 
     protected static Calendar DateToCalendar(Date date) {
         Calendar cal = Calendar.getInstance();
@@ -79,211 +63,22 @@ public abstract class AbstractRequestValidatorImpl implements RequestValidator {
         return cal;
     }
 
-    public void setWorkflowManager(WorkFlowManager workflowManager) {
-        this.workflowManager = workflowManager;
+    public void setTransactionRecorder(TransactionRecorder transactionRecorder) {
+        this.transactionRecorder = transactionRecorder;
     }
 
     public void setLcmStateManager(LCMStateManager lcmStateManager) {
         this.lcmStateManager = lcmStateManager;
     }
 
-    public void setRequestRegistry(RequestRegistry requestRegistry) {
-        this.requestRegistry = requestRegistry;
-    }
-
-    public abstract void validateRequest(RuntimeContext runtimeContext) throws VNFNotFoundException, RequestExpiredException, UnstableVNFException, InvalidInputException, DuplicateRequestException, NoTransitionDefinedException, LifecycleException, WorkflowNotFoundException, DGWorkflowNotFoundException, MissingVNFDataInAAIException, LCMOperationsDisabledException;
-
-    private boolean isValidTTL(String ttl) {
-        if (logger.isTraceEnabled()){
-            logger.trace("Entering to isValidTTL where ttl = "+ ObjectUtils.toString(ttl));
-        }
-        if (ttl == null || ttl.length() == 0) {
-            if (logger.isTraceEnabled()) {
-                logger.trace("Exiting from isValidTT with (result = "+ ObjectUtils.toString(false)+")");
-            }
-            return false;
-        }
-        try {
-            Integer i = Integer.parseInt(ttl);
-            if (logger.isTraceEnabled()) {
-                logger.trace("Exiting from isValidTTL with (result = "+ ObjectUtils.toString(i > 0)+")");
-            }
-            return (i > 0);
-        } catch (NumberFormatException e) {
-            if (logger.isTraceEnabled()) {
-                logger.trace("Exiting from isValidTTL with (result = "+ ObjectUtils.toString(false)+")");
-            }
-            return false;
-        }
-    }
-
-    protected void getAAIservice() {
-        BundleContext bctx = FrameworkUtil.getBundle(AAIService.class).getBundleContext();
-        // Get AAIadapter reference
-        ServiceReference sref = bctx.getServiceReference(AAIService.class.getName());
-        if (sref != null) {
-            logger.info("AAIService from bundlecontext");
-            aaiService = (AAIService) bctx.getService(sref);
-
-        } else {
-            logger.info("AAIService error from bundlecontext");
-            logger.warn("Cannot find service reference for org.onap.ccsdk.sli.adaptors.aai.AAIService");
-
-        }
-    }
-
-    protected VNFContext queryAAI(String vnfId) throws VNFNotFoundException, MissingVNFDataInAAIException {
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx = getVnfdata(vnfId, "vnf", ctx);
-
-        VNFContext vnfContext = new VNFContext();
-        populateVnfContext(vnfContext, ctx);
-
-        return vnfContext;
-    }
-
-    protected void queryWFM(VNFContext vnfContext, RequestContext requestContext) throws WorkflowNotFoundException,DGWorkflowNotFoundException {
-
-        checkWorkflowExists(vnfContext, requestContext);
-    }
-
-    private void checkWorkflowExists(VNFContext vnfContext, RequestContext requestContext) throws WorkflowNotFoundException,DGWorkflowNotFoundException {
-
-        WorkflowExistsOutput workflowExistsOutput = workflowManager.workflowExists(getWorkflowQueryParams(vnfContext, requestContext));
-        if (!workflowExistsOutput.isMappingExist()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("WorkflowManager : Workflow not found for vnfType = " + vnfContext.getType() + ", version = " + vnfContext.getVersion() + ", command = " + requestContext.getAction().name());
-            }
-
-            LoggingUtils.logErrorMessage(
-                    LoggingConstants.TargetNames.WORKFLOW_MANAGER,
-                    EELFResourceManager.format(Msg.APPC_WORKFLOW_NOT_FOUND, vnfContext.getType(), requestContext.getAction().name()),
-                    this.getClass().getCanonicalName());
-
-
-            throw new WorkflowNotFoundException("Workflow not found for vnfType = " + vnfContext.getType() + ", command = " + requestContext.getAction().name(),vnfContext.getType(),requestContext.getAction().name());
-        }
-        if (!workflowExistsOutput.isDgExist()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("WorkflowManager : DG Workflow not found for vnfType = " + vnfContext.getType() + ", version = " + vnfContext.getVersion() + ", command = " + requestContext.getAction().name()+" "+workflowExistsOutput);
-            }
-
-
-            LoggingUtils.logErrorMessage(
-                    LoggingConstants.TargetNames.WORKFLOW_MANAGER,
-                    EELFResourceManager.format(Msg.APPC_WORKFLOW_NOT_FOUND, vnfContext.getType(), requestContext.getAction().name()),
-                    this.getClass().getCanonicalName());
-
-
-            throw new DGWorkflowNotFoundException("Workflow not found for vnfType = " + vnfContext.getType() + ", command = " + requestContext.getAction().name(),
-                    workflowExistsOutput.getWorkflowModule(),workflowExistsOutput.getWorkflowName(),workflowExistsOutput.getWorkflowVersion());
-        }
-    }
-
-    private void populateVnfContext(VNFContext vnfContext, SvcLogicContext ctx) throws MissingVNFDataInAAIException {
-        String vnfType = ctx.getAttribute("vnf.vnf-type");
-        String orchestrationStatus = ctx.getAttribute("vnf.orchestration-status");
-        if(StringUtils.isEmpty(vnfType)){
-            throw new MissingVNFDataInAAIException("vnf-type");
-        }
-        else if(StringUtils.isEmpty(orchestrationStatus)){
-            throw new MissingVNFDataInAAIException("orchestration-status");
-        }
-        vnfContext.setType(vnfType);
-        vnfContext.setStatus(orchestrationStatus);
-        vnfContext.setId(ctx.getAttribute("vnf.vnf-id"));
-    }
-
-    private WorkflowRequest getWorkflowQueryParams(VNFContext vnfContext, RequestContext requestContext) {
-
-        WorkflowRequest workflowRequest = new WorkflowRequest();
-        workflowRequest.setVnfContext(vnfContext);
-        workflowRequest.setRequestContext(requestContext);
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from etWorkflowQueryParams with (WorkflowRequest = "+ ObjectUtils.toString(workflowRequest)+")");
-        }
-        return workflowRequest;
-    }
-
-    protected void checkForDuplicateRequest(CommonHeader header) throws DuplicateRequestException {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to checkForDuplicateRequest with RequestHeader = "+ ObjectUtils.toString(header));
-        }
-
-        UniqueRequestIdentifier requestIdentifier = new UniqueRequestIdentifier(header.getOriginatorId(), header.getRequestId(), header.getSubRequestId());
-        boolean requestAccepted = requestRegistry.registerRequest(requestIdentifier);
-        if (!requestAccepted) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Duplicate Request with " + requestIdentifier);
-            }
-            throw new DuplicateRequestException("Duplicate Request with " + requestIdentifier);
-        }
-    }
-
-    protected Integer readTTL(CommonHeader header) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to readTTL with RequestHandlerInput = "+ ObjectUtils.toString(header));
-        }
-        if (header.getFlags()== null || !isValidTTL(String.valueOf(header.getFlags().getTtl()))) {
-            String defaultTTLStr = configuration.getProperty("org.onap.appc.workflow.default.ttl", String.valueOf(Constants.DEFAULT_TTL));
-            return Integer.parseInt(defaultTTLStr);
-        }
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from readTTL with (TTL = "+  ObjectUtils.toString(header.getFlags().getTtl())+")");
-        }
-        return header.getFlags().getTtl();
-    }
-
-    private SvcLogicContext getVnfdata(String vnf_id, String prefix, SvcLogicContext ctx) throws VNFNotFoundException {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getVnfdata with vnfid = "+ ObjectUtils.toString(vnf_id) + ", prefix = "+ ObjectUtils.toString(prefix)+ ", SvcLogicContext"+ ObjectUtils.toString(ctx));
-        }
-
-        String key = "vnf-id = '" + vnf_id + "'";
-        logger.debug("inside getVnfdata=== " + key);
-        try {
-            Instant beginTimestamp = Instant.now();
-            SvcLogicResource.QueryStatus response = aaiService.query("generic-vnf", false, null, key, prefix, null, ctx);
-            Instant endTimestamp = Instant.now();
-            String status = SvcLogicResource.QueryStatus.SUCCESS.equals(response) ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR;
-            LoggingUtils.logMetricsMessage(
-                    beginTimestamp,
-                    endTimestamp,
-                    LoggingConstants.TargetNames.AAI,
-                    LoggingConstants.TargetServiceNames.AAIServiceNames.QUERY,
-                    status,
-                    "",
-                    response.name(),
-                    this.getClass().getCanonicalName());
-            if (SvcLogicResource.QueryStatus.NOT_FOUND.equals(response)) {
-                throw new VNFNotFoundException("VNF not found for vnf_id = " + vnf_id);
-            } else if (SvcLogicResource.QueryStatus.FAILURE.equals(response)) {
-                throw new RuntimeException("Error Querying AAI with vnfID = " + vnf_id);
-            }
-            logger.info("AAIResponse: " + response.toString());
-        } catch (SvcLogicException e) {
-
-            LoggingUtils.logErrorMessage(
-                    LoggingConstants.TargetServiceNames.AAIServiceNames.GET_VNF_DATA,
-                    "Error in getVnfdata" + e,
-                    this.getClass().getCanonicalName());
-
-            throw new RuntimeException(e);
-        }
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from getVnfdata with (SvcLogicContext = "+ ObjectUtils.toString(ctx)+")");
-        }
-        return ctx;
-    }
-
-    protected void validateInput(RequestContext requestContext)
-            throws RequestExpiredException, InvalidInputException, DuplicateRequestException {
+    protected void validateInput(RuntimeContext runtimeContext)
+        throws RequestExpiredException, InvalidInputException, DuplicateRequestException {
+        RequestContext requestContext = runtimeContext.getRequestContext();
         if (logger.isTraceEnabled()){
             logger.trace("Entering to validateInput with RequestHandlerInput = "+ ObjectUtils.toString(requestContext));
         }
-        if (requestContext.getActionIdentifiers().getVnfId() == null || requestContext.getAction() == null
-                || requestContext.getActionIdentifiers().getVnfId().length() == 0 || requestContext.getAction().name().length() == 0 ||
-                null == requestContext.getCommonHeader().getApiVer()) {
+        if (StringUtils.isEmpty(requestContext.getActionIdentifiers().getVnfId()) || requestContext.getAction() == null
+                || StringUtils.isEmpty(requestContext.getAction().name()) || StringUtils.isEmpty(requestContext.getCommonHeader().getApiVer())){
             if (logger.isDebugEnabled()) {
                 logger.debug("vnfID = " + requestContext.getActionIdentifiers().getVnfId() + ", action = " + requestContext.getAction().name());
             }
@@ -296,10 +91,14 @@ public abstract class AbstractRequestValidatorImpl implements RequestValidator {
             throw new InvalidInputException("vnfID or command is null");
         }
         CommonHeader commonHeader = requestContext.getCommonHeader();
+        try {
+            if(transactionRecorder.isTransactionDuplicate(runtimeContext.getTransactionRecord()))
+                throw new DuplicateRequestException("Duplicate Request with");
+        } catch (APPCException e) {
+            logger.error("Error accessing database for transaction data",e);
+        }
 
-        checkForDuplicateRequest(commonHeader);
-
-        Calendar inputTimeStamp = DateToCalendar(Date.from(commonHeader.getTimeStamp()));
+        Calendar inputTimeStamp = DateToCalendar(commonHeader.getTimeStamp());
         Calendar currentTime = Calendar.getInstance();
 
         // If input timestamp is of future, we reject the request
@@ -309,9 +108,16 @@ public abstract class AbstractRequestValidatorImpl implements RequestValidator {
             }
             throw new InvalidInputException("Input Timestamp is of future = " + inputTimeStamp.getTime());
         }
-        Integer ttl = readTTL(commonHeader);
+
+        // Set ttl value from commonHeader. If not available set it to default
+        Integer ttl = (commonHeader.getFlags()== null || commonHeader.getFlags().getTtl() <= 0 ) ?
+                Integer.parseInt(configuration.getProperty(Constants.DEFAULT_TTL_KEY, String.valueOf(Constants.DEFAULT_TTL))):
+                commonHeader.getFlags().getTtl();
+
         logger.debug("TTL value set to (seconds) : " + ttl);
+
         inputTimeStamp.add(Calendar.SECOND, ttl);
+
         if (currentTime.getTime().getTime() >= inputTimeStamp.getTime().getTime()) {
 
             LoggingUtils.logErrorMessage(

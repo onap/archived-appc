@@ -24,9 +24,20 @@
 
 package org.onap.appc.dao.util;
 
+import org.onap.appc.dao.util.api.JdbcConnectionFactory;
+import org.onap.appc.dao.util.exception.JdbcRuntimeException;
+import org.onap.appc.dao.util.message.Messages;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
+/**
+ * @deprecated As of release 1802, replaced by {@link #(AppcDatabaseConnectionPool)}
+ * <p>
+ * This class provides the ability to create dbconnection by using DBUtils which
+ * has been depreacted.
+ */
+@Deprecated
 public class AppcJdbcConnectionFactory implements JdbcConnectionFactory {
 
     private String schema;
@@ -38,7 +49,7 @@ public class AppcJdbcConnectionFactory implements JdbcConnectionFactory {
     public Connection openDbConnection() {
         try {
             return DBUtils.getConnection(schema);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new JdbcRuntimeException(Messages.EXP_APPC_JDBC_CONNECT.format(schema), e);
         }
     }
@@ -46,7 +57,7 @@ public class AppcJdbcConnectionFactory implements JdbcConnectionFactory {
     public void closeDbConnection(Connection connection) {
         try {
             connection.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new JdbcRuntimeException(Messages.EXP_APPC_JDBC_DISCONNECT.format(schema), e);
         }
     }

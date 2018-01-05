@@ -24,46 +24,64 @@
 
 package org.onap.appc.dao.util;
 
-import java.sql.*;
-
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+/**
+ * @deprecated As of release 1802, replaced by {@link #(org.onap.appc.dao.util.dbcp.DBConnectionPool)}
+ * <p>
+ * This class provides the ability to access mysql database which has been @Deprecated because
+ * {@link #getConnection(String)} for each database request is not a good practice especially
+ * on appc performance.
+ * <p>
+ * If you would like to use appcctl (mysql database), bundle:appc-data-access-lib has created
+ * a database connection pool bean and exported as a service by using blueprint.
+ * If you would like to create a new database connection pool, refer to the way mentioned above.
+ * {@link org.onap.appc.dao.util.api.DBConnectionPoolService} has an example of how to use
+ * the connection pool.
+ */
 @Deprecated
 public class DBUtils {
-	private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
-	private static final Configuration configuration = ConfigurationFactory.getConfiguration();
-	static {
-		try {
-			String driver = JDBC_DRIVER;
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+    private static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
-	public static Connection getConnection(String schema) throws SQLException {
-		DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
-		String dbURL = configuration.getProperty(String.format("org.onap.appc.db.url.%s", schema), "");
-		String userName = configuration.getProperty(String.format("org.onap.appc.db.user.%s", schema), "");
-		String password = configuration.getProperty(String.format("org.onap.appc.db.pass.%s", schema), "");
-		return DriverManager.getConnection(dbURL, userName, password);
-	}
+    static {
+        try {
+            String driver = JDBC_DRIVER;
+            Class.forName(driver);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public static boolean clearResources(ResultSet resultSet, PreparedStatement ptmt, Connection connection) {
-		boolean clearFlag = false;
-		try {
-			if (resultSet != null)
-				resultSet.close();
-			if (ptmt != null)
-				ptmt.close();
-			if (connection != null)
-				connection.close();
-			clearFlag = true;
-		} catch (SQLException e) {
+    public static Connection getConnection(String schema) throws SQLException {
+        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        String dbURL = configuration.getProperty(String.format("org.onap.appc.db.url.%s", schema), "");
+        String userName = configuration.getProperty(String.format("org.onap.appc.db.user.%s", schema), "");
+        String password = configuration.getProperty(String.format("org.onap.appc.db.pass.%s", schema), "");
+        return DriverManager.getConnection(dbURL, userName, password);
+    }
 
-		}
-		return clearFlag;
+    public static boolean clearResources(ResultSet resultSet, PreparedStatement ptmt, Connection connection) {
+        boolean clearFlag = false;
+        try {
+            if (resultSet != null)
+                resultSet.close();
+            if (ptmt != null)
+                ptmt.close();
+            if (connection != null)
+                connection.close();
+            clearFlag = true;
+        } catch (SQLException e) {
 
-	}
+        }
+        return clearFlag;
+
+    }
 }
