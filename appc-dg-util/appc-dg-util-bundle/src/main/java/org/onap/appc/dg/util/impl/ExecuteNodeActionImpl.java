@@ -166,7 +166,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         if (logger.isDebugEnabled()) {
             logger.debug("Inside getVnfHierarchy======");
         }
-        //String ctx_prefix = params.get("prefix");
         String resourceKey = params.get("resourceKey");
        // String retrivalVnfKey = "vnf-id = '" + resourceKey + "' AND relationship-key = 'vserver.vserver-id'";
         String retrivalVnfKey = "generic-vnf.vnf-id = '" + resourceKey + "'";
@@ -235,7 +234,10 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
                     }
                     //Retrive VM relations to find vnfc's
                     //VM to VNFC is 1 to 1 relation
-                    String vmRetrivalKey = "vserver.vserver-id = '" + vserverID + "' AND tenant.tenant_id = '" + tenantID + "'" + "' AND cloud-region.cloud-owner = '" + cloudOwner + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";	
+                    String vmRetrivalKey = "vserver.vserver-id = '" + vserverID
+                        + "' AND tenant.tenant_id = '" + tenantID
+                        + "'" + "' AND cloud-region.cloud-owner = '" + cloudOwner
+                        + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
                     Map<String, String> paramsVm = new HashMap<String, String>();
                     paramsVm.put("resourceType", "vserver");
                     paramsVm.put("prefix", "vmRetrived");
@@ -320,7 +322,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     }
 
     private void populateVnfcsDetailsinContext(Map<String, Set<String>> vnfcHierarchyMap, SvcLogicContext ctx) throws APPCException {
-//        int vnfcCount = vnfcHierarchyMap.size();
         SvcLogicContext vnfcCtx = new SvcLogicContext();
         int vnfcCounter = 0;
         for (String vnfcName : vnfcHierarchyMap.keySet()) {
