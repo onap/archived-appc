@@ -242,13 +242,14 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             JSONArray vnfActionList = new JSONArray();
             JSONArray vfModuleActionList = new JSONArray();
             JSONArray vnfcActionList = new JSONArray();
+	    JSONArray vmActionVnfcFunctionCodesList=new JSONArray();
             JSONArray vmActionList = new JSONArray();
             String vnfType = null;
             JSONObject contentObject = new JSONObject(contentString);
             JSONArray contentArray = contentObject.getJSONArray("reference_data");
-            boolean storeCapabilityArtifact=true;
+            boolean storeCapabilityArtifact = true;
             for (int a = 0; a < contentArray.length(); a++) {
-
+		pdFile = false;
                 JSONObject content = (JSONObject) contentArray.get(a);
                 log.info("contentString =" + content.toString());
                 JSONObject scope = content.getJSONObject("scope");
@@ -262,6 +263,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 String actionLevel = content.getString(SdcArtifactHandlerConstants.ACTION_LEVEL);
                 context.setAttribute(SdcArtifactHandlerConstants.ACTION_LEVEL,
                         content.getString(SdcArtifactHandlerConstants.ACTION_LEVEL));
+			context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE,
+					document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_TYPE));
                 if ((null != actionLevel)
                         && actionLevel.equalsIgnoreCase(SdcArtifactHandlerConstants.ACTION_LEVEL_VNFC)) {
                     vnfcActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
@@ -274,16 +277,29 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                     vnfActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
                 }
                 if (null != actionLevel && actionLevel.equalsIgnoreCase(SdcArtifactHandlerConstants.ACTION_LEVEL_VM)) {
-                    vmActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
+				if (content.has(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST)
+							&& !content.isNull(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST) && content.get(
+									SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST) instanceof JSONArray) {
+						log.info("Found vnfc-function-code-list!!");
+						JSONArray vnfcList = content.getJSONArray(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST);
+						JSONObject obj = new JSONObject();
+						obj.put(content.getString(SdcArtifactHandlerConstants.ACTION), vnfcList);
+						vmActionVnfcFunctionCodesList.put(obj);
+					} else {
+						log.info("Not getting JSONArray for VNFC FUNCTION CODES");
+					}                    
                 }
                 if (scope.has(SdcArtifactHandlerConstants.VNFC_TYPE)
                         && !scope.isNull(SdcArtifactHandlerConstants.VNFC_TYPE)) {
+		    String vnfcTypeScope = scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE);
+                    if (StringUtils.isNotBlank(vnfcTypeScope)) {
                     context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE,
                             scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE));
-                    String vnfcTypeScope = scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE);
-                    if (StringUtils.isNotBlank(vnfcTypeScope)) {
-                        storeCapabilityArtifact = false;
+                    storeCapabilityArtifact = false;
                         log.info("No capability Artifact for this reference data as it is at VNFC level!!");
+                    }
+			else {
+                         context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
                     }
                 }
                 else
@@ -297,7 +313,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 if (content.has(SdcArtifactHandlerConstants.PORT_NUMBER))
                     context.setAttribute(SdcArtifactHandlerConstants.PORT_NUMBER,
                             content.getString(SdcArtifactHandlerConstants.PORT_NUMBER));
-                context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE, "");
+                //context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE, "");
                 if (content.has("artifact-list") && content.get("artifact-list") instanceof JSONArray) {
                     JSONArray artifactLists = (JSONArray) content.get("artifact-list");
                     for (int i = 0; i < artifactLists.length(); i++) {
@@ -317,7 +333,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                                     .substring(SdcArtifactHandlerConstants.PD.length());
                             pdFile = true;
                         }
-
+			log.info("Artifact-type = " + context.getAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE));
                         dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
                                 SdcArtifactHandlerConstants.DB_SDC_REFERENCE));
 
@@ -346,20 +362,21 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                         dbservice.processDownloadDgReference(context, dbservice.isArtifactUpdateRequired(context,
                                 SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE));
                     }
-                    if (StringUtils.isBlank(context.getAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE)))
+                    if (StringUtils.isBlank(context.getAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE))) {
                         context.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE,
                                 dbservice.getDownLoadDGReference(context));
+			}
                     dbservice.processConfigActionDg(context, dbservice.isArtifactUpdateRequired(context,
                             SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG));
                     if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")) {
                         dbservice.processDeviceInterfaceProtocol(context, dbservice.isArtifactUpdateRequired(context,
                                 SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL));
-                        dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION));
+                        
                     }
 
                 }
-
+		dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
+                                SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION));
 
                 populateProtocolReference(dbservice, content);
 
@@ -409,7 +426,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 capabilities.put("vnf", vnfActionList);
                 capabilities.put("vf-module", vfModuleActionList);
                 capabilities.put("vnfc", vnfcActionList);
-                capabilities.put("vm", vmActionList);
+                capabilities.put("vm", vmActionVnfcFunctionCodesList);
                 processAndStoreCapablitiesArtifact(dbservice, document_information, capabilities, capabilityArtifactName,
                     vnfType);
             }
