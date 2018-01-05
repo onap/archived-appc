@@ -24,19 +24,32 @@
 
 package org.onap.appc.design.xinterface;
 
-import java.io.File;
-import java.io.IOException;
+import org.onap.appc.design.services.util.DesignServiceConstants;
+import org.onap.appc.design.xinterface.XResponseProcessor;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.google.common.base.Strings;
 
 public class XInterfaceService {
     
-
-    public String execute(String action, String payload) throws IOException {
-        //Remove this once hte interfaces are up and running
-        File targetFile = new File("/tmp/" + action + "-response.txt" );
-        String interfaceResponse = Files.toString(targetFile, Charsets.UTF_8);
+    private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
+    public String execute(String action, String payload) throws Exception {
+        //File targetFile = new File("/tmp/" + action + "-response.txt" );
+        String interfaceResponse = null;
+        try{
+            if(Strings.isNullOrEmpty(payload))
+                throw new Exception("Payload is null or empty..");
+            if(DesignServiceConstants.GETINSTARDATA.equalsIgnoreCase(action)){
+                XResponseProcessor xResponseProcessor =  new XResponseProcessor();
+                interfaceResponse = xResponseProcessor.parseResponse(payload, DesignServiceConstants.GETINSTARDATA);
+            } else {
+                throw new Exception("No Such Action, Please enter valid Action");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            throw e;
+        }
         return interfaceResponse;
     }
 

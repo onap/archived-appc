@@ -42,6 +42,7 @@ import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -174,16 +175,16 @@ public class DesignDBService {
 
         if(!data)
             throw new Exception("Error while updating ProtocolReference");
-        
         return "{\"update\" : \"success\" } ";
     }
     private String uploadArtifact(String payload, String requestID) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         JsonNode payloadObject = objectMapper.readTree(payload);
         log.info("Got upload Aritfact with Payload : " + payloadObject.asText());
         try{
-            ArtifactHandlerClient ac = new ArtifactHandlerClient(); 
+            ArtifactHandlerClient ac = new ArtifactHandlerClient();
             String requestString = ac.createArtifactData(payload, requestID);
             ac.execute(requestString, "POST");
             int sdc_artifact_id = getSDCArtifactIDbyRequestID(requestID);
@@ -377,33 +378,31 @@ public class DesignDBService {
             String vnfc_type = null;
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode payloadObject = objectMapper.readTree(payload);
-            ArrayList<String> argList = new ArrayList<>();            
+            ArrayList<String> argList = new ArrayList<>();
             argList.add(payloadObject.get("artifact-name").textValue());
             argList.add(payloadObject.get("artifact-type").textValue());
 
-            String queryString = "SELECT INTERNAL_VERSION, ARTIFACT_CONTENT FROM ASDC_ARTIFACTS where " + 
+            String queryString = "SELECT INTERNAL_VERSION, ARTIFACT_CONTENT FROM ASDC_ARTIFACTS where " +
                     " ARTIFACT_NAME = ? AND ARTIFACT_TYPE = ?  " ;
 
             log.info("Query String :" + queryString);
             ResultSet data = dbservice.getDBData(queryString, argList);
             String artifact_content = null;
-            int hightestVerion = 0 ;
-            while(data.next()) {            
+            int hightestVerion = -1 ;
+            while(data.next()) {
                 int version = data.getInt("INTERNAL_VERSION");
                 if(hightestVerion < version)
-                    artifact_content = data.getString("ARTIFACT_CONTENT");            
-            }    
-            
+                    artifact_content = data.getString("ARTIFACT_CONTENT");
+            }
             if(artifact_content == null || artifact_content.isEmpty())
                 throw new Exception("Sorry !!! I dont have any artifact Named : " + payloadObject.get("artifact-name").textValue());
             DesignResponse designResponse = new DesignResponse();
-            designResponse.setUserId(payloadObject.get("userID").textValue());
-            List<ArtifactInfo> artifactInfoList = new ArrayList<ArtifactInfo>();    
+            //designResponse.setUserId(payloadObject.get("userID").textValue());
+            List<ArtifactInfo> artifactInfoList = new ArrayList<ArtifactInfo>();
             ArtifactInfo artifactInfo =  new ArtifactInfo();
             artifactInfo.setArtifact_content(artifact_content);
             artifactInfoList.add(artifactInfo);
             designResponse.setArtifactInfo(artifactInfoList);
-            
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(designResponse);
             log.info("Info : " + jsonString);
@@ -584,35 +583,44 @@ public class DesignDBService {
     //            for (Enumeration e = props.propertyNames(); e.hasMoreElements() ; ) {
     //                String propName = (String) e.nextElement();
     //                log.info(propName+" = "+props.getProperty(propName));
-    //                
+    //
     //            }
     //        }
     //        return requestID;
-    //        
+    //
     //    }
 
     private String getDesigns(String payload, String requestID) throws Exception {
 
-        String fn = "DBService.getDesigns ";        
+        String fn = "DBService.getDesigns ";
+        String queryString;
         log.info("Starting getDesgins DB Operation");
 
 
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode payloadObject = objectMapper.readTree(payload);
-            String UserID = payloadObject.get("userID").textValue();        
+            String UserID = payloadObject.get("userID").textValue();
+            String filterKey =null;
+            if(payloadObject.hasNonNull("filter"))
+                filterKey = payloadObject.get("filter").textValue();
             ArrayList<String> argList = new ArrayList<>();
             argList.add(UserID);
 
-            String queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
-                    DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
-                    " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? ";
-
+            if(filterKey!=null){
+                queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
+                        DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
+                        " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? and AR.ARTIFACT_NAME like '%"+filterKey+"%' GROUP BY AR.VNF_TYPE,AR.ARTIFACT_NAME";
+            }else{
+                queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
+                        DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
+                        " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? GROUP BY AR.VNF_TYPE,AR.ARTIFACT_NAME";
+            }
             DesignResponse designResponse = new DesignResponse();
             designResponse.setUserId(UserID);
             List<DesignInfo> designInfoList = new ArrayList<DesignInfo>();
             ResultSet data = dbservice.getDBData(queryString, argList);
-            while(data.next()) {            
+            while(data.next()) {
                 DesignInfo designInfo = new DesignInfo();
                 designInfo.setInCart(data.getString("IN_CART"));
                 designInfo.setProtocol(data.getString("PROTOCOL"));
