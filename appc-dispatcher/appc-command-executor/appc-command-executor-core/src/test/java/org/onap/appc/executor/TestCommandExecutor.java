@@ -24,30 +24,29 @@
 
 package org.onap.appc.executor;
 /**
- *
+ * 
  */
 
 
-import java.time.Instant;
-
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
-import org.onap.appc.domainmodel.lcm.CommonHeader;
-import org.onap.appc.domainmodel.lcm.Flags;
-import org.onap.appc.domainmodel.lcm.RequestContext;
-import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.domainmodel.lcm.VNFContext;
-import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.domainmodel.lcm.*;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.executionqueue.ExecutionQueueService;
 import org.onap.appc.executor.impl.*;
+import org.onap.appc.executor.impl.objects.CommandRequest;
+import org.onap.appc.executor.objects.CommandExecutorInput;
 import org.onap.appc.lifecyclemanager.LifecycleManager;
 import org.onap.appc.requesthandler.RequestHandler;
 import org.onap.appc.workflow.WorkFlowManager;
 import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -55,113 +54,99 @@ import java.util.concurrent.TimeUnit;
 import static junit.framework.Assert.assertTrue;
 import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
-
-@SuppressWarnings("deprecation")
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({CommandTask.class,CommandExecutorImpl.class})
 public class TestCommandExecutor {
 
-	private static final String TTL_FLAG= "TTL";
-	private static final String API_VERSION= "2.0.0";
-	private static final String ORIGINATOR_ID= "1";
+        private static final String TTL_FLAG= "TTL";
+        private static final String API_VERSION= "2.0.0";
+        private static final String ORIGINATOR_ID= "1";
 
-	private CommandExecutorImpl commandExecutor;
+    private CommandExecutorImpl commandExecutor;
 
-	private CommandTaskFactory executionTaskFactory;
+    private RequestHandler requestHandler;
+    private WorkFlowManager workflowManager;
+    private ExecutionQueueService executionQueueService;
 
-	private RequestHandler requestHandler;
-	private WorkFlowManager workflowManager;
-	private LifecycleManager lifecyclemanager;
+    private Date timeStamp = new Date();
+    private String requestId = "1";
+    private CommandExecutorInput commandExecutorInputConfigure = pouplateCommandExecutorInput("FIREWALL", 30000, "1.0",
+            timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure,"15","") ;
+    private CommandExecutorInput commandExecutorInputSync = pouplateCommandExecutorInput("FIREWALL", 30, "1.0",
+            timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
 
-	private ExecutionQueueService executionQueueService;
-	private Instant timeStamp = Instant.now();
-	private String requestId = "1";
-	private RuntimeContext commandExecutorInputConfigure = pouplateCommandExecutorInput("FIREWALL", 30000, "1.0",
-			timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure,"15","") ;
-	private RuntimeContext commandExecutorInputSync = pouplateCommandExecutorInput("FIREWALL", 30, "1.0",
-			timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
+    @Before
+    public void init()throws Exception {
+        requestHandler= Mockito.mock(RequestHandler.class);
+        workflowManager= Mockito.mock(WorkFlowManager.class);
 
-	@Before
-	public void init()throws Exception {
-		requestHandler= Mockito.mock(RequestHandler.class);
-		lifecyclemanager= Mockito.mock(LifecycleManager.class);
-		workflowManager= Mockito.mock(WorkFlowManager.class);
+        executionQueueService = Mockito.mock(ExecutionQueueService.class);
 
-		executionQueueService = Mockito.mock(ExecutionQueueService.class);
+        commandExecutor = new CommandExecutorImpl();
+        commandExecutor.setExecutionQueueService(executionQueueService);
+        commandExecutor.setRequestHandler(requestHandler);
+        commandExecutor.setWorkflowManager(workflowManager);
+        commandExecutor.initialize();
+        CommandTask commandTask = Mockito.mock(CommandTask.class);
+        Mockito.when(commandTask.getCommandRequest()).thenReturn(new CommandRequest(commandExecutorInputConfigure));
+        PowerMockito.whenNew(CommandTask.class).withParameterTypes(RequestHandler.class,WorkFlowManager.class).withArguments(requestHandler,workflowManager).thenReturn(commandTask);
+    }
+        
 
-		commandExecutor = new CommandExecutorImpl();
-		executionTaskFactory = Mockito.mock(CommandTaskFactory.class);
-		commandExecutor.setExecutionTaskFactory(executionTaskFactory);
-		commandExecutor.setExecutionQueueService(executionQueueService);
-		LCMCommandTask lcmCommandTask = Mockito.mock(LCMCommandTask.class);
-		LCMReadonlyCommandTask lCMReadonlyCommandTask = Mockito.mock(LCMReadonlyCommandTask.class);
+    @Test
+    public void testPositiveFlow_LCM() throws Exception {
+        //Map <String,Object> flags = setTTLInFlags("30");
+        try {
+            commandExecutor.executeCommand(commandExecutorInputConfigure);
+        } catch (APPCException e) {
+            Assert.fail(e.toString());
+        }
 
-		Mockito.when(executionTaskFactory.getExecutionTask(commandExecutorInputConfigure)).thenReturn(lcmCommandTask);
-		Mockito.when(executionTaskFactory.getExecutionTask(commandExecutorInputSync)).thenReturn(lCMReadonlyCommandTask);
+    }
 
-//		Mockito.when(executionQueueService.putMessage((Runnable) Mockito.anyObject(),Mockito.anyLong(),(TimeUnit)Mockito.anyObject())).thenReturn(true);
+    @Test(expected = APPCException.class)
+    public void testNegativeFlow_LCM() throws APPCException{
+            Mockito.doThrow(new APPCException("Failed to enqueue request")).when(executionQueueService).putMessage((Runnable) Mockito.anyObject(),Mockito.anyLong(),(TimeUnit) Mockito.anyObject());
+            commandExecutor.executeCommand(commandExecutorInputSync);
+    }
 
-	}
+    
+    private CommandExecutorInput pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
+        CommandExecutorInput commandExecutorInput = createCommandExecutorInputWithSubObjects();
+        RuntimeContext runtimeContext = commandExecutorInput.getRuntimeContext();
+        RequestContext requestContext = runtimeContext.getRequestContext();
+        requestContext.getCommonHeader().getFlags().setTtl(ttl);
+        requestContext.getCommonHeader().setApiVer(apiVersion);
+        requestContext.getCommonHeader().setTimestamp(timeStamp);
+        requestContext.getCommonHeader().setRequestId(requestId);
+        requestContext.getCommonHeader().setSubRequestId(subRequestID);
+        requestContext.getCommonHeader().setOriginatorId(originatorID);
+        requestContext.setAction(action);
+        requestContext.setPayload(payload);
+        requestContext.getActionIdentifiers().setVnfId(vnfId);
+        VNFContext vnfContext = runtimeContext.getVnfContext();
+        vnfContext.setType(vnfType);
+        vnfContext.setId(vnfId);
+        vnfContext.setVersion(vnfVersion);
+        return commandExecutorInput;
+    }
 
-
-	@Test
-	public void testPositiveFlow_LCM() throws Exception {
-		//Map <String,Object> flags = setTTLInFlags("30");
-		String requestId = "1";
-		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure, "15", "") ;
-		try {
-			commandExecutor.executeCommand(commandExecutorInput);
-		} catch (APPCException e) {
-			Assert.fail(e.toString());
-		}
-
-	}
-
-	@Test
-	public void testPositiveFlow_GetConfig(){
-		String requestId = "1";
-
-		RuntimeContext commandExecutorInput = pouplateCommandExecutorInput("FIREWALL", 30, "1.0", Instant.now(), API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
-		try {
-			commandExecutor.executeCommand(commandExecutorInput);
-		} catch (APPCException e) {
-			Assert.fail(e.toString());
-		}
-
-	}
-
-	
-	private RuntimeContext pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Instant timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
-		RuntimeContext commandExecutorInput = createCommandExecutorInputWithSubObjects();		
-		RequestContext requestContext = commandExecutorInput.getRequestContext();
-		requestContext.getCommonHeader().setFlags(new Flags(null, false, ttl));
-		requestContext.getCommonHeader().setApiVer(apiVersion);
-		requestContext.getCommonHeader().setTimestamp(timeStamp);
-		requestContext.getCommonHeader().setRequestId(requestId);
-		requestContext.getCommonHeader().setSubRequestId(subRequestID);
-		requestContext.getCommonHeader().setOriginatorId(originatorID);
-		requestContext.setAction(action);
-		requestContext.setPayload(payload);
-		requestContext.getActionIdentifiers().setVnfId(vnfId);
-		VNFContext vnfContext = commandExecutorInput.getVnfContext();
-		vnfContext.setType(vnfType);
-		vnfContext.setId(vnfId);
-		vnfContext.setVersion(vnfVersion);
-		return commandExecutorInput;
-	}
-
-	private RuntimeContext createCommandExecutorInputWithSubObjects() {
-		RuntimeContext runtimeContext = new RuntimeContext();
+    private CommandExecutorInput createCommandExecutorInputWithSubObjects() {
+        CommandExecutorInput commandExecutorInput = new CommandExecutorInput();
+        RuntimeContext runtimeContext = new RuntimeContext();
+        commandExecutorInput.setRuntimeContext(runtimeContext);
         RequestContext requestContext = new RequestContext();
-		runtimeContext.setRequestContext(requestContext);
-		CommonHeader commonHeader = new CommonHeader();
-		requestContext.setCommonHeader(commonHeader);
-		commonHeader.setFlags(new Flags(null, false, 0));
-		ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
-		requestContext.setActionIdentifiers(actionIdentifiers);
-		VNFContext vnfContext = new VNFContext();
-		runtimeContext.setVnfContext(vnfContext);
-		return runtimeContext;
-	}
-
-
+        runtimeContext.setRequestContext(requestContext);
+        CommonHeader commonHeader = new CommonHeader();
+        requestContext.setCommonHeader(commonHeader);
+        Flags flags = new Flags();
+        commonHeader.setFlags(flags);
+        ActionIdentifiers actionIdentifiers = new ActionIdentifiers();
+        requestContext.setActionIdentifiers(actionIdentifiers);
+        VNFContext vnfContext = new VNFContext();
+        runtimeContext.setVnfContext(vnfContext);
+        return commandExecutorInput;
+    }
 
 }
+

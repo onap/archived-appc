@@ -22,128 +22,87 @@
  * ============LICENSE_END=========================================================
  */
 
-/**
- *
- */
 package org.onap.appc.executor.impl;
 
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang.ObjectUtils;
-import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.executionqueue.ExecutionQueueService;
 import org.onap.appc.executor.CommandExecutor;
+import org.onap.appc.executor.impl.objects.CommandRequest;
+import org.onap.appc.executor.objects.CommandExecutorInput;
+import org.onap.appc.requesthandler.RequestHandler;
+import org.onap.appc.workflow.WorkFlowManager;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
 public class CommandExecutorImpl implements CommandExecutor {
 
-    private CommandTaskFactory executionTaskFactory;
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(CommandExecutorImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(CommandExecutorImpl.class);
 
     private ExecutionQueueService executionQueueService;
-    private ExpiredMessageHandler expiredMessageHandler;
-
-    public CommandExecutorImpl() {
-
-    }
+    private RequestHandler requestHandler;
+    private WorkFlowManager workflowManager;
 
     /**
-     * Injected by blueprint
-     *
-     * @param executionQueueService
+     * Initialization.
+     * <p>Used through blueprint.
      */
+    public void initialize() {
+        logger.info("initialization started of CommandExecutorImpl");
+    }
+
     public void setExecutionQueueService(ExecutionQueueService executionQueueService) {
         this.executionQueueService = executionQueueService;
     }
 
-    /**
-     * Injected by blueprint
-     * @param expiredMessageHandler
-     */
-    public void setExpiredMessageHandler(ExpiredMessageHandler expiredMessageHandler) {
-        this.expiredMessageHandler = expiredMessageHandler;
+    public void setWorkflowManager(WorkFlowManager workflowManager) {
+        this.workflowManager = workflowManager;
     }
 
-    public void initialize() {
-        logger.info("initialization started of CommandExecutorImpl");
-        executionQueueService.registerMessageExpirationListener(expiredMessageHandler);
+    public void setRequestHandler(RequestHandler requestHandler) {
+        this.requestHandler = requestHandler;
     }
 
-    public void setExecutionTaskFactory(CommandTaskFactory executionTaskFactory) {
-        this.executionTaskFactory = executionTaskFactory;
-    }
 
     /**
      * Execute given command
      * Create command request and enqueue it for execution.
-     *
      * @param commandExecutorInput Contains CommandHeader,  command , target Id , payload and conf ID (optional)
      * @throws APPCException in case of error.
      */
     @Override
-    public void executeCommand(RuntimeContext commandExecutorInput) throws APPCException {
+    public void executeCommand (CommandExecutorInput commandExecutorInput) throws APPCException{
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to executeCommand with CommandExecutorInput = " + ObjectUtils.toString(commandExecutorInput));
+            logger.trace("Entering to executeCommand with CommandExecutorInput = "+ ObjectUtils.toString(commandExecutorInput));
         }
-        enqueRequest(commandExecutorInput);
+        CommandTask commandTask;
+        try {
+            commandTask= new CommandTask(requestHandler,workflowManager);
+            commandTask.setCommandRequest(new CommandRequest(commandExecutorInput));
+            long remainingTTL = getRemainingTTL(commandTask.getCommandRequest());
+            if (logger.isTraceEnabled()) {
+                logger.trace("Queuing request with CommandRequest = "+ ObjectUtils.toString(commandTask.getCommandRequest()));
+            }
+            executionQueueService.putMessage(commandTask,remainingTTL, TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            logger.error("Exception: "+e.getMessage());
+            throw new APPCException(e);
+        }
+
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from executeCommand");
         }
     }
 
-    private RuntimeContext getCommandRequest(RuntimeContext commandExecutorInput) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getCommandRequest with CommandExecutorInput = " + ObjectUtils.toString(commandExecutorInput));
-        }
-        RuntimeContext commandRequest;
-        commandRequest = commandExecutorInput;
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from getCommandRequest with (CommandRequest = " + ObjectUtils.toString(commandRequest) + ")");
-        }
-        return commandRequest;
+    private long getRemainingTTL(CommandRequest request) {
+        Date requestTimestamp = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getTimeStamp();
+        int ttl = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getFlags().getTtl();
+        return ttl*1000 + requestTimestamp.getTime() - System.currentTimeMillis();
     }
 
-    @SuppressWarnings("unchecked")
-    private void enqueRequest(RuntimeContext request) throws APPCException {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to enqueRequest with CommandRequest = " + ObjectUtils.toString(request));
-        }
-        try {
-            CommandTask commandTask = executionTaskFactory.getExecutionTask(request);
-
-            long remainingTTL = getRemainingTTL(request);
-
-            executionQueueService.putMessage(commandTask, remainingTTL, TimeUnit.MILLISECONDS);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage());
-            throw new APPCException(e);
-        }
-
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from enqueRequest");
-        }
-    }
-
-    private long getRemainingTTL(RuntimeContext request) {
-        Instant requestTimestamp = request.getRequestContext().getCommonHeader().getTimeStamp();
-        int ttl = request.getRequestContext().getCommonHeader().getFlags().getTtl();
-        return ChronoUnit.MILLIS.between(Instant.now(), requestTimestamp.plusSeconds(ttl));
-    }
-
-    private CommandTask getMessageExecutor(RuntimeContext request) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getMessageExecutor with command = " + request);
-        }
-        CommandTask executionTask = executionTaskFactory.getExecutionTask(request);
-        if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from getMessageExecutor");
-        }
-        return executionTask;
-    }
 }

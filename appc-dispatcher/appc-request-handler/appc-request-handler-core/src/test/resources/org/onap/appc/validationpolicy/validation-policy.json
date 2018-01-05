@@ -1,0 +1,54 @@
+{
+    "request-validation-policies":
+    [
+      {
+        "name" : "ActionInProgress",
+        "rules":
+        [
+          {
+            "action-received": "Audit",
+            "validation-rule": "Reject",
+            "in-progress-action-exclusion-list": [
+              "HealthCheck",
+              "Test",
+              "CheckLock"
+            ]
+          },
+		  {
+            "action-received": "Start",
+            "validation-rule": "Reject",
+            "in-progress-action-inclusion-list": [
+              "HealthCheck",
+              "Test",
+              "CheckLock"
+            ]
+          },
+          {
+            "action-received": "Sync",
+            "validation-rule": "Accept",
+            "in-progress-action-exclusion-list": [
+              "HealthCheck",
+              "Test",
+              "CheckLock"
+            ]
+          },
+		  {
+            "action-received": "Stop",
+            "validation-rule": "Accept",
+            "in-progress-action-inclusion-list": [
+              "HealthCheck",
+              "Test",
+              "CheckLock"
+            ]
+          },
+          {
+            "action-received": "Default",
+            "validation-rule": "Reject",
+            "in-progress-action-exclusion-list": [
+              "CheckLock"
+            ]
+          }
+        ]
+      }
+    ]
+}

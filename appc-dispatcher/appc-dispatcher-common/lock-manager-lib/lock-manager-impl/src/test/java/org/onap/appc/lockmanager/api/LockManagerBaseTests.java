@@ -32,139 +32,139 @@ import org.onap.appc.lockmanager.api.LockManager;
 
 public abstract class LockManagerBaseTests {
 
-	protected enum Resource {Resource1, Resource2};
-	protected enum Owner {A, B};
+    protected enum Resource {Resource1, Resource2};
+    protected enum Owner {A, B};
 
-	protected LockManager lockManager;
+    protected LockManager lockManager;
 
-	@Before
-	public void beforeTest() {
-		lockManager = createLockManager();
-	}
+    @Before
+    public void beforeTest() {
+        lockManager = createLockManager();
+    }
 
-	protected abstract LockManager createLockManager();
+    protected abstract LockManager createLockManager();
 
-	@Test
-	public void testAcquireLock() throws LockException {
-		boolean lockRes = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
-		try {
-			Assert.assertTrue(lockRes);
-		} finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    @Test
+    public void testAcquireLock() throws LockException {
+        boolean lockRes = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
+        try {
+            Assert.assertTrue(lockRes);
+        } finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
-	@Test
-	public void testAcquireLock_AlreadyLockedBySameOwner() throws LockException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
-		try {
-			Assert.assertTrue(lockRes1);
-			boolean lockRes2 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
-			Assert.assertFalse(lockRes2);
-		} finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    @Test
+    public void testAcquireLock_AlreadyLockedBySameOwner() throws LockException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
+        try {
+            Assert.assertTrue(lockRes1);
+            boolean lockRes2 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
+            Assert.assertFalse(lockRes2);
+        } finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
-	@Test(expected = LockException.class)
-	public void testAcquireLock_AlreadyLockedByOtherOwner() throws LockException {
-		String owner2 = "B";
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
-		try {
-			Assert.assertTrue(lockRes1);
-			boolean lockRes2 = lockManager.acquireLock(Resource.Resource1.name(), owner2);
-			Assert.assertFalse(lockRes2);
-		} finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    @Test(expected = LockException.class)
+    public void testAcquireLock_AlreadyLockedByOtherOwner() throws LockException {
+        String owner2 = "B";
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
+        try {
+            Assert.assertTrue(lockRes1);
+            boolean lockRes2 = lockManager.acquireLock(Resource.Resource1.name(), owner2);
+            Assert.assertFalse(lockRes2);
+        } finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
-	@Test
-	public void testAcquireLock_LockDifferentResources() throws LockException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
-		try {
-			Assert.assertTrue(lockRes1);
-			boolean lockRes2 = lockManager.acquireLock(Resource.Resource2.name(), Owner.B.name());
-			try {
-				Assert.assertTrue(lockRes2);
-			} finally {
-				lockManager.releaseLock(Resource.Resource2.name(), Owner.B.name());
-			}
-		} finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    @Test
+    public void testAcquireLock_LockDifferentResources() throws LockException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
+        try {
+            Assert.assertTrue(lockRes1);
+            boolean lockRes2 = lockManager.acquireLock(Resource.Resource2.name(), Owner.B.name());
+            try {
+                Assert.assertTrue(lockRes2);
+            } finally {
+                lockManager.releaseLock(Resource.Resource2.name(), Owner.B.name());
+            }
+        } finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
-	@Test(expected = LockException.class)
-	public void testReleaseLock_NotLockedResource() throws LockException {
-		lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-	}
+    @Test(expected = LockException.class)
+    public void testReleaseLock_NotLockedResource() throws LockException {
+        lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+    }
 
-	@Test(expected = LockException.class)
-	public void testReleaseLock_LockedByOtherOwnerResource() throws LockException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
-		try {
-			Assert.assertTrue(lockRes1);
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.B.name());
-		} finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    @Test(expected = LockException.class)
+    public void testReleaseLock_LockedByOtherOwnerResource() throws LockException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
+        try {
+            Assert.assertTrue(lockRes1);
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.B.name());
+        } finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
-	@Test(expected = LockException.class)
-	public void testAcquireLock_LockExpired() throws LockException, InterruptedException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
-		Assert.assertTrue(lockRes1);
-		Thread.sleep(1000);
-		lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-	}
+    @Test(expected = LockException.class)
+    public void testAcquireLock_LockExpired() throws LockException, InterruptedException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
+        Assert.assertTrue(lockRes1);
+        Thread.sleep(1000);
+        lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+    }
 
-	@Test
-	public void testAcquireLock_OtherLockExpired() throws LockException, InterruptedException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
-		Assert.assertTrue(lockRes1);
-		Thread.sleep(1000);
-		boolean lockRes2 = lockManager.acquireLock(Resource.Resource1.name(), Owner.B.name());
-		try {
-			Assert.assertTrue(lockRes2);
-		}finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.B.name());
-		}
-	}
+    @Test
+    public void testAcquireLock_OtherLockExpired() throws LockException, InterruptedException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
+        Assert.assertTrue(lockRes1);
+        Thread.sleep(1000);
+        boolean lockRes2 = lockManager.acquireLock(Resource.Resource1.name(), Owner.B.name());
+        try {
+            Assert.assertTrue(lockRes2);
+        }finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.B.name());
+        }
+    }
 
-	@Test
-	public void testIsLocked_WhenLocked() throws LockException, InterruptedException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
-		try {
-		Assert.assertTrue(lockManager.isLocked(Resource.Resource1.name()));
-		}finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    @Test
+    public void testIsLocked_WhenLocked() throws LockException, InterruptedException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
+        try {
+        Assert.assertTrue(lockManager.isLocked(Resource.Resource1.name()));
+        }finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
 
     @Test(expected = LockException.class)
-	public void testIsLocked_LockExpired() throws LockException, InterruptedException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
-		Assert.assertTrue(lockRes1);
-		Assert.assertTrue(lockManager.isLocked(Resource.Resource1.name()));
-		Thread.sleep(1000);
-		try {
-			Assert.assertFalse(lockManager.isLocked(Resource.Resource1.name()));
-		}finally {
-			lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+    public void testIsLocked_LockExpired() throws LockException, InterruptedException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
+        Assert.assertTrue(lockRes1);
+        Assert.assertTrue(lockManager.isLocked(Resource.Resource1.name()));
+        Thread.sleep(1000);
+        try {
+            Assert.assertFalse(lockManager.isLocked(Resource.Resource1.name()));
+        }finally {
+            lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        }
+    }
 
-	@Test
-	public void testIsLocked_LockReleased() throws LockException, InterruptedException {
-		boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
-		lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		Assert.assertFalse(lockManager.isLocked(Resource.Resource1.name()));
-	}
+    @Test
+    public void testIsLocked_LockReleased() throws LockException, InterruptedException {
+        boolean lockRes1 = lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name(), 50);
+        lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
+        Assert.assertFalse(lockManager.isLocked(Resource.Resource1.name()));
+    }
 
-	@Test
-	public void testIsLocked_NoLock() throws LockException, InterruptedException {
-		Assert.assertFalse(lockManager.isLocked(Resource.Resource1.name()));
-	}
+    @Test
+    public void testIsLocked_NoLock() throws LockException, InterruptedException {
+        Assert.assertFalse(lockManager.isLocked(Resource.Resource1.name()));
+    }
 }

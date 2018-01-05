@@ -32,7 +32,7 @@
         <bundle dependency="true">mvn:org.onap.appc/appc-data-access-lib/${project.version}</bundle>
 
         <bundle>mvn:org.onap.appc/appc-workflow-management-api/${project.version}</bundle>
-        <bundle>mvn:org.onap.appc/appc-workflow-management-core/${project.version}</bundle>
+        <bundle start-level="85">mvn:org.onap.appc/appc-workflow-management-core/${project.version}</bundle>
         <bundle start="true" dependency="true">mvn:org.onap.appc/appc-ranking-framework-lib/${project.version}</bundle>
     </feature>
 

@@ -25,7 +25,7 @@
 package org.onap.appc.requesthandler;
 
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.executor.UnstableVNFException;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 
@@ -50,11 +50,10 @@ public interface RequestHandler {
     /**
      * This method perform operations required before execution of workflow starts. It retrieves next state for current operation from Lifecycle manager and update it in AAI.
      * @param vnf_id vnf id or target Id on which updates required
-     * @param  requestIdentifierString - string contains id uniquely represents the request
      * @param forceFlag
      * @return true in case AAI updates are successful. false for any error or exception.
      */
-    void onRequestExecutionStart(String vnf_id, boolean readOnlyActivity, String requestIdentifierString, boolean forceFlag) throws UnstableVNFException;
+    void onRequestExecutionStart(String vnf_id, boolean readOnlyActivity, boolean forceFlag) ;
 
     /**
      * This method perform following operations required after execution of workflow.
@@ -64,23 +63,12 @@ public interface RequestHandler {
      * Generate audit logs.
      * Adds transaction record to database id if transaction logging is enabled.
      * @param runtimeContext RuntimeContext object which contains all parameters from request, response and few parameters from AA&I
-     * @param isAAIUpdated boolean flag which indicate AAI upodate status after request completion.
      */
-    void onRequestExecutionEnd(RuntimeContext runtimeContext, boolean isAAIUpdated);
-
-    /**
-     * This method perform following operations required if TTL ends when request still waiting in execution queue .
-     * It posts asynchronous response to message bus (DMaaP).
-     * Unlock VNF Id
-     * Removes request from request registry.
-     * @param runtimeContext RuntimeContext object which contains all parameters from request, response and few parameters from AA&I;
-     * @param updateAAI boolean flag which indicate AAI upodate status after request completion.
-     */
-     void onRequestTTLEnd(RuntimeContext runtimeContext, boolean updateAAI);
+    void onRequestExecutionEnd(RuntimeContext runtimeContext);
 
     /**
      * This method returns the count of in progress requests
      * * @return in progress requests count
      */
-     int getInprogressRequestCount();
+     int getInprogressRequestCount() throws APPCException;
 }

@@ -25,13 +25,19 @@
 package org.onap.appc.requesthandler.exceptions;
 
 
-public class WorkflowNotFoundException extends Exception {
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+
+public class WorkflowNotFoundException extends RequestValidationException {
     public final String vnfTypeVersion;
     public final String command;
     public WorkflowNotFoundException(String message,String vnfTypeVersion,String command){
         super(message);
         this.vnfTypeVersion = vnfTypeVersion;
         this.command = command;
+        super.setLcmCommandStatus(LCMCommandStatus.WORKFLOW_NOT_FOUND);
+        Params params = new Params().addParam("actionName", command).addParam("vnfTypeVersion", vnfTypeVersion);
+        super.setParams(params);
     }
 
 }
