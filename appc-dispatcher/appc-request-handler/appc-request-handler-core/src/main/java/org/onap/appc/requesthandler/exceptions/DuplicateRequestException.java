@@ -25,8 +25,11 @@
 package org.onap.appc.requesthandler.exceptions;
 
 
-public class DuplicateRequestException extends Exception {
+import org.onap.appc.executor.objects.LCMCommandStatus;
+
+public class DuplicateRequestException extends RequestValidationException {
     public DuplicateRequestException(String message){
         super(message);
+        super.setLcmCommandStatus(LCMCommandStatus.DUPLICATE_REQUEST);
     }
 }

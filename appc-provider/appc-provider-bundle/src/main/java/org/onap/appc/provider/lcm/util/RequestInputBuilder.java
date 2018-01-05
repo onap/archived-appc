@@ -28,12 +28,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Payload;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags;
-import org.onap.appc.domainmodel.lcm.Flags.Mode;
 import org.onap.appc.domainmodel.lcm.ActionLevel;
 import org.onap.appc.domainmodel.lcm.RequestContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
@@ -44,15 +43,12 @@ import com.att.eelf.configuration.EELFManager;
 
 
 public class RequestInputBuilder {
-    private static EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
+    private final EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
 
     private static final String FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
 
     private RequestContext requestContext;
     private String rpcName;
-
-    public RequestInputBuilder() {
-    }
 
 
     public RequestInputBuilder requestContext() {
@@ -99,7 +95,7 @@ public class RequestInputBuilder {
                 SimpleDateFormat format = new SimpleDateFormat(FORMAT);
                 format.setLenient(false);
                 format.setTimeZone(TimeZone.getTimeZone("UTC"));
-                header.setTimestamp(format.parse(commonHeader.getTimestamp().getValue()).toInstant());
+                header.setTimestamp(format.parse(commonHeader.getTimestamp().getValue()));
             }else{
                 throw new ParseException("Missing mandatory parameter : timestamp " , 0);
             }
@@ -113,23 +109,21 @@ public class RequestInputBuilder {
         header.setSubRequestId(commonHeader.getSubRequestId());
 
         Flags inFlags = commonHeader.getFlags();
-        boolean force = false;
-        Mode mode = null;
-        int ttl = 0;
+        org.onap.appc.domainmodel.lcm.Flags flags = new org.onap.appc.domainmodel.lcm.Flags();
         if (inFlags != null) {
 
-            if (null != inFlags.getForce()) {
-                force = Boolean.parseBoolean(inFlags.getForce().toString().toLowerCase());
+            if(null != inFlags.getForce()) {
+                flags.setForce(Boolean.parseBoolean(inFlags.getForce().toString().toLowerCase()));
             }
-            if (null != inFlags.getMode()) {
-                mode = Mode.valueOf(inFlags.getMode().name());
+            if(null!=inFlags.getMode()) {
+                flags.setMode(inFlags.getMode().name());
             }
-            if (null != inFlags.getTtl()) {
-                ttl = inFlags.getTtl();
+            if(null!=  inFlags.getTtl()) {
+                flags.setTtl(inFlags.getTtl());
             }
 
         }
-        this.requestContext.getCommonHeader().setFlags(new org.onap.appc.domainmodel.lcm.Flags(mode, force, ttl));
+        this.requestContext.getCommonHeader().setFlags(flags);
         return this;
     }
 
@@ -143,20 +137,12 @@ public class RequestInputBuilder {
             actionIds.setVfModuleId(actionIdentifiers.getVfModuleId());
             this.requestContext.setActionIdentifiers(actionIds);
 
-            ActionLevel actionLevel = readActionLevel(actionIds);
+            ActionLevel actionLevel=ActionLevel.VNF;
             this.requestContext.setActionLevel(actionLevel);
             return this;
         }else{
             throw new ParseException("Missing action identifier" , 0);
         }
     }
-
-    private ActionLevel readActionLevel(org.onap.appc.domainmodel.lcm.ActionIdentifiers actionIds) {
-        if(!StringUtils.isEmpty(actionIds.getVserverId())){
-            return ActionLevel.VM;
-        }
-        return ActionLevel.VNF;
-    }
-
 
 }

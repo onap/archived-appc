@@ -38,7 +38,7 @@ public class LockManagerInMemoryImpl implements LockManager {
     private static LockManagerInMemoryImpl instance = null;
     private Map<String, LockValue> lockedVNFs;
 
-    private static final EELFLogger debugLogger = EELFManager.getInstance().getDebugLogger();
+    private final EELFLogger debugLogger = EELFManager.getInstance().getDebugLogger();
 
     private LockManagerInMemoryImpl() {
         lockedVNFs = new ConcurrentHashMap<>();
@@ -110,7 +110,12 @@ public class LockManagerInMemoryImpl implements LockManager {
 
     @Override
     public boolean isLocked(String resource) {
-        return lockedVNFs.get(resource)!=null?true:false;
+        return lockedVNFs.get(resource) != null;
+    }
+
+    @Override
+    public String getLockOwner(String resource) {
+        return lockedVNFs.get(resource).getOwner();
     }
 
     private boolean lockIsMine(LockValue lockValue, String owner, long now) {

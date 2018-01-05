@@ -24,9 +24,9 @@
 
 package org.onap.appc.provider;
 
-import org.onap.appc.util.StringHelper;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.onap.appc.util.StringHelper;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.osgi.framework.BundleContext;
@@ -34,37 +34,34 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.MDC;
 
-import static com.att.eelf.configuration.Configuration.*;
-
-import java.util.Properties;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Properties;
 import java.util.TimeZone;
 
 public class AppcProviderClient {
 
-	private static EELFLogger LOG = EELFManager.getInstance().getApplicationLogger();
-    private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
+    private final EELFLogger LOG = EELFManager.getInstance().getApplicationLogger();
+    private final EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
 
     private SvcLogicService svcLogic = null;
 
     public AppcProviderClient() {
         BundleContext bctx = FrameworkUtil.getBundle(SvcLogicService.class).getBundleContext();
-        //Handle BundleContext returning null
+        // Handle BundleContext returning null
         if (bctx == null){
-        	LOG.warn("Cannot find bundle context for " + SvcLogicService.NAME);
-        }
-        else{
-	        // Get SvcLogicService reference
-	        ServiceReference sref = bctx.getServiceReference(SvcLogicService.NAME);
-	        if (sref != null) {
-	            svcLogic = (SvcLogicService) bctx.getService(sref);
-	
-	        } else {
-	            LOG.warn("Cannot find service reference for " + SvcLogicService.NAME);
-	
-	        }
+            LOG.warn("Cannot find bundle context for " + SvcLogicService.NAME);
+        } else {
+            // Get SvcLogicService reference
+            ServiceReference sref = bctx.getServiceReference(SvcLogicService.NAME);
+            if (sref != null) {
+                svcLogic = (SvcLogicService) bctx.getService(sref);
+
+            } else {
+                LOG.warn("Cannot find service reference for " + SvcLogicService.NAME);
+
+            }
         }
     }
 
@@ -83,29 +80,26 @@ public class AppcProviderClient {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
         String durationStr = String.valueOf(duration);
         String endTimeStrUTC = df.format(new Date());
         MDC.put("EndTimestamp", endTimeStrUTC);
         MDC.put("ElapsedTime", durationStr);
         MDC.put("TargetEntity", "sli");
         MDC.put("TargetServiceName", "execute");
-        MDC.put("ClassName", "org.onap.appc.provider.AppcProviderClient"); 
+        MDC.put("ClassName", "org.onap.appc.provider.AppcProviderClient");
 
         LOG.debug("Parameters passed to SLI: " + StringHelper.propertiesToString(parms));
         metricsLogger.info("Parameters passed to SLI: " + StringHelper.propertiesToString(parms));
 
         Properties respProps = svcLogic.execute(module, rpc, version, mode, parms);
-        
+
         /*
          * Set End time for Metrics Logger
          */
         endTime = System.currentTimeMillis();
         duration = endTime - startTime;
-        endTimeStr = String.valueOf(endTime);
         durationStr = String.valueOf(duration);
         endTimeStrUTC = df.format(new Date());
         MDC.put("EndTimestamp", endTimeStrUTC);

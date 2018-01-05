@@ -26,7 +26,8 @@ package org.onap.appc.lockmanager.impl.sql;
 
 import java.sql.Connection;
 
-import org.onap.appc.dao.util.JdbcConnectionFactory;
+
+import org.onap.appc.dao.util.api.JdbcConnectionFactory;
 import org.onap.appc.lockmanager.api.LockManager;
 
 public abstract class JdbcLockManager implements LockManager {
