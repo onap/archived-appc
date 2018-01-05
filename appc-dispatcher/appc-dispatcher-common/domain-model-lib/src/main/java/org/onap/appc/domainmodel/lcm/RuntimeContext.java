@@ -32,10 +32,10 @@ public class RuntimeContext {
     private RequestContext requestContext;
     private ResponseContext responseContext;
     private VNFContext vnfContext;
+    private TransactionRecord transactionRecord;
 
     //TODO move fields timeStart abd isLockAcquired to a better place
     private Instant timeStart;
-    private boolean isLockAcquired;
     private String rpcName;
 
     public String getRpcName() {
@@ -44,22 +44,6 @@ public class RuntimeContext {
 
     public void setRpcName(String rpcName) {
         this.rpcName = rpcName;
-    }
-
-    public Instant getTimeStart() {
-        return timeStart;
-    }
-
-    public boolean isLockAcquired() {
-        return isLockAcquired;
-    }
-
-    public void setIsLockAcquired(boolean isLockAcquired) {
-        this.isLockAcquired = isLockAcquired;
-    }
-
-    public void setTimeStart(Instant timeStart) {
-        this.timeStart = timeStart;
     }
 
     public RequestContext getRequestContext() {
@@ -78,6 +62,14 @@ public class RuntimeContext {
         this.responseContext = responseContext;
     }
 
+    public Instant getTimeStart() {
+        return timeStart;
+    }
+
+    public void setTimeStart(Instant timeStart) {
+        this.timeStart = timeStart;
+    }
+
     public VNFContext getVnfContext() {
         return vnfContext;
     }
@@ -86,6 +78,16 @@ public class RuntimeContext {
         this.vnfContext = vnfContext;
     }
 
+
+    public TransactionRecord getTransactionRecord() {
+        return transactionRecord;
+    }
+
+    public void setTransactionRecord(TransactionRecord transactionRecord) {
+        this.transactionRecord = transactionRecord;
+    }
+
+
     @Override
     public String toString() {
         return "RuntimeContext{" +
@@ -93,7 +95,6 @@ public class RuntimeContext {
                 ", responseContext=" + responseContext +
                 ", vnfContext=" + vnfContext +
                 ", timeStart=" + timeStart +
-                ", isLockAcquired=" + isLockAcquired +
                 ", rpcName='" + rpcName + '\'' +
                 '}';
     }

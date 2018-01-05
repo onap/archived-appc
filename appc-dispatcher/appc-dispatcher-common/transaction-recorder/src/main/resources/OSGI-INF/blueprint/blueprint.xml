@@ -29,6 +29,13 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
-    <bean id="transactionRecorderBean" class="org.onap.appc.transactionrecorder.impl.TransactionRecorderImpl" scope="singleton" ></bean>
-    <service id="transactionRecorderService" interface="org.onap.appc.transactionrecorder.TransactionRecorder" ref="transactionRecorderBean"/>
+    <reference id="dbLibServiceRef" availability="mandatory" activation="eager"
+               interface="org.onap.ccsdk.sli.core.dblib.DbLibService"/>
+    <bean id="transactionRecorderBean" class="org.onap.appc.transactionrecorder.impl.TransactionRecorderImpl"
+          scope="singleton">
+        <property name="dbLibService" ref="dbLibServiceRef"/>
+    </bean>
+
+    <service id="transactionRecorderService" interface="org.onap.appc.transactionrecorder.TransactionRecorder"
+             ref="transactionRecorderBean"/>
 </blueprint>

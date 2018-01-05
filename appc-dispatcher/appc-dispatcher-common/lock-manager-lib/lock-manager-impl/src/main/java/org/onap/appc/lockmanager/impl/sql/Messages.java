@@ -27,7 +27,7 @@ package org.onap.appc.lockmanager.impl.sql;
 public enum Messages {
 
     ERR_NULL_LOCK_OWNER("Cannot acquire lock for resource [%s]: lock owner must be specified"),
-    ERR_LOCK_LOCKED_BY_OTHER("Cannot lock resource [%s] for [%s]: already locked by [%s]"),
+    ERR_LOCK_LOCKED_BY_OTHER("VNF : [%s] is locked by request id : [%s]"),
     ERR_UNLOCK_NOT_LOCKED("Error unlocking resource [%s]: resource is not locked"),
     ERR_UNLOCK_LOCKED_BY_OTHER("Error unlocking resource [%s] by [%s]: resource is locked by [%s]"),
     EXP_LOCK("Error locking resource [%s]."),
