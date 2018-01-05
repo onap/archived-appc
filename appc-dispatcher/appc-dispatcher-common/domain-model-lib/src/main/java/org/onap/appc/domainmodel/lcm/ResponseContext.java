@@ -31,8 +31,11 @@ import java.util.Map;
 public class ResponseContext {
     private CommonHeader commonHeader;
     private Status status;
-    private String payload;
     private Map<String, String> additionalContext;
+    /** Carries json String response payload */
+    private String payload;
+    /** Carries non-String response payload, such as List or Map of object */
+    private Object payloadObject;
 
     public CommonHeader getCommonHeader() {
         return commonHeader;
@@ -56,6 +59,14 @@ public class ResponseContext {
 
     public void setPayload(String payload) {
         this.payload = payload;
+    }
+
+    public Object getPayloadObject() {
+        return payloadObject;
+    }
+
+    public void setPayloadObject(Object payloadObject) {
+        this.payloadObject = payloadObject;
     }
 
     public Map<String, String> getAdditionalContext() {

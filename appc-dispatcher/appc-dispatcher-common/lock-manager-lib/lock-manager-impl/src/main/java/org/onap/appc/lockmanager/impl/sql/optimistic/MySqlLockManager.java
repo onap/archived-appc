@@ -32,4 +32,6 @@ public class MySqlLockManager extends SqlLockManager {
 	protected boolean isDuplicatePkError(SQLException e) {
 		return (e.getErrorCode() == 1062);
 	}
+
+
 }

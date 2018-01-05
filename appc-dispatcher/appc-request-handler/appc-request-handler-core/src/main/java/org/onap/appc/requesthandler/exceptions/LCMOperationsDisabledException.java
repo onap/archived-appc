@@ -24,9 +24,12 @@
 
 package org.onap.appc.requesthandler.exceptions;
 
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+
 /**
  */
-public class LCMOperationsDisabledException extends Exception {
+public class LCMOperationsDisabledException extends RequestValidationException {
 
     /**
      * Constructs a new exception with the specified detail message.
@@ -35,5 +38,8 @@ public class LCMOperationsDisabledException extends Exception {
      */
     public LCMOperationsDisabledException(String message) {
         super(message);
+        super.setLcmCommandStatus(LCMCommandStatus.REJECTED);
+        super.setParams(new Params().addParam("errorMsg", message));
+
     }
 }

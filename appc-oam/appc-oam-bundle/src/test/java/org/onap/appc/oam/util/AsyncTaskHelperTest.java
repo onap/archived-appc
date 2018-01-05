@@ -240,7 +240,6 @@ public class AsyncTaskHelperTest {
      * Make sure the base Future.isDone returns false until the 3 sub callable has completed execution.
      * Each sub callable will be shutdown one at a time.
      */
-    @Test
     public void test_scheduleBaseRunnable_SubTasks_isDone() throws Exception {
 
 

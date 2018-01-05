@@ -108,6 +108,27 @@ abstract class SqlLockManager extends JdbcLockManager {
 		}
 	}
 
+	@Override
+	public String getLockOwner(String resource) {
+		Connection connection=openDbConnection();
+		try {
+			org.onap.appc.lockmanager.impl.sql.pessimistic.LockRecord lockRecord=loadLockRecord(connection,resource);
+			if(lockRecord==null || lockRecord.getOwner() ==null ){
+				return null;
+			}else{
+				if(isLockExpired(lockRecord, connection)){
+					return null;
+				}else{
+					return lockRecord.getOwner();
+				}
+			}
+		} catch (SQLException e) {
+			throw new LockRuntimeException(Messages.EXP_CHECK_LOCK.format(resource));
+		}finally {
+			closeDbConnection(connection);
+		}
+	}
+
 	private boolean lockResource(Connection connection, String resource, String owner, long timeout) throws LockException {
 		try {
 			boolean res = false;
@@ -119,7 +140,7 @@ abstract class SqlLockManager extends JdbcLockManager {
 					if(isLockExpired(lockRecord, connection)) {
 						currentOwner = null;
 					} else if(!owner.equals(currentOwner)) {
-						throw new LockException(Messages.ERR_LOCK_LOCKED_BY_OTHER.format(resource, owner, currentOwner));
+						throw new LockException(Messages.ERR_LOCK_LOCKED_BY_OTHER.format(resource, currentOwner));
 					}
 				}
 				// set new owner on the resource lock record

@@ -25,5 +25,9 @@
 package org.onap.appc.domainmodel.lcm;
 
 public enum ActionLevel {
-    VNF,VM,VNFC
+    VNF, // Requests related to VNFs
+    VM,  // Requests related to VMs
+    VNFC, // Requests related to VNFCs
+    MGMT  // Requests that are applicable to prior requests (and are not applicable to VNF, VM, VNFC
+
 }
