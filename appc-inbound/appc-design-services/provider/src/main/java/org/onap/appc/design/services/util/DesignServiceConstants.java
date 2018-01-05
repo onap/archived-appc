@@ -103,4 +103,8 @@ public class DesignServiceConstants {
         public static final String SETINCART = "setInCart";
         public static final String INCART = "inCart";
         public static final String STOREPASSWORD = "storeProperty";
+        public static final String INSTAR_V4_ADDRESS = "v4IPAddress";
+        public static final String INSTAR_V6_ADDRESS = "v6IPAddress";
+        public static final String INSTAR_V4_MASK = "v4Subnet";
+        public static final String INSTAR_V6_MASK = "v6Subnet";
     }
