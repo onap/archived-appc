@@ -31,7 +31,6 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.domainmodel.lcm.RequestContext;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
-import org.onap.appc.domainmodel.lcm.Status;
 import org.onap.appc.util.ObjectMapper;
 import org.onap.appc.workflow.WorkFlowManager;
 import org.onap.appc.workflow.objects.WorkflowExistsOutput;
@@ -43,7 +42,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
@@ -51,12 +50,16 @@ import java.util.Properties;
 
 public class WorkFlowManagerImpl implements WorkFlowManager{
 	private SvcLogicService svcLogic = null;
-	private static final EELFLogger logger = EELFManager.getInstance().getLogger(WorkFlowManagerImpl.class);
-	private static final Configuration configuration = ConfigurationFactory.getConfiguration();
+	private final EELFLogger logger = EELFManager.getInstance().getLogger(WorkFlowManagerImpl.class);
+	private final Configuration configuration = ConfigurationFactory.getConfiguration();
 
-	private final WorkflowResolver workflowResolver = new WorkflowResolver(
+	private  WorkflowResolver workflowResolver = new WorkflowResolver(
 			configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300)
 	);
+
+	public void setWorkflowResolver(WorkflowResolver workflowResolver){
+		this.workflowResolver=workflowResolver;
+	}
 
 	public void setSvcLogicServiceRef(SvcLogicService svcLogic) {
 		this.svcLogic = svcLogic;
@@ -87,9 +90,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
             WorkflowKey workflowKey = workflowResolver.resolve(workflowRequest.getRequestContext().getAction().name(), workflowRequest.getVnfContext().getType(), null,workflowRequest.getRequestContext().getCommonHeader().getApiVer());
 
 			Properties workflowParams = new Properties();
-			String actionProperty = null;
-			String requestIdProperty=null;
-			String vfIdProperty =null;
+			String actionProperty;
+			String requestIdProperty;
+			String vfIdProperty;
             if(!workflowRequest.getRequestContext().getCommonHeader().getApiVer().startsWith("1.")){
 				/*
 				The following method call (populateDGContext) populates DG context with the
@@ -103,7 +106,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
 				actionProperty = configuration.getProperty("org.onap.appc.workflow.action", String.valueOf(Constants.ACTION));
 				requestIdProperty = configuration.getProperty("org.onap.appc.workflow.request.id", String.valueOf(Constants.REQUEST_ID));
 				vfIdProperty = configuration.getProperty("org.onap.appc.workflow.vfid", String.valueOf(Constants.VF_ID));
-				String payloadProperty = configuration.getProperty("org.onap.appc.workflow.payload", String.valueOf(Constants.PAYLOAD));
 				String vfTypeProperty = configuration.getProperty("org.onap.appc.workflow.vftype", String.valueOf(Constants.VF_TYPE));
 				String apiVerProperty = configuration.getProperty("org.onap.appc.workflow.apiVersion", String.valueOf(Constants.API_VERSION));
 				String originatorIdProperty = configuration.getProperty("org.onap.appc.workflow.originatorId",Constants.ORIGINATOR_ID);
@@ -156,7 +158,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
                 logger.trace("Completed DG Execution for Request id: " + workflowRequest.getRequestContext().getCommonHeader().getRequestId() + "with response code: " + workflowResponse.getResponseContext().getStatus().getCode());
 			}
 		}catch (Exception e){
-			logger.error("Error Executing DG " +e.getMessage());
+			logger.error("Error Executing DG " +e.getMessage(),e);
             fillStatus(501, "Error Executing DG "+e.getMessage(), workflowRequest.getResponseContext());
 		}
 		if (logger.isTraceEnabled()) {
@@ -166,7 +168,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
 	}
 
 	private void populateDGContext(Properties workflowParams, WorkflowRequest workflowRequest) {
-        workflowParams.put("input.common-header.timestamp",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(Date.from(workflowRequest.getRequestContext().getCommonHeader().getTimeStamp())));
+        workflowParams.put("input.common-header.timestamp",new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(workflowRequest.getRequestContext().getCommonHeader().getTimeStamp()));
         workflowParams.put("input.common-header.api-ver",workflowRequest.getRequestContext().getCommonHeader().getApiVer());
         workflowParams.put("input.common-header.request-id",workflowRequest.getRequestContext().getCommonHeader().getRequestId());
         workflowParams.put("input.common-header.originator-id",workflowRequest.getRequestContext().getCommonHeader().getOriginatorId());
@@ -176,8 +178,8 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
         workflowParams.put("input.action-identifiers.vnf-id",workflowRequest.getVnfContext().getId());
         workflowParams.put("input.action-identifiers.vnfc-name",workflowRequest.getRequestContext().getActionIdentifiers().getVnfcName()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVnfcName():"");
         workflowParams.put("input.action-identifiers.service-instance-id",workflowRequest.getRequestContext().getActionIdentifiers().getServiceInstanceId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getServiceInstanceId():"");
+        workflowParams.put("input.action-identifiers.vserver-id",workflowRequest.getRequestContext().getActionIdentifiers().getVserverId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVserverId():"");
 		workflowParams.put("input.action-identifiers.vf-module-id",workflowRequest.getRequestContext().getActionIdentifiers().getVfModuleId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVfModuleId():"");
-		workflowParams.put("input.action-identifiers.vserver-id",workflowRequest.getRequestContext().getActionIdentifiers().getVserverId()!=null?workflowRequest.getRequestContext().getActionIdentifiers().getVserverId():"");
         final Map<String, String> additionalContext;
         if ((additionalContext = workflowRequest.getRequestContext().getAdditionalContext())!=null) {
             for (Map.Entry<String, String> entry : additionalContext.entrySet()) {
@@ -255,7 +257,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
 			if (logger.isDebugEnabled()) {
                 logger.debug("Error while executing DG " + e.getMessage() + e.getStackTrace());
             }
-            logger.error("Error in DG", e.getMessage()+e.getStackTrace().toString());
+            logger.error("Error in DG", e.getMessage()+ Arrays.toString(e.getStackTrace()),e);
         }
 
         if (respProps != null) {
@@ -324,7 +326,6 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
                 fillStatus(400, commonStatus, responseContext);
             }
         } else {
-			String errorMsg = StringUtils.isEmpty(specificStatusMessage) ? "DG execution failure" : specificStatusMessage;
             if (specificStatusCode != 0){
                 fillStatus(specificStatusCode, specificStatusMessage, responseContext);
             } else {
@@ -341,7 +342,9 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
      * @param responceContext response context which will be store status code and status message
      */
     private void fillStatus(int code, String message, ResponseContext responceContext) {
-        responceContext.setStatus(new Status(code, message));
+        responceContext.getStatus().setCode(code);
+        responceContext.getStatus().setMessage(message);
     }
+
 
 }

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102957911
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-Description: APPC Workflow Management
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Workflow Management API
+Bundle-SymbolicName: appc-workflow-management-api
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Package: org.onap.appc.workflow;version="1.3.0.SNAPSHOT",org.onap
+ .appc.workflow.helper;version="1.3.0.SNAPSHOT",org.onap.appc.workflow.o
+ bjects;version="1.3.0.SNAPSHOT",org.onap.appc.dao.objects;version="1.3.
+ 0.SNAPSHOT"
+Tool: Bnd-2.3.0.201405100607

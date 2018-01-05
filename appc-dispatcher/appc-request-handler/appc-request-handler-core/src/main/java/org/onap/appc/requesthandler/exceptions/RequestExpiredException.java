@@ -25,8 +25,11 @@
 package org.onap.appc.requesthandler.exceptions;
 
 
-public class RequestExpiredException extends Exception {
+import org.onap.appc.executor.objects.LCMCommandStatus;
+
+public class RequestExpiredException extends RequestValidationException {
     public RequestExpiredException(String message){
         super(message);
+        super.setLcmCommandStatus(LCMCommandStatus.EXPIRED_REQUEST);
     }
 }

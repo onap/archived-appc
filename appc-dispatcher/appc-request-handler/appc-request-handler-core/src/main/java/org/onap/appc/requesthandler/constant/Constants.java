@@ -33,4 +33,5 @@ public class Constants {
     public static final String FAILURE_MSG="FAILURE";
     public static final String DEFAULT_LOGGING_FLAG="true";
     public static final long DEFAULT_IDLE_TIMEOUT = TimeUnit.MILLISECONDS.convert(15, TimeUnit.MINUTES);
+    public static final String DEFAULT_TTL_KEY="org.onap.appc.workflow.default.ttl";
 }

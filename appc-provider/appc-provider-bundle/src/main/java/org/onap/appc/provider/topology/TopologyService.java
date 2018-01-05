@@ -80,12 +80,10 @@ public class TopologyService {
     /**
      * The loggers we are using
      */
-    // private static EELFLogger logger = LoggerFactory.getLogger(TopologyService.class);
-    private static EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
-    private static EELFLogger securityLogger = EELFManager.getInstance().getSecurityLogger();
-    private static EELFLogger auditLogger = EELFManager.getInstance().getAuditLogger();
-    private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
-    private static EELFLogger performanceLogger = EELFManager.getInstance().getPerformanceLogger();
+    private final EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
+    private final EELFLogger auditLogger = EELFManager.getInstance().getAuditLogger();
+    private final EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
+    private final EELFLogger performanceLogger = EELFManager.getInstance().getPerformanceLogger();
 
     /**
      * The provider we are servicing
@@ -112,80 +110,20 @@ public class TopologyService {
         this.provider = provider;
     }
 
-    // /**
-    // * Processes the topology request
-    // *
-    // * @param input
-    // * The request to be processed
-    // * @return The result of processing
-    // */
-    // public RpcResult<TopologyOperationOutput> process(TopologyOperationInput input) {
-    // RpcResult<TopologyOperationOutput> response;
-    //
-    // String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-    // logger.info(String.format("%s:topology operations called...", appName));
-    //
-    // /*
-    // * Properties used to pass information to the DG
-    // */
-    // Properties properties = new Properties();
-    //
-    // if (input == null || input.getTopologyRequest().getVmId() == null) {
-    // String msg =
-    // String.format("%s: topology operation failed, invalid input. Null or empty argument '%s'", appName,
-    // "vm_id");
-    // logger.debug(msg);
-    // response = generateTopologyOperationResponse(Boolean.FALSE, "UNKNOWN", msg, "UNDEFINED");
-    // } else {
-    // // CommonRequestHeader crh = input.getCommonRequestHeader();
-    // TopologyHeader hdr = input.getTopologyHeader();
-    // TopologyRequest req = input.getTopologyRequest();
-    //
-    // // String requestId = crh.getServiceRequestId();
-    // String requestId = hdr.getSvcRequestId();
-    // properties.put(Constants.CONTEXT_REQID, requestId);
-    //
-    // String infomsg = String.format("Topology request '%s' (%s) received.", requestId, hdr.getSvcAction());
-    //
-    // // switch (req.getSvcAction()) {
-    // switch (hdr.getSvcAction()) {
-    // case Restart:
-    // properties.put(Constants.CONTEXT_SERVICE, Constants.SERVICE_RESTART);
-    // response = restart(input, properties);
-    // logger.info(infomsg);
-    // break;
-    //
-    // case Rebuild:
-    // properties.put(Constants.CONTEXT_SERVICE, Constants.SERVICE_REBUILD);
-    // response = rebuild(input, properties);
-    // logger.info(infomsg);
-    // break;
-    //
-    // default:
-    // String msg = String.format("Invalid request type [%s] for request id [%s]", req, requestId);
-    // response = generateTopologyOperationResponse(Boolean.FALSE, requestId, msg, "N/A");
-    // }
-    // }
-    //
-    // return response;
-    // }
-
     /**
-     * Restart a VM
-     * 
+     * Modify configuration
+     *
      * @param hdr
      *            The common request header
-     * @param vnf
-     *            The identification of the VNF resource to be operated upon
-     * @return The rpc result of the restart operation
+     * @param data
+     *            The payload of the configuration
+     * @return The rpc result of the operation
      */
     public RpcResult<ModifyConfigOutput> modifyConfig(CommonRequestHeader hdr, ConfigPayload data) {
         long startTime = System.currentTimeMillis();
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         df.setTimeZone(tz);
-        // String startTimeStr = String.valueOf(startTime);
-        String startTimeStr = df.format(new Date());
         String requestId = hdr.getServiceRequestId();
 
         //MDC.clear();
@@ -227,10 +165,6 @@ public class TopologyService {
         properties.put("org.onap.appc.configURL", url);
         properties.put("org.onap.appc.configJson", data.getConfigJson());
 
-        //UUID identityUrl = vnf.getIdentityUrl();
-        //if (identityUrl != null) {
-        //    properties.put(Constants.CONTEXT_IDENTITY_URL, identityUrl.getValue());
-        //}
         /*
          * Attempt to call the DG with the appropriate properties
          */
@@ -261,9 +195,7 @@ public class TopologyService {
             requestId, statusStr, startTime, endTime, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
-        RpcResult<ModifyConfigOutput> rpcResult =
-            RpcResultBuilder.<ModifyConfigOutput> status(true).withResult(rob.build()).build();
-        return rpcResult;
+        return RpcResultBuilder.<ModifyConfigOutput> status(true).withResult(rob.build()).build();
         
     }
     
@@ -354,9 +286,7 @@ public class TopologyService {
             requestId, statusStr, startTime, endTime, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
-        RpcResult<MigrateOutput> rpcResult =
-            RpcResultBuilder.<MigrateOutput> status(true).withResult(mob.build()).build();
-        return rpcResult;
+        return RpcResultBuilder.<MigrateOutput> status(true).withResult(mob.build()).build();
     }
 
     /**
@@ -373,8 +303,6 @@ public class TopologyService {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         df.setTimeZone(tz);
-        // String startTimeStr = String.valueOf(startTime);
-        String startTimeStr = df.format(new Date());
         String requestId = hdr.getServiceRequestId();
 
         //MDC.clear();
@@ -441,9 +369,7 @@ public class TopologyService {
             requestId, statusStr, startTime, endTime, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
-        RpcResult<RestartOutput> rpcResult =
-            RpcResultBuilder.<RestartOutput> status(true).withResult(rob.build()).build();
-        return rpcResult;
+        return RpcResultBuilder.<RestartOutput> status(true).withResult(rob.build()).build();
     }
 
     /**
@@ -530,9 +456,7 @@ public class TopologyService {
             requestId, statusStr, startTime, endTime, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
-        RpcResult<RebuildOutput> rpcResult =
-            RpcResultBuilder.<RebuildOutput> status(true).withResult(rob.build()).build();
-        return rpcResult;
+        return RpcResultBuilder.<RebuildOutput> status(true).withResult(rob.build()).build();
     }
 
     /**
@@ -549,8 +473,6 @@ public class TopologyService {
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         df.setTimeZone(tz);
-        // String startTimeStr = String.valueOf(startTime);
-        String startTimeStr = df.format(new Date());
         String requestId = hdr.getServiceRequestId();
 
         //MDC.clear();
@@ -617,9 +539,7 @@ public class TopologyService {
             requestId, statusStr, startTime, endTime, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
-        RpcResult<SnapshotOutput> rpcResult =
-            RpcResultBuilder.<SnapshotOutput> status(true).withResult(sob.build()).build();
-        return rpcResult;
+        return RpcResultBuilder.<SnapshotOutput> status(true).withResult(sob.build()).build();
     }
     
 /**************************************************/
@@ -690,9 +610,7 @@ public class TopologyService {
         vob.setStatMsg(tempstring2);
 
         // Status must be set to true to indicate that our return is expected
-        RpcResult<VmstatuscheckOutput> rpcResult =
-            RpcResultBuilder.<VmstatuscheckOutput> status(true).withResult(vob.build()).build();
-        return rpcResult;
+        return RpcResultBuilder.<VmstatuscheckOutput> status(true).withResult(vob.build()).build();
     }
     
     /*************************************************/
@@ -726,7 +644,7 @@ public class TopologyService {
         logger.debug(String.format("Calling Graph %s", graphName));
         metricsLogger.info(String.format("Calling Graph %s", graphName));
 
-        boolean success = false;
+        boolean success;
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         AppcProviderClient svcLogicClient = new AppcProviderClient();
         try {
@@ -748,7 +666,7 @@ public class TopologyService {
                     if (respProps.containsKey(Constants.ATTRIBUTE_ERROR_CODE)) {
                         // || respProps.containsKey(Constants.ATTRIBUTE_ERROR_MESSAGE)) {
                         String errorCodeProperty = respProps.getProperty(Constants.ATTRIBUTE_ERROR_CODE).trim();
-                        int errorCode = 200;
+                        int errorCode;
                         try {
                             errorCode = Integer.parseInt(errorCodeProperty);
                             if (errorCode >= 300) {
