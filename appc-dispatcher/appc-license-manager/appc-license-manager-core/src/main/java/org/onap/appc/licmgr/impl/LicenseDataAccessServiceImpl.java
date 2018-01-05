@@ -44,7 +44,7 @@ import java.util.Map;
 @SuppressWarnings("JavaDoc")
 public class LicenseDataAccessServiceImpl implements LicenseDataAccessService {
 
-    private static EELFLogger logger = EELFManager.getInstance().getLogger(LicenseDataAccessServiceImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(LicenseDataAccessServiceImpl.class);
 
     public void setSchema(String schema) {
         this.schema = schema;

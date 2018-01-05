@@ -28,8 +28,10 @@ import java.sql.SQLException;
 
 public class MySqlLockManager extends SqlLockManager {
 
-	@Override
-	protected boolean isDuplicatePkError(SQLException e) {
-		return (e.getErrorCode() == 1062);
-	}
+    @Override
+    protected boolean isDuplicatePkError(SQLException e) {
+        return (e.getErrorCode() == 1062);
+    }
+
+
 }

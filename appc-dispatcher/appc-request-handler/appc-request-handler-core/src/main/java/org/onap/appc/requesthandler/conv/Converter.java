@@ -56,13 +56,9 @@ import java.util.TimeZone;
 
 
 public class Converter {
-    public static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
-    public static final String MODE_FLAG = "MODE";
-    public static final String FORCE_FLAG = "FORCE";
-    public static final String TTL_FLAG = "TTL";
-    public final static String DMaaP_ROOT_VALUE = "output";
+    private static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+    private final static String DMaaP_ROOT_VALUE = "output";
     private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(Converter.class);
     static {
         isoFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
@@ -223,6 +219,7 @@ public class Converter {
                 ((StartApplicationOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((StartApplicationOutputBuilder)outObj).setStatus(status);
                 return outObj;
+
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
@@ -246,7 +243,6 @@ public class Converter {
                     try {
                         ObjectMapper objectMapper = new ObjectMapper();
                         payloadAsString = objectMapper.writeValueAsString(inObj);
-//                        payloadAsString = objectMapper.writeValueAsString(payloadAsString);
                     } catch (JsonProcessingException e) {
                         String errMsg = "Error serialize payload json to string";
                         throw new ParseException(errMsg + "-" + e.toString(), 0);
@@ -270,7 +266,7 @@ public class Converter {
         }
 
         CommonHeaderBuilder commonHeaderBuilder = new CommonHeaderBuilder();
-        org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags commonHeaderFlags = null;
+        org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags commonHeaderFlags;
         if(inObj.getCommonHeader().getFlags() != null){
             commonHeaderFlags = Converter.convFlagsMapTorev160108Flags(inObj.getCommonHeader().getFlags());
             commonHeaderBuilder.setFlags(commonHeaderFlags);
@@ -288,7 +284,7 @@ public class Converter {
         }
 
         if(inObj.getCommonHeader().getTimeStamp() != null){
-            String zuluTimestampStr = Converter.convDateToZuluString(Date.from(inObj.getCommonHeader().getTimeStamp()));
+            String zuluTimestampStr = Converter.convDateToZuluString(inObj.getCommonHeader().getTimeStamp());
             ZULU zuluTimestamp = new ZULU(zuluTimestampStr);
             commonHeaderBuilder.setTimestamp(zuluTimestamp);
         }
@@ -303,7 +299,7 @@ public class Converter {
 
     public static org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.common.header.Flags
     convFlagsMapTorev160108Flags(org.onap.appc.domainmodel.lcm.Flags flags) {
-        Flags rev160108flags = null;
+        Flags rev160108flags;
         boolean anyFlag = false;
         FlagsBuilder flagsBuilder = new FlagsBuilder();
         /*
@@ -346,7 +342,7 @@ public class Converter {
         objectMapper.addMixInAnnotations(Payload.class, MixIn.class);
         objectMapper.addMixInAnnotations(ZULU.class, MixIn.class);
 
-//				.configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
+//                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
         ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true)
                 .writer(SerializationFeature.WRAP_ROOT_VALUE).withRootName(DMaaP_ROOT_VALUE).withoutFeatures(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
         return writer.writeValueAsString(message);
@@ -362,7 +358,7 @@ public class Converter {
         objectMapper.addMixInAnnotations(Payload.class, MixIn.class);
         objectMapper.addMixInAnnotations(ZULU.class, MixIn.class);
 
-//				.configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
+//                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
         ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true).writer();
         return writer.writeValueAsString(dmaapOutgoingMessage);
     }

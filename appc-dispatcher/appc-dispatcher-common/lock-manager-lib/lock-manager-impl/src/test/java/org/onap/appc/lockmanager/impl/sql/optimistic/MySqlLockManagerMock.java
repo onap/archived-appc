@@ -36,100 +36,100 @@ import org.onap.appc.lockmanager.impl.sql.optimistic.MySqlLockManager;
 
 class MySqlLockManagerMock extends MySqlLockManager implements SynchronizerReceiver {
 
-	private final ConcurrentMap<String, LockRecord> locks = new ConcurrentHashMap<>();
-	private boolean useReal;
-	private Synchronizer synchronizer;
+    private final ConcurrentMap<String, LockRecord> locks = new ConcurrentHashMap<>();
+    private boolean useReal;
+    private Synchronizer synchronizer;
 
-	MySqlLockManagerMock(boolean useReal) {
-		this.useReal = useReal;
-	}
+    MySqlLockManagerMock(boolean useReal) {
+        this.useReal = useReal;
+    }
 
-	@Override
-	public void setSynchronizer(Synchronizer synchronizer) {
-		this.synchronizer = synchronizer;
-	}
+    @Override
+    public void setSynchronizer(Synchronizer synchronizer) {
+        this.synchronizer = synchronizer;
+    }
 
-	@Override
-	protected Connection openDbConnection() {
-		if(useReal) {
-			return super.openDbConnection();
-		}
-		return null;
-	}
+    @Override
+    protected Connection openDbConnection() {
+        if(useReal) {
+            return super.openDbConnection();
+        }
+        return null;
+    }
 
-	@Override
-	protected void closeDbConnection(Connection connection) {
-		if(useReal) {
-			super.closeDbConnection(connection);
-		}
-	}
+    @Override
+    protected void closeDbConnection(Connection connection) {
+        if(useReal) {
+            super.closeDbConnection(connection);
+        }
+    }
 
-	@Override
-	protected LockRecord loadLockRecord(Connection connection, String resource) throws SQLException {
-		LockRecord res;
-		if(useReal) {
-			res = super.loadLockRecord(connection, resource);
-		} else {
-			res = locks.get(resource);
-		}
-		if(synchronizer != null) {
-			synchronizer.postLoadLockRecord(resource, (res == null) ? null : res.getOwner());
-		}
-		return res;
-	}
+    @Override
+    protected LockRecord loadLockRecord(Connection connection, String resource) throws SQLException {
+        LockRecord res;
+        if(useReal) {
+            res = super.loadLockRecord(connection, resource);
+        } else {
+            res = locks.get(resource);
+        }
+        if(synchronizer != null) {
+            synchronizer.postLoadLockRecord(resource, (res == null) ? null : res.getOwner());
+        }
+        return res;
+    }
 
-	@Override
-	protected void addLockRecord(Connection connection, String resource, String owner, long timeout) throws SQLException {
-		if(synchronizer != null) {
-			synchronizer.preAddLockRecord(resource, owner);
-		}
-		try {
-			if(useReal) {
-				super.addLockRecord(connection, resource, owner, timeout);
-				return;
-			}
-			LockRecord lockRecord = new LockRecord(resource);
-			lockRecord.setOwner(owner);
-			lockRecord.setUpdated(System.currentTimeMillis());
-			lockRecord.setTimeout(timeout);
-			lockRecord.setVer(1);
-			LockRecord prevLockRecord = locks.putIfAbsent(resource, lockRecord);
-			if(prevLockRecord != null) {
-				// simulate unique constraint violation
-				throw new SQLException("Duplicate PK exception", "23000", 1062);
-			}
-		} finally {
-			if(synchronizer != null) {
-				synchronizer.postAddLockRecord(resource, owner);
-			}
-		}
-	}
+    @Override
+    protected void addLockRecord(Connection connection, String resource, String owner, long timeout) throws SQLException {
+        if(synchronizer != null) {
+            synchronizer.preAddLockRecord(resource, owner);
+        }
+        try {
+            if(useReal) {
+                super.addLockRecord(connection, resource, owner, timeout);
+                return;
+            }
+            LockRecord lockRecord = new LockRecord(resource);
+            lockRecord.setOwner(owner);
+            lockRecord.setUpdated(System.currentTimeMillis());
+            lockRecord.setTimeout(timeout);
+            lockRecord.setVer(1);
+            LockRecord prevLockRecord = locks.putIfAbsent(resource, lockRecord);
+            if(prevLockRecord != null) {
+                // simulate unique constraint violation
+                throw new SQLException("Duplicate PK exception", "23000", 1062);
+            }
+        } finally {
+            if(synchronizer != null) {
+                synchronizer.postAddLockRecord(resource, owner);
+            }
+        }
+    }
 
-	@Override
-	protected boolean updateLockRecord(Connection connection, String resource, String owner, long timeout, long ver) throws SQLException {
-		if(synchronizer != null) {
-			synchronizer.preUpdateLockRecord(resource, owner);
-		}
-		try {
-			if(useReal) {
-				return super.updateLockRecord(connection, resource, owner, timeout, ver);
-			}
-			LockRecord lockRecord = loadLockRecord(connection, resource);
-			synchronized(lockRecord) {
-				// should be atomic operation
-				if(ver != lockRecord.getVer()) {
-					return false;
-				}
-				lockRecord.setOwner(owner);
-				lockRecord.setUpdated(System.currentTimeMillis());
-				lockRecord.setTimeout(timeout);
-				lockRecord.setVer(ver + 1);
-			}
-			return true;
-		} finally {
-			if(synchronizer != null) {
-				synchronizer.postUpdateLockRecord(resource, owner);
-			}
-		}
-	}
+    @Override
+    protected boolean updateLockRecord(Connection connection, String resource, String owner, long timeout, long ver) throws SQLException {
+        if(synchronizer != null) {
+            synchronizer.preUpdateLockRecord(resource, owner);
+        }
+        try {
+            if(useReal) {
+                return super.updateLockRecord(connection, resource, owner, timeout, ver);
+            }
+            LockRecord lockRecord = loadLockRecord(connection, resource);
+            synchronized(lockRecord) {
+                // should be atomic operation
+                if(ver != lockRecord.getVer()) {
+                    return false;
+                }
+                lockRecord.setOwner(owner);
+                lockRecord.setUpdated(System.currentTimeMillis());
+                lockRecord.setTimeout(timeout);
+                lockRecord.setVer(ver + 1);
+            }
+            return true;
+        } finally {
+            if(synchronizer != null) {
+                synchronizer.postUpdateLockRecord(resource, owner);
+            }
+        }
+    }
 }

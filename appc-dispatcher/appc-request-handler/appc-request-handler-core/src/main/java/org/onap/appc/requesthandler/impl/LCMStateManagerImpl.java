@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.onap.appc.requesthandler.LCMStateManager;
 
 public class LCMStateManagerImpl implements LCMStateManager {
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(LCMStateManagerImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(LCMStateManagerImpl.class);
     private static AtomicBoolean isLCMEnabled = new AtomicBoolean(true);
 
     /**

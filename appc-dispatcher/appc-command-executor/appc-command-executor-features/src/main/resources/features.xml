@@ -25,13 +25,14 @@
 
 
 <features name="appc-command-executor-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">
-
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">     
+    
     <feature name='appc-command-executor' description="application executor" version='${project.version}'>
-        <bundle>mvn:org.onap.appc/execution-queue-management-lib/${project.version}</bundle>
+    		<bundle>mvn:org.onap.appc/execution-queue-management-lib/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-command-executor-api/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-command-executor-core/${project.version}</bundle>
+        <!--<bundle>mvn:org.apache.commons/commons-lang3/3.4</bundle>-->
     </feature>
 
 </features>

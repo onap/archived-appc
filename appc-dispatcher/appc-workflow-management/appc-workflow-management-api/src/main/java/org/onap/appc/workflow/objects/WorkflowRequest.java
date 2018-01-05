@@ -37,34 +37,34 @@ public class WorkflowRequest {
 
     public RequestContext getRequestContext() {
         return requestContext;
-	}
+    }
 
     public void setRequestContext(RequestContext requestContext) {
         this.requestContext = requestContext;
-	}
+    }
 
     public ResponseContext getResponseContext() {
         return responseContext;
-	}
+    }
 
     public void setResponseContext(ResponseContext responseContext) {
         this.responseContext = responseContext;
-	}
+    }
 
     public VNFContext getVnfContext() {
         return vnfContext;
-	}
+    }
 
     public void setVnfContext(VNFContext vnfContext) {
         this.vnfContext = vnfContext;
-	}
+    }
 
-	@Override
-	public String toString() {
-		return "WorkflowRequest{" +
+    @Override
+    public String toString() {
+        return "WorkflowRequest{" +
                 "requestContext=" + requestContext +
                 ", responseContext=" + responseContext +
                 ", vnfContext=" + vnfContext +
-				'}';
-	}
+                '}';
+    }
 }

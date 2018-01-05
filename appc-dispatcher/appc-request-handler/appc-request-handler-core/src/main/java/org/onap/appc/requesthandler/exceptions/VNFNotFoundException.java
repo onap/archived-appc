@@ -25,8 +25,20 @@
 package org.onap.appc.requesthandler.exceptions;
 
 
-public class VNFNotFoundException extends Exception {
-    public VNFNotFoundException(String message){
+import com.att.eelf.i18n.EELFResourceManager;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.logging.LoggingConstants;
+
+public class VNFNotFoundException extends RequestValidationException {
+    public VNFNotFoundException(String message, String vnfId){
         super(message);
+        super.setLcmCommandStatus(LCMCommandStatus.VNF_NOT_FOUND);
+        Params params = new Params().addParam("vnfId", vnfId);
+        super.setLogMessage(EELFResourceManager.format(Msg.APPC_NO_RESOURCE_FOUND, vnfId));
+        super.setParams(params);
+        super.setTargetEntity(LoggingConstants.TargetNames.AAI);
+        super.setTargetService("");
     }
 }
