@@ -24,8 +24,6 @@
 
 package org.onap.appc.executionqueue.helper;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 
@@ -35,11 +33,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Util {
 
-    private final EELFLogger logger = EELFManager.getInstance().getLogger(Util.class);
-    private final int default_queue_size = 10;
-    private final int default_threadpool_size = 10;
-    private final String queue_size_key = "appc.dispatcher.executionqueue.backlog.size";
-    private final String threadpool_size_key = "appc.dispatcher.executionqueue.threadpool.size";
+    private int default_queue_size = 10;
+    private int default_threadpool_size = 10;
+    private String queue_size_key = "appc.dispatcher.executionqueue.backlog.size";
+    private String threadpool_size_key = "appc.dispatcher.executionqueue.threadpool.size";
 
     private Configuration configuration;
 
@@ -48,7 +45,6 @@ public class Util {
      * <p>Used by blueprint.
      */
     public void init() {
-
         configuration = ConfigurationFactory.getConfiguration();
     }
 
@@ -59,7 +55,7 @@ public class Util {
         try {
             size = Integer.parseInt(sizeStr);
         } catch (NumberFormatException e) {
-            logger.error("Error while parse key:" + queue_size_key + " got from configuration " + e.getMessage(), e);
+
         }
 
         return size;
@@ -72,8 +68,7 @@ public class Util {
         try {
             size = Integer.parseInt(sizeStr);
         } catch (NumberFormatException e) {
-            logger.error("Error while parse key:" + threadpool_size_key + " got from configuration "
-                + e.getMessage(), e);
+
         }
 
         return size;
@@ -89,8 +84,7 @@ public class Util {
                 Thread t = factory.newThread(r);
                 t.setDaemon(isDaemon);
                 if (threadNamePrefix != null && !threadNamePrefix.isEmpty()) {
-                    final String threadName = String.format(THREAD_NAME_PATTERN, threadNamePrefix, counter
-                        .incrementAndGet());
+                    final String threadName = String.format(THREAD_NAME_PATTERN, threadNamePrefix, counter.incrementAndGet());
                     t.setName(threadName);
                 }
                 return t;

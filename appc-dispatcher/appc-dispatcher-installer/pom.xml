@@ -1,223 +1,218 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>appc-dispatcher</artifactId>
-    <groupId>org.onap.appc</groupId>
-    <version>1.3.0-SNAPSHOT</version>
-  </parent>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  ================================================================================
+  Copyright (C) 2017 Amdocs
+  =============================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
 
-  <artifactId>appc-dispatcher-installer</artifactId>
-  <name>APPC Dispatcher - Karaf Installer</name>
-  <packaging>pom</packaging>
+       http://www.apache.org/licenses/LICENSE-2.0
 
-  <properties>
-    <application.name>appc-dispatcher</application.name>
-    <features.boot>appc-dispatcher</features.boot>
-	<features.boot.licenseManager>appc-license-manager</features.boot.licenseManager>
-    <!--<features.repositories>mvn:org.onap.appc/appc-dispatcher-features/${project.version}/xml/features,mvn:org.onap.appc/appc-request-handler-features/${project.version}/xml/features,mvn:org.onap.appc/appc-command-executor-features/${project.version}/xml/features,mvn:org.onap.appc/appc-lifecycle-management-features/${project.version}/xml/features,mvn:org.onap.appc/appc-license-manager-features/${project.version}/xml/features,mvn:org.onap.appc/appc-workflow-management-features/${project.version}/xml/features,mvn:org.onap.appc/lock-manager-features/${project.version}/xml/features</features.repositories>-->
-	
-	<!-- SEPARATED FEATURE INSTALLS -->
-	<features.repo.dispatcher>mvn:org.onap.appc/appc-dispatcher-features/${project.version}/xml/features</features.repo.dispatcher>
-	<features.repo.requestHandler>mvn:org.onap.appc/appc-request-handler-features/${project.version}/xml/features</features.repo.requestHandler>
-	<features.repo.commandExecutor>mvn:org.onap.appc/appc-command-executor-features/${project.version}/xml/features</features.repo.commandExecutor>
-	<features.repo.lifecycleManagement>mvn:org.onap.appc/appc-lifecycle-management-features/${project.version}/xml/features</features.repo.lifecycleManagement>
-	<features.repo.licenseManager>mvn:org.onap.appc/appc-license-manager-features/${project.version}/xml/features</features.repo.licenseManager>
-	<features.repo.workflowManagement>mvn:org.onap.appc/appc-workflow-management-features/${project.version}/xml/features</features.repo.workflowManagement>
-	<features.repo.lockManager>mvn:org.onap.appc/lock-manager-features/${project.version}/xml/features</features.repo.lockManager>
-	
-    <include.transitive.dependencies>false</include.transitive.dependencies>
-  </properties>
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
 
-  <dependencies>
+  ECOMP is a trademark and service mark of AT&T Intellectual Property.
+  ============LICENSE_END=========================================================
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>appc-dispatcher</artifactId>
+        <groupId>org.onap.appc</groupId>
+        <version>1.3.0-SNAPSHOT</version>
+    </parent>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-dispatcher-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-<!--      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions> -->
-    </dependency>
+    <artifactId>appc-dispatcher-installer</artifactId>
+    <name>APPC Dispatcher - Karaf Installer</name>
+    <packaging>pom</packaging>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-request-handler-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-<!--      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions> -->
-    </dependency>
+    <properties>
+        <licenseDir>${project.parent.parent.basedir}</licenseDir>
+        <application.name>appc-dispatcher</application.name>
+        <features.boot>appc-dispatcher</features.boot>
+        <features.boot.licenseManager>appc-license-manager</features.boot.licenseManager>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-command-executor-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-<!--      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions> -->
-    </dependency>
+        <!-- SEPARATED FEATURE INSTALLS -->
+        <features.repo.dispatcher>mvn:org.onap.appc/appc-dispatcher-features/${project.version}/xml/features
+        </features.repo.dispatcher>
+        <features.repo.requestHandler>
+            mvn:org.onap.appc/appc-request-handler-features/${project.version}/xml/features
+        </features.repo.requestHandler>
+        <features.repo.commandExecutor>
+            mvn:org.onap.appc/appc-command-executor-features/${project.version}/xml/features
+        </features.repo.commandExecutor>
+        <features.repo.lifecycleManagement>
+            mvn:org.onap.appc/appc-lifecycle-management-features/${project.version}/xml/features
+        </features.repo.lifecycleManagement>
+        <features.repo.licenseManager>
+            mvn:org.onap.appc/appc-license-manager-features/${project.version}/xml/features
+        </features.repo.licenseManager>
+        <features.repo.workflowManagement>
+            mvn:org.onap.appc/appc-workflow-management-features/${project.version}/xml/features
+        </features.repo.workflowManagement>
+        <features.repo.lockManager>mvn:org.onap.appc/lock-manager-features/${project.version}/xml/features
+        </features.repo.lockManager>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-lifecycle-management-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-<!--      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions> -->
-    </dependency>
+        <include.transitive.dependencies>false</include.transitive.dependencies>
+    </properties>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-workflow-management-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-<!--      <exclusions>
-        <exclusion>
-          <groupId>*</groupId>
-          <artifactId>*</artifactId>
-        </exclusion>
-      </exclusions> -->
-    </dependency>
+    <dependencies>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-license-manager-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-      <!--      <exclusions>
-              <exclusion>
-                <groupId>*</groupId>
-                <artifactId>*</artifactId>
-              </exclusion>
-            </exclusions> -->
-    </dependency>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-dispatcher-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
 
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>lock-manager-features</artifactId>
-      <version>${project.version}</version>
-      <classifier>features</classifier>
-      <type>xml</type>
-      <!--      <exclusions>
-              <exclusion>
-                <groupId>*</groupId>
-                <artifactId>*</artifactId>
-              </exclusion>
-            </exclusions> -->
-    </dependency>
-  </dependencies>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-request-handler-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-assembly-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>maven-repo-zip</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <appendAssemblyId>false</appendAssemblyId>
-              <attach>false</attach>
-              <finalName>stage/${application.name}-${project.version}</finalName>
-              <descriptors>
-                <descriptor>src/assembly/assemble_mvnrepo_zip.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-          <execution>
-            <id>installer-zip</id>
-            <goals>
-              <goal>single</goal>
-            </goals>
-            <phase>package</phase>
-            <configuration>
-              <appendAssemblyId>false</appendAssemblyId>
-              <attach>true</attach>
-              <finalName>${application.name}-${project.version}</finalName>
-              <descriptors>
-                <descriptor>src/assembly/assemble_installer_zip.xml</descriptor>
-              </descriptors>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-dependencies</id>
-            <goals>
-              <goal>copy-dependencies</goal>
-            </goals>
-            <phase>prepare-package</phase>
-            <configuration>
-              <transitive>false</transitive>
-              <outputDirectory>${project.build.directory}/assembly/system</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>true</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
-              <useRepositoryLayout>true</useRepositoryLayout>
-              <addParentPoms>false</addParentPoms>
-              <copyPom>false</copyPom>
-              <excludeGroupIds>org.opendaylight</excludeGroupIds>
-              <scope>provided</scope>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>copy-version</id>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <!-- here the phase you need -->
-            <phase>validate</phase>
-            <configuration>
-              <outputDirectory>${basedir}/target/stage</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>src/main/resources/scripts</directory>
-                  <includes>
-                    <include>install-feature.sh</include>
-                  </includes>
-                  <filtering>true</filtering>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
-  </build>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-command-executor-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-lifecycle-management-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-workflow-management-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-license-manager-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>lock-manager-features</artifactId>
+            <version>${project.version}</version>
+            <classifier>features</classifier>
+            <type>xml</type>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>maven-repo-zip</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>false</attach>
+                            <finalName>stage/${application.name}-${project.version}</finalName>
+                            <descriptors>
+                                <descriptor>src/assembly/assemble_mvnrepo_zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>installer-zip</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <attach>true</attach>
+                            <finalName>${application.name}-${project.version}</finalName>
+                            <descriptors>
+                                <descriptor>src/assembly/assemble_installer_zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <transitive>false</transitive>
+                            <outputDirectory>${project.build.directory}/assembly/system</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <useRepositoryLayout>true</useRepositoryLayout>
+                            <addParentPoms>false</addParentPoms>
+                            <copyPom>false</copyPom>
+                            <excludeGroupIds>org.opendaylight</excludeGroupIds>
+                            <scope>provided</scope>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-version</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/stage</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources/scripts</directory>
+                                    <includes>
+                                        <include>install-feature.sh</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

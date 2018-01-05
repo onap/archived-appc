@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102971146
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: appc-request-handler-core OSGi bundle project.
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Request Handler - Core
+Bundle-SymbolicName: appc-request-handler-core
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Service: org.onap.appc.requesthandler.RequestHandler,org.onap.app
+ c.requesthandler.LCMStateManager
+Import-Package: org.onap.appc.lockmanager.api;version="[1.3,2)",org.onap
+ .appc.requesthandler;version="[1.3,2)",org.onap.appc.transactionrecorde
+ r;version="[1.3,2)",org.onap.appc.executor;resolution:=optional;version
+ ="[1.3,2)",org.onap.appc.requesthandler.impl;resolution:=optional,org.o
+ nap.appc.validationpolicy;resolution:=optional,org.onap.appc.workflow;r
+ esolution:=optional;version="[1.3,2)",org.onap.ccsdk.sli.adaptors.aai;r
+ esolution:=optional;version="[0.1,1)",org.onap.ccsdk.sli.core.dblib;res
+ olution:=optional;version="[0.1,1)",org.osgi.service.blueprint;version=
+ "[1.0.0,2.0.0)";resolution:=optional,org.onap.appc.dao.util;version="[1
+ .3,2)",org.onap.appc.requesthandler.objects;version="[1.3,2)",org.onap.
+ appc.transactionrecorder.objects;version="[1.3,2)"
+Import-Service: org.onap.appc.lockmanager.api.LockManager;multiple:=fals
+ e,org.onap.ccsdk.sli.adaptors.aai.AAIService;multiple:=false,org.onap.a
+ ppc.workflow.WorkFlowManager;multiple:=false,org.onap.appc.executor.Com
+ mandExecutor;multiple:=false;availability:=optional,org.onap.ccsdk.sli.
+ core.dblib.DbLibService;multiple:=false,org.onap.appc.transactionrecord
+ er.TransactionRecorder;multiple:=false
+Tool: Bnd-2.3.0.201405100607

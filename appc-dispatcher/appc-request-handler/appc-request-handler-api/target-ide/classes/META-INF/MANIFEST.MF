@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102961237
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-Description: APPC Request Handler
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Request Handler- API
+Bundle-SymbolicName: appc-request-handler-api
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: javax.json;scope=compile|runtime;inline=false
+Embed-Transitive: true
+Export-Package: org.onap.appc.message;version="1.3.0.SNAPSHOT",org.onap.
+ appc.requesthandler.objects;version="1.3.0.SNAPSHOT",org.onap.appc.tran
+ sactionrecorder;version="1.3.0.SNAPSHOT",org.onap.appc.requesthandler;v
+ ersion="1.3.0.SNAPSHOT"
+Import-Package: org.onap.appc.domainmodel.lcm;version="[1.3,2)"
+Tool: Bnd-2.3.0.201405100607
