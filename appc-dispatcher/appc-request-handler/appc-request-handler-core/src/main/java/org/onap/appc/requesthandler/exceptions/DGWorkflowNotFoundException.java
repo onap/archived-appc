@@ -25,14 +25,26 @@
 package org.onap.appc.requesthandler.exceptions;
 
 
-public class DGWorkflowNotFoundException extends Exception {
+import com.att.eelf.i18n.EELFResourceManager;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+import org.onap.appc.i18n.Msg;
+import org.onap.appc.logging.LoggingConstants;
+
+public class DGWorkflowNotFoundException extends RequestValidationException {
     public final String workflowModule;
     public final String workflowName;
     public final String workflowVersion;
-    public DGWorkflowNotFoundException(String message,String workflowModule,String workflowName,String workflowVersion){
+    public DGWorkflowNotFoundException(String message,String workflowModule,String workflowName,String workflowVersion,String vnfType,String action){
         super(message);
         this.workflowModule = workflowModule;
         this.workflowName = workflowName;
         this.workflowVersion = workflowVersion;
+        super.setLcmCommandStatus(LCMCommandStatus.DG_WORKFLOW_NOT_FOUND);
+        super.setParams(new Params().addParam("actionName", action)
+                .addParam("dgModule", workflowModule).addParam("dgName", workflowName).addParam("dgVersion", workflowVersion));
+        super.setLogMessage(EELFResourceManager.format(Msg.APPC_WORKFLOW_NOT_FOUND, vnfType, action));
+        super.setTargetEntity(LoggingConstants.TargetNames.APPC);
+        super.setTargetService(LoggingConstants.TargetNames.WORKFLOW_MANAGER);
     }
 }

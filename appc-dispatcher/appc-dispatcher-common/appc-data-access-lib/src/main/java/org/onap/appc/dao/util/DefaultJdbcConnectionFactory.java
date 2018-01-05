@@ -24,10 +24,28 @@
 
 package org.onap.appc.dao.util;
 
+import org.onap.appc.dao.util.api.JdbcConnectionFactory;
+import org.onap.appc.dao.util.exception.JdbcRuntimeException;
+import org.onap.appc.dao.util.message.Messages;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * @deprecated As of release 1802, replaced by {@link #(org.onap.appc.dao.util.dbcp.DBConnectionPool)}
+ * <p>
+ * This class provides the ability to access mysql database which has been deprecated because
+ * {@link #openDbConnection()} for each database request is not a good practice especially
+ * on appc performance.
+ * <p>
+ * If you would like to use appcctl (mysql database), bundle:appc-data-access-lib has created
+ * a database connection pool bean and exported as a service by using blueprint.
+ * If you would like to create a new database connection pool, refer to the way mentioned above.
+ * {@link org.onap.appc.dao.util.api.DBConnectionPoolService} has an example of how to use
+ * the connection pool.
+ */
+@Deprecated
 public abstract class DefaultJdbcConnectionFactory implements JdbcConnectionFactory {
 
     private static boolean driverRegistered = false;
@@ -54,12 +72,12 @@ public abstract class DefaultJdbcConnectionFactory implements JdbcConnectionFact
     @Override
     public Connection openDbConnection() {
         try {
-            if(!driverRegistered) {
+            if (!driverRegistered) {
                 registedDriver();
                 driverRegistered = true;
             }
             return DriverManager.getConnection(jdbcURL, jdbcUserName, jdbcPassword);
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new JdbcRuntimeException(Messages.EXP_JDBC_CONNECT.format(jdbcURL), e);
         }
     }
@@ -68,7 +86,7 @@ public abstract class DefaultJdbcConnectionFactory implements JdbcConnectionFact
     public void closeDbConnection(Connection connection) {
         try {
             connection.close();
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             throw new JdbcRuntimeException(Messages.EXP_JDBC_DISCONNECT.format(jdbcURL), e);
         }
     }

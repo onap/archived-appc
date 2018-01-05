@@ -34,7 +34,7 @@ import com.att.eelf.configuration.EELFManager;
 
 class BacktraceStrategy implements Strategy {
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(BacktraceStrategy.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(BacktraceStrategy.class);
 
     @Override
     public <R> R resolve(CompositeNode<R> rootNode, List<String> rankedNames, RankedAttributesContext context) {

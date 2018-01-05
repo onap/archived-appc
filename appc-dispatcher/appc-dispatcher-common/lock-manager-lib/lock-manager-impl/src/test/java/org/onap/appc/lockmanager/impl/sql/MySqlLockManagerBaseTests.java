@@ -38,59 +38,59 @@ import java.sql.SQLException;
 
 public abstract class MySqlLockManagerBaseTests extends LockManagerBaseTests {
 
-	private static final boolean USE_REAL_DB = Boolean.getBoolean("lockmanager.tests.useRealDb");
-	private static final String TABLE_LOCK_MANAGEMENT = "TEST_LOCK_MANAGEMENT";
-	private static final String JDBC_URL = System.getProperty("lockmanager.tests.jdbcUrl", "jdbc:mysql://192.168.1.2/test");
-	private static final String JDBC_USERNAME = System.getProperty("lockmanager.tests.jdbcUsername", "test");
-	private static final String JDBC_PASSWORD = System.getProperty("lockmanager.tests.jdbcPassword", "123456");
+    private static final boolean USE_REAL_DB = Boolean.getBoolean("lockmanager.tests.useRealDb");
+    private static final String TABLE_LOCK_MANAGEMENT = "TEST_LOCK_MANAGEMENT";
+    private static final String JDBC_URL = System.getProperty("lockmanager.tests.jdbcUrl", "jdbc:mysql://192.168.1.2/test");
+    private static final String JDBC_USERNAME = System.getProperty("lockmanager.tests.jdbcUsername", "test");
+    private static final String JDBC_PASSWORD = System.getProperty("lockmanager.tests.jdbcPassword", "123456");
 
-	protected static final int CONCURRENT_TEST_WAIT_TIME = 10; // secs
+    protected static final int CONCURRENT_TEST_WAIT_TIME = 10; // secs
 
-	@Rule
-	public TestName testName = new TestName();
+    @Rule
+    public TestName testName = new TestName();
 
-	@Override
-	protected LockManager createLockManager() {
-		JdbcLockManager jdbcLockManager = createJdbcLockManager(USE_REAL_DB);
-		DefaultJdbcConnectionFactory connectionFactory = new MySqlConnectionFactory();
-		connectionFactory.setJdbcURL(JDBC_URL);
-		connectionFactory.setJdbcUserName(JDBC_USERNAME);
-		connectionFactory.setJdbcPassword(JDBC_PASSWORD);
-		jdbcLockManager.setConnectionFactory(connectionFactory);
-		jdbcLockManager.setTableName(TABLE_LOCK_MANAGEMENT);
-		System.out.println("=> Running LockManager test [" + jdbcLockManager.getClass().getName() + "." + testName.getMethodName() + "]" + (USE_REAL_DB ? ". JDBC URL is [" + JDBC_URL + "]" : ""));
-		clearTestLocks(jdbcLockManager);
-		return jdbcLockManager;
-	}
+    @Override
+    protected LockManager createLockManager() {
+        JdbcLockManager jdbcLockManager = createJdbcLockManager(USE_REAL_DB);
+        DefaultJdbcConnectionFactory connectionFactory = new MySqlConnectionFactory();
+        connectionFactory.setJdbcURL(JDBC_URL);
+        connectionFactory.setJdbcUserName(JDBC_USERNAME);
+        connectionFactory.setJdbcPassword(JDBC_PASSWORD);
+        jdbcLockManager.setConnectionFactory(connectionFactory);
+        jdbcLockManager.setTableName(TABLE_LOCK_MANAGEMENT);
+        System.out.println("=> Running LockManager test [" + jdbcLockManager.getClass().getName() + "." + testName.getMethodName() + "]" + (USE_REAL_DB ? ". JDBC URL is [" + JDBC_URL + "]" : ""));
+        clearTestLocks(jdbcLockManager);
+        return jdbcLockManager;
+    }
 
-	protected abstract JdbcLockManager createJdbcLockManager(boolean useRealDb);
+    protected abstract JdbcLockManager createJdbcLockManager(boolean useRealDb);
 
-	protected boolean setSynchronizer(Synchronizer synchronizer) {
-		if(!(lockManager instanceof SynchronizerReceiver)) {
-			System.err.println("Skipping concurrency test [" + testName.getMethodName() + "] for LockManager of type " + lockManager.getClass());
-			return false;
-		}
-		((SynchronizerReceiver)lockManager).setSynchronizer(synchronizer);
-		return true;
-	}
+    protected boolean setSynchronizer(Synchronizer synchronizer) {
+        if(!(lockManager instanceof SynchronizerReceiver)) {
+            System.err.println("Skipping concurrency test [" + testName.getMethodName() + "] for LockManager of type " + lockManager.getClass());
+            return false;
+        }
+        ((SynchronizerReceiver)lockManager).setSynchronizer(synchronizer);
+        return true;
+    }
 
-	private static final String SQL_DELETE_LOCK_RECORD = String.format("DELETE FROM %s WHERE RESOURCE_ID=?", TABLE_LOCK_MANAGEMENT);
-	private void clearTestLocks(JdbcLockManager jdbcLockManager) {
-		Connection connection = jdbcLockManager.openDbConnection();
-		if(connection == null) {
-			return;
-		}
-		try {
-			for(Resource resource: Resource.values()) {
-				try(PreparedStatement statement = connection.prepareStatement(SQL_DELETE_LOCK_RECORD)) {
-					statement.setString(1, resource.name());
-					statement.executeUpdate();
-				}
-			}
-		} catch(SQLException e) {
-			throw new RuntimeException("Cannot clear test resources in table", e);
-		} finally {
-			jdbcLockManager.closeDbConnection(connection);
-		}
-	}
+    private static final String SQL_DELETE_LOCK_RECORD = String.format("DELETE FROM %s WHERE RESOURCE_ID=?", TABLE_LOCK_MANAGEMENT);
+    private void clearTestLocks(JdbcLockManager jdbcLockManager) {
+        Connection connection = jdbcLockManager.openDbConnection();
+        if(connection == null) {
+            return;
+        }
+        try {
+            for(Resource resource: Resource.values()) {
+                try(PreparedStatement statement = connection.prepareStatement(SQL_DELETE_LOCK_RECORD)) {
+                    statement.setString(1, resource.name());
+                    statement.executeUpdate();
+                }
+            }
+        } catch(SQLException e) {
+            throw new RuntimeException("Cannot clear test resources in table", e);
+        } finally {
+            jdbcLockManager.closeDbConnection(connection);
+        }
+    }
 }
