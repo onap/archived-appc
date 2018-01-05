@@ -46,7 +46,9 @@ module appc-provider-lcm {
     namespace "org:onap:appc:lcm";
     prefix appc-provider-lcm;
     organization "Copyright 2017 AT&T Intellectual Property.";
-
+    contact
+        "Dewayne Hafenstein <dh868g@att.us.com>";
+        
     description
       "Defines the services and request/response requirements for the ECOMP APP-C component.";
 
@@ -66,8 +68,6 @@ module appc-provider-lcm {
      * define constraints, or to impart special meanings to data objects related to the
      * APP-C controller functions.
      **********************************************************************************/
-
-   
 
     typedef ZULU {
         description "Define a common definition of a time stamp (expressed as a formatted
@@ -112,19 +112,42 @@ module appc-provider-lcm {
             enum "ConfigExport";
             enum "StopApplication";
             enum "StartApplication";
+			enum "QuiesceTraffic";
+            enum "ResumeTraffic";
+            enum "UpgradePreCheck";
+            enum "UpgradeSoftware";
+            enum "UpgradePostCheck";
+            enum "UpgradeBackup";
+            enum "UpgradeBackout";
+            enum "ActionStatus";
+            enum "Query";
+            enum "Reboot";
+            enum "AttachVolume";
+            enum "DetachVolume";
+            
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
     }
 
-    /**********************************************************************************
-     * All requests will include this standard header
-     *
-     * The standard request header is used to define a correlation identification for
-     * the request that is returned on all responses.  This correlation identifier
-     * (called the service-request-id) is meaningful to the caller and is included on
-     * all responses from the services.
-     **********************************************************************************/
-    
+    typedef vm-state {
+        description "The state of a VM";
+        type enumeration {
+            enum "active";
+            enum "standby";
+            enum "inactive";
+            enum "unknown";
+        }
+    }
+
+    typedef vm-status {
+        description "The status of a VM";
+        type enumeration {
+            enum "healthy";
+            enum "unhealthy";
+            enum "unknown";
+        }
+    }
+
 
     /**********************************************************************************
      * Basic manipulation of a VNF (or VM) will typically include querying the current
@@ -137,23 +160,21 @@ module appc-provider-lcm {
     
 
     /**********************************************************************************
+     * All requests will include this standard header
+     *
+     * The standard request header is used to define a correlation identification for
+     * the request that is returned on all responses.  This correlation identifier
+     * (called the service-request-id) is meaningful to the caller and is included on
+     * all responses from the services.
+     **********************************************************************************/
+
+    /**********************************************************************************
      * All responses will include this standard header
      *
      * The standard response header includes the time of completion as well as a
      * success|failure indication
      **********************************************************************************/
-    
 
-
-       /**********************************************************************************
-         * All requests/response will include this standard header
-         *
-         * The standard common header is used to define a correlation identification for
-         * the request that is returned on all responses.
-         **********************************************************************************/
-    
-    
-    
     grouping common-header {
         description "A common header for all APP-C requests";
         container common-header {
@@ -202,22 +223,24 @@ module appc-provider-lcm {
             }
 
 
-                /**********************************************************************************
-                 * Flags are generic flags that apply to any and all commands, all are optional
-                 *  force = TRUE/FALSE - Execute command even if target is in unstable (i.e. locked, transiting, etc) state. Specific behaviour of forced commands varies, but implies cancellation of previous command and an override by the new command. The FALSE value is used by default.
-                 *  ttl = <0....N> - The timeout value for command execution, expressed in seconds
-                 *  mode = EXCLUSIVE/NORMAL - defines execution mode as follows:
-                 *        - EXCLUSIVE ? on encountering an exclusive command, the APP-C will:
-                 *          * Cease accepting additional command requests
-                 *          * Complete execution of outstanding commands
-                 *          * Execute the exclusive command to completion
-                 *          * Optionally report the result of the command
-                 *          * Optionally resume command acceptance and processing
-                 *        - NORMAL - Obverse of EXCLUSIVE, the default one.
-                 **********************************************************************************/
+            /**********************************************************************************
+             * Flags are generic flags that apply to any and all commands, all are optional
+             *  force = TRUE/FALSE - Execute command even if target is in unstable (i.e. locked, transiting, etc)
+             *                       state. Specific behaviour of forced commands varies, but implies cancellation
+             *                       of previous command and an override by the new command. The FALSE value is
+             *                       used by default.
+             *  ttl = <0....N> - The timeout value for command execution, expressed in seconds
+             *  mode = EXCLUSIVE/NORMAL - defines execution mode as follows:
+             *        - EXCLUSIVE ? on encountering an exclusive command, the APP-C will:
+             *          * Cease accepting additional command requests
+             *          * Complete execution of outstanding commands
+             *          * Execute the exclusive command to completion
+             *          * Optionally report the result of the command
+             *          * Optionally resume command acceptance and processing
+             *        - NORMAL - Obverse of EXCLUSIVE, the default one.
+             **********************************************************************************/
             container flags {
-                description "Flags are generic flags that apply to any and all commands, all
-                                are optional";
+                description "Flags are generic flags that apply to any and all commands, all are optional";
                 leaf mode {
                     type enumeration {
                         enum "EXCLUSIVE";
@@ -242,9 +265,9 @@ module appc-provider-lcm {
                     type uint16;
                     mandatory false;
                 }
-                }
             }
         }
+    }
 
 
     grouping action-identifiers {
@@ -295,9 +318,13 @@ module appc-provider-lcm {
 
 
      grouping status {
-            description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
+            description "The specific response codes are to be aligned with SDC reference doc
+                         (main table removed to avoid duplication and digression from main table).
+                         See SDC and ECOMP Distribution Consumer Interface Agreement";
             container status {
-                description "The specific response codes are to be aligned with SDC reference doc (main table removed to avoid duplication and digression from main table). See SDC and ECOMP Distribution Consumer Interface Agreement";
+                description "The specific response codes are to be aligned with SDC reference doc
+                             (main table removed to avoid duplication and digression from main table).
+                             See SDC and ECOMP Distribution Consumer Interface Agreement";
                 leaf code {
                     description "Response code";
                     type uint16;
@@ -311,164 +338,328 @@ module appc-provider-lcm {
             }
       }
 
-
-
-
+     typedef lcm-action-status {
+         type enumeration {
+                 enum "IN_PROGRESS";
+                 enum "SUCCESSFUL";
+                 enum "FAILED";
+                 enum "NOT_FOUND";
+                 enum "ABORTED";
+                 enum "MULTIPLE_REQUESTS_FOUND";
+         }
+         description "The status of the requested LCM action";
+     }
 
     /**********************************************************************************
-             * Define the restart service
-             **********************************************************************************/
-            rpc restart {
-                description "An operation to restart a virtual network function (or VM)";
-                 input {
-                    uses common-header;
-                    leaf action {
-                        type action;
-                        mandatory true;
-                    }
-                    uses action-identifiers;
-                    leaf payload {
-                      type payload;
-                      mandatory false;
-                    }
-                }
-                output {
-                    uses common-header;
-                    uses status;
-                }
+     * Define the restart service
+     **********************************************************************************/
+    rpc restart {
+        description "An operation to restart a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
             }
-
-            /**********************************************************************************
-             * Define the rebuild service
-             **********************************************************************************/
-            rpc rebuild {
-                description "An operation to rebuild a virtual network function (or VM)";
-                input {
-                    uses common-header;
-                    leaf action {
-                        type action;
-                        mandatory true;
-                    }
-                    uses action-identifiers;
-                    leaf payload {
-                        type payload;
-                        mandatory false;
-                    }
-                }
-                output {
-                    uses common-header;
-                    uses status;
-                }
-            }
-
-            /**********************************************************************************
-             * Define the migrate service
-             **********************************************************************************/
-            rpc migrate {
-                description "An operation to migrate a virtual network function (or VM)";
-                input {
-                    uses common-header;
-                    leaf action {
-                        type action;
-                        mandatory true;
-                    }
-                    uses action-identifiers;
-                    leaf payload {
-                        type payload;
-                        mandatory false;
-                    }
-                }
-                output {
-                    uses common-header;
-                    uses status;
-                }
-            }
-
-             /**********************************************************************************
-             * Define the evacuate service
-             **********************************************************************************/
-            rpc evacuate {
-                description "An operation to evacuate a virtual network function (or VM)";
-                input {
-                    uses common-header;
-                    leaf action {
-                        type action;
-                        mandatory true;
-                    }
-                    uses action-identifiers;
-                    leaf payload {
-                        type payload;
-                        mandatory false;
-                    }
-                }
-                output {
-                    uses common-header;
-                    uses status;
-                }
-            }
-
-
-    	 /**********************************************************************************
-         * Define the snapshot service
-         **********************************************************************************/
-        rpc snapshot {
-            description "An operation to create a snapshot of a virtual network function (or VM)";
-            input {
-                uses common-header;
-                leaf action {
-                  type action;
-                  mandatory true;
-                }
-                uses action-identifiers;
-                leaf payload {
-                  type payload;
-                  mandatory false;
-                }
-                leaf identity-url {
-                    type string;
-                     mandatory true;
-                }
-            }
-            output {
-                uses common-header;
-                uses status;
-                leaf snapshot-id {
-                    type string;
-                }
-
+            uses action-identifiers;
+                 leaf payload {
+                 type payload;
+                 mandatory false;
             }
         }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
 
-    	 /**********************************************************************************
-         * Define the rollback service
-         **********************************************************************************/
-        rpc rollback {
-            description "An operation to rollback to particular snapshot of a virtual network function (or VM)";
-            input {
-                uses common-header;
-                leaf action {
-                  type action;
-                  mandatory true;
-                }
-                uses action-identifiers;
-                leaf payload {
-                  type payload;
-                  mandatory false;
-                }
-                leaf identity-url {
-                    type string;
-                     mandatory true;
-                }
-                leaf snapshot-id {
-                    type string;
-                     mandatory true;
-                }
+    /**********************************************************************************
+     * Define the rebuild service
+     **********************************************************************************/
+    rpc rebuild {
+        description "An operation to rebuild a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
             }
-            output {
-                uses common-header;
-                uses status;
+            uses action-identifiers;
+            leaf payload {
+            type payload;
+            mandatory false;
+        }
+    }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the migrate service
+     **********************************************************************************/
+    rpc migrate {
+        description "An operation to migrate a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
             }
         }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the evacuate service
+     **********************************************************************************/
+    rpc evacuate {
+        description "An operation to evacuate a virtual network function (or VM)";
+         input {
+             uses common-header;
+             leaf action {
+                 type action;
+                  mandatory true;
+             }
+             uses action-identifiers;
+             leaf payload {
+                 type payload;
+                 mandatory false;
+             }
+         }
+         output {
+             uses common-header;
+             uses status;
+         }
+    }
+
+    /**********************************************************************************
+     * Define the snapshot service
+     **********************************************************************************/
+    rpc snapshot {
+        description "An operation to create a snapshot of a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+             }
+              uses action-identifiers;
+              leaf payload {
+                  type payload;
+                  mandatory false;
+              }
+              leaf identity-url {
+                  type string;
+                  mandatory true;
+              }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf snapshot-id {
+                type string;
+            }
+        }
+    }
+	    /**********************************************************************************
+     * Define the VNF quiesce traffic service
+     **********************************************************************************/
+    rpc quiesce-traffic {
+        description "An operation to stop traffic gracefully on the VF.
+                     It stops traffic gracefully without stopping the application";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF resume traffic service
+     **********************************************************************************/
+    rpc resume-traffic {
+        description "An operation to resume traffic gracefully on the VF.
+                     It resumes traffic gracefully without stopping the application";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF UpgradePreCheck service
+     **********************************************************************************/
+    rpc upgrade-pre-check {
+        description "An operation to check that the VNF has the correct software version needed for a software upgrade.";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF UpgradeSoftware service
+     **********************************************************************************/
+    rpc upgrade-software {
+        description "An operation to upgrade the target VNF to a new version and expected that the VNF is in a quiesced status .";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF UpgradePostCheck service
+     **********************************************************************************/
+    rpc upgrade-post-check {
+        description "An operation to check the VNF upgrade has been successful completed and all processes are running properly.";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF UpgradeBackup service
+     **********************************************************************************/
+    rpc upgrade-backup {
+        description "An operation to do full backup of the VNF data prior to an upgrade.";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF UpgradeBackout service
+     **********************************************************************************/
+    rpc upgrade-backout {
+        description "An operation does a backout after an UpgradeSoftware is completed (either successfully or unsuccessfully).";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the rollback service
+     **********************************************************************************/
+    rpc rollback {
+        description "An operation to rollback to particular snapshot of a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                 mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+            leaf identity-url {
+                type string;
+                mandatory true;
+            }
+            leaf snapshot-id {
+                type string;
+                 mandatory true;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
 
 
     /**********************************************************************************
@@ -476,7 +667,7 @@ module appc-provider-lcm {
      **********************************************************************************/
 
 
-      /**********************************************************************************
+    /**********************************************************************************
      * Define the sync service
      **********************************************************************************/
     rpc sync {
@@ -553,7 +744,13 @@ module appc-provider-lcm {
     }
 
     rpc config-modify {
-        description "Use the ModifyConfig command when a full configuration cycle is either not required or is considered too costly. The ModifyConfig LCM action affects only a subset of the total configuration data of a VNF. The set of configuration parameters to be affected is a subset of the total configuration data of the target VNF type. The payload block must contain the configuration parameters to be modified and their values. A successful modify returns a success response. A failed modify returns a failure response and the specific failure messages in the response payload block";
+        description "Use the ModifyConfig command when a full configuration cycle is either not required
+                     or is considered too costly. The ModifyConfig LCM action affects only a subset of the
+                     total configuration data of a VNF. The set of configuration parameters to be affected
+                     is a subset of the total configuration data of the target VNF type. The payload Stop
+                     Application must contain the configuration parameters to be modified and their values.
+                     A successful modify returns a success response. A failed modify returns a failure
+                     response and the specific failure messages in the response payload Stop Application";
         input {
             uses common-header;
             leaf action {
@@ -627,8 +824,8 @@ module appc-provider-lcm {
     }
 
     /**********************************************************************************
-         * Define the test service
-         **********************************************************************************/
+     * Define the test service
+     **********************************************************************************/
     rpc test {
         description "An operation to test the configurations of a virtual network function (or VM)";
         input {
@@ -649,197 +846,194 @@ module appc-provider-lcm {
         }
     }
 
-        /**********************************************************************************
-         * Define the stop service
-         **********************************************************************************/
-        rpc stop {
-            description "An operation to stop the configurations of a virtual network function (or VM)";
-            input {
-                uses common-header;
-                leaf action {
-                           type action;
-                           mandatory true;
-                }
-                uses action-identifiers;
-                leaf payload {
-                            type payload;
-                            mandatory false;
-                }
+    /**********************************************************************************
+     * Define the stop service
+     **********************************************************************************/
+    rpc stop {
+        description "An operation to stop the configurations of a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
             }
-            output {
-                uses common-header;
-                uses status;
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
             }
         }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
 
-        rpc start {
-            description "An operation to start a virtual network function (or VM)";
-            input {
-                uses common-header;
-                leaf action {
-                    type action;
-                    mandatory true;
-                }
-                uses action-identifiers;
-                leaf payload {
-                    type payload;
-                    mandatory false;
-                }
+    rpc start {
+        description "An operation to start a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
             }
-            output {
-                uses common-header;
-                uses status;
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
             }
         }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
 
-       /**********************************************************************************
-        * Define the audit service
-        **********************************************************************************/
-       rpc audit {
-           description "An operation to audit the configurations of a virtual network function (or VM)";
-           input {
-               uses common-header;
+    /**********************************************************************************
+     * Define the audit service
+     **********************************************************************************/
+    rpc audit {
+        description "An operation to audit the configurations of a virtual network function (or VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the SoftwareUpload vSCP service
+     **********************************************************************************/
+    rpc software-upload {
+        description "An operation to upload a new version of vSCP image to vSCP for updating it";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the PreHealthCheck vSCP service
+     **********************************************************************************/
+    rpc health-check {
+        description "An operation to perform health check of vSCP prior its upgrading";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+
+    /**********************************************************************************
+     * Define the Upgrade vSCP service
+     **********************************************************************************/
+    rpc live-upgrade {
+        description "An operation to perform upgrade of vSCP";
+        input {
+            uses common-header;
+            leaf action {
+                 type action;
+                 mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                 type payload;
+                 mandatory false;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+
+    /**********************************************************************************
+     * Define the VNF lock service
+     **********************************************************************************/
+    rpc lock {
+         description "An operation to perform VNF lock operation";
+          input {
+              uses common-header;
                leaf action {
-                          type action;
-                          mandatory true;
+                   type action;
+                   mandatory true;
                }
                uses action-identifiers;
                leaf payload {
                    type payload;
                    mandatory false;
                }
-           }
-           output {
-               uses common-header;
-               uses status;
-               leaf payload {
-                   type payload;
-                   mandatory false;
-              }
-           }
-       }
-
-       /**********************************************************************************
-       * Define the SoftwareUpload vSCP service
-       **********************************************************************************/
-      rpc software-upload {
-          description "An operation to upload a new version of vSCP image to vSCP for updating it";
-          input {
-              uses common-header;
-              leaf action {
-                         type action;
-                         mandatory true;
-              }
-              uses action-identifiers;
-              leaf payload {
-                          type payload;
-                          mandatory false;
-              }
           }
           output {
               uses common-header;
               uses status;
           }
-      }
-
-
-
-      /**********************************************************************************
-           * Define the PreHealthCheck vSCP service
-           **********************************************************************************/
-          rpc health-check {
-              description "An operation to perform health check of vSCP prior its upgrading";
-              input {
-                  uses common-header;
-                  leaf action {
-                             type action;
-                             mandatory true;
-                  }
-                  uses action-identifiers;
-                  leaf payload {
-                                                   type payload;
-                                                   mandatory false;
-                                       }
-              }
-              output {
-                  uses common-header;
-                  uses status;
-
-              }
-          }
-
+    }
 
     /**********************************************************************************
-              * Define the Upgrade vSCP service
-              **********************************************************************************/
-             rpc live-upgrade {
-                 description "An operation to perform upgrade of vSCP";
-                 input {
-                     uses common-header;
-                     leaf action {
-                                type action;
-                                mandatory true;
-                     }
-                     uses action-identifiers;
-                     leaf payload {
-                                 type payload;
-                                 mandatory false;
-                     }
-                 }
-                 output {
-                     uses common-header;
-                     uses status;
-                 }
+     * Define the VNF unlock service
+     **********************************************************************************/
+    rpc unlock {
+        description "An operation to perform VNF unlock operation";
+         input {
+             uses common-header;
+             leaf action {
+                 type action;
+                 mandatory true;
              }
+             uses action-identifiers;
+             leaf payload {
+                 type payload;
+                 mandatory false;
+             }
+         }
+         output {
+             uses common-header;
+             uses status;
+         }
+    }
 
-
-     /**********************************************************************************
-                     * Define the VNF lock service
-                     **********************************************************************************/
-                    rpc lock {
-                        description "An operation to perform VNF lock operation";
-                        input {
-                            uses common-header;
-                            leaf action {
-                                       type action;
-                                       mandatory true;
-                            }
-                            uses action-identifiers;
-                            leaf payload {
-                                        type payload;
-                                        mandatory false;
-                            }
-                        }
-                        output {
-                            uses common-header;
-                            uses status;
-                        }
-                    }
-
-        /**********************************************************************************
-         * Define the VNF unlock service
-         **********************************************************************************/
-                        rpc unlock {
-                            description "An operation to perform VNF unlock operation";
-                            input {
-                                uses common-header;
-                                leaf action {
-                                           type action;
-                                           mandatory true;
-                                }
-                                uses action-identifiers;
-                                leaf payload {
-                                            type payload;
-                                            mandatory false;
-                                }
-                            }
-                            output {
-                                uses common-header;
-                                uses status;
-                            }
-                        }
-
-     /**********************************************************************************
+    /**********************************************************************************
      * Define the VNF check lock service
      **********************************************************************************/
     rpc check-lock {
@@ -877,6 +1071,10 @@ module appc-provider-lcm {
                 mandatory true;
             }
             uses action-identifiers;
+            leaf payload {
+                 type payload;
+                 mandatory false;
+            }
         }
         output {
             uses common-header;
@@ -943,28 +1141,168 @@ module appc-provider-lcm {
                 uses common-header;
                 uses status;
             }
-      }
+        }
 
-    rpc start-application {
-                description "An operation to Start Application traffic to a virtual network function";
-                input {
-                    uses common-header;
-                    leaf action {
-                        type action;
-                        mandatory true;
-                    }
-                    uses action-identifiers;
-                    leaf payload {
-                         type payload;
-                         mandatory false;
-                    }
-                }
-                output {
-                    uses common-header;
-                    uses status;
-                }
-       }
     /**********************************************************************************
-     * Additional RPCs added here...
+     * Define the VNF Start Application service
      **********************************************************************************/
+    rpc start-application {
+        description "An operation to perform VNF Start Application operation";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                 mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+
+    /**********************************************************************************
+     * Gets the current state of the previously submitted LCM request
+     **********************************************************************************/
+    rpc action-status {
+        description "An operation to get the current state of the previously submitted LCM request";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+        }
+        output {
+           uses common-header;
+           uses status;
+           leaf payload {
+                type payload;
+           }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VNF Query service
+     **********************************************************************************/
+    rpc query {
+        description "An operation to query the status of a targe VNF.
+                     Returns information on each VM, including state (active or standby)
+                     and status (healthy or unhealthy)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+        }
+        output {
+            uses common-header;
+            uses status;
+            list query-results {
+                leaf vserver-id {
+                    description "Identifier of a VM";
+                    type string;
+                    mandatory true;
+                }
+                leaf vm-state {
+                    description "The state of the VM";
+                    type vm-state;
+                    mandatory true;
+                }
+                leaf vm-status {
+                    description "the status of the VM";
+                    type vm-status;
+                    mandatory true;
+                }
+            }
+        }
+    }
+
+    /**********************************************************************************
+     * Define the Reboot service
+     **********************************************************************************/
+    rpc reboot {
+        description "An operation to reboot a specified virtual machine (VM)";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory false;
+            }
+         }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VM attach volume service
+     **********************************************************************************/
+    rpc attach-volume {
+        description "An operation to attach a cinder volume to a VM";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                 type payload;
+                 mandatory true;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the VM detach volume service
+     **********************************************************************************/
+    rpc detach-volume {
+        description "An operation to detach a cinder volume from a VM";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                 type payload;
+                 mandatory true;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+
+
+ /**********************************************************************************
+     * Additional RPCs added here...
+ **********************************************************************************/
 }

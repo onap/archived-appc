@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102956191
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-ClassPath: .,eelf-core-0.0.1.jar,logback-core-1.1.1.jar,logback-c
+ lassic-1.1.1.jar
+Bundle-Description: APPC Dispatcher Common
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Ranking Framework Lib
+Bundle-SymbolicName: appc-ranking-framework-lib
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: eelf-core,logback-core,logback-classic;scope=compile|r
+ untime;inline=false
+Embed-Transitive: true
+Embedded-Artifacts: eelf-core-0.0.1.jar;g="com.att.eelf";a="eelf-core";v
+ ="0.0.1",logback-core-1.1.1.jar;g="ch.qos.logback";a="logback-core";v="
+ 1.1.1",logback-classic-1.1.1.jar;g="ch.qos.logback";a="logback-classic"
+ ;v="1.1.1"
+Export-Package: org.onap.appc.rankingframework;version="1.3.0.SNAPSHOT"
+Import-Package: javax.mail,javax.mail.internet,javax.management,javax.na
+ ming,javax.net,javax.net.ssl,javax.servlet,javax.servlet.http,javax.sql
+ ,javax.xml.namespace,javax.xml.parsers,javax.xml.stream,javax.xml.strea
+ m.events,org.slf4j,org.slf4j.helpers;version="[1.7,2)",org.slf4j.spi;ve
+ rsion="[1.7,2)",org.xml.sax,org.xml.sax.helpers,sun.reflect
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.7))"
+Tool: Bnd-2.3.0.201405100607

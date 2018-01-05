@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  ================================================================================
+  Copyright (C) 2017 Amdocs
+  =============================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  ECOMP is a trademark and service mark of AT&T Intellectual Property.
+  ============LICENSE_END=========================================================
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>appc-dispatcher-common</artifactId>
         <groupId>org.onap.appc</groupId>
@@ -9,8 +33,13 @@
 
     <artifactId>transaction-recorder</artifactId>
     <packaging>bundle</packaging>
+    <name>APPC Transaction Recorder</name>
 
-    <name>transaction-recorder</name>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <licenseDir>${project.parent.parent.parent.basedir}</licenseDir>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
@@ -22,12 +51,21 @@
             <artifactId>appc-data-access-lib</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>domain-model-lib</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>appc-test-dependencies</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+            <type>pom</type>
+        </dependency>
+
     </dependencies>
 
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
     <build>
         <plugins>
             <plugin>
@@ -37,11 +75,26 @@
                     <instructions>
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
-                        <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic,appc-data-access-lib;scope=compile|runtime;inline=false</Embed-Dependency>
+<!--                        <Embed-Dependency>
+                           eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false
+                        </Embed-Dependency>-->
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.onap.appc.transactionrecorder.TransactionRecorder</Export-Service>
-                        <Import-Package>!javax.*,!groovy.lang,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.apache.commons.lang3,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*;resolution:=optional</Import-Package>
-                        <Export-Package>org.onap.appc.transactionrecorder,org.onap.appc.transactionrecorder.objects</Export-Package>
+<!--                        <Import-Package>
+                            org.onap.appc.domainmodel.lcm,!javax.jms,!groovy.lang,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.apache.commons.lang3,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*
+                        </Import-Package>-->
+                        <Import-Package>
+                            org.onap.appc.domainmodel.lcm,org.onap.ccsdk.sli.resource.dblib,org.onap.appc.dao.util,*
+                        </Import-Package>
+                        <!--<Import-Package>org.onap.appc.domainmodel.lcm,com.fasterxml.jackson.*,
+                            javax.xml.datatype,javax.xml.*,org.apache.http,org.apache.http.auth,
+                            org.apache.http.client,org.apache.http.client.methods,org.apache.http.entity,
+                            org.apache.http.impl.client,org.onap.appc.dao.util,org.onap.appc.transactionrecorder.objects,
+                            org.onap.ccsdk.sli.resource.dblib,org.osgi.service.blueprint,org.slf4j,org.slf4j.helpers,
+                            org.slf4j.spi,org.xml.sax,org.xml.sax.helpers,sun.reflect </Import-Package>-->
+                        <Export-Package>
+                            org.onap.appc.transactionrecorder,org.onap.appc.transactionrecorder.objects
+                        </Export-Package>
                     </instructions>
                 </configuration>
             </plugin>

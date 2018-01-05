@@ -1,0 +1,30 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102968805
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-Activator: org.onap.appc.workflow.activator.WorkflowManagerActiva
+ tor
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: appc-workflow-management-core OSGi bundle project.
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Workflow Management - Core
+Bundle-SymbolicName: appc-workflow-management-core
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: javax.json;scope=compile|runtime;inline=false
+Embed-Transitive: true
+Export-Service: org.onap.appc.workflow.WorkFlowManager
+Import-Package: org.onap.appc.workflow;version="[1.3,2)",org.onap.appc.w
+ orkflow.activator;resolution:=optional,org.onap.appc.workflow.impl;reso
+ lution:=optional,org.onap.ccsdk.sli.core.sli.provider;resolution:=optio
+ nal;version="[0.1,1)",org.osgi.service.blueprint;version="[1.0.0,2.0.0)
+ ";resolution:=optional,org.onap.appc.workflow.objects;version="[1.3,2)"
+ ,org.onap.appc.configuration;version="[1.3,2)",org.onap.appc.transactio
+ nrecorder;version="[1.3,2)",org.onap.appc.transactionrecorder.objects;v
+ ersion="[1.3,2)",org.onap.appc.util;version="[1.3,2)",com.att.eelf.conf
+ iguration;version="[1.3,2)",org.onap.appc.dao.util;version="[1.3,2)"
+Import-Service: org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;mul
+ tiple:=false
+Tool: Bnd-2.3.0.201405100607
