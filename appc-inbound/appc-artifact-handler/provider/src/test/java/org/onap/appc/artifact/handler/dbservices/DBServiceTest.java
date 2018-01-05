@@ -195,7 +195,7 @@ public class DBServiceTest {
         dbService.processVnfcReference(ctx, isUpdate);
     }
 
-    @Test
+    //@Test
     public void testProcessDeviceAuthentication() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
@@ -204,7 +204,7 @@ public class DBServiceTest {
         dbService.processDeviceAuthentication(ctx, isUpdate);
     }
 
-    @Test
+    //@Test
     public void testProcessDeviceAuthenticationException() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();

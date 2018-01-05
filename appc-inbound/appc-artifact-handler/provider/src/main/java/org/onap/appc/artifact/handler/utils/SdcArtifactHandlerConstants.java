@@ -57,6 +57,7 @@ public class SdcArtifactHandlerConstants {
     public static final String VM = "vm";
     public static final String VNFC = "vnfc";
     public static final String VNFC_FUNCTION_CODE = "vnfc-function-code";
+    public static final String VNFC_FUNCTION_CODE_LIST = "vnfc-function-code-list";
     public static final String GROUP_NOTATION = "group-notation";
     public static final String IPADDRESS_V4_OAM_VIP  = "ipaddress-v4-oam-vip";
     public static final String GROUP_NOTATION_TYPE  = "group-notation-type";
@@ -89,5 +90,7 @@ public class SdcArtifactHandlerConstants {
     public static final String TEMPLATE = "template";
     public static final String ARTIFACT_NAME_REFERENCE = "reference";
     public static final String ARTIFACT_NAME_CAPABILITY = "capability";
+    public static final String APPC_CONFIG_DIR="/opt/appcauth";
+    public static final String URL="url";
 }
 
