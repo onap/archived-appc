@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_6e768440",
+        "filename": "appc-inbound/appc-artifact-handler/features/src/main/resources/features.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-05T21:19:10Z",
+      "side": 1,
+      "message": "Is it necessary to rename the feature? If we change the name, the installer will have to be updated to with the new name too. The current name \"appc-artifact-handler\" matches the naming format of all the other appc karaf features.",
+      "revId": "739204dce50782f3b114ae6144598b776f9e4b7c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
