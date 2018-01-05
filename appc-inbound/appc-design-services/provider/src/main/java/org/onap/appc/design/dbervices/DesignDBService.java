@@ -42,6 +42,7 @@ import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -180,6 +181,7 @@ public class DesignDBService {
     private String uploadArtifact(String payload, String requestID) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
         JsonNode payloadObject = objectMapper.readTree(payload);
         log.info("Got upload Aritfact with Payload : " + payloadObject.asText());
         try{
@@ -387,7 +389,7 @@ public class DesignDBService {
             log.info("Query String :" + queryString);
             ResultSet data = dbservice.getDBData(queryString, argList);
             String artifact_content = null;
-            int hightestVerion = 0 ;
+            int hightestVerion = -1 ;
             while(data.next()) {            
                 int version = data.getInt("INTERNAL_VERSION");
                 if(hightestVerion < version)
@@ -397,7 +399,7 @@ public class DesignDBService {
             if(artifact_content == null || artifact_content.isEmpty())
                 throw new Exception("Sorry !!! I dont have any artifact Named : " + payloadObject.get("artifact-name").textValue());
             DesignResponse designResponse = new DesignResponse();
-            designResponse.setUserId(payloadObject.get("userID").textValue());
+            //designResponse.setUserId(payloadObject.get("userID").textValue());
             List<ArtifactInfo> artifactInfoList = new ArrayList<ArtifactInfo>();    
             ArtifactInfo artifactInfo =  new ArtifactInfo();
             artifactInfo.setArtifact_content(artifact_content);
@@ -593,21 +595,30 @@ public class DesignDBService {
 
     private String getDesigns(String payload, String requestID) throws Exception {
 
-        String fn = "DBService.getDesigns ";        
+        String fn = "DBService.getDesigns ";
+    String queryString;        
         log.info("Starting getDesgins DB Operation");
 
 
         try{
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode payloadObject = objectMapper.readTree(payload);
-            String UserID = payloadObject.get("userID").textValue();        
+            String UserID = payloadObject.get("userID").textValue();
+        String filterKey =null;
+            if(payloadObject.hasNonNull("filter"))
+            filterKey= payloadObject.get("filter").textValue();        
             ArrayList<String> argList = new ArrayList<>();
             argList.add(UserID);
 
-            String queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
-                    DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
-                    " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? ";
-
+            if(filterKey!=null){
+                queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
+                        DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
+                        " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? and AR.ARTIFACT_NAME like '%"+filterKey+"%' GROUP BY AR.VNF_TYPE,AR.ARTIFACT_NAME";
+            }else{
+                queryString = "SELECT AR.VNF_TYPE, AR.VNFC_TYPE,  DAT.PROTOCOL, DAT.IN_CART, AR.ACTION, AR.ARTIFACT_NAME, AR.ARTIFACT_TYPE from  " + 
+                        DesignServiceConstants.DB_DT_ARTIFACT_TRACKING  + " DAT , " +  DesignServiceConstants.DB_SDC_REFERENCE  +
+                        " AR where DAT.ASDC_REFERENCE_ID= AR.ASDC_REFERENCE_ID  and DAT.USER = ? GROUP BY AR.VNF_TYPE,AR.ARTIFACT_NAME";
+            }
             DesignResponse designResponse = new DesignResponse();
             designResponse.setUserId(UserID);
             List<DesignInfo> designInfoList = new ArrayList<DesignInfo>();

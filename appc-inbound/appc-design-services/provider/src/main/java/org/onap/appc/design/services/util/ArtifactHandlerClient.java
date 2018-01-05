@@ -115,6 +115,7 @@ public class ArtifactHandlerClient  {
         Client client = null;
         WebResource webResource = null;
         ClientResponse clientResponse = null;
+    EncryptionTool et = EncryptionTool.getInstance();
         String responseDataType=MediaType.APPLICATION_JSON;
         String requestDataType=MediaType.APPLICATION_JSON;
 
@@ -129,7 +130,8 @@ public class ArtifactHandlerClient  {
                     com.sun.jersey.client.urlconnection.HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
                     new com.sun.jersey.client.urlconnection.HTTPSProperties(getHostnameVerifier(), sslContext));
             client = Client.create(defaultClientConfig);
-            client.addFilter(new HTTPBasicAuthFilter(props.getProperty("appc.upload.user"), props.getProperty("appc.upload.pass")));
+        String password = et.decrypt(props.getProperty("appc.upload.pass"));
+        client.addFilter(new HTTPBasicAuthFilter(props.getProperty("appc.upload.user"),password));
             webResource = client.resource(new URI(props.getProperty("appc.upload.provider.url")));
             webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
             

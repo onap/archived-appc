@@ -40,13 +40,4 @@ public class TestEscapeUtils {
         String str = escapeUtils.escapeSql("\\'Test Data\\'");
         assert (true);
     }
-    
-    @Test
-    public void testXResponseProcessor(){
-        
-        XResponseProcessor xr = new XResponseProcessor();    
-        Object o = new Object();
-        xr.parseResponse(o, "Test");
-        Assert.assertEquals(null, null);
-    }    
 }
