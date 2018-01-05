@@ -26,72 +26,72 @@ package org.onap.appc.workflow.objects;
 
 public class WorkflowExistsOutput {
 
-	private boolean mappingExist ;
-	private boolean dgExist;
-	private String workflowModule;
-	private String workflowName;
-	private String workflowVersion;
+    private boolean mappingExist ;
+    private boolean dgExist;
+    private String workflowModule;
+    private String workflowName;
+    private String workflowVersion;
 
 
-	public WorkflowExistsOutput() {
-	}
+    public WorkflowExistsOutput() {
+    }
 
-	public WorkflowExistsOutput(boolean mappingExist, boolean dgExist) {
-		this.mappingExist = mappingExist;
-		this.dgExist = dgExist;
-	}
+    public WorkflowExistsOutput(boolean mappingExist, boolean dgExist) {
+        this.mappingExist = mappingExist;
+        this.dgExist = dgExist;
+    }
 
-	public boolean isMappingExist() {
-		return mappingExist;
-	}
+    public boolean isMappingExist() {
+        return mappingExist;
+    }
 
-	public void setMappingExist(boolean mappingExist) {
-		this.mappingExist = mappingExist;
-	}
+    public void setMappingExist(boolean mappingExist) {
+        this.mappingExist = mappingExist;
+    }
 
-	public boolean isDgExist() {
-		return dgExist;
-	}
+    public boolean isDgExist() {
+        return dgExist;
+    }
 
-	public void setDgExist(boolean dgExist) {
-		this.dgExist = dgExist;
-	}
+    public void setDgExist(boolean dgExist) {
+        this.dgExist = dgExist;
+    }
 
-	public String getWorkflowName() {
-		return workflowName;
-	}
+    public String getWorkflowName() {
+        return workflowName;
+    }
 
-	public void setWorkflowName(String workflowName) {
-		this.workflowName = workflowName;
-	}
+    public void setWorkflowName(String workflowName) {
+        this.workflowName = workflowName;
+    }
 
-	public String getWorkflowVersion() {
-		return workflowVersion;
-	}
+    public String getWorkflowVersion() {
+        return workflowVersion;
+    }
 
-	public void setWorkflowVersion(String workflowVersion) {
-		this.workflowVersion = workflowVersion;
-	}
+    public void setWorkflowVersion(String workflowVersion) {
+        this.workflowVersion = workflowVersion;
+    }
 
-	public String getWorkflowModule() {
-		return workflowModule;
-	}
+    public String getWorkflowModule() {
+        return workflowModule;
+    }
 
-	public void setWorkflowModule(String workflowModule) {
-		this.workflowModule = workflowModule;
-	}
-	public boolean exists(){
-		return mappingExist && dgExist;
-	}
+    public void setWorkflowModule(String workflowModule) {
+        this.workflowModule = workflowModule;
+    }
+    public boolean exists(){
+        return mappingExist && dgExist;
+    }
 
-	@Override
-	public String toString() {
-		return "WorkflowExistsOutput{" +
-				"mappingExist=" + mappingExist +
-				", dgExist=" + dgExist +
-				", workflowModule='" + workflowModule + '\'' +
-				", workflowName='" + workflowName + '\'' +
-				", workflowVersion='" + workflowVersion + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "WorkflowExistsOutput{" +
+                "mappingExist=" + mappingExist +
+                ", dgExist=" + dgExist +
+                ", workflowModule='" + workflowModule + '\'' +
+                ", workflowName='" + workflowName + '\'' +
+                ", workflowVersion='" + workflowVersion + '\'' +
+                '}';
+    }
 }

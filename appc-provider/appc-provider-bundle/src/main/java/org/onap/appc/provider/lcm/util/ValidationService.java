@@ -38,10 +38,6 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 
-import javax.swing.*;
-
-
-
 public class ValidationService {
 
     private static class ValidationServiceHolder {
@@ -49,46 +45,62 @@ public class ValidationService {
     }
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(ValidationService.class);
-
     private Configuration configuration = ConfigurationFactory.getConfiguration();
 
     public static ValidationService getInstance(){
         return ValidationServiceHolder.INSTANCE;
     }
 
-    public Status validateInput (CommonHeader commonHeader, Action action , String rpcName) {
-        String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-        String reason ;
-        StringBuilder paramName = new StringBuilder("");
-        if (!isEmpty(commonHeader) && !isEmpty(commonHeader.getApiVer())&& !isEmpty(commonHeader.getTimestamp()) && !isEmpty(commonHeader.getRequestId()) && !isEmpty(action) && !isEmpty(commonHeader.getOriginatorId())){
-            if(!action.toString().equalsIgnoreCase(rpcName)) logger.warn("action in input request '" + action.toString() + "' is different from endpoint '" + rpcName + "'");
+    public Status validateInput(CommonHeader commonHeader, Action action , String rpcName) {
+        if (!isEmpty(commonHeader)
+            && !isEmpty(commonHeader.getApiVer())
+            && !isEmpty(commonHeader.getTimestamp())
+            && !isEmpty(commonHeader.getRequestId())
+            && !isEmpty(commonHeader.getOriginatorId())
+            && !isEmpty(action)) {
             return null;
-        } else{
-            if(isEmpty(commonHeader)){
-                paramName.append("common-header");
-            }else{
-                if (isEmpty(commonHeader.getApiVer())) paramName.append("api-ver");
-                if (isEmpty(commonHeader.getTimestamp())) paramName.append(isEmpty(paramName) ? "timestamp" : " , timestamp" );
-                if (isEmpty(commonHeader.getRequestId())) paramName.append(isEmpty(paramName)  ? "request-id" : " , request-id" );
-                if (isEmpty(commonHeader.getOriginatorId())) paramName.append(isEmpty(paramName)  ? "originator-id" : " , originator-id" );
-            }
-            if (isEmpty(action)) paramName.append(isEmpty(paramName)  ? "action" : " , action" );
         }
 
+        StringBuilder paramName = new StringBuilder();
+        if(isEmpty(commonHeader)){
+            paramName.append("common-header");
+        } else {
+            if (isEmpty(commonHeader.getApiVer())) {
+                paramName.append("api-ver");
+            }
+            if (isEmpty(commonHeader.getTimestamp())) {
+                paramName.append(isEmpty(paramName) ? "timestamp" : " , timestamp");
+            }
+            if (isEmpty(commonHeader.getRequestId())) {
+                paramName.append(isEmpty(paramName)  ? "request-id" : " , request-id");
+            }
+            if (isEmpty(commonHeader.getOriginatorId())) {
+                paramName.append(isEmpty(paramName)  ? "originator-id" : " , originator-id");
+            }
+        }
+        if (isEmpty(action)) {
+            paramName.append(isEmpty(paramName)  ? "action" : " , action");
+        }
 
-
-        reason = EELFResourceManager.format(Msg.NULL_OR_INVALID_ARGUMENT, appName, rpcName, paramName.toString() , "");
         logger.info("Mandatory parameter/s" + paramName.toString() + " is/are missing");
+        String reason = EELFResourceManager.format(
+            Msg.NULL_OR_INVALID_ARGUMENT,
+            configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME),
+            rpcName,
+            paramName.toString(),
+            "");
         logger.error(reason);
+
         LCMCommandStatus lcmCommandStatus = LCMCommandStatus.MISSING_MANDATORY_PARAMETER;
         Params params = new Params().addParam("paramName", paramName.toString());
+
         StatusBuilder status = new StatusBuilder();
         status.setCode(lcmCommandStatus.getResponseCode());
         status.setMessage(lcmCommandStatus.getFormattedMessage(params));
         return status.build();
     }
 
-    private boolean isEmpty (Object object){
-        return (null == object || "".equalsIgnoreCase(object.toString()));
+    private boolean isEmpty(Object object) {
+        return null == object || "".equalsIgnoreCase(object.toString());
     }
 }

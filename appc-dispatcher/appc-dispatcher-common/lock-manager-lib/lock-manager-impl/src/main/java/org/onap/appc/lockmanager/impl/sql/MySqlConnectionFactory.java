@@ -32,6 +32,8 @@ import org.onap.appc.dao.util.DefaultJdbcConnectionFactory;
 public class MySqlConnectionFactory extends DefaultJdbcConnectionFactory {
 
     protected void registedDriver() throws SQLException {
-        DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
+    DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
+    
     }
+
 }

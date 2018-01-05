@@ -30,20 +30,20 @@ import org.onap.appc.domainmodel.lcm.ResponseContext;
 
 public class WorkflowResponse {
 
-	private ResponseContext responseContext;
+    private ResponseContext responseContext;
 
-	public ResponseContext getResponseContext() {
-		return responseContext;
-	}
+    public ResponseContext getResponseContext() {
+        return responseContext;
+    }
 
-	public void setResponseContext(ResponseContext responseContext) {
-		this.responseContext = responseContext;
-	}
+    public void setResponseContext(ResponseContext responseContext) {
+        this.responseContext = responseContext;
+    }
 
-	@Override
-	public String toString() {
-		return "WorkflowResponse{" +
-				"responseContext=" + responseContext +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "WorkflowResponse{" +
+                "responseContext=" + responseContext +
+                '}';
+    }
 }
