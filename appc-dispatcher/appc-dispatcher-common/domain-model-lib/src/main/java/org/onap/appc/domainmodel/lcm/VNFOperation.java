@@ -25,36 +25,68 @@
 package org.onap.appc.domainmodel.lcm;
 
 public enum VNFOperation {
-    Configure, Test, HealthCheck, Start, Terminate, Restart, Rebuild, Stop, ConfigModify,
-    ConfigScaleOut,ConfigRestore,Backup, Snapshot,
-    SoftwareUpload, LiveUpgrade, Rollback, Test_lic, Migrate, Evacuate,StopApplication, StartApplication,
-    Sync(OperationType.ReadOnly), Audit(OperationType.ReadOnly),
-    ConfigBackup(OperationType.ReadOnly),ConfigBackupDelete(OperationType.ReadOnly),ConfigExport(OperationType.ReadOnly),
-    Lock(OperationType.BuiltIn), Unlock(OperationType.BuiltIn), CheckLock(OperationType.BuiltIn);
+    ActionStatus,
+    AttachVolume,
+    Audit,
+    Backup,
+    CheckLock(true),
+    Configure,
+    ConfigBackup,
+    ConfigBackupDelete,
+    ConfigExport,
+    ConfigModify,
+    ConfigRestore,
+    ConfigScaleOut,
+    DetachVolume,
+    Evacuate,
+    HealthCheck,
+    LiveUpgrade,
+    Lock(true),
+    Migrate,
+    Query,
+    QuiesceTraffic,
+    ResumeTraffic,
+    Reboot,
+    Rebuild,
+    Restart,
+    Rollback,
+    Snapshot,
+    SoftwareUpload,
+    Start,
+    StartApplication,
+    Stop,
+    StopApplication,
+    Sync,
+    Terminate,
+    Test,
+    Test_lic,
+    Unlock(true),
+    UpgradePreCheck,
+    UpgradeSoftware,
+    UpgradePostCheck,
+    UpgradeBackup,
+    UpgradeBackout;
 
-    private OperationType operationType;
-
-    VNFOperation(OperationType operationType){
-        this.operationType=operationType;
-    }
+    private boolean builtIn;
 
     VNFOperation() {
-        this.operationType=OperationType.OrchestrationStatusUpdate;
+        this.builtIn=false;
     }
+
     /**
      * Operations handled directly by the RequestHandler without further call to DG are built-in operations.
      */
     public boolean isBuiltIn() {
-        return this.operationType.equals(OperationType.BuiltIn);
+        return builtIn;
     }
 
-    public OperationType getOperationType() {
-        return operationType;
+    VNFOperation(boolean builtIn) {
+        this.builtIn = builtIn;
     }
 
     public static VNFOperation findByString(String operationName) {
-        for(VNFOperation operation: VNFOperation.values()) {
-            if(operation.name().equals(operationName)) {
+        for (VNFOperation operation : VNFOperation.values()) {
+            if (operation.name().equals(operationName)) {
                 return operation;
             }
         }

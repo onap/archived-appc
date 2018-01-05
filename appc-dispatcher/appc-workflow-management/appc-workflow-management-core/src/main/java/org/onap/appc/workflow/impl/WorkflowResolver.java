@@ -33,17 +33,17 @@ import com.att.eelf.configuration.EELFManager;
 
 class WorkflowResolver {
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(WorkFlowManagerImpl.class);
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(WorkFlowManagerImpl.class);
 
     private long interval;
 
-    private volatile long lastUpdate = 0l;
+    private volatile long lastUpdate = 0L;
     private volatile boolean isUpdateInProgress = false;
     private volatile RankedAttributesResolver<WorkflowKey> dgResolver;
 
     private final ReentrantLock INIT_LOCK = new ReentrantLock();
 
-    WorkflowResolver(long interval) {
+    WorkflowResolver(int interval) {
         this.interval = interval * 1000;
     }
 
@@ -96,8 +96,7 @@ class WorkflowResolver {
                     logger.info("DG resolver configuration data has expired - initiating refresh");
 
                     try {
-                        RankedAttributesResolver<WorkflowKey> temp = createResolver();
-                        dgResolver = temp;
+                        dgResolver = createResolver();
                         lastUpdate = System.currentTimeMillis();
 
                         logger.info("DG resolver configuration data has been refreshed successfully");
@@ -135,8 +134,6 @@ class WorkflowResolver {
             }
         };
 
-        WorkflowKey wfKey = resolver().resolve(context);
-
-        return wfKey;
+        return resolver().resolve(context);
     }
 }

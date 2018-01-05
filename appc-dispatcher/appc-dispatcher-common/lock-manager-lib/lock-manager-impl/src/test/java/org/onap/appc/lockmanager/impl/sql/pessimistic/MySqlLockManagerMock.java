@@ -40,114 +40,114 @@ import org.onap.appc.lockmanager.impl.sql.pessimistic.MySqlLockManager;
 
 class MySqlLockManagerMock extends MySqlLockManager implements SynchronizerReceiver {
 
-	private final Map<String, LockRecord> locks = new HashMap<>();
-	private final Lock lock = new ReentrantLock();
-	private boolean useReal;
-	private Synchronizer synchronizer;
+    private final Map<String, LockRecord> locks = new HashMap<>();
+    private final Lock lock = new ReentrantLock();
+    private boolean useReal;
+    private Synchronizer synchronizer;
 
-	MySqlLockManagerMock(boolean useReal) {
-		this.useReal = useReal;
-	}
+    MySqlLockManagerMock(boolean useReal) {
+        this.useReal = useReal;
+    }
 
-	@Override
-	public void setSynchronizer(Synchronizer synchronizer) {
-		this.synchronizer = synchronizer;
-	}
+    @Override
+    public void setSynchronizer(Synchronizer synchronizer) {
+        this.synchronizer = synchronizer;
+    }
 
-	@Override
-	protected Connection openDbConnection() {
-		if(useReal) {
-			return super.openDbConnection();
-		}
-		return null;
-	}
+    @Override
+    protected Connection openDbConnection() {
+        if(useReal) {
+            return super.openDbConnection();
+        }
+        return null;
+    }
 
-	@Override
-	protected void closeDbConnection(Connection connection) {
-		if(useReal) {
-			super.closeDbConnection(connection);
-		}
-	}
+    @Override
+    protected void closeDbConnection(Connection connection) {
+        if(useReal) {
+            super.closeDbConnection(connection);
+        }
+    }
 
-	@Override
-	protected LockRecord loadLockRecord(Connection connection, String resource) throws SQLException {
-		LockRecord res;
-		if(useReal) {
-			res = super.loadLockRecord(connection, resource);
-		} else {
-			res = locks.get(resource);
-		}
-		if(synchronizer != null) {
-			synchronizer.postLoadLockRecord(resource, (res == null) ? null : res.getOwner());
-		}
-		return res;
-	}
+    @Override
+    protected LockRecord loadLockRecord(Connection connection, String resource) throws SQLException {
+        LockRecord res;
+        if(useReal) {
+            res = super.loadLockRecord(connection, resource);
+        } else {
+            res = locks.get(resource);
+        }
+        if(synchronizer != null) {
+            synchronizer.postLoadLockRecord(resource, (res == null) ? null : res.getOwner());
+        }
+        return res;
+    }
 
-	@Override
-	protected void addLockRecord(Connection connection, String resource, String owner, long timeout) throws SQLException {
-		if(synchronizer != null) {
-			synchronizer.preAddLockRecord(resource, owner);
-		}
-		try {
-			if(useReal) {
-				super.addLockRecord(connection, resource, owner, timeout);
-				return;
-			}
-			LockRecord lockRecord = new LockRecord(resource);
-			lockRecord.setOwner(owner);
-			lockRecord.setUpdated(System.currentTimeMillis());
-			lockRecord.setTimeout(timeout);
-			locks.put(resource, lockRecord);
-		} finally {
-			if(synchronizer != null) {
-				synchronizer.postAddLockRecord(resource, owner);
-			}
-		}
-	}
+    @Override
+    protected void addLockRecord(Connection connection, String resource, String owner, long timeout) throws SQLException {
+        if(synchronizer != null) {
+            synchronizer.preAddLockRecord(resource, owner);
+        }
+        try {
+            if(useReal) {
+                super.addLockRecord(connection, resource, owner, timeout);
+                return;
+            }
+            LockRecord lockRecord = new LockRecord(resource);
+            lockRecord.setOwner(owner);
+            lockRecord.setUpdated(System.currentTimeMillis());
+            lockRecord.setTimeout(timeout);
+            locks.put(resource, lockRecord);
+        } finally {
+            if(synchronizer != null) {
+                synchronizer.postAddLockRecord(resource, owner);
+            }
+        }
+    }
 
-	@Override
-	protected void updateLockRecord(Connection connection, String resource, String owner, long timeout) throws SQLException {
-		if(synchronizer != null) {
-			synchronizer.preUpdateLockRecord(resource, owner);
-		}
-		try {
-			if(useReal) {
-				super.updateLockRecord(connection, resource, owner, timeout);
-				return;
-			}
-			LockRecord lockRecord = loadLockRecord(connection, resource);
-			lockRecord.setOwner(owner);
-			lockRecord.setUpdated(System.currentTimeMillis());
-			lockRecord.setTimeout(timeout);
-			locks.put(resource, lockRecord);
-		} finally {
-			if(synchronizer != null) {
-				synchronizer.postUpdateLockRecord(resource, owner);
-			}
-		}
-	}
+    @Override
+    protected void updateLockRecord(Connection connection, String resource, String owner, long timeout) throws SQLException {
+        if(synchronizer != null) {
+            synchronizer.preUpdateLockRecord(resource, owner);
+        }
+        try {
+            if(useReal) {
+                super.updateLockRecord(connection, resource, owner, timeout);
+                return;
+            }
+            LockRecord lockRecord = loadLockRecord(connection, resource);
+            lockRecord.setOwner(owner);
+            lockRecord.setUpdated(System.currentTimeMillis());
+            lockRecord.setTimeout(timeout);
+            locks.put(resource, lockRecord);
+        } finally {
+            if(synchronizer != null) {
+                synchronizer.postUpdateLockRecord(resource, owner);
+            }
+        }
+    }
 
-	@Override
-	protected void enterCriticalSection(Connection connection, String resource) {
-		if(useReal) {
-			super.enterCriticalSection(connection, resource);
-			return;
-		}
-		try {
-			if(!lock.tryLock(criticalSectionWaitTimeoutSecs, TimeUnit.SECONDS)) {
+    @Override
+    protected void enterCriticalSection(Connection connection, String resource) {
+        if(useReal) {
+            super.enterCriticalSection(connection, resource);
+            return;
+        }
+        try {
+            if(!lock.tryLock(criticalSectionWaitTimeoutSecs, TimeUnit.SECONDS)) {
                 throw new LockRuntimeException("Cannot obtain critical section lock for resource [" + resource + "].");
-			}
-		} catch(InterruptedException e) {
-			throw new LockRuntimeException("Cannot obtain critical section lock.", e);
-		}
-	}
+            }
+        } catch(InterruptedException e) {
+            throw new LockRuntimeException("Cannot obtain critical section lock.", e);
+        }
+    }
 
-	@Override
-	protected void leaveCriticalSection(Connection connection, String resource) {
-		if(useReal) {
-			super.leaveCriticalSection(connection, resource);
-			return;
-		}
-		lock.unlock();
-	}
+    @Override
+    protected void leaveCriticalSection(Connection connection, String resource) {
+        if(useReal) {
+            super.leaveCriticalSection(connection, resource);
+            return;
+        }
+        lock.unlock();
+    }
 }

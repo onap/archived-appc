@@ -74,10 +74,10 @@ public class MessageAdapterImpl implements MessageAdapter{
         
         BundleContext ctx = FrameworkUtil.getBundle(MessageAdapterImpl.class).getBundleContext();
         if (ctx != null) {
-        	ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
-        	if (svcRef != null) {
-        		producer = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopic,apiKey, apiSecret);
-        	}
+            ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
+            if (svcRef != null) {
+                producer = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopic,apiKey, apiSecret);
+            }
         }
         return producer;
     }

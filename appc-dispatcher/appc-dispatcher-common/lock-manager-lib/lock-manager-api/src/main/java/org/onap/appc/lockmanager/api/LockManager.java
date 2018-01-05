@@ -69,4 +69,13 @@ public interface LockManager {
 
     boolean isLocked(String resource);
 
+    /**
+     * returns the oner of the resource
+     * if no one owns, returns null
+     * @param resource
+     * @return owner of the resource
+     */
+
+    String getLockOwner(String resource);
+
 }
