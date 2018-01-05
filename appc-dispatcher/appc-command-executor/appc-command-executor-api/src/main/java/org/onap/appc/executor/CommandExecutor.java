@@ -28,8 +28,8 @@
 package org.onap.appc.executor;
 
 
-import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.executor.objects.CommandExecutorInput;
 
 
 
@@ -40,5 +40,5 @@ public interface CommandExecutor {
      * @param commandHeaderInput Contains CommandHeader,  command , target Id , payload and conf ID (optional)
      * @throws APPCException in case of error.
      */
-    void executeCommand(RuntimeContext commandHeaderInput) throws APPCException;
+    void executeCommand(CommandExecutorInput commandHeaderInput) throws APPCException;
 }

@@ -26,40 +26,40 @@ package org.onap.appc.lockmanager.impl.sql.pessimistic;
 
 class LockRecord {
 
-	private String resource;
-	private String owner;
-	private long updated;
-	private long timeout;
+    private String resource;
+    private String owner;
+    private long updated;
+    private long timeout;
 
-	LockRecord(String resource) {
-		this.resource = resource;
-	}
+    LockRecord(String resource) {
+        this.resource = resource;
+    }
 
-	public String getResource() {
-		return resource;
-	}
+    public String getResource() {
+        return resource;
+    }
 
-	public String getOwner() {
-		return owner;
-	}
+    public String getOwner() {
+        return owner;
+    }
 
-	public void setOwner(String owner) {
-		this.owner = owner;
-	}
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
 
-	public long getUpdated() {
-		return updated;
-	}
+    public long getUpdated() {
+        return updated;
+    }
 
-	public void setUpdated(long updated) {
-		this.updated = updated;
-	}
+    public void setUpdated(long updated) {
+        this.updated = updated;
+    }
 
-	public long getTimeout() {
-		return timeout;
-	}
+    public long getTimeout() {
+        return timeout;
+    }
 
-	public void setTimeout(long timeout) {
-		this.timeout = timeout;
-	}
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
 }

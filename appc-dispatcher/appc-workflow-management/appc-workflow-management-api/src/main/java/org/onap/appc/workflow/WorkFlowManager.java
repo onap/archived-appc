@@ -29,22 +29,22 @@ import org.onap.appc.workflow.objects.WorkflowRequest;
 import org.onap.appc.workflow.objects.WorkflowResponse;
 
 public interface WorkFlowManager {
-	/**
-	 * Execute workflow and return response.
-	 * This method execute workflow with following steps.
-	 * Retrieve workflow(DG) details - module, version and mode  from database based on command and vnf Type from incoming request.
-	 * Execute workflow (DG) using SVC Logic Service reference
-	 * Return response of workflow (DG) to caller.
-	 * @param workflowRequest workflow execution request which contains vnfType, command, requestId, targetId, payload and (optional) confID;
-	 * @return Workflow Response which contains execution status and payload from DG if any
-	 */
-	WorkflowResponse  executeWorkflow(WorkflowRequest workflowRequest);
-
-	/**
-	 * Check if workflow (DG) exists in database
-	 * @param workflowQueryParams workflow request with command and vnf Type
-	 * @return WorkflowExistsOutput.mappingExist True if workflow mapping exists else False. WorkflowExistsOutput.dgExist True if DG workflow exists else False.
+    /**
+     * Execute workflow and return response.
+     * This method execute workflow with following steps.
+     * Retrieve workflow(DG) details - module, version and mode  from database based on command and vnf Type from incoming request.
+     * Execute workflow (DG) using SVC Logic Service reference
+     * Return response of workflow (DG) to caller.
+     * @param workflowRequest workflow execution request which contains vnfType, command, requestId, targetId, payload and (optional) confID;
+     * @return Workflow Response which contains execution status and payload from DG if any
      */
-	WorkflowExistsOutput workflowExists(WorkflowRequest workflowQueryParams);
+    WorkflowResponse  executeWorkflow(WorkflowRequest workflowRequest);
+
+    /**
+     * Check if workflow (DG) exists in database
+     * @param workflowQueryParams workflow request with command and vnf Type
+     * @return WorkflowExistsOutput.mappingExist True if workflow mapping exists else False. WorkflowExistsOutput.dgExist True if DG workflow exists else False.
+     */
+    WorkflowExistsOutput workflowExists(WorkflowRequest workflowQueryParams);
 
 }

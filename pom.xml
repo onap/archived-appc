@@ -616,6 +616,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
                 <module>appc-inbound</module>
                 <module>appc-sequence-generator</module>
                 <module>appc-client</module>
+		<module>appc-test-dependencies</module>
             </modules>
         </profile>
         <profile>

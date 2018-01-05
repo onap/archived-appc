@@ -25,20 +25,21 @@
 
 
 <features name="appc-request-handler-${project.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.2.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">     
-        
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">
+
     <feature name='appc-request-handler' description="appc-request-handler" version='${project.version}'>
-        <bundle>mvn:org.onap.appc/transaction-recorder/${project.version}</bundle>
-
-        <!-- appc-data-access-lib bundle is flagged as being a dependency -->
+        <bundle start-level="80">mvn:org.onap.appc/transaction-recorder/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/appc-data-access-lib/${project.version}</bundle>
-
+        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/domain-model-lib/${project.version}</bundle>
-        <bundle start-level="75" start="true">mvn:org.onap.appc/appc-command-executor-api/${project.version}</bundle>
-    	<bundle start-level="80" start="true">mvn:org.onap.appc/appc-request-handler-api/${project.version}</bundle>
-        <bundle start-level="85" start="true">mvn:org.onap.appc/appc-request-handler-core/${project.version}</bundle>
-
+        <bundle dependency="true">mvn:org.onap.appc/appc-message-adapter-api/${project.version}</bundle>
+        <bundle start-level="75" start="true">mvn:org.onap.appc/appc-command-executor-api/${project.version}
+        </bundle>
+        <bundle start-level="80" start="true">mvn:org.onap.appc/appc-request-handler-api/${project.version}
+        </bundle>
+        <bundle start-level="85" start="true">mvn:org.onap.appc/appc-request-handler-core/${project.version}
+        </bundle>
     </feature>
 
 </features>

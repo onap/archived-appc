@@ -33,56 +33,56 @@ import org.onap.appc.lockmanager.api.LockRuntimeException;
 
 public class MySqlLockManager extends SqlLockManager {
 
-	private static final int DEF_CRITICAL_SECTION_WAIT_TIMEOUT = 3;
+    private static final int DEF_CRITICAL_SECTION_WAIT_TIMEOUT = 3;
 
-	protected int criticalSectionWaitTimeoutSecs = DEF_CRITICAL_SECTION_WAIT_TIMEOUT;
+    protected int criticalSectionWaitTimeoutSecs = DEF_CRITICAL_SECTION_WAIT_TIMEOUT;
 
-	public void setCriticalSectionWaitTimeoutSecs(int criticalSectionWaitTimeoutSecs) {
-		this.criticalSectionWaitTimeoutSecs = criticalSectionWaitTimeoutSecs;
-	}
+    public void setCriticalSectionWaitTimeoutSecs(int criticalSectionWaitTimeoutSecs) {
+        this.criticalSectionWaitTimeoutSecs = criticalSectionWaitTimeoutSecs;
+    }
 
-	@Override
-	protected void enterCriticalSection(Connection connection, String resource) {
-		try {
-			CallableStatement statement = connection.prepareCall("SELECT COALESCE(GET_LOCK(?,?),0)");
-			try {
-				statement.setString(1, resource);
-				statement.setInt(2, criticalSectionWaitTimeoutSecs);
-				boolean execRes = statement.execute();
-				int result = 0;
-				if(execRes) {
-					ResultSet resultSet = statement.getResultSet();
-					try {
-						if(resultSet.next()) {
-							result = resultSet.getInt(1);
-						}
-					} finally {
-						resultSet.close();
-					}
-				}
-				if(result != 1) { // lock is not obtained
-					throw new LockRuntimeException("Cannot obtain critical section lock for resource [" + resource + "].");
-				}
-			} finally {
-				statement.close();
-			}
-		} catch(SQLException e) {
+    @Override
+    protected void enterCriticalSection(Connection connection, String resource) {
+        try {
+            CallableStatement statement = connection.prepareCall("SELECT COALESCE(GET_LOCK(?,?),0)");
+            try {
+                statement.setString(1, resource);
+                statement.setInt(2, criticalSectionWaitTimeoutSecs);
+                boolean execRes = statement.execute();
+                int result = 0;
+                if(execRes) {
+                    ResultSet resultSet = statement.getResultSet();
+                    try {
+                        if(resultSet.next()) {
+                            result = resultSet.getInt(1);
+                        }
+                    } finally {
+                        resultSet.close();
+                    }
+                }
+                if(result != 1) { // lock is not obtained
+                    throw new LockRuntimeException("Cannot obtain critical section lock for resource [" + resource + "].");
+                }
+            } finally {
+                statement.close();
+            }
+        } catch(SQLException e) {
             throw new LockRuntimeException("Cannot obtain critical section lock for resource [" + resource + "].", e);
-		}
-	}
+        }
+    }
 
-	@Override
-	protected void leaveCriticalSection(Connection connection, String resource) {
-		try {
-			CallableStatement statement = connection.prepareCall("SELECT RELEASE_LOCK(?)");
-			try {
-				statement.setString(1, resource);
-				statement.execute();
-			} finally {
-				statement.close();
-			}
-		} catch(SQLException e) {
-			throw new LockRuntimeException("Error releasing critical section lock.", e);
-		}
-	}
+    @Override
+    protected void leaveCriticalSection(Connection connection, String resource) {
+        try {
+            CallableStatement statement = connection.prepareCall("SELECT RELEASE_LOCK(?)");
+            try {
+                statement.setString(1, resource);
+                statement.execute();
+            } finally {
+                statement.close();
+            }
+        } catch(SQLException e) {
+            throw new LockRuntimeException("Error releasing critical section lock.", e);
+        }
+    }
 }

@@ -39,13 +39,13 @@ public class TestMySqlLockManager extends MySqlLockManagerBaseTests {
 
     private static int CRITICAL_SECTION_WAIT_TIMEOUT = 1; // in secs
 
-	@Override
-	protected JdbcLockManager createJdbcLockManager(boolean useReal) {
-		return new MySqlLockManagerMock(useReal);
-	}
+    @Override
+    protected JdbcLockManager createJdbcLockManager(boolean useReal) {
+        return new MySqlLockManagerMock(useReal);
+    }
 
-	@Test
-	public void testConcurrentLock() throws LockException, InterruptedException, ExecutionException, TimeoutException {
+    @Test
+    public void testConcurrentLock() throws LockException, InterruptedException, ExecutionException, TimeoutException {
         try {
             callConcurrentTest(new Callable<Boolean>() {
                 @Override
@@ -61,10 +61,10 @@ public class TestMySqlLockManager extends MySqlLockManagerBaseTests {
             });
         } finally {
             lockManager.releaseLock(Resource.Resource1.name(), Owner.A.name());
-		}
-	}
+        }
+    }
 
-	@Test
+    @Test
     public void testConcurrentUnlock() throws LockException, InterruptedException, ExecutionException, TimeoutException {
         lockManager.acquireLock(Resource.Resource1.name(), Owner.A.name());
         callConcurrentTest(new Callable<Boolean>() {

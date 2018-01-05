@@ -31,5 +31,4 @@ import org.onap.appc.exceptions.APPCException;
 public interface ExecutionQueueService<M extends Runnable> {
     void putMessage(M message) throws APPCException;
     void putMessage(M message, long timeout, TimeUnit unit) throws APPCException;
-    void registerMessageExpirationListener(MessageExpirationListener listener);
 }

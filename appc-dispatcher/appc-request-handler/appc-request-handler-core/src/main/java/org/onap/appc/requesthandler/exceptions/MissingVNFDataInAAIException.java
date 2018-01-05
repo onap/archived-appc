@@ -24,10 +24,16 @@
 
 package org.onap.appc.requesthandler.exceptions;
 
-public class MissingVNFDataInAAIException extends Exception {
-	String missingAttributeName;
-    public MissingVNFDataInAAIException(String attributeName) {
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.executor.objects.Params;
+
+public class MissingVNFDataInAAIException extends RequestValidationException {
+    private String missingAttributeName;
+    public MissingVNFDataInAAIException(String attributeName ,String vnfId ) {
+        super("Missing VNF data in AAI");
         this.missingAttributeName = attributeName;
+        super.setLcmCommandStatus(LCMCommandStatus.MISSING_VNF_DATA_IN_AAI);
+        super.setParams( new Params().addParam("attributeName", attributeName).addParam("vnfId", vnfId));
     }
 
     public String getMissingAttributeName() {

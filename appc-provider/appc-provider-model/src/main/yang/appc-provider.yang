@@ -254,7 +254,7 @@ module appc-provider {
                 }
 
                 leaf request-id {
-                    description "UUID for the request ID. An OSS/BSS identifier for the request that caused the current action. Multiple API calls may be made with the same request-id The request-id shall be recorded throughout the operations on a single request";
+                    description "UUID for the request ID. An OSS/BSS identifier for the request that caused the current action. Multiple API calls may be made with the same request-id.  The request-id shall be recorded throughout the operations on a single request";
                     type string;
                     mandatory true;
                 }
@@ -606,8 +606,8 @@ module appc-provider {
         }
     }
 
-	
-	 /**********************************************************************************
+
+    /**********************************************************************************
      * Define the snapshot service
      **********************************************************************************/
     rpc snapshot {
