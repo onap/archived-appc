@@ -8,6 +8,7 @@
 		<version>1.3.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-artifact-handler-features</artifactId>
+	<name>APPC Artifact Handler - Feature</name>
 	<packaging>jar</packaging>
 
 	<dependencies>
