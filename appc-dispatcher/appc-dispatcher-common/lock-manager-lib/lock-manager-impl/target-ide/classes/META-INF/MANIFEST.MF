@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102965316
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: APPC Dispatcher Common
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Lock Manager - Impl
+Bundle-SymbolicName: lock-manager-impl
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Export-Service: org.onap.appc.lockmanager.api.LockManager
+Import-Package: org.onap.appc.lockmanager.api;version="[1.3,2)",org.onap
+ .appc.dao.util;resolution:=optional;version="[1.3,2)",org.onap.appc.loc
+ kmanager.impl.sql.optimistic;resolution:=optional,org.osgi.service.blue
+ print;version="[1.0.0,2.0.0)";resolution:=optional,com.att.eelf.configu
+ ration;version="[1.3,2)"
+Tool: Bnd-2.3.0.201405100607

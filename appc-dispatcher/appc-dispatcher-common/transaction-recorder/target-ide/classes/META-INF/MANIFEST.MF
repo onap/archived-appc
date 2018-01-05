@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1515102967376
+Build-Jdk: 1.8.0_91
+Built-By: AC204H
+Bundle-Blueprint: OSGI-INF/blueprint/blueprint.xml
+Bundle-Description: APPC Dispatcher Common
+Bundle-License: https://www.eclipse.org/legal/epl-v10.html
+Bundle-ManifestVersion: 2
+Bundle-Name: APPC Transaction Recorder
+Bundle-SymbolicName: transaction-recorder
+Bundle-Vendor: OpenECOMP
+Bundle-Version: 1.3.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Transitive: true
+Export-Package: org.onap.appc.transactionrecorder.objects;version="1.3.0
+ .SNAPSHOT",org.onap.appc.transactionrecorder;version="1.3.0.SNAPSHOT"
+Export-Service: org.onap.appc.transactionrecorder.TransactionRecorder
+Import-Package: org.onap.appc.transactionrecorder,org.onap.appc.transact
+ ionrecorder.impl,org.onap.ccsdk.sli.core.dblib;version="[0.1,1)",org.os
+ gi.service.blueprint;version="[1.0.0,2.0.0)",org.onap.appc.domainmodel.
+ lcm;version="[1.3,2)",org.onap.ccsdk.sli.resource.dblib,org.onap.appc.d
+ ao.util;version="[1.3,2)"
+Import-Service: org.onap.ccsdk.sli.core.dblib.DbLibService;multiple:=fal
+ se
+Tool: Bnd-2.3.0.201405100607

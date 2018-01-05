@@ -92,7 +92,7 @@ public class TestMySqlLockManager extends MySqlLockManagerBaseTests {
 					return false;
 				} catch(LockException e) {
 					// this call should fail as Synchronizer delays its lock to make sure the second call locks the resource first
-					Assert.assertEquals("Cannot lock resource [" + Resource.Resource1.name() + "] for [" + Owner.A.name() + "]: already locked by [" + Owner.B.name() + "]", e.getMessage());
+					Assert.assertEquals("VNF : [" + Resource.Resource1.name() + "] is locked by request id : [" + Owner.B.name() + "]", e.getMessage());
 					return true;
 				}
 			}

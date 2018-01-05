@@ -24,13 +24,13 @@
 
 package org.onap.appc.domainmodel.lcm;
 
-import java.time.Instant;
+import java.util.Date;
 
 
 public class CommonHeader {
 
     private Flags flags;
-    private Instant timestamp;
+    private Date timestamp;
     private String apiVer;
     private String originatorId;
     private String requestId;
@@ -44,11 +44,11 @@ public class CommonHeader {
         this.flags = flags;
     }
 
-    public Instant getTimeStamp() {
+    public Date getTimeStamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
