@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_075d6321",
+        "filename": "appc-dispatcher/appc-dispatcher-common/appc-data-access-lib/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "We\u0027ll need to leave this as mariadb",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a7410f3b",
+        "filename": "appc-dispatcher/appc-dispatcher-common/appc-data-access-lib/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "This also will need to stay as mariadb",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8748935c",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "Importing wildcard without having resolution optional could cause bundle errors",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_674b075a",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "Do we need these two commented out import packages?",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_07748397",
+        "filename": "appc-dispatcher/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "Do we want to remove these tabs?",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a7682fbb",
+        "filename": "appc-sdc-listener/appc-yang-generator/dependency-reduced-pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "This file has carriage return characters",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c7653be2",
+        "filename": "appc-test-dependencies/pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "Do we want to remove these tabs?",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_676227da",
+        "filename": "pom.xml",
+        "patchSetId": 10
+      },
+      "lineNbr": 619,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T21:18:28Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "adf6212cd6271548a630af865fdc2523294b0844",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
