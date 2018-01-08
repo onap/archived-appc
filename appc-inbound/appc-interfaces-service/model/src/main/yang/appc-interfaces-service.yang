@@ -1,0 +1,124 @@
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
+ * ============LICENSE_END=========================================================
+ */
+
+/*
+ * Yang model for the Application Controller (APP-C) component of ECOMP
+ *
+ *
+ *The main purpose of this model to provide an interface bewteen APPC Runtime and other interface 
+ * to communicate.
+ * 
+ *
+ *
+ * Author: Anand Chaturvedi (ac204h@att.com)
+ */
+
+module interfaces-service {
+
+    yang-version 1;
+    namespace "org:onap:appc:interfaces:service";
+    prefix interfaces.service;
+    organization "AT&T.  Copyright (C) 2015. All rights reserved.";
+    contact
+      "Anand Chaturvedi <ac204h@att.com>";
+
+    description
+      "Defines the services provided by Application Controller to external interfaces.";
+
+    /*
+     * Note, the revision changes the package name of the generated java code.  Do not
+     * change the revision unless you also update all references to the bindings.
+     */
+    revision "2017-08-18" {
+      description
+        "APP-C Interface services version 1.1.0";
+    }
+   
+    grouping request-info {
+        container request {
+            leaf request-id {
+                type string;
+                description "The request ID ";
+                mandatory true;
+            }
+            leaf action {
+                type string;
+                description "The Action Name";
+                mandatory true;
+            }
+            leaf request-data {
+                type string;
+                description "The Payload";
+            }
+            leaf request-data-type {
+                description "Data type for validation";
+                type string;
+                
+            }
+        }
+    }
+    
+  grouping response-info {  	
+    	description "The Generic Data response which includes data key value pair as requested in Model";
+    	container response-info {
+    		description "Data returned from APPC to external Interaface";
+    		leaf block {
+                description "Response message";
+                type string;
+            }
+    		leaf requestId {
+                description "Response message reqesut ID";
+                type string;
+                mandatory true;
+            }
+    	}
+    	
+    }
+    grouping status {
+        description "The specific response codes are to be aligned with APPC/ECOMP messaging Systems";
+        container status {
+            description "The specific response codes are to be aligned with APPC.";
+            leaf code {
+                description "Response code";
+                type string;
+                mandatory true;
+            }
+            leaf message {
+                description "Response message";
+                type string;
+            }
+        }
+  }
+
+    rpc execute-service {
+        description "Runs a given action if it exists.";
+        input {
+        	uses request-info;
+        }
+        output {
+        	uses response-info ;
+            uses status;
+        }
+    }
+}
