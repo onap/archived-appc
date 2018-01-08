@@ -23,6 +23,7 @@
     <modules>
         <module>appc-artifact-handler</module>
         <module>appc-design-services</module>
+        <module>appc-interfaces-service</module>
     </modules>
 
 </project>
