@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import org.json.JSONObject;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +54,7 @@ import org.onap.appc.flow.controller.interfaceData.VnfInfo;
 import org.onap.appc.flow.controller.interfaceData.Vnfcs;
 import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
+import org.onap.appc.flow.controller.utils.EncryptionTool;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -76,7 +78,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
 
     public void processFlow(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.debug("Received processParamKeys call with params : " + inParams);
-        String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);        
+        String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);
         try
         {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
@@ -85,7 +87,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
             localContext.setAttribute(FlowControllerConstants.REQUEST_ID, ctx.getAttribute(FlowControllerConstants.REQUEST_ID));
             localContext.setAttribute(FlowControllerConstants.VNF_TYPE, ctx.getAttribute(FlowControllerConstants.VNF_TYPE));
             localContext.setAttribute(FlowControllerConstants.REQUEST_ACTION, ctx.getAttribute(FlowControllerConstants.REQUEST_ACTION));
-            localContext.setAttribute(FlowControllerConstants.ACTION_LEVEL, ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));    
+            localContext.setAttribute(FlowControllerConstants.ACTION_LEVEL, ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));
             localContext.setAttribute(FlowControllerConstants.RESPONSE_PREFIX, responsePrefix);
             ctx.setAttribute(FlowControllerConstants.RESPONSE_PREFIX, responsePrefix);
             dbservice.getFlowReferenceData(ctx, inParams, localContext);
@@ -96,10 +98,10 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                 log.debug("processFlow " + parmName +  "="  + parmValue);
 
             }
-            processFlowSequence(inParams, ctx, localContext);        
+            processFlowSequence(inParams, ctx, localContext);
             if(!ctx.getAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_STATUS).equals(FlowControllerConstants.OUTPUT_STATUS_SUCCESS))
                 throw new SvcLogicException(ctx.getAttribute(responsePrefix +  FlowControllerConstants.OUTPUT_STATUS_MESSAGE));
-            
+
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
@@ -108,10 +110,10 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         }
     }
 
-    private void processFlowSequence( Map<String, String> inParams, SvcLogicContext ctx, SvcLogicContext localContext) throws Exception 
+    private void processFlowSequence( Map<String, String> inParams, SvcLogicContext ctx, SvcLogicContext localContext) throws Exception
     {
         String fn = "FlowExecutorNode.processflowSequence";
-        log.debug(fn + "Received model for flow : " + localContext.toString());    
+        log.debug(fn + "Received model for flow : " + localContext.toString());
         FlowControlDBService dbservice = FlowControlDBService.initialise();
         String flowSequnce  =null;
         for (Object key : localContext.getAttributeKeySet()) {
@@ -125,13 +127,13 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
             if(localContext.getAttribute(FlowControllerConstants.GENERATION_NODE) != null){
                 GraphExecutor transactionExecutor = new GraphExecutor();
                 Boolean generatorExists = transactionExecutor.hasGraph("APPC_COMMOM", localContext.getAttribute(FlowControllerConstants.GENERATION_NODE), null, "sync");
-                if(generatorExists){                    
+                if(generatorExists){
                     flowSequnce = transactionExecutor.executeGraph("APPC_COMMOM", localContext.getAttribute(FlowControllerConstants.GENERATION_NODE),
                             null, "sync", null).getProperty(FlowControllerConstants.FLOW_SEQUENCE);
                 }
                 else
-                    throw new Exception("Can not find Custom defined Flow Generator for " + localContext.getAttribute(FlowControllerConstants.GENERATION_NODE));                
-            }            
+                    throw new Exception("Can not find Custom defined Flow Generator for " + localContext.getAttribute(FlowControllerConstants.GENERATION_NODE));
+            }
             else if(((String) localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE)).equalsIgnoreCase(FlowControllerConstants.DESINGTIME)){
                 localContext.setAttribute(FlowControllerConstants.VNFC_TYPE, ctx.getAttribute(FlowControllerConstants.VNFC_TYPE));
                 flowSequnce = dbservice.getDesignTimeFlowModel(localContext);
@@ -139,15 +141,19 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                     throw new Exception("Flow Sequence is not found User Desinged VNF " + ctx.getAttribute(FlowControllerConstants.VNF_TYPE));
             }
             else if(((String) localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE)).equalsIgnoreCase(FlowControllerConstants.RUNTIME)){
-                
+
                 Transaction transaction = new Transaction();
                 String input = collectInputParams(ctx,transaction);
-                log.info("collectInputParamsData" + input );
-                
-                RestExecutor restExe = new RestExecutor();    
+                log.info("CollectInputParamsData-Input: " + input );
+
+                RestExecutor restExe = new RestExecutor();
                 HashMap<String,String>flowSeq= restExe.execute(transaction, localContext);
-                flowSequnce=flowSeq.get("restResponse");
-                
+
+                JSONObject sequence=new JSONObject(flowSeq.get("restResponse"));
+                if(sequence.has("output"))
+                    flowSequnce = sequence.getJSONObject("output").toString();
+                log.info("MultistepSequenceGenerator-Output: "+flowSequnce);
+
                 if(flowSequnce == null)
                     throw new Exception("Failed to get the Flow Sequece runtime for VNF type" + ctx.getAttribute(FlowControllerConstants.VNF_TYPE));
 
@@ -156,7 +162,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                 //String input = collectInputParams(localContext);
                 //    flowSequnce = ""; //get it from the External interface calling the Rest End point - TBD
                 if(flowSequnce == null)
-                    throw new Exception("Flow Sequence not found for " + ctx.getAttribute(FlowControllerConstants.VNF_TYPE));                
+                    throw new Exception("Flow Sequence not found for " + ctx.getAttribute(FlowControllerConstants.VNF_TYPE));
             }
             else
             {
@@ -167,7 +173,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         else{
             FlowGenerator flowGenerator = new FlowGenerator();
             Transactions trans = flowGenerator.createSingleStepModel(inParams,ctx);
-            ObjectMapper mapper = new ObjectMapper();    
+            ObjectMapper mapper = new ObjectMapper();
             flowSequnce = mapper.writeValueAsString(trans);
             log.debug("Single step Flow Sequence : " +  flowSequnce);
 
@@ -175,7 +181,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         log.debug("Received Flow Sequence : " +  flowSequnce);
 
         HashMap<Integer, Transaction> transactionMap = createTransactionMap(flowSequnce, localContext);
-        exeuteAllTransaction(transactionMap, ctx); 
+        exeuteAllTransaction(transactionMap, ctx);
         log.info("Executed all the transacstion successfully");
 
     }
@@ -185,14 +191,14 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         String fn = "FlowExecutorNode.exeuteAllTransaction ";
         int retry = 0;
         FlowExecutorInterface flowExecutor = null;
-        for (int key = 1; key <= transactionMap.size() ; key++ ) 
-        {            
+        for (int key = 1; key <= transactionMap.size() ; key++ )
+        {
             log.debug(fn + "Starting transactions ID " + key + " :)=" + retry);
             Transaction transaction = transactionMap.get(key);
             if(!preProcessor(transactionMap, transaction)){
                 log.info("Skipping Transaction ID " +  transaction.getTransactionId());
                 continue;
-            }            
+            }
             if(transaction.getExecutionType() != null){
                 switch (transaction.getExecutionType()){
                 case FlowControllerConstants.GRAPH :
@@ -219,9 +225,9 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                     log.debug(fn + "Sending Intermediate Message back  .... ");
                     sendIntermediateMessage();
                 }
-                if(responseAction.getRetry() != null && Integer.parseInt(responseAction.getRetry()) > retry ){                
+                if(responseAction.getRetry() != null && Integer.parseInt(responseAction.getRetry()) > retry ){
                     log.debug(fn + "Ooppss!!! We will retry again ....... ");
-                        key--; 
+                        key--;
                         retry++;
                     log.debug(fn + "key =" +  key +  "retry =" + retry);
 
@@ -236,7 +242,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                 }
                 if(responseAction.getJump() != null && Integer.parseInt(responseAction.getJump()) > 0 ){
                     key = Integer.parseInt(responseAction.getJump());
-                    key --;        
+                    key --;
                 }
                 log.debug(fn + "key =" +  key +  "retry =" + retry);
 
@@ -252,9 +258,9 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
 
     }
 
-    private ResponseAction handleResponse(Transaction transaction) {        
+    private ResponseAction handleResponse(Transaction transaction) {
         log.info("Handling Response for transaction Id " + transaction.getTransactionId());
-        DefaultResponseHandler defaultHandler = new DefaultResponseHandler();         
+        DefaultResponseHandler defaultHandler = new DefaultResponseHandler();
         return defaultHandler.handlerResponse(transaction);
     }
 
@@ -263,7 +269,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         log.debug("Starting Preprocessing Logic ");
         boolean runthisStep = false;
         try{
-            if(transaction.getPrecheck() != null && transaction.getPrecheck().getPrecheckOptions() != null 
+            if(transaction.getPrecheck() != null && transaction.getPrecheck().getPrecheckOptions() != null
                     && !transaction.getPrecheck().getPrecheckOptions().isEmpty()){
                 List<PrecheckOption> precheckOptions  = transaction.getPrecheck().getPrecheckOptions();
                 for(PrecheckOption precheck : precheckOptions){
@@ -271,15 +277,15 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                     ObjectMapper mapper = new ObjectMapper();
                     log.info("Mapper= " + mapper.writeValueAsString(trans));
                     HashMap<Object, Object> trmap = mapper.readValue(mapper.writeValueAsString(trans), HashMap.class);
-                    if(trmap.get(precheck.getParamName()) != null && 
+                    if(trmap.get(precheck.getParamName()) != null &&
                             ((String) trmap.get(precheck.getParamName())).equalsIgnoreCase(precheck.getParamValue()))
                         runthisStep = true;
                     else
                         runthisStep = false;
 
-                    if(transaction.getPrecheck().getPrecheckOperator() != null && 
+                    if(transaction.getPrecheck().getPrecheckOperator() != null &&
                             transaction.getPrecheck().getPrecheckOperator().equalsIgnoreCase("any") && runthisStep)
-                        break;                        
+                        break;
                 }
             }
 
@@ -299,19 +305,19 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         return runthisStep ;
     }
 
-    private HashMap<Integer, Transaction> createTransactionMap(String flowSequnce, SvcLogicContext localContext) throws SvcLogicException, JsonParseException, JsonMappingException, IOException {
-        ObjectMapper mapper = new ObjectMapper();    
+    private HashMap<Integer, Transaction> createTransactionMap(String flowSequnce, SvcLogicContext localContext) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
         Transactions transactions = mapper.readValue(flowSequnce,Transactions.class);
-        HashMap<Integer, Transaction> transMap = new HashMap<Integer, Transaction>();    
-        for(Transaction transaction : transactions.getTransactions()){        
+        HashMap<Integer, Transaction> transMap = new HashMap<Integer, Transaction>();
+        for(Transaction transaction : transactions.getTransactions()){
             compileFlowDependencies(transaction, localContext);
-            //loadTransactionIntoStatus(transactions, ctx); //parse the Transactions Object and create records in process_flow_status table 
-            transMap.put(transaction.getTransactionId(), transaction);            
-        }        
+            //loadTransactionIntoStatus(transactions, ctx); //parse the Transactions Object and create records in process_flow_status table
+            transMap.put(transaction.getTransactionId(), transaction);
+        }
         return transMap;
     }
 
-    private void compileFlowDependencies(Transaction transaction, SvcLogicContext localContext) throws SvcLogicException, JsonParseException, JsonMappingException, IOException {
+    private void compileFlowDependencies(Transaction transaction, SvcLogicContext localContext) throws Exception {
 
         String fn = "FlowExecutorNode.compileFlowDependencies";
         FlowControlDBService dbservice = FlowControlDBService.initialise();
@@ -319,59 +325,68 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         ObjectMapper mapper = new ObjectMapper();
         log.debug("Indivisual Transaction Details :" + transaction.toString());
         if((localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE) == null) ||
-                ( localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE) != null && 
+                ( localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE) != null &&
                 ! localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE).equalsIgnoreCase(FlowControllerConstants.DESINGTIME))){
             localContext.setAttribute("artifact-content", mapper.writeValueAsString(transaction));
             dbservice.loadSequenceIntoDB(localContext);
         }
         //get a field in transction class as transactionhandle interface and register the Handler here for each trnactions
     }
-    
-    private String collectInputParams(SvcLogicContext ctx, Transaction transaction) throws Exception {
+
+    private String collectInputParams(SvcLogicContext ctx,Transaction transaction) throws Exception {
 
         String fn = "FlowExecuteNode.collectInputParams";
         Properties prop = loadProperties();
         log.info("Loaded Properties " + prop.toString());
 
         String vnfId = ctx.getAttribute(FlowControllerConstants.VNF_ID);
+        String inputData = null;
         log.debug(fn + "vnfId :" + vnfId);
 
         if (StringUtils.isBlank(vnfId)) {
             throw new Exception("VnfId is missing");
         }
 
-        ActionIdentifier actionIdentifier = new ActionIdentifier();
-        actionIdentifier.setVnfId(vnfId);
-        actionIdentifier.setVserverId(ctx.getAttribute(FlowControllerConstants.VSERVER_ID));
-        actionIdentifier.setVnfcName(ctx.getAttribute(FlowControllerConstants.VNFC_NAME));
-
-        RequestInfo requestInfo = new RequestInfo();
-        requestInfo.setAction(ctx.getAttribute(FlowControllerConstants.ACTION));
-        requestInfo.setActionLevel(ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));
-        requestInfo.setPayload(ctx.getAttribute(FlowControllerConstants.PAYLOAD));
-        requestInfo.setActionIdentifier(actionIdentifier);
-        
-        InventoryInfo inventoryInfo = getInventoryInfo(ctx,vnfId);
-        DependencyInfo dependencyInfo = getDependencyInfo(ctx);
-        Capabilities capabilites = getCapabilitesData(ctx);
-        
-        Input input = new Input();
-        input.setRequestInfo(requestInfo);
-        input.setInventoryInfo(inventoryInfo);
-        input.setDependencyInfo(dependencyInfo);
-        input.setCapabilities(capabilites);
-        //input.setTunableParameters(null);
-        
-
-        log.info(fn + "Input parameters:" + input.toString());
-
-        String inputData = null;
         try {
+
+            ActionIdentifier actionIdentifier = new ActionIdentifier();
+            log.debug("Enter ActionIdentifier");
+            if (StringUtils.isNotBlank(vnfId)) {
+                actionIdentifier.setVnfId(vnfId);
+            }
+            if (StringUtils.isNotBlank(ctx.getAttribute(FlowControllerConstants.VSERVER_ID))) {
+                actionIdentifier.setVserverId(ctx.getAttribute(FlowControllerConstants.VSERVER_ID));
+            }
+            if (StringUtils.isNotBlank(ctx.getAttribute(FlowControllerConstants.VNFC_NAME))) {
+                actionIdentifier.setVnfcName(ctx.getAttribute(FlowControllerConstants.VNFC_NAME));
+            }
+            log.info("ActionIdentifierData" + actionIdentifier.toString());
+
+            RequestInfo requestInfo = new RequestInfo();
+            log.info("Enter RequestInfo");
+            requestInfo.setAction(ctx.getAttribute(FlowControllerConstants.REQUEST_ACTION));
+            requestInfo.setActionLevel(ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));
+            requestInfo.setPayload(ctx.getAttribute(FlowControllerConstants.PAYLOAD));
+            requestInfo.setActionIdentifier(actionIdentifier);
+            log.debug("RequestInfo: " + requestInfo.toString());
+
+            InventoryInfo inventoryInfo = getInventoryInfo(ctx, vnfId);
+            DependencyInfo dependencyInfo = getDependencyInfo(ctx);
+            Capabilities capabilites = getCapabilitesData(ctx);
+
+            Input input = new Input();
+            log.info("Enter InputData");
+            input.setRequestInfo(requestInfo);
+            input.setInventoryInfo(inventoryInfo);
+            input.setDependencyInfo(dependencyInfo);
+            input.setCapabilities(capabilites);
+            log.info(fn + "Input parameters:" + input.toString());
+
             ObjectMapper mapper = new ObjectMapper();
             mapper.setSerializationInclusion(Include.NON_NULL);
-            mapper.configure(SerializationFeature.WRAP_ROOT_VALUE,true);
+            mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
             inputData = mapper.writeValueAsString(input);
-            log.info("InputDataJson:"+inputData);
+            log.info("InputDataJson:" + inputData);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -380,18 +395,21 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         String resourceUri = prop.getProperty(FlowControllerConstants.SEQ_GENERATOR_URL);
         log.info(fn + "resourceUri= " + resourceUri);
 
+        EncryptionTool et = EncryptionTool.getInstance();
+        String pass = et.decrypt(prop.getProperty(FlowControllerConstants.SEQ_GENERATOR_PWD));
+
         transaction.setPayload(inputData);
         transaction.setExecutionRPC("POST");
         transaction.setuId(prop.getProperty(FlowControllerConstants.SEQ_GENERATOR_UID));
-        transaction.setPswd(prop.getProperty(FlowControllerConstants.SEQ_GENERATOR_PWD));
+        transaction.setPswd(pass);
         transaction.setExecutionEndPoint(resourceUri);
 
         return inputData;
 
     }
-    
+
     private DependencyInfo getDependencyInfo(SvcLogicContext ctx) throws Exception {
-        
+
         String fn = "FlowExecutorNode.getDependencyInfo";
         DependencyInfo dependencyInfo = new DependencyInfo();
         FlowControlDBService dbservice = FlowControlDBService.initialise();
@@ -402,18 +420,18 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-            JsonNode dependencyInfoData = mapper.readTree(dependencyData).get("dependencyInfo");
-            JsonNode vnfcData = mapper.readTree(dependencyInfoData.toString()).get("vnfcs");
+            //JsonNode dependencyInfoData = mapper.readTree(dependencyData).get("dependencyInfo");
+            JsonNode vnfcData = mapper.readTree(dependencyData.toString()).get("vnfcs");
             List<Vnfcs> vnfclist = Arrays.asList(mapper.readValue(vnfcData.toString(), Vnfcs[].class));
             dependencyInfo.getVnfcs().addAll(vnfclist);
-            
+
             log.info("Dependency Output:"+ dependencyInfo.toString());
         }
 
         return dependencyInfo;
 
     }
-    
+
     private Capabilities getCapabilitesData(SvcLogicContext ctx)throws Exception {
 
         String fn = "FlowExecutorNode.getCapabilitesData";
@@ -474,7 +492,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
             capabilities.getVnf().addAll(vnfsList);
             capabilities.getVfModule().addAll(vfModulesList);
             capabilities.getVm().addAll(vmList);
-            
+
             log.info("Capabilities Output:"+ capabilities.toString());
 
         }
@@ -482,18 +500,20 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         return capabilities;
 
     }
-    
+
     private InventoryInfo getInventoryInfo(SvcLogicContext ctx, String vnfId) throws Exception{
-        
+
         String fn = "FlowExecutorNode.getInventoryInfo";
-        String vmcount = ctx.getAttribute("tmp.vnfInfo.vm-count");
-        int vmCount = Integer.parseInt(vmcount);
-        log.info(fn +"vmcount:"+ vmCount);
 
         VnfInfo vnfInfo = new VnfInfo();
         vnfInfo.setVnfId(vnfId);
         vnfInfo.setVnfName(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name"));
         vnfInfo.setVnfType(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type"));
+
+        String vmcount = ctx.getAttribute("tmp.vnfInfo.vm-count");
+        if(StringUtils.isNotBlank(vmcount)){
+        int vmCount = Integer.parseInt(vmcount);
+        log.info(fn +"vmcount:"+ vmCount);
 
         Vm vm = new Vm();
         Vnfcslist vnfc = new Vnfcslist();
@@ -502,7 +522,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
 
             for (int i = 0; i < vmCount; i++) {
 
-                vm.setVserverId(ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vserverId"));
+                vm.setVserverId(ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vserver-id"));
                 String vnfccount = ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-count");
                 int vnfcCount = Integer.parseInt(vnfccount);
 
@@ -514,14 +534,15 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                 vnfInfo.getVm().add(vm);
             }
         }
-
+        }
         InventoryInfo inventoryInfo = new InventoryInfo();
         inventoryInfo.setVnfInfo(vnfInfo);
-        
+        log.info(fn + "Inventory Output:" +inventoryInfo.toString());
+
         return inventoryInfo;
-        
+
     }
-        
+
     private String getFlowSequence() throws IOException {
 
         String sequenceModel = IOUtils.toString(FlowControlNode.class.getClassLoader().getResourceAsStream("sequence.json"), Charset.defaultCharset());
@@ -529,14 +550,14 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
         return null;
     }
 
-    
+
 private static Properties loadProperties() throws Exception {
     Properties props = new Properties();
     String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
     if (propDir == null)
         throw new Exception("Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
     String propFile = propDir + FlowControllerConstants.APPC_FLOW_CONTROLLER;
-    InputStream propStream = new FileInputStream(propFile);        
+    InputStream propStream = new FileInputStream(propFile);
     try
     {
         props.load(propStream);
@@ -558,5 +579,6 @@ private static Properties loadProperties() throws Exception {
     }
     return props;
 }
+
 
 }

@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,6 +32,7 @@ import javax.net.ssl.SSLContext;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
@@ -51,7 +52,7 @@ public class RestExecutor implements FlowExecutorInterface {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RestExecutor.class);
     private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
     Properties props = new Properties();
-    public RestExecutor() throws Exception {    
+    public RestExecutor() throws Exception {
         String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
         if (propDir == null)
             throw new Exception(" Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
@@ -70,10 +71,10 @@ public class RestExecutor implements FlowExecutorInterface {
             catch (Exception e){
                 log.warn("Could not close FileInputStream", e);
             }
-        }        
+        }
     }
     @Override
-    public HashMap<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception{    
+    public HashMap<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception{
         log.info("Configuring Rest Operation....." + transaction.toString());
         Response response = new Response();
         HashMap<String, String> outputMessage = new HashMap<String, String>();
@@ -82,8 +83,8 @@ public class RestExecutor implements FlowExecutorInterface {
         ClientResponse clientResponse = null;
         String responseDataType=MediaType.APPLICATION_JSON;
         String requestDataType=MediaType.APPLICATION_JSON;
-        
-        
+
+
         try{
             DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
             System.setProperty("jsse.enableSNIExtension", "false");
@@ -114,15 +115,21 @@ public class RestExecutor implements FlowExecutorInterface {
                 response.setResponseCode(String.valueOf(clientResponse.getStatus()));
                 ArrayList<Response> responses = new ArrayList<Response>();
                 responses.add(response);
-                transaction.setResponses(responses);    
+                transaction.setResponses(responses);
                 outputMessage.put("restResponse", clientResponse.getEntity(String.class));
             }
             else{
+
+                String errorMsg = clientResponse.getEntity(String.class);
+                if (StringUtils.isNotBlank(errorMsg)) {
+                    log.debug("Error Message from Client Response" + errorMsg);
+                }
+
                 throw new Exception("Can not determine the state of : " + transaction.getActionLevel()  + " HTTP error code : "
                         + clientResponse.getStatus());
-                
+
             }
-            
+
             log.info("Completed Rest Operation.....");
 
         }catch (Exception e) {
@@ -141,7 +148,7 @@ public class RestExecutor implements FlowExecutorInterface {
 
         return outputMessage;
     }
-    
+
 private HostnameVerifier getHostnameVerifier() {
     return new HostnameVerifier() {
         @Override
