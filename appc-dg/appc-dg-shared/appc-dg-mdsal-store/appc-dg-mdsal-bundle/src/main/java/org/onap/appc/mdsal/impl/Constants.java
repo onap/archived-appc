@@ -26,7 +26,7 @@ package org.onap.appc.mdsal.impl;
 /**
  * This class contains the definitions of all constant values used in the appc-dg-mdsal-store
  * These properties are used for creating osgi bundle zip file. It also defines contents for Blueprint.xml file of bundle
- */
+*/
 public class Constants {
 
     private Constants(){}
@@ -122,4 +122,18 @@ public class Constants {
      *  Constant for backslash to be used while formatting URL
      */
     public static final String URL_BACKSLASH ="/";
+
+    public static final String GET_NODE_STATUS_PATH_FORMAT =  "/jolokia/read/org.opendaylight.controller:Category=Shards,name=%s,type=DistributedConfigDatastore";
+
+    public static final String SHARD_NAME_FORMAT = "%s-shard-default-config";
+
+    public static final String GET_SHARD_LIST_PATH = "/jolokia/read/org.opendaylight.controller:type=DistributedConfigDatastore,Category=ShardManager,name=shard-manager-config";
+
+    public static final String YANG_LOADER_PATH = "/restconf/operations/mdsal-store:store-yang";
+
+    public static final String JSON_RESPONSE_VALUE = "value";
+
+    public static final String JSON_RESPONSE_MEMBER_NAME =  "MemberName";
+
+    public static final String SELF = "self";
 }
