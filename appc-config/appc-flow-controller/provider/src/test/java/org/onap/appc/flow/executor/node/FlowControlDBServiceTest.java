@@ -55,118 +55,119 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class FlowControlDBServiceTest {
 
 @Mock
-	 SvcLogicResource serviceLogic;
+     SvcLogicResource serviceLogic;
 @Mock
 SqlResource sqlrs;
 @Mock
 QueryStatus dblibSvc ;
 
-	private static FlowControlDBService dgGeneralDBService = FlowControlDBService.initialise();
+    private static FlowControlDBService dgGeneralDBService = FlowControlDBService.initialise();
 
-	private Transaction transaction;;
+    private Transaction transaction;;
 
-	@Before
-	public void setUp() throws Exception {
-		serviceLogic = new SqlResource();
-	}
-	
-	
-	/*public final void testGetFlowReferenceData() throws Exception {
+    @Before
+    public void setUp() throws Exception {
+        serviceLogic = new SqlResource();
+    }
 
-		SvcLogicContext localContext = new SvcLogicContext();
-		FlowControlDBService dgGeneralDBService = FlowControlDBService.initialise();
-		PowerMockito.spy(SqlResource.class);
 
-		Map<String, String> inParams = null;
-		//PowerMockito.doReturn(dblibSvc).when(SqlResource.class, "query");
-		Whitebox.invokeMethod(SqlResource.class, "query",anyString(), anyBoolean(), anyString(), anyString(), anyString(), anyString(), any(SvcLogicContext.class));
-		
+    /*public final void testGetFlowReferenceData() throws Exception {
+
+        SvcLogicContext localContext = new SvcLogicContext();
+        FlowControlDBService dgGeneralDBService = FlowControlDBService.initialise();
+        PowerMockito.spy(SqlResource.class);
+
+        Map<String, String> inParams = null;
+        //PowerMockito.doReturn(dblibSvc).when(SqlResource.class, "query");
+        Whitebox.invokeMethod(SqlResource.class, "query",anyString(), anyBoolean(), anyString(), anyString(), anyString(), anyString(), any(SvcLogicContext.class));
+
         dgGeneralDBService.getFlowReferenceData(localContext, inParams, localContext);
-		//Assert.assertEquals("SUCCESS", status);
-		//Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
+        //Assert.assertEquals("SUCCESS", status);
+        //Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
 
-	}*/
+    }*/
 
-	@Test(expected=Exception.class)
-	public final void testGetFlowReferenceData() throws Exception {
+    @Test(expected=Exception.class)
+    public final void testGetFlowReferenceData() throws Exception {
 
-		SvcLogicContext localContext = new SvcLogicContext();
-		FlowControlDBService dgGeneralDBService = FlowControlDBService.initialise();
-		PowerMockito.spy(FlowControlDBService.class);
-		
+        SvcLogicContext localContext = new SvcLogicContext();
+        FlowControlDBService dgGeneralDBService = FlowControlDBService.initialise();
+        PowerMockito.spy(FlowControlDBService.class);
 
-		PowerMockito.doReturn(dgGeneralDBService).when(SqlResource.class, "query");
+
+        PowerMockito.doReturn(dgGeneralDBService).when(SqlResource.class, "query");
         String status = dgGeneralDBService.getDesignTimeFlowModel(localContext);
-		Assert.assertEquals("SUCCESS", status);
-		Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
+        Assert.assertEquals("SUCCESS", status);
+        Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
 
-	}
+    }
 
-	
-	@Ignore("Test is taking 60 seconds")
-	@Test(expected=Exception.class)
-	public final void testGetDesignTimeFlowModel() throws Exception {
-		SvcLogicContext localContext = new SvcLogicContext();
-		String status = dgGeneralDBService.getDesignTimeFlowModel(localContext) ;
-		Assert.assertEquals("SUCCESS", status);
-		Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
 
-		
-		
+    @Ignore("Test is taking 60 seconds")
+    @Test(expected=Exception.class)
+    public final void testGetDesignTimeFlowModel() throws Exception {
+        SvcLogicContext localContext = new SvcLogicContext();
+        String status = dgGeneralDBService.getDesignTimeFlowModel(localContext) ;
+        Assert.assertEquals("SUCCESS", status);
+        Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
 
-	}
 
-	@Ignore("Test is taking 60 seconds")
-	@Test(expected=Exception.class)
-	public final void testLoadSequenceIntoDB() throws SvcLogicException {
-		  
 
-		SvcLogicContext localContext = new SvcLogicContext();
-		QueryStatus status = dgGeneralDBService.loadSequenceIntoDB(localContext) ;
-		Assert.assertEquals("SUCCESS", status);
-		Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
-		/*SvcLogicContext ctx = new SvcLogicContext();
-		
-		if (serviceLogic != null && localContext != null) {
-			String queryString = "INSERT INTO " + FlowControllerConstants.DB_REQUEST_ARTIFACTS
-					+ " set request_id =  ' kusuma_test' , action = 'Configure', action_level =  'VNF' , vnf_type = 'vComp' , category = 'config_Template'  , artifact_content = '', updated_date = sysdate() ";
-			Mockito.when(serviceLogic.save("SQL", false, false, queryString, null, null, localContext))
-					.thenReturn(status);
-			Assert.assertEquals("SUCCESS", status);
-			Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);*/
 
-		
+    }
 
-	}
+    @Ignore("Test is taking 60 seconds")
+    @Test(expected=Exception.class)
+    public final void testLoadSequenceIntoDB() throws SvcLogicException {
 
-	@Test(expected=Exception.class)
-	public final void testPopulateModuleAndRPC() throws SvcLogicException {
-		SvcLogicContext localContext = new SvcLogicContext();
-		SvcLogicContext ctx = new SvcLogicContext();
-		String vnf_type = "test";
-	 dgGeneralDBService.populateModuleAndRPC(transaction, vnf_type);;
-	
 
-	}
+        SvcLogicContext localContext = new SvcLogicContext();
+        QueryStatus status = dgGeneralDBService.loadSequenceIntoDB(localContext) ;
+        Assert.assertEquals("SUCCESS", status);
+        Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
+        /*SvcLogicContext ctx = new SvcLogicContext();
 
-	@Ignore("Test is taking 60 seconds")
-	@Test(expected=Exception.class)
-	public final void testGetDependencyInfo() throws SvcLogicException {
-		SvcLogicContext localContext = new SvcLogicContext();
-		 String status = dgGeneralDBService.getDependencyInfo(localContext);
-			Assert.assertEquals("SUCCESS", status);
-			Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
-		
-	}
+        if (serviceLogic != null && localContext != null) {
+            String queryString = "INSERT INTO " + FlowControllerConstants.DB_REQUEST_ARTIFACTS
+                    + " set request_id =  ' kusuma_test' , action = 'Configure', action_level =  'VNF' , vnf_type = 'vComp' , category = 'config_Template'  , artifact_content = '', updated_date = sysdate() ";
+            Mockito.when(serviceLogic.save("SQL", false, false, queryString, null, null, localContext))
+                    .thenReturn(status);
+            Assert.assertEquals("SUCCESS", status);
+            Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);*/
 
-	@Ignore("Test is taking 60 seconds")
-	@Test(expected=Exception.class)
-	public final void testGetCapabilitiesData() throws SvcLogicException {
-		SvcLogicContext localContext = new SvcLogicContext();
-		String status = dgGeneralDBService.getCapabilitiesData(localContext);		
-			Assert.assertEquals("SUCCESS", status);
-			Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
-		
-	}
+
+
+    }
+
+    @Ignore
+    @Test(expected=Exception.class)
+    public final void testPopulateModuleAndRPC() throws Exception {
+        SvcLogicContext localContext = new SvcLogicContext();
+        SvcLogicContext ctx = new SvcLogicContext();
+        String vnf_type = "test";
+     dgGeneralDBService.populateModuleAndRPC(transaction, vnf_type);;
+
+
+    }
+
+    @Ignore("Test is taking 60 seconds")
+    @Test(expected=Exception.class)
+    public final void testGetDependencyInfo() throws SvcLogicException {
+        SvcLogicContext localContext = new SvcLogicContext();
+         String status = dgGeneralDBService.getDependencyInfo(localContext);
+            Assert.assertEquals("SUCCESS", status);
+            Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
+
+    }
+
+    @Ignore("Test is taking 60 seconds")
+    @Test(expected=Exception.class)
+    public final void testGetCapabilitiesData() throws SvcLogicException {
+        SvcLogicContext localContext = new SvcLogicContext();
+        String status = dgGeneralDBService.getCapabilitiesData(localContext);
+            Assert.assertEquals("SUCCESS", status);
+            Assert.assertNotEquals("Error - while getting FlowReferenceData", "FAILURE", status);
+
+    }
 
 }

@@ -72,28 +72,34 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
         </dependency>
-	<dependency> 
-              <groupId>org.mockito</groupId> 
-              <artifactId>mockito-core</artifactId> 
-              <scope>test</scope> 
-    	</dependency>
-	<dependency>
-	    <groupId>org.powermock</groupId>
-	    <artifactId>powermock-api-mockito</artifactId>
-	    <version>1.6.4</version>
-	    <scope>test</scope>
-	</dependency>
-	<dependency>
-	    <groupId>org.powermock</groupId>
-	    <artifactId>powermock-module-junit4</artifactId>
-	    <version>1.6.4</version>
-	    <scope>test</scope>
-	</dependency>
+    <dependency>
+              <groupId>org.mockito</groupId>
+              <artifactId>mockito-core</artifactId>
+              <scope>test</scope>
+        </dependency>
+    <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito</artifactId>
+        <version>1.6.4</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-module-junit4</artifactId>
+        <version>1.6.4</version>
+        <scope>test</scope>
+    </dependency>
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>1.9.2</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
@@ -118,7 +124,7 @@
         </plugins>
         <pluginManagement>
             <plugins>
-                <!--This plugin's configuration is used to store Eclipse m2e settings 
+                <!--This plugin's configuration is used to store Eclipse m2e settings
                     only. It has no influence on the Maven build itself. -->
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>

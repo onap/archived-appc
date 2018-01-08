@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,7 +21,7 @@
 package org.onap.appc.flow.controller.utils;
 
 public class FlowControllerConstants {
-            
+
         public static String STRING_ENCODING = "utf-8";
         public static String Y = "Y";
         public static String N = "N";
@@ -29,14 +29,14 @@ public class FlowControllerConstants {
         public static String DATA_TYPE_JSON = "JSON";
         public static String DATA_TYPE_XML = "XML";
         public static String DATA_TYPE_SQL = "SQL";
-    
+
         public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
-        
+
         public static String OUTPUT_PARAM_STATUS = "status";
         public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
         public static String OUTPUT_STATUS_SUCCESS = "success";
         public static String OUTPUT_STATUS_FAILURE = "failure";
-        
+
         public static final String DESINGTIME = "DesignTime";
         public static final String RUNTIME = "RunTime";
         public static final String APPC_FLOW_CONTROLLER = "/appc-flow-controller.properties";
@@ -59,15 +59,15 @@ public class FlowControllerConstants {
         public static final String EXTERNAL = "External";
         public static final String ACTION_LEVEL = "action-level";
         public static final String ARTIFACT_NAME = "artifact-name";
-                
-        public static enum endPointType {DG,REST,NODE};        
+
+        public static enum endPointType {DG,REST,NODE};
         public static enum flowStatus {PENDING,IN_PROCESS,COMPLETED};
-        
+
         public static final String GENERATION_NODE = "GENERATION-NODE";
         public static final String SEQUENCE_TYPE = "SEQUENCE-TYPE";
         public static final String CATEGORY = "CATEGORY";
         public static final String EXECUTION_NODE = "EXECUTION-NODE";
-        
+
 
         public static final String REQUEST_ID = "reqeust-id";
         public static final String ARTIFACT_CONTENT = "artifact-content";
@@ -79,8 +79,8 @@ public class FlowControllerConstants {
         public static final String GRAPH = "graph";
         public static final String NODE = "node";
         public static final String REST = "rest";
-        
-        
+
+
         public static final String DB_SDC_ARTIFACTS = "ASDC_ARTIFACTS";
         public static final String DB_SDC_REFERENCE = "ASDC_REFERENCE";
         public static final String DB_REQUEST_ARTIFACTS = "REQUEST_ARTIFACTS";
@@ -104,7 +104,7 @@ public class FlowControllerConstants {
         public static final String INPUT_REQUEST_ACTION_TYPE = "request-action-type";
         public static final String INPUT_REQUEST_ACTION = "request-action";
         public static final String HTTP = "http://";
-        
+
         public static final String VNF_ID = "vnf-id";
         public static final String VSERVER_ID = "vserver-id";
         public static final String SEQ_GENERATOR_URL = "seq_generator_url";
@@ -114,4 +114,5 @@ public class FlowControllerConstants {
         public static final String DEPENDENCYMODEL ="tosca_dependency_model";
         public static final String VF_MODULE ="vf-module";
         public static final String VNFC_NAME = "vnfc-name";
+        public static final String AAI_VNF_TYPE ="aai-vnf-type";
     }
