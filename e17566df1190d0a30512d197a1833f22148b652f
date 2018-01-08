@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_87bbb30d",
+        "filename": "appc-inbound/appc-interfaces-service/.gitignore",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "This file has carriage return characters in it.",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c7f69bd7",
+        "filename": "appc-inbound/appc-interfaces-service/README.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "We should not have a readme about Brocade, since onap does not use Brocade software",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_27389f9f",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can the tabs in this file be replaced with spaces? 4 space characters should be used in place of a tab",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e741570c",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/src/main/resources/org/opendaylight/blueprint/impl-blueprint.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0747a320",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/src/test/java/org/onap/appc/interfaceService/serviceExecutor/TestServiceExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_675547c5",
+        "filename": "appc-inbound/appc-interfaces-service/features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_275f3fe7",
+        "filename": "appc-inbound/appc-interfaces-service/features/src/main/resources/features.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4764cbb8",
+        "filename": "appc-inbound/appc-interfaces-service/installer/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e75877fc",
+        "filename": "appc-inbound/appc-interfaces-service/installer/resources/scripts/install-feature.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_075ec3e6",
+        "filename": "appc-inbound/appc-interfaces-service/installer/src/assembly/assemble_installer_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c76f7b91",
+        "filename": "appc-inbound/appc-interfaces-service/installer/src/assembly/assemble_mvnrepo_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_676c679d",
+        "filename": "appc-inbound/appc-interfaces-service/installer/src/main/resources/scripts/install-feature.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8769738d",
+        "filename": "appc-inbound/appc-interfaces-service/model/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_470b6bd6",
+        "filename": "appc-inbound/appc-interfaces-service/model/scripts/python/yang2props.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_071563f0",
+        "filename": "appc-inbound/appc-interfaces-service/model/src/main/yang/appc-interfaces-service.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "There should not be white space at the end of lines (it looks like there\u0027s a tab here, but I\u0027m not sure)",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e70f17e0",
+        "filename": "appc-inbound/appc-interfaces-service/model/src/main/yang/appc-interfaces-service.yang",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a7f90fca",
+        "filename": "appc-inbound/appc-interfaces-service/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-08T22:31:17Z",
+      "side": 1,
+      "message": "Can these tabs be replaced with space characters?",
+      "revId": "e17566df1190d0a30512d197a1833f22148b652f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
