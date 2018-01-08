@@ -62,4 +62,12 @@ public interface MDSALStore {
      */
     void storeJson(String moduleName , String requestId , String configJSON ) throws MDSALStoreException;
 
+    /**
+     * This method will be used to store yang module to MD-SAL store
+     * @param yang - yang module that need to be stored. In String format
+     * @param moduleName - yang module name
+     * @throws MDSALStoreException
+     */
+    void storeYangModuleOnLeader(String yang, String moduleName) throws MDSALStoreException;
+
 }
