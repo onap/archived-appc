@@ -49,136 +49,150 @@ import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 
 public class Dme2Client {
 
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(Dme2Client.class);
-	private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
-	//DME2Client client = null;
-	Properties props = new Properties();
-	String operationName ;
-	String appendContext; 
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(Dme2Client.class);
+    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    //DME2Client client = null;
+    Properties props = new Properties();
+    String operationName ;
+    String appendContext;
+String mask;
+    String ipAddress;
+    public Dme2Client(String optName, String subCtxt, HashMap<String, String> data) throws Exception{
+        log.info("Setting Properties for DME2 Client for INSTAR connection");
+        this.operationName=optName;
+        this.appendContext = data.get(subCtxt);
+if("getVnfbyIpadress".equals(optName)){
+            this.ipAddress = data.get("ipAddress");
+            this.mask = data.get("mask");
+        }
+        String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
+        if (propDir == null)
+            throw new Exception(" Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
+        String propFile = propDir + InstarClientConstant.OUTBOUND_PROPERTIES;
+        InputStream propStream = new FileInputStream(propFile);
+        try
+        {
+            props.load(propStream);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Could not load properties file " + propFile, e);
+        }
+        finally
+        {
+            try
+            {
+                propStream.close();
+            }
+            catch (Exception e)
+            {
+                log.warn("Could not close FileInputStream", e);
+            }
+        }
+    }
 
-	public Dme2Client(String optName, String subCtxt, HashMap<String, String> data) throws Exception{
-		log.info("Setting Properties for DME2 Client for INSTAR connection");
-		this.operationName=optName;
-		this.appendContext = data.get(subCtxt);
-		String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
-		if (propDir == null)
-			throw new Exception(" Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
-		String propFile = propDir + InstarClientConstant.OUTBOUND_PROPERTIES;
-		InputStream propStream = new FileInputStream(propFile);
-		try
-		{
-			props.load(propStream);
-		}
-		catch (Exception e)
-		{
-			throw new Exception("Could not load properties file " + propFile, e);
-		}
-		finally
-		{
-			try
-			{
-				propStream.close();
-			}
-			catch (Exception e)
-			{
-				log.warn("Could not close FileInputStream", e);
-			}
-		}
-	}
+    public  ClientResponse  sendtoInstar() throws Exception {
 
-	public  ClientResponse  sendtoInstar() throws Exception {
+        log.info("Called Send with operation Name=" + this.operationName + "and = " + props.getProperty(operationName+InstarClientConstant.BASE_URL));
+        String resourceUri = props.getProperty(operationName+InstarClientConstant.BASE_URL)+
+                props.getProperty(operationName + InstarClientConstant.URL_SUFFIX);
+                if(this.ipAddress!=null && this.mask == null){
+            //resourceUri = resourceUri.substring(0,resourceUri.length() - 1) + "?";
+            resourceUri = resourceUri + props.getProperty(operationName+InstarClientConstant.SUB_CONTEXT_BYIPADDRESS);
+            resourceUri = resourceUri + ipAddress;
+        }else if(mask!=null){
+            //resourceUri = resourceUri.substring(0,resourceUri.length() - 1) + "?";
+            resourceUri = resourceUri + props.getProperty(operationName+InstarClientConstant.SUB_CONTEXT_BYIPADDRESS) + ipAddress+ props.getProperty(operationName+InstarClientConstant.SUB_CONTEXT_BYMASK);
+            resourceUri = resourceUri + mask ;
+        }else{
+            resourceUri=resourceUri+ props.getProperty(operationName + InstarClientConstant.SUB_CONTEXT)+ appendContext;
+        }
 
-		log.info("Called Send with operation Name=" + this.operationName + "and = " + props.getProperty(operationName+InstarClientConstant.BASE_URL));
-		String resourceUri = props.getProperty(operationName+InstarClientConstant.BASE_URL)+ 
-				props.getProperty(operationName + InstarClientConstant.URL_SUFFIX)  + 
-				props.getProperty(operationName + InstarClientConstant.SUB_CONTEXT)+ appendContext ;           
+        log.info("DME Endpoint URI:" + resourceUri); 
+        Client client = null;
+        WebResource webResource = null;
+        ClientResponse clientResponse = null;
+        String authorization = props.getProperty("authorization");
+        String requestDataType = "application/json";
+        String responseDataType=    MediaType.APPLICATION_JSON;
+        String methodType =  props.getProperty("getIpAddressByVnf_method");
+        String request = "";
+        String userId=props.getProperty("MechID");
+        String password=props.getProperty("MechPass");
+        log.info("authorization = " + authorization + "methodType= " + methodType);
+        try{
+            DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
+            System.setProperty("jsse.enableSNIExtension", "false");
+            SSLContext sslContext = null;
+            SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
+            sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, new javax.net.ssl.TrustManager[] { secureRestClientTrustManager }, null);
+            defaultClientConfig.getProperties().put(
+                    com.sun.jersey.client.urlconnection.HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
+                    new com.sun.jersey.client.urlconnection.HTTPSProperties(getHostnameVerifier(), sslContext));
+            client = Client.create(defaultClientConfig);
+            client.addFilter(new HTTPBasicAuthFilter(userId, password));
 
-		log.info("DME Endpoint URI:" + resourceUri);     
-		Client client = null;
-		WebResource webResource = null;
-		ClientResponse clientResponse = null;
-		String authorization = props.getProperty("authorization");
-		String requestDataType = "application/json";
-		String responseDataType=	MediaType.APPLICATION_JSON;
-		String methodType =  props.getProperty("getIpAddressByVnf_method");
-		String request = "";
-		String userId=props.getProperty("MechID");
-		String password=props.getProperty("MechPass");
-		
-		log.info("authorization = " + authorization + "methodType= " + methodType);
-		try{
-			DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
-			System.setProperty("jsse.enableSNIExtension", "false");
-			SSLContext sslContext = null;
-			SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
-			sslContext = SSLContext.getInstance("SSL");
-			sslContext.init(null, new javax.net.ssl.TrustManager[] { secureRestClientTrustManager }, null);
-			defaultClientConfig.getProperties().put(
-					com.sun.jersey.client.urlconnection.HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
-					new com.sun.jersey.client.urlconnection.HTTPSProperties(getHostnameVerifier(), sslContext));
-			client = Client.create(defaultClientConfig);
-			client.addFilter(new HTTPBasicAuthFilter(userId, password));
+            webResource = client.resource(new URI(resourceUri));
+            webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
 
-			webResource = client.resource(new URI(resourceUri));
-			webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
+            if(HttpMethod.GET.equalsIgnoreCase(methodType)){
+                clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
+            }else if(HttpMethod.POST.equalsIgnoreCase(methodType)){
+                clientResponse = webResource.type(requestDataType).post(ClientResponse.class, request);
+            }else if(HttpMethod.PUT.equalsIgnoreCase(methodType)){
+                clientResponse = webResource.type(requestDataType).put(ClientResponse.class,request);
+            }else if(HttpMethod.DELETE.equalsIgnoreCase(methodType)){
+                clientResponse = webResource.delete(ClientResponse.class);
+            }
 
-			if(HttpMethod.GET.equalsIgnoreCase(methodType)){
-				clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
-			}else if(HttpMethod.POST.equalsIgnoreCase(methodType)){
-				clientResponse = webResource.type(requestDataType).post(ClientResponse.class, request);
-			}else if(HttpMethod.PUT.equalsIgnoreCase(methodType)){
-				clientResponse = webResource.type(requestDataType).put(ClientResponse.class,request);
-			}else if(HttpMethod.DELETE.equalsIgnoreCase(methodType)){
-				clientResponse = webResource.delete(ClientResponse.class);
-			}
+            return clientResponse;
 
-			return clientResponse;
-
-		}catch (Exception e) {
-			log.info("failed in RESTCONT Action ("+methodType+") for the resource " + resourceUri + ", falut message :"+e.getMessage());
-			throw new Exception("Error While gettting Data from INSTAR" + e.getMessage());
-		}
-		finally {
-			// clean up.
-			webResource = null;
-			if(client != null){
-				client.destroy();
-				client = null;
-			}
-		}
+        }catch (Exception e) {
+            log.info("failed in RESTCONT Action ("+methodType+") for the resource " + resourceUri + ", falut message :"+e.getMessage());
+            throw new Exception("Error While gettting Data from INSTAR" + e.getMessage());
+        }
+        finally {
+            // clean up.
+            webResource = null;
+            if(client != null){
+                client.destroy();
+                client = null;
+            }
+        }
 
 
-	}
+    }
 
-	public String send() {
-		String response = null;
-		try{
+    public String send() {
+        String response = null;
+        try{
 
-			if(props !=null && 
-					props.getProperty(InstarClientConstant.MOCK_INSTAR) != null &&
-					props.getProperty(InstarClientConstant.MOCK_INSTAR).equalsIgnoreCase("true"))
-				return  IOUtils.toString(Dme2Client.class.getClassLoader().getResourceAsStream("/tmp/sampleResponse"), Charset.defaultCharset());
+            if(props !=null &&
+                    props.getProperty(InstarClientConstant.MOCK_INSTAR) != null &&
+                    props.getProperty(InstarClientConstant.MOCK_INSTAR).equalsIgnoreCase("true"))
+                return  IOUtils.toString(Dme2Client.class.getClassLoader().getResourceAsStream("/tmp/sampleResponse"), Charset.defaultCharset());
 
-			ClientResponse clientResponse = sendtoInstar();
-			if(clientResponse != null){
-				response = clientResponse.getEntity(String.class);
-				log.info(clientResponse.getStatus() + " Status, Response :" + response);
+            ClientResponse clientResponse = sendtoInstar();
+            if(clientResponse != null){
+                response = clientResponse.getEntity(String.class);
+                log.info(clientResponse.getStatus() + " Status, Response :" + response);
 
-			}
-		} catch (Exception t) {
-			log.error("Error in Dme2Client for send() method while sending response:" ,t);
-		}
-		return response;
-	}
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return response;
+    }
 
-	private HostnameVerifier getHostnameVerifier() {
-		return new HostnameVerifier() {
-			@Override
-			public boolean verify(String hostname, javax.net.ssl.SSLSession sslSession) {
-				return true;
-			}
-		};
-	}
+    private HostnameVerifier getHostnameVerifier() {
+        return new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, javax.net.ssl.SSLSession sslSession) {
+                return true;
+            }
+        };
+    }
 
 
 }

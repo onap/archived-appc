@@ -22,27 +22,17 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.instar.node;
+package org.onap.appc.aai.utils;
 
-import static org.junit.Assert.assertTrue;
+public class AaiClientConstant {
+    public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
+    public static String OUTPUT_PARAM_STATUS = "status";
+    public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static String OUTPUT_STATUS_SUCCESS = "success";
+    public static String OUTPUT_STATUS_FAILURE = "failure";
 
-import java.util.HashMap;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.onap.appc.instar.dme2client.Dme2Client;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
+    public static final String AAI_KEYS = "aaiKeys";
+    public static final String SOURCE_SYSTEM_AAI = "AAI";
+    public static final String AAI_KEY_VALUES = "AAI-KEY-VALUES";
 
-@RunWith(PowerMockRunner.class)
-public class TestDme2Client {
-    
-    @Test(expected=Exception.class)
-    public void testSendtoInstar() throws Exception{
-        
-        HashMap<String,String> data = new HashMap<String,String>();
-        data.put("subtext","value");
-        PowerMockito.mockStatic(System.class);
-        PowerMockito.when((System.getenv("test"))).thenReturn("test");
-        Dme2Client dme2 = new Dme2Client("opt","subtext",data);
-    }
 }
