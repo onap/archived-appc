@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_15b02c42",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/interfaceImpl/InstarResponseHandlerImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T23:18:06Z",
+      "side": 1,
+      "message": "one more white space here",
+      "revId": "0add05cbd6db0cf7ebc84a6fe7ba6fa548e9c3a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f55d8016",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T23:18:06Z",
+      "side": 1,
+      "message": "carriage return characters in this file",
+      "revId": "0add05cbd6db0cf7ebc84a6fe7ba6fa548e9c3a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_959c3cc2",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter2.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T23:18:06Z",
+      "side": 1,
+      "message": "carriage return characters in this file",
+      "revId": "0add05cbd6db0cf7ebc84a6fe7ba6fa548e9c3a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_55a6b411",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter3.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T23:18:06Z",
+      "side": 1,
+      "message": "carriage return characters in this file",
+      "revId": "0add05cbd6db0cf7ebc84a6fe7ba6fa548e9c3a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_75a970de",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter4.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T23:18:06Z",
+      "side": 1,
+      "message": "carriage return characters in this file",
+      "revId": "0add05cbd6db0cf7ebc84a6fe7ba6fa548e9c3a3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
