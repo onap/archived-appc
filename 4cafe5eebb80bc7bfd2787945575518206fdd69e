@@ -1,0 +1,293 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3d1e7071",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/interfaceImpl/InstarResponseHandlerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_dd12ec61",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/interfaceImpl/InstarResponseHandlerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9d0c6444",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/interfaceImpl/InstarResponseHandlerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bd092033",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5d06dc21",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7d03980f",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9500bc02",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b503780c",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_750df036",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_550a3422",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1514ac42",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/utils/InstarClientConstant.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "Are these extra spaces here intentional?",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d51de467",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/utils/InstarClientConstant.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "We are not supposed to have white space at the end of lines",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_350f6830",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/utils/InstarClientConstant.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "Same extra spaces here",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_95275cb6",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "This file has carriage return characters",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b52a987c",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter2.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "This file has carriage return characters",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_752410af",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter3.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "This file has carriage return characters",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_153b4cd2",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/resources/YamlParameter4.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:40:54Z",
+      "side": 1,
+      "message": "This file has carriage return characters",
+      "revId": "4cafe5eebb80bc7bfd2787945575518206fdd69e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
