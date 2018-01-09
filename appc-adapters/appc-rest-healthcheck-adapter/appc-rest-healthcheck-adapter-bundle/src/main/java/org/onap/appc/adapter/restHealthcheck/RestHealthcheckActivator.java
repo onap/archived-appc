@@ -36,17 +36,10 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 public class RestHealthcheckActivator implements BundleActivator {
-
     /**
      * The bundle registration
      */
     private ServiceRegistration registration = null;
-
-    /**
-     * The reference to the actual implementation object that implements the services
-     */
-    private RestHealthcheckAdapter adapter;
-
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckActivator.class);
 
     /**
@@ -72,14 +65,14 @@ public class RestHealthcheckActivator implements BundleActivator {
     @Override
     public void start(BundleContext context) throws Exception {
         logger.info("Starting bundle " + getName());
+       /* The reference to the actual implementation object that implements the services */
+        RestHealthcheckAdapter adapter = new RestHealthcheckAdapterImpl();
 
-        adapter = new RestHealthcheckAdapterImpl();
         if (registration == null) {
             registration = context.registerService(RestHealthcheckAdapter.class, adapter, null);
         }
 
     }
-
     /**
      * Called when this bundle is stopped so the Framework can perform the bundle-specific activities necessary to stop
      * the bundle. In general, this method should undo the work that the BundleActivator.start method started. There
@@ -108,7 +101,6 @@ public class RestHealthcheckActivator implements BundleActivator {
 
         }
     }
-
     public String getName() {
         return "APPC Rest Healthcheck adapter";
     }

@@ -117,9 +117,9 @@ class SshConnectionSshd implements SshConnection {
 
     @Override
     public void connectWithRetry() {
-        int retryCount = 0;
-        int retryDelay = 0;
-        int retriesLeft = 0;
+        int retryCount ;
+        int retryDelay ;
+        int retriesLeft;
         retryCount = configuration.getIntegerProperty(Constants.CONNECTION_RETRY_COUNT,
             Constants.DEFAULT_CONNECTION_RETRY_COUNT);
         retryDelay = configuration.getIntegerProperty(Constants.CONNECTION_RETRY_DELAY,
@@ -139,9 +139,7 @@ class SshConnectionSshd implements SshConnection {
                 } else {
                     throw e;
                 }
-            } catch (Exception e) {
-                throw e;
-            }
+          }
         } while (retriesLeft > 0);
     }
 
@@ -184,7 +182,7 @@ class SshConnectionSshd implements SshConnection {
             client.setOut(out);
             client.setErr(err);
             OpenFuture openFuture = client.open();
-            int exitStatus = 0;
+            int exitStatus;
             try {
                 client.waitFor(ClientChannel.CLOSED, timeout);
                 openFuture.verify();
@@ -200,9 +198,9 @@ class SshConnectionSshd implements SshConnection {
             return exitStatus;
         } catch (RuntimeException e) {
             throw e;
-        } catch (Exception t) {
+        } catch (Exception e1) {
             throw new SshException(
-                "Error executing command [" + cmd + "] over SSH [" + username + "@" + host + ":" + port + "]", t);
+                "Error executing command [" + cmd + "] over SSH [" + username + "@" + host + ":" + port + "]", e1);
         }
     }
 
