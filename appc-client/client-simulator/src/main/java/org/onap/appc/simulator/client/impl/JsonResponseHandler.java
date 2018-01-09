@@ -140,7 +140,7 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
                 fileWriter.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error while performing flushToFile operation : ",e);
         }
         System.out.println("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
     }
