@@ -122,16 +122,4 @@ public class Mapper {
         }
         return jsonNode;
     }
-    public static JsonNode toJsonNode(Object obj) {
-        JsonNode jsonNode = null;
-        String jsonStr = toJsonString(obj);
-        if(jsonStr != null) {
-            try {
-                jsonNode = mapper.readTree(jsonStr);
-            } catch (IOException e) {
-                LOG.warn(String.format("Could not map %s to JSONObject.", obj), e);
-            }
-        }
-        return jsonNode;
-    }
 }
