@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e29f0502",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/output/start.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-09T14:28:54Z",
+      "side": 1,
+      "message": "Was this file accidentally added to your change?  If it was, please remove it, if not update the commit describing the updates.   Thanks",
+      "revId": "04f1fafc1552f86197c6fcec94ebfc53fd42032b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
