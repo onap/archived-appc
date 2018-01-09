@@ -80,11 +80,6 @@ public class AppcEventListenerActivator implements BundleActivator {
     private Configuration configuration;
 
     /**
-     * The bundle context
-     */
-    private static BundleContext context;
-
-    /**
      * The reference to the actual implementation object that implements the services
      */
     private Controller adapter;
@@ -103,28 +98,46 @@ public class AppcEventListenerActivator implements BundleActivator {
      *
      * @param ctx
      *            The execution context of the bundle being started.
-     * @throws java.lang.Exception
-     *             If this method throws an exception, this bundle is marked as stopped and the Framework will remove
-     *             this bundle's listeners, unregister all services registered by this bundle, and release all services
-     *             used by this bundle.
+     *            throws java.lang.Exception
+     *            If this method throws an exception, this bundle is marked as stopped and the Framework will remove
+     *            this bundle's listeners, unregister all services registered by this bundle, and release all services
+     *            used by this bundle.
      * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
      */
     @Override
     public void start(BundleContext ctx) throws Exception {
         LOG.info("Starting Bundle " + getName());
 
-        context = ctx;
-
         configuration = ConfigurationFactory.getConfiguration();
 
         Properties props = configuration.getProperties();
 
-        Set<ListenerProperties> listeners = new HashSet<>();
+        Set<ListenerProperties> listeners = new HashSet<ListenerProperties>();
+
+        // Configure App-C Closed Loop Listener
+        ListenerProperties clProps = new ListenerProperties("appc.ClosedLoop", props);
+        clProps.setListenerClass(org.onap.appc.listener.CL.impl.ListenerImpl.class);
+        listeners.add(clProps);
 
         // Configure event listener for the demo use case
         ListenerProperties demoProps = new ListenerProperties("appc.demo", props);
         demoProps.setListenerClass(org.onap.appc.listener.demo.impl.ListenerImpl.class);
         listeners.add(demoProps);
+
+        // Configure POLO Listener 
+        ListenerProperties poloProps = new ListenerProperties("appc.Polodemo", props);
+        // Get the properties object and check if it is populated.
+        Properties tempProp = poloProps.getProperties();
+        if (tempProp.size() > 0) {
+            // POLO is defined. Add to listeners
+            poloProps.setListenerClass(org.onap.appc.listener.demo.impl.ListenerImpl.class);
+            listeners.add(poloProps);
+            LOG.info("Added POLO Listener with properties = ");
+            for (String ukey : tempProp.stringPropertyNames()) {
+                LOG.info(String.format("POLO %s = %s", ukey, tempProp.getProperty(ukey)));
+            }
+
+        }
 
         // ===========================================================================
 
@@ -133,13 +146,12 @@ public class AppcEventListenerActivator implements BundleActivator {
         listeners.add(clLCMProps);
 
         // Configure the OAM properties
-        String oamPropKeyPrefix = "appc.OAM";
-        ListenerProperties oamProps  = new ListenerProperties(oamPropKeyPrefix, props);
-        if (isAppcOamPropsListenerEnabled(oamProps)) {
-            oamProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
-            listeners.add(oamProps);
+        clLCMProps = new ListenerProperties("appc.OAM", props);
+        if (isAppcOamPropsListenerEnabled(clLCMProps)) {
+            clLCMProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
+            listeners.add(clLCMProps);
         } else {
-            LOG.warn(String.format("The listener %s is disabled and will not be run", oamPropKeyPrefix));
+            LOG.warn(String.format("The listener %s is disabled and will not be run", "appc.OAM"));
         }
 
         adapter = new ControllerImpl(listeners);
@@ -191,11 +203,18 @@ public class AppcEventListenerActivator implements BundleActivator {
      * @param listenerProperties of ListenerProperties objext
      * @return false only if AppcOam disabled key is defined and equal to true. Otherwise, return true.
      */
-    private boolean isAppcOamPropsListenerEnabled(ListenerProperties listenerProperties) {
-        final Properties appcOamProperties = listenerProperties.getProperties();
+    private boolean isAppcOamPropsListenerEnabled(ListenerProperties clLCMProps) {
+        final Properties appcOamProperties = clLCMProps.getProperties();
 
-        return appcOamProperties == null
-                || !Boolean.parseBoolean(appcOamProperties.getProperty(
-                        ListenerProperties.KEYS.DISABLED.getPropertySuffix()));
+        boolean result;
+        if (appcOamProperties == null) {
+            result = true;
+        } else {
+            result = !Boolean.parseBoolean(appcOamProperties.getProperty(
+                    ListenerProperties.KEYS.DISABLED.getPropertySuffix()));
+        }
+
+        return result;
     }
+
 }

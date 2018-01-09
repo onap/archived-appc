@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -116,9 +116,19 @@ public class ControllerImpl implements Controller {
             itr.remove();
         }
         executor.shutdown();
+        int timeout=300;
         try {
-            executor.awaitTermination(10, TimeUnit.SECONDS);
+           if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+               LOG.error("Not all tasks completed execution after " + timeout + " seconds. " +
+               "Attempting to stop all actively executing tasks.");
+               executor.shutdownNow();
+           }
+           if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+               LOG.error("Could not terminate all tasks after " + (timeout*2) + " seconds.");
+           }
         } catch (InterruptedException e) {
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
         }
     }
 
