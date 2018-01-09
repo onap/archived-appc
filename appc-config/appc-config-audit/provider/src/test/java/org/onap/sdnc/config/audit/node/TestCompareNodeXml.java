@@ -43,13 +43,8 @@ public class TestCompareNodeXml {
         SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
         CompareNode cmp = new CompareNode();
-        String s = "<configuration  xmlns=" + "\"http://xml.juniper.net/xnm/1.1/xnm\"" + " junos:commit-seconds="
-                + "\"1473957536\" " + "junos:commit-localtime=" + "\"2016-09-15 16:38:56 UTC\" " + "junos:commit-user="
-                + "\"root\"" + "><name>Test</name></configuration>";
-
-        String t = "<configuration  xmlns=" + "\"http://xml.juniper.net/xnm/1.1/xnm\"" + " junos:commit-seconds="
-                + "\"1473957536\" " + "junos:commit-localtime=" + "\"2016-09-15 16:38:56 UTC\" " + "junos:commit-user="
-                + "\"root\"" + "><name>Test</name></configuration>";
+        String s = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" junos:commit-seconds=\"1502141521\" junos:commit-localtime=\"2017-08-07 21:32:03 UTC\" junos:commit-user=\"root\"> </configuration>";
+        String t = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\"  junos:commit-localtime=\"2017-08-07 21:12:03 UTC\" junos:commit-seconds=\"15021523\" junos:commit-user=\"root\"> </configuration>";
         testMap.put("compareDataType", "RESTCONF-XML");
         testMap.put("requestIdentifier", "123");
         testMap.put("sourceData", s);
