@@ -22,27 +22,43 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.instar.node;
+package org.onap.appc.aai.data;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.onap.appc.instar.dme2client.Dme2Client;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-
-@RunWith(PowerMockRunner.class)
-public class TestDme2Client {
-    
-    @Test(expected=Exception.class)
-    public void testSendtoInstar() throws Exception{
-        
-        HashMap<String,String> data = new HashMap<String,String>();
-        data.put("subtext","value");
-        PowerMockito.mockStatic(System.class);
-        PowerMockito.when((System.getenv("test"))).thenReturn("test");
-        Dme2Client dme2 = new Dme2Client("opt","subtext",data);
+public class AaiVnfcInfo {
+    public String getVnfcId() {
+        return vnfcId;
     }
+
+    public void setVnfcId(String vnfcId) {
+        this.vnfcId = vnfcId;
+    }
+
+    public String getVnfcName() {
+        return vnfcName;
+    }
+
+    public void setVnfcName(String vnfcName) {
+        this.vnfcName = vnfcName;
+    }
+
+    public String getVnfcFunctionCode() {
+        return vnfcFunctionCode;
+    }
+
+    public void setVnfcFunctionCode(String vnfcFunctionCode) {
+        this.vnfcFunctionCode = vnfcFunctionCode;
+    }
+
+    public String getVnfcOamIpAddress() {
+        return vnfcOamIpAddress;
+    }
+
+    public void setVnfcOamIpAddress(String vnfcOamIpAddress) {
+        this.vnfcOamIpAddress = vnfcOamIpAddress;
+    }
+
+    String vnfcId;
+    String vnfcName;
+    String vnfcFunctionCode;
+    String vnfcOamIpAddress;
 }
