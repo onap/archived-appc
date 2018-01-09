@@ -22,27 +22,47 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.instar.node;
+package org.onap.appc.aai.data;
 
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
 
-import java.util.HashMap;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.onap.appc.instar.dme2client.Dme2Client;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
+public class AaiVnfInfo {
 
-@RunWith(PowerMockRunner.class)
-public class TestDme2Client {
-    
-    @Test(expected=Exception.class)
-    public void testSendtoInstar() throws Exception{
-        
-        HashMap<String,String> data = new HashMap<String,String>();
-        data.put("subtext","value");
-        PowerMockito.mockStatic(System.class);
-        PowerMockito.when((System.getenv("test"))).thenReturn("test");
-        Dme2Client dme2 = new Dme2Client("opt","subtext",data);
+    String vnfId;
+
+    public String getVnfId() {
+        return vnfId;
     }
+
+    public void setVnfId(String vnfId) {
+        this.vnfId = vnfId;
+    }
+
+    public String getVnfName() {
+        return vnfName;
+    }
+
+    public void setVnfName(String vnfName) {
+        this.vnfName = vnfName;
+    }
+
+    public String getVnfOamIpAddress() {
+        return vnfOamIpAddress;
+    }
+
+    public void setVnfOamIpAddress(String vnfOamIpAddress) {
+        this.vnfOamIpAddress = vnfOamIpAddress;
+    }
+
+    public ArrayList<AaiVmInfo> getVmInfo() {
+        return vmInfo;
+    }
+
+    public void setVmInfo(ArrayList<AaiVmInfo> vmInfo) {
+        this.vmInfo = vmInfo;
+    }
+
+    String vnfName;
+    String vnfOamIpAddress;
+    ArrayList<AaiVmInfo> vmInfo;
 }

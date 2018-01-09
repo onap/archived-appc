@@ -32,6 +32,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.onap.appc.aai.interfaceImpl.AaiInterfaceRulesHandler;
+import org.onap.appc.aai.utils.AaiClientConstant;
 import org.onap.appc.instar.interfaceImpl.InstarRestClientImpl;
 import org.onap.appc.instar.interfaceImpl.InterfaceIpAddressImpl;
 import org.onap.appc.instar.interfaces.RestClientInterface;
@@ -44,52 +46,52 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 public class InstarClientNode implements SvcLogicJavaPlugin
 {
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarClientNode.class);
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarClientNode.class);
 
-	public void getInstarInfo(Map<String, String> inParams, SvcLogicContext ctx)
-	throws SvcLogicException{
-		log.info("Received getInstarInfo call with params : " + inParams);
-		String responsePrefix = (String)inParams.get(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX);
-		try
-		{
-			responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";			
-			String [] instarKeys = getInstarKeys(inParams.get(InstarClientConstant.INSTAR_KEYS));	
-			for (String instarKey : instarKeys){
-				log.info("Processing Key : " + instarKey);
-				log.info("Searching key for  : " + "INSTAR." + instarKey);
-				ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-				RuleHandlerInterface handler = null;
-				log.info("Received Context : " + ctx.getAttribute("INSTAR." + instarKey));
-				Parameter params = mapper.readValue(ctx.getAttribute(InstarClientConstant.SOURCE_SYSTEM_INSTAR + "." +  instarKey), Parameter.class);
-			
-				log.info("Processing rule Type : "  + params.getRuleType());	
-				switch(params.getRuleType()){					
-					case InstarClientConstant.INTERFACE_IP_ADDRESS:
-						handler = new InterfaceIpAddressImpl(params, ctx);			
-						break;
-					default:
-						throw new Exception("No Rule Defined to process :" + params.getRuleType());			
-				}
-				handler.processRule();	
-				
-			}
-			log.info("responsePrefix =" + responsePrefix);
-			ctx.setAttribute(responsePrefix + InstarClientConstant.INSTAR_KEY_VALUES, ctx.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
-			ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_SUCCESS);
-			ctx.setAttribute(InstarClientConstant.INSTAR_KEY_VALUES, null);
-		}
-		catch (Exception e)
-		{
-			ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_FAILURE);
-			ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-			log.error("Failed processing Instar request" + e.getMessage());
-			e.printStackTrace();
-			throw new SvcLogicException(e.getMessage());
-		}
-	}
-	 private static String[] getInstarKeys(String keyString) {
-         String fn = "InstarClientNode.getInstarKeys";
-         System.out.println("Received instar Key String as :" + keyString);
+    public void getInstarInfo(Map<String, String> inParams, SvcLogicContext ctx)
+    throws SvcLogicException{
+        log.info("Received getInstarInfo call with params : " + inParams);
+        String responsePrefix = (String)inParams.get(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX);
+        try
+        {
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";            
+            String [] instarKeys = getKeys(inParams.get(InstarClientConstant.INSTAR_KEYS));    
+            for (String instarKey : instarKeys){
+                log.info("Processing Key : " + instarKey);
+                log.info("Searching key for  : " + "INSTAR." + instarKey);
+                ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+                RuleHandlerInterface handler = null;
+                log.info("Received Context : " + ctx.getAttribute("INSTAR." + instarKey));
+                Parameter params = mapper.readValue(ctx.getAttribute(InstarClientConstant.SOURCE_SYSTEM_INSTAR + "." +  instarKey), Parameter.class);
+            
+                log.info("Processing rule Type : "  + params.getRuleType());    
+                switch(params.getRuleType()){                    
+                    case InstarClientConstant.INTERFACE_IP_ADDRESS:
+                        handler = new InterfaceIpAddressImpl(params, ctx);            
+                        break;
+                    default:
+                        throw new Exception("No Rule Defined to process :" + params.getRuleType());            
+                }
+                handler.processRule();    
+                
+            }
+            log.info("responsePrefix =" + responsePrefix);
+            ctx.setAttribute(responsePrefix + InstarClientConstant.INSTAR_KEY_VALUES, ctx.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
+            ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_SUCCESS);
+            ctx.setAttribute(InstarClientConstant.INSTAR_KEY_VALUES, null);
+        }
+        catch (Exception e)
+        {
+            ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            log.error("Failed processing Instar request" + e.getMessage());
+            e.printStackTrace();
+            throw new SvcLogicException(e.getMessage());
+        }
+    }
+     private static String[] getKeys(String keyString) {
+        String fn = "InstarClientNode.getKeys";
+        System.out.println("Received Key String as :" + keyString);
 
          keyString = keyString.replace("[","");
          keyString = keyString.replace("]", "");
@@ -103,31 +105,65 @@ public class InstarClientNode implements SvcLogicJavaPlugin
                  String[] keys = {keyString};
                  return keys;
          }
-	}
-	public void getInstarData(Map<String, String> inParams, SvcLogicContext ctx)
-			throws SvcLogicException{
-				log.info("Received getInstarData call with params : " + inParams);
-				String responsePrefix = (String)inParams.get(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX);
-				try
-				{
-					HashMap<String, String> input  = new HashMap<String, String>();
-					input.putAll(inParams);
-					RestClientInterface rcINterface = new InstarRestClientImpl(input);
-					String response = rcINterface.sendRequest(inParams.get("operationName"));
-					
-					responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";	
-					ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_SUCCESS);
-					ctx.setAttribute(responsePrefix + InstarClientConstant.INSTAR_KEY_VALUES, response);
-												
-				}
-				catch (Exception e)
-				{
-					ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_FAILURE);
-					ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-					log.error("Failed processing Instar request" + e.getMessage());
-					e.printStackTrace();
-					throw new SvcLogicException(e.getMessage());
-				}
-			}
+    }
+    public void getInstarData(Map<String, String> inParams, SvcLogicContext ctx)
+            throws SvcLogicException{
+                log.info("Received getInstarData call with params : " + inParams);
+                String responsePrefix = (String)inParams.get(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX);
+                try
+                {
+                    HashMap<String, String> input  = new HashMap<String, String>();
+                    input.putAll(inParams);
+                    RestClientInterface rcINterface = new InstarRestClientImpl(input);
+                    String response = rcINterface.sendRequest(inParams.get("operationName"));
+                    
+                    responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";    
+                    ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_SUCCESS);
+                    ctx.setAttribute(responsePrefix + InstarClientConstant.INSTAR_KEY_VALUES, response);
+                                                
+                }
+                catch (Exception e)
+                {
+                    ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS, InstarClientConstant.OUTPUT_STATUS_FAILURE);
+                    ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+                    log.error("Failed processing Instar request" + e.getMessage());
+                    e.printStackTrace();
+                    throw new SvcLogicException(e.getMessage());
+                }
+            }
+public void getAaiInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        log.info("Received getAaiInfo call with params : " + inParams);
+        String responsePrefix = (String) inParams.get(AaiClientConstant.INPUT_PARAM_RESPONSE_PRIFIX);
+        try {
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";
+            String[] aaiKeys = getKeys(inParams.get(AaiClientConstant.AAI_KEYS));
+            for (String aaiKey : aaiKeys) {
+                log.info("Processing Key : " + aaiKey);
+                log.info("Searching key for  : " + "AAI." + aaiKey);
+                ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+                RuleHandlerInterface handler = null;
+                log.info("Received Context : " + ctx.getAttribute("AAI." + aaiKey));
+                Parameter params = mapper.readValue(
+                        ctx.getAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." + aaiKey), Parameter.class);
+                log.info("Processing rule Type : " + params.getRuleType());
+                handler = new AaiInterfaceRulesHandler(params, ctx);
+                handler.processRule();
 
+            }
+
+            log.info("responsePrefix =" + responsePrefix);
+            ctx.setAttribute(responsePrefix + AaiClientConstant.AAI_KEY_VALUES,
+                    ctx.getAttribute(AaiClientConstant.AAI_KEY_VALUES));
+            ctx.setAttribute(responsePrefix + AaiClientConstant.OUTPUT_PARAM_STATUS,
+                    AaiClientConstant.OUTPUT_STATUS_SUCCESS);
+            ctx.setAttribute(AaiClientConstant.AAI_KEY_VALUES, null);
+        } catch (Exception e) {
+            ctx.setAttribute(responsePrefix + AaiClientConstant.OUTPUT_PARAM_STATUS,
+                    InstarClientConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + AaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            log.error("Failed processing AAI data" + e.getMessage());
+            e.printStackTrace();
+            throw new SvcLogicException(e.getMessage());
+        }
+    }
 }
