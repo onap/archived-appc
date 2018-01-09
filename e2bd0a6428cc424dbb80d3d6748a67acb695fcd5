@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fda48858",
+        "filename": "appc-inbound/appc-interfaces-service/features/src/main/resources/features.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-09T22:04:05Z",
+      "side": 1,
+      "message": "We\u0027re not supposed to have white space at the end of lines, like this",
+      "revId": "e2bd0a6428cc424dbb80d3d6748a67acb695fcd5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
