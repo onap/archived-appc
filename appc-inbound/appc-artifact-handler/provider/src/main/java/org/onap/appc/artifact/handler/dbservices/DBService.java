@@ -259,8 +259,7 @@ public class DBService {
           String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
           String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
           String vnf_type = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
-          PropertiesConfiguration conf = new PropertiesConfiguration(
-                SdcArtifactHandlerConstants.APPC_CONFIG_DIR + "/appc_southbound.properties");
+          PropertiesConfiguration conf = new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR")+"/appc_southbound.properties");
           String property ="";
             if (StringUtils.isNotBlank(vnf_type)) {
 
@@ -330,8 +329,7 @@ public class DBService {
             && ((protocol == null) || ("".equals(protocol))))
          throw new SvcLogicException(
                "Error While processing refernce File as few or all of parameters VNF_TYPE,PROTOCOL,ACTION are missing ");
-      PropertiesConfiguration conf = new PropertiesConfiguration(
-            SdcArtifactHandlerConstants.APPC_CONFIG_DIR + "/appc_southbound.properties");
+         PropertiesConfiguration conf = new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR")+"/appc_southbound.properties");
          log.info("is Updating to southbound  properties : "+isUpdate);
             if (conf.containsKey(property + "." + "user")) {
                if(user!=null && !user.isEmpty())
