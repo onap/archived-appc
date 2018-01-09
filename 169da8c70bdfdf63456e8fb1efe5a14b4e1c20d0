@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_422cb999",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-mdsal-store/appc-dg-mdsal-bundle/src/main/java/org/onap/appc/mdsal/exception/MDSALStoreException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-09T10:11:05Z",
+      "side": 0,
+      "message": "The file permissions should be 644.",
+      "revId": "169da8c70bdfdf63456e8fb1efe5a14b4e1c20d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e220659d",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-mdsal-store/appc-dg-mdsal-bundle/src/main/java/org/onap/appc/mdsal/impl/MDSALStoreFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-09T10:11:05Z",
+      "side": 0,
+      "message": "The file permissions should be 644",
+      "revId": "169da8c70bdfdf63456e8fb1efe5a14b4e1c20d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0226b1b7",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-mdsal-store/appc-dg-mdsal-bundle/src/main/java/org/onap/appc/mdsal/objects/BundleInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-09T10:11:05Z",
+      "side": 0,
+      "message": "The file permissions should be 644",
+      "revId": "169da8c70bdfdf63456e8fb1efe5a14b4e1c20d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a23a5dcb",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-mdsal-store/appc-dg-mdsal-bundle/src/main/java/org/onap/appc/mdsal/operation/ConfigOperationRequestFormatter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-09T10:11:05Z",
+      "side": 0,
+      "message": "The file permissions should be 644",
+      "revId": "169da8c70bdfdf63456e8fb1efe5a14b4e1c20d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
