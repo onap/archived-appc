@@ -36,51 +36,65 @@ import com.att.eelf.configuration.EELFManager;
 
 public class InstarResponseHandlerImpl implements ResponseHandlerInterface {
 
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarResponseHandlerImpl.class);
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarResponseHandlerImpl.class);
 
-	ResponseKey resKey = null;
-	SvcLogicContext ctxt = null;
-	
-	public InstarResponseHandlerImpl(ResponseKey filterKeys, SvcLogicContext context) {
-		this.resKey = filterKeys;
-		this.ctxt = context;
-		
-	}
+    ResponseKey resKey = null;
+    SvcLogicContext ctxt = null;
 
-	@Override
-	public Object processResponse(String instarResponse, String instarKey) {	
-		String fn = " InstarResponseHandlerImpl.processResponse ";
-		log.info(fn + " Instar Response :" + instarResponse);
-		
-		JSONObject instarKeyValues;
-		
-		log.info("Instar Data in Context : "+ ctxt.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
-		if(ctxt.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES) != null){
-			instarKeyValues = new JSONObject(ctxt.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
-			log.info("Instar data already exsits :  " + instarKeyValues.toString());
-		}
-		else
-			instarKeyValues = new JSONObject();
-		JSONArray instarResponses = new JSONObject(instarResponse).getJSONArray(InstarClientConstant.INSTAR_RESPONSE_BLOCK_NAME);
-		for (int i = 0; i < instarResponses.length(); i++){
-			JSONObject res = instarResponses.getJSONObject(i);
-			log.info(fn + "Instar Block :" + i + " Values :" +  res.toString());
-			log.info(fn + "Appc Filter Key :"  +  ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey.getUniqueKeyValue());
-			
-			if(res.getString(InstarClientConstant.FDQN) != null &&
-					res.getString(InstarClientConstant.FDQN).equalsIgnoreCase(ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey.getUniqueKeyValue())){					
-					if(resKey.getFieldKeyName().equals(InstarClientConstant.V4_ADDRESS))
-						instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_ADDRESS));
-					else if(resKey.getFieldKeyName().equals(InstarClientConstant.V6_ADDRESS))
-						instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_ADDRESS));				
-					break;
-			}
-		}
-		log.info(fn + "Instar KeyValues  :" + instarKeyValues);
-		ctxt.setAttribute(InstarClientConstant.INSTAR_KEY_VALUES, instarKeyValues.toString());
-		
-	
-		return instarKeyValues;
-	}
+    public InstarResponseHandlerImpl(ResponseKey filterKeys, SvcLogicContext context) {
+        this.resKey = filterKeys;
+        this.ctxt = context;
+        
+    }
+
+    @Override
+    public Object processResponse(String instarResponse, String instarKey) {
+        String fn = " InstarResponseHandlerImpl.processResponse ";
+        log.info(fn + " Instar Response :" + instarResponse);
+ 
+        JSONObject instarKeyValues;
+
+        log.info("Instar Data in Context : "+ ctxt.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
+        if(ctxt.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES) != null){
+            instarKeyValues = new JSONObject(ctxt.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
+            log.info("Instar data already exsits :  " + instarKeyValues.toString());
+        }
+        else
+            instarKeyValues = new JSONObject();
+        JSONArray instarResponses = new JSONObject(instarResponse).getJSONArray(InstarClientConstant.INSTAR_RESPONSE_BLOCK_NAME);
+        for (int i = 0; i < instarResponses.length(); i++){
+            JSONObject res = instarResponses.getJSONObject(i);
+            log.info(fn + "Instar Block :" + i + " Values :" +  res.toString());
+            log.info(fn + "Appc Filter Key :"  +  ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey.getUniqueKeyValue());
+ 
+            if(res.getString(InstarClientConstant.FDQN) != null &&
+                    res.getString(InstarClientConstant.FDQN).equalsIgnoreCase(ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey.getUniqueKeyValue())){
+                    if(resKey.getFieldKeyName().equals(InstarClientConstant.V4_ADDRESS)) {
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_ADDRESS));
+                    }
+                    else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V4_SUBNET)) {
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_SUBNET) );
+                    }
+                    else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V4_DEFAULT_GATEWAY)) {
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_DEFAULT_GATEWAY));
+                    }
+                    else if(resKey.getFieldKeyName().equals(InstarClientConstant.V6_ADDRESS)) {
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_ADDRESS));
+                    }
+                    else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V6_SUBNET)) {
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_SUBNET) );
+                    }
+                    else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V6_DEFAULT_GATEWAY)) {
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_DEFAULT_GATEWAY));
+                    }
+                    break;
+            }
+        }
+        log.info(fn + "Instar KeyValues  :" + instarKeyValues);
+        ctxt.setAttribute(InstarClientConstant.INSTAR_KEY_VALUES, instarKeyValues.toString());
+
+
+        return instarKeyValues;
+    }
 
 }
