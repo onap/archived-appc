@@ -1,0 +1,16 @@
+me: "LOCAL_CORE_ALT_IP_ADDR"
+description: null
+type: null 
+required: false
+source: "A&AI"
+rule-type: null
+default: "0:0:0:0"
+request-keys:
+- key-name: "address_fqdn"
+  key-value: "value"
+- key-name: "address_type"
+  key-value: "v4"
+response-keys: 
+- unique-key-name: "parent-name"
+- unique-key-value: "vnf"
+- field-key-name: "vnf-name"
