@@ -51,7 +51,7 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/Start.json");
+        String actualOutput = readOutput("/output/Start2.json");
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
@@ -99,7 +99,7 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/Start.json");
+        String actualOutput = readOutput("/output/Start2.json");
 
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
