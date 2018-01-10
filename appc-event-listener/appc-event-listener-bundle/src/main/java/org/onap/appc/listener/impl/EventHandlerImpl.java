@@ -26,6 +26,8 @@ package org.onap.appc.listener.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+
+import org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
 import org.onap.appc.adapter.factory.MessageService;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
