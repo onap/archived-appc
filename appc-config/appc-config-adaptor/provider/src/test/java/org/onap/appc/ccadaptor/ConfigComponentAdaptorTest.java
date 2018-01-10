@@ -24,6 +24,7 @@
 
 package org.onap.appc.ccadaptor;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -34,8 +35,8 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
 
 public class ConfigComponentAdaptorTest {
-    
-    
+
+
     @Test
     public void testGetCliRunningConfig(){
         Properties props = null;
@@ -51,9 +52,9 @@ public class ConfigComponentAdaptorTest {
 
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
-        cca.configure(key, parameters, ctx);    
+        cca.configure(key, parameters, ctx);
     }
-    
+
     @Test
     public void testDownloadCliConfig(){
         Properties props = null;
@@ -69,9 +70,9 @@ public class ConfigComponentAdaptorTest {
 
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
-        cca.configure(key, parameters, ctx);    
+        cca.configure(key, parameters, ctx);
     }
-    
+
     @Test
     public void testXmlDownload(){
         Properties props = null;
@@ -89,7 +90,7 @@ public class ConfigComponentAdaptorTest {
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
         cca.configure(key, parameters, ctx);
     }
-    
+
     @Test
     public void testXmlGetrunningconfig(){
         Properties props = null;
@@ -105,9 +106,9 @@ public class ConfigComponentAdaptorTest {
 
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
-        cca.configure(key, parameters, ctx);        
+        cca.configure(key, parameters, ctx);
     }
-    
+
     @Test
     public void testEscapeSql(){
         Properties props = null;
@@ -125,7 +126,7 @@ public class ConfigComponentAdaptorTest {
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
         cca.configure(key, parameters, ctx);
     }
-    
+
     @Test
     public void testAll(){
         Properties props = null;
@@ -146,10 +147,10 @@ public class ConfigComponentAdaptorTest {
 
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
-        cca.configure(key, parameters, ctx);        
+        cca.configure(key, parameters, ctx);
     }
-    
-    @Test(expected=Exception.class)
+
+    @Test
     public void testAll1(){
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
@@ -158,9 +159,9 @@ public class ConfigComponentAdaptorTest {
         parameters.put("Host_ip_address", "test");
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
-        cca.configure(key, parameters, ctx);        
+        cca.configure(key, parameters, ctx);
     }
-    
+
     @Test(expected=Exception.class)
     public void testAll2(){
         Properties props = null;
@@ -170,9 +171,9 @@ public class ConfigComponentAdaptorTest {
         parameters.put("Host_ip_address", "test");
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
-        cca.configure(key, parameters, ctx);        
+        cca.configure(key, parameters, ctx);
     }
-    
+
     @Test
     public void testGetStringBetweenQuotes() throws Exception{
         Properties props = null;
@@ -180,15 +181,15 @@ public class ConfigComponentAdaptorTest {
         String result =Whitebox.invokeMethod(cca, "getStringBetweenQuotes","\"testvalue\"");
         Assert.assertEquals("testvalue", result);
     }
-    
+
     @Test
     public void testBuildXmlRequest() throws Exception{
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         Map<String, String> param = new HashMap<String,String>();
-        Whitebox.invokeMethod(cca, "buildXmlRequest",param,"template");    
+        Whitebox.invokeMethod(cca, "buildXmlRequest",param,"template");
     }
-    
+
     @Test
     public void testTrimResponse() throws Exception{
         Properties props = null;
@@ -196,7 +197,7 @@ public class ConfigComponentAdaptorTest {
         String result =Whitebox.invokeMethod(cca, "trimResponse","testData");
         Assert.assertEquals("", result);
     }
-    
+
     @Test
     public void testBuildNetworkData2() throws Exception{
         Properties props = null;
@@ -205,14 +206,14 @@ public class ConfigComponentAdaptorTest {
         String result =Whitebox.invokeMethod(cca, "buildNetworkData2",ctx,"template","operation");
         Assert.assertEquals("template", result);
     }
-    
+
     //@Test
     public void testGetLastFewLinesOfFile() throws Exception{
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        Whitebox.invokeMethod(cca, "readFile","test");    
+        Whitebox.invokeMethod(cca, "readFile","test");
     }
-    
+
     @Test
     public void testConnect() throws Exception{
         Properties props = null;
@@ -221,7 +222,7 @@ public class ConfigComponentAdaptorTest {
         cca.activate("key", ctx);
 
     }
-    
+
     @Test(expected=Exception.class)
     public void testActivate() throws Exception{
         Properties props = null;
@@ -230,7 +231,7 @@ public class ConfigComponentAdaptorTest {
         String result =Whitebox.invokeMethod(cca, "activate",ctx,true);
         Assert.assertEquals("template", result);
     }
-    
+
     @Test(expected=Exception.class)
     public void testAudit() throws Exception{
         Properties props = null;
@@ -239,7 +240,7 @@ public class ConfigComponentAdaptorTest {
         String result =Whitebox.invokeMethod(cca, "audit",ctx,"test");
         Assert.assertEquals("template", result);
     }
-    
+
     @Test(expected=Exception.class)
     public void testPrepare() throws Exception{
         Properties props = null;
