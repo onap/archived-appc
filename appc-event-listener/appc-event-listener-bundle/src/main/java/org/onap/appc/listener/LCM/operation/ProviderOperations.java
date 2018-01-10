@@ -66,7 +66,7 @@ import java.security.cert.X509Certificate;
 
 public class ProviderOperations {
 
-    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(ProviderOperations.class);
+    private final EELFLogger LOG = EELFManager.getInstance().getLogger(ProviderOperations.class);
 
     private URL url;
     private String basic_auth;
@@ -182,32 +182,35 @@ public class ProviderOperations {
     @SuppressWarnings("deprecation")
     private HttpClient getHttpClient() throws APPCException {
         HttpClient client;
-        if (url.getProtocol().equals("https")) {
-            try {
-                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                trustStore.load(null, null);
-                MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-                sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        switch (url.getProtocol()) {
+            case "https":
+                try {
+                    KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                    trustStore.load(null, null);
+                    MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+                    sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
 
-                HttpParams params = new BasicHttpParams();
-                HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-                HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
+                    HttpParams params = new BasicHttpParams();
+                    HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+                    HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
 
-                SchemeRegistry registry = new SchemeRegistry();
-                registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-                registry.register(new Scheme("https", sf, 443));
-                registry.register(new Scheme("https", sf, 8443));
-                registry.register(new Scheme("http", sf, 8181));
+                    SchemeRegistry registry = new SchemeRegistry();
+                    registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+                    registry.register(new Scheme("https", sf, 443));
+                    registry.register(new Scheme("https", sf, 8443));
+                    registry.register(new Scheme("http", sf, 8181));
 
-                ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-                client = new DefaultHttpClient(ccm, params);
-            } catch (Exception e) {
+                    ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
+                    client = new DefaultHttpClient(ccm, params);
+                } catch (Exception e) {
+                    client = new DefaultHttpClient();
+                }
+                break;
+            case "http":
                 client = new DefaultHttpClient();
-            }
-        } else if (url.getProtocol().equals("http")) {
-            client = new DefaultHttpClient();
-        } else {
-            throw new APPCException(
+                break;
+            default:
+                throw new APPCException(
                     "The provider.topology.url property is invalid. The url did not start with http[s]");
         }
         return client;
@@ -243,7 +246,7 @@ public class ProviderOperations {
 
         @Override
         public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
-                throws IOException, UnknownHostException {
+                throws IOException {
             return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
         }
 
@@ -254,10 +257,7 @@ public class ProviderOperations {
     }
 
     public static boolean isSucceeded(Integer code) {
-        if (code == null) {
-            return false;
-        }
-        return ((code == 100) || (code == 400)); // only 100 & 400 statuses are success
+        return code != null && ((code == 100) || (code == 400));
     }
 
 }

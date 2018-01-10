@@ -182,9 +182,9 @@ public class ListenerProperties {
          * as well.<br>
          * Examples:
          * <ul>
-         * <li>server1.appc.openecomp.org</li>
-         * <li>server1.appc.openecomp.org:3904</li>
-         * <li>server1.appc.openecomp.org,server2.appc.openecomp.org</li>
+         * <li>server1.appc.onap.org</li>
+         * <li>server1.appc.onap.org:3904</li>
+         * <li>server1.appc.onap.org,server2.appc.onap.org</li>
          * </ul>
          */
         HOSTS("poolMembers"),
