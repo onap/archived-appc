@@ -24,6 +24,7 @@
 
 package org.onap.appc.ccadaptor;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -149,7 +150,7 @@ public class ConfigComponentAdaptorTest {
         cca.configure(key, parameters, ctx);        
     }
     
-    @Test(expected=Exception.class)
+    @Test
     public void testAll1(){
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);

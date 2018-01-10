@@ -1095,20 +1095,17 @@ public class SshJcraftWrapper {
             ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
             debugLog.printRTAriDebug(fn, "Connecting....");
             sftp.connect();
-            InputStream in = null;
-            in = sftp.get(fullFilePathName);
+            InputStream in = sftp.get(fullFilePathName);
             String sftpFileString = readInputStreamAsString(in);
             debugLog.printRTAriDebug(fn, "Retreived successfully");
-            // debugLog.printRTAriDebug (fn, "sftpFileString="+sftpFileString);
-            sftpSession.disconnect();
-            sftpSession = null;
-            return (sftpFileString);
+            return sftpFileString;
         } catch (Exception e) {
             debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
-            sftpSession.disconnect();
-            sftpSession = null;
-            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
             throw new IOException(e.toString());
+        } finally {
+            if(sftpSession != null) {
+                sftpSession.disconnect();
+            }
         }
     }
 
