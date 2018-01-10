@@ -202,6 +202,7 @@ public class SshJcraftWrapper {
         String CmdThatWasSent = removeWhiteSpaceAndNewLineCharactersAroundString(cmdThatWasSent);
         int readCounts = 0;
         aggregatedReceivedString = "";
+        FileWriter fileWriter = null;
 
         long deadline = new Date().getTime() + timeout;
         try {
@@ -235,7 +236,8 @@ public class SshJcraftWrapper {
                             StringTokenizer st = new StringTokenizer(cmdThatWasSent);
                             st.nextToken();
                             routerFileName = st.nextToken();
-                            out = new BufferedWriter(new FileWriter(routerFileName));
+                            fileWriter = new FileWriter(routerFileName);
+                            out = new BufferedWriter(fileWriter);
                             routerLogFileName = "/tmp/" + RouterName;
                             _tmpFile = new File(routerLogFileName);
                             debugLog.printRTAriDebug(fn,
@@ -308,10 +310,18 @@ public class SshJcraftWrapper {
             debugLog.printRTAriDebug(fn, "Caught an IOException: ee=" + ee.toString());
             dbLog.outputStackTrace(ee);
             throw new TimedOutException(ee.toString());
+        } finally {
+            try {
+                if (fileWriter != null) {
+                    fileWriter.close();
+                }
+            } catch(IOException ex) {
+                debugLog.printRTAriDebug(fn, "Failed to close fileWriter output stream: ex=" + ex);
+            }
         }
         String result = stripOffCmdFromRouterResponse(sbReceive.toString());
         debugLog.printRTAriDebug(fn, "Leaving method successfully");
-        return (result);
+        return result;
     }
 
     public boolean checkIfReceivedStringMatchesDelimeter(String delimeters, String receivedString,
@@ -332,11 +342,7 @@ public class SshJcraftWrapper {
                 appendToFile(debugLogFileName,
                     fn + " :::cmdThatWasSent='" + cmdThatWasSent + "'  x=" + x + " y=" + y + "\n");
             }
-            if ((x != -1) && (y == x)) {
-                return (true);
-            } else {
-                return (false);
-            }
+            return (x != -1) && (y == x);
         }
         if (cmdThatWasSent.indexOf("show config") != -1) {
             appendToFile(debugLogFileName, fn + "In the block for 'show config'\n");
@@ -794,7 +800,7 @@ public class SshJcraftWrapper {
                 }
             }
         } catch (JSchException e) {
-            debugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e.toString());
+            debugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e);
             debugLog.printRTAriDebug(fn,
                 "ncharsSent=" + ncharsSent + " ncharsTotalReceived=" + ncharsTotalReceived + " ncharsRead="
                     + ncharsRead);
