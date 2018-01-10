@@ -36,6 +36,7 @@ import org.onap.appc.statemachine.objects.StateMachineMetadata;
 import org.onap.appc.statemachine.objects.StateMachineResponse;
 
 public class StateMachineImplTest {
+    private StateMachineMetadata.StateMachineMetadataBuilder builder;
     private StateMachineMetadata metadata;
     private StateMachineImpl stateMachine;
 
@@ -100,7 +101,7 @@ public class StateMachineImplTest {
     @Test
     public void testToString() throws Exception {
         Assert.assertEquals(
-                String.format(stateMachine.toStringFormat, metadata.getStates(), metadata.getEvents()),
+                String.format(stateMachine.TO_STRING_FORMAT, metadata.getStates(), metadata.getEvents()),
                 stateMachine.toString());
     }
 
