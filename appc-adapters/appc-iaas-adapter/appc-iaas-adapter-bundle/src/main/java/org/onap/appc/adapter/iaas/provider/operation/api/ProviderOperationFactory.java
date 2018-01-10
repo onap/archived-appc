@@ -29,31 +29,26 @@ import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.exceptions.APPCException;
 import java.util.HashMap;
 import java.util.Map;
-
 /**
  * Singleton factory of provider operations objects with cache
  * 
  * @since September 26, 2016
  */
 public class ProviderOperationFactory {
-
     /**
      * holds instance of the class
      */
     private static ProviderOperationFactory instance;
-
     /**
      * holds concrete operations objects
      */
     private Map<Operation, IProviderOperation> operations;
-
     /**
      * private constructor
      */
     private ProviderOperationFactory() {
         this.operations = new HashMap<>();
     }
-
     /**
      * @return instance of the factory
      */
@@ -63,13 +58,11 @@ public class ProviderOperationFactory {
         }
         return instance;
     }
-
     /**
      * @param op
      * @return concrete operation impl
      */
     public IProviderOperation getOperationObject(Operation op) throws APPCException {
-
         IProviderOperation opObject = operations.get(op);
         if (opObject == null) {
             switch (op) {
@@ -111,6 +104,12 @@ public class ProviderOperationFactory {
                     break;
                 case LOOKUP_SERVICE:
                     opObject = new LookupServer();
+                    break;
+                case ATTACHVOLUME_SERVICE:
+                    opObject = new AttachVolumeServer();
+                    break;
+                case DETACHVOLUME_SERVICE:
+                    opObject = new DettachVolumeServer();
                     break;
                 default:
                     throw new APPCException("Unsupported provider operation.");

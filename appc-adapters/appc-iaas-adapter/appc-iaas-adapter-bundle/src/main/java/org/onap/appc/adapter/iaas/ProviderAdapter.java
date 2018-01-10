@@ -43,54 +43,44 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
  * </p>
  */
 public interface ProviderAdapter extends SvcLogicJavaPlugin {
-
     /**
      * The type of provider to be accessed to locate and operate on a virtual machine instance. This is used to load the
      * correct provider support through the CDP IaaS abstraction layer and can be OpenStackProvider, BareMetalProvider,
      * or any other supported provider type.
      */
     static final String PROPERTY_PROVIDER_TYPE = "org.onap.appc.provider.type";
-
     /**
      * The adapter maintains a cache of providers organized by the name of the provider, not its type. This is
      * equivalent to the system or installation name. All regions within the same installation are assumed to be the
      * same type.
      */
     static final String PROPERTY_PROVIDER_NAME = "org.onap.appc.provider.name";
-
     /**
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
     static final String PROPERTY_INSTANCE_URL = "org.onap.appc.instance.url";
-
     /**
      * The fully-qualified URL of the instance to be manipulated as it is known to the provider.
      */
     static final String PROPERTY_IDENTITY_URL = "org.onap.appc.identity.url";
-
     /**
      * The Rebuild VM flag is an optional payload parameter for the Evacuate API.
      */
     static final String PROPERTY_REBUILD_VM = "org.onap.appc.rebuildvm";
-
     /**
      * The target host id is an optional payload parameter for the Evacuate API.
      */
     static final String PROPERTY_TARGETHOST_ID = "org.onap.appc.targethost.id";
-
     /**
      * heat stack id to perform operation on stack
      */
     static final String PROPERTY_STACK_ID = "org.onap.appc.stack.id";
-
     static final String PROPERTY_SNAPSHOT_ID = "snapshot.id";
-
     static final String PROPERTY_INPUT_SNAPSHOT_ID = "org.onap.appc.snapshot.id";
-
     static final String DG_OUTPUT_PARAM_NAMESPACE = "output.";
-
     static final String SKIP_HYPERVISOR_CHECK = "org.onap.appc.skiphypervisorcheck";
-
+    static final String VOLUME_ID = "org.onap.appc.volumeid"; 
+    static final String DEVICE = "org.onap.appc.device";
     /**
      * This method is used to restart an existing virtual machine given the fully qualified URL of the machine.
      * <p>
@@ -117,7 +107,6 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be restarted for some reason
      */
     Server restartServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
-
     /**
      * This method is used to stop the indicated server
      * <p>
@@ -144,7 +133,6 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be stopped for some reason
      */
     Server stopServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
-
     /**
      * This method is used to start the indicated server
      * <p>
@@ -171,7 +159,6 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be started for some reason
      */
     Server startServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
-
     /**
      * This method is used to rebuild the indicated server
      * <p>
@@ -198,7 +185,6 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be rebuilt for some reason
      */
     Server rebuildServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
-
     /**
      * This method is used to terminate the indicated server
      * <p>
@@ -225,26 +211,20 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be terminate for some reason
      */
     Server terminateServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
-
     /**
      * Returns the symbolic name of the adapter
      *
      * @return The adapter name
      */
     String getAdapterName();
-
     Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
     Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
     Server vmStatuschecker(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
     Stack terminateStack(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
     Stack snapshotStack(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
     Stack restoreStack(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
+    Server attachVolume(Map<String, String> params, SvcLogicContext ctx)  throws APPCException;
+    Server dettachVolume(Map<String, String> params, SvcLogicContext ctx)  throws APPCException;
     /**
      * This method is used to do the lookup of the indicated server
      * <p>
@@ -271,7 +251,6 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be found for some reason
      */
     Server lookupServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
-
     /**
      * The
      *
@@ -284,5 +263,4 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be restarted for some reason
      */
     Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
 }
