@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f88ed5cf",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_98bd516b",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b8c04de1",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_58b7c986",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_78bac56f",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_38ac3d35",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d8aaf918",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/interfaceImpl/TestInstarResponseHandlerImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_98647123",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/node/TestInstarClientNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b867ed24",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/node/TestInstarClientNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-10T17:02:53Z",
+      "side": 1,
+      "message": "Horizontal white space should be removed here",
+      "revId": "6a07a752f8e8e6623ce0dfdb4e71b6c2563cf07d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
