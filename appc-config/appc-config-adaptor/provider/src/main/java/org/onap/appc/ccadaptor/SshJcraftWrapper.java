@@ -54,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
+import org.apache.commons.lang.StringUtils;
 
 public class SshJcraftWrapper {
 
@@ -375,7 +376,7 @@ public class SshJcraftWrapper {
         String fnName = "SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter:::";
         int x;
         int c;
-        String str = null;
+        String str = StringUtils.EMPTY;
 
         if (jcraftReadSwConfigFileFromDisk()) {
             DebugLog.printAriDebug(fnName, "jcraftReadSwConfigFileFromDisk block");
