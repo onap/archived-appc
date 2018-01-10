@@ -21,9 +21,7 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-
 package org.onap.appc.adapter.iaas.provider.operation.common.enums;
-
 /**
  * @since September 26, 2016
  */
@@ -92,5 +90,15 @@ public enum Operation {
         public String toString() {
             return "restoreStack";
         }
-    }
+    },
+    ATTACHVOLUME_SERVICE {
+        public String toString(){
+            return "attachVolume";
+        }
+    },
+    DETACHVOLUME_SERVICE {
+        public String toString(){
+            return "dettachVolume";
+        }
+    },
 }

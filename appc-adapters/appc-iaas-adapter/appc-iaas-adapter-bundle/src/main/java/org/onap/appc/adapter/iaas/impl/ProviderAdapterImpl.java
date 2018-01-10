@@ -21,8 +21,6 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-
-
 package org.onap.appc.adapter.iaas.impl;
 
 import org.onap.appc.Constants;
@@ -47,7 +45,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 /**
  * This class implements the {@link ProviderAdapter} interface. This interface defines the behaviors that our service
  * provides.
@@ -61,7 +58,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
      * The default domain name for authentication
      */
     public static final String DEFAULT_DOMAIN_NAME = "Default";
-
     /**
      * The logger to be used
      */
@@ -70,25 +66,20 @@ public class ProviderAdapterImpl implements ProviderAdapter {
      * A reference to the adapter configuration object.
      */
     private Configuration configuration;
-
     /**
      * reference to operation factory
      */
     ProviderOperationFactory factory = ProviderOperationFactory.getInstance();
-
     /**
      * A cache of providers that are predefined.
      */
     private Map<String /* provider name */, ProviderCache> providerCache;
-
     /**
      * The username, password, and domain to use for dynamically created connections
      */
     private static String DEFAULT_USER;
     private static String DEFAULT_PASS;
     private static String DEFAULT_DOMAIN;
-
-
     /**
      * This default constructor is used as a work around because the activator wasnt getting called
      */
@@ -97,7 +88,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         initialize();
 
     }
-
     /**
      * This constructor is used primarily in the test cases to bypass initialization of the adapter for isolated,
      * disconnected testing
@@ -111,7 +101,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
             initialize();
         }
     }
-
     /**
      * @param props not used
      */
@@ -119,10 +108,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         initialize();
 
     }
-
     @Override
     public Server restartServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.RESTART_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -130,10 +117,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server stopServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.STOP_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -141,10 +126,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server startServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.START_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -152,10 +135,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server rebuildServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.REBUILD_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -163,10 +144,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server terminateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.TERMINATE_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -174,10 +153,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server evacuateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.EVACUATE_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -187,10 +164,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         ((EvacuateServer) op).setProvideAdapterRef(this);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server migrateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.MIGRATE_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -198,10 +173,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Server vmStatuschecker(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.VMSTATUSCHECK_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -209,10 +182,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Stack terminateStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.TERMINATE_STACK);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -220,10 +191,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
     }
-
     @Override
     public Stack snapshotStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.SNAPSHOT_STACK);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -231,10 +200,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
     }
-
     @Override
     public Stack restoreStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.RESTORE_STACK);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -242,10 +209,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
     }
-
     @Override
     public Server lookupServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.LOOKUP_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -253,10 +218,8 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
     }
-
     @Override
     public Image createSnapshot(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         IProviderOperation op = factory.getOperationObject(Operation.SNAPSHOT_SERVICE);
         op.setProviderCache(this.providerCache);
         op.setDefaultPass(DEFAULT_PASS);
@@ -264,7 +227,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Image) op.doOperation(params, context);
     }
-
     /**
      * Returns the symbolic name of the adapter
      *
@@ -275,14 +237,11 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public String getAdapterName() {
         return configuration.getProperty(Constants.PROPERTY_ADAPTER_NAME);
     }
-
-
     /**
      * initialize the provider adapter by building the context cache
      */
     private void initialize() {
         configuration = ConfigurationFactory.getConfiguration();
-
         /*
          * Initialize the provider cache for all defined providers. The definition of the providers uses a structured
          * property set, where the names form a hierarchical name space (dotted notation, such as one.two.three). Each
@@ -301,7 +260,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         providerCache = new HashMap<>();
         Properties properties = configuration.getProperties();
         List<Node> providers = StructuredPropertyHelper.getStructuredProperties(properties, Property.PROVIDER);
-
         for (Node provider : providers) {
             ProviderCache cache = new ProviderCache();
             List<Node> providerNodes = provider.getChildren();
@@ -336,11 +294,9 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                                 break;
                         }
                     }
-
                     cache.addTenant(null, tenantName, userId, password, domain);
                 }
             }
-
             /*
              * Add the provider to the set of providers cached
              */
@@ -348,12 +304,27 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                 providerCache.put(null, cache);
                 providerCache.put(cache.getIdentityURL(), cache);
             }
-
             /*
              * Now, initialize the cache for the loaded provider
              */
             cache.initialize();
         }
     }
-
+    @Override
+    public Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+        // TODO Auto-generated method stub
+          IProviderOperation op = factory.getOperationObject(Operation.ATTACHVOLUME_SERVICE);
+            op.setProviderCache(this.providerCache);
+            op.setDefaultPass(DEFAULT_PASS);
+            op.setDefaultUser(DEFAULT_USER);
+            return (Server) op.doOperation(params, ctx);
+    }
+    @Override
+    public Server dettachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+         IProviderOperation op = factory.getOperationObject(Operation.DETACHVOLUME_SERVICE);
+            op.setProviderCache(this.providerCache);
+            op.setDefaultPass(DEFAULT_PASS);
+            op.setDefaultUser(DEFAULT_USER);
+            return (Server) op.doOperation(params, ctx);
+    }
 }
