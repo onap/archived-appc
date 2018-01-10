@@ -202,6 +202,7 @@ public class SshJcraftWrapper {
         String CmdThatWasSent = removeWhiteSpaceAndNewLineCharactersAroundString(cmdThatWasSent);
         int readCounts = 0;
         aggregatedReceivedString = "";
+        FileWriter fileWriter = null;
 
         long deadline = new Date().getTime() + timeout;
         try {
@@ -235,7 +236,8 @@ public class SshJcraftWrapper {
                             StringTokenizer st = new StringTokenizer(cmdThatWasSent);
                             st.nextToken();
                             routerFileName = st.nextToken();
-                            out = new BufferedWriter(new FileWriter(routerFileName));
+                            fileWriter = new FileWriter(routerFileName);
+                            out = new BufferedWriter(fileWriter);
                             routerLogFileName = "/tmp/" + RouterName;
                             _tmpFile = new File(routerLogFileName);
                             debugLog.printRTAriDebug(fn,
@@ -308,6 +310,14 @@ public class SshJcraftWrapper {
             debugLog.printRTAriDebug(fn, "Caught an IOException: ee=" + ee.toString());
             dbLog.outputStackTrace(ee);
             throw new TimedOutException(ee.toString());
+        } finally {
+            try {
+                if (fileWriter != null) {
+                    fileWriter.close();
+                }
+            } catch(IOException ex) {
+                debugLog.printRTAriDebug(fn, "Failed to close fileWriter output stream: ex=" + ex);
+            }
         }
         String result = stripOffCmdFromRouterResponse(sbReceive.toString());
         debugLog.printRTAriDebug(fn, "Leaving method successfully");
