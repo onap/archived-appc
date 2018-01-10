@@ -48,7 +48,7 @@ public class StateMachineFactoryTest {
                 new State("TestingState1"), new Event("TestingEvent1"), new State("TestingState2"));
 
         metadata = builder.build();
-    }
+      }
 
     @Test
     public void testGetStateMachine() throws Exception {

@@ -67,9 +67,10 @@ public class State {
     }
 
     void addTransition(Transition transition) {
+        if (transition != null) {
         this.transitions.add(transition);
     }
-
+  }
     public List<Transition> getTransitions() {
         return transitions;
     }
