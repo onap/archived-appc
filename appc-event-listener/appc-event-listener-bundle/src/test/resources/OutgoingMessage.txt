@@ -1,0 +1,14 @@
+{
+"eventID": "SomeEventID-TBD",
+
+"VMName": "test",
+"from": "appc@test",
+"message": "Some Text Here",
+"requestClient": "test",
+"requestTime": "0000-00-00 00:00:00.000000",
+"response": "PENDING",
+"responseTime": "0000-00-00 00:00:00.000000",
+
+"policyName": "RESTART",
+"policyVersion": "1"
+}

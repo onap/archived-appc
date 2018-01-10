@@ -115,10 +115,21 @@ public class ControllerImpl implements Controller {
             }
             itr.remove();
         }
+        // disable new tasks from being submitted
         executor.shutdown();
+        int timeout=300;
         try {
-            executor.awaitTermination(10, TimeUnit.SECONDS);
+            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+                LOG.error("Not all tasks completed execution after " + timeout + " seconds. " +
+                        "Attempting to stop all actively executing tasks.");
+                executor.shutdownNow();
+            }
+            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+                LOG.error("Could not terminate all tasks after " + (timeout*2) + " seconds.");
+            }
         } catch (InterruptedException e) {
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
         }
     }
 

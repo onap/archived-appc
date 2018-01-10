@@ -80,11 +80,6 @@ public class AppcEventListenerActivator implements BundleActivator {
     private Configuration configuration;
 
     /**
-     * The bundle context
-     */
-    private static BundleContext context;
-
-    /**
      * The reference to the actual implementation object that implements the services
      */
     private Controller adapter;
@@ -113,8 +108,6 @@ public class AppcEventListenerActivator implements BundleActivator {
     public void start(BundleContext ctx) throws Exception {
         LOG.info("Starting Bundle " + getName());
 
-        context = ctx;
-
         configuration = ConfigurationFactory.getConfiguration();
 
         Properties props = configuration.getProperties();
@@ -126,15 +119,13 @@ public class AppcEventListenerActivator implements BundleActivator {
         demoProps.setListenerClass(org.onap.appc.listener.demo.impl.ListenerImpl.class);
         listeners.add(demoProps);
 
-        // ===========================================================================
-
         ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
         clLCMProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
         listeners.add(clLCMProps);
 
         // Configure the OAM properties
         String oamPropKeyPrefix = "appc.OAM";
-        ListenerProperties oamProps  = new ListenerProperties(oamPropKeyPrefix, props);
+        ListenerProperties oamProps  = new ListenerProperties("appc.OAM", props);
         if (isAppcOamPropsListenerEnabled(oamProps)) {
             oamProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
             listeners.add(oamProps);
@@ -194,8 +185,14 @@ public class AppcEventListenerActivator implements BundleActivator {
     private boolean isAppcOamPropsListenerEnabled(ListenerProperties listenerProperties) {
         final Properties appcOamProperties = listenerProperties.getProperties();
 
-        return appcOamProperties == null
-                || !Boolean.parseBoolean(appcOamProperties.getProperty(
-                        ListenerProperties.KEYS.DISABLED.getPropertySuffix()));
+        boolean result;
+        if (appcOamProperties == null) {
+            result = true;
+        } else {
+            result = !Boolean.parseBoolean(appcOamProperties.getProperty(
+                    ListenerProperties.KEYS.DISABLED.getPropertySuffix()));
+        }
+
+        return result;
     }
 }
