@@ -54,6 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
+import org.apache.commons.lang.StringUtils;
 
 public class SshJcraftWrapper {
 
@@ -375,7 +376,7 @@ public class SshJcraftWrapper {
         String fnName = "SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter:::";
         int x;
         int c;
-        String str = null;
+        String str = StringUtils.EMPTY;
 
         if (jcraftReadSwConfigFileFromDisk()) {
             DebugLog.printAriDebug(fnName, "jcraftReadSwConfigFileFromDisk block");
@@ -1065,14 +1066,13 @@ public class SshJcraftWrapper {
             }
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
             debugLog.printRTAriDebug(fn, "Sent successfully");
-            sftpSession.disconnect();
-            sftpSession = null;
         } catch (Exception e) {
             debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
-            sftpSession.disconnect();
-            sftpSession = null;
-            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
             throw new IOException(e.toString());
+        } finally {
+            if(sftpSession != null) {
+                sftpSession.disconnect();
+            }
         }
     }
 
