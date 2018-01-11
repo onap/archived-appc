@@ -29,7 +29,6 @@ package org.onap.appc.adapter.ansible.model;
  * based on the REST API specifications
  */
 
-import java.lang.NumberFormatException ;
 import java.util.*;
 import com.google.common.base.Strings;
 
