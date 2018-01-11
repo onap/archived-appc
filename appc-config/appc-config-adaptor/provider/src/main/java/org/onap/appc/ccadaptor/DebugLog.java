@@ -29,53 +29,34 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class DebugLog {
+public final class DebugLog {
 
-    private static String fileName = "/tmp/rt.log";
+    public static final String LOG_FILE = "/tmp/rt.log";
+    private final Path path;
 
-    public static void main(String args[]) {
-        DebugLog debugLog = new DebugLog();
-        debugLog.printAriDebug("DebugLog", "The Message");
+    public DebugLog(Path path) {
+        this.path = path;
     }
 
-    public static void printAriDebug(String fn, String messg) {
-        String logMessg = getDateTime() + " " + fn + " " + messg;
-        appendToFile(logMessg + "\n");
-
+    public void printRTAriDebug(String methodName, String message) {
+        writeToLogFile(methodName, message);
     }
 
-    public static void printRTAriDebug(String fn, String messg) {
-        // System.out.println (getDateTime() +" " +fn +" " + messg);
-        String logMessg = getDateTime() + " " + fn + " " + messg;
-        appendToFile(logMessg + "\n");
-    }
-
-    public static String getDateTime() {
+    private String currentDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        // DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date();
-        return dateFormat.format(date);
+        return dateFormat.format(new Date());
     }
 
-    public static void appendToFile(String dataToWrite) {
-        String fn = "DebugLog.appendToFile";
-        try {
-            // First check to see if a file 'fileName' exist, if it does
-            // write to it. If it does not exist, don't write to it.
-            File tmpFile = new File(fileName);
-            if (tmpFile.exists()) {
-                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-                out.write(dataToWrite);
-                out.close();
-            }
+    private void appendToFile(File logPath, String dataToWrite) {
+        try (BufferedWriter out = new BufferedWriter(new FileWriter(logPath, true))) {
+            out.write(dataToWrite);
         } catch (IOException e) {
-            DebugLog.printRTAriDebug(fn, "writeToFile() exception: " + e);
-            //System.err.println("writeToFile() exception: " + e);
             e.printStackTrace();
         }
     }
@@ -85,15 +66,26 @@ public class DebugLog {
         StringWriter sw = new StringWriter();
         e.printStackTrace(new PrintWriter(sw));
         String stackTrace = sw.toString();
-        DebugLog.printRTAriDebug(fn, "Stack trace::: " + stackTrace);
+        writeToLogFile(fn, "Stack trace::: " + stackTrace);
     }
 
-    public static String getStackTraceString(Exception e) {
-        String fn = "DebugLog.outputStackTrace";
-        StringWriter sw = new StringWriter();
-        e.printStackTrace(new PrintWriter(sw));
-        String stackTrace = sw.toString();
-        return (stackTrace);
+    private void writeToLogFile(String methodName, String message) {
+        File logPath = path.toFile();
+        if (logPath.exists()) {
+            StringBuilder logMessageBuilder = createLogMessage(methodName, message);
+            appendToFile(logPath, logMessageBuilder.toString());
+        }
     }
 
+    private StringBuilder createLogMessage(String methodName, String message) {
+        StringBuilder logMessageBuilder = new StringBuilder();
+        logMessageBuilder
+            .append(currentDateTime())
+            .append(" ")
+            .append(methodName)
+            .append(" ")
+            .append(message)
+            .append('\n');
+        return logMessageBuilder;
+    }
 }

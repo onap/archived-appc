@@ -35,86 +35,74 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-public class CCAActivator implements BundleActivator
-{
+public class CCAActivator implements BundleActivator {
 
-  private static final String CCA_PROP_FILE_VAR = "SDNC_CCA_PROPERTIES";
-  private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    private static final String CCA_PROP_FILE_VAR = "SDNC_CCA_PROPERTIES";
+    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
 
-  @SuppressWarnings("rawtypes")
-  private ServiceRegistration registration = null;
+    @SuppressWarnings("rawtypes")
+    private ServiceRegistration registration = null;
 
-  //private static final Logger log = LoggerFactory.getLogger(CCAActivator.class);
-  private static final EELFLogger log = EELFManager.getInstance().getLogger(CCAActivator.class);
+    //private static final Logger log = LoggerFactory.getLogger(CCAActivator.class);
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(CCAActivator.class);
 
-  @Override
-  public void start(BundleContext ctx) throws Exception
-  {
-    // Read properties
-    Properties props = new Properties();
+    @Override
+    public void start(BundleContext ctx) throws Exception {
+        // Read properties
+        Properties props = new Properties();
 
-    // Read properties from appc-config-adaptor.properties
-    String propFileName = System.getenv(CCA_PROP_FILE_VAR);
-    if (propFileName == null)
-    {
-      String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
-      if (propDir == null)
-        throw new ConfigurationException(
-          "Cannot find config file - " + CCA_PROP_FILE_VAR + " and " + SDNC_CONFIG_DIR_VAR + " unset");
+        // Read properties from appc-config-adaptor.properties
+        String propFileName = System.getenv(CCA_PROP_FILE_VAR);
+        if (propFileName == null) {
+            String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
+            if (propDir == null) {
+                throw new ConfigurationException(
+                    "Cannot find config file - " + CCA_PROP_FILE_VAR + " and " + SDNC_CONFIG_DIR_VAR + " unset");
+            }
 
-      propFileName = propDir + "/appc-config-adaptor.properties";
-      log.warn("Environment variable " + CCA_PROP_FILE_VAR + " unset - defaulting to " + propFileName);
-    }
+            propFileName = propDir + "/appc-config-adaptor.properties";
+            log.warn("Environment variable " + CCA_PROP_FILE_VAR + " unset - defaulting to " + propFileName);
+        }
 
-    File propFile = new File(propFileName);
-    if (!propFile.exists())
-      throw new ConfigurationException("Missing configuration properties file: " + propFile);
+        File propFile = new File(propFileName);
+        if (!propFile.exists()) {
+            throw new ConfigurationException("Missing configuration properties file: " + propFile);
+        }
 
-    InputStream in = new FileInputStream(propFile);
-    try
-    {
-      props.load(in);
-    }
-    catch (Exception e)
-    {
-      throw new ConfigurationException("Could not load properties file " + propFileName, e);
-    }
-    finally
-    {
-      try
-      {
-        in.close();
-      }
-      catch (Exception e)
-      {
-        log.warn("Could not close FileInputStream", e);
-      }
-    }
+        InputStream in = new FileInputStream(propFile);
+        try {
+            props.load(in);
+        } catch (Exception e) {
+            throw new ConfigurationException("Could not load properties file " + propFileName, e);
+        } finally {
+            try {
+                in.close();
+            } catch (Exception e) {
+                log.warn("Could not close FileInputStream", e);
+            }
+        }
 
-    log.info("Loaded properties: ");
+        log.info("Loaded properties: ");
     /*for (Object key : props.keySet())
     {
       Object value = props.get(key);
       log.info("    " + key + "=" + value);
     }*/
 
-    // Advertise adaptor
-    ConfigComponentAdaptor adaptor = new ConfigComponentAdaptor(props);
-    if (registration == null)
-    {
-      log.info("Registering service " + ConfigComponentAdaptor.class.getName());
-      registration = ctx.registerService(ConfigComponentAdaptor.class.getName(), adaptor, null);
+        // Advertise adaptor
+        ConfigComponentAdaptor adaptor = new ConfigComponentAdaptor(props);
+        if (registration == null) {
+            log.info("Registering service " + ConfigComponentAdaptor.class.getName());
+            registration = ctx.registerService(ConfigComponentAdaptor.class.getName(), adaptor, null);
+        }
+
     }
 
-  }
-
-  @Override
-  public void stop(BundleContext ctx) throws Exception
-  {
-    if (registration != null)
-    {
-      registration.unregister();
-      registration = null;
+    @Override
+    public void stop(BundleContext ctx) throws Exception {
+        if (registration != null) {
+            registration.unregister();
+            registration = null;
+        }
     }
-  }
 }
