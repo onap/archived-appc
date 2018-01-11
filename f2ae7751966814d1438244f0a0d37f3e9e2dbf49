@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_1eb1298f",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T15:29:29Z",
+      "side": 1,
+      "message": "Optional - would be nice touch to eliminate the tabs in existing code while you have the code open for modifications.",
+      "revId": "f2ae7751966814d1438244f0a0d37f3e9e2dbf49",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7e5e2d78",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T15:29:29Z",
+      "side": 1,
+      "message": "The message on this line has two formats in the original code.   I think this is the correct version \"Ansible: Mandatory AnsibleAdapter key % value is Null or Empty\"",
+      "revId": "f2ae7751966814d1438244f0a0d37f3e9e2dbf49",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fea55d47",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T15:29:29Z",
+      "side": 1,
+      "message": "Same observation, would be nice to format existing code (tabs, indentation) while you have the file open for modifications.",
+      "revId": "f2ae7751966814d1438244f0a0d37f3e9e2dbf49",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
