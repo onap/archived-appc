@@ -29,282 +29,169 @@ package org.onap.appc.adapter.ansible.model;
  * based on the REST API specifications
  */
 
-import java.lang.NumberFormatException ;
 import java.util.*;
+
 import com.google.common.base.Strings;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.onap.appc.exceptions.APPCException;
-import org.onap.appc.adapter.ansible.model.AnsibleResult;
-
 
 /**
- * Class that validates and constructs requests sent/received from 
+ * Class that validates and constructs requests sent/received from
  * Ansible Server
- *
  */
 public class AnsibleMessageParser {
 
+    private static final String STATUS_MESSAGE_KEY = "StatusMessage";
+    private static final String STATUS_CODE_KEY = "StatusCode";
 
+    private static final String PLAYBOOK_NAME_KEY = "PlaybookName";
+    private static final String AGENT_URL_KEY = "AgentUrl";
+    private static final String PASS_KEY = "Password";
+    private static final String USER_KEY = "User";
+    private static final String ID_KEY = "Id";
 
+    private static final String LOCAL_PARAMETERS_OPT_KEY = "LocalParameters";
+    private static final String FILE_PARAMETERS_OPT_KEY = "FileParameters";
+    private static final String ENV_PARAMETERS_OPT_KEY = "EnvParameters";
+    private static final String NODE_LIST_OPT_KEY = "NodeList";
+    private static final String TIMEOUT_OPT_KEY = "Timeout";
+    private static final String VERSION_OPT_KEY = "Version";
+    private static final String ACTION_OPT_KEY = "Action";
 
-    // Accepts a map of strings and
-    // a) validates if all parameters are appropriate (else, throws an exception)
-    // and b) if correct returns a JSON object with appropriate key-value
-    // pairs to send to the server. 
-    public JSONObject ReqMessage(Map <String, String> params) throws APPCException, NumberFormatException, JSONException{
+    /**
+     * Accepts a map of strings and
+     * a) validates if all parameters are appropriate (else, throws an exception) and
+     * b) if correct returns a JSON object with appropriate key-value pairs to send to the server.
+     *
+     * Mandatory  parameters, that must be in the supplied information to the Ansible Adapter
+     * 1. URL to connect to
+     * 2. credentials for URL (assume username password for now)
+     * 3. Playbook name
+     *
+     */
+    public JSONObject reqMessage(Map<String, String> params) throws APPCException {
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY };
+        final String[] optionalTestParams = { ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
+            TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY };
 
-	// Mandatory  parameters, that must be in the supplied information to the Ansible Adapter
-	// 1. URL to connect to
-	// 2. credentials for URL (assume username password for now)
-	// 3. Playbook name
-	String[] mandatoryTestParams = {"AgentUrl", "PlaybookName", "User", "Password"};
+        JSONObject jsonPayload = new JSONObject();
 
-	// Optional testService parameters that may be provided in the request
-	String[] optionalTestParams = {"EnvParameters", "NodeList", "LocalParameters", "Timeout", "Version", "FileParameters", "Action"};
+        for (String key : mandatoryTestParams) {
+            throwIfMissingMandatoryParam(params, key);
+            jsonPayload.put(key, params.get(key));
+        }
 
-	JSONObject JsonPayload = new JSONObject();
-	String payload = "";
-	JSONObject paramsJson;
+        parseOptionalParams(params, optionalTestParams, jsonPayload);
 
-  
-	// Verify all the mandatory parameters are there 
-	for (String key: mandatoryTestParams){
-	    if (! params.containsKey(key)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));
-	    }
-	    payload = params.get(key);
-	    if (Strings.isNullOrEmpty(payload)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key % value is Null or Emtpy", key));
-	    }
-	    
-	    JsonPayload.put(key, payload);
-	}
+        // Generate a unique uuid for the test
+        String reqId = UUID.randomUUID().toString();
+        jsonPayload.put(ID_KEY, reqId);
 
-	// Iterate through optional parameters
-	// If null or empty omit it 
-	for (String key : optionalTestParams){
-	    if (params.containsKey(key)){
-		payload = params.get(key);
-		if(!Strings.isNullOrEmpty(payload)){
-		    
-		    // different cases require different treatment
-		    switch (key){
-		    case "Timeout": 
-			int Timeout = Integer.parseInt(payload);
-			if (Timeout < 0){
-			    throw new NumberFormatException(" : specified negative integer for timeout = " +  payload);
-			}
-			JsonPayload.put(key, payload);
-			break;
-
-		    case "Version": 
-			JsonPayload.put(key, payload);
-			break;
-
-		    case "LocalParameters":  
-			paramsJson = new JSONObject(payload);
-			JsonPayload.put(key, paramsJson);
-			break;
-			
-		    case "EnvParameters":  
-			paramsJson = new JSONObject(payload);
-			JsonPayload.put(key, paramsJson);
-			break;
-			
-		    case "NodeList":  
-			JSONArray paramsArray = new JSONArray(payload);
-			JsonPayload.put(key, paramsArray);
-			break;
-			
-		    case "FileParameters":
-			// Files may have strings with newlines. Escape them as appropriate
-			String formattedPayload = payload.replace("\n", "\\n").replace("\r", "\\r");
-			JSONObject fileParams = new JSONObject(formattedPayload);
-			JsonPayload.put(key, fileParams);
-			break;
-			
-		    }
-		}
-	    }
-	}
-	
-
-	// Generate a unique uuid for the test
-	String ReqId = UUID.randomUUID().toString();
-	JsonPayload.put("Id", ReqId);
-
-	return JsonPayload;
-	
+        return jsonPayload;
     }
 
+    /**
+     * Method that validates that the Map has enough information
+     * to query Ansible server for a result. If so, it returns
+     * the appropriate url, else an empty string.
+     */
+    public String reqUriResult(Map<String, String> params) throws APPCException {
 
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
 
-    // method that validates that the Map has  enough information
-    // to query Ansible server for a result . If so, it
-    // returns the appropriate url, else an empty string
-    public String ReqUri_Result(Map <String, String> params) throws APPCException, NumberFormatException{
-	
-	// Mandatory  parameters, that must be in the request
-	String[] mandatoryTestParams = {"AgentUrl", "Id", "User", "Password" };
-	
-	// Verify all the mandatory parameters are there
-	String payload = "";
-	String Uri = "";
-	
-	for (String key: mandatoryTestParams){
-	    if (! params.containsKey(key)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));		    
-	    }
-
-	    payload = params.get(key);
-	    if (Strings.isNullOrEmpty(payload)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));		    
-	    }
-
-	}
-
-	Uri = params.get("AgentUrl") + "?Id=" + params.get("Id") + "&Type=GetResult";
-
-	return Uri;
-      
+        for (String key : mandatoryTestParams) {
+            throwIfMissingMandatoryParam(params, key);
+        }
+        return params.get(AGENT_URL_KEY) + "?Id=" + params.get(ID_KEY) + "&Type=GetResult";
     }
 
+    /**
+     * Method that validates that the Map has enough information
+     * to query Ansible server for logs. If so, it populates the
+     * appropriate returns the appropriate url, else an empty string.
+     */
+    public String reqUriOutput(Map<String, String> params) throws APPCException {
 
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
 
-    // method that validates that the Map has  enough information
-    // to query Ansible server for logs. If so, it populates the appropriate
-    // returns the appropriate url, else an empty string
-    public String ReqUri_Output(Map <String, String> params) throws APPCException, NumberFormatException{
-	
-	
-	// Mandatory  parameters, that must be in the request
-	String[] mandatoryTestParams = {"AgentUrl", "Id", "User", "Password" };
-	
-	// Verify all the mandatory parameters are there
-	String payload = "";
-	String Uri = "";
-	
-	for (String key: mandatoryTestParams){
-	    if (! params.containsKey(key)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));		    
-	    }
-	    payload = params.get(key);
-	    if (Strings.isNullOrEmpty(payload)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));		    
-	    }
-
-	}
-
-	Uri = params.get("AgentUrl") + "?Id=" + params.get("Id") + "&Type=GetOutput";
-	return Uri;
-      
+        for (String mandatoryParam : mandatoryTestParams) {
+            throwIfMissingMandatoryParam(params, mandatoryParam);
+        }
+        return params.get(AGENT_URL_KEY) + "?Id=" + params.get(ID_KEY) + "&Type=GetOutput";
     }
 
-    // method that validates that the Map has  enough information
-    // to query Ansible server for logs. If so, it populates the appropriate
-    // returns the appropriate url, else an empty string
-    public String ReqUri_Log(Map <String, String> params) throws APPCException, NumberFormatException{
-	
-	
-	// Mandatory  parameters, that must be in the request
-	String[] mandatoryTestParams = {"AgentUrl", "Id", "User", "Password" };
-	
-	// Verify all the mandatory parameters are there
-	String payload = "";
-	String Uri = "";
-	
-	for (String key: mandatoryTestParams){
-	    if (! params.containsKey(key)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));		    
-	    }
-	    payload = params.get(key);
-	    if (Strings.isNullOrEmpty(payload)){
-		throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));		    
-	    }
+    /**
+     * Method that validates that the Map has enough information
+     * to query Ansible server for logs. If so, it populates the appropriate
+     * returns the appropriate url, else an empty string.
+     */
+    public String reqUriLog(Map<String, String> params) throws APPCException {
 
-	}
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
 
-	Uri = params.get("AgentUrl") + "?Id=" + params.get("Id") + "&Type=GetLog";
-	return Uri;
-      
+        for (String mandatoryParam : mandatoryTestParams) {
+            throwIfMissingMandatoryParam(params, mandatoryParam);
+        }
+        return params.get(AGENT_URL_KEY) + "?Id=" + params.get(ID_KEY) + "&Type=GetLog";
     }
 
-   
-    /** 
-	This method parses response from the 
-	Ansible Server when we do a post 
-	and returns an AnsibleResult object
-    **/
-    
-    public AnsibleResult  parsePostResponse(String Input) throws APPCException{
+    /**
+     * This method parses response from the Ansible Server when we do a post
+     * and returns an AnsibleResult object.
+     */
+    public AnsibleResult parsePostResponse(String input) throws APPCException {
+        AnsibleResult ansibleResult;
+        try {
+            JSONObject postResponse = new JSONObject(input);
 
-	AnsibleResult ansibleResult = new AnsibleResult();
-	
-	try{
-	    //Jsonify it
-	    JSONObject  postResponse = new JSONObject(Input);
-		
-	    // Mandatory keys required are StatusCode and StatusMessage
-	    int Code = postResponse.getInt("StatusCode");
-	    String Message = postResponse.getString("StatusMessage");
+            int code = postResponse.getInt(STATUS_CODE_KEY);
+            String msg = postResponse.getString(STATUS_MESSAGE_KEY);
 
-	    
-	    // Status code must must be either 100 (accepted) or 101 (rejected)
-	    boolean valCode = AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.INITRESPONSE.getValue(), Code);
-	    if(!valCode){
-		throw new APPCException("Invalid InitResponse code  = " + Code + " received. MUST be one of " + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.INITRESPONSE.getValue()) );
-	    }
-	    
-	    ansibleResult.setStatusCode(Code);
-	    ansibleResult.setStatusMessage(Message);
+            int initResponseValue = AnsibleResultCodes.INITRESPONSE.getValue();
+            boolean validCode = AnsibleResultCodes.CODE.checkValidCode(initResponseValue, code);
+            if (!validCode) {
+                throw new APPCException("Invalid InitResponse code  = " + code + " received. MUST be one of " + AnsibleResultCodes.CODE.getValidCodes(initResponseValue));
+            }
 
-	}
-	catch(JSONException e){
-	    ansibleResult = new AnsibleResult(600, "Error parsing response = " + Input + ". Error = " + e.getMessage(), "");
-	}
+            ansibleResult = new AnsibleResult(code, msg);
 
-	
-	return ansibleResult;
+        } catch (JSONException e) {
+            ansibleResult = new AnsibleResult(600, "Error parsing response = " + input + ". Error = " + e.getMessage());
+        }
+        return ansibleResult;
     }
 
-
-    /** This method  parses response from an Ansible server when we do a GET for a result 
-	and returns an AnsibleResult object
+    /**
+     * This method parses response from an Ansible server when we do a GET for a result
+     * and returns an AnsibleResult object.
      **/
-    public AnsibleResult  parseGetResponse(String Input) throws APPCException {
+    public AnsibleResult  parseGetResponse(String input) throws APPCException {
 
 	AnsibleResult ansibleResult = new AnsibleResult();
-	int FinalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
-
+	int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
 
 	try{
+	    JSONObject  postResponse = new JSONObject(input);
 	    
-	    //Jsonify it
-	    JSONObject  postResponse = new JSONObject(Input);
+	    int codeStatus = postResponse.getInt(STATUS_CODE_KEY);
+	    String messageStatus = postResponse.getString(STATUS_MESSAGE_KEY);
 	    
-	    // Mandatory keys required are Status and Message
-	    int Code = postResponse.getInt("StatusCode");
-	    String Message = postResponse.getString("StatusMessage");
-	    
-	    // Status code must be valid
-	    // Status code must must be either 100 (accepted) or 101 (rejected)
-	    boolean valCode = AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), Code);
+	    boolean valCode = AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), codeStatus);
 	    
 	    if(!valCode){
-		throw new APPCException("Invalid FinalResponse code  = " + Code + " received. MUST be one of " + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.FINALRESPONSE.getValue()));
+		throw new APPCException("Invalid FinalResponse code  = " + codeStatus + " received. MUST be one of " + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.FINALRESPONSE.getValue()));
 	    }
 
-	    
-	    ansibleResult.setStatusCode(Code);
-	    ansibleResult.setStatusMessage(Message);
-	    System.out.println("Received response with code = " + Integer.toString(Code) + " Message = " + Message);
+	    ansibleResult.setStatusCode(codeStatus);
+	    ansibleResult.setStatusMessage(messageStatus);
+	    System.out.println("Received response with code = " + Integer.toString(codeStatus) + " Message = " + messageStatus);
 
 	    if(! postResponse.isNull("Results")){
 
-		// Results are available. process them 
+		// Results are available. process them
 		// Results is a dictionary of the form
 		// {host :{status:s, group:g, message:m, hostname:h}, ...}
 		System.out.println("Processing results in response");
@@ -318,14 +205,14 @@ public class AnsibleMessageParser {
 		    System.out.println("Processing host = " + host);
 		    
 		    try{
-			JSONObject host_response = results.getJSONObject(host);
-			int subCode = host_response.getInt("StatusCode");
-			String message = host_response.getString("StatusMessage");
+			JSONObject hostResponse = results.getJSONObject(host);
+			int subCode = hostResponse.getInt(STATUS_CODE_KEY);
+			String message = hostResponse.getString(STATUS_MESSAGE_KEY);
 
 			System.out.println("Code = " + Integer.toString(subCode) + " Message = " + message);
 			
 			if(subCode != 200 || ! message.equals("SUCCESS")){
-			    FinalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
+			    finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
 			}
 		    }
 		    catch(JSONException e){
@@ -335,7 +222,7 @@ public class AnsibleMessageParser {
 		    }
 		}
 
-		ansibleResult.setStatusCode(FinalCode);
+		ansibleResult.setStatusCode(finalCode);
 
 		// We return entire Results object as message
 		ansibleResult.setResults(results.toString());
@@ -349,16 +236,73 @@ public class AnsibleMessageParser {
 	    
 	}
 	catch(JSONException e){
-	    ansibleResult = new AnsibleResult(AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error parsing response = " + Input + ". Error = " + e.getMessage(), "");
+	    ansibleResult = new AnsibleResult(AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error parsing response = " + input + ". Error = " + e.getMessage(), "");
 	}
 
 
 	return ansibleResult;
     }
 
+    private void parseOptionalParams(Map<String, String> params, String[] optionalTestParams, JSONObject jsonPayload) {
 
+        Set<String> optionalParamsSet = new HashSet<>();
+        Collections.addAll(optionalParamsSet, optionalTestParams);
 
-};    
-	    
+        params.entrySet()
+            .stream()
+            .filter(entry -> optionalParamsSet.contains(entry.getKey()))
+            .filter(entry -> !Strings.isNullOrEmpty(entry.getValue()))
+            .forEach(entry -> parseOptionalParam(entry, jsonPayload));
+    }
+
+    private void parseOptionalParam(Map.Entry<String, String> params, JSONObject jsonPayload) {
+        String key = params.getKey();
+        String payload = params.getValue();
+
+        switch (key) {
+            case TIMEOUT_OPT_KEY:
+                int timeout = Integer.parseInt(payload);
+                if (timeout < 0) {
+                    throw new NumberFormatException(" : specified negative integer for timeout = " + payload);
+                }
+                jsonPayload.put(key, payload);
+                break;
+
+            case VERSION_OPT_KEY:
+                jsonPayload.put(key, payload);
+                break;
+
+            case LOCAL_PARAMETERS_OPT_KEY:
+            case ENV_PARAMETERS_OPT_KEY:
+                JSONObject paramsJson = new JSONObject(payload);
+                jsonPayload.put(key, paramsJson);
+                break;
+
+            case NODE_LIST_OPT_KEY:
+                JSONArray paramsArray = new JSONArray(payload);
+                jsonPayload.put(key, paramsArray);
+                break;
+
+            case FILE_PARAMETERS_OPT_KEY:
+                // Files may have strings with newlines. Escape them as appropriate
+                String formattedPayload = payload.replace("\n", "\\n").replace("\r", "\\r");
+                JSONObject fileParams = new JSONObject(formattedPayload);
+                jsonPayload.put(key, fileParams);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void throwIfMissingMandatoryParam(Map<String, String> params, String key) throws APPCException {
+        if (!params.containsKey(key)) {
+            throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));
+        }
+        if (Strings.isNullOrEmpty(params.get(key))) {
+            throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));
+        }
+    }
+}
 	    
 

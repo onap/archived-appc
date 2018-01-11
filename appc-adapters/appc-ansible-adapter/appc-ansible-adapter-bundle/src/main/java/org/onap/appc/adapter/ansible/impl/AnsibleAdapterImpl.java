@@ -256,7 +256,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         try {
             // create json object to send request
-            JsonPayload = messageProcessor.ReqMessage(params);
+            JsonPayload = messageProcessor.reqMessage(params);
 
             AgentUrl = (String) JsonPayload.remove("AgentUrl");
             User = (String) JsonPayload.remove("User");
@@ -325,7 +325,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         String ReqUri = "";
 
         try {
-            ReqUri = messageProcessor.ReqUri_Result(params);
+            ReqUri = messageProcessor.reqUriResult(params);
             System.out.println("Got uri = " + ReqUri);
         } catch (APPCException e) {
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error constructing request to retreive result due to missing parameters. Reason = " + e.getMessage());
@@ -393,7 +393,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         // Get uri
         String ReqUri = "";
         try {
-            ReqUri = messageProcessor.ReqUri_Log(params);
+            ReqUri = messageProcessor.reqUriLog(params);
             logger.info("Retreiving results from " + ReqUri);
         } catch (Exception e) {
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), e.getMessage());
