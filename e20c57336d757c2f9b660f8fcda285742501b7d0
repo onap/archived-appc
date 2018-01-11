@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_89ce61b3",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/MigrateServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-11T18:51:04Z",
+      "side": 1,
+      "message": "According to the onap style guide, wild card imports are never used.",
+      "revId": "e20c57336d757c2f9b660f8fcda285742501b7d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
