@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,27 +20,22 @@
 
 package org.onap.appc.data.services.node;
 
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
+import org.onap.appc.data.services.AppcDataServiceConstant;
+import org.onap.appc.data.services.db.DGGeneralDBService;
+import org.onap.appc.data.services.utils.EscapeUtils;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
-
-import org.onap.appc.data.services.AppcDataServiceConstant;
-import org.onap.appc.data.services.AppcDataServiceConstant.ACTIONS;
-import org.onap.appc.data.services.db.DGGeneralDBService;
-import org.onap.appc.data.services.utils.EscapeUtils;
-
-import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
@@ -54,7 +49,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
             QueryStatus status = db.getConfigFileReferenceByFileTypeNVnfType(ctx, "configfilereference-deviceconfig",
                     "device_configuration");
@@ -101,7 +96,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
             QueryStatus status = db.getDeviceProtocolByVnfType(ctx, "tmp.deviceinterfaceprotocol");
@@ -122,8 +117,6 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
 
 
-
-
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
             log.info("getCommonConfigInfo Successful ");
@@ -138,7 +131,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     }
 
 
-    // fileCategory Can be  config_template, parameter_definitions, parameter_yang
+    // fileCategory Can be config_template, parameter_definitions, parameter_yang
     public void getTemplate(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
 
         log.info("Received getTemplate call with params : " + inParams);
@@ -152,7 +145,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix1 = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix1 = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             log.info("RESPONSEPREFIX : " + responsePrefix);
             log.info("RESPONSEPREFIX1 : " + responsePrefix1);
 
@@ -160,13 +153,13 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             if (StringUtils.isBlank(templateName)) {
 
-                //if ( !StringUtils.isBlank(ctx.getAttribute("vnfc-type"))) {
+                // if ( !StringUtils.isBlank(ctx.getAttribute("vnfc-type"))) {
 
 
                 status = db.getTemplate(ctx, responsePrefix, fileCategory);
                 if (status == QueryStatus.FAILURE)
-                    throw new Exception("Unable to Read " + fileCategory );
-                //}
+                    throw new Exception("Unable to Read " + fileCategory);
+                // }
 
                 if (status == QueryStatus.NOT_FOUND) {
 
@@ -174,14 +167,14 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
                     status = db.getTemplateByVnfTypeNAction(ctx, responsePrefix, fileCategory);
 
                     if (status == QueryStatus.FAILURE)
-                        throw new Exception("Unable to Read " + fileCategory );
+                        throw new Exception("Unable to Read " + fileCategory);
 
                     if (status == QueryStatus.NOT_FOUND) {
 
-                        //status = db.getTemplateByVnfType(ctx, responsePrefix, fileCategory);
+                        // status = db.getTemplateByVnfType(ctx, responsePrefix, fileCategory);
 
-                        //if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
-                            throw new Exception("Unable to Read " + fileCategory );
+                        // if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
+                        throw new Exception("Unable to Read " + fileCategory);
                     }
                 }
             } else {
@@ -214,7 +207,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
             QueryStatus status = db.saveConfigFiles(ctx, "tmp.configFiles");
 
@@ -252,7 +245,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
             ctx.setAttribute("tmp.escaped.devicerunningconfig",
@@ -262,16 +255,6 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Save configuration in upload_config");
-
-            /*status = db.getMaxUploadConfigFileId(ctx, "tmp.uploadconfigmax");
-
-            if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
-                throw new Exception("Unable to get record from upload_config");
-
-            status = db.updateUploadConfig(ctx, "tmp.uploadConfig",
-                    Integer.parseInt(ctx.getAttribute("tmp.uploadconfigmax.uploadconfigid")));
-            if (status == QueryStatus.FAILURE)
-                throw new Exception("Unable to upload upload_config");*/
 
             status = db.getUploadConfigInfo(ctx, "tmp.uploadConfigInfo");
 
@@ -305,7 +288,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         String fileId = inParams.get(AppcDataServiceConstant.INPUT_PARAM_FILE_ID);
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
             QueryStatus status = db.savePrepareRelationship(ctx, "tmp.preparerel", fileId, sdcArtifactInd);
@@ -333,9 +316,8 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
-            ctx.setAttribute("tmp.convertconfig.escapeData",
-                    EscapeUtils.escapeSql(ctx.getAttribute("configuration")));
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            ctx.setAttribute("tmp.convertconfig.escapeData", EscapeUtils.escapeSql(ctx.getAttribute("configuration")));
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
             if (StringUtils.isBlank(ctx.getAttribute("configuration-params"))) {
@@ -374,7 +356,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
             if (StringUtils.isBlank(ctx.getAttribute("configuration-params"))) {
@@ -414,7 +396,6 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
 
 
-
     public void saveStyleSheetConfig(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
 
 
@@ -424,18 +405,20 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             ctx.setAttribute("tmp.convertconfig.escapeData",
                     EscapeUtils.escapeSql(ctx.getAttribute("tmp.merge.mergedData")));
             saveDeviceConfiguration(inParams, ctx, "StyleSheet", ctx.getAttribute("tmp.convertconfig.escapeData"),
                     ctx.getAttribute("tmp.merge.mergedData"));
 
 
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS, AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
             log.info("saveStyleSheet Successful ");
         } catch (Exception e) {
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS, AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_ERROR_MESSAGE,e.getMessage());
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
             log.error("Failed in saveStyleSheet " + e.getMessage());
 
             throw new SvcLogicException(e.getMessage());
@@ -453,39 +436,41 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         QueryStatus status = null;
 
-        try{
+        try {
 
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
 
 
-            status = db.getTemplateByArtifactType(ctx,  "smm", "smm", siteLocation);
+            status = db.getTemplateByArtifactType(ctx, "smm", "smm", siteLocation);
 
-            if ( status == QueryStatus.FAILURE )
+            if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read smm file");
 
 
-            status = db.getTemplateByArtifactType(ctx,  "intermediate-ca-chain", "intermediate_ca_chain", siteLocation);
+            status = db.getTemplateByArtifactType(ctx, "intermediate-ca-chain", "intermediate_ca_chain", siteLocation);
 
-            if ( status == QueryStatus.FAILURE )
+            if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read intermediate_ca_chain file");
 
 
 
+            status = db.getTemplateByArtifactType(ctx, "server-certificate-and-key", "server_certificate_and_key",
+                    siteLocation);
 
-            status = db.getTemplateByArtifactType(ctx,  "server-certificate-and-key", "server_certificate_and_key", siteLocation);
-
-            if ( status == QueryStatus.FAILURE )
+            if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read server_certificate_and_key file");
 
 
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS, AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
             log.info("saveStyleSheet Successful ");
         } catch (Exception e) {
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS, AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_ERROR_MESSAGE,e.getMessage());
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
             log.error("Failed in saveStyleSheet " + e.getMessage());
 
             throw new SvcLogicException(e.getMessage());
@@ -518,7 +503,8 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     }
 
 
-    public void getConfigFilesByVnfVmNCategory(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getConfigFilesByVnfVmNCategory(Map<String, String> inParams, SvcLogicContext ctx)
+            throws SvcLogicException {
 
         log.info("Received getConfigFilesByVnfVmNCategory call with params : " + inParams);
 
@@ -537,10 +523,11 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
                 throw new Exception("Unable to get " + ctx.getAttribute("fileCategory") + " from configfiles");
 
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
-            log.info("getConfigFilesByVnfVmNCategory Successful " + ctx.getAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+            log.info("getConfigFilesByVnfVmNCategory Successful "
+                    + ctx.getAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
@@ -552,7 +539,8 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     }
 
 
-    public void getDownloadConfigTemplateByVnf(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getDownloadConfigTemplateByVnf(Map<String, String> inParams, SvcLogicContext ctx)
+            throws SvcLogicException {
 
         log.info("Received getDownloadConfigTemplateByVnfNProtocol call with params : " + inParams);
 
@@ -566,9 +554,11 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
                 throw new Exception("Unable to get download config template.");
 
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
-            log.info("getDownloadConfigTemplateByVnf Successful " + ctx.getAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+            log.info("getDownloadConfigTemplateByVnf Successful "
+                    + ctx.getAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
@@ -601,9 +591,9 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             logctx.setAttribute("log-message", escapedMessage);
 
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             DGGeneralDBService db = DGGeneralDBService.initialise();
-            QueryStatus status = db.saveConfigTransactionLog( logctx, responsePrefix);
+            QueryStatus status = db.saveConfigTransactionLog(logctx, responsePrefix);
 
             logctx.setAttribute("log-message", null);
 
@@ -637,21 +627,21 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             DGGeneralDBService db = DGGeneralDBService.initialise();
 
-            if ( !StringUtils.isBlank(ctx.getAttribute("vnfc-type"))) {
+            if (!StringUtils.isBlank(ctx.getAttribute("vnfc-type"))) {
                 status = db.getVnfcReferenceByVnfcTypeNAction(ctx, responsePrefix);
 
-                if ( status == QueryStatus.FAILURE)
+                if (status == QueryStatus.FAILURE)
                     throw new Exception("Unable to Read vnfc-reference");
             }
-            //else if (status == QueryStatus.NOT_FOUND ) {
+            // else if (status == QueryStatus.NOT_FOUND ) {
             status = db.getVnfcReferenceByVnfTypeNAction(ctx, responsePrefix);
 
             if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read vnfc reference");
 
-            //}
+            // }
 
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
             log.info("getVnfcReference Successful ");
@@ -668,19 +658,18 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     public void getCapability(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.info("Received getCapability call with params : " + inParams);
         String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
-        responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+        responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
         String caplevel = inParams.get("caplevel");
         String findCapability = inParams.get("checkCapability");
-        String vServerId=inParams.get("vServerId");
-        if (!checkIfCapabilityCheckNeeded(caplevel, findCapability))
-        {
+        String vServerId = inParams.get("vServerId");
+        if (!checkIfCapabilityCheckNeeded(caplevel, findCapability)) {
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
             log.info("getCapability Successful - No need for capability check for this action");
             return;
         }
-        try {            
-            DGGeneralDBService db = DGGeneralDBService.initialise();            
+        try {
+            DGGeneralDBService db = DGGeneralDBService.initialise();
             String cap = db.getCapability(ctx, inParams.get("vnf-type"));
             log.info("getCapability::returned from DB::+cap");
             if (StringUtils.isBlank(cap)) {
@@ -694,38 +683,32 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             log.info("From DB =   " + caps);
             JsonNode capabilities = caps.get("capabilities");
             log.info("capabilities =   " + capabilities);
-            if(caplevel !=null && !caplevel.isEmpty()){
+            if (caplevel != null && !caplevel.isEmpty()) {
                 JsonNode subCapabilities = capabilities.get(caplevel);
-                log.info("subCapabilities =  " +  caplevel + " : " + subCapabilities);
+                log.info("subCapabilities =  " + caplevel + " : " + subCapabilities);
                 if (caplevel.equalsIgnoreCase(AppcDataServiceConstant.CAPABILITY_VM_LEVEL)
-                        && (null == subCapabilities || subCapabilities.isNull() || subCapabilities.size()==0)) {
+                        && (null == subCapabilities || subCapabilities.isNull() || subCapabilities.size() == 0)) {
                     ctx.setAttribute("capabilities", "None");
                     ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                             AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
                     log.info("getCapability Successful ");
                     return;
                 }
-                if(findCapability !=null && !findCapability.isEmpty()){
-                    if(subCapabilities != null && subCapabilities.toString().contains(findCapability)){
+                if (findCapability != null && !findCapability.isEmpty()) {
+                    if (subCapabilities != null && subCapabilities.toString().contains(findCapability)) {
                         if (caplevel.equalsIgnoreCase(AppcDataServiceConstant.CAPABILITY_VM_LEVEL))
                             processCapabilitiesForVMLevel(vServerId, ctx, findCapability, subCapabilities);
                         else
-                            ctx.setAttribute("capabilities" , "Supported");
+                            ctx.setAttribute("capabilities", "Supported");
+                    } else {
+                        ctx.setAttribute("capabilities", "Not-Supported");
                     }
-                    else {
-                        ctx.setAttribute("capabilities" , "Not-Supported");
-                    }
+                } else {
+                    ctx.setAttribute(responsePrefix + "capabilities." + caplevel, subCapabilities.toString());
                 }
-                else
-                {
-                    ctx.setAttribute(responsePrefix + "capabilities." + caplevel,
-                            subCapabilities.toString());
-                }
-            
-            }
-            else
-                ctx.setAttribute(responsePrefix + "capabilities",
-                        capabilities.toString());
+
+            } else
+                ctx.setAttribute(responsePrefix + "capabilities", capabilities.toString());
             ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
                     AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
             log.info("getCapability Successful ");
@@ -743,7 +726,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             JsonNode subCapabilities) throws Exception {
         log.info("processCapabilitiesForVMLevel():::subCapabilities::" + subCapabilities.toString() + ",vServerId::"
                 + vServerId);
-        if (subCapabilities.size()==0) {
+        if (subCapabilities.size() == 0) {
             ctx.setAttribute("capabilities", "None");
             log.info("processCapabilitiesForVMLevel :: No VM block found!!");
             return;
@@ -757,19 +740,19 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
                 break;
             }
         }
-            
+
         if (null == vmCaps || vmCaps.isNull() || vmCaps.size() == 0) {
             ctx.setAttribute("capabilities", "Not-Supported");
             log.info("processCapabilitiesForVMLevel :: Found non-empty VM block but Not desired capability!!");
             return;
         }
-        
+
         String vnfcFunctionCode = getVnfcFunctionCodeForVserver(ctx, vServerId);
-        if (vmCaps != null && vmCaps.toString().contains(vnfcFunctionCode)) 
+        if (vmCaps.toString().contains(vnfcFunctionCode))
             ctx.setAttribute("capabilities", "Supported");
         else
             ctx.setAttribute("capabilities", "Not-Supported");
-        log.info("End processCapabilitiesForVMLevel():capabilities is ::"+ctx.getAttribute("capabilities"));
+        log.info("End processCapabilitiesForVMLevel():capabilities is ::" + ctx.getAttribute("capabilities"));
     }
 
     private String getVnfcFunctionCodeForVserver(SvcLogicContext ctx, String vServerId) throws Exception {
@@ -793,46 +776,4 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         }
         return capabilityCheckNeeded;
     }
-
-
-
-    /*public void getUploadConfigInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-
-        log.info("Received getUploadConfigInfo call with params : " + inParams);
-
-        String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
-
-        String uploadConfigId = inParams.get(AppcDataServiceConstant.INPUT_PARAM_UPLOAD_CONFIG_ID);
-        QueryStatus status = null;
-
-        int id = 0;
-        try {
-
-
-            DGGeneralDBService db = DGGeneralDBService.initialise();
-
-            if ( uploadConfigId != null )
-                id = Integer.parseInt(uploadConfigId);
-
-            status = db.getUploadConfigInfo(ctx, responsePrefix,id);
-
-            if ( status == QueryStatus.FAILURE || status == QueryStatus.NOT_FOUND)
-                throw new Exception("Unable to Read upload-config");
-
-
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
-                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
-            log.info("getUploadConfigInfo Successful ");
-        } catch (Exception e) {
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
-                    AppcDataServiceConstant.OUTPUT_STATUS_FAILURE);
-            ctx.setAttribute(responsePrefix + AppcDataServiceConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-            log.error("Failed in getUploadConfigInfo " + e.getMessage());
-
-            throw new SvcLogicException(e.getMessage());
-        }
-    }
-     */
-
 }
