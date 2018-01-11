@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_69275565",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be www.onap.org",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_892ae12a",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_29214d4d",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_491cd913",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0916d1f1",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a9d47d20",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c9d78922",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_69de7541",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_89e18100",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be www.onap.org",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_29e86de1",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.adaptors",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_49e37905",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e9f125ce",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_09ed71ef",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a9bb1de4",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c9bea9d4",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_69b515ed",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be org.onap.ccsdk.sli.adaptors",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_29cf0d81",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1316,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be org.onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_49ca996f",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/Dispatcher-DG/APPC_method_Generic_Audit_2.0.0.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1484,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T20:28:13Z",
+      "side": 1,
+      "message": "this should be org.onap.ccsdk.sli.core",
+      "revId": "54727119041b257a206b059abc6936268814d5fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
