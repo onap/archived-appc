@@ -24,8 +24,6 @@
 
 package org.onap.appc.adapter.iaas.provider.operation.impl;
 
-import com.att.cdp.exceptions.ContextConnectionException;
-import com.att.cdp.exceptions.ResourceNotFoundException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.ComputeService;
 import com.att.cdp.zones.Context;
@@ -50,13 +48,12 @@ import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Map;
-import java.util.TimeZone;
+import java.util.*;
+
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.MIGRATE_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -73,7 +70,7 @@ public class MigrateServer extends ProviderServerOperation {
             Arrays.asList(Server.Status.READY, Server.Status.RUNNING, Server.Status.SUSPENDED);
 
 
-    private String getConnectionExceptionMessage(RequestContext rc, Context ctx, ContextConnectionException e)
+    private String getConnectionExceptionMessage(RequestContext rc, Context ctx, ZoneException e)
             throws ZoneException {
         return EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, ctx.getProvider().getName(),
                 ctx.getComputeService().getURL(), ctx.getTenant().getName(), ctx.getTenant().getId(), e.getMessage(),
@@ -116,39 +113,42 @@ public class MigrateServer extends ProviderServerOperation {
         }
 
         boolean inConfirmPhase = false;
-        try {
-            while (rc.attempt()) {
-                try {
-                    if (!inConfirmPhase) {
-                        // Initial migrate request
-                        service.migrateServer(server.getId());
-                        // Wait for change to verify resize
-                        waitForStateChange(rc, server, Server.Status.READY);
-                        inConfirmPhase = true;
-                    }
 
-                    // Verify resize
-                    service.processResize(server);
-                    // Wait for complete. will go back to init status
-                    waitForStateChange(rc, server, initialStatus);
-                    logger.info("Completed migrate request successfully");
-                    metricsLogger.info("Completed migrate request successfully");
-                    return;
-                } catch (ContextConnectionException e) {
-                    msg = getConnectionExceptionMessage(rc, ctx, e);
-                    logger.error(msg, e);
-                    metricsLogger.error(msg, e);
-                    rc.delay();
+        while (rc.attempt()) {
+            try {
+                if (!inConfirmPhase) {
+                    // Initial migrate request
+                    service.migrateServer(server.getId());
+                    // Wait for change to verify resize
+                    waitForStateChange(rc, server, Server.Status.READY);
+                    inConfirmPhase = true;
                 }
+
+                // Verify resize
+                service.processResize(server);
+                // Wait for complete. will go back to init status
+                waitForStateChange(rc, server, initialStatus);
+                logger.info("Completed migrate request successfully");
+                metricsLogger.info("Completed migrate request successfully");
+
+                break;
+
+            } catch (ZoneException e) {
+                try {
+                    msg = getConnectionExceptionMessage(rc, ctx, e);
+                } catch (ZoneException e1) {
+                    String phase = inConfirmPhase ? "VERIFY MIGRATE" : "REQUEST MIGRATE";
+                    msg = EELFResourceManager.format(Msg.MIGRATE_SERVER_FAILED, server.getName(), server.getId(), phase,
+                        e1.getMessage());
+                    generateEvent(rc, false, msg);
+                    logger.error(msg, e1);
+                    metricsLogger.error(msg, e1);
+                    throw new RequestFailedException("Migrate Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                }
+                logger.error(msg, e);
+                metricsLogger.error(msg, e);
+                rc.delay();
             }
-        } catch (ZoneException e) {
-            String phase = inConfirmPhase ? "VERIFY MIGRATE" : "REQUEST MIGRATE";
-            msg = EELFResourceManager.format(Msg.MIGRATE_SERVER_FAILED, server.getName(), server.getId(), phase,
-                    e.getMessage());
-            generateEvent(rc, false, msg);
-            logger.error(msg, e);
-            metricsLogger.error(msg, e);
-            throw new RequestFailedException("Migrate Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
         }
     }
 
@@ -156,7 +156,7 @@ public class MigrateServer extends ProviderServerOperation {
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#migrateServer(java.util.Map,
      *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
-    private Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    private Server migrateServer(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -177,9 +177,8 @@ public class MigrateServer extends ProviderServerOperation {
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
 
-            Context context = null;
+            Context context = getContext(rc, vm_url, identStr);
             try {
-                context = getContext(rc, vm_url, identStr);
                 if (context != null) {
                     server = lookupServer(rc, context, vm.getServerId());
                     logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
@@ -188,16 +187,9 @@ public class MigrateServer extends ProviderServerOperation {
                     context.close();
                     doSuccess(rc);
                 }
-            } catch (RequestFailedException e) {
-                doFailure(rc, e.getStatus(), e.getMessage());
-            } catch (ResourceNotFoundException e) {
-                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
-                logger.error(msg);
-                metricsLogger.error(msg);
-                doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Exception e1) {
+            } catch (IOException | ZoneException e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        MIGRATE_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                        MIGRATE_SERVICE.toString(), vm_url, context.getTenantName());
                 logger.error(msg, e1);
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
