@@ -32,18 +32,18 @@ public class AnsibleResult{
     private String results;
     
 
-    public    AnsibleResult(){
-	statusCode = -1;
-	statusMessage = "UNKNOWN";
-	results = "UNKNOWN";
-
+    public AnsibleResult(){
+        this(-1, "UNKNOWN", "UNKNOWN");
     }
 
-    // constructor
+    public AnsibleResult(int code, String message) {
+        this(code, message, "UNKNOWN");
+    }
+
     public AnsibleResult(int code, String message, String result){
-	statusCode = code;
-	statusMessage = message;
-	results = result;
+        statusCode = code;
+        statusMessage = message;
+        results = result;
     }
 
     //*************************************************
