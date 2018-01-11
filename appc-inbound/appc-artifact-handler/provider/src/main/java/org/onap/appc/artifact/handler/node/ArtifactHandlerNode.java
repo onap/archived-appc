@@ -24,27 +24,76 @@
 
 package org.onap.appc.artifact.handler.node;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.util.Map;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.onap.appc.artifact.handler.dbservices.DBService;
 import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
-import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.appc.yang.YANGGenerator;
 import org.onap.appc.yang.impl.YANGGeneratorFactory;
-import org.onap.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
+import org.onap.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.util.Map;
+import java.util.function.Function;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
-
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION_LEVEL;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION_LEVEL_VF_MODULE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION_LEVEL_VM;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION_LEVEL_VNF;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION_LEVEL_VNFC;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_CONTENTS;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_NAME;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_NAME_CAPABILITY;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_NAME_REFERENCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_TYPE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_UUID;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ARTIFACT_VERSION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.CAPABILITY;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DB_SDC_REFERENCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DISTRIBUTION_ID;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.FILE_CATEGORY;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.PARAMETER_YANG;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.PD;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.PORT_NUMBER;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REFERENCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUEST_INFORMATION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUETS_ID;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_TYPE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_UUID;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_VERSION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.SERVICE_DESCRIPTION;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.SERVICE_NAME;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.SERVICE_UUID;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.TEMPLATE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.TOSCA_MODEL;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.USER_NAME;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VM;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VM_INSTANCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_INSTANCE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_TYPE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNF_TYPE;
 
 public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
@@ -70,25 +119,25 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         log.info("Starting processing of SDC Artifacs into Handler with Data : " + postDataJson.toString());
         try {
             JSONObject request_information =
-                    (JSONObject) postDataJson.get(SdcArtifactHandlerConstants.REQUEST_INFORMATION);
+                    (JSONObject) postDataJson.get(REQUEST_INFORMATION);
             JSONObject document_information =
-                    (JSONObject) postDataJson.get(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS);
-            String artifact_name = document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME);
+                    (JSONObject) postDataJson.get(DOCUMENT_PARAMETERS);
+            String artifact_name = document_information.getString(ARTIFACT_NAME);
             if (artifact_name != null) {
                 updateStoreArtifacts(request_information, document_information);
-                if (artifact_name.toLowerCase().startsWith(SdcArtifactHandlerConstants.REFERENCE))
+                if (artifact_name.toLowerCase().startsWith(REFERENCE))
                     return storeReferenceData(request_information, document_information);
-                else if (artifact_name.toLowerCase().startsWith(SdcArtifactHandlerConstants.PD))
+                else if (artifact_name.toLowerCase().startsWith(PD))
                     return createDataForPD(request_information, document_information);
 
             } else
                 throw new Exception("Missing Artifact Name for Request : "
-                        + request_information.getString(SdcArtifactHandlerConstants.REQUETS_ID));
+                        + request_information.getString(REQUETS_ID));
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("Error while processing Request ID : "
-                    + ((JSONObject) postDataJson.get(SdcArtifactHandlerConstants.REQUEST_INFORMATION))
-                            .getString(SdcArtifactHandlerConstants.REQUETS_ID)
+                    + ((JSONObject) postDataJson.get(REQUEST_INFORMATION))
+                            .getString(REQUETS_ID)
                     + e.getMessage());
         }
         return false;
@@ -98,12 +147,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private boolean createDataForPD(JSONObject request_information, JSONObject document_information) throws Exception {
 
         String fn = "ArtifactHandlerNode.createReferenceDataForPD";
-        String artifact_name = document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME);
+        String artifact_name = document_information.getString(ARTIFACT_NAME);
         log.info(fn + "Received PD File Name: " + artifact_name + " and suffix lenght "
-                + SdcArtifactHandlerConstants.PD.length());
+                + PD.length());
         try {
 
-            String suffix = artifact_name.substring(SdcArtifactHandlerConstants.PD.length());
+            String suffix = artifact_name.substring(PD.length());
             createArtifactRecords(request_information, document_information, suffix);
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +167,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         log.info("Creating Tosca Records and storing into SDC Artifacs");
         String[] docs = {"Tosca", "Yang"};
         ArtifactHandlerProviderUtil ahpUtil = new ArtifactHandlerProviderUtil();
-        String PDFileContents = document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS);
+        String PDFileContents = document_information.getString(ARTIFACT_CONTENTS);
 
         // Tosca generation
         OutputStream toscaStream = new ByteArrayOutputStream();
@@ -133,15 +182,15 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         String yangName = null;
 
         for (String doc : docs) {
-            document_information.put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, doc.concat("Type"));
-            document_information.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, doc.concat("Model"));
+            document_information.put(ARTIFACT_TYPE, doc.concat("Type"));
+            document_information.put(ARTIFACT_DESRIPTION, doc.concat("Model"));
             if (doc.equals("Tosca"))
-                document_information.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS,
+                document_information.put(ARTIFACT_CONTENTS,
                         ahpUtil.escapeSql(toscaContents));
             else if (doc.equals("Yang"))
-                document_information.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS,
+                document_information.put(ARTIFACT_CONTENTS,
                         ahpUtil.escapeSql(yangContents));
-            document_information.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, doc.concat(suffix));
+            document_information.put(ARTIFACT_NAME, doc.concat(suffix));
             yangName = doc.concat(suffix);
             updateStoreArtifacts(request_information, document_information);
         }
@@ -180,42 +229,31 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         ArtifactHandlerProviderUtil ahpUtil = new ArtifactHandlerProviderUtil();
         int intversion = 0;
         context.setAttribute("artifact_name",
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME));
+                document_information.getString(ARTIFACT_NAME));
         String internal_version = dbservice.getInternalVersionNumber(context,
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME), null);
+                document_information.getString(ARTIFACT_NAME), null);
         log.info("Internal Version number received from Database : " + internal_version);
         if (internal_version != null) {
             intversion = Integer.parseInt(internal_version);
             intversion++;
         }
-        context.setAttribute(SdcArtifactHandlerConstants.SERVICE_UUID,
-                document_information.getString(SdcArtifactHandlerConstants.SERVICE_UUID));
-        context.setAttribute(SdcArtifactHandlerConstants.DISTRIBUTION_ID,
-                document_information.getString(SdcArtifactHandlerConstants.DISTRIBUTION_ID));
-        context.setAttribute(SdcArtifactHandlerConstants.SERVICE_NAME,
-                document_information.getString(SdcArtifactHandlerConstants.SERVICE_NAME));
-        context.setAttribute(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION,
-                document_information.getString(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION));
-        context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_UUID,
-                document_information.getString(SdcArtifactHandlerConstants.RESOURCE_UUID));
-        context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME,
-                document_information.getString(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME));
-        context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_VERSOIN,
-                document_information.getString(SdcArtifactHandlerConstants.RESOURCE_VERSOIN));
-        context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_TYPE,
-                document_information.getString(SdcArtifactHandlerConstants.RESOURCE_TYPE));
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_UUID,
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_UUID));
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE,
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_TYPE));
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN,
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN));
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION,
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION));
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS,
-                ahpUtil.escapeSql(document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS)));
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME,
-                document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME));
+
+        setAttribute(context, document_information::getString, SERVICE_UUID);
+        setAttribute(context, document_information::getString, DISTRIBUTION_ID);
+        setAttribute(context, document_information::getString, SERVICE_NAME);
+        setAttribute(context, document_information::getString, SERVICE_DESCRIPTION);
+        setAttribute(context, document_information::getString, RESOURCE_UUID);
+        setAttribute(context, document_information::getString, RESOURCE_INSTANCE_NAME);
+        setAttribute(context, document_information::getString, RESOURCE_VERSION);
+        setAttribute(context, document_information::getString, RESOURCE_TYPE);
+        setAttribute(context, document_information::getString, ARTIFACT_UUID);
+        setAttribute(context, document_information::getString, ARTIFACT_TYPE);
+        setAttribute(context, document_information::getString, ARTIFACT_VERSION);
+        setAttribute(context, document_information::getString, ARTIFACT_DESRIPTION);
+        setAttribute(context, document_information::getString, ARTIFACT_NAME);
+
+        setAttribute(context, s -> ahpUtil.escapeSql(document_information.getString(s)), ARTIFACT_CONTENTS);
+
         dbservice.saveArtifacts(context, intversion);
         return true;
 
@@ -232,12 +270,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             DBService dbservice = DBService.initialise();
             ArtifactHandlerProviderUtil ahpUtil = new ArtifactHandlerProviderUtil();
             String contentString =
-                    ahpUtil.escapeSql(document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS));
+                    ahpUtil.escapeSql(document_information.getString(ARTIFACT_CONTENTS));
             String artifactName =
-                    ahpUtil.escapeSql(document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME));
+                    ahpUtil.escapeSql(document_information.getString(ARTIFACT_NAME));
             String capabilityArtifactName =
-                    StringUtils.replace(artifactName, SdcArtifactHandlerConstants.ARTIFACT_NAME_REFERENCE,
-                            SdcArtifactHandlerConstants.ARTIFACT_NAME_CAPABILITY);
+                    StringUtils.replace(artifactName, ARTIFACT_NAME_REFERENCE,
+                            ARTIFACT_NAME_CAPABILITY);
             JSONObject capabilities = new JSONObject();
             JSONArray vnfActionList = new JSONArray();
             JSONArray vfModuleActionList = new JSONArray();
@@ -255,166 +293,145 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 JSONObject scope = content.getJSONObject("scope");
                 log.info("scope :" + scope);
                 SvcLogicContext context = new SvcLogicContext();
-                vnfType = scope.getString(SdcArtifactHandlerConstants.VNF_TYPE);
-                context.setAttribute(SdcArtifactHandlerConstants.VNF_TYPE,
-                        scope.getString(SdcArtifactHandlerConstants.VNF_TYPE));
-                context.setAttribute(SdcArtifactHandlerConstants.ACTION,
-                        content.getString(SdcArtifactHandlerConstants.ACTION));
-                String actionLevel = content.getString(SdcArtifactHandlerConstants.ACTION_LEVEL);
-                context.setAttribute(SdcArtifactHandlerConstants.ACTION_LEVEL,
-                        content.getString(SdcArtifactHandlerConstants.ACTION_LEVEL));
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE,
-                    document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_TYPE));
+                vnfType = scope.getString(VNF_TYPE);
+                setAttribute(context, scope::getString, VNF_TYPE);
+                setAttribute(context, content::getString, ACTION);
+                String actionLevel = content.getString(ACTION_LEVEL);
+                setAttribute(context, content::getString, ACTION_LEVEL);
+                setAttribute(context, document_information::getString, ARTIFACT_TYPE);
                 if ((null != actionLevel)
-                        && actionLevel.equalsIgnoreCase(SdcArtifactHandlerConstants.ACTION_LEVEL_VNFC)) {
-                    vnfcActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
+                        && actionLevel.equalsIgnoreCase(ACTION_LEVEL_VNFC)) {
+                    vnfcActionList.put(content.getString(ACTION));
                 }
                 if (null != actionLevel
-                        && actionLevel.equalsIgnoreCase(SdcArtifactHandlerConstants.ACTION_LEVEL_VF_MODULE)) {
-                    vfModuleActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
+                        && actionLevel.equalsIgnoreCase(ACTION_LEVEL_VF_MODULE)) {
+                    vfModuleActionList.put(content.getString(ACTION));
                 }
-                if (null != actionLevel && actionLevel.equalsIgnoreCase(SdcArtifactHandlerConstants.ACTION_LEVEL_VNF)) {
-                    vnfActionList.put(content.getString(SdcArtifactHandlerConstants.ACTION));
+                if (null != actionLevel && actionLevel.equalsIgnoreCase(ACTION_LEVEL_VNF)) {
+                    vnfActionList.put(content.getString(ACTION));
                 }
-                if (null != actionLevel && actionLevel.equalsIgnoreCase(SdcArtifactHandlerConstants.ACTION_LEVEL_VM)) {
-                if (content.has(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST)
-                            && !content.isNull(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST) && content.get(
-                                    SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST) instanceof JSONArray) {
+                if (null != actionLevel && actionLevel.equalsIgnoreCase(ACTION_LEVEL_VM)) {
+                if (content.has(VNFC_FUNCTION_CODE_LIST)
+                            && !content.isNull(VNFC_FUNCTION_CODE_LIST) && content.get(
+                                    VNFC_FUNCTION_CODE_LIST) instanceof JSONArray) {
                         log.info("Found vnfc-function-code-list!!");
-                        JSONArray vnfcList = content.getJSONArray(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST);
+                        JSONArray vnfcList = content.getJSONArray(VNFC_FUNCTION_CODE_LIST);
                         JSONObject obj = new JSONObject();
-                        obj.put(content.getString(SdcArtifactHandlerConstants.ACTION), vnfcList);
+                        obj.put(content.getString(ACTION), vnfcList);
                         vmActionVnfcFunctionCodesList.put(obj);
                     } else {
                         log.info("Not getting JSONArray for VNFC FUNCTION CODES");
                     }
                 }
-                if (scope.has(SdcArtifactHandlerConstants.VNFC_TYPE)
-                        && !scope.isNull(SdcArtifactHandlerConstants.VNFC_TYPE)) {
-            String vnfcTypeScope = scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE);
+                if (scope.has(VNFC_TYPE)
+                        && !scope.isNull(VNFC_TYPE)) {
+            String vnfcTypeScope = scope.getString(VNFC_TYPE);
                     if (StringUtils.isNotBlank(vnfcTypeScope)) {
-                    context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE,
-                            scope.getString(SdcArtifactHandlerConstants.VNFC_TYPE));
+                        setAttribute(context, scope::getString, VNFC_TYPE);
                     storeCapabilityArtifact = false;
                         log.info("No capability Artifact for this reference data as it is at VNFC level!!");
                     }
             else {
-                         context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
+                         context.setAttribute(VNFC_TYPE, null);
                     }
                 }
                 else
-                    context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
-                if (content.has(SdcArtifactHandlerConstants.DEVICE_PROTOCOL))
-                    context.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL,
-                            content.getString(SdcArtifactHandlerConstants.DEVICE_PROTOCOL));
-                if (content.has(SdcArtifactHandlerConstants.USER_NAME))
-                    context.setAttribute(SdcArtifactHandlerConstants.USER_NAME,
-                            content.getString(SdcArtifactHandlerConstants.USER_NAME));
-                if (content.has(SdcArtifactHandlerConstants.PORT_NUMBER))
-                    context.setAttribute(SdcArtifactHandlerConstants.PORT_NUMBER,
-                            content.getString(SdcArtifactHandlerConstants.PORT_NUMBER));
-                //context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE, "");
+                    context.setAttribute(VNFC_TYPE, null);
+                if (content.has(DEVICE_PROTOCOL))
+                    setAttribute(context, content::getString, DEVICE_PROTOCOL);
+                if (content.has(USER_NAME))
+                    setAttribute(context, content::getString, USER_NAME);
+                if (content.has(PORT_NUMBER))
+                    setAttribute(context, content::getString, PORT_NUMBER);
+                //context.setAttribute(ARTIFACT_TYPE, "");
                 if (content.has("artifact-list") && content.get("artifact-list") instanceof JSONArray) {
                     JSONArray artifactLists = (JSONArray) content.get("artifact-list");
                     for (int i = 0; i < artifactLists.length(); i++) {
                         JSONObject artifact = (JSONObject) artifactLists.get(i);
                         log.info("artifact is " + artifact);
-                        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME,
-                                artifact.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME));
-                        context.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY,
-                                artifact.getString(SdcArtifactHandlerConstants.ARTIFACT_TYPE));
+                        setAttribute(context, artifact::getString, ARTIFACT_NAME);
+                        context.setAttribute(FILE_CATEGORY,
+                                artifact.getString(ARTIFACT_TYPE));
 
-                        if (artifact.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME) != null
-                                && artifact.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME).toLowerCase()
-                                        .startsWith(SdcArtifactHandlerConstants.PD)) {
-                            suffix = artifact.getString(SdcArtifactHandlerConstants.ARTIFACT_NAME)
-                                    .substring(SdcArtifactHandlerConstants.PD.length());
-                            categorySuffix = artifact.getString(SdcArtifactHandlerConstants.ARTIFACT_TYPE)
-                                    .substring(SdcArtifactHandlerConstants.PD.length());
+                        if (artifact.getString(ARTIFACT_NAME) != null
+                                && artifact.getString(ARTIFACT_NAME).toLowerCase()
+                                        .startsWith(PD)) {
+                            suffix = artifact.getString(ARTIFACT_NAME)
+                                    .substring(PD.length());
+                            categorySuffix = artifact.getString(ARTIFACT_TYPE)
+                                    .substring(PD.length());
                             pdFile = true;
                         }
-            log.info("Artifact-type = " + context.getAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE));
+            log.info("Artifact-type = " + context.getAttribute(ARTIFACT_TYPE));
                         dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_SDC_REFERENCE));
+                                DB_SDC_REFERENCE));
 
                         cleanArtifactInstanceData(context);
                     }
 
                     if (pdFile) {
-                        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME, "Tosca".concat(suffix));
-                        context.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY,
-                                SdcArtifactHandlerConstants.TOSCA_MODEL);
-                        dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_SDC_REFERENCE));
-                        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME, "Yang".concat(suffix));
-                        context.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY,
-                                SdcArtifactHandlerConstants.PARAMETER_YANG);
-                        dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_SDC_REFERENCE));
+                        context.setAttribute(ARTIFACT_NAME, "Tosca".concat(suffix));
+                        context.setAttribute(FILE_CATEGORY, TOSCA_MODEL);
+                        dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
+                        context.setAttribute(ARTIFACT_NAME, "Yang".concat(suffix));
+                        context.setAttribute(FILE_CATEGORY, PARAMETER_YANG);
+                        dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
                     }
                 }
-                if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")
-                    || content.getString(SdcArtifactHandlerConstants.ACTION).equals("ConfigModify")) {
-                    if (content.has(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE)
-                            && content.getString(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE).length() > 0) {
-                        context.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE,
-                                content.getString(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE));
-                        dbservice.processDownloadDgReference(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE));
+                if (content.getString(ACTION).equals("Configure")
+                    || content.getString(ACTION).equals("ConfigModify")) {
+                    if (content.has(DOWNLOAD_DG_REFERENCE)
+                            && content.getString(DOWNLOAD_DG_REFERENCE).length() > 0) {
+                        setAttribute(context, content::getString, DOWNLOAD_DG_REFERENCE);
+                        dbservice.processDownloadDgReference(context, dbservice.isArtifactUpdateRequired(context, DB_DOWNLOAD_DG_REFERENCE));
                     }
-                    if (StringUtils.isBlank(context.getAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE))) {
-                        context.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE,
+                    if (StringUtils.isBlank(context.getAttribute(DOWNLOAD_DG_REFERENCE))) {
+                        context.setAttribute(DOWNLOAD_DG_REFERENCE,
                                 dbservice.getDownLoadDGReference(context));
             }
                     dbservice.processConfigActionDg(context, dbservice.isArtifactUpdateRequired(context,
-                            SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG));
-                    if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")) {
+                            DB_CONFIG_ACTION_DG));
+                    if (content.getString(ACTION).equals("Configure")) {
                         dbservice.processDeviceInterfaceProtocol(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL));
+                                DB_DEVICE_INTERFACE_PROTOCOL));
                     }
 
                 }
-        dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
-                                SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION));
+        dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context, DB_DEVICE_AUTHENTICATION));
 
                 populateProtocolReference(dbservice, content);
 
-                context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
+                context.setAttribute(VNFC_TYPE, null);
 
-                if (content.has(SdcArtifactHandlerConstants.VM)
-                        && content.get(SdcArtifactHandlerConstants.VM) instanceof JSONArray) {
-                    JSONArray vmList = (JSONArray) content.get(SdcArtifactHandlerConstants.VM);
+                if (content.has(VM)
+                        && content.get(VM) instanceof JSONArray) {
+                    JSONArray vmList = (JSONArray) content.get(VM);
                     dbservice.cleanUpVnfcReferencesForVnf(context);
                     for (int i = 0; i < vmList.length(); i++) {
                         JSONObject vmInstance = (JSONObject) vmList.get(i);
-                        context.setAttribute(SdcArtifactHandlerConstants.VM_INSTANCE,
-                                String.valueOf(vmInstance.getInt(SdcArtifactHandlerConstants.VM_INSTANCE)));
-                        log.info("VALUE = " + context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
-                        if (vmInstance.get(SdcArtifactHandlerConstants.VNFC) instanceof JSONArray) {
-                            JSONArray vnfcInstanceList = (JSONArray) vmInstance.get(SdcArtifactHandlerConstants.VNFC);
+                        setAttribute(context, s -> String.valueOf(vmInstance.getInt(s)), VM_INSTANCE);
+                        log.info("VALUE = " + context.getAttribute(VM_INSTANCE));
+                        if (vmInstance.get(VNFC) instanceof JSONArray) {
+                            JSONArray vnfcInstanceList = (JSONArray) vmInstance.get(VNFC);
                             for (int k = 0; k < vnfcInstanceList.length(); k++) {
                                 JSONObject vnfcInstance = (JSONObject) vnfcInstanceList.get(k);
-                                context.setAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE,
-                                        String.valueOf(vnfcInstance.getInt(SdcArtifactHandlerConstants.VNFC_INSTANCE)));
-                                context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE,
-                                        vnfcInstance.getString(SdcArtifactHandlerConstants.VNFC_TYPE));
-                                context.setAttribute(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE,
-                                        vnfcInstance.getString(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE));
-                                if (vnfcInstance.has(SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP))
-                                    context.setAttribute(SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP,
-                                            vnfcInstance.getString(SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP));
-                                if (vnfcInstance.has(SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE))
-                                    context.setAttribute(SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE,
-                                            vnfcInstance.getString(SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE));
-                                if (vnfcInstance.has(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE))
-                                    context.setAttribute(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE,
-                                            vnfcInstance.getString(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE));
-                                if (content.getString(SdcArtifactHandlerConstants.ACTION).equals("Configure")) {
+
+                                setAttribute(context, s -> String.valueOf(vnfcInstance.getInt(s)), VNFC_INSTANCE);
+                                setAttribute(context, vnfcInstance::getString, VNFC_TYPE);
+                                setAttribute(context, vnfcInstance::getString, VNFC_FUNCTION_CODE);
+
+                                if (vnfcInstance.has(IPADDRESS_V4_OAM_VIP))
+                                    setAttribute(context, vnfcInstance::getString, IPADDRESS_V4_OAM_VIP);
+                                if (vnfcInstance.has(GROUP_NOTATION_TYPE))
+                                    setAttribute(context, vnfcInstance::getString, GROUP_NOTATION_TYPE);
+                                if (vnfcInstance.has(GROUP_NOTATION_VALUE))
+                                    setAttribute(context, vnfcInstance::getString, GROUP_NOTATION_VALUE);
+                                if (content.getString(ACTION).equals("Configure")) {
                                     dbservice.processVnfcReference(context,false);
                                 }
                                 cleanVnfcInstance(context);
                             }
-                            context.setAttribute(SdcArtifactHandlerConstants.VM_INSTANCE, null);
+                            context.setAttribute(VM_INSTANCE, null);
                         }
                     }
                 }
@@ -439,18 +456,18 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     private void cleanArtifactInstanceData(SvcLogicContext context) {
-        context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME, null);
-        context.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, null);
+        context.setAttribute(ARTIFACT_NAME, null);
+        context.setAttribute(FILE_CATEGORY, null);
     }
 
     private void cleanVnfcInstance(SvcLogicContext context) {
 
-        context.setAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE, null);
-        context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
-        context.setAttribute(SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE, null);
-        context.setAttribute(SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP, null);
-        context.setAttribute(SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE, null);
-        context.setAttribute(SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE, null);
+        context.setAttribute(VNFC_INSTANCE, null);
+        context.setAttribute(VNFC_TYPE, null);
+        context.setAttribute(VNFC_FUNCTION_CODE, null);
+        context.setAttribute(IPADDRESS_V4_OAM_VIP, null);
+        context.setAttribute(GROUP_NOTATION_TYPE, null);
+        context.setAttribute(GROUP_NOTATION_VALUE, null);
 
     }
 
@@ -463,50 +480,38 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             JSONObject newCapabilitiesObject = new JSONObject();
             newCapabilitiesObject.put("capabilities", capabilities);
             SvcLogicContext context = new SvcLogicContext();
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME, capabilityArtifactName);
-            context.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, SdcArtifactHandlerConstants.CAPABILITY);
-            context.setAttribute(SdcArtifactHandlerConstants.ACTION, null);
-            context.setAttribute(SdcArtifactHandlerConstants.VNFC_TYPE, null);
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_TYPE, null);
-            context.setAttribute(SdcArtifactHandlerConstants.VNF_TYPE, vnfType);
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, newCapabilitiesObject.toString());
+            context.setAttribute(ARTIFACT_NAME, capabilityArtifactName);
+            context.setAttribute(FILE_CATEGORY, CAPABILITY);
+            context.setAttribute(ACTION, null);
+            context.setAttribute(VNFC_TYPE, null);
+            context.setAttribute(ARTIFACT_TYPE, null);
+            context.setAttribute(VNF_TYPE, vnfType);
+            context.setAttribute(ARTIFACT_CONTENTS, newCapabilitiesObject.toString());
             dbservice.processSdcReferences(context,
-                    dbservice.isArtifactUpdateRequired(context, SdcArtifactHandlerConstants.DB_SDC_REFERENCE));
+                    dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
             int intversion = 0;
 
             String internal_version = dbservice.getInternalVersionNumber(context,
-                    context.getAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME), null);
+                    context.getAttribute(ARTIFACT_NAME), null);
             log.info("Internal Version number received from Database : " + internal_version);
             if (internal_version != null) {
                 intversion = Integer.parseInt(internal_version);
                 intversion++;
             }
-            context.setAttribute(SdcArtifactHandlerConstants.SERVICE_UUID,
-                    document_information.getString(SdcArtifactHandlerConstants.SERVICE_UUID));
-            context.setAttribute(SdcArtifactHandlerConstants.DISTRIBUTION_ID,
-                    document_information.getString(SdcArtifactHandlerConstants.DISTRIBUTION_ID));
-            context.setAttribute(SdcArtifactHandlerConstants.SERVICE_NAME,
-                    document_information.getString(SdcArtifactHandlerConstants.SERVICE_NAME));
-            context.setAttribute(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION,
-                    document_information.getString(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION));
-            context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_UUID,
-                    document_information.getString(SdcArtifactHandlerConstants.RESOURCE_UUID));
-            context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME,
-                    document_information.getString(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME));
-            context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_VERSOIN,
-                    document_information.getString(SdcArtifactHandlerConstants.RESOURCE_VERSOIN));
-            context.setAttribute(SdcArtifactHandlerConstants.RESOURCE_TYPE,
-                    document_information.getString(SdcArtifactHandlerConstants.RESOURCE_TYPE));
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_UUID,
-                    document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_UUID));
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN,
-                    document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN));
-            context.setAttribute(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION,
-                    document_information.getString(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION));
 
+            setAttribute(context, document_information::getString, SERVICE_UUID);
+            setAttribute(context, document_information::getString, DISTRIBUTION_ID);
+            setAttribute(context, document_information::getString, SERVICE_NAME);
+            setAttribute(context, document_information::getString, SERVICE_DESCRIPTION);
+            setAttribute(context, document_information::getString, RESOURCE_UUID);
+            setAttribute(context, document_information::getString, RESOURCE_INSTANCE_NAME);
+            setAttribute(context, document_information::getString, RESOURCE_VERSION);
+            setAttribute(context, document_information::getString, RESOURCE_TYPE);
+            setAttribute(context, document_information::getString, ARTIFACT_UUID);
+            setAttribute(context, document_information::getString, ARTIFACT_VERSION);
+            setAttribute(context, document_information::getString, ARTIFACT_DESRIPTION);
 
             dbservice.saveArtifacts(context, intversion);
-            return;
         } catch (Exception e) {
             log.error("Error saving capabilities artifact to DB: " + e.toString());
             throw e;
@@ -516,23 +521,27 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
     }
 
+    private void setAttribute(SvcLogicContext context, Function<String, String> value, String key) {
+        context.setAttribute(key, value.apply(key));
+    }
+
     private void populateProtocolReference(DBService dbservice, JSONObject content) throws Exception {
         log.info("Begin-->populateProtocolReference ");
         try {
             SvcLogicContext context = new SvcLogicContext();
             JSONObject scope = content.getJSONObject("scope");
             String vnfType = null, protocol = null, action = null, actionLevel = null, template = null;
-            if (scope.has(SdcArtifactHandlerConstants.VNF_TYPE) && !scope.isNull(SdcArtifactHandlerConstants.VNF_TYPE))
-                vnfType = scope.getString(SdcArtifactHandlerConstants.VNF_TYPE);
-            if (content.has(SdcArtifactHandlerConstants.DEVICE_PROTOCOL))
-                protocol = content.getString(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
-            if (content.has(SdcArtifactHandlerConstants.ACTION))
-                action = content.getString(SdcArtifactHandlerConstants.ACTION);
-            if (content.has(SdcArtifactHandlerConstants.ACTION_LEVEL))
-                actionLevel = content.getString(SdcArtifactHandlerConstants.ACTION_LEVEL);
-            if (content.has(SdcArtifactHandlerConstants.TEMPLATE)
-                    && !content.isNull(SdcArtifactHandlerConstants.TEMPLATE))
-                template = content.getString(SdcArtifactHandlerConstants.TEMPLATE);
+            if (scope.has(VNF_TYPE) && !scope.isNull(VNF_TYPE))
+                vnfType = scope.getString(VNF_TYPE);
+            if (content.has(DEVICE_PROTOCOL))
+                protocol = content.getString(DEVICE_PROTOCOL);
+            if (content.has(ACTION))
+                action = content.getString(ACTION);
+            if (content.has(ACTION_LEVEL))
+                actionLevel = content.getString(ACTION_LEVEL);
+            if (content.has(TEMPLATE)
+                    && !content.isNull(TEMPLATE))
+                template = content.getString(TEMPLATE);
             boolean isUpdateNeeded=dbservice.isProtocolReferenceUpdateRequired(context, vnfType, protocol, action, actionLevel, template);
             if (isUpdateNeeded)
                 dbservice.updateProtocolReference(context, vnfType, protocol, action, actionLevel, template);

@@ -107,12 +107,12 @@ public class ArtifactHandlerProviderUtil {
 	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_UUID, "TLRUID" + random);
 	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, "TLRIName");
 	    docParams.put(SdcArtifactHandlerConstants.REOURCE_NAME, "TLResourceName");
-	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_VERSOIN, "TLResourceVersion");
+	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, "TLResourceVersion");
 	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, "TLResourceType");
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "TLAUUID" +  random);
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, templateData.getDocumentParameters().getArtifactName());
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, "APPC-CONFIG");
-	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN, templateData.getDocumentParameters().getArtifactVersion());
+	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, templateData.getDocumentParameters().getArtifactVersion());
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "SdcTestDescription");
 	//   String data = IOUtils.toString(TestartifactHandlerNode.class.getClassLoader().getResourceAsStream("template_msrp_msc_a_template.json"), "utf-8");
 	//    String data = IOUtils.toString(TemplateProcessor.class.getClassLoader().getResourceAsStream("referenceData.json"), "utf-8");
@@ -166,12 +166,12 @@ public class ArtifactHandlerProviderUtil {
 	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_UUID, templateData.getDocumentParameters().getResourceUuid());
 	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, templateData.getDocumentParameters().getResourceInstanceName());
 	    docParams.put(SdcArtifactHandlerConstants.REOURCE_NAME, templateData.getDocumentParameters().getResourceName());
-	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_VERSOIN, templateData.getDocumentParameters().getResourceVersion());
+	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, templateData.getDocumentParameters().getResourceVersion());
 	    docParams.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, templateData.getDocumentParameters().getResourceType());
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, templateData.getDocumentParameters().getArtifactUuid());
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, templateData.getDocumentParameters().getArtifactName());
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, templateData.getDocumentParameters().getArtifactType());
-	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN, templateData.getDocumentParameters().getArtifactVersion());
+	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, templateData.getDocumentParameters().getArtifactVersion());
 	    docParams.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, templateData.getDocumentParameters().getArtifactDescription());
 
 	    docParams.put("artifact-contents", templateData.getDocumentParameters().getArtifactContents());

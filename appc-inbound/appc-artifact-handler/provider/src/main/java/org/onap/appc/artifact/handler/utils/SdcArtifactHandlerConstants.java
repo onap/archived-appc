@@ -38,12 +38,12 @@ public class SdcArtifactHandlerConstants {
     public static final String RESOURCE_UUID ="resource-uuid"; 
     public static final String RESOURCE_INSTANCE_NAME = "resource-instance-name";
     public static final String REOURCE_NAME = "resource-name";
-    public static final String RESOURCE_VERSOIN ="resource-version";
+    public static final String RESOURCE_VERSION ="resource-version";
     public static final String RESOURCE_TYPE= "resource-type"; 
     public static final String ARTIFACT_UUID ="artifact-uuid";
     public static final String ARTIFACT_NAME = "artifact-name"; 
     public static final String ARTIFACT_TYPE = "artifact-type"; 
-    public static final String ARTIFACT_VERSOIN = "artifact-version"; 
+    public static final String ARTIFACT_VERSION = "artifact-version";
     public static final String ARTIFACT_DESRIPTION = "artifact-description";
     public static final String ARTIFACT_CONTENTS = "artifact-contents";
     public static final String REQUEST_INFORMATION = "request-information";
