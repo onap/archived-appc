@@ -55,6 +55,8 @@ import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.slf4j.MDC;
+
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -66,13 +68,16 @@ import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class EvacuateServer extends ProviderServerOperation {
 
+    private static final String EVACUATE_STATUS = "EVACUATE_STATUS";
+    private static final String EVACUATE_SERVER = "Evacuate Server";
+
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(EvacuateServer.class);
     private static EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
+
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
     private ProviderAdapterImpl paImpl = null;
 
-
-    private void evacuateServer(RequestContext rc, @SuppressWarnings("unused") Server server, String target_host)
+    private void evacuateServer(RequestContext rc, @SuppressWarnings("unused") Server server, String targetHost)
             throws ZoneException, RequestFailedException {
 
         Context ctx = server.getContext();
@@ -95,14 +100,14 @@ public class EvacuateServer extends ProviderServerOperation {
             logger.info("Evacuate server - ignore RequestFailedException from waitForStateChange() ...");
         }
 
-        SetTimeForMetricsLogger();
+        setTimeForMetricsLogger();
 
         String msg;
         try {
             while (rc.attempt()) {
                 try {
                     logger.debug("Calling CDP moveServer - server id = " + server.getId());
-                    service.moveServer(server.getId(), target_host);
+                    service.moveServer(server.getId(), targetHost);
                     // Wait for completion, expecting the server to go to a non pending state
                     waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
                             Server.Status.SUSPENDED, Server.Status.PAUSED);
@@ -123,14 +128,14 @@ public class EvacuateServer extends ProviderServerOperation {
                     e.getMessage());
             logger.error(msg);
             metricsLogger.error(msg);
-            throw new RequestFailedException("Evacute Server", msg, HttpStatus.BAD_GATEWAY_502, server);
+            throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.BAD_GATEWAY_502, server);
         }
 
         if (rc.isFailed()) {
             msg = EELFResourceManager.format(Msg.CONNECTION_FAILED, provider.getName(), service.getURL());
             logger.error(msg);
             metricsLogger.error(msg);
-            throw new RequestFailedException("Evacuate Server", msg, HttpStatus.BAD_GATEWAY_502, server);
+            throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.BAD_GATEWAY_502, server);
         }
         rc.reset();
     }
@@ -145,65 +150,64 @@ public class EvacuateServer extends ProviderServerOperation {
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        SetTimeForMetricsLogger();
+        setTimeForMetricsLogger();
 
         String msg;
-        ctx.setAttribute("EVACUATE_STATUS", "ERROR");
+        ctx.setAttribute(EVACUATE_STATUS, "ERROR");
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
 
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-            VMURL vm = VMURL.parseURL(vm_url);
-            if (validateVM(rc, appName, vm_url, vm))
+            String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
+            VMURL vm = VMURL.parseURL(vmUrl);
+
+            if (validateVM(rc, appName, vmUrl, vm)) {
                 return null;
+            }
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
 
             // retrieve the optional parameters
-            String rebuild_vm = params.get(ProviderAdapter.PROPERTY_REBUILD_VM);
-            String targethost_id = params.get(ProviderAdapter.PROPERTY_TARGETHOST_ID);
+            String rebuildVm = params.get(ProviderAdapter.PROPERTY_REBUILD_VM);
+            String targetHostId = params.get(ProviderAdapter.PROPERTY_TARGETHOST_ID);
 
             Context context = null;
             try {
-                context = getContext(rc, vm_url, identStr);
+                context = getContext(rc, vmUrl, identStr);
                 if (context != null) {
 
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
 
                     // check target host status
-                    if (isComputeNodeDown(context, targethost_id)) {
+                    if (isComputeNodeDown(context, targetHostId)) {
                         msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
-                                "Target host " + targethost_id + " status is not UP/ENABLED");
+                                "Target host " + targetHostId + " status is not UP/ENABLED");
                         logger.error(msg);
                         metricsLogger.error(msg);
-                        throw new RequestFailedException("Evacuate Server", msg, HttpStatus.BAD_REQUEST_400, server);
+                        throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.BAD_REQUEST_400, server);
                     }
 
                     // save hypervisor name before evacuate
                     String hypervisor = server.getHypervisor().getHostName();
 
-                    evacuateServer(rc, server, targethost_id);
+                    evacuateServer(rc, server, targetHostId);
 
                     server.refreshAll();
-                    String hypervisor_after_evacuate = server.getHypervisor().getHostName();
-                    logger.debug("Hostname before evacuate: " + hypervisor + ", After evacuate: "
-                            + hypervisor_after_evacuate);
+                    String hypervisorAfterEvacuate = server.getHypervisor().getHostName();
+                    logger.debug("Hostname before evacuate: " + hypervisor + ", After evacuate: " + hypervisorAfterEvacuate);
 
                     // check hypervisor host name after evacuate. If it is unchanged, the evacuate
                     // failed.
-                    if ((hypervisor != null) && (hypervisor.equals(hypervisor_after_evacuate))) {
+                    if (hypervisor != null && hypervisor.equals(hypervisorAfterEvacuate)) {
                         msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
                                 "Hypervisor host " + hypervisor
                                         + " after evacuate is the same as before evacuate. Provider (ex. Openstack) recovery actions may be needed.");
                         logger.error(msg);
                         metricsLogger.error(msg);
-                        throw new RequestFailedException("Evacuate Server", msg, HttpStatus.INTERNAL_SERVER_ERROR_500,
-                                server);
-
+                        throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
                     }
 
                     // check VM status after evacuate
@@ -212,18 +216,16 @@ public class EvacuateServer extends ProviderServerOperation {
                                 "VM is in ERROR state after evacuate. Provider (ex. Openstack) recovery actions may be needed.");
                         logger.error(msg);
                         metricsLogger.error(msg);
-                        throw new RequestFailedException("Evacuate Server", msg, HttpStatus.INTERNAL_SERVER_ERROR_500,
-                                server);
+                        throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
                     }
 
                     context.close();
                     doSuccess(rc);
-                    ctx.setAttribute("EVACUATE_STATUS", "SUCCESS");
+                    ctx.setAttribute(EVACUATE_STATUS, "SUCCESS");
 
-                    // If a snapshot exists, do a rebuild to apply the latest snapshot to the
-                    // evacuated server.
+                    // If a snapshot exists, do a rebuild to apply the latest snapshot to the evacuated server.
                     // This is the default behavior unless the optional parameter is set to FALSE.
-                    if ((rebuild_vm == null) || !(rebuild_vm.equalsIgnoreCase("false"))) {
+                    if (rebuildVm == null || !rebuildVm.equalsIgnoreCase("false")) {
                         List<Image> snapshots = server.getSnapshots();
                         if (snapshots == null || snapshots.isEmpty()) {
                             logger.debug("No snapshots available - skipping rebuild after evacuate");
@@ -232,24 +234,22 @@ public class EvacuateServer extends ProviderServerOperation {
                             paImpl.rebuildServer(params, ctx);
                             // Check error code for rebuild errors. Evacuate had set it to 200 after
                             // a successful evacuate. Rebuild updates the error code.
-                            String rebuildErrorCode =
-                                    ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE);
+                            String rebuildErrorCode = ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE);
                             if (rebuildErrorCode != null) {
                                 try {
-                                    int error_code = Integer.parseInt(rebuildErrorCode);
-                                    if (error_code != HttpStatus.OK_200.getStatusCode()) {
-                                        logger.debug("Rebuild after evacuate failed - error code=" + error_code
-                                                + ", message=" + ctx.getAttribute(
-                                                        org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+                                    int errorCode = Integer.parseInt(rebuildErrorCode);
+                                    if (errorCode != HttpStatus.OK_200.getStatusCode()) {
+                                        logger.debug("Rebuild after evacuate failed - error code=" + errorCode
+                                                + ", message=" + ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
                                         msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_REBUILD_FAILED,
-                                                server.getName(), hypervisor, hypervisor_after_evacuate,
+                                                server.getName(), hypervisor, hypervisorAfterEvacuate,
                                                 ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
                                         logger.error(msg);
                                         metricsLogger.error(msg);
-                                        ctx.setAttribute("EVACUATE_STATUS", "ERROR");
+                                        ctx.setAttribute(EVACUATE_STATUS, "ERROR");
                                         // update error message while keeping the error code the
                                         // same as before
-                                        doFailure(rc, HttpStatus.getHttpStatus(error_code), msg);
+                                        doFailure(rc, HttpStatus.getHttpStatus(errorCode), msg);
                                     }
                                 } catch (NumberFormatException e) {
                                     // ignore
@@ -260,16 +260,15 @@ public class EvacuateServer extends ProviderServerOperation {
 
                 }
             } catch (ResourceNotFoundException e) {
-                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
                 logger.error(msg);
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (RequestFailedException e) {
                 doFailure(rc, e.getStatus(), e.getMessage());
-            } catch (Exception e1) {
+            } catch (IOException | ZoneException e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        Operation.EVACUATE_SERVICE.toString(), vm_url,
-                        context == null ? "Unknown" : context.getTenantName());
+                        Operation.EVACUATE_SERVICE.toString(), vmUrl, context == null ? "Unknown" : context.getTenantName());
                 logger.error(msg, e1);
                 metricsLogger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
@@ -284,7 +283,7 @@ public class EvacuateServer extends ProviderServerOperation {
         return server;
     }
 
-    /*
+    /**
      * Check if a Compute node is down.
      * 
      * This method attempts to find a given host in the list of hypervisors for a given context. The only case where a
@@ -298,27 +297,28 @@ public class EvacuateServer extends ProviderServerOperation {
      */
     private boolean isComputeNodeDown(Context context, String host) throws ZoneException {
         ComputeService service = context.getComputeService();
-        boolean node_down = false;
+        boolean nodeDown = false;
 
-        // Check host status. A node is considered down only if a matching target host is
-        // found and it's state/status is not UP/ENABLED.
-        if ((host != null) && !(host.isEmpty())) {
+        if (host != null && ! host.isEmpty()) {
             List<Hypervisor> hypervisors = service.getHypervisors();
             logger.debug("List of Hypervisors retrieved: " + Arrays.toString(hypervisors.toArray()));
-            for (Hypervisor h : hypervisors) {
-                if (h.getHostName().startsWith(host)) {
-                    // host matches one of the hypervisors
-                    State hstate = h.getState();
-                    Status hstatus = h.getStatus();
-                    logger.debug("Host matching hypervisor: " + h.getHostName() + ", State/Status: " + hstate.toString()
+            for (Hypervisor hv : hypervisors) {
+                if (isHostMatchesHypervisor(host, hv)) {
+                    State hstate = hv.getState();
+                    Status hstatus = hv.getStatus();
+                    logger.debug("Host matching hypervisor: " + hv.getHostName() + ", State/Status: " + hstate.toString()
                             + "/" + hstatus.toString());
                     if (hstate != State.UP || hstatus != Status.ENABLED) {
-                        node_down = true;
+                        nodeDown = true;
                     }
                 }
             }
         }
-        return node_down;
+        return nodeDown;
+    }
+
+    private boolean isHostMatchesHypervisor(String host, Hypervisor hypervisor) {
+        return hypervisor.getHostName().startsWith(host);
     }
 
     @Override
@@ -327,13 +327,13 @@ public class EvacuateServer extends ProviderServerOperation {
         setMDC(Operation.EVACUATE_SERVICE.toString(), "App-C IaaS Adapter:Evacuate", ADAPTER_NAME);
         logOperation(Msg.EVACUATING_SERVER, params, context);
 
-        SetTimeForMetricsLogger();
+        setTimeForMetricsLogger();
 
         metricsLogger.info("Executing Provider Operation: Evacuate");
         return evacuateServer(params, context);
     }
 
-    private void SetTimeForMetricsLogger() {
+    private void setTimeForMetricsLogger() {
         long startTime = System.currentTimeMillis();
         TimeZone tz = TimeZone.getTimeZone("UTC");
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
