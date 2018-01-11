@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_c92a297e",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-11T16:46:54Z",
+      "side": 1,
+      "message": "Should other java style issues be resolved while this file is open for modifications?  (tabs, import wildcards, etc.)   Seems like a good time to do this instead of mixing format changes with feature work.    \n\nChange looks good.",
+      "revId": "7337b9cf91c3dfa49b923677e94870c8ac831a5f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
