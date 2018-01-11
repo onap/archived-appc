@@ -24,20 +24,16 @@
 
 package org.onap.appc.artifact.handler.node;
 
-import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
 import static org.junit.Assert.assertTrue;
-import org.onap.appc.artifact.handler.dbservices.DBService;
+
 import org.onap.appc.artifact.handler.dbservices.MockDBService;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtilTest;
@@ -106,10 +102,10 @@ public class ArtifactHandlerNodeTest {
         documentInfo.put(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION, "testDesc");
         documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_UUID, "testRes");
         documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, "testResIns");
-        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_VERSOIN, "testVers");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, "testVers");
         documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, "testResType");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "testArtifactUuid");
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_VERSOIN, "testArtifactVers");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, "testArtifactVers");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "testArtifactDesc");
         Whitebox.invokeMethod(ah, "processAndStoreCapablitiesArtifact", dbService, documentInfo, capabilities,
                 "artifactName", "someVnf");
