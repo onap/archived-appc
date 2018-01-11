@@ -48,6 +48,7 @@ import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class TerminateStack extends ProviderStackOperation {
 
+    private static final String TERMINATE_STATUS = "TERMINATE_STATUS"; 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(EvacuateServer.class);
 
     private void deleteStack(RequestContext rc, Stack stack) throws ZoneException, RequestFailedException {
@@ -60,9 +61,9 @@ public class TerminateStack extends ProviderStackOperation {
         // wait for the stack deletion
         boolean success = waitForStackStatus(rc, stack, Stack.Status.DELETED);
         if (success) {
-            ctx.setAttribute("TERMINATE_STATUS", "SUCCESS");
+            ctx.setAttribute(TERMINATE_STATUS, "SUCCESS");
         } else {
-            ctx.setAttribute("TERMINATE_STATUS", "ERROR");
+            ctx.setAttribute(TERMINATE_STATUS, "ERROR");
             throw new RequestFailedException("Delete Stack failure : " + Msg.STACK_OPERATION_EXCEPTION.toString());
         }
     }
@@ -74,7 +75,7 @@ public class TerminateStack extends ProviderStackOperation {
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
 
-        ctx.setAttribute("TERMINATE_STATUS", "STACK_NOT_FOUND");
+        ctx.setAttribute(TERMINATE_STATUS, "STACK_NOT_FOUND");
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
 
         try {
