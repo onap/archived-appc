@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_69367554",
+        "filename": "appc-sequence-generator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-11T22:38:17Z",
+      "side": 1,
+      "message": "There\u0027s an extra space at the end of this line",
+      "revId": "a50523df58e053fd8e592a934e3cfc23997eb237",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
