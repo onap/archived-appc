@@ -1,6 +1,9 @@
 # Target dirs in all projects
 **/target/*
 
+# Target-ide dirs in all projects
+**/target-ide/*
+
 # Added for Intellij IDEA IDE
 **/.idea/*
 *.iml
