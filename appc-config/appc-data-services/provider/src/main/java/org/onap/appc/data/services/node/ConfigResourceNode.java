@@ -751,12 +751,6 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         }
 
         String vnfcFunctionCode = getVnfcFunctionCodeForVserver(ctx, vServerId);
-        if (StringUtils.isBlank(vnfcFunctionCode)) {
-            log.info("processCapabilitiesForVMLevel() :: vnfcFunctionCode is not present in context!!!");
-            ctx.setAttribute("capabilities", "Not-Supported");
-            return;
-        }
-
         if (vmCaps.toString().contains(vnfcFunctionCode))
             ctx.setAttribute("capabilities", "Supported");
         else
@@ -765,15 +759,9 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     }
 
     private String getVnfcFunctionCodeForVserver(SvcLogicContext ctx, String vServerId) throws Exception {
-        log.info("getVnfcFunctionCodeForVserver()::vServerId=" + vServerId);
-        for (Object key : ctx.getAttributeKeySet()) {
-            String parmName = (String) key;
-            String parmValue = ctx.getAttribute(parmName);
-            log.info(parmName +  "="  + parmValue);
-
-        }
+        log.debug("getVnfcFunctionCodeForVserver()::vServerId=" + vServerId);
         String vnfcFunctionCode = ctx.getAttribute("tmp.vnfInfo.vm.vnfc.vnfc-function-code");
-        log.info("getVnfcFunctionCodeForVserver()::vnfcFunctionCode=" + vnfcFunctionCode);
+        log.debug("getVnfcFunctionCodeForVserver()::vnfcFunctionCode=" + vnfcFunctionCode);
         return vnfcFunctionCode;
     }
 
