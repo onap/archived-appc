@@ -3,3 +3,4 @@
 /bin/
 /.settings/
 **/yang-gen-config/
+/target-ide/
