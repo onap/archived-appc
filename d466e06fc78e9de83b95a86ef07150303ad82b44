@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_af4ebd6d",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:33:25Z",
+      "side": 1,
+      "message": "newline added",
+      "revId": "d466e06fc78e9de83b95a86ef07150303ad82b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_cf51c90f",
+        "filename": "appc-adapters/appc-netconf-adapter/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:33:25Z",
+      "side": 1,
+      "message": "newline added",
+      "revId": "d466e06fc78e9de83b95a86ef07150303ad82b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6f58b532",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:33:25Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "d466e06fc78e9de83b95a86ef07150303ad82b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8f5bc12d",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-features/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:33:25Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "d466e06fc78e9de83b95a86ef07150303ad82b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2f42ad3e",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:33:25Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "d466e06fc78e9de83b95a86ef07150303ad82b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4f3db9ba",
+        "filename": "appc-adapters/appc-ssh-adapter/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:33:25Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "d466e06fc78e9de83b95a86ef07150303ad82b44",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
