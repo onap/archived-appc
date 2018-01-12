@@ -24,23 +24,18 @@
 
 package org.onap.appc.adapter.ansible.model;
 
-/**
- *  Simple class to store code and message returned by POST/GET to an Ansible Server
- */
+/* Simple class to store code and message returned by POST/GET to an Ansible Server */
 public class AnsibleResult {
-
-    private static final String EMPTY_VALUE = "UNKNOWN";
-
     private int statusCode;
     private String statusMessage;
     private String results;
 
     public AnsibleResult() {
-        this(-1, EMPTY_VALUE, EMPTY_VALUE);
+        this(-1, "UNKNOWN", "UNKNOWN");
     }
 
     public AnsibleResult(int code, String message) {
-        this(code, message, EMPTY_VALUE);
+        this(code, message, "UNKNOWN");
     }
 
     public AnsibleResult(int code, String message, String result) {

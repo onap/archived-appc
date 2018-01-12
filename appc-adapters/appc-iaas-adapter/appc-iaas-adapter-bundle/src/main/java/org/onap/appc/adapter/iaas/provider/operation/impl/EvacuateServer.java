@@ -225,7 +225,7 @@ public class EvacuateServer extends ProviderServerOperation {
 
                     // If a snapshot exists, do a rebuild to apply the latest snapshot to the evacuated server.
                     // This is the default behavior unless the optional parameter is set to FALSE.
-                    if (rebuildVm == null || !"false".equalsIgnoreCase(rebuildVm)) {
+                    if (rebuildVm == null || !rebuildVm.equalsIgnoreCase("false")) {
                         List<Image> snapshots = server.getSnapshots();
                         if (snapshots == null || snapshots.isEmpty()) {
                             logger.debug("No snapshots available - skipping rebuild after evacuate");
