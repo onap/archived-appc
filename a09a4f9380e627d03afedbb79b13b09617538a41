@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_8f72e1ab",
+        "filename": "appc-dg-util/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:41:32Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "a09a4f9380e627d03afedbb79b13b09617538a41",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_af755d99",
+        "filename": "appc-lifecycle-management/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:41:32Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "a09a4f9380e627d03afedbb79b13b09617538a41",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6f6f55c6",
+        "filename": "appc-metric/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:41:32Z",
+      "side": 1,
+      "message": "newline",
+      "revId": "a09a4f9380e627d03afedbb79b13b09617538a41",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
