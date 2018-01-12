@@ -1,4 +1,5 @@
 /target/
+/target-ide/
 /bin/
 /classes/
 /.settings/
