@@ -51,10 +51,11 @@ import static org.powermock.api.mockito.PowerMockito.whenNew;
 @PrepareForTest({ResumeTrafficService.class, RequestExecutor.class})
 public class ResumeTrafficServiceTest {
     private final Action myAction = Action.ResumeTraffic;
-
+    private final String PAYLOAD_STRING = "{\"A\":\"A-value\",\"B\":{\"C\":\"B.C-value\",\"D\":\"B.D-value\"}}";
     private ResumeTrafficInput mockInput = mock(ResumeTrafficInput.class);
     private CommonHeader mockCommonHeader = mock(CommonHeader.class);
     private ActionIdentifiers mockAI = mock(ActionIdentifiers.class);
+    private Payload mockPayload = mock(Payload.class);
 
     private ResumeTrafficService resumeServiceAction;
     @Before
@@ -126,7 +127,7 @@ public class ResumeTrafficServiceTest {
 
     @Test
     public void testValidate() throws Exception {
-        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI);
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI,mockPayload);
         Status status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
         Assert.assertEquals("should return missing parameter",
             Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
@@ -140,23 +141,46 @@ public class ResumeTrafficServiceTest {
         Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
 
         // test empty action
-        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI);
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI,mockPayload);
         status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
         Assert.assertEquals("Should return missing parameter for action",
                 Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
 
         // test empty ActionIdentifier
-        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI);
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI,mockPayload);
         status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
         Assert.assertEquals("should return missing parameter",
                 Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
 
         // test Invalid VNF_ID
         Mockito.doReturn("").when(mockAI).getVnfId();
-        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI);
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI,mockPayload);
         status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
         Assert.assertEquals("should return invalid parameter",
                 Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
+	// test null payload
+        Mockito.doReturn("vnfId").when(mockAI).getVnfId();
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI, null);
+        Mockito.verify(resumeServiceAction, times(1)).validateExcludedActIds(any(), any());
+        status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
+
+        // test empty payload
+
+        Mockito.doReturn("").when(mockPayload).getValue();
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI, mockPayload);
+        status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
+        Assert.assertEquals("should return invalid parameter",
+                Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
+
+        // test space payload
+        Mockito.doReturn(" ").when(mockPayload).getValue();
+        resumeServiceAction.validate(mockCommonHeader, Action.ResumeTraffic, mockAI, mockPayload);
+        status = (Status) Whitebox.getInternalState(resumeServiceAction, "status");
+        Assert.assertEquals("should return invalid parameter",
+                Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
+    
     }
 
 }

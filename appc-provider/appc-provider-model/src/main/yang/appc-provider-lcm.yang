@@ -112,7 +112,7 @@ module appc-provider-lcm {
             enum "ConfigExport";
             enum "StopApplication";
             enum "StartApplication";
-			enum "QuiesceTraffic";
+	    enum "QuiesceTraffic";
             enum "ResumeTraffic";
             enum "UpgradePreCheck";
             enum "UpgradeSoftware";
@@ -508,7 +508,11 @@ module appc-provider-lcm {
                 mandatory true;
             }
             uses action-identifiers;
-        }
+            leaf payload {
+                type payload;
+                mandatory true;
+           }
+	}
         output {
             uses common-header;
             uses status;
