@@ -1,5 +1,4 @@
 /target/
-/target-ide/
 /.idea/
 *.iml
 /logs/
