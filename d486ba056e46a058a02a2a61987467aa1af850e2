@@ -16,6 +16,24 @@
       "revId": "d486ba056e46a058a02a2a61987467aa1af850e2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_cf2a297e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/MigrateServer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-12T18:04:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_6f0af522",
+      "revId": "d486ba056e46a058a02a2a61987467aa1af850e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
