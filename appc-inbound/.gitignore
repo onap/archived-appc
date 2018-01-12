@@ -24,6 +24,7 @@ debug-logs/
 /.settings/
 **/*.iml
 /.idea/
+.settings
 
 
 # MANIFEST.MF is updated on every clean install
