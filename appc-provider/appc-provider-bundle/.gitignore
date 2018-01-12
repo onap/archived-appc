@@ -1,4 +1,5 @@
 /target/
+/target-ide/
 /bin/
 /.settings/
 **/yang-gen-config/
