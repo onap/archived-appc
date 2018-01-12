@@ -43,13 +43,19 @@
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
         </dependency>
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
+            <version>${xmlunit.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.xmlunit/xmlunit-core -->
-    <dependency>
-        <groupId>org.xmlunit</groupId>
-        <artifactId>xmlunit-core</artifactId>
-        <version>${xmlunit-core.version}</version>
-        <scope>compile</scope>
-    </dependency>
+        <dependency>
+             <groupId>org.xmlunit</groupId>
+             <artifactId>xmlunit-core</artifactId>
+             <version>${xmlunit-core.version}</version>
+             <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
