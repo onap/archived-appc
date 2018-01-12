@@ -32,14 +32,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.xmlunit.diff.ComparisonResult;
-import org.xmlunit.diff.ComparisonType;
-import org.xmlunit.diff.DefaultNodeMatcher;
-import org.xmlunit.diff.ElementSelectors;
-import org.xmlunit.util.Nodes;
-import org.xmlunit.builder.DiffBuilder;
-import org.w3c.dom.Attr;
+import org.custommonkey.xmlunit.Diff;
+import org.custommonkey.xmlunit.Difference;
+import org.custommonkey.xmlunit.DifferenceConstants;
+import org.custommonkey.xmlunit.DifferenceListener;
+import org.custommonkey.xmlunit.ElementNameQualifier;
+import org.custommonkey.xmlunit.XMLUnit;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -69,38 +69,37 @@ public class CompareXmlData implements CompareDataInterface
 
         log.debug("controlXml : " + controlXml);
         log.debug("testXml : " + testXml);
-        controlXml = controlXml.replace("junos:", "");
-        testXml = testXml.replace("junos:", "");
-        //doSetup();
+        doSetup();
 
         try
         {
-             //Diff diff = new Diff(getCompareDoc(controlXml), getCompareDoc(testXml));
-            final org.xmlunit.diff.Diff documentDiff = DiffBuilder
-                    .compare(controlXml)
-                    .withTest(testXml)
-                    .withNodeMatcher(new DefaultNodeMatcher(ElementSelectors.byName))
-                    .checkForSimilar()
-                    .withDifferenceEvaluator((comparison, outcome) -> {
-                            if (outcome != ComparisonResult.EQUAL && comparison.getType() == ComparisonType.ATTR_VALUE) {
-                                Attr a = (Attr) comparison.getControlDetails().getTarget();
-                                if ("commit-seconds".equals(Nodes.getQName(a).getLocalPart()) || "commit-localtime".equals(Nodes.getQName(a).getLocalPart())
-                                    && "configuration".equals(Nodes.getQName(a.getOwnerElement()).getLocalPart())) {
-                                    return ComparisonResult.EQUAL;
-                                }
-                            }
-                            else
-                                return ComparisonResult.SIMILAR;
-
-                            return outcome;
-                        })
-                    .ignoreComments()
-                    .ignoreWhitespace()
-                    .build();
-            if(documentDiff.hasDifferences())
-                return false;
-            else
-                return true;
+             Diff diff = new Diff(getCompareDoc(controlXml), getCompareDoc(testXml));
+             diff.overrideElementQualifier(new ElementNameQualifier() {
+                    @Override
+                    protected boolean equalsNamespace(Node control, Node test) {
+                        return true;
+                    }
+                });
+             diff.overrideDifferenceListener(new DifferenceListener() {
+                    @Override
+                    public int differenceFound(Difference diff) {
+                        if (diff.getId() == DifferenceConstants.ATTR_VALUE_ID) {
+                            return RETURN_IGNORE_DIFFERENCE_NODES_IDENTICAL;
+                        }
+                        return RETURN_ACCEPT_DIFFERENCE;
+                    }
+                    @Override
+                    public void skippedComparison(Node arg0, Node arg1) { }
+                });
+             if(diff.similar())
+                 return true;
+             else
+                 return false;
+        }
+        catch(SAXException se)
+        {
+            se.printStackTrace();
+            throw new Exception(se.getMessage());
         }
         catch(Exception e)
         {
@@ -109,13 +108,13 @@ public class CompareXmlData implements CompareDataInterface
         }
     }
 
-    /*private void doSetup() throws ParserConfigurationException, SAXException, IOException
+    private void doSetup() throws ParserConfigurationException, SAXException, IOException
     {
 
         XMLUnit.setIgnoreAttributeOrder(true);
         XMLUnit.setIgnoreComments(true);
         XMLUnit.setIgnoreWhitespace(true);
-    }*/
+    }
 
 
     public Document getCompareDoc(String inXml) throws ParserConfigurationException, SAXException, IOException

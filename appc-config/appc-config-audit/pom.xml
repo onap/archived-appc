@@ -15,6 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+                <xmlunit.version>1.6</xmlunit.version>
                 <xmlunit-core.version>2.3.0</xmlunit-core.version>
     </properties>
 
