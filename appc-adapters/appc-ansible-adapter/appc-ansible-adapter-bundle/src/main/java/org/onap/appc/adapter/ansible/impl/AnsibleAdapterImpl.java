@@ -26,48 +26,36 @@ package org.onap.appc.adapter.ansible.impl;
 
 import java.util.Map;
 import java.util.Properties;
-import java.lang.*;
-
+import org.apache.commons.lang.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.onap.appc.adapter.ansible.AnsibleAdapter;
+import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
+import org.onap.appc.adapter.ansible.model.AnsibleResult;
+import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
+import org.onap.appc.adapter.ansible.model.AnsibleServerEmulator;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
-
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-
-import org.json.JSONObject;
-import org.json.JSONException;
-
-import org.onap.appc.adapter.ansible.AnsibleAdapter;
-
-import org.onap.appc.adapter.ansible.model.AnsibleResult;
-import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
-import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
-import org.onap.appc.adapter.ansible.model.AnsibleServerEmulator;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-
-
 /**
- * This class implements the {@link AnsibleAdapter} interface. This interface
- * defines the behaviors that our service provides.
+ * This class implements the {@link AnsibleAdapter} interface. This interface defines the behaviors
+ * that our service provides.
  */
 public class AnsibleAdapterImpl implements AnsibleAdapter {
 
     /**
-     * The constant used to define the adapter name in the mapped diagnostic
-     * context
+     * The constant used to define the adapter name in the mapped diagnostic context
      */
-
-
     @SuppressWarnings("nls")
     public static final String MDC_ADAPTER = "Ansible Adapter";
 
     /**
-     * The constant used to define the service name in the mapped diagnostic
-     * context
+     * The constant used to define the service name in the mapped diagnostic context
      */
     @SuppressWarnings("nls")
     public static final String MDC_SERVICE = "service";
@@ -86,9 +74,20 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
     /**
      * Adapter Name
-     **/
+     */
     private static final String ADAPTER_NAME = "Ansible Adapter";
 
+    private static final String RESULT_CODE_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.result.code";
+    private static final String MESSAGE_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.message";
+    private static final String RESULTS_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.results";
+    private static final String ID_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.Id";
+    private static final String LOG_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.log";
+
+    private static final String CLIENT_TYPE_PROPERTY_NAME = "org.onap.appc.adapter.ansible.clientType";
+    private static final String TRUSTSTORE_PROPERTY_NAME = "org.onap.appc.adapter.ansible.trustStore";
+    private static final String TRUSTPASSWD_PROPERTY_NAME = "org.onap.appc.adapter.ansible.trustStore.trustPasswd";
+
+    private static final String PASSWORD = "Password";
 
     /**
      * The logger to be used
@@ -99,19 +98,11 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
      * A reference to the adapter configuration object.
      */
     private Configuration configuration;
-    ;
-
-    /**
-     * can Specify a X509 certificate file for use if required ...
-     * Must be initialized with setCertFile
-     **/
-    private String certFile = "";
-
 
     /**
      * Connection object
      **/
-    ConnectionBuilder http_client;
+    private ConnectionBuilder httpClient;
 
     /**
      * Ansible API Message Handlers
@@ -129,27 +120,17 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private AnsibleServerEmulator testServer;
 
     /**
-     * This default constructor is used as a work around because the activator
-     * wasnt getting called
+     * This default constructor is used as a work around because the activator wasnt getting called
      */
     public AnsibleAdapterImpl() {
         initialize();
     }
 
-
-    /**
-     * @param props not used
-     */
-    public AnsibleAdapterImpl(Properties props) {
-        initialize();
-    }
-
-
     /**
      * Used for jUnit test and testing interface
-     **/
-    public AnsibleAdapterImpl(boolean Mode) {
-        testMode = Mode;
+     */
+    public AnsibleAdapterImpl(boolean mode) {
+        testMode = mode;
         testServer = new AnsibleServerEmulator();
         messageProcessor = new AnsibleMessageParser();
     }
@@ -165,24 +146,22 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         return ADAPTER_NAME;
     }
 
-
     /**
-     * @param rc Method posts info to Context memory in case of an error
-     *           and throws a SvcLogicException causing SLI to register this as a failure
+     * @param rc Method posts info to Context memory in case of an error and throws a
+     *        SvcLogicException causing SLI to register this as a failure
      */
     @SuppressWarnings("static-method")
     private void doFailure(SvcLogicContext svcLogic, int code, String message) throws SvcLogicException {
 
         svcLogic.setStatus(OUTCOME_FAILURE);
-        svcLogic.setAttribute("org.onap.appc.adapter.ansible.result.code", Integer.toString(code));
-        svcLogic.setAttribute("org.onap.appc.adapter.ansible.message", message);
+        svcLogic.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, Integer.toString(code));
+        svcLogic.setAttribute(MESSAGE_ATTRIBUTE_NAME, message);
 
         throw new SvcLogicException("Ansible Adapter Error = " + message);
     }
 
-
     /**
-     * initialize the  Ansible adapter based on default and over-ride configuration data
+     * initialize the Ansible adapter based on default and over-ride configuration data
      */
     private void initialize() {
 
@@ -196,152 +175,156 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         // type of client is extracted from the property file parameter
         // org.onap.appc.adapter.ansible.clientType
         // It can be :
-        //     1. TRUST_ALL  (trust all SSL certs). To be used ONLY in dev
-        //     2. TRUST_CERT (trust only those whose certificates have been stored in the trustStore file)
-        //     3. DEFAULT    (trust only well known certificates). This is standard behaviour to which it will
-        //     revert. To be used in PROD
+        // 1. TRUST_ALL (trust all SSL certs). To be used ONLY in dev
+        // 2. TRUST_CERT (trust only those whose certificates have been stored in the trustStore file)
+        // 3. DEFAULT (trust only well known certificates). This is standard behavior to which it will
+        // revert. To be used in PROD
 
         try {
-            String clientType = props.getProperty("org.onap.appc.adapter.ansible.clientType");
+            String clientType = props.getProperty(CLIENT_TYPE_PROPERTY_NAME);
             logger.info("Ansible http client type set to " + clientType);
 
-            if (clientType.equals("TRUST_ALL")) {
-                logger.info("Creating http client to trust ALL ssl certificates. WARNING. This should be done only in dev environments");
-                http_client = new ConnectionBuilder(1);
-            } else if (clientType.equals("TRUST_CERT")) {
+            if ("TRUST_ALL".equals(clientType)) {
+                logger.info(
+                        "Creating http client to trust ALL ssl certificates. WARNING. This should be done only in dev environments");
+                httpClient = new ConnectionBuilder(1);
+            } else if ("TRUST_CERT".equals(clientType)) {
                 // set path to keystore file
-                String trustStoreFile = props.getProperty("org.onap.appc.adapter.ansible.trustStore");
-                String key = props.getProperty("org.onap.appc.adapter.ansible.trustStore.trustPasswd");
+                String trustStoreFile = props.getProperty(TRUSTSTORE_PROPERTY_NAME);
+                String key = props.getProperty(TRUSTPASSWD_PROPERTY_NAME);
                 char[] trustStorePasswd = key.toCharArray();
-                String trustStoreType = "JKS";
                 logger.info("Creating http client with trustmanager from " + trustStoreFile);
-                http_client = new ConnectionBuilder(trustStoreFile, trustStorePasswd);
+                httpClient = new ConnectionBuilder(trustStoreFile, trustStorePasswd);
             } else {
                 logger.info("Creating http client with default behaviour");
-                http_client = new ConnectionBuilder(0);
+                httpClient = new ConnectionBuilder(0);
             }
         } catch (Exception e) {
-            logger.error("Error Initializing Ansible Adapter due to Unknown Exception: reason = " + e.getMessage());
+            logger.error("Error Initializing Ansible Adapter due to Unknown Exception", e);
         }
 
         logger.info("Intitialized Ansible Adapter");
-
     }
-
 
     /**
-     * set the certificate file if not a trusted/known CA
-     **/
-    private void setCertFile(String CertFile) {
-        this.certFile = CertFile;
-    }
-
-
-    // Public Method to post request to execute playbook. Posts the following back
-    // to Svc context memory
-    //  org.onap.appc.adapter.ansible.req.code : 100 if successful
-    //  org.onap.appc.adapter.ansible.req.messge : any message
-    //  org.onap.appc.adapter.ansible.req.Id : a unique uuid to reference the request
-
+     * Public Method to post request to execute playbook. Posts the following back to Svc context
+     * memory org.onap.appc.adapter.ansible.req.code : 100 if successful
+     * org.onap.appc.adapter.ansible.req.messge : any message org.onap.appc.adapter.ansible.req.Id :
+     * a unique uuid to reference the request
+     */
+    @Override
     public void reqExec(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
 
-        String PlaybookName = "";
-        String payload = "";
-        String AgentUrl = "";
-        String User = "";
-        String Password = "";
-        String Id = "";
+        String playbookName = StringUtils.EMPTY;
+        String payload = StringUtils.EMPTY;
+        String agentUrl = StringUtils.EMPTY;
+        String user = StringUtils.EMPTY;
+        String password = StringUtils.EMPTY;
+        String id = StringUtils.EMPTY;
 
-        JSONObject JsonPayload;
+        JSONObject jsonPayload;
 
         try {
             // create json object to send request
-            JsonPayload = messageProcessor.reqMessage(params);
+            jsonPayload = messageProcessor.reqMessage(params);
 
-            AgentUrl = (String) JsonPayload.remove("AgentUrl");
-            User = (String) JsonPayload.remove("User");
-            Password = (String) JsonPayload.remove("Password");
-            Id = (String) JsonPayload.getString("Id");
-            payload = JsonPayload.toString();
+            agentUrl = (String) jsonPayload.remove("AgentUrl");
+            user = (String) jsonPayload.remove("User");
+            password = (String) jsonPayload.remove(PASSWORD);
+            id = jsonPayload.getString("Id");
+            payload = jsonPayload.toString();
             logger.info("Updated Payload  = " + payload);
         } catch (APPCException e) {
-            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error constructing request for execution of playbook due to missing mandatory parameters. Reason = " + e.getMessage());
+            logger.error("APPCException caught", e);
+            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                    "Error constructing request for execution of playbook due to missing mandatory parameters. Reason = "
+                            + e.getMessage());
         } catch (JSONException e) {
-            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error constructing request for execution of playbook due to invalid JSON block. Reason = " + e.getMessage());
+            logger.error("JSONException caught", e);
+            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                    "Error constructing request for execution of playbook due to invalid JSON block. Reason = "
+                            + e.getMessage());
         } catch (NumberFormatException e) {
-            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error constructing request for execution of playbook due to invalid parameter values. Reason = " + e.getMessage());
+            logger.error("NumberFormateException caught", e);
+            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                    "Error constructing request for execution of playbook due to invalid parameter values. Reason = "
+                            + e.getMessage());
         }
 
-
         int code = -1;
-        String message = "";
+        String message = StringUtils.EMPTY;
 
         try {
-
             // post the test request
-            //---------------------------------------
-            logger.info("Posting request = " + payload + " to url = " + AgentUrl);
-            AnsibleResult testresult = postExecRequest(AgentUrl, payload, User, Password);
+            logger.info("Posting request = " + payload + " to url = " + agentUrl);
+            AnsibleResult testresult = postExecRequest(agentUrl, payload, user, password);
 
-
-            // Process if HTTP was successfull
+            // Process if HTTP was successful
             if (testresult.getStatusCode() == 200) {
                 testresult = messageProcessor.parsePostResponse(testresult.getStatusMessage());
             } else {
-                doFailure(ctx, testresult.getStatusCode(), "Error posting request. Reason = " + testresult.getStatusMessage());
+                doFailure(ctx, testresult.getStatusCode(),
+                        "Error posting request. Reason = " + testresult.getStatusMessage());
             }
 
             code = testresult.getStatusCode();
             message = testresult.getStatusMessage();
 
-
             // Check status of test request returned by Agent
-            //-----------------------------------------------
             if (code == AnsibleResultCodes.PENDING.getValue()) {
-                logger.info(String.format("Submission of Test %s successful.", PlaybookName));
+                logger.info(String.format("Submission of Test %s successful.", playbookName));
                 // test request accepted. We are in asynchronous case
             } else {
                 doFailure(ctx, code, "Request for execution of playbook rejected. Reason = " + message);
             }
         } catch (APPCException e) {
-            doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(), "Exception encountered when posting request for execution of playbook. Reason = " + e.getMessage());
+            logger.error("APPCException caught", e);
+            doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
+                    "Exception encountered when posting request for execution of playbook. Reason = " + e.getMessage());
         }
 
-
-        ctx.setAttribute("org.onap.appc.adapter.ansible.result.code", Integer.toString(code));
-        ctx.setAttribute("org.onap.appc.adapter.ansible.message", message);
-        ctx.setAttribute("org.onap.appc.adapter.ansible.Id", Id);
-
+        ctx.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, Integer.toString(code));
+        ctx.setAttribute(MESSAGE_ATTRIBUTE_NAME, message);
+        ctx.setAttribute(ID_ATTRIBUTE_NAME, id);
     }
 
-
-    // Public method to query status of a specific request
-    // It blocks till the Ansible Server responds or the session times out
-
+    /**
+     * Public method to query status of a specific request It blocks till the Ansible Server
+     * responds or the session times out (non-Javadoc)
+     *
+     * @see org.onap.appc.adapter.ansible.AnsibleAdapter#reqExecResult(java.util.Map,
+     *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
+     */
+    @Override
     public void reqExecResult(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
 
-
-        // Get uri
-        String ReqUri = "";
+        // Get URI
+        String reqUri = StringUtils.EMPTY;
 
         try {
-            ReqUri = messageProcessor.reqUriResult(params);
-            System.out.println("Got uri = " + ReqUri);
+            reqUri = messageProcessor.reqUriResult(params);
+            System.out.println("Got uri = " + reqUri);
         } catch (APPCException e) {
-            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error constructing request to retreive result due to missing parameters. Reason = " + e.getMessage());
+            logger.error("APPCException caught", e);
+            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                    "Error constructing request to retreive result due to missing parameters. Reason = "
+                            + e.getMessage());
             return;
         } catch (NumberFormatException e) {
-            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error constructing request to retreive result due to invalid parameters value. Reason = " + e.getMessage());
+            logger.error("NumberFormatException caught", e);
+            doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                    "Error constructing request to retreive result due to invalid parameters value. Reason = "
+                            + e.getMessage());
             return;
         }
 
         int code = -1;
-        String message = "";
-        String results = "";
+        String message = StringUtils.EMPTY;
+        String results = StringUtils.EMPTY;
 
         try {
-            // Try to  retreive the test results (modify the url for that)
-            AnsibleResult testresult = queryServer(ReqUri, params.get("User"), params.get("Password"));
+            // Try to retrieve the test results (modify the URL for that)
+            AnsibleResult testresult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
             code = testresult.getStatusCode();
             message = testresult.getStatusMessage();
 
@@ -356,113 +339,96 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             }
 
             logger.info("Request response = " + message);
-
         } catch (APPCException e) {
-            doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(), "Exception encountered retreiving result : " + e.getMessage());
+            doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
+                    "Exception encountered retreiving result : " + e.getMessage());
             return;
         }
 
         // We were able to get and process the results. Determine if playbook succeeded
 
         if (code == AnsibleResultCodes.FINAL_SUCCESS.getValue()) {
-            message = String.format("Ansible Request  %s finished with Result = %s, Message = %s", params.get("Id"), OUTCOME_SUCCESS, message);
+            message = String.format("Ansible Request  %s finished with Result = %s, Message = %s", params.get("Id"),
+                    OUTCOME_SUCCESS, message);
             logger.info(message);
         } else {
-            logger.info(String.format("Ansible Request  %s finished with Result %s, Message = %s", params.get("Id"), OUTCOME_FAILURE, message));
-            ctx.setAttribute("org.onap.appc.adapter.ansible.results", results);
+            logger.info(String.format("Ansible Request  %s finished with Result %s, Message = %s", params.get("Id"),
+                    OUTCOME_FAILURE, message));
+            ctx.setAttribute(RESULTS_ATTRIBUTE_NAME, results);
             doFailure(ctx, code, message);
             return;
         }
 
-
-        ctx.setAttribute("org.onap.appc.adapter.ansible.result.code", Integer.toString(400));
-        ctx.setAttribute("org.onap.appc.adapter.ansible.message", message);
-        ctx.setAttribute("org.onap.appc.adapter.ansible.results", results);
+        ctx.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, Integer.toString(400));
+        ctx.setAttribute(MESSAGE_ATTRIBUTE_NAME, message);
+        ctx.setAttribute(RESULTS_ATTRIBUTE_NAME, results);
         ctx.setStatus(OUTCOME_SUCCESS);
     }
 
-
-    // Public method to get logs  from plyabook execution for a  specifcic request
-    // It blocks till the Ansible Server responds or the session times out
-    // very similar to reqExecResult
-    // logs are returned in the DG context variable org.onap.appc.adapter.ansible.log
-
+    /**
+     * Public method to get logs from playbook execution for a specific request
+     *
+     * It blocks till the Ansible Server responds or the session times out very similar to
+     * reqExecResult logs are returned in the DG context variable org.onap.appc.adapter.ansible.log
+     */
+    @Override
     public void reqExecLog(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
 
-
-        // Get uri
-        String ReqUri = "";
+        String reqUri = StringUtils.EMPTY;
         try {
-            ReqUri = messageProcessor.reqUriLog(params);
-            logger.info("Retreiving results from " + ReqUri);
+            reqUri = messageProcessor.reqUriLog(params);
+            logger.info("Retreiving results from " + reqUri);
         } catch (Exception e) {
+            logger.error("Exception caught", e);
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), e.getMessage());
         }
 
-        int code = -1;
-        String message = "";
-        float Duration = -1;
-
+        String message = StringUtils.EMPTY;
         try {
-            // Try to  retreive the test results (modify the url for that)
-            AnsibleResult testresult = queryServer(ReqUri, params.get("User"), params.get("Password"));
-            code = testresult.getStatusCode();
+            // Try to retrieve the test results (modify the url for that)
+            AnsibleResult testresult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
             message = testresult.getStatusMessage();
-
             logger.info("Request output = " + message);
-
+            ctx.setAttribute(LOG_ATTRIBUTE_NAME, message);
+            ctx.setStatus(OUTCOME_SUCCESS);
         } catch (Exception e) {
-            doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(), "Exception encountered retreiving output : " + e.getMessage());
+            logger.error("Exception caught", e);
+            doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
+                    "Exception encountered retreiving output : " + e.getMessage());
         }
-
-        ctx.setAttribute("org.onap.appc.adapter.ansible.log", message);
-        ctx.setStatus(OUTCOME_SUCCESS);
     }
-
 
     /**
      * Method that posts the request
-     **/
-
-    private AnsibleResult postExecRequest(String AgentUrl, String Payload, String User, String Password) {
-
-        String reqOutput = "UNKNOWN";
-        int reqStatus = -1;
+     */
+    private AnsibleResult postExecRequest(String agentUrl, String payload, String User, String password) {
 
         AnsibleResult testresult;
 
         if (!testMode) {
-            http_client.setHttpContext(User, Password);
-            testresult = http_client.Post(AgentUrl, Payload);
+            httpClient.setHttpContext(User, password);
+            testresult = httpClient.post(agentUrl, payload);
         } else {
-            testresult = testServer.Post(AgentUrl, Payload);
+            testresult = testServer.Post(agentUrl, payload);
         }
-
         return testresult;
     }
 
+    /**
+     * Method to query Ansible server
+     */
+    private AnsibleResult queryServer(String agentUrl, String user, String password) {
 
-    /* 
-       Method to query Ansible server
-
-    */
-    private AnsibleResult queryServer(String AgentUrl, String User, String Password) {
-
-        String testOutput = "UNKNOWN";
-        int testStatus = -1;
         AnsibleResult testresult;
 
-        logger.info("Querying url = " + AgentUrl);
+        logger.info("Querying url = " + agentUrl);
 
         if (!testMode) {
-            testresult = http_client.Get(AgentUrl);
+            testresult = httpClient.get(agentUrl);
         } else {
-            testresult = testServer.Get(AgentUrl);
+            testresult = testServer.Get(agentUrl);
         }
 
         return testresult;
-
     }
-
-
 }
