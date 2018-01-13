@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -25,18 +25,20 @@
 package org.onap.appc.adapter.ansible.model;
 
 /**
- * This module imples the APP-C/Ansible Server interface
+ * This module implements the APP-C/Ansible Server interface
  * based on the REST API specifications
  */
-
-import java.util.*;
-
-import com.google.common.base.Strings;
-
-import org.json.JSONObject;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.onap.appc.exceptions.APPCException;
+import com.google.common.base.Strings;
 
 /**
  * Class that validates and constructs requests sent/received from
@@ -66,16 +68,16 @@ public class AnsibleMessageParser {
      * a) validates if all parameters are appropriate (else, throws an exception) and
      * b) if correct returns a JSON object with appropriate key-value pairs to send to the server.
      *
-     * Mandatory  parameters, that must be in the supplied information to the Ansible Adapter
+     * Mandatory parameters, that must be in the supplied information to the Ansible Adapter
      * 1. URL to connect to
      * 2. credentials for URL (assume username password for now)
      * 3. Playbook name
      *
      */
     public JSONObject reqMessage(Map<String, String> params) throws APPCException {
-        final String[] mandatoryTestParams = { AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY };
-        final String[] optionalTestParams = { ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
-            TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY };
+        final String[] mandatoryTestParams = {AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY};
+        final String[] optionalTestParams = {ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
+                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY};
 
         JSONObject jsonPayload = new JSONObject();
 
@@ -100,7 +102,7 @@ public class AnsibleMessageParser {
      */
     public String reqUriResult(Map<String, String> params) throws APPCException {
 
-        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
+        final String[] mandatoryTestParams = {AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY};
 
         for (String key : mandatoryTestParams) {
             throwIfMissingMandatoryParam(params, key);
@@ -115,7 +117,7 @@ public class AnsibleMessageParser {
      */
     public String reqUriOutput(Map<String, String> params) throws APPCException {
 
-        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
+        final String[] mandatoryTestParams = {AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY};
 
         for (String mandatoryParam : mandatoryTestParams) {
             throwIfMissingMandatoryParam(params, mandatoryParam);
@@ -130,7 +132,7 @@ public class AnsibleMessageParser {
      */
     public String reqUriLog(Map<String, String> params) throws APPCException {
 
-        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
+        final String[] mandatoryTestParams = {AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY};
 
         for (String mandatoryParam : mandatoryTestParams) {
             throwIfMissingMandatoryParam(params, mandatoryParam);
@@ -153,7 +155,8 @@ public class AnsibleMessageParser {
             int initResponseValue = AnsibleResultCodes.INITRESPONSE.getValue();
             boolean validCode = AnsibleResultCodes.CODE.checkValidCode(initResponseValue, code);
             if (!validCode) {
-                throw new APPCException("Invalid InitResponse code  = " + code + " received. MUST be one of " + AnsibleResultCodes.CODE.getValidCodes(initResponseValue));
+                throw new APPCException("Invalid InitResponse code  = " + code + " received. MUST be one of "
+                        + AnsibleResultCodes.CODE.getValidCodes(initResponseValue));
             }
 
             ansibleResult = new AnsibleResult(code, msg);
@@ -168,79 +171,81 @@ public class AnsibleMessageParser {
      * This method parses response from an Ansible server when we do a GET for a result
      * and returns an AnsibleResult object.
      **/
-    public AnsibleResult  parseGetResponse(String input) throws APPCException {
+    public AnsibleResult parseGetResponse(String input) throws APPCException {
 
-	AnsibleResult ansibleResult = new AnsibleResult();
-	int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
+        AnsibleResult ansibleResult = new AnsibleResult();
+        int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
 
-	try{
-	    JSONObject  postResponse = new JSONObject(input);
-	    
-	    int codeStatus = postResponse.getInt(STATUS_CODE_KEY);
-	    String messageStatus = postResponse.getString(STATUS_MESSAGE_KEY);
-	    
-	    boolean valCode = AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), codeStatus);
-	    
-	    if(!valCode){
-		throw new APPCException("Invalid FinalResponse code  = " + codeStatus + " received. MUST be one of " + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.FINALRESPONSE.getValue()));
-	    }
+        try {
+            JSONObject postResponse = new JSONObject(input);
 
-	    ansibleResult.setStatusCode(codeStatus);
-	    ansibleResult.setStatusMessage(messageStatus);
-	    System.out.println("Received response with code = " + Integer.toString(codeStatus) + " Message = " + messageStatus);
+            int codeStatus = postResponse.getInt(STATUS_CODE_KEY);
+            String messageStatus = postResponse.getString(STATUS_MESSAGE_KEY);
 
-	    if(! postResponse.isNull("Results")){
+            boolean valCode =
+                    AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), codeStatus);
 
-		// Results are available. process them
-		// Results is a dictionary of the form
-		// {host :{status:s, group:g, message:m, hostname:h}, ...}
-		System.out.println("Processing results in response");
-		JSONObject results = postResponse.getJSONObject("Results");
-		System.out.println("Get JSON dictionary from Results ..");
-		Iterator<String> hosts = results.keys();
-		System.out.println("Iterating through hosts");
-		
-		while(hosts.hasNext()){
-		    String host = hosts.next();
-		    System.out.println("Processing host = " + host);
-		    
-		    try{
-			JSONObject hostResponse = results.getJSONObject(host);
-			int subCode = hostResponse.getInt(STATUS_CODE_KEY);
-			String message = hostResponse.getString(STATUS_MESSAGE_KEY);
+            if (!valCode) {
+                throw new APPCException("Invalid FinalResponse code  = " + codeStatus + " received. MUST be one of "
+                        + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.FINALRESPONSE.getValue()));
+            }
 
-			System.out.println("Code = " + Integer.toString(subCode) + " Message = " + message);
-			
-			if(subCode != 200 || ! message.equals("SUCCESS")){
-			    finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
-			}
-		    }
-		    catch(JSONException e){
-			ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
-			ansibleResult.setStatusMessage(String.format("Error processing response message = %s from host %s", results.getString(host), host));
-			break;
-		    }
-		}
+            ansibleResult.setStatusCode(codeStatus);
+            ansibleResult.setStatusMessage(messageStatus);
+            System.out.println(
+                    "Received response with code = " + Integer.toString(codeStatus) + " Message = " + messageStatus);
 
-		ansibleResult.setStatusCode(finalCode);
+            if (!postResponse.isNull("Results")) {
 
-		// We return entire Results object as message
-		ansibleResult.setResults(results.toString());
+                // Results are available. process them
+                // Results is a dictionary of the form
+                // {host :{status:s, group:g, message:m, hostname:h}, ...}
+                System.out.println("Processing results in response");
+                JSONObject results = postResponse.getJSONObject("Results");
+                System.out.println("Get JSON dictionary from Results ..");
+                Iterator<String> hosts = results.keys();
+                System.out.println("Iterating through hosts");
 
-	    }
-	    else{
-		ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
-		ansibleResult.setStatusMessage("Results not found in GET for response");
-	    }
-	    
-	    
-	}
-	catch(JSONException e){
-	    ansibleResult = new AnsibleResult(AnsibleResultCodes.INVALID_PAYLOAD.getValue(), "Error parsing response = " + input + ". Error = " + e.getMessage(), "");
-	}
+                while (hosts.hasNext()) {
+                    String host = hosts.next();
+                    System.out.println("Processing host = " + host);
+
+                    try {
+                        JSONObject hostResponse = results.getJSONObject(host);
+                        int subCode = hostResponse.getInt(STATUS_CODE_KEY);
+                        String message = hostResponse.getString(STATUS_MESSAGE_KEY);
+
+                        System.out.println("Code = " + Integer.toString(subCode) + " Message = " + message);
+
+                        if (subCode != 200 || !message.equals("SUCCESS")) {
+                            finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
+                        }
+                    } catch (JSONException e) {
+                        ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
+                        ansibleResult.setStatusMessage(String.format(
+                                "Error processing response message = %s from host %s", results.getString(host), host));
+                        break;
+                    }
+                }
+
+                ansibleResult.setStatusCode(finalCode);
+
+                // We return entire Results object as message
+                ansibleResult.setResults(results.toString());
+
+            } else {
+                ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
+                ansibleResult.setStatusMessage("Results not found in GET for response");
+            }
 
 
-	return ansibleResult;
+        } catch (JSONException e) {
+            ansibleResult = new AnsibleResult(AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
+                    "Error parsing response = " + input + ". Error = " + e.getMessage(), "");
+        }
+
+
+        return ansibleResult;
     }
 
     private void parseOptionalParams(Map<String, String> params, String[] optionalTestParams, JSONObject jsonPayload) {
@@ -248,11 +253,13 @@ public class AnsibleMessageParser {
         Set<String> optionalParamsSet = new HashSet<>();
         Collections.addAll(optionalParamsSet, optionalTestParams);
 
+        //@formatter:off
         params.entrySet()
             .stream()
             .filter(entry -> optionalParamsSet.contains(entry.getKey()))
             .filter(entry -> !Strings.isNullOrEmpty(entry.getValue()))
-            .forEach(entry -> parseOptionalParam(entry, jsonPayload));
+             .forEach(entry -> parseOptionalParam(entry, jsonPayload));
+        //@formatter:on
     }
 
     private void parseOptionalParam(Map.Entry<String, String> params, JSONObject jsonPayload) {
@@ -297,10 +304,14 @@ public class AnsibleMessageParser {
 
     private void throwIfMissingMandatoryParam(Map<String, String> params, String key) throws APPCException {
         if (!params.containsKey(key)) {
-            throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));
+            throw new APPCException(String.format(
+                    "Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !",
+                    key));
         }
         if (Strings.isNullOrEmpty(params.get(key))) {
-            throw new APPCException(String.format("Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !", key));
+            throw new APPCException(String.format(
+                    "Ansible: Mandatory AnsibleAdapter key %s not found in parameters provided by calling agent !",
+                    key));
         }
     }
 }
