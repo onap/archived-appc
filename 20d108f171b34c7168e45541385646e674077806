@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_0ff81148",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-13T01:07:09Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "5a93c517_4f913951",
+      "revId": "20d108f171b34c7168e45541385646e674077806",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_ef9fe55d",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestConfigComponentAdaptor.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-12T20:44:27Z",
       "side": 1,
       "message": "carriage return",
+      "revId": "20d108f171b34c7168e45541385646e674077806",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_af96bdee",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestConfigComponentAdaptor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-13T01:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_ef9fe55d",
       "revId": "20d108f171b34c7168e45541385646e674077806",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_cf99c920",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestDebugLog.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-13T01:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_0f9b3173",
+      "revId": "20d108f171b34c7168e45541385646e674077806",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_af89dd27",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestEncryptionTool.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2018-01-12T20:44:27Z",
       "side": 1,
       "message": "carriage return",
+      "revId": "20d108f171b34c7168e45541385646e674077806",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6fa0b543",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestEncryptionTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-13T01:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_af89dd27",
       "revId": "20d108f171b34c7168e45541385646e674077806",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_8fa3c14e",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestSshJcraftWrapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-13T01:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_cf8c6938",
+      "revId": "20d108f171b34c7168e45541385646e674077806",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6f83d504",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestXmlUtil.java",
         "patchSetId": 4
@@ -98,6 +188,24 @@
       "writtenOn": "2018-01-12T20:44:27Z",
       "side": 1,
       "message": "carriage return",
+      "revId": "20d108f171b34c7168e45541385646e674077806",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2f8aadbf",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestXmlUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-13T01:07:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_6f83d504",
       "revId": "20d108f171b34c7168e45541385646e674077806",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
