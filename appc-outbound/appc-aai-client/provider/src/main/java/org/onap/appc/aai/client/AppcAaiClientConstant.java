@@ -29,12 +29,12 @@ public class AppcAaiClientConstant {
 
 	
 
-	public static String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
-	public static String OUTPUT_STATUS_SUCCESS = "success";
-	public static String OUTPUT_STATUS_FAILURE = "failure";
+	public static final String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
+	public static final String OUTPUT_STATUS_SUCCESS = "success";
+	public static final String OUTPUT_STATUS_FAILURE = "failure";
 	
-	public static String OUTPUT_PARAM_STATUS = "status";
-	public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+	public static final String OUTPUT_PARAM_STATUS = "status";
+	public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
 	
 	
 	public static final String INPUT_PARAM_VM_INSTANCE = "vmInstance";
