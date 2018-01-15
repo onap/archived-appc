@@ -24,31 +24,43 @@
 
 package org.onap.appc.artifact.handler.node;
 
-import java.nio.charset.Charset;
-
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.powermock.reflect.Whitebox;
-import static org.junit.Assert.assertTrue;
-
 import org.onap.appc.artifact.handler.dbservices.MockDBService;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtilTest;
-
 import java.util.Map;
 import java.util.HashMap;
+import java.nio.charset.Charset;
+
+import static org.junit.Assert.assertTrue;
 
 public class ArtifactHandlerNodeTest {
+
+    private ArtifactHandlerNode artifactHandlerNode;
+
+    @Before
+    public void setUp() throws Exception {
+        artifactHandlerNode = Mockito.spy(ArtifactHandlerNode.class);
+        Mockito.doReturn(true)
+            .when(artifactHandlerNode)
+            .updateStoreArtifacts(Mockito.any(JSONObject.class), Mockito.any(JSONObject.class));
+        Mockito.doReturn(true)
+            .when(artifactHandlerNode)
+            .storeReferenceData(Mockito.any(JSONObject.class), Mockito.any(JSONObject.class));
+    }
 
     @Test
     public void testProcessArtifact() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
-        MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
-        Map<String, String> inParams = new HashMap<String, String>();
+        Map<String, String> inParams = new HashMap<>();
         JSONObject postData = new JSONObject();
         JSONObject input = new JSONObject();
         inParams.put("response_prefix", "prefix");
@@ -63,13 +75,12 @@ public class ArtifactHandlerNodeTest {
         input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
         postData.put("input", input);
         inParams.put("postData", postData.toString());
-        ah.processArtifact(inParams, ctx);
+        artifactHandlerNode.processArtifact(inParams, ctx);
     }
 
     @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testStoreReferenceData() throws Exception {
-        MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
         JSONObject documentInfo = new JSONObject();
         String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
                 .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
@@ -77,7 +88,7 @@ public class ArtifactHandlerNodeTest {
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "reference_Junit.json");
         JSONObject requestInfo = new JSONObject();
         requestInfo.put("RequestInfo", "testStoreReferenceData");
-        ah.storeReferenceData(requestInfo, documentInfo);
+        artifactHandlerNode.storeReferenceData(requestInfo, documentInfo);
     }
 
     @Test
@@ -107,7 +118,7 @@ public class ArtifactHandlerNodeTest {
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "testArtifactUuid");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, "testArtifactVers");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "testArtifactDesc");
-        Whitebox.invokeMethod(ah, "processAndStoreCapablitiesArtifact", dbService, documentInfo, capabilities,
+        Whitebox.invokeMethod(ah, "processAndStoreCapabilitiesArtifact", dbService, documentInfo, capabilities,
                 "artifactName", "someVnf");
     }
 
@@ -140,7 +151,6 @@ public class ArtifactHandlerNodeTest {
     @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testUpdateStoreArtifacts() throws Exception {
-        MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
         JSONObject documentInfo = new JSONObject();
         String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
                 .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
@@ -148,23 +158,21 @@ public class ArtifactHandlerNodeTest {
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "reference_Junit.json");
         JSONObject requestInfo = new JSONObject();
         requestInfo.put("RequestInfo", "testupdateStoreArtifacts");
-        ah.updateStoreArtifacts(requestInfo, documentInfo);
+        artifactHandlerNode.updateStoreArtifacts(requestInfo, documentInfo);
     }
 
     @Test
     public void testCleanArtifactInstanceData() throws Exception {
-        MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
         SvcLogicContext ctx = new SvcLogicContext();
-        Whitebox.invokeMethod(ah, "cleanArtifactInstanceData", ctx);
+        Whitebox.invokeMethod(artifactHandlerNode, "cleanArtifactInstanceData", ctx);
     }
 
     @Ignore("Test is taking 60 seconds")
     @Test(expected = Exception.class)
     public void testUpdateYangContents() throws Exception {
-        MockArtifactHandlerNode ah = new MockArtifactHandlerNode();
         String artifactId = "1";
         String yangContents = "SomeContent";
-        Whitebox.invokeMethod(ah, "updateYangContents", artifactId, yangContents);
+        Whitebox.invokeMethod(artifactHandlerNode, "updateYangContents", artifactId, yangContents);
     }
     
 }
