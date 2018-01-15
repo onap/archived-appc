@@ -496,8 +496,8 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         }
         return parameterDefinition;
     }*/
-public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-        log.debug("getVserverInfo()::Retrieving vm and vnfc information for vserver:" + inParams.toString());
+    public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        log.info("getVserverInfo()::Retrieving vm and vnfc information for vserver:" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
@@ -515,7 +515,7 @@ public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) th
             aaiService.getVMInfo(params, newVmCtx);
 
             String vnfcName = newVmCtx.getAttribute(responsePrefix + "vm.vnfc[0].vnfc-name");
-            log.debug("getVnfcFunctionCodeForVserver()::vnfcName=" + vnfcName);
+            log.info("getVnfcFunctionCodeForVserver()::vnfcName=" + vnfcName);
             SvcLogicContext newVnfcCtx = new SvcLogicContext();
             if (StringUtils.isNotBlank(vnfcName)) {
                 vnfcParams.put("vnfcName", vnfcName);
@@ -535,7 +535,7 @@ public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) th
     public void getVnfcInformationForVserver(Map<String, String> vnfcParams, SvcLogicContext newVnfcCtx,
             Map<String, String> inParams, SvcLogicContext ctx, AaiService aaiService, String responsePrefix)
             throws Exception {
-        log.debug("getVnfcInformationForVserver()::vnfcParams:" + vnfcParams.toString());
+        log.info("getVnfcInformationForVserver()::vnfcParams:" + vnfcParams.toString());
         vnfcParams.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                 inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
 
@@ -550,7 +550,7 @@ public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) th
                 || StringUtils.isBlank(vnfcGroupNotation) || StringUtils.isBlank(vnfcV4OamIp)) {
             log.info("getVnfcInformationForVserver()::Some vnfc parameters are blank!!!!");
         }
-        log.debug("getVnfcInformationForVserver()::vnfcType=" + vnfcType + ",vnfcFunctionCode=" + vnfcFunctionCode,
+        log.info("getVnfcInformationForVserver()::vnfcType=" + vnfcType + ",vnfcFunctionCode=" + vnfcFunctionCode,
                 ", vnfc-ipaddress-v4-oam-vip=" + vnfcV4OamIp);
         ctx.setAttribute(responsePrefix + "vm.vnfc.vnfc-name", vnfcParams.get("vnfcName"));
         ctx.setAttribute(responsePrefix + "vm.vnfc.vnfc-type", vnfcType);
@@ -561,7 +561,7 @@ public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) th
     }
 
     public Map<String, String> setVmParams(SvcLogicContext ctx, String vServerId) {
-        log.debug("setVmParams()::setVmParamsVM level action:" + vServerId);
+        log.info("setVmParams()::setVmParamsVM level action:" + vServerId);
         Map<String, String> params = new HashMap<String, String>();
         int vmCount = 0, arrayIndex = -1;
         String vmCountStr = ctx.getAttribute("tmp.vnfInfo.vm-count");
@@ -569,7 +569,7 @@ public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) th
             vmCount = Integer.parseInt(vmCountStr);
         for (int cnt = 0; cnt < vmCount; cnt++) {
             String vsId = ctx.getAttribute("tmp.vnfInfo.vm[" + cnt + "].vserver-id");
-            log.debug("setVmParams():::vserver details::" + cnt + ":" + vsId);
+            log.info("setVmParams():::vserver details::" + cnt + ":" + vsId);
             if (StringUtils.equals(vServerId, vsId)) {
                 arrayIndex = cnt;
             }
@@ -581,13 +581,13 @@ public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) th
         String tenantId = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].tenant-id");
         String cloudOwner = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].cloud-region-id");
         String cloudRegionId = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].cloud-owner");
-        log.debug("setVmParams()::tenantId=" + tenantId + " cloudOwner=" + cloudOwner + " cloudRegiodId= "
+        log.info("setVmParams()::tenantId=" + tenantId + " cloudOwner=" + cloudOwner + " cloudRegiodId= "
                 + cloudRegionId);
         params.put("vserverId", vServerId);
         params.put("tenantId", tenantId);
         params.put("cloudOwner", cloudOwner);
         params.put("cloudRegionId", cloudRegionId);
-        log.debug("setVmParams()::setVmParamsVM level action:" + params.toString());
+        log.info("setVmParams()::setVmParamsVM level action:" + params.toString());
         return params;
 
     }
