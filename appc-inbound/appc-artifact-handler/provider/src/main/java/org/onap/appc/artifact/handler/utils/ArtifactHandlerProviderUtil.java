@@ -94,7 +94,7 @@ public class ArtifactHandlerProviderUtil {
 	    JSONObject requestInfo = new JSONObject();	   
 	    String random = getRandom();
 	    
-	    requestInfo.put(SdcArtifactHandlerConstants.REQUETS_ID, "TLRID-" + random);
+	    requestInfo.put(SdcArtifactHandlerConstants.REQUEST_ID, "TLRID-" + random);
 	    requestInfo.put(SdcArtifactHandlerConstants.REQUEST_ACTION, "StoreSdcDocumentRequest");
 	    requestInfo.put(SdcArtifactHandlerConstants.SOURCE, "TemplateLoader");
 	
@@ -151,7 +151,7 @@ public class ArtifactHandlerProviderUtil {
 	    JSONObject requestInfo = new JSONObject();	   
 	    String random = getRandom();
 	    
-	    requestInfo.put(SdcArtifactHandlerConstants.REQUETS_ID, templateData.getRequestInformation().getRequestId());
+	    requestInfo.put(SdcArtifactHandlerConstants.REQUEST_ID, templateData.getRequestInformation().getRequestId());
 	    requestInfo.put(SdcArtifactHandlerConstants.REQUEST_ACTION, "StoreSdcDocumentRequest");
 	    requestInfo.put(SdcArtifactHandlerConstants.SOURCE, templateData.getRequestInformation().getSource());
 	    

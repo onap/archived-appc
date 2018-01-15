@@ -26,6 +26,7 @@ package org.onap.appc.artifact.handler.dbservices;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import java.util.Optional;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -64,7 +65,7 @@ public class DBService {
         }
     }
 
-    public String getInternalVersionNumber(SvcLogicContext ctx, String artifactName, String prefix)
+    public Optional<String> getInternalVersionNumber(SvcLogicContext ctx, String artifactName, String prefix)
             throws SvcLogicException {
         String fn = "DBService.getInternalVersionNumber";
         QueryStatus status = null;
@@ -83,7 +84,7 @@ public class DBService {
             log.info("Internal Version received as1 : " + ctx.getAttribute("internal_version"));
             log.info("Internal Version received as1 : " + ctx.getAttributeKeySet().toString());
         }
-        return artifactInternalVersion;
+        return Optional.ofNullable(artifactInternalVersion);
     }
 
     public String getArtifactID(SvcLogicContext ctx, String artifactName) throws SvcLogicException {
@@ -548,7 +549,7 @@ public class DBService {
         return;
     }
 
-    public String getDownLoadDGReference(SvcLogicContext context) throws Exception {
+    public String getDownLoadDGReference(SvcLogicContext context) throws SvcLogicException, ConfigurationException {
         String fn = "DBService.setDownLoadDGReference";
         String downloadConfigDg = null;
         log.info(fn + "Setting Download DG Reference from DB");
@@ -557,7 +558,7 @@ public class DBService {
         String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
         if (StringUtils.isBlank(protocol)) {
             log.info(fn + " :: Protocol is Blank!! Returning without querying DB");
-            throw new Exception(fn+":: Protocol is Blank!! Returning without querying DB");
+            throw new ConfigurationException(fn+":: Protocol is Blank!! Returning without querying DB");
         }
         key = "select download_config_dg from " + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE
                 + " where protocol = '" + protocol + "'";
@@ -569,7 +570,7 @@ public class DBService {
         }
         if (status == QueryStatus.NOT_FOUND) {
             log.info(fn + ":: NOT_FOUND! No data found for download_config_dg!!");
-            throw new Exception(fn + ":: NOT_FOUND! No data found for download_config_dg!");
+            throw new SvcLogicException(fn + ":: NOT_FOUND! No data found for download_config_dg!");
         }
         downloadConfigDg = localContext.getAttribute("download-config-dg");
         log.info(fn + "download_config_dg::" + downloadConfigDg);
