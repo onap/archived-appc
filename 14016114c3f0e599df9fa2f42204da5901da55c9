@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_014f85be",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1049,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-15T22:11:33Z",
+      "side": 1,
+      "message": "line",
+      "revId": "14016114c3f0e599df9fa2f42204da5901da55c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e1cb791c",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/test/org/onap/appc/ccadaptor/TestSshJcraftWrapper.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-15T22:11:33Z",
+      "side": 1,
+      "message": "tabs",
+      "revId": "14016114c3f0e599df9fa2f42204da5901da55c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

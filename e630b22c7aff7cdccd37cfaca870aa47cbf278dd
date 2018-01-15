@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_81d2b5d0",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/onap/appc/data/services/db/GeneralDataService.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-15T22:11:33Z",
+      "side": 0,
+      "message": "tabs",
+      "revId": "e630b22c7aff7cdccd37cfaca870aa47cbf278dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a1d571ba",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/onap/appc/data/services/utils/EscapeUtils.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-15T22:11:33Z",
+      "side": 0,
+      "message": "tabs",
+      "revId": "e630b22c7aff7cdccd37cfaca870aa47cbf278dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
