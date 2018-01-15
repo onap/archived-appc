@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_61220903",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-15T23:05:30Z",
+      "side": 1,
+      "message": "Doesn\u0027t placing the log.info here change the message?",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_418a6dc0",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-15T23:05:30Z",
+      "side": 1,
+      "message": "Should actionLevel be checked for null?  The original code just skips the processing contained in this switch if actionLevel is null.   The new code throws a NPE.",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_218f21ce",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-15T23:05:30Z",
+      "side": 1,
+      "message": "Capabilities should not be stored if this is VNFC level.",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a1481188",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-15T23:05:30Z",
+      "side": 1,
+      "message": "Doesn\u0027t this set/update the context value of key to null optString(key) returns null?   The original code didn\u0027t set anything here.",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
