@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_3796834d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-16T17:44:51Z",
+      "side": 1,
+      "message": "I know this comment was a bit of a nit-pick, but we\u0027ve been asked by the test teams to not change log messages unless necessary.  Your code is cleaner and easier to read so reverting doesn\u0027t seem like a good solution.   Maybe just move the log message to the end getInternalVersionNumber() and address any duplication of the message, e.g., processAndStoreCapbilitiesArtifact.",
+      "parentUuid": "5a93c517_d4939d4d",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_418a6dc0",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Hi, I noticed that method JsonObject.getString() throws exception if value is null. Therefore it is not possible to get NPE. Seems that this parameter was always present.\n\nI could change call to JsonObject.optString() (which return null instead of exception) and do check for null, but I want to do my best to preserve logic in code as is, valid or not.",
       "parentUuid": "5a93c517_418a6dc0",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5791cf50",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-16T17:44:51Z",
+      "side": 1,
+      "message": "Yes, you are correct.   Thanks.",
+      "parentUuid": "5a93c517_74e889b4",
       "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -136,6 +172,24 @@
       "side": 1,
       "message": "Indeed, it returns null. However I noticed that Context returns null for empty keys. So in this case setting null should doesn\u0027t change anything.\n\nUndo?",
       "parentUuid": "5a93c517_a1481188",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_179b4773",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-16T17:44:51Z",
+      "side": 1,
+      "message": "No, this is good.   Thanks",
+      "parentUuid": "5a93c517_f449f9d0",
       "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
