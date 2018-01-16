@@ -39,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.onap.appc.exceptions.APPCException;
 import com.google.common.base.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Class that validates and constructs requests sent/received from
@@ -62,6 +64,8 @@ public class AnsibleMessageParser {
     private static final String TIMEOUT_OPT_KEY = "Timeout";
     private static final String VERSION_OPT_KEY = "Version";
     private static final String ACTION_OPT_KEY = "Action";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AnsibleMessageParser.class);
 
     /**
      * Accepts a map of strings and
@@ -192,30 +196,29 @@ public class AnsibleMessageParser {
 
             ansibleResult.setStatusCode(codeStatus);
             ansibleResult.setStatusMessage(messageStatus);
-            System.out.println(
-                    "Received response with code = " + Integer.toString(codeStatus) + " Message = " + messageStatus);
+            LOGGER.info("Received response with code = {}, Message = {}", codeStatus, messageStatus);
 
             if (!postResponse.isNull("Results")) {
 
                 // Results are available. process them
                 // Results is a dictionary of the form
                 // {host :{status:s, group:g, message:m, hostname:h}, ...}
-                System.out.println("Processing results in response");
+                LOGGER.info("Processing results in response");
                 JSONObject results = postResponse.getJSONObject("Results");
-                System.out.println("Get JSON dictionary from Results ..");
+                LOGGER.info("Get JSON dictionary from Results ..");
                 Iterator<String> hosts = results.keys();
-                System.out.println("Iterating through hosts");
+                LOGGER.info("Iterating through hosts");
 
                 while (hosts.hasNext()) {
                     String host = hosts.next();
-                    System.out.println("Processing host = " + host);
+                    LOGGER.info("Processing host = {}", host);
 
                     try {
                         JSONObject hostResponse = results.getJSONObject(host);
                         int subCode = hostResponse.getInt(STATUS_CODE_KEY);
                         String message = hostResponse.getString(STATUS_MESSAGE_KEY);
 
-                        System.out.println("Code = " + Integer.toString(subCode) + " Message = " + message);
+                        LOGGER.info("Code = {}, Message = {}", subCode, message);
 
                         if (subCode != 200 || !message.equals("SUCCESS")) {
                             finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
@@ -291,15 +294,20 @@ public class AnsibleMessageParser {
                 break;
 
             case FILE_PARAMETERS_OPT_KEY:
-                // Files may have strings with newlines. Escape them as appropriate
-                String formattedPayload = payload.replace("\n", "\\n").replace("\r", "\\r");
-                JSONObject fileParams = new JSONObject(formattedPayload);
-                jsonPayload.put(key, fileParams);
+                jsonPayload.put(key, getFilePayload(payload));
                 break;
 
             default:
                 break;
         }
+    }
+
+    /**
+     * Return payload with escaped newlines
+     */
+    private JSONObject getFilePayload(String payload) {
+        String formattedPayload = payload.replace("\n", "\\n").replace("\r", "\\r");
+        return new JSONObject(formattedPayload);
     }
 
     private void throwIfMissingMandatoryParam(Map<String, String> params, String key) throws APPCException {
