@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_d4939d4d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-01-16T09:29:43Z",
+      "side": 1,
+      "message": "It does, we have two options to log here:\n1) raw string which should be number or unparsable string\n2) proper version which is number+1 or 0 in case of null\n\nI was not sure which value is really interesting here so I choose prettier(?) solution. Please tell if this is fine or should I revert changes?",
+      "parentUuid": "5a93c517_61220903",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_418a6dc0",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-15T23:05:30Z",
       "side": 1,
       "message": "Should actionLevel be checked for null?  The original code just skips the processing contained in this switch if actionLevel is null.   The new code throws a NPE.",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_74e889b4",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-01-16T09:29:43Z",
+      "side": 1,
+      "message": "Hi, I noticed that method JsonObject.getString() throws exception if value is null. Therefore it is not possible to get NPE. Seems that this parameter was always present.\n\nI could change call to JsonObject.optString() (which return null instead of exception) and do check for null, but I want to do my best to preserve logic in code as is, valid or not.",
+      "parentUuid": "5a93c517_418a6dc0",
       "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_b49611ef",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-01-16T09:29:43Z",
+      "side": 1,
+      "message": "As I mention earlier I don\u0027t know domain well so I preserve logic as is.",
+      "parentUuid": "5a93c517_218f21ce",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a1481188",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2018-01-15T23:05:30Z",
       "side": 1,
       "message": "Doesn\u0027t this set/update the context value of key to null optString(key) returns null?   The original code didn\u0027t set anything here.",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f449f9d0",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-01-16T09:29:43Z",
+      "side": 1,
+      "message": "Indeed, it returns null. However I noticed that Context returns null for empty keys. So in this case setting null should doesn\u0027t change anything.\n\nUndo?",
+      "parentUuid": "5a93c517_a1481188",
       "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
