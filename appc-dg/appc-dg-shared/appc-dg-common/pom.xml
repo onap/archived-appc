@@ -35,28 +35,63 @@
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-common</artifactId>
 			<version>${project.version}</version>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-message-adapter-api</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-message-adapter-factory</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-common</artifactId>
 			<scope>provided</scope>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-provider</artifactId>
 			<scope>provided</scope>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -87,26 +122,55 @@
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-dg-dependency-model</artifactId>
 			<version>${project.version}</version>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-ranking-framework-lib</artifactId>
 			<version>${project.version}</version>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-data-access-lib</artifactId>
 			<version>${project.version}</version>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-   		<dependency>
+		<!-- TODO: WA for fixing build, clueanup dependency tree -->
+   		<!--<dependency>
 			<groupId>equinoxSDK381</groupId>
 			<artifactId>org.eclipse.osgi</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-dg-mdsal-store</artifactId>
+			<artifactId>appc-dg-mdsal-bundle</artifactId>
 			<version>${project.version}</version>
+			<!-- TODO: WA for fixing build, clueanup dependency tree -->
+			<exclusions>
+				<exclusion>
+					<groupId>equinoxSDK381</groupId>
+					<artifactId>org.eclipse.osgi</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -138,7 +202,7 @@
             <artifactId>commons-lang</artifactId>
             <scope>compile</scope>
         </dependency>
-        </dependencies>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -153,7 +217,7 @@
 						<Private-Package>org.onap.appc.dg.common.impl.*</Private-Package>
 						<Import-Package>org.onap.appc.adapter.message.*,org.onap.appc.adapter.factory.*,org.onap.appc.adapter.messaging.*,
 							*;resolution:=optional</Import-Package>
-						<Embed-Dependency>appc-dg-mdsal-store,appc-dg-domain-model-lib,appc-dg-dependency-model,jackson-dataformat-yaml,jackson-databind,jackson-core;scope=compile|runtime;inline=false;artifactId=!org.eclipse.osgi</Embed-Dependency>
+						<Embed-Dependency>appc-dg-mdsal-bundle,appc-dg-domain-model-lib,appc-dg-dependency-model,jackson-dataformat-yaml,jackson-databind,jackson-core;scope=compile|runtime;inline=false;artifactId=!org.eclipse.osgi</Embed-Dependency>
 
 						<!--Embed-Dependency>eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency-->
 						<Embed-Transitive>true</Embed-Transitive>
