@@ -22,6 +22,24 @@
       "revId": "488c1808d1395b9a9fd74280e22483f3c18083a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_033545d9",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-17T23:09:35Z",
+      "side": 1,
+      "message": "Doesn\u0027t storeReferenceData() also get the artifact name from the document_information json object?\nI see on line 275 (of the old version of this file), it looks like document_information.getString is being called to get the artifact name.",
+      "parentUuid": "5a93c517_4d3b7cd1",
+      "revId": "488c1808d1395b9a9fd74280e22483f3c18083a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
