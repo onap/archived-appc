@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_b74b7386",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-01-18T13:31:02Z",
+      "side": 1,
+      "message": "I do not disagree that you are using \"map\". but my coding style for map is using map to change all elements in one shot. But in this case, there is only one integer involved. my two cents.",
+      "parentUuid": "5a93c517_d4939d4d",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_418a6dc0",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
