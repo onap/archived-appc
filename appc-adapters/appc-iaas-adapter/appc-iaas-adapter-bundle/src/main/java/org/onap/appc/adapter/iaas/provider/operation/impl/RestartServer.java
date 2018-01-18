@@ -120,11 +120,11 @@ public class RestartServer extends ProviderServerOperation {
 
             case ERROR:
                 msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE, server.getName(), server.getId(),
-                        server.getTenantId(), "rebuild");
+                        server.getTenantId(), "restart");
                 generateEvent(rc, false, msg);
                 logger.error(msg);
                 metricsLogger.error(msg);
-                throw new RequestFailedException("Rebuild Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                throw new RequestFailedException("Restart Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
 
             case READY:
                 // Attempt to start the server
