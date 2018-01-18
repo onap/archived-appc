@@ -22,6 +22,30 @@
       "revId": "00059922c48d98a45e760e7fe82d3e5a8b5bc361",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c8321a10",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 2729
+      },
+      "writtenOn": "2018-01-18T08:01:22Z",
+      "side": 0,
+      "message": "You\u0027re right about wrong logging manners in this class. However this change is not about logging, but about sonar violations fixing which are referenced in task description. It would be too much refactoring for one changeset to make this code clean. I\u0027d prefer to do this step-by-step.",
+      "parentUuid": "5a93c517_885bb286",
+      "range": {
+        "startLine": 63,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 12
+      },
+      "revId": "00059922c48d98a45e760e7fe82d3e5a8b5bc361",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
