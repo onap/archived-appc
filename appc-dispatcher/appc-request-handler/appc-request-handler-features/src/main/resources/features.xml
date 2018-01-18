@@ -34,6 +34,7 @@
         <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/domain-model-lib/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/appc-message-adapter-api/${project.version}</bundle>
+	<bundle dependency="true">mvn:org.onap.appc/appc-provider-model/${project.version}</bundle>
         <bundle start-level="75" start="true">mvn:org.onap.appc/appc-command-executor-api/${project.version}
         </bundle>
         <bundle start-level="80" start="true">mvn:org.onap.appc/appc-request-handler-api/${project.version}
