@@ -139,7 +139,7 @@ public class ChefActivator implements BundleActivator {
     }
 
     public String getName() {
-        return "APPC IaaS adapter";
+        return "APPC Chef Adapter";
     }
 
 }
