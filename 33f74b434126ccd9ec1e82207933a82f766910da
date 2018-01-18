@@ -16,6 +16,24 @@
       "revId": "33f74b434126ccd9ec1e82207933a82f766910da",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_945c35ef",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 2729
+      },
+      "writtenOn": "2018-01-18T08:01:22Z",
+      "side": 1,
+      "message": "It has been changed by mistake using IDE auto-refactoring tool I believe. Thanks for noticing this, of course it\u0027s wrong and I\u0027m gonna fix it.",
+      "parentUuid": "5a93c517_0121c5fa",
+      "revId": "33f74b434126ccd9ec1e82207933a82f766910da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
