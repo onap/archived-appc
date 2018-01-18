@@ -40,6 +40,24 @@
       "revId": "488c1808d1395b9a9fd74280e22483f3c18083a4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c37afdf0",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-01-18T10:11:51Z",
+      "side": 1,
+      "message": "Now I see it. Thanks",
+      "parentUuid": "5a93c517_033545d9",
+      "revId": "488c1808d1395b9a9fd74280e22483f3c18083a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
