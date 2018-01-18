@@ -48,11 +48,6 @@ import com.att.eelf.configuration.EELFManager;
  */
 public class AnsibleAdapterImpl implements AnsibleAdapter {
 
-    /**
-     * The constant used to define the adapter name in the mapped diagnostic context
-     */
-    @SuppressWarnings("nls")
-    public static final String MDC_ADAPTER = "Ansible Adapter";
 
     /**
      * The constant used to define the service name in the mapped diagnostic context
@@ -76,6 +71,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
      * Adapter Name
      */
     private static final String ADAPTER_NAME = "Ansible Adapter";
+    private static final String APPC_EXCEPTION_CAUGHT = "APPCException caught";
 
     private static final String RESULT_CODE_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.result.code";
     private static final String MESSAGE_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.message";
@@ -120,7 +116,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private AnsibleServerEmulator testServer;
 
     /**
-     * This default constructor is used as a work around because the activator wasnt getting called
+     * This default constructor is used as a work around because the activator wasn't getting called
      */
     public AnsibleAdapterImpl() {
         initialize();
@@ -203,7 +199,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             logger.error("Error Initializing Ansible Adapter due to Unknown Exception", e);
         }
 
-        logger.info("Intitialized Ansible Adapter");
+        logger.info("Initialized Ansible Adapter");
     }
 
     // Public Method to post request to execute playbook. Posts the following back
@@ -234,7 +230,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             payload = jsonPayload.toString();
             logger.info("Updated Payload  = " + payload);
         } catch (APPCException e) {
-            logger.error("APPCException caught", e);
+            logger.error(APPC_EXCEPTION_CAUGHT, e);
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
                     "Error constructing request for execution of playbook due to missing mandatory parameters. Reason = "
                             + e.getMessage());
@@ -244,7 +240,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
                     "Error constructing request for execution of playbook due to invalid JSON block. Reason = "
                             + e.getMessage());
         } catch (NumberFormatException e) {
-            logger.error("NumberFormateException caught", e);
+            logger.error("NumberFormatException caught", e);
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
                     "Error constructing request for execution of playbook due to invalid parameter values. Reason = "
                             + e.getMessage());
@@ -256,18 +252,18 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         try {
             // post the test request
             logger.info("Posting request = " + payload + " to url = " + agentUrl);
-            AnsibleResult testresult = postExecRequest(agentUrl, payload, user, password);
+            AnsibleResult testResult = postExecRequest(agentUrl, payload, user, password);
 
             // Process if HTTP was successful
-            if (testresult.getStatusCode() == 200) {
-                testresult = messageProcessor.parsePostResponse(testresult.getStatusMessage());
+            if (testResult.getStatusCode() == 200) {
+                testResult = messageProcessor.parsePostResponse(testResult.getStatusMessage());
             } else {
-                doFailure(ctx, testresult.getStatusCode(),
-                        "Error posting request. Reason = " + testresult.getStatusMessage());
+                doFailure(ctx, testResult.getStatusCode(),
+                        "Error posting request. Reason = " + testResult.getStatusMessage());
             }
 
-            code = testresult.getStatusCode();
-            message = testresult.getStatusMessage();
+            code = testResult.getStatusCode();
+            message = testResult.getStatusMessage();
 
             // Check status of test request returned by Agent
             if (code == AnsibleResultCodes.PENDING.getValue()) {
@@ -277,7 +273,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
                 doFailure(ctx, code, "Request for execution of playbook rejected. Reason = " + message);
             }
         } catch (APPCException e) {
-            logger.error("APPCException caught", e);
+            logger.error(APPC_EXCEPTION_CAUGHT, e);
             doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
                     "Exception encountered when posting request for execution of playbook. Reason = " + e.getMessage());
         }
@@ -302,17 +298,17 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         try {
             reqUri = messageProcessor.reqUriResult(params);
-            System.out.println("Got uri = " + reqUri);
+            logger.info("Got uri ", reqUri );
         } catch (APPCException e) {
-            logger.error("APPCException caught", e);
+            logger.error(APPC_EXCEPTION_CAUGHT, e);
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
-                    "Error constructing request to retreive result due to missing parameters. Reason = "
+                    "Error constructing request to retrieve result due to missing parameters. Reason = "
                             + e.getMessage());
             return;
         } catch (NumberFormatException e) {
             logger.error("NumberFormatException caught", e);
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
-                    "Error constructing request to retreive result due to invalid parameters value. Reason = "
+                    "Error constructing request to retrieve result due to invalid parameters value. Reason = "
                             + e.getMessage());
             return;
         }
@@ -323,24 +319,23 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         try {
             // Try to retrieve the test results (modify the URL for that)
-            AnsibleResult testresult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
-            code = testresult.getStatusCode();
-            message = testresult.getStatusMessage();
+            AnsibleResult testResult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
+            code = testResult.getStatusCode();
+            message = testResult.getStatusMessage();
 
             if (code == 200) {
                 logger.info("Parsing response from Server = " + message);
                 // Valid HTTP. process the Ansible message
-                testresult = messageProcessor.parseGetResponse(message);
-                code = testresult.getStatusCode();
-                message = testresult.getStatusMessage();
-                results = testresult.getResults();
-
+                testResult = messageProcessor.parseGetResponse(message);
+                code = testResult.getStatusCode();
+                message = testResult.getStatusMessage();
+                results = testResult.getResults();
             }
 
             logger.info("Request response = " + message);
         } catch (APPCException e) {
             doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
-                    "Exception encountered retreiving result : " + e.getMessage());
+                    "Exception encountered retrieving result : " + e.getMessage());
             return;
         }
 
@@ -376,7 +371,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         String reqUri = StringUtils.EMPTY;
         try {
             reqUri = messageProcessor.reqUriLog(params);
-            logger.info("Retreiving results from " + reqUri);
+            logger.info("Retrieving results from " + reqUri);
         } catch (Exception e) {
             logger.error("Exception caught", e);
             doFailure(ctx, AnsibleResultCodes.INVALID_PAYLOAD.getValue(), e.getMessage());
@@ -385,8 +380,8 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         String message = StringUtils.EMPTY;
         try {
             // Try to retrieve the test results (modify the url for that)
-            AnsibleResult testresult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
-            message = testresult.getStatusMessage();
+            AnsibleResult testResult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
+            message = testResult.getStatusMessage();
             logger.info("Request output = " + message);
             ctx.setAttribute(LOG_ATTRIBUTE_NAME, message);
             ctx.setStatus(OUTCOME_SUCCESS);
@@ -400,17 +395,17 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     /**
      * Method that posts the request
      */
-    private AnsibleResult postExecRequest(String agentUrl, String payload, String User, String password) {
+    private AnsibleResult postExecRequest(String agentUrl, String payload, String user, String password) {
 
-        AnsibleResult testresult;
+        AnsibleResult testResult;
 
         if (!testMode) {
-            httpClient.setHttpContext(User, password);
-            testresult = httpClient.post(agentUrl, payload);
+            httpClient.setHttpContext(user, password);
+            testResult = httpClient.post(agentUrl, payload);
         } else {
-            testresult = testServer.Post(agentUrl, payload);
+            testResult = testServer.Post(agentUrl, payload);
         }
-        return testresult;
+        return testResult;
     }
 
     /**
@@ -418,16 +413,16 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
      */
     private AnsibleResult queryServer(String agentUrl, String user, String password) {
 
-        AnsibleResult testresult;
+        AnsibleResult testResult;
 
         logger.info("Querying url = " + agentUrl);
 
         if (!testMode) {
-            testresult = httpClient.get(agentUrl);
+            testResult = httpClient.get(agentUrl);
         } else {
-            testresult = testServer.Get(agentUrl);
+            testResult = testServer.Get(agentUrl);
         }
 
-        return testresult;
+        return testResult;
     }
 }
