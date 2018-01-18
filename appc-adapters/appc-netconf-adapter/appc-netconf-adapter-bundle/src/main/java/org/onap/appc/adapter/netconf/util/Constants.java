@@ -26,6 +26,9 @@ package org.onap.appc.adapter.netconf.util;
 
 public class Constants {
 
+    private Constants() {
+    }
+
     public static final String CONFIGURE_PATH = "/restconf/config/opendaylight-inventory:nodes/node/";
     public static final String CONNECT_PATH = "/restconf/config/opendaylight-inventory:nodes/node/controller-config/yang-ext:mount/config:modules";
     public static final String CHECK_CONNECTION_PATH = "/restconf/operational/opendaylight-inventory:nodes/node/";

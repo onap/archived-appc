@@ -27,76 +27,91 @@ package org.onap.appc.adapter.iaas.provider.operation.common.enums;
  */
 public enum Operation {
     EVACUATE_SERVICE {
+        @Override
         public String toString() {
             return "evacuateServer";
         }
     },
     MIGRATE_SERVICE {
+        @Override
         public String toString() {
             return "migrateServer";
         }
     },
     REBUILD_SERVICE {
+        @Override
         public String toString() {
             return "rebuildServer";
         }
     },
     RESTART_SERVICE {
+        @Override
         public String toString() {
             return "restartServer";
         }
     },
     VMSTATUSCHECK_SERVICE {
+        @Override
         public String toString() {
             return "vmStatuschecker";
         }
     },
     SNAPSHOT_SERVICE {
+        @Override
         public String toString() {
             return "createSnapshot";
         }
     },
     TERMINATE_STACK {
+        @Override
         public String toString() {
             return "terminateStack";
         }
     },
     SNAPSHOT_STACK {
+        @Override
         public String toString() {
             return "snapshotStack";
         }
     },
     START_SERVICE {
+        @Override
         public String toString() {
             return "startServer";
         }
     },
     STOP_SERVICE {
+        @Override
         public String toString() {
             return "stopServer";
         }
     },
     TERMINATE_SERVICE {
+        @Override
         public String toString() {
             return "terminateServer";
         }
     },
     LOOKUP_SERVICE {
+        @Override
         public String toString() {
             return "lookupServer";
         }
     },
     RESTORE_STACK {
+        @Override
         public String toString() {
             return "restoreStack";
         }
     },
     ATTACHVOLUME_SERVICE {
+        @Override
         public String toString(){
             return "attachVolume";
         }
     },
     DETACHVOLUME_SERVICE {
+        @Override
         public String toString(){
             return "dettachVolume";
         }

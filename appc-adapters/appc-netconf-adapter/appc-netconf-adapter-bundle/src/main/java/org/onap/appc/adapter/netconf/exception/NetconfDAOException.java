@@ -29,6 +29,7 @@ public class NetconfDAOException extends RuntimeException {
 	private static final long serialVersionUID = -155423437162622414L;
 
 	public NetconfDAOException(){
+            // for NetconfDAOException
 	}
 
 	public NetconfDAOException(String message){

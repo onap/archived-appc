@@ -29,11 +29,13 @@ package org.onap.appc.adapter.iaas.provider.operation.common.enums;
  */
 public enum Outcome {
     FAILURE {
+        @Override
         public String toString() {
             return "failure";
         }
     },
     SUCCESS {
+        @Override
         public String toString() {
             return "success";
         }

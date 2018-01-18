@@ -24,11 +24,8 @@
  */
 package org.onap.appc.adapter.restHealthcheck;
 
-import org.onap.appc.Constants;
 import org.onap.appc.adapter.restHealthcheck.impl.RestHealthcheckAdapterImpl;
 import org.onap.appc.configuration.Configuration;
-import org.onap.appc.configuration.ConfigurationFactory;
-import org.onap.appc.i18n.Msg;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
@@ -41,11 +38,6 @@ public class RestHealthcheckActivator implements BundleActivator {
      */
     private ServiceRegistration registration = null;
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckActivator.class);
-
-    /**
-     * The configuration object used to configure this bundle
-     */
-    private Configuration configuration;
 
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start

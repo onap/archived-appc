@@ -36,16 +36,19 @@ import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
 public class DmaapMessageAdapterFactoryImpl implements MessageAdapterFactory {
 
     
+    @Override
     public Producer createProducer(Collection<String> pools, String writeTopic, String apiKey, String apiSecret) {
         return  new  DmaapProducerImpl(pools, writeTopic,apiKey, apiSecret);
     }
 
+    @Override
     public Producer createProducer(Collection<String> pools, Set<String> writeTopics, String apiKey, String apiSecret) {
         return new DmaapProducerImpl(pools, writeTopics, apiKey, apiSecret);
     }
 
+    @Override
     public Consumer createConsumer(Collection<String> pool, String readTopic, 
-            String clientName, String clientId, String filter_json, String apiKey, String apiSecret) {
-        return new DmaapConsumerImpl(pool, readTopic, clientName, clientId, apiKey, apiSecret, filter_json);
+            String clientName, String clientId, String filterJson, String apiKey, String apiSecret) {
+        return new DmaapConsumerImpl(pool, readTopic, clientName, clientId, apiKey, apiSecret, filterJson);
     }
 }

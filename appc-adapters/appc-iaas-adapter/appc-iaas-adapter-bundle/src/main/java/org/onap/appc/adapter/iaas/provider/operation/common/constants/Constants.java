@@ -29,6 +29,9 @@ package org.onap.appc.adapter.iaas.provider.operation.common.constants;
  */
 public class Constants {
 
+    private Constants() {
+    }
+
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static final String MDC_SERVICE = "service";

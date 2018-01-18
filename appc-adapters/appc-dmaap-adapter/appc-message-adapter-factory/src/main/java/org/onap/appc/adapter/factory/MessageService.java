@@ -49,7 +49,7 @@ public enum MessageService {
     public static MessageService parse(String input) {
         if (input != null) {
             for (MessageService ms : MessageService.values()) {
-                if (ms.getValue().equals(input.toLowerCase())) {
+                if (input.equalsIgnoreCase(ms.getValue())) {
                     return ms;
                 }
             }
