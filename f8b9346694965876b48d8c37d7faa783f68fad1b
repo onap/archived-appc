@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_23c4015e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-18T05:52:38Z",
+      "side": 1,
+      "message": "I believe in the original code if any content has vnfc scope type then capabilities are not stored at the end of the loop.   If none are vnfc, then capabilities are stored at the end of the loop.     \n\nThe new code appears to store/update the capabilities whenever scope is vnfc in each iteration of the loop.",
+      "parentUuid": "5a93c517_b49611ef",
+      "revId": "f8b9346694965876b48d8c37d7faa783f68fad1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a1481188",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
