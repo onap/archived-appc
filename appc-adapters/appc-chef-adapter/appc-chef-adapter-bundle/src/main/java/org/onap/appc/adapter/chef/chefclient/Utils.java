@@ -25,7 +25,6 @@
 package org.onap.appc.adapter.chef.chefclient;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.InvalidKeyException;
@@ -48,7 +47,6 @@ public class Utils {
     
     public static String sha1AndBase64(String inStr) {
         MessageDigest md = null;
-        String outStr = null;
         byte[] outbty = null;
         try {
             md = MessageDigest.getInstance("SHA-1");

@@ -30,6 +30,7 @@ public class DataAccessException extends RuntimeException {
     private static final long serialVersionUID = -155423437162622414L;
 
     public DataAccessException(){
+        // DataAccessException
     }
 
     public DataAccessException(String message){

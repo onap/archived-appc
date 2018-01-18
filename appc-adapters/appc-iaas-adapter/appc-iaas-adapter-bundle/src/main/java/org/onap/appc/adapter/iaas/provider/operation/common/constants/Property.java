@@ -29,6 +29,8 @@ package org.onap.appc.adapter.iaas.provider.operation.common.constants;
  */
 public class Property {
 
+    private Property() {
+    }
     public static final String PROVIDER = "provider";
     public static final String PROVIDER_IDENTITY = "identity";
     public static final String PROVIDER_TENANT = "tenant";
