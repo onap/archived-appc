@@ -77,7 +77,7 @@
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.onap.appc.transactionrecorder.TransactionRecorder</Export-Service>
                         <Import-Package>
-                            org.onap.appc.domainmodel.lcm,org.onap.ccsdk.sli.resource.dblib,org.onap.appc.dao.util,*;resolution:=optional
+                            org.onap.appc.domainmodel.lcm,org.onap.ccsdk.sli.core.dblib,org.onap.appc.dao.util,*;resolution:=optional
                         </Import-Package>
                         <Export-Package>
                             org.onap.appc.transactionrecorder,org.onap.appc.transactionrecorder.objects
