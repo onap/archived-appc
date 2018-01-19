@@ -29,7 +29,7 @@ public class SdcArtifactHandlerConstants {
     public static final String DOCUMENT_PARAMETERS = "document-parameters";
     public static final String SERVICE_UUID  = "service-uuid";
     public static final String DISTRIBUTION_ID  = "distribution-id";
-    public static final String REQUETS_ID = "request-id"; 
+    public static final String REQUEST_ID = "request-id";
     public static final String REQUEST_ACTION = "request-action"; 
     public static final String SOURCE = "source";
     public static final String SERVICE_NAME = "service-name"; 
