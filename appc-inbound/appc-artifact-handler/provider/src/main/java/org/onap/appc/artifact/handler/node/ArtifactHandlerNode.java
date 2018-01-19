@@ -75,7 +75,7 @@ import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.P
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.PORT_NUMBER;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REFERENCE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUEST_INFORMATION;
-import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUETS_ID;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.REQUEST_ID;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_TYPE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.RESOURCE_UUID;
@@ -132,12 +132,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
             } else
                 throw new Exception("Missing Artifact Name for Request : "
-                        + request_information.getString(REQUETS_ID));
+                        + request_information.getString(REQUEST_ID));
         } catch (Exception e) {
             e.printStackTrace();
             throw new Exception("Error while processing Request ID : "
                     + ((JSONObject) postDataJson.get(REQUEST_INFORMATION))
-                            .getString(REQUETS_ID)
+                            .getString(REQUEST_ID)
                     + e.getMessage());
         }
         return false;
