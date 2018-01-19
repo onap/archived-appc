@@ -29,27 +29,23 @@ import org.onap.appc.encryption.EncryptionTool;
 public class CmdLine {
 
         public static void main(String[] args) {
-        if(args.length <= 1 || args.length >= 3){
+
+        if(args.length !=2){
             printUsage();
-        }else{
-            String command = args[0];
-            
-            switch(command){
-                case "encrypt":
-                    if(args[1]!= null){
-                        String clearText = args[1];
-                        String encrypted = EncryptionTool.getInstance().encrypt(clearText);
-                        System.out.println(encrypted);                        
-                    }else{
-                        printUsage();
-                    }
-                    break;
-                default:
-                    printUsage();
-                    break;
-                
-            }
-          }
+            return;
+        }
+
+        String command = args[0];//first parameter
+
+        if(0==command.compareTo("encrypt") && args.length>=2)//second parameter is required
+        {
+            String clearText = args[1];
+            String encrypted = EncryptionTool.getInstance().encrypt(clearText);
+            System.out.println(encrypted);
+            return;
+        }
+        else
+            printUsage();
             
         }
         
