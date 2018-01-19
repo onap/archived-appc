@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4c0db936",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_Generic_Configure.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-19T18:41:29Z",
+      "side": 1,
+      "message": "Use spaces instead of tabs",
+      "revId": "3069d422f24243080b91150a2d0151281f6a9a42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
