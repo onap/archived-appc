@@ -91,9 +91,9 @@ public class SshJcraftWrapperTest {
     public void testSetRouterCommandType2() throws IOException{
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.appendToRouterFile("test", 2);
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("test");
-        wrapper.appendToRouterFile("Test.txt", buffer);
+        StringBuilder sb = new StringBuilder();
+        sb.append("test");
+        wrapper.appendToRouterFile("Test.txt", sb);
         wrapper.receiveUntilBufferFlush(3, 4, "test");        
     }
     
