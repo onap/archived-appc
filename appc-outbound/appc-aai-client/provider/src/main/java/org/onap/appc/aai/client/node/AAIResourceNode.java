@@ -238,6 +238,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
             AaiService aai = getAaiService();
 
+            //no:of vnfcs from the vnfc_reference table          
             String vnfcRefLenStr = ctx.getAttribute("vnfcReference_length");
 
             if ( vnfcRefLenStr == null) {
@@ -248,6 +249,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             else
                 vnfcRefLen = Integer.parseInt(vnfcRefLenStr);
 
+            //Vms without vnfc from A&AI
             String vmWithNoVnfcCountStr = ctx.getAttribute(responsePrefix+"vnf.vm-with-no-vnfcs-count");
 
       //Commented  for backward compatibility
@@ -303,18 +305,10 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 aai.updateVnfStatusWithOAMAddress(inParams, ctx);
             }
 
-            if ( vmWithNoVnfcCount!= vnfcRefLen ) {
-                //throw new Exception("Unable to Add Vnfcs to A&AI. Reference data mismatch.");
-                log.info("vmWithNoVnfcCount and vnfcRefLen data from table are not same ");
-                aai.checkAndUpdateVnfc(inParams,ctx, vnfcRefLen, vmCount);
-            }
+            
+            aai.insertVnfcs(inParams,ctx, vnfcRefLen, vmCount);
+            
 
-            else {
-
-                aai.insertVnfcs(inParams,ctx, vnfcRefLen, vmCount);
-            }
-
-                   //// Modified 1710
 
             ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
                     AppcAaiClientConstant.OUTPUT_STATUS_SUCCESS);
