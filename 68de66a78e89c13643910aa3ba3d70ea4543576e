@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_49860b15",
+        "filename": "appc-common/src/main/java/org/onap/appc/CmdLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-19T14:39:39Z",
+      "side": 1,
+      "message": "Can this be changed to \"args.length \u003d\u003d 2\" and the just remove the if statement on line 32?    Seems like this would better accommodate future commands with differing arg count requirements.",
+      "revId": "68de66a78e89c13643910aa3ba3d70ea4543576e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a9c46f40",
+        "filename": "appc-common/src/main/java/org/onap/appc/CmdLine.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-19T14:39:39Z",
+      "side": 1,
+      "message": "Need braces here.  See style guidelines at https://wiki.onap.org/display/DW/Java+code+style.   Specific reference to braces in Google\u0027s guideline is at https://google.github.io/styleguide/javaguide.html#s4.1.1-braces-always-used",
+      "revId": "68de66a78e89c13643910aa3ba3d70ea4543576e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
