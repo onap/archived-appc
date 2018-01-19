@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ace79d3f",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-19T20:32:48Z",
+      "side": 1,
+      "message": "So is channel.connect a non-blocking method that will continue connecting after returning? And that\u0027s why you created the waitForChannelConnectionAvailability method?",
+      "range": {
+        "startLine": 747,
+        "startChar": 20,
+        "endLine": 747,
+        "endChar": 27
+      },
+      "revId": "79908f88bad5fafc6eade7287a13b1e284f74b64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
