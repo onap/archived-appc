@@ -10,7 +10,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *g  http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,6 +26,8 @@ package org.onap.appc.adapter.iaas.provider.operation.impl;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.ATTACHVOLUME_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 import java.util.Map;
+import java.util.List;
+import com.att.cdp.zones.ComputeService;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
@@ -49,8 +51,9 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 
-public class DettachVolumeServer  extends ProviderServerOperation{
+public class DettachVolumeServer extends ProviderServerOperation {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(DettachVolumeServer.class);
+
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
             throws APPCException {
@@ -58,6 +61,7 @@ public class DettachVolumeServer  extends ProviderServerOperation{
         logOperation(Msg.DETTACHINGVOLUME_SERVER, params, context);
         return dettachVolume(params, context);
     }
+
     private Server dettachVolume(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
@@ -74,28 +78,32 @@ public class DettachVolumeServer  extends ProviderServerOperation{
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             String vol_id = (volumeid == null) ? null : volumeid.toString();
-            String msg;
             context = getContext(rc, vm_url, identStr);
             if (context != null) {
                 rc.reset();
                 server = lookupServer(rc, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
-                Volume vol = new Volume();
-                vol.setId(vol_id);
-                Map volms = server.getVolumes();
-                    ComputeService cs = context.getComputeService();
-                    if(server.getVolumes().containsValue(vol_id))
-                    {
-                        logger.info("Alreday volumes exists:");
-                         logger.info( volms.size()+"volumes size if exists");
-                         cs.detachVolume(server, vol);
-                         server.detachVolume(device);
+                Context contx = server.getContext();
+                ComputeService service = contx.getComputeService();
+                VolumeService vs = contx.getVolumeService();
+                logger.info("collecting volume status for volume -id:" + vol_id);
+                List<Volume> volList = vs.getVolumes();
+                logger.info("Size of volume list :" + volList.size());
+                if (volList != null && !volList.isEmpty()) {
+                    for (Volume v : volList) {
+                        logger.info("list of volumesif exists" + v.getId());
+                        if (v.getId().equals(vol_id)) {
+                            v.setId(vol_id);
+                            logger.info("Ready to Detach Volume from the server:" + Volume.Status.DETACHING);
+                            service.detachVolume(server, v);
+                            logger.info("Volume status after performing detach:" + v.getStatus());
+                            doSuccess(rc);
+                        } else {
+                            String msg = "Volume with volume id " + vol_id + " cannot be detached as it doesnot exists";
+                            doFailure(rc, HttpStatus.NOT_IMPLEMENTED_501, msg);
+                        }
                     }
-                    else
-                    {
-                        logger.info("volume is not available to detach");
-                        logger.info("Server status: RUNNING");
-                    }
+                }
                 context.close();
                 doSuccess(rc);
                 ctx.setAttribute("VOLUME_STATUS", "SUCCESS");

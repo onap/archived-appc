@@ -34,7 +34,7 @@ Appc-API:update-aai:4.0.0:sync
 Appc-API:update-aai-sbg:4.0.0:sync
 Appc-API:update-vserver-info:4.0.0:sync
 Appc-API:update-vnfc-info:4.0.0:sync
-
+Appc-API:legacy_operation:2.0.0.0:sync
 Appc-API:Generic_Evacuate:2.0.0:sync
 
 #
