@@ -24,6 +24,8 @@
 package org.onap.appc.adapter.iaas.provider.operation.impl;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 import java.util.Map;
+import java.util.List;
+import com.att.cdp.zones.ComputeService;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
@@ -65,31 +67,35 @@ public class AttachVolumeServer extends ProviderServerOperation {
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             String vol_id = (volumeid == null) ? null : volumeid.toString();
-            String msg;
             context = getContext(rc, vm_url, identStr);
             if (context != null) {
                 rc.reset();
                 server = lookupServer(rc, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
-                    VolumeService vs = context.getVolumeService();
-                    vs.getVolumes(server);;
-                    Volume vol = new Volume();
-                    vol.setId(vol_id);
-                    logger.info("Server status: "+server.getStatus());
-                    Map volms = server.getVolumes();
-                    logger.info("list of attachments");
-                    logger.info(volms.size()+"initial volumes");
-                    logger.info(vol.getId());
-                    if(server.getVolumes().containsValue(vol_id))
-                    {
-                        logger.info("Alreday volumes exists:");
-                         logger.info( volms.size()+"volumes size if exists");
+                 Context contx = server.getContext();
+                 ComputeService service = contx.getComputeService();
+                VolumeService vs = contx.getVolumeService();
+                logger.info("collecting volume status for volume -id:"+vol_id);
+                List<Volume> volList = vs.getVolumes();
+                logger.info("Size of volume list :"+volList.size());
+                    if (volList != null && !volList.isEmpty()) {
+                    for (Volume v : volList) {
+                        logger.info("list of volumesif exists"+v.getId());
+                        if (!v.getId().equals(vol_id)) {
+                            v.setId(vol_id);
+                            logger.info("Ready to Attach Volume to the server:"+Volume.Status.ATTACHING);
+                            service.attachVolume(server, v, device);
+                            logger.info("Volume status after performing attach:"+v.getStatus());
+                            doSuccess(rc);
+                        }
+                        else
+                        {
+                            String msg = "Volume with volume id "+vol_id+" cannot be attached as it already exists";
+                            logger.info("Alreday volumes exists:");    
+                            doFailure(rc, HttpStatus.NOT_IMPLEMENTED_501, msg);
+                        }
                     }
-                    else
-                    {
-                    server.attachVolume(vol, device);
-                    logger.info( volms.size()+"volumes size after attaching volume");
-                    }
+                }
                 context.close();
                 doSuccess(rc);
                 ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
