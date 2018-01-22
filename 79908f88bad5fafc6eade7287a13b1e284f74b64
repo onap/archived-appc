@@ -22,6 +22,30 @@
       "revId": "79908f88bad5fafc6eade7287a13b1e284f74b64",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_37867a14",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 2729
+      },
+      "writtenOn": "2018-01-22T09:16:48Z",
+      "side": 1,
+      "message": "Channel implements Runnable, and is working with threads, depending on implementation in some cases connect method is non-blocking, like ChannelSubsytem in this case (runs deamon in a new thread). Normally there shouldn\u0027t be any sleep after connect, but for some reason author put it there, so I assume that it\u0027s related with connection availability. However there is overloaded method connect available with timeout argument,  and it seems to be cleaner solution, which should fit this case, so I\u0027m moving code to this solution.",
+      "parentUuid": "5a93c517_ace79d3f",
+      "range": {
+        "startLine": 747,
+        "startChar": 20,
+        "endLine": 747,
+        "endChar": 27
+      },
+      "revId": "79908f88bad5fafc6eade7287a13b1e284f74b64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
