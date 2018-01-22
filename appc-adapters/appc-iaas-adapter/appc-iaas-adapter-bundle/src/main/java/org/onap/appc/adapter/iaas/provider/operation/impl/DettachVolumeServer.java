@@ -68,6 +68,7 @@ public class DettachVolumeServer  extends ProviderServerOperation{
         String device = params.get(ProviderAdapter.DEVICE);
         VMURL vm = VMURL.parseURL(vm_url);
         Context context = null;
+        String tenantName = "Unknown";//to be used also in case of exception
         try {
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
@@ -77,9 +78,10 @@ public class DettachVolumeServer  extends ProviderServerOperation{
             String msg;
             context = getContext(rc, vm_url, identStr);
             if (context != null) {
+                tenantName = context.getTenantName();//this varaible also is used in case of exception
                 rc.reset();
                 server = lookupServer(rc, context, vm.getServerId());
-                logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
                 Volume vol = new Volume();
                 vol.setId(vol_id);
                 Map volms = server.getVolumes();
@@ -110,7 +112,7 @@ public class DettachVolumeServer  extends ProviderServerOperation{
             doFailure(rc, e.getStatus(), e.getMessage());
         } catch (Exception ex) {
             String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
-                    ATTACHVOLUME_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                    ATTACHVOLUME_SERVICE.toString(), vm_url, tenantName);
             logger.error(msg, ex);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }

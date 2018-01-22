@@ -174,12 +174,13 @@ public class EvacuateServer extends ProviderServerOperation {
             String targetHostId = params.get(ProviderAdapter.PROPERTY_TARGETHOST_ID);
 
             Context context = null;
+            String tenantName = "Unknown";//to be used also in case of exception
             try {
                 context = getContext(rc, vmUrl, identStr);
                 if (context != null) {
-
+                    tenantName = context.getTenantName();//this varaible also is used in case of exception
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
 
                     // check target host status
                     if (isComputeNodeDown(context, targetHostId)) {
@@ -268,7 +269,7 @@ public class EvacuateServer extends ProviderServerOperation {
                 doFailure(rc, e.getStatus(), e.getMessage());
             } catch (IOException | ZoneException e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        Operation.EVACUATE_SERVICE.toString(), vmUrl, context == null ? "Unknown" : context.getTenantName());
+                        Operation.EVACUATE_SERVICE.toString(), vmUrl, tenantName);
                 logger.error(msg, e1);
                 metricsLogger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);

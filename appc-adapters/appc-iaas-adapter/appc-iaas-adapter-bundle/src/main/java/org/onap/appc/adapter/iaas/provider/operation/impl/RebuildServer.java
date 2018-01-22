@@ -357,12 +357,14 @@ public class RebuildServer extends ProviderServerOperation {
             ctx.setAttribute("REBUILD_STATUS", "ERROR");
 
             Context context = null;
+            String tenantName = "Unknown";//to be used also in case of exception
             try {
                 context = getContext(rc, vm_url, identStr);
                 if (context != null) {
+                    tenantName = context.getTenantName();//this varaible also is used in case of exception
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
 
                     // Manually checking image service until new PAL release
                     if (hasImageAccess(rc, context)) {
@@ -391,7 +393,7 @@ public class RebuildServer extends ProviderServerOperation {
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        STOP_SERVICE.toString(), vm_url, context == null ? "Unknown" : context.getTenantName());
+                        STOP_SERVICE.toString(), vm_url, tenantName);
                 ctx.setAttribute("REBUILD_STATUS", "ERROR");
                 logger.error(msg, e1);
                 metricsLogger.error(msg);

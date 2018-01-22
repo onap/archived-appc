@@ -77,13 +77,15 @@ public class StartServer extends ProviderServerOperation {
             String identStr = (ident == null) ? null : ident.toString();
 
             Context context = null;
+            String tenantName = "Unknown";//to be used also in case of exception
             ctx.setAttribute("START_STATUS", "ERROR");
             try {
                 context = getContext(rc, vm_url, identStr);
                 if (context != null) {
+                    tenantName = context.getTenantName();//this varaible also is used in case of exception
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
                     String msg;
 
                     /*
@@ -163,7 +165,7 @@ public class StartServer extends ProviderServerOperation {
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
                         e1.getClass().getSimpleName(), START_SERVICE.toString(), vm_url,
-                        context == null ? "Unknown" : context.getTenantName());
+                        tenantName);
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }

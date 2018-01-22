@@ -200,11 +200,13 @@ public class TerminateServer extends ProviderServerOperation {
             String identStr = (ident == null) ? null : ident.toString();
 
             Context context = null;
+            String tenantName = "Unknown";//to be used also in case of exception
             try {
                 context = getContext(rc, vm_url, identStr);
                 if (context != null) {
+                    tenantName = context.getTenantName();//this varaible also is used in case of exception
                     server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
                     logger.info(EELFResourceManager.format(Msg.TERMINATING_SERVER, server.getName()));
                     terminateServer(rc, server);
                     logger.info(EELFResourceManager.format(Msg.TERMINATE_SERVER, server.getName()));
@@ -221,7 +223,7 @@ public class TerminateServer extends ProviderServerOperation {
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
                         e1.getClass().getSimpleName(), RESTART_SERVICE.toString(), vm_url,
-                        context == null ? "Unknown" : context.getTenantName());
+                        tenantName);
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
