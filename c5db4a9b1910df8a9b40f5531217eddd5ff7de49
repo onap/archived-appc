@@ -16,6 +16,24 @@
       "revId": "c5db4a9b1910df8a9b40f5531217eddd5ff7de49",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0c47b11e",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-01-22T08:09:49Z",
+      "side": 1,
+      "message": "The DebugLog has already been used in ConfigComponentAdaptor, the only change I have made  is unifying the DebugLog\u0027s method access from static to instance based as part of sonar fixes and for better testability.\nI fully agree that the DebugLog and all custom logging mechanisms should be removed in favor of EELF. The only reason why we held back is because we weren\u0027t sure exactly sure if these custom logs aren\u0027t somehow used (parsed by scripts etc), now it\u0027s clear. \n\nI will gladly make the changes and remove the DebugLog class with its usage here, but would like to do it as part of a new commit. I think it is best not to mix sonar violation fixes with the logger changes in a commit to keep changes smaller.\n\nAs for the conflict with Tomasz commit, I can\u0027t simply remove my changes from SshJcraftWrapper.java since there will be a compilation error. I think the best approach would be to pull https://gerrit.onap.org/r/#/c/28659/3 changes once they have been merged.",
+      "parentUuid": "5a93c517_8cd42148",
+      "revId": "c5db4a9b1910df8a9b40f5531217eddd5ff7de49",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
