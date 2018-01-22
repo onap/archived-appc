@@ -25,31 +25,35 @@
     package org.onap.appc;
 
 import org.onap.appc.encryption.EncryptionTool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CmdLine {
 
-        public static void main(String[] args) {
+    private static final Logger logger = LoggerFactory.getLogger(CmdLine.class);
 
-            if (args.length < 1) {
-                printUsage();
-                return;
-            }
+    public static void main(String[] args) {
 
-            String command = args[0];//first parameter
-
-            if (0 == command.compareTo("encrypt") && args.length == 2)//two parameters are required
-            {
-                String clearText = args[1];
-                String encrypted = EncryptionTool.getInstance().encrypt(clearText);
-                System.out.println(encrypted);
-                return;
-            } else {
-                printUsage();
-            }
+        if (args.length < 1) {
+            printUsage();
+            return;
         }
-        
-        private static void printUsage(){
-            System.out.println("Usage: java -jar <this jar> ...");
-            System.out.println("\tencrypt <your text> \t\t(Encrypts your text)");
+
+        String command = args[0];//first parameter
+
+        if (0 == command.compareTo("encrypt") && args.length == 2)//two parameters are required
+        {
+            String clearText = args[1];
+            String encrypted = EncryptionTool.getInstance().encrypt(clearText);
+            logger.info(encrypted);
+            return;
+        } else {
+            printUsage();
         }
+    }
+
+    private static void printUsage(){
+        logger.error("Usage: java -jar <this jar> ...");
+        logger.error("\tencrypt <your text> \t\t(Encrypts your text)");
+    }
 }
