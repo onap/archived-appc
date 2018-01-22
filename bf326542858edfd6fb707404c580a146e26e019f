@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_9203dcb7",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-22T18:26:54Z",
+      "side": 1,
+      "message": "Is it possible that a runtime exception is thrown before the call to context.getTenantName() and tenantName may not reference the correct value?   (correct meaning same as it would have been in the existing code)",
+      "revId": "bf326542858edfd6fb707404c580a146e26e019f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
