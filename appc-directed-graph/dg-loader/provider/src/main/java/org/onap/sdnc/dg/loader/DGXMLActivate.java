@@ -62,7 +62,7 @@ public class DGXMLActivate {
             List<String> errors = new ArrayList<String>();
             if (this.store != null) {
                 File activateFile = new File(activateFilePath);
-                if (activateFile != null && activateFile.isFile()) {
+                if (activateFile.isFile()) {
                     List<String> fileLines = FileUtils.readLines(activateFile, STRING_ENCODING);
                     if (fileLines != null) {
                         for (String line : fileLines) {
