@@ -25,11 +25,11 @@
 package org.onap.appc.aai.utils;
 
 public class AaiClientConstant {
-    public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
-    public static String OUTPUT_PARAM_STATUS = "status";
-    public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
-    public static String OUTPUT_STATUS_SUCCESS = "success";
-    public static String OUTPUT_STATUS_FAILURE = "failure";
+    public static final String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
+    public static final String OUTPUT_PARAM_STATUS = "status";
+    public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static final String OUTPUT_STATUS_SUCCESS = "success";
+    public static final String OUTPUT_STATUS_FAILURE = "failure";
 
     public static final String AAI_KEYS = "aaiKeys";
     public static final String SOURCE_SYSTEM_AAI = "AAI";
