@@ -316,23 +316,23 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         Lock lock = rwLock.readLock();
         lock.lock();
         try {
-            builder.append(String.format("Service Catalog: tenant %s, id[%s]\n", project.getName(), //$NON-NLS-1$
+            builder.append(String.format("Service Catalog: tenant %s, id[%s]%n", project.getName(), //$NON-NLS-1$
                     project.getId()));
             if (regions != null && !regions.isEmpty()) {
-                builder.append(String.format("%d regions:\n", regions.size())); //$NON-NLS-1$
+                builder.append(String.format("%d regions:%n", regions.size())); //$NON-NLS-1$
                 for (String region : regions) {
-                    builder.append("\t" + region + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                    builder.append("\t" + region + "%n"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
-            builder.append(String.format("%d services:\n", serviceEndpoints.size())); //$NON-NLS-1$
+            builder.append(String.format("%d services:%n", serviceEndpoints.size())); //$NON-NLS-1$
             for (String serviceType : serviceEndpoints.keySet()) {
                 List<Service.Endpoint> endpoints = serviceEndpoints.get(serviceType);
                 Service service = serviceTypes.get(serviceType);
 
-                builder.append(String.format("\t%s - %d endpoints\n", service.getType(), //$NON-NLS-1$
+                builder.append(String.format("\t%s - %d endpoints%n", service.getType(), //$NON-NLS-1$
                         endpoints.size()));
                 for (Service.Endpoint endpoint : endpoints) {
-                    builder.append(String.format("\t\tRegion [%s], public URL [%s]\n", endpoint.getRegion(), //$NON-NLS-1$
+                    builder.append(String.format("\t\tRegion [%s], public URL [%s]%n", endpoint.getRegion(), //$NON-NLS-1$
                             endpoint.getUrl()));
                 }
             }
