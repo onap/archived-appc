@@ -100,15 +100,17 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ArtifactHandlerNode.class);
 
     public void processArtifact(Map<String, String> inParams, SvcLogicContext ctx) throws Exception {
-        String responsePrefix = inParams.get("response_prefix");
+        if (inParams == null || inParams.isEmpty())
+            return;
+        String postData = inParams.get("postData");
+        if(postData == null || postData.isEmpty())
+            return;
         try {
-            if (inParams != null && !inParams.isEmpty() && inParams.get("postData") != null) {
-                log.info("Received request for process Artifact with params: " + inParams.toString());
-                String postData = inParams.get("postData");
-                JSONObject input = new JSONObject(postData).getJSONObject("input");
-                responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
-                storeUpdateSdcArtifacts(input);
-            }
+            log.info("Received request for process Artifact with params: " + inParams.toString());
+            JSONObject input = new JSONObject(postData).getJSONObject("input");
+            String responsePrefix = inParams.get("response_prefix");
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            storeUpdateSdcArtifacts(input);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
@@ -174,8 +176,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         String toscaContents = null;
         ArtifactProcessorImpl toscaGenerator = new ArtifactProcessorImpl();
         toscaGenerator.generateArtifact(PDFileContents, toscaStream);
-        if (toscaStream != null)
-            toscaContents = toscaStream.toString();
+        toscaContents = toscaStream.toString();
         log.info("Generated Tosca File : " + toscaContents);
 
         String yangContents = "YANG generation is in Progress";
@@ -199,8 +200,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         OutputStream yangStream = new ByteArrayOutputStream();
         YANGGenerator yangGenerator = YANGGeneratorFactory.getYANGGenerator();
         yangGenerator.generateYANG(artifactId, toscaContents, yangStream);
-        if (yangStream != null)
-            yangContents = yangStream.toString();
+        yangContents = yangStream.toString();
 
         if (yangContents != null) {
             updateYangContents(artifactId, ahpUtil.escapeSql(yangContents));
