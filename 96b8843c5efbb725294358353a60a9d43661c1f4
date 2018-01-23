@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ac99d820",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-23T20:37:22Z",
+      "side": 1,
+      "message": "If content.get(ARTIFACT_LIST) is no longer checked on 342, can a ClassCastException be thrown here?   Is the resulting behavior different than the original code?",
+      "revId": "96b8843c5efbb725294358353a60a9d43661c1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
