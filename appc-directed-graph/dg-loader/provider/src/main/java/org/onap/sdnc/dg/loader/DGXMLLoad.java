@@ -65,7 +65,7 @@ public class DGXMLLoad {
             List<String> errors = new ArrayList<String>();
             if (this.store != null) {
                 File xmlDir = new File(xmlPath);
-                if (xmlDir != null && xmlDir.isDirectory()) {
+                if (xmlDir.isDirectory()) {
                     String[] extensions = new String[] {"xml", "XML"};
                     List<File> files = (List<File>) FileUtils.listFiles(xmlDir, extensions, true);
                     for (File file : files) {
