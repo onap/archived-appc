@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -76,23 +76,26 @@ public class LifecycleManagerImpl implements LifecycleManager{
         return nextState.getStateName();
     }
 
-    private StateMachine getStateMachine(String vnfType){
+    private StateMachine getStateMachine(String vnfType) {
+
+        String vnfType1 = vnfType;
+    	
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getNextState with vnfType = "+ vnfType);
+            logger.trace("Entering to getNextState with vnfType = "+ vnfType1);
         }
-        if(vnfType == null){
-            vnfType = "DEFAULT";
+        if(vnfType1 == null){
+            vnfType1 = "DEFAULT";
         }
-        StateMachine machine = stateMachineMap.get(vnfType);
+        StateMachine machine = stateMachineMap.get(vnfType1);
         if(machine == null){
-            metadataReader = getMetadataReader(vnfType);
+            metadataReader = getMetadataReader(vnfType1);
             StateMachineMetadata metadata = metadataReader.readMetadata();
             machine = StateMachineFactory.getStateMachine(metadata);
-            stateMachineMap.put(vnfType,machine);
+            stateMachineMap.put(vnfType1,machine);
         }
 
-        logger.trace("Exiting getStateMachine with StateMachine = " + stateMachineMap.get(vnfType).toString());
-        return stateMachineMap.get(vnfType);
+        logger.trace("Exiting getStateMachine with StateMachine = " + stateMachineMap.get(vnfType1).toString());
+        return stateMachineMap.get(vnfType1);
     }
 
     private StateMetaDataReader getMetadataReader(String vnfType) {
