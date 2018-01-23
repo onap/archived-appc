@@ -30,7 +30,7 @@ import java.sql.SQLException;
 import org.onap.appc.dao.util.DefaultJdbcConnectionFactory;
 
 public class MySqlConnectionFactory extends DefaultJdbcConnectionFactory {
-
+	@Override
     protected void registedDriver() throws SQLException {
     DriverManager.registerDriver(new org.mariadb.jdbc.Driver());
     

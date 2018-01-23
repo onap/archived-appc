@@ -77,22 +77,24 @@ public class LifecycleManagerImpl implements LifecycleManager{
     }
 
     private StateMachine getStateMachine(String vnfType){
-        if (logger.isTraceEnabled()) {
-            logger.trace("Entering to getNextState with vnfType = "+ vnfType);
+        String vnfType1 = vnfType;
+    	
+    	if (logger.isTraceEnabled()) {
+            logger.trace("Entering to getNextState with vnfType = "+ vnfType1);
         }
-        if(vnfType == null){
-            vnfType = "DEFAULT";
+        if(vnfType1 == null){
+            vnfType1 = "DEFAULT";
         }
-        StateMachine machine = stateMachineMap.get(vnfType);
+        StateMachine machine = stateMachineMap.get(vnfType1);
         if(machine == null){
-            metadataReader = getMetadataReader(vnfType);
+            metadataReader = getMetadataReader(vnfType1);
             StateMachineMetadata metadata = metadataReader.readMetadata();
             machine = StateMachineFactory.getStateMachine(metadata);
-            stateMachineMap.put(vnfType,machine);
+            stateMachineMap.put(vnfType1,machine);
         }
 
-        logger.trace("Exiting getStateMachine with StateMachine = " + stateMachineMap.get(vnfType).toString());
-        return stateMachineMap.get(vnfType);
+        logger.trace("Exiting getStateMachine with StateMachine = " + stateMachineMap.get(vnfType1).toString());
+        return stateMachineMap.get(vnfType1);
     }
 
     private StateMetaDataReader getMetadataReader(String vnfType) {

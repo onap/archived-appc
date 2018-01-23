@@ -27,6 +27,9 @@ package org.onap.appc.requesthandler.constant;
 import java.util.concurrent.TimeUnit;
 
 public class Constants {
+	
+	private Constants() {
+	}
 
     public static final int DEFAULT_TTL = 30;
     public static final String SUCCESS_MSG="SUCCESS";
