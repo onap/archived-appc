@@ -44,7 +44,6 @@ public class CCAActivator implements BundleActivator
   @SuppressWarnings("rawtypes")
   private ServiceRegistration registration = null;
 
-  //private static final Logger log = LoggerFactory.getLogger(CCAActivator.class);
   private static final EELFLogger log = EELFManager.getInstance().getLogger(CCAActivator.class);
 
   @Override
@@ -70,8 +69,7 @@ public class CCAActivator implements BundleActivator
     if (!propFile.exists())
       throw new ConfigurationException("Missing configuration properties file: " + propFile);
 
-    InputStream in = new FileInputStream(propFile);
-    try
+    try (InputStream in = new FileInputStream(propFile))
     {
       props.load(in);
     }
@@ -79,24 +77,8 @@ public class CCAActivator implements BundleActivator
     {
       throw new ConfigurationException("Could not load properties file " + propFileName, e);
     }
-    finally
-    {
-      try
-      {
-        in.close();
-      }
-      catch (Exception e)
-      {
-        log.warn("Could not close FileInputStream", e);
-      }
-    }
 
     log.info("Loaded properties: ");
-    /*for (Object key : props.keySet())
-    {
-      Object value = props.get(key);
-      log.info("    " + key + "=" + value);
-    }*/
 
     // Advertise adaptor
     ConfigComponentAdaptor adaptor = new ConfigComponentAdaptor(props);
