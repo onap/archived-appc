@@ -55,7 +55,7 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
     }
 
     @Override
-    public void processRule() throws Exception {
+    public void processRule() throws IllegalStateException {
 
         String fn = "AaiInterfaceIpAddressHandler.processRule";
         log.info(fn + "Processing rule :" + parameters.getRuleType());
@@ -77,12 +77,12 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
                 }
             }
         } else {
-            throw new Exception("NO response Keys set  for : " + parameters.getRuleType());
+            throw new IllegalStateException("NO response Keys set  for : " + parameters.getRuleType());
         }
         processKeys(respKeys, parameters.getName());
     }
 
-    public void processKeys(ResponseKey filterKey, String aaiKey) throws Exception {
+    public void processKeys(ResponseKey filterKey, String aaiKey) {
 
         String fn = "AaiInterfaceRulesHandler.processKeys()::";
         log.info(fn + "processing for " + aaiKey);
@@ -119,8 +119,8 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         log.info(fn + "FieldKeyName:" + fieldKeyName + " FilterByName:" + filterByField + " FilterByValue:"
                 + filterByValue);
         if (StringUtils.equalsIgnoreCase(fieldKeyName, "vserver-name")) {
-            if (StringUtils.isNotEmpty(filterByField) && StringUtils.isNotEmpty(filterByField)
-                    && StringUtils.isNotEmpty(filterByValue) && StringUtils.isNotEmpty(filterByValue)) {
+            if (StringUtils.isNotEmpty(filterByField)
+                    && StringUtils.isNotEmpty(filterByValue) ) {
                 int vmIndex = 0;
                 for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
                     if (StringUtils.equalsIgnoreCase(filterByField, "vm-number") && null != filterByValue) {
