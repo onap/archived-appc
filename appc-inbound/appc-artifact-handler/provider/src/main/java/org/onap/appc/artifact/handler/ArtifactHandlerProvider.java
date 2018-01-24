@@ -92,7 +92,7 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
         try {
             ArtifactHandlerProviderUtil.loadProperties();
         } catch (Exception e) {
-            log.error("Caught Exception while trying to load properties file");
+            log.error("Caught Exception while trying to load properties file: " + e);
         }
         // Listener for changes to Services tree
 
@@ -114,7 +114,6 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
 
         } catch (InterruptedException | ExecutionException e) {
             log.error("Create Containers Failed: " + e);
-            e.printStackTrace();
         }
     }
 
