@@ -65,7 +65,7 @@ class RankedAttributesTreeBuilder {
             if (i < names.length - 1) {
                 CompositeNode<R> currentNode = (CompositeNode<R>) parentNode.children().get(value);
                 if (currentNode == null) {
-                    currentNode = new CompositeNode<>(name, value, parentNode, new HashMap<Object, Node<R>>());
+                    currentNode = new CompositeNode<>(name, value, parentNode, new HashMap<>());
                     parentNode.children().put(value, currentNode);
                 }
                 parentNode = currentNode;
