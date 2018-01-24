@@ -39,7 +39,7 @@ class LeafNode<R> extends NodeBase<R> {
 
     @Override
     public String toString() {
-        StringBuffer buff = new StringBuffer(128);
+        StringBuilder buff = new StringBuilder(128);
         buff.append(super.toString());
         buff.append(" --> ");
         buff.append(result.toString());

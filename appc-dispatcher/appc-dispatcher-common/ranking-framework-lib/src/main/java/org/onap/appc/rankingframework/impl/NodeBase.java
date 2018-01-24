@@ -73,8 +73,8 @@ abstract class NodeBase<R> implements Node<R> {
 
     @Override
     public String toString() {
-        if (!name.equals("ROOT")) {
-            StringBuffer buff = new StringBuffer(128);
+        if (!("ROOT").equals(name)) {
+            StringBuilder buff = new StringBuilder(128);
             if (parent != null) {
                 buff.append(parent.toString());
             }
