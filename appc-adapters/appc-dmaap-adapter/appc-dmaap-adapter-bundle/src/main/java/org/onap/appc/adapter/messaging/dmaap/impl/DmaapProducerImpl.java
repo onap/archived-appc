@@ -123,7 +123,7 @@ public class DmaapProducerImpl implements Producer {
                 final MRBatchingPublisher client = MRClientFactory.createBatchingPublisher (topicProducerPropFileName);
                 out.add(client);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
             }
         }
 
@@ -161,7 +161,7 @@ public class DmaapProducerImpl implements Producer {
                 LOG.debug(String.format("Posting %s to %s", data, client));
                 client.send(partition, data);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error(e.getMessage());
                 success = false;
             }
         }
@@ -186,7 +186,6 @@ public class DmaapProducerImpl implements Producer {
                 client.close(1, TimeUnit.SECONDS);
             }  catch (IOException | InterruptedException e) {
                 LOG.warn(String.format("Failed to cleanly close Dmaap connection for [%s]", client));
-                e.printStackTrace();
             }
         }
     }
