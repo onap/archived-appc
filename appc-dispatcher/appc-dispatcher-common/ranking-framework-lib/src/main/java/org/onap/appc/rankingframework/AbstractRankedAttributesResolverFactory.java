@@ -26,13 +26,15 @@ package org.onap.appc.rankingframework;
 
 import org.onap.appc.rankingframework.impl.DefaultRankedAttributesTreeFactory;
 
-public abstract class AbstractRankedAttributesResolverFactory implements RankedAttributesResolverFactory {
+public interface AbstractRankedAttributesResolverFactory  {
 
-    private static class ReferenceHolder {
+    class ReferenceHolder {
         private static final RankedAttributesResolverFactory INSTANCE = new DefaultRankedAttributesTreeFactory();
+
+        private ReferenceHolder() {}
     }
 
-    public static RankedAttributesResolverFactory getInstance() {
+    static RankedAttributesResolverFactory getInstance() {
         return ReferenceHolder.INSTANCE;
     }
 }

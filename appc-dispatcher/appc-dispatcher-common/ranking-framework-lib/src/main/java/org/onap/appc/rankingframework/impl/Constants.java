@@ -26,8 +26,9 @@ package org.onap.appc.rankingframework.impl;
 
 class Constants {
 
+    static final String DEFAULT_MATCH = "*";
+
     private Constants() {
     }
 
-    static final String DEFAULT_MATCH = "*";
 }

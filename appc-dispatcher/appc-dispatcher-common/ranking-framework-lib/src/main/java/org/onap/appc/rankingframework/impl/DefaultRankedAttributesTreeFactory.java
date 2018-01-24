@@ -35,15 +35,13 @@ import org.onap.appc.rankingframework.RankedAttributesResolverFactory;
 
 public final class DefaultRankedAttributesTreeFactory implements RankedAttributesResolverFactory {
 
-    private final Strategy DEFAULT_STRATEGY = new BacktraceStrategy();
+    private final Strategy defaultStrategy = new BacktraceStrategy();
 
     @Override
     public <R> RankedAttributesResolver<R> create(ConfigurationSet<R> config) {
 
         CompositeNode<R> root = RankedAttributesTreeBuilder.build(config);
-        RankedAttributesResolver<R> tree = new RankedAttributesTree<R>(root, toList(config.getRankedAttributeNames()),
-                DEFAULT_STRATEGY);
-        return tree;
+        return new RankedAttributesTree<>(root, toList(config.getRankedAttributeNames()), defaultStrategy);
     }
 
     private static List<String> toList(Collection<String> col) {

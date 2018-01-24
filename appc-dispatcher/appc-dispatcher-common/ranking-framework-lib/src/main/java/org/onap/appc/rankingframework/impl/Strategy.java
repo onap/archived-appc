@@ -28,6 +28,7 @@ import java.util.List;
 
 import org.onap.appc.rankingframework.RankedAttributesContext;
 
+@FunctionalInterface
 interface Strategy {
     <R> R resolve(CompositeNode<R> root, List<String> rankedNames, RankedAttributesContext context);
 }
