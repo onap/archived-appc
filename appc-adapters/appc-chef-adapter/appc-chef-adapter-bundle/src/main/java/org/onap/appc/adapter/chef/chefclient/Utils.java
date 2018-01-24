@@ -41,8 +41,11 @@ import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.openssl.PEMKeyPair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Utils {
+    private final static Logger logger = LoggerFactory.getLogger(Utils.class);
     private Utils(){}
     
     public static String sha1AndBase64(String inStr) {
@@ -53,7 +56,7 @@ public class Utils {
             byte[] digest = md.digest(inStr.getBytes());
             outbty = Base64.encode(digest);
         } catch (NoSuchAlgorithmException nsae) {
-            nsae.printStackTrace();
+            logger.error(nsae.getMessage());
         }
         return new String(outbty);
     }
@@ -74,13 +77,13 @@ public class Utils {
             outStr = Base64.encode(signature);
             String tmp = new String(outStr);
         } catch (InvalidKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (SignatureException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return new String(outStr);
     }
