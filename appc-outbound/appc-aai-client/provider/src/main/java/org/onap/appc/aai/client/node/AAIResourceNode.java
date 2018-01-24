@@ -573,8 +573,8 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             return null;
         }
         String tenantId = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].tenant-id");
-        String cloudOwner = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].cloud-region-id");
-        String cloudRegionId = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].cloud-owner");
+        String cloudOwner = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].cloud-owner");
+        String cloudRegionId = ctx.getAttribute("tmp.vnfInfo.vm[" + arrayIndex + "].cloud-region-id");
         log.info("setVmParams()::tenantId=" + tenantId + " cloudOwner=" + cloudOwner + " cloudRegiodId= "
                 + cloudRegionId);
         params.put("vserverId", vServerId);
