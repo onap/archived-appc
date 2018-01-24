@@ -185,7 +185,7 @@ public class DBService {
                         + SdcArtifactHandlerConstants.ARTIFACT_NAME;
             }
         }
-        if (serviceLogic != null && context != null) {
+        if (serviceLogic != null) {
             log.info("Insert Key: " + key);
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
             if (status.toString().equals("FAILURE"))
@@ -242,8 +242,7 @@ public class DBService {
             }
         }
 
-        if (!db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION) && serviceLogic != null
-                && context != null) {
+        if (!db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION) && serviceLogic != null) {
             String key = "select COUNT(*) from " + db + whereClause;
             log.info("SELECT String : " + key);
             status = serviceLogic.query("SQL", false, null, key, null, null, context);
@@ -258,8 +257,7 @@ public class DBService {
             } else
                 return false;
         }
-        if (db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION) && serviceLogic != null
-                && context != null) {
+        if (db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION) && serviceLogic != null) {
             log.info("Check for update or insert for properties file");
             String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
             String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
@@ -405,7 +403,7 @@ public class DBService {
                     + SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP + " , GROUP_NOTATION_VALUE = $"
                     + SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE;
 
-        if (serviceLogic != null && context != null) {
+        if (serviceLogic != null) {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
             if (status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error While processing VNFC_REFERENCE table ");
@@ -452,7 +450,7 @@ public class DBService {
                         + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + " , ACTION = $"
                         + SdcArtifactHandlerConstants.ACTION + " , VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
 
-            if (serviceLogic != null && context != null)
+            if (serviceLogic != null)
                 status = serviceLogic.save("SQL", false, false, key, null, null, context);
             if ((status == null) || status.toString().equals("FAILURE"))
                 throw new SvcLogicException("Error While processing Configure DG Action table ");
@@ -470,7 +468,7 @@ public class DBService {
         key = "select VNF_TYPE, VNFC_TYPE, ACTION, FILE_CATEGORY, ARTIFACT_TYPE from ASDC_REFERENCE where  ARTIFACT_NAME = "
                 + artifact_name;
 
-        if (serviceLogic != null && con != null) {
+        if (serviceLogic != null) {
             log.info(fn + "select Key: " + key);
             status = serviceLogic.query("SQL", false, null, key, null, null, con);
             if (status.toString().equals("FAILURE"))
@@ -594,7 +592,7 @@ public class DBService {
             log.debug("vnfType: " + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
             QueryStatus status = null;
             log.info("cleanUpVnfcReferencesForVnf()::Query:" + key1);
-            if (serviceLogic != null && context != null) {
+            if (serviceLogic != null) {
                 status = serviceLogic.save("SQL", false, false, key1, null, null, context);
                 if (status.toString().equals("FAILURE")) {
                     log.debug("Error deleting from VNFC_REFERENCE table");
