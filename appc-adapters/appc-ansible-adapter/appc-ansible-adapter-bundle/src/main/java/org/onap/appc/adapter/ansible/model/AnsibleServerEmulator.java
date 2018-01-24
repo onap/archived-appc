@@ -34,6 +34,8 @@ package org.onap.appc.adapter.ansible.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.google.common.net.InetAddresses;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +51,14 @@ public class AnsibleServerEmulator {
     private static final String STATUS_MESSAGE = "StatusMessage";
 
     private String playbookName = "test_playbook.yaml";
+    private String vmAddress = "192.168.1.10";
+
+    public void setVmAddress(String ip)
+    {
+        if(InetAddresses.isInetAddress(ip)) {
+            vmAddress = ip;
+        }
+    }
 
     /**
      * Method that emulates the response from an Ansible Server
@@ -91,7 +101,6 @@ public class AnsibleServerEmulator {
         Pattern pattern = Pattern.compile(".*?\\?Id=(.*?)&Type.*");
         Matcher matcher = pattern.matcher(agentUrl);
         String id = StringUtils.EMPTY;
-        String vmAddress = "192.168.1.10";
 
         if (matcher.find()) {
             id = matcher.group(1);
