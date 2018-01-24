@@ -29,9 +29,9 @@ class Utils {
     private Utils() {
     }
 
-    static <R> Object value(Object value) {
+    static Object value(Object value) {
         if (value == null || (value instanceof String && isEmpty((String) value))) {
-            value = Constants.DEFAULT_MATCH;
+            return Constants.DEFAULT_MATCH;
         }
 
         return value;

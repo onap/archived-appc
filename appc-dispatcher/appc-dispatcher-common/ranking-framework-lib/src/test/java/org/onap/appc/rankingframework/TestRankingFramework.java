@@ -24,19 +24,10 @@
 
 package org.onap.appc.rankingframework;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.onap.appc.rankingframework.AbstractRankedAttributesResolverFactory;
-import org.onap.appc.rankingframework.ConfigurationEntry;
-import org.onap.appc.rankingframework.ConfigurationSet;
-import org.onap.appc.rankingframework.RankedAttributesContext;
-import org.onap.appc.rankingframework.RankedAttributesResolver;
+
+import java.util.*;
 
 public class  TestRankingFramework {
 
@@ -64,6 +55,7 @@ public class  TestRankingFramework {
         return new ConfigurationEntryImpl(map, result);
     }
 
+    @SafeVarargs
     private static ConfigurationSet<String> config(ConfigurationEntry<String> ... entries) {
         return new ConfigurationSetImpl(Arrays.asList(entries), NAMES);
     }
