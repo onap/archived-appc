@@ -41,6 +41,9 @@ import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 import com.woorea.openstack.keystone.model.Authentication;
 import com.woorea.openstack.keystone.model.Tenant;
 import com.woorea.openstack.keystone.model.authentication.UsernamePassword;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,6 +83,8 @@ import java.util.regex.Pattern;
  * </p>
  */
 public class ServiceCatalogV2 extends ServiceCatalog {
+
+    private final static Logger logger = LoggerFactory.getLogger(ServiceCatalogV2.class);
 
     /**
      * The Openstack Access object that manages the authenticated token and access control
@@ -121,7 +126,7 @@ public class ServiceCatalogV2 extends ServiceCatalog {
             connectorClass = Class.forName(CLIENT_CONNECTOR_CLASS);
             connector = (OpenStackClientConnector) connectorClass.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             return;
         }
         Keystone keystone = new Keystone(identityURL, connector);
@@ -294,23 +299,23 @@ public class ServiceCatalogV2 extends ServiceCatalog {
         Lock lock = rwLock.readLock();
         lock.lock();
         try {
-            builder.append(String.format("Service Catalog: tenant %s, id[%s], description[%s]\n", tenant.getName(), //$NON-NLS-1$
+            builder.append(String.format("Service Catalog: tenant %s, id[%s], description[%s]%n", tenant.getName(), //$NON-NLS-1$
                     tenant.getId(), tenant.getDescription()));
             if (regions != null && !regions.isEmpty()) {
-                builder.append(String.format("%d regions:\n", regions.size())); //$NON-NLS-1$
+                builder.append(String.format("%d regions:%n", regions.size())); //$NON-NLS-1$
                 for (String region : regions) {
-                    builder.append("\t" + region + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
+                    builder.append("\t" + region + "%n"); //$NON-NLS-1$ //$NON-NLS-2$
                 }
             }
-            builder.append(String.format("%d services:\n", serviceEndpoints.size())); //$NON-NLS-1$
+            builder.append(String.format("%d services:%n", serviceEndpoints.size())); //$NON-NLS-1$
             for (String serviceType : serviceEndpoints.keySet()) {
                 List<Service.Endpoint> endpoints = serviceEndpoints.get(serviceType);
                 Service service = serviceTypes.get(serviceType);
 
-                builder.append(String.format("\t%s [%s] - %d endpoints\n", service.getType(), service.getName(), //$NON-NLS-1$
+                builder.append(String.format("\t%s [%s] - %d endpoints%n", service.getType(), service.getName(), //$NON-NLS-1$
                         endpoints.size()));
                 for (Service.Endpoint endpoint : endpoints) {
-                    builder.append(String.format("\t\tRegion [%s], public URL [%s]\n", endpoint.getRegion(), //$NON-NLS-1$
+                    builder.append(String.format("\t\tRegion [%s], public URL [%s]%n", endpoint.getRegion(), //$NON-NLS-1$
                             endpoint.getPublicURL()));
                 }
             }
