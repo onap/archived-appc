@@ -16,6 +16,24 @@
       "revId": "96b8843c5efbb725294358353a60a9d43661c1f4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_af646a49",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-01-24T14:57:23Z",
+      "side": 1,
+      "message": "Correct, however I was assuming that Artifact*List* may not be anything else than *list* (or array in case of json).\n\nBut I understand that is not the case, so I can change this section to use content.optJSONArray() and check for null after that, is that ok?",
+      "parentUuid": "5a93c517_ac99d820",
+      "revId": "96b8843c5efbb725294358353a60a9d43661c1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
