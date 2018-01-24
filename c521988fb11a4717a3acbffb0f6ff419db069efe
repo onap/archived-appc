@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_02dc55e3",
+        "filename": "appc-dispatcher/appc-dispatcher-common/lock-manager-lib/lock-manager-impl/src/main/java/org/onap/appc/lockmanager/impl/sql/MySqlConnectionFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-24T15:27:41Z",
+      "side": 1,
+      "message": "Use spaces instead of tabs:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "c521988fb11a4717a3acbffb0f6ff419db069efe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_22d711c1",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/constant/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-24T15:27:41Z",
+      "side": 1,
+      "message": "https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "c521988fb11a4717a3acbffb0f6ff419db069efe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c2e50da9",
+        "filename": "appc-lifecycle-management/appc-lifecycle-management-core/src/main/java/org/onap/appc/lifecyclemanager/impl/LifecycleManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-24T15:27:41Z",
+      "side": 1,
+      "message": "https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "c521988fb11a4717a3acbffb0f6ff419db069efe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
