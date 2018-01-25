@@ -27,16 +27,15 @@ package org.onap.appc.client.impl.core;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-/** client lib Registry
+/**
+ * client lib Registry
  */
-class CoreRegistry<T>{
-    private Map<String, T> registry =
-            new ConcurrentHashMap<String, T>();
+class CoreRegistry<T> {
 
-    final private EmptyRegistryCallback emptyRegistryCallback;
+    private final EmptyRegistryCallback emptyRegistryCallback;
+    private Map<String, T> registry = new ConcurrentHashMap<>();
 
-
-    CoreRegistry(EmptyRegistryCallback emptyRegistryCallback){
+    CoreRegistry(EmptyRegistryCallback emptyRegistryCallback) {
         this.emptyRegistryCallback = emptyRegistryCallback;
     }
 
@@ -44,27 +43,29 @@ class CoreRegistry<T>{
         registry.put(key, obj);
     }
 
-    <T> T unregister(String key) {
-        T item = (T) registry.remove(key);
-        if(registry.isEmpty()) {
+    T unregister(String key) {
+        T item = registry.remove(key);
+        if (registry.isEmpty()) {
             emptyRegistryCallback.emptyCallback();
         }
         return item;
     }
 
-    <T> T get(String key){
-        return (T) registry.get(key);
+    T get(String key) {
+        return registry.get(key);
     }
 
     synchronized boolean isExist(String key) {
         return registry.containsKey(key);
     }
 
-    boolean isEmpty(){
+    boolean isEmpty() {
         return registry.isEmpty();
     }
 
-    public interface EmptyRegistryCallback{
+    @FunctionalInterface
+    public interface EmptyRegistryCallback {
+
         void emptyCallback();
     }
 }
