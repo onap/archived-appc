@@ -58,6 +58,8 @@ public class JSchLogger implements com.jcraft.jsch.Logger {
             case com.jcraft.jsch.Logger.FATAL:
                 LOG.error(message);
                 break;
+            default:
+                break;
         }
     }
 }

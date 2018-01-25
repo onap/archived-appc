@@ -26,8 +26,8 @@ package org.onap.appc.adapter.netconf;
 
 import org.onap.appc.exceptions.APPCException;
 
-
 public class MockOperationalStateValidatorImpl implements OperationalStateValidator {
+
     @Override
     public VnfType getVnfType() {
         return VnfType.MOCK;
@@ -35,8 +35,8 @@ public class MockOperationalStateValidatorImpl implements OperationalStateValida
 
     @Override
     public String getConfigurationFileName() {
-        String configFileName = OperationalStateValidatorFactory.configuration.getProperty(this.getClass().getCanonicalName() + CONFIG_FILE_PROPERTY_SUFFIX);
-        return configFileName;
+        return OperationalStateValidatorFactory.configuration
+                .getProperty(this.getClass().getCanonicalName() + CONFIG_FILE_PROPERTY_SUFFIX);
     }
 
     @Override

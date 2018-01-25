@@ -37,7 +37,7 @@ public class NetconfConnectionDetails {
     private String username;
     private String password;
 
-    public static int DEFAULT_PORT = 830;
+    public static final int DEFAULT_PORT = 830;
     private List<String> capabilities;
     private Properties additionalProperties;
 

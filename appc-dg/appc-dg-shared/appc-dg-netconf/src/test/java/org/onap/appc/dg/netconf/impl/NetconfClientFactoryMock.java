@@ -36,7 +36,7 @@ public class NetconfClientFactoryMock extends NetconfClientFactory {
     private final NetconfClientJschMock jschClient = new NetconfClientJschMock();
 
     @Override
-    public NetconfClient GetNetconfClient(NetconfClientType type){
+    public NetconfClient getNetconfClient(NetconfClientType type){
 
             return jschClient;
 

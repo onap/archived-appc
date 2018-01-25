@@ -69,8 +69,8 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     public void configure(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
 
         try {
-            // by default, it uses the jsch Netconf Adapter implementation by calling GetNetconfClient(NetconfClientType.SSH).
-            NetconfClient client = clientFactory.GetNetconfClient(NetconfClientType.SSH);
+            // by default, it uses the jsch Netconf Adapter implementation by calling getNetconfClient(NetconfClientType.SSH).
+            NetconfClient client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             try {
                 NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
                 String netconfMessage = params.get("file-content");
@@ -127,7 +127,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             }
 
             //connect checK Opertaions state and dissconnect
-            NetconfClient client = clientFactory.GetNetconfClient(NetconfClientType.SSH);
+            NetconfClient client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             try {
                 client.connect(connectionDetails);
                 String response = null;
@@ -164,7 +164,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
                 logger.debug("Entered backup to DEVICE_INTERFACE_LOG");
             }
 
-            client = clientFactory.GetNetconfClient(NetconfClientType.SSH);
+            client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             //get connection details
             NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
             //connect the client and get configuration
@@ -199,7 +199,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
                 BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
                 ServiceReference sref = bctx.getServiceReference(NETCONF_CLIENT_FACTORY_NAME);
                 NetconfClientFactory clientFactory = (NetconfClientFactory) bctx.getService(sref);
-                client = clientFactory.GetNetconfClient(NetconfClientType.SSH);
+                client = clientFactory.getNetconfClient(NetconfClientType.SSH);
                 //get connection details
                 NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
                 //connect the client and get configuration
@@ -245,7 +245,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
             ServiceReference sref = bctx.getServiceReference(NETCONF_CLIENT_FACTORY_NAME);
             NetconfClientFactory clientFactory = (NetconfClientFactory) bctx.getService(sref);
-            client = clientFactory.GetNetconfClient(NetconfClientType.SSH);
+            client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             //get connection details
             NetconfConnectionDetails connectionDetails = new NetconfConnectionDetails();
             connectionDetails.setHost(params.get("host-ip-address"));

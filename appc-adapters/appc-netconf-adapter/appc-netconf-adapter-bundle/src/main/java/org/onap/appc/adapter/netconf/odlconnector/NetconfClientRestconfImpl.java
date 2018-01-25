@@ -42,8 +42,8 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
 
     private NetconfConnectionDetails connectionDetails;
 
-    //constructor
     public NetconfClientRestconfImpl(){
+        //constructor
     }
 
     //restconf client impl

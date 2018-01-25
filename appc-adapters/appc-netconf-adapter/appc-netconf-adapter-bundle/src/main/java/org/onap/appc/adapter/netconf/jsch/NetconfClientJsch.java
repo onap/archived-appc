@@ -24,10 +24,7 @@
 
 package org.onap.appc.adapter.netconf.jsch;
 
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.ChannelSubsystem;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
+import com.jcraft.jsch.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -75,17 +72,9 @@ public class NetconfClientJsch implements NetconfClient {
 
             session.connect(SESSION_CONNECT_TIMEOUT);
             session.setTimeout(10000);
-            try {
-//                session.setServerAliveCountMax(0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
-                channel = session.openChannel("subsystem");
-                ((ChannelSubsystem)channel).setSubsystem("netconf");
-                netconfAdapter = new NetconfAdapter(channel.getInputStream(), channel.getOutputStream());
-                channel.connect(CHANNEL_CONNECT_TIMEOUT);
-                hello(connectionDetails.getCapabilities());
-            } catch(Exception e) {
-                disconnect();
-                throw e;
-            }
+
+            createConnection(connectionDetails);
+
         } catch(Exception e) {
             String message = EELFResourceManager.format(Msg.CANNOT_ESTABLISH_CONNECTION, host, String.valueOf(port), username);
             throw new APPCException(message, e);
@@ -135,6 +124,20 @@ public class NetconfClientJsch implements NetconfClient {
                 session.disconnect();
                 session = null;
             }
+        }
+    }
+
+    private void createConnection(NetconfConnectionDetails connectionDetails) throws APPCException {
+        try {
+//          session.setServerAliveCountMax(0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
+            channel = session.openChannel("subsystem");
+            ((ChannelSubsystem)channel).setSubsystem("netconf");
+            netconfAdapter = new NetconfAdapter(channel.getInputStream(), channel.getOutputStream());
+            channel.connect(CHANNEL_CONNECT_TIMEOUT);
+            hello(connectionDetails.getCapabilities());
+        } catch(Exception e) {
+            disconnect();
+            throw new APPCException(e);
         }
     }
 

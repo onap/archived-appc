@@ -30,7 +30,7 @@ import org.onap.appc.adapter.netconf.odlconnector.NetconfClientRestconfImpl;
 
 public class NetconfClientFactory {
 
-    public NetconfClient GetNetconfClient(NetconfClientType type){
+    public NetconfClient getNetconfClient(NetconfClientType type){
 
         if(type==NetconfClientType.RESTCONF) {
             return new NetconfClientRestconfImpl();
