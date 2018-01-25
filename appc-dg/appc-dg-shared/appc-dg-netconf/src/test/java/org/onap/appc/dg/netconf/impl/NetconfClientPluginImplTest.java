@@ -34,7 +34,6 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.onap.appc.adapter.netconf.*;
 import org.onap.appc.adapter.netconf.util.Constants;
-import org.onap.appc.dg.netconf.impl.NetconfClientPluginImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -129,7 +128,7 @@ public class NetconfClientPluginImplTest {
 
         netconfClientPlugin.configure(params, ctx);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
 
         try {
             Assert.assertEquals("wrong configuration", fileContent, client.getConf());
@@ -154,7 +153,7 @@ public class NetconfClientPluginImplTest {
         params = new HashMap<>();
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, "{" + connectionDetails);
         params.put(Constants.FILE_CONTENT_FIELD_NAME, fileContent);
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
 
 
         try {
@@ -174,7 +173,7 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
 
 
@@ -202,7 +201,7 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
 
         params = new HashMap<>();
@@ -234,7 +233,7 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
 
 
@@ -270,7 +269,7 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer("wrong");
 
 
@@ -303,7 +302,7 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
         ((DAOServiceMock) dao).setConnection(getConnectionDetails());
 
@@ -331,7 +330,7 @@ public class NetconfClientPluginImplTest {
         DAOServiceMock daoServiceMock = (DAOServiceMock) dao;
         daoServiceMock.setConfigFile(fileContent);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
         ((DAOServiceMock) dao).setConnection(getConnectionDetails());
 
@@ -359,7 +358,7 @@ public class NetconfClientPluginImplTest {
         SvcLogicContext ctx = new SvcLogicContext();
         params = new HashMap<>();
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, connectionDetails);
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setConf(fileContent);
         netconfClientPlugin.backupConfiguration(params, ctx);
 
@@ -383,7 +382,7 @@ public class NetconfClientPluginImplTest {
         SvcLogicContext ctx = new SvcLogicContext();
         params = new HashMap<>();
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, "{" + connectionDetails);
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setConf(fileContent);
         try {
             netconfClientPlugin.backupConfiguration(params, ctx);
@@ -408,7 +407,7 @@ public class NetconfClientPluginImplTest {
         params = new HashMap<>();
         params.put("conf-id", "current");
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, connectionDetails);
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setConf(fileContent);
 
 
@@ -500,7 +499,7 @@ public class NetconfClientPluginImplTest {
         params.put("password", password);
         params.put("port-number", String.valueOf(port));
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setConf(fileContent);
 
         netconfClientPlugin.getRunningConfig(params, ctx);
@@ -519,7 +518,7 @@ public class NetconfClientPluginImplTest {
         params.put("user-name", username);
         params.put("password", password);
 
-        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.GetNetconfClient(NetconfClientType.SSH);
+        NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setConf(fileContent);
 
         try {

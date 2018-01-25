@@ -30,7 +30,7 @@ import org.onap.appc.adapter.netconf.*;
 
 public class OperationStateValidatorFactoryMock extends OperationalStateValidatorFactory {
     public static OperationalStateValidator getOperationalStateValidator(String vnfType) {
-        VnfType vnfTypeEnum = null;
+        VnfType vnfTypeEnum;
         try {
             vnfTypeEnum = VnfType.getVnfType(vnfType);
         } catch (IllegalArgumentException e) {
@@ -45,6 +45,4 @@ public class OperationStateValidatorFactoryMock extends OperationalStateValidato
 
 
     }
-
-
 }

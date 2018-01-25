@@ -26,8 +26,10 @@ package org.onap.appc.adapter.netconf.internal;
 
 public class NetconfConstMessages {
 
+    private static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
     public static final String CAPABILITIES_START =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            XML_HEADER +
                     "<hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
                     "  <capabilities>\n";
 
@@ -39,7 +41,7 @@ public class NetconfConstMessages {
                     "</hello>";
 
     public static final String GET_RUNNING_CONFIG =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            XML_HEADER +
                     "<rpc message-id=\"1\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
                     "    <get-config>\n" +
                     "        <source>\n" +
@@ -49,8 +51,10 @@ public class NetconfConstMessages {
                     "</rpc>";
 
     public static final String CLOSE_SESSION =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+            XML_HEADER +
                     "<rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n" +
                     "    <close-session/>\n" +
                     "</rpc>";
+
+    private NetconfConstMessages() {}
 }

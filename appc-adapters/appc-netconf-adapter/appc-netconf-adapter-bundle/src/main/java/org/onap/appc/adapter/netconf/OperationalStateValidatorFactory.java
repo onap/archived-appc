@@ -31,8 +31,10 @@ import org.onap.appc.configuration.ConfigurationFactory;
 public class OperationalStateValidatorFactory {
     protected static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
+    protected OperationalStateValidatorFactory() {}
+
     public static OperationalStateValidator getOperationalStateValidator(String vnfType) {
-        VnfType vnfTypeEnum = null;
+        VnfType vnfTypeEnum;
         try {
             vnfTypeEnum = VnfType.getVnfType(vnfType);
         } catch (IllegalArgumentException e) {

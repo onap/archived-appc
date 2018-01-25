@@ -41,6 +41,7 @@ import java.util.*;
 
 public class VNFOperationalStateValidatorImpl implements OperationalStateValidator {
     private static final String OPERATIONAL_STATE_ELEMENT_NAME = "operationalState";
+
     @Override
     public VnfType getVnfType() {
         return VnfType.VNF;
@@ -48,8 +49,9 @@ public class VNFOperationalStateValidatorImpl implements OperationalStateValidat
 
     @Override
     public String getConfigurationFileName() {
-        String configFileName = OperationalStateValidatorFactory.configuration.getProperty(this.getClass().getCanonicalName() + CONFIG_FILE_PROPERTY_SUFFIX);
-        configFileName = configFileName == null?  "VnfGetOperationalStates" : configFileName;
+        String configFileName = OperationalStateValidatorFactory.configuration
+                .getProperty(this.getClass().getCanonicalName() + CONFIG_FILE_PROPERTY_SUFFIX);
+        configFileName = configFileName == null ? "VnfGetOperationalStates" : configFileName;
         return configFileName;
     }
 
@@ -58,54 +60,46 @@ public class VNFOperationalStateValidatorImpl implements OperationalStateValidat
         if(StringUtils.isEmpty(response)) {
             throw new APPCException("empty response");
         }
-
-        boolean isValid = false;
-        String errorMsg = "unexpected response";
         try {
-            List<Map.Entry> operationalStateList = getOperationalStateList(response);
-            if(operationalStateList != null && !operationalStateList.isEmpty()) {
-                for (Map.Entry stateEntry : operationalStateList) {
-                    if(!((String)stateEntry.getValue()).equalsIgnoreCase("ENABLED")){
-                        errorMsg = "at least one "+OPERATIONAL_STATE_ELEMENT_NAME+" is not in valid satae. "+operationalStateList.toString();
-                        isValid = false;
-                        break;
-                    }else{
-                        isValid =true;
-                    }
-                }
-            }else {
-                errorMsg = "response without any "+OPERATIONAL_STATE_ELEMENT_NAME+" element";
+            List<Map.Entry> operationalStateList = getOperationalStateList(response).orElseThrow(() ->
+                    new APPCException("response without any "+OPERATIONAL_STATE_ELEMENT_NAME+" element"));
+
+            if(operationalStateList.stream().anyMatch(this::isNotEnabled)) {
+                throw new APPCException("at least one "+OPERATIONAL_STATE_ELEMENT_NAME+" is not in valid state. "
+                        +operationalStateList.toString());
             }
-        } catch (Exception e ) {
-            isValid = false;
-            errorMsg = e.toString();
+
+        } catch (Exception e) {
+            throw new APPCException(e);
         }
-        if(!isValid) throw new APPCException(errorMsg);
     }
 
-    private static List<Map.Entry> getOperationalStateList(String xmlText) throws IOException, ParserConfigurationException, SAXException {
-        List<Map.Entry> entryList = null;
-        if(StringUtils.isNotEmpty(xmlText)) {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
+    private boolean isNotEnabled(Map.Entry stateEntry) {
+        return !("ENABLED").equalsIgnoreCase((String)stateEntry.getValue());
+    }
 
-            Document document = builder.parse(new ByteArrayInputStream(xmlText.getBytes("UTF-8")));
-            if(document != null) {
-                Element rootElement = document.getDocumentElement();
-                NodeList nodeList = rootElement.getElementsByTagName(OPERATIONAL_STATE_ELEMENT_NAME);
-                if (nodeList != null && nodeList.getLength() > 0) {
-                    for (int i = 0; i < nodeList.getLength(); i++) {
-                        Node node = nodeList.item(i);
-                        String text = node.getTextContent();
-                        String id = getElementID(node);
-                        entryList = (entryList == null) ? new ArrayList<Map.Entry>() : entryList;
-                        Map.Entry entry = new AbstractMap.SimpleEntry<String, String>(id, text);
-                        entryList.add(entry);
-                    }
+    private static Optional<List<Map.Entry>> getOperationalStateList(String xmlText) throws IOException, ParserConfigurationException, SAXException {
+        List<Map.Entry> entryList = null;
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(new ByteArrayInputStream(xmlText.getBytes("UTF-8")));
+
+        if(document != null) {
+            Element rootElement = document.getDocumentElement();
+            NodeList nodeList = rootElement.getElementsByTagName(OPERATIONAL_STATE_ELEMENT_NAME);
+            if (nodeList != null && nodeList.getLength() > 0) {
+                entryList = new ArrayList<>();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    Node node = nodeList.item(i);
+                    String text = node.getTextContent();
+                    String id = getElementID(node);
+                    Map.Entry entry = new AbstractMap.SimpleEntry<>(id, text);
+                    entryList.add(entry);
                 }
             }
         }
-        return entryList;
+        return Optional.ofNullable(entryList);
     }
 
     private static String getElementID(Node node) {

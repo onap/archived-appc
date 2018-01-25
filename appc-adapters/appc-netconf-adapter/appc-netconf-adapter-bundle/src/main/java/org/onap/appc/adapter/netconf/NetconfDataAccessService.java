@@ -49,7 +49,7 @@ public interface NetconfDataAccessService {
      * @return
      * @throws DataAccessException
      */
-    String retrieveConfigFileName(String xmlID) throws DataAccessException;
+    String retrieveConfigFileName(String xmlID);
 
     /**
      *
@@ -58,7 +58,7 @@ public interface NetconfDataAccessService {
      * @return
      * @throws DataAccessException
      */
-    boolean retrieveConnectionDetails(String vnfType, ConnectionDetails connectionDetails) throws DataAccessException;
+    boolean retrieveConnectionDetails(String vnfType, ConnectionDetails connectionDetails);
 
     /**
      *
@@ -67,8 +67,7 @@ public interface NetconfDataAccessService {
      * @return
      * @throws DataAccessException
      */
-    boolean retrieveNetconfConnectionDetails(String vnfType, NetconfConnectionDetails connectionDetails) throws
-                    DataAccessException;
+    boolean retrieveNetconfConnectionDetails(String vnfType, NetconfConnectionDetails connectionDetails);
 
     /**
      *
@@ -79,7 +78,6 @@ public interface NetconfDataAccessService {
      * @return
      * @throws DataAccessException
      */
-    boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText) throws
-                    DataAccessException;
+    boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText);
 
 }
