@@ -50,6 +50,7 @@ import com.att.eelf.configuration.EELFManager;
  * defines the behaviors that our service provides.
  */
 public class ChefAdapterImpl implements ChefAdapter {
+
     // chef server Initialize variable
     private String username = StringUtils.EMPTY;
     private String clientPrivatekey = StringUtils.EMPTY;
@@ -99,6 +100,15 @@ public class ChefAdapterImpl implements ChefAdapter {
     private static final String CANNOT_FIND_PRIVATE_KEY_STR =
             "Cannot find the private key in the APPC file system, please load the private key to ";
 
+    private static final String POSTING_REQUEST_JSON_ERROR_STR = "Error posting request due to invalid JSON block: ";
+    private static final String POSTING_REQUEST_ERROR_STR = "Error posting request: ";
+    private static final String CHEF_CLIENT_RESULT_CODE_STR = "chefClientResult.code";
+    private static final String CHEF_SERVER_RESULT_CODE_STR = "chefServerResult.code";
+    private static final String CHEF_CLIENT_RESULT_MSG_STR = "chefClientResult.message";
+    private static final String CHEF_SERVER_RESULT_MSG_STR = "chefServerResult.message";
+    private static final String CHEF_ACTION_STR = "chefAction";
+    private static final String NODE_LIST_STR = "NodeList";
+
     /**
      * This default constructor is used as a work around because the activator wasnt
      * getting called
@@ -142,7 +152,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 
     @SuppressWarnings("nls")
     @Override
-    public void VnfcEnvironment(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
+    public void vnfcEnvironment(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         int code;
         try {
             logger.info("environment of VNF-C");
@@ -153,11 +163,11 @@ public class ChefAdapterImpl implements ChefAdapter {
             String env = params.get("Environment");
             logger.info("Environmnet" + env);
             if (env.equals(StringUtils.EMPTY)) {
-                chefServerResult(rc, "200", "Skip Environment block ");
+                chefServerResult(rc, 200, "Skip Environment block ");
             } else {
-                JSONObject env_J = new JSONObject(env);
-                String envName = env_J.getString("name");
-                String message = null;
+                JSONObject envJ = new JSONObject(env);
+                String envName = envJ.getString("name");
+                String message;
                 if (privateKeyCheck()) {
                     // update the details of an environment on the Chef server.
                     ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
@@ -176,38 +186,37 @@ public class ChefAdapterImpl implements ChefAdapter {
 
                 } else {
                     code = 500;
-                    message = "Cannot find the private key in the APPC file system, please load the private key to "
-                            + clientPrivatekey;
+                    message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
                     doFailure(ctx, code, message);
                 }
-                chefServerResult(rc, Integer.toString(code), message);
+                chefServerResult(rc, code, message);
             }
         }
 
         catch (JSONException e) {
             code = 401;
-            doFailure(ctx, code, "Error posting request  due to invalid JSON block. Reason = " + e.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
         } catch (Exception e) {
             code = 401;
-            doFailure(ctx, code, "Error posting request :Reason = " + e.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
         }
     }
 
     @SuppressWarnings("nls")
     @Override
-    public void VnfcNodeobjects(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
+    public void vnfcNodeobjects(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         logger.info("update the nodeObjects of VNF-C");
         int code;
         try {
             chefInfo(params, ctx);
-            String nodeList_S = params.get("NodeList");
-            String node_S = params.get("Node");
-            if (StringUtils.isNotBlank(nodeList_S) && StringUtils.isNotBlank(node_S)) {
-                nodeList_S = nodeList_S.replace("[", StringUtils.EMPTY);
-                nodeList_S = nodeList_S.replace("]", StringUtils.EMPTY);
-                nodeList_S = nodeList_S.replace("\"", StringUtils.EMPTY);
-                nodeList_S = nodeList_S.replace(" ", StringUtils.EMPTY);
-                List<String> nodes = Arrays.asList(nodeList_S.split("\\s*,\\s*"));
+            String nodeListS = params.get(NODE_LIST_STR);
+            String nodeS = params.get("Node");
+            if (StringUtils.isNotBlank(nodeListS) && StringUtils.isNotBlank(nodeS)) {
+                nodeListS = nodeListS.replace("[", StringUtils.EMPTY);
+                nodeListS = nodeListS.replace("]", StringUtils.EMPTY);
+                nodeListS = nodeListS.replace("\"", StringUtils.EMPTY);
+                nodeListS = nodeListS.replace(" ", StringUtils.EMPTY);
+                List<String> nodes = Arrays.asList(nodeListS.split("\\s*,\\s*"));
                 RequestContext rc = new RequestContext(ctx);
                 rc.isAlive();
                 code = 200;
@@ -217,10 +226,10 @@ public class ChefAdapterImpl implements ChefAdapter {
 
                     for (int i = 0; i < nodes.size(); i++) {
                         String nodeName = nodes.get(i);
-                        JSONObject node_J = new JSONObject(node_S);
-                        node_J.remove("name");
-                        node_J.put("name", nodeName);
-                        String nodeObject = node_J.toString();
+                        JSONObject nodeJ = new JSONObject(nodeS);
+                        nodeJ.remove("name");
+                        nodeJ.put("name", nodeName);
+                        String nodeObject = nodeJ.toString();
                         logger.info(nodeObject);
                         ApiMethod am = cac.put("/nodes/" + nodeName).body(nodeObject);
                         am.execute();
@@ -232,36 +241,35 @@ public class ChefAdapterImpl implements ChefAdapter {
                     }
                 } else {
                     code = 500;
-                    message = "Cannot find the private key in the APPC file system, please load the private key to "
-                            + clientPrivatekey;
+                    message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
                     doFailure(ctx, code, message);
                 }
-                chefServerResult(rc, Integer.toString(code), message);
+                chefServerResult(rc, code, message);
             }
             else {
                 throw new SvcLogicException("Missing Mandatory param(s) Node , NodeList ");
             }
         } catch (JSONException e) {
             code = 401;
-            doFailure(ctx, code, "Error posting request  due to invalid JSON block. Reason = " + e.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
         } catch (Exception ex) {
             code = 401;
-            doFailure(ctx, code, "Error posting request :Reason = " + ex.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + ex.getMessage());
         }
     }
 
     @Override
-    public void VnfcPushJob(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
+    public void vnfcPushJob(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         int code;
         try {
             chefInfo(params, ctx);
-            String nodeList = params.get("NodeList");
+            String nodeList = params.get(NODE_LIST_STR);
             if (StringUtils.isNotBlank(nodeList)) {
                 String isCallback = params.get("CallbackCapable");
                 String chefAction = "/pushy/jobs";
                 // need work on this
-                String pushRequest = StringUtils.EMPTY;
-                if (isCallback.equals("true")) {
+                String pushRequest;
+                if ("true".equals(isCallback)) {
                     String requestId = params.get("RequestId");
                     String callbackUrl = params.get("CallbackUrl");
                     pushRequest = "{" + "\"command\": \"chef-client\"," + "\"run_timeout\": 300," + "\"nodes\":"
@@ -289,51 +297,46 @@ public class ChefAdapterImpl implements ChefAdapter {
                     svcLogic.setAttribute("jobID", jobID);
                     logger.info(jobID);
                 }
-                chefServerResult(rc, Integer.toString(code), message);
+                chefServerResult(rc, code, message);
             }
             else {
                 throw new SvcLogicException("Missing Mandatory param(s)  NodeList ");
             }
         } catch (JSONException e) {
             code = 401;
-            doFailure(ctx, code, "Error posting request  due to invalid JSON block. Reason = " + e.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
         } catch (Exception e) {
             code = 401;
-            doFailure(ctx, code, e.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
         }
     }
 
     @SuppressWarnings("nls")
     @Override
     public void fetchResults(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
-        int code;
+        int code = 200;
         try {
             chefInfo(params, ctx);
-            String nodeList_S = params.get("NodeList");
-            if (StringUtils.isNotBlank(nodeList_S)) {
-                nodeList_S = nodeList_S.replace("[", StringUtils.EMPTY);
-                nodeList_S = nodeList_S.replace("]", StringUtils.EMPTY);
-                nodeList_S = nodeList_S.replace("\"", StringUtils.EMPTY);
-                nodeList_S = nodeList_S.replace(" ", StringUtils.EMPTY);
-                List<String> nodes = Arrays.asList(nodeList_S.split("\\s*,\\s*"));
-                JSONObject Result = new JSONObject();
-                String returnCode = "200";
+            String nodeListS = params.get(NODE_LIST_STR);
+            if (StringUtils.isNotBlank(nodeListS)) {
+                nodeListS = nodeListS.replace("[", StringUtils.EMPTY);
+                nodeListS = nodeListS.replace("]", StringUtils.EMPTY);
+                nodeListS = nodeListS.replace("\"", StringUtils.EMPTY);
+                nodeListS = nodeListS.replace(" ", StringUtils.EMPTY);
+                List<String> nodes = Arrays.asList(nodeListS.split("\\s*,\\s*"));
+                JSONObject result = new JSONObject();
                 String returnMessage = StringUtils.EMPTY;
 
-                for (int i = 0; i < nodes.size(); i++) {
-                    String node = nodes.get(i);
+                for (String node : nodes) {
                     String chefAction = "/nodes/" + node;
-                    String message = null;
+                    String message;
                     if (privateKeyCheck()) {
-                        ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-                        ApiMethod am = cac.get(chefAction);
-                        am.execute();
+                        ApiMethod am = getApiMethod(chefAction);
                         code = am.getReturnCode();
                         message = am.getResponseBodyAsString();
                     } else {
                         code = 500;
-                        message = "Cannot find the private key in the APPC file system, please load the private key to "
-                                + clientPrivatekey;
+                        message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
                         doFailure(ctx, code, message);
                     }
                     if (code == 200) {
@@ -341,49 +344,51 @@ public class ChefAdapterImpl implements ChefAdapter {
                         JSONObject allNodeData = new JSONObject(message);
                         allNodeData = allNodeData.getJSONObject("normal");
                         String attribute = "PushJobOutput";
-                        String resultData;
-                        try {
-                            resultData = allNodeData.getString(attribute);
-                        } catch (Exception exc1) {
-                            try {
-                                resultData = allNodeData.getJSONObject(attribute).toString();
-                            } catch (Exception exc2) {
-                                try {
-                                    resultData = allNodeData.getJSONArray(attribute).toString();
-                                } catch (Exception exc3) {
-                                    returnCode = "500";
-                                    returnMessage = "cannot find " + attribute;
+
+                        String resultData = allNodeData.optString(attribute);
+                        if (resultData == null) {
+                            resultData = allNodeData.optJSONObject(attribute).toString();
+
+                            if (resultData == null) {
+                                resultData = allNodeData.optJSONArray(attribute).toString();
+
+                                if (resultData == null) {
+                                    code = 500;
+                                    returnMessage = "Cannot find " + attribute;
                                     break;
                                 }
                             }
                         }
                         nodeResult.put(attribute, resultData);
-                        Result.put(node, nodeResult);
+                        result.put(node, nodeResult);
+                        returnMessage = result.toString();
                     } else {
-                        returnCode = "500";
+                        code = 500;
                         returnMessage = message + " Cannot access: " + node;
                         doFailure(ctx, code, message);
                         break;
                     }
                 }
+
                 RequestContext rc = new RequestContext(ctx);
                 rc.isAlive();
-                if (!returnCode.equals("500")) {
-                    returnMessage = Result.toString();
-                    returnCode = "200";
-                }
-                chefServerResult(rc, returnCode, returnMessage);
-            }
-            else {
+                chefServerResult(rc, code, returnMessage);
+            } else {
                 throw new SvcLogicException("Missing Mandatory param(s)  NodeList ");
             }
         } catch (JSONException e) {
             code = 401;
-            doFailure(ctx, code, "Error posting request  due to invalid JSON block. Reason = " + e.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
         } catch (Exception ex) {
             code = 401;
-            doFailure(ctx, code, "Error posting request :Reason = " + ex.getMessage());
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + ex.getMessage());
         }
+    }
+
+    private ApiMethod getApiMethod(String chefAction) {
+        ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+
+        return cac.get(chefAction).execute();
     }
 
     /**
@@ -415,7 +420,7 @@ public class ChefAdapterImpl implements ChefAdapter {
      * 
      * @throws SvcLogicException
      */
-    public void chefInfo(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
+    private void chefInfo(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
 
         username = params.get("username");
         serverAddress = params.get("serverAddress");
@@ -426,18 +431,17 @@ public class ChefAdapterImpl implements ChefAdapter {
             clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + username + ".pem";
             logger.info(" clientPrivatekey  " + clientPrivatekey);
         } else {
-            String message = "Missing mandatory param(s) such as username,serverAddres,organizations";
-            doFailure(ctx, 401, message);
+            doFailure(ctx, 401, "Missing mandatory param(s) such as username, serverAddress, organizations");
         }
     }
 
-    public Boolean privateKeyCheck() {
+    private Boolean privateKeyCheck() {
         File f = new File(clientPrivatekey);
         if (f.exists()) {
             logger.info("Key exists");
             return true;
         } else {
-            logger.info("Key doesnot exists");
+            logger.info("Key doesn't exists");
             return false;
         }
     }
@@ -445,7 +449,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     @SuppressWarnings("nls")
     @Override
     public void retrieveData(Map<String, String> params, SvcLogicContext ctx) {
-        String contextData = "someValue";
+        String contextData;
         String allConfigData = params.get("allConfig");
         String key = params.get("key");
         String dgContext = params.get("dgContext");
@@ -453,10 +457,10 @@ public class ChefAdapterImpl implements ChefAdapter {
 
         try {
             contextData = josnConfig.getString(key);
-        } catch (Exception ex) {
+        } catch (Exception e) {
             try {
                 contextData = josnConfig.getJSONObject(key).toString();
-            } catch (Exception exc) {
+            } catch (Exception ex) {
                 contextData = josnConfig.getJSONArray(key).toString();
             }
         }
@@ -491,24 +495,21 @@ public class ChefAdapterImpl implements ChefAdapter {
     public void chefGet(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         logger.info("chef get method");
         chefInfo(params, ctx);
-        String chefAction = params.get("chefAction");
+        String chefAction = params.get(CHEF_ACTION_STR);
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         int code;
-        String message = null;
+        String message;
 
         if (privateKeyCheck()) {
-            ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-            ApiMethod am = cac.get(chefAction);
-            am.execute();
+            ApiMethod am = getApiMethod(chefAction);
             code = am.getReturnCode();
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                    + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
-        chefServerResult(rc, Integer.toString(code), message);
+        chefServerResult(rc, code, message);
     }
 
     /**
@@ -521,7 +522,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void chefPut(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         chefInfo(params, ctx);
-        String chefAction = params.get("chefAction");
+        String chefAction = params.get(CHEF_ACTION_STR);
         String chefNodeStr = params.get("chefRequestBody");
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -536,11 +537,10 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                    + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
-        chefServerResult(rc, Integer.toString(code), message);
+        chefServerResult(rc, code, message);
     }
 
     /**
@@ -554,7 +554,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         logger.info("chef Post method");
         logger.info(username + " " + clientPrivatekey + " " + chefserver + " " + organizations);
         String chefNodeStr = params.get("chefRequestBody");
-        String chefAction = params.get("chefAction");
+        String chefAction = params.get(CHEF_ACTION_STR);
 
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -575,7 +575,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
-        chefServerResult(rc, Integer.toString(code), message);
+        chefServerResult(rc, code, message);
     }
 
     /**
@@ -587,11 +587,11 @@ public class ChefAdapterImpl implements ChefAdapter {
     public void chefDelete(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         logger.info("chef delete method");
         chefInfo(params, ctx);
-        String chefAction = params.get("chefAction");
+        String chefAction = params.get(CHEF_ACTION_STR);
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         int code;
-        String message = null;
+        String message;
         if (privateKeyCheck()) {
             ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
             ApiMethod am = cac.delete(chefAction);
@@ -600,11 +600,10 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = am.getResponseBodyAsString();
         } else {
             code = 500;
-            message = "Cannot find the private key in the APPC file system, please load the private key to "
-                    + clientPrivatekey;
+            message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
-        chefServerResult(rc, Integer.toString(code), message);
+        chefServerResult(rc, code, message);
     }
 
     /**
@@ -619,15 +618,14 @@ public class ChefAdapterImpl implements ChefAdapter {
 
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpGet httpGet = new HttpGet(tVmIp);
-            HttpResponse response = null;
-            response = httpClient.execute(httpGet);
+            HttpResponse response = httpClient.execute(httpGet);
             int responseCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
             String responseOutput = EntityUtils.toString(entity);
-            chefClientResult(rc, Integer.toString(responseCode), responseOutput);
+            chefClientResult(rc, responseCode, responseOutput);
             doSuccess(rc);
-        } catch (Exception ex) {
-            doFailure(rc, 500, ex.toString());
+        } catch (Exception e) {
+            doFailure(rc, 500, e.toString());
         }
     }
 
@@ -653,33 +651,27 @@ public class ChefAdapterImpl implements ChefAdapter {
                 String message = StringUtils.EMPTY;
                 String status = StringUtils.EMPTY;
                 for (int i = 0; i < retryTimes; i++) {
-                    try {
-                        Thread.sleep(retryInterval); // 1000 milliseconds is one second.
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
-                    ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-                    ApiMethod am = cac.get(chefAction);
-                    am.execute();
+                    sleepFor(retryInterval);
+                    ApiMethod am = getApiMethod(chefAction);
                     code = am.getReturnCode();
                     message = am.getResponseBodyAsString();
                     JSONObject obj = new JSONObject(message);
                     status = obj.getString("status");
-                    if (!status.equals("running")) {
+                    if (!"running".equals(status)) {
                         logger.info(i + " time " + code + "   " + status);
                         break;
                     }
                 }
-                if (status.equals("complete")) {
-                    svcLogic.setAttribute("chefServerResult.code", "200");
-                    svcLogic.setAttribute("chefServerResult.message", message);
+                if ("complete".equals(status)) {
+                    svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "200");
+                    svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
                 } else {
-                    if (status.equals("running")) {
-                        svcLogic.setAttribute("chefServerResult.code", "202");
-                        svcLogic.setAttribute("chefServerResult.message", "chef client runtime out");
+                    if ("running".equals(status)) {
+                        svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "202");
+                        svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, "chef client runtime out");
                     } else {
-                        svcLogic.setAttribute("chefServerResult.code", "500");
-                        svcLogic.setAttribute("chefServerResult.message", message);
+                        svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "500");
+                        svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
                     }
                 }
             }
@@ -689,6 +681,14 @@ public class ChefAdapterImpl implements ChefAdapter {
         } catch (Exception e) {
             code = 401;
             doFailure(ctx, code, e.getMessage());
+        }
+    }
+
+    private void sleepFor(int retryInterval) {
+        try {
+            Thread.sleep(retryInterval); // 1000 milliseconds is one second.
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -716,7 +716,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                 svcLogic.setAttribute("jobID", jobID);
                 logger.info(jobID);
             }
-            chefServerResult(rc, Integer.toString(code), message);
+            chefServerResult(rc, code, message);
         } catch (Exception e) {
             code = 401;
             doFailure(ctx, code, e.getMessage());
@@ -754,24 +754,28 @@ public class ChefAdapterImpl implements ChefAdapter {
     }
 
     @SuppressWarnings("static-method")
-    private void chefServerResult(RequestContext rc, String code, String message) {
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setStatus(OUTCOME_SUCCESS);
-        svcLogic.setAttribute("chefServerResult.code", code);
-        svcLogic.setAttribute("chefServerResult.message", message);
-        logger.info("chefServerResult.code" + svcLogic.getAttribute("chefServerResult.code"));
-        logger.info("chefServerResult.message" + svcLogic.getAttribute("chefServerResult.message"));
+    private void chefServerResult(RequestContext rc, int  code, String message) {
+      initSvcLogic(rc, code, message, "server");
     }
 
     @SuppressWarnings("static-method")
-    private void chefClientResult(RequestContext rc, String code, String message) {
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setStatus(OUTCOME_SUCCESS);
-        svcLogic.setAttribute("chefClientResult.code", code);
-        svcLogic.setAttribute("chefClientResult.message", message);
-        logger.info("chefClientResult.code" + svcLogic.getAttribute("chefClientResult.code"));
-        logger.info("chefClientResult.message" + svcLogic.getAttribute("chefClientResult.message"));
+    private void chefClientResult(RequestContext rc, int code, String message) {
+        initSvcLogic(rc, code, message, "client");
     }
+
+    private void initSvcLogic(RequestContext rc, int code, String message, String target) {
+
+        SvcLogicContext svcLogic = rc.getSvcLogicContext();
+        String codeStr = "server".equals(target) ? CHEF_SERVER_RESULT_CODE_STR : CHEF_CLIENT_RESULT_CODE_STR;
+        String messageStr = "client".equals(target) ? CHEF_SERVER_RESULT_MSG_STR : CHEF_CLIENT_RESULT_MSG_STR;
+
+        svcLogic.setStatus(OUTCOME_SUCCESS);
+        svcLogic.setAttribute(codeStr, Integer.toString(code));
+        svcLogic.setAttribute(messageStr, message);
+        logger.info(codeStr + ": " + svcLogic.getAttribute(codeStr));
+        logger.info(messageStr + ": " + svcLogic.getAttribute(messageStr));
+    }
+
 
     /**
      * initialize the provider adapter by building the context cache
@@ -784,13 +788,12 @@ public class ChefAdapterImpl implements ChefAdapter {
     @SuppressWarnings("static-method")
     private void doFailure(SvcLogicContext svcLogic, int code, String message) throws SvcLogicException {
 
-        if (message.contains("\n")) {
-            message = message.substring(message.indexOf("\n"));
-        }
-        svcLogic.setStatus(OUTCOME_FAILURE);
-        svcLogic.setAttribute("chefServerResult.code", Integer.toString(code));
-        svcLogic.setAttribute("chefServerResult.message", message);
+        String cutMessage = message.contains("\n") ? message.substring(message.indexOf('\n')) : message;
 
-        throw new SvcLogicException("Chef Adapater Error = " + message);
+        svcLogic.setStatus(OUTCOME_FAILURE);
+        svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, Integer.toString(code));
+        svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, cutMessage);
+
+        throw new SvcLogicException("Chef Adapter error:" + cutMessage);
     }
 }
