@@ -71,26 +71,17 @@ public class NetconfAdapter {
         final NetconfMessage message = new NetconfMessage();
         final byte[] buf = new byte[1024];
 
-        //int readByte = 1;
         // Read data with timeout
-        Callable<Boolean> readTask = new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                int c;
-                while ((c = in.read(buf)) > 0) {
-                    if (c > 0) {
-                        message.append(buf, 0, c);
-                        if (message.isCompleted()) {
-                            break;
-                        }
-                    }
-                }
+        Callable<Boolean> readTask = () -> {
+            int c;
+            while ((c = in.read(buf)) > 0) {
 
-                if (c < 0) {
-                    return false;
+                message.append(buf, 0, c);
+                if (message.isCompleted()) {
+                    return true;
                 }
-                return true;
             }
+            return false;
         };
 
         Future<Boolean> future = executor.submit(readTask);
@@ -101,15 +92,12 @@ public class NetconfAdapter {
             throw new IOException(e);
         }
 
-        if (status == false) {
+        if (!status) {
             throw new IOException("Failed to read netconf message");
         }
 
+        String text = message.getText().trim();
 
-        String text = message.getText();
-        if (text != null) {
-            text = text.trim();
-        }
         if (LOG.isDebugEnabled()) {
             LOG.debug("Received message from netconf device:\n" + text);
         }
