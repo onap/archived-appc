@@ -26,9 +26,11 @@ package org.onap.appc.adapter.rest.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.function.Supplier;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -41,19 +43,15 @@ import org.apache.http.util.EntityUtils;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.json.JSONObject;
 import org.onap.appc.Constants;
-import org.onap.appc.adapter.rest.RestAdapter;
 import org.onap.appc.adapter.rest.RequestFactory;
+import org.onap.appc.adapter.rest.RestAdapter;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
-import java.util.Iterator;
-import java.util.Map;
-import java.util.function.Supplier;
-
 /**
- * This class implements the {@link RestAdapter} interface. This interface
- * defines the behaviors that our service provides.
+ * This class implements the {@link RestAdapter} interface. This interface defines the behaviors that our service
+ * provides.
  */
 public class RestAdapterImpl implements RestAdapter {
 
@@ -80,12 +78,10 @@ public class RestAdapterImpl implements RestAdapter {
     private Configuration configuration;
 
     /**
-     * This default constructor is used as a work around because the activator
-     * wasnt getting called
+     * This default constructor is used as a work around because the activator wasnt getting called
      */
     public RestAdapterImpl() {
         initialize();
-
     }
 
     /**
@@ -99,6 +95,7 @@ public class RestAdapterImpl implements RestAdapter {
         return configuration.getProperty(Constants.PROPERTY_ADAPTER_NAME);
     }
 
+    @Override
     public void commonGet(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run get method");
 
@@ -109,6 +106,7 @@ public class RestAdapterImpl implements RestAdapter {
         executeHttpRequest(httpGet, rc);
     }
 
+    @Override
     public void commonDelete(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run Delete method");
 
@@ -119,6 +117,7 @@ public class RestAdapterImpl implements RestAdapter {
         executeHttpRequest(httpDelete, rc);
     }
 
+    @Override
     public void commonPost(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run post method");
 
@@ -129,6 +128,7 @@ public class RestAdapterImpl implements RestAdapter {
         executeHttpRequest(httpPost, rc);
     }
 
+    @Override
     public void commonPut(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("Run put method");
 
@@ -144,13 +144,14 @@ public class RestAdapterImpl implements RestAdapter {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String msg = (message == null) ? code.getReasonPhrase() : message;
         if (msg.contains("\n")) {
-            msg = msg.substring(msg.indexOf("\n"));
+            msg = msg.substring(msg.indexOf('\n'));
         }
 
         String status;
         try {
             status = Integer.toString(code.getStatusCode());
         } catch (Exception e) {
+            logger.error("Exception occurred", e);
             status = "500";
         }
         svcLogic.setStatus(OUTCOME_FAILURE);
@@ -162,9 +163,7 @@ public class RestAdapterImpl implements RestAdapter {
 
 
     /**
-     * @param rc
-     *            The request context that manages the state and recovery of the
-     *            request for the life of its processing.
+     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      */
     @SuppressWarnings("static-method")
     private void doSuccess(RequestContext rc, int code, String message) {
@@ -172,61 +171,62 @@ public class RestAdapterImpl implements RestAdapter {
         svcLogic.setStatus(OUTCOME_SUCCESS);
         svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_CODE, Integer.toString(HttpStatus.OK_200.getStatusCode()));
         svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, message);
-        svcLogic.setAttribute("org.openecomp.rest.agent.result.code",Integer.toString(code));
-        svcLogic.setAttribute("org.openecomp.rest.agent.result.message",message);
-        svcLogic.setAttribute("org.openecomp.rest.result.code",Integer.toString(HttpStatus.OK_200.getStatusCode()));
+        svcLogic.setAttribute("org.openecomp.rest.agent.result.code", Integer.toString(code));
+        svcLogic.setAttribute("org.openecomp.rest.agent.result.message", message);
+        svcLogic.setAttribute("org.openecomp.rest.result.code", Integer.toString(HttpStatus.OK_200.getStatusCode()));
     }
 
-    public void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc){
+    private void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc) {
         try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
             HttpResponse response = httpClient.execute(httpRequest);
             int responseCode = response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
             String responseOutput = EntityUtils.toString(entity);
-            if(responseCode == 200){
-                doSuccess(rc,responseCode,responseOutput);
+            if (responseCode == 200) {
+                doSuccess(rc, responseCode, responseOutput);
             } else {
                 doFailure(rc, HttpStatus.getHttpStatus(responseCode), response.getStatusLine().getReasonPhrase());
             }
-        }
-        catch (Exception ex) {
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
+        } catch (Exception e) {
+            logger.error("An error occurred when executing http request", e);
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, e.toString());
         }
     }
 
-    public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc){
+    public HttpRequestBase createHttpRequest(String method, Map<String, String> params, RequestContext rc) {
         HttpRequestBase httpRequest = null;
         try {
             String tUrl = params.get("org.onap.appc.instance.URI");
             String haveHeader = params.get("org.onap.appc.instance.haveHeader");
             String headers = params.get("org.onap.appc.instance.headers");
 
-            Supplier<RequestFactory> requestFactory =  RequestFactory::new;
+            Supplier<RequestFactory> requestFactory = RequestFactory::new;
             httpRequest = requestFactory.get().getHttpRequest(method, tUrl);
 
-            if (haveHeader.equals("true")) {
-                JSONObject JsonHeaders = new JSONObject(headers);
-                Iterator keys = JsonHeaders.keys();
+            if ("true".equals(haveHeader)) {
+                JSONObject jsonHeaders = new JSONObject(headers);
+                Iterator keys = jsonHeaders.keys();
                 while (keys.hasNext()) {
-                    String String1 = (String) keys.next();
-                    String String2 = JsonHeaders.getString(String1);
-                    httpRequest.addHeader(String1, String2);
+                    String string1 = (String) keys.next();
+                    String string2 = jsonHeaders.getString(string1);
+                    httpRequest.addHeader(string1, string2);
                 }
             }
             if (params.containsKey("org.onap.appc.instance.requestBody")) {
                 String body = params.get("org.onap.appc.instance.requestBody");
-                StringEntity bodyParams = new StringEntity (body,"UTF-8");
-                if (method.equals("PUT")){
+                StringEntity bodyParams = new StringEntity(body, "UTF-8");
+                if ("PUT".equals(method)) {
                     HttpPut httpPut = (HttpPut) httpRequest;
                     httpPut.setEntity(bodyParams);
                 }
-                if (method.equals("POST")){
+                if ("POST".equals(method)) {
                     HttpPost httpPost = (HttpPost) httpRequest;
                     httpPost.setEntity(bodyParams);
                 }
             }
-        } catch (Exception ex) {
-            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
+        } catch (Exception e) {
+            logger.error("An error occurred when creating http request", e);
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, e.toString());
         }
         return httpRequest;
     }
@@ -238,7 +238,7 @@ public class RestAdapterImpl implements RestAdapter {
     private void initialize() {
         configuration = ConfigurationFactory.getConfiguration();
 
-        logger.info("init rest adapter!!!!!");
+        logger.info("Rest adapter has been initialized");
     }
 
 }
