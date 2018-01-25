@@ -99,6 +99,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                             logger.info("Ready to Detach Volume from the server:" + Volume.Status.DETACHING);
                             service.detachVolume(server, v);
                             logger.info("Volume status after performing detach:" + v.getStatus());
+                if (validateDetach(vs, vol_id))
                             doSuccess(rc);
                         } else {
                             String msg = "Volume with volume id " + vol_id + " cannot be detached as it doesnot exists";
@@ -126,5 +127,18 @@ public class DettachVolumeServer extends ProviderServerOperation {
         }
         return server;
     }
-
+protected boolean validateDetach(VolumeService vs, String volId) throws RequestFailedException, ZoneException {
+        boolean flag = false;
+        List<Volume> volList = vs.getVolumes();
+        for (Volume v : volList) {
+            if (!v.getId().equals(volId)) {
+                logger.info("Volume with " + volId + "detached successsfully");
+                flag = true;
+            } else {
+                logger.info("failed to detach volume with id" + volId);
+                flag = false;
+            }
+        }
+        return flag;
+    }
 }
