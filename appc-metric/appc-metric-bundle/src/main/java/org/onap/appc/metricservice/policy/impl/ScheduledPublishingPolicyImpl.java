@@ -77,7 +77,7 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
 
             }else if(properties.getProperty("schedule.policy.metric.period")==null && properties.getProperty("schedule.policy.metric.start.time")!=null){
                 this.startTime=getConfigStartTime("00:00:00",properties);
-                this.period=(24*60*60*1000)-1;
+                this.period=(24*60*60*1000l)-1;
                 logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :"+this.period);
 
             }else{
@@ -101,7 +101,7 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
     private long getConfigPeriod(Properties properties) {
         String period=properties.getProperty("schedule.policy.metric.period");
         logger.info("Metric period : " +period);
-        long periodInMs=Integer.parseInt(period)*1000;
+        long periodInMs=Integer.parseInt(period)*1000l;
         logger.info("Metric period in long : " +periodInMs);
         return periodInMs;
     }
@@ -109,9 +109,9 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
     private long getTimeInMs(String time) {
         String[] strings=time.split(":");
         if(strings.length==3) {
-            long hour = Integer.parseInt(strings[0]) * 60 * 60 * 1000;
-            long min = Integer.parseInt(strings[1]) * 60 * 1000;
-            long sec = Integer.parseInt(strings[2]) * 1000;
+            long hour = Integer.parseInt(strings[0]) * 60 * 60 * 1000l;
+            long min = Integer.parseInt(strings[1]) * 60 * 1000l;
+            long sec = Integer.parseInt(strings[2]) * 1000l;
             return hour+min+sec;
         }else{
             return 0;
