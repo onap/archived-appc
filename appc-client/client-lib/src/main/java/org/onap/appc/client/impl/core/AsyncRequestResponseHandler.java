@@ -33,7 +33,7 @@ import java.util.concurrent.TimeoutException;
  */
 class AsyncRequestResponseHandler extends AbstractRequestResponseHandler {
 
-    private final EELFLogger LOG = EELFManager.getInstance().getLogger(AsyncRequestResponseHandler.class);
+    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(AsyncRequestResponseHandler.class);
 
     AsyncRequestResponseHandler(String corrID,
                                 ICoreResponseHandler businessCallback,
@@ -48,6 +48,7 @@ class AsyncRequestResponseHandler extends AbstractRequestResponseHandler {
      * @param response - Response
      * @param type - Type of Response
      */
+    @Override
     public void runTask(String response, String type) {
         boolean finalTask = false;
         try {
@@ -58,10 +59,6 @@ class AsyncRequestResponseHandler extends AbstractRequestResponseHandler {
         if (finalTask){
             coreManager.cancelTimer(corrID);
             coreManager.unregisterHandler(corrID);
-        }
-        else{
-            response = null;
-            type = null;
         }
     }
 
