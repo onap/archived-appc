@@ -25,16 +25,13 @@ package org.onap.appc.data.services;
 
 public class AppcDataServiceConstant {
 
-
-    
-
-    public static String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
-    public static String OUTPUT_STATUS_SUCCESS = "success";
-    public static String OUTPUT_STATUS_FAILURE = "failure";
+    public static final String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
+    public static final String OUTPUT_STATUS_SUCCESS = "success";
+    public static final String OUTPUT_STATUS_FAILURE = "failure";
     public static final String INPUT_PARAM_MESSAGE = "message";
     public static final String INPUT_PARAM_MESSAGE_TYPE = "messageType";
-    public static String OUTPUT_PARAM_STATUS = "status";
-    public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static final String OUTPUT_PARAM_STATUS = "status";
+    public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
     public static final String INPUT_PARAM_FILE_CATEGORY = "fileCategory";
     public static final String INPUT_PARAM_VM_INSTANCE = "vmInstance";
     public static final String INPUT_PARAM_SDC_ARTIFACT_IND = "asdcArtifactInd";
@@ -43,10 +40,11 @@ public class AppcDataServiceConstant {
     
     public static final String INPUT_PARAM_FILE_ID = "fileId";
     
-    public static String INPUT_PARAM_UPLOAD_CONFIG_ID= "uploadConfigId";
-    public static String CAPABILITY_VM_LEVEL="vm";
-    public static String KEY_VSERVER_ID = "vserver-id";
-    public static String KEY_VNFC_FUNCTION_CODE = "vnfc-function-code";
+    public static final String INPUT_PARAM_UPLOAD_CONFIG_ID= "uploadConfigId";
+    public static final String CAPABILITY_VM_LEVEL="vm";
+    public static final String KEY_VSERVER_ID = "vserver-id";
+    public static final String KEY_VNFC_FUNCTION_CODE = "vnfc-function-code";
+
     public enum ACTIONS
     {
        Start, Stop, Restart;
