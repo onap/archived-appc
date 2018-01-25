@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_161c9712",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/constant/ConstantsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-25T19:58:24Z",
+      "side": 1,
+      "message": "java style:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "54553e034512470d79bb92cbe26781f7a5024a11",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
