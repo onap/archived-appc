@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_762ddb45",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-25T19:56:15Z",
+      "side": 1,
+      "message": "java style https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "c0e5f529e3537d38fc04657faa4882458b1cdbac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9630a79f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-25T19:56:15Z",
+      "side": 1,
+      "message": "java style https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "c0e5f529e3537d38fc04657faa4882458b1cdbac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
