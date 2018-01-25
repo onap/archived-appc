@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7b9624f2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleServerEmulator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-01-25T16:13:07Z",
+      "side": 1,
+      "message": "according to recommendation from Sonar report: Hardcoding an IP address into source code is a bad idea for several reasons. do you think your fix would pass the Sonar check?",
+      "range": {
+        "startLine": 54,
+        "startChar": 44,
+        "endLine": 54,
+        "endChar": 46
+      },
+      "revId": "8477b0170248d513976cacbff4072fdd7145057f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
