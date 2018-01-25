@@ -43,7 +43,7 @@ abstract class AbstractResolver {
     private final ReentrantLock INIT_LOCK = new ReentrantLock();
 
     AbstractResolver(int interval) {
-        this.interval = interval * 1000;
+        this.interval = interval * 1000l;
     }
 
     private RankedAttributesResolver<FlowKey> createResolver(String resolverType) {
