@@ -24,11 +24,14 @@
 
 package org.onap.appc.aai.data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AaiVnfInfo {
 
-    String vnfId;
+    private String vnfId;
+    private String vnfName;
+    private String vnfOamIpAddress;
+    private List<AaiVmInfo> vmInfo;
 
     public String getVnfId() {
         return vnfId;
@@ -54,15 +57,11 @@ public class AaiVnfInfo {
         this.vnfOamIpAddress = vnfOamIpAddress;
     }
 
-    public ArrayList<AaiVmInfo> getVmInfo() {
+    public List<AaiVmInfo> getVmInfo() {
         return vmInfo;
     }
 
-    public void setVmInfo(ArrayList<AaiVmInfo> vmInfo) {
+    public void setVmInfo(List<AaiVmInfo> vmInfo) {
         this.vmInfo = vmInfo;
     }
-
-    String vnfName;
-    String vnfOamIpAddress;
-    ArrayList<AaiVmInfo> vmInfo;
 }
