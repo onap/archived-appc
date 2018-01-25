@@ -26,15 +26,15 @@ package org.onap.appc.design.services.util;
 
 public class DesignServiceConstants {
             
-        public static String STRING_ENCODING = "utf-8";
-        public static String Y = "Y";
-        public static String N = "N";
-        public static String DATA_TYPE_TEXT = "TEXT";
-        public static String DATA_TYPE_JSON = "JSON";
-        public static String DATA_TYPE_XML = "XML";
-        public static String DATA_TYPE_YAML = "YAML";
-        public static String DATA_TYPE_VELOCITY = "VELOCITY";
-        public static String DATA_TYPE_SQL = "SQL";
+        public static final String STRING_ENCODING = "utf-8";
+        public static final String Y = "Y";
+        public static final String N = "N";
+        public static final String DATA_TYPE_TEXT = "TEXT";
+        public static final String DATA_TYPE_JSON = "JSON";
+        public static final String DATA_TYPE_XML = "XML";
+        public static final String DATA_TYPE_YAML = "YAML";
+        public static final String DATA_TYPE_VELOCITY = "VELOCITY";
+        public static final String DATA_TYPE_SQL = "SQL";
             
         public static final String GETDESIGNS = "getDesigns";
         public static final String UPLOADARTIFACTS =  "uploadArtifacts";
