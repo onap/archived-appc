@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_9664274a",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/core/CoreRegistry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-25T21:19:11Z",
+      "side": 0,
+      "message": "This will work ok without the type parameter?",
+      "revId": "71da69c9777e0a9aa6ba312f32a291bc7c14cc22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
