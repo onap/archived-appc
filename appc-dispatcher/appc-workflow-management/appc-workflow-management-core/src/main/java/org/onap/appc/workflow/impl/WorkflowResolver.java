@@ -44,7 +44,7 @@ class WorkflowResolver {
     private final ReentrantLock INIT_LOCK = new ReentrantLock();
 
     WorkflowResolver(int interval) {
-        this.interval = interval * 1000;
+        this.interval = interval * 1000l;
     }
 
     private RankedAttributesResolver<WorkflowKey> createResolver() {
