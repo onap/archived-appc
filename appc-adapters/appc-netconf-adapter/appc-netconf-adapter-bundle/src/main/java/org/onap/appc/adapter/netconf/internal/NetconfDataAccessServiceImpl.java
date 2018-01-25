@@ -41,23 +41,27 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(NetconfDataAccessServiceImpl.class);
 
+    private String schema;
+    private DbLibService dbLibService;
+
+    @Override
     public void setSchema(String schema) {
         this.schema = schema;
     }
 
-    private String schema;
-
-    public void setDbLibService(DbLibService service) {dbLibService = service;}
-
-    private DbLibService dbLibService;
 
     @Override
-    public String retrieveConfigFileName(String xmlID) throws DataAccessException {
+    public void setDbLibService(DbLibService service) {
+        dbLibService = service;
+    }
+
+    @Override
+    public String retrieveConfigFileName(String xmlID) {
         String fileContent = "";
 
         String queryString = "select " + Constants.FILE_CONTENT_TABLE_FIELD_NAME + " " +
-                "from " + Constants.CONFIGFILES_TABLE_NAME + " " +
-                "where " + Constants.FILE_NAME_TABLE_FIELD_NAME + " = ?";
+            "from " + Constants.CONFIGFILES_TABLE_NAME + " " +
+            "where " + Constants.FILE_NAME_TABLE_FIELD_NAME + " = ?";
 
         ArrayList<String> argList = new ArrayList<>();
         argList.add(xmlID);
@@ -76,14 +80,13 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
     }
 
     @Override
-    public boolean retrieveConnectionDetails(String vnfType, ConnectionDetails connectionDetails) throws
-                    DataAccessException {
+    public boolean retrieveConnectionDetails(String vnfType, ConnectionDetails connectionDetails) {
         boolean recordFound = false;
 
         String queryString = "select " + Constants.USER_NAME_TABLE_FIELD_NAME + "," +
-                Constants.PASSWORD_TABLE_FIELD_NAME + "," + Constants.PORT_NUMBER_TABLE_FIELD_NAME + " " +
-                "from " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME + " " +
-                "where " + Constants.VNF_TYPE_TABLE_FIELD_NAME + " = ?";
+            Constants.PASSWORD_TABLE_FIELD_NAME + "," + Constants.PORT_NUMBER_TABLE_FIELD_NAME + " " +
+            "from " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME + " " +
+            "where " + Constants.VNF_TYPE_TABLE_FIELD_NAME + " = ?";
 
         ArrayList<String> argList = new ArrayList<>();
         argList.add(vnfType);
@@ -105,11 +108,9 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
     }
 
     @Override
-    public boolean retrieveNetconfConnectionDetails(String vnfType, NetconfConnectionDetails connectionDetails)
-            throws DataAccessException {
+    public boolean retrieveNetconfConnectionDetails(String vnfType, NetconfConnectionDetails connectionDetails) {
         ConnectionDetails connDetails = new ConnectionDetails();
-        if(this.retrieveConnectionDetails(vnfType, connDetails))
-        {
+        if (this.retrieveConnectionDetails(vnfType, connDetails)) {
             connectionDetails.setHost(connDetails.getHost());
             connectionDetails.setPort(connDetails.getPort());
             connectionDetails.setUsername(connDetails.getUsername());
@@ -119,13 +120,12 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
     }
 
     @Override
-    public boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText)
-            throws DataAccessException {
-        String queryString = "INSERT INTO "+ Constants.DEVICE_INTERFACE_LOG_TABLE_NAME+"("+
-                Constants.SERVICE_INSTANCE_ID_FIELD_NAME+","+
-                Constants.REQUEST_ID_FIELD_NAME+","+
-                Constants.CREATION_DATE_FIELD_NAME+","+
-                Constants.LOG_FIELD_NAME+") ";
+    public boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText) {
+        String queryString = "INSERT INTO " + Constants.DEVICE_INTERFACE_LOG_TABLE_NAME + "(" +
+            Constants.SERVICE_INSTANCE_ID_FIELD_NAME + "," +
+            Constants.REQUEST_ID_FIELD_NAME + "," +
+            Constants.CREATION_DATE_FIELD_NAME + "," +
+            Constants.LOG_FIELD_NAME + ") ";
         queryString += "values(?,?,?,?)";
 
         ArrayList<String> argList = new ArrayList<>();
@@ -137,7 +137,7 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
         try {
             dbLibService.writeData(queryString, argList, schema);
         } catch (SQLException e) {
-            logger.error("Logging Device interaction failed - "+ queryString);
+            logger.error("Logging Device interaction failed - " + queryString);
             throw new DataAccessException(e);
         }
 
