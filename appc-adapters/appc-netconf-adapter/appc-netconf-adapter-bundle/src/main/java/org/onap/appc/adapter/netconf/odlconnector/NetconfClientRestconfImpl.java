@@ -35,76 +35,91 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 import java.util.Properties;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRestconf {
 
     private EELFLogger logger = EELFManager.getInstance().getLogger(NetconfClientRestconfImpl.class);
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String APPLICATION_XML = "application/xml";
+    private static final String INVALID_CONNECTION_DETAILS = "Invalid connection details - null value";
+    private static final String CONFIG_REQUEST_FAILED = "Configuration request failed";
+    private static final String MODULE_NAME = "module.name";
+    private static final String NODE_NAME = "node.name";
+    private static final String OF_MODULE = ", of Module :";
+    private static final String IN_DEVICE = ", in device :";
 
     private NetconfConnectionDetails connectionDetails;
 
-    //constructor
-    public NetconfClientRestconfImpl(){
-    }
-
     //restconf client impl
-
     @SuppressWarnings("deprecation")
     @Override
-    public void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName) throws APPCException {
+    public void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName)
+        throws APPCException {
 
-        logger.info("Configuring device "+deviceMountPointName+" with configuration "+configuration);
+        logger.info("Configuring device " + deviceMountPointName + " with configuration " + configuration);
 
-        int httpCode = httpClient.putMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getModuleConfigurePath(deviceMountPointName, moduleName, nodeName),configuration,"application/json");
+        int httpCode = httpClient.putMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+            getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), configuration, APPLICATION_JSON);
 
         if (httpCode != HttpStatus.SC_OK) {
-            logger.error("Configuration request failed. throwing Exception !");
-            throw new APPCException("Error configuring node :"+nodeName + ", of Module :" + moduleName + ", in device :" + deviceMountPointName);
+            logger.error(CONFIG_REQUEST_FAILED);
+            throw new APPCException(
+                "Error configuring node :" + nodeName + OF_MODULE + moduleName + IN_DEVICE + deviceMountPointName);
         }
     }
 
     @Override
-    public void connect(String deviceMountPointName, String payload) throws APPCException{
+    public void connect(String deviceMountPointName, String payload) throws APPCException {
 
-        logger.info("Connecting device "+deviceMountPointName);
+        logger.info("Connecting device " + deviceMountPointName);
 
-        int httpCode = httpClient.postMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getConnectPath(),payload,"application/json");
+        int httpCode = httpClient
+            .postMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT, getConnectPath(),
+                payload, APPLICATION_JSON);
 
-        if(httpCode != HttpStatus.SC_NO_CONTENT){
-            logger.error("Connect request failed with code "+httpCode+". throwing Exception !");
-            throw new APPCException("Error connecting device :" + deviceMountPointName);
+        if (httpCode != HttpStatus.SC_NO_CONTENT) {
+            logger.error("Connect request failed with code " + httpCode);
+            throw new APPCException("Error connecting device: " + deviceMountPointName);
         }
     }
 
     @Override
     public boolean checkConnection(String deviceMountPointName) throws APPCException {
-        logger.info("Checking device "+deviceMountPointName+" connectivity");
+        logger.info("Checking device " + deviceMountPointName + " connectivity");
 
-        String result = httpClient.getMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getCheckConnectivityPath(deviceMountPointName),"application/json");
+        String result = httpClient.getMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+            getCheckConnectivityPath(deviceMountPointName), APPLICATION_JSON);
 
         return result != null;
     }
 
     @Override
     public void disconnect(String deviceMountPointName) throws APPCException {
-        logger.info("Disconnecting "+deviceMountPointName);
+        logger.info("Disconnecting " + deviceMountPointName);
 
-        int httpCode = httpClient.deleteMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getDisconnectPath(deviceMountPointName),"application/json");
+        int httpCode = httpClient.deleteMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+            getDisconnectPath(deviceMountPointName), APPLICATION_JSON);
 
-        if(httpCode != HttpStatus.SC_OK){
-            logger.error("Disconnection of device "+deviceMountPointName+" failed!");
-            throw new APPCException("Disconnection of device "+deviceMountPointName+" failed!");
+        if (httpCode != HttpStatus.SC_OK) {
+            logger.error("Disconnection of device " + deviceMountPointName + " failed");
+            throw new APPCException("Disconnection of device " + deviceMountPointName + " failed");
         }
     }
 
     @Override
-    public String getConfiguration(String deviceMountPointName, String moduleName, String nodeName) throws APPCException{
-        logger.info("Getting configuration of device "+deviceMountPointName);
+    public String getConfiguration(String deviceMountPointName, String moduleName, String nodeName)
+        throws APPCException {
+        logger.info("Getting configuration of device " + deviceMountPointName);
 
-        String result = httpClient.getMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getModuleConfigurePath(deviceMountPointName, moduleName, nodeName),"application/json");
+        String result = httpClient.getMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+            getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), APPLICATION_JSON);
 
         if (result == null) {
-            logger.error("Configuration request failed. throwing Exception !");
-            throw new APPCException("Error getting configuration of node :"+nodeName + ", of Module :" + moduleName + ", in device :" + deviceMountPointName);
+            logger.error(CONFIG_REQUEST_FAILED);
+            throw new APPCException(
+                "Error getting configuration of node :" + nodeName + OF_MODULE + moduleName + IN_DEVICE
+                    + deviceMountPointName);
         }
 
         return result;
@@ -114,74 +129,76 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
 
     @Override
     public void connect(NetconfConnectionDetails connectionDetails) throws APPCException {
-        if(connectionDetails == null){
-            throw new APPCException("Invalid connection details - null value");
+        if (connectionDetails == null) {
+            throw new APPCException(INVALID_CONNECTION_DETAILS);
         }
         this.connectionDetails = connectionDetails;
-        this.connect(connectionDetails.getHost(),getPayload());
+        this.connect(connectionDetails.getHost(), getPayload());
     }
 
     @Override
     public String exchangeMessage(String message) throws APPCException {
         // TODO implement
-        return null;
+        throw new NotImplementedException();
     }
 
     @Override
     public void configure(String configuration) throws APPCException {
-        if(connectionDetails == null){
-            throw new APPCException("Invalid connection details - null value");
+        if (connectionDetails == null) {
+            throw new APPCException(INVALID_CONNECTION_DETAILS);
         }
 
         Properties props = connectionDetails.getAdditionalProperties();
-        if(props == null || !props.containsKey("module.name") || !props.containsKey("node.name")){
+        if (props == null || !props.containsKey(MODULE_NAME) || !props.containsKey(NODE_NAME)) {
             throw new APPCException("Invalid properties!");
         }
 
-        String moduleName = props.getProperty("module.name");
-        String nodeName = props.getProperty("node.name");
+        String moduleName = props.getProperty(MODULE_NAME);
+        String nodeName = props.getProperty(NODE_NAME);
         String deviceMountPointName = connectionDetails.getHost();
 
-        int httpCode = httpClient.putMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getModuleConfigurePath(deviceMountPointName, moduleName, nodeName),configuration,"application/xml");
+        int httpCode = httpClient.putMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+            getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), configuration, APPLICATION_XML);
 
         if (httpCode != HttpStatus.SC_OK) {
-            logger.error("Configuration request failed. throwing Exception !");
-            throw new APPCException("Error configuring node :"+nodeName + ", of Module :" + moduleName + ", in device :" + deviceMountPointName);
+            logger.error(CONFIG_REQUEST_FAILED);
+            throw new APPCException(
+                "Error configuring node :" + nodeName + OF_MODULE + moduleName + IN_DEVICE + deviceMountPointName);
         }
     }
 
     @Override
     public String getConfiguration() throws APPCException {
-        if(connectionDetails == null){
-            throw new APPCException("Invalid connection details - null value");
+        if (connectionDetails == null) {
+            throw new APPCException(INVALID_CONNECTION_DETAILS);
         }
 
         Properties props = connectionDetails.getAdditionalProperties();
-        if(props == null || !props.containsKey("module.name") || !props.containsKey("node.name")){
+        if (props == null || !props.containsKey(MODULE_NAME) || !props.containsKey(NODE_NAME)) {
             throw new APPCException("Invalid properties!");
         }
 
-        return this.getConfiguration(connectionDetails.getHost(),props.getProperty("module.name"),props.getProperty("node.name"));
+        return this.getConfiguration(connectionDetails.getHost(), props.getProperty(MODULE_NAME),
+            props.getProperty(NODE_NAME));
     }
 
     @Override
     public void disconnect() throws APPCException {
-        if(connectionDetails == null){
-            throw new APPCException("Invalid connection details - null value");
+        if (connectionDetails == null) {
+            throw new APPCException(INVALID_CONNECTION_DETAILS);
         }
         this.disconnect(connectionDetails.getHost());
     }
 
     //private methods
-    private String getModuleConfigurePath(String deviceMountPointName, String moduleName, String nodeName){
-
+    private String getModuleConfigurePath(String deviceMountPointName, String moduleName, String nodeName) {
 
         String deviceSpecificPath = deviceMountPointName + "/yang-ext:mount/" + moduleName + ":" + nodeName;
 
         return Constants.CONFIGURE_PATH + deviceSpecificPath;
     }
 
-    private String getConnectPath(){
+    private String getConnectPath() {
 
         return Constants.CONNECT_PATH;
     }
@@ -196,41 +213,42 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
 
     private String getPayload() {
         return "{\n" +
-                "    \"config:module\":\n" +
-                "        {\n" +
-                "        \"type\":\"odl-sal-netconf-connector-cfg:sal-netconf-connector\",\n" +
-                "        \"netconf-northbound-ssh\\odl-sal-netconf-connector-cfg:name\":"+connectionDetails.getHost()+",\n" +
-                "        \"odl-sal-netconf-connector-cfg:address\":"+connectionDetails.getHost()+",\n" +
-                "        \"odl-sal-netconf-connector-cfg:port\":"+connectionDetails.getPort()+",\n" +
-                "        \"odl-sal-netconf-connector-cfg:username\":"+connectionDetails.getUsername()+",\n" +
-                "        \"odl-sal-netconf-connector-cfg:password\":"+connectionDetails.getPassword()+",\n" +
-                "        \"tcp-only\":\"false\",\n" +
-                "        \"odl-sal-netconf-connector-cfg:event-executor\":\n" +
-                "            {\n" +
-                "            \"type\":\"netty:netty-event-executor\",\n" +
-                "            \"name\":\"global-event-executor\"\n" +
-                "            },\n" +
-                "        \"odl-sal-netconf-connector-cfg:binding-registry\":\n" +
-                "            {\n" +
-                "            \"type\":\"opendaylight-md-sal-binding:binding-broker-osgi-registry\",\n" +
-                "            \"name\":\"binding-osgi-broker\"\n" +
-                "            },\n" +
-                "        \"odl-sal-netconf-connector-cfg:dom-registry\":\n" +
-                "            {\n" +
-                "            \"type\":\"opendaylight-md-sal-dom:dom-broker-osgi-registry\",\n" +
-                "            \"name\":\"dom-broker\"\n" +
-                "            },\n" +
-                "        \"odl-sal-netconf-connector-cfg:client-dispatcher\":\n" +
-                "            {\n" +
-                "            \"type\":\"odl-netconf-cfg:netconf-client-dispatcher\",\n" +
-                "            \"name\":\"global-netconf-dispatcher\"\n" +
-                "            },\n" +
-                "        \"odl-sal-netconf-connector-cfg:processing-executor\":\n" +
-                "            {\n" +
-                "            \"type\":\"threadpool:threadpool\",\n" +
-                "            \"name\":\"global-netconf-processing-executor\"\n" +
-                "        }\n" +
-                "    }\n" +
-                "}";
+            "    \"config:module\":\n" +
+            "        {\n" +
+            "        \"type\":\"odl-sal-netconf-connector-cfg:sal-netconf-connector\",\n" +
+            "        \"netconf-northbound-ssh\\odl-sal-netconf-connector-cfg:name\":" + connectionDetails.getHost()
+            + ",\n" +
+            "        \"odl-sal-netconf-connector-cfg:address\":" + connectionDetails.getHost() + ",\n" +
+            "        \"odl-sal-netconf-connector-cfg:port\":" + connectionDetails.getPort() + ",\n" +
+            "        \"odl-sal-netconf-connector-cfg:username\":" + connectionDetails.getUsername() + ",\n" +
+            "        \"odl-sal-netconf-connector-cfg:password\":" + connectionDetails.getPassword() + ",\n" +
+            "        \"tcp-only\":\"false\",\n" +
+            "        \"odl-sal-netconf-connector-cfg:event-executor\":\n" +
+            "            {\n" +
+            "            \"type\":\"netty:netty-event-executor\",\n" +
+            "            \"name\":\"global-event-executor\"\n" +
+            "            },\n" +
+            "        \"odl-sal-netconf-connector-cfg:binding-registry\":\n" +
+            "            {\n" +
+            "            \"type\":\"opendaylight-md-sal-binding:binding-broker-osgi-registry\",\n" +
+            "            \"name\":\"binding-osgi-broker\"\n" +
+            "            },\n" +
+            "        \"odl-sal-netconf-connector-cfg:dom-registry\":\n" +
+            "            {\n" +
+            "            \"type\":\"opendaylight-md-sal-dom:dom-broker-osgi-registry\",\n" +
+            "            \"name\":\"dom-broker\"\n" +
+            "            },\n" +
+            "        \"odl-sal-netconf-connector-cfg:client-dispatcher\":\n" +
+            "            {\n" +
+            "            \"type\":\"odl-netconf-cfg:netconf-client-dispatcher\",\n" +
+            "            \"name\":\"global-netconf-dispatcher\"\n" +
+            "            },\n" +
+            "        \"odl-sal-netconf-connector-cfg:processing-executor\":\n" +
+            "            {\n" +
+            "            \"type\":\"threadpool:threadpool\",\n" +
+            "            \"name\":\"global-netconf-processing-executor\"\n" +
+            "        }\n" +
+            "    }\n" +
+            "}";
     }
 }
