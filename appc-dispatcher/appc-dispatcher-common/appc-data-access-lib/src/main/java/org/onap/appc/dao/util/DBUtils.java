@@ -24,6 +24,8 @@
 
 package org.onap.appc.dao.util;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import java.sql.*;
@@ -43,6 +45,7 @@ import java.sql.*;
  */
 @Deprecated
 public class DBUtils {
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(DBUtils.class);
     private static final String JDBC_DRIVER = "org.mariadb.jdbc.Driver";
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
@@ -51,7 +54,7 @@ public class DBUtils {
             String driver = JDBC_DRIVER;
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
     }
 
@@ -74,7 +77,7 @@ public class DBUtils {
                 connection.close();
             clearFlag = true;
         } catch (SQLException e) {
-
+            logger.error(e.getMessage());
         }
         return clearFlag;
 
