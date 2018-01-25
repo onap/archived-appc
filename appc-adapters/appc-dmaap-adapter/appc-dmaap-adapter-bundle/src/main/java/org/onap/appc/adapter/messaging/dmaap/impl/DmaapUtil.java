@@ -31,9 +31,14 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class DmaapUtil {
-    private final static String delimiter = "_";
+
+    private static final char DELIMITER = '_';
+
+    private DmaapUtil() {
+    }
+
     private static String createPreferredRouteFileIfNotExist(String topic) throws IOException {
-        String topicPreferredRouteFileName = null;
+        String topicPreferredRouteFileName;
         topicPreferredRouteFileName = topic+"preferredRoute.properties";
         File fo= new File(topicPreferredRouteFileName);
         if(!fo.exists()) {
@@ -41,7 +46,7 @@ public class DmaapUtil {
             InputStream inputStream = classLoader.getResourceAsStream("preferredRoute.txt");
             Properties props = new Properties();
             props.load(inputStream);
-            String fileName = topic != null ? topic+delimiter+"MR1" : delimiter+"MR1";
+            String fileName = topic != null ? topic+ DELIMITER +"MR1" : DELIMITER +"MR1";
             props.setProperty("preferredRouteKey", fileName);
             topicPreferredRouteFileName = topic + "preferredRoute.properties";
             props.store(new FileOutputStream(topicPreferredRouteFileName), "preferredRoute.properties file created on the fly for topic:" + topic + " on:" + System.currentTimeMillis());
@@ -51,14 +56,12 @@ public class DmaapUtil {
 
     public static String createConsumerPropFile(String topic, Properties props)throws IOException {
         String defaultProfFileName = "consumer.properties";
-        String topicConsumerPropFileName = createConsumerProducerPropFile(topic, defaultProfFileName,props);
-        return topicConsumerPropFileName;
+        return createConsumerProducerPropFile(topic, defaultProfFileName,props);
     }
 
     public static String createProducerPropFile(String topic, Properties props)throws IOException {
         String defaultProfFileName = "producer.properties";
-        String topicConsumerPropFileName = createConsumerProducerPropFile(topic, defaultProfFileName,props);
-        return topicConsumerPropFileName;
+        return createConsumerProducerPropFile(topic, defaultProfFileName,props);
     }
 
     private static String createConsumerProducerPropFile(String topic, String defaultProfFileName, Properties props) throws IOException {
@@ -76,8 +79,8 @@ public class DmaapUtil {
         defaultProps.setProperty("DME2preferredRouterFilePath",preferredRouteFileName);
         String id = defaultProps.getProperty("id");
         String topicConsumerPropFileName = defaultProfFileName;
-        topicConsumerPropFileName = id != null ? id+delimiter+topicConsumerPropFileName : delimiter+topicConsumerPropFileName;
-        topicConsumerPropFileName = topic != null ? topic+delimiter+topicConsumerPropFileName : delimiter+topicConsumerPropFileName;
+        topicConsumerPropFileName = id != null ? id+ DELIMITER +topicConsumerPropFileName : DELIMITER +topicConsumerPropFileName;
+        topicConsumerPropFileName = topic != null ? topic+ DELIMITER +topicConsumerPropFileName : DELIMITER +topicConsumerPropFileName;
 
         defaultProps.store(new FileOutputStream(topicConsumerPropFileName), defaultProfFileName+" file created on the fly for topic:"+topic+" on:"+System.currentTimeMillis());
         return topicConsumerPropFileName;
