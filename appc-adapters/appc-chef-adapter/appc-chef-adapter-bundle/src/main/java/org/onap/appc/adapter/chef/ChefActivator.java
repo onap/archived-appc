@@ -55,6 +55,9 @@ import org.osgi.framework.ServiceRegistration;
  */
 public class ChefActivator implements BundleActivator {
 
+    private static final String NAME = "APPC Chef Adapter";
+    private static final String CHEF_ADAPTER_STR = "CHEF adapter";
+
     /**
      * The bundle registration
      */
@@ -92,7 +95,7 @@ public class ChefActivator implements BundleActivator {
      */
     @Override
     public void start(BundleContext context) throws Exception {
-        logger.info("Starting bundle " + getName());
+        logger.info("Starting bundle " + NAME);
 
         configuration = ConfigurationFactory.getConfiguration();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
@@ -104,7 +107,7 @@ public class ChefActivator implements BundleActivator {
             registration = context.registerService(ChefAdapter.class, adapter, null);
         }
 
-        logger.info(Msg.COMPONENT_INITIALIZED, appName, "CHEF adapter");
+        logger.info(Msg.COMPONENT_INITIALIZED, appName, CHEF_ADAPTER_STR);
     }
 
     /**
@@ -126,20 +129,16 @@ public class ChefActivator implements BundleActivator {
      */
     @Override
     public void stop(BundleContext context) throws Exception {
-        logger.info("Stopping bundle " + getName());
+        logger.info("Stopping bundle " + NAME);
 
         if (registration != null) {
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            logger.info(Msg.COMPONENT_TERMINATING, appName, "CHEF adapter");
+            logger.info(Msg.COMPONENT_TERMINATING, appName, CHEF_ADAPTER_STR);
             logger.info(Msg.UNREGISTERING_SERVICE, appName, adapter.getAdapterName());
             registration.unregister();
             registration = null;
-            logger.info(Msg.COMPONENT_TERMINATED, appName, "CHEF adapter");
+            logger.info(Msg.COMPONENT_TERMINATED, appName, CHEF_ADAPTER_STR);
         }
-    }
-
-    public String getName() {
-        return "APPC Chef Adapter";
     }
 
 }
