@@ -25,6 +25,12 @@
 package org.onap.appc.aai.data;
 
 public class AaiVnfcInfo {
+
+    private String vnfcId;
+    private String vnfcName;
+    private String vnfcFunctionCode;
+    private String vnfcOamIpAddress;
+
     public String getVnfcId() {
         return vnfcId;
     }
@@ -57,8 +63,5 @@ public class AaiVnfcInfo {
         this.vnfcOamIpAddress = vnfcOamIpAddress;
     }
 
-    String vnfcId;
-    String vnfcName;
-    String vnfcFunctionCode;
-    String vnfcOamIpAddress;
+
 }
