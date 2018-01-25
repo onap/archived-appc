@@ -41,6 +41,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.util.Map;
 import java.util.function.Function;
+import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ACTION_LEVEL;
@@ -112,12 +113,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             storeUpdateSdcArtifacts(input);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
+            log.error("Error when processing artifact", e);
+            throw new ArtifactProcessorException("Error occurred while processing artifact", e);
         }
     }
 
-    private boolean storeUpdateSdcArtifacts(JSONObject postDataJson) throws Exception {
+    private boolean storeUpdateSdcArtifacts(JSONObject postDataJson) throws ArtifactHandlerInternalException {
         log.info("Starting processing of SDC Artifacs into Handler with Data : " + postDataJson.toString());
         try {
             JSONObject request_information =
@@ -133,20 +134,22 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                     return createDataForPD(request_information, document_information);
 
             } else
-                throw new Exception("Missing Artifact Name for Request : "
+                throw new ArtifactHandlerInternalException("Missing Artifact Name for Request: "
                         + request_information.getString(REQUEST_ID));
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error while processing Request ID : "
+            log.error("Error while processing request with id: "
+                + ((JSONObject) postDataJson.get(REQUEST_INFORMATION))
+                .getString(REQUEST_ID), e);
+
+            throw new ArtifactHandlerInternalException("Error while processing request with id: "
                     + ((JSONObject) postDataJson.get(REQUEST_INFORMATION))
-                            .getString(REQUEST_ID)
-                    + e.getMessage());
+                            .getString(REQUEST_ID), e);
         }
         return false;
 
     }
 
-    private boolean createDataForPD(JSONObject request_information, JSONObject document_information) throws Exception {
+    private boolean createDataForPD(JSONObject request_information, JSONObject document_information) throws ArtifactHandlerInternalException {
 
         String fn = "ArtifactHandlerNode.createReferenceDataForPD";
         String artifact_name = document_information.getString(ARTIFACT_NAME);
@@ -157,14 +160,14 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             String suffix = artifact_name.substring(PD.length());
             createArtifactRecords(request_information, document_information, suffix);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error while createing PD data records " + e.getMessage());
+            log.error("Error while creating PD data records", e);
+            throw new ArtifactHandlerInternalException("Error while creating PD data records", e);
         }
         return true;
     }
 
     private void createArtifactRecords(JSONObject request_information, JSONObject document_information, String suffix)
-            throws Exception {
+            throws ArtifactHandlerInternalException{
 
         log.info("Creating Tosca Records and storing into SDC Artifacs");
         String[] docs = {"Tosca", "Yang"};
@@ -188,13 +191,20 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             if (doc.equals("Tosca"))
                 document_information.put(ARTIFACT_CONTENTS,
                         ahpUtil.escapeSql(toscaContents));
-            else if (doc.equals("Yang"))
-                document_information.put(ARTIFACT_CONTENTS,
+                else if (doc.equals("Yang"))
+                    document_information.put(ARTIFACT_CONTENTS,
                         ahpUtil.escapeSql(yangContents));
-            document_information.put(ARTIFACT_NAME, doc.concat(suffix));
-            yangName = doc.concat(suffix);
-            updateStoreArtifacts(request_information, document_information);
-        }
+                document_information.put(ARTIFACT_NAME, doc.concat(suffix));
+                yangName = doc.concat(suffix);
+                updateStoreArtifacts(request_information, document_information);
+            }
+
+            String artifactId = getArtifactID(yangName);
+            OutputStream yangStream = new ByteArrayOutputStream();
+            YANGGenerator yangGenerator = YANGGeneratorFactory.getYANGGenerator();
+            yangGenerator.generateYANG(artifactId, toscaContents, yangStream);
+            if (yangStream != null)
+                yangContents = yangStream.toString();
 
         String artifactId = getArtifactID(yangName);
         OutputStream yangStream = new ByteArrayOutputStream();
@@ -202,8 +212,9 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         yangGenerator.generateYANG(artifactId, toscaContents, yangStream);
         yangContents = yangStream.toString();
 
-        if (yangContents != null) {
-            updateYangContents(artifactId, ahpUtil.escapeSql(yangContents));
+        } catch (Exception  e){
+            log.error("Error while creating artifact records", e);
+            throw new ArtifactHandlerInternalException("Error while creating artifact records", e);
         }
 
     }
@@ -221,7 +232,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     protected boolean updateStoreArtifacts(JSONObject request_information, JSONObject document_information)
-            throws Exception {
+            throws SvcLogicException {
         log.info("UpdateStoreArtifactsStarted storing of SDC Artifacs ");
 
         SvcLogicContext context = new SvcLogicContext();
@@ -260,7 +271,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     public boolean storeReferenceData(JSONObject request_information, JSONObject document_information)
-            throws Exception {
+            throws ArtifactHandlerInternalException {
         log.info("Started storing of SDC Artifacs into Handler");
         try {
             boolean updateRequired = false;
@@ -448,8 +459,9 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Error While Storing :  " + e.getMessage());
+
+            log.error("Error while storing reference data", e);
+            throw new ArtifactHandlerInternalException("Error while storing reference data", e);
         }
 
         return true;
@@ -472,7 +484,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     private void processAndStoreCapabilitiesArtifact(DBService dbservice, JSONObject document_information,
-                                                     JSONObject capabilities, String capabilityArtifactName, String vnfType) throws Exception {
+        JSONObject capabilities, String capabilityArtifactName, String vnfType) throws ArtifactHandlerInternalException {
+
         log.info("Begin-->processAndStoreCapabilitiesArtifact ");
 
         try {
@@ -513,8 +526,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
             dbservice.saveArtifacts(context, intversion);
         } catch (Exception e) {
-            log.error("Error saving capabilities artifact to DB: " + e.toString());
-            throw e;
+            log.error("Error saving capabilities artifact to DB", e);
+            throw new ArtifactHandlerInternalException("Error saving capabilities artifact to DB", e);
         } finally {
             log.info("End-->processAndStoreCapabilitiesArtifact ");
         }
@@ -525,7 +538,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         context.setAttribute(key, value.apply(key));
     }
 
-    private void populateProtocolReference(DBService dbservice, JSONObject content) throws Exception {
+    private void populateProtocolReference(DBService dbservice, JSONObject content) throws ArtifactHandlerInternalException {
         log.info("Begin-->populateProtocolReference ");
         try {
             SvcLogicContext context = new SvcLogicContext();
@@ -548,8 +561,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             else
                 dbservice.insertProtocolReference(context, vnfType,protocol,action,actionLevel,template);
         } catch (Exception e) {
-            log.error("Error inserting record into protocolReference: " + e.toString());
-            throw e;
+            log.error("Error inserting record into protocolReference", e);
+            throw new ArtifactHandlerInternalException("Error inserting record into protocolReference", e);
         } finally {
             log.info("End-->populateProtocolReference ");
         }
