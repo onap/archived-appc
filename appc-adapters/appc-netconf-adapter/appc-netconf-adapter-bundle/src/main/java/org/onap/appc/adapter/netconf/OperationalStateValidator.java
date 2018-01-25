@@ -28,8 +28,9 @@ import org.onap.appc.exceptions.APPCException;
 
 
 public interface OperationalStateValidator {
+    public static final String CONFIG_FILE_PROPERTY_SUFFIX = "-CONFIG_FILE";
     public VnfType getVnfType();
     public String getConfigurationFileName();
     public void validateResponse(String response) throws APPCException;
-    final public static String CONFIG_FILE_PROPERTY_SUFFIX = "-CONFIG_FILE";
+
 }

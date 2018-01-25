@@ -26,7 +26,6 @@ package org.onap.appc.adapter.netconf.internal;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.onap.appc.adapter.netconf.internal.NetconfAdapter;
 
 import java.io.IOException;
 import java.io.PipedInputStream;

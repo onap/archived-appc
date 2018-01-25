@@ -24,12 +24,10 @@
 
 package org.onap.appc.adapter.netconf.jsch;
 
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+
 import java.util.Collections;
 import java.util.List;
-
-import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
-import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.onap.appc.exceptions.APPCException;
 
 public class TestModifyConfigRouterMock {
 
@@ -66,7 +64,7 @@ public class TestModifyConfigRouterMock {
             "  </edit-config>\n" +
             "</rpc>\n";
 
-    public static void main(String[] args) throws APPCException {
+    public static void main(String[] args) {
         try {
             NetconfConnectionDetails connectionDetails = new NetconfConnectionDetails();
             connectionDetails.setHost(HOST);

@@ -47,8 +47,9 @@ class NetconfMessage {
         }
     }
 
-    void append(byte[] bytes, int start, int end) {
+    void append(byte[] bytes, int start, int finish) {
         boolean eomFound = false;
+        int end = finish;
         for(int i = start; i < end; i++) {
             if(bytes[i] == EOM.charAt(eomNotch)) {
                 // advance notch
@@ -76,7 +77,7 @@ class NetconfMessage {
     }
 
     boolean isCompleted() {
-        return (text != null);
+        return text != null;
     }
 
     byte[] getFrame() {
