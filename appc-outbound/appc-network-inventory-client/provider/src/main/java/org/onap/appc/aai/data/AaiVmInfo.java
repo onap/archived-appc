@@ -24,7 +24,7 @@
 
 package org.onap.appc.aai.data;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class AaiVmInfo {
     public String getVserverId() {
@@ -43,15 +43,15 @@ public class AaiVmInfo {
         this.vserverName = vserverName;
     }
 
-    public ArrayList<AaiVnfcInfo> getVnfcInfo() {
+    public List<AaiVnfcInfo> getVnfcInfo() {
         return vnfcInfo;
     }
 
-    public void setVnfcInfo(ArrayList<AaiVnfcInfo> vnfcInfo) {
+    public void setVnfcInfo(List<AaiVnfcInfo> vnfcInfo) {
         this.vnfcInfo = vnfcInfo;
     }
 
     String vserverId;
     String vserverName;
-    ArrayList<AaiVnfcInfo> vnfcInfo;
+    List<AaiVnfcInfo> vnfcInfo;
 }
