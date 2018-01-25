@@ -25,9 +25,8 @@ package org.onap.appc.adapter.iaas.provider.operation.impl;
 
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.ATTACHVOLUME_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
-import java.util.Map;
 import java.util.List;
-import com.att.cdp.zones.ComputeService;
+import java.util.Map;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
@@ -69,10 +68,9 @@ public class DettachVolumeServer extends ProviderServerOperation {
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
         String volumeid = params.get(ProviderAdapter.VOLUME_ID);
-        String device = params.get(ProviderAdapter.DEVICE);
         VMURL vm = VMURL.parseURL(vm_url);
         Context context = null;
-        String tenantName = "Unknown";//to be used also in case of exception
+        String tenantName = "Unknown";// to be used also in case of exception
         try {
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
@@ -81,7 +79,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
             String vol_id = (volumeid == null) ? null : volumeid.toString();
             context = getContext(rc, vm_url, identStr);
             if (context != null) {
-                tenantName = context.getTenantName();//this varaible also is used in case of exception
+                tenantName = context.getTenantName();// this varaible also is used in case of exception
                 rc.reset();
                 server = lookupServer(rc, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
@@ -99,7 +97,9 @@ public class DettachVolumeServer extends ProviderServerOperation {
                             logger.info("Ready to Detach Volume from the server:" + Volume.Status.DETACHING);
                             service.detachVolume(server, v);
                             logger.info("Volume status after performing detach:" + v.getStatus());
-                            doSuccess(rc);
+                            if (validateDetach(vs, vol_id)) {
+                                doSuccess(rc);
+                            }
                         } else {
                             String msg = "Volume with volume id " + vol_id + " cannot be detached as it doesnot exists";
                             doFailure(rc, HttpStatus.NOT_IMPLEMENTED_501, msg);
@@ -127,4 +127,18 @@ public class DettachVolumeServer extends ProviderServerOperation {
         return server;
     }
 
+    protected boolean validateDetach(VolumeService vs, String volId) throws RequestFailedException, ZoneException {
+        boolean flag = false;
+        List<Volume> volList = vs.getVolumes();
+        for (Volume v : volList) {
+            if (!v.getId().equals(volId)) {
+                logger.info("Volume with " + volId + "detached successsfully");
+                flag = true;
+            } else {
+                logger.info("failed to detach volume with id" + volId);
+                flag = false;
+            }
+        }
+        return flag;
+    }
 }

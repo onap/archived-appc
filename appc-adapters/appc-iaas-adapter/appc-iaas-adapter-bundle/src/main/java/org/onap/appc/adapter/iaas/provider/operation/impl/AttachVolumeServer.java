@@ -63,7 +63,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
         String device = params.get(ProviderAdapter.DEVICE);
         VMURL vm = VMURL.parseURL(vm_url);
         Context context = null;
-        String tenantName = "Unknown";//to be used also in case of exception
+        String tenantName = "Unknown";// to be used also in case of exception
         try {
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
@@ -72,7 +72,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
             String vol_id = (volumeid == null) ? null : volumeid.toString();
             context = getContext(rc, vm_url, identStr);
             if (context != null) {
-                tenantName = context.getTenantName();//this varaible also is used in case of exception
+                tenantName = context.getTenantName();// this varaible also is used in case of exception
                 rc.reset();
                 server = lookupServer(rc, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
@@ -90,7 +90,9 @@ public class AttachVolumeServer extends ProviderServerOperation {
                             logger.info("Ready to Attach Volume to the server:" + Volume.Status.ATTACHING);
                             service.attachVolume(server, v, device);
                             logger.info("Volume status after performing attach:" + v.getStatus());
-                            doSuccess(rc);
+                            if (validateAttach(vs, vol_id)) {
+                                doSuccess(rc);
+                            }
                         } else {
                             String msg = "Volume with volume id " + vol_id + " cannot be attached as it already exists";
                             logger.info("Alreday volumes exists:");
@@ -126,4 +128,20 @@ public class AttachVolumeServer extends ProviderServerOperation {
         logOperation(Msg.ATTACHINGVOLUME_SERVER, params, context);
         return attachVolume(params, context);
     }
+
+    protected boolean validateAttach(VolumeService vs, String volId) throws RequestFailedException, ZoneException {
+        boolean flag = false;
+        List<Volume> volList = vs.getVolumes();
+        for (Volume v : volList) {
+            if (v.getId().equals(volId)) {
+                logger.info("Volume with " + volId + "attached successsfully");
+                flag = true;
+            } else {
+                logger.info("failed to attach volume with id" + volId);
+                flag = false;
+            }
+        }
+        return flag;
+    }
+
 }
