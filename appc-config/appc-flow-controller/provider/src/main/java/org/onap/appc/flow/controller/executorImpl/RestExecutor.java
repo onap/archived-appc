@@ -21,142 +21,125 @@
  */
 package org.onap.appc.flow.controller.executorImpl;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.ClientResponse.Status;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.client.urlconnection.HTTPSProperties;
 import java.net.URI;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Properties;
-
+import java.util.Map;
+import java.util.Optional;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
-
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
-import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 
 public class RestExecutor implements FlowExecutorInterface {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RestExecutor.class);
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
-    Properties props = new Properties();
-    public RestExecutor() throws Exception {
-        String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
-        if (propDir == null)
-            throw new Exception(" Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
-        String propFile = propDir + FlowControllerConstants.APPC_FLOW_CONTROLLER;
-        InputStream propStream = new FileInputStream(propFile);
-        try{
-            props.load(propStream);
-        }
-        catch (Exception e){
-            throw new Exception("Could not load properties file " + propFile, e);
-        }
-        finally{
-            try{
-                propStream.close();
-            }
-            catch (Exception e){
-                log.warn("Could not close FileInputStream", e);
-            }
-        }
-    }
+
     @Override
-    public HashMap<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception{
+    public Map<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception{
         log.info("Configuring Rest Operation....." + transaction.toString());
-        Response response = new Response();
-        HashMap<String, String> outputMessage = new HashMap<String, String>();
+        Map<String, String> outputMessage = new HashMap<>();
         Client client = null;
-        WebResource webResource = null;
-        ClientResponse clientResponse = null;
-        String responseDataType=MediaType.APPLICATION_JSON;
-        String requestDataType=MediaType.APPLICATION_JSON;
 
-
-        try{
-            DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
+        try {
             System.setProperty("jsse.enableSNIExtension", "false");
-            SSLContext sslContext = null;
-            SecureRestClientTrustManager secureRestClientTrustManager = new SecureRestClientTrustManager();
-            sslContext = SSLContext.getInstance("SSL");
-            sslContext.init(null, new javax.net.ssl.TrustManager[] { secureRestClientTrustManager }, null);
+            SSLContext sslContext = SSLContext.getInstance("SSL");
+            sslContext.init(null, new javax.net.ssl.TrustManager[] {new SecureRestClientTrustManager()}, null);
+            DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
             defaultClientConfig.getProperties().put(
-                    com.sun.jersey.client.urlconnection.HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
-                    new com.sun.jersey.client.urlconnection.HTTPSProperties(getHostnameVerifier(), sslContext));
-            client = Client.create(defaultClientConfig);
+                    HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
+                    new HTTPSProperties(getHostnameVerifier(), sslContext));
+            client = createClient(defaultClientConfig);
             client.addFilter(new HTTPBasicAuthFilter(transaction.getuId(), transaction.getPswd()));
-            webResource = client.resource(new URI(transaction.getExecutionEndPoint()));
+            WebResource webResource = client.resource(new URI(transaction.getExecutionEndPoint()));
             webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
 
-            log.info("Starting Rest Operation.....");
-            if(HttpMethod.GET.equalsIgnoreCase(transaction.getExecutionRPC())){
-                clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
-            }else if(HttpMethod.POST.equalsIgnoreCase(transaction.getExecutionRPC())){
-                clientResponse = webResource.type(requestDataType).post(ClientResponse.class, transaction.getPayload());
-            }else if(HttpMethod.PUT.equalsIgnoreCase(transaction.getExecutionRPC())){
-                clientResponse = webResource.type(requestDataType).put(ClientResponse.class,transaction.getPayload());
-            }else if(HttpMethod.DELETE.equalsIgnoreCase(transaction.getExecutionRPC())){
-                clientResponse = webResource.delete(ClientResponse.class);
-            }
+            ClientResponse clientResponse = getClientResponse(transaction, webResource)
+                    .orElseThrow(() -> new Exception(
+                    "Cannot determine the state of : "
+                    + transaction.getActionLevel()
+                    + " HTTP response is null"));
 
-            if(clientResponse.getStatus() == 200){
-                response.setResponseCode(String.valueOf(clientResponse.getStatus()));
-                ArrayList<Response> responses = new ArrayList<Response>();
-                responses.add(response);
-                transaction.setResponses(responses);
-                outputMessage.put("restResponse", clientResponse.getEntity(String.class));
-            }
-            else{
-
-                String errorMsg = clientResponse.getEntity(String.class);
-                if (StringUtils.isNotBlank(errorMsg)) {
-                    log.debug("Error Message from Client Response" + errorMsg);
-                }
-
-                throw new Exception("Can not determine the state of : " + transaction.getActionLevel()  + " HTTP error code : "
-                        + clientResponse.getStatus());
-
-            }
+            processClientResponse(clientResponse, transaction, outputMessage);
 
             log.info("Completed Rest Operation.....");
 
-        }catch (Exception e) {
-            e.printStackTrace();
-            log.debug("failed in RESTCONT Action ("+transaction.getExecutionRPC()+") for the resource " + transaction.getExecutionEndPoint() + ", falut message :"+e.getMessage());
-            throw new Exception("Error While Sending Rest Request" + e.getMessage());
-        }
-        finally {
-            // clean up.
-            webResource = null;
-            if(client != null){
+        } catch (Exception e) {
+            log.debug("failed in RESTCONT Action ("
+                    + transaction.getExecutionRPC()
+                    + ") for the resource "
+                    + transaction.getExecutionEndPoint()
+                    + ", fault message :"
+                    + e.getMessage());
+            throw new Exception("Error While Sending Rest Request", e);
+
+        } finally {
+            if(client != null) {
                 client.destroy();
-                client = null;
             }
         }
-
         return outputMessage;
     }
 
-private HostnameVerifier getHostnameVerifier() {
-    return new HostnameVerifier() {
-        @Override
-        public boolean verify(String hostname, javax.net.ssl.SSLSession sslSession) {
-            return true;
-        }
-    };
-}
+    private HostnameVerifier getHostnameVerifier() {
+        return (hostname, sslSession) -> true;
+    }
 
+    Client createClient(DefaultClientConfig defaultClientConfig) {
+        return Client.create(defaultClientConfig);
+    }
+
+    private Optional<ClientResponse> getClientResponse(Transaction transaction, WebResource webResource) {
+        String responseDataType=MediaType.APPLICATION_JSON;
+        String requestDataType=MediaType.APPLICATION_JSON;
+        ClientResponse clientResponse = null;
+
+        log.info("Starting Rest Operation.....");
+        if(HttpMethod.GET.equalsIgnoreCase(transaction.getExecutionRPC())) {
+            clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
+        }else if(HttpMethod.POST.equalsIgnoreCase(transaction.getExecutionRPC())) {
+            clientResponse = webResource.type(requestDataType).post(ClientResponse.class, transaction.getPayload());
+        }else if(HttpMethod.PUT.equalsIgnoreCase(transaction.getExecutionRPC())) {
+            clientResponse = webResource.type(requestDataType).put(ClientResponse.class, transaction.getPayload());
+        }else if(HttpMethod.DELETE.equalsIgnoreCase(transaction.getExecutionRPC())) {
+            clientResponse = webResource.delete(ClientResponse.class);
+        }
+        return Optional.ofNullable(clientResponse);
+    }
+
+    private void processClientResponse (ClientResponse clientResponse,
+                                        Transaction transaction,
+                                        Map<String, String> outputMessage ) throws Exception {
+
+        if(clientResponse.getStatus() == Status.OK.getStatusCode()) {
+            Response response = new Response();
+            response.setResponseCode(String.valueOf(Status.OK.getStatusCode()));
+            transaction.setResponses(Collections.singletonList(response));
+            outputMessage.put("restResponse", clientResponse.getEntity(String.class));
+        } else {
+            String errorMsg = clientResponse.getEntity(String.class);
+            if (StringUtils.isNotBlank(errorMsg)) {
+                log.debug("Error Message from Client Response" + errorMsg);
+            }
+            throw new Exception("Cannot determine the state of : "
+                    + transaction.getActionLevel()
+                    + " HTTP error code : "
+                    + clientResponse.getStatus());
+        }
+    }
 }
