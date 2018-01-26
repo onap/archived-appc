@@ -205,7 +205,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                     " portNumber=" + portNumber);
                 debugLog.printRTAriDebug(fnName, "CLI: Attempting to login: host=" + host + " loginId=" + loginId +
                     " password=" + password + " portNumber=" + portNumber);
-                sshJcraftWrapper.connect(host, loginId, password, Integer.parseInt(portNumber));
+                sshJcraftWrapper.connect(host, loginId, password); //what about portNum?
 
                 debugLog.printRTAriDebug(fnName, "Sending 'sdc'");
                 String response = sshJcraftWrapper.send("sdc", ":");
@@ -342,8 +342,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             try {
                 sshJcraftWrapper
-                    .connect(Host_ip_address, User_name, Password, "]]>]]>", 30000, Integer.parseInt(Port_number),
-                        "netconf");
+                    .connect(Host_ip_address, User_name, Password, 30000, Integer.parseInt(Port_number), "netconf"); // what about prompt "]]>]]>"?
                 String NetconfHelloCmd = netconfHelloCmd;
                 NetconfHelloCmd = NetconfHelloCmd + "]]>]]>";
                 log(fnName, "Sending the hello command");
@@ -416,8 +415,8 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             try {
                 String NetconfHelloCmd = netconfHelloCmd;
                 sshJcraftWrapper
-                    .connect(Host_ip_address, User_name, Password, "]]>]]>", 30000, Integer.parseInt(Port_number),
-                        "netconf");
+                    .connect(Host_ip_address, User_name, Password, 30000, Integer.parseInt(Port_number),
+                        "netconf"); //What about prompt "]]>]]>" here?
                 NetconfHelloCmd = NetconfHelloCmd + "]]>]]>";
                 log(fnName, ":Sending the hello command");
                 sshJcraftWrapper.send(NetconfHelloCmd);
