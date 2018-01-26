@@ -20,16 +20,14 @@
 
 package org.onap.appc.flow.controller.interfaces;
 
-import java.util.HashMap;
-
 import org.onap.appc.flow.controller.data.Transaction;
-import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
+import java.util.Map;
 
+@FunctionalInterface
 public interface FlowExecutorInterface {
 
-    public HashMap<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception;
-    
-    
+    Map<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception;
+
 }

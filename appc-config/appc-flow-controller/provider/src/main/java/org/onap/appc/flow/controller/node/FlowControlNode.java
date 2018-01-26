@@ -20,20 +20,16 @@
 
 package org.onap.appc.flow.controller.node;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import org.json.JSONObject;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.onap.appc.flow.controller.ResponseHandlerImpl.DefaultResponseHandler;
 import org.onap.appc.flow.controller.data.PrecheckOption;
 import org.onap.appc.flow.controller.data.ResponseAction;
@@ -43,16 +39,7 @@ import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.appc.flow.controller.executorImpl.GraphExecutor;
 import org.onap.appc.flow.controller.executorImpl.NodeExecutor;
 import org.onap.appc.flow.controller.executorImpl.RestExecutor;
-import org.onap.appc.flow.controller.interfaceData.ActionIdentifier;
-import org.onap.appc.flow.controller.interfaceData.Capabilities;
-import org.onap.appc.flow.controller.interfaceData.DependencyInfo;
-import org.onap.appc.flow.controller.interfaceData.Input;
-import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
-import org.onap.appc.flow.controller.interfaceData.RequestInfo;
-import org.onap.appc.flow.controller.interfaceData.Vm;
-import org.onap.appc.flow.controller.interfaceData.VnfInfo;
-import org.onap.appc.flow.controller.interfaceData.Vnfcs;
-import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
+import org.onap.appc.flow.controller.interfaceData.*;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
 import org.onap.appc.flow.controller.utils.EncryptionTool;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
@@ -60,15 +47,11 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.util.*;
 
 public class FlowControlNode implements SvcLogicJavaPlugin{
 
@@ -147,7 +130,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                 log.info("CollectInputParamsData-Input: " + input );
 
                 RestExecutor restExe = new RestExecutor();
-                HashMap<String,String>flowSeq= restExe.execute(transaction, localContext);
+                Map<String,String>flowSeq= restExe.execute(transaction, localContext);
 
                 JSONObject sequence=new JSONObject(flowSeq.get("restResponse"));
                 if(sequence.has("output"))
