@@ -26,6 +26,9 @@
 
 package org.onap.appc.util;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +43,7 @@ import java.util.regex.Pattern;
  */
 
 public final class StringHelper {
+    private static final EELFLogger LOG = EELFManager.getInstance().getLogger(StringHelper.class);
 
     public static final String DASH = "-";
     public static final String DOT = ".";
@@ -542,7 +546,7 @@ public final class StringHelper {
                 return Integer.parseInt(input);
             } catch (NumberFormatException nfe) {
                 // Should not happen
-                nfe.printStackTrace();
+                LOG.error(nfe.getMessage());
             }
         }
 
@@ -552,6 +556,7 @@ public final class StringHelper {
                 return Double.parseDouble(input);
             } catch (NumberFormatException | NullPointerException e) {
                 // NPE won't happen bc of regex check
+                LOG.error(e.getMessage());
             }
         }
 
