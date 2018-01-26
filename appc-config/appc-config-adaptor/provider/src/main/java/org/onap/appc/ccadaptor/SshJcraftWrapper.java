@@ -55,7 +55,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import org.apache.commons.lang.StringUtils;
 
@@ -64,6 +63,12 @@ public class SshJcraftWrapper {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(SshJcraftWrapper.class);
 
     private static final int BUFFER_SIZE = 512000;
+    static final int DEFAULT_PORT = 22;
+    static final String CHANNEL_SHELL_TYPE = "shell";
+    static final String CHANNEL_SUBSYSTEM_TYPE = "subsystem";
+    static final String TERMINAL_BASIC_MODE = "vt102";
+    static final String STRICT_HOST_CHECK_KEY = "StrictHostKeyChecking";
+    static final String STRICT_HOST_CHECK_VALUE = "no";
     private InputStream inputStream = null;
     private TelnetListener listener = null;
     private String routerLogFileName = null;
@@ -86,9 +91,17 @@ public class SshJcraftWrapper {
     private String passWord = null;
     private Runtime runtime = Runtime.getRuntime();
 
+
+    public SshJcraftWrapper() {
+        this.jsch = new JSch();
+    }
+
+    SshJcraftWrapper(JSch jsch) {
+        this.jsch = jsch;
+    }
+
     public void connect(String hostname, String username, String password, String prompt, int timeOut)
         throws IOException {
-        jsch = new JSch();
         log.debug("Attempting to connect to {0} username={1} prompt='{2}' timeOut={3}",
             hostname, username, prompt, timeOut);
         routerName = hostname;
@@ -96,15 +109,8 @@ public class SshJcraftWrapper {
         userName = username;
         passWord = password;
         try {
-            session = jsch.getSession(username, hostname, 22);
-            UserInfo ui = new MyUserInfo();
-            session.setPassword(password);
-            session.setUserInfo(ui);
-            session.connect(timeOut);
-            channel = session.openChannel("shell");
-            session.setServerAliveCountMax(
-                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
-            ((ChannelShell) channel).setPtyType("vt102");
+            channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, timeOut);
+            ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
@@ -112,10 +118,10 @@ public class SshJcraftWrapper {
             log.info("Successfully connected. Flushing input buffer.");
             try {
                 receiveUntil(prompt, 3000, "No cmd was sent, just waiting");
-            } catch (Exception e) {
+            } catch (IOException e) {
                 log.warn("Caught an Exception: Nothing to flush out.", e);
             }
-        } catch (Exception e) {
+        } catch (JSchException e) {
             log.error("Could not connect to host=" + hostname, e);
             throw new IOException(e.toString());
         }
@@ -130,20 +136,9 @@ public class SshJcraftWrapper {
         hostName = hostname;
         userName = username;
         passWord = password;
-        jsch = new JSch();
         try {
-            session = jsch.getSession(username, hostname, portNum);
-            UserInfo ui = new MyUserInfo();
-            session.setPassword(password);
-            session.setUserInfo(ui);
-            session.setConfig("StrictHostKeyChecking", "no");
-            log.debug("StrictHostKeyChecking set to 'no'");
-
-            session.connect(timeOut);
-            session.setServerAliveCountMax(
-                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
-            channel = session.openChannel("shell");
-            ((ChannelShell) channel).setPtyType("vt102");
+            channel = provideSessionChannel(CHANNEL_SHELL_TYPE, portNum, timeOut);
+            ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
@@ -155,10 +150,10 @@ public class SshJcraftWrapper {
                 } else {
                     receiveUntil(":~#", 5000, "No cmd was sent, just waiting");
                 }
-            } catch (Exception e) {
+            } catch (IOException e) {
                 log.warn("Caught an Exception: Nothing to flush out.", e);
             }
-        } catch (Exception e) {
+        } catch (JSchException e) {
             log.error("Could not connect to host=" + hostname, e);
             throw new IOException(e.toString());
         }
@@ -627,7 +622,7 @@ public class SshJcraftWrapper {
 
     public void sftpPutFile(String sourcePath, String destDirectory) throws IOException {
         try {
-            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
             UserInfo ui = new MyUserInfo();
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
@@ -648,7 +643,7 @@ public class SshJcraftWrapper {
 
     public void sftpPutStringData(String stringOfData, String fullPathDest) throws IOException {
         try {
-            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
             UserInfo ui = new MyUserInfo();
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
@@ -670,7 +665,7 @@ public class SshJcraftWrapper {
 
     public String sftpGet(String fullFilePathName) throws IOException {
         try {
-            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
             UserInfo ui = new MyUserInfo();
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
@@ -717,27 +712,20 @@ public class SshJcraftWrapper {
             maxMemoryAvailable, usedMemory, memoryLeftOnHeap);
     }
 
-    // User specifies the port number, and the subsystem
-    public void connect(String hostname, String username, String password, String prompt, int timeOut, int portNum,
+    public void connect(String hostname, String username, String password, int timeOut, int portNum,
         String subsystem) throws IOException {
 
         if (log.isDebugEnabled()) {
             log.debug(
-                "Attempting to connect to {0} username={1} prompt='{2}' timeOut={3} portNum={4} subsystem={5}",
-                hostname, username, prompt, timeOut, portNum, subsystem);
+                "Attempting to connect to {0} username={1} timeOut={2} portNum={3} subsystem={4}",
+                hostname, username, timeOut, portNum, subsystem);
         }
-        routerName = hostname;
-        jsch = new JSch();
+        this.routerName = hostname;
+        this.hostName = hostname;
+        this.userName = username;
+        this.passWord = password;
         try {
-            session = jsch.getSession(username, hostname, portNum);
-            UserInfo ui = new MyUserInfo();
-            session.setPassword(password);
-            session.setUserInfo(ui);
-            session.setConfig("StrictHostKeyChecking", "no");
-            session.connect(timeOut);
-            session.setServerAliveCountMax(
-                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
-            channel = session.openChannel("subsystem");
+            channel = provideSessionChannel(CHANNEL_SUBSYSTEM_TYPE, portNum, timeOut);
             ((ChannelSubsystem) channel).setSubsystem(subsystem);
             ((ChannelSubsystem) channel).setPty(true); //expected ptyType vt102
 
@@ -748,32 +736,18 @@ public class SshJcraftWrapper {
         } catch (JSchException e) {
             log.error("JschException occurred ", e);
             throw new IOException(e.getMessage());
-        } catch (TimedOutException e) {
-            log.error("TimedOutException occurred", e);
-            throw new IOException(e.getMessage());
         }
     }
 
-    public void connect(String hostName, String username, String password, int portNumber) throws IOException {
-        jsch = new JSch();
-        log.debug("Attempting to connect to {0} username={1} portNumber={2}", hostName, username, portNumber);
-        routerName = hostName;
+    public void connect(String hostName, String username, String password) throws IOException {
+        log.debug("Attempting to connect to {0} username={1} portNumber={2}", hostName, username, DEFAULT_PORT);
+        this.routerName = hostName;
         this.hostName = hostName;
-        userName = username;
-        passWord = password;
+        this.userName = username;
+        this.passWord = password;
         try {
-            java.util.Properties config = new java.util.Properties();
-            config.put("StrictHostKeyChecking", "no");
-            session = jsch.getSession(username, hostName, 22);
-            UserInfo ui = new MyUserInfo();
-            session.setConfig(config);
-            session.setPassword(password);
-            session.setUserInfo(ui);
-            session.connect(30000);
-            channel = session.openChannel("shell");
-            session.setServerAliveCountMax(
-                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
-            ((ChannelShell) channel).setPtyType("vt102");
+            channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, 30000);
+            ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
@@ -793,7 +767,7 @@ public class SshJcraftWrapper {
 
     public void put(String sourcePath, String destDirectory) throws IOException {
         try {
-            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
             UserInfo ui = new MyUserInfo();
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
@@ -821,7 +795,7 @@ public class SshJcraftWrapper {
             jsch = new JSch();
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
-            sftpSession = jsch.getSession(userName, hostName, 22);
+            sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
             UserInfo ui = new MyUserInfo();
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
@@ -857,14 +831,13 @@ public class SshJcraftWrapper {
         }
     }
 
-
     public String get(String fullFilePathName, String hostName, String userName, String passWord) throws IOException {
         Session sftpSession = null;
         try {
             log.debug("Sftp get invoked, connection details: username={1} hostname={2}",
                 userName, hostName);
             jsch = new JSch();
-            sftpSession = jsch.getSession(userName, hostName, 22);
+            sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             UserInfo ui = new MyUserInfo();
@@ -943,5 +916,16 @@ public class SshJcraftWrapper {
             return originalCommand + "\n";
         }
         return originalCommand;
+    }
+
+    private Channel provideSessionChannel(String channelType, int port, int timeout) throws JSchException {
+        session = jsch.getSession(this.userName, this.hostName, port);
+        session.setPassword(this.passWord);
+        session.setUserInfo(new MyUserInfo()); //needed?
+        session.setConfig(STRICT_HOST_CHECK_KEY, STRICT_HOST_CHECK_VALUE);
+        session.connect(timeout);
+        session.setServerAliveCountMax(
+            0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
+        return session.openChannel(channelType);
     }
 }
