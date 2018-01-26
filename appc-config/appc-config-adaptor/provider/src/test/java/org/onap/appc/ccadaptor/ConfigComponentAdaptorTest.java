@@ -162,7 +162,7 @@ public class ConfigComponentAdaptorTest {
         cca.configure(key, parameters, ctx);
     }
 
-    @Test(expected=Exception.class)
+    @Test
     public void testAll2(){
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);

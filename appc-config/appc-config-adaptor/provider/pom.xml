@@ -105,6 +105,11 @@
             <version>1.9.2</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
