@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f1f9f5c8",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/main/java/org/onap/appc/adapter/rest/impl/RestAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-01-26T02:48:19Z",
+      "side": 1,
+      "message": "How do you know this can be changed to private?",
+      "range": {
+        "startLine": 179,
+        "startChar": 17,
+        "endLine": 179,
+        "endChar": 35
+      },
+      "revId": "330cb5eb0e8ea8bcf5d47a71e74002ee232f2842",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
