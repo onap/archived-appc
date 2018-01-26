@@ -96,7 +96,6 @@ public class ControllerImpl implements Controller {
                     executor.execute(l);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
                 LOG.error(String.format("Exception while starting listener %s.", props), e);
             }
         }
