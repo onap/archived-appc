@@ -25,6 +25,7 @@
 package org.onap.sdnc.dg.loader;
 
 import java.io.File;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.script.Invocable;
@@ -39,13 +40,13 @@ import org.slf4j.LoggerFactory;
 public class DGXMLGenerator {
     private final static Logger logger = LoggerFactory.getLogger(DGXMLGenerator.class);
 
-    public static String STRING_ENCODING = "utf-8";
-    public static String JS_INTERFACE_DG_CONVERTOR = "dgconverter";
-    public static String JS_METHOD_GET_NODE_TO_XML = "getNodeToXml";
-    public static String GENERATOR_TEMPLATE_FILE = "js/dg_xml2json.js";
+    public static final String STRING_ENCODING = "utf-8";
+    public static final String JS_INTERFACE_DG_CONVERTOR = "dgconverter";
+    public static final String JS_METHOD_GET_NODE_TO_XML = "getNodeToXml";
+    public static final String GENERATOR_TEMPLATE_FILE = "js/dg_xml2json.js";
 
     public void generateXMLFromJSON(String jsonPath, String xmlpath, String propertyPath)
-            throws Exception {
+            throws InvalidParameterException {
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
             ScriptEngine engine = manager.getEngineByName("JavaScript");
@@ -71,7 +72,7 @@ public class DGXMLGenerator {
                 } else if (jsonPathFile.isFile()) {
                     files.add(jsonPathFile);
                 } else {
-                    throw new Exception("Failed to get the nature of the JSON path :" + jsonPath);
+                    throw new InvalidParameterException("Failed to get the nature of the JSON path :" + jsonPath);
                 }
 
                 logger.info("JSON Files identified " + files.size());
@@ -122,7 +123,7 @@ public class DGXMLGenerator {
                 jsonPath = args[0];
                 xmlPath = args[1];
             } else {
-                throw new Exception("Sufficient inputs are missing <jsonPath> <xmlPath>");
+                throw new InvalidParameterException("Required inputs are missing <jsonPath> <xmlPath>");
             }
 
             application.generateXMLFromJSON(jsonPath, xmlPath, propertyPath);
