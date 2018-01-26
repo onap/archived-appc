@@ -22,25 +22,16 @@
  */
 package org.onap.appc.flow.executor.node;
 
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Properties;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.executorImpl.RestExecutor;
-import org.onap.appc.flow.controller.interfaceData.ActionIdentifier;
-import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
-import org.onap.appc.flow.controller.interfaceData.RequestInfo;
-import org.onap.appc.flow.controller.interfaceData.Vm;
-import org.onap.appc.flow.controller.interfaceData.VnfInfo;
-import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
 import org.onap.appc.flow.controller.node.FlowControlNode;
 import org.onap.appc.flow.controller.node.RestServiceNode;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestRestServiceNode {
 
@@ -82,7 +73,7 @@ public class TestRestServiceNode {
         Transaction transaction = new Transaction();
 
         FlowControlNode node = new FlowControlNode();
-        HashMap<String,String>flowSeq= restExe.execute(transaction, ctx);
+        Map<String,String> flowSeq= restExe.execute(transaction, ctx);
         String flowSequnce=flowSeq.get("restResponse");
 
     }

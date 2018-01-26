@@ -48,16 +48,7 @@ import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.appc.flow.controller.executorImpl.GraphExecutor;
 import org.onap.appc.flow.controller.executorImpl.NodeExecutor;
 import org.onap.appc.flow.controller.executorImpl.RestExecutor;
-import org.onap.appc.flow.controller.interfaceData.ActionIdentifier;
-import org.onap.appc.flow.controller.interfaceData.Capabilities;
-import org.onap.appc.flow.controller.interfaceData.DependencyInfo;
-import org.onap.appc.flow.controller.interfaceData.Input;
-import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
-import org.onap.appc.flow.controller.interfaceData.RequestInfo;
-import org.onap.appc.flow.controller.interfaceData.Vm;
-import org.onap.appc.flow.controller.interfaceData.VnfInfo;
-import org.onap.appc.flow.controller.interfaceData.Vnfcs;
-import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
+import org.onap.appc.flow.controller.interfaceData.*;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
 import org.onap.appc.flow.controller.utils.EncryptionTool;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
@@ -140,7 +131,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
                 log.info("CollectInputParamsData-Input: " + input );
 
                 RestExecutor restExe = new RestExecutor();
-                HashMap<String,String>flowSeq= restExe.execute(transaction, localContext);
+                Map<String,String>flowSeq= restExe.execute(transaction, localContext);
 
                 JSONObject sequence = new JSONObject(flowSeq.get("restResponse"));
                 if(sequence.has("output"))

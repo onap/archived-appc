@@ -22,13 +22,11 @@
 
 package org.onap.appc.flow.controller.node;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.executorImpl.RestExecutor;
@@ -37,11 +35,11 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Properties;
 
 public class RestServiceNode implements SvcLogicJavaPlugin{
 
@@ -126,7 +124,7 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
             if(transaction.getPswd() == null)
                 transaction.setPswd(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".default-rest-pass")));    
 
-            HashMap<String, String> output = restRequestExecutor.execute(transaction, ctx);
+            Map<String, String> output = restRequestExecutor.execute(transaction, ctx);
 
             if(isValidJSON(output.get("restResponse")) != null) {
                 ctx.setAttribute(responsePrefix + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE , output.get("restResponse"));
