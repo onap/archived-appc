@@ -58,7 +58,7 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         try {
             output = OBJECT_MAPPER.writeValueAsString(response);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         LOG.debug("Received response : " + output);
 
@@ -86,7 +86,6 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
 
@@ -140,7 +139,7 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
                 fileWriter.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
         }
         System.out.println("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
     }
