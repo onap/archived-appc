@@ -26,43 +26,43 @@ package org.onap.sdnc.config.audit;
 
 public class SliAuditConstant {
 
-    public static String STRING_ENCODING = "utf-8";
-    public static String Y = "Y";
-    public static String N = "N";
-    public static String DATA_TYPE_TEXT = "TEXT";
-    public static String DATA_TYPE_JSON = "JSON";
-    public static String DATA_TYPE_XML = "XML";
-    public static String DATA_TYPE_SQL = "SQL";
+    public static final String STRING_ENCODING = "utf-8";
+    public static final String Y = "Y";
+    public static final String N = "N";
+    public static final String DATA_TYPE_TEXT = "TEXT";
+    public static final String DATA_TYPE_JSON = "JSON";
+    public static final String DATA_TYPE_XML = "XML";
+    public static final String DATA_TYPE_SQL = "SQL";
 
-    public static String INPUT_PARAM_JSON_DATA = "jsonData";
-    public static String INPUT_PARAM_IS_ESCAPED = "isEscaped";
-    public static String INPUT_PARAM_BLOCK_KEYS = "blockKeys";
-    public static String INPUT_PARAM_LOG_DATA = "logData";
-    public static String INPUT_PARAM_CHECK_DATA = "checkData";
-    public static String INPUT_PARAM_ESCAPE_DATA = "escapeData";
-    public static String INPUT_PARAM_UNESCAPE_DATA = "unEscapeData";
-    public static String INPUT_PARAM_DATA_TYPE = "dataType";
-    public static String INPUT_PARAM_FILE_NAME = "fileName";
+    public static final String INPUT_PARAM_JSON_DATA = "jsonData";
+    public static final String INPUT_PARAM_IS_ESCAPED = "isEscaped";
+    public static final String INPUT_PARAM_BLOCK_KEYS = "blockKeys";
+    public static final String INPUT_PARAM_LOG_DATA = "logData";
+    public static final String INPUT_PARAM_CHECK_DATA = "checkData";
+    public static final String INPUT_PARAM_ESCAPE_DATA = "escapeData";
+    public static final String INPUT_PARAM_UNESCAPE_DATA = "unEscapeData";
+    public static final String INPUT_PARAM_DATA_TYPE = "dataType";
+    public static final String INPUT_PARAM_FILE_NAME = "fileName";
 
-    public static String INPUT_PARAM_TEMPLATE_DATA = "templateData";
-    public static String INPUT_PARAM_TEMPLATE_FILE = "templateFile";
-    public static String INPUT_PARAM_TEMPLATE_TYPE = "templateType";
-    public static String INPUT_PARAM_DO_PRETTY_OUTPUT = "doPrettyOutput";
-    public static String INPUT_PARAM_REQUEST_DATA = "requestData";
-    public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
+    public static final String INPUT_PARAM_TEMPLATE_DATA = "templateData";
+    public static final String INPUT_PARAM_TEMPLATE_FILE = "templateFile";
+    public static final String INPUT_PARAM_TEMPLATE_TYPE = "templateType";
+    public static final String INPUT_PARAM_DO_PRETTY_OUTPUT = "doPrettyOutput";
+    public static final String INPUT_PARAM_REQUEST_DATA = "requestData";
+    public static final String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
 
 
-    public static String OUTPUT_PARAM_MERGED_DATA = "mergedData";
-    public static String OUTPUT_PARAM_TRANSFORMED_DATA = "transformedData";
-    public static String OUTPUT_PARAM_FILE_DATA = "fileData";
-    public static String OUTPUT_PARAM_PARSED_ERROR = "parsedError";
-    public static String OUTPUT_PARAM_DATA_TYPE = "dataType";
-    public static String OUTPUT_PARAM_STATUS = "status";
-    public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
-    public static String OUTPUT_PARAM_ESCAPE_DATA = "escapeData";
-    public static String OUTPUT_PARAM_UNESCAPE_DATA = "unEscapeData";
+    public static final String OUTPUT_PARAM_MERGED_DATA = "mergedData";
+    public static final String OUTPUT_PARAM_TRANSFORMED_DATA = "transformedData";
+    public static final String OUTPUT_PARAM_FILE_DATA = "fileData";
+    public static final String OUTPUT_PARAM_PARSED_ERROR = "parsedError";
+    public static final String OUTPUT_PARAM_DATA_TYPE = "dataType";
+    public static final String OUTPUT_PARAM_STATUS = "status";
+    public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static final String OUTPUT_PARAM_ESCAPE_DATA = "escapeData";
+    public static final String OUTPUT_PARAM_UNESCAPE_DATA = "unEscapeData";
 
-    public static String OUTPUT_STATUS_SUCCESS = "success";
-    public static String OUTPUT_STATUS_FAILURE = "failure";
+    public static final String OUTPUT_STATUS_SUCCESS = "success";
+    public static final String OUTPUT_STATUS_FAILURE = "failure";
 
 }
