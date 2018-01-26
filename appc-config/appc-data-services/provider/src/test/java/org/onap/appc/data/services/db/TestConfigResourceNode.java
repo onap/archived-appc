@@ -134,8 +134,8 @@ public class TestConfigResourceNode {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "response-prefix");
         inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, "config_template");
-        inParams.put((String) AppcDataServiceConstant.INPUT_PARAM_VNF_ID, "test");
-        inParams.put((String) AppcDataServiceConstant.INPUT_PARAM_VM_NAME, "test");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_VNF_ID, "test");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_VM_NAME, "test");
         node.getConfigFilesByVnfVmNCategory(inParams, ctx);
     }
 
