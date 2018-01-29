@@ -97,7 +97,7 @@ public class EvacuateServer extends ProviderServerOperation {
         } catch (RequestFailedException e) {
             // evacuate is a special case. If the server is still in a Pending state, we want to
             // continue with evacuate
-            logger.info("Evacuate server - ignore RequestFailedException from waitForStateChange() ...");
+            logger.info("Evacuate server - ignore RequestFailedException from waitForStateChange() ..." ,e);
         }
 
         setTimeForMetricsLogger();
@@ -126,7 +126,7 @@ public class EvacuateServer extends ProviderServerOperation {
         } catch (ZoneException e) {
             msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
                     e.getMessage());
-            logger.error(msg);
+            logger.error(msg, e);
             metricsLogger.error(msg);
             throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.BAD_GATEWAY_502, server);
         }
@@ -173,7 +173,7 @@ public class EvacuateServer extends ProviderServerOperation {
             String rebuildVm = params.get(ProviderAdapter.PROPERTY_REBUILD_VM);
             String targetHostId = params.get(ProviderAdapter.PROPERTY_TARGETHOST_ID);
 
-            Context context = null;
+            Context context;
             String tenantName = "Unknown";//to be used also in case of exception
             try {
                 context = getContext(rc, vmUrl, identStr);
@@ -183,13 +183,7 @@ public class EvacuateServer extends ProviderServerOperation {
                     logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
 
                     // check target host status
-                    if (isComputeNodeDown(context, targetHostId)) {
-                        msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
-                                "Target host " + targetHostId + " status is not UP/ENABLED");
-                        logger.error(msg);
-                        metricsLogger.error(msg);
-                        throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.BAD_REQUEST_400, server);
-                    }
+                    checkHostStatus(server, targetHostId, context);
 
                     // save hypervisor name before evacuate
                     String hypervisor = server.getHypervisor().getHostName();
@@ -202,24 +196,10 @@ public class EvacuateServer extends ProviderServerOperation {
 
                     // check hypervisor host name after evacuate. If it is unchanged, the evacuate
                     // failed.
-                    if (hypervisor != null && hypervisor.equals(hypervisorAfterEvacuate)) {
-                        msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
-                                "Hypervisor host " + hypervisor
-                                        + " after evacuate is the same as before evacuate. Provider (ex. Openstack) recovery actions may be needed.");
-                        logger.error(msg);
-                        metricsLogger.error(msg);
-                        throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
-                    }
+                    checkHypervisor(server, hypervisor, hypervisorAfterEvacuate);
 
                     // check VM status after evacuate
-                    if (server.getStatus() == Server.Status.ERROR) {
-                        msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
-                                "VM is in ERROR state after evacuate. Provider (ex. Openstack) recovery actions may be needed.");
-                        logger.error(msg);
-                        metricsLogger.error(msg);
-                        throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
-                    }
-
+                    checkStatus(server);
                     context.close();
                     doSuccess(rc);
                     ctx.setAttribute(EVACUATE_STATUS, "SUCCESS");
@@ -266,6 +246,7 @@ public class EvacuateServer extends ProviderServerOperation {
                 metricsLogger.error(msg);
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (RequestFailedException e) {
+                logger.error("Request failed", e);
                 doFailure(rc, e.getStatus(), e.getMessage());
             } catch (IOException | ZoneException e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
@@ -276,12 +257,45 @@ public class EvacuateServer extends ProviderServerOperation {
             }
         } catch (RequestFailedException e) {
             msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, "n/a", "n/a", e.getMessage());
-            logger.error(msg);
+            logger.error(msg, e);
             metricsLogger.error(msg);
             doFailure(rc, e.getStatus(), e.getMessage());
         }
 
         return server;
+    }
+
+    private void checkHostStatus(Server server, String targetHostId, Context context)
+        throws ZoneException, RequestFailedException {
+        if (isComputeNodeDown(context, targetHostId)) {
+            String msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
+                    "Target host " + targetHostId + " status is not UP/ENABLED");
+            logger.error(msg);
+            metricsLogger.error(msg);
+            throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.BAD_REQUEST_400, server);
+        }
+    }
+
+    private void checkHypervisor(Server server, String hypervisor, String hypervisorAfterEvacuate)
+        throws RequestFailedException {
+        if (hypervisor != null && hypervisor.equals(hypervisorAfterEvacuate)) {
+            String msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
+                    "Hypervisor host " + hypervisor
+                            + " after evacuate is the same as before evacuate. Provider (ex. Openstack) recovery actions may be needed.");
+            logger.error(msg);
+            metricsLogger.error(msg);
+            throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
+        }
+    }
+
+    private void checkStatus(Server server) throws RequestFailedException {
+        if (server.getStatus() == Server.Status.ERROR) {
+            String msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
+                    "VM is in ERROR state after evacuate. Provider (ex. Openstack) recovery actions may be needed.");
+            logger.error(msg);
+            metricsLogger.error(msg);
+            throw new RequestFailedException(EVACUATE_SERVER, msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
+        }
     }
 
     /**
@@ -304,15 +318,20 @@ public class EvacuateServer extends ProviderServerOperation {
             List<Hypervisor> hypervisors = service.getHypervisors();
             logger.debug("List of Hypervisors retrieved: " + Arrays.toString(hypervisors.toArray()));
             for (Hypervisor hv : hypervisors) {
-                if (isHostMatchesHypervisor(host, hv)) {
-                    State hstate = hv.getState();
-                    Status hstatus = hv.getStatus();
-                    logger.debug("Host matching hypervisor: " + hv.getHostName() + ", State/Status: " + hstate.toString()
-                            + "/" + hstatus.toString());
-                    if (hstate != State.UP || hstatus != Status.ENABLED) {
-                        nodeDown = true;
-                    }
-                }
+                nodeDown = isNodeDown(host, nodeDown, hv);
+            }
+        }
+        return nodeDown;
+    }
+
+    private boolean isNodeDown(String host, boolean nodeDown, Hypervisor hv) {
+        if (isHostMatchesHypervisor(host, hv)) {
+            State hstate = hv.getState();
+            Status hstatus = hv.getStatus();
+            logger.debug("Host matching hypervisor: " + hv.getHostName() + ", State/Status: " + hstate.toString()
+                    + "/" + hstatus.toString());
+            if (hstate != State.UP || hstatus != Status.ENABLED) {
+                return true;
             }
         }
         return nodeDown;
