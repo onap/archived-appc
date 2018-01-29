@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2887e710",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-29T19:45:31Z",
+      "side": 1,
+      "message": "I think the indentation is wrong on this code now. If its all under the try block, it should all be lined up 4 spaces past it.",
+      "revId": "89ac2f5c37ff4464aa96cb1791c55ad869a0dceb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
