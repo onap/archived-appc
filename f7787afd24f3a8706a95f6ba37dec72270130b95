@@ -16,6 +16,52 @@
       "revId": "f7787afd24f3a8706a95f6ba37dec72270130b95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_88e63bb3",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-29T20:51:59Z",
+      "side": 1,
+      "message": "Braces are required around line 256.   ONAP java style: https://wiki.onap.org/display/DW/Java+code+style, specifically https://google.github.io/styleguide/javaguide.html#s4.1.1-braces-always-used",
+      "range": {
+        "startLine": 255,
+        "startChar": 24,
+        "endLine": 256,
+        "endChar": 12
+      },
+      "revId": "f7787afd24f3a8706a95f6ba37dec72270130b95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c8dc43e7",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-29T20:51:59Z",
+      "side": 1,
+      "message": "https://google.github.io/styleguide/javaguide.html#s4.1.1-braces-always-used",
+      "range": {
+        "startLine": 266,
+        "startChar": 16,
+        "endLine": 266,
+        "endChar": 22
+      },
+      "revId": "f7787afd24f3a8706a95f6ba37dec72270130b95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
