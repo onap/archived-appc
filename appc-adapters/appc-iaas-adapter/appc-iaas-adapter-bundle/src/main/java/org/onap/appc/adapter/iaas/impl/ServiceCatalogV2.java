@@ -30,6 +30,8 @@ import com.att.cdp.openstack.util.ExceptionMapper;
 import com.att.cdp.pal.util.Time;
 import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.spi.RequestState;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.base.client.OpenStackClientConnector;
 import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
@@ -41,8 +43,6 @@ import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
 import com.woorea.openstack.keystone.model.Authentication;
 import com.woorea.openstack.keystone.model.Tenant;
 import com.woorea.openstack.keystone.model.authentication.UsernamePassword;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -84,7 +84,7 @@ import java.util.regex.Pattern;
  */
 public class ServiceCatalogV2 extends ServiceCatalog {
 
-    private final static Logger logger = LoggerFactory.getLogger(ServiceCatalogV2.class);
+    protected static final EELFLogger loggerV2 = EELFManager.getInstance().getLogger(ServiceCatalogV2.class);
 
     /**
      * The Openstack Access object that manages the authenticated token and access control
@@ -126,7 +126,7 @@ public class ServiceCatalogV2 extends ServiceCatalog {
             connectorClass = Class.forName(CLIENT_CONNECTOR_CLASS);
             connector = (OpenStackClientConnector) connectorClass.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            logger.error(e.getMessage());
+            loggerV2.error(e.getMessage());
             return;
         }
         Keystone keystone = new Keystone(identityURL, connector);
@@ -252,26 +252,25 @@ public class ServiceCatalogV2 extends ServiceCatalog {
     @Override
     public String getVMRegion(VMURL url) {
         String region = null;
+        if (url == null) {
+            return region;
+        }
+
         Pattern urlPattern = Pattern.compile("[^:]+://([^:/]+)(?::([0-9]+)).*");
 
-        if (url != null) {
-            for (Endpoint endpoint : getEndpoints(ServiceCatalog.COMPUTE_SERVICE)) {
-                String endpointUrl = endpoint.getPublicURL();
-                Matcher matcher = urlPattern.matcher(endpointUrl);
-                if (matcher.matches()) {
-                    if (url.getHost().equals(matcher.group(1))) {
-                        if (url.getPort() != null) {
-                            if (!url.getPort().equals(matcher.group(2))) {
-                                continue;
-                            }
-                        }
-
-                        region = endpoint.getRegion();
-                        break;
-                    }
-                }
+        for (Endpoint endpoint : getEndpoints(ServiceCatalog.COMPUTE_SERVICE)) {
+            String endpointUrl = endpoint.getPublicURL();
+            Matcher matcher = urlPattern.matcher(endpointUrl);
+            if (!matcher.matches() ||
+                !url.getHost().equals(matcher.group(1)) ||
+                (url.getPort() != null && url.getPort().equals(matcher.group(2))) ) {
+                continue;
             }
+
+            region = endpoint.getRegion();
+            break;
         }
+
         return region;
     }
 
