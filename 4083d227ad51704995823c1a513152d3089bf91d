@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_487b53f5",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-01-29T20:46:40Z",
+      "side": 1,
+      "message": "Will this resolve the sonar issue?   If (serviceLogic !\u003d null \u0026\u0026 context !\u003d null) is always true, then (serviceLogic !\u003d null) is also always true.\n\nHowever, I agree with your change.   The context cannot be null at this point so the check is pointless.\n\nI have the same observation for each of the remaining changes in this file.",
+      "revId": "4083d227ad51704995823c1a513152d3089bf91d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
