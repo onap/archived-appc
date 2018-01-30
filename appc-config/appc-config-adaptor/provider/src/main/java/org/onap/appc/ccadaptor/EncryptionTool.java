@@ -121,7 +121,7 @@ public class EncryptionTool {
             for (Service s : p.getServices()) {
                 String algo = s.getAlgorithm();
                 out +=
-                    String.format("\n  -Algorithm [ %s ] in provider [ %s ] and service [ %s ]", algo, p.getName(),
+                    String.format("%n  -Algorithm [ %s ] in provider [ %s ] and service [ %s ]", algo, p.getName(),
                         s.getClassName());
             }
         }
