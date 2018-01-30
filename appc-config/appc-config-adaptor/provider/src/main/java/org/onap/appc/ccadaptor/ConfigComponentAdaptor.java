@@ -154,6 +154,9 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             if (key.equals("put")) {
                 data = parameters.get("data");
             }
+            if(data==null){
+                data = "";
+            }
 
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             log.debug("SCP: SshJcraftWrapper has been instantiated");
@@ -228,7 +231,9 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             } catch (IOException e) {
                 debugLog.printRTAriDebug(fnName, "Caught a IOException e=" + e);
                 log.debug(fnName + " : Caught a IOException e=" + e);
-                sshJcraftWrapper.closeConnection();
+                if(sshJcraftWrapper!=null) {
+                    sshJcraftWrapper.closeConnection();
+                }
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
@@ -906,14 +911,24 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     public static String _readFile(String fileName) {
         StringBuffer strBuff = new StringBuffer();
         String line;
+        BufferedReader in = null;
         try {
-            BufferedReader in = new BufferedReader(new FileReader(fileName));
+            in = new BufferedReader(new FileReader(fileName));
             while ((line = in.readLine()) != null) {
                 strBuff.append(line + "\n");
             }
-            in.close();
+
         } catch (IOException e) {
-            System.out.println("Caught an IOException in method readFile(): e=" + e.toString());
+            log.error("Caught an IOException in method readFile(): e=" + e.toString());
+        }finally
+        {
+            if(in!=null){
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
+            }
         }
         return (strBuff.toString());
     }
