@@ -166,11 +166,14 @@ public class CreateSnapshot extends ProviderServerOperation {
             String identStr = (ident == null) ? null : ident.toString();
 
             Context context = null;
+            String tenantName = "Unknown";//this variable is also used in catch
             try {
                 context = getContext(rc, vm_url, identStr);
                 if (context != null) {
+                    tenantName = context.getTenantName();
                     Server server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+
+                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
 
                     if (hasImageAccess(rc, context)) {
                         snapshot = createSnapshot(rc, server);
@@ -192,7 +195,7 @@ public class CreateSnapshot extends ProviderServerOperation {
             } catch (Exception e1) {
                 msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
                         Operation.SNAPSHOT_SERVICE.toString(), vm_url,
-                        context == null ? "Unknown" : context.getTenantName());
+                        tenantName);
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
