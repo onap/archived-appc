@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_421d6f72",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/CreateSnapshot.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-30T21:58:18Z",
+      "side": 1,
+      "message": "Is it possible that the lookupServer method would change the value returned from context.getTenantName? In this case, the debug message would no longer reflect the current value of tenantName",
+      "revId": "ebc53c034d6212302700ab1037c69cbad9f12f73",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
