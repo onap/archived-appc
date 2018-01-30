@@ -54,6 +54,9 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     static final String LOG_PREFIX = "configfilereference-log";
     static final String LOG_FILE_TYPE = "log";
 
+    static final String DEVICE_PROTOCOL_PREFIX = "tmp.deviceinterfaceprotocol";
+    static final String CONF_ACTION_PREFIX = "tmp.configureactiondg";
+
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ConfigResourceNode.class);
     private final DGGeneralDBService db;
 
@@ -118,17 +121,17 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
-            QueryStatus status = db.getDeviceProtocolByVnfType(ctx, "tmp.deviceinterfaceprotocol");
+            QueryStatus status = db.getDeviceProtocolByVnfType(ctx, DEVICE_PROTOCOL_PREFIX);
 
             if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read device_interface_protocol");
 
-            status = db.getConfigureActionDGByVnfTypeNAction(ctx, "tmp.configureactiondg");
+            status = db.getConfigureActionDGByVnfTypeNAction(ctx, CONF_ACTION_PREFIX);
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Read configure_action_dg");
 
             if (status == QueryStatus.NOT_FOUND) {
-                status = db.getConfigureActionDGByVnfType(ctx, "tmp.configureactiondg");
+                status = db.getConfigureActionDGByVnfType(ctx, CONF_ACTION_PREFIX);
 
                 if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
                     throw new Exception("Unable to Read configure_action_dg");
@@ -147,8 +150,9 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         }
     }
 
-
-    // fileCategory Can be config_template, parameter_definitions, parameter_yang
+    /**
+     * FileCategory can be config_template, parameter_definitions, parameter_yang
+     */
     public void getTemplate(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
 
         log.info("Received getTemplate call with params : " + inParams);
