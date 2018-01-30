@@ -79,6 +79,8 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     static final String UNABLE_TO_SAVE_RELATIONSHIP_STR = "Unable to save prepare_relationship";
 
 
+    static final String SITE_LOCATION_PARAM = "site-location";
+
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ConfigResourceNode.class);
     private final DGGeneralDBService db;
 
@@ -465,7 +467,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         log.info("Received saveStyleSheet call with params : " + inParams);
 
         String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
-        String siteLocation = ctx.getAttribute("site-location");
+        String siteLocation = ctx.getAttribute(SITE_LOCATION_PARAM);
 
         QueryStatus status;
 

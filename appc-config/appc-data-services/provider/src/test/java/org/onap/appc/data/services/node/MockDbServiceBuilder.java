@@ -121,6 +121,22 @@ class MockDbServiceBuilder {
         return this;
     }
 
+    public MockDbServiceBuilder getDownloadConfigTemplateByVnf(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getDownloadConfigTemplateByVnf(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getTemplateByArtifactType(String prefix, String fileCategory, String artifactType, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getTemplateByArtifactType(any(SvcLogicContext.class), eq(prefix), eq(fileCategory), eq(artifactType));
+
+        return this;
+    }
+
     DGGeneralDBService build() {
         return dbServiceMock;
     }

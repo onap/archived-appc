@@ -30,6 +30,7 @@ import static org.onap.appc.data.services.node.ConfigResourceNode.LOG_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.MAX_CONF_FILE_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.PREPARE_RELATIONSHIP_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SDC_IND;
+import static org.onap.appc.data.services.node.ConfigResourceNode.SITE_LOCATION_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILES_PREFIX;
@@ -133,6 +134,26 @@ public class ConfigResourceNodeTest {
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
         configResourceNode.updateUploadConfig(inParams, contextMock);
+
+        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void should_add_attribute_with_success_if_get_download_config_template_by_vnf_type_succeed() throws SvcLogicException {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.getDownloadConfigTemplateByVnf(inParams, contextMock);
+
+        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void should_add_attribute_with_success_if_get_ssm_chain_succeed() throws SvcLogicException {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.getSmmChainKeyFiles(inParams, contextMock);
 
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
@@ -500,6 +521,66 @@ public class ConfigResourceNodeTest {
         expectedException.expect(SvcLogicException.class);
         expectedException.expectMessage("Unable to upload upload_config");
         configResourceNode.updateUploadConfig(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_download_config_failure() throws SvcLogicException {
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getDownloadConfigTemplateByVnf("some prefix", SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to get download config template.");
+        configResourceNode.getDownloadConfigTemplateByVnf(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_ssm_chain_failure() throws SvcLogicException {
+        when(contextMock.getAttribute(SITE_LOCATION_PARAM)).thenReturn("some location");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getTemplateByArtifactType("smm", "smm", "some location", SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Read smm file");
+        configResourceNode.getSmmChainKeyFiles(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_ca_chain_failure() throws SvcLogicException {
+        when(contextMock.getAttribute(SITE_LOCATION_PARAM)).thenReturn("some location");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getTemplateByArtifactType("intermediate-ca-chain", "intermediate_ca_chain", "some location", SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Read intermediate_ca_chain file");
+        configResourceNode.getSmmChainKeyFiles(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_server_certificate_and_key_failure() throws SvcLogicException {
+        when(contextMock.getAttribute(SITE_LOCATION_PARAM)).thenReturn("some location");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getTemplateByArtifactType("server-certificate-and-key", "server_certificate_and_key", "some location", SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Read server_certificate_and_key file");
+        configResourceNode.getSmmChainKeyFiles(inParams, contextMock);
     }
 
 }
