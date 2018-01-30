@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Constants {
 
-    private Constants() {
+    public Constants() {
     }
 
     public static final int DEFAULT_TTL = 30;
