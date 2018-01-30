@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -30,6 +30,7 @@ import com.att.cdp.openstack.util.ExceptionMapper;
 import com.att.cdp.pal.util.Time;
 import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.spi.RequestState;
+import com.google.common.collect.Lists;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.base.client.OpenStackClientConnector;
 import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
@@ -113,7 +114,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
      * {@inheritDoc}
      */
     public ServiceCatalogV3(String identityURL, String projectIdentifier, String principal, String credential,
-            String domain, Properties properties) {
+        String domain, Properties properties) {
         super(identityURL, projectIdentifier, principal, credential, domain, properties);
     }
 
@@ -132,7 +133,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             connectorClass = Class.forName(CLIENT_CONNECTOR_CLASS);
             connector = (OpenStackClientConnector) connectorClass.newInstance();
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error("An error occurred when initializing ServiceCatalogV3", e);
             return;
         }
         Keystone keystone = new Keystone(identityURL, connector);
@@ -146,21 +147,14 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         }
         if (trustedHosts != null) {
             keystone.getProperties().setProperty(com.woorea.openstack.common.client.Constants.TRUST_HOST_LIST,
-                    trustedHosts);
+                trustedHosts);
         }
 
         // create identity
         Identity identity = Identity.password(domain, principal, credential);
 
         // create scope
-        Scope scope = null;
-        if (projectIdentifier.length() == 32 && projectIdentifier.matches("[0-9a-fA-F]+")) { //$NON-NLS-1$
-            // authenticate = authenticate.withTenantId(projectIdentifier);
-            scope = Scope.project(projectIdentifier);
-        } else {
-            // authenticate = authenticate.withTenantName(projectIdentifier);
-            scope = Scope.project(domain, projectIdentifier);
-        }
+        Scope scope = initScope();
 
         Authentication authentication = new Authentication();
         authentication.setIdentity(identity);
@@ -186,8 +180,16 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             parseServiceCatalog(token.getCatalog());
         } catch (OpenStackBaseException e) {
             ExceptionMapper.mapException(e);
-        } catch (Exception ex) {
-            throw new ContextConnectionException(ex.getMessage());
+        } catch (Exception e) {
+            throw new ContextConnectionException(e);
+        }
+    }
+
+    private Scope initScope() {
+        if (projectIdentifier.length() == 32 && projectIdentifier.matches("[0-9a-fA-F]+")) { //$NON-NLS-1$
+            return Scope.project(projectIdentifier);
+        } else {
+            return Scope.project(domain, projectIdentifier);
         }
     }
 
@@ -275,21 +277,19 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             for (Endpoint endpoint : getEndpoints(ServiceCatalog.COMPUTE_SERVICE)) {
                 String endpointUrl = endpoint.getUrl();
                 Matcher matcher = urlPattern.matcher(endpointUrl);
-                if (matcher.matches()) {
-                    if (url.getHost().equals(matcher.group(1))) {
-                        if (url.getPort() != null) {
-                            if (!url.getPort().equals(matcher.group(2))) {
-                                continue;
-                            }
-                        }
-
-                        region = endpoint.getRegion();
-                        break;
-                    }
+                if (validateUrl(url, matcher)) {
+                    region = endpoint.getRegion();
+                    break;
                 }
             }
         }
         return region;
+    }
+
+    private boolean validateUrl(VMURL url, Matcher matcher) {
+        return matcher.matches()
+            && url.getHost().equals(matcher.group(1))
+            && (url.getPort() == null || url.getPort().equals(matcher.group(2)));
     }
 
     /**
@@ -317,22 +317,28 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         lock.lock();
         try {
             builder.append(String.format("Service Catalog: tenant %s, id[%s]%n", project.getName(), //$NON-NLS-1$
-                    project.getId()));
+                project.getId()));
             if (regions != null && !regions.isEmpty()) {
                 builder.append(String.format("%d regions:%n", regions.size())); //$NON-NLS-1$
                 for (String region : regions) {
-                    builder.append("\t" + region + "%n"); //$NON-NLS-1$ //$NON-NLS-2$
+                    //$NON-NLS-1$ //$NON-NLS-2$
+                    builder
+                        .append("\t")
+                        .append(region)
+                        .append("%n");
                 }
             }
             builder.append(String.format("%d services:%n", serviceEndpoints.size())); //$NON-NLS-1$
-            for (String serviceType : serviceEndpoints.keySet()) {
-                List<Service.Endpoint> endpoints = serviceEndpoints.get(serviceType);
-                Service service = serviceTypes.get(serviceType);
+
+            for (Map.Entry<String, List<Service.Endpoint>> entry : serviceEndpoints.entrySet()) {
+                Service service = serviceTypes.get(entry.getKey());
 
                 builder.append(String.format("\t%s - %d endpoints%n", service.getType(), //$NON-NLS-1$
-                        endpoints.size()));
-                for (Service.Endpoint endpoint : endpoints) {
-                    builder.append(String.format("\t\tRegion [%s], public URL [%s]%n", endpoint.getRegion(), //$NON-NLS-1$
+                    entry.getValue().size()));
+
+                for (Service.Endpoint endpoint : entry.getValue()) {
+                    builder
+                        .append(String.format("\t\tRegion [%s], public URL [%s]%n", endpoint.getRegion(), //$NON-NLS-1$
                             endpoint.getUrl()));
                 }
             }
@@ -345,7 +351,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
 
     /**
      * Parses the service catalog and caches the results
-     * 
+     *
      * @param services The list of services published by this provider
      */
     private void parseServiceCatalog(List<Service> services) {
@@ -359,31 +365,30 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             for (Service service : services) {
                 String type = service.getType();
                 serviceTypes.put(type, service);
-
-                List<Service.Endpoint> endpoints = service.getEndpoints();
-                for (Service.Endpoint endpoint : endpoints) {
-                    List<Service.Endpoint> endpointList = serviceEndpoints.get(type);
-                    if (endpointList == null) {
-                        endpointList = new ArrayList<>();
-                        serviceEndpoints.put(type, endpointList);
-                    }
-                    endpointList.add(endpoint);
-
-                    String region = endpoint.getRegion();
-                    if (!regions.contains(region)) {
-                        regions.add(region);
-                    }
-                }
+                addRegions(service, type);
             }
         } finally {
             lock.unlock();
         }
     }
 
+    private void addRegions(Service service, String type) {
+        List<Endpoint> endpoints = service.getEndpoints();
+        for (Endpoint endpoint : endpoints) {
+            serviceEndpoints.computeIfAbsent(type, val -> new ArrayList<>());
+            serviceEndpoints.get(type).add(endpoint);
+
+            String region = endpoint.getRegion();
+            if (!regions.contains(region)) {
+                regions.add(region);
+            }
+        }
+    }
+
     /**
      * Computes the local time when the access token will expire, after which we will need to re-login to access the
      * provider.
-     * 
+     *
      * @param accessKey The access key used to access the provider
      * @return The local time the key expires
      */
