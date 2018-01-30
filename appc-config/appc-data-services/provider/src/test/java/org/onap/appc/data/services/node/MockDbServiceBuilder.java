@@ -22,10 +22,58 @@ class MockDbServiceBuilder {
             .getConfigFileReferenceByFileTypeNVnfType(any(SvcLogicContext.class), anyString(), anyString());
     }
 
-    MockDbServiceBuilder configFileReference(String prefix, String fileType, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+    MockDbServiceBuilder getConfigFileReferenceByFileTypeNVnfType(String prefix, String fileType, SvcLogicResource.QueryStatus status) throws SvcLogicException {
         doReturn(status)
             .when(dbServiceMock)
             .getConfigFileReferenceByFileTypeNVnfType(any(SvcLogicContext.class), eq(prefix), eq(fileType));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getDeviceProtocolByVnfType(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getDeviceProtocolByVnfType(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getConfigureActionDGByVnfTypeNAction(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getConfigureActionDGByVnfTypeNAction(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getConfigureActionDGByVnfType(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getConfigureActionDGByVnfType(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getTemplate(String prefix, String fileCategory, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getTemplate(any(SvcLogicContext.class), eq(prefix), eq(fileCategory));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getTemplateByVnfTypeNAction(String prefix, String fileCategory, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getTemplateByVnfTypeNAction(any(SvcLogicContext.class), eq(prefix), eq(fileCategory));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getTemplateByTemplateName(String prefix, String fileCategory, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getTemplateByTemplateName(any(SvcLogicContext.class), eq(prefix), eq(fileCategory));
 
         return this;
     }
