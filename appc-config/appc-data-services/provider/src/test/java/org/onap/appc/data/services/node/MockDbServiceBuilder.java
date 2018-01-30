@@ -78,6 +78,30 @@ class MockDbServiceBuilder {
         return this;
     }
 
+    public MockDbServiceBuilder saveConfigFiles(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .saveConfigFiles(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getMaxConfigFileId(String prefix, String fileCategory, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getMaxConfigFileId(any(SvcLogicContext.class), eq(prefix), eq(fileCategory));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder savePrepareRelationship(String prefix, String field, String sdnc, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .savePrepareRelationship(any(SvcLogicContext.class), eq(prefix), eq(field), eq(sdnc));
+
+        return this;
+    }
+
     DGGeneralDBService build() {
         return dbServiceMock;
     }

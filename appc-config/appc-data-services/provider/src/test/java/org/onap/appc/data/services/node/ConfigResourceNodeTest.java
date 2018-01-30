@@ -16,16 +16,22 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import org.onap.appc.data.services.AppcDataServiceConstant;
 import org.onap.appc.data.services.db.DGGeneralDBService;
+import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILE_ID_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.CONF_ACTION_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.DEVICE_CONF_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.DEVICE_CONF_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.DEVICE_PROTOCOL_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.FAILURE_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.FAILURE_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.FILE_CATEGORY_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.LOG_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.LOG_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.MAX_CONF_FILE_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.PREPARE_RELATIONSHIP_PARAM;
+import static org.onap.appc.data.services.node.ConfigResourceNode.SDC_IND;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILES_PREFIX;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
@@ -101,6 +107,16 @@ public class ConfigResourceNodeTest {
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
         configResourceNode.getTemplate(inParams, contextMock);
+
+        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void should_add_attribute_with_success_if_save_config_files_succeed() throws SvcLogicException {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.saveConfigFiles(inParams, contextMock);
 
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
@@ -365,6 +381,55 @@ public class ConfigResourceNodeTest {
         expectedException.expect(SvcLogicException.class);
         expectedException.expectMessage("Unable to Read some file category template");
         configResourceNode.getTemplate(inParams, context);
+    }
+
+    @Test
+    public void should_throw_exception_on_save_config_failure() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(FILE_CATEGORY_PARAM, "some file category");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .saveConfigFiles(CONFIG_FILES_PREFIX, SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Save some file category in configfiles");
+        configResourceNode.saveConfigFiles(inParams, context);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_max_config_id_missing() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(FILE_CATEGORY_PARAM, "some file category");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getMaxConfigFileId(MAX_CONF_FILE_PREFIX, "some file category", SvcLogicResource.QueryStatus.NOT_FOUND)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to get some file category from configfiles");
+
+        configResourceNode.saveConfigFiles(inParams, context);
+    }
+
+    @Test
+    public void should_throw_exception_on_save_config_files_failure() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(CONFIG_FILE_ID_PARAM, "some file id");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND, SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to save prepare_relationship");
+        configResourceNode.saveConfigFiles(inParams, context);
     }
 
 }

@@ -57,6 +57,15 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     static final String DEVICE_PROTOCOL_PREFIX = "tmp.deviceinterfaceprotocol";
     static final String CONF_ACTION_PREFIX = "tmp.configureactiondg";
 
+    static final String CONFIG_FILES_PREFIX = "tmp.configFiles";
+    static final String MAX_CONF_FILE_PREFIX = "tmp.configfilesmax";
+
+    static final String PREPARE_RELATIONSHIP_PARAM = "tmp.preparerel";
+    static final String CONFIG_FILE_ID_PARAM = "tmp.configfilesmax.configfileid";
+    static final String FILE_CATEGORY_PARAM = "file-category";
+
+    static final String SDC_IND = "N";
+
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ConfigResourceNode.class);
     private final DGGeneralDBService db;
 
@@ -224,18 +233,18 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         try {
 
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
-            QueryStatus status = db.saveConfigFiles(ctx, "tmp.configFiles");
+            QueryStatus status = db.saveConfigFiles(ctx, CONFIG_FILES_PREFIX);
 
             if (status == QueryStatus.FAILURE)
-                throw new Exception("Unable to Save " + ctx.getAttribute("file-category") + " in configfiles");
+                throw new Exception("Unable to Save " + ctx.getAttribute(FILE_CATEGORY_PARAM) + " in configfiles");
 
-            status = db.getMaxConfigFileId(ctx, "tmp.configfilesmax", ctx.getAttribute("file-category"));
+            status = db.getMaxConfigFileId(ctx, MAX_CONF_FILE_PREFIX, ctx.getAttribute(FILE_CATEGORY_PARAM));
 
             if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
-                throw new Exception("Unable to get " + ctx.getAttribute("file-category") + " from configfiles");
+                throw new Exception("Unable to get " + ctx.getAttribute(FILE_CATEGORY_PARAM) + " from configfiles");
 
-            status = db.savePrepareRelationship(ctx, "tmp.preparerel",
-                    ctx.getAttribute("tmp.configfilesmax.configfileid"), "N");
+            status = db.savePrepareRelationship(ctx, PREPARE_RELATIONSHIP_PARAM,
+                    ctx.getAttribute(CONFIG_FILE_ID_PARAM), SDC_IND);
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to save prepare_relationship");
 
@@ -304,7 +313,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
 
-            QueryStatus status = db.savePrepareRelationship(ctx, "tmp.preparerel", fileId, sdcArtifactInd);
+            QueryStatus status = db.savePrepareRelationship(ctx, PREPARE_RELATIONSHIP_PARAM, fileId, sdcArtifactInd);
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to save prepare_relationship");
 
@@ -385,7 +394,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
             }
 
-            QueryStatus status = db.savePrepareRelationship(ctx, "tmp.preparerel",
+            QueryStatus status = db.savePrepareRelationship(ctx, PREPARE_RELATIONSHIP_PARAM,
                     ctx.getAttribute("config-template.config-file-id"), "Y");
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to save prepare_relationship");
@@ -476,7 +485,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             String fileContent, String deviceConfig) throws SvcLogicException {
         ctx.setAttribute("data-source", dataSource);
         ctx.setAttribute("file-content", fileContent);
-        ctx.setAttribute("file-category", "device_configuration");
+        ctx.setAttribute(FILE_CATEGORY_PARAM, "device_configuration");
         ctx.setAttribute("deviceconfig-file-content", deviceConfig);
 
         saveConfigFiles(inParams, ctx);
@@ -485,14 +494,14 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     public void saveConfigurationBlock(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         ctx.setAttribute("data-source", "Request");
         ctx.setAttribute("file-content", ctx.getAttribute("tmp.convertconfig.escapeData"));
-        ctx.setAttribute("file-category", "configuration_block");
+        ctx.setAttribute(FILE_CATEGORY_PARAM, "configuration_block");
         saveConfigFiles(inParams, ctx);
     }
 
     public void saveConfigurationData(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         ctx.setAttribute("data-source", ctx.getAttribute("originator-id"));
         ctx.setAttribute("file-content", ctx.getAttribute("configuration-params"));
-        ctx.setAttribute("file-category", "config_data");
+        ctx.setAttribute(FILE_CATEGORY_PARAM, "config_data");
         saveConfigFiles(inParams, ctx);
     }
 
