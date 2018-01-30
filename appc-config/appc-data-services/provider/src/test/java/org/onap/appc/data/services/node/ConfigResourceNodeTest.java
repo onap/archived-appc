@@ -14,6 +14,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.onap.appc.data.services.AppcDataServiceConstant;
 import org.onap.appc.data.services.db.DGGeneralDBService;
 import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILE_ID_PARAM;
@@ -32,6 +33,9 @@ import static org.onap.appc.data.services.node.ConfigResourceNode.SDC_IND;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILES_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_ID_PARAM;
+import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_INFO_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_PREFIX;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
@@ -117,6 +121,18 @@ public class ConfigResourceNodeTest {
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
         configResourceNode.saveConfigFiles(inParams, contextMock);
+
+        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void should_add_attribute_with_success_if_update_upload_config_succeed() throws SvcLogicException {
+        when(contextMock.getAttribute(UPLOAD_CONFIG_ID_PARAM)).thenReturn("1234");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.updateUploadConfig(inParams, contextMock);
 
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
@@ -344,7 +360,7 @@ public class ConfigResourceNodeTest {
         expectedException.expectMessage("Unable to Read some file category");
         configResourceNode.getTemplate(inParams, contextMock);
     }
-    
+
     @Test
     public void should_throw_exception_on_db_template_by_name_missing() throws SvcLogicException {
         inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
@@ -430,6 +446,60 @@ public class ConfigResourceNodeTest {
         expectedException.expect(SvcLogicException.class);
         expectedException.expectMessage("Unable to save prepare_relationship");
         configResourceNode.saveConfigFiles(inParams, context);
+    }
+
+    @Test
+    public void should_throw_exception_on_save_upload_config_failure() throws SvcLogicException {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .saveUploadConfig(UPLOAD_CONFIG_PREFIX, SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Save configuration in upload_config");
+        configResourceNode.updateUploadConfig(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_upload_config_failure() throws SvcLogicException {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getUploadConfigInfo(UPLOAD_CONFIG_INFO_PREFIX, SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to get record from upload_config");
+        configResourceNode.updateUploadConfig(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_get_upload_config_missing() throws SvcLogicException {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .getUploadConfigInfo(UPLOAD_CONFIG_INFO_PREFIX, SvcLogicResource.QueryStatus.NOT_FOUND)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to get record from upload_config");
+        configResourceNode.updateUploadConfig(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_update_upload_config_failure() throws SvcLogicException {
+        when(contextMock.getAttribute(UPLOAD_CONFIG_ID_PARAM)).thenReturn("1234");
+
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+            .updateUploadConfig(UPLOAD_CONFIG_PREFIX, 1234, SvcLogicResource.QueryStatus.FAILURE)
+            .build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to upload upload_config");
+        configResourceNode.updateUploadConfig(inParams, contextMock);
     }
 
 }

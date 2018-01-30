@@ -1,7 +1,6 @@
 package org.onap.appc.data.services.node;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -16,10 +15,6 @@ class MockDbServiceBuilder {
 
     MockDbServiceBuilder() throws SvcLogicException {
         dbServiceMock = mock(DGGeneralDBService.class);
-
-        doReturn(SvcLogicResource.QueryStatus.SUCCESS)
-            .when(dbServiceMock)
-            .getConfigFileReferenceByFileTypeNVnfType(any(SvcLogicContext.class), anyString(), anyString());
     }
 
     MockDbServiceBuilder getConfigFileReferenceByFileTypeNVnfType(String prefix, String fileType, SvcLogicResource.QueryStatus status) throws SvcLogicException {
@@ -98,6 +93,30 @@ class MockDbServiceBuilder {
         doReturn(status)
             .when(dbServiceMock)
             .savePrepareRelationship(any(SvcLogicContext.class), eq(prefix), eq(field), eq(sdnc));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder saveUploadConfig(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .saveUploadConfig(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getUploadConfigInfo(String prefix, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getUploadConfigInfo(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder updateUploadConfig(String prefix, int maxId, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .updateUploadConfig(any(SvcLogicContext.class), eq(prefix), eq(maxId));
 
         return this;
     }

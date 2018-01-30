@@ -59,10 +59,13 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
 
     static final String CONFIG_FILES_PREFIX = "tmp.configFiles";
     static final String MAX_CONF_FILE_PREFIX = "tmp.configfilesmax";
+    static final String UPLOAD_CONFIG_PREFIX = "tmp.uploadConfig";
+    static final String UPLOAD_CONFIG_INFO_PREFIX = "tmp.uploadConfigInfo";
 
     static final String PREPARE_RELATIONSHIP_PARAM = "tmp.preparerel";
     static final String CONFIG_FILE_ID_PARAM = "tmp.configfilesmax.configfileid";
     static final String FILE_CATEGORY_PARAM = "file-category";
+    static final String UPLOAD_CONFIG_ID_PARAM = "tmp.uploadConfigInfo.UPLOAD-CONFIG-ID";
 
     static final String SDC_IND = "N";
 
@@ -274,18 +277,18 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             ctx.setAttribute("tmp.escaped.devicerunningconfig",
                     EscapeUtils.escapeSql(ctx.getAttribute("device-running-config")));
 
-            QueryStatus status = db.saveUploadConfig(ctx, "tmp.uploadConfig");
+            QueryStatus status = db.saveUploadConfig(ctx, UPLOAD_CONFIG_PREFIX);
 
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to Save configuration in upload_config");
 
-            status = db.getUploadConfigInfo(ctx, "tmp.uploadConfigInfo");
+            status = db.getUploadConfigInfo(ctx, UPLOAD_CONFIG_INFO_PREFIX);
 
             if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE)
                 throw new Exception("Unable to get record from upload_config");
 
-            status = db.updateUploadConfig(ctx, "tmp.uploadConfig",
-                    Integer.parseInt(ctx.getAttribute("tmp.uploadConfigInfo.UPLOAD-CONFIG-ID")));
+            status = db.updateUploadConfig(ctx, UPLOAD_CONFIG_PREFIX,
+                    Integer.parseInt(ctx.getAttribute(UPLOAD_CONFIG_ID_PARAM)));
             if (status == QueryStatus.FAILURE)
                 throw new Exception("Unable to upload upload_config");
 
@@ -482,7 +485,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
     }
 
     public void saveDeviceConfiguration(Map<String, String> inParams, SvcLogicContext ctx, String dataSource,
-            String fileContent, String deviceConfig) throws SvcLogicException {
+                                        String fileContent, String deviceConfig) throws SvcLogicException {
         ctx.setAttribute("data-source", dataSource);
         ctx.setAttribute("file-content", fileContent);
         ctx.setAttribute(FILE_CATEGORY_PARAM, "device_configuration");
