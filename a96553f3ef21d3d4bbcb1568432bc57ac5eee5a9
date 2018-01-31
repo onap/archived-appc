@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f6e8fdb5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV3.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-31T20:17:33Z",
+      "side": 1,
+      "message": "Did you or can you test just to make sure that the functionality has not changed from this?",
+      "revId": "a96553f3ef21d3d4bbcb1568432bc57ac5eee5a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
