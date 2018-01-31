@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_96c41960",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/main/java/org/onap/appc/adapter/netconf/internal/NetconfAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-31T19:11:43Z",
+      "side": 0,
+      "message": "This looks correct, but did you test this new logic to make sure that it functions the same as the old?",
+      "revId": "be752d30c939d6d9ea266b5cdeb2fb4d110d1b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_568d3130",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-netconf/src/test/java/org/onap/appc/dg/netconf/impl/OperationStateValidatorFactoryMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-31T19:11:43Z",
+      "side": 0,
+      "message": "Are we sure this file isn\u0027t going to be used in the future?",
+      "revId": "be752d30c939d6d9ea266b5cdeb2fb4d110d1b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
