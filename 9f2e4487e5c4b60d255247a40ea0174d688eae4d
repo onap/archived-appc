@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3b1dee73",
+        "filename": "appc-dispatcher/appc-dispatcher-common/ranking-framework-lib/src/main/java/org/onap/appc/rankingframework/impl/RankedAttributesTreeBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-31T15:11:01Z",
+      "side": 1,
+      "message": "Do you think removing the type of the HashMap makes the code harder to read?",
+      "revId": "9f2e4487e5c4b60d255247a40ea0174d688eae4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5b30fa00",
+        "filename": "appc-dispatcher/appc-dispatcher-common/ranking-framework-lib/src/test/java/org/onap/appc/rankingframework/TestRankingFramework.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-01-31T15:11:01Z",
+      "side": 1,
+      "message": "As per the onap style guidelines, we are not supposed to use wildcard imports at all.",
+      "revId": "9f2e4487e5c4b60d255247a40ea0174d688eae4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
