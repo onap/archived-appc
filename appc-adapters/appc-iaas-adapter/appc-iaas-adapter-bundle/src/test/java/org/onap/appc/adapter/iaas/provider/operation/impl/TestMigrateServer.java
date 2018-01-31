@@ -23,16 +23,22 @@
  */
 package org.onap.appc.adapter.iaas.provider.operation.impl;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.anyInt;
+import com.att.cdp.zones.model.ModelObject;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Matchers;
+import org.onap.appc.adapter.iaas.ProviderAdapter;
 import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+
+import java.util.Map;
+import java.util.Optional;
+
+import static java.util.Optional.of;
+import static org.mockito.Mockito.*;
 
 public class TestMigrateServer {
 
@@ -49,5 +55,28 @@ public class TestMigrateServer {
         }
         verify(mg.getComputeService()).migrateServer(MockGenerator.SERVER_ID);
         verify(server, atLeastOnce()).waitForStateChange(anyInt(), anyInt(), Matchers.anyVararg());
+    }
+
+    @Test
+    public void should_returnNullAsServer(){
+
+        //  given
+        Map<String, String> params = mock(Map.class);
+        SvcLogicContext svcLogicContext = mock(SvcLogicContext.class);
+        MockGenerator mockGenerator = new MockGenerator(Status.READY);
+        MigrateServer migrateServer = new MigrateServer();
+        migrateServer.setProviderCache(mockGenerator.getProviderCacheMap());
+        ModelObject modelObject = new Server();
+
+        //  when
+        when(params.get(ProviderAdapter.PROPERTY_INSTANCE_URL)).thenReturn(null);
+        try {
+            modelObject = migrateServer.executeProviderOperation(params,svcLogicContext);
+        } catch (APPCException e) {
+            Assert.fail("Exception during MigrateServer.executeProviderOperation");
+        }
+
+        //  then
+        Assert.assertNull(modelObject);
     }
 }
