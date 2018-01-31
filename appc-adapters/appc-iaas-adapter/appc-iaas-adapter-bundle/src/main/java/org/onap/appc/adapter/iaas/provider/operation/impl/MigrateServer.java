@@ -166,7 +166,6 @@ public class MigrateServer extends ProviderServerOperation {
 
         setTimeForMetricsLogger();
 
-        String msg;
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
@@ -174,29 +173,15 @@ public class MigrateServer extends ProviderServerOperation {
 
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             VMURL vm = VMURL.parseURL(vm_url);
+
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
 
-            Context context = getContext(rc, vm_url, identStr);
-            try {
-                if (context != null) {
-                    server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
-                    migrateServer(rc, server, ctx);
-                    server.refreshStatus();
-                    context.close();
-                    doSuccess(rc);
-                }
-            } catch (IOException | ZoneException e1) {
-                msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        MIGRATE_SERVICE.toString(), vm_url, context.getTenantName());
-                logger.error(msg, e1);
-                metricsLogger.error(msg);
-                doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
-            }
+            server = conductServerMigration(rc, vm_url, identStr, ctx);
+
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
@@ -231,5 +216,30 @@ public class MigrateServer extends ProviderServerOperation {
         MDC.put("TargetEntity", "cdp");
         MDC.put("TargetServiceName", "migrate server");
         MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.MigrateServer");
+    }
+
+    private Server conductServerMigration(RequestContext rc, String vm_url, String identStr, SvcLogicContext ctx) throws RequestFailedException {
+        String msg;
+        Context context = getContext(rc, vm_url, identStr);
+        VMURL vm = VMURL.parseURL(vm_url);
+        Server server = null;
+
+        try {
+            if (context != null) {
+                server = lookupServer(rc, context, vm.getServerId());
+                logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                migrateServer(rc, server, ctx);
+                server.refreshStatus();
+                context.close();
+                doSuccess(rc);
+            }
+        } catch (IOException | ZoneException e1) {
+            msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
+                    MIGRATE_SERVICE.toString(), vm_url, context.getTenantName());
+            logger.error(msg, e1);
+            metricsLogger.error(msg);
+            doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
+        }
+        return server;
     }
 }
