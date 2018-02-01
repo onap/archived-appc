@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_e7f7e4f3",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestMigrateServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-02-01T21:05:12Z",
+      "side": 1,
+      "message": "my bad. test code is ok for using wildcard",
+      "parentUuid": "5a93c517_e784c5d5",
+      "range": {
+        "startLine": 41,
+        "startChar": 33,
+        "endLine": 41,
+        "endChar": 36
+      },
+      "revId": "1fe317a69da08e8c08a27991c5288eafae279e89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_0788d1e5",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestMigrateServer.java",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_87de206c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestMigrateServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-02-01T21:05:12Z",
+      "side": 1,
+      "message": "also test code is allowed for using underscore.",
+      "parentUuid": "5a93c517_0788d1e5",
+      "range": {
+        "startLine": 46,
+        "startChar": 16,
+        "endLine": 46,
+        "endChar": 45
+      },
+      "revId": "1fe317a69da08e8c08a27991c5288eafae279e89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a76ebd2d",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestMigrateServer.java",
         "patchSetId": 3
@@ -59,6 +107,30 @@
       "writtenOn": "2018-02-01T18:06:23Z",
       "side": 1,
       "message": "same the \"name_\" is not used.",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 41
+      },
+      "revId": "1fe317a69da08e8c08a27991c5288eafae279e89",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a7d9dc84",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestMigrateServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-02-01T21:05:12Z",
+      "side": 1,
+      "message": "same here.",
+      "parentUuid": "5a93c517_a76ebd2d",
       "range": {
         "startLine": 61,
         "startChar": 16,
