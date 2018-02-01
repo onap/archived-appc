@@ -33,9 +33,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -45,7 +45,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ConfigComponentAdaptor.class);
-    private static final DebugLog debugLog = new DebugLog(Paths.get(DebugLog.LOG_FILE));
 
     private String configUrl;
     private String configUser;
@@ -71,33 +70,30 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
     @Override
     public ConfigStatus configure(String key, Map<String, String> parameters, SvcLogicContext ctx) {
-        String fnName = "ConfigComponentAdaptor.configure";
         HttpResponse r = new HttpResponse();
         r.code = 200;
         log.debug("ConfigComponentAdaptor.configure - key = " + key);
-        debugLog.printRTAriDebug(fnName, "key = " + key);
+        log.debug("key = {}", key);
         log.debug("Parameters:");
-        debugLog.printRTAriDebug(fnName, "Parameters:");
-        for (String parmName : parameters.keySet()) {
-            log.debug("    " + parmName + " = " + parameters.get(parmName));
-            debugLog.printRTAriDebug(fnName, "    " + parmName + " = " + parameters.get(parmName));
+        for (Entry<String, String> paramEntrySet : parameters.entrySet()) {
+            log.debug("    {} = {}", paramEntrySet.getKey(), paramEntrySet.getValue());
         }
 
         String parmval = parameters.get("config-component-configUrl");
         if ((parmval != null) && (parmval.length() > 0)) {
-            log.debug("Overwriting URL with " + parmval);
+            log.debug("Overwriting URL with {}", parmval);
             configUrl = parmval;
         }
 
         parmval = parameters.get("config-component-configPassword");
         if ((parmval != null) && (parmval.length() > 0)) {
-            log.debug("Overwriting configPassword with " + parmval);
+            log.debug("Overwriting configPassword with {}", parmval);
             configPassword = parmval;
         }
 
         parmval = parameters.get("config-component-configUser");
         if ((parmval != null) && (parmval.length() > 0)) {
-            log.debug("Overwriting configUser id with " + parmval);
+            log.debug("Overwriting configUser id with {}", parmval);
             configUser = parmval;
         }
 
@@ -157,35 +153,32 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             log.debug("SCP: SshJcraftWrapper has been instantiated");
-            debugLog.printRTAriDebug(fnName, "SCP: SshJcraftWrapper has been instantiated");
+
             try {
-                if (key.equals("put")) {
-                    debugLog.printRTAriDebug(fnName, "Command is for put: Length of data is: " + data.length());
+                if ("put".equals(key)) {
+                    log.debug("Command is for put: Length of data is: {}", data.length());
                     InputStream is = new ByteArrayInputStream(data.getBytes());
-                    log.debug("SCP: Doing a put: fullPathFileName=" + fullPathFileName);
-                    debugLog.printRTAriDebug(fnName, "SCP: Doing a put: fullPathFileName=" + fullPathFileName);
+                    log.debug("SCP: Doing a put: fullPathFileName={}", fullPathFileName);
                     sshJcraftWrapper.put(is, fullPathFileName, host, loginId, password);
                     try {
-                        debugLog.printRTAriDebug(fnName, "Sleeping for 180 seconds....");
-                        Thread.sleep(1000 * 180);
-                        debugLog.printRTAriDebug(fnName, "Woke up....");
+                        log.debug("Sleeping for 180 seconds....");
+                        Thread.sleep(1000L * 180);
+                        log.debug("Woke up....");
                     } catch (java.lang.InterruptedException ee) {
-                        boolean ignore = true;
+                        log.error("Sleep interrupted", ee);
+                        Thread.currentThread().interrupt();
                     }
-                } else   // Must be a get
-                {
-                    log.debug("SCP: Doing a get: fullPathFileName=" + fullPathFileName);
-                    debugLog.printRTAriDebug(fnName, "SCP: Doing a get: fullPathFileName=" + fullPathFileName);
+                } else {  // Must be a get
+                    log.debug("SCP: Doing a get: fullPathFileName={}", fullPathFileName);
                     String response = sshJcraftWrapper.get(fullPathFileName, host, loginId, password);
-                    debugLog.printRTAriDebug(fnName, "Got the response and putting into the ctx object");
+                    log.debug("Got the response and putting into the ctx object");
                     ctx.setAttribute("fileContents", response);
                     log.debug("SCP: Closing the SFTP connection");
                 }
                 sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             } catch (IOException e) {
-                debugLog.printRTAriDebug(fnName, "Caught a IOException e=" + e);
-                log.debug(fnName + " : Caught a IOException e=" + e);
+                log.error("Exception occurred while using sshJcraftWrapper", e);
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
@@ -201,38 +194,34 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String portNumber = parameters.get("portNumber");
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             try {
-                log.debug("CLI: Attempting to login: host=" + host + " loginId=" + loginId + " password=" + password +
-                    " portNumber=" + portNumber);
-                debugLog.printRTAriDebug(fnName, "CLI: Attempting to login: host=" + host + " loginId=" + loginId +
-                    " password=" + password + " portNumber=" + portNumber);
+                log.debug("CLI: Attempting to login: host={} loginId={} password={} portNumber={}", host, loginId,
+                    password, portNumber);
                 sshJcraftWrapper.connect(host, loginId, password, Integer.parseInt(portNumber));
 
-                debugLog.printRTAriDebug(fnName, "Sending 'sdc'");
-                String response = sshJcraftWrapper.send("sdc", ":");
-                debugLog.printRTAriDebug(fnName, "Sending 1");
-                response = sshJcraftWrapper.send("1", ":");
-                debugLog.printRTAriDebug(fnName, "Sending 1, the second time");
-                response = sshJcraftWrapper.send("1", "#");
-                debugLog.printRTAriDebug(fnName, "Sending paging-options disable");
-                response = sshJcraftWrapper.send("paging-options disable", "#");
-                debugLog.printRTAriDebug(fnName, "Sending show config");
-                response = sshJcraftWrapper.send("show config", "#");
+                log.debug("Sending 'sdc'");
+                sshJcraftWrapper.send("sdc", ":");
+                log.debug("Sending 1");
+                sshJcraftWrapper.send("1", ":");
+                log.debug("Sending 1, the second time");
+                sshJcraftWrapper.send("1", "#");
+                log.debug("Sending paging-options disable");
+                sshJcraftWrapper.send("paging-options disable", "#");
+                log.debug("Sending show config");
+                String response = sshJcraftWrapper.send("show config", "#");
 
-                debugLog.printRTAriDebug(fnName, "response is now:'" + response + "'");
-                debugLog.printRTAriDebug(fnName, "Populating the ctx object with the response");
+                log.debug("response is now:'{}'", response);
+                log.debug("Populating the ctx object with the response");
                 ctx.setAttribute("cliOutput", response);
                 sshJcraftWrapper.closeConnection();
                 r.code = 200;
                 sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             } catch (IOException e) {
-                debugLog.printRTAriDebug(fnName, "Caught a IOException e=" + e);
-                log.debug(fnName + " : Caught a IOException e=" + e);
+                log.error("Exception occurred while using sshJcraftWrapper", e);
                 sshJcraftWrapper.closeConnection();
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
-                debugLog.printRTAriDebug(fnName, "Returning error message");
                 return (setResponseStatus(ctx, r));
             }
         }
@@ -244,7 +233,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             return (setResponseStatus(ctx, r));
         }
         if (key.equals("GetCliRunningConfig")) {
-            debugLog.printRTAriDebug(fnName, "key was: GetCliRunningConfig: ");
             log.debug("key was: GetCliRunningConfig: ");
             String User_name = parameters.get("User_name");
             String Host_ip_address = parameters.get("Host_ip_address");
@@ -254,11 +242,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String Get_config_template = parameters.get("Get_config_template");
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             log.debug("GetCliRunningConfig: sshJcraftWrapper was instantiated");
-            debugLog.printRTAriDebug(fnName, "GetCliRunningConfig: sshJcraftWrapper was instantiated");
             try {
-                debugLog.printRTAriDebug(fnName,
-                    "GetCliRunningConfig: User_name=" + User_name + " Host_ip_address=" + Host_ip_address + " Password="
-                        + Password + " Port_number=" + Port_number);
                 log.debug("GetCliRunningConfig: Attempting to login: Host_ip_address=" + Host_ip_address + " User_name="
                     + User_name + " Password=" + Password + " Port_number=" + Port_number);
                 StringBuffer sb = new StringBuffer();
@@ -267,29 +251,28 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 boolean showConfigFlag = false;
                 sshJcraftWrapper
                     .connect(Host_ip_address, User_name, Password, "", 30000, Integer.parseInt(Port_number));
-                debugLog.printRTAriDebug(fnName, "GetCliRunningConfig: On the VNF device");
+                log.debug("GetCliRunningConfig: On the VNF device");
                 StringTokenizer st = new StringTokenizer(Get_config_template, "\n");
                 String command = null;
                 try {
                     while (st.hasMoreTokens()) {
                         String line = st.nextToken();
-                        debugLog.printRTAriDebug(fnName, "line=" + line);
+                        log.debug("line={}", line);
                         if (line.indexOf("Request:") != -1) {
-                            debugLog.printRTAriDebug(fnName, "Found a Request line: line=" + line);
+                            log.debug("Found a Request line: line={}", line);
                             command = getStringBetweenQuotes(line);
-                            debugLog.printRTAriDebug(fnName, "Sending command=" + command);
+                            log.debug("Sending command={}", command);
                             sshJcraftWrapper.send(command);
-                            debugLog.printRTAriDebug(fnName, "command has been sent");
+                            log.debug("command has been sent");
                             if (line.indexOf("show config") != -1) {
                                 showConfigFlag = true;
-                                debugLog.printRTAriDebug(fnName, "GetCliRunningConfig: setting 'showConfigFlag' to true");
                                 log.debug("GetCliRunningConfig: GetCliRunningConfig: setting 'showConfigFlag' to true");
                             }
                         }
                         if (line.indexOf("Response: Ends_With") != -1) {
-                            debugLog.printRTAriDebug(fnName, "Found a Response line: line=" + line);
+                            log.debug("Found a Response line: line={}", line);
                             String delemeter = getStringBetweenQuotes(line);
-                            debugLog.printRTAriDebug(fnName, "The delemeter=" + delemeter);
+                            log.debug("The delemeter={}", delemeter);
                             String tmpResponse = sshJcraftWrapper.receiveUntil(delemeter, 120 * 1000, command);
                             response += tmpResponse;
                             if (showConfigFlag) {
@@ -305,27 +288,25 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                         }
                     }
                 } catch (NoSuchElementException e) {
-                    debugLog.printRTAriDebug(fnName, "Caught a NoSuchElementException: e=" + e);
+                    log.error(e.getMessage(), e);
                 }
-                debugLog.printRTAriDebug(fnName, "CliResponse=\n" + CliResponse);
+                log.debug("CliResponse=\n{}", CliResponse);
                 ctx.setAttribute("cliOutput", CliResponse);
                 sshJcraftWrapper.closeConnection();
                 r.code = 200;
                 sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             } catch (IOException e) {
-                debugLog.printRTAriDebug(fnName, "GetCliRunningConfig: Caught a IOException e=" + e);
-                log.debug(fnName + " : GetCliRunningConfig: Caught a IOException e=" + e);
+                log.error("Exception occurred while using sshJcraftWrapper", e);
                 sshJcraftWrapper.closeConnection();
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
-                debugLog.printRTAriDebug(fnName, "GetCliRunningConfig: Returning error message");
                 return (setResponseStatus(ctx, r));
             }
         }
         if (key.equals("xml-download")) {
-            log(fnName, "key was:  xml-download");
+            log.debug("key was:  xml-download");
             String User_name = parameters.get("User_name");
             String Host_ip_address = parameters.get("Host_ip_address");
             String Password = parameters.get("Password");
@@ -336,9 +317,8 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String terminateConnectionCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n <close-session/> \n </rpc>\n ]]>]]>";
             String commitCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <rpc> <commit/> </rpc>\n ]]>]]>";
 
-            log(fnName,
-                "xml-download: User_name=" + User_name + " Host_ip_address=" + Host_ip_address + " Password=" + Password
-                    + " Port_number=" + Port_number);
+            log.debug("xml-download: User_name={} Host_ip_address={} Password={} Port_number={}", User_name,
+                Host_ip_address, Password, Port_number);
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             try {
                 sshJcraftWrapper
@@ -346,10 +326,10 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                         "netconf");
                 String NetconfHelloCmd = netconfHelloCmd;
                 NetconfHelloCmd = NetconfHelloCmd + "]]>]]>";
-                log(fnName, "Sending the hello command");
+                log.debug("Sending the hello command");
                 sshJcraftWrapper.send(NetconfHelloCmd);
                 String response = sshJcraftWrapper.receiveUntil("]]>]]>", 10000, "");
-                log(fnName, "Sending xmlCmd cmd");
+                log.debug("Sending xmlCmd cmd");
                 String xmlCmd = Contents;
                 String messageId = "1";
                 messageId = "\"" + messageId + "\"";
@@ -360,26 +340,26 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                         + xmlCmd + "</config> </edit-config> </rpc>";
                 loadConfigurationString = loadConfigurationString + "]]>]]>";
                 sshJcraftWrapper.send(loadConfigurationString);
-                debugLog.printRTAriDebug(fnName, ":After sending loadConfigurationString");
+                log.debug("After sending loadConfigurationString");
                 response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 600000, "");
                 if (response.indexOf("rpc-error") != -1) {
-                    debugLog.printRTAriDebug(fnName, "Error from device: Response from device had 'rpc-error'");
-                    debugLog.printRTAriDebug(fnName, "response=\n" + response + "\n");
+                    log.debug("Error from device: Response from device had 'rpc-error'");
+                    log.debug("response=\n{}\n", response);
                     r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                     r.message = response;
                 } else {
-                    debugLog.printRTAriDebug(fnName, ":LoadConfiguration was a success, sending commit cmd");
+                    log.debug(":LoadConfiguration was a success, sending commit cmd");
                     sshJcraftWrapper.send(commitCmd);
-                    debugLog.printRTAriDebug(fnName, ":After sending commitCmd");
+                    log.debug(":After sending commitCmd");
                     response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 180000, "");
                     if (response.indexOf("rpc-error") != -1) {
-                        debugLog.printRTAriDebug(fnName, "Error from device: Response from device had 'rpc-error'");
-                        debugLog.printRTAriDebug(fnName, "response=\n" + response + "\n");
+                        log.debug("Error from device: Response from device had 'rpc-error'");
+                        log.debug("response=\n{}\n", response);
                         r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                         r.message = response;
                     } else {
-                        debugLog.printRTAriDebug(fnName, ":Looks like a success");
-                        debugLog.printRTAriDebug(fnName, "response=\n" + response + "\n");
+                        log.debug(":Looks like a success");
+                        log.debug("response=\n{}\n", response);
                         r.code = 200;
                     }
                 }
@@ -388,18 +368,17 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             } catch (Exception e) {
-                log(fnName, "Caught an Exception, e=" + e);
-                debugLog.outputStackTrace(e);
+                log.error("Caught an Exception", e);
                 sshJcraftWrapper.closeConnection();
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
-                log(fnName, "Returning error message");
+                log.debug("Returning error message");
                 return (setResponseStatus(ctx, r));
             }
         }
         if (key.equals("xml-getrunningconfig")) {
-            log(fnName, "key was: : xml-getrunningconfig");
+            log.debug("key was: : xml-getrunningconfig");
             String xmlGetRunningConfigCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">  <get-config> <source> <running /> </source> </get-config> </rpc>\n";
             String Host_ip_address = parameters.get("Host_ip_address");
             String User_name = parameters.get("User_name");
@@ -409,9 +388,8 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String Protocol = parameters.get("Protocol");
             String netconfHelloCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n  <capabilities>\n   <capability>urn:ietf:params:netconf:base:1.0</capability>\n <capability>urn:com:ericsson:ebase:1.1.0</capability> </capabilities>\n </hello>";
             String terminateConnectionCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n  <rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n <close-session/> \n </rpc>\n ]]>]]>";
-            log(fnName,
-                "xml-getrunningconfig: User_name=" + User_name + " Host_ip_address=" + Host_ip_address + " Password="
-                    + Password + " Port_number=" + Port_number);
+            log.debug("xml-getrunningconfig: User_name={} Host_ip_address={} Password={} Port_number={}", User_name,
+                Host_ip_address, Password, Port_number);
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             try {
                 String NetconfHelloCmd = netconfHelloCmd;
@@ -419,13 +397,13 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                     .connect(Host_ip_address, User_name, Password, "]]>]]>", 30000, Integer.parseInt(Port_number),
                         "netconf");
                 NetconfHelloCmd = NetconfHelloCmd + "]]>]]>";
-                log(fnName, ":Sending the hello command");
+                log.debug(":Sending the hello command");
                 sshJcraftWrapper.send(NetconfHelloCmd);
                 String response = sshJcraftWrapper.receiveUntil("]]>]]>", 10000, "");
-                log(fnName, "Sending get running config command");
+                log.debug("Sending get running config command");
                 sshJcraftWrapper.send(xmlGetRunningConfigCmd + "]]>]]>\n");
                 response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 180000, "");
-                debugLog.printRTAriDebug(fnName, "Response from getRunningconfigCmd=" + response);
+                log.debug("Response from getRunningconfigCmd={}", response);
                 response = trimResponse(response);
                 ctx.setAttribute("xmlRunningConfigOutput", response);
                 sshJcraftWrapper.send(terminateConnectionCmd);
@@ -434,18 +412,16 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 sshJcraftWrapper = null;
                 return (setResponseStatus(ctx, r));
             } catch (Exception e) {
-                log(fnName, "Caught an Exception, e=" + e);
-                debugLog.outputStackTrace(e);
+                log.error("Caught an Exception", e);
                 sshJcraftWrapper.closeConnection();
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
-                log(fnName, "Returning error message");
+                log.debug("Returning error message");
                 return (setResponseStatus(ctx, r));
             }
         }
         if (key.equals("DownloadCliConfig")) {
-            debugLog.printRTAriDebug(fnName, "key was: DownloadCliConfig: ");
             log.debug("key was: DownloadCliConfig: ");
             String User_name = parameters.get("User_name");
             String Host_ip_address = parameters.get("Host_ip_address");
@@ -454,15 +430,11 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String Port_number = parameters.get("Port_number");
             String Download_config_template = parameters.get("Download_config_template");
             String Config_contents = parameters.get("Config_contents");
-            debugLog.printRTAriDebug(fnName, "Contents of the 'Config_contents' are: " + Config_contents);
+            log.debug("Contents of the 'Config_contents' are: {}", Config_contents);
             SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
             log.debug("DownloadCliConfig: sshJcraftWrapper was instantiated");
-            debugLog.printRTAriDebug(fnName, "DownloadCliConfig: sshJcraftWrapper was instantiated");
             int timeout = 4 * 60 * 1000;
             try {
-                debugLog.printRTAriDebug(fnName,
-                    "DownloadCliConfig: User_name=" + User_name + " Host_ip_address=" + Host_ip_address + " Password="
-                        + Password + " Port_number=" + Port_number);
                 log.debug("DownloadCliConfig: Attempting to login: Host_ip_address=" + Host_ip_address + " User_name="
                     + User_name + " Password=" + Password + " Port_number=" + Port_number);
                 StringBuffer sb = new StringBuffer();
@@ -470,37 +442,36 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 String CliResponse = "";
                 sshJcraftWrapper
                     .connect(Host_ip_address, User_name, Password, "", 30000, Integer.parseInt(Port_number));
-                debugLog.printRTAriDebug(fnName, "DownloadCliConfig: On the VNF device");
+                log.debug("DownloadCliConfig: On the VNF device");
                 StringTokenizer st = new StringTokenizer(Download_config_template, "\n");
                 String command = null;
                 String executeConfigContentsDelemeter = null;
                 try {
                     while (st.hasMoreTokens()) {
                         String line = st.nextToken();
-                        debugLog.printRTAriDebug(fnName, "line=" + line);
+                        log.debug("line={}", line);
                         if (line.indexOf("Request:") != -1) {
-                            debugLog.printRTAriDebug(fnName, "Found a Request line: line=" + line);
+                            log.debug("Found a Request line: line={}", line);
                             command = getStringBetweenQuotes(line);
-                            debugLog.printRTAriDebug(fnName, "Sending command=" + command);
+                            log.debug("Sending command={}", command);
                             sshJcraftWrapper.send(command);
-                            debugLog.printRTAriDebug(fnName, "command has been sent");
+                            log.debug("command has been sent");
                         } else if ((line.indexOf("Response: Ends_With") != -1) && (
                             line.indexOf("Execute_config_contents Response: Ends_With") == -1)) {
-                            debugLog.printRTAriDebug(fnName, "Found a Response line: line=" + line);
-                            String delemeter = getStringBetweenQuotes(line);
-                            debugLog.printRTAriDebug(fnName, "The delemeter=" + delemeter);
-                            String tmpResponse = sshJcraftWrapper.receiveUntil(delemeter, timeout, command);
+                            log.debug("Found a Response line: line={}", line);
+                            String delimiter = getStringBetweenQuotes(line);
+                            log.debug("The delimiter={}", delimiter);
+                            String tmpResponse = sshJcraftWrapper.receiveUntil(delimiter, timeout, command);
                             response += tmpResponse;
                             CliResponse += tmpResponse;
                         } else if (line.indexOf("Execute_config_contents Response: Ends_With") != -1) {
-                            debugLog.printRTAriDebug(fnName, "Found a 'Execute_config_contents Response:' line=" + line);
+                            log.debug("Found a 'Execute_config_contents Response:' line={}", line);
                             executeConfigContentsDelemeter = getStringBetweenQuotes(line);
-                            debugLog.printRTAriDebug(fnName,
-                                "executeConfigContentsDelemeter=" + executeConfigContentsDelemeter);
+                            log.debug("executeConfigContentsDelemeter={}", executeConfigContentsDelemeter);
                             StringTokenizer st2 = new StringTokenizer(Config_contents, "\n");
                             while (st2.hasMoreTokens()) {
                                 String cmd = st2.nextToken();
-                                debugLog.printRTAriDebug(fnName, "Config_contents: cmd=" + cmd);
+                                log.debug("Config_contents: cmd={}", cmd);
                                 sshJcraftWrapper.send(cmd);
                                 String tmpResponse = sshJcraftWrapper
                                     .receiveUntil(executeConfigContentsDelemeter, timeout, command);
@@ -509,37 +480,30 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                         }
                     }
                 } catch (NoSuchElementException e) {
-                    debugLog.printRTAriDebug(fnName, "Caught a NoSuchElementException: e=" + e);
+                    log.error(e.getMessage(), e);
                 }
                 sshJcraftWrapper.closeConnection();
                 sshJcraftWrapper = null;
-                debugLog.printRTAriDebug(fnName, ":Escaping all the single and double quotes in the response");
+                log.debug(":Escaping all the single and double quotes in the response");
                 CliResponse = CliResponse.replaceAll("\"", "\\\\\"");
                 CliResponse = CliResponse.replaceAll("\'", "\\\\'");
-                debugLog.printRTAriDebug(fnName, "CliResponse=\n" + CliResponse);
+                log.debug("CliResponse=\n{}" + CliResponse);
                 ctx.setAttribute("cliOutput", CliResponse);
                 r.code = 200;
                 return (setResponseStatus(ctx, r));
             } catch (IOException e) {
-                debugLog.printRTAriDebug(fnName, "DownloadCliConfig: Caught a IOException e=" + e);
-                log.debug(fnName + " : DownloadCliConfig: Caught a IOException e=" + e);
+                log.error(e.getMessage() + e);
                 sshJcraftWrapper.closeConnection();
                 r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
                 r.message = e.getMessage();
                 sshJcraftWrapper = null;
-                debugLog.printRTAriDebug(fnName, "DownloadCliConfig: Returning error message");
+                log.debug("DownloadCliConfig: Returning error message");
                 return (setResponseStatus(ctx, r));
             }
         }
 
-        debugLog.printRTAriDebug(fnName, "Unsupported action - " + action);
-        log.error("Unsupported action - " + action);
+        log.debug("Unsupported action - {}", action);
         return ConfigStatus.FAILURE;
-    }
-
-    private void log(String fileName, String messg) {
-        debugLog.printRTAriDebug(fileName, messg);
-        log.debug(fileName + ": " + messg);
     }
 
     private ConfigStatus prepare(SvcLogicContext ctx, String requestType, String operation) {
@@ -657,7 +621,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 s = in.readLine();
             }
         } catch (IOException e) {
-            System.out.println("Error reading " + fileName + ": " + e.getMessage());
             throw new RuntimeException("Error reading " + fileName + ": " + e.getMessage(), e);
         } finally {
             try {
@@ -893,14 +856,13 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     }
 
     private String getStringBetweenQuotes(String string) {
-        String fnName = "ConfigComponentAdaptor.getStringBetweenQuotes";
-        debugLog.printRTAriDebug(fnName, "string=" + string);
-        String retString = null;
-        int start = string.indexOf("\"");
-        int end = string.lastIndexOf("\"");
+        log.debug("string=" + string);
+        String retString;
+        int start = string.indexOf('\"');
+        int end = string.lastIndexOf('\"');
         retString = string.substring(start + 1, end);
-        debugLog.printRTAriDebug(fnName, "retString=" + retString);
-        return (retString);
+        log.debug("retString=" + retString);
+        return retString;
     }
 
     public static String _readFile(String fileName) {
@@ -913,7 +875,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             }
             in.close();
         } catch (IOException e) {
-            System.out.println("Caught an IOException in method readFile(): e=" + e.toString());
+            log.error("Caught an IOException in method readFile()", e);
         }
         return (strBuff.toString());
     }
