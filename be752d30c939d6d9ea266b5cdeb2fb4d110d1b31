@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_ccf44e89",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/main/java/org/onap/appc/adapter/netconf/internal/NetconfAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-02-01T11:27:04Z",
+      "side": 0,
+      "message": "This part of code was already covered by TestNetconfAdapter before refactoring.\nAfter changes tests behave the same.",
+      "parentUuid": "5a93c517_96c41960",
+      "revId": "be752d30c939d6d9ea266b5cdeb2fb4d110d1b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_568d3130",
         "filename": "appc-dg/appc-dg-shared/appc-dg-netconf/src/test/java/org/onap/appc/dg/netconf/impl/OperationStateValidatorFactoryMock.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-31T19:11:43Z",
       "side": 0,
       "message": "Are we sure this file isn\u0027t going to be used in the future?",
+      "revId": "be752d30c939d6d9ea266b5cdeb2fb4d110d1b31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6cf3ba9e",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-netconf/src/test/java/org/onap/appc/dg/netconf/impl/OperationStateValidatorFactoryMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-02-01T11:27:04Z",
+      "side": 0,
+      "message": "Not sure at all :)\nBut it wasn\u0027t used at all (none of currect tests) and it was a little obstacle in refactoring, so I removed it.\nNow it is restored and refactored.",
+      "parentUuid": "5a93c517_568d3130",
       "revId": "be752d30c939d6d9ea266b5cdeb2fb4d110d1b31",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
