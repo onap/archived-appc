@@ -62,6 +62,7 @@ public class SdcArtifactHandlerConstants {
     public static final String IPADDRESS_V4_OAM_VIP  = "ipaddress-v4-oam-vip";
     public static final String GROUP_NOTATION_TYPE  = "group-notation-type";
     public static final String GROUP_NOTATION_VALUE = "group-notation-value";
+    public static final String TEMPLATE_ID = "template-id";
     public static final String REFERENCE = "reference";
     public static final String VNFC_INSTANCE = "vnfc-instance";
     public static final String DEVICE_PROTOCOL = "device-protocol";

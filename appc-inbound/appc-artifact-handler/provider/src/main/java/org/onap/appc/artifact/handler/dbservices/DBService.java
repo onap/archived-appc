@@ -388,13 +388,19 @@ public class DBService {
         log.info(fn + "Starting DB operation for Vnfc Reference " + isUpdate);
         String key = "";
         int vm_instance = -1;
+        String templateId="";
+        
         if (context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE) != null) {
             vm_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
         }
         int vnfc_instance = -1;
         if (context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE) != null) {
             vnfc_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
+        }        
+        if (context.getAttribute(SdcArtifactHandlerConstants.TEMPLATE_ID) != null) {
+            templateId = context.getAttribute(SdcArtifactHandlerConstants.TEMPLATE_ID);
         }
+        
         QueryStatus status = null;
         if (isUpdate) {
             key = "update " + SdcArtifactHandlerConstants.DB_VNFC_REFERENCE + " set VM_INSTANCE = " + vm_instance
@@ -413,7 +419,8 @@ public class DBService {
                 + " , VM_INSTANCE = $" + SdcArtifactHandlerConstants.VM_INSTANCE + " , VNFC_INSTANCE = $"
                 + SdcArtifactHandlerConstants.VNFC_INSTANCE + " , VNFC_TYPE = $"
                 + SdcArtifactHandlerConstants.VNFC_TYPE + " , VNFC_FUNCTION_CODE = $"
-                + SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE + " , GROUP_NOTATION_TYPE = $"
+                + SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE + " , TEMPLATE_ID = $"
+                + SdcArtifactHandlerConstants.TEMPLATE_ID + " , GROUP_NOTATION_TYPE = $"
                 + SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE + " , IPADDRESS_V4_OAM_VIP = $"
                 + SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP + " , GROUP_NOTATION_VALUE = $"
                 + SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE;

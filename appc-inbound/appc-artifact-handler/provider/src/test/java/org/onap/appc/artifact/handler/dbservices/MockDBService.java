@@ -24,6 +24,11 @@
 
 package org.onap.appc.artifact.handler.dbservices;
 
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.apache.commons.configuration.ConfigurationException;
+import java.sql.SQLException;
+
 public class MockDBService extends DBService {
     private static MockDBService mockDgGeneralDBService = null;
     private static MockSvcLogicResource serviceLogic = new MockSvcLogicResource();;
@@ -48,4 +53,3 @@ public class MockDBService extends DBService {
     }
 
 }
-

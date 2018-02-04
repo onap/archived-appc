@@ -175,4 +175,35 @@ public class ArtifactHandlerNodeTest {
         Whitebox.invokeMethod(artifactHandlerNode, "updateYangContents", artifactId, yangContents);
     }
     
+    @Test
+    public void testProcessVmList() throws Exception{
+        String contentStr = "{\r\n\t\"action\": \"ConfigScaleOut\",\r\n\t\"action-level\": \"VNF\",\r\n\t\"scope\": "
+                + "{\r\n\t\t\"vnf-type\": \"ScaleOutVNF\",\r\n\t\t\"vnfc-type\": \"\"\r\n\t},\r\n\t\"template\": \"Y\",\r\n\t\"vm\": "
+                + "[\r\n\t{ \r\n\t\t\"vm-instance\": 1,\r\n\t\t\"template-id\":\"id1\",\r\n\t\t\r\n\t\t\"vnfc\": [{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": \"t1\",\r\n\t\t\t\"vnfc-function-code\": "
+                + "\"Testdbg\",\r\n\t\t\t\"group-notation-type\": \"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"N\",\r\n\t\t\t\"group-notation-value\": "
+                + "\"GNValue\"\r\n\t\t}]\r\n\t},\r\n\t{ \r\n\t\t\"vm-instance\": 1,\r\n\t\t\"template-id\":\"id2\",\r\n\t\t\r\n\t\t\"vnfc\": [{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": "
+                + "\"t1\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": \"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"N\",\r\n\t\t\t\"group-notation-value\": "
+                + "\"GNValue\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"vnfc-instance\": 2,\r\n\t\t\t\"vnfc-type\": \"t2\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": "
+                + "\"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\"group-notation-value\": \"GNValue\"\r\n\t\t}]\r\n\t},\r\n\t{\r\n\t\t\"vm-instance\": 2,\r\n\t\t\"template-id\":\"id3\",\r\n\t\t\"vnfc\": "
+                + "[{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": \"t3\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": "
+                + "\"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\"group-notation-value\": \"GNValue\"\r\n\t\t}]\r\n\t}],\r\n\t\"device-protocol\": "
+                + "\"NETCONF-XML\",\r\n\t\"user-name\": \"Testnetconf\",\r\n\t\"port-number\": \"22\",\r\n\t\"artifact-list\": [{\r\n\t\t\"artifact-name\": \"TestvDBE-55_template.json\",\r\n\t\t\"artifact-type\": "
+                + "\"Testconfig_template\"\r\n\t},\r\n\t{\r\n\t\t\"artifact-name\": \"TESTvDBE-55_parameter_definitions.json\",\r\n\t\t\"artifact-type\": \"Testparameter_definitions\"\r\n\t},\r\n\t{\r\n\t\t\"artifact-name\": "
+                + "\"PD_JunitTESTvDBE-55_parameter_yang.json\",\r\n\t\t\"artifact-type\": \"PD_definations\"\r\n\t}]\r\n}";
+        JSONObject content=new JSONObject(contentStr);
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext context = new SvcLogicContext();
+        artifactHandlerNode.processVmList(content, context, dbService);
+    }
+    
+    @Test
+    public void testProcessConfigTypeActions() throws Exception{
+        String contentStr = "{\"action\": \"ConfigScaleOut\"}";
+        JSONObject content=new JSONObject(contentStr);
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL,"Test");
+        artifactHandlerNode.processConfigTypeActions(content, dbService, context);
+    }
+    
 }
