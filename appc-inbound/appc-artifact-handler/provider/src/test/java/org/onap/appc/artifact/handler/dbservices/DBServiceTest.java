@@ -182,7 +182,7 @@ public class DBServiceTest {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
-        boolean isUpdate = true;
+        boolean isUpdate = false;
         dbService.processVnfcReference(ctx, isUpdate);
     }
 
