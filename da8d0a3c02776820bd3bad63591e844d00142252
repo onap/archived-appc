@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a1f544cc",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV3.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-05T22:15:17Z",
+      "side": 1,
+      "message": "Why is the whitepace removed from this comment?   It seems less readable now.",
+      "revId": "da8d0a3c02776820bd3bad63591e844d00142252",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
