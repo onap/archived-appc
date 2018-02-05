@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_3663bcdd",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/executorImpl/RestExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-02-05T17:52:16Z",
+      "side": 1,
+      "message": "In following patchset I\u0027ve added JUnit mocked tests to cover this class",
+      "parentUuid": "5a93c517_96a9797d",
+      "revId": "bfcc959a5e15bbbd6629fc19e22ef52396fcef48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_d69f014f",
         "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-01-31T19:35:57Z",
       "side": 1,
       "message": "According to onap style guidelines, wildcard imports can\u0027t be used",
+      "revId": "bfcc959a5e15bbbd6629fc19e22ef52396fcef48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f69c74c2",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-02-05T17:52:16Z",
+      "side": 1,
+      "message": "Wildcards from imports removed",
+      "parentUuid": "5a93c517_d69f014f",
       "revId": "bfcc959a5e15bbbd6629fc19e22ef52396fcef48",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
