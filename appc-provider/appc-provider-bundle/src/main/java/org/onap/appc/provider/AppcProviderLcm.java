@@ -1205,8 +1205,8 @@ public class AppcProviderLcm
         Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if(null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
-                status = buildStatusWithDispatcherOutput(executeRequest(request));
+        RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+        status = buildStatusWithDispatcherOutput(executeRequest(request));
                 logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
