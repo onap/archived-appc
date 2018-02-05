@@ -24,135 +24,10 @@
 
 package org.onap.appc.provider;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.google.common.util.concurrent.Futures;
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
-import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActionStatusInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActionStatusOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActionStatusOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AttachVolumeInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AttachVolumeOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AttachVolumeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AuditInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AuditOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AuditOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.CheckLockInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.CheckLockOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.CheckLockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigBackupDeleteInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigBackupDeleteOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigBackupDeleteOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigBackupInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigBackupOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigBackupOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigExportInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigExportOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigExportOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigModifyInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigModifyOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigModifyOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.EvacuateInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.EvacuateOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.EvacuateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.HealthCheckInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.HealthCheckOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.HealthCheckOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LiveUpgradeInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LiveUpgradeOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LiveUpgradeOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LockInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LockOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.LockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.MigrateInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.MigrateOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.MigrateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QueryInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QueryOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QueryOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QuiesceTrafficInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QuiesceTrafficOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.QuiesceTrafficOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ResumeTrafficInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ResumeTrafficOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ResumeTrafficOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebuildInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebuildOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebuildOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RestartInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RestartOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RestartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RollbackInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RollbackOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RollbackOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SnapshotInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SnapshotOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SnapshotOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SoftwareUploadInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SoftwareUploadOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SoftwareUploadOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StartApplicationInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StartApplicationOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StartApplicationOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StartInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StartOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StopApplicationInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StopApplicationOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StopApplicationOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StopInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StopOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.StopOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SyncInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SyncOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.SyncOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.TerminateInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.TerminateOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.TerminateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.TestInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.TestOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.TestOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UnlockInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UnlockOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UnlockOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheckOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
-import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
+import java.text.ParseException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -163,25 +38,29 @@ import org.onap.appc.provider.lcm.service.AbstractBaseUtils;
 import org.onap.appc.provider.lcm.service.ActionStatusService;
 import org.onap.appc.provider.lcm.service.QueryService;
 import org.onap.appc.provider.lcm.service.QuiesceTrafficService;
-import org.onap.appc.provider.lcm.service.ResumeTrafficService;
-import org.onap.appc.provider.lcm.service.UpgradeService;
 import org.onap.appc.provider.lcm.service.RebootService;
 import org.onap.appc.provider.lcm.service.RequestExecutor;
+import org.onap.appc.provider.lcm.service.ResumeTrafficService;
+import org.onap.appc.provider.lcm.service.UpgradeService;
 import org.onap.appc.provider.lcm.service.VolumeService;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
+import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
+import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
+import org.opendaylight.yangtools.yang.common.RpcResult;
+import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.google.common.util.concurrent.Futures;
 
-import java.text.ParseException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
-
-public class AppcProviderLcm
-    extends AbstractBaseUtils
-    implements AutoCloseable, AppcProviderLcmService {
+public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable, AppcProviderLcmService {
 
     private Configuration configuration = ConfigurationFactory.getConfiguration();
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AppcProviderLcm.class);
@@ -215,11 +94,9 @@ public class AppcProviderLcm
      * @param notificationProviderService
      * @param rpcProviderRegistry
      */
-    @SuppressWarnings({
-            "javadoc", "nls"
-    })
+    @SuppressWarnings({"javadoc", "nls"})
     public AppcProviderLcm(DataBroker dataBroker, NotificationProviderService notificationProviderService,
-                           RpcProviderRegistry rpcProviderRegistry) {
+            RpcProviderRegistry rpcProviderRegistry) {
 
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         logger.info(Msg.COMPONENT_INITIALIZING, appName, "provider-lcm");
@@ -264,19 +141,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         RebuildOutputBuilder outputBuilder = new RebuildOutputBuilder();
-        String action = Action.Rebuild.toString() ;
+        String action = Action.Rebuild.toString();
         String rpcName = Action.Rebuild.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -284,7 +164,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<RebuildOutput> result = RpcResultBuilder.<RebuildOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<RebuildOutput> result =
+                RpcResultBuilder.<RebuildOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
 
     }
@@ -300,26 +181,23 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         RestartOutputBuilder outputBuilder = new RestartOutputBuilder();
-        String action = Action.Restart.toString() ;
+        String action = Action.Restart.toString();
         String rpcName = Action.Restart.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
                 RequestHandlerInput request = new RequestInputBuilder().requestContext()
-                        .commonHeader(input.getCommonHeader())
-                        .actionIdentifiers(input.getActionIdentifiers())
-                        .payload(input.getPayload())
-                        .action(action)
-                        .rpcName(rpcName)
-                        .build();
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
 
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -327,7 +205,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<RestartOutput> result = RpcResultBuilder.<RestartOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<RestartOutput> result =
+                RpcResultBuilder.<RestartOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -341,26 +220,23 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         StartApplicationOutputBuilder outputBuilder = new StartApplicationOutputBuilder();
-        String action = Action.StartApplication.toString() ;
+        String action = Action.StartApplication.toString();
         String rpcName = Action.StartApplication.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
                 RequestHandlerInput request = new RequestInputBuilder().requestContext()
-                        .commonHeader(input.getCommonHeader())
-                        .actionIdentifiers(input.getActionIdentifiers())
-                        .payload(input.getPayload())
-                        .action(action)
-                        .rpcName(rpcName)
-                        .build();
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
 
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -368,7 +244,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<StartApplicationOutput> result = RpcResultBuilder.<StartApplicationOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<StartApplicationOutput> result =
+                RpcResultBuilder.<StartApplicationOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -382,19 +259,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         MigrateOutputBuilder outputBuilder = new MigrateOutputBuilder();
-        String action = Action.Migrate.toString() ;
+        String action = Action.Migrate.toString();
         String rpcName = Action.Migrate.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -402,7 +282,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<MigrateOutput> result = RpcResultBuilder.<MigrateOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<MigrateOutput> result =
+                RpcResultBuilder.<MigrateOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -417,19 +298,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         EvacuateOutputBuilder outputBuilder = new EvacuateOutputBuilder();
-        String action = Action.Evacuate.toString() ;
+        String action = Action.Evacuate.toString();
         String rpcName = Action.Evacuate.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -437,7 +321,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<EvacuateOutput> result = RpcResultBuilder.<EvacuateOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<EvacuateOutput> result =
+                RpcResultBuilder.<EvacuateOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -452,27 +337,32 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         SnapshotOutputBuilder outputBuilder = new SnapshotOutputBuilder();
-        String action = Action.Snapshot.toString() ;
+        String action = Action.Snapshot.toString();
         String rpcName = Action.Snapshot.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         String identityUrl = input.getIdentityUrl();
-        if(null == status) {
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).additionalContext("identity-url", identityUrl).build();
+                RequestHandlerInput request =
+                        new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader())
+                                .actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload())
+                                .action(action).rpcName(rpcName).additionalContext("identity-url", identityUrl).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
             }
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<SnapshotOutput> result = RpcResultBuilder.<SnapshotOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<SnapshotOutput> result =
+                RpcResultBuilder.<SnapshotOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -481,20 +371,24 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
 
         RollbackOutputBuilder outputBuilder = new RollbackOutputBuilder();
-        String rpcName = Action.Rollback.toString() ;
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), rpcName);
-        String identityUrl =  input.getIdentityUrl();
+        String rpcName = Action.Rollback.toString();
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), rpcName);
+        String identityUrl = input.getIdentityUrl();
         String snapshotId = input.getSnapshotId();
-        if(null == status) {
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).additionalContext("identity-url", identityUrl).additionalContext("snapshot-id", snapshotId).action(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).additionalContext("identity-url", identityUrl)
+                        .additionalContext("snapshot-id", snapshotId).action(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, rpcName, e.getMessage()),
                         this.getClass().getName());
 
@@ -502,7 +396,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<RollbackOutput> result = RpcResultBuilder.<RollbackOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<RollbackOutput> result =
+                RpcResultBuilder.<RollbackOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -510,19 +405,22 @@ public class AppcProviderLcm
     public Future<RpcResult<SyncOutput>> sync(SyncInput input) {
         logger.debug("Input received : " + input.toString());
         SyncOutputBuilder outputBuilder = new SyncOutputBuilder();
-        String action = Action.Sync.toString() ;
+        String action = Action.Sync.toString();
         String rpcName = Action.Sync.name().toLowerCase();
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -530,7 +428,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<SyncOutput> result = RpcResultBuilder.<SyncOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<SyncOutput> result =
+                RpcResultBuilder.<SyncOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -539,7 +438,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM query received input: %s", input.toString()));
         QueryOutputBuilder outputBuilder = new QueryService().process(input);
         RpcResult<QueryOutput> result =
-            RpcResultBuilder.<QueryOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<QueryOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -548,7 +447,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM reboot received input: %s", input.toString()));
         RebootOutputBuilder outputBuilder = new RebootService().process(input);
         RpcResult<RebootOutput> result =
-            RpcResultBuilder.<RebootOutput>status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<RebootOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -557,7 +456,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM attachVolume received input: %s", input.toString()));
         AttachVolumeOutputBuilder outputBuilder = new VolumeService(true).attachVolume(input);
         RpcResult<AttachVolumeOutput> result =
-            RpcResultBuilder.<AttachVolumeOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<AttachVolumeOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -566,7 +465,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM detachVolume received input: %s", input.toString()));
         DetachVolumeOutputBuilder outputBuilder = new VolumeService(false).detachVolume(input);
         RpcResult<DetachVolumeOutput> result =
-            RpcResultBuilder.<DetachVolumeOutput>status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<DetachVolumeOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -575,7 +474,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM quiesce received input: %s", input.toString()));
         QuiesceTrafficOutputBuilder outputBuilder = new QuiesceTrafficService().process(input);
         RpcResult<QuiesceTrafficOutput> result =
-            RpcResultBuilder.<QuiesceTrafficOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<QuiesceTrafficOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -584,7 +483,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM resume received input: %s", input.toString()));
         ResumeTrafficOutputBuilder outputBuilder = new ResumeTrafficService().process(input);
         RpcResult<ResumeTrafficOutput> result =
-            RpcResultBuilder.<ResumeTrafficOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<ResumeTrafficOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -593,7 +492,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM upgradeprecheck received input: %s", input.toString()));
         UpgradePreCheckOutputBuilder outputBuilder = new UpgradeService("upgradePre").upgradePreCheck(input);
         RpcResult<UpgradePreCheckOutput> result =
-            RpcResultBuilder.<UpgradePreCheckOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<UpgradePreCheckOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -602,8 +501,8 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM upgradesoftware received input: %s", input.toString()));
         UpgradeSoftwareOutputBuilder outputBuilder = new UpgradeService("upgradeSoft").upgradeSoftware(input);
         RpcResult<UpgradeSoftwareOutput> result =
-            RpcResultBuilder.<UpgradeSoftwareOutput> status(true).withResult(outputBuilder.build()).build();
-            return Futures.immediateFuture(result);
+                RpcResultBuilder.<UpgradeSoftwareOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
     }
 
     @Override
@@ -611,7 +510,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM upgradepostcheck received input: %s", input.toString()));
         UpgradePostCheckOutputBuilder outputBuilder = new UpgradeService("upgradePost").upgradePostCheck(input);
         RpcResult<UpgradePostCheckOutput> result =
-            RpcResultBuilder.<UpgradePostCheckOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<UpgradePostCheckOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -620,7 +519,7 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM backup received input: %s", input.toString()));
         UpgradeBackupOutputBuilder outputBuilder = new UpgradeService("upgradeBackup").upgradeBackup(input);
         RpcResult<UpgradeBackupOutput> result =
-            RpcResultBuilder.<UpgradeBackupOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<UpgradeBackupOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -629,28 +528,32 @@ public class AppcProviderLcm
         logger.debug(String.format("LCM backout received input: %s", input.toString()));
         UpgradeBackoutOutputBuilder outputBuilder = new UpgradeService("upgradeBackout").upgradeBackout(input);
         RpcResult<UpgradeBackoutOutput> result =
-            RpcResultBuilder.<UpgradeBackoutOutput> status(true).withResult(outputBuilder.build()).build();
+                RpcResultBuilder.<UpgradeBackoutOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
+
     @Override
     public Future<RpcResult<TerminateOutput>> terminate(TerminateInput input) {
         logger.debug("Input received : " + input.toString());
         TerminateOutputBuilder outputBuilder = new TerminateOutputBuilder();
         Action myAction = Action.Terminate;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
 
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -659,7 +562,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<TerminateOutput> result = RpcResultBuilder.<TerminateOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<TerminateOutput> result =
+                RpcResultBuilder.<TerminateOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -668,19 +572,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigureOutputBuilder outputBuilder = new ConfigureOutputBuilder();
         Action myAction = Action.Configure;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -688,7 +595,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigureOutput> result = RpcResultBuilder.<ConfigureOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigureOutput> result =
+                RpcResultBuilder.<ConfigureOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -696,7 +604,8 @@ public class AppcProviderLcm
     public Future<RpcResult<ActionStatusOutput>> actionStatus(ActionStatusInput input) {
         logger.debug(String.format("Input received : %s", input.toString()));
         ActionStatusOutputBuilder outputBuilder = (new ActionStatusService()).queryStatus(input);
-        RpcResult<ActionStatusOutput> result = RpcResultBuilder.<ActionStatusOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ActionStatusOutput> result =
+                RpcResultBuilder.<ActionStatusOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -705,19 +614,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigModifyOutputBuilder outputBuilder = new ConfigModifyOutputBuilder();
         Action myAction = Action.ConfigModify;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -725,7 +637,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigModifyOutput> result = RpcResultBuilder.<ConfigModifyOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigModifyOutput> result =
+                RpcResultBuilder.<ConfigModifyOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -734,19 +647,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigScaleoutOutputBuilder outputBuilder = new ConfigScaleoutOutputBuilder();
         Action myAction = Action.ConfigScaleOut;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -754,7 +670,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigScaleoutOutput> result = RpcResultBuilder.<ConfigScaleoutOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigScaleoutOutput> result =
+                RpcResultBuilder.<ConfigScaleoutOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -763,19 +680,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigRestoreOutputBuilder outputBuilder = new ConfigRestoreOutputBuilder();
         Action myAction = Action.ConfigRestore;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -783,7 +703,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigRestoreOutput> result = RpcResultBuilder.<ConfigRestoreOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigRestoreOutput> result =
+                RpcResultBuilder.<ConfigRestoreOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -792,19 +713,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         TestOutputBuilder outputBuilder = new TestOutputBuilder();
         Action myAction = Action.Test;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -812,7 +736,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<TestOutput> result = RpcResultBuilder.<TestOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<TestOutput> result =
+                RpcResultBuilder.<TestOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -822,19 +747,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         StopOutputBuilder outputBuilder = new StopOutputBuilder();
         Action myAction = Action.Stop;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -842,7 +770,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<StopOutput> result = RpcResultBuilder.<StopOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<StopOutput> result =
+                RpcResultBuilder.<StopOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -857,24 +786,22 @@ public class AppcProviderLcm
 
         StartOutputBuilder outputBuilder = new StartOutputBuilder();
         Action myAction = Action.Start;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
                 RequestHandlerInput request = new RequestInputBuilder().requestContext()
-                        .commonHeader(input.getCommonHeader())
-                        .actionIdentifiers(input.getActionIdentifiers())
-                        .payload(input.getPayload())
-                        .action(action)
-                        .rpcName(rpcName).build();
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -882,7 +809,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<StartOutput> result = RpcResultBuilder.<StartOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<StartOutput> result =
+                RpcResultBuilder.<StartOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -892,19 +820,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         AuditOutputBuilder outputBuilder = new AuditOutputBuilder();
         Action myAction = Action.Audit;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -912,7 +843,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<AuditOutput> result = RpcResultBuilder.<AuditOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<AuditOutput> result =
+                RpcResultBuilder.<AuditOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -921,20 +853,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         SoftwareUploadOutputBuilder outputBuilder = new SoftwareUploadOutputBuilder();
         Action myAction = Action.SoftwareUpload;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().
-                        requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -942,7 +876,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<SoftwareUploadOutput> result = RpcResultBuilder.<SoftwareUploadOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<SoftwareUploadOutput> result =
+                RpcResultBuilder.<SoftwareUploadOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -951,19 +886,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         HealthCheckOutputBuilder outputBuilder = new HealthCheckOutputBuilder();
         Action myAction = Action.HealthCheck;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -971,7 +909,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<HealthCheckOutput> result = RpcResultBuilder.<HealthCheckOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<HealthCheckOutput> result =
+                RpcResultBuilder.<HealthCheckOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -980,19 +919,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         LiveUpgradeOutputBuilder outputBuilder = new LiveUpgradeOutputBuilder();
         Action myAction = Action.LiveUpgrade;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1000,7 +942,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<LiveUpgradeOutput> result = RpcResultBuilder.<LiveUpgradeOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<LiveUpgradeOutput> result =
+                RpcResultBuilder.<LiveUpgradeOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1010,19 +953,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         LockOutputBuilder outputBuilder = new LockOutputBuilder();
         Action myAction = Action.Lock;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1030,7 +976,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<LockOutput> result = RpcResultBuilder.<LockOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<LockOutput> result =
+                RpcResultBuilder.<LockOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1040,19 +987,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         UnlockOutputBuilder outputBuilder = new UnlockOutputBuilder();
         Action myAction = Action.Unlock;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1060,7 +1010,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<UnlockOutput> result = RpcResultBuilder.<UnlockOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<UnlockOutput> result =
+                RpcResultBuilder.<UnlockOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1072,25 +1023,24 @@ public class AppcProviderLcm
         String action = myAction.toString();
         String rpcName = getRpcName(myAction);
         RequestHandlerOutput requestHandlerOutput = null;
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(),
-            action);
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
         if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input
-                    .getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName
-                    (rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .action(action).rpcName(rpcName).build();
                 requestHandlerOutput = executeRequest(request);
 
                 status = buildStatusWithDispatcherOutput(requestHandlerOutput);
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input
-                    .getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                    LoggingConstants.TargetNames.APPC_PROVIDER,
-                    String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
-                    this.getClass().getName());
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
+                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
+                        this.getClass().getName());
 
             }
         }
@@ -1098,11 +1048,11 @@ public class AppcProviderLcm
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
         if (requestHandlerOutput != null && requestHandlerOutput.getResponseContext().getStatus().getCode() == 400) {
-            outputBuilder.setLocked(CheckLockOutput.Locked.valueOf(requestHandlerOutput.getResponseContext()
-                .getAdditionalContext().get("locked").toUpperCase()));
+            outputBuilder.setLocked(CheckLockOutput.Locked.valueOf(
+                    requestHandlerOutput.getResponseContext().getAdditionalContext().get("locked").toUpperCase()));
         }
-        RpcResult<CheckLockOutput> result = RpcResultBuilder.<CheckLockOutput>status(true).withResult(outputBuilder
-            .build()).build();
+        RpcResult<CheckLockOutput> result =
+                RpcResultBuilder.<CheckLockOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1111,19 +1061,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigBackupOutputBuilder outputBuilder = new ConfigBackupOutputBuilder();
         Action myAction = Action.ConfigBackup;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).payload(input.getPayload()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1131,7 +1084,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigBackupOutput> result = RpcResultBuilder.<ConfigBackupOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigBackupOutput> result =
+                RpcResultBuilder.<ConfigBackupOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1141,19 +1095,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigBackupDeleteOutputBuilder outputBuilder = new ConfigBackupDeleteOutputBuilder();
         Action myAction = Action.ConfigBackupDelete;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1161,7 +1118,8 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigBackupDeleteOutput> result = RpcResultBuilder.<ConfigBackupDeleteOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigBackupDeleteOutput> result =
+                RpcResultBuilder.<ConfigBackupDeleteOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
@@ -1171,19 +1129,22 @@ public class AppcProviderLcm
         logger.debug("Input received : " + input.toString());
         ConfigExportOutputBuilder outputBuilder = new ConfigExportOutputBuilder();
         Action myAction = Action.ConfigExport;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1191,28 +1152,32 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<ConfigExportOutput> result = RpcResultBuilder.<ConfigExportOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<ConfigExportOutput> result =
+                RpcResultBuilder.<ConfigExportOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
 
-    public Future<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input){
+    public Future<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input) {
         logger.debug("Input received : " + input.toString());
         StopApplicationOutputBuilder outputBuilder = new StopApplicationOutputBuilder();
         Action myAction = Action.StopApplication;
-        String action = myAction.toString() ;
+        String action = myAction.toString();
         String rpcName = getRpcName(myAction);
-        Status status = ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if(null == status) {
+        Status status =
+                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
+        if (null == status) {
             try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext().commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers()).action(action).rpcName(rpcName).build();
+                RequestHandlerInput request = new RequestInputBuilder().requestContext()
+                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
+                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
                 status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s", input.getActionIdentifiers(), status.getCode(), status.getMessage()));
+                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
+                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
             } catch (ParseException e) {
                 status = buildStatusWithParseException(e);
 
-                LoggingUtils.logErrorMessage(
-                        LoggingConstants.TargetNames.APPC_PROVIDER,
+                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
                         String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
                         this.getClass().getName());
 
@@ -1220,11 +1185,12 @@ public class AppcProviderLcm
         }
         outputBuilder.setCommonHeader(input.getCommonHeader());
         outputBuilder.setStatus(status);
-        RpcResult<StopApplicationOutput> result = RpcResultBuilder.<StopApplicationOutput> status(true).withResult(outputBuilder.build()).build();
+        RpcResult<StopApplicationOutput> result =
+                RpcResultBuilder.<StopApplicationOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
-    RequestHandlerOutput executeRequest(RequestHandlerInput request){
+    RequestHandlerOutput executeRequest(RequestHandlerInput request) {
         return new RequestExecutor().executeRequest(request);
     }
 }
