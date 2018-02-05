@@ -219,7 +219,41 @@ public class Converter {
                 ((StartApplicationOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((StartApplicationOutputBuilder)outObj).setStatus(status);
                 return outObj;
-
+    case QuiesceTraffic:
+                outObj = new QuiesceTrafficOutputBuilder();
+                ((QuiesceTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((QuiesceTrafficOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case ResumeTraffic:
+                outObj = new ResumeTrafficOutputBuilder();
+                ((ResumeTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ResumeTrafficOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case UpgradeSoftware:
+                outObj = new UpgradeSoftwareOutputBuilder();
+                ((UpgradeSoftwareOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((UpgradeSoftwareOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case UpgradePostCheck:
+                outObj = new UpgradePostCheckOutputBuilder();
+                ((UpgradePostCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((UpgradePostCheckOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case UpgradeBackup:
+                outObj = new UpgradeBackupOutputBuilder();
+                ((UpgradeBackupOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((UpgradeBackupOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case UpgradeBackout:
+                outObj = new UpgradeBackoutOutputBuilder();
+                ((UpgradeBackoutOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((UpgradeBackoutOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case UpgradePreCheck:
+                outObj = new UpgradePreCheckOutputBuilder();
+                ((UpgradePreCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((UpgradePreCheckOutputBuilder)outObj).setStatus(status);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
