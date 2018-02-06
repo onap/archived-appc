@@ -33,7 +33,6 @@
 	<artifactId>appc-aai-client</artifactId>
 
 	<name>APPC AAI Client for Node</name>
-	<url>http://wiki.sdn.labs.att.com</url>
 	<description>Common Utilities for DG</description>
 
 	<dependencyManagement>

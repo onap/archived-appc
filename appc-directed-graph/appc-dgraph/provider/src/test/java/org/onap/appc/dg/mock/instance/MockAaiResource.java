@@ -109,7 +109,7 @@ public class MockAaiResource implements SvcLogicResource {
             assertEquals(parms.get("is-closed-loop"), "false");
             assertEquals(parms.get("vnfc-function-code"), "funccode");
             assertEquals(parms.get("vnfc-type"), "vnfctype");
-            assertEquals(parms.get("ipaddress-v4-oam-vip"), "135.1.1.1");
+            assertEquals(parms.get("ipaddress-v4-oam-vip"), "10.1.1.1");
             assertEquals(parms.get("group-notation"), "groupnotation");
             assertEquals(parms.get("relationship-list.relationship[0].related-to"), "vserver");
             assertEquals(parms.get("relationship-list.relationship[0].relationship-data[0].relationship-key"), "vserver.vserver-id");
@@ -140,7 +140,7 @@ public class MockAaiResource implements SvcLogicResource {
             assertEquals(parms.get("is-closed-loop"), "false");
             assertEquals(parms.get("vnfc-function-code"), "funccode1");
             assertEquals(parms.get("vnfc-type"), "vnfctype1");
-            assertEquals(parms.get("ipaddress-v4-oam-vip"), "135.2.2.2");
+            assertEquals(parms.get("ipaddress-v4-oam-vip"), "10.2.2.2");
             assertEquals(parms.get("group-notation"), "groupnotation1");
             assertEquals(parms.get("relationship-list.relationship[0].related-to"), "vserver");
             assertEquals(parms.get("relationship-list.relationship[0].relationship-data[0].relationship-key"), "vserver.vserver-id");

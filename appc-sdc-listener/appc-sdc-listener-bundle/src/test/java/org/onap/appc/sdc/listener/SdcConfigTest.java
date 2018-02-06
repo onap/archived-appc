@@ -38,7 +38,7 @@ public class SdcConfigTest {
         Properties properties = new Properties();
         properties.setProperty("appc.sdc.provider.url",
                 "http://localhost:8181/restconf/operations/SdcMessage:configuration-document-request");
-        properties.setProperty("appc.ClosedLoop.poolMembers","uebsb91bodc.it.att.com:3905,uebsb92bodc.it.att.com:3905,uebsb93bodc.it.att.com:3905");
+        properties.setProperty("appc.ClosedLoop.poolMembers","localhost:3905");
         SdcConfig sdc = new SdcConfig(properties);
         List<String> uebAddresses = sdc.getMsgBusProperties();
         assertNotNull(uebAddresses);

@@ -265,7 +265,7 @@
         "id": "a87cb168.0c421",
         "type": "execute",
         "name": "execute: setTime(modify-timestamp)",
-        "xml": "<execute plugin=\"com.att.sdnctl.sli.plugin.ipAddressTools.IpAddressTool\" method=\"setTime\">\n\t<parameter name=\"ctxVariable\" value=\"service-data.oper-status.modify-timestamp\"/>",
+        "xml": "<execute plugin=\"org.onap.ccsdk.sli.plugins.ipAddressTools.IpAddressTool\" method=\"setTime\">\n\t<parameter name=\"ctxVariable\" value=\"service-data.oper-status.modify-timestamp\"/>",
         "comments": "",
         "outputs": 1,
         "x": 914.7498779296875,

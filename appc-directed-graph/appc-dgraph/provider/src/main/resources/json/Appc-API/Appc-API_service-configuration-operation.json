@@ -310,7 +310,7 @@
         "id": "db7678e6.fdbd48",
         "type": "execute",
         "name": "execute getTimeDifference",
-        "xml": "<execute plugin=\"com.att.sdnctl.sli.plugin.ipAddressTools.IpAddressTool\" method=\"getTimeDifference\">\n\t<parameter name=\"inDate\" value=\"`$service-data.oper-status.modify-timestamp`\"/>\n\t<parameter name=\"ctxTempVariable\" value=\"tmp.inprogress-time\"/>",
+        "xml": "<execute plugin=\"org.onap.ccsdk.sli.plugins.ipAddressTools.IpAddressTool\" method=\"getTimeDifference\">\n\t<parameter name=\"inDate\" value=\"`$service-data.oper-status.modify-timestamp`\"/>\n\t<parameter name=\"ctxTempVariable\" value=\"tmp.inprogress-time\"/>",
         "comments": "",
         "outputs": 1,
         "x": 950.8333435058594,

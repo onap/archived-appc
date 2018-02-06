@@ -32,10 +32,10 @@ import org.junit.Test;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 /* need to move to opensource
-import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
-import com.att.sdnctl.dgtestlibrary.DGMockUtils;
-import com.att.sdnctl.dgtestlibrary.DGTestCase;
-import com.att.sdnctl.dgtestlibrary.GraphKey;
+import org.onap.sdnc.dgtestlibrary.AbstractDGTestCase;
+import org.onap.sdnc.dgtestlibrary.DGMockUtils;
+import org.onap.sdnc.dgtestlibrary.DGTestCase;
+import org.onap.sdnc.dgtestlibrary.GraphKey;
 */
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
