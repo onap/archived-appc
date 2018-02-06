@@ -1,23 +1,26 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Copyright (C) 2017 Amdocs
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-
 package org.onap.appc.flow.controller.executorImpl;
 
 import java.util.Enumeration;
@@ -47,11 +50,11 @@ public class GraphExecutor implements FlowExecutorInterface {
     public GraphExecutor() {
         BundleContext bctx = FrameworkUtil.getBundle(SvcLogicService.class)
                 .getBundleContext();
-        
+
         ServiceReference sref = bctx.getServiceReference(SvcLogicService.NAME);
         if (sref != null) {
             svcLogic = (SvcLogicService) bctx.getService(sref);
-            
+
 
         } else {
             log.warn("Cannot find service reference for "
@@ -85,7 +88,7 @@ public class GraphExecutor implements FlowExecutorInterface {
 
             log.debug(parmName + " = " + parmValue);
         }
-    }    
+    }
     if ("failure"
             .equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
         return (respProps);
@@ -98,17 +101,17 @@ public HashMap<String, String> execute(Transaction transaction, SvcLogicContext 
 
     String fn = "GraphExecutor.execute ";
     log.debug(fn + "About to execute graph : " + transaction.getExecutionRPC())    ;
-    
+
     Properties parms = new Properties();
     for (Object key : ctx.getAttributeKeySet()) {
             String parmName = (String) key;
             String parmValue = ctx.getAttribute(parmName);
             parms.put(parmName, parmValue);
             log.info(fn + "Setting Key= "  + parmName + "and Value = " +  parmValue);
-            
+
     }
     Properties returnParams = executeGraph(transaction.getExecutionModule(),transaction.getExecutionRPC(), null, "sync",  parms);
-    
+
     //log.debug("Return Params executing DG :"  + returnParams.toString());
 
     log.debug("Returned Params from DG Module: " + transaction.getExecutionModule() + "and DG NAME: "  + transaction.getExecutionRPC()
@@ -122,39 +125,39 @@ public HashMap<String, String> execute(Transaction transaction, SvcLogicContext 
 
             ctx.setAttribute(key, returnParams.getProperty(key));
     }
-    
 
-    //Get the correct code from the SVC Logic and set it in transaction  
+
+    //Get the correct code from the SVC Logic and set it in transaction
 //    transaction.setStatusCode(returnParams.getProperty("SvcLogic.code"));
-    
+
     if (FlowControllerConstants.FAILURE
             .equalsIgnoreCase(returnParams.getProperty("SvcLogic.status")))    {
         transaction.setStatus(FlowControllerConstants.FAILURE);
         ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX) + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_FAILURE);
         ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX) + FlowControllerConstants.OUTPUT_STATUS_MESSAGE, returnParams.getProperty("error-message"));
         transaction.setStatusCode("401");
-        transaction.setState((ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)) !=null ? 
+        transaction.setState((ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)) !=null ?
                 ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE): null);
         //Get error code from above instead setting here ...its for testing purpose
-        
-        
+
+
     }
     else if(FlowControllerConstants.SUCCESS
-            .equalsIgnoreCase(returnParams.getProperty("SvcLogic.status")))    {        
+            .equalsIgnoreCase(returnParams.getProperty("SvcLogic.status")))    {
         transaction.setStatus(FlowControllerConstants.SUCCESS);
         transaction.setStatusCode("400");
         ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX) + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_SUCCESS);
-        transaction.setState((ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)) !=null ? 
+        transaction.setState((ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)) !=null ?
                 ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE): null);
         //Get error code from above instead setting here ...its for testing purpose
     }
-    else {        
+    else {
         transaction.setStatus(FlowControllerConstants.OTHERS);
         ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX) + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_FAILURE);
         transaction.setStatusCode("401");
         ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX) + FlowControllerConstants.OUTPUT_STATUS_MESSAGE, returnParams.getProperty("error-message"));
     }
-    
+
     return null;
     //Change null to required value if required in upper level
 }
