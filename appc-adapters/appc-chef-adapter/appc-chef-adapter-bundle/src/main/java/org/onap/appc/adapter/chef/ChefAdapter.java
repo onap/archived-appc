@@ -186,13 +186,6 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      */
  //   Server rebuildServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
-    /**
-     * Returns the symbolic name of the adapter
-     * 
-     * @return The adapter name
-     */
-    String getAdapterName();
-
    // Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 
     //Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
