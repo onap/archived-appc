@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_7c4043a5",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 2729
+      },
+      "writtenOn": "2018-02-06T08:48:24Z",
+      "side": 1,
+      "message": "This version of connect method had portNum argument before, which has not been used and set always to default value inside its logic. Therefore the signature has changed here, and not used argument has been removed. However it might be a bug from this code perspective. I cannot decide about it until I write tests for this class, therefore I\u0027ve left this comment here.",
+      "parentUuid": "5a93c517_c1a65010",
+      "revId": "e99af9ac715ea0085291561d2c15b3ac6926ebe4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_81b04844",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-05T21:15:01Z",
       "side": 1,
       "message": "what does this comment mean?",
+      "revId": "e99af9ac715ea0085291561d2c15b3ac6926ebe4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9c3bcf37",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 2729
+      },
+      "writtenOn": "2018-02-06T08:48:24Z",
+      "side": 1,
+      "message": "The same situation here, but with the prompt argument (not used value), and the same approach. I will get back to this logic, when writing tests for this code.\nCurrently the code behavior is unchanged, only fake arguments are reduced.",
+      "parentUuid": "5a93c517_81b04844",
       "revId": "e99af9ac715ea0085291561d2c15b3ac6926ebe4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
