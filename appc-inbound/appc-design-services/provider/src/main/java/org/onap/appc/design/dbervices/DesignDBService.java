@@ -106,7 +106,7 @@ public class DesignDBService {
                 response = setProtocolReference(payload, requestID);
                 break;
             default:
-                throw new DBDesignException(" Action " + action + " not found while processing request ");
+                throw new DBException(" Action " + action + " not found while processing request ");
 
         }
         return response;
@@ -135,7 +135,7 @@ public class DesignDBService {
         boolean data = dbservice.updateDBData(queryString, argList);
 
         if (!data) {
-            throw new DBDesignException("Error while updating ProtocolReference");
+            throw new DBException("Error while updating ProtocolReference");
         }
         return SUCCESS_JSON;
     }
@@ -177,7 +177,7 @@ public class DesignDBService {
         data = dbservice.updateDBData(queryString, argList);
 
         if (!data) {
-            throw new DBDesignException("Error while updating ProtocolReference");
+            throw new DBException("Error while updating ProtocolReference");
         }
         return SUCCESS_JSON;
     }
@@ -235,7 +235,7 @@ public class DesignDBService {
         boolean data = dbservice.updateDBData(queryString, argList);
 
         if (!data) {
-            throw new DBDesignException("Error while updating RelationShip table");
+            throw new DBException("Error while updating RelationShip table");
         }
 
     }
@@ -324,7 +324,7 @@ public class DesignDBService {
 
         boolean updateStatus = dbservice.updateDBData(insertQuery, argList);
         if (!updateStatus)
-            throw new DBDesignException("Error while updating Action Status");
+            throw new DBException("Error while updating Action Status");
     }
 
     private void createArtifactTrackingRecord(String payload, String requestID, int sdcArtifactId, int sdcReferenceId)
@@ -356,7 +356,7 @@ public class DesignDBService {
         log.info(QUERY_STR + queryString);
         boolean data = dbservice.updateDBData(queryString, argList);
         if (!data) {
-            throw new DBDesignException("Error Updating DT_ARTIFACT_TRACKING ");
+            throw new DBException("Error Updating DT_ARTIFACT_TRACKING ");
         }
     }
 
@@ -404,7 +404,7 @@ public class DesignDBService {
                 }
             }
             if (artifactContent == null || artifactContent.isEmpty()) {
-                throw new DBDesignException(
+                throw new DBException(
                     "Sorry !!! I dont have any artifact Named : " + payloadObject.get("artifact-name").textValue());
             }
             DesignResponse designResponse = new DesignResponse();
@@ -454,7 +454,7 @@ public class DesignDBService {
             designResponse.setUserId(payloadObject.get(USER_ID).textValue());
             boolean update = dbservice.updateDBData(queryString, argList);
             if (!update) {
-                throw new DBDesignException("Sorry .....Something went wrong while updating the Status");
+                throw new DBException("Sorry .....Something went wrong while updating the Status");
             }
 
             ObjectMapper mapper = new ObjectMapper();
@@ -511,7 +511,7 @@ public class DesignDBService {
             }
 
             if (statusInfoList.isEmpty()) {
-                throw new DBDesignException(
+                throw new DBException(
                     "OOPS !!!! No VNF information available for VNF-TYPE : " + vnfType + " for User : " + userID);
             }
             designResponse.setStatusInfoList(statusInfoList);
@@ -587,7 +587,7 @@ public class DesignDBService {
                 designInfoList.add(designInfo);
             }
             if (designInfoList.isEmpty()) {
-                throw new DBDesignException(
+                throw new DBException(
                     " Welcome to CDT, Looks like you dont have Design Yet... Lets create some....");
             }
             designResponse.setDesignInfoList(designInfoList);
