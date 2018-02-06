@@ -24,6 +24,13 @@
 
 package org.onap.appc.adapter.iaas.impl;
 
+import com.att.cdp.exceptions.ContextConnectionException;
+import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.zones.Context;
+import com.att.cdp.zones.ContextFactory;
+import com.att.cdp.zones.Provider;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,14 +43,6 @@ import org.onap.appc.pool.Allocator;
 import org.onap.appc.pool.Destructor;
 import org.onap.appc.pool.Pool;
 import org.onap.appc.pool.PoolSpecificationException;
-import com.att.cdp.exceptions.ContextConnectionException;
-import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.Provider;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-// import com.sun.jersey.api.client.ClientHandlerException;
 
 /**
  * This class maintains a cache of tenants within a specific provider.
@@ -58,8 +57,6 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
 
     public static final String POOL_PROVIDER_NAME = "pool.provider.name";
     public static final String POOL_TENANT_NAME = "pool.tenant.name";
-    // public static final String CLIENT_CONNECTOR_CLASS =
-    // "com.woorea.openstack.connector.JerseyConnector";
     public static final String CLIENT_CONNECTOR_CLASS = "com.woorea.openstack.connector.JaxRs20Connector";
     /**
      * The domain to use to authenticate
@@ -178,54 +175,58 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
                 catalog.init();
                 tenantId = catalog.getProjectId();
                 tenantName = catalog.getProjectName();
-
-                for (String region : catalog.getRegions()) {
-                    try {
-                        Pool<Context> pool = new Pool<>(min, max);
-                        pool.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, url);
-                        pool.setProperty(ContextFactory.PROPERTY_TENANT, tenantName);
-                        pool.setProperty(ContextFactory.PROPERTY_CLIENT_CONNECTOR_CLASS, CLIENT_CONNECTOR_CLASS);
-                        pool.setProperty(ContextFactory.PROPERTY_RETRY_DELAY,
-                                configuration.getProperty(Constants.PROPERTY_RETRY_DELAY));
-                        pool.setProperty(ContextFactory.PROPERTY_RETRY_LIMIT,
-                                configuration.getProperty(Constants.PROPERTY_RETRY_LIMIT));
-                        pool.setProperty(ContextFactory.PROPERTY_REGION, region);
-                        if (properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS) != null) {
-                            pool.setProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS,
-                                    properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS));
-                        }
-                        pool.setAllocator(this);
-                        pool.setDestructor(this);
-                        pools.put(region, pool);
-                        logger.debug(String.format("Put pool for region %s", region));
-                    } catch (PoolSpecificationException e) {
-                        logger.error("Error creating pool", e);
-                        e.printStackTrace();
-                    }
-                }
+                createPools(min, max, url, properties);
                 initialized = true;
                 break;
             } catch (ContextConnectionException e) {
-                attempt++;
-                if (attempt <= limit) {
+                if (++attempt <= limit) {
                     logger.error(Msg.CONNECTION_FAILED_RETRY, provider.getProviderName(), url, tenantName, tenantId,
                             e.getMessage(), Integer.toString(delay), Integer.toString(attempt),
                             Integer.toString(limit));
-
-                    try {
-                        Thread.sleep(delay * 1000L);
-                    } catch (InterruptedException ie) {
-                        // ignore
-                    }
+                    sleep(delay);
                 }
             } catch (ZoneException e) {
-                logger.error(e.getMessage());
+                logger.error("An error occurred when initializing cache", e);
                 break;
             }
         }
 
         if (!initialized) {
             logger.error(Msg.CONNECTION_FAILED, provider.getProviderName(), url);
+        }
+    }
+
+    private void createPools(int min, int max, String url, Properties properties) {
+        for (String region : catalog.getRegions()) {
+            try {
+                Pool<Context> pool = new Pool<>(min, max);
+                pool.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, url);
+                pool.setProperty(ContextFactory.PROPERTY_TENANT, tenantName);
+                pool.setProperty(ContextFactory.PROPERTY_CLIENT_CONNECTOR_CLASS, CLIENT_CONNECTOR_CLASS);
+                pool.setProperty(ContextFactory.PROPERTY_RETRY_DELAY,
+                        configuration.getProperty(Constants.PROPERTY_RETRY_DELAY));
+                pool.setProperty(ContextFactory.PROPERTY_RETRY_LIMIT,
+                        configuration.getProperty(Constants.PROPERTY_RETRY_LIMIT));
+                pool.setProperty(ContextFactory.PROPERTY_REGION, region);
+                if (properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS) != null) {
+                    pool.setProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS,
+                            properties.getProperty(ContextFactory.PROPERTY_TRUSTED_HOSTS));
+                }
+                pool.setAllocator(this);
+                pool.setDestructor(this);
+                pools.put(region, pool);
+                logger.debug(String.format("Put pool for region %s", region));
+            } catch (PoolSpecificationException e) {
+                logger.error("Error creating pool", e);
+            }
+        }
+    }
+
+    private void sleep(int delay) {
+        try {
+            Thread.sleep(delay * 1000L);
+        } catch (InterruptedException ie) {
+            // ignore
         }
     }
 
@@ -344,15 +345,11 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         Class<? extends Provider> providerClass;
         try {
             providerClass = (Class<? extends Provider>) Class.forName("com.att.cdp.openstack.OpenStackProvider");
-            // String providerType = provider.getProviderType();
-
-            // Context context = ContextFactory.getContext(providerType, pool.getProperties());
             Context context = ContextFactory.getContext(providerClass, pool.getProperties());
             context.login(userid, password);
             return context;
         } catch (IllegalStateException | IllegalArgumentException | ZoneException | ClassNotFoundException e) {
             logger.debug("Failed to allocate context for pool", e);
-            e.printStackTrace();
         }
         return null;
     }
@@ -365,7 +362,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         try {
             context.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("An error occurred when destroying cache", e);
         }
     }
 
