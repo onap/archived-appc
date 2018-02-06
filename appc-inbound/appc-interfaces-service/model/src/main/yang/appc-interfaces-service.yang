@@ -23,7 +23,7 @@
  */
 
 /*
- * Yang model for the Application Controller (APP-C) component of ECOMP
+ * Yang model for the Application Controller (APP-C) component of ONAP
  *
  *
  *The main purpose of this model to provide an interface bewteen APPC Runtime and other interface 
@@ -31,7 +31,6 @@
  * 
  *
  *
- * Author: Anand Chaturvedi (ac204h@att.com)
  */
 
 module interfaces-service {
@@ -39,9 +38,6 @@ module interfaces-service {
     yang-version 1;
     namespace "org:onap:appc:interfaces:service";
     prefix interfaces.service;
-    organization "AT&T.  Copyright (C) 2015. All rights reserved.";
-    contact
-      "Anand Chaturvedi <ac204h@att.com>";
 
     description
       "Defines the services provided by Application Controller to external interfaces.";

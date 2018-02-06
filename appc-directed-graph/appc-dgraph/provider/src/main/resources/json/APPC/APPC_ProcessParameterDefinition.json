@@ -414,7 +414,7 @@
         "id": "7f1ad793.7b648",
         "type": "execute",
         "name": "execute read PD file",
-        "xml": "<execute plugin=\"org.onap.sdnc.config.generator.reader.ReaderNode\" method=\"getFileData\">\n<parameter name=\"fileName\" value=\"/opt/app/bvc/templates/pd.yaml\" />\n<parameter name=\"responsePrefix\" value=\"tmpFileData\" />",
+        "xml": "<execute plugin=\"org.onap.sdnc.config.generator.reader.ReaderNode\" method=\"getFileData\">\n<parameter name=\"fileName\" value=\"/opt/onap/appc/templates/pd.yaml\" />\n<parameter name=\"responsePrefix\" value=\"tmpFileData\" />",
         "comments": "",
         "outputs": 1,
         "x": 1466.5,

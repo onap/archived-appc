@@ -18,8 +18,8 @@
   ============LICENSE_END=========================================================
   -->
 
-<NetworkAudit xmlns="http://lpp.att.com/configuration/configure/schema/v1"
-	xmlns:q2="http://lpp.att.com/configuration/configure/schema/v1">
+<NetworkAudit xmlns="http://onap.org/appc/lpp/configuration/configure/schema/v1"
+	xmlns:q2="http://onap.org/appc/lpp/configuration/configure/schema/v1">
 	<q2:Requester>APP-C</q2:Requester>
 	<q2:RequesterPrefix>APP</q2:RequesterPrefix>
 	<q2:RequestId>${request-id}</q2:RequestId>

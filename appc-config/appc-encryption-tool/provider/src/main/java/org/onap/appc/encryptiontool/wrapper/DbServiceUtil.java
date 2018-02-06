@@ -63,7 +63,7 @@ public class DbServiceUtil
     public static DBResourceManager initDbLibService() throws Exception
     {
         props = new Properties();
-        File file = new File("/opt/app/bvc/properties/dblib.properties");
+        File file = new File("/opt/onap/appc/data/properties/dblib.properties");
         URL propURL = file.toURI().toURL();
         props.load(propURL.openStream());
         jdbcDataSource = new DBResourceManager(props);

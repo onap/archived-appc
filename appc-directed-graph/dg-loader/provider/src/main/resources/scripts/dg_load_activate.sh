@@ -25,30 +25,38 @@
 ###
 
 
-export BVC_DIR=/opt/app/bvc
-export DG_DIR=${BVC_DIR}/dg
+###
+### Convert XML DGs to JSON DGs using dg-loader, then load/activate them in the MySQL DB. ###
+###
 
-if (( "$#" != 1 )) 
+export APPC_HOME=${APPC_HOME:-/opt/onap/appc}
+
+# SVCLOGIC_DIR env variable points to /opt/onap/appc/svclogic
+export SVCLOGIC_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+#Path to the dg-loader jar file
+export DG_LOADER=${APPC_HOME}/data/dg-loader-provider-jar-with-dependencies.jar
+
+# Check if the JSON Directory exists under the env. variable defined
+export DG_JSON_DIR=${SVCLOGIC_DIR}/graphs/appc/json/dg-loader-dgs
+echo "Processing DG JSON directory : ${DG_JSON_DIR}"
+if [ ! -d "$DG_JSON_DIR" ] 
 then
-    echo "DG JSON Directory is Missing"
+    echo "DG-Loader JSON Directory is Missing"
 exit 1
 fi
 
-export DG_JSON_DIR=$1
-echo "Processing DG JSON directory : ${DG_JSON_DIR}"
 
 cd ${DG_JSON_DIR}
+mkdir -p ${DG_JSON_DIR}/converted-xml
 
-######################################################################
-rm -rf ${DG_JSON_DIR}/xml
+# Generate XML DGs from JSON DGs
+$JAVA_HOME/bin/java -cp ${DG_LOADER} org.onap.sdnc.dg.loader.DGXMLGenerator ${DG_JSON_DIR} ${DG_JSON_DIR}/converted-xml
 
-################## To Genetare XML from JSON ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.onap.sdnc.dg.loader.DGXMLGenerator ${DG_JSON_DIR} ${DG_JSON_DIR}/xml
+# Load converted XML DGs to the SVC_LOGIC DB in the MySQL Docker Container
+$JAVA_HOME/bin/java -cp ${DG_LOADER} org.onap.sdnc.dg.loader.DGXMLLoad ${DG_JSON_DIR}/converted-xml ${APPC_HOME}/data/properties/dblib.properties
 
-################## To Load DG XML ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.onap.sdnc.dg.loader.DGXMLLoad ${DG_JSON_DIR}/xml ${BVC_DIR}/properties/dblib.properties
-
-################## To Activate ########################
-$JAVA_HOME/bin/java -cp ${DG_DIR}/lib/dg-loader-provider.jar org.onap.sdnc.dg.loader.DGXMLActivate ${DG_JSON_DIR}/dg_activate.txt ${BVC_DIR}/properties/dblib.properties
+# Activate converted XML DGs to the SVC_LOGIC DB in the MySQL Docker Container
+$JAVA_HOME/bin/java -cp ${DG_LOADER} org.onap.sdnc.dg.loader.DGXMLActivate ${DG_JSON_DIR}/dg_activate.txt ${APPC_HOME}/data/properties/dblib.properties
 
 exit 0

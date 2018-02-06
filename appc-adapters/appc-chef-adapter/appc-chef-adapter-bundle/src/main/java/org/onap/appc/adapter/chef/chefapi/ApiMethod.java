@@ -56,7 +56,7 @@ public class ApiMethod {
     final String KEY_STORE_PASSWORD = "adminadmin";
     static
    {
-    System.setProperty("javax.net.ssl.trustStore", "/opt/app/bvc/chef/chefServerSSL.jks");
+    System.setProperty("javax.net.ssl.trustStore", "/opt/onap/appc/chef/chefServerSSL.jks");
     System.setProperty("javax.net.ssl.trustStorePassword", "adminadmin");
         }
 

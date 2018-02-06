@@ -133,7 +133,7 @@
         "id": "3f7d06de.4adc9a",
         "type": "execute",
         "name": "executeTest",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='healthCheckVMs'>\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"retry-healthcheck\" value=\"`$retry-healthcheck`\"/>",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='healthCheckVMs'>\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"retry-healthcheck\" value=\"`$retry-healthcheck`\"/>",
         "comments": "",
         "outputs": 1,
         "x": 741.8060150146484,

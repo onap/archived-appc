@@ -417,7 +417,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         if (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(serverAddress)
                 && StringUtils.isNotBlank(organizations)) {
             chefserver = "https://" + serverAddress + "/organizations/" + organizations;
-            clientPrivatekey = "/opt/app/bvc/chef/" + serverAddress + "/" + organizations + "/" + username + ".pem";
+            clientPrivatekey = "/opt/onap/appc/chef/" + serverAddress + "/" + organizations + "/" + username + ".pem";
             logger.info(" clientPrivatekey  " + clientPrivatekey);
         } else {
             doFailure(ctx, 401, "Missing mandatory param(s) such as username, serverAddress, organizations");
