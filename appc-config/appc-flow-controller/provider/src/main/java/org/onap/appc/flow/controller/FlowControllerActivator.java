@@ -1,20 +1,22 @@
 /*-
  * ============LICENSE_START=======================================================
- * ONAP : APP-C
+ * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
- * ================================================================================
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -39,23 +41,23 @@ public class FlowControllerActivator implements BundleActivator{
 
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(FlowControllerActivator.class);
-    
+
     @Override
     public void start(BundleContext ctx) throws Exception
     {
 
         try {
-            
+
             FlowControlNode flowExecutorNode = new FlowControlNode();
             log.debug("Registering service "+ flowExecutorNode.getClass().getName());
             registrations.add(ctx.registerService(flowExecutorNode.getClass().getName(), flowExecutorNode, null));
             log.debug("Registering service sccessful for  "+ flowExecutorNode.getClass().getName());
-            
+
             RestServiceNode restServiceNode = new RestServiceNode();
             log.debug("Registering service "+ restServiceNode.getClass().getName());
             registrations.add(ctx.registerService(restServiceNode.getClass().getName(), restServiceNode, null));
             log.debug("Registering service sccessful for  "+ restServiceNode.getClass().getName());
-            
+
             JsonParsingNode jsonParsingNode = new JsonParsingNode();
             log.debug("Registering service "+ jsonParsingNode.getClass().getName());
             registrations.add(ctx.registerService(jsonParsingNode.getClass().getName(), jsonParsingNode, null));
