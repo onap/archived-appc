@@ -1043,7 +1043,7 @@
         "id": "7e300025.5253a",
         "type": "execute",
         "name": "execute CvaasDataIntoContext",
-        "xml": "<execute plugin='org.onap.appc.dg.common.JsonDgUtil' method='cvaasFileNameAndFileContentToContext' >\n<parameter name=\"cvaas-directory-path\" value=\"/opt/app/bvc/cvaas\" />\n<parameter name=\"appc-instance-id\" value=\"appc01\" />\n<parameter name=\"vnf-id\" value=\"`$input.action-identifiers.vnf-id`\" />",
+        "xml": "<execute plugin='org.onap.appc.dg.common.JsonDgUtil' method='cvaasFileNameAndFileContentToContext' >\n<parameter name=\"cvaas-directory-path\" value=\"/opt/onap/appc/cvaas\" />\n<parameter name=\"appc-instance-id\" value=\"appc01\" />\n<parameter name=\"vnf-id\" value=\"`$input.action-identifiers.vnf-id`\" />",
         "comments": "",
         "outputs": 1,
         "x": 1943.9172744750977,

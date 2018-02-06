@@ -32,9 +32,9 @@ import org.junit.Test;
 import org.onap.appc.dg.mock.instance.MockSvcLogicJavaPlugin;
 
 /* need to move to open source
-import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
-import com.att.sdnctl.dgtestlibrary.DGTestCase;
-import com.att.sdnctl.dgtestlibrary.GraphKey;
+import org.onap.sdnc.dgtestlibrary.AbstractDGTestCase;
+import org.onap.sdnc.dgtestlibrary.DGTestCase;
+import org.onap.sdnc.dgtestlibrary.GraphKey;
 */
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.att.eelf.configuration.EELFLogger;
