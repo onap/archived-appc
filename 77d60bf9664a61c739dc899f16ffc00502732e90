@@ -16,6 +16,24 @@
       "revId": "77d60bf9664a61c739dc899f16ffc00502732e90",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b3f4b9f2",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/onap/appc/data/services/node/ConfigResourceNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-06T15:31:54Z",
+      "side": 1,
+      "message": "I think it would be fine to change \"An error occurred\" back to \"Failed\"",
+      "parentUuid": "5a93c517_210a94d2",
+      "revId": "77d60bf9664a61c739dc899f16ffc00502732e90",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
