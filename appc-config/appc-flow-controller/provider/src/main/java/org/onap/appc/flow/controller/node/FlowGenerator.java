@@ -45,7 +45,7 @@ public class FlowGenerator {
         
         log.debug("Data in context"  + ctx.getAttributeKeySet() );
         Transactions transactions  = new Transactions();
-        List<Transaction> transactionList = new ArrayList<Transaction>();            
+        List<Transaction> transactionList = new ArrayList<>();
         Transaction singleTransaction = new Transaction();        
         
         singleTransaction.setTransactionId(1);
@@ -54,10 +54,7 @@ public class FlowGenerator {
         singleTransaction.setPayload(ctx.getAttribute(FlowControllerConstants.PAYLOAD));
         singleTransaction.setActionLevel(ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));
 
-        
-        
-        
-        List<Response> responseList  = new ArrayList<Response>();                
+        List<Response> responseList  = new ArrayList<>();
         Response response = new Response();
                 
         ResponseAction ra = new ResponseAction();                    
@@ -70,7 +67,7 @@ public class FlowGenerator {
         
         transactions.setTransactions(transactionList);
 
-        log.debug("Sequence String" + transactions.toString());
+        log.debug(fn + " Sequence String" + transactions.toString());
         
         return transactions;
     }
