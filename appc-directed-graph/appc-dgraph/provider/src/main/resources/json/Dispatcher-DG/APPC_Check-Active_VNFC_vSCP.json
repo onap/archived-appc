@@ -51,7 +51,7 @@
         "id": "906908fc.43cf18",
         "type": "execute",
         "name": "execute",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.smp.SMPDGPlugin' method='checkIfActive' >\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n\n",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.smp.SMPDGPlugin' method='checkIfActive' >\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\"/>\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$AICIdentity`\" />\n\n",
         "comments": "",
         "outputs": 1,
         "x": 920.306266784668,

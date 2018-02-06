@@ -138,7 +138,7 @@
         "id": "6711af89.05acc",
         "type": "execute",
         "name": "execute: liveUpgrade",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='liveUpgrade' >\n<parameter name=\"upgrade-version\" value=\"`$upgrade-version`\" />\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />\n<parameter name=\"Skip-execution-installer-bin-file\" value=\"`$Skip-execution-installer-bin-file`\" />\n<parameter name=\"Skip-deploy\" value=\"`$Skip-deploy`\" />\n<parameter name=\"timeout\" value=\"`$timeout`\" />\n\n\n",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='liveUpgrade' >\n<parameter name=\"upgrade-version\" value=\"`$upgrade-version`\" />\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />\n<parameter name=\"Skip-execution-installer-bin-file\" value=\"`$Skip-execution-installer-bin-file`\" />\n<parameter name=\"Skip-deploy\" value=\"`$Skip-deploy`\" />\n<parameter name=\"timeout\" value=\"`$timeout`\" />\n\n\n",
         "comments": "",
         "outputs": 1,
         "x": 919.5277938842773,

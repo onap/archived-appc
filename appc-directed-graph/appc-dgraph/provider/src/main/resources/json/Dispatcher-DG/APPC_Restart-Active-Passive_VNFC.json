@@ -717,7 +717,7 @@
         "id": "e7b3ea7a.c2c148",
         "type": "execute",
         "name": "executePreRestart",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.smp.SMPDGPlugin' method='restartSequenceGenerator' >\n",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.smp.SMPDGPlugin' method='restartSequenceGenerator' >\n",
         "comments": "",
         "outputs": 1,
         "x": 700.8542175292969,

@@ -45,9 +45,6 @@ module appc-provider-lcm {
     yang-version 1;
     namespace "org:onap:appc:lcm";
     prefix appc-provider-lcm;
-    organization "Copyright 2017 AT&T Intellectual Property.";
-    contact
-        "Dewayne Hafenstein <dh868g@att.us.com>";
         
     description
       "Defines the services and request/response requirements for the ECOMP APP-C component.";

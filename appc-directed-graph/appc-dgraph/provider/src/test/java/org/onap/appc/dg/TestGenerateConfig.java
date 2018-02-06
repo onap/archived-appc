@@ -44,9 +44,9 @@ import org.slf4j.LoggerFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 /* need to move to open source
-import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
-import com.att.sdnctl.dgtestlibrary.DGTestCase;
-import com.att.sdnctl.dgtestlibrary.GraphKey;
+import org.onap.sdnc.dgtestlibrary.AbstractDGTestCase;
+import org.onap.sdnc.dgtestlibrary.DGTestCase;
+import org.onap.sdnc.dgtestlibrary.GraphKey;
 import org.apache.sling.testing.mock.osgi.MockOsgi;
 */
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -73,7 +73,7 @@ public class TestGenerateConfig /* extends AbstractDGTestCase */ {
             Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
             serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
-            //serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
+            //serviceReferences.put("org.onap.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 
             serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 
@@ -110,7 +110,7 @@ public class TestGenerateConfig /* extends AbstractDGTestCase */ {
             Map<String, Object> serviceReferences = new HashMap<String, Object>();
 
             serviceReferences.put("org.onap.sdnc.config.generator.merge.MergeNode", new org.onap.sdnc.config.generator.merge.MergeNode());
-            //serviceReferences.put("com.att.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
+            //serviceReferences.put("org.onap.appc.config.generator.node.ConfigResourceNode", new MockConfigResourceNode());
 
             serviceReferences.put("org.onap.appc.data.services.node.ConfigResourceNode", new MockSvcLogicJavaPlugin());
 

@@ -37,7 +37,7 @@ public class MockConfigureNodeExecutor implements SvcLogicAdaptor{
 
         if ( "get".equals(key)) {
 
-            if ("135.1.1.1".equals(parameters.get("host") )) {
+            if ("10.1.1.1".equals(parameters.get("host") )) {
                     String fullPathFileName = parameters.get("fullPathFileName");
                     if (("SuccessFile").equals(fullPathFileName ) )
                         return ConfigStatus.FAILURE;
@@ -46,7 +46,7 @@ public class MockConfigureNodeExecutor implements SvcLogicAdaptor{
                     if (("FailureLogFile").equals(fullPathFileName ) )
                         return ConfigStatus.SUCCESS;
             }
-            else if ("135.2.2.2".equals(parameters.get("host")) ) {
+            else if ("10.2.2.2".equals(parameters.get("host")) ) {
                 String fullPathFileName = parameters.get("fullPathFileName");
                 if (("SuccessFile").equals(fullPathFileName ) )
                     return ConfigStatus.FAILURE;

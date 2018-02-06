@@ -21,7 +21,7 @@ vnf-parameter-list:
   required: false
   source: "INSTAR"
   rule-type: null
-  default: "fd00:f4d5:ea06:1:0:110:136:254"
+  default: "10.0.0.147"
   request-keys:
   - key-name: "address_fqdn"
     key-value: "m001dbj001p1n004v006"
@@ -52,7 +52,7 @@ vnf-parameter-list:
   required: false
   source: null
   rule-type: null
-  default: "fd00:f4d5:ea06:1:0:110:136:254"
+  default: "10.0.0.147"
   request-keys: null
   response-keys: null
 - name: "REMOTE_BILLING_IP_ADDR"
