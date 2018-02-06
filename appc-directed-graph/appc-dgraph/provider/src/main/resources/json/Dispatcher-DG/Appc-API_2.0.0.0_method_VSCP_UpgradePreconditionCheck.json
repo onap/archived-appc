@@ -127,7 +127,7 @@
         "id": "85331eac.44b8c",
         "type": "execute",
         "name": "Execute: PreUpgradeHealthCheck",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='executePreUpgradeHealthCheck'>\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='executePreUpgradeHealthCheck'>\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />",
         "comments": "",
         "outputs": 1,
         "x": 311.9999694824219,

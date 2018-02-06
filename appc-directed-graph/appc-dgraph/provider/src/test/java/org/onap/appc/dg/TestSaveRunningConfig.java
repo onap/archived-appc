@@ -44,9 +44,9 @@ import org.slf4j.LoggerFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 /* need to move to open source
-import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
-import com.att.sdnctl.dgtestlibrary.DGTestCase;
-import com.att.sdnctl.dgtestlibrary.GraphKey;
+import org.onap.sdnc.dgtestlibrary.AbstractDGTestCase;
+import org.onap.sdnc.dgtestlibrary.DGTestCase;
+import org.onap.sdnc.dgtestlibrary.GraphKey;
 import org.apache.sling.testing.mock.osgi.MockOsgi;
 */
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;

@@ -170,7 +170,7 @@
         "id": "6a8d06b2.533f18",
         "type": "execute",
         "name": "executeUpload",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='executeUpload'>\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />\n<parameter name=\"source-file-url\" value=\"`$source-file-url`\" />\n<parameter name=\"timeout\" value=\"`$timeout`\" />",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='executeUpload'>\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />\n<parameter name=\"source-file-url\" value=\"`$source-file-url`\" />\n<parameter name=\"timeout\" value=\"`$timeout`\" />",
         "comments": "",
         "outputs": 1,
         "x": 1714.7499732971191,

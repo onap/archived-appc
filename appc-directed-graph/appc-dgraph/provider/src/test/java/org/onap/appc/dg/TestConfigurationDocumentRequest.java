@@ -30,9 +30,9 @@ import java.util.Map;
 import org.junit.Test;
 
 /* move to opensource
-import com.att.sdnctl.dgtestlibrary.AbstractDGTestCase;
-import com.att.sdnctl.dgtestlibrary.DGTestCase;
-import com.att.sdnctl.dgtestlibrary.GraphKey;
+import org.onap.sdnc.dgtestlibrary.AbstractDGTestCase;
+import org.onap.sdnc.dgtestlibrary.DGTestCase;
+import org.onap.sdnc.dgtestlibrary.GraphKey;
 */
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 

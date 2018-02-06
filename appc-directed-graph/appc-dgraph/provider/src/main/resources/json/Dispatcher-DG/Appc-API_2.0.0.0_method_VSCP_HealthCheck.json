@@ -209,7 +209,7 @@
         "id": "bcfe699a.fbac68",
         "type": "execute",
         "name": "executeTest",
-        "xml": "<execute plugin='com.att.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='executeTest'>\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />",
+        "xml": "<execute plugin='org.onap.appc.dg.vSCP.v3_5_5.VSCPDGUtils' method='executeTest'>\n<parameter name=\"connection-details\" value=\"`$connection-details`\" />",
         "comments": "",
         "outputs": 1,
         "x": 940.7498474121094,
