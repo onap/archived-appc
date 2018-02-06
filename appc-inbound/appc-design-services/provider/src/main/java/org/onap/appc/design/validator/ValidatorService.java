@@ -24,17 +24,18 @@
 
 package org.onap.appc.design.validator;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.Yaml;
+import com.fasterxml.jackson.dataformat.yaml.snakeyaml.introspector.BeanAccess;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.velocity.Template;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -48,35 +49,42 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.fasterxml.jackson.dataformat.yaml.snakeyaml.Yaml;
-import com.fasterxml.jackson.dataformat.yaml.snakeyaml.introspector.BeanAccess;
-
 public class ValidatorService {
 
     private static final Logger log = LoggerFactory.getLogger(ValidatorService.class);
-    public String execute(String action, String payload, String dataType) throws Exception {
-        
-        String validateResponse  = null;
-        log.info("Received validation for action= " + action + "Data :" + payload + " dataType = " + dataType);
-        if(dataType.equals(DesignServiceConstants.DATA_TYPE_XML))
-            validateResponse = validateXML(payload);
-        else if(dataType.equals(DesignServiceConstants.DATA_TYPE_JSON))
-            validateResponse = validateJOSN(payload);
-        else if(dataType.equals(DesignServiceConstants.DATA_TYPE_VELOCITY))
-            validateResponse = validateVelocity(payload);
-        else if(dataType.equals(DesignServiceConstants.DATA_TYPE_YAML))
-            validateResponse = validateYAML(payload);
-        
-        return validateResponse;
 
+    public String execute(String action, String payload, String dataType) throws ValidatorException {
+
+        log.info("Received validation for action= " + action + "Data :" + payload + " dataType = " + dataType);
+        String validateResponse  = null;
+
+        try{
+            switch (dataType) {
+                case DesignServiceConstants.DATA_TYPE_XML:
+                    validateResponse = validateXML(payload);
+                    break;
+                case DesignServiceConstants.DATA_TYPE_JSON:
+                    validateResponse = validateJSON(payload);
+                    break;
+                case DesignServiceConstants.DATA_TYPE_VELOCITY:
+                    validateResponse = validateVelocity(payload);
+                    break;
+                case DesignServiceConstants.DATA_TYPE_YAML:
+                    validateResponse = validateYAML(payload);
+                    break;
+                default:
+                    break;
+            }
+        }
+        catch (ParserConfigurationException | SAXException | IOException e){
+            log.info("An error occurred while executing validator", e);
+            throw new ValidatorException("An error occurred while executing validator", e);
+        }
+        return validateResponse;
     }
 
-    private String validateYAML(String payload) throws Exception {
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());        
-        try{
+    private String validateYAML(String payload) throws IOException {
+        try {
             InputStream is = new ByteArrayInputStream(payload.getBytes());
 
             Reader in = new InputStreamReader(is);
@@ -84,9 +92,8 @@ public class ValidatorService {
             yaml.setBeanAccess(BeanAccess.FIELD);
             yaml.load(in);
             return DesignServiceConstants.SUCCESS;
-        }
-        catch(Exception e){
-            log.error("Not a Valid YAML Format ");
+        } catch (Exception e) {
+            log.error("Not a Valid YAML Format", e);
             throw e;
         }
 
@@ -94,41 +101,31 @@ public class ValidatorService {
 
     private String validateVelocity(String payload) {
 
-        try{
+        try {
             VelocityEngine engine = new VelocityEngine();
             engine.setProperty(Velocity.RESOURCE_LOADER, "string");
             engine.addProperty("string.resource.loader.class", StringResourceLoader.class.getName());
             engine.addProperty("string.resource.loader.repository.static", "false");
-            engine.init();                
-            StringResourceRepository repo = (StringResourceRepository) engine.getApplicationAttribute(StringResourceLoader.REPOSITORY_NAME_DEFAULT);
+            engine.init();
+            StringResourceRepository repo = (StringResourceRepository) engine
+                .getApplicationAttribute(StringResourceLoader.REPOSITORY_NAME_DEFAULT);
             repo.putStringResource("TestTemplate", payload);
-            //Template t = ve.getTemplate(payload);
-            Template t = engine.getTemplate("TestTemplate");
-            
+
             return DesignServiceConstants.SUCCESS;
-        }
-        catch(ResourceNotFoundException e ){
-            log.error("Not a Valid Velocity Template ");
+        } catch (ResourceNotFoundException | ParseErrorException | MethodInvocationException e) {
+            log.error("Not a Valid Velocity Template", e);
             throw e;
         }
-        catch(ParseErrorException pe){
-            log.error("Not a Valid Velocity Template ");
-            throw pe;
-        }
-        catch(MethodInvocationException mi){
-            log.error("Not a Valid Velocity Template ");
-            throw mi;
-        }
     }
-    
-    private String validateJOSN(String payload) throws Exception {
 
-        try{ 
+    private String validateJSON(String payload) throws IOException {
+
+        try {
             ObjectMapper objectMapper = new ObjectMapper();
             objectMapper.readTree(payload);
             return DesignServiceConstants.SUCCESS;
-        } catch(JsonProcessingException e){
-            log.error("Not a Valid JOSN file ");
+        } catch (JsonProcessingException e) {
+            log.error("Not a Valid JSON file", e);
             throw e;
         }
 
@@ -136,25 +133,15 @@ public class ValidatorService {
 
     private String validateXML(String payload) throws IOException, SAXException, ParserConfigurationException {
 
-        try{
-            
+        try {
             DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = dBF.newDocumentBuilder();
-            InputSource is = new InputSource(payload);
             builder.parse(new InputSource(new ByteArrayInputStream(payload.getBytes("utf-8"))));
             return DesignServiceConstants.SUCCESS;
 
-        } catch(ParserConfigurationException e){
-            log.info("Error While parsing Payload : " + e.getMessage());
+        } catch (ParserConfigurationException | SAXException | IOException e) {
+            log.info("Error While parsing Payload", e);
             throw e;
-        }
-        catch(SAXException se){
-            log.info("Error While parsing Payload : " + se.getMessage());
-            throw se;
-        }
-        catch(IOException io){
-            log.info("Error While parsing Payload : " + io.getMessage());
-            throw io;
         }
     }
 }
