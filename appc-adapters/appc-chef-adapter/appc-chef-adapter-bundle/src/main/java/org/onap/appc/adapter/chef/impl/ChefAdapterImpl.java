@@ -139,17 +139,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         initialize();
     }
 
-    /**
-     * Returns the symbolic name of the adapter
-     *
-     * @return The adapter name
-     * @see org.onap.appc.adapter.chef.ChefAdapter#getAdapterName()
-     */
-    @Override
-    public String getAdapterName() {
-        return "chef adapter";
-    }
-
     @SuppressWarnings("nls")
     @Override
     public void vnfcEnvironment(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {

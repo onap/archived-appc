@@ -9,28 +9,28 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.adapter.chef;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.chef.impl.ChefAdapterImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.i18n.Msg;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
@@ -55,8 +55,9 @@ import org.osgi.framework.ServiceRegistration;
  */
 public class ChefActivator implements BundleActivator {
 
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ChefActivator.class);
     private static final String NAME = "APPC Chef Adapter";
-    private static final String CHEF_ADAPTER_STR = "CHEF adapter";
+    private static final String ADAPTER_NAME = "CHEF adapter";
 
     /**
      * The bundle registration
@@ -69,14 +70,9 @@ public class ChefActivator implements BundleActivator {
     private ChefAdapter adapter;
 
     /**
-     * The logger to be used
-     */
-    private final EELFLogger logger = EELFManager.getInstance().getLogger(ChefActivator.class);
-
-    /**
      * The configuration object used to configure this bundle
      */
-    private Configuration configuration;
+    private Configuration configuration = ConfigurationFactory.getConfiguration();
 
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
@@ -84,7 +80,7 @@ public class ChefActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     * 
+     *
      * @param context
      *            The execution context of the bundle being started.
      * @throws java.lang.Exception
@@ -97,17 +93,16 @@ public class ChefActivator implements BundleActivator {
     public void start(BundleContext context) throws Exception {
         logger.info("Starting bundle " + NAME);
 
-        configuration = ConfigurationFactory.getConfiguration();
-        String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-        logger.info(Msg.COMPONENT_INITIALIZING, appName, "chef adapter");
-        adapter = new ChefAdapterImpl(configuration.getProperties());
+        String appName = readApplicationNameFromProperties();
+        logger.info(Msg.COMPONENT_INITIALIZING, appName, ADAPTER_NAME);
+        adapter = new ChefAdapterImpl();
         if (registration == null) {
-            logger.info(Msg.REGISTERING_SERVICE, appName, adapter.getAdapterName(),
+            logger.info(Msg.REGISTERING_SERVICE, appName, ADAPTER_NAME,
                 ChefAdapter.class.getSimpleName());
             registration = context.registerService(ChefAdapter.class, adapter, null);
         }
 
-        logger.info(Msg.COMPONENT_INITIALIZED, appName, CHEF_ADAPTER_STR);
+        logger.info(Msg.COMPONENT_INITIALIZED, appName, ADAPTER_NAME);
     }
 
     /**
@@ -118,7 +113,7 @@ public class ChefActivator implements BundleActivator {
      * <p>
      * This method must complete and return to its caller in a timely manner.
      * </p>
-     * 
+     *
      * @param context
      *            The execution context of the bundle being stopped.
      * @throws java.lang.Exception
@@ -132,13 +127,16 @@ public class ChefActivator implements BundleActivator {
         logger.info("Stopping bundle " + NAME);
 
         if (registration != null) {
-            String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-            logger.info(Msg.COMPONENT_TERMINATING, appName, CHEF_ADAPTER_STR);
-            logger.info(Msg.UNREGISTERING_SERVICE, appName, adapter.getAdapterName());
+            String appName = readApplicationNameFromProperties();
+            logger.info(Msg.COMPONENT_TERMINATING, appName, ADAPTER_NAME);
+            logger.info(Msg.UNREGISTERING_SERVICE, appName, ADAPTER_NAME);
             registration.unregister();
             registration = null;
-            logger.info(Msg.COMPONENT_TERMINATED, appName, CHEF_ADAPTER_STR);
+            logger.info(Msg.COMPONENT_TERMINATED, appName, ADAPTER_NAME);
         }
     }
 
+    private String readApplicationNameFromProperties() {
+        return configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
+    }
 }
