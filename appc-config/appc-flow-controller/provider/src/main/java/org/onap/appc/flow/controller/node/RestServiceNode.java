@@ -43,7 +43,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RestServiceNode implements SvcLogicJavaPlugin{
 
-
     private static final  EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
     private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
 
@@ -51,8 +50,7 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
         String fn = "RestServiceNode.sendRequest";
         log.info("Received processParamKeys call with params : " + inParams);
         String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);
-        try
-        {
+        try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";        
             //Remove below for Block
             for (Object key : ctx.getAttributeKeySet()) {
@@ -67,14 +65,13 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-            e.printStackTrace();
-            log.error("Error Message : "  + e.getMessage());
+            log.error("Error Message : "  + e.getMessage(), e);
             throw new SvcLogicException(e.getMessage());
         }
     }
 
-    public void send(SvcLogicContext ctx, Map<String, String> inParams) throws Exception{        
-    try{
+    private void send(SvcLogicContext ctx, Map<String, String> inParams) throws Exception {
+        try {
             Properties prop = loadProperties();
             log.info("Loaded Properties " + prop.toString());
             String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);    
@@ -82,32 +79,31 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
             String resourceUri = "";
             if(ctx.getAttribute(FlowControllerConstants.INPUT_URL) != null && !(ctx.getAttribute(FlowControllerConstants.INPUT_URL).isEmpty()))
                 resourceUri = ctx.getAttribute(FlowControllerConstants.INPUT_URL);
-            else{
+            else {
                 resourceUri = resourceUri.concat(FlowControllerConstants.HTTP);
                 log.info("resourceUri=  " + resourceUri );
                 resourceUri = resourceUri.concat(ctx.getAttribute(FlowControllerConstants.INPUT_HOST_IP_ADDRESS));
                 resourceUri = resourceUri.concat(":");
                 resourceUri = resourceUri.concat(ctx.getAttribute(FlowControllerConstants.INPUT_PORT_NUMBER));
-                
+
                 if(ctx.getAttribute(FlowControllerConstants.INPUT_CONTEXT) != null && !ctx.getAttribute(FlowControllerConstants.INPUT_CONTEXT).isEmpty()){
                     resourceUri = resourceUri.concat("/").concat(ctx.getAttribute(FlowControllerConstants.INPUT_CONTEXT));
                     log.info("resourceUri= " + resourceUri );
                 }
                 else if(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".context")) != null ){
-                    log.info("resourceUri = " + resourceUri );        
+                    log.info("resourceUri = " + resourceUri );
                     resourceUri = resourceUri.concat("/").concat(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".context")));
-                }
-                else 
+                } else {
                     throw new Exception("Could Not found the context for operation " + ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION));
-
+                }
 
                 if(ctx.getAttribute(FlowControllerConstants.INPUT_SUB_CONTEXT) != null && !ctx.getAttribute(FlowControllerConstants.INPUT_SUB_CONTEXT).isEmpty()){
-                    resourceUri = resourceUri.concat("/").concat(ctx.getAttribute(FlowControllerConstants.INPUT_SUB_CONTEXT)); 
-                    log.info("resourceUri" + resourceUri );        
+                    resourceUri = resourceUri.concat("/").concat(ctx.getAttribute(FlowControllerConstants.INPUT_SUB_CONTEXT));
+                    log.info("resourceUri" + resourceUri );
                 }
                 else if(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".sub-context")) != null ){
-                    resourceUri = resourceUri.concat("/").concat(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".sub-context"))); 
-                    log.info("resourceUri" + resourceUri );        
+                    resourceUri = resourceUri.concat("/").concat(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".sub-context")));
+                    log.info("resourceUri" + resourceUri );
                 }
             }
 
@@ -123,16 +119,15 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
                 throw new Exception("Dont know request-action " + transaction.getAction());
 
             //This code need to get changed to get the UserID and pass from a common place.
-            if(transaction.getuId() == null )
+            if(transaction.getuId() == null)
                 transaction.setuId(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".default-rest-user")));
             if(transaction.getPswd() == null)
                 transaction.setPswd(prop.getProperty(ctx.getAttribute(FlowControllerConstants.INPUT_REQUEST_ACTION).concat(".default-rest-pass")));    
 
             HashMap<String, String> output = restRequestExecutor.execute(transaction, ctx);
 
-            if(output.get("restResponse") !=null && isValidJSON(output.get("restResponse")) != null)
-            {
-                    ctx.setAttribute(responsePrefix + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE , output.get("restResponse"));
+            if(isValidJSON(output.get("restResponse")) != null) {
+                ctx.setAttribute(responsePrefix + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE , output.get("restResponse"));
 //                JsonNode restResponse = isValidJSON(output.get("restResponse"));
 //                for (String key : inParams.keySet()) {
 //                    if(key !=null &&  key.startsWith("output-")){
@@ -148,11 +143,9 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
 //                }                
             }
             log.info("Response from Rest :" );
-        }
-        catch(Exception e)
-        {
-            e.printStackTrace();
-            log.error("Error Message " + e.getMessage());
+
+        } catch(Exception e) {
+            log.error("Error Message: " + e.getMessage(), e);
             throw e;
         }
     }
@@ -163,8 +156,7 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
         if (propDir == null)
             throw new Exception("Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
         String propFile = propDir + FlowControllerConstants.APPC_FLOW_CONTROLLER;
-        InputStream propStream = new FileInputStream(propFile);        
-        try
+        try (InputStream propStream = new FileInputStream(propFile))
         {
             props.load(propStream);
         }
@@ -172,35 +164,22 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
         {
             throw new Exception("Could not load properties file " + propFile, e);
         }
-        finally
-        {
-            try
-            {
-                propStream.close();
-            }
-            catch (Exception e)
-            {
-                log.warn("Could not close FileInputStream", e);
-            }
-        }
-        // TODO Auto-generated method stub
         return props;
     }
-    
-    public JsonNode isValidJSON(String json) throws IOException {
-        JsonNode output = null;     
+
+    private JsonNode isValidJSON(String json) throws IOException {
+        JsonNode output;
         log.info("Received response from Interface " + json);
-        if(json ==null  || json.isEmpty())
+        if(json == null  || json.isEmpty())
             return null;
-        try{ 
+        try {
             ObjectMapper objectMapper = new ObjectMapper();
             output = objectMapper.readTree(json);
-        } catch(JsonProcessingException e){
-            log.warn("Response received from interface is not a valid JSON block" + json);
+        } catch(JsonProcessingException e) {
+            log.warn("Response received from interface is not a valid JSON block" + json, e);
             return null;
-        }    
+        }
         log.info("state is " + output.findValue("state"));
-        
         return output;
     }
 }

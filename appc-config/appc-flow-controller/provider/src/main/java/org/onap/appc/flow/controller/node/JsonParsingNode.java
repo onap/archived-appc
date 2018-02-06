@@ -21,7 +21,6 @@
 package org.onap.appc.flow.controller.node;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -40,53 +39,45 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonParsingNode implements SvcLogicJavaPlugin{
 
-
     private static final  EELFLogger log = EELFManager.getInstance().getLogger(JsonParsingNode.class);
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
 
     public void parse(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         String fn = "RestServiceNode.sendRequest";
         log.info("Received processParamKeys call with params : " + inParams);
         String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);
-        try
-        {
-            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";        
+        responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
+        try {
             //Remove below for Block
-            if(isValidJSON(inParams.get("data")) !=null){
-                JsonNode jnode = isValidJSON(inParams.get("data"));
-                ObjectMapper mapper = new ObjectMapper();
-                Map<String, Object> map = new HashMap<String, Object>();
-                map = mapper.readValue(jnode.toString(), new TypeReference<Map<String, String>>(){});                
+            JsonNode jnode = isValidJSON(inParams.get("data"));
+            if(jnode != null) {
+                Map<String, Object> map = new ObjectMapper().readValue(jnode.toString(), new TypeReference<Map<String, String>>(){});
                 for (Entry<String, Object> entry : map.entrySet())
                 {
                     ctx.setAttribute(responsePrefix + entry.getKey(),(String) entry.getValue());
                 }
-            
             }
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_SUCCESS);
             
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_STATUS, FlowControllerConstants.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-            e.printStackTrace();
-            log.error("Error Message : "  + e.getMessage());
+            log.error(fn + " Error Message : " + e.getMessage(), e);
             throw new SvcLogicException(e.getMessage());
         }
     }
 
-    public JsonNode isValidJSON(String json) throws IOException {
-        JsonNode output = null;     
+    private JsonNode isValidJSON(String json) throws IOException {
+        JsonNode output;
         log.info("Received response from Interface " + json);
-        if(json ==null  || json.isEmpty())
+        if(json == null  || json.isEmpty())
             return null;
-        try{ 
+        try {
             ObjectMapper objectMapper = new ObjectMapper();
             output = objectMapper.readTree(json);
-        } catch(JsonProcessingException e){
-            log.warn("Response received from interface is not a valid JSON block" + json);
+        } catch(JsonProcessingException e) {
+            log.warn("Response received from interface is not a valid JSON block" + json, e);
             return null;
-        }    
-        
+        }
         return output;
     }
 }
