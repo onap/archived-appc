@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_fae1aed0",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-07T19:23:08Z",
+      "side": 1,
+      "message": "Onap cannot use wildcard imports: https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports",
+      "revId": "769a0b2d665688acb4596d8d7f7fce25e6272bc0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
