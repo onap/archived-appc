@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ff4e8095",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DbService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-07T16:36:07Z",
+      "side": 1,
+      "message": "I\u0027m making sure that this package is able to resolve, I don\u0027t see it in a pom file for some reason. If it is a new package, we will also need to make sure there is not issue with licensing.",
+      "revId": "b0652b0a1108d8de66a72f5764870fecfbb5f3ad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
