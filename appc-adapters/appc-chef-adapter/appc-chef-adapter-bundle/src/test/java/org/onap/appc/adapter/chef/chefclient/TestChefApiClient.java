@@ -107,7 +107,7 @@ public class TestChefApiClient {
         assertEquals("sb Method:" + method, response[0]);
         assertEquals("Hashed Path:+JEk1y2gXwqZRweNjXYtx4ojxW8=", response[1]);
         assertEquals("X-Ops-Content-Hash:2jmj7l5rSw0yVb/vlWAYkK/YBwk=", response[2]);
-        checkTimestamp(response[3], 5000);
+        checkTimestamp(response[3], 30000);
         assertEquals("X-Ops-UserId:test", response[4]);
     }
 
