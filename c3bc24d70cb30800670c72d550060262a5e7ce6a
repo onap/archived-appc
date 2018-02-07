@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_1a21fafa",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/validator/ValidatorService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-07T19:37:19Z",
+      "side": 1,
+      "message": "It looks like the original behavior of this method was to re-throw the exception type that was caught. Is there a reason for the change to creating a new IOException?",
+      "revId": "c3bc24d70cb30800670c72d550060262a5e7ce6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
