@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7a9fde50",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/executor/node/RestExecutorTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-07T19:17:51Z",
+      "side": 1,
+      "message": "We are not supposed to use powermock for any new junit tests, because they do not count towards coverage: https://wiki.onap.org/display/DW/How-To%27s+and+other+helpful+information?preview\u003d/23266404/23266704/Junit%20Tests%20Slides-PDF.pdf",
+      "revId": "e6c4dec406f5a48d3f4a4d8881515dcc782a2cbb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
