@@ -16,6 +16,24 @@
       "revId": "769a0b2d665688acb4596d8d7f7fce25e6272bc0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b00ca63c",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-02-08T10:34:10Z",
+      "side": 1,
+      "message": "Wildcards removed. This issue was caused by autoimport feature in IntelliJ",
+      "parentUuid": "5a93c517_fae1aed0",
+      "revId": "769a0b2d665688acb4596d8d7f7fce25e6272bc0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
