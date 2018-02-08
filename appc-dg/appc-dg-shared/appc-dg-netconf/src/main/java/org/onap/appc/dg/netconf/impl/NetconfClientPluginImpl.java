@@ -24,41 +24,52 @@
 
 package org.onap.appc.dg.netconf.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.onap.appc.adapter.netconf.*;
-import org.onap.appc.adapter.netconf.util.Constants;
-import org.onap.appc.dg.netconf.NetconfClientPlugin;
-import org.onap.appc.exceptions.APPCException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-
+import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.onap.appc.adapter.netconf.NetconfClient;
+import org.onap.appc.adapter.netconf.NetconfClientFactory;
+import org.onap.appc.adapter.netconf.NetconfClientType;
+import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.NetconfDataAccessService;
+import org.onap.appc.adapter.netconf.OperationalStateValidator;
+import org.onap.appc.adapter.netconf.OperationalStateValidatorFactory;
+import org.onap.appc.adapter.netconf.VnfType;
+import org.onap.appc.adapter.netconf.util.Constants;
+import org.onap.appc.dg.netconf.NetconfClientPlugin;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 
 
 public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
-    private static final String NETCONF_CLIENT_FACTORY_NAME = "org.onap.appc.adapter.netconf.NetconfClientFactory";
-    private static ObjectMapper mapper = new ObjectMapper();
     private static EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
+    private static ObjectMapper mapper = new ObjectMapper();
+    private static final String NETCONF_CLIENT_FACTORY_NAME = "org.onap.appc.adapter.netconf.NetconfClientFactory";
+    private static final String CONNECTION_DETAILS_PARAM = "connection-details";
+    private static final String ERROR_STR = "Error ";
+    private static final String GET_CONFIG_RESULT_PARAM = "getConfig_Result";
+    private static final String FAILURE_PARAM = "failure";
+    private static final String GET_RUNNING_CONFIG_RESULT_PARAM = "getRunningConfig_Result";
 
     private NetconfDataAccessService dao;
     private NetconfClientFactory clientFactory;
 
     public NetconfClientPluginImpl() {
         BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
-        ServiceReference srefNetconfClientFactory = bctx.getServiceReference(NetconfClientFactory.class);
-        clientFactory = (NetconfClientFactory) bctx.getService(srefNetconfClientFactory);
+        ServiceReference<NetconfClientFactory> srefNetconfClientFactory = bctx
+            .getServiceReference(NetconfClientFactory.class);
+        clientFactory = bctx.getService(srefNetconfClientFactory);
     }
 
     public void setDao(NetconfDataAccessService dao) {
@@ -71,30 +82,36 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
         try {
             // by default, it uses the jsch Netconf Adapter implementation by calling getNetconfClient(NetconfClientType.SSH).
             NetconfClient client = clientFactory.getNetconfClient(NetconfClientType.SSH);
-            try {
-                NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
-                String netconfMessage = params.get("file-content");
-                client.connect(connectionDetails);
-                client.configure(netconfMessage);
-            } catch (IOException e) {
-                logger.error("Error " + e.getMessage());
-                throw new APPCException(e);
-            } finally {
-                client.disconnect();
-            }
+            connect(params, client);
         } catch (Exception e) {
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
-            logger.error("Error " + e.getMessage());
+            logger.error(ERROR_STR + e.getMessage());
             throw e;
+        }
+    }
+
+    private void connect(Map<String, String> params, NetconfClient client) throws APPCException {
+        try {
+            NetconfConnectionDetails connectionDetails = mapper
+                .readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
+            String netconfMessage = params.get("file-content");
+            client.connect(connectionDetails);
+            client.configure(netconfMessage);
+        } catch (IOException e) {
+            logger.error(ERROR_STR + e.getMessage());
+            throw new APPCException(e);
+        } finally {
+            client.disconnect();
         }
     }
 
     @Override
     public void operationStateValidation(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to operationStateValidation with params = "+ ObjectUtils.toString(params)+", SvcLogicContext = "+ObjectUtils.toString(ctx));
+            logger.trace("Entering to operationStateValidation with params = " + ObjectUtils.toString(params)
+                + ", SvcLogicContext = " + ObjectUtils.toString(ctx));
         }
-        try{
+        try {
             String paramName = Constants.VNF_TYPE_FIELD_NAME;
             String vfType = params.get(paramName);
             validateMandatoryParam(paramName, vfType);
@@ -106,23 +123,19 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
             //get connectionDetails
             String connectionDetailsStr = params.get(Constants.CONNECTION_DETAILS_FIELD_NAME);
-            NetconfConnectionDetails connectionDetails = null;
-            if(StringUtils.isEmpty(connectionDetailsStr)){
-                connectionDetails = retrieveConnectionDetails(vnfType);
-                connectionDetails.setHost(vnfHostIpAddress);
-                ctx.setAttribute(Constants.CONNECTION_DETAILS_FIELD_NAME, mapper.writeValueAsString(connectionDetails));
-            }else{
-                connectionDetails = mapper.readValue(connectionDetailsStr, NetconfConnectionDetails.class);
-            }
-            if(connectionDetails == null){
-                throw new IllegalStateException("missing connectionDetails for VnfType:"+vnfType.name());
+            NetconfConnectionDetails connectionDetails =
+                resolveConnectionDetails(ctx, vnfType, vnfHostIpAddress, connectionDetailsStr);
+
+            if (connectionDetails == null) {
+                throw new IllegalStateException("missing connectionDetails for VnfType:" + vnfType.name());
             }
 
             //get operationsStateNetconfMessage
-            OperationalStateValidator operationalStateValidator = OperationalStateValidatorFactory.getOperationalStateValidator(vnfType);
+            OperationalStateValidator operationalStateValidator = OperationalStateValidatorFactory
+                .getOperationalStateValidator(vnfType);
             String configurationFileName = operationalStateValidator.getConfigurationFileName();
             String operationsStateNetconfMessage = null;
-            if(!StringUtils.isEmpty(configurationFileName)){
+            if (!StringUtils.isEmpty(configurationFileName)) {
                 operationsStateNetconfMessage = retrieveConfigurationFileContent(configurationFileName);
             }
 
@@ -131,7 +144,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             try {
                 client.connect(connectionDetails);
                 String response = null;
-                if(!StringUtils.isEmpty(operationsStateNetconfMessage)) {
+                if (!StringUtils.isEmpty(operationsStateNetconfMessage)) {
                     response = client.exchangeMessage(operationsStateNetconfMessage);
                 }
                 operationalStateValidator.validateResponse(response);
@@ -142,12 +155,25 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             logger.error(e.getMessage());
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.toString());
             throw e;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e.toString());
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.toString());
             throw new APPCException(e);
         }
+    }
+
+    private NetconfConnectionDetails resolveConnectionDetails(SvcLogicContext ctx, VnfType vnfType,
+        String vnfHostIpAddress, String connectionDetailsStr) throws APPCException, IOException {
+
+        NetconfConnectionDetails connectionDetails;
+        if (StringUtils.isEmpty(connectionDetailsStr)) {
+            connectionDetails = retrieveConnectionDetails(vnfType);
+            connectionDetails.setHost(vnfHostIpAddress);
+            ctx.setAttribute(Constants.CONNECTION_DETAILS_FIELD_NAME, mapper.writeValueAsString(connectionDetails));
+        } else {
+            connectionDetails = mapper.readValue(connectionDetailsStr, NetconfConnectionDetails.class);
+        }
+        return connectionDetails;
     }
 
     @Override
@@ -166,21 +192,22 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
             client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             //get connection details
-            NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
+            NetconfConnectionDetails connectionDetails = mapper
+                .readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
             //connect the client and get configuration
             client.connect(connectionDetails);
             String configuration = client.getConfiguration();
 
             //store configuration in database
-            dao.logDeviceInteraction(null,null,getCurrentDateTime(),configuration);
+            dao.logDeviceInteraction(null, null, getCurrentDateTime(), configuration);
 
         } catch (Exception e) {
-            logger.error("Error " + e.getMessage());
+            logger.error(ERROR_STR + e.getMessage());
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
             throw new APPCException(e);
         } finally {
             //disconnect the client
-            if(client != null) {
+            if (client != null) {
                 client.disconnect();
             }
         }
@@ -189,8 +216,8 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
     @Override
     public void getConfig(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         NetconfClient client = null;
-        String confId=params.get("conf-id");
-        if(confId.equalsIgnoreCase("current")){
+        String confId = params.get("conf-id");
+        if ("current".equalsIgnoreCase(confId)) {
             try {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Entered getConfig to DEVICE_INTERFACE_LOG");
@@ -198,41 +225,46 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
                 //get netconf client to get configuration
                 BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
                 ServiceReference sref = bctx.getServiceReference(NETCONF_CLIENT_FACTORY_NAME);
-                NetconfClientFactory clientFactory = (NetconfClientFactory) bctx.getService(sref);
-                client = clientFactory.getNetconfClient(NetconfClientType.SSH);
+                NetconfClientFactory clientFact = (NetconfClientFactory) bctx.getService(sref);
+                client = clientFact.getNetconfClient(NetconfClientType.SSH);
                 //get connection details
-                NetconfConnectionDetails connectionDetails = mapper.readValue(params.get("connection-details"), NetconfConnectionDetails.class);
+                NetconfConnectionDetails connectionDetails = mapper
+                    .readValue(params.get(CONNECTION_DETAILS_PARAM), NetconfConnectionDetails.class);
                 //connect the client and get configuration
                 client.connect(connectionDetails);
                 String configuration = client.getConfiguration();
-                if(configuration !=null){
+                if (configuration != null) {
                     String fullConfig = ctx.getAttribute("fullConfig");
-                    fullConfig = fullConfig==null?"":fullConfig;
-                    ctx.setAttribute("fullConfig",fullConfig + configuration);
+                    fullConfig = fullConfig == null ? "" : fullConfig;
+                    ctx.setAttribute("fullConfig", fullConfig + configuration);
 
-                    ctx.setAttribute("getConfig_Result","Success");
-                    String entityName=ctx.getAttribute("entity");//VM name
-                    if(entityName!=null){
-                        ctx.setAttribute(entityName+".Configuration",configuration);
-                    }
-                }else{
-                    ctx.setAttribute("getConfig_Result","failure");
+                    ctx.setAttribute(GET_CONFIG_RESULT_PARAM, "Success");
+                    String entityName = ctx.getAttribute("entity");//VM name
+                    trySetEntityConfiguration(ctx, configuration, entityName);
+                } else {
+                    ctx.setAttribute(GET_CONFIG_RESULT_PARAM, FAILURE_PARAM);
                 }
             } catch (Exception e) {
-                ctx.setAttribute("getConfig_Result","failure");
-                logger.error("Error " + e.getMessage());
+                ctx.setAttribute(GET_CONFIG_RESULT_PARAM, FAILURE_PARAM);
+                logger.error(ERROR_STR + e.getMessage());
                 ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
                 throw new APPCException(e);
             } finally {
                 //disconnect the client
-                if(client != null) {
+                if (client != null) {
                     client.disconnect();
                 }
             }
-        }else{
+        } else {
             logger.info("Current Conf id value is not supported");
         }
 
+    }
+
+    private void trySetEntityConfiguration(SvcLogicContext ctx, String configuration, String entityName) {
+        if (entityName != null) {
+            ctx.setAttribute(entityName + ".Configuration", configuration);
+        }
     }
 
 
@@ -244,33 +276,34 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
             //get netconf client to get configuration
             BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
             ServiceReference sref = bctx.getServiceReference(NETCONF_CLIENT_FACTORY_NAME);
-            NetconfClientFactory clientFactory = (NetconfClientFactory) bctx.getService(sref);
-            client = clientFactory.getNetconfClient(NetconfClientType.SSH);
+            NetconfClientFactory clientFact = (NetconfClientFactory) bctx.getService(sref);
+            client = clientFact.getNetconfClient(NetconfClientType.SSH);
             //get connection details
             NetconfConnectionDetails connectionDetails = new NetconfConnectionDetails();
             connectionDetails.setHost(params.get("host-ip-address"));
             connectionDetails.setUsername(params.get("user-name"));
             connectionDetails.setPassword(params.get("password"));
-            connectionDetails.setPort(!("".equalsIgnoreCase(params.get("port-number")))?Integer.parseInt(params.get("port-number")):NetconfConnectionDetails.DEFAULT_PORT);
+            connectionDetails.setPort(
+                !("".equalsIgnoreCase(params.get("port-number"))) ? Integer.parseInt(params.get("port-number"))
+                    : NetconfConnectionDetails.DEFAULT_PORT);
             //connect the client and get configuration
             client.connect(connectionDetails);
             String configuration = client.getConfiguration();
-            if(configuration !=null){
-                //  logger.info("*************************************Configuration Output*************************************");
+            if (configuration != null) {
                 ctx.setAttribute("running-config", configuration);
 
-                ctx.setAttribute("getRunningConfig_Result","Success");
-            }else{
-                ctx.setAttribute("getRunningConfig_Result","failure");
+                ctx.setAttribute(GET_RUNNING_CONFIG_RESULT_PARAM, "Success");
+            } else {
+                ctx.setAttribute(GET_RUNNING_CONFIG_RESULT_PARAM, FAILURE_PARAM);
             }
         } catch (Exception e) {
-            ctx.setAttribute("getRunningConfig_Result","failure");
-            logger.error("Error " + e.getMessage());
+            ctx.setAttribute(GET_RUNNING_CONFIG_RESULT_PARAM, FAILURE_PARAM);
+            logger.error(ERROR_STR + e.getMessage());
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, e.getMessage());
             throw new APPCException(e);
         } finally {
             //disconnect the client
-            if(client != null) {
+            if (client != null) {
                 client.disconnect();
             }
         }
@@ -283,32 +316,24 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
         return dateFormat.format(date);
     }
 
-    private int getPort(String s) {
-        int port = 830;
-        if((s != null) && !s.isEmpty()) {
-            port = Integer.parseInt(s);
-        }
-        return port;
-    }
-
     void validateMandatoryParam(String paramName, String paramValue) {
-        if(StringUtils.isEmpty(paramValue)){
-            throw new IllegalArgumentException("input "+paramName+" param is empty");
+        if (StringUtils.isEmpty(paramValue)) {
+            throw new IllegalArgumentException("input " + paramName + " param is empty");
         }
     }
 
-    public NetconfConnectionDetails retrieveConnectionDetails( VnfType vnfType) throws APPCException{
+    public NetconfConnectionDetails retrieveConnectionDetails(VnfType vnfType) throws APPCException {
 
         NetconfConnectionDetails connectionDetails = new NetconfConnectionDetails();
         if (!dao.retrieveNetconfConnectionDetails(vnfType.getFamilyType().name(), connectionDetails)) {
             logger.error("Missing configuration for " + vnfType.getFamilyType().name());
-            throw new APPCException("Missing configuration for " + vnfType.getFamilyType().name() + " in " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
+            throw new APPCException("Missing configuration for " + vnfType.getFamilyType().name() + " in "
+                + Constants.DEVICE_AUTHENTICATION_TABLE_NAME);
         }
         return connectionDetails;
     }
 
-    public String retrieveConfigurationFileContent(String configFileName){
+    public String retrieveConfigurationFileContent(String configFileName) {
         return dao.retrieveConfigFileName(configFileName);
     }
-
 }
