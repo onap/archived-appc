@@ -9,4 +9,8 @@ class ArtifactHandlerInternalException extends Exception{
     ArtifactHandlerInternalException(String message) {
         super(message);
     }
+
+    ArtifactHandlerInternalException(Throwable cause) {
+        super(cause);
+    }
 }
