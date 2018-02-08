@@ -50,9 +50,6 @@ public class ArtifactHandlerNodeTest {
         artifactHandlerNode = Mockito.spy(ArtifactHandlerNode.class);
         Mockito.doReturn(true)
             .when(artifactHandlerNode)
-            .updateStoreArtifacts(Mockito.any(JSONObject.class), Mockito.any(JSONObject.class));
-        Mockito.doReturn(true)
-            .when(artifactHandlerNode)
             .storeReferenceData(Mockito.any(JSONObject.class), Mockito.any(JSONObject.class));
     }
 
