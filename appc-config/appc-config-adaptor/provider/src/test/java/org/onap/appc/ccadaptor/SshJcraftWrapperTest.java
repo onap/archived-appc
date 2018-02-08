@@ -25,6 +25,7 @@
 package org.onap.appc.ccadaptor;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
@@ -68,8 +69,12 @@ public class SshJcraftWrapperTest {
     private static final String HOST = "hostname";
     private static final String SUBSYSTEM = "netconf";
     private static final String PROMPT = "]]>]]>";
+    private static final String SEARCH_STR = "</rpc-reply>";
+    private static final int READ_TIMEOUT = 180_000;
     private static final int PORT_NUM = 23;
     private static final int SESSION_TIMEOUT = 30_000;
+    private static final int READ_INTERVAL_MS = 1;
+    private static final int READ_BUFFER_SIZE = 10;
 
     private SshJcraftWrapper cut;
     @Mock
@@ -91,7 +96,7 @@ public class SshJcraftWrapperTest {
         given(session.openChannel(SshJcraftWrapper.CHANNEL_SHELL_TYPE)).willReturn(channelShell);
         given(session.openChannel(SshJcraftWrapper.CHANNEL_SUBSYSTEM_TYPE)).willReturn(channelSubsystem);
         given(jSchMock.getSession(anyString(), anyString(), anyInt())).willReturn(session);
-        cut = new SshJcraftWrapper(jSchMock);
+        cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, READ_BUFFER_SIZE);
     }
 
     @Ignore
@@ -449,6 +454,230 @@ public class SshJcraftWrapperTest {
         given(channelSubsystem.getInputStream()).willReturn(channelIs);
         cut.connect(HOST, USER, PASS, SESSION_TIMEOUT, PORT_NUM, SUBSYSTEM);
         assertTrue(cut.isConnected());
+    }
+
+    //receiveUntil tests begin
+    @Test(expected = IllegalStateException.class)
+    public void receiveUntil_shouldThrowIllegalStateException_whenInstanceIsNotConnected() throws Exception {
+        //given
+        assertFalse(cut.isConnected());
+
+        //when
+        cut.receiveUntil(SEARCH_STR, READ_TIMEOUT, "");
+
+        //then
+        fail("IllegalStateException should be thrown");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void receiveUntil_shouldThrowIllegalStateException_whenJschReaderStreamIsNotAvailable() throws Exception {
+        //given
+        provideConnectedSubsystemInstance();
+        given(channelIs.available()).willReturn(0);
+
+        //when
+        cut.receiveUntil(SEARCH_STR, READ_TIMEOUT, "");
+
+        //then
+        fail("IllegalStateException should be thrown");
+    }
+
+    @Test(expected = TimedOutException.class)
+    public void receiveUntil_shouldThrowTimedOutException_whenSessionFails() throws Exception {
+        //given
+        given(channelSubsystem.getInputStream()).willReturn(IOUtils.toInputStream("test input stream:~#", "UTF-8"));
+        cut.connect(HOST, USER, PASS, SESSION_TIMEOUT, PORT_NUM, SUBSYSTEM);
+        assertTrue(cut.isConnected());
+        doThrow(new JSchException("Session is not available")).when(session).setTimeout(anyInt());
+
+        //when
+        cut.receiveUntil(SEARCH_STR, READ_TIMEOUT, "");
+
+        //then
+        fail("TimedOutException should be thrown");
+    }
+
+    @Test(expected = TimedOutException.class)
+    public void receiveUntil_shouldThrowTimedOutException_whenReadFails() throws Exception {
+        //given
+        provideConnectedSubsystemInstance();
+        given(channelIs.available()).willReturn(1);
+        given(channelIs.read(any(), anyInt(), anyInt())).willThrow(new IOException("Could not read stream"));
+
+        //when
+        cut.receiveUntil(SEARCH_STR, READ_TIMEOUT, "");
+
+        //then
+        fail("TimedOutException should be thrown");
+    }
+
+    @Test(expected = TimedOutException.class)
+    public void receiveUntil_shouldThrowException_whenTimeoutIsReached() throws Exception {
+        //given
+        String streamContent = "test input stream:~#";
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+
+        //when
+        cut.receiveUntil(SEARCH_STR, -1000, " Some fake command\n");
+
+        //then
+        fail("TimedOutException should be thrown");
+    }
+
+    @Test(expected = TimedOutException.class)
+    public void receiveUntil_shouldThrowException_whenReachedEndOfStream_andCouldNotReadMoreBytes() throws Exception {
+        //given
+        provideConnectedSubsystemInstance();
+        given(channelIs.available()).willReturn(1);
+        given(channelIs.read(any(), anyInt(), anyInt())).willReturn(-1);
+
+        //when
+        cut.receiveUntil(SEARCH_STR, READ_TIMEOUT, "");
+
+        //then
+        fail("TimedOutException should be thrown");
+    }
+
+    @Test
+    public void receiveUntil_shouldReadUnderlyingStream_andStripOffFirstLine() throws Exception {
+        //given
+        String command = "Command"+SshJcraftWrapper.EOL;
+        String reply = "Reply"+SshJcraftWrapper.EOL;
+        String streamContent = command+reply+PROMPT;
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+
+        //when
+        String result = cut.receiveUntil(PROMPT, SESSION_TIMEOUT, command);
+
+        //then
+        assertEquals(reply+PROMPT, result);
+    }
+
+    @Test
+    public void receiveUntil_shouldReadUnderlyingStream_andReturnWholeReadString() throws Exception {
+        //given
+        String streamContent = "Command and Reply in just one line"+PROMPT;
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+
+        //when
+        String result = cut.receiveUntil(PROMPT, SESSION_TIMEOUT, streamContent);
+
+        //then
+        assertEquals(streamContent, result);
+    }
+
+    @Test
+    public void receiveUntil_shouldCutOffSpecialCharactersFromStream() throws Exception {
+        //given
+        char special1 = Character.UNASSIGNED;
+        char special2 = Character.ENCLOSING_MARK;
+        char special3 = Character.LINE_SEPARATOR;
+        char special4 = Character.MODIFIER_SYMBOL;
+        StringBuilder sb = new StringBuilder("Command");
+        sb.append(special1).append("With").append(special2).append("Special")
+            .append(special3).append("Characters").append(special4).append("Set").append(PROMPT);
+
+        provideConnectedSubsystemInstanceWithStreamContent(sb.toString());
+
+        //when
+        String result = cut.receiveUntil(PROMPT, SESSION_TIMEOUT, "");
+
+        //then
+        assertEquals("CommandWithSpecialCharactersSet"+PROMPT, result);
+    }
+
+    @Test
+    public void receiveUntil_shouldReadUnderlyingStream_untilCLIDelimiterFound_whenProperDelimiterSet() throws Exception {
+        //given
+        String cliDelimiter = "#$";
+        String delimiters = PROMPT+SshJcraftWrapper.DELIMITERS_SEPARATOR+cliDelimiter;
+        String streamContent = "Command for CLI invocation #";
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+
+        //when
+        String result = cut.receiveUntil(delimiters, SESSION_TIMEOUT, streamContent);
+
+        //then
+        assertEquals(streamContent, result);
+    }
+
+    @Test
+    public void receiveUntil_shouldReadUnderlyingStream_untilCLIDelimiterFound_whenCLICommandSet() throws Exception {
+        //given
+        String streamContent = "Command for CLI invocation #";
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+        cut.setRouterCommandType("CLI");
+
+        //when
+        String result = cut.receiveUntil("", SESSION_TIMEOUT, streamContent);
+
+        //then
+        assertEquals(streamContent, result);
+    }
+
+    @Test
+    public void receiveUntil_shouldReadUnderlyingStream_untilCLIDelimiterFound_forShowConfigCommand() throws Exception {
+        //given
+        String streamContent = "show config\nconfig content#";
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+
+        //when
+        String result = cut.receiveUntil("#", SESSION_TIMEOUT, streamContent);
+
+        //then
+        assertEquals("config content#", result);
+    }
+
+    @Test
+    public void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile_confirmFromFile() throws Exception {
+        receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile();
+    }
+
+    @Test
+    public void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile_confirmFromBuffer() throws Exception {
+        //given
+        int biggerBufferSize = 32;
+        cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, biggerBufferSize);
+
+        receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile();
+    }
+
+    private void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile() throws Exception {
+        //given
+        String routerName = "router";
+        String command = "RP/0/RP0/CPU0: "+routerName+" #IOS_XR_uploadedSwConfigCmd";
+        String configFileEnding = "\nXML>";
+        String streamContent = "Config file\ncontent"+configFileEnding;
+        provideConnectedSubsystemInstanceWithStreamContent(streamContent);
+
+        //when
+        String result = cut.receiveUntil("", SESSION_TIMEOUT, command);
+
+        //then
+        assertNull(result); //TO-DO: it would be better to return empty string in this situation
+        assertFileExist(routerName);
+
+        //after
+        teardownFile(routerName);
+    }
+
+    private void provideConnectedSubsystemInstanceWithStreamContent( String streamContent) throws Exception {
+        given(channelSubsystem.getInputStream()).willReturn(IOUtils.toInputStream(streamContent, "UTF-8"));
+        cut.connect(HOST, USER, PASS, SESSION_TIMEOUT, PORT_NUM, SUBSYSTEM);
+        assertTrue(cut.isConnected());
+    }
+
+    private void teardownFile(String routerName) {
+        File file = new File(routerName);
+        if(file.exists() && file.isFile()) {
+            file.delete();
+        }
+    }
+
+    private void assertFileExist(String fileName) {
+        File file = new File(fileName);
+        assertTrue(file.exists());
+        assertTrue(file.isFile());
     }
 
 }
