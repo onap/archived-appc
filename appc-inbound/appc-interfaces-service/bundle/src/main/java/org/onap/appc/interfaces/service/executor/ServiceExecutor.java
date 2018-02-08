@@ -24,40 +24,34 @@
 
 package org.onap.appc.interfaces.service.executor;
 
-import java.io.IOException;
-
-import org.onap.appc.interfaces.service.InterfacesServiceProviderImpl;
 import org.onap.appc.interfaces.service.executorImpl.ServiceExecutorImpl;
 import org.onap.appc.interfaces.service.utils.ServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-
 public class ServiceExecutor {
 
     private static final Logger log = LoggerFactory.getLogger(ServiceExecutor.class);
-    public String execute(String action, String requestData, String requestDataType) throws Exception{
-        String response = null;
+
+    public String execute(String action, String requestData, String requestDataType) throws Exception {
+        String response;
         log.info("Received execute request for action : " + action + "  with Payload : " + requestData);
-        try{
-        RequestValidator.validate(action, requestData, requestData);
-        switch (action) {
-        case ServiceConstants.REQUESTOVERLAP:
-            response = isRequestOverLap(requestData);
-            break;
-        case ServiceConstants.GEDATABYMODEL:
-            response = getDataByModel(action, requestData, requestDataType);
-            break;
-        default:
-            throw new Exception(" Action " + action + " not found while processing request ");
+        try {
+            RequestValidator.validate(action, requestData, requestData);
+            switch (action) {
+                case ServiceConstants.REQUESTOVERLAP:
+                    response = isRequestOverLap(requestData);
+                    break;
+                case ServiceConstants.GEDATABYMODEL:
+                    response = getDataByModel(action, requestData, requestDataType);
+                    break;
+                default:
+                    throw new ExecutorException(" Action " + action + " not found while processing request ");
+            }
+        } catch (Exception e) {
+            log.info("Error while checking for ScopeOverlap", e);
+            throw e;
         }
-    }catch(Exception e){
-        log.info("Error while checking for ScopeOverlap " + e.getMessage());
-        e.printStackTrace();
-        throw e;
-    }
         return response;
     }
 
@@ -72,7 +66,7 @@ public class ServiceExecutor {
         try {
             return serviceExecutor.isRequestOverLap(requestData);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error while checking for request overlap", e);
             throw e;
         }
     }
