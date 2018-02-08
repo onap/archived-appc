@@ -30,14 +30,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.dg.flowbuilder.exception.InvalidDependencyModelException;
 import org.onap.appc.dg.objects.Node;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 import org.onap.appc.domainmodel.Vnfc;
-
-import java.io.IOException;
-import java.util.*;
 
 public class DependencyModelParser {
 
@@ -49,11 +53,12 @@ public class DependencyModelParser {
     private static final String HIGH_AVAILABLITY = "high_availablity";
     private static final String MANDATORY = "mandatory";
     private static final String TOPOLOGY_TEMPLATE = "topology_template";
-    private static final String RELATIONSHIP="relationship";
+    private static final String RELATIONSHIP = "relationship";
 
     private static Map<String, String> dependencyMap;
+
     static {
-        Map<String, String> dependencyTypeMappingMap =new HashMap<>();
+        Map<String, String> dependencyTypeMappingMap = new HashMap<>();
         dependencyTypeMappingMap.put("geo-activeactive", ACTIVE_ACTIVE);
         dependencyTypeMappingMap.put("geo-activestandby", ACTIVE_PASSIVE);
         dependencyTypeMappingMap.put("local-activeactive", ACTIVE_ACTIVE);
@@ -61,59 +66,50 @@ public class DependencyModelParser {
         dependencyMap = Collections.unmodifiableMap(dependencyTypeMappingMap);
     }
 
-    public VnfcDependencyModel generateDependencyModel(String vnfModel,String vnfType) throws InvalidDependencyModelException {
+    public VnfcDependencyModel generateDependencyModel(String vnfModel, String vnfType)
+        throws InvalidDependencyModelException {
         Set<Node<Vnfc>> dependencies = new HashSet<>();
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         boolean mandatory;
         String resilienceType;
-        String prefix = "org.onap.resource.vfc."+vnfType+".abstract.nodes.";
+        String prefix = "org.onap.resource.vfc." + vnfType + ".abstract.nodes.";
         try {
             ObjectNode root = (ObjectNode) mapper.readTree(vnfModel);
 
-            if(root.get(TOPOLOGY_TEMPLATE) == null || root.get(TOPOLOGY_TEMPLATE).get("node_templates") == null) {
-                throw new InvalidDependencyModelException("Dependency model is missing 'topology_template' or  'node_templates' elements");
+            if (root.get(TOPOLOGY_TEMPLATE) == null || root.get(TOPOLOGY_TEMPLATE).get("node_templates") == null) {
+                throw new InvalidDependencyModelException(
+                    "Dependency model is missing 'topology_template' or  'node_templates' elements");
             }
 
             JsonNode topologyTemplateNode = root.get(TOPOLOGY_TEMPLATE);
             JsonNode nodeTemplateNode = topologyTemplateNode.get("node_templates");
-            Iterator<Map.Entry<String, JsonNode>> itretor  = nodeTemplateNode.fields();
+            Iterator<Map.Entry<String, JsonNode>> itretor = nodeTemplateNode.fields();
             for (JsonNode yamlNode : nodeTemplateNode) {
                 logger.debug("Processing node: " + yamlNode);
                 String fullvnfcType = itretor.next().getValue().get("type").textValue();
-                String vnfcType= getQualifiedVnfcType(fullvnfcType);
+                String vnfcType = getQualifiedVnfcType(fullvnfcType);
                 String type = yamlNode.get("type").textValue();
-                type = type.substring(0,type.lastIndexOf('.')+1);
-                if(type.concat(vnfcType).toLowerCase().startsWith(prefix.concat(vnfcType).toLowerCase())) {
+                type = type.substring(0, type.lastIndexOf('.') + 1);
+                if (type.concat(vnfcType).toLowerCase().startsWith(prefix.concat(vnfcType).toLowerCase())) {
 
-                    if(yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY) == null || yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).asText().isEmpty()) {
-                        resilienceType = ACTIVE_ACTIVE;
-                    }else {
-                        resilienceType = dependencyMap.get(yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).textValue());
-                    }
-
-                    if(yamlNode.get(PROPERTIES).findValue(MANDATORY) == null || yamlNode.get(PROPERTIES).findValue(MANDATORY).asText().isEmpty()) {
-                        mandatory = false;
-                    }else {
-                        mandatory = yamlNode.get(PROPERTIES).findValue(MANDATORY).booleanValue();
-                    }
-                    String[] parentList = getDependencyArray(yamlNode,nodeTemplateNode);
+                    resilienceType = resolveResilienceType(yamlNode);
+                    mandatory = resolveMandatory(yamlNode);
+                    String[] parentList = getDependencyArray(yamlNode, nodeTemplateNode);
                     Node<Vnfc> vnfcNode = getNode(dependencies, vnfcType);
+
                     if (vnfcNode != null) {
                         logger.debug("Dependency node already exists for vnfc Type: " + vnfcType);
                         if (StringUtils.isEmpty(vnfcNode.getChild().getResilienceType())) {
-                            logger.debug("Updating resilience type, dependencies and mandatory attribute for VNFC type: " + vnfcType);
+                            logger.debug("Updating resilience type, "
+                                + "dependencies and mandatory attribute for VNFC type: " + vnfcType);
                             vnfcNode.getChild().setResilienceType(resilienceType);
-                            if (parentList != null && parentList.length > 0) {
-                                addDependencies(dependencies, vnfcNode, parentList);
-                            }
+                            tryFillNode(dependencies, parentList, vnfcNode);
                             vnfcNode.getChild().setMandatory(mandatory);
                         }
-
                     } else {
                         logger.debug("Creating dependency node for  : " + vnfcType);
                         vnfcNode = new Node<>(createVnfc(mandatory, resilienceType, vnfcType));
-                        if (parentList != null && parentList.length > 0)
-                            addDependencies(dependencies, vnfcNode, parentList);
+                        tryFillNode(dependencies, parentList, vnfcNode);
                         logger.debug("Adding VNFC to dependency model : " + vnfcNode);
                         dependencies.add(vnfcNode);
                     }
@@ -127,6 +123,34 @@ public class DependencyModelParser {
         return new VnfcDependencyModel(dependencies);
     }
 
+    private void tryFillNode(Set<Node<Vnfc>> dependencies, String[] parentList, Node<Vnfc> vnfcNode) {
+        if (parentList.length > 0) {
+            fillNode(dependencies, vnfcNode, parentList);
+        }
+    }
+
+    private boolean resolveMandatory(JsonNode yamlNode) {
+        return !mandatoryDoesNotExist(yamlNode) && yamlNode.get(PROPERTIES).findValue(MANDATORY).booleanValue();
+    }
+
+    private boolean mandatoryDoesNotExist(JsonNode yamlNode) {
+        return yamlNode.get(PROPERTIES).findValue(MANDATORY) == null ||
+            yamlNode.get(PROPERTIES).findValue(MANDATORY).asText().isEmpty();
+    }
+
+    private String resolveResilienceType(JsonNode yamlNode) {
+        String resilienceType;
+        if (yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY) == null ||
+            yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).asText().isEmpty()) {
+
+            resilienceType = ACTIVE_ACTIVE;
+        } else {
+            resilienceType = dependencyMap
+                .get(yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).textValue());
+        }
+        return resilienceType;
+    }
+
     private Vnfc createVnfc(boolean mandatory, String resilienceType, String vnfcType) {
         Vnfc vnfc = new Vnfc();
         vnfc.setMandatory(mandatory);
@@ -136,10 +160,10 @@ public class DependencyModelParser {
     }
 
     private String getQualifiedVnfcType(String fullvnfcType) {
-        return fullvnfcType.substring(fullvnfcType.lastIndexOf('.')+1,fullvnfcType.length());
+        return fullvnfcType.substring(fullvnfcType.lastIndexOf('.') + 1, fullvnfcType.length());
     }
 
-    private void addDependencies(Set<Node<Vnfc>> nodes, Node node, String[] parentList) {
+    private void fillNode(Set<Node<Vnfc>> nodes, Node<Vnfc> node, String[] parentList) {
         for (String type : parentList) {
             String parentType = getVnfcType(type);
             Node<Vnfc> parentNode = getNode(nodes, parentType);
@@ -148,7 +172,7 @@ public class DependencyModelParser {
                 node.addParent(parentNode.getChild());
             } else {
                 logger.debug("VNFC does not exist for VNFC type: " + parentType + ". Creating new VNFC ");
-                parentNode = new Node<>(createVnfc(false,null,parentType));
+                parentNode = new Node<>(createVnfc(false, null, parentType));
                 node.addParent(parentNode.getChild());
                 logger.debug("Adding VNFC to dependency model : " + parentNode);
                 nodes.add(parentNode);
@@ -156,47 +180,60 @@ public class DependencyModelParser {
         }
     }
 
-    private String[] getDependencyArray(JsonNode node, JsonNode nodeTemplateNode) throws InvalidDependencyModelException {
+    private String[] getDependencyArray(JsonNode node, JsonNode nodeTemplateNode)
+        throws InvalidDependencyModelException {
         JsonNode requirementsNode = node.get("requirements");
-        Set<String> dependencyList  = new HashSet<>();
-        if(requirementsNode!=null) {
+        Set<String> dependencyList = new HashSet<>();
+        if (requirementsNode != null) {
             for (JsonNode internalNode : requirementsNode) {
                 //TODO : In this release we are supporting both relationship = tosca.capabilities.Node  and relationship =tosca.relationships.DependsOn we need to remove one of them in next release post confirming with SDC team
-                if (nodeNullCheck(internalNode) &&"tosca.capabilities.Node".equalsIgnoreCase(internalNode.findValue("capability").asText())
-                        && ("tosca.relationships.DependsOn".equalsIgnoreCase(internalNode.findValue(RELATIONSHIP).asText()) || "tosca.capabilities.Node".equalsIgnoreCase(internalNode.findValue(RELATIONSHIP).asText()))) {
-                    if(internalNode.findValue("node") != null) {
-                        String nodeName = internalNode.findValue("node").asText();
-                        String fullVnfcName = nodeTemplateNode.get(nodeName).get("type").asText();
-                        dependencyList.add(getQualifiedVnfcType(fullVnfcName));
-                    }else{
-                        throw new InvalidDependencyModelException("Error parsing dependency model. " + "Dependent Node not found for "+ node.get("type"));
-                    }
+                if (verifyNode(internalNode)) {
+                    parseDependencyModel(node, nodeTemplateNode, dependencyList, internalNode);
                 }
             }
-            return  dependencyList.toArray(new String[0]);
-        }else{
+            return dependencyList.toArray(new String[0]);
+        } else {
             return new String[0];
         }
     }
 
+    private void parseDependencyModel(JsonNode node, JsonNode nodeTemplateNode, Set<String> dependencyList,
+        JsonNode internalNode) throws InvalidDependencyModelException {
+
+        if (internalNode.findValue("node") != null) {
+            String nodeName = internalNode.findValue("node").asText();
+            String fullVnfcName = nodeTemplateNode.get(nodeName).get("type").asText();
+            dependencyList.add(getQualifiedVnfcType(fullVnfcName));
+        } else {
+            throw new InvalidDependencyModelException(
+                "Error parsing dependency model. " + "Dependent Node not found for " + node.get("type"));
+        }
+    }
+
+    private boolean verifyNode(JsonNode internalNode) {
+        return nodeNullCheck(internalNode) &&
+            "tosca.capabilities.Node".equalsIgnoreCase(internalNode.findValue("capability").asText()) &&
+            ("tosca.relationships.DependsOn".equalsIgnoreCase(internalNode.findValue(RELATIONSHIP).asText()) ||
+                "tosca.capabilities.Node".equalsIgnoreCase(internalNode.findValue(RELATIONSHIP).asText()));
+    }
+
     private boolean nodeNullCheck(JsonNode internalNode) {
-        return internalNode.get("dependency") != null && internalNode.findValue("capability") != null && internalNode.findValue(RELATIONSHIP) != null;
+        return internalNode.get("dependency") != null && internalNode.findValue("capability") != null
+            && internalNode.findValue(RELATIONSHIP) != null;
     }
 
     private Node<Vnfc> getNode(Set<Node<Vnfc>> nodes, String vnfcType) {
-        Iterator itr = nodes.iterator();
+        Iterator<Node<Vnfc>> itr = nodes.iterator();
         Node<Vnfc> node;
         while (itr.hasNext()) {
-            node = (Node<Vnfc>) itr.next();
+            node = itr.next();
             if (node.getChild().getVnfcType().equalsIgnoreCase(vnfcType)) {
                 return node;
             }
         }
         return null;
     }
-
     private String getVnfcType(String type) {
         return type.substring(type.lastIndexOf('.') + 1, type.length());
     }
-
 }
