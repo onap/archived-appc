@@ -55,24 +55,24 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import org.apache.commons.lang.StringUtils;
 
 public class SshJcraftWrapper {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(SshJcraftWrapper.class);
-
-    private static final int BUFFER_SIZE = 512000;
     static final int DEFAULT_PORT = 22;
+    static final String EOL = "\n";
     static final String CHANNEL_SHELL_TYPE = "shell";
     static final String CHANNEL_SUBSYSTEM_TYPE = "subsystem";
     private static final String TERMINAL_BASIC_MODE = "vt102";
     static final String STRICT_HOST_CHECK_KEY = "StrictHostKeyChecking";
     static final String STRICT_HOST_CHECK_VALUE = "no";
+    static final String DELIMITERS_SEPARATOR = "|";
+
     private TelnetListener listener = null;
     private String routerLogFileName = null;
-    private String routerName = null;
-    private char[] charBuffer = new char[BUFFER_SIZE];
     private BufferedReader reader = null;
     private BufferedWriter out = null;
     private File tmpFile = null;
@@ -84,18 +84,25 @@ public class SshJcraftWrapper {
     private String routerFileName = null;
     private File jcraftReadSwConfigFileFromDisk = new File("/tmp/jcraftReadSwConfigFileFromDisk");
     private String equipNameCode = null;
+    private String routerName = null;
     private String hostName = null;
     private String userName = null;
     private String passWord = null;
+    private int readIntervalMs = 500;
+    private int readBufferSizeBytes = 512_000;
+    private char[] charBuffer;
     private Runtime runtime = Runtime.getRuntime();
-
 
     public SshJcraftWrapper() {
         this.jsch = new JSch();
+        this.charBuffer = new char[readBufferSizeBytes];
     }
 
-    SshJcraftWrapper(JSch jsch) {
+    SshJcraftWrapper(JSch jsch, int readIntervalMs, int readBufferSizeBytes) {
+        this.readIntervalMs = readIntervalMs;
         this.jsch = jsch;
+        this.readBufferSizeBytes = readBufferSizeBytes;
+        this.charBuffer = new char[readBufferSizeBytes];
     }
 
     public void connect(String hostname, String username, String password, String prompt, int timeOut)
@@ -109,7 +116,7 @@ public class SshJcraftWrapper {
         try {
             channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, timeOut);
             ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
             channel.connect();
             log.info("Successfully connected. Flushing input buffer.");
             try {
@@ -135,7 +142,7 @@ public class SshJcraftWrapper {
         try {
             channel = provideSessionChannel(CHANNEL_SHELL_TYPE, portNum, timeOut);
             ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
             channel.connect();
             log.info("Successfully connected. Flushing input buffer.");
             try {
@@ -155,6 +162,7 @@ public class SshJcraftWrapper {
 
 
     public String receiveUntil(String delimeters, int timeout, String cmdThatWasSent) throws IOException {
+        checkConnection();
         boolean match = false;
         boolean cliPromptCmd = false;
         StringBuilder sb = new StringBuilder();
@@ -173,12 +181,8 @@ public class SshJcraftWrapper {
                     log.error("Routine has timed out: routerName={0} CmdThatWasSent={1}", routerName, formattedCmd);
                     throw new TimedOutException("Routine has timed out");
                 }
-                try {
-                    Thread.sleep(500);
-                } catch (java.lang.InterruptedException ee) {
-                    Thread.currentThread().interrupt();
-                }
-                int len = reader.read(charBuffer, 0, BUFFER_SIZE);
+                sleep(readIntervalMs);
+                int len = reader.read(charBuffer, 0, readBufferSizeBytes);
                 log.trace("After reader. Read command len={0}", len);
                 if (len <= 0) {
                     log.error("Reader failed to read any bytes. Suspected socket timeout, router={0}", routerName);
@@ -271,12 +275,30 @@ public class SshJcraftWrapper {
         return stripOffCmdFromRouterResponse(sbReceive.toString());
     }
 
+    private void sleep(long timeoutMs) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(timeoutMs);
+        } catch (java.lang.InterruptedException ee) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private void checkConnection() {
+        try {
+            if (!isConnected() || !reader.ready()) {
+                throw new IllegalStateException("Connection not established. Cannot perform action.");
+            }
+        } catch (IOException e) {
+            throw new IllegalStateException("Reader stream is closed. Cannot perform action.", e);
+        }
+    }
+
     public boolean checkIfReceivedStringMatchesDelimeter(String delimeters, String receivedString,
         String cmdThatWasSent) {
         // The delimeters are in a '|' seperated string. Return true on the first match.
         log.debug("Entered checkIfReceivedStringMatchesDelimeter: delimeters={0} cmdThatWasSent={1} receivedString={2}",
             delimeters, cmdThatWasSent, receivedString);
-        StringTokenizer st = new StringTokenizer(delimeters, "|");
+        StringTokenizer st = new StringTokenizer(delimeters, DELIMITERS_SEPARATOR);
 
         if ((delimeters.contains("#$")) || ("CLI".equals(routerCmdType)))  // This would be an IOS XR, CLI command.
         {
@@ -500,7 +522,7 @@ public class SshJcraftWrapper {
 
     public String removeWhiteSpaceAndNewLineCharactersAroundString(String str) {
         if (str != null && !StringUtils.EMPTY.equals(str)) {
-            StringTokenizer strTok = new StringTokenizer(str, "\n");
+            StringTokenizer strTok = new StringTokenizer(str, EOL);
             StringBuilder sb = new StringBuilder();
 
             while (strTok.hasMoreTokens()) {
@@ -516,17 +538,9 @@ public class SshJcraftWrapper {
         // The session of SSH will echo the command sent to the router, in the router's response.
         // Since all our commands are terminated by a '\n', strip off the first line
         // of the response from the router. This first line contains the orginal command.
-        StringTokenizer rr = new StringTokenizer(routerResponse, "\n");
-        StringBuilder sb = new StringBuilder();
 
-        int numTokens = rr.countTokens();
-        if (numTokens > 1) {
-            rr.nextToken(); //Skip the first line.
-            while (rr.hasMoreTokens()) {
-                sb.append(rr.nextToken()).append("\n");
-            }
-        }
-        return sb.toString();
+        String[] responseTokens = routerResponse.split(EOL, 2);
+        return responseTokens[responseTokens.length-1];
     }
 
     public void setRouterCommandType(String type) {
@@ -595,7 +609,7 @@ public class SshJcraftWrapper {
                         ncharsTotalReceived);
                     throw new TimedOutException("Routine has timed out");
                 }
-                ncharsRead = reader.read(charBuffer, 0, BUFFER_SIZE);
+                ncharsRead = reader.read(charBuffer, 0, readBufferSizeBytes);
                 if (listener != null) {
                     listener.receivedString(String.copyValueOf(charBuffer, 0, ncharsRead));
                 }
@@ -736,7 +750,7 @@ public class SshJcraftWrapper {
             channel = provideSessionChannel(CHANNEL_SUBSYSTEM_TYPE, portNum, timeOut);
             ((ChannelSubsystem) channel).setSubsystem(subsystem);
             ((ChannelSubsystem) channel).setPty(true); //expected ptyType vt102
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
             channel.connect(5000);
         } catch (JSchException e) {
             log.error("JschException occurred ", e);
@@ -753,7 +767,7 @@ public class SshJcraftWrapper {
         try {
             channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, 30000);
             ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), BUFFER_SIZE);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
             channel.connect();
             try {
                 receiveUntil(":~#", 9000, "No cmd was sent, just waiting, but we can stop on a '~#'");
@@ -916,7 +930,7 @@ public class SshJcraftWrapper {
     private String enhanceCommandWithEOL(@Nonnull String originalCommand) {
         char commandEnding = originalCommand.charAt(originalCommand.length() - 1);
         if (commandEnding != '\n' && commandEnding != '\r') {
-            return originalCommand + "\n";
+            return originalCommand + EOL;
         }
         return originalCommand;
     }
@@ -931,4 +945,5 @@ public class SshJcraftWrapper {
             0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
         return session.openChannel(channelType);
     }
+
 }
