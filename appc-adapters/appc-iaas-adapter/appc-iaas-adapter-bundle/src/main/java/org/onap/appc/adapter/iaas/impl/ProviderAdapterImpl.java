@@ -80,6 +80,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     private static String DEFAULT_USER;
     private static String DEFAULT_PASS;
     private static String DEFAULT_DOMAIN;
+
     /**
      * This default constructor is used as a work around because the activator wasnt getting called
      */
