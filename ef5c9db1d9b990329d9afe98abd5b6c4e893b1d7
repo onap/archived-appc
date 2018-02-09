@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7c8835c5",
+        "filename": "appc-client/client-simulator/src/main/java/org/onap/appc/simulator/client/impl/InvalidRequestException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-09T14:37:28Z",
+      "side": 1,
+      "message": "Should this file include license text?",
+      "revId": "ef5c9db1d9b990329d9afe98abd5b6c4e893b1d7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
