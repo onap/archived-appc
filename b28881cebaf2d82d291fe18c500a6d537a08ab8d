@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_bccd5db9",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/executorImpl/RestExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2999
+      },
+      "writtenOn": "2018-02-09T09:56:40Z",
+      "side": 1,
+      "message": "Hi, Lines #56-#76 before modifications were exatly RestExecutor class contrutor where class field Properties props was initialized. But those Properties props were never used in this class so I removed it at all as dead code.\n\nMoreover such properties loading is done in other (not releated) classes like, e.g.:\norg.onap.appc.design.services.util.ArtifactHandlerClient\nbut there it is used in class body.",
+      "parentUuid": "5a93c517_f38f9828",
+      "revId": "b28881cebaf2d82d291fe18c500a6d537a08ab8d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_706cde35",
         "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/executorImpl/RestExecutorTest.java",
         "patchSetId": 5
