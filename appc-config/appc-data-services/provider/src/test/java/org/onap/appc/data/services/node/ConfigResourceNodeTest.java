@@ -1,23 +1,17 @@
 package org.onap.appc.data.services.node;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import java.util.HashMap;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import org.onap.appc.data.services.AppcDataServiceConstant;
-import org.onap.appc.data.services.db.DGGeneralDBService;
+import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILES_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILE_ID_PARAM;
+import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_PARAMS;
 import static org.onap.appc.data.services.node.ConfigResourceNode.CONF_ACTION_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.DEVICE_CONF_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.DEVICE_CONF_PREFIX;
@@ -33,13 +27,27 @@ import static org.onap.appc.data.services.node.ConfigResourceNode.SDC_IND;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SITE_LOCATION_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_FILE_TYPE;
 import static org.onap.appc.data.services.node.ConfigResourceNode.SUCCESS_PREFIX;
-import static org.onap.appc.data.services.node.ConfigResourceNode.CONFIG_FILES_PREFIX;
+import static org.onap.appc.data.services.node.ConfigResourceNode.TMP_CONVERTCONFIG_ESC_DATA;
+import static org.onap.appc.data.services.node.ConfigResourceNode.TMP_MERGE_MERGED_DATA;
+import static org.onap.appc.data.services.node.ConfigResourceNode.UNABLE_TO_SAVE_RELATIONSHIP_STR;
 import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_ID_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_INFO_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_PREFIX;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import java.util.HashMap;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.onap.appc.data.services.AppcDataServiceConstant;
+import org.onap.appc.data.services.db.DGGeneralDBService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 
 public class ConfigResourceNodeTest {
 
@@ -155,7 +163,20 @@ public class ConfigResourceNodeTest {
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
         configResourceNode.getSmmChainKeyFiles(inParams, contextMock);
 
-        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    verify(contextMock)
+        .setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void should_add_attribute_with_success_if_save_prepare_relationship_succeed()
+        throws SvcLogicException {
+      DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+
+      ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+      configResourceNode.savePrepareRelationship(inParams, contextMock);
+
+      verify(contextMock)
+          .setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
 
     @Test
@@ -581,6 +602,70 @@ public class ConfigResourceNodeTest {
         expectedException.expect(SvcLogicException.class);
         expectedException.expectMessage("Unable to Read server_certificate_and_key file");
         configResourceNode.getSmmChainKeyFiles(inParams, contextMock);
+    }
+
+    @Test
+    public void should_throw_exception_on_save_prepare_relationship_failure()
+        throws SvcLogicException {
+      inParams.put(AppcDataServiceConstant.INPUT_PARAM_SDC_ARTIFACT_IND, "some sdnc index");
+      inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_ID, "some file id");
+
+      DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+          .savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", "some sdnc index",
+              QueryStatus.FAILURE)
+          .build();
+
+      ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+
+      expectedException.expect(SvcLogicException.class);
+      expectedException.expectMessage(UNABLE_TO_SAVE_RELATIONSHIP_STR);
+      configResourceNode.savePrepareRelationship(inParams, contextMock);
+    }
+
+    @Test
+    public void should_save_save_config_files_for_empty_config_params() throws SvcLogicException {
+
+      when(contextMock.getAttribute(TMP_CONVERTCONFIG_ESC_DATA)).thenReturn("some esc data");
+      when(contextMock.getAttribute("configuration")).thenReturn("some configuration");
+      when(contextMock.getAttribute(CONFIG_PARAMS)).thenReturn("");
+
+      DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+          .savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", "some sdnc index",
+              QueryStatus.FAILURE)
+          .build();
+
+      ConfigResourceNode configResourceNode = spy(new ConfigResourceNode(dbServiceMock));
+      configResourceNode.saveConfigBlock(inParams, contextMock);
+
+      verify(configResourceNode)
+          .saveDeviceConfiguration(inParams, contextMock,
+              "Request", "some esc data", "some configuration");
+      verify(contextMock, atLeastOnce())
+          .setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void should_save_save_config_files_for_non_empty_config_params() throws SvcLogicException {
+
+      when(contextMock.getAttribute(TMP_CONVERTCONFIG_ESC_DATA)).thenReturn("some esc data");
+      when(contextMock.getAttribute(TMP_MERGE_MERGED_DATA)).thenReturn("merged data");
+      when(contextMock.getAttribute(CONFIG_PARAMS)).thenReturn("non empty");
+
+      DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+          .savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", "some sdnc index",
+              QueryStatus.FAILURE)
+          .build();
+
+      ConfigResourceNode configResourceNode = spy(new ConfigResourceNode(dbServiceMock));
+      configResourceNode.saveConfigBlock(inParams, contextMock);
+
+      verify(configResourceNode)
+          .saveDeviceConfiguration(inParams, contextMock,
+              "Configurator", "some esc data", "merged data");
+      verify(configResourceNode)
+          .saveConfigBlock(inParams, contextMock);
+      verify(contextMock, atLeastOnce())
+          .setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
 
 }
