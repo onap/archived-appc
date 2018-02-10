@@ -167,7 +167,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             logger.debug("Inside getVnfHierarchy======");
         }
         String resourceKey = params.get("resourceKey");
-       // String retrivalVnfKey = "vnf-id = '" + resourceKey + "' AND relationship-key = 'vserver.vserver-id'";
         String retrivalVnfKey = "generic-vnf.vnf-id = '" + resourceKey + "'";
         Map<String, String> paramsVnf = new HashMap<String, String>();
         paramsVnf.put("resourceType", "generic-vnf");

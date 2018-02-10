@@ -55,7 +55,6 @@ public class SshDBPluginImpl implements SshDBPlugin {
 
     public void retrieveConnectionDetails(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         SshConnectionDetails connectionDetails = new SshConnectionDetails();
-        //String vnfType = ctx.getAttribute("aai.prefix")+"."+"vnf-type";
         String vnfType = params.get("vnf-type");
         try {
             if (!dataAccessService.retrieveConnectionDetails(vnfType, connectionDetails)) {

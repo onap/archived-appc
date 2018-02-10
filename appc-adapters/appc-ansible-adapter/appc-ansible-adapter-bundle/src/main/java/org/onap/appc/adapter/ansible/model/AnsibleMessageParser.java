@@ -200,9 +200,6 @@ public class AnsibleMessageParser {
 
             if (!postResponse.isNull("Results")) {
 
-                // Results are available. process them
-                // Results is a dictionary of the form
-                // {host :{status:s, group:g, message:m, hostname:h}, ...}
                 LOGGER.info("Processing results in response");
                 JSONObject results = postResponse.getJSONObject("Results");
                 LOGGER.info("Get JSON dictionary from Results ..");

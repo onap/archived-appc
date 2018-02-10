@@ -361,7 +361,6 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 if (content.has(PORT_NUMBER)) {
                     setAttribute(context, content::getString, PORT_NUMBER);
                 }
-                //context.setAttribute(ARTIFACT_TYPE, "");
                 if (content.has("artifact-list") && content.get("artifact-list") instanceof JSONArray) {
                     JSONArray artifactLists = (JSONArray) content.get("artifact-list");
                     for (int i = 0; i < artifactLists.length(); i++) {
