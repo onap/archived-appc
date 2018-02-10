@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -150,12 +150,9 @@ public class CreateSnapshot extends ProviderServerOperation {
         rc.isAlive();
 
         setTimeForMetricsLogger();
-
-        String msg;
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
             VMURL vm = VMURL.parseURL(vm_url);
@@ -164,45 +161,53 @@ public class CreateSnapshot extends ProviderServerOperation {
 
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
-
-            Context context = null;
-            String tenantName = "Unknown";//this variable is also used in catch
-            try {
-                context = getContext(rc, vm_url, identStr);
-                if (context != null) {
-                    tenantName = context.getTenantName();
-                    Server server = lookupServer(rc, context, vm.getServerId());
-
-                    logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
-
-                    if (hasImageAccess(rc, context)) {
-                        snapshot = createSnapshot(rc, server);
-                        doSuccess(rc);
-                    } else {
-                        msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
-                                "Accessing Image Service Failed");
-                        logger.error(msg);
-                        metricsLogger.error(msg);
-                        doFailure(rc, HttpStatus.FORBIDDEN_403, msg);
-                    }
-                    context.close();
-                }
-            } catch (ResourceNotFoundException e) {
-                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
-                logger.error(msg);
-                metricsLogger.error(msg, e);
-                doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (Exception e1) {
-                msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        Operation.SNAPSHOT_SERVICE.toString(), vm_url,
-                        tenantName);
-                logger.error(msg, e1);
-                doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
-            }
+            snapshot = createSnapshotNested(snapshot, rc, vm, vm_url, identStr);
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
         return snapshot;
+    }
+
+    private Image createSnapshotNested(Image SnapShot, RequestContext RcContext, VMURL vm, String vmUrl, String identStr) 
+            throws APPCException {
+
+        String msg;
+
+        Context context = null;
+        String tenantName = "Unknown";//this variable is also used in catch
+        try {
+            context = getContext(RcContext, vmUrl, identStr);
+            if (context != null) {
+                tenantName = context.getTenantName();
+                Server server = lookupServer(RcContext, context, vm.getServerId());
+
+                logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
+
+                if (hasImageAccess(RcContext, context)) {
+                    SnapShot = createSnapshot(RcContext, server);
+                    doSuccess(RcContext);
+                } else {
+                    msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
+                            "Accessing Image Service Failed");
+                    logger.error(msg);
+                    metricsLogger.error(msg);
+                    doFailure(RcContext, HttpStatus.FORBIDDEN_403, msg);
+                }
+                context.close();
+            }
+        } catch (ResourceNotFoundException e) {
+            msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
+            logger.error(msg);
+            metricsLogger.error(msg, e);
+            doFailure(RcContext, HttpStatus.NOT_FOUND_404, msg);
+        } catch (Exception e1) {
+            msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
+                    Operation.SNAPSHOT_SERVICE.toString(), vmUrl,
+                    tenantName);
+            logger.error(msg, e1);
+            doFailure(RcContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
+        }
+        return SnapShot;
     }
 
     @Override
