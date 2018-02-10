@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -398,20 +398,17 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                             dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
                     }
                 }
+
                 processConfigTypeActions(content,dbservice,context);
-                dbservice.processDeviceAuthentication(context,
-                    dbservice.isArtifactUpdateRequired(context, DB_DEVICE_AUTHENTICATION));
-
+                boolean saved=dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
+                                                                DB_DEVICE_AUTHENTICATION));
+                dbservice.performSftp(context,saved);
                 populateProtocolReference(dbservice, content);
-
                 context.setAttribute(VNFC_TYPE, null);
-
                 if (content.has(VM)
                     && content.get(VM) instanceof JSONArray) {
                     processVmList(content, context, dbservice);
                 }
-
-
             }
             if (storeCapabilityArtifact) {
                 capabilities.put("vnf", vnfActionList);
