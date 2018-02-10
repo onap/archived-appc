@@ -324,10 +324,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 dbservice.processDeviceAuthentication(context,
                     dbservice.isArtifactUpdateRequired(context, DB_DEVICE_AUTHENTICATION));
 
+                processConfigTypeActions(content,dbservice,context);
+                boolean saved=dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
+                                                                DB_DEVICE_AUTHENTICATION));
+                dbservice.performSftp(context,saved);
                 populateProtocolReference(dbservice, content);
-
                 context.setAttribute(VNFC_TYPE, null);
-
                 if (content.has(VM)
                     && content.get(VM) instanceof JSONArray) {
                     processVmList(content, context, dbservice);
