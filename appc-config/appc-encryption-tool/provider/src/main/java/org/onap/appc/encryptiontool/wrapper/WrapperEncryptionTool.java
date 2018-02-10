@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -65,26 +65,41 @@ public class WrapperEncryptionTool {
 
         EncryptionTool et = EncryptionTool.getInstance();
         String enPass = et.encrypt(password);
-
+        boolean flag = false;
         if (StringUtils.isNotBlank(protocol)) {
-            updateProperties(user, vnfType, enPass, action, port, url, protocol);
+            log.info("trying to do update properties");
+            flag = updateProperties(user, vnfType, enPass, action, port, url, protocol);
         }
-    }
+        if (flag) {
+               log.info("APPC-trying to do sftp");
+               SftpConnect sftp = new SftpConnect();
+               sftp.performSftp();
+               }
+           } catch (Exception e) {
+               log.info("Caught exception", e);
+               log.info("APPC-MESSAGE:" + e.getMessage());
+           } finally {
+               System.exit(0);
+           }
+        }  
 
-    public static void updateProperties(String user, String vnfType, String password, String action, String port,
+
+    public static boolean updateProperties(String user, String vnfType, String password, String action, String port,
         String url, String protocol) {
         try {
             log.info("Received Inputs protocol:%s User:%s vnfType:%s action:%surl:%s port:%s ", protocol, user,
                 vnfType, action, url, port);
             String property = protocol;
-            if (StringUtils.isBlank(vnfType)) {
-                if (StringUtils.isBlank(protocol) && StringUtils.isBlank(action)) {
+            if (!StringUtils.isNotBlank(vnfType)) {
+                if (!StringUtils.isNotBlank(protocol) && !StringUtils.isNotBlank(action)) {
                     property = vnfType + "." + protocol + "." + action;
-                } else if (StringUtils.isNotBlank(protocol)){
+                } else {
                     property = vnfType;
                 }
-            } else if (StringUtils.isBlank(protocol)){
-                property = protocol;
+            } else {
+                if (!StringUtils.isNotBlank(protocol)) {
+                    property = protocol;
+                }
             }
 
             PropertiesConfiguration conf = new PropertiesConfiguration(
@@ -105,14 +120,14 @@ public class WrapperEncryptionTool {
                 }
             }
             conf.save();
+            return true;
         } catch (Exception e) {
+            return false;
             log.debug("Caught Exception", e);
-            log.info("Caught exception", e);
+            log.info("Caught exception.", e);
             log.info("APPC-MESSAGE:" + e.getMessage());
 
-        } finally {
-            System.exit(0);
-        }
+        } 
     }
 
     private static void resolvePropertyAction(String user, String password, String port, String url, String property,
