@@ -109,40 +109,4 @@ public class LicenseManagerPluginImpl implements LicenseManagerPlugin {
 
     }
 
-
-
-    //////// code uses jaxb license model, should be fixed
-    /*
-    final VfLicenseModel.FeatureGroupList featureGroupList = licenseModel.getFeatureGroupList();
-    if (null != featureGroupList) {
-        final VfLicenseModel.FeatureGroupList.FeatureGroup featureGroup = featureGroupList.getFeatureGroup();
-        if (null != featureGroup) {
-            final VfLicenseModel.FeatureGroupList.FeatureGroup.EntitlementPoolList
-                            entitlementPoolList = featureGroup.getEntitlementPoolList();
-            if (null != entitlementPoolList) {
-                final VfLicenseModel.FeatureGroupList.FeatureGroup.EntitlementPoolList.EntitlementPool
-                                entitlementPool = entitlementPoolList.getEntitlementPool();
-                if (null != entitlementPool) {
-                    final String entitlementPoolUuid = entitlementPool.getEntitlementPoolUuid();
-                    // add entitlementPoolUuid into context
-                    ctx.setAttribute(Constants.MODEL_ENTITLMENT_POOL_UUID_NAME, entitlementPoolUuid);
-                }
-            }
-
-            final VfLicenseModel.FeatureGroupList.FeatureGroup.LicenseKeyGroupList
-                            licenseKeyGroupList = featureGroup.getLicenseKeyGroupList();
-            if (null != licenseKeyGroupList) {
-                final VfLicenseModel.FeatureGroupList.FeatureGroup.LicenseKeyGroupList.LicenseKeyGroup
-                                licenseKeyGroup = licenseKeyGroupList.getLicenseKeyGroup();
-                if (null != licenseKeyGroup) {
-                    final String licenseKeyGroupUuid = licenseKeyGroup.getLicenseKeyGroupUuid();
-                    // add licenseKeyGroupUuid into context
-                    ctx.setAttribute(Constants.MODEL_LICENSE_KEY_UUID_NAME, licenseKeyGroupUuid);
-                }
-            }
-        }
-    }
-    */
-
-
 }

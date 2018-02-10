@@ -42,6 +42,7 @@ import com.att.cdp.zones.model.Server;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 import org.glassfish.grizzly.http.util.HttpStatus;
@@ -69,7 +70,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      */
     @SuppressWarnings("nls")
     protected Server lookupServer(RequestContext rc, Context context, String id)
-        throws ZoneException, RequestFailedException {
+            throws ZoneException, RequestFailedException {
         ComputeService service = context.getComputeService();
         Server server = null;
         String msg;
@@ -81,9 +82,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 break;
             } catch (ContextConnectionException e) {
                 msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                    context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                    Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                    Integer.toString(rc.getRetryLimit()));
+                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                        Integer.toString(rc.getRetryLimit()));
                 logger.error(msg, e);
                 rc.delay();
             }
@@ -150,20 +151,23 @@ public abstract class ProviderServerOperation extends ProviderOperation {
 
 
     /**
-     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not. <p>
+     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not.
+     * <p>
      * This method checks the state of the server periodically for one of the desired states. When the server enters one
      * of the desired states, the method returns a successful indication (true). If the server never enters one of the
      * desired states within the allocated timeout period, then the method returns a failed response (false). No
-     * exceptions are thrown from this method. </p>
+     * exceptions are thrown from this method.
+     * </p>
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param image The server to wait on
      * @param desiredStates A variable list of desired states, any one of which is allowed.
      * @throws RequestFailedException If the request times out or fails for some reason
+     * @throws NotLoggedInException
      */
     @SuppressWarnings("nls")
     protected void waitForStateChange(RequestContext rc, Image image, Image.Status... desiredStates)
-        throws RequestFailedException, NotLoggedInException {
+            throws RequestFailedException, NotLoggedInException {
         int pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         Context context = image.getContext();
@@ -207,7 +211,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 logger.info(String.format("Retrying in %ds", rc.getRetryDelay()));
                 rc.delay();
                 timeout = (int) (endTime - System.currentTimeMillis()) / 1000;
-                // throw new RequestFailedException(e, operation, reason,
+
             }
         }
 
@@ -221,11 +225,13 @@ public abstract class ProviderServerOperation extends ProviderOperation {
 
 
     /**
-     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not. <p>
+     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not.
+     * <p>
      * This method checks the state of the server periodically for one of the desired states. When the server enters one
      * of the desired states, the method returns a successful indication (true). If the server never enters one of the
      * desired states within the allocated timeout period, then the method returns a failed response (false). No
-     * exceptions are thrown from this method. </p>
+     * exceptions are thrown from this method.
+     * </p>
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server to wait on
@@ -234,7 +240,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      */
     @SuppressWarnings("nls")
     protected void waitForStateChange(RequestContext rc, Server server, Server.Status... desiredStates)
-        throws RequestFailedException {
+            throws RequestFailedException {
         int pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         Context context = server.getContext();
@@ -278,7 +284,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 logger.info(String.format("Retrying in %ds", rc.getRetryDelay()));
                 rc.delay();
                 timeout = (int) (endTime - System.currentTimeMillis()) / 1000;
-                // throw new RequestFailedException(e, operation, reason,
             }
         }
 
@@ -419,7 +424,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      * @param context The interface cloud service provider to access services or the object model, or both
      */
     protected void checkVirtualMachineNetworkStatus(RequestContext rc, Server server, Context context)
-        throws ZoneException, RequestFailedException {
+            throws ZoneException, RequestFailedException {
 
         logger.info("Performing the VM Server networking status checks...");
         List<Port> ports = server.getPorts();

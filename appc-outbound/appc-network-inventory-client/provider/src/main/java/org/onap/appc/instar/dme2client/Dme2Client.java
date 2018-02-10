@@ -51,7 +51,6 @@ public class Dme2Client {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(Dme2Client.class);
     private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
-    //DME2Client client = null;
     Properties props = new Properties();
     String operationName ;
     String appendContext;
@@ -97,11 +96,9 @@ if("getVnfbyIpadress".equals(optName)){
         String resourceUri = props.getProperty(operationName+InstarClientConstant.BASE_URL)+
                 props.getProperty(operationName + InstarClientConstant.URL_SUFFIX);
                 if(this.ipAddress!=null && this.mask == null){
-            //resourceUri = resourceUri.substring(0,resourceUri.length() - 1) + "?";
             resourceUri = resourceUri + props.getProperty(operationName+InstarClientConstant.SUB_CONTEXT_BYIPADDRESS);
             resourceUri = resourceUri + ipAddress;
         }else if(mask!=null){
-            //resourceUri = resourceUri.substring(0,resourceUri.length() - 1) + "?";
             resourceUri = resourceUri + props.getProperty(operationName+InstarClientConstant.SUB_CONTEXT_BYIPADDRESS) + ipAddress+ props.getProperty(operationName+InstarClientConstant.SUB_CONTEXT_BYMASK);
             resourceUri = resourceUri + mask ;
         }else{

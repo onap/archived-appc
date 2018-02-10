@@ -62,8 +62,7 @@ public class InterfaceIpAddressImpl implements RuleHandlerInterface {
 
 		List<ResponseKey> responseKeyList = parameters.getResponseKeys();
 		if(responseKeyList != null && responseKeyList.size() > 0){
-			for(ResponseKey filterKeys : responseKeyList){			
-				//response.setUniqueKeyValue(response.getUniqueKeyValue()+ context.getAttribute(InstarClientConstant.VNF_NAME));
+			for(ResponseKey filterKeys : responseKeyList){
 				switch(parameters.getSource()){
 				case InstarClientConstant.SOURCE_SYSTEM_INSTAR:						
 					restClient = new InstarRestClientImpl(createInstarRequestData(context));

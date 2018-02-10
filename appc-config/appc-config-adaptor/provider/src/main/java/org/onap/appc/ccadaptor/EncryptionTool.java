@@ -67,7 +67,7 @@ public class EncryptionTool {
      * and the Data Encryption Standard", i.e., PBEWithMD5AndDES.
      */
     @SuppressWarnings("nls")
-    private static final String SECURITY_ALGORITHM = "PBEWITHMD5AND256BITAES";// "PBEWithMD5AndDES";
+    private static final String SECURITY_ALGORITHM = "PBEWITHMD5AND256BITAES";
     /**
      * The instance of the encryption utility object
      */
@@ -114,8 +114,6 @@ public class EncryptionTool {
      */
     @SuppressWarnings("nls")
     private EncryptionTool() {
-        // encryptor = new BasicTextEncryptor();
-        // encryptor.setPassword(secret.toString());
         String out = "Found the following security algorithms:";
         for (Provider p : Security.getProviders()) {
             for (Service s : p.getServices()) {
@@ -139,7 +137,6 @@ public class EncryptionTool {
     public synchronized String decrypt(String cipherText) {
         if (isEncrypted(cipherText)) {
             String encValue = cipherText.substring(ENCRYPTED_VALUE_PREFIX.length());
-            // return encryptor.decrypt(encValue);
             byte[] plainByte = Base64.decodeBase64(encValue.getBytes());
             byte[] decryptByte = xorWithSecret(plainByte);
             return new String(decryptByte);

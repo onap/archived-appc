@@ -35,7 +35,6 @@ public class XInterfaceService {
     
     private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
     public String execute(String action, String payload) throws Exception {
-        //File targetFile = new File("/tmp/" + action + "-response.txt" );
         String interfaceResponse = null;
         try{
             if(Strings.isNullOrEmpty(payload))

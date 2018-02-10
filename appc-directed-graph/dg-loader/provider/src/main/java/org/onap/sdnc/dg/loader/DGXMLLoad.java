@@ -39,7 +39,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
 public class DGXMLLoad {
     private final static Logger logger = LoggerFactory.getLogger(DGXMLLoad.class);
     private final SvcLogicStore store;
-    public static String STRING_ENCODING = "utf-8";
+    public static final String STRING_ENCODING = "utf-8";
 
     public DGXMLLoad(String propfile) throws Exception {
         if (StringUtils.isBlank(propfile)) {

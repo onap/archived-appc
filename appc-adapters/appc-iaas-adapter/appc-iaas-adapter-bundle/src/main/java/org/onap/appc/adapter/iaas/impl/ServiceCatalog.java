@@ -301,9 +301,6 @@ public abstract class ServiceCatalog {
                 RequestState.put(RequestState.CLASS, element.getClassName());
                 RequestState.put(RequestState.LINE_NUMBER, Integer.toString(element.getLineNumber()));
                 RequestState.put(RequestState.THREAD, currentThread.getName());
-                // RequestState.put(RequestState.PROVIDER, context.getProvider().getName());
-                // RequestState.put(RequestState.TENANT, context.getTenantName());
-                // RequestState.put(RequestState.PRINCIPAL, context.getPrincipal());
             }
         }
     }
