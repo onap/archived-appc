@@ -46,8 +46,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
-//import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 public class AAIResourceNode implements SvcLogicJavaPlugin {
 
@@ -252,33 +250,6 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             //Vms without vnfc from A&AI
             String vmWithNoVnfcCountStr = ctx.getAttribute(responsePrefix+"vnf.vm-with-no-vnfcs-count");
 
-      //Commented  for backward compatibility
-
-            /*if ( vmWithNoVnfcCountStr == null) {
-            throw new Exception("VNFCs to be added data from A&AI is missing");
-            //log.info("VNFCs to be added data from A&AI is missing");
-             }
-            else
-                vmWithNoVnfcCount = Integer.parseInt(vmWithNoVnfcCountStr);
-
-            if ( vmWithNoVnfcCount!= vnfcRefLen )
-                throw new Exception("Unable to Add Vnfcs to A&AI. Reference data mismatch.");
-
-            String vmCountStr = ctx.getAttribute(responsePrefix+"vnf.vm-count");
-
-            if ( vmCountStr == null)
-                throw new Exception("VM data from A&AI is missing");
-            else
-                vmCount = Integer.parseInt(vmCountStr);
-
-
-            log.info("VMCOUNT " + vmCount);
-            log.info("VNFCREFLEN " + vnfcRefLen);
-            aai.insertVnfcs(inParams,ctx, vnfcRefLen, vmCount);
-
-         */
-
-
         // Modified for 1710
 
             if ( vmWithNoVnfcCountStr == null) {
@@ -370,126 +341,6 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         }
     }
 
-    /*public void getDummyValues(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-
-        log.info("Received getDummyValues call with params : " + inParams);
-
-        String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
-
-        try {
-
-                responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
-                String instarKeys = inParams.get("instarKeys");
-                ObjectMapper mapper = new ObjectMapper();
-                if ( instarKeys != null ) {
-
-                    List<String> keyList = mapper.readValue(instarKeys, ArrayList.class);
-
-                    Map<String, String> instarParams  =new HashMap<String, String>();
-                    if(keyList != null){
-                        //System.out.println(keyList.toString());
-
-
-                        for(int i=0;i<keyList.size();i++)
-                        {
-                            log.info(" -->"+keyList.get(i));
-
-                            //ctx.setAttribute(keyList.get(i), "test" + i);
-
-                            instarParams.put( keyList.get(i), "test" + i);
-                        }
-
-                    }
-                    log.info("INSTARPARAMMAP " + instarParams);
-                    String jsonString = mapper.writeValueAsString(instarParams);
-                    log.info(jsonString);
-                    ctx.setAttribute(responsePrefix + "configuration-parameters", jsonString);
-
-                }
-
-                log.info("getDummyValues Successful ");
-            } catch (Exception e) {
-                ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
-                        AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
-                ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-                log.error("Failed in getDummyValues " + e.getMessage());
-
-                throw new SvcLogicException(e.getMessage());
-            }
-
-    }
-
-    */
-    /*public void getRequestKeys(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
-
-        log.info("Received getRequestKeys call with params : " + inParams);
-
-        String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
-
-        try {
-
-                responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix+".") : "";
-                String instarKeys = inParams.get("instarKeys");
-
-                ObjectMapper mapper = new ObjectMapper();
-                if ( instarKeys != null ) {
-
-                    List<String> keyList = mapper.readValue(instarKeys, ArrayList.class);
-
-                    //Map<String, String> instarParams  =new HashMap<String, String>();
-                    if(keyList != null){
-
-
-                        for(int i=0;i<keyList.size();i++)
-                        {
-                            log.info("INSTARKEY -->"+keyList.get(i));
-
-
-                            String instarParameter = ctx.getAttribute("INSTAR." + keyList.get(i));
-                            log.info("INSTARPARAMETER " + instarParameter);
-                            Parameter param = parseParameterContent(instarParameter);
-
-                            log.info("PARAMETER KEY SIZE " + param.getRequestKeys().size());
-                            log.info("RULE TYPE " + param.getClassType());
-
-                            for ( int j =0 ; j < param.getRequestKeys().size() ; j++ ) {
-
-                                log.info(" PARAM KEY NAME " + param.getRequestKeys().get(j).getKeyName());
-                                log.info(" PARAM KEY VALUE " + param.getRequestKeys().get(j).getKeyValue());
-                            }
-
-                           // instarParams.put( keyList.get(i), "test" + i);
-                        }
-
-                    }
-                    //log.info("INSTARPARAMMAP " + instarParams);
-                    //String jsonString = mapper.writeValueAsString(instarParams);
-                    //log.info(jsonString);
-                    //ctx.setAttribute(responsePrefix + "configuration-parameters", jsonString);
-
-                }
-
-                log.info("getRequestKeys Successful ");
-            } catch (Exception e) {
-                ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
-                        AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
-                ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-                log.error("Failed in getRequestKeys " + e.getMessage());
-
-                throw new SvcLogicException(e.getMessage());
-            }
-
-    }
-
-
-    public Parameter parseParameterContent(String parameter) throws JsonParseException, JsonMappingException, IOException{
-        Parameter parameterDefinition = null;
-        if(StringUtils.isNotBlank(parameter)){
-            ObjectMapper mapper = new ObjectMapper();
-            parameterDefinition = mapper.readValue(parameter, Parameter.class);
-        }
-        return parameterDefinition;
-    }*/
     public void getVserverInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.info("getVserverInfo()::Retrieving vm and vnfc information for vserver:" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);

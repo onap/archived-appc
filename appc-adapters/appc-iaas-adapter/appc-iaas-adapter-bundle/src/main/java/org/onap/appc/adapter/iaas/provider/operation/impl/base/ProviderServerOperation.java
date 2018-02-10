@@ -212,8 +212,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 logger.info(String.format("Retrying in %ds", rc.getRetryDelay()));
                 rc.delay();
                 timeout = (int) (endTime - System.currentTimeMillis()) / 1000;
-                // throw new RequestFailedException(e, operation, reason,
-                // HttpStatus.BAD_GATEWAY_502, server);
+
             }
         }
 
@@ -286,8 +285,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 logger.info(String.format("Retrying in %ds", rc.getRetryDelay()));
                 rc.delay();
                 timeout = (int) (endTime - System.currentTimeMillis()) / 1000;
-                // throw new RequestFailedException(e, operation, reason,
-                // HttpStatus.BAD_GATEWAY_502, server);
             }
         }
 
@@ -451,7 +448,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                  */
                 case "ONLINE":
                     Network network = netSvc.getNetworkById(port.getNetwork());
-                    // Subnet subnet = netSvc.getSubnetById(port.getSubnetId());
                     if (!network.getStatus().equals(Network.Status.ACTIVE.toString())) {
                         msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
                         logger.error(msg);

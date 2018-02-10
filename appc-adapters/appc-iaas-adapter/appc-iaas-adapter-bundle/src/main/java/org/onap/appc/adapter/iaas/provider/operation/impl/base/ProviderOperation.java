@@ -291,7 +291,6 @@ public abstract class ProviderOperation implements IProviderOperation {
 
             cache.setIdentityURL(ident.toString());
             cache.setProviderName(ident.toString());
-            // cache.setProviderType("OpenStack");
 
             TenantCache tenant = cache.addTenant(vm.getTenantId(), null, DEFAULT_USER, DEFAULT_PASS, DEFAULT_DOMAIN);
 

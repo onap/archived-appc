@@ -33,21 +33,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 import java.io.IOException;
 import java.io.Serializable;
 
-/*
-    {
-        "EventHeader": {
-        "eventTime": "2016-03-15T10:59:33.79Z",
-        "apiVer": "1.01",
-        "EventId": "<ECOMP_EVENT_ID>",
-    },
-        "EventStatus": {
-            "code": "NNN",
-            "reason": "A reason"
-        }
-    }
-*/
-
-
 @JsonSerialize(include = Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EventMessage implements Serializable {

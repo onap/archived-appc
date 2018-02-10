@@ -90,7 +90,7 @@ public class EncryptionTool {
      * and the Data Encryption Standard", i.e., PBEWithMD5AndDES.
      */
     @SuppressWarnings("nls")
-    private static final String SECURITY_ALGORITHM = "PBEWITHMD5AND256BITAES";// "PBEWithMD5AndDES";
+    private static final String SECURITY_ALGORITHM = "PBEWITHMD5AND256BITAES";
 
     /**
      * The decryption cipher object

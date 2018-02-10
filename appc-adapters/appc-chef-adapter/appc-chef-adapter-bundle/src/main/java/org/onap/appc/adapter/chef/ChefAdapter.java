@@ -94,7 +94,6 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException
      *             If the server cannot be restarted for some reason
      */
-  //  Server restartServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
     /**
      * This method is used to stop the indicated server
@@ -124,7 +123,6 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException
      *             If the server cannot be stopped for some reason
      */
-    //Server stopServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
     /**
      * This method is used to start the indicated server
@@ -154,7 +152,6 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException
      *             If the server cannot be started for some reason
      */
-   // Server startServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
     /**
      * This method is used to rebuild the indicated server
@@ -184,11 +181,7 @@ public interface ChefAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException
      *             If the server cannot be rebuilt for some reason
      */
- //   Server rebuildServer(Map<String, String> properties, SvcLogicContext context) throws APPCException;
 
-   // Server evacuateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
-    //Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
     void trigger(Map<String, String> params, SvcLogicContext ctx) ;
     
     void chefGet(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException;

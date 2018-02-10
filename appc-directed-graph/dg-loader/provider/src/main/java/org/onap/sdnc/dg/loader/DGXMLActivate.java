@@ -41,7 +41,7 @@ public class DGXMLActivate {
 
     private final static Logger logger = LoggerFactory.getLogger(DGXMLLoadNActivate.class);
     private final SvcLogicStore store;
-    public static String STRING_ENCODING = "utf-8";
+    public static final String STRING_ENCODING = "utf-8";
 
     public DGXMLActivate(String propfile) throws Exception {
         if (StringUtils.isBlank(propfile)) {
