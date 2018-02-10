@@ -22,10 +22,8 @@
  * ============LICENSE_END=========================================================
  */
 package org.onap.appc.adapter.iaas.provider.operation.impl;
-
-import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.ATTACHVOLUME_SERVICE;
+import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.DETACHVOLUME_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
-
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.ComputeService;
 import com.att.cdp.zones.Context;
@@ -52,9 +50,7 @@ import org.onap.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class DettachVolumeServer extends ProviderServerOperation {
-
     private final EELFLogger logger = EELFManager.getInstance().getLogger(DettachVolumeServer.class);
-
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
         throws APPCException {
@@ -62,14 +58,13 @@ public class DettachVolumeServer extends ProviderServerOperation {
         logOperation(Msg.DETTACHINGVOLUME_SERVER, params, context);
         return dettachVolume(params, context);
     }
-
     private Server dettachVolume(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
         String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-        String volumeId = params.get(ProviderAdapter.VOLUME_ID);
+        String vol_id = params.get(ProviderAdapter.VOLUME_ID);
         VMURL vm = VMURL.parseURL(vmUrl);
         Context context;
         String tenantName = "Unknown";//to be used also in case of exception
@@ -88,30 +83,36 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
                 VolumeService vs = contx.getVolumeService();
-                logger.info("collecting volume status for volume -id: " + volumeId);
+                logger.info("collecting volume status for volume -id: " + vol_id);
                 List<Volume> volList = vs.getVolumes();
+                Volume v = new Volume();
                 logger.info("Size of volume list: " + volList.size());
-                if (!volList.isEmpty()) {
-                    for (Volume v : volList) {
-                        logger.info("list of volumesif exists: " + v.getId());
-                        if (v.getId().equals(volumeId)) {
-                            v.setId(volumeId);
+                if (volList != null && !volList.isEmpty()) {
+                        if(volList.contains(vol_id))
+                 {
+                            v.setId(vol_id);
                             logger.info("Ready to Detach Volume from the server: " + Volume.Status.DETACHING);
                             service.detachVolume(server, v);
                             logger.info("Volume status after performing detach: " + v.getStatus());
-                            if (validateDetach(vs, volumeId)) {
+                            if (validateDetach(vs, vol_id)) {
                                 doSuccess(rc);
                             }
+                               else
+                {
+                String msg = "Volume with volume id "+vol_id+" cannot be detached ";
+                ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                doFailure(rc, HttpStatus.NOT_IMPLEMENTED_501, msg);
+                logger.info("unable to detach volume  from the server");
+             }
                         } else {
                             String msg =
-                                "Volume with volume id " + volumeId + " cannot be detached as it doesn't exists";
+                                "Volume with volume id " + vol_id + " cannot be detached as it doesn't exists";
+                ctx.setAttribute("VOLUME_STATUS", "FAILURE");
                             doFailure(rc, HttpStatus.NOT_IMPLEMENTED_501, msg);
                         }
-                    }
-                }
+            logger.info("volumestatus:" + ctx.getAttribute("VOLUME_STATUS"));    
+                    } 
                 context.close();
-                doSuccess(rc);
-                ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
             } else {
                 ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
             }
@@ -123,26 +124,21 @@ public class DettachVolumeServer extends ProviderServerOperation {
             logger.error("An error occurred when processing the request", e);
             doFailure(rc, e.getStatus(), e.getMessage());
         } catch (Exception e) {
-            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e, e.getClass().getSimpleName(),
-                ATTACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
+            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e, e.getClass().getSimpleName(),DETACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
             logger.error(msg, e);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
         return server;
     }
-
     protected boolean validateDetach(VolumeService vs, String volId) throws RequestFailedException, ZoneException {
         boolean flag = false;
-        List<Volume> volList = vs.getVolumes();
-        for (Volume v : volList) {
-            if (!v.getId().equals(volId)) {
-                logger.info("Volume with " + volId + "detached successsfully");
-                flag = true;
+    List<Volume> volList = vs.getVolumes();
+            if (!volList.contains(volId)) {
+                  flag = true;
             } else {
-                logger.info("failed to detach volume with id" + volId);
                 flag = false;
             }
-        }
+    logger.info("validateDetach flag-->"+flag);
         return flag;
     }
 }

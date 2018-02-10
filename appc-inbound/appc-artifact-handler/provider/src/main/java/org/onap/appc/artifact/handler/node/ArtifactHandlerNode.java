@@ -398,17 +398,66 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                             dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
                     }
                 }
-                processConfigTypeActions(content,dbservice,context);
-                dbservice.processDeviceAuthentication(context,
-                    dbservice.isArtifactUpdateRequired(context, DB_DEVICE_AUTHENTICATION));
 
+                if (content.getString(ACTION).equals("Configure")
+                    || content.getString(ACTION).equals("ConfigModify")) {
+                    if (content.has(DOWNLOAD_DG_REFERENCE)
+                        && content.getString(DOWNLOAD_DG_REFERENCE).length() > 0) {
+                        setAttribute(context, content::getString, DOWNLOAD_DG_REFERENCE);
+                        dbservice.processDownloadDgReference(context,
+                            dbservice.isArtifactUpdateRequired(context, DB_DOWNLOAD_DG_REFERENCE));
+                    }
+                    if (StringUtils.isBlank(context.getAttribute(DOWNLOAD_DG_REFERENCE))) {
+                        context.setAttribute(DOWNLOAD_DG_REFERENCE,
+                            dbservice.getDownLoadDGReference(context));
+                    }
+                    dbservice.processConfigActionDg(context, dbservice.isArtifactUpdateRequired(context,
+                        DB_CONFIG_ACTION_DG));
+                    if (content.getString(ACTION).equals("Configure")) {
+                        dbservice.processDeviceInterfaceProtocol(context, dbservice.isArtifactUpdateRequired(context,
+                            DB_DEVICE_INTERFACE_PROTOCOL));
+                    }
+
+                }
+                boolean saved=dbservice.processDeviceAuthentication(context, dbservice.isArtifactUpdateRequired(context,
+                                                                DB_DEVICE_AUTHENTICATION));
+                dbservice.performSftp(context, saved);
                 populateProtocolReference(dbservice, content);
-
                 context.setAttribute(VNFC_TYPE, null);
-
                 if (content.has(VM)
                     && content.get(VM) instanceof JSONArray) {
-                    processVmList(content, context, dbservice);
+                    JSONArray vmList = (JSONArray) content.get(VM);
+                    dbservice.cleanUpVnfcReferencesForVnf(context);
+                    for (int i = 0; i < vmList.length(); i++) {
+                        JSONObject vmInstance = (JSONObject) vmList.get(i);
+                        setAttribute(context, s -> String.valueOf(vmInstance.getInt(s)), VM_INSTANCE);
+                        log.info("VALUE = " + context.getAttribute(VM_INSTANCE));
+                        if (vmInstance.get(VNFC) instanceof JSONArray) {
+                            JSONArray vnfcInstanceList = (JSONArray) vmInstance.get(VNFC);
+                            for (int k = 0; k < vnfcInstanceList.length(); k++) {
+                                JSONObject vnfcInstance = (JSONObject) vnfcInstanceList.get(k);
+                                setAttribute(context, s -> String.valueOf(vnfcInstance.getInt(s)), VNFC_INSTANCE);
+                                setAttribute(context, vnfcInstance::getString, VNFC_TYPE);
+                                setAttribute(context, vnfcInstance::getString, VNFC_FUNCTION_CODE);
+
+                                if (vnfcInstance.has(IPADDRESS_V4_OAM_VIP)) {
+                                    setAttribute(context, vnfcInstance::getString, IPADDRESS_V4_OAM_VIP);
+                                }
+                                if (vnfcInstance.has(GROUP_NOTATION_TYPE)) {
+                                    setAttribute(context, vnfcInstance::getString, GROUP_NOTATION_TYPE);
+                                }
+                                if (vnfcInstance.has(GROUP_NOTATION_VALUE)) {
+                                    setAttribute(context, vnfcInstance::getString, GROUP_NOTATION_VALUE);
+                                }
+                                if (content.getString(ACTION).equals("Configure")) {
+                                    dbservice.processVnfcReference(context, false);
+                                }
+                                cleanVnfcInstance(context);
+                            }
+                            context.setAttribute(VM_INSTANCE, null);
+                        }
+                    }
+
                 }
 
 
