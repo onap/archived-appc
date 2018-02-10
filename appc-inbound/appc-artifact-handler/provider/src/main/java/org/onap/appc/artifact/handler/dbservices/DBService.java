@@ -38,6 +38,7 @@ import java.util.HashMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.apache.commons.configuration.ConfigurationException;
+import org.onap.appc.artifact.handler.sftp.*;
 
 public class DBService {
 
@@ -202,7 +203,6 @@ public class DBService {
         throws SvcLogicException, SQLException, ConfigurationException {
         String fn = "DBService.isArtifactUpdateRequired";
         log.info("Checking if Update required for this data");
-
         log.info("db" + db);
         log.info("ACTION=" + context.getAttribute(SdcArtifactHandlerConstants.ACTION));
         log.info("VNFC_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNFC_TYPE));
@@ -210,10 +210,8 @@ public class DBService {
         log.info("VM_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
         log.info("VNF_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
         String whereClause = "";
-
         QueryStatus status = null;
         whereClause = " where VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
-
         if (db != null) {
             if (db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)
                 && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
@@ -319,9 +317,11 @@ public class DBService {
 
     }
 
-    public void processDeviceAuthentication(SvcLogicContext context, boolean isUpdate)
-        throws SvcLogicException, ConfigurationException {
-        String fn = "DBService.processDeviceAuthentication";
+       public boolean  processDeviceAuthentication(SvcLogicContext context, boolean isUpdate)
+            throws SvcLogicException, ConfigurationException {
+    boolean save= false;
+    String fn = "DBService.processDeviceAuthentication";
+    try{
         log.info(fn + "Starting DB operation for Device Authentication " + isUpdate);
         String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
         String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
@@ -329,60 +329,71 @@ public class DBService {
         String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
         String port = context.getAttribute(SdcArtifactHandlerConstants.PORT_NUMBER);
         String user = context.getAttribute(SdcArtifactHandlerConstants.USER_NAME);
-        String property = vnf_type + "." + protocol + "." + action;
-        log.info("property :" + property);
+        String property = vnf_type + "." +protocol + "." + action;
+        log.info("property :"+property);
         if (StringUtils.isBlank(url)) {
             url = "";
         }
-        if (StringUtils.isBlank(port)) {
+        if (StringUtils.isBlank(port) ) {
             port = "";
         }
         if (StringUtils.isBlank(user)) {
             user = "";
         }
         if (((vnf_type == null) || ("".equals(vnf_type))) && ((action == null) || ("".equals(action)))
-            && ((protocol == null) || ("".equals(protocol)))) {
+                && ((protocol == null) || ("".equals(protocol))))
             throw new SvcLogicException(
-                "Error While processing refernce File as few or all of parameters VNF_TYPE,PROTOCOL,ACTION are missing ");
-        }
-        PropertiesConfiguration conf =
-            new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
-        log.info("is Updating to southbound  properties : " + isUpdate);
-        if (conf.containsKey(property + "." + "user")) {
-            if (user != null && !user.isEmpty()) {
-                conf.setProperty(property + "." + "user", user);
-            }
-        } else {
-            log.info("is Adding to southbound.properties" + isUpdate);
-
-            conf.addProperty(property + "." + "user", user);
-        }
-
-        if (conf.containsKey(property + "." + "port")) {
-            if (port != null && !port.isEmpty()) {
-                conf.setProperty(property + "." + "port", port);
-            }
-        } else {
-            conf.addProperty(property + "." + "port", port);
-        }
-        if (conf.containsKey(property + "." + "password")) {
-        } else {
-            conf.addProperty(property + "." + "password", "");
-        }
-        if (conf.containsKey(property + "." + "url")) {
-            if (url != null && !url.isEmpty()) {
-                conf.setProperty(property + "." + "url", url);
-            }
-
-        } else {
-
-            conf.addProperty(property + "." + "url", url);
-        }
-        log.info("About to save to properties file");
-        conf.save();
-        log.info("saved to properties file");
+                    "Error While processing refernce File as few or all of parameters VNF_TYPE,PROTOCOL,ACTION are missing ");
+        PropertiesConfiguration conf = new PropertiesConfiguration(
+                SdcArtifactHandlerConstants.APPC_CONFIG_DIR + "/appc_southbound.properties");
+         log.info("is Updating to southbound  properties : "+isUpdate); 
+                if (conf.containsKey(property + "." + "user")) {
+                    if(user!=null && !user.isEmpty())
+                    conf.setProperty(property + "." + "user", user);
+                    } else {
+                             log.info("is Adding to southbound.properties"+isUpdate);
+                    conf.addProperty(property + "." + "user", user);
+                }
+                if (conf.containsKey(property + "." + "port")) {
+                    if (port != null && !port.isEmpty())
+                        conf.setProperty(property + "." + "port", port);
+                } else {   
+                        conf.addProperty(property + "." + "port", port);
+                }
+                if (conf.containsKey(property + "." + "password")) {
+                } else {
+                    conf.addProperty(property + "." + "password", "");
+                }
+                if (conf.containsKey(property + "." + "url")) {
+                    if (url != null && !url.isEmpty())
+                        conf.setProperty(property + "." + "url", url);
+                } else {
+                    conf.addProperty(property + "." + "url", url);
+                }
+                 log.info("About to save to properties file");
+                 conf.save();
+                 log.info("saved to properties file");
+                 save = true;
+                 return save;               
     }
-
+    catch( Exception e)
+    {
+        save = false;
+        throw new SvcLogicException(fn+"Error While sav insertProtocolReference "+e.getMessage());
+    }
+    }
+     public void performSftp(SvcLogicContext ctx, boolean isSave) throws SvcLogicException
+    {   
+    if(isSave)
+    {
+        SftpConnect sftp = new SftpConnect();
+        sftp.performSftp(ctx);
+    }
+    else 
+    {
+        throw new SvcLogicException("Error while saving properties file  cannot perform sftp to other nodes ");
+    }
+    }
     public void processVnfcReference(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
         String fn = "DBService.processVnfcReference";
         log.info(fn + "Starting DB operation for Vnfc Reference " + isUpdate);
