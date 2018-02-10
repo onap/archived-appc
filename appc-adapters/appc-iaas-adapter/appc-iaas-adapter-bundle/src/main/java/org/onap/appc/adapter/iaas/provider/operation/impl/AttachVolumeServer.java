@@ -25,7 +25,6 @@ package org.onap.appc.adapter.iaas.provider.operation.impl;
 
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.ATTACHVOLUME_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
-
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.ComputeService;
 import com.att.cdp.zones.Context;
@@ -74,48 +73,57 @@ public class AttachVolumeServer extends ProviderServerOperation {
             String identStr = (ident == null) ? null : ident.toString();
             context = getContext(requestContext, vmUrl, identStr);
             if (context != null) {
-                tenantName = context.getTenantName();// this variable also is used in case of exception
+                tenantName = context.getTenantName();// this variable also is
+                                                        // used in case of
+                                                        // exception
                 requestContext.reset();
                 server = lookupServer(requestContext, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
                 VolumeService volumeService = contx.getVolumeService();
-                logger.info("Collecting volume status for volume id: " + volumeId);
+                logger.info("collecting volume status for volume -id:" + volumeId);
                 List<Volume> volumes = volumeService.getVolumes();
-                logger.info("Size of volume list: " + volumes.size());
-                for (Volume volume : volumes) {
-                    logger.info("Processing volume with id: " + volume.getId());
-                    if (!volume.getId().equals(volumeId)) {
+                Volume volume = new Volume();
+                logger.info("Size of volume list :" + volumes.size());
+                if (volumes != null && !volumes.isEmpty()) {
+                    if (!(volumes.contains(volumeId))) {
                         volume.setId(volumeId);
-                        logger.info("Ready to Attach Volume to the server: " + Volume.Status.ATTACHING);
+                        logger.info("Ready to Attach Volume to the server:");
                         service.attachVolume(server, volume, device);
-                        logger.info("Volume status after performing attach: " + volume.getStatus());
-
-                        validateAttach(volumeService, volumeId, requestContext);
+                        logger.info("Volume status after performing attach:" + volume.getStatus());
+                        if (validateAttach(volumeService, volumeId)) {
+                            ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                            doSuccess(requestContext);
+                        } else {
+                            String msg = "Failed to attach Volume";
+                            logger.info("Volume with " + volumeId + " unable to attach");
+                            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                            doFailure(requestContext, HttpStatus.NOT_IMPLEMENTED_501, msg);
+                        }
                     } else {
-                        String msg = "Volume with id: " + volumeId + " cannot be attached as it already exists";
-                        logger.info(msg);
+                        String msg = "Volume with volume id " + volumeId + " cannot be attached as it already exists";
+                        logger.info("Alreday volumes exists:");
+                        ctx.setAttribute("VOLUME_STATUS", "FAILURE");
                         doFailure(requestContext, HttpStatus.NOT_IMPLEMENTED_501, msg);
                     }
                 }
                 context.close();
-                doSuccess(requestContext);
-                ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
             } else {
                 ctx.setAttribute("VOLUME_STATUS", "CONTEXT_NOT_FOUND");
             }
         } catch (ZoneException e) {
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
             logger.error(msg);
+            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
             doFailure(requestContext, HttpStatus.NOT_FOUND_404, msg);
         } catch (RequestFailedException e) {
-            logger.error("An error occurred in attachVolume", e);
+            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
             doFailure(requestContext, e.getStatus(), e.getMessage());
         } catch (Exception ex) {
             String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
-                ATTACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
-            logger.error(msg, ex);
+                    ATTACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
+            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
         return server;
@@ -123,24 +131,22 @@ public class AttachVolumeServer extends ProviderServerOperation {
 
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
-        throws APPCException {
+            throws APPCException {
         setMDC(Operation.ATTACHVOLUME_SERVICE.toString(), "App-C IaaS Adapter:attachVolume", ADAPTER_NAME);
         logOperation(Msg.ATTACHINGVOLUME_SERVER, params, context);
         return attachVolume(params, context);
     }
 
-    private void validateAttach(VolumeService vs, String volId, RequestContext requestContext)
-        throws RequestFailedException, ZoneException {
-
-        List<Volume> volList = vs.getVolumes();
-        for (Volume v : volList) {
-            if (v.getId().equals(volId)) {
-                logger.info("Volume with id: " + volId + " attached successfully");
-                doSuccess(requestContext);
-            } else {
-                logger.info("Failed to attach volume with id: " + volId);
-            }
+    protected boolean validateAttach(VolumeService volumeService, String volumeId)
+            throws RequestFailedException, ZoneException {
+        boolean flag = false;
+        List<Volume> volumeList = volumeService.getVolumes();
+        if (volumeList.contains(volumeId)) {
+            flag = true;
+        } else {
+            flag = false;
         }
+        logger.info("validateAttach flag-->" + flag);
+        return flag;
     }
-
 }
