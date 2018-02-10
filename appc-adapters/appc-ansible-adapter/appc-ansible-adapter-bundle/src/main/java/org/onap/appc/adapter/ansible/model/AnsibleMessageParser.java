@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -178,76 +178,77 @@ public class AnsibleMessageParser {
     public AnsibleResult parseGetResponse(String input) throws APPCException {
 
         AnsibleResult ansibleResult = new AnsibleResult();
-        int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
 
         try {
             JSONObject postResponse = new JSONObject(input);
-
-            int codeStatus = postResponse.getInt(STATUS_CODE_KEY);
-            String messageStatus = postResponse.getString(STATUS_MESSAGE_KEY);
-
-            boolean valCode =
-                    AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), codeStatus);
-
-            if (!valCode) {
-                throw new APPCException("Invalid FinalResponse code  = " + codeStatus + " received. MUST be one of "
-                        + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.FINALRESPONSE.getValue()));
-            }
-
-            ansibleResult.setStatusCode(codeStatus);
-            ansibleResult.setStatusMessage(messageStatus);
-            LOGGER.info("Received response with code = {}, Message = {}", codeStatus, messageStatus);
-
-            if (!postResponse.isNull("Results")) {
-
-                // Results are available. process them
-                // Results is a dictionary of the form
-                // {host :{status:s, group:g, message:m, hostname:h}, ...}
-                LOGGER.info("Processing results in response");
-                JSONObject results = postResponse.getJSONObject("Results");
-                LOGGER.info("Get JSON dictionary from Results ..");
-                Iterator<String> hosts = results.keys();
-                LOGGER.info("Iterating through hosts");
-
-                while (hosts.hasNext()) {
-                    String host = hosts.next();
-                    LOGGER.info("Processing host = {}", host);
-
-                    try {
-                        JSONObject hostResponse = results.getJSONObject(host);
-                        int subCode = hostResponse.getInt(STATUS_CODE_KEY);
-                        String message = hostResponse.getString(STATUS_MESSAGE_KEY);
-
-                        LOGGER.info("Code = {}, Message = {}", subCode, message);
-
-                        if (subCode != 200 || !message.equals("SUCCESS")) {
-                            finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
-                        }
-                    } catch (JSONException e) {
-                        ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
-                        ansibleResult.setStatusMessage(String.format(
-                                "Error processing response message = %s from host %s", results.getString(host), host));
-                        break;
-                    }
-                }
-
-                ansibleResult.setStatusCode(finalCode);
-
-                // We return entire Results object as message
-                ansibleResult.setResults(results.toString());
-
-            } else {
-                ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
-                ansibleResult.setStatusMessage("Results not found in GET for response");
-            }
-
-
+            ansibleResult = parseGetResponseNested(ansibleResult, postResponse);
         } catch (JSONException e) {
             ansibleResult = new AnsibleResult(AnsibleResultCodes.INVALID_PAYLOAD.getValue(),
                     "Error parsing response = " + input + ". Error = " + e.getMessage(), "");
         }
+        return ansibleResult;
+    }
 
+    private AnsibleResult parseGetResponseNested(AnsibleResult ansibleResult, JSONObject postRsp) throws APPCException  {
 
+        int codeStatus = postRsp.getInt(STATUS_CODE_KEY);
+        String messageStatus = postRsp.getString(STATUS_MESSAGE_KEY);
+        int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
+
+        boolean valCode =
+                AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), codeStatus);
+
+        if (!valCode) {
+            throw new APPCException("Invalid FinalResponse code  = " + codeStatus + " received. MUST be one of "
+                    + AnsibleResultCodes.CODE.getValidCodes(AnsibleResultCodes.FINALRESPONSE.getValue()));
+        }
+
+        ansibleResult.setStatusCode(codeStatus);
+        ansibleResult.setStatusMessage(messageStatus);
+        LOGGER.info("Received response with code = {}, Message = {}", codeStatus, messageStatus);
+
+        if (!postRsp.isNull("Results")) {
+
+            // Results are available. process them
+            // Results is a dictionary of the form
+            // {host :{status:s, group:g, message:m, hostname:h}, ...}
+            LOGGER.info("Processing results in response");
+            JSONObject results = postRsp.getJSONObject("Results");
+            LOGGER.info("Get JSON dictionary from Results ..");
+            Iterator<String> hosts = results.keys();
+            LOGGER.info("Iterating through hosts");
+
+            while (hosts.hasNext()) {
+                String host = hosts.next();
+                LOGGER.info("Processing host = {}", host);
+
+                try {
+                    JSONObject hostResponse = results.getJSONObject(host);
+                    int subCode = hostResponse.getInt(STATUS_CODE_KEY);
+                    String message = hostResponse.getString(STATUS_MESSAGE_KEY);
+
+                    LOGGER.info("Code = {}, Message = {}", subCode, message);
+
+                    if (subCode != 200 || !message.equals("SUCCESS")) {
+                        finalCode = AnsibleResultCodes.REQ_FAILURE.getValue();
+                    }
+                } catch (JSONException e) {
+                    ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
+                    ansibleResult.setStatusMessage(String.format(
+                            "Error processing response message = %s from host %s", results.getString(host), host));
+                    break;
+                }
+            }
+
+            ansibleResult.setStatusCode(finalCode);
+
+            // We return entire Results object as message
+            ansibleResult.setResults(results.toString());
+
+        } else {
+            ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
+            ansibleResult.setStatusMessage("Results not found in GET for response");
+        }
         return ansibleResult;
     }
 
