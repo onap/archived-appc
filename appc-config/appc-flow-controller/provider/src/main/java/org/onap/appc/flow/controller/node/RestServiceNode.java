@@ -127,20 +127,7 @@ public class RestServiceNode implements SvcLogicJavaPlugin{
             Map<String, String> output = restRequestExecutor.execute(transaction, ctx);
 
             if(isValidJSON(output.get("restResponse")) != null) {
-                ctx.setAttribute(responsePrefix + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE , output.get("restResponse"));
-//                JsonNode restResponse = isValidJSON(output.get("restResponse"));
-//                for (String key : inParams.keySet()) {
-//                    if(key !=null &&  key.startsWith("output-")){
-//                            log.info("Found Key = " + key);
-//                            log.info("Found Key in Params " + inParams.get(key) + ".");
-//                            JsonNode setValue =  restResponse.findValue(inParams.get(key));                            
-//                             log.info("Found value = " + setValue);
-//                             if(setValue !=null && setValue.textValue() !=null && !setValue.textValue().isEmpty())
-//                                 ctx.setAttribute(responsePrefix + "." + key, setValue.textValue());
-//                             else
-//                                 ctx.setAttribute(responsePrefix + "." + key, null);
-//                    }
-//                }                
+                ctx.setAttribute(responsePrefix + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE , output.get("restResponse"));            
             }
             log.info("Response from Rest :" );
 

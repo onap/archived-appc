@@ -143,9 +143,6 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
 
             }
             else if((localContext.getAttribute(FlowControllerConstants.SEQUENCE_TYPE)).equalsIgnoreCase(FlowControllerConstants.EXTERNAL)){
-                //String input = collectInputParams(localContext);
-                //    flowSequnce = ""; //get it from the External interface calling the Rest End point - TBD
-                //if(flowSequnce == null)
                 throw new Exception("Flow Sequence not found for " + ctx.getAttribute(FlowControllerConstants.VNF_TYPE));
             }
             else
@@ -392,7 +389,6 @@ public class FlowControlNode implements SvcLogicJavaPlugin{
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
             mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-            //JsonNode dependencyInfoData = mapper.readTree(dependencyData).get("dependencyInfo");
             JsonNode vnfcData = mapper.readTree(dependencyData).get("vnfcs");
             List<Vnfcs> vnfclist = Arrays.asList(mapper.readValue(vnfcData.toString(), Vnfcs[].class));
             dependencyInfo.getVnfcs().addAll(vnfclist);

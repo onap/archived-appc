@@ -263,18 +263,6 @@ public class DGGeneralDBService {
 
     }
 
-    /*public QueryStatus getMaxUploadConfigFileId(SvcLogicContext ctx, String prefix) throws SvcLogicException {
-        QueryStatus status = null;
-        if (serviceLogic != null && ctx != null) {
-            String key = "SELECT MAX(upload_config_id) uploadconfigid " + " FROM UPLOAD_CONFIG "
-                    + " WHERE vnf_id =  $vnf-id  AND vm_name = $vm-name ; ";
-
-            status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
-            log.info("DGGeneralDBService.getMaxUploadConfigFileId()" + ctx.getAttributeKeySet());
-        }
-        return status;
-    }*/
-
     public QueryStatus updateUploadConfig(SvcLogicContext ctx, String prefix, int maxId) throws SvcLogicException {
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
@@ -415,7 +403,9 @@ public class DGGeneralDBService {
     }
      public String getCapability(SvcLogicContext ctx, String vnf_type) throws SvcLogicException {
 
+
          //{"capabilities":{"vnfc":[],"vm":[],"vf-module":[],"vnf":["ConfigureTest","ConfigModify","HealthCheck"]}}
+
          String fn = "getCapability ";
          QueryStatus status = null;
          SvcLogicContext localContext = new SvcLogicContext();
@@ -443,6 +433,6 @@ public class DGGeneralDBService {
          }
 
          return localContext.getAttribute("artifact-content");
- }
+    }
 
 }

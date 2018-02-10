@@ -65,13 +65,6 @@ public class GraphExecutor implements FlowExecutorInterface {
             throws SvcLogicException {
         log.debug("Parameters passed to SLI");
 
-        // for (Object key : parms.keySet()) {
-        // String parmName = (String) key;
-        // String parmValue = parms.getProperty(parmName);
-        //
-        // log.debug(parmName + " = " + parmValue);
-        // }
-
         Properties respProps = svcLogic.execute(module, rpc, version, mode, parms);
         if (log.isDebugEnabled()) {
             log.debug("Parameters returned by SLI");
@@ -104,8 +97,6 @@ public class GraphExecutor implements FlowExecutorInterface {
         }
         Properties returnParams =
                 executeGraph(transaction.getExecutionModule(), transaction.getExecutionRPC(), null, "sync", parms);
-
-        // log.debug("Return Params executing DG :" + returnParams.toString());
 
         log.debug("Returned Params from DG Module: " + transaction.getExecutionModule() + "and DG NAME: "
                 + transaction.getExecutionRPC() + returnParams.toString());

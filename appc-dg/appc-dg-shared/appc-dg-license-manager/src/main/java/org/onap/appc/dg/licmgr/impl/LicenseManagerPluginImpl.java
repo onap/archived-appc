@@ -110,7 +110,6 @@ public class LicenseManagerPluginImpl implements LicenseManagerPlugin {
     }
 
 
-
     //////// code uses jaxb license model, should be fixed
     /*
     final VfLicenseModel.FeatureGroupList featureGroupList = licenseModel.getFeatureGroupList();

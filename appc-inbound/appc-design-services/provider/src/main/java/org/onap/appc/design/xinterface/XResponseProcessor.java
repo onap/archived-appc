@@ -43,8 +43,6 @@ public class XResponseProcessor {
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(execute);
         log.info("payloadObject " + payloadObject);
-
-        //String queryParam = null;
         String instarResponse = null;
         HashMap<String, String> payload = null;
         String ipAddress = null;
@@ -64,16 +62,6 @@ public class XResponseProcessor {
                     : (payloadObject.get(DesignServiceConstants.INSTAR_V6_MASK) != null)
                             ? payloadObject.get(DesignServiceConstants.INSTAR_V6_MASK).textValue().toUpperCase()
                             : null;
-
-            // TODO -short format
-
-            /*if (mask != null) {
-                queryParam = ipAddress + "," +mask ;
-                log.info("Calling Instar with IpAddress "+ ipAddress + " Mask value: "+ mask );
-            } else {
-                queryParam = "ipAddress "+ipAddress ;
-                log.info("Calling Instar with IpAddress "+ ipAddress);
-            }*/
 
             payload = new HashMap<String, String>();
             payload.put("ipAddress", ipAddress);
