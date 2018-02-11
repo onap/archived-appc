@@ -104,25 +104,7 @@ public class EvacuateServer extends ProviderServerOperation {
 
         String msg;
         try {
-            while (rc.attempt()) {
-                try {
-                    logger.debug("Calling CDP moveServer - server id = " + server.getId());
-                    service.moveServer(server.getId(), targetHost);
-                    // Wait for completion, expecting the server to go to a non pending state
-                    waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
-                            Server.Status.SUSPENDED, Server.Status.PAUSED);
-                    break;
-                } catch (ContextConnectionException e) {
-                    msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                            ctx.getTenant().getName(), ctx.getTenant().getId(), e.getMessage(),
-                            Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                            Integer.toString(rc.getRetryLimit()));
-                    logger.error(msg, e);
-                    metricsLogger.error(msg, e);
-                    rc.delay();
-                }
-            }
-
+            evacuateServerNested(rc,service,server,provider,targetHost);
         } catch (ZoneException e) {
             msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, server.getName(), server.getId(),
                     e.getMessage());
@@ -140,7 +122,30 @@ public class EvacuateServer extends ProviderServerOperation {
         rc.reset();
     }
 
+    private void evacuateServerNested(RequestContext RcCtx,ComputeService svc,Server server,Provider provider, String targetHost) 
+            throws ZoneException, RequestFailedException {
+        String msg;
+        Context ctx = server.getContext();
 
+        while (RcCtx.attempt()) {
+            try {
+                logger.debug("Calling CDP moveServer - server id = " + server.getId());
+                svc.moveServer(server.getId(), targetHost);
+                // Wait for completion, expecting the server to go to a non pending state
+                waitForStateChange(RcCtx, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
+                        Server.Status.SUSPENDED, Server.Status.PAUSED);
+                break;
+            } catch (ContextConnectionException e) {
+                msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), svc.getURL(),
+                        ctx.getTenant().getName(), ctx.getTenant().getId(), e.getMessage(),
+                        Long.toString(RcCtx.getRetryDelay()), Integer.toString(RcCtx.getAttempts()),
+                        Integer.toString(RcCtx.getRetryLimit()));
+                logger.error(msg, e);
+                metricsLogger.error(msg, e);
+                RcCtx.delay();
+            }
+        }
+    }
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#evacuateServer(java.util.Map,
      *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
@@ -166,95 +171,8 @@ public class EvacuateServer extends ProviderServerOperation {
                 return null;
             }
 
-            IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
-            String identStr = (ident == null) ? null : ident.toString();
+            server = evacuateServerMapNestedFirst(params, server, rc, ctx, vm, vmUrl);
 
-            // retrieve the optional parameters
-            String rebuildVm = params.get(ProviderAdapter.PROPERTY_REBUILD_VM);
-            String targetHostId = params.get(ProviderAdapter.PROPERTY_TARGETHOST_ID);
-
-            Context context;
-            String tenantName = "Unknown";//to be used also in case of exception
-            try {
-                context = getContext(rc, vmUrl, identStr);
-                if (context != null) {
-                    tenantName = context.getTenantName();//this varaible also is used in case of exception
-                    server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
-
-                    // check target host status
-                    checkHostStatus(server, targetHostId, context);
-
-                    // save hypervisor name before evacuate
-                    String hypervisor = server.getHypervisor().getHostName();
-
-                    evacuateServer(rc, server, targetHostId);
-
-                    server.refreshAll();
-                    String hypervisorAfterEvacuate = server.getHypervisor().getHostName();
-                    logger.debug("Hostname before evacuate: " + hypervisor + ", After evacuate: " + hypervisorAfterEvacuate);
-
-                    // check hypervisor host name after evacuate. If it is unchanged, the evacuate
-                    // failed.
-                    checkHypervisor(server, hypervisor, hypervisorAfterEvacuate);
-
-                    // check VM status after evacuate
-                    checkStatus(server);
-                    context.close();
-                    doSuccess(rc);
-                    ctx.setAttribute(EVACUATE_STATUS, "SUCCESS");
-
-                    // If a snapshot exists, do a rebuild to apply the latest snapshot to the evacuated server.
-                    // This is the default behavior unless the optional parameter is set to FALSE.
-                    if (rebuildVm == null || !"false".equalsIgnoreCase(rebuildVm)) {
-                        List<Image> snapshots = server.getSnapshots();
-                        if (snapshots == null || snapshots.isEmpty()) {
-                            logger.debug("No snapshots available - skipping rebuild after evacuate");
-                        } else if (paImpl != null) {
-                            logger.debug("Executing a rebuild after evacuate");
-                            paImpl.rebuildServer(params, ctx);
-                            // Check error code for rebuild errors. Evacuate had set it to 200 after
-                            // a successful evacuate. Rebuild updates the error code.
-                            String rebuildErrorCode = ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE);
-                            if (rebuildErrorCode != null) {
-                                try {
-                                    int errorCode = Integer.parseInt(rebuildErrorCode);
-                                    if (errorCode != HttpStatus.OK_200.getStatusCode()) {
-                                        logger.debug("Rebuild after evacuate failed - error code=" + errorCode
-                                                + ", message=" + ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
-                                        msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_REBUILD_FAILED,
-                                                server.getName(), hypervisor, hypervisorAfterEvacuate,
-                                                ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
-                                        logger.error(msg);
-                                        metricsLogger.error(msg);
-                                        ctx.setAttribute(EVACUATE_STATUS, "ERROR");
-                                        // update error message while keeping the error code the
-                                        // same as before
-                                        doFailure(rc, HttpStatus.getHttpStatus(errorCode), msg);
-                                    }
-                                } catch (NumberFormatException e) {
-                                    // ignore
-                                }
-                            }
-                        }
-                    }
-
-                }
-            } catch (ResourceNotFoundException e) {
-                msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
-                logger.error(msg);
-                metricsLogger.error(msg);
-                doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-            } catch (RequestFailedException e) {
-                logger.error("Request failed", e);
-                doFailure(rc, e.getStatus(), e.getMessage());
-            } catch (IOException | ZoneException e1) {
-                msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                        Operation.EVACUATE_SERVICE.toString(), vmUrl, tenantName);
-                logger.error(msg, e1);
-                metricsLogger.error(msg, e1);
-                doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
-            }
         } catch (RequestFailedException e) {
             msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_FAILED, "n/a", "n/a", e.getMessage());
             logger.error(msg, e);
@@ -263,6 +181,111 @@ public class EvacuateServer extends ProviderServerOperation {
         }
 
         return server;
+    }
+
+    private Server evacuateServerMapNestedFirst(Map<String, String> params, Server server, RequestContext RqstCtx, SvcLogicContext ctx,
+                VMURL vm, String vmUrl)
+            throws APPCException {
+
+        String msg;
+        Context context;
+
+        IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
+        String identStr = (ident == null) ? null : ident.toString();
+        // retrieve the optional parameters
+        String rebuildVm = params.get(ProviderAdapter.PROPERTY_REBUILD_VM);
+        String targetHostId = params.get(ProviderAdapter.PROPERTY_TARGETHOST_ID);
+        String tenantName = "Unknown";//to be used also in case of exception
+        try {
+            context = getContext(RqstCtx, vmUrl, identStr);
+            if (context != null) {
+                tenantName = context.getTenantName();//this variable also is used in case of exception
+                server = lookupServer(RqstCtx, context, vm.getServerId());
+
+                logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
+
+                // check target host status
+                checkHostStatus(server, targetHostId, context);
+
+                // save hypervisor name before evacuate
+                String hypervisor = server.getHypervisor().getHostName();
+
+                evacuateServer(RqstCtx, server, targetHostId);
+
+                server.refreshAll();
+                String hypervisorAfterEvacuate = server.getHypervisor().getHostName();
+                logger.debug("Hostname before evacuate: " + hypervisor + ", After evacuate: " + hypervisorAfterEvacuate);
+
+                // check hypervisor host name after evacuate. If it is unchanged, the evacuate
+                // failed.
+                checkHypervisor(server, hypervisor, hypervisorAfterEvacuate);
+
+                // check VM status after evacuate
+                checkStatus(server);
+                context.close();
+                doSuccess(RqstCtx);
+                ctx.setAttribute(EVACUATE_STATUS, "SUCCESS");
+
+                // If a snapshot exists, do a rebuild to apply the latest snapshot to the evacuated server.
+                // This is the default behavior unless the optional parameter is set to FALSE.
+                if (rebuildVm == null || !"false".equalsIgnoreCase(rebuildVm)) {
+                    List<Image> snapshots = server.getSnapshots();
+                    if (snapshots == null || snapshots.isEmpty()) {
+                        logger.debug("No snapshots available - skipping rebuild after evacuate");
+                    } else if (paImpl != null) {
+                        logger.debug("Executing a rebuild after evacuate");
+                        paImpl.rebuildServer(params, ctx);
+                        // Check error code for rebuild errors. Evacuate had set it to 200 after
+                        // a successful evacuate. Rebuild updates the error code.
+                        evacuateServerMapNestedSecond(server, RqstCtx, ctx, hypervisor, hypervisorAfterEvacuate);
+                    }
+                }
+
+            }
+        } catch (ResourceNotFoundException e) {
+            msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vmUrl);
+            logger.error(msg);
+            metricsLogger.error(msg);
+            doFailure(RqstCtx, HttpStatus.NOT_FOUND_404, msg);
+        } catch (RequestFailedException e) {
+            logger.error("Request failed", e);
+            doFailure(RqstCtx, e.getStatus(), e.getMessage());
+        } catch (IOException | ZoneException e1) {
+            msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
+                    Operation.EVACUATE_SERVICE.toString(), vmUrl, tenantName);
+            logger.error(msg, e1);
+            metricsLogger.error(msg, e1);
+            doFailure(RqstCtx, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
+        }
+        return server;
+    }
+
+    private void evacuateServerMapNestedSecond(Server server,RequestContext rc, SvcLogicContext ctx,
+            String hypervisor,String hypervisorAfterEvacuate) {
+
+        String msg;
+        String rebuildErrorCode = ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE);
+
+        if (rebuildErrorCode != null) {
+            try {
+                int errorCode = Integer.parseInt(rebuildErrorCode);
+                if (errorCode != HttpStatus.OK_200.getStatusCode()) {
+                    logger.debug("Rebuild after evacuate failed - error code=" + errorCode
+                            + ", message=" + ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+                    msg = EELFResourceManager.format(Msg.EVACUATE_SERVER_REBUILD_FAILED,
+                            server.getName(), hypervisor, hypervisorAfterEvacuate,
+                            ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+                    logger.error(msg);
+                    metricsLogger.error(msg);
+                    ctx.setAttribute(EVACUATE_STATUS, "ERROR");
+                    // update error message while keeping the error code the
+                    // same as before
+                    doFailure(rc, HttpStatus.getHttpStatus(errorCode), msg);
+                }
+            } catch (NumberFormatException e) {
+                // ignore
+            }
+        }
     }
 
     private void checkHostStatus(Server server, String targetHostId, Context context)
