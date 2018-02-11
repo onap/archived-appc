@@ -71,42 +71,48 @@ public class LookupServer extends ProviderServerOperation {
             if (validateVM(rc, appName, vm_url, vm)) {
                 return null;
             }
-
-            // use try with resource to ensure context is closed (returned to pool)
-            try (Context context = resolveContext(rc, params, appName, vm_url)) {
-                // resloveContext & getContext call doFailure and log errors before returning null
-                if (context != null) {
-                    rc.reset();
-                    server = lookupServer(rc, context, vm.getServerId());
-                    logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
-                    ctx.setAttribute("serverFound", "success");
-                    String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
-                    ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
-                    doSuccess(rc);
-                }
-            } catch (ZoneException e) {
-                // server not found
-                String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
-                logger.error(msg);
-                doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
-                ctx.setAttribute("serverFound", "failure");
-            } catch (IOException e) {
-                // exception closing context
-                String msg = EELFResourceManager.format(Msg.CLOSE_CONTEXT_FAILED, e, vm_url);
-                logger.error(msg);
-            } catch (Exception e1) {
-                String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
-                        e1.getClass().getSimpleName(), Operation.LOOKUP_SERVICE.toString(), vm_url, "Unknown");
-                logger.error(msg, e1);
-                doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
-            }
-
+            server = lookupServerNested(params, server, rc, ctx, appName, vm, vm_url);
         } catch (RequestFailedException e) {
             // parameters not valid, unable to connect to provider
             String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
             logger.error(msg);
             doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             ctx.setAttribute("serverFound", "failure");
+        }
+        return server;
+    }
+
+    private Server lookupServerNested(Map<String, String> params, Server server, RequestContext RqstCtx, SvcLogicContext ctx,
+            String appName, VMURL vm, String vm_url)
+            throws APPCException {
+
+        // use try with resource to ensure context is closed (returned to pool)
+        try (Context context = resolveContext(RqstCtx, params, appName, vm_url)) {
+            // resloveContext & getContext call doFailure and log errors before returning null
+            if (context != null) {
+                RqstCtx.reset();
+                server = lookupServer(RqstCtx, context, vm.getServerId());
+                logger.debug(Msg.SERVER_FOUND, vm_url, context.getTenantName(), server.getStatus().toString());
+                ctx.setAttribute("serverFound", "success");
+                String msg = EELFResourceManager.format(Msg.SUCCESS_EVENT_MESSAGE, "LookupServer", vm_url);
+                ctx.setAttribute(org.onap.appc.Constants.ATTRIBUTE_SUCCESS_MESSAGE, msg);
+                doSuccess(RqstCtx);
+            }
+        } catch (ZoneException e) {
+            // server not found
+            String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, e, vm_url);
+            logger.error(msg);
+            doFailure(RqstCtx, HttpStatus.NOT_FOUND_404, msg);
+            ctx.setAttribute("serverFound", "failure");
+        } catch (IOException e) {
+            // exception closing context
+            String msg = EELFResourceManager.format(Msg.CLOSE_CONTEXT_FAILED, e, vm_url);
+            logger.error(msg);
+        } catch (Exception e1) {
+            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
+                    e1.getClass().getSimpleName(), Operation.LOOKUP_SERVICE.toString(), vm_url, "Unknown");
+            logger.error(msg, e1);
+            doFailure(RqstCtx, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
         return server;
     }
