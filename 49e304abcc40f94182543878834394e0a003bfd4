@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_c5240562",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T17:33:43Z",
+      "side": 1,
+      "message": "Incorrect indentation?",
+      "revId": "49e304abcc40f94182543878834394e0a003bfd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_85e91de8",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T17:33:43Z",
+      "side": 1,
+      "message": "Is it possible this public interface could be used outside of the APPC application?   \n\nAlso, if indeed it is not needed, it should be removed instead of commented out.",
+      "revId": "49e304abcc40f94182543878834394e0a003bfd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_45ef95e9",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/AnsibleActivatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T17:33:43Z",
+      "side": 1,
+      "message": "Why include Amdocs here?",
+      "revId": "49e304abcc40f94182543878834394e0a003bfd4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
