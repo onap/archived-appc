@@ -21,8 +21,10 @@
  */
 package org.onap.appc.flow.controller.executorImpl;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
@@ -33,13 +35,12 @@ import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 
 public class GraphExecutor implements FlowExecutorInterface {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(GraphExecutor.class);
+    private static final String SVC_LOGIC_STATUS_PARAM = "SvcLogic.status";
 
     private SvcLogicService svcLogic = null;
 
@@ -48,9 +49,7 @@ public class GraphExecutor implements FlowExecutorInterface {
 
         ServiceReference sref = bctx.getServiceReference(SvcLogicService.NAME);
         if (sref != null) {
-            svcLogic = (SvcLogicService) bctx.getService(sref);
-
-
+            svcLogic = bctx.<SvcLogicService>getService(sref);
         } else {
             log.warn("Cannot find service reference for " + SvcLogicService.NAME);
         }
@@ -58,19 +57,12 @@ public class GraphExecutor implements FlowExecutorInterface {
     }
 
     public boolean hasGraph(String module, String rpc, String version, String mode) throws SvcLogicException {
-        return (svcLogic.hasGraph(module, rpc, version, mode));
+        return svcLogic.hasGraph(module, rpc, version, mode);
     }
 
     public Properties executeGraph(String module, String rpc, String version, String mode, Properties parms)
-            throws SvcLogicException {
+        throws SvcLogicException {
         log.debug("Parameters passed to SLI");
-
-        // for (Object key : parms.keySet()) {
-        // String parmName = (String) key;
-        // String parmValue = parms.getProperty(parmName);
-        //
-        // log.debug(parmName + " = " + parmValue);
-        // }
 
         Properties respProps = svcLogic.execute(module, rpc, version, mode, parms);
         if (log.isDebugEnabled()) {
@@ -82,14 +74,11 @@ public class GraphExecutor implements FlowExecutorInterface {
                 log.debug(parmName + " = " + parmValue);
             }
         }
-        if ("failure".equalsIgnoreCase(respProps.getProperty("SvcLogic.status"))) {
-            return (respProps);
-        }
-        return (respProps);
+        return respProps;
     }
 
     @Override
-    public HashMap<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception {
+    public Map<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception {
 
         String fn = "GraphExecutor.execute ";
         log.debug(fn + "About to execute graph : " + transaction.getExecutionRPC());
@@ -103,12 +92,10 @@ public class GraphExecutor implements FlowExecutorInterface {
 
         }
         Properties returnParams =
-                executeGraph(transaction.getExecutionModule(), transaction.getExecutionRPC(), null, "sync", parms);
-
-        // log.debug("Return Params executing DG :" + returnParams.toString());
+            executeGraph(transaction.getExecutionModule(), transaction.getExecutionRPC(), null, "sync", parms);
 
         log.debug("Returned Params from DG Module: " + transaction.getExecutionModule() + "and DG NAME: "
-                + transaction.getExecutionRPC() + returnParams.toString());
+            + transaction.getExecutionRPC() + returnParams.toString());
 
         Enumeration e = returnParams.propertyNames();
 
@@ -119,49 +106,38 @@ public class GraphExecutor implements FlowExecutorInterface {
             ctx.setAttribute(key, returnParams.getProperty(key));
         }
 
-
-        // Get the correct code from the SVC Logic and set it in transaction
-        // transaction.setStatusCode(returnParams.getProperty("SvcLogic.code"));
-
-        if (FlowControllerConstants.FAILURE.equalsIgnoreCase(returnParams.getProperty("SvcLogic.status"))) {
+        if (FlowControllerConstants.FAILURE.equalsIgnoreCase(returnParams.getProperty(SVC_LOGIC_STATUS_PARAM))) {
             transaction.setStatus(FlowControllerConstants.FAILURE);
             ctx.setAttribute(
-                    ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
-                            + FlowControllerConstants.OUTPUT_PARAM_STATUS,
-                    FlowControllerConstants.OUTPUT_STATUS_FAILURE);
+                ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
+                    + FlowControllerConstants.OUTPUT_PARAM_STATUS,
+                FlowControllerConstants.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
-                    + FlowControllerConstants.OUTPUT_STATUS_MESSAGE, returnParams.getProperty("error-message"));
+                + FlowControllerConstants.OUTPUT_STATUS_MESSAGE, returnParams.getProperty("error-message"));
             transaction.setStatusCode("401");
-            transaction.setState((ctx.getAttribute(transaction.getExecutionModule() + "."
-                    + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)) != null
-                            ? ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC()
-                                    + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)
-                            : null);
+            transaction.setState(ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC()
+                + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE));
             // Get error code from above instead setting here ...its for testing purpose
 
-
-        } else if (FlowControllerConstants.SUCCESS.equalsIgnoreCase(returnParams.getProperty("SvcLogic.status"))) {
+        } else if (FlowControllerConstants.SUCCESS.equalsIgnoreCase(returnParams.getProperty(SVC_LOGIC_STATUS_PARAM))) {
             transaction.setStatus(FlowControllerConstants.SUCCESS);
             transaction.setStatusCode("400");
             ctx.setAttribute(
-                    ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
-                            + FlowControllerConstants.OUTPUT_PARAM_STATUS,
-                    FlowControllerConstants.OUTPUT_STATUS_SUCCESS);
-            transaction.setState((ctx.getAttribute(transaction.getExecutionModule() + "."
-                    + transaction.getExecutionRPC() + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)) != null
-                            ? ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC()
-                                    + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE)
-                            : null);
+                ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
+                    + FlowControllerConstants.OUTPUT_PARAM_STATUS,
+                FlowControllerConstants.OUTPUT_STATUS_SUCCESS);
+            transaction.setState(ctx.getAttribute(transaction.getExecutionModule() + "." + transaction.getExecutionRPC()
+                + "." + FlowControllerConstants.OUTPUT_STATUS_MESSAGE));
             // Get error code from above instead setting here ...its for testing purpose
         } else {
             transaction.setStatus(FlowControllerConstants.OTHERS);
             ctx.setAttribute(
-                    ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
-                            + FlowControllerConstants.OUTPUT_PARAM_STATUS,
-                    FlowControllerConstants.OUTPUT_STATUS_FAILURE);
+                ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
+                    + FlowControllerConstants.OUTPUT_PARAM_STATUS,
+                FlowControllerConstants.OUTPUT_STATUS_FAILURE);
             transaction.setStatusCode("401");
             ctx.setAttribute(ctx.getAttribute(FlowControllerConstants.RESPONSE_PREFIX)
-                    + FlowControllerConstants.OUTPUT_STATUS_MESSAGE, returnParams.getProperty("error-message"));
+                + FlowControllerConstants.OUTPUT_STATUS_MESSAGE, returnParams.getProperty("error-message"));
         }
 
         return null;
