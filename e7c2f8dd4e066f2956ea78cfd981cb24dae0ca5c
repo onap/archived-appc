@@ -1,0 +1,378 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_aa2426c5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/AttachVolumeServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Indentation needs to be corrected in this file",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4a2d62a7",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "This change creates a sonar violation for variable naming.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6a2a9e91",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Indentation needs to be corrected in this file.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0a1bda81",
+        "filename": "appc-config/appc-encryption-tool/provider/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ca10925b",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/sftp/SftpConnect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Cannot use .* for imports",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2a2016ab",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/sftp/SftpConnect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Cannot use .* for imports",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ea154e49",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/sftp/SftpConnect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Indentation needs to be corrected in this file.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8a0e0a3a",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/sftp/SftpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "What is the purpose of this try-catch block?   It seems like it could be removed.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aa0bc628",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Indentation needs to be corrected in this file.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4a048217",
+        "filename": "appc-inbound/appc-artifact-handler/provider/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aa5d0649",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Cannot use .* for imports: https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6a013e05",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Indentation needs to be corrected in this file",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2507e91a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "This appears to undo a previous fix for Sonar issue.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c5072517",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "This appears to undo a previous fix for Sonar issue.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0a4d1a9a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Cannot use .* for imports: https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ea478e75",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Cannot use .* for imports: https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e50ca13d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Indentation needs to be corrected in this file.",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ca6bb2ef",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ea70eedd",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8a792aca",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4a7fa2ab",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aa7666d5",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T16:46:56Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e7c2f8dd4e066f2956ea78cfd981cb24dae0ca5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
