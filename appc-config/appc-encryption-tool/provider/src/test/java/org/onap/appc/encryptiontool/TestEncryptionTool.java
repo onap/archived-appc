@@ -82,8 +82,7 @@ public class TestEncryptionTool {
         
     //@Test(expected=Exception.class)
     public void testupdateProperties() throws Exception{
-        WrapperEncryptionTool et =  new WrapperEncryptionTool();
-        et.updateProperties("testuser2", "", "abc3", "", "22", "testhost1", "Ansible");
+        WrapperEncryptionTool.updateProperties("testuser2", "", "abc3", "", "22", "testhost1", "Ansible");
             
     }
         
