@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_65f7315a",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/RequestValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-12T19:02:26Z",
+      "side": 1,
+      "message": "Wouldn\u0027t it be possible to combine all of these \"nullOrEmpty\" methods into one? Right now, these changes seem to have added more complexity to the code.",
+      "range": {
+        "startLine": 159,
+        "startChar": 4,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "1159f9f32243cb94845d43506227d8c958a37c47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
