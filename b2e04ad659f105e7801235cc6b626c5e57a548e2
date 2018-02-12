@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_808b4bc2",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/executorImpl/GraphExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-12T23:06:34Z",
+      "side": 1,
+      "message": "This is causing a compilation failure: error: incompatible types: Object cannot be converted to SvcLogicService",
+      "revId": "b2e04ad659f105e7801235cc6b626c5e57a548e2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
