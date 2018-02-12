@@ -2,22 +2,22 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-18 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -25,6 +25,7 @@
 package org.onap.appc.artifact.handler.node;
 
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -39,6 +40,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.nio.charset.Charset;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class ArtifactHandlerNodeTest {
@@ -204,6 +206,55 @@ public class ArtifactHandlerNodeTest {
         SvcLogicContext context = new SvcLogicContext();
         context.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL,"Test");
         artifactHandlerNode.processConfigTypeActions(content, dbService, context);
+    }
+
+    @Test
+    public void testProcessArtifactLists() throws Exception{
+        String contentStr = "{\r\n\t\"action\": \"ConfigScaleOut\",\r\n\t\"action-level\": \"VNF\",\r\n\t\"scope\": "
+                + "{\r\n\t\t\"vnf-type\": \"ScaleOutVNF\",\r\n\t\t\"vnfc-type\": \"\"\r\n\t},\r\n\t\"template\": \"Y\",\r\n\t\"vm\": "
+                + "[\r\n\t{ \r\n\t\t\"vm-instance\": 1,\r\n\t\t\"template-id\":\"id1\",\r\n\t\t\r\n\t\t\"vnfc\": [{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": \"t1\",\r\n\t\t\t\"vnfc-function-code\": "
+                + "\"Testdbg\",\r\n\t\t\t\"group-notation-type\": \"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"N\",\r\n\t\t\t\"group-notation-value\": "
+                + "\"GNValue\"\r\n\t\t}]\r\n\t},\r\n\t{ \r\n\t\t\"vm-instance\": 1,\r\n\t\t\"template-id\":\"id2\",\r\n\t\t\r\n\t\t\"vnfc\": [{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": "
+                + "\"t1\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": \"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"N\",\r\n\t\t\t\"group-notation-value\": "
+                + "\"GNValue\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"vnfc-instance\": 2,\r\n\t\t\t\"vnfc-type\": \"t2\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": "
+                + "\"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\"group-notation-value\": \"GNValue\"\r\n\t\t}]\r\n\t},\r\n\t{\r\n\t\t\"vm-instance\": 2,\r\n\t\t\"template-id\":\"id3\",\r\n\t\t\"vnfc\": "
+                + "[{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": \"t3\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": "
+                + "\"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\"group-notation-value\": \"GNValue\"\r\n\t\t}]\r\n\t}],\r\n\t\"device-protocol\": "
+                + "\"TEST-PROTOCOL\",\r\n\t\"user-name\": \"Testnetconf\",\r\n\t\"port-number\": \"22\",\r\n\t\"artifact-list\": [{\r\n\t\t\"artifact-name\": \"Testv_template.json\",\r\n\t\t\"artifact-type\": "
+                + "\"Testconfig_template\"\r\n\t},\r\n\t{\r\n\t\t\"artifact-name\": \"TESTv_parameter_definitions.json\",\r\n\t\t\"artifact-type\": \"Testparameter_definitions\"\r\n\t},\r\n\t{\r\n\t\t\"artifact-name\": "
+                + "\"PD_JunitTESTv_parameter_yang.json\",\r\n\t\t\"artifact-type\": \"PD_definations\"\r\n\t}]\r\n}";
+        JSONObject content=new JSONObject(contentStr);
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext context = new SvcLogicContext();
+        artifactHandlerNode.processArtifactList(content,dbService,context);
+     }
+
+    @Test
+    public void testProcessActionLists() throws Exception {
+        String contentStr = "{\r\n\t\"action\": \"HealthCheck\",\r\n\t\"action-level\": \"vm\",\r\n\t\"scope\":"
+                + " {\r\n\t\t\"vnf-type\": \"vDBE-I\",\r\n\t\t\"vnfc-type\": null\r\n\t},\r\n\t\"template\": "
+                + "\"N\",\r\n\t\"device-protocol\": \"REST\",\r\n\t\"vnfc-function-code-list\": [\"SSC\", \"MMSC\"]\r\n}";
+        JSONObject content = new JSONObject(contentStr);
+        JSONArray vmActionVnfcFunctionCodesList = new JSONArray();
+        JSONArray vnfActionList = new JSONArray();
+        JSONArray vfModuleActionList = new JSONArray();
+        JSONArray vnfcActionList = new JSONArray();
+        String[] actionLevels = { "vnf", "vm", "vf-module", "vnfc" };
+        for (String actionLevel : actionLevels) {
+            artifactHandlerNode.processActionLists(content, actionLevel, vnfcActionList, vfModuleActionList,
+                    vnfActionList, vmActionVnfcFunctionCodesList);
+        }
+    }
+    
+    @Test
+    public void testIsCapabilityArtifactNeeded() throws Exception {
+        String scopeObjStr1= "{\"vnf-type\":\"someVnf\",\"vnfc-type\":\"somVnfc\"}";
+        String scopeObjStr2= "{\"vnf-type\":\"someVnf\",\"vnfc-type\":\"\"}";
+        JSONObject scope1 = new JSONObject(scopeObjStr1);
+        JSONObject scope2 = new JSONObject(scopeObjStr2);
+        SvcLogicContext context = new SvcLogicContext();
+        assertFalse(artifactHandlerNode.isCapabilityArtifactNeeded(scope1, context));
+        assertTrue(artifactHandlerNode.isCapabilityArtifactNeeded(scope2, context));
     }
 
 }
