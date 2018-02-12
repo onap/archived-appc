@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e5cd81b8",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T17:23:16Z",
+      "side": 1,
+      "message": "Should the previous comment be removed as well?",
+      "revId": "7ad9c78ae7e629541840fc2ff1687d0f1cd3e8d9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_65b97114",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/ChefAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T17:23:16Z",
+      "side": 1,
+      "message": "Should the rest of the comments concerning these unused methods be removed?",
+      "revId": "7ad9c78ae7e629541840fc2ff1687d0f1cd3e8d9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a54a1924",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/main/java/org/onap/appc/adapter/rest/RestAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T17:23:16Z",
+      "side": 1,
+      "message": "Should the comments about the unused methods be removed as well?",
+      "revId": "7ad9c78ae7e629541840fc2ff1687d0f1cd3e8d9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
