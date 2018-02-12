@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2034b791",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-12T21:26:54Z",
+      "side": 1,
+      "message": "This change is causing a test failure in org.onap.appc.artifact.handler.node.ArtifactHandlerNodeTest. Either the boolean return needs to be kept or the test updated.",
+      "revId": "239acc219beefc81c7c7ec78fbb6d98ca95ebf8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
