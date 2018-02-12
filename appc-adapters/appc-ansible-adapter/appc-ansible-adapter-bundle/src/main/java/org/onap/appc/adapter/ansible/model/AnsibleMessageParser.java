@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -112,21 +112,6 @@ public class AnsibleMessageParser {
             throwIfMissingMandatoryParam(params, key);
         }
         return params.get(AGENT_URL_KEY) + "?Id=" + params.get(ID_KEY) + "&Type=GetResult";
-    }
-
-    /**
-     * Method that validates that the Map has enough information
-     * to query Ansible server for logs. If so, it populates the
-     * appropriate returns the appropriate url, else an empty string.
-     */
-    public String reqUriOutput(Map<String, String> params) throws APPCException {
-
-        final String[] mandatoryTestParams = {AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY};
-
-        for (String mandatoryParam : mandatoryTestParams) {
-            throwIfMissingMandatoryParam(params, mandatoryParam);
-        }
-        return params.get(AGENT_URL_KEY) + "?Id=" + params.get(ID_KEY) + "&Type=GetOutput";
     }
 
     /**

@@ -42,13 +42,11 @@ public class TestAnsibleAdapter {
     @Test
     public void callPrivateConstructorsMethodsForCodeCoverage() throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
 
-
           /* test constructors */
           Class<?>[] classesOne = {AnsibleMessageParser.class};
           for(Class<?> clazz : classesOne) {
                 Constructor<?> constructor = clazz.getDeclaredConstructor();
                 name = constructor.getName();
-                System.out.println("the constructor name is" + name);
                 constructor.setAccessible(true);
                 assertNotNull(constructor.newInstance());
           }
@@ -56,7 +54,6 @@ public class TestAnsibleAdapter {
           for(Class<?> clazz : classesTwo) {
                 Constructor<?> constructor = clazz.getDeclaredConstructor();
                 name = constructor.getName();
-                System.out.println("the constructor name is" + name);
                 constructor.setAccessible(true);
                 assertNotNull(constructor.newInstance());
           }
@@ -64,17 +61,16 @@ public class TestAnsibleAdapter {
           for(Class<?> clazz : classesThree) {
                 Constructor<?> constructor = clazz.getDeclaredConstructor();
                 name = constructor.getName();
-                System.out.println("the constructor name is" + name);
                 constructor.setAccessible(true);
                 assertNotNull(constructor.newInstance());
           }
 
           /* test methods */
-	  ansibleMessageParser = new AnsibleMessageParser();
+          ansibleMessageParser = new AnsibleMessageParser();
           parameterTypes = new Class[1];
           parameterTypes[0] = java.lang.String.class;
+
           m = ansibleMessageParser.getClass().getDeclaredMethod("getFilePayload", parameterTypes);
-          System.out.println("method name is getFilePayload");
           m.setAccessible(true);
           assertNotNull(m.invoke(ansibleMessageParser,"{\"test\": test}"));
 
