@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_253929f3",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-12T19:19:24Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "e2b33cbc5a62e9c219503dbee17018def0b5fb42",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
