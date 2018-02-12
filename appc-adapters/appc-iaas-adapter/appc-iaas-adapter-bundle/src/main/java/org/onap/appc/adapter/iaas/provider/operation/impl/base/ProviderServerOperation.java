@@ -24,9 +24,6 @@
 
 package org.onap.appc.adapter.iaas.provider.operation.impl.base;
 
-import org.onap.appc.Constants;
-import org.onap.appc.adapter.iaas.impl.*;
-import org.onap.appc.i18n.Msg;
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.NotLoggedInException;
 import com.att.cdp.exceptions.TimeoutException;
@@ -45,9 +42,13 @@ import com.att.cdp.zones.model.Server;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
-import org.glassfish.grizzly.http.util.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
+import org.glassfish.grizzly.http.util.HttpStatus;
+import org.onap.appc.Constants;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.i18n.Msg;
 
 /**
  * @since September 29, 2016
@@ -68,7 +69,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      */
     @SuppressWarnings("nls")
     protected Server lookupServer(RequestContext rc, Context context, String id)
-            throws ZoneException, RequestFailedException {
+        throws ZoneException, RequestFailedException {
         ComputeService service = context.getComputeService();
         Server server = null;
         String msg;
@@ -80,9 +81,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 break;
             } catch (ContextConnectionException e) {
                 msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                        Integer.toString(rc.getRetryLimit()));
+                    context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                    Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                    Integer.toString(rc.getRetryLimit()));
                 logger.error(msg, e);
                 rc.delay();
             }
@@ -97,14 +98,11 @@ public abstract class ProviderServerOperation extends ProviderOperation {
     }
 
 
-
     /**
      * Resume a suspended server and wait for it to enter a running state
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server to be resumed
-     * @throws ZoneException
-     * @throws RequestFailedException
      */
     @SuppressWarnings("nls")
     protected void resumeServer(RequestContext rc, Server server) throws ZoneException, RequestFailedException {
@@ -120,9 +118,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 break;
             } catch (ContextConnectionException e) {
                 msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                        Integer.toString(rc.getRetryLimit()));
+                    context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                    Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                    Integer.toString(rc.getRetryLimit()));
                 logger.error(msg, e);
                 rc.delay();
             }
@@ -152,23 +150,20 @@ public abstract class ProviderServerOperation extends ProviderOperation {
 
 
     /**
-     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not.
-     * <p>
+     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not. <p>
      * This method checks the state of the server periodically for one of the desired states. When the server enters one
      * of the desired states, the method returns a successful indication (true). If the server never enters one of the
      * desired states within the allocated timeout period, then the method returns a failed response (false). No
-     * exceptions are thrown from this method.
-     * </p>
+     * exceptions are thrown from this method. </p>
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param image The server to wait on
      * @param desiredStates A variable list of desired states, any one of which is allowed.
      * @throws RequestFailedException If the request times out or fails for some reason
-     * @throws NotLoggedInException
      */
     @SuppressWarnings("nls")
     protected void waitForStateChange(RequestContext rc, Image image, Image.Status... desiredStates)
-            throws RequestFailedException, NotLoggedInException {
+        throws RequestFailedException, NotLoggedInException {
         int pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         Context context = image.getContext();
@@ -190,9 +185,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                         list.add(desiredState.name());
                     }
                     msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                            context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                            Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                            Integer.toString(rc.getRetryLimit()));
+                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                        Integer.toString(rc.getRetryLimit()));
                     logger.error(msg, e);
                     rc.delay();
                 }
@@ -202,8 +197,8 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                     list.add(desiredState.name());
                 }
                 String reason = EELFResourceManager.format(Msg.STATE_CHANGE_EXCEPTION, e.getClass().getSimpleName(),
-                        "server", image.getName(), image.getId(), StringHelper.asList(list), image.getStatus().name(),
-                        e.getMessage());
+                    "server", image.getName(), image.getId(), StringHelper.asList(list), image.getStatus().name(),
+                    e.getMessage());
                 logger.error(reason);
                 logger.error(EELFResourceManager.format(e));
 
@@ -213,7 +208,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 rc.delay();
                 timeout = (int) (endTime - System.currentTimeMillis()) / 1000;
                 // throw new RequestFailedException(e, operation, reason,
-                // HttpStatus.BAD_GATEWAY_502, server);
             }
         }
 
@@ -227,13 +221,11 @@ public abstract class ProviderServerOperation extends ProviderOperation {
 
 
     /**
-     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not.
-     * <p>
+     * Enter a pool-wait loop checking the server state to see if it has entered one of the desired states or not. <p>
      * This method checks the state of the server periodically for one of the desired states. When the server enters one
      * of the desired states, the method returns a successful indication (true). If the server never enters one of the
      * desired states within the allocated timeout period, then the method returns a failed response (false). No
-     * exceptions are thrown from this method.
-     * </p>
+     * exceptions are thrown from this method. </p>
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server to wait on
@@ -242,7 +234,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      */
     @SuppressWarnings("nls")
     protected void waitForStateChange(RequestContext rc, Server server, Server.Status... desiredStates)
-            throws RequestFailedException {
+        throws RequestFailedException {
         int pollInterval = configuration.getIntegerProperty(Constants.PROPERTY_OPENSTACK_POLL_INTERVAL);
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         Context context = server.getContext();
@@ -264,9 +256,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                         list.add(desiredState.name());
                     }
                     msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                            context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                            Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                            Integer.toString(rc.getRetryLimit()));
+                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                        Integer.toString(rc.getRetryLimit()));
                     logger.error(msg, e);
                     rc.delay();
                 }
@@ -276,8 +268,8 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                     list.add(desiredState.name());
                 }
                 String reason = EELFResourceManager.format(Msg.STATE_CHANGE_EXCEPTION, e.getClass().getSimpleName(),
-                        "server", server.getName(), server.getId(), StringHelper.asList(list),
-                        server.getStatus().name(), e.getMessage());
+                    "server", server.getName(), server.getId(), StringHelper.asList(list),
+                    server.getStatus().name(), e.getMessage());
                 logger.error(reason);
                 logger.error(EELFResourceManager.format(e));
 
@@ -287,7 +279,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 rc.delay();
                 timeout = (int) (endTime - System.currentTimeMillis()) / 1000;
                 // throw new RequestFailedException(e, operation, reason,
-                // HttpStatus.BAD_GATEWAY_502, server);
             }
         }
 
@@ -304,8 +295,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server to be stopped
-     * @throws ZoneException
-     * @throws RequestFailedException
      */
     @SuppressWarnings("nls")
     protected void stopServer(RequestContext rc, Server server) throws ZoneException, RequestFailedException {
@@ -321,9 +310,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 break;
             } catch (ContextConnectionException e) {
                 msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                        Integer.toString(rc.getRetryLimit()));
+                    context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                    Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                    Integer.toString(rc.getRetryLimit()));
                 logger.error(msg, e);
                 rc.delay();
             }
@@ -342,8 +331,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server to be started
-     * @throws ZoneException
-     * @throws RequestFailedException
      */
     @SuppressWarnings("nls")
     protected void startServer(RequestContext rc, Server server) throws ZoneException, RequestFailedException {
@@ -358,9 +345,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 break;
             } catch (ContextConnectionException e) {
                 msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                        Integer.toString(rc.getRetryLimit()));
+                    context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                    Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                    Integer.toString(rc.getRetryLimit()));
                 logger.error(msg, e);
                 rc.delay();
             }
@@ -380,8 +367,6 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      *
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server to be un-paused
-     * @throws ZoneException
-     * @throws RequestFailedException
      */
     @SuppressWarnings("nls")
     protected void unpauseServer(RequestContext rc, Server server) throws ZoneException, RequestFailedException {
@@ -397,9 +382,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
                 break;
             } catch (ContextConnectionException e) {
                 msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, provider.getName(), service.getURL(),
-                        context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
-                        Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
-                        Integer.toString(rc.getRetryLimit()));
+                    context.getTenant().getName(), context.getTenant().getId(), e.getMessage(),
+                    Long.toString(rc.getRetryDelay()), Integer.toString(rc.getAttempts()),
+                    Integer.toString(rc.getRetryLimit()));
                 logger.error(msg, e);
                 rc.delay();
             }
@@ -422,7 +407,7 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      * @param msg The detailed message
      */
     protected void generateEvent(@SuppressWarnings("unused") RequestContext rc,
-            @SuppressWarnings("unused") boolean success, @SuppressWarnings("unused") String msg) {
+        @SuppressWarnings("unused") boolean success, @SuppressWarnings("unused") String msg) {
         // indication to the DG to generate the event?
     }
 
@@ -432,10 +417,9 @@ public abstract class ProviderServerOperation extends ProviderOperation {
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
      * @param server The server object representing the server we want to operate on
      * @param context The interface cloud service provider to access services or the object model, or both
-     * 
      */
     protected void checkVirtualMachineNetworkStatus(RequestContext rc, Server server, Context context)
-            throws ZoneException, RequestFailedException {
+        throws ZoneException, RequestFailedException {
 
         logger.info("Performing the VM Server networking status checks...");
         List<Port> ports = server.getPorts();
@@ -444,58 +428,52 @@ public abstract class ProviderServerOperation extends ProviderOperation {
 
         String msg;
         for (Port port : ports) {
-
             switch (port.getPortState().toString().toUpperCase()) {
-                /**
-                 * The port is connected, configured, and usable for communication
-                 */
                 case "ONLINE":
+                    /* The port is connected, configured, and usable for communication */
                     Network network = netSvc.getNetworkById(port.getNetwork());
-                    // Subnet subnet = netSvc.getSubnetById(port.getSubnetId());
-                    if (!network.getStatus().equals(Network.Status.ACTIVE.toString())) {
-                        msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-                        logger.error(msg);
-                        doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-                        throw new RequestFailedException("VM Server Network is DOWN", msg.toString(),
-                                HttpStatus.PRECONDITION_FAILED_412, server);
-                    }
+                    validateNetwork(rc, server, port, network);
                     break;
-
-                /**
-                 * The port is disconnected or powered-off and cannot be used for communication
-                 */
                 case "OFFLINE":
-                    msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-                    logger.error(msg);
-                    doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-                    throw new RequestFailedException("VM Server Port status is OFFLINE", msg.toString(),
-                            HttpStatus.PRECONDITION_FAILED_412, server);
-
-                    /**
-                     * The port's status is changing because of some event or operation. The final state is yet to be
-                     * determined.
-                     */
+                    /* The port is disconnected or powered-off and cannot be used for communication */
+                    msg = createErrorMessage(rc, server, port);
+                    throw new RequestFailedException("VM Server Port status is OFFLINE", msg,
+                        HttpStatus.PRECONDITION_FAILED_412, server);
                 case "PENDING":
-                    msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-                    logger.error(msg);
-                    doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-                    throw new RequestFailedException("VM Server Port status is PENDING", msg.toString(),
-                            HttpStatus.PRECONDITION_FAILED_412, server);
-
-                    /**
-                     * The port is in an unknown state and cannot be used.
-                     */
+                    /* The port's status is changing because of some event or operation. The final state is yet to be determined. */
+                    msg = createErrorMessage(rc, server, port);
+                    throw new RequestFailedException("VM Server Port status is PENDING", msg,
+                        HttpStatus.PRECONDITION_FAILED_412, server);
                 case "UNKNOWN":
-                    msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
-                    logger.error(msg);
-                    doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-                    throw new RequestFailedException("VM Server Port status is UNKNOWN", msg.toString(),
-                            HttpStatus.PRECONDITION_FAILED_412, server);
+                    /* The port is in an unknown state and cannot be used. */
+                    msg = createErrorMessage(rc, server, port);
+                    throw new RequestFailedException("VM Server Port status is UNKNOWN", msg,
+                        HttpStatus.PRECONDITION_FAILED_412, server);
+                default:
+                    logger.error("Invalid port state");
+                    break;
             }
 
         }
         logger.info("Passed the VM Server the Hypervisor status checks..");
+    }
 
+    private String createErrorMessage(RequestContext rc, Server server, Port port) {
+        String msg;
+        msg = EELFResourceManager.format(Msg.SERVER_NETWORK_ERROR, server.getName(), port.getId());
+        logger.error(msg);
+        doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
+        return msg;
+    }
+
+    private void validateNetwork(RequestContext rc, Server server, Port port, Network network)
+        throws RequestFailedException {
+        String msg;
+        if (!network.getStatus().equals(Network.Status.ACTIVE.toString())) {
+            msg = createErrorMessage(rc, server, port);
+            throw new RequestFailedException("VM Server Network is DOWN", msg,
+                HttpStatus.PRECONDITION_FAILED_412, server);
+        }
     }
 
     /**
@@ -507,54 +485,29 @@ public abstract class ProviderServerOperation extends ProviderOperation {
 
         logger.info("Performing the Hypervisor status checks..");
 
-        String msg = null;
+        String msg;
         if (server.getHypervisor() != null && server.getHypervisor().getStatus() != null
-                && server.getHypervisor().getState() != null) {
-            String status = null;
-            String state = null;
+            && server.getHypervisor().getState() != null) {
+            String status;
+            String state;
 
             status = server.getHypervisor().getStatus().toString();
             state = server.getHypervisor().getState().toString();
 
             if (!status.equals(Hypervisor.Status.ENABLED.toString()) || !state.equals(Hypervisor.State.UP.toString())) {
                 msg = EELFResourceManager.format(Msg.HYPERVISOR_DOWN_ERROR, server.getHypervisor().getHostName(),
-                        server.getName());
-                logger.error(msg.toString());
-
-                // doFailure(rc, HttpStatus.PRECONDITION_FAILED_412, msg);
-                throw new RequestFailedException("Hypervisor status DOWN or NOT ENABLED", msg.toString(),
-                        HttpStatus.PRECONDITION_FAILED_412, server);
-
+                    server.getName());
+                logger.error(msg);
+                throw new RequestFailedException("Hypervisor status DOWN or NOT ENABLED", msg,
+                    HttpStatus.PRECONDITION_FAILED_412, server);
             }
         } else {
             msg = EELFResourceManager.format(Msg.HYPERVISOR_STATUS_UKNOWN, server.getName());
-            logger.error(msg.toString());
+            logger.error(msg);
 
-            throw new RequestFailedException("Unable to determine Hypervisor status", msg.toString(),
-                    HttpStatus.PRECONDITION_FAILED_412, server);
+            throw new RequestFailedException("Unable to determine Hypervisor status", msg,
+                HttpStatus.PRECONDITION_FAILED_412, server);
         }
-
         logger.info("Passed the Hypervisor status checks..");
-
     }
-
-    /**
-     * Checks if a Host machine is reachable
-     *
-     * @param ipAddress IP Address of the Host Machine.
-     * @param server The server object representing the Virtual Machine server
-     * @return boolean
-     * 
-     */
-    /*
-     * private boolean isHostReachable(String ipAddress) throws IOException {
-     * 
-     * InetAddress address = InetAddress.getByName(ipAddress);
-     * 
-     * return address.isReachable(15000);
-     * 
-     * 
-     * }
-     */
-
 }
