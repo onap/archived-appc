@@ -26,31 +26,34 @@ package org.onap.appc.artifact.handler.dbservices;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.Optional;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
-import java.sql.SQLException;
-import java.util.HashMap;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.configuration.ConfigurationException;
 
 public class DBService {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(DBService.class);
+    private static final String FAILURE_PARAM = "FAILURE";
+    private static final String RECEIVED_AS = "Internal Version received as1 : ";
+    private static final String SET_DOWNLOAD_CONFIG_QUERY_STR = " set DOWNLOAD_CONFIG_DG = $";
+    private static final String WHERE_VNF_TYPE_QUERY_STR = " where VNF_TYPE = $";
+    private static final String ACTION_QUERY_STR = " , ACTION = $";
+    private static final String VNF_TYPE_QUERY_STR = " , VNF_TYPE = $";
+    private static final String INSERT_INTO_QUERY_STR = "insert into ";
+    private static final String AND_ACTION_QUERY_STR = " and ACTION = $";
+    private static final String AND_FILE_CAT_QUERY_STR = " and FILE_CATEGORY = $";
+    private static final String AND_VNF_TYPE_QUERY_STR = " and VNF_TYPE = $";
+    private static final String UPDATE_QUERY_STR = "update ";
+    private static final String AND_VNFC_TYPE_QUERY_STR = " and VNFC_TYPE = $";
+
     private SvcLogicResource serviceLogic;
     private static DBService dgGeneralDBService = null;
-
-    public static DBService initialise() {
-        if (dgGeneralDBService == null) {
-            dgGeneralDBService = new DBService();
-        }
-        return dgGeneralDBService;
-    }
 
     private DBService() {
         if (serviceLogic == null) {
@@ -64,39 +67,44 @@ public class DBService {
         }
     }
 
+    public static DBService initialise() {
+        if (dgGeneralDBService == null) {
+            dgGeneralDBService = new DBService();
+        }
+        return dgGeneralDBService;
+    }
+
     public String getInternalVersionNumber(SvcLogicContext ctx, String artifactName, String prefix)
         throws SvcLogicException {
-        String fn = "DBService.getInternalVersionNumber";
-        QueryStatus status = null;
+        QueryStatus status;
         String artifactInternalVersion = null;
         if (serviceLogic != null && ctx != null) {
             String key = "select max(internal_version) as maximum from ASDC_ARTIFACTS  WHERE ARTIFACT_NAME = '"
                 + artifactName + "'";
             log.info("Getting internal Versoin :" + key);
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - getting internal Artifact Number");
             }
             artifactInternalVersion = ctx.getAttribute("maximum");
             log.info("Internal Version received as : " + artifactInternalVersion);
-            log.info("Internal Version received as1 : " + ctx.getAttribute("max(internal_version)"));
-            log.info("Internal Version received as1 : " + ctx.getAttribute("max"));
-            log.info("Internal Version received as1 : " + ctx.getAttribute("internal_version"));
-            log.info("Internal Version received as1 : " + ctx.getAttributeKeySet().toString());
+            log.info(RECEIVED_AS + ctx.getAttribute("max(internal_version)"));
+            log.info(RECEIVED_AS + ctx.getAttribute("max"));
+            log.info(RECEIVED_AS + ctx.getAttribute("internal_version"));
+            log.info(RECEIVED_AS + ctx.getAttributeKeySet().toString());
         }
         return artifactInternalVersion;
     }
 
     public String getArtifactID(SvcLogicContext ctx, String artifactName) throws SvcLogicException {
-        String fn = "DBService.getArtifactID";
-        QueryStatus status = null;
+        QueryStatus status;
         String artifactID = null;
         if (serviceLogic != null && ctx != null) {
             String key = "select max(ASDC_ARTIFACTS_ID) as id from ASDC_ARTIFACTS  WHERE ARTIFACT_NAME = '"
                 + artifactName + "'";
             log.info("Getting Artifact ID String :" + key);
             status = serviceLogic.query("SQL", false, null, key, null, null, ctx);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - getting  Artifact ID from database");
             }
             artifactID = ctx.getAttribute("id");
@@ -106,7 +114,6 @@ public class DBService {
     }
 
     public QueryStatus saveArtifacts(SvcLogicContext ctx, int intversion) throws SvcLogicException {
-        String fn = "DBService.saveArtifacts";
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
             String key = "INSERT INTO ASDC_ARTIFACTS " + "SET SERVICE_UUID    =  $service-uuid , "
@@ -120,23 +127,21 @@ public class DBService {
                 + "," + " ARTIFACT_NAME       =  $artifact-name ," + " ARTIFACT_CONTENT    =  $artifact-contents ";
 
             status = serviceLogic.save("SQL", false, false, key, null, null, ctx);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing storing Artifact: "
                     + ctx.getAttribute(SdcArtifactHandlerConstants.ARTIFACT_NAME));
             }
         }
         return status;
-
     }
 
     public QueryStatus logData(SvcLogicContext ctx, String prefix) throws SvcLogicException {
-        String fn = "DBService.saveReferenceData";
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
             String key = "INSERT INTO CONFIG_TRANSACTION_LOG " + " SET request_id = $request-id , "
                 + " message_type = $log-message-type , " + " message = $log-message ;";
             status = serviceLogic.save("SQL", false, false, key, null, prefix, ctx);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error while loging data");
             }
 
@@ -145,277 +150,300 @@ public class DBService {
     }
 
     public void processConfigureActionDg(SvcLogicContext context, boolean isUpdate) {
-        String fn = "DBService.processConfigureActionDg";
         log.info("Update Parameter for SDC Reference " + isUpdate);
-        String key = "";
-        QueryStatus status = null;
-        if (isUpdate) {
-            ;
-        }
+        //TODO implement this method
     }
 
     public void processSdcReferences(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
-        String fn = "DBService.processSdcReferences";
-        String key = "";
-        QueryStatus status = null;
+        String key;
+        QueryStatus status;
 
         if (isUpdate && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
             .equals(SdcArtifactHandlerConstants.CAPABILITY)) {
             log.info("Updating capability artifact in ASDC_REFERENCE");
-            key = "update " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
+            key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
                 + SdcArtifactHandlerConstants.ARTIFACT_NAME + " where " + "FILE_CATEGORY = $"
-                + SdcArtifactHandlerConstants.FILE_CATEGORY + " and VNF_TYPE = $"
+                + SdcArtifactHandlerConstants.FILE_CATEGORY + AND_VNF_TYPE_QUERY_STR
                 + SdcArtifactHandlerConstants.VNF_TYPE;
         } else if (isUpdate) {
-            key = "update " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
+            key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
                 + SdcArtifactHandlerConstants.ARTIFACT_NAME + " where VNFC_TYPE = $"
-                + SdcArtifactHandlerConstants.VNFC_TYPE + " and FILE_CATEGORY = $"
-                + SdcArtifactHandlerConstants.FILE_CATEGORY + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION
-                + " and VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
+                + SdcArtifactHandlerConstants.VNFC_TYPE + AND_FILE_CAT_QUERY_STR
+                + SdcArtifactHandlerConstants.FILE_CATEGORY + AND_ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION
+                + AND_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
         } else {
             if (context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
                 .equals(SdcArtifactHandlerConstants.CAPABILITY)) {
                 log.info("Inserting new record for capability artifact in ASDC_REFERENCE");
-                key = "insert into " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + " set VNFC_TYPE = null "
-                    + " , FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY + " , VNF_TYPE = $"
+                key = INSERT_INTO_QUERY_STR + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + " set VNFC_TYPE = null "
+                    + " , FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY + VNF_TYPE_QUERY_STR
                     + SdcArtifactHandlerConstants.VNF_TYPE + " , ACTION = null " + " , ARTIFACT_TYPE = null "
                     + " , ARTIFACT_NAME = $" + SdcArtifactHandlerConstants.ARTIFACT_NAME;
             } else {
-                key = "insert into " + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + " set VNFC_TYPE = $"
+                key = INSERT_INTO_QUERY_STR + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + " set VNFC_TYPE = $"
                     + SdcArtifactHandlerConstants.VNFC_TYPE + " , FILE_CATEGORY = $"
-                    + SdcArtifactHandlerConstants.FILE_CATEGORY + " , VNF_TYPE = $"
-                    + SdcArtifactHandlerConstants.VNF_TYPE + " , ACTION = $" + SdcArtifactHandlerConstants.ACTION
+                    + SdcArtifactHandlerConstants.FILE_CATEGORY + VNF_TYPE_QUERY_STR
+                    + SdcArtifactHandlerConstants.VNF_TYPE + ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION
                     + " , ARTIFACT_TYPE = $" + SdcArtifactHandlerConstants.ARTIFACT_TYPE + " , ARTIFACT_NAME = $"
                     + SdcArtifactHandlerConstants.ARTIFACT_NAME;
             }
         }
-        if (serviceLogic != null && context != null) {
+        if (serviceLogic != null) {
             log.info("Insert Key: " + key);
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing sdc_reference table ");
             }
         }
     }
 
     public boolean isArtifactUpdateRequired(SvcLogicContext context, String db)
-        throws SvcLogicException, SQLException, ConfigurationException {
-        String fn = "DBService.isArtifactUpdateRequired";
-        log.info("Checking if Update required for this data");
-
-        log.info("db" + db);
-        log.info("ACTION=" + context.getAttribute(SdcArtifactHandlerConstants.ACTION));
-        log.info("VNFC_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNFC_TYPE));
-        log.info("VNFC_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
-        log.info("VM_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
-        log.info("VNF_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
-        String whereClause = "";
-
-        QueryStatus status = null;
-        whereClause = " where VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
-
-        if (db != null) {
-            if (db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)
-                && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
-                .equals(SdcArtifactHandlerConstants.CAPABILITY)
-                && context.getAttribute(SdcArtifactHandlerConstants.ACTION) == null) {
-                whereClause = whereClause + " and FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY;
-            } else if (db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)) {
-                whereClause = whereClause + " and VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE
-                    + " and FILE_CATEGORY = $" + SdcArtifactHandlerConstants.FILE_CATEGORY + " and ACTION = $"
-                    + SdcArtifactHandlerConstants.ACTION;
-            } else if (db.equals(SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE)) {
-                whereClause = " where PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
-            } else if (db.equals(SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG)) {
-                whereClause = whereClause + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION;
-            } else if (db.equals(SdcArtifactHandlerConstants.DB_VNFC_REFERENCE)) {
-                int vm_instance = -1;
-                if (context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE) != null) {
-                    vm_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
+        throws DBException {
+        try {
+            log.info("Checking if Update required for this data");
+            log.info("db" + db);
+            log.info("ACTION=" + context.getAttribute(SdcArtifactHandlerConstants.ACTION));
+            log.info("VNFC_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNFC_TYPE));
+            log.info("VNFC_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
+            log.info("VM_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
+            log.info("VNF_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
+            String whereClause;
+            QueryStatus status;
+            whereClause = WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
+            whereClause = resolveWhereClause(context, db, whereClause);
+            if (validate(db)) {
+                if (!db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION)) {
+                    String key = "select COUNT(*) from " + db + whereClause;
+                    log.info("SELECT String : " + key);
+                    status = serviceLogic.query("SQL", false, null, key, null, null, context);
+                    checkForFailure(db, status);
+                    String count = context.getAttribute("COUNT(*)");
+                    log.info("Number of row Returned : " + count + ": " + status + ":");
+                    return tryAddCountAttribute(context, count);
+                } else {
+                    log.info("Check for update or insert for properties file");
+                    String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
+                    String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
+                    String vnfType = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
+                    PropertiesConfiguration conf = new PropertiesConfiguration(
+                        System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
+                    String property = tryCreatePropertyStr(protocol, action, vnfType);
+                    return keyExists(conf, property);
                 }
-                int vnfc_instance = -1;
-                if (context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE) != null) {
-                    vnfc_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
-                }
-                whereClause = whereClause + " and ACTION = $" + SdcArtifactHandlerConstants.ACTION
-                    + " and VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE + " and VNFC_INSTANCE = $"
-                    + SdcArtifactHandlerConstants.VNFC_INSTANCE + " and VM_INSTANCE = $"
-                    + SdcArtifactHandlerConstants.VM_INSTANCE;
-
-            }
-        }
-
-        if (!db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION) && serviceLogic != null
-            && context != null) {
-            String key = "select COUNT(*) from " + db + whereClause;
-            log.info("SELECT String : " + key);
-            status = serviceLogic.query("SQL", false, null, key, null, null, context);
-            if (status.toString().equals("FAILURE")) {
-                throw new SvcLogicException("Error while reading data from " + db);
-            }
-            String count = context.getAttribute("COUNT(*)");
-            log.info("Number of row Returned : " + count + ": " + status + ":");
-            if (count != null && Integer.parseInt(count) > 0) {
-                context.setAttribute(count, null);
-                return true;
-            } else {
-                return false;
-            }
-        }
-        if (db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION) && serviceLogic != null
-            && context != null) {
-            log.info("Check for update or insert for properties file");
-            String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
-            String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
-            String vnf_type = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
-            PropertiesConfiguration conf =
-                new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
-            String property = "";
-            if (StringUtils.isNotBlank(vnf_type)) {
-
-                if (StringUtils.isNotBlank(protocol)) {
-                    if (StringUtils.isNotBlank(action)) {
-                        property = vnf_type + "." + protocol + "." + action;
-                    }
-                }
-            }
-            if (conf.subset(property) != null) {
-                if (conf.containsKey(property)) {
-                    log.info("Key Exists for property" + property + "in southbound.properties file");
-                    return true;
-                }
-            } else {
-                log.info("Key Doesnot exists and need to add the key  for property" + property
-                    + "in southbound.properties file");
             }
             return false;
+        } catch (SvcLogicException | ConfigurationException e) {
+            throw new DBException("An error occurred while checking for artifact update", e);
+        }
+    }
+
+    private void checkForFailure(String db, QueryStatus status) throws SvcLogicException {
+        if (status.toString().equals(FAILURE_PARAM)) {
+            throw new SvcLogicException("Error while reading data from " + db);
+        }
+    }
+
+    private boolean validate(String db) {
+        return db != null && serviceLogic != null;
+    }
+
+    private boolean keyExists(PropertiesConfiguration conf, String property) {
+        if (conf.subset(property) != null) {
+            if (conf.containsKey(property)) {
+                log.info("Key Exists for property" + property + "in southbound.properties file");
+                return true;
+            }
+        } else {
+            log.info("Key Does not exists and need to add the key  for property" + property
+                + "in southbound.properties file");
         }
         return false;
     }
 
-    public void processDeviceInterfaceProtocol(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
-        String fn = "DBService.processDeviceInterfaceProtocol";
-        log.info("Starting DB operation for Device Interface Protocol " + isUpdate);
-        String key = "";
-        QueryStatus status = null;
-        if (isUpdate) {
-            key = "update " + SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL + " set PROTOCOL = $"
-                + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " , DG_RPC = 'getDeviceRunningConfig' "
-                + " , MODULE = 'APPC' " + " where VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
+    private boolean tryAddCountAttribute(SvcLogicContext context, String count) {
+        if (count != null && Integer.parseInt(count) > 0) {
+            context.setAttribute(count, null);
+            return true;
         } else {
-            key = "insert into " + SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL + " set  VNF_TYPE = $"
-                + SdcArtifactHandlerConstants.VNF_TYPE + " , PROTOCOL = $"
+            return false;
+        }
+    }
+
+    private String tryCreatePropertyStr(String protocol, String action, String vnfType) {
+
+        if (StringUtils.isNotBlank(vnfType) && StringUtils.isNotBlank(protocol) && StringUtils
+            .isNotBlank(action)) {
+            return vnfType + "." + protocol + "." + action;
+        }
+        return "";
+    }
+
+    private String resolveWhereClause(SvcLogicContext context, String db, String whereClause) {
+        if (db != null) {
+            if (hasValidAttributes(context, db)) {
+                return whereClause + AND_FILE_CAT_QUERY_STR + SdcArtifactHandlerConstants.FILE_CATEGORY;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)) {
+                return whereClause + AND_VNFC_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNFC_TYPE
+                    + AND_FILE_CAT_QUERY_STR + SdcArtifactHandlerConstants.FILE_CATEGORY + AND_ACTION_QUERY_STR
+                    + SdcArtifactHandlerConstants.ACTION;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE)) {
+                return " where PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG)) {
+                return whereClause + AND_ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_VNFC_REFERENCE)) {
+                return whereClause + AND_ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION
+                    + AND_VNFC_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNFC_TYPE + " and VNFC_INSTANCE = $"
+                    + SdcArtifactHandlerConstants.VNFC_INSTANCE + " and VM_INSTANCE = $"
+                    + SdcArtifactHandlerConstants.VM_INSTANCE;
+            }
+        }
+        return whereClause;
+    }
+
+    private boolean hasValidAttributes(SvcLogicContext context, String db) {
+        return db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE)
+            && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
+            .equals(SdcArtifactHandlerConstants.CAPABILITY)
+            && context.getAttribute(SdcArtifactHandlerConstants.ACTION) == null;
+    }
+
+    public void processDeviceInterfaceProtocol(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
+        log.info("Starting DB operation for Device Interface Protocol " + isUpdate);
+        String key;
+        QueryStatus status;
+        if (isUpdate) {
+            key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL + " set PROTOCOL = $"
                 + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " , DG_RPC = 'getDeviceRunningConfig' "
-                + " , MODULE = 'APPC' ";
+                + " , MODULE = 'APPC' " + WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
+        } else {
+            key =
+                INSERT_INTO_QUERY_STR + SdcArtifactHandlerConstants.DB_DEVICE_INTERFACE_PROTOCOL + " set  VNF_TYPE = $"
+                    + SdcArtifactHandlerConstants.VNF_TYPE + " , PROTOCOL = $"
+                    + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " , DG_RPC = 'getDeviceRunningConfig' "
+                    + " , MODULE = 'APPC' ";
         }
 
         if (serviceLogic != null && context != null) {
 
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing DEVICE_INTERFACE_PROTOCOL table ");
             }
         }
-
     }
 
     public void processDeviceAuthentication(SvcLogicContext context, boolean isUpdate)
-        throws SvcLogicException, ConfigurationException {
-        String fn = "DBService.processDeviceAuthentication";
-        log.info(fn + "Starting DB operation for Device Authentication " + isUpdate);
-        String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
-        String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
-        String vnf_type = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
-        String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
-        String port = context.getAttribute(SdcArtifactHandlerConstants.PORT_NUMBER);
-        String user = context.getAttribute(SdcArtifactHandlerConstants.USER_NAME);
-        String property = vnf_type + "." + protocol + "." + action;
-        log.info("property :" + property);
-        if (StringUtils.isBlank(url)) {
-            url = "";
-        }
-        if (StringUtils.isBlank(port)) {
-            port = "";
-        }
-        if (StringUtils.isBlank(user)) {
-            user = "";
-        }
-        if (((vnf_type == null) || ("".equals(vnf_type))) && ((action == null) || ("".equals(action)))
-            && ((protocol == null) || ("".equals(protocol)))) {
-            throw new SvcLogicException(
-                "Error While processing refernce File as few or all of parameters VNF_TYPE,PROTOCOL,ACTION are missing ");
-        }
-        PropertiesConfiguration conf =
-            new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
-        log.info("is Updating to southbound  properties : " + isUpdate);
-        if (conf.containsKey(property + "." + "user")) {
-            if (user != null && !user.isEmpty()) {
-                conf.setProperty(property + "." + "user", user);
+        throws DBException {
+        try {
+            String fn = "DBService.processDeviceAuthentication";
+            log.info(fn + "Starting DB operation for Device Authentication " + isUpdate);
+            String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
+            String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
+            String vnfType = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
+            String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
+            String port = context.getAttribute(SdcArtifactHandlerConstants.PORT_NUMBER);
+            String user = context.getAttribute(SdcArtifactHandlerConstants.USER_NAME);
+            String property = vnfType + "." + protocol + "." + action;
+            log.info("property :" + property);
+            if (StringUtils.isBlank(url)) {
+                url = "";
             }
+            if (StringUtils.isBlank(port)) {
+                port = "";
+            }
+            if (StringUtils.isBlank(user)) {
+                user = "";
+            }
+            if (isInvalidInput(protocol, action, vnfType)) {
+                throw new SvcLogicException(
+                    "Error While processing reference File as few or all of parameters VNF_TYPE,PROTOCOL,ACTION are missing ");
+            }
+            PropertiesConfiguration conf =
+                new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
+            log.info("is Updating to southbound  properties : " + isUpdate);
+
+            resolveUserAction(isUpdate, user, property, conf);
+            resolvePortAction(port, property, conf);
+            resolveUrlAction(url, property, conf);
+            tryAddPasswordProperty(property, conf);
+
+            log.info("About to save to properties file");
+            conf.save();
+            log.info("saved to properties file");
+        } catch (SvcLogicException | ConfigurationException e) {
+            throw new DBException("An error occurred when processing device authentication", e);
+        }
+    }
+
+    private void tryAddPasswordProperty(String property, PropertiesConfiguration conf) {
+        if (!conf.containsKey(property + "." + "password")) {
+            conf.addProperty(property + "." + "password", "");
+        }
+    }
+
+    private void resolveUrlAction(String url, String property, PropertiesConfiguration conf) {
+        if (conf.containsKey(property + "." + "url") && !url.isEmpty()) {
+            conf.setProperty(property + "." + "url", url);
         } else {
-            log.info("is Adding to southbound.properties" + isUpdate);
-
-            conf.addProperty(property + "." + "user", user);
+            conf.addProperty(property + "." + "url", url);
         }
+    }
 
-        if (conf.containsKey(property + "." + "port")) {
-            if (port != null && !port.isEmpty()) {
-                conf.setProperty(property + "." + "port", port);
-            }
+    private void resolvePortAction(String port, String property, PropertiesConfiguration conf) {
+        if (conf.containsKey(property + "." + "port") && !port.isEmpty()) {
+            conf.setProperty(property + "." + "port", port);
         } else {
             conf.addProperty(property + "." + "port", port);
         }
-        if (conf.containsKey(property + "." + "password")) {
-        } else {
-            conf.addProperty(property + "." + "password", "");
-        }
-        if (conf.containsKey(property + "." + "url")) {
-            if (url != null && !url.isEmpty()) {
-                conf.setProperty(property + "." + "url", url);
-            }
+    }
 
+    private void resolveUserAction(boolean isUpdate, String user, String property, PropertiesConfiguration conf) {
+        if (conf.containsKey(property + "." + "user") && !user.isEmpty()) {
+            conf.setProperty(property + "." + "user", user);
         } else {
-
-            conf.addProperty(property + "." + "url", url);
+            log.info("is Adding to southbound.properties" + isUpdate);
+            conf.addProperty(property + "." + "user", user);
         }
-        log.info("About to save to properties file");
-        conf.save();
-        log.info("saved to properties file");
+    }
+
+    private boolean isInvalidInput(String protocol, String action, String vnfType) {
+        return isInvalid(vnfType) && isInvalid(action) && isInvalid(protocol);
+    }
+
+    private boolean isInvalid(String str) {
+        return (str == null) || ("".equals(str));
     }
 
     public void processVnfcReference(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
         String fn = "DBService.processVnfcReference";
         log.info(fn + "Starting DB operation for Vnfc Reference " + isUpdate);
-        String key = "";
-        int vm_instance = -1;
-        String templateId="";
+        String key;
 
+        int vmInstance = -1;
         if (context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE) != null) {
-            vm_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
-        }
-        int vnfc_instance = -1;
-        if (context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE) != null) {
-            vnfc_instance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
-        } 
-        if (context.getAttribute(SdcArtifactHandlerConstants.TEMPLATE_ID) != null) {
-            templateId = context.getAttribute(SdcArtifactHandlerConstants.TEMPLATE_ID);
+            vmInstance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
         }
 
-        QueryStatus status = null;
+        int vnfcInstance = -1;
+        if (context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE) != null) {
+            vnfcInstance = Integer.parseInt(context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
+        }
+
+        QueryStatus status;
         if (isUpdate) {
-            key = "update " + SdcArtifactHandlerConstants.DB_VNFC_REFERENCE + " set VM_INSTANCE = " + vm_instance
-                + " , VNFC_INSTANCE = " + vnfc_instance + " , VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE
+            key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_VNFC_REFERENCE + " set VM_INSTANCE = " + vmInstance
+                + " , VNFC_INSTANCE = " + vnfcInstance + " , VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE
                 + " , VNFC_FUNCTION_CODE = $" + SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE
                 + " , GROUP_NOTATION_TYPE = $" + SdcArtifactHandlerConstants.GROUP_NOTATION_TYPE
                 + " , GROUP_NOTATION_VALUE = $" + SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE
                 + " , IPADDRESS_V4_OAM_VIP = $" + SdcArtifactHandlerConstants.IPADDRESS_V4_OAM_VIP
-                + " where VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE + " and ACTION = $"
-                + SdcArtifactHandlerConstants.ACTION + " and VNFC_TYPE = $" + SdcArtifactHandlerConstants.VNFC_TYPE
+                + WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE + AND_ACTION_QUERY_STR
+                + SdcArtifactHandlerConstants.ACTION + AND_VNFC_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNFC_TYPE
                 + " and VNFC_INSTANCE = $" + SdcArtifactHandlerConstants.VNFC_INSTANCE + " and VM_INSTANCE = $"
                 + SdcArtifactHandlerConstants.VM_INSTANCE;
         } else {
-            key = "insert into " + SdcArtifactHandlerConstants.DB_VNFC_REFERENCE + " set  VNF_TYPE = $"
-                + SdcArtifactHandlerConstants.VNF_TYPE + " , ACTION = $" + SdcArtifactHandlerConstants.ACTION
+            key = INSERT_INTO_QUERY_STR + SdcArtifactHandlerConstants.DB_VNFC_REFERENCE + " set  VNF_TYPE = $"
+                + SdcArtifactHandlerConstants.VNF_TYPE + ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION
                 + " , VM_INSTANCE = $" + SdcArtifactHandlerConstants.VM_INSTANCE + " , VNFC_INSTANCE = $"
                 + SdcArtifactHandlerConstants.VNFC_INSTANCE + " , VNFC_TYPE = $"
                 + SdcArtifactHandlerConstants.VNFC_TYPE + " , VNFC_FUNCTION_CODE = $"
@@ -426,27 +454,29 @@ public class DBService {
                 + SdcArtifactHandlerConstants.GROUP_NOTATION_VALUE;
         }
 
-        if (serviceLogic != null && context != null) {
+        if (serviceLogic != null) {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing VNFC_REFERENCE table ");
             }
         }
     }
 
     public void processDownloadDgReference(SvcLogicContext context, boolean isUpdate)
-        throws SvcLogicException, SQLException {
+        throws SvcLogicException {
         String fn = "DBService.processDownloadDgReference";
         log.info(fn + "Starting DB operation for Download DG Reference " + isUpdate);
-        String key = "";
+        String key;
         QueryStatus status = null;
 
         if (isUpdate) {
-            key = "update " + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE + " set DOWNLOAD_CONFIG_DG = $"
-                + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + " where PROTOCOL = $"
-                + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
+            key =
+                UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE + SET_DOWNLOAD_CONFIG_QUERY_STR
+                    + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + " where PROTOCOL = $"
+                    + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
         } else {
-            key = "insert into " + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE + " set DOWNLOAD_CONFIG_DG = $"
+            key = INSERT_INTO_QUERY_STR + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE
+                + SET_DOWNLOAD_CONFIG_QUERY_STR
                 + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + " , PROTOCOL = $"
                 + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
         }
@@ -454,7 +484,7 @@ public class DBService {
         if (serviceLogic != null && context != null) {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
         }
-        if ((status == null) || status.toString().equals("FAILURE")) {
+        if ((status == null) || status.toString().equals(FAILURE_PARAM)) {
             throw new SvcLogicException("Error While processing DOWNLOAD_DG_REFERENCE table ");
         }
     }
@@ -462,26 +492,27 @@ public class DBService {
     public void processConfigActionDg(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
         String fn = "DBService.processConfigActionDg";
         log.info(fn + "Starting DB operation for Config DG Action " + isUpdate);
-        String key = "";
+        String key;
         QueryStatus status = null;
 
         if (context.getAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE) != null
             && context.getAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE).length() > 0) {
             if (isUpdate) {
-                key = "update " + SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG + " set DOWNLOAD_CONFIG_DG = $"
+                key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG + SET_DOWNLOAD_CONFIG_QUERY_STR
                     + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + " where ACTION = $"
-                    + SdcArtifactHandlerConstants.ACTION + " and VNF_TYPE = $"
+                    + SdcArtifactHandlerConstants.ACTION + AND_VNF_TYPE_QUERY_STR
                     + SdcArtifactHandlerConstants.VNF_TYPE;
             } else {
-                key = "insert into " + SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG + " set DOWNLOAD_CONFIG_DG = $"
-                    + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + " , ACTION = $"
-                    + SdcArtifactHandlerConstants.ACTION + " , VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE;
+                key = INSERT_INTO_QUERY_STR + SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG
+                    + SET_DOWNLOAD_CONFIG_QUERY_STR
+                    + SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE + ACTION_QUERY_STR
+                    + SdcArtifactHandlerConstants.ACTION + VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
             }
 
-            if (serviceLogic != null && context != null) {
+            if (serviceLogic != null) {
                 status = serviceLogic.save("SQL", false, false, key, null, null, context);
             }
-            if ((status == null) || status.toString().equals("FAILURE")) {
+            if ((status == null) || status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing Configure DG Action table ");
             }
         } else {
@@ -490,36 +521,33 @@ public class DBService {
 
     }
 
-    public String getModelDataInformationbyArtifactName(String artifact_name) throws SvcLogicException {
+    public String getModelDataInformationbyArtifactName(String artifactName) throws SvcLogicException {
         String fn = "DBService.getVnfData";
-        String key = "";
         SvcLogicContext con = new SvcLogicContext();
-        HashMap<String, String> modelData = new HashMap<String, String>();
-        QueryStatus status = null;
+        String key;
+        QueryStatus status;
         key =
             "select VNF_TYPE, VNFC_TYPE, ACTION, FILE_CATEGORY, ARTIFACT_TYPE from ASDC_REFERENCE where  ARTIFACT_NAME = "
-                + artifact_name;
+                + artifactName;
 
-        if (serviceLogic != null && con != null) {
+        if (serviceLogic != null) {
             log.info(fn + "select Key: " + key);
             status = serviceLogic.query("SQL", false, null, key, null, null, con);
-            if (status.toString().equals("FAILURE")) {
+            if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error While processing is ArtifactUpdateRequiredforPD table ");
             }
 
         }
-
         log.info(fn + "Vnf_received :" + con.getAttribute("VNF_TYPE"));
 
         return con.getAttribute("VNF_TYPE");
-
     }
 
     public void updateYangContents(SvcLogicContext context, String artifactId, String yangContents)
         throws SvcLogicException {
         String fn = "DBService.updateYangContents";
         log.info(fn + "Starting DB operation for  updateYangContents");
-        String key = "";
+        String key;
         QueryStatus status = null;
 
         key = "update ASDC_ARTIFACTS " + " set ARTIFACT_CONTENT = '" + yangContents + "'"
@@ -528,7 +556,7 @@ public class DBService {
         if (serviceLogic != null && context != null) {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
         }
-        if ((status == null) || status.toString().equals("FAILURE")) {
+        if ((status == null) || status.toString().equals(FAILURE_PARAM)) {
             throw new SvcLogicException("Error While processing Configure DG Action table ");
         }
 
@@ -536,90 +564,89 @@ public class DBService {
 
 
     public void insertProtocolReference(SvcLogicContext context, String vnfType, String protocol, String action,
-        String action_level, String template) throws SvcLogicException {
+        String actionLevel, String template) throws SvcLogicException {
         String fn = "DBService.insertProtocolReference";
         log.info(fn + "Starting DB operation for  insertProtocolReference");
-        String key = "";
+        String key;
         QueryStatus status = null;
 
         key = "insert into PROTOCOL_REFERENCE (ACTION, VNF_TYPE, PROTOCOL, UPDATED_DATE, TEMPLATE, ACTION_LEVEL)"
             + " values  (" + "'" + action + "', '" + vnfType + "', '" + protocol + "', now(),'" + template + "', '"
-            + action_level + "')";
+            + actionLevel + "')";
 
         if (serviceLogic != null && context != null) {
             status = serviceLogic.save("SQL", false, false, key, null, null, context);
         }
-        if ((status == null) || status.toString().equals("FAILURE")) {
+        if ((status == null) || status.toString().equals(FAILURE_PARAM)) {
             throw new SvcLogicException("Error While processing insertProtocolReference ");
         }
 
     }
 
     public boolean isProtocolReferenceUpdateRequired(SvcLogicContext context, String vnfType, String protocol,
-        String action, String action_level, String template) throws SvcLogicException {
+        String action, String actionLevel, String template) throws SvcLogicException {
         SvcLogicContext localContext = new SvcLogicContext();
         String fn = "DBService.isProtocolReferenceUpdateRequired";
         log.info(fn + "Starting DB operation for  isProtocolReferenceUpdateRequired");
-        String key = "";
-        QueryStatus status = null;
 
-        key = "select COUNT(*) from PROTOCOL_REFERENCE where ACTION='" + action + "' and ACTION_LEVEL='" + action_level
+        String key = "select COUNT(*) from PROTOCOL_REFERENCE where ACTION='" + action + "' and ACTION_LEVEL='" + actionLevel
             + "' and VNF_TYPE='" + vnfType + "'";
-        status = serviceLogic.query("SQL", false, null, key, null, null, localContext);
+        serviceLogic.query("SQL", false, null, key, null, null, localContext);
+
         String countStr = localContext.getAttribute("COUNT(*)");
         int count = Integer.parseInt(countStr);
-        if (count > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return count > 0;
     }
 
     public void updateProtocolReference(SvcLogicContext context, String vnfType, String protocol, String action,
-        String action_level, String template) throws SvcLogicException {
+        String actionLevel, String template) throws SvcLogicException {
 
         String fn = "DBService.isProtocolReferenceUpdateRequired";
         log.info(fn + "Starting DB operation for  isProtocolReferenceUpdateRequired");
-        String key = "";
-        QueryStatus status = null;
+        String key;
+        QueryStatus status;
 
         key = "update PROTOCOL_REFERENCE set UPDATED_DATE=now(), template='" + template + "', protocol ='" + protocol
-            + "' where ACTION='" + action + "' and ACTION_LEVEL='" + action_level + "' and VNF_TYPE='" + vnfType
+            + "' where ACTION='" + action + "' and ACTION_LEVEL='" + actionLevel + "' and VNF_TYPE='" + vnfType
             + "'";
         status = serviceLogic.save("SQL", false, false, key, null, null, context);
         if (status == QueryStatus.FAILURE) {
             log.info("updateProtocolReference:: Error updating protocol reference");
             throw new SvcLogicException("Error - updating PROTOCOL_REFERENCE_TABLE in updateProtocolReference");
         }
-        return;
     }
 
-    public String getDownLoadDGReference(SvcLogicContext context) throws SvcLogicException, ConfigurationException {
-        String fn = "DBService.setDownLoadDGReference";
-        String downloadConfigDg = null;
-        log.info(fn + "Setting Download DG Reference from DB");
-        String key = "";
-        QueryStatus status = null;
-        String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
-        if (StringUtils.isBlank(protocol)) {
-            log.info(fn + " :: Protocol is Blank!! Returning without querying DB");
-            throw new ConfigurationException(fn + ":: Protocol is Blank!! Returning without querying DB");
+    public String getDownLoadDGReference(SvcLogicContext context) throws DBException {
+        try {
+
+            String fn = "DBService.setDownLoadDGReference";
+            String downloadConfigDg;
+            log.info(fn + "Setting Download DG Reference from DB");
+            String key;
+            QueryStatus status;
+            String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
+            if (StringUtils.isBlank(protocol)) {
+                log.info(fn + " :: Protocol is Blank!! Returning without querying DB");
+                throw new ConfigurationException(fn + ":: Protocol is Blank!! Returning without querying DB");
+            }
+            key = "select download_config_dg from " + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE
+                + " where protocol = '" + protocol + "'";
+            SvcLogicContext localContext = new SvcLogicContext();
+            status = serviceLogic.query("SQL", false, null, key, null, null, localContext);
+            if (status == QueryStatus.FAILURE) {
+                log.info(fn + ":: Error retrieving download_config_dg");
+                throw new SvcLogicException("Error retrieving download_config_dg");
+            }
+            if (status == QueryStatus.NOT_FOUND) {
+                log.info(fn + ":: NOT_FOUND! No data found for download_config_dg!!");
+                throw new SvcLogicException(fn + ":: NOT_FOUND! No data found for download_config_dg!");
+            }
+            downloadConfigDg = localContext.getAttribute("download-config-dg");
+            log.info(fn + "download_config_dg::" + downloadConfigDg);
+            return downloadConfigDg;
+        } catch (SvcLogicException | ConfigurationException e) {
+            throw new DBException("An error occurred when getting DG reference", e);
         }
-        key = "select download_config_dg from " + SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE
-            + " where protocol = '" + protocol + "'";
-        SvcLogicContext localContext = new SvcLogicContext();
-        status = serviceLogic.query("SQL", false, null, key, null, null, localContext);
-        if (status == QueryStatus.FAILURE) {
-            log.info(fn + ":: Error retrieving download_config_dg");
-            throw new SvcLogicException("Error retrieving download_config_dg");
-        }
-        if (status == QueryStatus.NOT_FOUND) {
-            log.info(fn + ":: NOT_FOUND! No data found for download_config_dg!!");
-            throw new SvcLogicException(fn + ":: NOT_FOUND! No data found for download_config_dg!");
-        }
-        downloadConfigDg = localContext.getAttribute("download-config-dg");
-        log.info(fn + "download_config_dg::" + downloadConfigDg);
-        return downloadConfigDg;
     }
 
     public void cleanUpVnfcReferencesForVnf(SvcLogicContext context) throws SvcLogicException {
@@ -628,20 +655,19 @@ public class DBService {
                 + SdcArtifactHandlerConstants.ACTION + " and vnf_type = $" + SdcArtifactHandlerConstants.VNF_TYPE;
             log.debug("Action : " + context.getAttribute(SdcArtifactHandlerConstants.ACTION));
             log.debug("vnfType: " + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
-            QueryStatus status = null;
+            QueryStatus status;
             log.info("cleanUpVnfcReferencesForVnf()::Query:" + key1);
-            if (serviceLogic != null && context != null) {
+            if (serviceLogic != null) {
                 status = serviceLogic.save("SQL", false, false, key1, null, null, context);
-                if (status.toString().equals("FAILURE")) {
+                if (status.toString().equals(FAILURE_PARAM)) {
                     log.debug("Error deleting from VNFC_REFERENCE table");
                     throw new SvcLogicException("Error While processing VNFC_REFERENCE table ");
                 }
-                status = null;
             }
         } catch (Exception e) {
             log.debug("Error deleting from VNFC_REFERENCE table  : "
                 + context.getAttribute(SdcArtifactHandlerConstants.ACTION) + " and "
-                + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
+                + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE), e);
         }
     }
 }
