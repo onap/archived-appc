@@ -68,7 +68,7 @@ public interface IProviderOperation {
     /**
      * should be initialized by user
      * 
-     * @param defaultPass
+     * @param defaultPassword
      */
-    void setDefaultPass(String defaultPass);
+    void setDefaultPassword(String defaultPassword);
 }

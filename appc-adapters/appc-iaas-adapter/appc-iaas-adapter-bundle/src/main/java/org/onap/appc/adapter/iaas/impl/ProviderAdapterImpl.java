@@ -113,7 +113,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server restartServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.RESTART_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -122,7 +122,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server stopServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.STOP_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -131,7 +131,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server startServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.START_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -140,7 +140,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server rebuildServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.REBUILD_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -149,7 +149,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server terminateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.TERMINATE_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -158,7 +158,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server evacuateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.EVACUATE_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         // pass this object's reference to EvacuateServer to allow rebuild after evacuate
@@ -169,7 +169,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server migrateServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.MIGRATE_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -178,7 +178,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server vmStatuschecker(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.VMSTATUSCHECK_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -187,7 +187,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Stack terminateStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.TERMINATE_STACK);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
@@ -196,7 +196,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Stack snapshotStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.SNAPSHOT_STACK);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
@@ -205,7 +205,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Stack restoreStack(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.RESTORE_STACK);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Stack) op.doOperation(params, context);
@@ -214,7 +214,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server lookupServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.LOOKUP_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Server) op.doOperation(params, context);
@@ -223,7 +223,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Image createSnapshot(Map<String, String> params, SvcLogicContext context) throws APPCException {
         IProviderOperation op = factory.getOperationObject(Operation.SNAPSHOT_SERVICE);
         op.setProviderCache(this.providerCache);
-        op.setDefaultPass(DEFAULT_PASS);
+        op.setDefaultPassword(DEFAULT_PASS);
         op.setDefaultUser(DEFAULT_USER);
         op.setDefaultDomain(DEFAULT_DOMAIN);
         return (Image) op.doOperation(params, context);
@@ -316,7 +316,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
         // TODO Auto-generated method stub
           IProviderOperation op = factory.getOperationObject(Operation.ATTACHVOLUME_SERVICE);
             op.setProviderCache(this.providerCache);
-            op.setDefaultPass(DEFAULT_PASS);
+            op.setDefaultPassword(DEFAULT_PASS);
             op.setDefaultUser(DEFAULT_USER);
             return (Server) op.doOperation(params, ctx);
     }
@@ -324,7 +324,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     public Server dettachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
          IProviderOperation op = factory.getOperationObject(Operation.DETACHVOLUME_SERVICE);
             op.setProviderCache(this.providerCache);
-            op.setDefaultPass(DEFAULT_PASS);
+            op.setDefaultPassword(DEFAULT_PASS);
             op.setDefaultUser(DEFAULT_USER);
             return (Server) op.doOperation(params, ctx);
     }
