@@ -89,6 +89,7 @@ import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.onap.appc.artifact.handler.dbservices.DBException;
 import org.onap.appc.artifact.handler.dbservices.DBService;
 import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
 import org.onap.appc.yang.YANGGenerator;
@@ -418,7 +419,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     private void doProcessArtifactList(DBService dbservice, SvcLogicContext context, JSONArray artifactLists)
-        throws SvcLogicException, SQLException, ConfigurationException {
+        throws SvcLogicException, SQLException, ConfigurationException, DBException {
         boolean pdFile = false;
         String suffix = null;
 
@@ -445,7 +446,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     private void tryUpdateContext(DBService dbservice, SvcLogicContext context, boolean pdFile, String suffix)
-        throws SvcLogicException, SQLException, ConfigurationException {
+        throws SvcLogicException, SQLException, ConfigurationException, DBException {
         if (pdFile) {
             context.setAttribute(ARTIFACT_NAME, "Tosca".concat(suffix));
             context.setAttribute(FILE_CATEGORY, TOSCA_MODEL);
@@ -488,7 +489,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     private void tryProcessInterfaceProtocol(JSONObject content, DBService dbservice, SvcLogicContext context)
-        throws SvcLogicException, SQLException, ConfigurationException {
+        throws SvcLogicException, SQLException, ConfigurationException, DBException {
 
         if (contentsActionEquals(content, CONFIGURE_PARAM) || contentsActionEquals(content, CONFIG_SCALE_OUT_PARAM)) {
             boolean isUpdateRequired = dbservice.isArtifactUpdateRequired(context, DB_DEVICE_INTERFACE_PROTOCOL);
