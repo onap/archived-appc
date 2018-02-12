@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -75,6 +75,7 @@ public class AppcProviderAdapterActivator implements BundleActivator {
      */
     private Configuration configuration;
 
+    private static final String IAAS_ADAPTER = "APPC IaaS adapter";
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
      * this bundle. This method can be used to register services or to allocate any resources that this bundle needs.
@@ -141,7 +142,7 @@ public class AppcProviderAdapterActivator implements BundleActivator {
     }
 
     public String getName() {
-        return "APPC IaaS adapter";
+        return IAAS_ADAPTER;
     }
 
 }
