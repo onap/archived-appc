@@ -24,8 +24,30 @@
 
 package org.onap.appc.adapter.iaas.provider.operation.impl.base;
 
+import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_ADAPTER;
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
+
+import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.zones.Context;
+import com.att.cdp.zones.model.ModelObject;
+import com.att.cdp.zones.model.Server;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
+import java.net.URI;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.regex.Pattern;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
-import org.onap.appc.adapter.iaas.impl.*;
+import org.onap.appc.adapter.iaas.impl.IdentityURL;
+import org.onap.appc.adapter.iaas.impl.ProviderCache;
+import org.onap.appc.adapter.iaas.impl.RequestContext;
+import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.adapter.iaas.impl.TenantCache;
+import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.adapter.iaas.provider.operation.api.IProviderOperation;
 import org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants;
 import org.onap.appc.adapter.iaas.provider.operation.common.enums.Outcome;
@@ -35,65 +57,49 @@ import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
 import org.onap.appc.pool.Pool;
 import org.onap.appc.pool.PoolExtensionException;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.model.ModelObject;
-import com.att.cdp.zones.model.Server;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.glassfish.grizzly.http.util.HttpStatus;
 import org.slf4j.MDC;
-import java.net.URI;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Pattern;
-import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_ADAPTER;
-import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
-import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 public abstract class ProviderOperation implements IProviderOperation {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ProviderOperation.class);
     protected static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
-    public void setProviderCache(Map<String, ProviderCache> providerCache) {
-        this.providerCache = providerCache;
-    }
 
     /**
      * A cache of providers that are predefined.
      */
     private Map<String /* provider name */, ProviderCache> providerCache;
 
+    /**
+     * The username and password to use for dynamically created connections
+     */
+    private String defaultUser;
+    private String defaultPassword;
+    private String defaultDomain;
 
+    @Override
     public void setDefaultUser(String defaultUser) {
-        DEFAULT_USER = defaultUser;
+        this.defaultUser = defaultUser;
     }
 
-    public void setDefaultPass(String defaultPass) {
-        DEFAULT_PASS = defaultPass;
+    @Override
+    public void setDefaultPassword(String defaultPassword) {
+        this.defaultPassword = defaultPassword;
+    }
+
+    @Override
+    public void setProviderCache(Map<String, ProviderCache> providerCache) {
+        this.providerCache = providerCache;
     }
 
     @Override
     public void setDefaultDomain(String defaultDomain) {
-        DEFAULT_DOMAIN = defaultDomain;
+        this.defaultDomain = defaultDomain;
     }
 
     /**
-     * The username and password to use for dynamically created connections
-     */
-    private static String DEFAULT_USER;
-    private static String DEFAULT_PASS;
-    private static String DEFAULT_DOMAIN;
-
-
-    /**
      * set MDC props
-     * 
-     * @param service
-     * @param serviceName
-     * @param adapterName
      */
     protected void setMDC(String service, String serviceName, String adapterName) {
         MDC.put(MDC_ADAPTER, adapterName);
@@ -103,10 +109,6 @@ public abstract class ProviderOperation implements IProviderOperation {
 
     /**
      * initial log of the operation
-     * 
-     * @param msg
-     * @param params
-     * @param context
      */
     protected void logOperation(Msg msg, Map<String, String> params, SvcLogicContext context) {
 
@@ -123,8 +125,8 @@ public abstract class ProviderOperation implements IProviderOperation {
      * @param parameters The parameters to be printed to the log
      */
     private void debugParameters(Map<String, String> parameters) {
-        for (String key : parameters.keySet()) {
-            logger.debug(Msg.PROPERTY_VALUE, key, parameters.get(key));
+        for (Entry<String, String> entry : parameters.entrySet()) {
+            logger.debug(Msg.PROPERTY_VALUE, entry.getKey(), entry.getValue());
         }
     }
 
@@ -175,10 +177,10 @@ public abstract class ProviderOperation implements IProviderOperation {
      * @throws RequestFailedException If the parameters are not valid
      */
     protected void validateParametersExist(Map<String, String> parameters, String... propertyNames)
-            throws RequestFailedException {
+        throws RequestFailedException {
         boolean success = true;
         StringBuilder msg =
-                new StringBuilder(EELFResourceManager.format(Msg.MISSING_REQUIRED_PROPERTIES, MDC.get(MDC_SERVICE)));
+            new StringBuilder(EELFResourceManager.format(Msg.MISSING_REQUIRED_PROPERTIES, MDC.get(MDC_SERVICE)));
         msg.append(Constants.NL);
         for (String propertyName : propertyNames) {
             String value = parameters.get(propertyName);
@@ -194,40 +196,41 @@ public abstract class ProviderOperation implements IProviderOperation {
         if (!success) {
             logger.error(msg.toString());
             throw new RequestFailedException("Check Parameters", msg.toString(), HttpStatus.BAD_REQUEST_400,
-                    (Server) null);
+                (Server) null);
         }
     }
 
     /**
      * @param rc The request context that manages the state and recovery of the request for the life of its processing.
-     * @param code
-     * @param message
      */
     protected void doFailure(RequestContext rc, HttpStatus code, String message) {
         try {
             doFailure(rc, code, message, null);
-        } catch (APPCException ignored) {
-            /* never happens */}
+        } catch (APPCException e) {
+            logger.error("An APPC exception caught. Should never happen", e);
+        }
     }
 
     protected void doFailure(RequestContext rc, HttpStatus code, String message, Throwable cause) throws APPCException {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String msg = (message == null) ? code.getReasonPhrase() : message;
         if (msg.contains("\n")) {
-            msg = msg.substring(0, msg.indexOf("\n"));
+            msg = msg.substring(0, msg.indexOf('\n'));
         }
         String status;
         try {
             status = Integer.toString(code.getStatusCode());
         } catch (Exception e) {
+            logger.error("Error when parsing status code", e);
             status = "500";
         }
         svcLogic.setStatus(Outcome.FAILURE.toString());
         svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE, status);
         svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
 
-        if (null != cause)
+        if (null != cause) {
             throw new APPCException(cause);
+        }
     }
 
     /**
@@ -238,14 +241,14 @@ public abstract class ProviderOperation implements IProviderOperation {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         svcLogic.setStatus(Outcome.SUCCESS.toString());
         svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE,
-                Integer.toString(HttpStatus.OK_200.getStatusCode()));
+            Integer.toString(HttpStatus.OK_200.getStatusCode()));
     }
 
-    protected boolean validateVM(RequestContext rc, String appName, String vm_url, VMURL vm)
-            throws RequestFailedException {
+    protected boolean validateVM(RequestContext rc, String appName, String vmUrl, VMURL vm)
+        throws RequestFailedException {
         String msg;
         if (vm == null) {
-            msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, vm_url);
+            msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, vmUrl);
             logger.error(msg);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             return true;
@@ -267,8 +270,9 @@ public abstract class ProviderOperation implements IProviderOperation {
             // noinspection ResultOfMethodCallIgnored
             URI.create(vm.toString());
         } catch (Exception e) {
+            logger.error("An error occurred when validating vm url", e);
             throw new RequestFailedException(
-                    String.format("The value %s is not well formed [%s].", name, vm.toString()));
+                String.format("The value %s is not well formed [%s].", name, vm.toString()));
         }
 
         // Check the tenant and vmid segments
@@ -277,11 +281,11 @@ public abstract class ProviderOperation implements IProviderOperation {
 
         if (!pattern.matcher(vm.getTenantId()).matches()) {
             throw new RequestFailedException(
-                    String.format("The value %s has an invalid tenantId [%s].", name, vm.getTenantId()));
+                String.format("The value %s has an invalid tenantId [%s].", name, vm.getTenantId()));
         }
         if (!pattern.matcher(vm.getServerId()).matches()) {
             throw new RequestFailedException(
-                    String.format("The value %s has an invalid serverId [%s].", name, vm.getServerId()));
+                String.format("The value %s has an invalid serverId [%s].", name, vm.getServerId()));
         }
     }
 
@@ -291,9 +295,8 @@ public abstract class ProviderOperation implements IProviderOperation {
 
             cache.setIdentityURL(ident.toString());
             cache.setProviderName(ident.toString());
-            // cache.setProviderType("OpenStack");
 
-            TenantCache tenant = cache.addTenant(vm.getTenantId(), null, DEFAULT_USER, DEFAULT_PASS, DEFAULT_DOMAIN);
+            TenantCache tenant = cache.addTenant(vm.getTenantId(), null, defaultUser, defaultPassword, defaultDomain);
 
             // Make sure we could initialize the the cache otherwise return null
             if (tenant != null && tenant.isInitialized()) {
@@ -343,7 +346,7 @@ public abstract class ProviderOperation implements IProviderOperation {
                 providerCache.put(cache.getProviderName(), cache);
             } else {
                 String msg = EELFResourceManager.format(Msg.UNKNOWN_PROVIDER, providerName,
-                        providerCache.keySet().toString());
+                    providerCache.keySet().toString());
                 logger.error(msg);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
                 return null;
@@ -352,8 +355,8 @@ public abstract class ProviderOperation implements IProviderOperation {
 
         if (providerName == null) {
             logger.debug(
-                    String.format("Using the default provider cache [%s] since no valid identity url was passed in.",
-                            cache.getIdentityURL()));
+                String.format("Using the default provider cache [%s] since no valid identity url was passed in.",
+                    cache.getIdentityURL()));
         }
 
         // get the tenant cache for the vm
@@ -362,8 +365,7 @@ public abstract class ProviderOperation implements IProviderOperation {
 
         if (tenantCache == null) {
             // no tenantCache matching tenant, add tenant to the provider cache
-            tenantCache = cache.addTenant(vm.getTenantId(), null, DEFAULT_USER, DEFAULT_PASS, DEFAULT_DOMAIN);
-
+            tenantCache = cache.addTenant(vm.getTenantId(), null, defaultUser, defaultPassword, defaultDomain);
             if (tenantCache == null) {
                 // tenant not found
                 String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, selfLinkURL);
@@ -384,24 +386,21 @@ public abstract class ProviderOperation implements IProviderOperation {
             while (rc.attempt()) {
                 try {
                     Context context = pool.reserve();
-
                     /*
                      * Insert logic here to test the context for connectivity because we may have gotten one from the
                      * pool that was previously created.
                      */
-                    if (context.isStale()) {
-                        context.relogin();
-                    }
+                    reloginIfNeeded(context);
                     return context;
                 } catch (PoolExtensionException e) {
                     String msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, providerName, identityURL,
-                            tenantName, tenantId, e.getMessage(), Long.toString(rc.getRetryDelay()),
-                            Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
+                        tenantName, tenantId, e.getMessage(), Long.toString(rc.getRetryDelay()),
+                        Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
                     logger.error(msg, e);
                     rc.delay();
                 } catch (Exception e) {
                     String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e,
-                            e.getClass().getSimpleName(), "find", selfLinkURL, tenantCache.getTenantName());
+                        e.getClass().getSimpleName(), "find", selfLinkURL, tenantCache.getTenantName());
 
                     logger.error(msg, e);
                     doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
@@ -415,19 +414,24 @@ public abstract class ProviderOperation implements IProviderOperation {
             return null;
         }
 
-
         String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, selfLinkURL);
         logger.error(msg);
         doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
         return null;
     }
 
-    protected Context resolveContext(RequestContext rc, Map<String, String> params, String appName, String vm_url)
-            throws RequestFailedException {
+    private void reloginIfNeeded(Context context) throws ZoneException {
+        if (context.isStale()) {
+            context.relogin();
+        }
+    }
 
-        VMURL vm = VMURL.parseURL(vm_url);
+    protected Context resolveContext(RequestContext rc, Map<String, String> params, String appName, String vmUrl)
+        throws RequestFailedException {
+
+        VMURL vm = VMURL.parseURL(vmUrl);
         if (vm == null) {
-            String msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, vm_url);
+            String msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, vmUrl);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             logger.error(msg);
             return null;
@@ -436,14 +440,13 @@ public abstract class ProviderOperation implements IProviderOperation {
         IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
         String identStr = (ident == null) ? null : ident.toString();
 
-        return getContext(rc, vm_url, identStr);
+        return getContext(rc, vmUrl, identStr);
 
     }
 
 
-
     protected abstract ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
-            throws APPCException;
+        throws APPCException;
 
     @Override
     public ModelObject doOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
