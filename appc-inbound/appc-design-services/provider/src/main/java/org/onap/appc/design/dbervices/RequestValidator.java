@@ -24,102 +24,177 @@
 
 package org.onap.appc.design.dbervices;
 
-import org.onap.appc.design.services.util.DesignServiceConstants;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import org.onap.appc.design.services.util.DesignServiceConstants;
 
 public class RequestValidator {
-    
+
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RequestValidator.class);
-    public static void validate(String action, String payload) throws Exception {
-        log.info("payload"  +  payload);
+
+    private RequestValidator() {}
+
+    public static void validate(String action, String payload) throws RequestValidationException, IOException {
+        log.info("payload" + payload);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
-        log.info("payloadObject"  +   payloadObject.get(DesignServiceConstants.ARTIFACT_CONTENTS));
-        
-        String errorString = null;
+        log.info("payloadObject" + payloadObject.get(DesignServiceConstants.ARTIFACT_CONTENTS));
+
+        String errorString;
         switch (action) {
-        case DesignServiceConstants.GETDESIGNS:
-            if(payloadObject.get(DesignServiceConstants.USER_ID) == null || payloadObject.get(DesignServiceConstants.USER_ID).textValue().isEmpty())
-                errorString =     DesignServiceConstants.USER_ID;
-            break;
-        case DesignServiceConstants.GETARTIFACT:
-            if(payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty())
-                errorString =     DesignServiceConstants.VNF_TYPE;
-            else if(payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE) == null || payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE).textValue().isEmpty())
-                errorString = DesignServiceConstants.ARTIFACT_TYPE;
-            else if(payloadObject.get(DesignServiceConstants.ARTIFACT_NAME) == null || payloadObject.get(DesignServiceConstants.ARTIFACT_NAME).textValue().isEmpty())
-                errorString = DesignServiceConstants.ARTIFACT_NAME;
-            break;
-        case DesignServiceConstants.GETSTATUS:
-            if(payloadObject.get(DesignServiceConstants.USER_ID) == null || payloadObject.get(DesignServiceConstants.USER_ID).textValue().isEmpty())
-                errorString =     DesignServiceConstants.USER_ID;
-            else if(payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty())
-                errorString =     DesignServiceConstants.VNF_TYPE;
-            break;
-        case DesignServiceConstants.SETSTATUS:
-            if(payloadObject.get(DesignServiceConstants.USER_ID) == null || payloadObject.get(DesignServiceConstants.USER_ID).textValue().isEmpty())
-                errorString =     DesignServiceConstants.USER_ID;
-            else if(payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty())
-                errorString =     DesignServiceConstants.VNF_TYPE;
-            else if(payloadObject.get(DesignServiceConstants.ACTION) == null || payloadObject.get(DesignServiceConstants.ACTION).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ACTION;
-            else if(payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE) == null || payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE).textValue().isEmpty())
-                errorString = DesignServiceConstants.ARTIFACT_TYPE;
-            else if(payloadObject.get(DesignServiceConstants.STATUS) == null || payloadObject.get(DesignServiceConstants.STATUS).textValue().isEmpty())
-                errorString = DesignServiceConstants.STATUS;
-            break;            
-        case DesignServiceConstants.UPLOADARTIFACT:
-            if(payloadObject.get(DesignServiceConstants.ARTIFACT_NAME) == null || payloadObject.get(DesignServiceConstants.ARTIFACT_NAME).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ARTIFACT_NAME;
-            else if(! payloadObject.get(DesignServiceConstants.ARTIFACT_NAME).textValue().contains("reference")){
-                if(payloadObject.get(DesignServiceConstants.ACTION) == null || payloadObject.get(DesignServiceConstants.ACTION).textValue().isEmpty())
-                    errorString =     DesignServiceConstants.ACTION;
-            }
-            else if(payloadObject.get(DesignServiceConstants.ARTIFACT_VERSOIN) == null || payloadObject.get(DesignServiceConstants.ARTIFACT_VERSOIN).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ARTIFACT_VERSOIN;
-            else if(payloadObject.get(DesignServiceConstants.ARTIFACT_CONTENTS) == null)
-                errorString =     DesignServiceConstants.ARTIFACT_CONTENTS;
-            else if(payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE) == null || payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE).textValue().isEmpty())
-                errorString = DesignServiceConstants.ARTIFACT_TYPE;
-            
-            else if(payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty())
-                errorString = DesignServiceConstants.VNF_TYPE;
-        
-
-            break;
-        case DesignServiceConstants.SETPROTOCOLREFERENCE:
-            if(payloadObject.get(DesignServiceConstants.ACTION) == null || payloadObject.get(DesignServiceConstants.ACTION).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ACTION;
-            else if(payloadObject.get(DesignServiceConstants.ACTION_LEVEL) == null || payloadObject.get(DesignServiceConstants.ACTION_LEVEL).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ACTION_LEVEL;
-            else if(payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty())
-                errorString =     DesignServiceConstants.VNF_TYPE;
-            else if(payloadObject.get(DesignServiceConstants.PROTOCOL) == null || payloadObject.get(DesignServiceConstants.PROTOCOL).textValue().isEmpty())
-                errorString =     DesignServiceConstants.PROTOCOL;
-            
-        case DesignServiceConstants.SETINCART:
-            if(payloadObject.get(DesignServiceConstants.ACTION) == null || payloadObject.get(DesignServiceConstants.ACTION).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ACTION;
-            else if(payloadObject.get(DesignServiceConstants.ACTION_LEVEL) == null || payloadObject.get(DesignServiceConstants.ACTION_LEVEL).textValue().isEmpty())
-                errorString =     DesignServiceConstants.ACTION_LEVEL;
-            else if(payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject.get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty())
-                errorString =     DesignServiceConstants.VNF_TYPE;
-            else if(payloadObject.get(DesignServiceConstants.PROTOCOL) == null || payloadObject.get(DesignServiceConstants.PROTOCOL).textValue().isEmpty())
-                errorString =     DesignServiceConstants.PROTOCOL;            
-            break;
-        default: 
-            throw new Exception(" Action " + action + " not found while processing request ");            
-
+            case DesignServiceConstants.GETDESIGNS:
+                errorString = resolveGetDesignsErrorString(payloadObject);
+                break;
+            case DesignServiceConstants.GETARTIFACT:
+                errorString = resolveGetArtifactErrorString(payloadObject);
+                break;
+            case DesignServiceConstants.GETSTATUS:
+                errorString = resolveGetStatusErrorString(payloadObject);
+                break;
+            case DesignServiceConstants.SETSTATUS:
+                errorString = resolveSetStatusErrorString(payloadObject);
+                break;
+            case DesignServiceConstants.UPLOADARTIFACT:
+                errorString = resolveUploadArtifactErrorString(payloadObject);
+                break;
+            case DesignServiceConstants.SETPROTOCOLREFERENCE:
+            case DesignServiceConstants.SETINCART:
+                errorString = resolveErrorString(payloadObject);
+                break;
+            default:
+                throw new RequestValidationException(" Action " + action + " not found while processing request ");
         }
-        if(errorString != null)
-            throw new Exception(" Missing input parameter :-" + errorString + " -:");
-
+        checkForErrorString(errorString);
     }
 
+    private static void checkForErrorString(String errorString) throws RequestValidationException {
+        if (errorString != null) {
+            throw new RequestValidationException(" Missing input parameter :-" + errorString + " -:");
+        }
+    }
+
+    private static String resolveGetDesignsErrorString(JsonNode payloadObject) {
+        return nullOrEmptyUserId(payloadObject) ? DesignServiceConstants.USER_ID : null;
+    }
+
+    private static String resolveErrorString(JsonNode payloadObject) {
+        if (nullOrEmptyAction(payloadObject)) {
+            return DesignServiceConstants.ACTION;
+        } else if (nullOrEmptyActionLevel(payloadObject)) {
+            return DesignServiceConstants.ACTION_LEVEL;
+        } else if (nullOrEmptyVnfType(payloadObject)) {
+            return DesignServiceConstants.VNF_TYPE;
+        } else if (nullOrEmptyProtocol(payloadObject)) {
+            return DesignServiceConstants.PROTOCOL;
+        }
+        return null;
+    }
+
+    private static String resolveUploadArtifactErrorString(JsonNode payloadObject) {
+        if (nullOrEmptyArtifactName(payloadObject)) {
+            return DesignServiceConstants.ARTIFACT_NAME;
+        } else if (doesNotContainReference(payloadObject)) {
+            return DesignServiceConstants.ACTION;
+        } else if (nullOrEmptyArtifactVersion(payloadObject)) {
+            return DesignServiceConstants.ARTIFACT_VERSOIN;
+        } else if (payloadObject.get(DesignServiceConstants.ARTIFACT_CONTENTS) == null) {
+            return DesignServiceConstants.ARTIFACT_CONTENTS;
+        } else if (nullOrEmptyArtifactType(payloadObject)) {
+            return DesignServiceConstants.ARTIFACT_TYPE;
+        } else if (nullOrEmptyVnfType(payloadObject)) {
+            return DesignServiceConstants.VNF_TYPE;
+        }
+        return null;
+    }
+
+    private static boolean doesNotContainReference(JsonNode payloadObject) {
+        return
+            !payloadObject.get(DesignServiceConstants.ARTIFACT_NAME).textValue().contains("reference")
+                && nullOrEmptyAction(payloadObject);
+    }
+
+    private static String resolveSetStatusErrorString(JsonNode payloadObject) {
+        if (nullOrEmptyUserId(payloadObject)) {
+            return DesignServiceConstants.USER_ID;
+        } else if (nullOrEmptyVnfType(payloadObject)) {
+            return DesignServiceConstants.VNF_TYPE;
+        } else if (nullOrEmptyAction(payloadObject)) {
+            return DesignServiceConstants.ACTION;
+        } else if (nullOrEmptyArtifactType(payloadObject)) {
+            return DesignServiceConstants.ARTIFACT_TYPE;
+        } else if (nullOrEmptyStatus(payloadObject)) {
+            return DesignServiceConstants.STATUS;
+        }
+        return null;
+    }
+
+    private static String resolveGetStatusErrorString(JsonNode payloadObject) {
+        if (nullOrEmptyUserId(payloadObject)) {
+            return DesignServiceConstants.USER_ID;
+        } else if (nullOrEmptyVnfType(payloadObject)) {
+            return DesignServiceConstants.VNF_TYPE;
+        }
+        return null;
+    }
+
+    private static String resolveGetArtifactErrorString(JsonNode payloadObject) {
+        if (nullOrEmptyVnfType(payloadObject)) {
+            return DesignServiceConstants.VNF_TYPE;
+        } else if (nullOrEmptyArtifactType(payloadObject)) {
+            return DesignServiceConstants.ARTIFACT_TYPE;
+        } else if (nullOrEmptyArtifactName(payloadObject)) {
+            return DesignServiceConstants.ARTIFACT_NAME;
+        }
+        return null;
+    }
+
+    private static boolean nullOrEmptyProtocol(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.PROTOCOL) == null || payloadObject
+            .get(DesignServiceConstants.PROTOCOL).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyActionLevel(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.ACTION_LEVEL) == null || payloadObject
+            .get(DesignServiceConstants.ACTION_LEVEL).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyArtifactVersion(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.ARTIFACT_VERSOIN) == null || payloadObject
+            .get(DesignServiceConstants.ARTIFACT_VERSOIN).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyStatus(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.STATUS) == null || payloadObject
+            .get(DesignServiceConstants.STATUS).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyAction(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.ACTION) == null || payloadObject
+            .get(DesignServiceConstants.ACTION).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyArtifactName(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.ARTIFACT_NAME) == null || payloadObject
+            .get(DesignServiceConstants.ARTIFACT_NAME).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyArtifactType(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.ARTIFACT_TYPE) == null || payloadObject
+            .get(DesignServiceConstants.ARTIFACT_TYPE).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyVnfType(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.VNF_TYPE) == null || payloadObject
+            .get(DesignServiceConstants.VNF_TYPE).textValue().isEmpty();
+    }
+
+    private static boolean nullOrEmptyUserId(JsonNode payloadObject) {
+        return payloadObject.get(DesignServiceConstants.USER_ID) == null || payloadObject
+            .get(DesignServiceConstants.USER_ID).textValue().isEmpty();
+    }
 }
 
 
