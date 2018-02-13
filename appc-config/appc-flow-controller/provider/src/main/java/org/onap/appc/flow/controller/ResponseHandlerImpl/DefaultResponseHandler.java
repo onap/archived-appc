@@ -19,34 +19,30 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.appc.flow.controller.ResponseHandlerImpl;
-
-
-import org.onap.appc.flow.controller.data.Response;
-import org.onap.appc.flow.controller.data.ResponseAction;
-import org.onap.appc.flow.controller.data.Transaction;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
+import org.onap.appc.flow.controller.data.Response;
+import org.onap.appc.flow.controller.data.ResponseAction;
+import org.onap.appc.flow.controller.data.Transaction;
 
 public class DefaultResponseHandler {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(DefaultResponseHandler.class);
 
-    public ResponseAction handlerResponse(Transaction transaction){
-
+    public ResponseAction handlerResponse(Transaction transaction) {
         log.info("Transaction Input params " + transaction.toString());
         ResponseAction responseAction = new ResponseAction();
-        if(transaction.getResponses() != null && !transaction.getResponses().isEmpty()) {
-            for(Response response : transaction.getResponses()) {
-                if(response.getResponseCode() != null && response.getResponseCode().equals(transaction.getStatusCode())) {
+        if (transaction.getResponses() != null && !transaction.getResponses().isEmpty()) {
+            for (Response response : transaction.getResponses()) {
+                if (response.getResponseCode() != null
+                    && response.getResponseCode().equals(transaction.getStatusCode())) {
                     responseAction = response.getResponseAction();
                     break;
                 }
-
             }
-
         }
         return responseAction ;
     }

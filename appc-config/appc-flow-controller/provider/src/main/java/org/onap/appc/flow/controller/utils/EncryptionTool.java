@@ -24,7 +24,6 @@
 
 package org.onap.appc.flow.controller.utils;
 
-
 import java.security.Provider;
 import java.security.Provider.Service;
 import java.security.Security;
@@ -41,12 +40,12 @@ public class EncryptionTool {
 
     /**
      * The prefix we insert onto any data we encrypt so that we can tell if it is encrpyted later and
-     * therefore decrypt it
+     * therefore decrypt it.
      */
-    public static final String ENCRYPTED_VALUE_PREFIX = "enc:";
+    private static final String ENCRYPTED_VALUE_PREFIX = "enc:";
 
     /**
-     * The instance of the encryption utility object
+     * The instance of the encryption utility object.
      */
     private static EncryptionTool instance = null;
 
@@ -60,26 +59,13 @@ public class EncryptionTool {
      * are using is a symmetrical cipher.
      */
     private static char[] secret = {'C', '_', 'z', 'l', '!', 'K', '!', '4', '?', 'O', 'z', 'E', 'K', 'E', '>', 'U', 'R',
-            '/', '%', 'Y', '\\', 'f', 'b', '"', 'e', 'n', '{', '"', 'l', 'U', 'F', '+', 'E', '\'', 'R', 'T', 'p', '1',
-            'V', '4', 'l', 'a', '9', 'w', 'v', '5', 'Z', '#', 'i', 'V', '"', 'd', 'l', '!', 'L', 'M', 'g', 'L', 'Q',
-            '{', 'v', 'v', 'K', 'V'};
-
+        '/', '%', 'Y', '\\', 'f', 'b', '"', 'e', 'n', '{', '"', 'l', 'U', 'F', '+', 'E', '\'', 'R', 'T', 'p', '1',
+        'V', '4', 'l', 'a', '9', 'w', 'v', '5', 'Z', '#', 'i', 'V', '"', 'd', 'l', '!', 'L', 'M', 'g', 'L', 'Q',
+        '{', 'v', 'v', 'K', 'V'};
 
 
     /**
-     * Get an instance of the EncryptionTool
-     *
-     * @return The encryption tool to be used
-     */
-    public static final synchronized EncryptionTool getInstance() {
-        if (instance == null) {
-            instance = new EncryptionTool();
-        }
-        return instance;
-    }
-
-    /**
-     * Create the EncryptionTool instance
+     * Create the EncryptionTool instance.
      */
     private EncryptionTool() {
 
@@ -88,12 +74,24 @@ public class EncryptionTool {
             for (Service s : p.getServices()) {
                 String algo = s.getAlgorithm();
                 sb.append(String.format("%n -Algorithm [ %s ] in provider [ %s ] and service [ %s ]", algo, p.getName(),
-                        s.getClassName()));
+                    s.getClassName()));
             }
         }
         if (LOG.isDebugEnabled()) {
             LOG.debug(sb.toString());
         }
+    }
+
+    /**
+     * Get an instance of the EncryptionTool.
+     *
+     * @return The encryption tool to be used
+     */
+    public static final synchronized EncryptionTool getInstance() {
+        if (instance == null) {
+            instance = new EncryptionTool();
+        }
+        return instance;
     }
 
     /**
