@@ -22,10 +22,11 @@
 
 package org.onap.appc.flow.controller.node;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.ResponseAction;
 import org.onap.appc.flow.controller.data.Transaction;
@@ -33,26 +34,20 @@ import org.onap.appc.flow.controller.data.Transactions;
 import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
 public class FlowGenerator {
     
     private static final  EELFLogger log = EELFManager.getInstance().getLogger(FlowGenerator.class);
 
     public Transactions createSingleStepModel(Map<String, String> inParams, SvcLogicContext ctx) {
 
-        String fn = "FlowGenerator.createSingleStepModel";
         log.debug("Starting generating single Step flow" );
-        
         log.debug("Data in context"  + ctx.getAttributeKeySet() );
-        Transactions transactions  = new Transactions();
-        List<Transaction> transactionList = new ArrayList<>();
-        Transaction singleTransaction = new Transaction();        
-        
+
+        Transaction singleTransaction = new Transaction();
         singleTransaction.setTransactionId(1);
         singleTransaction.setAction(ctx.getAttribute(FlowControllerConstants.REQUEST_ACTION));
-        singleTransaction.setActionLevel(FlowControllerConstants.VNF); //Need to discuss how to get action level if not in request
+        //Need to discuss how to get action level if not in request
+        singleTransaction.setActionLevel(FlowControllerConstants.VNF);
         singleTransaction.setPayload(ctx.getAttribute(FlowControllerConstants.PAYLOAD));
         singleTransaction.setActionLevel(ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));
 
@@ -64,16 +59,16 @@ public class FlowGenerator {
         response.setResponseAction(ra);
         
         responseList.add(response);
-        singleTransaction.setResponses(responseList);        
+        singleTransaction.setResponses(responseList);
+
+        List<Transaction> transactionList = new ArrayList<>();
         transactionList.add(singleTransaction);
-        
+
+        Transactions transactions = new Transactions();
         transactions.setTransactions(transactionList);
 
-        log.debug(fn + " Sequence String" + transactions.toString());
+        log.debug("FlowGenerator.createSingleStepModel Sequence String" + transactions.toString());
         
         return transactions;
     }
-    
-    
-
 }
