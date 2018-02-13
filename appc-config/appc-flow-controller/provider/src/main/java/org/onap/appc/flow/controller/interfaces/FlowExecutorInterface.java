@@ -22,10 +22,9 @@
 
 package org.onap.appc.flow.controller.interfaces;
 
+import java.util.Map;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import java.util.Map;
 
 @FunctionalInterface
 public interface FlowExecutorInterface {
