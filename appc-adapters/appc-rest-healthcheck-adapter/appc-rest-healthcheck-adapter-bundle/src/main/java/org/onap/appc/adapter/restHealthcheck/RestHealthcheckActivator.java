@@ -1,4 +1,3 @@
-
 /*-
  * ============LICENSE_START=======================================================
  * ONAP : APPC
@@ -38,6 +37,7 @@ public class RestHealthcheckActivator implements BundleActivator {
      */
     private ServiceRegistration registration = null;
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestHealthcheckActivator.class);
+    private static final String appName = "APPC Rest Healthcheck adapter";
 
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
@@ -94,7 +94,7 @@ public class RestHealthcheckActivator implements BundleActivator {
         }
     }
     public String getName() {
-        return "APPC Rest Healthcheck adapter";
+        return appName;
     }
 
 }
