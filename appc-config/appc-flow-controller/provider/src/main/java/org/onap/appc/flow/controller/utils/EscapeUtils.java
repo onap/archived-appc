@@ -19,22 +19,22 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
+
 package org.onap.appc.flow.controller.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
 public class EscapeUtils {
 
-    public EscapeUtils() {
+    private EscapeUtils() {
     }
 
     public static String escapeSql(String str) {
         if (str == null) {
             return null;
         }
-        String searchList[] = new String[]{"'","\\", "\"" };
-        String replacementList[] = new String[]{ "''","\\\\" ,"\\\""};
+        String[] searchList = new String[]{"'","\\", "\"" };
+        String[] replacementList = new String[]{ "''","\\\\" ,"\\\""};
         return StringUtils.replaceEach(str,searchList, replacementList);
     }
-
 }

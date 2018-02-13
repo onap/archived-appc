@@ -22,9 +22,10 @@
 
 package org.onap.appc.flow.controller;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.onap.appc.flow.controller.node.FlowControlNode;
 import org.onap.appc.flow.controller.node.JsonParsingNode;
 import org.onap.appc.flow.controller.node.RestServiceNode;
@@ -32,50 +33,43 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+public class FlowControllerActivator implements BundleActivator {
 
-public class FlowControllerActivator implements BundleActivator{
-
-    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
-
+    private List<ServiceRegistration> registrations = new LinkedList<>();
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(FlowControllerActivator.class);
 
+    private static final String REGISTERING = "Registering service ";
+    private static final String REGISTERING_OK = REGISTERING + "successful for ";
+
+
     @Override
-    public void start(BundleContext ctx) throws Exception
-    {
-
+    public void start(BundleContext ctx) {
         try {
-
             FlowControlNode flowExecutorNode = new FlowControlNode();
-            log.debug("Registering service "+ flowExecutorNode.getClass().getName());
+            log.debug(REGISTERING + flowExecutorNode.getClass().getName());
             registrations.add(ctx.registerService(flowExecutorNode.getClass().getName(), flowExecutorNode, null));
-            log.debug("Registering service sccessful for  "+ flowExecutorNode.getClass().getName());
+            log.debug(REGISTERING_OK + flowExecutorNode.getClass().getName());
 
             RestServiceNode restServiceNode = new RestServiceNode();
-            log.debug("Registering service "+ restServiceNode.getClass().getName());
+            log.debug(REGISTERING + restServiceNode.getClass().getName());
             registrations.add(ctx.registerService(restServiceNode.getClass().getName(), restServiceNode, null));
-            log.debug("Registering service sccessful for  "+ restServiceNode.getClass().getName());
+            log.debug(REGISTERING_OK + restServiceNode.getClass().getName());
 
             JsonParsingNode jsonParsingNode = new JsonParsingNode();
-            log.debug("Registering service "+ jsonParsingNode.getClass().getName());
+            log.debug(REGISTERING + jsonParsingNode.getClass().getName());
             registrations.add(ctx.registerService(jsonParsingNode.getClass().getName(), jsonParsingNode, null));
-            log.debug("Registering service sccessful for  "+ jsonParsingNode.getClass().getName());
+            log.debug(REGISTERING_OK + jsonParsingNode.getClass().getName());
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug("Exeception occured in FlowControllerActivator", e);
         }
-
     }
-    @Override
-    public void stop(BundleContext arg0) throws Exception
-    {
-        for (ServiceRegistration registration: registrations)
-        {
-            registration.unregister();
-            registration = null;
-        }
 
+    @Override
+    public void stop(BundleContext arg0) {
+        for (ServiceRegistration registration: registrations) {
+            registration.unregister();
+        }
     }
 }
