@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_20f6f763",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/dbervices/FlowControlDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-13T15:56:01Z",
+      "side": 1,
+      "message": "Did the old version of this method ever return null?",
+      "range": {
+        "startLine": 222,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 14
+      },
+      "revId": "5ec4d766161d1a61c5f1011e201c4506f3f33301",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
