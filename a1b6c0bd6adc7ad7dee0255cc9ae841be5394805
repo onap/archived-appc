@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_24bda6d8",
+        "filename": "appc-config/appc-config-generator/provider/src/main/java/org/onap/sdnc/config/generator/merge/ParameterMissingException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T16:44:44Z",
+      "side": 1,
+      "message": "Should this file include license text?",
+      "revId": "a1b6c0bd6adc7ad7dee0255cc9ae841be5394805",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
