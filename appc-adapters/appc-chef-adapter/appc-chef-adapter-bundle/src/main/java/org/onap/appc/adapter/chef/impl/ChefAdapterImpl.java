@@ -40,6 +40,8 @@ import org.json.JSONObject;
 import org.onap.appc.adapter.chef.ChefAdapter;
 import org.onap.appc.adapter.chef.chefapi.ApiMethod;
 import org.onap.appc.adapter.chef.chefclient.ChefApiClient;
+import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
+import org.onap.appc.adapter.chef.chefclient.ChefResponse;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import com.att.eelf.configuration.EELFLogger;
@@ -108,6 +110,7 @@ public class ChefAdapterImpl implements ChefAdapter {
     private static final String CHEF_SERVER_RESULT_MSG_STR = "chefServerResult.message";
     private static final String CHEF_ACTION_STR = "chefAction";
     private static final String NODE_LIST_STR = "NodeList";
+    private ChefApiClientFactory chefApiClientFactory = new ChefApiClientFactory();
 
     /**
      * This default constructor is used as a work around because the activator wasnt getting called
@@ -157,18 +160,16 @@ public class ChefAdapterImpl implements ChefAdapter {
                 String message;
                 if (privateKeyCheck()) {
                     // update the details of an environment on the Chef server.
-                    ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-                    ApiMethod am = cac.put("/environments/" + envName).body(env);
-                    am.execute();
-                    code = am.getReturnCode();
-                    message = am.getResponseBodyAsString();
+                    ChefApiClient chefApiClient = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
+                    ChefResponse chefResponse = chefApiClient.put("/environments/" + envName, env);
+                    code = chefResponse.getStatusCode();
+                    message = chefResponse.getBody();
                     if (code == 404) {
                         // need create a new environment
-                        am = cac.post("/environments").body(env);
-                        am.execute();
-                        code = am.getReturnCode();
-                        message = am.getResponseBodyAsString();
-                        logger.info("requestbody" + am.getReqBody());
+                        chefResponse = chefApiClient.post("/environments", env);
+                        code = chefResponse.getStatusCode();
+                        message = chefResponse.getBody();
+                        logger.info("requestbody {}", chefResponse.getBody());
                     }
 
                 } else {
@@ -209,7 +210,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                 code = 200;
                 String message = null;
                 if (privateKeyCheck()) {
-                    ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+                    ChefApiClient cac = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
 
                     for (String nodeName: nodes) {
                         JSONObject nodeJ = new JSONObject(nodeS);
@@ -217,10 +218,9 @@ public class ChefAdapterImpl implements ChefAdapter {
                         nodeJ.put("name", nodeName);
                         String nodeObject = nodeJ.toString();
                         logger.info(nodeObject);
-                        ApiMethod am = cac.put("/nodes/" + nodeName).body(nodeObject);
-                        am.execute();
-                        code = am.getReturnCode();
-                        message = am.getResponseBodyAsString();
+                        ChefResponse chefResponse = cac.put("/nodes/" + nodeName, nodeObject);
+                        code = chefResponse.getStatusCode();
+                        message = chefResponse.getBody();
                         if (code != 200) {
                             break;
                         }
@@ -270,13 +270,12 @@ public class ChefAdapterImpl implements ChefAdapter {
 
                 rc.isAlive();
                 SvcLogicContext svcLogic = rc.getSvcLogicContext();
-                ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-                ApiMethod am = cac.post(chefAction).body(pushRequest);
-                am.execute();
-                code = am.getReturnCode();
+                ChefApiClient cac = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
+                ChefResponse chefResponse = cac.post(chefAction, pushRequest);
+                code = chefResponse.getStatusCode();
                 logger.info("pushRequest:" + pushRequest);
-                logger.info("requestbody:" + am.getReqBody());
-                String message = am.getResponseBodyAsString();
+                logger.info("requestbody: {}", chefResponse.getBody());
+                String message = chefResponse.getBody();
                 if (code == 201) {
                     int startIndex = message.indexOf("jobs") + 5;
                     int endIndex = message.length() - 2;
@@ -319,9 +318,9 @@ public class ChefAdapterImpl implements ChefAdapter {
                     String chefAction = "/nodes/" + node;
                     String message;
                     if (privateKeyCheck()) {
-                        ApiMethod am = getApiMethod(chefAction);
-                        code = am.getReturnCode();
-                        message = am.getResponseBodyAsString();
+                        ChefResponse chefResponse = getApiMethod(chefAction);
+                        code = chefResponse.getStatusCode();
+                        message = chefResponse.getBody();
                     } else {
                         code = 500;
                         message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
@@ -375,10 +374,9 @@ public class ChefAdapterImpl implements ChefAdapter {
         }
     }
 
-    private ApiMethod getApiMethod(String chefAction) {
-        ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-
-        return cac.get(chefAction).execute();
+    private ChefResponse getApiMethod(String chefAction) {
+        ChefApiClient cac = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
+        return cac.get(chefAction);
     }
 
     /**
@@ -492,9 +490,9 @@ public class ChefAdapterImpl implements ChefAdapter {
         String message;
 
         if (privateKeyCheck()) {
-            ApiMethod am = getApiMethod(chefAction);
-            code = am.getReturnCode();
-            message = am.getResponseBodyAsString();
+            ChefResponse chefResponse = getApiMethod(chefAction);
+            code = chefResponse.getStatusCode();
+            message = chefResponse.getBody();
         } else {
             code = 500;
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
@@ -517,12 +515,11 @@ public class ChefAdapterImpl implements ChefAdapter {
         int code;
         String message;
         if (privateKeyCheck()) {
-            ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+            ChefApiClient chefApiClient = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
 
-            ApiMethod am = cac.put(chefAction).body(chefNodeStr);
-            am.execute();
-            code = am.getReturnCode();
-            message = am.getResponseBodyAsString();
+            ChefResponse chefResponse = chefApiClient.put(chefAction, chefNodeStr);
+            code = chefResponse.getStatusCode();
+            message = chefResponse.getBody();
         } else {
             code = 500;
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
@@ -548,14 +545,13 @@ public class ChefAdapterImpl implements ChefAdapter {
         String message;
         // should load pem from somewhere else
         if (privateKeyCheck()) {
-            ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
+            ChefApiClient chefApiClient = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
 
             // need pass path into it
             // "/nodes/testnode"
-            ApiMethod am = cac.post(chefAction).body(chefNodeStr);
-            am.execute();
-            code = am.getReturnCode();
-            message = am.getResponseBodyAsString();
+            ChefResponse chefResponse = chefApiClient.post(chefAction, chefNodeStr);
+            code = chefResponse.getStatusCode();
+            message = chefResponse.getBody();
         } else {
             code = 500;
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
@@ -577,11 +573,10 @@ public class ChefAdapterImpl implements ChefAdapter {
         int code;
         String message;
         if (privateKeyCheck()) {
-            ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-            ApiMethod am = cac.delete(chefAction);
-            am.execute();
-            code = am.getReturnCode();
-            message = am.getResponseBodyAsString();
+            ChefApiClient chefApiClient = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
+            ChefResponse chefResponse = chefApiClient.delete(chefAction);
+            code = chefResponse.getStatusCode();
+            message = chefResponse.getBody();
         } else {
             code = 500;
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
@@ -637,9 +632,9 @@ public class ChefAdapterImpl implements ChefAdapter {
                 String status = StringUtils.EMPTY;
                 for (int i = 0; i < retryTimes; i++) {
                     sleepFor(retryInterval);
-                    ApiMethod am = getApiMethod(chefAction);
-                    code = am.getReturnCode();
-                    message = am.getResponseBodyAsString();
+                    ChefResponse chefResponse = getApiMethod(chefAction);
+                    code = chefResponse.getStatusCode();
+                    message = chefResponse.getBody();
                     JSONObject obj = new JSONObject(message);
                     status = obj.getString("status");
                     if (!"running".equals(status)) {
@@ -692,12 +687,11 @@ public class ChefAdapterImpl implements ChefAdapter {
             RequestContext rc = new RequestContext(ctx);
             rc.isAlive();
             SvcLogicContext svcLogic = rc.getSvcLogicContext();
-            ChefApiClient cac = new ChefApiClient(username, clientPrivatekey, chefserver, organizations);
-            ApiMethod am = cac.post(chefAction).body(pushRequest);
+            ChefApiClient chefApiClient = chefApiClientFactory.create(username, clientPrivatekey, chefserver, organizations);
+            ChefResponse chefResponse = chefApiClient.post(chefAction, pushRequest);
 
-            am.execute();
-            code = am.getReturnCode();
-            String message = am.getResponseBodyAsString();
+            code = chefResponse.getStatusCode();
+            String message = chefResponse.getBody();
             if (code == 201) {
                 int startIndex = message.indexOf("jobs") + 6;
                 int endIndex = message.length() - 2;
