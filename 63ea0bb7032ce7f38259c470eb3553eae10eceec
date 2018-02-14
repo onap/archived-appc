@@ -16,6 +16,23 @@
       "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6f462751",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/TestAppcDmaapAdapterActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-14T19:59:48Z",
+      "side": 0,
+      "message": "Does the dmaap adapter not need to be stopped?",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
