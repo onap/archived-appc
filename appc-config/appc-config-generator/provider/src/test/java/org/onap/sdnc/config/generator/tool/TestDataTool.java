@@ -85,12 +85,12 @@ public class TestDataTool {
         String st = "test\"test";
         String str = "test\'" + "test";
         String strng = "test\0";
-        EscapeUtils.escapeSQL(s);
+        EscapeUtils.escapeString(s);
         EscapeUtils.escapeSql(s);
-        EscapeUtils.escapeSQL(st);
-        EscapeUtils.escapeSQL(str);
-        EscapeUtils.escapeSQL(strng);
-        EscapeUtils.escapeSQL(null);
+        EscapeUtils.escapeString(st);
+        EscapeUtils.escapeString(str);
+        EscapeUtils.escapeString(strng);
+        EscapeUtils.escapeString(null);
     }
 
     // @Test(expected = Exception.class)
