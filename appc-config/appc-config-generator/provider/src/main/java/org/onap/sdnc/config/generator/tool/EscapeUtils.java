@@ -36,8 +36,8 @@ public class EscapeUtils {
         if (str == null) {
             return null;
         }
-        String searchList[] = new String[] {"'", "\\"};
-        String replacementList[] = new String[] {"''", "\\\\"};
+        String[] searchList = new String[]{"'", "\\"};
+        String[] replacementList = new String[]{"''", "\\\\"};
         return StringUtils.replaceEach(str, searchList, replacementList);
     }
 
@@ -46,33 +46,28 @@ public class EscapeUtils {
         if (str == null) {
             return null;
         }
-        /*
-         * String searchList[] = new String[]{"''", "\\\\"}; String replacementList[] = new
-         * String[]{ "'", "\\"};
-         */
-        String searchList[] = new String[] {"''"};
-        String replacementList[] = new String[] {"'"};
+        String[] searchList = new String[]{"''"};
+        String[] replacementList = new String[]{"'"};
         return StringUtils.replaceEach(str, searchList, replacementList);
     }
 
 
     // For Generic Purpose
-    public static String escapeSQL(String s) {
+    public static String escapeString(String s) {
         if (s == null) {
             return null;
         }
-
         int length = s.length();
         int newLength = length;
-        for (int i = 0; i < length; i++) {
-            char c = s.charAt(i);
-            switch (c) {
+        for (char ch : s.toCharArray()) {
+            switch (ch) {
                 case '\\':
                 case '\"':
                 case '\'':
-                case '\0': {
+                case '\0':
                     newLength += 1;
-                }
+                    break;
+                default:
                     break;
             }
         }
@@ -80,31 +75,25 @@ public class EscapeUtils {
             // nothing to escape in the string
             return s;
         }
-        StringBuffer sb = new StringBuffer(newLength);
-        for (int i = 0; i < length; i++) {
-            char c = s.charAt(i);
-            switch (c) {
-                case '\\': {
-                    sb.append("\\\\");
-                }
+        StringBuilder builder = new StringBuilder(newLength);
+        for (char ch : s.toCharArray()) {
+            switch (ch) {
+                case '\\':
+                    builder.append("\\\\");
                     break;
-                case '\"': {
-                    sb.append("\\\"");
-                }
+                case '\"':
+                    builder.append("\\\"");
                     break;
-                case '\'': {
-                    sb.append("\\\'");
-                }
+                case '\'':
+                    builder.append("\\\'");
                     break;
-                case '\0': {
-                    sb.append("\\0");
-                }
+                case '\0':
+                    builder.append("\\0");
                     break;
-                default: {
-                    sb.append(c);
-                }
+                default:
+                    builder.append(ch);
             }
         }
-        return sb.toString();
+        return builder.toString();
     }
 }
