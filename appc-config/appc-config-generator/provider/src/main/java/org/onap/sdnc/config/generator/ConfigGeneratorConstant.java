@@ -66,7 +66,7 @@ public class ConfigGeneratorConstant {
     public static final String OUTPUT_STATUS_SUCCESS = "success";
     public static final String OUTPUT_STATUS_FAILURE = "failure";
 
-    public static final Object INPUT_PARAM_CONTEXT_KEY = "contextKey";
-    public static final Object INPUT_PARAM_JSON_CONTENT = "jsonContent";
+    public static final String INPUT_PARAM_CONTEXT_KEY = "contextKey";
+    public static final String INPUT_PARAM_JSON_CONTENT = "jsonContent";
 
 }
