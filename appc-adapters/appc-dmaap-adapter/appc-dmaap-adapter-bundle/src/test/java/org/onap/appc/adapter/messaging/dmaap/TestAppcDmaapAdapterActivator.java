@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -32,19 +32,16 @@ import org.onap.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator;
 
 public class TestAppcDmaapAdapterActivator {
 
-    // TODO commented out to allow build to pass, need to analyze and fix
-//    @Test
-    public void coverage() {
+    @Test
+    public void test_dmaap_activator() {
         // This does nothing since the activator does nothing
     	AppcDmaapAdapterActivator appc = new AppcDmaapAdapterActivator();
         try {
             appc.start(null);
             appc.stop(null);
-
         } catch (Exception e) {
             fail("Got exception when starting stopping. " + e.getMessage());
         }
         assertNotNull(appc.getName());
     }
-
 }
