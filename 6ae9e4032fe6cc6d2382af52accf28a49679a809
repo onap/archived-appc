@@ -16,6 +16,23 @@
       "revId": "6ae9e4032fe6cc6d2382af52accf28a49679a809",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_44347292",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T16:03:43Z",
+      "side": 1,
+      "message": "can this be removed?",
+      "revId": "6ae9e4032fe6cc6d2382af52accf28a49679a809",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
