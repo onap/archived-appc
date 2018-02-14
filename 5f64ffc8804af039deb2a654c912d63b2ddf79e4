@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a4d3f602",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T17:54:37Z",
+      "side": 1,
+      "message": "Would be nice to remove unnecessary white space at the end of lines, but not required.",
+      "revId": "5f64ffc8804af039deb2a654c912d63b2ddf79e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
