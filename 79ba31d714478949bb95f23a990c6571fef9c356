@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_646ace82",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T15:48:10Z",
+      "side": 1,
+      "message": "Update to 2017-2018",
+      "revId": "79ba31d714478949bb95f23a990c6571fef9c356",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8467dab6",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T15:48:10Z",
+      "side": 1,
+      "message": "I think this should be 2018",
+      "revId": "79ba31d714478949bb95f23a990c6571fef9c356",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
