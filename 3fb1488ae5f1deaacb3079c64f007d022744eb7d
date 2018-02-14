@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_84c35a56",
+        "filename": "appc-config/appc-config-generator/provider/src/main/java/org/onap/sdnc/config/generator/convert/InvalidParameterException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T17:02:27Z",
+      "side": 1,
+      "message": "Should license text be included here?",
+      "revId": "3fb1488ae5f1deaacb3079c64f007d022744eb7d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
