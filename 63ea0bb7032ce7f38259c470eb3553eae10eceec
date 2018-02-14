@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2fbedfb4",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/event/EventMessage.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-14T21:11:45Z",
+      "side": 0,
+      "message": "I think this comment might be useful as an example of the json that this class is designed to parse.",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_efea37ab",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/onap/appc/data/services/db/DGGeneralDBService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-14T21:11:45Z",
+      "side": 0,
+      "message": "I wonder if this comment is useful. It seems to be showing some data format. I\u0027m not sure what it is though.",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8fd37303",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-license-manager/src/main/java/org/onap/appc/dg/licmgr/impl/LicenseManagerPluginImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-14T21:11:45Z",
+      "side": 0,
+      "message": "I wonder if there are plans to fix this code in the future, it says \"should be fixed\". I\u0027m not sure.",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
