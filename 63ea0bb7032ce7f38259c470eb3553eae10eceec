@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a4df7668",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 563,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T15:00:50Z",
+      "side": 0,
+      "message": "How is the \"COUNT(*)\" attribute populated in localContext without this code?",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

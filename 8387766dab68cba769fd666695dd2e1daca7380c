@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a4b1b648",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T15:00:50Z",
+      "side": 1,
+      "message": "Should this file contain license text?",
+      "revId": "8387766dab68cba769fd666695dd2e1daca7380c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_04f74af6",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T15:00:50Z",
+      "side": 1,
+      "message": "For me, this function name is misleading since it has the side effect of updating the context.",
+      "revId": "8387766dab68cba769fd666695dd2e1daca7380c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
