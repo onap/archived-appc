@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_440c72a5",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T18:03:41Z",
+      "side": 1,
+      "message": "Use spaces instead of tabs.",
+      "revId": "3f39cb37a631c503b7de2f03e24fa257c6d5240f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e4fc9e74",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-bundle/src/main/java/org/onap/appc/adapter/restHealthcheck/RestHealthcheckActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T18:03:41Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this use CONSTANT_CASE?   https://google.github.io/styleguide/javaguide.html#s5.2.4-constant-names",
+      "revId": "3f39cb37a631c503b7de2f03e24fa257c6d5240f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
