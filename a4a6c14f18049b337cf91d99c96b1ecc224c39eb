@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a4cc566b",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T17:46:29Z",
+      "side": 1,
+      "message": "Having this method seems to be a bad pattern.   It adds an additional function call each time it is used in this file.  More importantly, someone might be tempted to use it with non-trivial parameter evaluation and defeat the purpose of isDebugEnabled(), e.g., logIfDebugEnabled(\"Result\u003d\" + aTimeConsumingFunction());",
+      "revId": "a4a6c14f18049b337cf91d99c96b1ecc224c39eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
