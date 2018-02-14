@@ -23,12 +23,10 @@
  */
 
 
-
 package org.onap.appc.util;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +37,10 @@ import java.util.regex.Pattern;
 
 /**
  * This class contains several static helper methods that can be used to perform string manipulation algorithms.
- * 
  */
 
 public final class StringHelper {
+
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(StringHelper.class);
 
     public static final String DASH = "-";
@@ -60,7 +58,7 @@ public final class StringHelper {
      * meta-characters for this routine (such as period, asterisk, and plus), they will be escaped and matched literally
      * in the resulting regular expression returned.
      * </p>
-     * 
+     *
      * @param value
      *            The pattern that we need to convert to a regular expression
      * @return The regular expression that is equivalent to the pattern
@@ -69,17 +67,17 @@ public final class StringHelper {
         if (value == null || value.trim().length() == 0) {
             return ".*";
         }
-        boolean appendEOL = false;
-        StringBuffer buffer = new StringBuffer(value.trim());
+
+        StringBuilder builder = new StringBuilder(value.trim());
 
         /*
          * If there are any period characters, we need to escape them so that they are exactly matched
          */
         Pattern pattern = Pattern.compile("\\.");
-        Matcher matcher = pattern.matcher(buffer);
+        Matcher matcher = pattern.matcher(builder);
         int position = 0;
         while (matcher.find(position)) {
-            buffer.replace(matcher.start(), matcher.end(), "\\.");
+            builder.replace(matcher.start(), matcher.end(), "\\.");
             position = matcher.end() + 1;
         }
 
@@ -88,41 +86,47 @@ public final class StringHelper {
          * them into .* or .
          */
         pattern = Pattern.compile("\\*|\\+");
-        matcher = pattern.matcher(buffer);
-        position = 0;
-        while (matcher.find(position)) {
-            String metachar = buffer.substring(matcher.start(), matcher.end());
-            if (metachar.equals("*")) {
-                buffer.replace(matcher.start(), matcher.end(), ".*");
-                position = matcher.end() + 1;
-                if (matcher.end() < buffer.length() - 1) {
-                    appendEOL = true;
-                }
-            } else if (metachar.equals("+")) {
-                buffer.replace(matcher.start(), matcher.end(), ".");
-                position = matcher.end();
-                if (matcher.end() == buffer.length()) {
-                    appendEOL = true;
-                }
-            }
-        }
+        matcher = pattern.matcher(builder);
 
         /*
          * If the string contains a .* meta-character sequence anywhere in the middle of the string (i.e., there are
          * other characters following the .* meta-characters), OR the string ends with the .+ sequence, then we need to
          * append the "end-of-line" boundary condition to the end of the string to get predictable results.
          */
-        if (appendEOL) {
-            buffer.append("$");
+        if (resolveAppendingEOL(builder, matcher)) {
+            builder.append("$");
         }
-        return buffer.toString();
+        return builder.toString();
+    }
+
+    private static boolean resolveAppendingEOL(StringBuilder builder, Matcher matcher) {
+        int position = 0;
+        boolean appendEOL = false;
+
+        while (matcher.find(position)) {
+            String metachar = builder.substring(matcher.start(), matcher.end());
+            if ("*".equals(metachar)) {
+                builder.replace(matcher.start(), matcher.end(), ".*");
+                position = matcher.end() + 1;
+                if (matcher.end() < builder.length() - 1) {
+                    appendEOL = true;
+                }
+            } else if ("+".equals(metachar)) {
+                builder.replace(matcher.start(), matcher.end(), ".");
+                position = matcher.end();
+                if (matcher.end() == builder.length()) {
+                    appendEOL = true;
+                }
+            }
+        }
+        return appendEOL;
     }
 
     /**
      * Takes a string that may possibly be very long and return a string that is at most maxLength. If the string is
      * longer than maxLength, the last three characters will be the ellipses (...) to indicate that the string was
      * shortened.
-     * 
+     *
      * @param possiblyLongString
      * @param maxLength
      *            must be at least 4 (one character plus ellipses)
@@ -139,44 +143,44 @@ public final class StringHelper {
 
     /**
      * Determines that a provided string is not null and not empty (length = 0 after trimming)
-     * 
+     *
      * @param theString
      *            The string to be tested
      * @return true if the string IS NOT null and is NOT empty
      */
     public static boolean isNotNullNotEmpty(String theString) {
-        return ((theString != null) && (!theString.trim().isEmpty()));
+        return theString != null && !theString.trim().isEmpty();
     }
 
     /**
      * Determines that a provided string IS null or an empty string (length = 0 after trimming)
-     * 
+     *
      * @param theString
      *            The string to be tested
      * @return true if the string IS null OR is empty
      */
     public static boolean isNullOrEmpty(String theString) {
-        return ((theString == null) || (theString.trim().isEmpty()));
+        return theString == null || theString.trim().isEmpty();
     }
 
     /**
      * Returns an indication if the first string is equal to the second string, allowing for either or both strings to
      * be null.
-     * 
+     *
      * @param a
      *            The first string to be compared
      * @param b
      *            The second string to be compared
      * @return True if both strings are null, or both strings are non-null AND they are equal. False otherwise.
      */
-    public static boolean equals(String a, String b) {
-        return equals(a, b, false);
+    public static boolean areEqual(String a, String b) {
+        return areEqual(a, b, false);
     }
 
     /**
      * Returns an indication if the first string is equal to the second string, allowing for either or both strings to
      * be null, and ignoring case.
-     * 
+     *
      * @param a
      *            The first string to be compared
      * @param b
@@ -185,13 +189,13 @@ public final class StringHelper {
      *         False otherwise.
      */
     public static boolean equalsIgnoreCase(String a, String b) {
-        return equals(a, b, true);
+        return areEqual(a, b, true);
     }
 
     /**
      * Compares two strings (allowing either or both to be null), and allowing for optional case sensitive or
      * insensitive comparison.
-     * 
+     *
      * @param a
      *            The first string to be compared
      * @param b
@@ -200,7 +204,7 @@ public final class StringHelper {
      *            True if the comparison is to be case in-sensitive.
      * @return True if both strings are null, or both strings are non-null and they are equal
      */
-    private static boolean equals(String a, String b, boolean caseInsensitive) {
+    private static boolean areEqual(String a, String b, boolean caseInsensitive) {
         if (a == null && b == null) {
             return true;
         }
@@ -231,7 +235,7 @@ public final class StringHelper {
      * for example, several objects were named "A test Object", "A test Object1", and "A test Object2", shortening the
      * name only from the left does not generate a unique name.
      * </p>
-     * 
+     *
      * @param name
      *            The name to be mangled
      * @param minLen
@@ -241,32 +245,32 @@ public final class StringHelper {
      * @return The mangled name, or an empty string if the value is null or an empty string.
      */
     public static String mangleName(String name, int minLen, int maxLen) {
-        StringBuffer buffer = new StringBuffer(name == null ? "" : name);
+        StringBuilder builder = new StringBuilder(name == null ? "" : name);
         Pattern pattern = Pattern.compile("[^a-z0-9]+", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(buffer);
+        Matcher matcher = pattern.matcher(builder);
         int position = 0;
         while (matcher.find(position)) {
-            buffer.delete(matcher.start(), matcher.end());
+            builder.delete(matcher.start(), matcher.end());
             position = matcher.start();
         }
 
-        if (buffer.length() < minLen) {
-            for (int i = buffer.length(); i <= minLen; i++) {
-                buffer.append("A");
+        if (builder.length() < minLen) {
+            for (int i = builder.length(); i <= minLen; i++) {
+                builder.append("A");
             }
         }
 
         /*
          * Remove out of the center of the name to preserve start and end and result in a string of max len
          */
-        if (buffer.length() > maxLen) {
-            int excess = buffer.length() - maxLen;
+        if (builder.length() > maxLen) {
+            int excess = builder.length() - maxLen;
             int left = maxLen / 2;
 
-            buffer.delete(left, excess + left);
+            builder.delete(left, excess + left);
         }
 
-        return buffer.toString().toLowerCase();
+        return builder.toString().toLowerCase();
     }
 
     /**
@@ -275,7 +279,7 @@ public final class StringHelper {
      * This method will ensure that the string value is trimmed of all leading and trailing whitespace if not null. If
      * it is null or an empty string, then it will return null.
      * </p>
-     * 
+     *
      * @param value
      *            The value to be normalized
      * @return The normalized (no leading or trailing whitespace) value, or null if the string was null or an empty
@@ -293,7 +297,7 @@ public final class StringHelper {
 
     /**
      * This method is used to strip all carriage returns and line feed characters from a string
-     * 
+     *
      * @param value
      * @return The original value less all carriage returns and line feeds
      */
@@ -303,17 +307,17 @@ public final class StringHelper {
             return null;
         }
         String[] tokens = value.split("\r\n|\n\r|\r|\n");
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         for (String token : tokens) {
-            buffer.append(token.trim());
+            builder.append(token.trim());
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
      * Converts UNIX-style line endings to DOS-style. Replaces LF with CR+LF as long as the LF does not already exist
      * paired with a CR.
-     * 
+     *
      * @param content
      *            The content to be converted
      * @return The converted content.
@@ -323,9 +327,9 @@ public final class StringHelper {
             return null;
         }
 
-        StringBuffer buffer = new StringBuffer(content);
+        StringBuilder builder = new StringBuilder(content);
         Pattern pattern = Pattern.compile("^(\n)[^\r]|[^\r](\n)[^\r]|[^\r](\n)$");
-        Matcher matcher = pattern.matcher(buffer);
+        Matcher matcher = pattern.matcher(builder);
         int position = 0;
         while (matcher.find(position)) {
             int index = matcher.start(1);
@@ -336,17 +340,17 @@ public final class StringHelper {
                 index = matcher.start(3);
             }
 
-            buffer.replace(index, index + 1, "\r\n");
+            builder.replace(index, index + 1, "\r\n");
             position = index + 1;
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
      * This method will convert a string contents to use the UNIX-style line endings. That is, all occurrences of CR
      * (Carriage Return) and LF (Line Feed) are reduced to just use LF.
-     * 
+     *
      * @param content
      *            The buffer to be processed
      * @return The converted contents
@@ -356,24 +360,24 @@ public final class StringHelper {
             return null;
         }
 
-        StringBuffer buffer = new StringBuffer(content);
+        StringBuilder builder = new StringBuilder(content);
         Pattern pattern = Pattern.compile("\r\n|\n\r");
-        Matcher matcher = pattern.matcher(buffer);
+        Matcher matcher = pattern.matcher(builder);
         int position = 0;
         while (matcher.find(position)) {
-            buffer.replace(matcher.start(), matcher.end(), "\n");
+            builder.replace(matcher.start(), matcher.end(), "\n");
             position = matcher.start();
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
-    /**
+     /**
      * This method is used to translate characters in the input sequence that match the characters in the match list to
      * the corresponding character in the replacement list. If the replacement list is shorter than the match list, then
      * the character from the replacement list is taken as the modulo of the match character position and the length of
      * the replacement list.
-     * 
+     *
      * @param sequence
      *            The input sequence to be processed
      * @param match
@@ -386,13 +390,13 @@ public final class StringHelper {
     public static Object translate(String sequence, String match, String replacement) {
 
         if (sequence == null) {
-            return sequence;
+            return null;
         }
 
-        StringBuffer buffer = new StringBuffer(sequence);
+        StringBuilder builder = new StringBuilder(sequence);
 
-        for (int index = 0; index < buffer.length(); index++) {
-            char ch = buffer.charAt(index);
+        for (int index = 0; index < builder.length(); index++) {
+            char ch = builder.charAt(index);
 
             int position = match.indexOf(ch);
             if (position == -1) {
@@ -402,16 +406,16 @@ public final class StringHelper {
             if (position >= replacement.length()) {
                 position %= replacement.length();
             }
-            buffer.setCharAt(index, replacement.charAt(position));
+            builder.setCharAt(index, replacement.charAt(position));
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
      * Ensures that the name provided is a valid identifier. This means that no spaces are allowed as well as special
      * characters. This method translates all spaces and illegal characters to underscores (_).
-     * 
+     *
      * @param name
      *            The name to be checked and converted to an identifier if needed
      * @return The valid identifier from the name
@@ -420,22 +424,29 @@ public final class StringHelper {
         if (name == null || name.length() == 0) {
             return name;
         }
-
-        StringBuffer buffer = new StringBuffer(name);
-        for (int index = 0; index < buffer.length(); index++) {
-            char ch = buffer.charAt(index);
+        StringBuilder builder = new StringBuilder(name);
+        for (int index = 0; index < builder.length(); index++) {
+            char ch = builder.charAt(index);
 
             if ((index == 0 && !Character.isJavaIdentifierStart(ch)) || (!Character.isJavaIdentifierPart(ch))) {
-                buffer.setCharAt(index, '_');
+                builder.setCharAt(index, '_');
             }
         }
-        return buffer.toString();
+        return builder.toString();
+    }
+
+
+    /**
+     * Private constructor to prevent instantiation of this class - All methods are static!
+     */
+    private StringHelper() {
+
     }
 
     /**
      * This method verifies that the provided string only contains characters from the legal set, and replaces any
      * character not in the legal set with the specified replacement character.
-     * 
+     *
      * @param sequence
      *            The sequence to be verified
      * @param legal
@@ -446,24 +457,17 @@ public final class StringHelper {
      */
     public static String verify(String sequence, String legal, char replacement) {
         if (sequence == null) {
-            return sequence;
+            return null;
         }
 
-        StringBuffer buffer = new StringBuffer(sequence);
-        for (int index = 0; index < buffer.length(); index++) {
-            char ch = buffer.charAt(index);
+        StringBuilder builder = new StringBuilder(sequence);
+        for (int index = 0; index < builder.length(); index++) {
+            char ch = builder.charAt(index);
             if (legal.indexOf(ch) == -1) {
-                buffer.setCharAt(index, replacement);
+                builder.setCharAt(index, replacement);
             }
         }
-        return buffer.toString();
-    }
-
-    /**
-     * Private constructor to prevent instantiation of this class - All methods are static!
-     */
-    private StringHelper() {
-
+        return builder.toString();
     }
 
     /**
@@ -472,22 +476,23 @@ public final class StringHelper {
      * @return The list of elements formatted as a comma-delimited list
      */
     public static String asList(List<String> list) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
+
         if (list != null) {
             if (list.size() == 1) {
-                buffer.append(list.get(0));
+                builder.append(list.get(0));
             } else {
                 for (String element : list) {
-                    buffer.append(element);
-                    buffer.append(", ");
+                    builder.append(element);
+                    builder.append(", ");
                 }
 
-                if (buffer.length() > 2) {
-                    buffer.delete(buffer.length() - 2, buffer.length());
+                if (builder.length() > 2) {
+                    builder.delete(builder.length() - 2, builder.length());
                 }
             }
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
@@ -496,18 +501,18 @@ public final class StringHelper {
      * @return A map expressed as a comma-delimited list of name=value tuples
      */
     public static String asList(Map<String, String> map) {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         if (map != null) {
             Set<String> keys = map.keySet();
             for (String key : keys) {
-                buffer.append(String.format("%s=%s, ", key, map.get(key)));
+                builder.append(String.format("%s=%s, ", key, map.get(key)));
             }
 
-            if (buffer.length() > 2) {
-                buffer.delete(buffer.length() - 2, buffer.length());
+            if (builder.length() > 2) {
+                builder.delete(builder.length() - 2, builder.length());
             }
         }
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
@@ -556,7 +561,7 @@ public final class StringHelper {
                 return Double.parseDouble(input);
             } catch (NumberFormatException | NullPointerException e) {
                 // NPE won't happen bc of regex check
-                logger.error(e.getMessage());
+                logger.error("Parsing input failed", e);
             }
         }
 
