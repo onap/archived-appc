@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_04398a40",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/CreateSnapshot.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T18:09:32Z",
+      "side": 1,
+      "message": "Parameter names don\u0027t follow ONAP coding guidelines.  https://google.github.io/styleguide/javaguide.html#s5.2.6-parameter-names",
+      "revId": "b43c7e2f36d0454e5670609e5a5f19e8f37f113b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
