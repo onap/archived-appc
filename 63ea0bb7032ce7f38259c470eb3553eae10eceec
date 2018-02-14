@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_84159ae6",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/TestAppcDmaapAdapterActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T16:24:33Z",
+      "side": 0,
+      "message": "A comment explaining this change might be helpful.  Is the call to stop() removed because it is the reason the original test failure?",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

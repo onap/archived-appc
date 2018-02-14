@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e4db3e4d",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/TestAppcDmaapAdapterActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T16:24:33Z",
+      "side": 1,
+      "message": "Similarly, a comment here would help.   Is the @Test annotation purposely not included here because the appc.stop() fails?",
+      "revId": "366e0d259a520bf22f37b0b9bec6beaf2a875bdf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
