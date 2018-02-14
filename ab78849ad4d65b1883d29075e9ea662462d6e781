@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a4221650",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/LookupServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-14T16:15:23Z",
+      "side": 1,
+      "message": "RqstCtx and vm_url should be updated meet ONAP java style:  https://google.github.io/styleguide/javaguide.html#s5.2.6-parameter-names",
+      "revId": "ab78849ad4d65b1883d29075e9ea662462d6e781",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
