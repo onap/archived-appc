@@ -26,15 +26,17 @@ package org.onap.appc.sdc.listener;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import org.openecomp.sdc.api.consumer.IConfiguration;
-
+import com.google.common.collect.Lists;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
+import org.openecomp.sdc.api.consumer.IConfiguration;
 
 public class SdcConfig implements IConfiguration {
 
@@ -44,9 +46,13 @@ public class SdcConfig implements IConfiguration {
     private String env;
     private String keystorePath;
     private String keystorePass;
-    /** Polling internal is time between listening sessions */
+    /**
+     * Polling internal is time between listening sessions
+     */
     private int pollingInterval;
-    /** Polling timeout is the time to listen for (dmaap timeout url param)/1000 */
+    /**
+     * Polling timeout is the time to listen for (dmaap timeout url param)/1000
+     */
     private int pollingTimeout;
     private List<String> types = new ArrayList<>();
     private String user;
@@ -55,12 +61,12 @@ public class SdcConfig implements IConfiguration {
     private Properties props;
     private final EELFLogger logger = EELFManager.getInstance().getLogger(SdcConfig.class);
 
-    SdcConfig(Properties props) throws Exception {
+    SdcConfig(Properties props) throws URISyntaxException {
         this.props = props;
         init();
     }
 
-    private void init() throws Exception {
+    private void init() throws URISyntaxException {
         if (props == null) {
             logger.error("SdcConfig init is skipped due to properties is null");
             return;
@@ -92,8 +98,8 @@ public class SdcConfig implements IConfiguration {
 
         if (pollingInterval > pollingTimeout) {
             logger.warn(String.format(
-                    "Message acknowledgement may be delayed by %ds in the ADSC listener. [Listening Time: %s, Poll Period: %s]",
-                    pollingInterval - pollingTimeout, pollingTimeout, pollingInterval));
+                "Message acknowledgement may be delayed by %ds in the ADSC listener. [Listening Time: %s, Poll Period: %s]",
+                pollingInterval - pollingTimeout, pollingTimeout, pollingInterval));
         }
 
         logParams();
@@ -104,7 +110,7 @@ public class SdcConfig implements IConfiguration {
         */
         types.add("APPC_CONFIG");
         types.add("VF_LICENSE");
-       // types.add("TOSCA_CSAR"); commenting it out as we are not listening to TOSCA_CSAR
+        // types.add("TOSCA_CSAR"); commenting it out as we are not listening to TOSCA_CSAR
 
         storeOp = new URI(props.getProperty("appc.sdc.provider.url"));
     }
@@ -114,6 +120,7 @@ public class SdcConfig implements IConfiguration {
         return false;
     }
 
+    @Override
     public boolean isFilterInEmptyResources() {
         return false;
     }
@@ -174,32 +181,32 @@ public class SdcConfig implements IConfiguration {
     }
 
     @Override
-    public Boolean isUseHttpsWithDmaap(){
-        return  true;
+    public Boolean isUseHttpsWithDmaap() {
+        return true;
     }
 
     @Override
-    public  List <String> getMsgBusAddress() {
-        return (getMsgBusProperties());
+    public List<String> getMsgBusAddress() {
+        return getMsgBusProperties();
     }
 
     public List<String> getMsgBusProperties() {
-        List<String> uebAddresses = new ArrayList<String>();
-        String uebAddressesList=null;
-        if (null != this.props)
+        List<String> uebAddresses;
+        String uebAddressesList;
+        if (null != this.props) {
             uebAddressesList = this.props.getProperty("appc.ClosedLoop.poolMembers");
-        else {
+        } else {
             logger.info("SdcConfig:SdcConfig:getMsgBusProperties()::props is null for SdcConfig");
-            return null;
+            return Collections.emptyList();
         }
         if (null == uebAddressesList) {
             logger.info("SdcConfig:SdcConfig:getMsgBusProperties()::uebAddressesList is null for SdcConfig");
-            return null;
+            return Collections.emptyList();
         }
-        logger.debug("SdcConfig:SdcConfig:getMsgBusProperties()::uebAddressesList is="+ uebAddressesList);
+        logger.debug("SdcConfig:SdcConfig:getMsgBusProperties()::uebAddressesList is=" + uebAddressesList);
         String[] sList = uebAddressesList.split(",");
-        uebAddresses= formatAddresses(sList);
-        logger.debug("SdcConfig:getMsgBusProperties:::Returning addresses as "+uebAddresses.toString());
+        uebAddresses = formatAddresses(sList);
+        logger.debug("SdcConfig:getMsgBusProperties:::Returning addresses as " + uebAddresses.toString());
         return uebAddresses;
     }
 
@@ -222,16 +229,16 @@ public class SdcConfig implements IConfiguration {
         logger.info(String.format("SDC Params: %s", params));
     }
 
-    protected List<String> formatAddresses(String[] sList) {
-        List<String> uebAddresses = new ArrayList<String>();
-        for (String fqdnPort:sList) {
+    private List<String> formatAddresses(String[] sList) {
+        List<String> uebAddresses = new ArrayList<>();
+        for (String fqdnPort : sList) {
             if (fqdnPort.startsWith("http")) {
-                fqdnPort=StringUtils.substringAfter(fqdnPort, "://");
+                fqdnPort = StringUtils.substringAfter(fqdnPort, "://");
             }
-            if (null != fqdnPort && fqdnPort.contains(":")) {
-                fqdnPort=StringUtils.substringBefore(fqdnPort,":");
+            if (fqdnPort.contains(":")) {
+                fqdnPort = StringUtils.substringBefore(fqdnPort, ":");
             }
-            logger.debug("SdcConfig:formatAddresses:: "+fqdnPort);
+            logger.debug("SdcConfig:formatAddresses:: " + fqdnPort);
             uebAddresses.add(fqdnPort);
         }
         return uebAddresses;
