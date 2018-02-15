@@ -24,7 +24,9 @@
 
 package org.onap.appc.sdc.listener;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 import java.util.Properties;
@@ -41,6 +43,6 @@ public class SdcConfigTest {
         properties.setProperty("appc.ClosedLoop.poolMembers","localhost:3905");
         SdcConfig sdc = new SdcConfig(properties);
         List<String> uebAddresses = sdc.getMsgBusProperties();
-        assertNotNull(uebAddresses);
+        assertFalse(uebAddresses.isEmpty());
     }
 }
