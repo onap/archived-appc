@@ -24,6 +24,8 @@
 
 package org.onap.sdnc.config.generator.tool;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,71 +34,71 @@ import java.util.Map;
 import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
 
 
 public class JSONTool {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(JSONTool.class);
 
+    private JSONTool() {
+    }
+
     public static Map<String, String> convertToProperties(String s) throws JSONException {
         return convertToProperties(s, null);
     }
 
     public static Map<String, String> convertToProperties(String s, List<String> blockKeys)
-            throws JSONException {
+        throws JSONException {
         JSONObject json = new JSONObject(s);
-        Map<String, String> mm = new HashMap<String, String>();
+        Map<String, String> mm = new HashMap<>();
+        Map<String, Object> wm = new HashMap<>();
 
-        Map<String, Object> wm = new HashMap<String, Object>();
         Iterator<String> ii = json.keys();
         while (ii.hasNext()) {
             String key1 = ii.next();
             wm.put(key1, json.get(key1));
-
-
         }
-
-        while (!wm.isEmpty())
+        while (!wm.isEmpty()) {
             for (String key : new ArrayList<>(wm.keySet())) {
                 Object o = wm.get(key);
                 wm.remove(key);
-
-
-                if (blockKeys != null && blockKeys.contains(key) && o != null) {
-                    // log.info("Adding JSON Block Keys : " + key + "=" + o.toString());
-                    mm.put("block_" + key, o.toString());
-                }
-
+                tryAddBlockKeys(blockKeys, mm, key, o);
                 if (o instanceof Boolean || o instanceof Number || o instanceof String) {
                     mm.put(key, o.toString());
-                    // log.info("Added property: " + key + ": " + o.toString());
-                }
-
-                else if (o instanceof JSONObject) {
-                    JSONObject jo = (JSONObject) o;
-                    Iterator<String> i = jo.keys();
-                    while (i.hasNext()) {
-                        String key1 = i.next();
-                        wm.put(key + "." + key1, jo.get(key1));
-                    }
-                }
-
-                else if (o instanceof JSONArray) {
-                    JSONArray ja = (JSONArray) o;
-                    mm.put("size_" + key, String.valueOf(ja.length()));
-
-                    // log.info("Added property: " + key + "_length" + ": " +
-                    // String.valueOf(ja.length()));
-
-                    for (int i = 0; i < ja.length(); i++)
-                        wm.put(key + '[' + i + ']', ja.get(i));
+                    log.info("Added property: " + key + ": " + o.toString());
+                } else if (o instanceof JSONObject) {
+                    fill(wm, key, (JSONObject) o);
+                } else if (o instanceof JSONArray) {
+                    fill(mm, wm, key, (JSONArray) o);
                 }
             }
-
+        }
         return mm;
     }
 
+    private static void tryAddBlockKeys(List<String> blockKeys, Map<String, String> mm, String key, Object o) {
+        if (blockKeys != null && blockKeys.contains(key) && o != null) {
+            mm.put("block_" + key, o.toString());
+            log.info("Adding JSON Block Keys : " + key + "=" + o.toString());
+        }
+    }
+
+    private static void fill(Map<String, String> mm, Map<String, Object> wm, String key, JSONArray array)
+        throws JSONException {
+        mm.put("size_" + key, String.valueOf(array.length()));
+        log.info("Added property: " + key + "_length" + ": " + array.length());
+
+        for (int i = 0; i < array.length(); i++) {
+            wm.put(key + '[' + i + ']', array.get(i));
+        }
+    }
+
+    private static void fill(Map<String, Object> wm, String key, JSONObject object) throws JSONException {
+
+        Iterator<String> i = object.keys();
+        while (i.hasNext()) {
+            String key1 = i.next();
+            wm.put(key + "." + key1, object.get(key1));
+        }
+    }
 }
