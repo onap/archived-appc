@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_906f142b",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/appc/sdc/listener/SdcConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-15T21:43:52Z",
+      "side": 1,
+      "message": "Why return an empty list instead of null? Will this cause any functionality issues in code that calls this method?",
+      "revId": "680ba578b9b5d41b3551ccf816eeffe50f910532",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
