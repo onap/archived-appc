@@ -44,7 +44,7 @@ public class JsonParsingNode implements SvcLogicJavaPlugin {
     public void parse(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         String fn = "RestServiceNode.sendRequest";
         log.info("Received processParamKeys call with params : " + inParams);
-        String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);
+        String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX);
         responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
         try {
             //Remove below for Block
