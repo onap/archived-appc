@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d0427c67",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-15T22:36:39Z",
+      "side": 1,
+      "message": "Couldn\u0027t this still use your getAttribute method, like is used on line 247? I think the parameters were just wrong before. I think it would be getAttribute(vmCtx, vnfcKey, RELATIONSHIP_DATA_LEN_PARAM)",
+      "revId": "ad938b20a1d234bcc2e9baf3558e04a3bef184cd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
