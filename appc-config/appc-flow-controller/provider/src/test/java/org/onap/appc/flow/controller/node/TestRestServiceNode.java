@@ -20,18 +20,15 @@
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.flow.executor.node;
-
-import org.junit.Test;
-import org.onap.appc.flow.controller.data.Transaction;
-import org.onap.appc.flow.controller.executorImpl.RestExecutor;
-import org.onap.appc.flow.controller.node.FlowControlNode;
-import org.onap.appc.flow.controller.node.RestServiceNode;
-import org.onap.appc.flow.controller.utils.FlowControllerConstants;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+package org.onap.appc.flow.controller.node;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.Test;
+import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.appc.flow.controller.executorImpl.RestExecutor;
+import org.onap.appc.flow.controller.utils.FlowControllerConstants;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class TestRestServiceNode {
 

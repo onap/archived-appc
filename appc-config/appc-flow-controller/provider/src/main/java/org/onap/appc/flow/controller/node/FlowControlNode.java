@@ -73,7 +73,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
 
     public void processFlow(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.debug("Received processParamKeys call with params : " + inParams);
-        String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PRIFIX);
+        String responsePrefix = inParams.get(FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX);
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             SvcLogicContext localContext = new SvcLogicContext();
