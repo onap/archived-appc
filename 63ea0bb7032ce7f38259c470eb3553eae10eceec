@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_10a464b8",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/event/EventMessage.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-15T19:32:08Z",
+      "side": 0,
+      "message": "Is this comment not useful as an example of this class\u0027 json format?",
+      "revId": "63ea0bb7032ce7f38259c470eb3553eae10eceec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_efea37ab",
         "filename": "appc-config/appc-data-services/provider/src/main/java/org/onap/appc/data/services/db/DGGeneralDBService.java",
         "patchSetId": 3
