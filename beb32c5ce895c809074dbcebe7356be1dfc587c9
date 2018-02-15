@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f0cd38b8",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-15T18:29:40Z",
+      "side": 1,
+      "message": "Are these correct? Or should it be vmCtx, vnfcKey ?",
+      "range": {
+        "startLine": 283,
+        "startChar": 66,
+        "endLine": 283,
+        "endChar": 79
+      },
+      "revId": "beb32c5ce895c809074dbcebe7356be1dfc587c9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
