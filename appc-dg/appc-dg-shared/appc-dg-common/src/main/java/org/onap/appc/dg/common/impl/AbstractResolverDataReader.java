@@ -49,7 +49,7 @@ abstract class AbstractResolverDataReader {
                 try {
                     return resultSet.next();
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new DataReaderException(e);
                 }
             }
 
@@ -68,7 +68,7 @@ abstract class AbstractResolverDataReader {
                 try {
                     return resultSet.getObject(name);
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new DataReaderException(e);
                 }
             }
 
@@ -77,7 +77,7 @@ abstract class AbstractResolverDataReader {
                 try {
                     return new FlowKey(resultSet.getString("dg_name"), resultSet.getString("dg_version"), resultSet.getString("dg_module"));
                 } catch (SQLException e) {
-                    throw new RuntimeException(e);
+                    throw new DataReaderException(e);
                 }
             }
         }
@@ -88,13 +88,8 @@ abstract class AbstractResolverDataReader {
 
         @Override
         public Iterable<ConfigurationEntry<FlowKey>> getEntries() {
-            return new Iterable<ConfigurationEntry<FlowKey>>() {
 
-                @Override
-                public Iterator<ConfigurationEntry<FlowKey>> iterator() {
-                    return new ResultSetIterator();
-                }
-            };
+            return ResultSetIterator::new;
         }
 
         @Override
@@ -111,20 +106,24 @@ abstract class AbstractResolverDataReader {
     RankedAttributesResolver<FlowKey> read() {
         try {
             try (Connection conn = DBUtils.getConnection("sdnctl")) {
-                try (PreparedStatement stmt = conn.prepareStatement(getQueryStmt())) {
-                    try (ResultSet res = stmt.executeQuery()) {
-                        if (res.next()) {
-                            res.beforeFirst();
-                            ConfigurationSet<FlowKey> resolverConfig = new ConfigurationSetAdaptor(res);
-                            return AbstractRankedAttributesResolverFactory.getInstance().create(resolverConfig);
-                        } else {
-                            throw new IllegalStateException();
-                        }
-                    }
-                }
+                return getFlowKeyRankedAttributesResolver(conn);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new DataReaderException(e);
+        }
+    }
+
+    private RankedAttributesResolver<FlowKey> getFlowKeyRankedAttributesResolver(Connection conn) throws SQLException {
+        try (PreparedStatement stmt = conn.prepareStatement(getQueryStmt())) {
+            try (ResultSet res = stmt.executeQuery()) {
+                if (res.next()) {
+                    res.beforeFirst();
+                    ConfigurationSet<FlowKey> resolverConfig = new ConfigurationSetAdaptor(res);
+                    return AbstractRankedAttributesResolverFactory.getInstance().create(resolverConfig);
+                } else {
+                    throw new IllegalStateException();
+                }
+            }
         }
     }
 }
