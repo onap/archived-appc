@@ -32,7 +32,7 @@ public class FlowControllerConstants {
     public static final String DATA_TYPE_XML = "XML";
     public static final String DATA_TYPE_SQL = "SQL";
 
-    public static final String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
+    public static final String INPUT_PARAM_RESPONSE_PREFIX = "responsePrefix";
 
     public static final String OUTPUT_PARAM_STATUS = "status";
     public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";

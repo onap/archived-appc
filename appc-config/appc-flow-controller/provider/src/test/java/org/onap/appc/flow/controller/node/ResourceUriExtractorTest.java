@@ -1,0 +1,90 @@
+package org.onap.appc.flow.controller.node;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_CONTEXT;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_HOST_IP_ADDRESS;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PORT_NUMBER;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_SUB_CONTEXT;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_URL;
+
+import java.util.Properties;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+
+public class ResourceUriExtractorTest {
+
+  private Properties prop;
+
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
+
+  @Before
+  public void setUp() {
+    prop = new Properties();
+  }
+
+  @Test
+  public void should_return_input_url_if_exist() throws Exception {
+    SvcLogicContext ctx = mock(SvcLogicContext.class);
+    when(ctx.getAttribute(INPUT_URL)).thenReturn("test resource uri");
+
+    String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
+
+    Assert.assertEquals("test resource uri", resourceUri);
+  }
+
+  @Test
+  public void should_extract_url_input_if_context_input_provided() throws Exception {
+    SvcLogicContext ctx = mock(SvcLogicContext.class);
+
+    when(ctx.getAttribute(INPUT_URL)).thenReturn("");
+    when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
+    when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
+
+    when(ctx.getAttribute(INPUT_CONTEXT)).thenReturn("input-context");
+    when(ctx.getAttribute(INPUT_SUB_CONTEXT)).thenReturn("input-sub-context");
+
+    String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
+
+    Assert.assertEquals("http://localhost:8080/input-context/input-sub-context", resourceUri);
+  }
+
+  @Test
+  public void should_extract_url_input_if_request_action_provided() throws Exception {
+    SvcLogicContext ctx = mock(SvcLogicContext.class);
+
+    when(ctx.getAttribute(INPUT_URL)).thenReturn("");
+    when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
+    when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
+
+    when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
+    when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
+
+    prop.put("request-action.context", "ra-context");
+    prop.put("request-action.sub-context", "ra-sub-context");
+
+    String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
+
+    Assert.assertEquals("http://localhost:8080/ra-context/ra-sub-context", resourceUri);
+  }
+
+  @Test
+  public void should_throw_exception_if_missing_context() throws Exception {
+    SvcLogicContext ctx = mock(SvcLogicContext.class);
+
+    when(ctx.getAttribute(INPUT_URL)).thenReturn("");
+    when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
+    when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
+
+    expectedException.expect(Exception.class);
+    expectedException.expectMessage("Could Not found the context for operation null");
+    ResourceUriExtractor.extractResourceUri(ctx, prop);
+  }
+
+}
