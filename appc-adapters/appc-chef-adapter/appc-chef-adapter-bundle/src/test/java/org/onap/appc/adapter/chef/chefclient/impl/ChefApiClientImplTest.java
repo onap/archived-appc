@@ -17,7 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient.impl;
 
 import static junit.framework.TestCase.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -43,9 +43,12 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
+import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
+import org.onap.appc.adapter.chef.chefclient.api.ChefResponse;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ChefApiClientTest {
+public class ChefApiClientImplTest {
 
     private static final String END_POINT = "https://chefServer";
     private static final String ORGANIZATIONS_PATH = "onap";
