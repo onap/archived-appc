@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_642089ac",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/EvacuateServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-02-16T14:42:24Z",
+      "side": 1,
+      "message": "Not sure which variable is not following the google style?",
+      "parentUuid": "5a93c517_c43e4228",
+      "revId": "6458baaaf06b308bf1f02215299827b21a4f3b27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_64472ebd",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/EvacuateServer.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-02-14T18:10:57Z",
       "side": 1,
       "message": "https://google.github.io/styleguide/javaguide.html#s5.2.6-parameter-names",
+      "revId": "6458baaaf06b308bf1f02215299827b21a4f3b27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0411855c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/EvacuateServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-02-16T14:42:24Z",
+      "side": 1,
+      "message": "Not sure which variable is not following the google style?",
+      "parentUuid": "5a93c517_64472ebd",
       "revId": "6458baaaf06b308bf1f02215299827b21a4f3b27",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
