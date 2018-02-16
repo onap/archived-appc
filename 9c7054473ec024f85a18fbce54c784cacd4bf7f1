@@ -16,6 +16,24 @@
       "revId": "9c7054473ec024f85a18fbce54c784cacd4bf7f1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_70e28830",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-02-16T14:18:33Z",
+      "side": 0,
+      "message": "because there is no usage in APPC, after I scanned the code. If we leave unused method here, then our coverage is going to be reduced.",
+      "parentUuid": "5a93c517_6f714743",
+      "revId": "9c7054473ec024f85a18fbce54c784cacd4bf7f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
