@@ -17,7 +17,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient.impl;
 
 import com.google.common.collect.ImmutableMap;
 import java.net.URI;
@@ -31,16 +31,16 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 
-public final class ChefRequestBuilder {
+final class ChefRequestBuilder {
 
     private ChefRequestBuilder() {
     }
 
-    public static OngoingRequestBuilder newRequestTo(String endPoint) {
+    static OngoingRequestBuilder newRequestTo(String endPoint) {
         return new OngoingRequestBuilder(endPoint);
     }
 
-    public static class OngoingRequestBuilder {
+    static class OngoingRequestBuilder {
 
         private HttpRequestBase httpRequestBase;
         private String endPoint;

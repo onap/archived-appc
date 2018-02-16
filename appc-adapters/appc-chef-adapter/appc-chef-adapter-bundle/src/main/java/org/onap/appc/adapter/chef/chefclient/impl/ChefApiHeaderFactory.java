@@ -17,13 +17,13 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import java.util.Date;
 
-class ChefApiHeaderFactory {
+public class ChefApiHeaderFactory {
 
     private FormattedTimestamp formattedTimestamp = new FormattedTimestamp();
 
@@ -32,7 +32,7 @@ class ChefApiHeaderFactory {
         System.setProperty("javax.net.ssl.trustStorePassword", "adminadmin");
     }
 
-    ImmutableMap<String, String> create(String methodName, String path, String body, String userId,
+    public ImmutableMap<String, String> create(String methodName, String path, String body, String userId,
         String organizations, String pemPath) {
 
         String hashedBody = Utils.sha1AndBase64(body);

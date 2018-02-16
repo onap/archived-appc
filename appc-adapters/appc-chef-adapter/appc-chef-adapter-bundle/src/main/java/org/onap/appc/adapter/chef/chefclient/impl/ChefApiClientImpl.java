@@ -22,7 +22,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient.impl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -31,9 +31,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.util.EntityUtils;
-import org.onap.appc.adapter.chef.chefclient.ChefRequestBuilder.OngoingRequestBuilder;
+import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
+import org.onap.appc.adapter.chef.chefclient.api.ChefResponse;
+import org.onap.appc.adapter.chef.chefclient.impl.ChefRequestBuilder.OngoingRequestBuilder;
 
-public class ChefApiClient {
+public class ChefApiClientImpl implements ChefApiClient {
 
     private final HttpClient httpClient;
     private final ChefApiHeaderFactory chefApiHeaderFactory;
@@ -42,7 +44,7 @@ public class ChefApiClient {
     private String pemPath;
     private String organizations;
 
-    ChefApiClient(HttpClient httpClient, ChefApiHeaderFactory chefApiHeaderFactory,
+    public ChefApiClientImpl(HttpClient httpClient, ChefApiHeaderFactory chefApiHeaderFactory,
         String endpoint, String organizations, String userId, String pemPath) {
         this.httpClient = httpClient;
         this.chefApiHeaderFactory = chefApiHeaderFactory;
@@ -52,6 +54,7 @@ public class ChefApiClient {
         this.pemPath = pemPath;
     }
 
+    @Override
     public ChefResponse get(String path) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpGet()
@@ -60,6 +63,7 @@ public class ChefApiClient {
         return execute(requestBuilder);
     }
 
+    @Override
     public ChefResponse delete(String path) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpDelete()
@@ -68,6 +72,7 @@ public class ChefApiClient {
         return execute(requestBuilder);
     }
 
+    @Override
     public ChefResponse post(String path, String body) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpPost(body)
@@ -76,6 +81,7 @@ public class ChefApiClient {
         return execute(requestBuilder);
     }
 
+    @Override
     public ChefResponse put(String path, String body) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpPut(body)

@@ -21,6 +21,9 @@ package org.onap.appc.adapter.chef.chefclient;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
+import org.onap.appc.adapter.chef.chefclient.impl.ChefApiClientImpl;
+import org.onap.appc.adapter.chef.chefclient.impl.ChefApiHeaderFactory;
 
 public final class ChefApiClientFactory {
 
@@ -28,7 +31,7 @@ public final class ChefApiClientFactory {
     private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
 
     public ChefApiClient create(String endPoint, String organizations, String userId, String pemPath) {
-        return new ChefApiClient(httpClient,
+        return new ChefApiClientImpl(httpClient,
             chefApiHeaderFactory,
             endPoint,
             organizations,
