@@ -17,24 +17,20 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient.impl;
 
-import static org.junit.Assert.assertEquals;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.junit.Test;
+import java.util.TimeZone;
 
-public class FormattedTimestampTest {
+class FormattedTimestamp {
 
-    @Test
-    public void format_shouldFormatGivenDate_withCorrectTimezoneSet() {
-        // GIVEN
-        String expectedFormattedDate = "1970-01-15T06:56:07Z";
-
-        // WHEN
-        String formattedDateWithTimezone = new FormattedTimestamp().format(new Date(1234567890));
-
-        // THEN
-        assertEquals(expectedFormattedDate, formattedDateWithTimezone);
+    String format(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        String timeStamp = sdf.format(date);
+        timeStamp = timeStamp.replace(" ", "T");
+        timeStamp = timeStamp + "Z";
+        return timeStamp;
     }
 }
