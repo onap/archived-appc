@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_1ab8fee3",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/EvacuateServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-16T21:31:49Z",
+      "side": 1,
+      "message": "It would be the first one, \"RcCtx\". Variables usually don\u0027t start with a capital letter.",
+      "parentUuid": "5a93c517_642089ac",
+      "revId": "6458baaaf06b308bf1f02215299827b21a4f3b27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_64472ebd",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/EvacuateServer.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Not sure which variable is not following the google style?",
       "parentUuid": "5a93c517_64472ebd",
+      "revId": "6458baaaf06b308bf1f02215299827b21a4f3b27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bad0ea1f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/EvacuateServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-16T21:31:49Z",
+      "side": 1,
+      "message": "This one would be \"RqstCtx\"",
+      "parentUuid": "5a93c517_0411855c",
       "revId": "6458baaaf06b308bf1f02215299827b21a4f3b27",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
