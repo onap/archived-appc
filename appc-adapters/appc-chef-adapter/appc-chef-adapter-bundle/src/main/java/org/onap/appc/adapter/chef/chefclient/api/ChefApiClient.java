@@ -17,20 +17,15 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.chefclient.api;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+public interface ChefApiClient {
 
-class FormattedTimestamp {
+    ChefResponse get(String path);
 
-    String format(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String timeStamp = sdf.format(date);
-        timeStamp = timeStamp.replace(" ", "T");
-        timeStamp = timeStamp + "Z";
-        return timeStamp;
-    }
+    ChefResponse delete(String path);
+
+    ChefResponse post(String path, String body);
+
+    ChefResponse put(String path, String body);
 }
