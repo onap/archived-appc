@@ -25,12 +25,14 @@
 package org.onap.sdnc.dg.loader;
 
 import java.io.File;
+import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -38,15 +40,15 @@ import org.slf4j.LoggerFactory;
 
 
 public class DGXMLGenerator {
-    private final static Logger logger = LoggerFactory.getLogger(DGXMLGenerator.class);
 
-    public static final String STRING_ENCODING = "utf-8";
-    public static final String JS_INTERFACE_DG_CONVERTOR = "dgconverter";
-    public static final String JS_METHOD_GET_NODE_TO_XML = "getNodeToXml";
-    public static final String GENERATOR_TEMPLATE_FILE = "js/dg_xml2json.js";
+    private static final Logger logger = LoggerFactory.getLogger(DGXMLGenerator.class);
 
-    public void generateXMLFromJSON(String jsonPath, String xmlpath, String propertyPath)
-            throws InvalidParameterException {
+    private static final String STRING_ENCODING = "utf-8";
+    private static final String JS_INTERFACE_DG_CONVERTOR = "dgconverter";
+    private static final String JS_METHOD_GET_NODE_TO_XML = "getNodeToXml";
+    private static final String GENERATOR_TEMPLATE_FILE = "js/dg_xml2json.js";
+
+    public void generateXMLFromJSON(String jsonPath, String xmlpath, String propertyPath) {
         try {
             ScriptEngineManager manager = new ScriptEngineManager();
             ScriptEngine engine = manager.getEngineByName("JavaScript");
@@ -55,19 +57,17 @@ public class DGXMLGenerator {
                 return;
             }
             Invocable inv = (Invocable) engine;
-            // engine.eval(new
-            // FileReader(DGXMLGenerator.class.getClassLoader().getResource(GENERATOR_TEMPLATE_FILE).getPath()));
             String js = IOUtils.toString(DGXMLGenerator.class.getClassLoader()
-                    .getResourceAsStream(GENERATOR_TEMPLATE_FILE), STRING_ENCODING);
+                .getResourceAsStream(GENERATOR_TEMPLATE_FILE), STRING_ENCODING);
             engine.eval(js);
 
             Object dgconverter = engine.get(JS_INTERFACE_DG_CONVERTOR);
 
-            List<File> files = new ArrayList<File>();
+            List<File> files = new ArrayList<>();
             if (dgconverter != null) {
                 File jsonPathFile = new File(jsonPath);
                 if (jsonPathFile.isDirectory()) {
-                    String[] extensions = new String[] {"json", "JSON"};
+                    String[] extensions = new String[]{"json", "JSON"};
                     files = (List<File>) FileUtils.listFiles(jsonPathFile, extensions, true);
                 } else if (jsonPathFile.isFile()) {
                     files.add(jsonPathFile);
@@ -77,26 +77,12 @@ public class DGXMLGenerator {
 
                 logger.info("JSON Files identified " + files.size());
 
-                if (files.size() > 0) {
+                if (!files.isEmpty()) {
                     boolean isXmlPathDeleted = FileUtils.deleteQuietly(new File(xmlpath));
                     logger.info("Cleaning old DG XML under : " + xmlpath + ", delete status :"
-                            + isXmlPathDeleted);
+                        + isXmlPathDeleted);
 
-                    for (File file : files) {
-                        String dgJson = FileUtils.readFileToString(file, STRING_ENCODING);
-                        logger.info("Generating XML from  :" + file.getName());
-                        String xmlFileName =
-                                xmlpath + "/" + file.getName().replace(".json", ".xml");
-
-                        Object dgXMl =
-                                inv.invokeMethod(dgconverter, JS_METHOD_GET_NODE_TO_XML, dgJson);
-                        // Write the XML File
-                        if (dgXMl != null) {
-                            File xmlFile = new File(xmlFileName);
-                            FileUtils.writeStringToFile(xmlFile, dgXMl.toString(), STRING_ENCODING);
-                            logger.info("Generated XML File under  :" + xmlFile.getCanonicalPath());
-                        }
-                    }
+                    generateXmls(xmlpath, inv, dgconverter, files);
 
                 } else {
                     logger.info("No JSON Files to generate XML");
@@ -105,21 +91,42 @@ public class DGXMLGenerator {
                 logger.error("Couldn't get Java Script Engine..");
             }
         } catch (Exception e) {
-            logger.error("Failed to generate generateXMLFromJSON :" + e.getMessage());
+            logger.error("Failed to generate generateXMLFromJSON", e);
         }
     }
 
+    private void generateXmls(String xmlpath, Invocable inv, Object dgconverter, List<File> files)
+        throws IOException, ScriptException, NoSuchMethodException {
+        for (File file : files) {
+            String dgJson = FileUtils.readFileToString(file, STRING_ENCODING);
+            logger.info("Generating XML from  :" + file.getName());
+            String xmlFileName =
+                xmlpath + "/" + file.getName().replace(".json", ".xml");
+
+            Object dgXMl =
+                inv.invokeMethod(dgconverter, JS_METHOD_GET_NODE_TO_XML, dgJson);
+            tryWriteXml(xmlFileName, dgXMl);
+        }
+    }
+
+    private void tryWriteXml(String xmlFileName, Object dgXMl) throws IOException {
+        if (dgXMl != null) {
+            File xmlFile = new File(xmlFileName);
+            FileUtils.writeStringToFile(xmlFile, dgXMl.toString(), STRING_ENCODING);
+            logger.info("Generated XML File under  :" + xmlFile.getCanonicalPath());
+        }
+    }
 
     public static void main(String[] args) {
         try {
             DGXMLGenerator application = new DGXMLGenerator();
-            String jsonPath = null;
-            String xmlPath = null;
+            String jsonPath;
+            String xmlPath;
             String propertyPath = null;
             // Generate, GenerateLoad, GenerateLoadActivate
-            // args = new String[]{"src/main/resources/json","src/test/resources/xml"};
-            logger.info("DGXML Conversion Started with arguments :" + args[0] + ":" + args[1]);
             if (args != null && args.length >= 2) {
+                // e.g "src/main/resources/json" "src/test/resources/xml"
+                logger.info("DGXML Conversion Started with arguments :" + args[0] + ":" + args[1]);
                 jsonPath = args[0];
                 xmlPath = args[1];
             } else {
@@ -129,10 +136,7 @@ public class DGXMLGenerator {
             application.generateXMLFromJSON(jsonPath, xmlPath, propertyPath);
             logger.info("DGXML Conversion Completed...");
         } catch (Exception e) {
-            logger.error("Failed in DG XML Generation :" + e.getMessage());
-            e.printStackTrace();
+            logger.error("Failed in DG XML Generation", e);
         }
-
     }
-
 }
