@@ -26,37 +26,37 @@ package org.onap.appc.design.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class StatusInfo{
-    
+public class StatusInfo {
+
     @JsonProperty("vnf-type")
-    String vnf_type;
-    
+    String vnfType;
+
     @JsonProperty("vnfc-type")
-    String vnfc_type;
-    
+    String vnfcType;
+
     @JsonProperty("action")
     String action;
-    
+
     @JsonProperty("artifact-status")
-    String artifact_status;
+    String artifactStatus;
 
     @JsonProperty("action-status")
-    String action_status;
-    
-    public String getVnf_type() {
-        return vnf_type;
+    String actionStatus;
+
+    public String getVnfType() {
+        return vnfType;
     }
 
-    public void setVnf_type(String vnf_type) {
-        this.vnf_type = vnf_type;
+    public void setVnfType(String vnfType) {
+        this.vnfType = vnfType;
     }
 
-    public String getVnfc_type() {
-        return vnfc_type;
+    public String getVnfcType() {
+        return vnfcType;
     }
 
-    public void setVnfc_type(String vnfc_type) {
-        this.vnfc_type = vnfc_type;
+    public void setVnfcType(String vnfcType) {
+        this.vnfcType = vnfcType;
     }
 
     public String getAction() {
@@ -67,20 +67,20 @@ public class StatusInfo{
         this.action = action;
     }
 
-    public String getArtifact_status() {
-        return artifact_status;
+    public String getArtifactStatus() {
+        return artifactStatus;
     }
 
-    public void setArtifact_status(String artifact_status) {
-        this.artifact_status = artifact_status;
+    public void setArtifactStatus(String artifactStatus) {
+        this.artifactStatus = artifactStatus;
     }
 
-    public String getAction_status() {
-        return action_status;
+    public String getActionStatus() {
+        return actionStatus;
     }
 
-    public void setAction_status(String action_status) {
-        this.action_status = action_status;
+    public void setActionStatus(String actionStatus) {
+        this.actionStatus = actionStatus;
     }
 
 }

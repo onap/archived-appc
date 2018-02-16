@@ -410,7 +410,7 @@ public class DesignDBService {
             DesignResponse designResponse = new DesignResponse();
             List<ArtifactInfo> artifactInfoList = new ArrayList<>();
             ArtifactInfo artifactInfo = new ArtifactInfo();
-            artifactInfo.setArtifact_content(artifactContent);
+            artifactInfo.setArtifactContent(artifactContent);
             artifactInfoList.add(artifactInfo);
             designResponse.setArtifactInfo(artifactInfoList);
             ObjectMapper mapper = new ObjectMapper();
@@ -503,10 +503,10 @@ public class DesignDBService {
             while (data.next()) {
                 StatusInfo statusInfo = new StatusInfo();
                 statusInfo.setAction(data.getString("ACTION"));
-                statusInfo.setAction_status(data.getString(STATUS));
-                statusInfo.setArtifact_status(data.getString("ARTIFACT_STATUS"));
-                statusInfo.setVnf_type(data.getString("VNF_TYPE"));
-                statusInfo.setVnfc_type(data.getString("VNFC_TYPE"));
+                statusInfo.setActionStatus(data.getString(STATUS));
+                statusInfo.setArtifactStatus(data.getString("ARTIFACT_STATUS"));
+                statusInfo.setVnfType(data.getString("VNF_TYPE"));
+                statusInfo.setVnfcType(data.getString("VNFC_TYPE"));
                 statusInfoList.add(statusInfo);
             }
 
@@ -579,11 +579,11 @@ public class DesignDBService {
                 DesignInfo designInfo = new DesignInfo();
                 designInfo.setInCart(data.getString("IN_CART"));
                 designInfo.setProtocol(data.getString("PROTOCOL"));
-                designInfo.setVnf_type(data.getString("VNF_TYPE"));
-                designInfo.setVnfc_type(data.getString("VNFC_TYPE"));
+                designInfo.setVnfType(data.getString("VNF_TYPE"));
+                designInfo.setVnfcType(data.getString("VNFC_TYPE"));
                 designInfo.setAction(data.getString("ACTION"));
-                designInfo.setArtifact_type(data.getString("ARTIFACT_TYPE"));
-                designInfo.setArtifact_name(data.getString("ARTIFACT_NAME"));
+                designInfo.setArtifactType(data.getString("ARTIFACT_TYPE"));
+                designInfo.setArtifactName(data.getString("ARTIFACT_NAME"));
                 designInfoList.add(designInfo);
             }
             if (designInfoList.isEmpty()) {

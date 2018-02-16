@@ -685,13 +685,13 @@ The following assigned priority resolves the VNF DG:
 
 2. ``api_version``
 
-3. ``vnf_type``
+3. ``vnfType``
 
 4. ``vnf_version``
 
-Blank, null or ‘\*’ values in ``api_version``, ``vnf_type`` and ``vnf_version``
+Blank, null or ‘\*’ values in ``api_version``, ``vnfType`` and ``vnf_version``
 are matched with any values by the DG resolver. For example, a generic
-DG which can be invoked on any type of VNF ``vnf_type`` can be blank /
+DG which can be invoked on any type of VNF ``vnfType`` can be blank /
 null or \*. The DG resolver logic first tries to match a specific DG,
 and if this is not found, then look for a generic match using ‘\*’. For
 example as illustrated in the Example values in below table, an entry
@@ -729,7 +729,7 @@ requested action. Only the mapping is stored; the actual DG is stored in
 the SVC\_LOGIC table.
 
 The DG resolver logic uses a combination of ``action``, ``api_version``,
-``vnf_type``, and ``vnfc_type`` to retrieve the DG details: ``dg_name`` (rpc
+``vnfType``, and ``vnfcType`` to retrieve the DG details: ``dg_name`` (rpc
 column of SVC\_LOGIC table), ``dg_version``, and ``dg_module``.
 
 The module, rpc and version uniquely identify the DG.
@@ -740,12 +740,12 @@ The following assigned priority resolves the VNF DG:
 
 2. ``api_version``
 
-3. ``vnf_type``
+3. ``vnfType``
 
-4. ``vnfc_type``
+4. ``vnfcType``
 
 The DG resolver matches blank, null or ‘\*’ values in ``api_version`` ,
-``vnf_type`` and ``vnfc_type`` with any values. For example, a generic DG
+``vnfType`` and ``vnfcType`` with any values. For example, a generic DG
 which can be invoked on any type of VNFC 'vnfc\_type' can be blank /
 null or \*. The DG resolver logic first tries to match a specific DG. If
 this is not found, the DG resolver looks for a generic match using ‘\*’.
@@ -777,10 +777,10 @@ DEVICE\_AUTHENTICATION
 The DEVICE\_AUTHENTICATION table stores device authentication
 details. It is used by actions such as Audit and Sync which connect
 with VNFs. This table stores a record that corresponds to each VNF
-type, so ``vnf_type`` is unique.
+type, so ``vnfType`` is unique.
 
 Username, password and port\_number are fields corresponding to
-``vnf_type``.
+``vnfType``.
 
 DEVICE\_AUTHENTICATION Parameters
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

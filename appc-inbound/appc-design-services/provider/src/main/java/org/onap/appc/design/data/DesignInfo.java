@@ -26,44 +26,44 @@ package org.onap.appc.design.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DesignInfo{
-    
+public class DesignInfo {
+
     @JsonProperty("vnf-type")
-    String vnf_type;
-    
+    String vnfType;
+
     @JsonProperty("vnfc-type")
-    String vnfc_type;
-    
+    String vnfcType;
+
     @JsonProperty("protocol")
     String protocol;
-    
+
     @JsonProperty("incart")
     String inCart;
-    
+
     @JsonProperty("action")
     String action;
-    
+
     @JsonProperty("artifact-name")
-    String artifact_name;
+    String artifactName;
 
-    
+
     @JsonProperty("artifact-type")
-    String artifact_type;
+    String artifactType;
 
-    public String getArtifact_type() {
-        return artifact_type;
+    public String getArtifactType() {
+        return artifactType;
     }
 
-    public void setArtifact_type(String artifact_type) {
-        this.artifact_type = artifact_type;
+    public void setArtifactType(String artifactType) {
+        this.artifactType = artifactType;
     }
 
-    public String getArtifact_name() {
-        return artifact_name;
+    public String getArtifactName() {
+        return artifactName;
     }
 
-    public void setArtifact_name(String artifact_name) {
-        this.artifact_name = artifact_name;
+    public void setArtifactName(String artifactName) {
+        this.artifactName = artifactName;
     }
 
     public String getAction() {
@@ -74,20 +74,20 @@ public class DesignInfo{
         this.action = action;
     }
 
-    public String getVnf_type() {
-        return vnf_type;
+    public String getVnfType() {
+        return vnfType;
     }
 
-    public void setVnf_type(String vnf_type) {
-        this.vnf_type = vnf_type;
+    public void setVnfType(String vnfType) {
+        this.vnfType = vnfType;
     }
 
-    public String getVnfc_type() {
-        return vnfc_type;
+    public String getVnfcType() {
+        return vnfcType;
     }
 
-    public void setVnfc_type(String vnfc_type) {
-        this.vnfc_type = vnfc_type;
+    public void setVnfcType(String vnfcType) {
+        this.vnfcType = vnfcType;
     }
 
     public String getProtocol() {
@@ -108,8 +108,8 @@ public class DesignInfo{
 
     @Override
     public String toString() {
-        return "DesignInfo [vnf_type=" + vnf_type + ", vnfc_type=" + vnfc_type + ", protocol=" + protocol + ", inCart="
-                + inCart + "]";
+        return "DesignInfo [vnfType=" + vnfType + ", vnfcType=" + vnfcType + ", protocol=" + protocol + ", inCart="
+            + inCart + "]";
     }
-    
+
 }

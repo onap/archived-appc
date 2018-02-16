@@ -27,29 +27,29 @@ package org.onap.appc.design.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DesignRequest{
+public class DesignRequest {
 
 
     @JsonProperty("userID")
-    String userId ;
+    String userId;
 
     @JsonProperty("vnf-type")
-    String vnf_type;
-    
+    String vnfType;
+
     @JsonProperty("vnfc-type")
-    String vnfc_type;
-    
+    String vnfcType;
+
     @JsonProperty("protocol")
     String protocol;
-    
+
     @JsonProperty("action")
     String action;
-    
+
     @JsonProperty("artifact-name")
-    String artifact_name;
-    
+    String artifactName;
+
     @JsonProperty("artifact-contents")
-    String artifact_contents ;
+    String artifactContents;
 
     public String getUserId() {
         return userId;
@@ -59,20 +59,20 @@ public class DesignRequest{
         this.userId = userId;
     }
 
-    public String getVnf_type() {
-        return vnf_type;
+    public String getVnfType() {
+        return vnfType;
     }
 
-    public void setVnf_type(String vnf_type) {
-        this.vnf_type = vnf_type;
+    public void setVnfType(String vnfType) {
+        this.vnfType = vnfType;
     }
 
-    public String getVnfc_type() {
-        return vnfc_type;
+    public String getVnfcType() {
+        return vnfcType;
     }
 
-    public void setVnfc_type(String vnfc_type) {
-        this.vnfc_type = vnfc_type;
+    public void setVnfcType(String vnfcType) {
+        this.vnfcType = vnfcType;
     }
 
     public String getProtocol() {
@@ -91,27 +91,27 @@ public class DesignRequest{
         this.action = action;
     }
 
-    public String getArtifact_name() {
-        return artifact_name;
+    public String getArtifactName() {
+        return artifactName;
     }
 
-    public void setArtifact_name(String artifact_name) {
-        this.artifact_name = artifact_name;
+    public void setArtifactName(String artifactName) {
+        this.artifactName = artifactName;
     }
 
-    public String getArtifact_contents() {
-        return artifact_contents;
+    public String getArtifactContents() {
+        return artifactContents;
     }
 
-    public void setArtifact_contents(String artifact_contents) {
-        this.artifact_contents = artifact_contents;
+    public void setArtifactContents(String artifactContents) {
+        this.artifactContents = artifactContents;
     }
 
     @Override
     public String toString() {
-        return "DesignRequest [userId=" + userId + ", vnf_type=" + vnf_type + ", vnfc_type=" + vnfc_type + ", protocol="
-                + protocol + ", action=" + action + ", artifact_name=" + artifact_name + ", artifact_contents="
-                + artifact_contents + "]";
+        return "DesignRequest [userId=" + userId + ", vnfType=" + vnfType + ", vnfcType=" + vnfcType + ", protocol="
+            + protocol + ", action=" + action + ", artifactName=" + artifactName + ", artifactContents="
+            + artifactContents + "]";
     }
 
 }

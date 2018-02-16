@@ -27,16 +27,15 @@ package org.onap.appc.design.data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ArtifactInfo {
-        
-        @JsonProperty("artifact-content")
-        String artifact_content;
 
-        public String getArtifact_content() {
-            return artifact_content;
-        }
+    @JsonProperty("artifact-content")
+    String artifactContent;
 
-        public void setArtifact_content(String artifact_content) {
-            this.artifact_content = artifact_content;
-        }
+    public String getArtifactContent() {
+        return artifactContent;
+    }
 
+    public void setArtifactContent(String artifactContent) {
+        this.artifactContent = artifactContent;
+    }
 }

@@ -48,12 +48,12 @@ public class TestDesigndata {
         DesignInfo di = new DesignInfo();
         List<DesignInfo> li = new ArrayList<DesignInfo>();
         di.setAction("TestAction");
-        di.setArtifact_name("TestName");
-        di.setArtifact_type("TestType");
+        di.setArtifactName("TestName");
+        di.setArtifactType("TestType");
         di.setInCart("TestCart");
         di.setProtocol("TestProtocol");
-        di.setVnf_type("TestVNF");
-        di.setVnfc_type("TestVNFC");
+        di.setVnfType("TestVNF");
+        di.setVnfcType("TestVNFC");
         li.add(di);
         dr.setDesignInfoList(li);
     }
@@ -62,7 +62,7 @@ public class TestDesigndata {
     public void testSetArtifactInfo() {
         ArtifactInfo ai = new ArtifactInfo();
         List<ArtifactInfo> li = new ArrayList<ArtifactInfo>();
-        ai.setArtifact_content("TestContent");
+        ai.setArtifactContent("TestContent");
         li.add(ai);
         dr.setArtifactInfo(li);
     }
@@ -72,10 +72,10 @@ public class TestDesigndata {
         StatusInfo si = new StatusInfo();
         List<StatusInfo> li = new ArrayList<StatusInfo>();
         si.setAction("TestAction");
-        si.setAction_status("TestActionStatus");
-        si.setArtifact_status("TestArtifactStatus");
-        si.setVnf_type("TestVNF");
-        si.setVnfc_type("TestVNFC");
+        si.setActionStatus("TestActionStatus");
+        si.setArtifactStatus("TestArtifactStatus");
+        si.setVnfType("TestVNF");
+        si.setVnfcType("TestVNFC");
         li.add(si);
         dr.setStatusInfoList(li);
     }
@@ -84,19 +84,19 @@ public class TestDesigndata {
     public void testDesignRequest() {
         DesignRequest dreq = new DesignRequest();
         dreq.setAction("TestAction");
-        dreq.setArtifact_contents("TestContent");
-        dreq.setArtifact_name("TestName");
+        dreq.setArtifactContents("TestContent");
+        dreq.setArtifactName("TestName");
         dreq.setProtocol("TestProtocol");
         dreq.setUserId("0000");
-        dreq.setVnf_type("testvnf");
-        dreq.setVnfc_type("testvnfc");
+        dreq.setVnfType("testvnf");
+        dreq.setVnfcType("testvnfc");
         dreq.getAction();
-        dreq.getArtifact_contents();
-        dreq.getArtifact_name();
+        dreq.getArtifactContents();
+        dreq.getArtifactName();
         dreq.getProtocol();
         dreq.getUserId();
-        dreq.getVnf_type();
-        dreq.getVnfc_type();
+        dreq.getVnfType();
+        dreq.getVnfcType();
         dreq.toString();
     }
 }
