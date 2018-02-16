@@ -29,6 +29,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import java.util.Map;
 
+@FunctionalInterface
 public interface VnfExecutionFlow extends SvcLogicJavaPlugin {
     void getVnfExecutionFlowData(Map<String,String> params, SvcLogicContext context);
 }

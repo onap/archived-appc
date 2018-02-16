@@ -32,6 +32,7 @@ import java.util.Map;
 /**
  * This interface provides api for sending intermediate messages from DG to initiator
  */
+@FunctionalInterface
 public interface IntermediateMessageSender extends SvcLogicJavaPlugin{
 
     /**

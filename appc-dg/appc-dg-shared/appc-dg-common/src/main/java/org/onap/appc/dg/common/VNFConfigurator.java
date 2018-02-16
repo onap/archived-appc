@@ -32,6 +32,7 @@ import java.util.Map;
 /**
  * DG plugin created for VNF configuration operation to store data in MD-SAL store
  **/
+@FunctionalInterface
 public interface VNFConfigurator extends SvcLogicJavaPlugin{
     /**
      * it is invoked from the DG, and it performs following operations

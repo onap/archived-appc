@@ -31,8 +31,8 @@ import java.util.Map;
 
 import org.onap.appc.exceptions.APPCException;
 
+@FunctionalInterface
 public interface OutputMessagePlugin extends SvcLogicJavaPlugin {
 
       void outputMessageBuilder(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-
 }
