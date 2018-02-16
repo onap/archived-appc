@@ -30,6 +30,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 import java.util.Map;
 
+@FunctionalInterface
 public interface DgResolverPlugin extends SvcLogicJavaPlugin {
     void resolveDg(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 }

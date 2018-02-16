@@ -31,7 +31,7 @@ import java.util.Map;
 
 import org.onap.appc.exceptions.APPCException;
 
-
+@FunctionalInterface
 public interface VNFCDgResolverPlugin extends SvcLogicJavaPlugin {
     void resolveVNFCDg(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 }
