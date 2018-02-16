@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3abdbad8",
+        "filename": "appc-directed-graph/dg-loader/provider/src/main/java/org/onap/sdnc/dg/loader/DGXMLException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-16T21:29:24Z",
+      "side": 1,
+      "message": "You don\u0027t need the AT\u0026T or Amdocs copyright notices if you are creating a new file. You can a copyright for your own company though.",
+      "revId": "4a2c482a86322f6a3940e5c266243598453f8965",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9aec0ef5",
+        "filename": "appc-directed-graph/dg-loader/provider/src/main/java/org/onap/sdnc/dg/loader/DGXMLLoadNActivate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-16T21:29:24Z",
+      "side": 1,
+      "message": "Why is \"this.store\" used on line 153, but here only \"store\" is used?",
+      "revId": "4a2c482a86322f6a3940e5c266243598453f8965",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
