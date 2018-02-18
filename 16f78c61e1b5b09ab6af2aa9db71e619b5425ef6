@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7dc6dc69",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-18T21:17:20Z",
+      "side": 1,
+      "message": "Can you check that the order of these parameters match your chefApiClientFactory.create method? It looks like the endpoint is the first expected parameter.",
+      "revId": "16f78c61e1b5b09ab6af2aa9db71e619b5425ef6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
