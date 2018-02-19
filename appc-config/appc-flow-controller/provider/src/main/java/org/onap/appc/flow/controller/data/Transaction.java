@@ -77,7 +77,7 @@ public class Transaction {
 
     private String status = "PENDING";
 
-    public String getuId() {
+    public String getId() {
         return uId;
     }
 

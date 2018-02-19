@@ -20,18 +20,20 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 public class ResourceUriExtractorTest {
 
   private Properties prop;
+  private SvcLogicContext ctx;
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
 
   @Before
   public void setUp() {
-    prop = new Properties();
+    ctx = mock(SvcLogicContext.class);
+    prop = mock(Properties.class);
   }
 
   @Test
   public void should_return_input_url_if_exist() throws Exception {
-    SvcLogicContext ctx = mock(SvcLogicContext.class);
+    ctx = mock(SvcLogicContext.class);
     when(ctx.getAttribute(INPUT_URL)).thenReturn("test resource uri");
 
     String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
@@ -41,8 +43,6 @@ public class ResourceUriExtractorTest {
 
   @Test
   public void should_extract_url_input_if_context_input_provided() throws Exception {
-    SvcLogicContext ctx = mock(SvcLogicContext.class);
-
     when(ctx.getAttribute(INPUT_URL)).thenReturn("");
     when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
     when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
@@ -57,7 +57,6 @@ public class ResourceUriExtractorTest {
 
   @Test
   public void should_extract_url_input_if_request_action_provided() throws Exception {
-    SvcLogicContext ctx = mock(SvcLogicContext.class);
 
     when(ctx.getAttribute(INPUT_URL)).thenReturn("");
     when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
@@ -66,8 +65,8 @@ public class ResourceUriExtractorTest {
     when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
     when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
 
-    prop.put("request-action.context", "ra-context");
-    prop.put("request-action.sub-context", "ra-sub-context");
+    when(prop.getProperty("request-action.context")).thenReturn("ra-context");
+    when(prop.getProperty("request-action.sub-context")).thenReturn("ra-sub-context");
 
     String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
 
@@ -76,14 +75,13 @@ public class ResourceUriExtractorTest {
 
   @Test
   public void should_throw_exception_if_missing_context() throws Exception {
-    SvcLogicContext ctx = mock(SvcLogicContext.class);
-
     when(ctx.getAttribute(INPUT_URL)).thenReturn("");
     when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
     when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
 
     expectedException.expect(Exception.class);
     expectedException.expectMessage("Could Not found the context for operation null");
+
     ResourceUriExtractor.extractResourceUri(ctx, prop);
   }
 

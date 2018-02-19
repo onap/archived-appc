@@ -21,8 +21,7 @@ class ResourceUriExtractor {
 
   private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
 
-  private ResourceUriExtractor() {
-  }
+  private ResourceUriExtractor() {}
 
   static String extractResourceUri(SvcLogicContext ctx, Properties prop) throws Exception {
     String resourceUri = ctx.getAttribute(INPUT_URL);
