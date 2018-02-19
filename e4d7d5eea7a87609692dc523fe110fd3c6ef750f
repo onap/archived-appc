@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e5eb4176",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-19T19:10:49Z",
+      "side": 1,
+      "message": "Maybe we should leave the code here to assist whoever implements the method later.",
+      "revId": "e4d7d5eea7a87609692dc523fe110fd3c6ef750f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
