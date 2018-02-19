@@ -34,6 +34,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UncheckedIOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,6 +68,17 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     private static final String RESPONSE_STR = "response=\n{}\n";
     private static final String XML_GET_RUNNING_CONF_KEY = "xml-getrunningconfig";
     private static final String DOWNLOAD_CLI_CONFIG_KEY = "DownloadCliConfig";
+    private static final String BASE_REQUEST = "BASE";
+    private static final String REQUEST_ID_PARAM = "request-id";
+    private static final String CALLBACK_URL_PARAM = "callback-url";
+    private static final String CREATE_OPERATION = "create";
+    private static final String CHANGE_OPERATION = "change";
+    private static final String SCALE_OPERATION = "scale";
+    private static final String EQUIPMENT_NAME_PARAM = "equipment-name";
+    private static final String SERVICE_INSTANCE_ID_ATTR = "service-data.service-information.service-instance-id";
+    private static final String SVC_REQUEST_ID_ATTR = "service-data.appc-request-header.svc-request-id";
+    private static final String XML_BUILDING_ERR_STR = "Error building the XML request: ";
+    private static final String TEMPLATE_ERR_STR = "Template error: Matching } not found";
 
 
     private String configUrl;
@@ -125,7 +137,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         String chg = ctx.getAttribute(
             "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name");
         if (chg != null && action.equalsIgnoreCase(ACTION_PREPARE)) {
-            return prepare(ctx, "CHANGE", "change");
+            return prepare(ctx, "CHANGE", CHANGE_OPERATION);
         }
         if (chg != null && action.equalsIgnoreCase(ACTION_ACTIVATE)) {
             return activate(ctx, true);
@@ -134,16 +146,16 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         String scale = ctx.getAttribute(
             "service-data.vnf-config-parameters-list.vnf-config-parameters[0].scale-configuration[0].network-type");
         if (scale != null && action.equalsIgnoreCase(ACTION_PREPARE)) {
-            return prepare(ctx, "CHANGE", "scale");
+            return prepare(ctx, "CHANGE", SCALE_OPERATION);
         }
-        if (scale != null &&  action.equalsIgnoreCase(ACTION_ACTIVATE)) {
+        if (scale != null && action.equalsIgnoreCase(ACTION_ACTIVATE)) {
             return activate(ctx, true);
         }
 
         if (action.equalsIgnoreCase(ACTION_PREPARE)) {
-            return prepare(ctx, "BASE", "create");
+            return prepare(ctx, BASE_REQUEST, CREATE_OPERATION);
         }
-        if ( action.equalsIgnoreCase(ACTION_ACTIVATE)) {
+        if (action.equalsIgnoreCase(ACTION_ACTIVATE)) {
             return activate(ctx, false);
         }
 
@@ -253,7 +265,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             try {
                 log.debug("GetCliRunningConfig: Attempting to login: Host_ip_address=" + hostIpAddress + " User_name="
                     + username + " Password=" + password + " Port_number=" + portNumber);
-
 
                 boolean showConfigFlag = false;
                 sshJcraftWrapper
@@ -530,28 +541,29 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     }
 
     private ConfigStatus prepare(SvcLogicContext ctx, String requestType, String operation) {
-        String templateName = requestType.equals("BASE") ? "/config-base.xml" : "/config-data.xml";
-        String ndTemplate = readFile(templateName);
+        String templateName = requestType.equals(BASE_REQUEST) ? "/config-base.xml" : "/config-data.xml";
+        String ndTemplate = expandRepeats(ctx, readFile(templateName), 1);
         String nd = buildNetworkData2(ctx, ndTemplate, operation);
 
         String reqTemplate = readFile("/config-request.xml");
         Map<String, String> param = new HashMap<String, String>();
-        param.put("request-id", ctx.getAttribute("service-data.appc-request-header.svc-request-id"));
+        param.put(REQUEST_ID_PARAM, ctx.getAttribute(SVC_REQUEST_ID_ATTR));
         param.put("request-type", requestType);
-        param.put("callback-url", configCallbackUrl);
-        if (operation.equals("create") || operation.equals("change") || operation.equals("scale")) {
+        param.put(CALLBACK_URL_PARAM, configCallbackUrl);
+        if (operation.equals(CREATE_OPERATION) || operation.equals(CHANGE_OPERATION)
+            || operation.equals(SCALE_OPERATION)) {
             param.put(ACTION_PARAM, "GenerateOnly");
         }
-        param.put("equipment-name", ctx.getAttribute("service-data.service-information.service-instance-id"));
+        param.put(EQUIPMENT_NAME_PARAM, ctx.getAttribute(SERVICE_INSTANCE_ID_ATTR));
         param.put("equipment-ip-address", ctx.getAttribute("service-data.vnf-config-information.vnf-host-ip-address"));
         param.put("vendor", ctx.getAttribute("service-data.vnf-config-information.vendor"));
         param.put("network-data", nd);
 
-        String req = null;
+        String req;
         try {
             req = buildXmlRequest(param, reqTemplate);
         } catch (Exception e) {
-            log.error("Error building the XML request: ", e);
+            log.error(XML_BUILDING_ERR_STR, e);
 
             HttpResponse r = new HttpResponse();
             r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -566,16 +578,16 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     private ConfigStatus activate(SvcLogicContext ctx, boolean change) {
         String reqTemplate = readFile("/config-request.xml");
         Map<String, String> param = new HashMap<String, String>();
-        param.put("request-id", ctx.getAttribute("service-data.appc-request-header.svc-request-id"));
-        param.put("callback-url", configCallbackUrl);
+        param.put(REQUEST_ID_PARAM, ctx.getAttribute(SVC_REQUEST_ID_ATTR));
+        param.put(CALLBACK_URL_PARAM, configCallbackUrl);
         param.put(ACTION_PARAM, change ? "DownloadChange" : "DownloadBase");
-        param.put("equipment-name", ctx.getAttribute("service-data.service-information.service-instance-id"));
+        param.put(EQUIPMENT_NAME_PARAM, ctx.getAttribute(SERVICE_INSTANCE_ID_ATTR));
 
-        String req = null;
+        String req;
         try {
             req = buildXmlRequest(param, reqTemplate);
         } catch (Exception e) {
-            log.error("Error building the XML request: ", e);
+            log.error(XML_BUILDING_ERR_STR, e);
 
             HttpResponse r = new HttpResponse();
             r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -589,17 +601,17 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
     private ConfigStatus audit(SvcLogicContext ctx, String auditLevel) {
         String reqTemplate = readFile("/audit-request.xml");
-        Map<String, String> param = new HashMap<String, String>();
-        param.put("request-id", ctx.getAttribute("service-data.appc-request-header.svc-request-id"));
-        param.put("callback-url", auditCallbackUrl);
-        param.put("equipment-name", ctx.getAttribute("service-data.service-information.service-instance-id"));
+        Map<String, String> param = new HashMap<>();
+        param.put(REQUEST_ID_PARAM, ctx.getAttribute(SVC_REQUEST_ID_ATTR));
+        param.put(CALLBACK_URL_PARAM, auditCallbackUrl);
+        param.put(EQUIPMENT_NAME_PARAM, ctx.getAttribute(SERVICE_INSTANCE_ID_ATTR));
         param.put("audit-level", auditLevel);
 
-        String req = null;
+        String req;
         try {
             req = buildXmlRequest(param, reqTemplate);
         } catch (Exception e) {
-            log.error("Error building the XML request: ", e);
+            log.error(XML_BUILDING_ERR_STR, e);
 
             HttpResponse r = new HttpResponse();
             r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -626,25 +638,24 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             return null;
         }
 
-        input = input.replace("\\", "\\\\");
-        input = input.replace("\'", "\\'");
-        return input;
-
+        return input
+            .replace("\\", "\\\\")
+            .replace("\'", "\\'");
     }
 
     private String readFile(String fileName) {
         InputStream is = getClass().getResourceAsStream(fileName);
         InputStreamReader isr = new InputStreamReader(is);
         BufferedReader in = new BufferedReader(isr);
-        StringBuilder ss = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
         try {
             String s = in.readLine();
             while (s != null) {
-                ss.append(s).append('\n');
+                builder.append(s).append('\n');
                 s = in.readLine();
             }
         } catch (IOException e) {
-            throw new RuntimeException("Error reading " + fileName + ": " + e.getMessage(), e);
+            throw new UncheckedIOException("Error reading " + fileName, e);
         } finally {
             try {
                 in.close();
@@ -662,7 +673,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
                 log.warn("Could not close InputStream", e);
             }
         }
-        return ss.toString();
+        return builder.toString();
     }
 
     private String buildXmlRequest(Map<String, String> param, String template) {
@@ -677,12 +688,12 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
             int i2 = template.indexOf('}', i1 + 2);
             if (i2 < 0) {
-                throw new RuntimeException("Template error: Matching } not found");
+                throw new TemplateException(TEMPLATE_ERR_STR);
             }
 
             String var1 = template.substring(i1 + 2, i2);
             String value1 = param.get(var1);
-            if (value1 == null || value1.trim().length() == 0) {
+            if (emptyOrNull(value1)) {
                 // delete the whole element (line)
                 int i3 = template.lastIndexOf('\n', i1);
                 if (i3 < 0) {
@@ -710,8 +721,6 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         log.info("Building XML started");
         long t1 = System.currentTimeMillis();
 
-        template = expandRepeats(ctx, template, 1);
-
         Map<String, String> mm = new HashMap<>();
         for (String s : ctx.getAttributeKeySet()) {
             mm.put(s, ctx.getAttribute(s));
@@ -729,12 +738,12 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
             int i2 = template.indexOf('}', i1 + 2);
             if (i2 < 0) {
-                throw new RuntimeException("Template error: Matching } not found");
+                throw new TemplateException(TEMPLATE_ERR_STR);
             }
 
             String var1 = template.substring(i1 + 2, i2);
             String value1 = XmlUtil.getXml(mm, var1);
-            if (value1 == null || value1.trim().length() == 0) {
+            if (emptyOrNull(value1)) {
                 int i3 = template.lastIndexOf('\n', i1);
                 if (i3 < 0) {
                     i3 = 0;
@@ -760,6 +769,10 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         return ss.toString();
     }
 
+    private boolean emptyOrNull(String value1) {
+        return value1 == null || value1.trim().length() == 0;
+    }
+
     private String expandRepeats(SvcLogicContext ctx, String template, int level) {
         StringBuilder newTemplate = new StringBuilder();
         int k = 0;
@@ -772,7 +785,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
             int i2 = template.indexOf(':', i1 + 9);
             if (i2 < 0) {
-                throw new RuntimeException(
+                throw new TemplateException(
                     "Template error: Context variable name followed by : is required after repeat");
             }
 
@@ -783,7 +796,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             while (nn > 0 && i < template.length()) {
                 i3 = template.indexOf('}', i);
                 if (i3 < 0) {
-                    throw new RuntimeException("Template error: Matching } not found");
+                    throw new TemplateException(TEMPLATE_ERR_STR);
                 }
                 int i32 = template.indexOf('{', i);
                 if (i32 >= 0 && i32 < i3) {
@@ -798,12 +811,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
             String var1 = template.substring(i1 + 9, i2);
             String value1 = ctx.getAttribute(var1);
             log.info("     " + var1 + ": " + value1);
-            int n = 0;
-            try {
-                n = Integer.parseInt(value1);
-            } catch (Exception e) {
-                n = 0;
-            }
+            int n = tryParseValue(value1);
 
             newTemplate.append(template.substring(k, i1));
 
@@ -822,6 +830,17 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
         }
 
         return expandRepeats(ctx, newTemplate.toString(), level + 1);
+    }
+
+    private int tryParseValue(String value1) {
+        int n;
+        try {
+            n = Integer.parseInt(value1);
+        } catch (Exception e) {
+            log.error("Failed to parse value. Using default value (0).", e);
+            n = 0;
+        }
+        return n;
     }
 
     private HttpResponse sendXmlRequest(String xmlRequest, String url, String user, String password) {
@@ -889,54 +908,53 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     }
 
     public static String _readFile(String fileName) {
-        StringBuffer strBuff = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         String line;
         try {
             BufferedReader in = new BufferedReader(new FileReader(fileName));
             while ((line = in.readLine()) != null) {
-                strBuff.append(line + "\n");
+                builder.append(line).append('\n');
             }
             in.close();
         } catch (IOException e) {
             log.error("Caught an IOException in method readFile()", e);
         }
-        return (strBuff.toString());
+        return builder.toString();
     }
 
     private String trimResponse(String response) {
         StringTokenizer line = new StringTokenizer(response, "\n");
-        StringBuffer sb = new StringBuffer();
+        StringBuilder builder = new StringBuilder();
         boolean captureText = false;
         while (line.hasMoreTokens()) {
             String token = line.nextToken();
-            if (token.indexOf("<configuration xmlns=") != -1) {
+            if (token.contains("<configuration xmlns=")) {
                 captureText = true;
             }
             if (captureText) {
-                sb.append(token + "\n");
+                builder.append(token).append('\n');
             }
-            if (token.indexOf("</configuration>") != -1) {
+            if (token.contains("</configuration>")) {
                 captureText = false;
             }
         }
-        return (sb.toString());
+        return builder.toString();
     }
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         Properties props = null;
-        System.out.println("*************************Hello*****************************");
+        log.info("*************************Hello*****************************");
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = _readFile("/home/userID/data/Get_config_template");
-        String Download_config_template = _readFile("/home/userID/data/Download_config_template_2");
+        String getConfigTemplate = _readFile("/home/userID/data/Get_config_template");
         String key = "GetCliRunningConfig";
-        Map<String, String> parameters = new HashMap();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("Host_ip_address", "000.00.000.00");
         parameters.put("User_name", "root");
         parameters.put("Password", "!bootstrap");
         parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        parameters.put("Get_config_template", getConfigTemplate);
         SvcLogicContext ctx = null;
-        System.out.println("*************************TRACE 1*****************************");
+        log.info("*************************TRACE 1*****************************");
         cca.configure(key, parameters, ctx);
     }
 
