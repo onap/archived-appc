@@ -27,9 +27,6 @@ import java.io.IOException;
 
 public class TimedOutException extends IOException {
 
-    public TimedOutException() {
-    }
-
     public TimedOutException(String message) {
         super(message);
     }
