@@ -24,8 +24,6 @@ package org.onap.appc.flow.controller.node;
 
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_FLOW_CONTROLLER;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION_TYPE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_STATUS;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_FAILURE;
@@ -85,31 +83,7 @@ public class RestServiceNode implements SvcLogicJavaPlugin {
       String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
       log.info("Rest Constructed URL : " + resourceUri);
 
-      Transaction transaction = new Transaction();
-      transaction.setExecutionEndPoint(resourceUri);
-      transaction
-          .setExecutionRPC(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE));
-      transaction.setAction(INPUT_REQUEST_ACTION);
-      if (ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE) == null
-          || ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE).isEmpty()) {
-        throw new Exception("Dont know REST operation for Action " + transaction.getExecutionRPC());
-      }
-      if (ctx.getAttribute(INPUT_REQUEST_ACTION) == null
-          || ctx.getAttribute(INPUT_REQUEST_ACTION).isEmpty()) {
-        throw new Exception("Dont know request-action " + transaction.getAction());
-      }
-
-      //This code need to get changed to get the UserID and pass from a common place.
-      if (transaction.getuId() == null) {
-        transaction
-            .setuId(prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION)
-                .concat(".default-rest-user")));
-      }
-      if (transaction.getPswd() == null) {
-        transaction
-            .setPswd(prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION)
-                .concat(".default-rest-pass")));
-      }
+      Transaction transaction = TransactionHandler.buildTransaction(ctx, prop, resourceUri);
 
       RestExecutor restRequestExecutor = new RestExecutor();
       Map<String, String> output = restRequestExecutor.execute(transaction, ctx);
