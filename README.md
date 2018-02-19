@@ -1,3 +1,41 @@
+# ============LICENSE_START==========================================
+# ===================================================================
+# Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+# ===================================================================
+#
+# Unless otherwise specified, all software contained herein is licensed
+# under the Apache License, Version 2.0 (the "License");
+# you may not use this software except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+#
+#
+# Unless otherwise specified, all documentation contained herein is licensed
+# under the Creative Commons License, Attribution 4.0 Intl. (the “License”);
+# you may not use this documentation except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    https://creativecommons.org/licenses/by/4.0/
+#
+# Unless required by applicable law or agreed to in writing, documentation
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# ============LICENSE_END============================================
+
+ECOMP is a trademark and service mark of AT&T Intellectual Property.
+
+
 # ONAP APPC
 
 ---
@@ -125,7 +163,7 @@ A Heat template that can be used on RackSpace to spin up the APPC Host VM as wel
 
 # Validating APPC Installation
 
-First of all, APPC Features come in the form of Karaf Features (an ODL-OpenDaylight package) which can be composed of one or more OSGI bundles. These features get installed in the ODL framework in order to be used and installed in the APPC Docker Container (NOTE: SDN-C Core Features also get installed since APPC docker image uses the SDN-C Core docker image as a base image). 
+First of all, APPC Features come in the form of Karaf Features (an ODL-OpenDaylight package) which can be composed of one or more OSGI bundles. These features get installed in the ODL framework in order to be used and installed in the APPC Docker Container (NOTE: SDN-C Core Features also get installed since APPC docker image uses the SDN-C Core docker image as a base image).
 
 ### Accessing docker containers
 
