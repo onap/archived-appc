@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_73a84d20",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-19T23:18:18Z",
+      "side": 1,
+      "message": "what is this file supposed to be? This file does not exist in onap docker images.",
+      "revId": "785a0ff856b3a48d84ab6e580c7705e3a15c2ca5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
