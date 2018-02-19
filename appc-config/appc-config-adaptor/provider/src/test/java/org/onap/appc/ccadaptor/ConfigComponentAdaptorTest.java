@@ -24,11 +24,15 @@
 
 package org.onap.appc.ccadaptor;
 
-import java.io.IOException;
+import static org.onap.appc.ccadaptor.ConfigComponentAdaptor.GET_CONFIG_TEMPLATE_PARAM;
+import static org.onap.appc.ccadaptor.ConfigComponentAdaptor.HOST_IP_PARAM;
+import static org.onap.appc.ccadaptor.ConfigComponentAdaptor.PASSWORD_PARAM;
+import static org.onap.appc.ccadaptor.ConfigComponentAdaptor.PORT_NUMBER_PARAM;
+import static org.onap.appc.ccadaptor.ConfigComponentAdaptor.USERNAME_PARAM;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -38,184 +42,200 @@ public class ConfigComponentAdaptorTest {
 
 
     @Test
-    public void testGetCliRunningConfig(){
+    public void testGetCliRunningConfig() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = ("get_config_template");
         String key = "GetCliRunningConfig";
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(HOST_IP_PARAM, "test");
+        parameters.put(USERNAME_PARAM, "test");
+        parameters.put(PASSWORD_PARAM, "password");
+        parameters.put(PORT_NUMBER_PARAM, "22");
+        parameters.put(GET_CONFIG_TEMPLATE_PARAM, Get_config_template);
 
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testDownloadCliConfig(){
+    public void testDownloadCliConfig() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = ("get_config_template");
         String key = "DownloadCliConfig";
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(HOST_IP_PARAM, "test");
+        parameters.put(USERNAME_PARAM, "test");
+        parameters.put(PASSWORD_PARAM, "password");
+        parameters.put(PORT_NUMBER_PARAM, "22");
+        parameters.put(GET_CONFIG_TEMPLATE_PARAM, Get_config_template);
 
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testXmlDownload(){
+    public void testXmlDownload() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = ("get_config_template");
         String key = "xml-download";
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(HOST_IP_PARAM, "test");
+        parameters.put(USERNAME_PARAM, "test");
+        parameters.put(PASSWORD_PARAM, "password");
+        parameters.put(PORT_NUMBER_PARAM, "22");
+        parameters.put(GET_CONFIG_TEMPLATE_PARAM, Get_config_template);
 
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testXmlGetrunningconfig(){
+    public void testXmlGetrunningconfig() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = ("get_config_template");
         String key = "xml-getrunningconfig";
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(HOST_IP_PARAM, "test");
+        parameters.put(USERNAME_PARAM, "test");
+        parameters.put(PASSWORD_PARAM, "password");
+        parameters.put(PORT_NUMBER_PARAM, "22");
+        parameters.put(GET_CONFIG_TEMPLATE_PARAM, Get_config_template);
 
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testEscapeSql(){
+    public void testEscapeSql() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = ("get_config_template");
         String key = "escapeSql";
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(HOST_IP_PARAM, "test");
+        parameters.put(USERNAME_PARAM, "test");
+        parameters.put(PASSWORD_PARAM, "password");
+        parameters.put(PORT_NUMBER_PARAM, "22");
+        parameters.put(GET_CONFIG_TEMPLATE_PARAM, Get_config_template);
 
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testAll(){
+    public void testAll() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String Get_config_template = ("test");
         String Download_config_template = ("test");
         String key = "GetCliRunningConfig";
-        Map<String, String> parameters = new HashMap<String,String>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put(HOST_IP_PARAM, "test");
+        parameters.put(USERNAME_PARAM, "test");
+        parameters.put(PASSWORD_PARAM, "password");
+        parameters.put(PORT_NUMBER_PARAM, "22");
         parameters.put("Protocol", "netconf");
         parameters.put("Contents", "Contents");
-        parameters.put("Get_config_template", Get_config_template);
+        parameters.put(GET_CONFIG_TEMPLATE_PARAM, Get_config_template);
         parameters.put("Download_config_template", Download_config_template);
         parameters.put("Config_contents", "test");
 
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testAll1(){
+    public void testAll1() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String key = "get";
-        Map<String, String> parameters = new HashMap<String,String>();
+        Map<String, String> parameters = new HashMap<>();
         parameters.put("Host_ip_address", "test");
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testAll2(){
+    public void testAll2() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String key = "cli";
-        Map<String, String> parameters = new HashMap<String,String>();
+        Map<String, String> parameters = new HashMap<String, String>();
         parameters.put("Host_ip_address", "test");
         SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name", "test");
+        ctx.setAttribute(
+            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+            "test");
         cca.configure(key, parameters, ctx);
     }
 
     @Test
-    public void testGetStringBetweenQuotes() throws Exception{
+    public void testGetStringBetweenQuotes() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String result =Whitebox.invokeMethod(cca, "getStringBetweenQuotes","\"testvalue\"");
+        String result = Whitebox.invokeMethod(cca, "getStringBetweenQuotes", "\"testvalue\"");
         Assert.assertEquals("testvalue", result);
     }
 
     @Test
-    public void testBuildXmlRequest() throws Exception{
+    public void testBuildXmlRequest() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        Map<String, String> param = new HashMap<String,String>();
-        Whitebox.invokeMethod(cca, "buildXmlRequest",param,"template");
+        Map<String, String> param = new HashMap<>();
+        Whitebox.invokeMethod(cca, "buildXmlRequest", param, "template");
     }
 
     @Test
-    public void testTrimResponse() throws Exception{
+    public void testTrimResponse() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String result =Whitebox.invokeMethod(cca, "trimResponse","testData");
+        String result = Whitebox.invokeMethod(cca, "trimResponse", "testData");
         Assert.assertEquals("", result);
     }
 
     @Test
-    public void testBuildNetworkData2() throws Exception{
+    public void testBuildNetworkData2() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         SvcLogicContext ctx = new SvcLogicContext();
-        String result =Whitebox.invokeMethod(cca, "buildNetworkData2",ctx,"template","operation");
+        String result = Whitebox.invokeMethod(cca, "buildNetworkData2", ctx, "template", "operation");
         Assert.assertEquals("template", result);
     }
 
     //@Test
-    public void testGetLastFewLinesOfFile() throws Exception{
+    public void testGetLastFewLinesOfFile() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        Whitebox.invokeMethod(cca, "readFile","test");
+        Whitebox.invokeMethod(cca, "readFile", "test");
     }
 
     @Test
-    public void testConnect() throws Exception{
+    public void testConnect() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         SvcLogicContext ctx = new SvcLogicContext();
@@ -223,30 +243,30 @@ public class ConfigComponentAdaptorTest {
 
     }
 
-    @Test(expected=Exception.class)
-    public void testActivate() throws Exception{
+    @Test(expected = Exception.class)
+    public void testActivate() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         SvcLogicContext ctx = new SvcLogicContext();
-        String result =Whitebox.invokeMethod(cca, "activate",ctx,true);
+        String result = Whitebox.invokeMethod(cca, "activate", ctx, true);
         Assert.assertEquals("template", result);
     }
 
-    @Test(expected=Exception.class)
-    public void testAudit() throws Exception{
+    @Test(expected = Exception.class)
+    public void testAudit() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         SvcLogicContext ctx = new SvcLogicContext();
-        String result =Whitebox.invokeMethod(cca, "audit",ctx,"test");
+        String result = Whitebox.invokeMethod(cca, "audit", ctx, "test");
         Assert.assertEquals("template", result);
     }
 
-    @Test(expected=Exception.class)
-    public void testPrepare() throws Exception{
+    @Test(expected = Exception.class)
+    public void testPrepare() throws Exception {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         SvcLogicContext ctx = new SvcLogicContext();
-        String result =Whitebox.invokeMethod(cca, "prepare",ctx,"test","test");
+        String result = Whitebox.invokeMethod(cca, "prepare", ctx, "test", "test");
         Assert.assertEquals("template", result);
     }
 }
