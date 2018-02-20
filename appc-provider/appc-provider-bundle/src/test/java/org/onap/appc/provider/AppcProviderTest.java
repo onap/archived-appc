@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.test.AbstractDataBrokerTest;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
@@ -54,14 +55,11 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.config.payload.Confi
 import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.onap.appc.provider.topology.TopologyService;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.lang.reflect.Field;
+import org.onap.appc.provider.Whitebox;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
@@ -69,9 +67,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.internal.util.reflection.Whitebox;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({AppcProvider.class})
+@RunWith(MockitoJUnitRunner.class)
 public class AppcProviderTest extends AbstractDataBrokerTest {
 
     @Mock
@@ -85,6 +83,7 @@ public class AppcProviderTest extends AbstractDataBrokerTest {
 
     private AppcProvider provider;
     private DataBroker dataBroker;
+
 
     /**
      * The @Before annotation is defined in the AbstractDataBrokerTest class. The method setupWithDataBroker is invoked
@@ -104,19 +103,19 @@ public class AppcProviderTest extends AbstractDataBrokerTest {
         NotificationProviderService nps = mock(NotificationProviderService.class);
         RpcProviderRegistry registry = mock(RpcProviderRegistry.class);
         BindingAwareBroker.RpcRegistration rpcRegistration = mock(BindingAwareBroker.RpcRegistration.class);
-        PowerMockito.doReturn(rpcRegistration).when(registry).addRpcImplementation(any(), any());
+        
+        doReturn(rpcRegistration).when(registry).addRpcImplementation(any(), any());
 
         provider = spy(new AppcProvider(dataBroker, nps, registry));
 
-        PowerMockito.doReturn(topologyService).when(provider).getTopologyService();
+        doReturn(topologyService).when(provider).getTopologyService();
     }
 
     @Test
     public void testConstructor() throws Exception {
-        ExecutorService executorService = Whitebox.getInternalState(provider, "executor");
+        Object executorService = Whitebox.getInternalState(provider, "executor");
         Assert.assertNotNull(executorService);
-        BindingAwareBroker.RpcRegistration internalRpcRegistration = Whitebox.getInternalState(provider,
-            "rpcRegistration");
+        Object internalRpcRegistration = Whitebox.getInternalState(provider,"rpcRegistration");
         Assert.assertNotNull(internalRpcRegistration);
     }
 
@@ -139,7 +138,7 @@ public class AppcProviderTest extends AbstractDataBrokerTest {
         doReturn(configPayload).when(modifyConfigInput).getConfigPayload();
         // mock output
         RpcResult<ModifyConfigOutput> modifyConfigOutput = mock(RpcResult.class);
-        PowerMockito.doReturn(modifyConfigOutput).when(topologyService).modifyConfig(any(), any());
+        doReturn(modifyConfigOutput).when(topologyService).modifyConfig(any(), any());
 
         Future<RpcResult<ModifyConfigOutput>> rpcResultFuture = provider.modifyConfig(modifyConfigInput);
 
