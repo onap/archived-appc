@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -36,6 +36,7 @@ import org.onap.appc.listener.EventHandler;
 import org.onap.appc.listener.ListenerProperties;
 import org.onap.appc.listener.util.Mapper;
 import org.onap.appc.logging.LoggingConstants;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
@@ -206,7 +207,12 @@ public class EventHandlerImpl implements EventHandler {
         }
 
         Consumer out = null;
-        BundleContext ctx = FrameworkUtil.getBundle(EventHandlerImpl.class).getBundleContext();
+        BundleContext ctx = null;
+        Bundle bundle = FrameworkUtil.getBundle(EventHandlerImpl.class);
+        if(bundle != null) {
+            ctx = bundle.getBundleContext();
+        }
+
         if (ctx != null) {
             ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
             if (svcRef != null) {
