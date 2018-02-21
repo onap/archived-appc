@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -108,25 +108,32 @@ public class AppcEventListenerActivator implements BundleActivator {
     public void start(BundleContext ctx) throws Exception {
         LOG.info("Starting Bundle " + getName());
 
-        configuration = ConfigurationFactory.getConfiguration();
-
-        Properties props = configuration.getProperties();
+        Properties props = getProperties();
 
         Set<ListenerProperties> listeners = new HashSet<>();
 
         // Configure event listener for the demo use case
         ListenerProperties demoProps = new ListenerProperties("appc.demo", props);
-        demoProps.setListenerClass(org.onap.appc.listener.demo.impl.ListenerImpl.class);
-        listeners.add(demoProps);
+        // Only add the listener if properties are set
+        if (!demoProps.getProperties().isEmpty()) {
+            demoProps.setListenerClass(org.onap.appc.listener.demo.impl.ListenerImpl.class);
+            listeners.add(demoProps);
+        }
+
 
         ListenerProperties clLCMProps = new ListenerProperties("appc.LCM", props);
-        clLCMProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
-        listeners.add(clLCMProps);
+        // Only add the listener if properties are set
+        if (!clLCMProps.getProperties().isEmpty()) {
+            clLCMProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
+            listeners.add(clLCMProps);
+        }
+
 
         // Configure the OAM properties
         String oamPropKeyPrefix = "appc.OAM";
         ListenerProperties oamProps  = new ListenerProperties(oamPropKeyPrefix, props);
-        if (isAppcOamPropsListenerEnabled(oamProps)) {
+        // Only add the listener if properties are set and enabled is true
+        if (!oamProps.getProperties().isEmpty() && isAppcOamPropsListenerEnabled(oamProps)) {
             oamProps.setListenerClass(org.onap.appc.listener.LCM.impl.ListenerImpl.class);
             listeners.add(oamProps);
         } else {
@@ -195,4 +202,13 @@ public class AppcEventListenerActivator implements BundleActivator {
 
         return result;
     }
+    
+    /**
+     * Get properties from configuration
+     */
+    Properties getProperties() {
+        configuration = ConfigurationFactory.getConfiguration();
+        return configuration.getProperties();
+    }
+    
 }

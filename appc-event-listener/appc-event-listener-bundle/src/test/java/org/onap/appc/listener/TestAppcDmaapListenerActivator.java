@@ -27,23 +27,55 @@ package org.onap.appc.listener;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import static org.mockito.Mockito.doReturn;
+
 import org.onap.appc.listener.AppcEventListenerActivator;
 
 public class TestAppcDmaapListenerActivator {
 
     @Test
-    public void testStartStop() {
-        // TODO - How do we tests activators
+    public void testStartStopDefaultProperties() {
         AppcEventListenerActivator appc = new AppcEventListenerActivator();
         try {
             appc.start(null);
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             appc.stop(null);
         } catch (Exception e) {
             e.printStackTrace();
             fail(e.getMessage());
         }
         assertNotNull(appc.getName());
+    }
+    
+    @Test
+    public void testStartStopEmptyProperties() {
+        InputStream input = getClass().getResourceAsStream("/org/onap/appc/empty.properties");
+        Properties props = new Properties();
+         try {
+             props.load(input);
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+        AppcEventListenerActivator appc = new AppcEventListenerActivator();
+        AppcEventListenerActivator spyAppc = Mockito.spy(appc);
+        doReturn(props).when(spyAppc).getProperties();
+        
+        try {
+            spyAppc.start(null);
+            Thread.sleep(1000);
+            spyAppc.stop(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+        assertNotNull(spyAppc.getName());
     }
 }
