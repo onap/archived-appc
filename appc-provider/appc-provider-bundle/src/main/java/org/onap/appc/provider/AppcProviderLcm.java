@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -43,6 +43,7 @@ import org.onap.appc.provider.lcm.service.RequestExecutor;
 import org.onap.appc.provider.lcm.service.ResumeTrafficService;
 import org.onap.appc.provider.lcm.service.UpgradeService;
 import org.onap.appc.provider.lcm.service.VolumeService;
+import org.onap.appc.provider.lcm.service.ConfigScaleOutService;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
@@ -643,35 +644,10 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ConfigScaleoutOutput>> configScaleout(ConfigScaleoutInput input) {
+    public Future<RpcResult<ConfigScaleOutOutput>> configScaleOut(ConfigScaleOutInput input) {
         logger.debug("Input received : " + input.toString());
-        ConfigScaleoutOutputBuilder outputBuilder = new ConfigScaleoutOutputBuilder();
-        Action myAction = Action.ConfigScaleOut;
-        String action = myAction.toString();
-        String rpcName = getRpcName(myAction);
-        Status status =
-                ValidationService.getInstance().validateInput(input.getCommonHeader(), input.getAction(), action);
-        if (null == status) {
-            try {
-                RequestHandlerInput request = new RequestInputBuilder().requestContext()
-                        .commonHeader(input.getCommonHeader()).actionIdentifiers(input.getActionIdentifiers())
-                        .payload(input.getPayload()).action(action).rpcName(rpcName).build();
-                status = buildStatusWithDispatcherOutput(executeRequest(request));
-                logger.info(String.format("Execute of '%s' finished with status %s. Reason: %s",
-                        input.getActionIdentifiers(), status.getCode(), status.getMessage()));
-            } catch (ParseException e) {
-                status = buildStatusWithParseException(e);
-
-                LoggingUtils.logErrorMessage(LoggingConstants.TargetNames.APPC_PROVIDER,
-                        String.format(COMMON_ERROR_MESSAGE_TEMPLATE, action, e.getMessage()),
-                        this.getClass().getName());
-
-            }
-        }
-        outputBuilder.setCommonHeader(input.getCommonHeader());
-        outputBuilder.setStatus(status);
-        RpcResult<ConfigScaleoutOutput> result =
-                RpcResultBuilder.<ConfigScaleoutOutput>status(true).withResult(outputBuilder.build()).build();
+        ConfigScaleOutOutputBuilder outputBuilder = new ConfigScaleOutService().process(input);
+        RpcResult<ConfigScaleOutOutput> result = RpcResultBuilder.<ConfigScaleOutOutput> status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
