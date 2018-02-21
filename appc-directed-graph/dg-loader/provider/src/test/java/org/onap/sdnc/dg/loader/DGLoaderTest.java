@@ -44,7 +44,7 @@ public class DGLoaderTest {
         // Generate, GenerateLoad, GenerateLoadActivate
         String[] args = new String[] {"src/test/resources/json", "src/test/resources/xml"};
         // logger.info("DGXML Conversion Started with arguments :"+ args[0] +":"+ args[1]);
-        if (args != null && args.length >= 2) {
+        if (args.length >= 2) {
             jsonPath = args[0];
             xmlPath = args[1];
         }
@@ -52,8 +52,7 @@ public class DGLoaderTest {
         application.generateXMLFromJSON(jsonPath, xmlPath, propertyPath);
         File dir = new File("src/test/resources/xml");
         String extensions[] = new String[] {"xml", "XML"};
-        List<File> files = new ArrayList<File>();
-        files = (List<File>) FileUtils.listFiles(dir, extensions, true);
+        List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         assertNotNull(files.get(0));
         assertNotNull(files.get(0).getName());
     }
@@ -64,8 +63,7 @@ public class DGLoaderTest {
         DGXMLGenerator.main(args);
         File dir = new File("src/test/resources/xml");
         String extensions[] = new String[] {"xml", "XML"};
-        List<File> files = new ArrayList<File>();
-        files = (List<File>) FileUtils.listFiles(dir, extensions, true);
+        List<File> files = (List<File>) FileUtils.listFiles(dir, extensions, true);
         assertNotNull(files.get(0));
         assertNotNull(files.get(0).getName());
     }
@@ -74,7 +72,7 @@ public class DGLoaderTest {
     public void testDGLoader() throws Exception {
         String propertyPath = "src/test/resources/dummy.properties";
         String xmlPath = "src/test/resources/xml/Appc_UniTest.xml";
-        DGXMLLoad dgXMLLoad = new MockDGXMLLoad();
+        DGXMLLoader dgXMLLoad = new MockDGXMLLoader();
         dgXMLLoad.loadDGXMLFile(xmlPath);
     }
 
@@ -82,7 +80,7 @@ public class DGLoaderTest {
     public void testDGLoaderWithDir() throws Exception {
         String propertyPath = "src/test/resources/dummy.properties";
         String xmlPath = "src/test/resources/xml";
-        DGXMLLoad dgXMLLoad = new MockDGXMLLoad();
+        DGXMLLoader dgXMLLoad = new MockDGXMLLoader();
         Whitebox.invokeMethod(dgXMLLoad, "loadDGXMLDir", xmlPath);
     }
 
@@ -90,16 +88,16 @@ public class DGLoaderTest {
     public void testDGLoaderWithDirThrowsException() throws Exception {
         String propertyPath = "src/test/resources/dummy.properties";
         String xmlPath = "src/test/resources/xml/xml";
-        DGXMLLoad dgXMLLoad = new MockDGXMLLoad();
-        Whitebox.invokeMethod(dgXMLLoad, "loadDGXMLDir", xmlPath);
+        DGXMLLoader dgXMLLoader = new MockDGXMLLoader();
+        Whitebox.invokeMethod(dgXMLLoader, "loadDGXMLDir", xmlPath);
     }
 
     @Test
     public void testDGActivate() throws Exception {
         String propertyPath = "src/test/resources/dummy.properties";
         String activateFilePath = "src/test/resources/dg_activate_test";
-        DGXMLActivate dgXMLActivate = new MockDGXMLActivate();
-        dgXMLActivate.activateDg(activateFilePath);
+        DGXMLActivator dgXMLActivator = new MockDGXMLActivator();
+        dgXMLActivator.activateDg(activateFilePath);
 
     }
 
@@ -107,43 +105,9 @@ public class DGLoaderTest {
     public void testDGActivateThrowsException() throws Exception {
         String propertyPath = "src/test/resources/dummy.properties";
         String activateFilePath = "src/test/resources/someFile";
-        DGXMLActivate dgXMLActivate = new MockDGXMLActivate();
-        dgXMLActivate.activateDg(activateFilePath);
+        DGXMLActivator dgXMLActivator = new MockDGXMLActivator();
+        dgXMLActivator.activateDg(activateFilePath);
 
-    }
-
-    @Test
-    public void testDGLoadNActivate() throws Exception {
-        String propertyPath = "src/test/resources/dummy.properties";
-        String activateFilePath = "src/test/resources/dg_activate_test";
-        String xmlPath = "src/test/resources/xml/Appc_UniTest.xml";
-        DGXMLLoadNActivate dgXMLLoadNActivate = new MockDGXMLLoadNActivate();
-        dgXMLLoadNActivate.loadDGXMLFile(xmlPath);
-        dgXMLLoadNActivate.activateDg(activateFilePath);
-    }
-
-    @Test
-    public void testDGLoadNActivateThrowsException() throws Exception {
-        String propertyPath = "src/test/resources/dummy.properties";
-        String activateFilePath = "src/test/resources/someFile";
-        String xmlPath = "src/test/resources/xml/Appc_UniTest.xml";
-        DGXMLLoadNActivate dgXMLLoadNActivate = new MockDGXMLLoadNActivate();
-        dgXMLLoadNActivate.loadDGXMLFile(xmlPath);
-        dgXMLLoadNActivate.activateDg(activateFilePath);
-    }
-
-    @Test
-    public void testDGLoadNActivateloadDGXMLDir() throws Exception {
-        String xmlPath = "src/test/resources/xml";
-        DGXMLLoadNActivate dgXMLLoadNActivate = new MockDGXMLLoadNActivate();
-        Whitebox.invokeMethod(dgXMLLoadNActivate, "loadDGXMLDir", xmlPath);
-    }
-
-
-    public void testDGLoadNActivateloadDGXMLDirThrowsException() throws Exception {
-        String xmlPath = "src/test/resources/someDir";
-        DGXMLLoadNActivate dgXMLLoadNActivate = new MockDGXMLLoadNActivate();
-        Whitebox.invokeMethod(dgXMLLoadNActivate, "loadDGXMLDir", xmlPath);
     }
 
     @Test
@@ -158,19 +122,12 @@ public class DGLoaderTest {
     @Test(expected = Exception.class)
     public void testDGActivateConstructorThrowsException() throws Exception {
         String somePath = "";
-        DGXMLActivate dgXMLActivate = new DGXMLActivate(somePath);
+        DGXMLActivator dgXMLActivator = new DGXMLActivator(somePath);
     }
 
     @Test(expected = Exception.class)
     public void testDGXMLLoadConstructorThrowsException() throws Exception {
         String somePath = "";
-        DGXMLLoad dgXMLLoad = new DGXMLLoad(somePath);
+        DGXMLLoader dgXMLLoader = new DGXMLLoader(somePath);
     }
-
-    @Test(expected = Exception.class)
-    public void testDGLoadNActivateConstructorThrowsException() throws Exception {
-        String somePath = "";
-        DGXMLLoadNActivate dgXMLLoadNActivate = new DGXMLLoadNActivate(somePath);
-    }
-
 }
