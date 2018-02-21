@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
@@ -36,16 +37,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 public class DGXMLActivate {
 
-    private final static Logger logger = LoggerFactory.getLogger(DGXMLLoadNActivate.class);
+    private static final Logger logger = LoggerFactory.getLogger(DGXMLLoadNActivate.class);
+    private static final String STRING_ENCODING = "utf-8";
     private final SvcLogicStore store;
-    public static String STRING_ENCODING = "utf-8";
 
-    public DGXMLActivate(String propfile) throws Exception {
+    public DGXMLActivate(String propfile) throws DGXMLException, SvcLogicException {
         if (StringUtils.isBlank(propfile)) {
-            throw new Exception(propfile + " Profile file is not defined");
+            throw new DGXMLException(propfile + " Profile file is not defined");
         }
         this.store = SvcLogicStoreFactory.getSvcLogicStore(propfile);
     }
@@ -54,87 +54,94 @@ public class DGXMLActivate {
         this.store = store;
     }
 
-
-    public void activateDg(String activateFilePath) throws Exception {
+    public void activateDg(String activateFilePath) {
         logger.info(
-                "******************** Activating DG into Database *****************************");
+            "******************** Activating DG into Database *****************************");
         try {
-            List<String> errors = new ArrayList<String>();
+            List<String> errors = new ArrayList<>();
             if (this.store != null) {
                 File activateFile = new File(activateFilePath);
                 if (activateFile.isFile()) {
                     List<String> fileLines = FileUtils.readLines(activateFile, STRING_ENCODING);
-                    if (fileLines != null) {
-                        for (String line : fileLines) {
-                            if (line != null && !line.trim().startsWith("#")) {
-                                String lineArray[] = line.trim().split(":");
-                                try {
-                                    if (lineArray != null && lineArray.length >= 4) {
-                                        String module = lineArray[0];
-                                        String rpc = lineArray[1];
-                                        String version = lineArray[2];
-                                        String mode = lineArray[3];
-                                        if (StringUtils.isNotBlank(module)
-                                                && StringUtils.isNotBlank(rpc)
-                                                && StringUtils.isNotBlank(version)
-                                                && StringUtils.isNotBlank(mode)) {
-                                            logger.info("Activating DG :" + line);
-                                            SvcLogicGraph graph =
-                                                    this.store.fetch(module, rpc, version, mode);
-                                            if (graph != null) {
-                                                logger.info(
-                                                        "Found Graph :" + line + " Activating ...");
-                                                this.store.activate(graph);
-                                            } else {
-                                                throw new Exception(
-                                                        "Failed to fetch from Database");
-                                            }
-                                        }
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    errors.add(
-                                            "Failed to Activate " + line + ", " + e.getMessage());
-                                }
-                            }
-                        }
-                    }
+                    tryActivateDG(errors, fileLines);
                 } else {
-                    throw new Exception(activateFile + " is not a valid Activate file Path");
+                    throw new DGXMLException(activateFile + " is not a valid Activate file Path");
                 }
             } else {
-                throw new Exception("Failed to initialise SvcLogicStore");
+                throw new DGXMLException("Failed to initialise SvcLogicStore");
             }
 
-            if (errors.size() > 0) {
-                throw new Exception(errors.toString());
+            if (errors.isEmpty()) {
+                throw new DGXMLException(errors.toString());
             }
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Failed to activate DG", e);
         }
     }
 
+    private void tryActivateDG(List<String> errors, List<String> fileLines) {
+        if (fileLines != null) {
+            for (String line : fileLines) {
+                if (line != null && !line.trim().startsWith("#")) {
+                    String[] lineArray = line.trim().split(":");
+                    doActivateDG(errors, line, lineArray);
+                }
+            }
+        }
+    }
+
+    private void doActivateDG(List<String> errors, String line, String[] lineArray) {
+        try {
+            if (lineArray.length >= 4) {
+                String module = lineArray[0];
+                String rpc = lineArray[1];
+                String version = lineArray[2];
+                String mode = lineArray[3];
+                if (StringUtils.isNotBlank(module)
+                    && StringUtils.isNotBlank(rpc)
+                    && StringUtils.isNotBlank(version)
+                    && StringUtils.isNotBlank(mode)) {
+                    logger.info("Activating DG :" + line);
+                    SvcLogicGraph graph =
+                        this.store.fetch(module, rpc, version, mode);
+                    tryActivateStore(line, graph);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Failed to Activate " + line, e);
+            errors.add("Failed to Activate " + line + ", " + e.getMessage());
+        }
+    }
+
+    private void tryActivateStore(String line, SvcLogicGraph graph) throws SvcLogicException, DGXMLException {
+        if (graph != null) {
+            logger.info(
+                "Found Graph :" + line + " Activating ...");
+            this.store.activate(graph);
+        } else {
+            throw new DGXMLException("Failed to fetch from Database");
+        }
+    }
 
     public static void main(String[] args) {
         try {
-            String activateFile = null;
-            String propertyPath = null;
+            String activateFile;
+            String propertyPath;
 
             if (args != null && args.length >= 2) {
                 activateFile = args[0];
                 propertyPath = args[1];
             } else {
-                throw new Exception(
-                        "Sufficient inputs for DGXMLActivate are missing <activatefile> <dbPropertyfile>");
+                throw new DGXMLException(
+                    "Sufficient inputs for DGXMLActivate are missing <activatefile> <dbPropertyfile>");
             }
 
             DGXMLActivate dgXmlActivate = new DGXMLActivate(propertyPath);
             dgXmlActivate.activateDg(activateFile);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Arguments missing", e);
         } finally {
             System.exit(1);
         }
     }
-
 }
