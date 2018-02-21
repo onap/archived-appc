@@ -26,11 +26,10 @@ package org.onap.sdnc.dg.loader;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 
-public class MockDGXMLLoad extends DGXMLLoad {
-
+public class MockDGXMLActivator extends DGXMLActivator {
     private final static SvcLogicStore storeChild = MockSvcLogicFactory.getMockSvcLogicStore();;
 
-    MockDGXMLLoad() throws Exception {
+    MockDGXMLActivator() throws Exception {
         super(storeChild);
     }
 
