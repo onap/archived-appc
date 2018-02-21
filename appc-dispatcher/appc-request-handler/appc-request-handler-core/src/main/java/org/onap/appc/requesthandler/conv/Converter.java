@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -125,10 +125,10 @@ public class Converter {
                 ((ConfigModifyOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case ConfigScaleOut:
-                outObj = new ConfigScaleoutOutputBuilder();
-                ((ConfigScaleoutOutputBuilder)outObj).setCommonHeader(commonHeader);
-                ((ConfigScaleoutOutputBuilder)outObj).setStatus(status);
-                ((ConfigScaleoutOutputBuilder)outObj).setPayload(payload);
+                outObj = new ConfigScaleOutOutputBuilder();
+                ((ConfigScaleOutOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((ConfigScaleOutOutputBuilder)outObj).setStatus(status);
+                ((ConfigScaleOutOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case ConfigRestore:
                 outObj = new ConfigRestoreOutputBuilder();

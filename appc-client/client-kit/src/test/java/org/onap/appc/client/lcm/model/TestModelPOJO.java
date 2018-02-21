@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -51,8 +51,6 @@ public class TestModelPOJO {
         pojoClassName.add(ConfigModifyOutput.class);
         pojoClassName.add(ConfigRestoreInput.class);
         pojoClassName.add(ConfigRestoreOutput.class);
-        pojoClassName.add(ConfigScaleoutInput.class);
-        pojoClassName.add(ConfigScaleoutOutput.class);
         pojoClassName.add(ConfigureInput.class);
         pojoClassName.add(ConfigureOutput.class);
         pojoClassName.add(EvacuateInput.class);

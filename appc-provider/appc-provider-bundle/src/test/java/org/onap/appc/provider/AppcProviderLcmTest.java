@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -53,8 +53,6 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigModifyInpu
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigModifyOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleoutOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeInput;
@@ -590,39 +588,6 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         doReturn(null).when(validationService).validateInput(any(), any(), any());
         doReturn(null).when(configModifyInput).getActionIdentifiers();
         results = appcProviderLcm.configModify(configModifyInput);
-        Assert.assertTrue(LCMCommandStatus.REQUEST_PARSING_FAILED.getResponseCode()
-            == results.get().getResult().getStatus().getCode());
-        verify(appcProviderLcm, times(1)).executeRequest(any());
-    }
-
-    @Test
-    public void testConfigScaleout() throws Exception {
-        // Validation success
-        doReturn("Success").when(successlcmStatus).getMessage();
-        doReturn(responseContext).when(requestHandlerOutput).getResponseContext();
-        doReturn(requestHandlerOutput).when(appcProviderLcm).executeRequest(any());
-        doReturn(null).when(validationService).validateInput(any(), any(), any());
-
-        ConfigScaleoutInput configScaleoutInput = mock(ConfigScaleoutInput.class);
-        doReturn(newCommonHeader("request-id-test")).when(configScaleoutInput).getCommonHeader();
-        doReturn(newActionIdentifier("vnf-id", "vnfc-id", "vserver-id"))
-            .when(configScaleoutInput).getActionIdentifiers();
-
-        Future<RpcResult<ConfigScaleoutOutput>> results = appcProviderLcm.configScaleout(configScaleoutInput);
-        Assert.assertTrue(400 == results.get().getResult().getStatus().getCode());
-        Assert.assertEquals("Success", results.get().getResult().getStatus().getMessage());
-        verify(appcProviderLcm, times(1)).executeRequest(any());
-
-        // Validation failed
-        doReturn(failStatus).when(validationService).validateInput(any(), any(), any());
-        results = appcProviderLcm.configScaleout(configScaleoutInput);
-        Assert.assertEquals(failStatus, results.get().getResult().getStatus());
-        verify(appcProviderLcm, times(1)).executeRequest(any());
-
-        // parse exception
-        doReturn(null).when(validationService).validateInput(any(), any(), any());
-        doReturn(null).when(configScaleoutInput).getActionIdentifiers();
-        results = appcProviderLcm.configScaleout(configScaleoutInput);
         Assert.assertTrue(LCMCommandStatus.REQUEST_PARSING_FAILED.getResponseCode()
             == results.get().getResult().getStatus().getCode());
         verify(appcProviderLcm, times(1)).executeRequest(any());
