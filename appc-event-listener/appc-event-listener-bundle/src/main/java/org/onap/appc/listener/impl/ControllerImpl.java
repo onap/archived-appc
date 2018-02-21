@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -69,17 +69,21 @@ public class ControllerImpl implements Controller {
             } else {
                 LOG.error(String.format(
                     "The ListenerProperties %s has no Listener class associated with it and will not run.", props));
+                properties.remove(props);
             }
         }
 
         LISTENER_COUNT = properties.size();
 
+        // Only create executor if listeners are configured
+        if (LISTENER_COUNT > 0) {
         executor = new ThreadPoolExecutor(LISTENER_COUNT, LISTENER_COUNT, 1, TimeUnit.SECONDS,
             new ArrayBlockingQueue<Runnable>(LISTENER_COUNT));
 
         // Custom Named thread factory
         BasicThreadFactory threadFactory = new BasicThreadFactory.Builder().namingPattern("Appc-Listener-%d").build();
         executor.setThreadFactory(threadFactory);
+        }
     }
 
     @Override
@@ -107,28 +111,30 @@ public class ControllerImpl implements Controller {
         Iterator<Listener> itr = listeners.values().iterator();
         while (itr.hasNext()) {
             Listener l = itr.next();
-            if (stopNow) {
+            if (stopNow && l != null) {
                 l.stopNow();
-            } else {
+            } else if(l!=null){
                 l.stop();
             }
             itr.remove();
         }
         // disable new tasks from being submitted
-        executor.shutdown();
-        int timeout=300;
-        try {
-            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
-                LOG.error("Not all tasks completed execution after " + timeout + " seconds. " +
-                        "Attempting to stop all actively executing tasks.");
-                executor.shutdownNow();
-            }
-            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
-                LOG.error("Could not terminate all tasks after " + (timeout*2) + " seconds.");
-            }
-        } catch (InterruptedException e) {
-            executor.shutdownNow();
-            Thread.currentThread().interrupt();
+        if(executor != null) {
+	        executor.shutdown();
+	        int timeout=300;
+	        try {
+	            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+	                LOG.error("Not all tasks completed execution after " + timeout + " seconds. " +
+	                        "Attempting to stop all actively executing tasks.");
+	                executor.shutdownNow();
+	            }
+	            if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
+	                LOG.error("Could not terminate all tasks after " + (timeout*2) + " seconds.");
+	            }
+	        } catch (InterruptedException e) {
+	            executor.shutdownNow();
+	            Thread.currentThread().interrupt();
+	        }
         }
     }
 
