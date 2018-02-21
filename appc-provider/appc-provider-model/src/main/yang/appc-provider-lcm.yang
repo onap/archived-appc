@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -774,30 +774,30 @@ module appc-provider-lcm {
         }
     }
 
-    rpc config-scaleout {
-        description "An operation to scaleout the configurations of a virtual network
-                function (or VM)";
-        input {
-            uses common-header;
-            leaf action {
-                type action;
-                mandatory true;
+    rpc config-scale-out {
+            description "An operation to Modify the configuration or other action to support
+            a ConfigScaleOut of a VNF.";
+            input {
+                uses common-header;
+                leaf action {
+                    type action;
+                    mandatory true;
+                }
+                uses action-identifiers;
+                leaf payload {
+                    type payload;
+                    mandatory false;
+                }
             }
-            uses action-identifiers;
-            leaf payload {
-                type payload;
-                mandatory false;
+            output {
+                uses common-header;
+                uses status;
+                leaf payload {
+                     type payload;
+                     mandatory false;
+                }
             }
         }
-        output {
-            uses common-header;
-            uses status;
-            leaf payload {
-                 type payload;
-                 mandatory false;
-            }
-        }
-    }
 
     rpc config-restore {
         description "An operation to restore the configurations of a virtual network
