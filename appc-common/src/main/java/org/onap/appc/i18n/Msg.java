@@ -817,7 +817,22 @@ public enum Msg implements EELFResolvableErrorEnum {
      * Unsupported identity service version, unable to retrieve ServiceCatalog
      * for identity service {0}
      */
-    IAAS_UNSUPPORTED_IDENTITY_SERVICE
+    IAAS_UNSUPPORTED_IDENTITY_SERVICE,
+
+    /**
+     * Sftp data transfer failed on connection to host {0} with user {1} for {2} operation, reason : {3}
+     */
+    SFTP_TRANSFER_FAILED,
+
+    /**
+     * Ssh session with host {0} has timed out during command {1} execution
+     */
+    SSH_CONNECTION_TIMEOUT,
+
+    /**
+     * Could not configure existing ssh session, reason: {0}
+     */
+    SSH_SESSION_CONFIG_ERROR
     ;
     /*
      * Static initializer to ensure the resource bundles for this class are loaded...
