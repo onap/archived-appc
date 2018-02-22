@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7ac1f452",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-22T16:55:54Z",
+      "side": 1,
+      "message": "This appears to change functionality since the original implementation allows for argList being null.  (A null value is handled in DBResourceManager.writeData call without throwing an Exception)    Sonar fixes should not change functionality.",
+      "revId": "73eb6b6eade95d7d0bfc63e9aae0a2fff8939722",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9ac5e05d",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-02-22T16:55:54Z",
+      "side": 1,
+      "message": "Ditto, null is handled without exception in getData().",
+      "revId": "73eb6b6eade95d7d0bfc63e9aae0a2fff8939722",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
