@@ -22,52 +22,46 @@
 
 package org.onap.appc.encryptiontool.wrapper;
 
+import com.google.common.collect.Lists;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
-
 import javax.sql.rowset.CachedRowSet;
-
+import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
+public class DbServiceUtil {
 
-public class DbServiceUtil
-{
-    private static final Logger log = LoggerFactory
-            .getLogger(DbServiceUtil.class);
-
-    private static Properties props;
+    private static final Logger log = LoggerFactory.getLogger(DbServiceUtil.class);
     private static DBResourceManager jdbcDataSource = null;
 
-    public static boolean updateDB(String tableName, ArrayList inputArgs,
-        String scema, String whereClause, String setCluase) throws SQLException
-    {
-            String updatePasswordString = "update " + tableName + " set " +  setCluase +  " where " + whereClause ;
-            boolean result = jdbcDataSource.writeData(updatePasswordString, inputArgs,Constants.SCHEMA_SDNCTL);
-            return result;
+    private DbServiceUtil() {}
+
+    public static boolean updateDB(String tableName, List<String> inputArgs, String whereClause, String setCluase)
+        throws SQLException {
+
+        String updatePasswordString = "update " + tableName + " set " + setCluase + " where " + whereClause;
+        return jdbcDataSource.writeData(updatePasswordString, Lists.newArrayList(inputArgs), Constants.SCHEMA_SDNCTL);
     }
 
-    public static CachedRowSet getData(String tableName, ArrayList argList, String schema,
-        String getselectData, String getDataClasue ) throws SQLException
-     {
-         String selectQuery = "select " + getselectData + "from " + tableName + " where " + getDataClasue ;
-         CachedRowSet data = jdbcDataSource.getData(selectQuery, argList, schema);
-         return data;
-     }
+    public static CachedRowSet getData(String tableName, List<String> argList, String schema,
+        String getselectData, String getDataClasue) throws SQLException {
+
+        String selectQuery = "select " + getselectData + "from " + tableName + " where " + getDataClasue;
+        return jdbcDataSource.getData(selectQuery, Lists.newArrayList(argList), schema);
+    }
 
 
-    public static DBResourceManager initDbLibService() throws Exception
-    {
-        props = new Properties();
+    public static DBResourceManager initDbLibService() throws IOException {
+        Properties props = new Properties();
         File file = new File("/opt/onap/appc/data/properties/dblib.properties");
         URL propURL = file.toURI().toURL();
         props.load(propURL.openStream());
         jdbcDataSource = new DBResourceManager(props);
         return jdbcDataSource;
     }
-
 }
