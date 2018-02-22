@@ -640,6 +640,22 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
     }
 
     @Test
+    public void testConfigScaleOut() throws Exception {
+        ConfigScaleOutInput mockInput = mock(ConfigScaleOutInput.class);
+        ConfigScaleOutOutput mockOutput = mock(ConfigScaleOutOutput.class);
+        ConfigScaleOutOutputBuilder mockOutputBuilder = mock(ConfigScaleOutOutputBuilder.class);
+        ConfigScaleOutService mockService = mock(ConfigScaleOutService.class);
+
+        whenNew(ConfigScaleOutService.class).withNoArguments().thenReturn(mockService);
+        when(mockService.process(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<ConfigScaleOutOutput>> results = appcProviderLcm.configScaleOut(mockInput);
+        verify(mockService, times(1)).process(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
     public void testConfigRestore() throws Exception {
         // Validation success
         doReturn("Success").when(successlcmStatus).getMessage();
