@@ -24,8 +24,10 @@
 
 package org.onap.appc.encryptiontool;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.junit.Test;
 import org.onap.appc.encryptiontool.wrapper.DbServiceUtil;
@@ -37,59 +39,58 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 public class TestEncryptionTool {
 
     //@Test
-    public void testEncryptionTool() throws Exception{
-        String [] input = new String[] {"testVnf_Type","testUser","testPassword11", "testAction1", "8080", "http://localhost:8080/restconf/healthcheck"};
+    public void testEncryptionTool() throws Exception {
+        String[] input = new String[]{"testVnf_Type", "testUser", "testPassword11", "testAction1", "8080",
+            "http://localhost:8080/restconf/healthcheck"};
         WrapperEncryptionTool.main(input);
 
     }
-    @Test(expected=Exception.class)
-    public void testgetPropertyDG() throws Exception{
+
+    @Test(expected = Exception.class)
+    public void testgetPropertyDG() throws Exception {
         EncryptionToolDGWrapper et = new EncryptionToolDGWrapper();
         SvcLogicContext ctx = new SvcLogicContext();
-        Map<String, String> inParams = new HashMap<String, String>();
+        Map<String, String> inParams = new HashMap<>();
         inParams.put("prefix", "test");
         inParams.put("propertyName", "testVnf_Type.testAction1.url");
         et.getProperty(inParams, ctx);
     }
-    @Test(expected=Exception.class)
-    public void testgetData() throws Exception
-    {
-        DbServiceUtil d = new DbServiceUtil();
-        ArrayList argList = null;
-        String schema ="sdnctl";
-        String tableName ="dual";
-        String getselectData ="123";
-        String getDataClasue="123='123'";
-        d.getData(tableName, argList, schema, getselectData, getDataClasue);
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testgetData() throws Exception {
+        List<String> argList = null;
+        String schema = "sdnctl";
+        String tableName = "dual";
+        String getselectData = "123";
+        String getDataClasue = "123='123'";
+        DbServiceUtil.getData(tableName, argList, schema, getselectData, getDataClasue);
     }
-    @Test(expected=Exception.class)
-    public void testupdateDB() throws Exception
-    {
-        DbServiceUtil d = new DbServiceUtil();
-        String setCluase = null;
-        String schema ="sdnctl";
-        String tableName ="dual";
-        ArrayList inputArgs = null;
-        String whereClause="123='123'";
-        d.updateDB(tableName, inputArgs, schema, whereClause, setCluase);
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testupdateDB() throws Exception {
+        String setClause = null;
+        String tableName = "dual";
+        List<String> inputArgs = null;
+        String whereClause = "123='123'";
+        DbServiceUtil.updateDB(tableName, inputArgs, whereClause, setClause);
     }
+
     @Test
-    public void decrypt() throws Exception{
+    public void decrypt() throws Exception {
         EncryptionTool et = EncryptionTool.getInstance();
-        System.out.println(et.decrypt("enc:Ai8KLw==").toString());
+        System.out.println(et.decrypt("enc:Ai8KLw=="));
     }
-        
-        
+
     //@Test(expected=Exception.class)
-    public void testupdateProperties() throws Exception{
-        WrapperEncryptionTool.updateProperties("testuser2", "", "abc3", "", "22", "testhost1", "Ansible");
-            
+    public void testupdateProperties() throws Exception {
+        WrapperEncryptionTool.updateProperties(
+            "testuser2", "", "abc3", "", "22", "testhost1", "Ansible");
     }
-        
+
     //@Test(expected=Exception.class)
-    public void testgetProperties() throws Exception{
-        EncryptionToolDGWrapper et =  new EncryptionToolDGWrapper();
-        Map<String, String> inParams = new HashMap<String,String>();
+    public void testgetProperties() throws Exception {
+        EncryptionToolDGWrapper et = new EncryptionToolDGWrapper();
+        Map<String, String> inParams = new HashMap<>();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("vnf-type", "test2");
         ctx.setAttribute("input.action", "Configure");
@@ -97,7 +98,5 @@ public class TestEncryptionTool {
         inParams.put("propertyName", "user");
         inParams.put("prefix", "user");
         et.getProperty(inParams, ctx);
-            
     }
-        
 }
