@@ -32,21 +32,17 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.Co
 import org.onap.appc.executor.objects.LCMCommandStatus;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import org.onap.appc.util.JsonUtil;
-
 import java.io.IOException;
 import java.util.Map;
 
 public class ConfigScaleOutService extends AbstractBaseService {
-	/**
-     * Constructor
-     *
-     */  
-	public ConfigScaleOutService() {
+
+    public ConfigScaleOutService() {
         super(Action.ConfigScaleOut);
         logger.debug("ConfigScaleOutService starts");
     }
-	public ConfigScaleOutOutputBuilder process(ConfigScaleOutInput input) {
-    	CommonHeader commonHeader = input.getCommonHeader();
+    public ConfigScaleOutOutputBuilder process(ConfigScaleOutInput input) {
+        CommonHeader commonHeader = input.getCommonHeader();
         ActionIdentifiers actionIdentifiers = input.getActionIdentifiers();
         Payload payload = input.getPayload();
 
