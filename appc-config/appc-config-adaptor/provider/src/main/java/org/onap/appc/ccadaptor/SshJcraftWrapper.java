@@ -58,6 +58,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Nonnull;
 import org.apache.commons.lang.StringUtils;
+import org.onap.appc.i18n.Msg;
 
 public class SshJcraftWrapper {
 
@@ -116,7 +117,8 @@ public class SshJcraftWrapper {
         try {
             channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, timeOut);
             ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
+                readBufferSizeBytes);
             channel.connect();
             log.info("Successfully connected. Flushing input buffer.");
             try {
@@ -125,7 +127,7 @@ public class SshJcraftWrapper {
                 log.warn("Caught an Exception: Nothing to flush out.", e);
             }
         } catch (JSchException e) {
-            log.error("Could not connect to host=" + hostname, e);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostname, String.valueOf(DEFAULT_PORT), username);
             throw new IOException(e.toString());
         }
     }
@@ -142,7 +144,8 @@ public class SshJcraftWrapper {
         try {
             channel = provideSessionChannel(CHANNEL_SHELL_TYPE, portNum, timeOut);
             ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
+                readBufferSizeBytes);
             channel.connect();
             log.info("Successfully connected. Flushing input buffer.");
             try {
@@ -155,7 +158,7 @@ public class SshJcraftWrapper {
                 log.warn("Caught an Exception: Nothing to flush out.", e);
             }
         } catch (JSchException e) {
-            log.error("Could not connect to host=" + hostname, e);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostname, String.valueOf(portNum), username);
             throw new IOException(e.toString());
         }
     }
@@ -178,14 +181,14 @@ public class SshJcraftWrapper {
             while (!match) {
                 if (new Date().getTime() > deadline) {
                     String formattedCmd = removeWhiteSpaceAndNewLineCharactersAroundString(cmdThatWasSent);
-                    log.error("Routine has timed out: routerName={0} CmdThatWasSent={1}", routerName, formattedCmd);
+                    log.error(Msg.SSH_CONNECTION_TIMEOUT, routerName, formattedCmd);
                     throw new TimedOutException("Routine has timed out");
                 }
                 sleep(readIntervalMs);
                 int len = reader.read(charBuffer, 0, readBufferSizeBytes);
                 log.trace("After reader. Read command len={0}", len);
                 if (len <= 0) {
-                    log.error("Reader failed to read any bytes. Suspected socket timeout, router={0}", routerName);
+                    log.error(Msg.SSH_CONNECTION_TIMEOUT, routerName, cmdThatWasSent);
                     throw new TimedOutException("Received a SocketTimeoutException router=" + routerName);
                 }
                 if (!cliPromptCmd) {
@@ -257,11 +260,8 @@ public class SshJcraftWrapper {
                     }
                 }
             }
-        } catch (JSchException e) {
-            log.error("JSchException occurred", e);
-            throw new TimedOutException(e.getMessage());
-        } catch (IOException e) {
-            log.error("IOException occurred", e);
+        } catch (JSchException | IOException e) {
+            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
             throw new TimedOutException(e.getMessage());
         } finally {
             try {
@@ -391,10 +391,10 @@ public class SshJcraftWrapper {
             if (reader != null) {
                 reader.close();
             }
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             log.warn("Could not close reader instance", ex);
         } finally {
-            if(isConnected()) {
+            if (isConnected()) {
                 channel.disconnect();
                 session.disconnect();
                 channel = null;
@@ -412,7 +412,7 @@ public class SshJcraftWrapper {
         try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
             sendSshCommand(cmd, dos);
         } catch (IOException e) {
-            log.error("IOException occurred while sending command=" + cmd, e);
+            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
             throw e;
         }
     }
@@ -425,7 +425,7 @@ public class SshJcraftWrapper {
             dos.writeChar(v);
             dos.flush();
         } catch (IOException e) {
-            log.error("IOException occurred while writing char to channel output stream", e);
+            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
             throw e;
         }
     }
@@ -435,7 +435,7 @@ public class SshJcraftWrapper {
             dos.write(b, off, len);
             dos.flush();
         } catch (IOException e) {
-            log.error("IOException occurred while writing bytes to channel output stream", e);
+            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
             throw e;
         }
     }
@@ -493,7 +493,7 @@ public class SshJcraftWrapper {
                 ow.write(dataToWrite);
                 ow.close();
             } catch (IOException e) {
-                log.error("IOException occurred while writing to file=" + fileName, e);
+                log.warn("IOException occurred while writing to file=" + fileName, e);
             }
         }
     }
@@ -515,7 +515,7 @@ public class SshJcraftWrapper {
                 ow.write(charBuffer, 0, len);
                 ow.close();
             } catch (IOException e) {
-                log.error("IOException occurred while writing to router file=" + fileName, e);
+                log.warn("Could not write data to router file:" + fileName, e);
             }
         }
     }
@@ -540,7 +540,7 @@ public class SshJcraftWrapper {
         // of the response from the router. This first line contains the orginal command.
 
         String[] responseTokens = routerResponse.split(EOL, 2);
-        return responseTokens[responseTokens.length-1];
+        return responseTokens[responseTokens.length - 1];
     }
 
     public void setRouterCommandType(String type) {
@@ -594,8 +594,8 @@ public class SshJcraftWrapper {
     }
 
     // Routine does reads until it has read 'nchars' or times out.
-    public void receiveUntilBufferFlush(int ncharsSent, int timeout, String message) throws IOException {
-        log.debug("ncharsSent={0}, timeout={1}, message={2}", ncharsSent, timeout, message);
+    public void receiveUntilBufferFlush(int ncharsSent, int timeout, String command) throws IOException {
+        log.debug("ncharsSent={0}, timeout={1}, message={2}", ncharsSent, timeout, command);
         int ncharsTotalReceived = 0;
         int ncharsRead = 0;
 
@@ -605,8 +605,7 @@ public class SshJcraftWrapper {
             session.setTimeout(timeout);  // This is the socket timeout value.
             while (true) {
                 if (new Date().getTime() > deadline) {
-                    log.error("Routine has timed out: ncharsSent={0}, ncharsTotalReceived={1}", ncharsSent,
-                        ncharsTotalReceived);
+                    log.error(Msg.SSH_CONNECTION_TIMEOUT, routerName, command);
                     throw new TimedOutException("Routine has timed out");
                 }
                 ncharsRead = reader.read(charBuffer, 0, readBufferSizeBytes);
@@ -623,7 +622,7 @@ public class SshJcraftWrapper {
                 }
             }
         } catch (JSchException e) {
-            log.error("JSchException occurred while command sending", e);
+            log.error(Msg.SSH_SESSION_CONFIG_ERROR, e.getMessage());
             log.debug("ncharsSent={0}, ncharsTotalReceived={1}, ncharsRead={2} until error occurred",
                 ncharsSent, ncharsTotalReceived, ncharsRead);
             throw new TimedOutException(e.getMessage());
@@ -655,10 +654,10 @@ public class SshJcraftWrapper {
             sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
             sftpSession.disconnect();
         } catch (JSchException ex) {
-            log.error("JSchException occurred while handling sftp session", ex);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
-            log.error("SftpException occurred during file transfer", ex);
+            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
         }
     }
@@ -677,10 +676,10 @@ public class SshJcraftWrapper {
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
             sftpSession.disconnect();
         } catch (JSchException ex) {
-            log.error("JSchException occurred while handling sftp session", ex);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
-            log.error("SftpException occurred during data transfer", ex);
+            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
         }
     }
@@ -701,10 +700,10 @@ public class SshJcraftWrapper {
             sftpSession.disconnect();
             return sftpFileString;
         } catch (JSchException ex) {
-            log.error("JSchException occurred while handling sftp session", ex);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
-            log.error("SftpException occurred during data transfer", ex);
+            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "GET", ex.getMessage());
             throw new IOException(ex.getMessage());
         }
     }
@@ -727,7 +726,7 @@ public class SshJcraftWrapper {
         long usedMemory;
         long maxMemoryAvailable;
         long memoryLeftOnHeap;
-        maxMemoryAvailable =runtime.maxMemory() / mb;
+        maxMemoryAvailable = runtime.maxMemory() / mb;
         usedMemory = (runtime.totalMemory() / mb) - (runtime.freeMemory() / mb);
         memoryLeftOnHeap = maxMemoryAvailable - usedMemory;
         log.info("Memory usage: maxMemoryAvailable={0}, usedMemory={1}, memoryLeftOnHeap={2}",
@@ -750,10 +749,11 @@ public class SshJcraftWrapper {
             channel = provideSessionChannel(CHANNEL_SUBSYSTEM_TYPE, portNum, timeOut);
             ((ChannelSubsystem) channel).setSubsystem(subsystem);
             ((ChannelSubsystem) channel).setPty(true); //expected ptyType vt102
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
+                readBufferSizeBytes);
             channel.connect(5000);
         } catch (JSchException e) {
-            log.error("JschException occurred ", e);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostname, String.valueOf(portNum), username);
             throw new IOException(e.getMessage());
         }
     }
@@ -767,7 +767,8 @@ public class SshJcraftWrapper {
         try {
             channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, 30000);
             ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())), readBufferSizeBytes);
+            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
+                readBufferSizeBytes);
             channel.connect();
             try {
                 receiveUntil(":~#", 9000, "No cmd was sent, just waiting, but we can stop on a '~#'");
@@ -776,7 +777,7 @@ public class SshJcraftWrapper {
             }
 
         } catch (JSchException e) {
-            log.error("JschException occurred ", e);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), username);
             throw new IOException(e.getMessage());
         }
     }
@@ -795,10 +796,10 @@ public class SshJcraftWrapper {
             sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
             sftpSession.disconnect();
         } catch (JSchException ex) {
-            log.error("JSchException occurred while handling sftp session", ex);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
-            log.error("SftpException occurred during file transfer", ex);
+            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
         }
     }
@@ -829,17 +830,17 @@ public class SshJcraftWrapper {
                 if (ex.getMessage() != null && ex.getMessage().contains(exp)) {
                     log.warn("No files found, continue");
                 } else {
-                    log.error("SftpException while invoking rm command over sftp", ex);
+                    log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "RM", ex.getMessage());
                     throw ex;
                 }
             }
             log.debug("Sending stringOfData to destination {0}", fullPathDest);
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
         } catch (JSchException ex) {
-            log.error("JSchException occurred while handling sftp session", ex);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
-            log.error("SftpException occurred during file transfer", ex);
+            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
         } finally {
             if (sftpSession != null) {
@@ -867,10 +868,10 @@ public class SshJcraftWrapper {
             InputStream in = sftp.get(fullFilePathName);
             return readInputStreamAsString(in);
         } catch (JSchException ex) {
-            log.error("JSchException occurred while handling sftp session", ex);
+            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
-            log.error("SftpException occurred during file transfer", ex);
+            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "GET", ex.getMessage());
             throw new IOException(ex.getMessage());
         } finally {
             if (sftpSession != null) {
@@ -883,9 +884,6 @@ public class SshJcraftWrapper {
         try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
             sendSshCommand(cmd, dos);
             return receiveUntil(delimiter, 300000, cmd);
-        } catch (IOException ex) {
-            log.error("IOException occurred", ex);
-            throw new IOException(ex.getMessage());
         }
     }
 
@@ -908,7 +906,7 @@ public class SshJcraftWrapper {
                 channelOutputStream.flush();
                 try {
                     if (numCharsSentInChunk < length) {
-                        receiveUntilBufferFlush(numCharsSentInChunk, timeout, "buffer flush  i=" + i);
+                        receiveUntilBufferFlush(numCharsSentInChunk, timeout, originalCommand);
                     } else {
                         log.trace("i={0}, flush immediately", i);
                         channelOutputStream.flush();
