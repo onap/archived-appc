@@ -55,6 +55,9 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreInp
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigRestoreOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigureOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleOutInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleOutOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ConfigScaleOutOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DetachVolumeOutputBuilder;
@@ -591,6 +594,22 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         Assert.assertTrue(LCMCommandStatus.REQUEST_PARSING_FAILED.getResponseCode()
             == results.get().getResult().getStatus().getCode());
         verify(appcProviderLcm, times(1)).executeRequest(any());
+    }
+
+    @Test
+    public void testConfigScaleOut() throws Exception {
+        ConfigScaleOutInput mockInput = mock(ConfigScaleOutInput.class);
+        ConfigScaleOutOutput mockOutput = mock(ConfigScaleOutOutput.class);
+        ConfigScaleOutOutputBuilder mockOutputBuilder = mock(ConfigScaleOutOutputBuilder.class);
+        ConfigScaleOutService mockService = mock(ConfigScaleOutService.class);
+
+        whenNew(ConfigScaleOutService.class).withNoArguments().thenReturn(mockService);
+        when(mockService.process(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<ConfigScaleOutOutput>> results = appcProviderLcm.configScaleOut(mockInput);
+        verify(mockService, times(1)).process(mockInput);
+        Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
     }
 
     @Test
