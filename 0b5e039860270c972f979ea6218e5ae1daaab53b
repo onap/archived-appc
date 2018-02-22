@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_9a7400ff",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-22T17:52:53Z",
+      "side": 0,
+      "message": "Why are we removing these tests? Isn\u0027t this going to reduce code coverage?",
+      "revId": "0b5e039860270c972f979ea6218e5ae1daaab53b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
