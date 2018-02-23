@@ -13,6 +13,7 @@ import com.att.eelf.configuration.EELFManager;
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 /**
  * Helper class for RestServiceNode
@@ -21,9 +22,7 @@ class ResourceUriExtractor {
 
   private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
 
-  private ResourceUriExtractor() {}
-
-  static String extractResourceUri(SvcLogicContext ctx, Properties prop) throws Exception {
+  String extractResourceUri(SvcLogicContext ctx, Properties prop) throws Exception {
     String resourceUri = ctx.getAttribute(INPUT_URL);
 
     if (StringUtils.isBlank(resourceUri)) {
@@ -38,32 +37,32 @@ class ResourceUriExtractor {
     return resourceUri;
   }
 
-  private static String getAddress(SvcLogicContext ctx) {
+  private String getAddress(SvcLogicContext ctx) {
     String address = ctx.getAttribute(INPUT_HOST_IP_ADDRESS);
     String port = ctx.getAttribute(INPUT_PORT_NUMBER);
     return HTTP + address + ":" + port;
   }
 
-  private static String getContext(SvcLogicContext ctx, Properties prop) {
+  private String getContext(SvcLogicContext ctx, Properties prop) throws Exception {
     String context;
     if (StringUtils.isNotBlank(ctx.getAttribute(INPUT_CONTEXT))) {
       context = "/" + ctx.getAttribute(INPUT_CONTEXT);
     } else if (prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".context") != null) {
       context = "/" + prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".context");
     } else {
-      throw new IllegalArgumentException("Could Not found the context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
+      throw new Exception("Could Not found the context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
     }
     return context;
   }
 
-  private static String getSubContext(SvcLogicContext ctx, Properties prop) {
+  private String getSubContext(SvcLogicContext ctx, Properties prop) throws Exception {
     String subContext;
     if (StringUtils.isNotBlank(ctx.getAttribute(INPUT_SUB_CONTEXT))) {
       subContext = "/" + ctx.getAttribute(INPUT_SUB_CONTEXT);
     } else if (prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".sub-context") != null) {
       subContext = "/" + prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".sub-context");
     } else {
-      throw new IllegalArgumentException("Could Not found the sub context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
+      throw new Exception("Could Not found the sub context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
     }
     return subContext;
   }

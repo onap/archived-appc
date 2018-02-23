@@ -24,21 +24,24 @@ public class ResourceUriExtractorTest {
 
   @Rule
   public ExpectedException expectedException = ExpectedException.none();
+  private ResourceUriExtractor resourceUriExtractor;
 
   @Before
   public void setUp() {
     ctx = mock(SvcLogicContext.class);
     prop = mock(Properties.class);
+    resourceUriExtractor = new ResourceUriExtractor();
   }
 
   @Test
   public void should_return_input_url_if_exist() throws Exception {
     ctx = mock(SvcLogicContext.class);
-    when(ctx.getAttribute(INPUT_URL)).thenReturn("test resource uri");
+    when(ctx.getAttribute(INPUT_URL)).thenReturn("http://localhost:8080");
 
-    String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
+    resourceUriExtractor = new ResourceUriExtractor();
+    String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
 
-    Assert.assertEquals("test resource uri", resourceUri);
+    Assert.assertEquals("http://localhost:8080", resourceUri);
   }
 
   @Test
@@ -50,7 +53,7 @@ public class ResourceUriExtractorTest {
     when(ctx.getAttribute(INPUT_CONTEXT)).thenReturn("input-context");
     when(ctx.getAttribute(INPUT_SUB_CONTEXT)).thenReturn("input-sub-context");
 
-    String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
+    String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
 
     Assert.assertEquals("http://localhost:8080/input-context/input-sub-context", resourceUri);
   }
@@ -68,7 +71,7 @@ public class ResourceUriExtractorTest {
     when(prop.getProperty("request-action.context")).thenReturn("ra-context");
     when(prop.getProperty("request-action.sub-context")).thenReturn("ra-sub-context");
 
-    String resourceUri = ResourceUriExtractor.extractResourceUri(ctx, prop);
+    String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
 
     Assert.assertEquals("http://localhost:8080/ra-context/ra-sub-context", resourceUri);
   }
@@ -82,7 +85,7 @@ public class ResourceUriExtractorTest {
     expectedException.expect(Exception.class);
     expectedException.expectMessage("Could Not found the context for operation null");
 
-    ResourceUriExtractor.extractResourceUri(ctx, prop);
+    resourceUriExtractor.extractResourceUri(ctx, prop);
   }
 
 }
