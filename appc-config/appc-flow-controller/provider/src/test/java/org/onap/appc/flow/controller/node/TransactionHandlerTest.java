@@ -18,6 +18,7 @@ public class TransactionHandlerTest {
 
   private static final String RESOURCE_URI = "some uri";
 
+  private TransactionHandler transactionHandler;
   private SvcLogicContext ctx;
   private Properties prop;
 
@@ -26,6 +27,7 @@ public class TransactionHandlerTest {
 
   @Before
   public void setUp() {
+    transactionHandler = new TransactionHandler();
     ctx = mock(SvcLogicContext.class);
     prop = mock(Properties.class);
   }
@@ -35,9 +37,10 @@ public class TransactionHandlerTest {
 
     when(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE)).thenReturn("");
 
-    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expect(Exception.class);
     expectedException.expectMessage("Don't know REST operation for Action");
-    TransactionHandler.buildTransaction(ctx, prop, RESOURCE_URI);
+    transactionHandler = new TransactionHandler();
+    transactionHandler.buildTransaction(ctx, prop, RESOURCE_URI);
   }
 
   @Test
@@ -45,9 +48,9 @@ public class TransactionHandlerTest {
 
     when(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE)).thenReturn("foo");
 
-    expectedException.expect(IllegalArgumentException.class);
+    expectedException.expect(Exception.class);
     expectedException.expectMessage("Don't know request-action request-action");
-    TransactionHandler.buildTransaction(ctx, prop, "some uri");
+    transactionHandler.buildTransaction(ctx, prop, "some uri");
   }
 
   @Test
@@ -61,7 +64,7 @@ public class TransactionHandlerTest {
     when(prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION).concat(".default-rest-pass")))
         .thenReturn("rest-pass");
 
-    Transaction transaction = TransactionHandler.buildTransaction(ctx, prop, "some uri");
+    Transaction transaction = transactionHandler.buildTransaction(ctx, prop, "some uri");
 
     Assert.assertEquals(INPUT_REQUEST_ACTION, transaction.getAction());
     Assert.assertEquals("input-ra-type", transaction.getExecutionRPC());

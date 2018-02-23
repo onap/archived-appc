@@ -13,20 +13,17 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
  */
 class TransactionHandler {
 
-  private TransactionHandler() {}
-
-  static Transaction buildTransaction(SvcLogicContext ctx, Properties prop,
-      String resourceUri) throws Exception {
+  Transaction buildTransaction(SvcLogicContext ctx, Properties prop, String resourceUri)
+      throws Exception {
 
     String inputRequestAction = ctx.getAttribute(INPUT_REQUEST_ACTION);
     String inputRequestActionType = ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE);
 
     if (StringUtils.isBlank(inputRequestActionType)) {
-      throw new IllegalArgumentException(
-          "Don't know REST operation for Action " + inputRequestActionType);
+      throw new Exception("Don't know REST operation for Action " + inputRequestActionType);
     }
     if (StringUtils.isBlank(inputRequestAction)) {
-      throw new IllegalArgumentException("Don't know request-action " + INPUT_REQUEST_ACTION);
+      throw new Exception("Don't know request-action " + INPUT_REQUEST_ACTION);
     }
 
     Transaction transaction = new Transaction();
