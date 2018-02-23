@@ -1,20 +1,20 @@
 [
     {
-        "id": "eeae9def.4d566",
+        "id": "d54b463c.a823b8",
         "type": "dgstart",
         "name": "DGSTART",
         "outputs": 1,
-        "x": 93,
-        "y": 92,
-        "z": "65f0ae97.bfd7e8",
+        "x": 93.11666870117188,
+        "y": 41,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "f51d1b93.7d168"
+                "a2bb678c.5e00c"
             ]
         ]
     },
     {
-        "id": "f51d1b93.7d168",
+        "id": "a2bb678c.5e00c",
         "type": "service-logic",
         "name": "APPC 4.0.0",
         "module": "APPC",
@@ -22,240 +22,240 @@
         "comments": "",
         "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
         "outputs": 1,
-        "x": 250,
-        "y": 92,
-        "z": "65f0ae97.bfd7e8",
+        "x": 250.11666870117188,
+        "y": 41,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "10439b1c.b0fbc5"
+                "e60f98b3.977f1"
             ]
         ]
     },
     {
-        "id": "10439b1c.b0fbc5",
+        "id": "e60f98b3.977f1",
         "type": "method",
         "name": "DetachVolume",
         "xml": "<method rpc='DetachVolumeVM' mode='sync'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 448,
-        "y": 94,
-        "z": "65f0ae97.bfd7e8",
+        "x": 448.1166687011719,
+        "y": 43,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "cf4fac38.3b932"
+                "e8d72dbd.c9baa"
             ]
         ]
     },
     {
-        "id": "6f1b4f51.cab76",
+        "id": "f548774.5415008",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 815.9999694824219,
-        "y": 303.9999694824219,
-        "z": "65f0ae97.bfd7e8",
+        "x": 816.1166381835938,
+        "y": 252.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "f6364905.533518"
+                "329389c7.ceb186"
             ]
         ]
     },
     {
-        "id": "eda3e619.a190e",
+        "id": "efa29456.b2b9e",
         "type": "other",
         "name": "other",
         "xml": "<outcome value='Other'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 824.9999694824219,
-        "y": 182.99996948242188,
-        "z": "65f0ae97.bfd7e8",
+        "x": 825.1166381835938,
+        "y": 131.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "b81aef23.ced6e8"
+                "26584913.762376"
             ]
         ]
     },
     {
-        "id": "361abfaa.ca34b8",
+        "id": "85b565d0.ef33d8",
         "type": "returnSuccess",
         "name": "return success",
         "xml": "<return status='success'>",
         "comments": "",
-        "x": 1371.9999694824219,
-        "y": 275.9999694824219,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1372.1166381835938,
+        "y": 224.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": []
     },
     {
-        "id": "5b028b69.7d6af4",
+        "id": "8cb513a7.354458",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='RPC dettachVolume not found' />",
         "comments": "",
-        "x": 1132.9999694824219,
-        "y": 182.99996948242188,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1133.1166381835938,
+        "y": 131.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": []
     },
     {
-        "id": "f6364905.533518",
+        "id": "329389c7.ceb186",
         "type": "switchNode",
-        "name": "switch error-code",
-        "xml": "<switch test='`$error_code`'>\n",
+        "name": "switch status",
+        "xml": "<switch test='`$VOLUME_STATUS`'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1008.9999694824219,
-        "y": 304.9999694824219,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1009.1166381835938,
+        "y": 253.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "567026e7.afed6",
-                "ee60ee08.fb232"
+                "720cbf6d.f49518",
+                "1de7a2bc.3c680d"
             ]
         ]
     },
     {
-        "id": "567026e7.afed6",
+        "id": "720cbf6d.f49518",
         "type": "success",
-        "name": "SUCCESS 200",
-        "xml": "<outcome value='200'>\n",
+        "name": "success",
+        "xml": "<outcome value='SUCCESS'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1190.9999694824219,
-        "y": 274.9999694824219,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1191.1166381835938,
+        "y": 223.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "361abfaa.ca34b8"
+                "85b565d0.ef33d8"
             ]
         ]
     },
     {
-        "id": "ee60ee08.fb232",
+        "id": "1de7a2bc.3c680d",
         "type": "outcome",
         "name": "ERROR",
         "xml": "<outcome value='Other'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 1182.9999694824219,
-        "y": 433.9999694824219,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1183.1166381835938,
+        "y": 382.9999694824219,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "285baaf0.7d06de"
+                "83ea6cce.ef1b58"
             ]
         ]
     },
     {
-        "id": "285baaf0.7d06de",
+        "id": "83ea6cce.ef1b58",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 1315.9999694824219,
-        "y": 434.9999694824219,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1316.1166381835938,
+        "y": 383.9999694824219,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "44fe2b94.9c5d94",
-                "961f42bf.beb62"
+                "115510d5.27d387",
+                "6be0b92f.7a4028"
             ]
         ]
     },
     {
-        "id": "44fe2b94.9c5d94",
+        "id": "115510d5.27d387",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='`$error-message`' />\n",
         "comments": "",
-        "x": 1450.9999694824219,
-        "y": 476,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1451.1166381835938,
+        "y": 425,
+        "z": "9904acd2.cfae1",
         "wires": []
     },
     {
-        "id": "b81aef23.ced6e8",
+        "id": "26584913.762376",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 980.9999694824219,
-        "y": 182.99996948242188,
-        "z": "65f0ae97.bfd7e8",
+        "x": 981.1166381835938,
+        "y": 131.99996948242188,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "5b028b69.7d6af4"
+                "8cb513a7.354458"
             ]
         ]
     },
     {
-        "id": "34472fd1.b14ab",
+        "id": "88de342c.a6a72",
         "type": "record",
         "name": "record",
-        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"`'input.payload = ' + $input.payload`\" />\n<parameter name=\"field3\" value=\"`'vm-id in context=' + $vm-id`\" />\n<parameter name=\"field4\" value=\"`'volumeId in context=' + $volumeId`\" />\n",
+        "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"`'input.payload = ' + $input.payload`\" />\n<parameter name=\"field3\" value=\"`'vm-id in context=' + $vm-id`\" />\n<parameter name=\"field4\" value=\"`'volumeId in context=' + $volumeId`\" />\n",
         "comments": "",
         "outputs": 1,
-        "x": 815.11669921875,
-        "y": 124,
-        "z": "65f0ae97.bfd7e8",
+        "x": 815.2333679199219,
+        "y": 73,
+        "z": "9904acd2.cfae1",
         "wires": [
             []
         ]
     },
     {
-        "id": "cf4fac38.3b932",
+        "id": "e8d72dbd.c9baa",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 636.8666687011719,
-        "y": 152.86666870117188,
-        "z": "65f0ae97.bfd7e8",
+        "x": 636.9833374023438,
+        "y": 101.86666870117188,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "34472fd1.b14ab",
-                "e021eba0.2f5b7"
+                "88de342c.a6a72",
+                "62735c5f.2a9b9c"
             ]
         ]
     },
     {
-        "id": "961f42bf.beb62",
+        "id": "6be0b92f.7a4028",
         "type": "record",
         "name": "record",
-        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field3\" value=\"`'error-message = ' + $error-message`\" />\n<parameter name=\"field4\" value=\"`'error-code = ' + $error_code`\" />",
+        "xml": "<record plugin=\"org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field3\" value=\"`'error-message = ' + $error-message`\" />\n<parameter name=\"field4\" value=\"`'error-code = ' + $error_code`\" />",
         "comments": "",
         "outputs": 1,
-        "x": 1440.8666687011719,
-        "y": 406.8666687011719,
-        "z": "65f0ae97.bfd7e8",
+        "x": 1440.9833374023438,
+        "y": 355.8666687011719,
+        "z": "9904acd2.cfae1",
         "wires": [
             []
         ]
     },
     {
-        "id": "e021eba0.2f5b7",
+        "id": "62735c5f.2a9b9c",
         "type": "execute",
         "name": "DetachVolume",
         "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='dettachVolume'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\" />\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$vm-id`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$identity-url`\" />\n<parameter name=\"org.onap.appc.volumeid\" value=\"`$volumeAttachment.volumeId`\" />\n<parameter name=\"org.onap.appc.device\" value=\"`$volumeAttachment.device`\" />\n<parameter name=\"org.onap.appc.tag\" value=\"`$volumeAttachment.tag`\"/>",
         "comments": "",
         "outputs": 1,
-        "x": 652.9999694824219,
-        "y": 238,
-        "z": "65f0ae97.bfd7e8",
+        "x": 653.1166381835938,
+        "y": 187,
+        "z": "9904acd2.cfae1",
         "wires": [
             [
-                "eda3e619.a190e",
-                "6f1b4f51.cab76"
+                "efa29456.b2b9e",
+                "f548774.5415008"
             ]
         ]
     }
