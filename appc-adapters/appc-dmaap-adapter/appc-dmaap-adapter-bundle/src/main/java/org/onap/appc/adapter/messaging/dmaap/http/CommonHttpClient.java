@@ -34,79 +34,74 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 
-public class CommonHttpClient {
+abstract class CommonHttpClient {
 
-    public static final int HTTPS_PORT = 3905;
+    private static final int HTTP_PORT = 3904;
+    private static final int HTTPS_PORT = 3905;
+    private static final int TIMEOUT_OFFSET = 5000;
 
-    private String AUTH_STR;
+    private String authStr;
 
     protected void setBasicAuth(String username, String password) {
         if (username != null && password != null) {
             String plain = String.format("%s:%s", username, password);
-            AUTH_STR = Base64.encodeBase64String(plain.getBytes());
+            authStr = Base64.encodeBase64String(plain.getBytes());
         } else {
-            AUTH_STR = null;
+            authStr = null;
         }
     }
 
-    public HttpGet getReq(URI uri, int timeoutMs) throws Exception {
-         if (AUTH_STR == null) {
-            throw new Exception("All DMaaP requests require authentication and none was provided.");
+    protected HttpGet getReq(URI uri, int timeoutMs) throws AuthenticationException {
+        if (authStr == null) {
+            throw new AuthenticationException("All DMaaP requests require authentication and none was provided.");
         }
 
         HttpGet out = (uri == null) ? new HttpGet() : new HttpGet(uri);
-        out.setHeader("Authorization", String.format("Basic %s", AUTH_STR)); 
+        out.setHeader("Authorization", String.format("Basic %s", authStr));
         out.setConfig(getConfig(timeoutMs));
         return out;
     }
 
-    public HttpPost postReq(String url) throws Exception {
-        if (AUTH_STR == null) {
-            throw new Exception("All DMaaP requests require authentication and none was provided.");
+    protected HttpPost postReq(String url) throws AuthenticationException {
+        if (authStr == null) {
+            throw new AuthenticationException("All DMaaP requests require authentication and none was provided.");
         }
 
         HttpPost out = (url == null) ? new HttpPost() : new HttpPost(url);
-        out.setHeader("Authorization", String.format("Basic %s", AUTH_STR));
+        out.setHeader("Authorization", String.format("Basic %s", authStr));
         out.setConfig(getConfig(0));
         return out;
     }
 
     private RequestConfig getConfig(int timeoutMs) {
         Builder builder = RequestConfig.custom();
-        builder.setSocketTimeout(timeoutMs + 5000);
+        builder.setSocketTimeout(timeoutMs + TIMEOUT_OFFSET);
         return builder.build();
     }
 
-    public CloseableHttpClient getClient() {
-        return getClient(false);
-    }
-
-    public CloseableHttpClient getClient(boolean useHttps) {
+    protected CloseableHttpClient getClient() {
         return HttpClientBuilder.create().build();
     }
 
-    public String formatHostString(String host) {
+    protected String formatHostString(String host) {
         return formatHostString(host, host.contains(String.valueOf(HTTPS_PORT)));
     }
 
-    public String formatHostString(String host, boolean useHttps) {
+    private String formatHostString(String host, boolean useHttps) {
         // Trim trailing slash
         String out = host.endsWith("/") ? host.substring(0, host.length() - 1) : host;
 
-        boolean hasProto = out.startsWith("http");
+        boolean hasProtocol = out.startsWith("http");
         boolean hasPort = out.contains(":");
 
         // Add protocol
-        if (!hasProto) {
+        if (!hasProtocol) {
             out = String.format("%s%s", (useHttps) ? "https://" : "http://", out);
         }
-
         // Add port
         if (!hasPort) {
-            out = String.format("%s:%d", out, (useHttps) ? 3905 : 3904);
+            out = String.format("%s:%d", out, (useHttps) ? HTTPS_PORT : HTTP_PORT);
         }
-
         return out;
-
     }
 }
