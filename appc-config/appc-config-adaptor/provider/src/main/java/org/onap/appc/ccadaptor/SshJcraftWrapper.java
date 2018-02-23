@@ -549,28 +549,28 @@ public class SshJcraftWrapper {
     }
 
     public String getLastFewLinesOfFile(File file, int linesToRead) throws IOException {
-        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
-        int lines = 0;
-        StringBuilder builder = new StringBuilder();
         String tail = "";
-        long length = file.length();
-        length--;
-        randomAccessFile.seek(length);
-        for (long seek = length; seek >= 0; --seek) {
-            randomAccessFile.seek(seek);
-            char c = (char) randomAccessFile.read();
-            builder.append(c);
-            if (c == '\n') {
-                builder = builder.reverse();
-                tail = builder.toString() + tail;
-                lines++;
-                builder.setLength(0);
-                if (lines == linesToRead) {
-                    break;
+        try(RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r")) {
+            int lines = 0;
+            StringBuilder builder = new StringBuilder();
+            long length = file.length();
+            length--;
+            randomAccessFile.seek(length);
+            for (long seek = length; seek >= 0; --seek) {
+                randomAccessFile.seek(seek);
+                char c = (char) randomAccessFile.read();
+                builder.append(c);
+                if (c == '\n') {
+                    builder = builder.reverse();
+                    tail = builder.append(tail).toString();
+                    lines++;
+                    builder.setLength(0);
+                    if (lines == linesToRead) {
+                        break;
+                    }
                 }
             }
         }
-        randomAccessFile.close();
         if (log.isDebugEnabled()) {
             log.debug("Content read from file={0} was tail={1}", file.getName(), tail);
         }
