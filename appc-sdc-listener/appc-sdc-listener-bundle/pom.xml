@@ -150,9 +150,19 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<version>1.7</version>
-		</dependency>
-
-		<dependency>
+                        <exclusions>
+                             <exclusion>
+                                  <artifactId>commons-collections</artifactId>
+                                  <groupId>commons-collections</groupId>
+                             </exclusion>
+                        </exclusions>
+                 </dependency>
+                 <dependency>
+                     <groupId>commons-collections</groupId>
+                     <artifactId>commons-collections</artifactId>
+                     <version>3.2.2</version>
+                 </dependency>
+		 <dependency>
 			<groupId>org.opendaylight.yangtools</groupId>
 			<artifactId>yang-parser-impl</artifactId>
 			<version>${odl.yangtools.version}</version>

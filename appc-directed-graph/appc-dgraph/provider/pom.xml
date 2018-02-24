@@ -79,6 +79,17 @@
             <artifactId>velocity</artifactId>
             <version>1.7</version>
             <scope>test</scope>
+            <exclusions>
+                 <exclusion>
+                      <artifactId>commons-collections</artifactId>
+                      <groupId>commons-collections</groupId>
+                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
         </dependency>
 
         <dependency>
