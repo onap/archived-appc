@@ -37,7 +37,7 @@
 		
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		
-		<bundle>mvn:commons-collections/commons-collections/3.2.1</bundle>
+		<bundle>mvn:commons-collections/commons-collections/3.2.2</bundle>
 
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
 		<bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
