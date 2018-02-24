@@ -73,7 +73,18 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
-        </dependency>
+            <exclusions>
+                 <exclusion>
+                       <artifactId>commons-collections</artifactId>
+                       <groupId>commons-collections</groupId>
+                  </exclusion>
+            </exclusions>
+         </dependency>
+         <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>3.2.2</version>
+          </dependency>
 
         <dependency>
             <groupId>com.att.eelf</groupId>
