@@ -36,6 +36,8 @@ import java.io.InputStreamReader;
 
 public class JAXBUtil {
 
+    private JAXBUtil() {}
+
     public static <T> T toObject(String xml, Class<T> type) throws JAXBException {
 
         //create JAXB context
@@ -48,6 +50,5 @@ public class JAXBUtil {
         BufferedReader reader = new BufferedReader(new InputStreamReader(xmlInputStream));
 
         return type.cast(unmarshaller.unmarshal(reader));
-
     }
 }

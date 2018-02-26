@@ -31,21 +31,25 @@ public class ResolverFactory {
 
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
+    private ResolverFactory() {}
+
+    public static AbstractResolver createResolver(String resolverType) {
+        if ("VNF".equalsIgnoreCase(resolverType)) {
+            return ReferenceHolder.VNF_RESOLVER;
+        } else if ("VNFC".equalsIgnoreCase(resolverType)) {
+            return ReferenceHolder.VNFC_RESOLVER;
+        } else {
+            return null;
+        }
+    }
+
     private static class ReferenceHolder {
 
         private static final AbstractResolver VNFC_RESOLVER = new VNFCResolver(
             configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
         private static final AbstractResolver VNF_RESOLVER = new VNFResolver(
             configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
-    }
 
-    public static AbstractResolver createResolver(String resolverType) {
-        if (resolverType.equalsIgnoreCase("VNF")) {
-            return ReferenceHolder.VNF_RESOLVER;
-        } else if (resolverType.equalsIgnoreCase("VNFC")) {
-            return ReferenceHolder.VNFC_RESOLVER;
-        } else {
-            return null;
-        }
+        private ReferenceHolder(){}
     }
 }

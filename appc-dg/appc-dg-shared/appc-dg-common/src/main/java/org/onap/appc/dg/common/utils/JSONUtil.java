@@ -29,6 +29,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.io.UncheckedIOException;
 import java.util.*;
 
 
@@ -36,12 +37,14 @@ public class JSONUtil {
 
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
+    private JSONUtil() {}
+
     public static <T> T fromJson(String json, Class<T> clazz) {
 
         try {
             return OBJECT_MAPPER.readValue(json, clazz);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -50,7 +53,7 @@ public class JSONUtil {
         try {
             return OBJECT_MAPPER.readValue(reader, clazz);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -59,25 +62,23 @@ public class JSONUtil {
         try {
             return OBJECT_MAPPER.writeValueAsString(object);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
     }
 
-    public static Map<String,String> extractPlainValues(String json, String ... names) {
-        if (null == names) return Collections.emptyMap();
-        Map<String,String> values = new HashMap<>();
+    public static Map<String, String> extractPlainValues(String json, String... names) {
+        if (null == names) {
+            return Collections.emptyMap();
+        }
+        Map<String, String> values = new HashMap<>();
         try {
             final JsonNode jsonNode = OBJECT_MAPPER.readTree(json);
             for (String name : names) {
                 values.put(name, jsonNode.path(name).asText());
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new UncheckedIOException(e);
         }
         return values;
     }
-
-
-
-
 }

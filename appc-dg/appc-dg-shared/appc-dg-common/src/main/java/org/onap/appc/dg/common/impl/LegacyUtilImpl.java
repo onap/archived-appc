@@ -35,31 +35,33 @@ public class LegacyUtilImpl implements LegacyUtil {
 
     @Override
     public void prepareRequest(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        ctx.setAttribute(Constants.LegacyAttributes.Action.getValue(),
-            ctx.getAttribute(Constants.LCMAttributes.Action.getValue()).toLowerCase());
+        ctx.setAttribute(Constants.LegacyAttributes.ACTION.getValue(),
+            ctx.getAttribute(Constants.LCMAttributes.ACTION.getValue()).toLowerCase());
 
-        String payloadStr = ctx.getAttribute(Constants.LCMAttributes.Payload.getValue());
+        String payloadStr = ctx.getAttribute(Constants.LCMAttributes.PAYLOAD.getValue());
         Map<String, String> payloads = JSONUtil.extractPlainValues(payloadStr,
-            Constants.LCMAttributes.VMID.getValue(), Constants.LCMAttributes.IdentityURL.getValue(),
-            Constants.LCMAttributes.TenantID.getValue(),
-            Constants.LCMAttributes.SkipHypervisorCheck.getValue());
+            Constants.LCMAttributes.VMID.getValue(), Constants.LCMAttributes.IDENTITY_URL.getValue(),
+            Constants.LCMAttributes.TENANT_ID.getValue(),
+            Constants.LCMAttributes.SKIP_HYPERVISOR_CHECK.getValue());
 
         ctx.setAttribute(Constants.LegacyAttributes.VMID.getValue(),
             payloads.get(Constants.LCMAttributes.VMID.getValue()));
-        ctx.setAttribute(Constants.LegacyAttributes.IdentityURL.getValue(),
-            payloads.get(Constants.LCMAttributes.IdentityURL.getValue()));
-        ctx.setAttribute(Constants.LegacyAttributes.TenantID.getValue(),
-            payloads.get(Constants.LCMAttributes.TenantID.getValue()));
-        ctx.setAttribute(Constants.LegacyAttributes.SkipHypervisorCheck.getValue(),
-            payloads.get(Constants.LCMAttributes.SkipHypervisorCheck.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.IDENTITY_URL.getValue(),
+            payloads.get(Constants.LCMAttributes.IDENTITY_URL.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.TENANT_ID.getValue(),
+            payloads.get(Constants.LCMAttributes.TENANT_ID.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.SKIP_HYPERVISOR_CHECK.getValue(),
+            payloads.get(Constants.LCMAttributes.SKIP_HYPERVISOR_CHECK.getValue()));
 
     }
 
     @Override
     public void convertPositiveResponse(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+        /*TODO implement this method*/
     }
 
     @Override
     public void convertNegativeResponse(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+        /*TODO implement this method*/
     }
 }
