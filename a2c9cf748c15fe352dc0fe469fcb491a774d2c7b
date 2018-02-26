@@ -16,6 +16,24 @@
       "revId": "a2c9cf748c15fe352dc0fe469fcb491a774d2c7b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_69012c04",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/TransactionHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-02-26T07:20:32Z",
+      "side": 1,
+      "message": "IllegalArgumentException is unchecked exception therefore has chance to be accidentally forgotten when reusing/refactoring class in future.\n\nSadly, RestServiceNode logic is fixed on catching any Exception and re-throwing its message as SvcLogicException so type of exception is effectively ignored.",
+      "parentUuid": "5a93c517_4e86b6dc",
+      "revId": "a2c9cf748c15fe352dc0fe469fcb491a774d2c7b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
