@@ -28,9 +28,10 @@ import java.util.Arrays;
 import java.util.Collection;
 
 public class VNFCResolverDataReader extends AbstractResolverDataReader {
+
     @Override
     protected Collection<String> getAttributeNames() {
-        return Arrays.asList("action","api_version", "vnf_type", "vnfc_type");
+        return Arrays.asList("action", "api_version", "vnf_type", "vnfc_type");
     }
 
     @Override

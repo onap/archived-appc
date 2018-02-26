@@ -24,14 +24,12 @@
 
 package org.onap.appc.dg.common.impl;
 
+import com.att.eelf.i18n.EELFResourceManager;
+import java.util.Map;
+import org.onap.appc.dg.common.DgResolverPlugin;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
-import com.att.eelf.i18n.EELFResourceManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import java.util.Map;
-
-import org.onap.appc.dg.common.DgResolverPlugin;
 
 public class DgResolverPluginImpl implements DgResolverPlugin {
 
@@ -44,10 +42,14 @@ public class DgResolverPluginImpl implements DgResolverPlugin {
         FlowKey flowKey = null;
         try {
 
-            if(params.get("DGResolutionType").equalsIgnoreCase("VNFC")) {
-                 flowKey = resolver.resolve(params.get(Constants.IN_PARAM_ACTION), params.get(Constants.IN_PARAM_VNF_TYPE), params.get(Constants.IN_PARAM_VNFC_TYPE), params.get(Constants.IN_PARAM_API_VERSION));
-            }else if(params.get("DGResolutionType").equalsIgnoreCase("VNF")){
-                 flowKey = resolver.resolve(params.get(Constants.IN_PARAM_ACTION), params.get(Constants.IN_PARAM_VNF_TYPE), params.get("vnfVersion"), params.get(Constants.IN_PARAM_API_VERSION));
+            if (params.get("DGResolutionType").equalsIgnoreCase("VNFC")) {
+                flowKey = resolver
+                    .resolve(params.get(Constants.IN_PARAM_ACTION), params.get(Constants.IN_PARAM_VNF_TYPE),
+                        params.get(Constants.IN_PARAM_VNFC_TYPE), params.get(Constants.IN_PARAM_API_VERSION));
+            } else if (params.get("DGResolutionType").equalsIgnoreCase("VNF")) {
+                flowKey = resolver
+                    .resolve(params.get(Constants.IN_PARAM_ACTION), params.get(Constants.IN_PARAM_VNF_TYPE),
+                        params.get("vnfVersion"), params.get(Constants.IN_PARAM_API_VERSION));
             }
             if (flowKey != null) {
                 DGName = flowKey.name();
@@ -57,14 +59,16 @@ public class DgResolverPluginImpl implements DgResolverPlugin {
                 DGModule = flowKey.module();
                 ctx.setAttribute(prefix + Constants.OUT_PARAM_DG_MODULE, DGModule);
             } else {
-                throw new RuntimeException(params.get("DGResolutionType")+ " DG not found for vnf type :" + params.get(Constants.IN_PARAM_VNF_TYPE)
-                        + " vnfc type : " + params.get(Constants.IN_PARAM_VNFC_TYPE)
-                        + " action : " + params.get(Constants.IN_PARAM_ACTION)
-                        + " api version : " + params.get(Constants.IN_PARAM_API_VERSION));
+                throw new RuntimeException(params.get("DGResolutionType") + " DG not found for vnf type :" + params
+                    .get(Constants.IN_PARAM_VNF_TYPE)
+                    + " vnfc type : " + params.get(Constants.IN_PARAM_VNFC_TYPE)
+                    + " action : " + params.get(Constants.IN_PARAM_ACTION)
+                    + " api version : " + params.get(Constants.IN_PARAM_API_VERSION));
             }
         } catch (Exception e) {
-            String msg = EELFResourceManager.format(Msg.FAILURE_RETRIEVE_VNFC_DG,params.get(Constants.IN_PARAM_VNFC_TYPE), e.getMessage());
-            ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE,msg);
+            String msg = EELFResourceManager
+                .format(Msg.FAILURE_RETRIEVE_VNFC_DG, params.get(Constants.IN_PARAM_VNFC_TYPE), e.getMessage());
+            ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
             throw new RuntimeException(e);
         }
     }

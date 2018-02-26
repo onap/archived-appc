@@ -24,14 +24,12 @@
 
 package org.onap.appc.dg.common.impl;
 
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 
 import java.util.Map;
-
 import org.onap.appc.dg.common.OutputMessagePlugin;
 import org.onap.appc.exceptions.APPCException;
-
-import static org.apache.commons.lang3.StringUtils.isEmpty;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class OutputMessagePluginImpl implements OutputMessagePlugin {
 
@@ -43,7 +41,7 @@ public class OutputMessagePluginImpl implements OutputMessagePlugin {
         errorDescription = params.get(Constants.ATTRIBUTE_ERROR_MESSAGE);
         eventDescription = params.get(Constants.EVENT_MESSAGE);
 
-        addToContextIfNotContains(errorDescription , eventDescription, ctx);
+        addToContextIfNotContains(errorDescription, eventDescription, ctx);
 
         //making event-message
 
@@ -54,19 +52,22 @@ public class OutputMessagePluginImpl implements OutputMessagePlugin {
         }
     }
 
-    public static void addToContextIfNotContains(String errorDescription, String eventDescription, SvcLogicContext ctx) {
-        if (!isEmpty(errorDescription)){
+    public static void addToContextIfNotContains(String errorDescription, String eventDescription,
+        SvcLogicContext ctx) {
+        if (!isEmpty(errorDescription)) {
             if (isEmpty(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE))) {
                 ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, errorDescription);
-            }else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(errorDescription)) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + errorDescription);
+            } else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(errorDescription)) {
+                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE,
+                    ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + errorDescription);
             }
         }
-        if (!isEmpty(eventDescription)){
+        if (!isEmpty(eventDescription)) {
             if (isEmpty(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE))) {
                 ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, eventDescription);
-            }else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(eventDescription)) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + eventDescription);
+            } else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(eventDescription)) {
+                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE,
+                    ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + eventDescription);
             }
         }
     }

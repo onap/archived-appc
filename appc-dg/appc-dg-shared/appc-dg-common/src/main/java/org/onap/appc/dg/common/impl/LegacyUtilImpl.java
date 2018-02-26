@@ -25,28 +25,33 @@
 package org.onap.appc.dg.common.impl;
 
 import java.util.Map;
-
 import org.onap.appc.dg.common.LegacyUtil;
 import org.onap.appc.dg.common.utils.JSONUtil;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 
-
 public class LegacyUtilImpl implements LegacyUtil {
 
-    @Override public void prepareRequest(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        ctx.setAttribute(Constants.LegacyAttributes.Action.getValue(), ctx.getAttribute(Constants.LCMAttributes.Action.getValue()).toLowerCase());
+    @Override
+    public void prepareRequest(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+        ctx.setAttribute(Constants.LegacyAttributes.Action.getValue(),
+            ctx.getAttribute(Constants.LCMAttributes.Action.getValue()).toLowerCase());
 
         String payloadStr = ctx.getAttribute(Constants.LCMAttributes.Payload.getValue());
-        Map<String,String> payloads = JSONUtil.extractPlainValues(payloadStr,
-                        Constants.LCMAttributes.VMID.getValue(), Constants.LCMAttributes.IdentityURL.getValue(), Constants.LCMAttributes.TenantID.getValue(), 
-                        Constants.LCMAttributes.SkipHypervisorCheck.getValue());
+        Map<String, String> payloads = JSONUtil.extractPlainValues(payloadStr,
+            Constants.LCMAttributes.VMID.getValue(), Constants.LCMAttributes.IdentityURL.getValue(),
+            Constants.LCMAttributes.TenantID.getValue(),
+            Constants.LCMAttributes.SkipHypervisorCheck.getValue());
 
-        ctx.setAttribute(Constants.LegacyAttributes.VMID.getValue(), payloads.get(Constants.LCMAttributes.VMID.getValue()));
-        ctx.setAttribute(Constants.LegacyAttributes.IdentityURL.getValue(), payloads.get(Constants.LCMAttributes.IdentityURL.getValue()));
-        ctx.setAttribute(Constants.LegacyAttributes.TenantID.getValue(), payloads.get(Constants.LCMAttributes.TenantID.getValue()));
-        ctx.setAttribute(Constants.LegacyAttributes.SkipHypervisorCheck.getValue(), payloads.get(Constants.LCMAttributes.SkipHypervisorCheck.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.VMID.getValue(),
+            payloads.get(Constants.LCMAttributes.VMID.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.IdentityURL.getValue(),
+            payloads.get(Constants.LCMAttributes.IdentityURL.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.TenantID.getValue(),
+            payloads.get(Constants.LCMAttributes.TenantID.getValue()));
+        ctx.setAttribute(Constants.LegacyAttributes.SkipHypervisorCheck.getValue(),
+            payloads.get(Constants.LCMAttributes.SkipHypervisorCheck.getValue()));
 
     }
 

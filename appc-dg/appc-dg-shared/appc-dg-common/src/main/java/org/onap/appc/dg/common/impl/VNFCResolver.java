@@ -28,19 +28,21 @@ import org.onap.appc.rankingframework.RankedAttributesContext;
 
 
 public class VNFCResolver extends AbstractResolver {
+
     VNFCResolver(int interval) {
         super(interval);
     }
 
     @Override
     protected FlowKey resolve(String... args) {
-        if(args.length !=4){
+        if (args.length != 4) {
             throw new IllegalStateException(args.toString());
         }
-        return resolve(args[0],args[1],args[2],args[3]);
+        return resolve(args[0], args[1], args[2], args[3]);
     }
 
-    protected FlowKey resolve(final String action, final String vnfType, final String vnfcType, final String apiVersion) {
+    protected FlowKey resolve(final String action, final String vnfType, final String vnfcType,
+        final String apiVersion) {
         RankedAttributesContext context = new RankedAttributesContext() {
             @Override
             public Object getAttributeValue(String name) {

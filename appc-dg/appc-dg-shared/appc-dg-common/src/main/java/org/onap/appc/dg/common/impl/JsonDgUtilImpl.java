@@ -24,11 +24,16 @@
 
 package org.onap.appc.dg.common.impl;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.dg.common.JsonDgUtil;
@@ -37,15 +42,9 @@ import org.onap.appc.i18n.Msg;
 import org.onap.appc.util.JsonUtil;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 
 public class JsonDgUtilImpl implements JsonDgUtil {
+
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(JsonDgUtilImpl.class);
 
     private static final ThreadLocal<SimpleDateFormat> DATE_TIME_PARSER_THREAD_LOCAL = new ThreadLocal<SimpleDateFormat>() {
@@ -58,13 +57,16 @@ public class JsonDgUtilImpl implements JsonDgUtil {
     public void flatAndAddToContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
 
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to flatAndAddToContext with params = "+ ObjectUtils.toString(params)+", SvcLogicContext = "+ObjectUtils.toString(ctx));
+            logger.trace(
+                "Entering to flatAndAddToContext with params = " + ObjectUtils.toString(params) + ", SvcLogicContext = "
+                    + ObjectUtils.toString(ctx));
         }
         try {
             String paramName = Constants.PAYLOAD;
             String payload = params.get(paramName);
-            if (payload == null || payload.isEmpty())
+            if (payload == null || payload.isEmpty()) {
                 payload = ctx.getAttribute("input.payload");
+            }
             if (!StringUtils.isEmpty(payload)) {
                 Map<String, String> flatMap = JsonUtil.convertJsonStringToFlatMap(payload);
                 if (flatMap != null && flatMap.size() > 0) {
@@ -77,16 +79,17 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             }
         } catch (Exception e) {
             logger.error(e.toString());
-            String msg = EELFResourceManager.format(Msg.INPUT_PAYLOAD_PARSING_FAILED,params.get(Constants.PAYLOAD));
+            String msg = EELFResourceManager.format(Msg.INPUT_PAYLOAD_PARSING_FAILED, params.get(Constants.PAYLOAD));
             ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
             throw new APPCException(e);
         }
     }
 
     @Override
-    public void generateOutputPayloadFromContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException{
+    public void generateOutputPayloadFromContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to generateOutputPayloadFromContext with SvcLogicContext = "+ObjectUtils.toString(ctx));
+            logger.trace(
+                "Entering to generateOutputPayloadFromContext with SvcLogicContext = " + ObjectUtils.toString(ctx));
         }
 
         try {
@@ -94,26 +97,27 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             ObjectMapper objectMapper = new ObjectMapper();
             ObjectNode JsonNode = objectMapper.createObjectNode();
             for (String key : keys) {
-                if(key.startsWith(Constants.OUTPUT_PAYLOAD+".")){
-                    String objkey=  key.replaceFirst(Constants.OUTPUT_PAYLOAD + ".", "");
-                    if(objkey.contains("[") && objkey.contains("]")){
+                if (key.startsWith(Constants.OUTPUT_PAYLOAD + ".")) {
+                    String objkey = key.replaceFirst(Constants.OUTPUT_PAYLOAD + ".", "");
+                    if (objkey.contains("[") && objkey.contains("]")) {
                         ArrayNode arrayNode;
-                        String arrayKey = objkey.substring(0,objkey.indexOf('['));
-                        int arrayIndex = Integer.parseInt(objkey.substring(objkey.indexOf('[')+1,objkey.indexOf(']')));
-                        if(JsonNode.has(arrayKey)){
-                            arrayNode = (ArrayNode)JsonNode.get(arrayKey);
-                            arrayNode.insert(arrayIndex,ctx.getAttribute(key));
-                        }else {
+                        String arrayKey = objkey.substring(0, objkey.indexOf('['));
+                        int arrayIndex = Integer
+                            .parseInt(objkey.substring(objkey.indexOf('[') + 1, objkey.indexOf(']')));
+                        if (JsonNode.has(arrayKey)) {
+                            arrayNode = (ArrayNode) JsonNode.get(arrayKey);
+                            arrayNode.insert(arrayIndex, ctx.getAttribute(key));
+                        } else {
                             arrayNode = objectMapper.createArrayNode();
-                            arrayNode.insert(arrayIndex,ctx.getAttribute(key));
-                            JsonNode.put(arrayKey,arrayNode);
+                            arrayNode.insert(arrayIndex, ctx.getAttribute(key));
+                            JsonNode.put(arrayKey, arrayNode);
                         }
-                    }else {
+                    } else {
                         JsonNode.put(objkey, ctx.getAttribute(key));
                     }
                 }
             }
-            if(JsonNode.size()>0) {
+            if (JsonNode.size() > 0) {
                 ctx.setAttribute(Constants.OUTPUT_PAYLOAD, objectMapper.writeValueAsString(JsonNode));
             }
         } catch (Exception e) {
@@ -126,11 +130,11 @@ public class JsonDgUtilImpl implements JsonDgUtil {
 
     @Override
     public void cvaasFileNameAndFileContentToContext(Map<String, String> params, SvcLogicContext ctx)
-            throws APPCException {
+        throws APPCException {
 
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to caasFileNameAndFileContentToContext with SvcLogicContext = "
-                    + ObjectUtils.toString(ctx));
+                + ObjectUtils.toString(ctx));
         }
 
         String vnfId = null;
@@ -139,13 +143,13 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             String appcInstanceId = params.get(Constants.APPC_INSTANCE_ID);
 
 			/*
-			 * File name
+             * File name
 			 */
             vnfId = params.get("vnf-id");
             long timestampAsLongRepresentingFileCreationTime = System.currentTimeMillis();
 
             ctx.setAttribute(Constants.CVAAS_FILE_NAME, cvassDirectoryPath + File.separator + vnfId + "_"
-                    + timestampAsLongRepresentingFileCreationTime + "_" + appcInstanceId + ".json");
+                + timestampAsLongRepresentingFileCreationTime + "_" + appcInstanceId + ".json");
 
 			/*
 			 * File content
@@ -174,7 +178,7 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             jsonNode.put("CONTENT", ctx.getAttribute("running-config.content"));
 
             ctx.setAttribute(Constants.CVAAS_FILE_CONTENT,
-                    objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode));
+                objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode));
 
         } catch (Exception e) {
             String errorMessage = "Failed to parse create cvass file for vnf with id : " + vnfId;

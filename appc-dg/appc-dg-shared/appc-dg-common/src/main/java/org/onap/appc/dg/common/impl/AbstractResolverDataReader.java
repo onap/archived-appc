@@ -24,26 +24,26 @@
 
 package org.onap.appc.dg.common.impl;
 
-import org.onap.appc.dao.util.DBUtils;
-import org.onap.appc.rankingframework.AbstractRankedAttributesResolverFactory;
-import org.onap.appc.rankingframework.ConfigurationEntry;
-import org.onap.appc.rankingframework.ConfigurationSet;
-import org.onap.appc.rankingframework.RankedAttributesResolver;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Iterator;
+import org.onap.appc.dao.util.DBUtils;
+import org.onap.appc.rankingframework.AbstractRankedAttributesResolverFactory;
+import org.onap.appc.rankingframework.ConfigurationEntry;
+import org.onap.appc.rankingframework.ConfigurationSet;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 
 abstract class AbstractResolverDataReader {
 
-    private  class ConfigurationSetAdaptor implements ConfigurationSet<FlowKey> {
+    private class ConfigurationSetAdaptor implements ConfigurationSet<FlowKey> {
 
         private final ResultSet resultSet;
 
         private class ResultSetIterator implements Iterator<ConfigurationEntry<FlowKey>>, ConfigurationEntry<FlowKey> {
+
             @Override
             public boolean hasNext() {
                 try {
@@ -75,7 +75,8 @@ abstract class AbstractResolverDataReader {
             @Override
             public FlowKey getResult() {
                 try {
-                    return new FlowKey(resultSet.getString("dg_name"), resultSet.getString("dg_version"), resultSet.getString("dg_module"));
+                    return new FlowKey(resultSet.getString("dg_name"), resultSet.getString("dg_version"),
+                        resultSet.getString("dg_module"));
                 } catch (SQLException e) {
                     throw new DataReaderException(e);
                 }
@@ -99,8 +100,8 @@ abstract class AbstractResolverDataReader {
     }
 
     protected abstract Collection<String> getAttributeNames();
-    protected abstract String getQueryStmt();
 
+    protected abstract String getQueryStmt();
 
 
     RankedAttributesResolver<FlowKey> read() {

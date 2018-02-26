@@ -25,7 +25,6 @@
 package org.onap.appc.dg.common.objects;
 
 
-
 public class ConnectionDetails {
 
     private String host;

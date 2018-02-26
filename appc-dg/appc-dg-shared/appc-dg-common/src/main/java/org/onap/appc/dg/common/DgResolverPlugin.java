@@ -24,13 +24,13 @@
 
 package org.onap.appc.dg.common;
 
+import java.util.Map;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
-import java.util.Map;
-
 @FunctionalInterface
 public interface DgResolverPlugin extends SvcLogicJavaPlugin {
+
     void resolveDg(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
 }

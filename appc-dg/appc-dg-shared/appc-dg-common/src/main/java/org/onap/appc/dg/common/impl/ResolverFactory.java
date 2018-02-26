@@ -28,18 +28,23 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 
 public class ResolverFactory {
+
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
-    private static class ReferenceHolder{
-        private static final AbstractResolver VNFC_RESOLVER = new VNFCResolver(configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
-        private static final AbstractResolver VNF_RESOLVER = new VNFResolver(configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
+
+    private static class ReferenceHolder {
+
+        private static final AbstractResolver VNFC_RESOLVER = new VNFCResolver(
+            configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
+        private static final AbstractResolver VNF_RESOLVER = new VNFResolver(
+            configuration.getIntegerProperty("org.onap.appc.workflow.resolver.refresh_interval", 300));
     }
 
-    public static AbstractResolver createResolver(String resolverType){
-        if(resolverType.equalsIgnoreCase("VNF")){
+    public static AbstractResolver createResolver(String resolverType) {
+        if (resolverType.equalsIgnoreCase("VNF")) {
             return ReferenceHolder.VNF_RESOLVER;
-        }else if(resolverType.equalsIgnoreCase("VNFC")){
+        } else if (resolverType.equalsIgnoreCase("VNFC")) {
             return ReferenceHolder.VNFC_RESOLVER;
-        }else {
+        } else {
             return null;
         }
     }

@@ -25,6 +25,7 @@
 package org.onap.appc.dg.common.impl;
 
 class FlowKey {
+
     private final String name;
     private final String version;
     private final String module;
