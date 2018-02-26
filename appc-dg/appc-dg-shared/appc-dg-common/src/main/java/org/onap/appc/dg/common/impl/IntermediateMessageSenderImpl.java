@@ -29,6 +29,10 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
@@ -40,11 +44,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
 
 public class IntermediateMessageSenderImpl implements IntermediateMessageSender {
 
@@ -63,17 +62,17 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
     private static final String RESPONSE = "response";
     private static final String MSO = "MSO";
 
-    public void init(){
+    public void init() {
         configuration = ConfigurationFactory.getConfiguration();
-        Properties properties=configuration.getProperties();
+        Properties properties = configuration.getProperties();
 
         String writeTopic = properties.getProperty("appc.LCM.topic.write");
         String apiKey = properties.getProperty("appc.LCM.client.key");
         String apiSecret = properties.getProperty("appc.LCM.client.secret");
         String hostNames = properties.getProperty("appc.LCM.poolMembers");
 
-        logger.debug("Configuration Read : writeTopic = " + writeTopic +", " +
-                                            "hostNames = " + hostNames);
+        logger.debug("Configuration Read : writeTopic = " + writeTopic + ", " +
+            "hostNames = " + hostNames);
 
         Set<String> pool = new HashSet<>();
         if (!StringUtils.isEmpty(hostNames)) {
@@ -86,7 +85,8 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
         if (ctx != null) {
             ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
             if (svcRef != null) {
-                producer = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopic,apiKey, apiSecret);
+                producer = ((MessageAdapterFactory) ctx.getService(svcRef))
+                    .createProducer(pool, writeTopic, apiKey, apiSecret);
             }
         }
     }
@@ -94,30 +94,29 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
     @Override
     public void sendMessage(Map<String, String> params, SvcLogicContext context) {
         String prefix = params.get("prefix");
-        prefix = StringUtils.isEmpty(prefix)? "":prefix+".";
-        try{
-            validateInputs(params,context);
+        prefix = StringUtils.isEmpty(prefix) ? "" : prefix + ".";
+        try {
+            validateInputs(params, context);
             String jsonMessage = getJsonMessage(params, context);
             logger.debug("Constructed JSON Message : " + jsonMessage);
-            producer.post("",jsonMessage);
+            producer.post("", jsonMessage);
             context.setAttribute(prefix + STATUS, SUCCESS);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             String errorMessage = "Error sending intermediate message to initiator " + e.getMessage();
             context.setAttribute(prefix + STATUS, FAILURE);
             context.setAttribute(prefix + ERROR_MESSAGE, errorMessage);
-            logger.error(errorMessage,e);
+            logger.error(errorMessage, e);
         }
     }
 
     private void validateInputs(Map<String, String> params, SvcLogicContext context) throws APPCException {
         String code = params.get("code");
         String message = params.get("message");
-        if(StringUtils.isEmpty(code) || StringUtils.isEmpty(message)){
+        if (StringUtils.isEmpty(code) || StringUtils.isEmpty(message)) {
             throw new APPCException("code or message is empty");
         }
         String requestId = context.getAttribute("input.common-header.request-id");
-        if(StringUtils.isEmpty(requestId)){
+        if (StringUtils.isEmpty(requestId)) {
             throw new APPCException("requestId is empty");
         }
     }
@@ -129,18 +128,18 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
         ObjectNode status = getStatus(params);
 
         ObjectNode output = objectMapper.createObjectNode();
-        output.put("common-header",commonHeader);
-        output.put("status",status);
+        output.put("common-header", commonHeader);
+        output.put("status", status);
 
-        ObjectNode body =  objectMapper.createObjectNode();
-        body.put("output",output);
+        ObjectNode body = objectMapper.createObjectNode();
+        body.put("output", output);
 
         ObjectNode root = objectMapper.createObjectNode();
         root.put("type", RESPONSE);
-        root.put("rpc-name",context.getAttribute("input.action"));
+        root.put("rpc-name", context.getAttribute("input.action"));
         root.put("cambria.partition", MSO);
-        root.put("correlation-id",getCorrelationId(context));
-        root.put("body",body);
+        root.put("correlation-id", getCorrelationId(context));
+        root.put("body", body);
 
         return root.toString();
     }
@@ -148,25 +147,25 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
     private String getCorrelationId(SvcLogicContext context) {
         String requestId = context.getAttribute("input.common-header.request-id");
         String subRequestId = context.getAttribute("input.common-header.sub-request-id");
-        return requestId + (StringUtils.isEmpty(subRequestId)?"":("-"+subRequestId));
+        return requestId + (StringUtils.isEmpty(subRequestId) ? "" : ("-" + subRequestId));
     }
 
-    private ObjectNode getStatus(Map<String,String> params) {
+    private ObjectNode getStatus(Map<String, String> params) {
         ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode status =  objectMapper.createObjectNode();
-        status.put("code",params.get("code"));
-        status.put("message",params.get("message"));
+        ObjectNode status = objectMapper.createObjectNode();
+        status.put("code", params.get("code"));
+        status.put("message", params.get("message"));
         return status;
     }
 
     private ObjectNode getCommonHeader(SvcLogicContext context) {
         ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode commonHeader =  objectMapper.createObjectNode();
-        commonHeader.put("api-ver",context.getAttribute("input.common-header.api-ver"));
-        commonHeader.put("timestamp",context.getAttribute("input.common-header.timestamp"));
-        commonHeader.put("originator-id",context.getAttribute("input.common-header.originator-id"));
-        commonHeader.put("request-id",context.getAttribute("input.common-header.request-id"));
-        commonHeader.put("sub-request-id",context.getAttribute("input.common-header.sub-request-id"));
+        ObjectNode commonHeader = objectMapper.createObjectNode();
+        commonHeader.put("api-ver", context.getAttribute("input.common-header.api-ver"));
+        commonHeader.put("timestamp", context.getAttribute("input.common-header.timestamp"));
+        commonHeader.put("originator-id", context.getAttribute("input.common-header.originator-id"));
+        commonHeader.put("request-id", context.getAttribute("input.common-header.request-id"));
+        commonHeader.put("sub-request-id", context.getAttribute("input.common-header.sub-request-id"));
         return commonHeader;
     }
 }

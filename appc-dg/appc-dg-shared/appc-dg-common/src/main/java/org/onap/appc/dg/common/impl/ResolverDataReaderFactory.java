@@ -28,19 +28,22 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 
 public class ResolverDataReaderFactory {
+
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
-    private static class ReferenceHolder{
+
+    private static class ReferenceHolder {
+
         private static final AbstractResolverDataReader VNFC_RESOLVER_DATA_READER = new VNFCResolverDataReader();
 
         private static final AbstractResolverDataReader VNF_RESOLVER_DATA_READER = new VNFResolverDataReader();
     }
 
-    public static AbstractResolverDataReader createResolverDataReader(String resolverType){
-        if(resolverType.equalsIgnoreCase("VNF")){
+    public static AbstractResolverDataReader createResolverDataReader(String resolverType) {
+        if (resolverType.equalsIgnoreCase("VNF")) {
             return ReferenceHolder.VNF_RESOLVER_DATA_READER;
-        }else if(resolverType.equalsIgnoreCase("VNFC")){
+        } else if (resolverType.equalsIgnoreCase("VNFC")) {
             return ReferenceHolder.VNFC_RESOLVER_DATA_READER;
-        }else {
+        } else {
             return null;
         }
     }

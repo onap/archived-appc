@@ -25,7 +25,6 @@
 package org.onap.appc.dg.common.impl;
 
 
-
 class Constants {
 
     public static final String DG_ERROR_FIELD_NAME = "org.onap.appc.dg.error";
@@ -40,13 +39,13 @@ class Constants {
     public static final String OUTPUT_PAYLOAD = "output.payload";
 
     //Added for VnfExecution Flow
-    public static final String FLOW_STRATEGY = "FlowStrategy" ;
+    public static final String FLOW_STRATEGY = "FlowStrategy";
     public static final String DEPENDENCY_TYPE = "DependencyType";
     public static final String VNF_TYPE = "vnfType";
     public static final String VNF_VERION = "vnfVersion";
 
 
-    public static final String APPC_INSTANCE_ID= "appc-instance-id";
+    public static final String APPC_INSTANCE_ID = "appc-instance-id";
 
     //Added for Cvaas
     public static final String CVAAS_DIRECTORY_PATH = "cvaas-directory-path";
@@ -61,9 +60,17 @@ class Constants {
         SkipHypervisorCheck("org.onap.appc.skiphypervisorcheck");
 
         private String value;
-        LegacyAttributes(String value) {this.value = value;}
-        String getValue() {return value;}
-    };
+
+        LegacyAttributes(String value) {
+            this.value = value;
+        }
+
+        String getValue() {
+            return value;
+        }
+    }
+
+    ;
 
     enum LCMAttributes {
         Action("input.action"),
@@ -74,9 +81,17 @@ class Constants {
         SkipHypervisorCheck("skip-hypervisor-check");
 
         private String value;
-        LCMAttributes(String value) {this.value = value;}
-        String getValue() {return value;}
-    };
+
+        LCMAttributes(String value) {
+            this.value = value;
+        }
+
+        String getValue() {
+            return value;
+        }
+    }
+
+    ;
 
     // DG Resolver Constants
     public static final String IN_PARAM_VNF_TYPE = "vnfType";
@@ -85,7 +100,7 @@ class Constants {
     public static final String IN_PARAM_API_VERSION = "api-ver";
 
     public static final String OUT_PARAM_DG_NAME = "dg_name";
-    public static final String OUT_PARAM_DG_VERSION= "dg_version";
+    public static final String OUT_PARAM_DG_VERSION = "dg_version";
     public static final String OUT_PARAM_DG_MODULE = "dg_module";
 
     public static final String TABLE_NAME = "VNFC_DG_MAPPING";
@@ -94,6 +109,6 @@ class Constants {
     public static final String TABLE_COLUMN_ACTION = "ACTION";
     public static final String TABLE_COLUMN_API_VERSION = "API_VERSION";
     public static final String TABLE_COLUMN_DG_NAME = "DG_NAME";
-    public static final String TABLE_COLUMN_DG_VERSION= "DG_VERSION";
+    public static final String TABLE_COLUMN_DG_VERSION = "DG_VERSION";
     public static final String TABLE_COLUMN_DG_MODULE = "DG_MODULE";
 }

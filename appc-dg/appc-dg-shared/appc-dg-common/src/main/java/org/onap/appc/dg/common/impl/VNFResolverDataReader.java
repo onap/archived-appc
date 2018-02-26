@@ -31,9 +31,10 @@ import java.util.Collection;
  * @since January 19,2017
  */
 public class VNFResolverDataReader extends AbstractResolverDataReader {
+
     @Override
     protected Collection<String> getAttributeNames() {
-        return Arrays.asList("action","api_version", "vnf_type", "vnf_version");
+        return Arrays.asList("action", "api_version", "vnf_type", "vnf_version");
     }
 
     @Override

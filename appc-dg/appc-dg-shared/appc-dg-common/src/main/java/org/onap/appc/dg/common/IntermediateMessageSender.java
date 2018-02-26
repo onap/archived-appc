@@ -24,10 +24,9 @@
 
 package org.onap.appc.dg.common;
 
+import java.util.Map;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
-
-import java.util.Map;
 
 /**
  * This interface provides api for sending intermediate messages from DG to initiator

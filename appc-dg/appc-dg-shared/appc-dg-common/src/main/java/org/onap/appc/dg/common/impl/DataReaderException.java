@@ -24,7 +24,7 @@
 
 package org.onap.appc.dg.common.impl;
 
-public class DataReaderException extends RuntimeException{
+public class DataReaderException extends RuntimeException {
 
     public DataReaderException(Throwable cause) {
         super(cause);

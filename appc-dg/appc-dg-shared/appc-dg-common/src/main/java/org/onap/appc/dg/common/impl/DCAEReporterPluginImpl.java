@@ -24,6 +24,7 @@
 
 package org.onap.appc.dg.common.impl;
 
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.adapter.message.MessageDestination;
@@ -33,8 +34,6 @@ import org.onap.appc.adapter.message.event.EventStatus;
 import org.onap.appc.dg.common.DCAEReporterPlugin;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import java.util.Map;
 
 public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
 
@@ -55,24 +54,24 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
 
     @Override
     public void report(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        String errorDescription,apiVersion,eventId ;
+        String errorDescription, apiVersion, eventId;
 
-        Integer errorCode = readErrorCode(params,ctx);
+        Integer errorCode = readErrorCode(params, ctx);
         errorDescription = params.get(Constants.EVENT_MESSAGE);
 
-        if(StringUtils.isEmpty(errorDescription)) {
-            reportLegacy(params , ctx);
-        }else{
-        apiVersion = ctx.getAttribute("input.common-header.api-ver");
-        eventId = ctx.getAttribute("input.common-header.request-id");
+        if (StringUtils.isEmpty(errorDescription)) {
+            reportLegacy(params, ctx);
+        } else {
+            apiVersion = ctx.getAttribute("input.common-header.api-ver");
+            eventId = ctx.getAttribute("input.common-header.request-id");
 
             EventMessage eventMessage = new EventMessage(new EventHeader(
-                    (new java.util.Date()).toString(), apiVersion, eventId),
-                    new EventStatus(errorCode, errorDescription));
+                (new java.util.Date()).toString(), apiVersion, eventId),
+                new EventStatus(errorCode, errorDescription));
             String eventWriteTopic = params.get("event-topic-name");
-            if(!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic!=null){
-                eventSender.sendEvent(MessageDestination.DCAE, eventMessage,eventWriteTopic);
-            }else {
+            if (!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic != null) {
+                eventSender.sendEvent(MessageDestination.DCAE, eventMessage, eventWriteTopic);
+            } else {
                 eventSender.sendEvent(MessageDestination.DCAE, eventMessage);
             }
         }
@@ -81,12 +80,11 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     private Integer readErrorCode(Map<String, String> params, SvcLogicContext ctx) {
         Integer errorReportCode = 501;
         String errorCodeStr = params.get(Constants.DG_ERROR_CODE);
-        errorCodeStr = StringUtils.isEmpty(errorCodeStr)?
-                ctx.getAttribute(Constants.DG_ERROR_CODE):errorCodeStr;
-        try{
-            errorReportCode =  Integer.parseInt(errorCodeStr);
-        }
-        catch (NumberFormatException e){
+        errorCodeStr = StringUtils.isEmpty(errorCodeStr) ?
+            ctx.getAttribute(Constants.DG_ERROR_CODE) : errorCodeStr;
+        try {
+            errorReportCode = Integer.parseInt(errorCodeStr);
+        } catch (NumberFormatException e) {
             // Ignore Exception
         }
         return errorReportCode;
@@ -98,7 +96,7 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
         String successDescription, apiVersion, eventId;
         successDescription = params.get(Constants.EVENT_MESSAGE);
 
-        if(StringUtils.isEmpty(successDescription)) {
+        if (StringUtils.isEmpty(successDescription)) {
             successDescription = params.get(Constants.DG_OUTPUT_STATUS_MESSAGE);
         }
 
@@ -109,32 +107,32 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
             successDescription = "Success";
         }
         EventMessage eventMessage = new EventMessage(new EventHeader(
-                (new java.util.Date()).toString(), apiVersion, eventId),
-                new EventStatus(successReportCode, successDescription));
+            (new java.util.Date()).toString(), apiVersion, eventId),
+            new EventStatus(successReportCode, successDescription));
         String eventWriteTopic = params.get("event-topic-name");
-        if(!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic!=null){
-            eventSender.sendEvent(MessageDestination.DCAE, eventMessage,eventWriteTopic);
-        }else {
+        if (!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic != null) {
+            eventSender.sendEvent(MessageDestination.DCAE, eventMessage, eventWriteTopic);
+        } else {
             eventSender.sendEvent(MessageDestination.DCAE, eventMessage);
         }
     }
 
     private void reportLegacy(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        String errorDescription,apiVersion,eventId ;
+        String errorDescription, apiVersion, eventId;
 
-        Integer errorCode = readErrorCode(params,ctx);
-        errorDescription = getErrorDescriptionAndAddToCtx(params,ctx);
+        Integer errorCode = readErrorCode(params, ctx);
+        errorDescription = getErrorDescriptionAndAddToCtx(params, ctx);
 
         apiVersion = ctx.getAttribute("input.common-header.api-ver");
         eventId = ctx.getAttribute("input.common-header.request-id");
 
         EventMessage eventMessage = new EventMessage(new EventHeader(
-                (new java.util.Date()).toString(), apiVersion, eventId),
-                new EventStatus(errorCode, errorDescription));
+            (new java.util.Date()).toString(), apiVersion, eventId),
+            new EventStatus(errorCode, errorDescription));
         String eventWriteTopic = params.get("event-topic-name");
-        if(!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic!=null){
-            eventSender.sendEvent(MessageDestination.DCAE, eventMessage,eventWriteTopic);
-        }else {
+        if (!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic != null) {
+            eventSender.sendEvent(MessageDestination.DCAE, eventMessage, eventWriteTopic);
+        } else {
             eventSender.sendEvent(MessageDestination.DCAE, eventMessage);
         }
     }
@@ -142,26 +140,26 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     private String getErrorDescriptionAndAddToCtx(Map<String, String> params, SvcLogicContext ctx) {
         String errorDescription;
         errorDescription = params.get(Constants.DG_OUTPUT_STATUS_MESSAGE);
-        if(StringUtils.isEmpty(errorDescription)) {
+        if (StringUtils.isEmpty(errorDescription)) {
             errorDescription = ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE);
         }
-        if(StringUtils.isEmpty(errorDescription)) {
+        if (StringUtils.isEmpty(errorDescription)) {
             errorDescription = "Unknown";
         }
-        addToContextIfNotContains(errorDescription,ctx);
+        addToContextIfNotContains(errorDescription, ctx);
         return errorDescription;
     }
 
     private void addToContextIfNotContains(String errorDescription, SvcLogicContext ctx) {
         String errorDescriptionFromCtx;
         errorDescriptionFromCtx = ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE);
-        if(StringUtils.isEmpty(errorDescriptionFromCtx)){
+        if (StringUtils.isEmpty(errorDescriptionFromCtx)) {
             errorDescriptionFromCtx = ctx.getAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE);
         }
-        if(StringUtils.isEmpty(errorDescriptionFromCtx)){
+        if (StringUtils.isEmpty(errorDescriptionFromCtx)) {
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, errorDescription);
-        }else if  (!errorDescriptionFromCtx.contains(errorDescription)){
-            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, errorDescriptionFromCtx+ " | "+ errorDescription);
+        } else if (!errorDescriptionFromCtx.contains(errorDescription)) {
+            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, errorDescriptionFromCtx + " | " + errorDescription);
         }
     }
 
