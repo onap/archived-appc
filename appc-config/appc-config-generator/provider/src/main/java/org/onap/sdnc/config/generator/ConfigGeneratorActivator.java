@@ -24,6 +24,8 @@
 
 package org.onap.sdnc.config.generator;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.LinkedList;
 import java.util.List;
 import org.onap.sdnc.config.generator.convert.ConvertNode;
@@ -34,8 +36,6 @@ import org.onap.sdnc.config.generator.writer.FileWriterNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class ConfigGeneratorActivator implements BundleActivator {
 
@@ -43,7 +43,7 @@ public class ConfigGeneratorActivator implements BundleActivator {
 
 
     private static final EELFLogger log =
-            EELFManager.getInstance().getLogger(ConfigGeneratorActivator.class);
+        EELFManager.getInstance().getLogger(ConfigGeneratorActivator.class);
 
     @Override
     public void start(BundleContext ctx) throws Exception {

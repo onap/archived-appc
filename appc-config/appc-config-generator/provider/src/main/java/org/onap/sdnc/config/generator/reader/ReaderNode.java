@@ -24,6 +24,8 @@
 
 package org.onap.sdnc.config.generator.reader;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.File;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
@@ -33,8 +35,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 import org.onap.sdnc.config.generator.merge.MergeNode;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class ReaderNode implements SvcLogicJavaPlugin {
 
@@ -42,7 +42,7 @@ public class ReaderNode implements SvcLogicJavaPlugin {
 
 
     public void getFileData(Map<String, String> inParams, SvcLogicContext ctx)
-            throws SvcLogicException {
+        throws SvcLogicException {
         log.info("Received getFileData call with params : " + inParams);
         String responsePrefix = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX);
         try {
@@ -50,17 +50,17 @@ public class ReaderNode implements SvcLogicJavaPlugin {
             String fileName = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME);
 
             String fileData = FileUtils.readFileToString(new File(fileName),
-                    ConfigGeneratorConstant.STRING_ENCODING);
+                ConfigGeneratorConstant.STRING_ENCODING);
 
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_FILE_DATA,
-                    fileData);
+                fileData);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
-                    ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
-                    ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
+                ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
-                    e.getMessage());
+                e.getMessage());
             log.error("Failed in merging data to template " + e.getMessage());
             throw new SvcLogicException(e.getMessage());
         }
