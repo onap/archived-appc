@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3f227552",
+        "filename": "appc-config/appc-config-generator/provider/src/main/java/org/onap/sdnc/config/generator/tool/LogParserTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-26T18:19:34Z",
+      "side": 1,
+      "message": "Is there any use to this extra semicolon/empty statement?",
+      "range": {
+        "startLine": 41,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "9b18275c9bedbafca02386825f9fec6ed71aaf80",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
