@@ -24,6 +24,8 @@
 
 package org.onap.sdnc.config.generator.transform;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.File;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -41,17 +43,15 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 
 public class XSLTTransformerNode implements SvcLogicJavaPlugin {
 
     private static final EELFLogger log =
-            EELFManager.getInstance().getLogger(XSLTTransformerNode.class);
+        EELFManager.getInstance().getLogger(XSLTTransformerNode.class);
 
     public void transformData(Map<String, String> inParams, SvcLogicContext ctx)
-            throws SvcLogicException {
+        throws SvcLogicException {
         log.trace("Received convertJson2DGContext call with params : " + inParams);
         String responsePrefix = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX);
         try {
@@ -61,10 +61,10 @@ public class XSLTTransformerNode implements SvcLogicJavaPlugin {
 
             if (StringUtils.isNotBlank(templateData)) {
                 String templateFile =
-                        inParams.get(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE);
+                    inParams.get(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE);
                 if (StringUtils.isNotBlank(templateFile)) {
                     templateData = FileUtils.readFileToString(new File(templateFile),
-                            Charset.defaultCharset());
+                        Charset.defaultCharset());
                 }
             }
             if (StringUtils.isBlank(templateData)) {
@@ -79,27 +79,27 @@ public class XSLTTransformerNode implements SvcLogicJavaPlugin {
             String transformedData = transform(requestData, templateData);
             log.trace("Transformed Data : " + transformedData);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_TRANSFORMED_DATA,
-                    transformedData);
+                transformedData);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
-                    ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
-                    ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
+                ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
-                    e.getMessage());
+                e.getMessage());
             log.error("Failed in XSLTTransformerNode : " + e.getMessage());
             throw new SvcLogicException(e.getMessage());
         }
     }
 
     public String transform(String requestData, String templateData)
-            throws TransformerConfigurationException, TransformerException {
+        throws TransformerConfigurationException, TransformerException {
         StringWriter xmlResultResource = new StringWriter();
         Transformer xmlTransformer = TransformerFactory.newInstance()
-                .newTransformer(new StreamSource(new StringReader(templateData)));
+            .newTransformer(new StreamSource(new StringReader(templateData)));
         xmlTransformer.transform(new StreamSource(new StringReader(requestData)),
-                new StreamResult(xmlResultResource));
+            new StreamResult(xmlResultResource));
         return xmlResultResource.getBuffer().toString();
     }
 

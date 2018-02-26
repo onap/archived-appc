@@ -24,19 +24,21 @@
 
 package org.onap.sdnc.config.generator.tool;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class LogParserTool {
+
     private static final EELFLogger log = EELFManager.getInstance().getLogger(JSONTool.class);
 
     private String[] singleLines;
-    private List<String> recentErrors = new ArrayList<String>();;
+    private List<String> recentErrors = new ArrayList<String>();
+    ;
     private Date todaysDate = new Date();
     private SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     private final int minMilli = 60000;
@@ -62,7 +64,7 @@ public class LogParserTool {
             String error = recentErrors.get(0);
             recentErrors.clear();
             return "Error: "
-                    + error.substring(error.indexOf("Error parsing orchestration file:") + 34);
+                + error.substring(error.indexOf("Error parsing orchestration file:") + 34);
         }
     }
 
@@ -70,11 +72,11 @@ public class LogParserTool {
         int result;
         for (int i = singleLines.length - 1; i >= 0; i--) {
             if (singleLines[i].contains("Starting orchestration of file backed up to")
-                    || singleLines[i].contains("Error parsing orchestration file:")) {
+                || singleLines[i].contains("Error parsing orchestration file:")) {
                 result = checkDateTime(singleLines[i]);
-                if (result == IN_TIME)
+                if (result == IN_TIME) {
                     recentErrors.add(singleLines[i]);
-                else if (result == NOT_IN_TIME) {
+                } else if (result == NOT_IN_TIME) {
                     return;
                 }
             }
@@ -87,8 +89,9 @@ public class LogParserTool {
             newDate = dFormat.parse(line.substring(0, 19));
             if ((todaysDate.getTime() - newDate.getTime()) <= 5 * minMilli) {
                 return IN_TIME;
-            } else
+            } else {
                 return NOT_IN_TIME;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             return NO_DATE;

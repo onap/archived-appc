@@ -35,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class DbServiceUtil {
+
     private static final Logger log = LoggerFactory.getLogger(DbServiceUtil.class);
 
     private static Properties props;
@@ -42,19 +43,19 @@ public class DbServiceUtil {
 
 
     public static boolean updateDB(String tableName, ArrayList inputArgs, String scema,
-            String whereClause, String setCluase) throws SQLException {
+        String whereClause, String setCluase) throws SQLException {
         String updatePasswordString =
-                "update " + tableName + " set " + setCluase + " where " + whereClause;
+            "update " + tableName + " set " + setCluase + " where " + whereClause;
         boolean result =
-                jdbcDataSource.writeData(updatePasswordString, inputArgs, Constants.SCHEMA_SDNCTL);
+            jdbcDataSource.writeData(updatePasswordString, inputArgs, Constants.SCHEMA_SDNCTL);
         return result;
     }
 
 
     public static CachedRowSet getData(String tableName, ArrayList argList, String schema,
-            String getselectData, String getDataClasue) throws SQLException {
+        String getselectData, String getDataClasue) throws SQLException {
         String selectQuery =
-                "select " + getselectData + "from " + tableName + " where " + getDataClasue;
+            "select " + getselectData + "from " + tableName + " where " + getDataClasue;
         CachedRowSet data = jdbcDataSource.getData(selectQuery, argList, schema);
         return data;
     }
@@ -66,13 +67,12 @@ public class DbServiceUtil {
         URL propURL = file.toURI().toURL();
         props.load(propURL.openStream());
 
-                // this is an expected difference in CCSDK
+        // this is an expected difference in CCSDK
         jdbcDataSource = new DBResourceManager(props);
 
         return jdbcDataSource;
 
     }
-
 
 
 }

@@ -24,6 +24,12 @@
 
 package org.onap.sdnc.config.generator.tool;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Iterator;
@@ -37,12 +43,6 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class MergeTool {
@@ -59,7 +59,7 @@ public class MergeTool {
         ve.init();
 
         StringResourceRepository repo = (StringResourceRepository) ve
-                .getApplicationAttribute(StringResourceLoader.REPOSITORY_NAME_DEFAULT);
+            .getApplicationAttribute(StringResourceLoader.REPOSITORY_NAME_DEFAULT);
         repo.putStringResource("TemplateResource", template);
 
         Template t = ve.getTemplate("TemplateResource");
@@ -75,8 +75,8 @@ public class MergeTool {
 
 
     public static String mergeJson2TemplateData(String template, String jsonData,
-            String templateType, String doPrettyOutput)
-            throws JsonParseException, JsonMappingException, IOException {
+        String templateType, String doPrettyOutput)
+        throws JsonParseException, JsonMappingException, IOException {
         String mergedData = template;
         if (StringUtils.isNotBlank(template) && StringUtils.isNotBlank(jsonData)) {
             Velocity.init();
@@ -100,10 +100,10 @@ public class MergeTool {
             mergedData = writer.toString();
 
             if (StringUtils.isNotBlank(templateType) && StringUtils.isNotBlank(doPrettyOutput)
-                    && ConfigGeneratorConstant.Y.equalsIgnoreCase(doPrettyOutput)
-                    && (ConfigGeneratorConstant.DATA_TYPE_JSON.equalsIgnoreCase(templateType)
-                            || ConfigGeneratorConstant.DATA_TYPE_XML
-                                    .equalsIgnoreCase(templateType))) {
+                && ConfigGeneratorConstant.Y.equalsIgnoreCase(doPrettyOutput)
+                && (ConfigGeneratorConstant.DATA_TYPE_JSON.equalsIgnoreCase(templateType)
+                || ConfigGeneratorConstant.DATA_TYPE_XML
+                .equalsIgnoreCase(templateType))) {
                 // Perform Prettying
 
             }
