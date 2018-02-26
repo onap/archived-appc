@@ -24,6 +24,7 @@
 
 package org.onap.appc.dg.common.impl;
 
+import java.util.Arrays;
 import org.onap.appc.rankingframework.RankedAttributesContext;
 
 
@@ -36,34 +37,28 @@ public class VNFCResolver extends AbstractResolver {
     @Override
     protected FlowKey resolve(String... args) {
         if (args.length != 4) {
-            throw new IllegalStateException(args.toString());
+            throw new IllegalStateException(Arrays.toString(args));
         }
         return resolve(args[0], args[1], args[2], args[3]);
     }
 
-    protected FlowKey resolve(final String action, final String vnfType, final String vnfcType,
+    private FlowKey resolve(final String action, final String vnfType, final String vnfcType,
         final String apiVersion) {
-        RankedAttributesContext context = new RankedAttributesContext() {
-            @Override
-            public Object getAttributeValue(String name) {
-                switch (name) {
-                    case "action":
-                        return action;
-                    case "api_version":
-                        return apiVersion;
-                    case "vnf_type":
-                        return vnfType;
-                    case "vnfc_type":
-                        return vnfcType;
-                    default:
-                        throw new IllegalStateException(name);
-                }
+        RankedAttributesContext context = name -> {
+            switch (name) {
+                case "action":
+                    return action;
+                case "api_version":
+                    return apiVersion;
+                case "vnf_type":
+                    return vnfType;
+                case "vnfc_type":
+                    return vnfcType;
+                default:
+                    throw new IllegalStateException(name);
             }
         };
-
-        FlowKey wfKey = resolver("VNFC").resolve(context);
-
-        return wfKey;
+        return resolver("VNFC").resolve(context);
     }
 }
 

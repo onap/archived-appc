@@ -84,23 +84,24 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
             DependencyManager dependencyManager = DependencyModelFactory.createDependencyManager();
             dependencyModel = dependencyManager.getVnfcDependencyModel(
                 modelIdentifier, DependencyTypes.findByString(dependencyType));
+
         } catch (DependencyModelNotFound e) {
             String msg = EELFResourceManager
-                .format(Msg.DEPENDENCY_MODEL_NOT_FOUND, params.get(Constants.VNF_TYPE), e.getMessage());
-            logger.error(msg);
+                .format(Msg.DEPENDENCY_MODEL_NOT_FOUND, params.get(Constants.VNF_TYPE));
+            logger.error(msg, e);
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
             context.setAttribute("dependencyModelFound", "false");
             return;
         } catch (InvalidDependencyModelException e) {
             String msg = EELFResourceManager
-                .format(Msg.INVALID_DEPENDENCY_MODEL, params.get(Constants.VNF_TYPE), e.getMessage());
-            logger.error(msg);
+                .format(Msg.INVALID_DEPENDENCY_MODEL, params.get(Constants.VNF_TYPE));
+            logger.error(msg, e);
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
-            throw new RuntimeException(e.getMessage(), e);
+            throw new VnfExecutionInternalException(e);
         } catch (APPCException e) {
             logger.error(e.getMessage());
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, e.getMessage());
-            throw new RuntimeException(e.getMessage(), e);
+            throw new VnfExecutionInternalException(e);
         } catch (RuntimeException e) {
             logger.error(e.getMessage());
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, e.getMessage());
@@ -112,19 +113,16 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
             logger.debug("Dependency Model = " + dependencyModel);
         }
         logger.info("Building Inventory Model from DG context");
-        InventoryModel inventoryModel = null;
+        InventoryModel inventoryModel;
         try {
             inventoryModel = readInventoryModel(context);
         } catch (APPCException e) {
             logger.error(e.getMessage());
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, e.getMessage());
-            throw new RuntimeException(e.getMessage(), e);
+            throw new VnfExecutionInternalException(e);
         }
         if (logger.isDebugEnabled()) {
             logger.debug("Inventory Model = " + inventoryModel);
-        }
-
-        if (logger.isDebugEnabled()) {
             logger.debug("Validating inventory model with dependency model");
         }
         try {
@@ -132,7 +130,7 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
         } catch (APPCException e) {
             logger.error(e.getMessage());
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, e.getMessage());
-            throw new RuntimeException(e.getMessage(), e);
+            throw new VnfExecutionInternalException(e);
         }
         logger.info("Creating flow builder");
         FlowBuilder flowBuilder = FlowBuilderFactory.getInstance().getFlowBuilder(
@@ -147,7 +145,7 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
                 .format(Msg.INVALID_DEPENDENCY_MODEL, params.get(Constants.VNF_TYPE), e.getMessage());
             logger.error(msg);
             context.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
-            throw new RuntimeException(e.getMessage(), e);
+            throw new VnfExecutionInternalException(e);
         }
 
         // remove VNFCs from the flow model where vserver list is empty
@@ -172,13 +170,17 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
             throw new APPCException("Flow Strategy from the input : " + flowStrategy + " is invalid.");
         }
         String vnfType = params.get(Constants.VNF_TYPE);
-        if (vnfType == null || vnfType.length() == 0) {
+        if (nullOrEmpty(vnfType)) {
             throw new APPCException("Vnf Type is not passed in the input");
         }
         String vnfVersion = params.get(Constants.VNF_VERION);
-        if (vnfVersion == null || vnfVersion.length() == 0) {
+        if (nullOrEmpty(vnfVersion)) {
             throw new APPCException("Vnf Version not found");
         }
+    }
+
+    private boolean nullOrEmpty(String vnfType) {
+        return vnfType == null || vnfType.isEmpty();
     }
 
     private void logContext(SvcLogicContext context) {
@@ -219,7 +221,7 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
             String vnfcName = context.getAttribute(VNF_VNFC + i + "].name");
             String vnfcType = context.getAttribute(VNF_VNFC + i + "].type");
             String vmCountStr = context.getAttribute(VNF_VNFC + i + "].vm_count");
-            if (vnfcType == null || vnfcType.length() == 0) {
+            if (nullOrEmpty(vnfcType)) {
                 throw new APPCException("Could not retrieve VNFC Type from DG Context for vnf.vnfc[" + i + "].type");
             }
             Integer vmCount = Integer.parseInt(vmCountStr);
@@ -288,7 +290,7 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
         } else {
             Set<String> difference = new HashSet<>(dependencyModelMandatoryVnfcSet);
             difference.removeAll(inventoryModelVnfcsSet);
-            if (difference.size() > 0) {
+            if (!difference.isEmpty()) {
                 logger.error("Inventory model is missing following mandatory vnfc type(s): " + difference);
                 throw new APPCException("Inventory model is missing following mandatory vnfc type(s): " + difference);
             }
@@ -301,15 +303,18 @@ public class VnfExecutionFlowImpl implements VnfExecutionFlow {
             Iterator<Vnfc> vnfcIterator = flowIterator.next().iterator();
             while (vnfcIterator.hasNext()) {
                 Vnfc vnfc = vnfcIterator.next();
-                if (vnfc.getVserverList().size() == 0) {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("No vservers present for Vnfc type: " + vnfc.getVnfcType()
-                            + ". Hence, removing it from the flow model.");
-                    }
-                    vnfcIterator.remove();
-                }
+                tryRemoveInterator(vnfcIterator, vnfc);
             }
         }
     }
 
+    private void tryRemoveInterator(Iterator<Vnfc> vnfcIterator, Vnfc vnfc) {
+        if (vnfc.getVserverList().isEmpty()) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("No vservers present for Vnfc type: " + vnfc.getVnfcType()
+                    + ". Hence, removing it from the flow model.");
+            }
+            vnfcIterator.remove();
+        }
+    }
 }

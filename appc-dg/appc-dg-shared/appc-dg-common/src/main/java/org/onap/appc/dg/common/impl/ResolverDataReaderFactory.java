@@ -31,20 +31,24 @@ public class ResolverDataReaderFactory {
 
     private static final Configuration configuration = ConfigurationFactory.getConfiguration();
 
+    private ResolverDataReaderFactory() {}
+
+    public static AbstractResolverDataReader createResolverDataReader(String resolverType) {
+        if ("VNF".equalsIgnoreCase(resolverType)) {
+            return ReferenceHolder.VNF_RESOLVER_DATA_READER;
+        } else if ("VNFC".equalsIgnoreCase(resolverType)) {
+            return ReferenceHolder.VNFC_RESOLVER_DATA_READER;
+        } else {
+            return null;
+        }
+    }
+
     private static class ReferenceHolder {
 
         private static final AbstractResolverDataReader VNFC_RESOLVER_DATA_READER = new VNFCResolverDataReader();
 
         private static final AbstractResolverDataReader VNF_RESOLVER_DATA_READER = new VNFResolverDataReader();
-    }
 
-    public static AbstractResolverDataReader createResolverDataReader(String resolverType) {
-        if (resolverType.equalsIgnoreCase("VNF")) {
-            return ReferenceHolder.VNF_RESOLVER_DATA_READER;
-        } else if (resolverType.equalsIgnoreCase("VNFC")) {
-            return ReferenceHolder.VNFC_RESOLVER_DATA_READER;
-        } else {
-            return null;
-        }
+        private ReferenceHolder() {}
     }
 }

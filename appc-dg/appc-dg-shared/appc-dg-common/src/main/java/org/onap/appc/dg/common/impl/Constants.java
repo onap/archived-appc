@@ -52,47 +52,6 @@ class Constants {
     public static final String CVAAS_FILE_NAME = "cvaas-file-name";
     public static final String CVAAS_FILE_CONTENT = "cvaas-file-content";
 
-    enum LegacyAttributes {
-        Action("org.onap.appc.action"),
-        VMID("org.onap.appc.vmid"),
-        IdentityURL("org.onap.appc.identity.url"),
-        TenantID("org.onap.appc.tenant.id"),
-        SkipHypervisorCheck("org.onap.appc.skiphypervisorcheck");
-
-        private String value;
-
-        LegacyAttributes(String value) {
-            this.value = value;
-        }
-
-        String getValue() {
-            return value;
-        }
-    }
-
-    ;
-
-    enum LCMAttributes {
-        Action("input.action"),
-        Payload("input.payload"),
-        VMID("vm-id"),
-        IdentityURL("identity-url"),
-        TenantID("tenant.id"),
-        SkipHypervisorCheck("skip-hypervisor-check");
-
-        private String value;
-
-        LCMAttributes(String value) {
-            this.value = value;
-        }
-
-        String getValue() {
-            return value;
-        }
-    }
-
-    ;
-
     // DG Resolver Constants
     public static final String IN_PARAM_VNF_TYPE = "vnfType";
     public static final String IN_PARAM_VNFC_TYPE = "vnfcType";
@@ -111,4 +70,41 @@ class Constants {
     public static final String TABLE_COLUMN_DG_NAME = "DG_NAME";
     public static final String TABLE_COLUMN_DG_VERSION = "DG_VERSION";
     public static final String TABLE_COLUMN_DG_MODULE = "DG_MODULE";
+
+    enum LegacyAttributes {
+        ACTION("org.onap.appc.action"),
+        VMID("org.onap.appc.vmid"),
+        IDENTITY_URL("org.onap.appc.identity.url"),
+        TENANT_ID("org.onap.appc.tenant.id"),
+        SKIP_HYPERVISOR_CHECK("org.onap.appc.skiphypervisorcheck");
+
+        private String value;
+
+        LegacyAttributes(String value) {
+            this.value = value;
+        }
+
+        String getValue() {
+            return value;
+        }
+    }
+
+    enum LCMAttributes {
+        ACTION("input.action"),
+        PAYLOAD("input.payload"),
+        VMID("vm-id"),
+        IDENTITY_URL("identity-url"),
+        TENANT_ID("tenant.id"),
+        SKIP_HYPERVISOR_CHECK("skip-hypervisor-check");
+
+        private String value;
+
+        LCMAttributes(String value) {
+            this.value = value;
+        }
+
+        String getValue() {
+            return value;
+        }
+    }
 }

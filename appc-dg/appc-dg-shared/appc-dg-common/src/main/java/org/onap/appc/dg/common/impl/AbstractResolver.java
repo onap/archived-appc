@@ -32,21 +32,25 @@ import org.onap.appc.rankingframework.RankedAttributesResolver;
 abstract class AbstractResolver {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(AbstractResolver.class);
+    private static final long INTERVAL_MULTIPLIER = 1000L;
 
     private long interval;
-
-    private volatile long lastUpdate = 0l;
+    private volatile long lastUpdate = 0L;
     private volatile boolean isUpdateInProgress = false;
     private volatile RankedAttributesResolver<FlowKey> dgResolver;
 
-    private final ReentrantLock INIT_LOCK = new ReentrantLock();
+    private final ReentrantLock initLock = new ReentrantLock();
 
     AbstractResolver(int interval) {
-        this.interval = interval * 1000l;
+        this.interval = interval * INTERVAL_MULTIPLIER;
     }
 
     private RankedAttributesResolver<FlowKey> createResolver(String resolverType) {
         AbstractResolverDataReader reader = ResolverDataReaderFactory.createResolverDataReader(resolverType);
+
+        if (reader == null) {
+            throw new DataReaderException("Cannot read data since reader is null");
+        }
         return reader.read();
     }
 
@@ -55,29 +59,25 @@ abstract class AbstractResolver {
     }
 
     protected RankedAttributesResolver<FlowKey> resolver(String resolverType) {
-
         /*
          * In general case, the method implementation is non-blocking. The first
          * thread that identifies data expiration will be used to refresh it. In
          * meanwhile, any other thread will get the old instance without waiting
          * for the updated one. The only exception is the very first time when
          * previous instance doesn't exist - in such a cases all the threads
-         * will be waiting on INIT_LOCK while one of them initializes the
+         * will be waiting on initLock while one of them initializes the
          * resolver instance. NOTE: The initialization is intentionally
          * implemented in lazy manner to make sure the bundle is initialized
          * properly on startup regardless whether or not the data is correct.
          * Afterwards, the resolver may be instantiated as many times as needed.
          */
-
         try {
-
             if (dgResolver == null) {
-                INIT_LOCK.lock();
+                initLock.lock();
                 if (dgResolver != null) {
-                    INIT_LOCK.unlock();
+                    initLock.unlock();
                 }
             }
-
             if (!isUpdateInProgress && isExpired()) {
 
                 boolean doUpgrade = false;
@@ -88,29 +88,28 @@ abstract class AbstractResolver {
                         doUpgrade = true;
                     }
                 }
-
                 if (doUpgrade) {
-
                     logger.info("DG resolver configuration data has expired - initiating refresh");
-
-                    try {
-                        RankedAttributesResolver<FlowKey> temp = createResolver(resolverType);
-                        dgResolver = temp;
-                        lastUpdate = System.currentTimeMillis();
-
-                        logger.info("DG resolver configuration data has been refreshed successfully");
-                    } finally {
-                        isUpdateInProgress = false;
-                    }
+                    tryRefreshConfig(resolverType);
                 }
             }
         } finally {
-            if (INIT_LOCK.isHeldByCurrentThread()) {
-                INIT_LOCK.unlock();
+            if (initLock.isHeldByCurrentThread()) {
+                initLock.unlock();
             }
         }
-
         return dgResolver;
+    }
+
+    private void tryRefreshConfig(String resolverType) {
+        try {
+            dgResolver = createResolver(resolverType);
+            lastUpdate = System.currentTimeMillis();
+
+            logger.info("DG resolver configuration data has been refreshed successfully");
+        } finally {
+            isUpdateInProgress = false;
+        }
     }
 
     protected abstract FlowKey resolve(final String... args);

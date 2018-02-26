@@ -29,6 +29,7 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -47,12 +48,12 @@ import org.osgi.framework.ServiceReference;
 
 public class IntermediateMessageSenderImpl implements IntermediateMessageSender {
 
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(IntermediateMessageSenderImpl.class);
+
+    private static final String PARAM_MESSAGE = "message";
+    private static final String ATTR_REQUEST_ID = "input.common-header.request-id";
 
     private Producer producer;
-
-    private Configuration configuration;
-
-    private final EELFLogger logger = EELFManager.getInstance().getLogger(IntermediateMessageSenderImpl.class);
 
     private static final String STATUS = "STATUS";
     private static final String FAILURE = "FAILURE";
@@ -63,8 +64,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
     private static final String MSO = "MSO";
 
     public void init() {
-        configuration = ConfigurationFactory.getConfiguration();
-        Properties properties = configuration.getProperties();
+        Properties properties =  ConfigurationFactory.getConfiguration().getProperties();
 
         String writeTopic = properties.getProperty("appc.LCM.topic.write");
         String apiKey = properties.getProperty("appc.LCM.client.key");
@@ -76,9 +76,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
 
         Set<String> pool = new HashSet<>();
         if (!StringUtils.isEmpty(hostNames)) {
-            for (String name : hostNames.split(",")) {
-                pool.add(name);
-            }
+            pool.addAll(Arrays.asList(hostNames.split(",")));
         }
 
         BundleContext ctx = FrameworkUtil.getBundle(IntermediateMessageSenderImpl.class).getBundleContext();
@@ -111,11 +109,11 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
 
     private void validateInputs(Map<String, String> params, SvcLogicContext context) throws APPCException {
         String code = params.get("code");
-        String message = params.get("message");
+        String message = params.get(PARAM_MESSAGE);
         if (StringUtils.isEmpty(code) || StringUtils.isEmpty(message)) {
             throw new APPCException("code or message is empty");
         }
-        String requestId = context.getAttribute("input.common-header.request-id");
+        String requestId = context.getAttribute(ATTR_REQUEST_ID);
         if (StringUtils.isEmpty(requestId)) {
             throw new APPCException("requestId is empty");
         }
@@ -145,7 +143,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
     }
 
     private String getCorrelationId(SvcLogicContext context) {
-        String requestId = context.getAttribute("input.common-header.request-id");
+        String requestId = context.getAttribute(ATTR_REQUEST_ID);
         String subRequestId = context.getAttribute("input.common-header.sub-request-id");
         return requestId + (StringUtils.isEmpty(subRequestId) ? "" : ("-" + subRequestId));
     }
@@ -154,7 +152,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode status = objectMapper.createObjectNode();
         status.put("code", params.get("code"));
-        status.put("message", params.get("message"));
+        status.put(PARAM_MESSAGE, params.get(PARAM_MESSAGE));
         return status;
     }
 
@@ -164,7 +162,7 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
         commonHeader.put("api-ver", context.getAttribute("input.common-header.api-ver"));
         commonHeader.put("timestamp", context.getAttribute("input.common-header.timestamp"));
         commonHeader.put("originator-id", context.getAttribute("input.common-header.originator-id"));
-        commonHeader.put("request-id", context.getAttribute("input.common-header.request-id"));
+        commonHeader.put("request-id", context.getAttribute(ATTR_REQUEST_ID));
         commonHeader.put("sub-request-id", context.getAttribute("input.common-header.sub-request-id"));
         return commonHeader;
     }
