@@ -26,8 +26,10 @@ package org.onap.appc.instar.interfaceImpl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.onap.appc.instar.interfaces.ResponseHandlerInterface;
 import org.onap.appc.instar.interfaces.RestClientInterface;
 import org.onap.appc.instar.interfaces.RuleHandlerInterface;
@@ -48,38 +50,35 @@ public class InterfaceIpAddressImpl implements RuleHandlerInterface {
     }
 
     @Override
-    public void processRule() throws Exception {
+    public void processRule() throws InstarResponseException, IOException {
 
         String fn = "InterfaceIpAddressHandler.processRule";
         log.info(fn + "Processing rule :" + parameters.getRuleType());
         String operationName;
 
-        RestClientInterface restClient = null;
-        ResponseHandlerInterface responseHandler = null;
+        RestClientInterface restClient;
+        ResponseHandlerInterface responseHandler;
 
         List<ResponseKey> responseKeyList = parameters.getResponseKeys();
-        if (responseKeyList != null && responseKeyList.size() > 0) {
+        if (responseKeyList != null && !responseKeyList.isEmpty()) {
             for (ResponseKey filterKeys : responseKeyList) {
-                //response.setUniqueKeyValue(response.getUniqueKeyValue()+ context.getAttribute(InstarClientConstant.VNF_NAME));
-                switch (parameters.getSource()) {
-                    case InstarClientConstant.SOURCE_SYSTEM_INSTAR:
-                        restClient = new InstarRestClientImpl(createInstarRequestData(context));
-                        responseHandler = new InstarResponseHandlerImpl(filterKeys, context);
-                        operationName = "getIpAddressByVnf";
-                        break;
-                    default:
-                        throw new Exception("No Client registered for : " + parameters.getSource());
+                if (parameters.getSource().equals(InstarClientConstant.SOURCE_SYSTEM_INSTAR)) {
+                    restClient = new InstarRestClientImpl(createInstarRequestData(context));
+                    responseHandler = new InstarResponseHandlerImpl(filterKeys, context);
+                    operationName = "getIpAddressByVnf";
 
+                } else {
+                    throw new InstarResponseException("No Client registered for : " + parameters.getSource());
                 }
                 responseHandler.processResponse(restClient.sendRequest(operationName), parameters.getName());
             }
         } else {
-            throw new Exception("NO response Keys set  for : " + parameters.getRuleType());
+            throw new InstarResponseException("NO response Keys set  for : " + parameters.getRuleType());
         }
     }
 
-    private HashMap<String, String> createInstarRequestData(SvcLogicContext ctxt) {
-        HashMap<String, String> requestParams = new HashMap<String, String>();
+    private Map<String, String> createInstarRequestData(SvcLogicContext ctxt) {
+        HashMap<String, String> requestParams = new HashMap<>();
         requestParams.put(InstarClientConstant.VNF_NAME, ctxt.getAttribute(InstarClientConstant.VNF_NAME));
         return requestParams;
     }

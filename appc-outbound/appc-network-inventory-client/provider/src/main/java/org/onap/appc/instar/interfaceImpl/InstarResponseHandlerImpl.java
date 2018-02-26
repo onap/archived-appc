@@ -37,13 +37,12 @@ public class InstarResponseHandlerImpl implements ResponseHandlerInterface {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarResponseHandlerImpl.class);
 
-    ResponseKey resKey = null;
-    SvcLogicContext ctxt = null;
+    private ResponseKey resKey = null;
+    private SvcLogicContext ctxt = null;
 
     public InstarResponseHandlerImpl(ResponseKey filterKeys, SvcLogicContext context) {
         this.resKey = filterKeys;
         this.ctxt = context;
-
     }
 
     @Override
@@ -68,21 +67,28 @@ public class InstarResponseHandlerImpl implements ResponseHandlerInterface {
             log.info(fn + "Appc Filter Key :" + ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey
                 .getUniqueKeyValue());
 
-            if (res.getString(InstarClientConstant.FDQN) != null &&
-                res.getString(InstarClientConstant.FDQN)
-                    .equalsIgnoreCase(ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey.getUniqueKeyValue())) {
-                if (resKey.getFieldKeyName().equals(InstarClientConstant.V4_ADDRESS)) {
-                    instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_ADDRESS));
-                } else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V4_SUBNET)) {
-                    instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_SUBNET));
-                } else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V4_DEFAULT_GATEWAY)) {
-                    instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_DEFAULT_GATEWAY));
-                } else if (resKey.getFieldKeyName().equals(InstarClientConstant.V6_ADDRESS)) {
-                    instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_ADDRESS));
-                } else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V6_SUBNET)) {
-                    instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_SUBNET));
-                } else if (resKey.getFieldKeyName().equals(InstarClientConstant.INSTAR_V6_DEFAULT_GATEWAY)) {
-                    instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_DEFAULT_GATEWAY));
+            if (hasValidFdqn(res)) {
+                switch (resKey.getFieldKeyName()) {
+                    case InstarClientConstant.V4_ADDRESS:
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_ADDRESS));
+                        break;
+                    case InstarClientConstant.INSTAR_V4_SUBNET:
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_SUBNET));
+                        break;
+                    case InstarClientConstant.INSTAR_V4_DEFAULT_GATEWAY:
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V4_DEFAULT_GATEWAY));
+                        break;
+                    case InstarClientConstant.V6_ADDRESS:
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_ADDRESS));
+                        break;
+                    case InstarClientConstant.INSTAR_V6_SUBNET:
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_SUBNET));
+                        break;
+                    case InstarClientConstant.INSTAR_V6_DEFAULT_GATEWAY:
+                        instarKeyValues.put(instarKey, res.getString(InstarClientConstant.INSTAR_V6_DEFAULT_GATEWAY));
+                        break;
+                    default:
+                        break;
                 }
                 break;
             }
@@ -91,5 +97,11 @@ public class InstarResponseHandlerImpl implements ResponseHandlerInterface {
         ctxt.setAttribute(InstarClientConstant.INSTAR_KEY_VALUES, instarKeyValues.toString());
 
         return instarKeyValues;
+    }
+
+    private boolean hasValidFdqn(JSONObject res) {
+        return res.getString(InstarClientConstant.FDQN) != null &&
+            res.getString(InstarClientConstant.FDQN)
+                .equalsIgnoreCase(ctxt.getAttribute(InstarClientConstant.VNF_NAME) + resKey.getUniqueKeyValue());
     }
 }

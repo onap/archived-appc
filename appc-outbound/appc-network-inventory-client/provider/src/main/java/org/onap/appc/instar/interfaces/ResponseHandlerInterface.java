@@ -24,7 +24,8 @@
 
 package org.onap.appc.instar.interfaces;
 
+@FunctionalInterface
 public interface ResponseHandlerInterface {
 
-    public Object processResponse(String response, String instarKey);
+    Object processResponse(String response, String instarKey);
 }

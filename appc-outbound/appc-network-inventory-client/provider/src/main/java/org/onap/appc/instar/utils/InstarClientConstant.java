@@ -26,11 +26,11 @@ package org.onap.appc.instar.utils;
 
 public class InstarClientConstant {
 
-    public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
-    public static String OUTPUT_PARAM_STATUS = "status";
-    public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
-    public static String OUTPUT_STATUS_SUCCESS = "success";
-    public static String OUTPUT_STATUS_FAILURE = "failure";
+    public static final String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
+    public static final String OUTPUT_PARAM_STATUS = "status";
+    public static final String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
+    public static final String OUTPUT_STATUS_SUCCESS = "success";
+    public static final String OUTPUT_STATUS_FAILURE = "failure";
 
     public static final String INSTAR_KEYS = "instarKeys";
     public static final String INTERFACE_IP_ADDRESS = "interface-ip-address";
@@ -72,10 +72,8 @@ public class InstarClientConstant {
     public static final String APPC_PROPERTIES = "appc.properties";
     public static final String METHOD = "_method";
     public static final String OPERATION_GET_IPADDRESS_BY_VNF_NAME = "getIpAddressByVnf";
-
     public static final String OUTBOUND_PROPERTIES = "/outbound.properties";
 
-    public static String CONTENT_TYPE = "application/json";
-    public static String RETURNED_RESPONSE_TYPE = "application/json";
+    private InstarClientConstant() {}
 }
 
