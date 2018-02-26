@@ -24,8 +24,11 @@
 
 package org.onap.appc.instar.interfaces;
 
+import java.io.IOException;
+import org.onap.appc.instar.interfaceImpl.InstarResponseException;
 
+@FunctionalInterface
 public interface RuleHandlerInterface {
 
-    public void processRule() throws Exception;
+    void processRule() throws InstarResponseException, IOException;
 }

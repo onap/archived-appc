@@ -28,6 +28,10 @@ import java.util.List;
 
 public class AaiVmInfo {
 
+    private String vserverId;
+    private String vserverName;
+    private List<AaiVnfcInfo> vnfcInfo;
+
     public String getVserverId() {
         return vserverId;
     }
@@ -51,8 +55,4 @@ public class AaiVmInfo {
     public void setVnfcInfo(List<AaiVnfcInfo> vnfcInfo) {
         this.vnfcInfo = vnfcInfo;
     }
-
-    String vserverId;
-    String vserverName;
-    List<AaiVnfcInfo> vnfcInfo;
 }

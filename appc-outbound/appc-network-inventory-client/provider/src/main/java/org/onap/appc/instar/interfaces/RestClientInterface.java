@@ -24,7 +24,11 @@
 
 package org.onap.appc.instar.interfaces;
 
+import java.io.IOException;
+import org.onap.appc.instar.interfaceImpl.InstarResponseException;
+
+@FunctionalInterface
 public interface RestClientInterface {
 
-    public String sendRequest(String operation) throws Exception;
+    String sendRequest(String operation) throws InstarResponseException, IOException;
 }

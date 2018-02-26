@@ -33,24 +33,22 @@ public class SecureRestClientTrustManager implements X509TrustManager {
 
     @Override
     public void checkClientTrusted(X509Certificate[] arg0, String arg1)
-        throws CertificateException {
-    }
+        throws CertificateException { /*TODO implement this method*/}
 
     @Override
     public void checkServerTrusted(X509Certificate[] arg0, String arg1)
-        throws CertificateException {
-    }
+        throws CertificateException { /*TODO implement this method*/ }
 
     @Override
     public X509Certificate[] getAcceptedIssuers() {
         return new X509Certificate[0];
     }
 
-    public boolean isClientTrusted(X509Certificate[] arg0) {
+    public boolean isClientTrusted(X509Certificate[] arg) {
         return true;
     }
 
-    public boolean isServerTrusted(X509Certificate[] arg0) {
+    public boolean isServerTrusted(X509Certificate[] arg) {
         return true;
     }
 }

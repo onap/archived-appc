@@ -26,7 +26,8 @@ package org.onap.appc.instar.interfaceImpl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.HashMap;
+import java.io.IOException;
+import java.util.Map;
 import org.onap.appc.instar.dme2client.Dme2Client;
 import org.onap.appc.instar.interfaces.RestClientInterface;
 import org.onap.appc.instar.utils.InstarClientConstant;
@@ -34,18 +35,18 @@ import org.onap.appc.instar.utils.InstarClientConstant;
 public class InstarRestClientImpl implements RestClientInterface {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarRestClientImpl.class);
-    HashMap<String, String> requestData = null;
-    Dme2Client dme2Client;
+    private Map<String, String> requestData = null;
+    private Dme2Client dme2Client;
 
-    public InstarRestClientImpl(HashMap<String, String> instarRequestData) {
+    public InstarRestClientImpl(Map<String, String> instarRequestData) {
 
         this.requestData = instarRequestData;
     }
 
     @Override
-    public String sendRequest(String operation) throws Exception {
+    public String sendRequest(String operation) throws InstarResponseException, IOException {
 
-        String instarResponse = null;
+        String instarResponse;
         try {
             if (operation != null && operation
                 .equalsIgnoreCase(InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME)) {
@@ -53,11 +54,10 @@ public class InstarRestClientImpl implements RestClientInterface {
             }
             instarResponse = dme2Client.send();
             log.info("Resposne in InstarRestClientImpl = " + instarResponse);
-            if (instarResponse == null || instarResponse.length() < 0) {
-                throw new Exception("No Data received from Instar for this call " + operation);
+            if (instarResponse == null || instarResponse.isEmpty()) {
+                throw new InstarResponseException("No Data received from Instar for this call " + operation);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw e;
         }
         return instarResponse;

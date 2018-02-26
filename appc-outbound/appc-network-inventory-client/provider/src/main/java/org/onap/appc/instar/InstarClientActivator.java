@@ -35,7 +35,7 @@ import org.osgi.framework.ServiceRegistration;
 
 public class InstarClientActivator implements BundleActivator {
 
-    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+    private List<ServiceRegistration> registrations = new LinkedList<>();
     private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarClientActivator.class);
 
     @Override
@@ -51,8 +51,6 @@ public class InstarClientActivator implements BundleActivator {
     public void stop(BundleContext arg0) throws Exception {
         for (ServiceRegistration registration : registrations) {
             registration.unregister();
-            registration = null;
         }
-
     }
 }

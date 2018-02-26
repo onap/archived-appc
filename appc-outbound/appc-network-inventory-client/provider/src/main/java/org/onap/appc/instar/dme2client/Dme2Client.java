@@ -84,7 +84,7 @@ public class Dme2Client {
         }
     }
 
-    public ClientResponse sendtoInstar() throws SvcLogicException {
+    private ClientResponse sendToInstar() throws SvcLogicException {
 
         log.info("Called Send with operation Name=" + this.operationName + "and = " +
             properties.getProperty(operationName + InstarClientConstant.BASE_URL));
@@ -172,7 +172,7 @@ public class Dme2Client {
                 return IOUtils.toString(Dme2Client.class.getClassLoader().getResourceAsStream("/tmp/sampleResponse"),
                     Charset.defaultCharset());
             }
-            ClientResponse clientResponse = sendtoInstar();
+            ClientResponse clientResponse = sendToInstar();
             if (clientResponse != null) {
                 response = clientResponse.getEntity(String.class);
                 log.info(clientResponse.getStatus() + " Status, Response :" + response);
