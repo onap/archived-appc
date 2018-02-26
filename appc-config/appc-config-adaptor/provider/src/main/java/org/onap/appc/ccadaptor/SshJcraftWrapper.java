@@ -91,6 +91,8 @@ public class SshJcraftWrapper {
     private String passWord = null;
     private int readIntervalMs = 500;
     private int readBufferSizeBytes = 512_000;
+    private int charsChunkSize = 300_000;
+    private int sessionTimeoutMs = 9_000;
     private char[] charBuffer;
     private Runtime runtime = Runtime.getRuntime();
 
@@ -405,12 +407,19 @@ public class SshJcraftWrapper {
     }
 
     boolean isConnected() {
-        return (channel != null && session != null);
+        return channel != null && session != null;
     }
 
     public void send(String cmd) throws IOException {
         try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
-            sendSshCommand(cmd, dos);
+            String command = enhanceCommandWithEOL(cmd);
+            int length = command.length();
+            log.debug("Sending ssh command: length={0}, payload: {1}", command.length(), command);
+            if(isCmdLengthEnoughToSendInChunks(length, charsChunkSize)) {
+                sendSshCommandInChunks(command, dos);
+            } else {
+                sendSshCommand(command, dos);
+            }
         } catch (IOException e) {
             log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
             throw e;
@@ -594,10 +603,11 @@ public class SshJcraftWrapper {
     }
 
     // Routine does reads until it has read 'nchars' or times out.
-    public void receiveUntilBufferFlush(int ncharsSent, int timeout, String command) throws IOException {
+    public String receiveUntilBufferFlush(int ncharsSent, int timeout, String command) throws IOException {
         log.debug("ncharsSent={0}, timeout={1}, message={2}", ncharsSent, timeout, command);
         int ncharsTotalReceived = 0;
         int ncharsRead = 0;
+        StringBuilder received = new StringBuilder();
 
         long deadline = new Date().getTime() + timeout;
         logMemoryUsage();
@@ -609,6 +619,9 @@ public class SshJcraftWrapper {
                     throw new TimedOutException("Routine has timed out");
                 }
                 ncharsRead = reader.read(charBuffer, 0, readBufferSizeBytes);
+                if(ncharsRead >=0) {
+                    received.append(charBuffer, 0, ncharsRead);
+                }
                 if (listener != null) {
                     listener.receivedString(String.copyValueOf(charBuffer, 0, ncharsRead));
                 }
@@ -618,7 +631,7 @@ public class SshJcraftWrapper {
                     log.debug("Received the correct number of characters, ncharsSent={0}, ncharsTotalReceived={1}",
                         ncharsSent, ncharsTotalReceived);
                     logMemoryUsage();
-                    return;
+                    return received.toString();
                 }
             }
         } catch (JSchException e) {
@@ -882,43 +895,55 @@ public class SshJcraftWrapper {
 
     public String send(String cmd, String delimiter) throws IOException {
         try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
-            sendSshCommand(cmd, dos);
-            return receiveUntil(delimiter, 300000, cmd);
+            String command = enhanceCommandWithEOL(cmd);
+            int length = command.length();
+            log.debug("Sending ssh command: length={0}, payload: {1}", command.length(), command);
+            if(isCmdLengthEnoughToSendInChunks(length, charsChunkSize)) {
+                return sendSshCommandInChunks(command, dos);
+            } else {
+                sendSshCommand(command, dos);
+                return receiveUntil(delimiter, 300000, cmd);
+            }
         }
     }
 
-    private void sendSshCommand(@Nonnull String originalCommand, @Nonnull DataOutputStream channelOutputStream)
+    private void sendSshCommand(@Nonnull String command, @Nonnull DataOutputStream channelOutputStream)
         throws IOException {
-        String command = enhanceCommandWithEOL(originalCommand);
-        int length = command.length(); // 2,937,706
-        int charsChunkSize = 300000;
-        int charsTotalSent = 0;
-
-        log.debug("Sending ssh command: length={0}, payload: {1}", length, command);
-        if (isCmdLengthEnoughToSendInChunks(length, charsChunkSize)) {
-            int timeout = 9000;
-            for (int i = 0; i < length; i += charsChunkSize) {
-                String commandChunk = command.substring(i, Math.min(length, i + charsChunkSize));
-                int numCharsSentInChunk = commandChunk.length();
-                charsTotalSent = charsTotalSent + commandChunk.length();
-                log.debug("Iteration nr:{0}, sending command chunk: {1}", i, numCharsSentInChunk);
-                channelOutputStream.writeBytes(commandChunk);
-                channelOutputStream.flush();
-                try {
-                    if (numCharsSentInChunk < length) {
-                        receiveUntilBufferFlush(numCharsSentInChunk, timeout, originalCommand);
-                    } else {
-                        log.trace("i={0}, flush immediately", i);
-                        channelOutputStream.flush();
-                    }
-                } catch (IOException ex) {
-                    log.warn("IOException occurred: nothing to flush out", ex);
-                }
-            }
-        } else {
-            channelOutputStream.writeBytes(command);
-        }
+        channelOutputStream.writeBytes(command);
         channelOutputStream.flush();
+    }
+
+    private String sendSshCommandInChunks(@Nonnull String command, @Nonnull DataOutputStream channelOutputStream) throws IOException {
+        StringBuilder received =  new StringBuilder();
+        int charsTotalSent = 0;
+        int length = command.length();
+        for (int i = 0; i < length; i += charsChunkSize) {
+            String commandChunk = command.substring(i, Math.min(length, i + charsChunkSize));
+            int numCharsSentInChunk = commandChunk.length();
+            charsTotalSent = charsTotalSent + commandChunk.length();
+            log.debug("Iteration nr:{0}, sending command chunk: {1}", i, numCharsSentInChunk);
+            channelOutputStream.writeBytes(commandChunk);
+            channelOutputStream.flush();
+            try {
+                if (numCharsSentInChunk < length) {
+                    received.append(receiveUntilBufferFlush(numCharsSentInChunk, sessionTimeoutMs, command));
+                } else {
+                    log.trace("i={0}, flush immediately", i);
+                    channelOutputStream.flush();
+                }
+            } catch (IOException ex) {
+                log.warn("IOException occurred: nothing to flush out", ex);
+            }
+        }
+        return received.toString();
+    }
+
+    public void setSessionTimeoutMs(int sessionTimeoutMs) {
+        this.sessionTimeoutMs = sessionTimeoutMs;
+    }
+
+    void setCharsChunkSize(int charsChunkSize) {
+        this.charsChunkSize = charsChunkSize;
     }
 
     private boolean isCmdLengthEnoughToSendInChunks(int length, int chunkSize) {

@@ -33,11 +33,14 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
 
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.ChannelSubsystem;
@@ -49,8 +52,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -87,6 +92,8 @@ public class SshJcraftWrapperTest {
     private ChannelSubsystem channelSubsystem;
     @Mock
     private InputStream channelIs;
+    @Mock
+    private OutputStream channelOs;
 
     @Before
     public void setUpTest() throws Exception {
@@ -121,14 +128,14 @@ public class SshJcraftWrapperTest {
     public void testStripOffCmdFromRouterResponse(){
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         String result = wrapper.stripOffCmdFromRouterResponse("test\nsuccess");
-        Assert.assertEquals("success\n", result);            
+        Assert.assertEquals("success\n", result);
     }
-    
+
     //@Test
     public void testGetLastFewLinesOfFile() throws FileNotFoundException, IOException{
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         URL path = SshJcraftWrapperTest.class.getResource("Test");
-        File file = new File(path.getFile());        
+        File file = new File(path.getFile());
         String value = wrapper.getLastFewLinesOfFile(file,1);
         Assert.assertEquals("\nTest data 3", value);
     }
@@ -137,7 +144,7 @@ public class SshJcraftWrapperTest {
     @Test(expected=Exception.class)
     public void testSetRouterCommandType() throws IOException{
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
-        wrapper.setRouterCommandType("test");    
+        wrapper.setRouterCommandType("test");
         wrapper.receiveUntil("test", 2, "test");
     }
 
@@ -164,7 +171,7 @@ public class SshJcraftWrapperTest {
         StringBuilder sb = new StringBuilder();
         sb.append("test");
         wrapper.appendToRouterFile("Test.txt", sb);
-        wrapper.receiveUntilBufferFlush(3, 4, "test");        
+        wrapper.receiveUntilBufferFlush(3, 4, "test");
     }
 
     @Ignore
@@ -680,4 +687,201 @@ public class SshJcraftWrapperTest {
         assertTrue(file.isFile());
     }
 
+    @Test
+    public void send_withReceive_shouldWriteCommandToChannelOutputStream_andReturnReceivedCommand() throws Exception {
+        //given
+        String command = "sdc";
+        String delimiter = ":";
+        InOrder inOrder = inOrder(channelOs);
+        provideConnectedSubsystemInstanceWithStreamContent(command+delimiter);
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+
+        //when
+        String result = cut.send(command, delimiter);
+
+        //then
+        verifySdcCommandSent(inOrder);
+        assertEquals(command+delimiter, result);
+    }
+
+    @Test
+    public void send_shouldWriteCommandToChannelOutputStream() throws Exception {
+        //given
+        String command = "sdc";
+        InOrder inOrder = inOrder(channelOs);
+        provideConnectedSubsystemInstance();
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+
+        //when
+        cut.send(command);
+
+        //then
+        verifySdcCommandSent(inOrder);
+    }
+
+    private void verifySdcCommandSent(InOrder inOrder) throws IOException {
+        inOrder.verify(channelOs).write('s');
+        inOrder.verify(channelOs).write('d');
+        inOrder.verify(channelOs).write('c');
+        inOrder.verify(channelOs, atLeastOnce()).flush();
+        inOrder.verify(channelOs, atLeastOnce()).close();
+        inOrder.verifyNoMoreInteractions();
+    }
+
+    @Test
+    public void send_withReceive_shouldWriteCommandInChunksToChannelOutputStream_andReturnReceivedCommand() throws Exception {
+        //given
+        cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, 1);
+        cut.setCharsChunkSize(1);
+        String command = "sdc";
+        String delimiter = ":";
+        int timeout = 9000;
+        provideConnectedSubsystemInstanceWithStreamContent(command+delimiter+SshJcraftWrapper.EOL);
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        InOrder inOrder = inOrder(channelOs, session);
+
+        //when
+        String result = cut.send(command, delimiter);
+
+        //then
+        verifySdcCommandSentInChunk(inOrder, timeout);
+        assertEquals(command+delimiter, result);
+    }
+
+    @Test
+    public void send_shouldWriteCommandInChunksToChannelOutputStream() throws Exception {
+        //given
+        cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, 1);
+        cut.setCharsChunkSize(1);
+        String command = "sdc";
+        int timeout = 9000;
+        provideConnectedSubsystemInstanceWithStreamContent(command+SshJcraftWrapper.EOL);
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        InOrder inOrder = inOrder(channelOs, session);
+
+        //when
+        cut.send(command);
+
+        //then
+        verifySdcCommandSentInChunk(inOrder, timeout);
+    }
+
+    private void verifySdcCommandSentInChunk(InOrder inOrder, int timeout) throws Exception{
+        inOrder.verify(channelOs).write('s');
+        inOrder.verify(channelOs).flush();
+        inOrder.verify(session).setTimeout(timeout);
+        inOrder.verify(channelOs).write('d');
+        inOrder.verify(channelOs).flush();
+        inOrder.verify(session).setTimeout(timeout);
+        inOrder.verify(channelOs).write('c');
+        inOrder.verify(channelOs).flush();
+        inOrder.verify(session).setTimeout(timeout);
+        inOrder.verify(channelOs, atLeastOnce()).flush();
+        inOrder.verify(channelOs, atLeastOnce()).close();
+        inOrder.verifyNoMoreInteractions();
+    }
+
+    @Test
+    public void send_withReceive_shouldReturnActualResult_whenTimeoutReached() throws Exception {
+        //given
+        cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, 1);
+        cut.setCharsChunkSize(1);
+        cut.setSessionTimeoutMs(-1);
+        String command = "sdc";
+        String delimiter = ":";
+        provideConnectedSubsystemInstanceWithStreamContent(command+SshJcraftWrapper.EOL);
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+
+        //when
+        String result = cut.send(command, delimiter);
+
+        //then
+        assertEquals(StringUtils.EMPTY, result);
+    }
+
+    @Test
+    public void send_withReceive_shouldReturnActualResult_whenCouldNotSetSessionTimeout() throws Exception {
+        //given
+        cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, 1);
+        cut.setCharsChunkSize(1);
+        String command = "sdc";
+        String delimiter = ":";
+        provideConnectedSubsystemInstanceWithStreamContent(command+SshJcraftWrapper.EOL);
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        doThrow(new JSchException("failed to set session timeout")).when(session).setTimeout(anyInt());
+
+        //when
+        String result = cut.send(command, delimiter);
+
+        //then
+        assertEquals(StringUtils.EMPTY, result);
+    }
+
+    @Test
+    public void sendChar_shouldWriteCharacterToChannelOutputStream() throws Exception {
+        //given
+        int charNum = 100;
+        provideConnectedSubsystemInstance();
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        InOrder inOrder = inOrder(channelOs);
+
+        //when
+        cut.sendChar(charNum);
+
+        //then
+        inOrder.verify(channelOs).write(charNum);
+        inOrder.verify(channelOs, atLeastOnce()).flush();
+        inOrder.verify(channelOs, atLeastOnce()).close();
+        inOrder.verifyNoMoreInteractions();
+    }
+
+    @Test(expected = IOException.class)
+    public void sendChar_shouldRethrowIOException_whenOccurs() throws Exception {
+        //given
+        int charNum = 100;
+        provideConnectedSubsystemInstance();
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        doThrow(new IOException()).when(channelOs).write(charNum);
+
+        //when
+        cut.sendChar(charNum);
+
+        //then
+        fail("IOException should be thrown");
+    }
+
+    @Test
+    public void send_withByteBuffer_shouldWriteBufferToChannelOutputStream() throws Exception {
+        //given
+        byte[] buffer = "Command".getBytes();
+        int offset = 5;
+        provideConnectedSubsystemInstance();
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        InOrder inOrder = inOrder(channelOs);
+
+        //when
+        cut.send(buffer,offset,buffer.length);
+
+        //then
+        inOrder.verify(channelOs).write(buffer, offset, buffer.length);
+        inOrder.verify(channelOs, atLeastOnce()).flush();
+        inOrder.verify(channelOs, atLeastOnce()).close();
+        inOrder.verifyNoMoreInteractions();
+    }
+
+    @Test(expected = IOException.class)
+    public void send_withByteBuffer_shouldRethrowIOException_whenOccurs() throws Exception {
+        //given
+        byte[] buffer = "Command".getBytes();
+        int offset = 5;
+        provideConnectedSubsystemInstance();
+        given(channelSubsystem.getOutputStream()).willReturn(channelOs);
+        doThrow(new IOException()).when(channelOs).write(buffer, offset, buffer.length);
+
+        //when
+        cut.send(buffer,offset,buffer.length);
+
+        //then
+        fail("IOException should be thrown");
+    }
 }
