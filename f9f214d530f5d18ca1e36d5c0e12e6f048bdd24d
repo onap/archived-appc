@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_bf33e512",
+        "filename": "appc-common/src/main/java/org/onap/appc/configuration/ConfigurationFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-02-26T20:42:53Z",
+      "side": 0,
+      "message": "Do we no longer need to catch an exception here? There must be some reason why this was put here.",
+      "revId": "f9f214d530f5d18ca1e36d5c0e12e6f048bdd24d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
