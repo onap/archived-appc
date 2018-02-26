@@ -47,11 +47,8 @@ public class JsonDgUtilImpl implements JsonDgUtil {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(JsonDgUtilImpl.class);
 
-    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_PARSER_THREAD_LOCAL = new ThreadLocal<SimpleDateFormat>() {
-        protected SimpleDateFormat initialValue() {
-            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        }
-    };
+    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_PARSER_THREAD_LOCAL = ThreadLocal
+        .withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
     @Override
     public void flatAndAddToContext(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
@@ -69,11 +66,7 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             }
             if (!StringUtils.isEmpty(payload)) {
                 Map<String, String> flatMap = JsonUtil.convertJsonStringToFlatMap(payload);
-                if (flatMap != null && flatMap.size() > 0) {
-                    for (Map.Entry<String, String> entry : flatMap.entrySet()) {
-                        ctx.setAttribute(entry.getKey(), entry.getValue());
-                    }
-                }
+                tryUpdateContext(ctx, flatMap);
             } else {
                 logger.warn("input payload param value is empty (\"\") or null");
             }
@@ -82,6 +75,14 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             String msg = EELFResourceManager.format(Msg.INPUT_PAYLOAD_PARSING_FAILED, params.get(Constants.PAYLOAD));
             ctx.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
             throw new APPCException(e);
+        }
+    }
+
+    private void tryUpdateContext(SvcLogicContext ctx, Map<String, String> flatMap) {
+        if (flatMap != null && flatMap.size() > 0) {
+            for (Map.Entry<String, String> entry : flatMap.entrySet()) {
+                ctx.setAttribute(entry.getKey(), entry.getValue());
+            }
         }
     }
 
@@ -95,30 +96,12 @@ public class JsonDgUtilImpl implements JsonDgUtil {
         try {
             Set<String> keys = ctx.getAttributeKeySet();
             ObjectMapper objectMapper = new ObjectMapper();
-            ObjectNode JsonNode = objectMapper.createObjectNode();
+            ObjectNode jsonNode = objectMapper.createObjectNode();
             for (String key : keys) {
-                if (key.startsWith(Constants.OUTPUT_PAYLOAD + ".")) {
-                    String objkey = key.replaceFirst(Constants.OUTPUT_PAYLOAD + ".", "");
-                    if (objkey.contains("[") && objkey.contains("]")) {
-                        ArrayNode arrayNode;
-                        String arrayKey = objkey.substring(0, objkey.indexOf('['));
-                        int arrayIndex = Integer
-                            .parseInt(objkey.substring(objkey.indexOf('[') + 1, objkey.indexOf(']')));
-                        if (JsonNode.has(arrayKey)) {
-                            arrayNode = (ArrayNode) JsonNode.get(arrayKey);
-                            arrayNode.insert(arrayIndex, ctx.getAttribute(key));
-                        } else {
-                            arrayNode = objectMapper.createArrayNode();
-                            arrayNode.insert(arrayIndex, ctx.getAttribute(key));
-                            JsonNode.put(arrayKey, arrayNode);
-                        }
-                    } else {
-                        JsonNode.put(objkey, ctx.getAttribute(key));
-                    }
-                }
+                updateJsonNode(ctx, objectMapper, jsonNode, key);
             }
-            if (JsonNode.size() > 0) {
-                ctx.setAttribute(Constants.OUTPUT_PAYLOAD, objectMapper.writeValueAsString(JsonNode));
+            if (jsonNode.size() > 0) {
+                ctx.setAttribute(Constants.OUTPUT_PAYLOAD, objectMapper.writeValueAsString(jsonNode));
             }
         } catch (Exception e) {
             logger.error(e.toString());
@@ -126,6 +109,28 @@ public class JsonDgUtilImpl implements JsonDgUtil {
             throw new APPCException(e);
         }
 
+    }
+
+    private void updateJsonNode(SvcLogicContext ctx, ObjectMapper objectMapper, ObjectNode jsonNode, String key) {
+        if (key.startsWith(Constants.OUTPUT_PAYLOAD + ".")) {
+            String objkey = key.replaceFirst(Constants.OUTPUT_PAYLOAD + ".", "");
+            if (objkey.contains("[") && objkey.contains("]")) {
+                ArrayNode arrayNode;
+                String arrayKey = objkey.substring(0, objkey.indexOf('['));
+                int arrayIndex = Integer
+                    .parseInt(objkey.substring(objkey.indexOf('[') + 1, objkey.indexOf(']')));
+                if (jsonNode.has(arrayKey)) {
+                    arrayNode = (ArrayNode) jsonNode.get(arrayKey);
+                    arrayNode.insert(arrayIndex, ctx.getAttribute(key));
+                } else {
+                    arrayNode = objectMapper.createArrayNode();
+                    arrayNode.insert(arrayIndex, ctx.getAttribute(key));
+                    jsonNode.put(arrayKey, arrayNode);
+                }
+            } else {
+                jsonNode.put(objkey, ctx.getAttribute(key));
+            }
+        }
     }
 
     @Override

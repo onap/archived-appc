@@ -35,7 +35,8 @@ public class OutputMessagePluginImpl implements OutputMessagePlugin {
 
     @Override
     public void outputMessageBuilder(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        String errorDescription, eventDescription;
+        String errorDescription;
+        String eventDescription;
 
         //making output.status.message
         errorDescription = params.get(Constants.ATTRIBUTE_ERROR_MESSAGE);
@@ -52,23 +53,22 @@ public class OutputMessagePluginImpl implements OutputMessagePlugin {
         }
     }
 
-    public static void addToContextIfNotContains(String errorDescription, String eventDescription,
+    private static void addToContextIfNotContains(String errorDescription, String eventDescription,
         SvcLogicContext ctx) {
         if (!isEmpty(errorDescription)) {
-            if (isEmpty(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE))) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, errorDescription);
-            } else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(errorDescription)) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE,
-                    ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + errorDescription);
-            }
+            updateContext(errorDescription, ctx);
         }
         if (!isEmpty(eventDescription)) {
-            if (isEmpty(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE))) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, eventDescription);
-            } else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(eventDescription)) {
-                ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE,
-                    ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + eventDescription);
-            }
+            updateContext(eventDescription, ctx);
+        }
+    }
+
+    private static void updateContext(String eventDescription, SvcLogicContext ctx) {
+        if (isEmpty(ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE))) {
+            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, eventDescription);
+        } else if (!ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE).contains(eventDescription)) {
+            ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE,
+                ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE) + " | " + eventDescription);
         }
     }
 }

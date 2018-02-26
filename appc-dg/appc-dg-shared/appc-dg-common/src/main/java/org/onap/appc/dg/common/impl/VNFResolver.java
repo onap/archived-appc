@@ -37,29 +37,22 @@ public class VNFResolver extends AbstractResolver {
         return resolve(args[0], args[1], args[2], args[3]);
     }
 
-
-    protected FlowKey resolve(final String action, final String vnfType, final String vnfVersion,
+    private FlowKey resolve(final String action, final String vnfType, final String vnfVersion,
         final String apiVersion) {
-        RankedAttributesContext context = new RankedAttributesContext() {
-            @Override
-            public Object getAttributeValue(String name) {
-                switch (name) {
-                    case "action":
-                        return action;
-                    case "api_version":
-                        return apiVersion;
-                    case "vnf_type":
-                        return vnfType;
-                    case "vnf_version":
-                        return vnfVersion;
-                    default:
-                        throw new IllegalStateException(name);
-                }
+        RankedAttributesContext context = name -> {
+            switch (name) {
+                case "action":
+                    return action;
+                case "api_version":
+                    return apiVersion;
+                case "vnf_type":
+                    return vnfType;
+                case "vnf_version":
+                    return vnfVersion;
+                default:
+                    throw new IllegalStateException(name);
             }
         };
-
-        FlowKey wfKey = resolver("VNF").resolve(context);
-
-        return wfKey;
+        return resolver("VNF").resolve(context);
     }
 }

@@ -63,5 +63,4 @@ public class ConnectionDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }

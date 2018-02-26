@@ -37,6 +37,9 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
 
+    private static final String ATTR_API_VERSION = "input.common-header.api-ver";
+    private static final String ATTR_REQUEST_ID = "input.common-header.request-id";
+    private static final String PARAM_EVENT_TOPIC_NAME = "event-topic-name";
     private EventSender eventSender;
 
     public DCAEReporterPluginImpl() {
@@ -54,7 +57,9 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
 
     @Override
     public void report(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        String errorDescription, apiVersion, eventId;
+        String errorDescription;
+        String apiVersion;
+        String eventId;
 
         Integer errorCode = readErrorCode(params, ctx);
         errorDescription = params.get(Constants.EVENT_MESSAGE);
@@ -62,13 +67,13 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
         if (StringUtils.isEmpty(errorDescription)) {
             reportLegacy(params, ctx);
         } else {
-            apiVersion = ctx.getAttribute("input.common-header.api-ver");
-            eventId = ctx.getAttribute("input.common-header.request-id");
+            apiVersion = ctx.getAttribute(ATTR_API_VERSION);
+            eventId = ctx.getAttribute(ATTR_REQUEST_ID);
 
             EventMessage eventMessage = new EventMessage(new EventHeader(
                 (new java.util.Date()).toString(), apiVersion, eventId),
                 new EventStatus(errorCode, errorDescription));
-            String eventWriteTopic = params.get("event-topic-name");
+            String eventWriteTopic = params.get(PARAM_EVENT_TOPIC_NAME);
             if (!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic != null) {
                 eventSender.sendEvent(MessageDestination.DCAE, eventMessage, eventWriteTopic);
             } else {
@@ -93,15 +98,18 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     @Override
     public void reportSuccess(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Integer successReportCode = 500;
-        String successDescription, apiVersion, eventId;
+        String successDescription;
+        String apiVersion;
+        String eventId;
+
         successDescription = params.get(Constants.EVENT_MESSAGE);
 
         if (StringUtils.isEmpty(successDescription)) {
             successDescription = params.get(Constants.DG_OUTPUT_STATUS_MESSAGE);
         }
 
-        apiVersion = ctx.getAttribute("input.common-header.api-ver");
-        eventId = ctx.getAttribute("input.common-header.request-id");
+        apiVersion = ctx.getAttribute(ATTR_API_VERSION);
+        eventId = ctx.getAttribute(ATTR_REQUEST_ID);
 
         if (null == successDescription) {
             successDescription = "Success";
@@ -109,7 +117,7 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
         EventMessage eventMessage = new EventMessage(new EventHeader(
             (new java.util.Date()).toString(), apiVersion, eventId),
             new EventStatus(successReportCode, successDescription));
-        String eventWriteTopic = params.get("event-topic-name");
+        String eventWriteTopic = params.get(PARAM_EVENT_TOPIC_NAME);
         if (!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic != null) {
             eventSender.sendEvent(MessageDestination.DCAE, eventMessage, eventWriteTopic);
         } else {
@@ -118,18 +126,20 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     }
 
     private void reportLegacy(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        String errorDescription, apiVersion, eventId;
+        String errorDescription;
+        String apiVersion;
+        String eventId;
 
         Integer errorCode = readErrorCode(params, ctx);
         errorDescription = getErrorDescriptionAndAddToCtx(params, ctx);
 
-        apiVersion = ctx.getAttribute("input.common-header.api-ver");
-        eventId = ctx.getAttribute("input.common-header.request-id");
+        apiVersion = ctx.getAttribute(ATTR_API_VERSION);
+        eventId = ctx.getAttribute(ATTR_REQUEST_ID);
 
         EventMessage eventMessage = new EventMessage(new EventHeader(
             (new java.util.Date()).toString(), apiVersion, eventId),
             new EventStatus(errorCode, errorDescription));
-        String eventWriteTopic = params.get("event-topic-name");
+        String eventWriteTopic = params.get(PARAM_EVENT_TOPIC_NAME);
         if (!StringUtils.isEmpty(eventWriteTopic) && eventWriteTopic != null) {
             eventSender.sendEvent(MessageDestination.DCAE, eventMessage, eventWriteTopic);
         } else {
@@ -140,6 +150,7 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
     private String getErrorDescriptionAndAddToCtx(Map<String, String> params, SvcLogicContext ctx) {
         String errorDescription;
         errorDescription = params.get(Constants.DG_OUTPUT_STATUS_MESSAGE);
+
         if (StringUtils.isEmpty(errorDescription)) {
             errorDescription = ctx.getAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE);
         }
@@ -162,5 +173,4 @@ public class DCAEReporterPluginImpl implements DCAEReporterPlugin {
             ctx.setAttribute(Constants.DG_OUTPUT_STATUS_MESSAGE, errorDescriptionFromCtx + " | " + errorDescription);
         }
     }
-
 }
