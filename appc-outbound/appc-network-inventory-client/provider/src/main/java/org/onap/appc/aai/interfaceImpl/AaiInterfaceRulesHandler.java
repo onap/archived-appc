@@ -24,22 +24,20 @@
 
 package org.onap.appc.aai.interfaceImpl;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
 import org.onap.appc.aai.data.AaiVmInfo;
 import org.onap.appc.aai.data.AaiVnfInfo;
 import org.onap.appc.aai.data.AaiVnfcInfo;
-import org.onap.appc.instar.interfaces.RuleHandlerInterface;
 import org.onap.appc.aai.utils.AaiClientConstant;
+import org.onap.appc.instar.interfaces.RuleHandlerInterface;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.sdnc.config.params.data.Parameter;
 import org.onap.sdnc.config.params.data.ResponseKey;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
 
@@ -68,19 +66,25 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
 
         for (ResponseKey filterKeys : responseKeyList) {
 
-            if (null == filterKeys)
+            if (null == filterKeys) {
                 continue;
+            }
 
-            if (StringUtils.isNotBlank(filterKeys.getUniqueKeyName()))
+            if (StringUtils.isNotBlank(filterKeys.getUniqueKeyName())) {
                 respKeys.setUniqueKeyName(filterKeys.getUniqueKeyName());
-            if (StringUtils.isNotBlank(filterKeys.getUniqueKeyValue()))
+            }
+            if (StringUtils.isNotBlank(filterKeys.getUniqueKeyValue())) {
                 respKeys.setUniqueKeyValue(filterKeys.getUniqueKeyValue());
-            if (StringUtils.isNotBlank(filterKeys.getFieldKeyName()))
+            }
+            if (StringUtils.isNotBlank(filterKeys.getFieldKeyName())) {
                 respKeys.setFieldKeyName(filterKeys.getFieldKeyName());
-            if (StringUtils.isNotBlank(filterKeys.getFilterByField()))
+            }
+            if (StringUtils.isNotBlank(filterKeys.getFilterByField())) {
                 respKeys.setFilterByField(filterKeys.getFilterByField());
-            if (StringUtils.isNotBlank(filterKeys.getFilterByValue()))
+            }
+            if (StringUtils.isNotBlank(filterKeys.getFilterByValue())) {
                 respKeys.setFilterByValue(filterKeys.getFilterByValue());
+            }
         }
 
         processKeys(respKeys, parameters.getName());
@@ -106,11 +110,11 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         }
         if (StringUtils.equalsIgnoreCase(filterKey.getUniqueKeyValue(), "vnfc")) {
             values = getVnfcDetailsFromContext(filterKey.getFieldKeyName(), filterKey.getFilterByField(),
-                    filterKey.getFilterByValue());
+                filterKey.getFilterByValue());
         }
         if (StringUtils.equalsIgnoreCase(filterKey.getUniqueKeyValue(), "vserver")) {
             values = getVServerDetailsFromContext(filterKey.getFieldKeyName(), filterKey.getFilterByField(),
-                    filterKey.getFilterByValue());
+                filterKey.getFilterByValue());
         }
         aaiKeyValues.put(aaiKey, values);
         context.setAttribute(AaiClientConstant.AAI_KEY_VALUES, aaiKeyValues.toString());
@@ -121,7 +125,7 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         String fn = "AaiInterfaceRulesHander::getVServerDetailsFromContext():";
         String values = "";
         log.info(fn + "FieldKeyName:" + fieldKeyName + " FilterByName:" + filterByField + " FilterByValue:"
-                + filterByValue);
+            + filterByValue);
 
         if (!StringUtils.equalsIgnoreCase(fieldKeyName, "vserver-name")) {
             log.info(fn + "Returning values:" + values);
@@ -129,104 +133,105 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         }
 
         if (StringUtils.isNotEmpty(filterByField)
-                && StringUtils.isNotEmpty(filterByValue) ) {
+            && StringUtils.isNotEmpty(filterByValue)) {
             int vmIndex = -1;
             for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
                 vmIndex++;
 
-                if (!StringUtils.equalsIgnoreCase(filterByField, "vm-number"))
+                if (!StringUtils.equalsIgnoreCase(filterByField, "vm-number")) {
                     continue;
+                }
 
                 int vmNumber = Integer.parseInt(filterByValue);
-                if (vmNumber != vmIndex)
+                if (vmNumber != vmIndex) {
                     continue;
+                }
 
-                if (StringUtils.isBlank(values))
+                if (StringUtils.isBlank(values)) {
                     values = vm.getVserverName();
-                else
+                } else {
                     values = values + "," + vm.getVserverName();
+                }
             }
         } else {
             for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
-                if (StringUtils.isBlank(values))
+                if (StringUtils.isBlank(values)) {
                     values = vm.getVserverName();
-                else
+                } else {
                     values = values + "," + vm.getVserverName();
+                }
             }
         }
 
         log.info(fn + "Returning values:" + values);
         return values;
-
     }
 
     //split from getVnfcDetailsFromContext
-    private String add2ValuesIpaddressV4OamVipNotEmpty(String values, String filterByField, String filterByValue )
-    {
+    private String add2ValuesIpaddressV4OamVipNotEmpty(String values, String filterByField, String filterByValue) {
         for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
             for (AaiVnfcInfo vnfcInfo : vm.getVnfcInfo()) {
                 if (!StringUtils.equalsIgnoreCase(filterByField, "vnfc-function-code")
-                        || !StringUtils.equalsIgnoreCase(filterByValue, vnfcInfo.getVnfcFunctionCode()))
+                    || !StringUtils.equalsIgnoreCase(filterByValue, vnfcInfo.getVnfcFunctionCode())) {
                     continue;
+                }
 
-                if (StringUtils.isBlank(values))
+                if (StringUtils.isBlank(values)) {
                     values = vnfcInfo.getVnfcOamIpAddress();
-                else
+                } else {
                     values = values + "," + vnfcInfo.getVnfcOamIpAddress();
+                }
             }
 
         }
-
         return values;
     }
 
     //split from getVnfcDetailsFromContext
-    private String add2ValuesIpaddressV4OamVipEmpty(String values, String filterByField, String filterByValue )
-    {
+    private String add2ValuesIpaddressV4OamVipEmpty(String values, String filterByField, String filterByValue) {
         for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
             for (AaiVnfcInfo vnfcInfo : vm.getVnfcInfo()) {
-                if (StringUtils.isBlank(values))
+                if (StringUtils.isBlank(values)) {
                     values = vnfcInfo.getVnfcOamIpAddress();
-                else
+                } else {
                     values = values + "," + vnfcInfo.getVnfcOamIpAddress();
+                }
             }
         }
-
         return values;
     }
 
     //split from getVnfcDetailsFromContext
-    private String add2ValuesVnfcNameNotEmpty(String values, String filterByField, String filterByValue )
-    {
+    private String add2ValuesVnfcNameNotEmpty(String values, String filterByField, String filterByValue) {
         for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
             for (AaiVnfcInfo vnfcInfo : vm.getVnfcInfo()) {
                 if (!StringUtils.equalsIgnoreCase(filterByField, "vnfc-function-code")
-                        || !StringUtils.equalsIgnoreCase(filterByValue, vnfcInfo.getVnfcFunctionCode()))
+                    || !StringUtils.equalsIgnoreCase(filterByValue, vnfcInfo.getVnfcFunctionCode())) {
                     continue;
+                }
 
-                if (StringUtils.isBlank(values))
+                if (StringUtils.isBlank(values)) {
                     values = vnfcInfo.getVnfcName();
-                else
+                } else {
                     values = values + "," + vnfcInfo.getVnfcName();
+                }
             }
 
         }
-
         return values;
     }
 
     //split from getVnfcDetailsFromContext
-    private String add2ValuesVnfcNameEmpty(String values, String filterByField, String filterByValue )
-    {
+    private String add2ValuesVnfcNameEmpty(String values, String filterByField, String filterByValue) {
         for (AaiVmInfo vm : vnfInfoData.getVmInfo()) {
             for (AaiVnfcInfo vnfcInfo : vm.getVnfcInfo()) {
-                if (StringUtils.isBlank(values))
+                if (StringUtils.isBlank(values)) {
                     values = vnfcInfo.getVnfcName();
-                else
+                } else {
                     values = values + "," + vnfcInfo.getVnfcName();
+                }
             }
         }
-
         return values;
     }
 
@@ -234,7 +239,7 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         String fn = "AaiInterfaceRulesHander::getVnfcDetailsFromContext()";
         String values = "";
         log.info(fn + "FieldKeyName:" + fieldKeyName + " FilterByField:" + filterByField + " FilterByValue:"
-                + filterByValue);
+            + filterByValue);
         if (StringUtils.equalsIgnoreCase(fieldKeyName, "ipaddress-v4-oam-vip")) {
             if (StringUtils.isNotEmpty(filterByField) && StringUtils.isNotEmpty(filterByValue)) {
                 values = add2ValuesIpaddressV4OamVipNotEmpty(values, filterByField, filterByValue);
@@ -251,7 +256,6 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         }
         log.info(fn + "Returning values:" + values);
         return values;
-
     }
 
     private String getVnfDetailsFromContext(String fieldKeyName) {
@@ -289,8 +293,9 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
 
         String vmcount = context.getAttribute("tmp.vnfInfo.vm-count");
         int vmCount = 0;
-        if (!StringUtils.isBlank(vmcount))
+        if (!StringUtils.isBlank(vmcount)) {
             vmCount = Integer.parseInt(vmcount);
+        }
         log.info("generateAaiVnfInfoData::" + "vmCount:" + vmCount);
         AaiVnfInfo vnfInfo = new AaiVnfInfo();
         vnfInfo.setVnfName("vnf-name");
@@ -306,7 +311,7 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
                 vnfcInfo.setVnfcName(context.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-name"));
                 vnfcInfo.setVnfcFunctionCode(context.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-function-code"));
                 vnfcInfo.setVnfcOamIpAddress(
-                        context.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-ipaddress-v4-oam-vip"));
+                    context.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-ipaddress-v4-oam-vip"));
                 vnfcInfoList.add(vnfcInfo);
             }
             vm.setVnfcInfo(vnfcInfoList);
@@ -317,5 +322,4 @@ public class AaiInterfaceRulesHandler implements RuleHandlerInterface {
         vnfInfo.setVmInfo(vmList);
         return vnfInfo;
     }
-
 }

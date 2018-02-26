@@ -62,6 +62,4 @@ public class AaiVnfcInfo {
     public void setVnfcOamIpAddress(String vnfcOamIpAddress) {
         this.vnfcOamIpAddress = vnfcOamIpAddress;
     }
-
-
 }

@@ -27,6 +27,5 @@ package org.onap.appc.instar.interfaces;
 
 public interface RuleHandlerInterface {
 
-		public void processRule() throws Exception;
-	
+    public void processRule() throws Exception;
 }

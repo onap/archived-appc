@@ -24,41 +24,35 @@
 
 package org.onap.appc.instar;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.LinkedList;
 import java.util.List;
-
 import org.onap.appc.instar.node.InstarClientNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+public class InstarClientActivator implements BundleActivator {
 
-public class InstarClientActivator implements BundleActivator{
+    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarClientActivator.class);
 
-	private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarClientActivator.class);
+    @Override
+    public void start(BundleContext ctx) throws Exception {
 
-	@Override
-	public void start(BundleContext ctx) throws Exception
-	{
+        InstarClientNode instarClientNode = new InstarClientNode();
+        log.info("Registering service " + instarClientNode.getClass().getName());
+        registrations.add(ctx.registerService(instarClientNode.getClass().getName(), instarClientNode, null));
+        log.info("Registering service sccessful for  " + instarClientNode.getClass().getName());
+    }
 
-		InstarClientNode instarClientNode = new InstarClientNode();
-		log.info("Registering service "+ instarClientNode.getClass().getName());
-		registrations.add(ctx.registerService(instarClientNode.getClass().getName(), instarClientNode, null));
-		log.info("Registering service sccessful for  "+ instarClientNode.getClass().getName());
+    @Override
+    public void stop(BundleContext arg0) throws Exception {
+        for (ServiceRegistration registration : registrations) {
+            registration.unregister();
+            registration = null;
+        }
 
-	}
-	@Override
-	public void stop(BundleContext arg0) throws Exception
-	{
-		for (ServiceRegistration registration: registrations)
-		{
-			registration.unregister();
-			registration = null;
-		}
-
-	}
-
+    }
 }

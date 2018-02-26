@@ -24,8 +24,8 @@
 
 package org.onap.appc.instar.utils;
 
-public class InstarClientConstant
-{
+public class InstarClientConstant {
+
     public static String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
     public static String OUTPUT_PARAM_STATUS = "status";
     public static String OUTPUT_PARAM_ERROR_MESSAGE = "error-message";
@@ -33,7 +33,6 @@ public class InstarClientConstant
     public static String OUTPUT_STATUS_FAILURE = "failure";
 
     public static final String INSTAR_KEYS = "instarKeys";
-
     public static final String INTERFACE_IP_ADDRESS = "interface-ip-address";
     public static final String SOURCE_SYSTEM_INSTAR = "INSTAR";
     public static final String VNF_TYPE = "vnf-type";
@@ -43,42 +42,40 @@ public class InstarClientConstant
     public static final String INSTAR_RESPONSE_BLOCK_NAME = "vnfConfigurationParameterDetails";
     public static final String FDQN = "fqdn";
 
+    public static final String MOCK_INSTAR = "mock_instar";
+    public static final String AFT_LATITUDE = "aft_latitude";
+    public static final String AFT_LONGITUDE = "aft_latitude";
+    public static final String AFT_ENVIRONMENT = "aft_environment";
+    public static final String SCLD_PLATFORM = "scld_platform";
+    public static final String AUTHORIZATION = "authorization";
+    public static final String DME2_CLIENT_TIMEOUTMS = "dme2_client_timeoutms";
+    public static final String DME2_CLIENT_SENDANDWAIT = "dme2_client_sendandwait";
+    public static final String BASE_URL = "_base_url";
+    public static final String HTTP_HEADERS = "_http_headers";
 
-    public static final String MOCK_INSTAR="mock_instar";
-    public static final String AFT_LATITUDE="aft_latitude";
-    public static final String AFT_LONGITUDE="aft_latitude";
-    public static final String AFT_ENVIRONMENT="aft_environment";
-    public static final String SCLD_PLATFORM="scld_platform";
-    public static final String AUTHORIZATION="authorization";
-    public static final String DME2_CLIENT_TIMEOUTMS="dme2_client_timeoutms";
-    public static final String DME2_CLIENT_SENDANDWAIT="dme2_client_sendandwait";
-    public static final String BASE_URL="_base_url";
-    public static final String HTTP_HEADERS="_http_headers";
+    public static final String V6_ADDRESS = "ipaddress-v6";
+    public static final String INSTAR_V6_ADDRESS = "v6IPAddress";
+    public static final String INSTAR_V6_SUBNET = "v6Subnet";
+    public static final String INSTAR_V6_DEFAULT_GATEWAY = "v6DefaultGateway";
 
-    public static final String V6_ADDRESS="ipaddress-v6";
-    public static final String INSTAR_V6_ADDRESS="v6IPAddress";
-    public static final String INSTAR_V6_SUBNET="v6Subnet";
-    public static final String INSTAR_V6_DEFAULT_GATEWAY="v6DefaultGateway";
-
-    public static final String V4_ADDRESS="ipaddress-v4";
-    public static final String INSTAR_V4_ADDRESS="v4IPAddress";
-    public static final String INSTAR_V4_SUBNET="v4Subnet";
-    public static final String INSTAR_V4_DEFAULT_GATEWAY="v4DefaultGateway";
-    public static final String  SUB_CONTEXT_BYIPADDRESS="_sub_context_byipaddress";
-    public static final String SUB_CONTEXT_BYMASK="_sub_context_bymask";
-    public static final String SUB_CONTEXT="_sub_context";
-    public static final String URL_SUFFIX="_suffix";
-    public static final String VERSION="_version";
-    public static final String ENV_CONTEXT="_env_context";
-    public static final String ROUTEOFFER="_routeoffer";
+    public static final String V4_ADDRESS = "ipaddress-v4";
+    public static final String INSTAR_V4_ADDRESS = "v4IPAddress";
+    public static final String INSTAR_V4_SUBNET = "v4Subnet";
+    public static final String INSTAR_V4_DEFAULT_GATEWAY = "v4DefaultGateway";
+    public static final String SUB_CONTEXT_BYIPADDRESS = "_sub_context_byipaddress";
+    public static final String SUB_CONTEXT_BYMASK = "_sub_context_bymask";
+    public static final String SUB_CONTEXT = "_sub_context";
+    public static final String URL_SUFFIX = "_suffix";
+    public static final String VERSION = "_version";
+    public static final String ENV_CONTEXT = "_env_context";
+    public static final String ROUTEOFFER = "_routeoffer";
     public static final String APPC_PROPERTIES = "appc.properties";
-    public static final String METHOD="_method";
+    public static final String METHOD = "_method";
     public static final String OPERATION_GET_IPADDRESS_BY_VNF_NAME = "getIpAddressByVnf";
 
-    public static final String OUTBOUND_PROPERTIES= "/outbound.properties";
+    public static final String OUTBOUND_PROPERTIES = "/outbound.properties";
 
     public static String CONTENT_TYPE = "application/json";
     public static String RETURNED_RESPONSE_TYPE = "application/json";
-
 }
 
