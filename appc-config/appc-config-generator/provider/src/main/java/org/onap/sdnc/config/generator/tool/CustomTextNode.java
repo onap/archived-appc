@@ -44,9 +44,6 @@ public class CustomTextNode extends TextNode {
     }
 
     protected static void appendQuoted(StringBuilder sb, String content) {
-        // sb.append('"');
         CharTypes.appendQuoted(sb, content);
-        // sb.append('"');
     }
-
 }

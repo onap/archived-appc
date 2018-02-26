@@ -24,10 +24,12 @@
 
 package org.onap.sdnc.config.generator.tool;
 
+import com.google.common.collect.Lists;
 import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import javax.sql.rowset.CachedRowSet;
 import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
@@ -38,41 +40,36 @@ public class DbServiceUtil {
 
     private static final Logger log = LoggerFactory.getLogger(DbServiceUtil.class);
 
-    private static Properties props;
+    private static Properties properties;
     private static DBResourceManager jdbcDataSource = null;
 
 
-    public static boolean updateDB(String tableName, ArrayList inputArgs, String scema,
-        String whereClause, String setCluase) throws SQLException {
+    public static boolean updateDB(String tableName, List<String> inputArgs, String whereClause, String setClause)
+        throws SQLException {
         String updatePasswordString =
-            "update " + tableName + " set " + setCluase + " where " + whereClause;
-        boolean result =
-            jdbcDataSource.writeData(updatePasswordString, inputArgs, Constants.SCHEMA_SDNCTL);
-        return result;
+            "update " + tableName + " set " + setClause + " where " + whereClause;
+
+        return jdbcDataSource.writeData(updatePasswordString, Lists.newArrayList(inputArgs), Constants.SCHEMA_SDNCTL);
     }
 
 
-    public static CachedRowSet getData(String tableName, ArrayList argList, String schema,
+    public static CachedRowSet getData(String tableName, List<String> argList, String schema,
         String getselectData, String getDataClasue) throws SQLException {
         String selectQuery =
             "select " + getselectData + "from " + tableName + " where " + getDataClasue;
-        CachedRowSet data = jdbcDataSource.getData(selectQuery, argList, schema);
-        return data;
+        return jdbcDataSource.getData(selectQuery, Lists.newArrayList(argList), schema);
     }
 
 
     public static DBResourceManager initDbLibService() throws Exception {
-        props = new Properties();
+        properties = new Properties();
         File file = new File("/opt/onap/appc/data/properties/dblib.properties");
         URL propURL = file.toURI().toURL();
-        props.load(propURL.openStream());
+        properties.load(propURL.openStream());
 
         // this is an expected difference in CCSDK
-        jdbcDataSource = new DBResourceManager(props);
+        jdbcDataSource = new DBResourceManager(properties);
 
         return jdbcDataSource;
-
     }
-
-
 }

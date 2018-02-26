@@ -26,7 +26,6 @@ package org.onap.sdnc.config.generator;
 
 public class ConfigGeneratorConstant {
 
-
     public static final String STRING_ENCODING = "utf-8";
     public static final String Y = "Y";
     public static final String N = "N";
@@ -52,7 +51,6 @@ public class ConfigGeneratorConstant {
     public static final String INPUT_PARAM_REQUEST_DATA = "requestData";
     public static final String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
 
-
     public static final String OUTPUT_PARAM_MERGED_DATA = "mergedData";
     public static final String OUTPUT_PARAM_TRANSFORMED_DATA = "transformedData";
     public static final String OUTPUT_PARAM_FILE_DATA = "fileData";
@@ -69,4 +67,5 @@ public class ConfigGeneratorConstant {
     public static final String INPUT_PARAM_CONTEXT_KEY = "contextKey";
     public static final String INPUT_PARAM_JSON_CONTENT = "jsonContent";
 
+    private ConfigGeneratorConstant(){}
 }

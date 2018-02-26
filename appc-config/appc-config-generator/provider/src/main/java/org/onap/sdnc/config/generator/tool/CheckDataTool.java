@@ -24,6 +24,8 @@
 
 package org.onap.sdnc.config.generator.tool;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.StringReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -31,10 +33,14 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
-import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
 public class CheckDataTool {
+
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(CheckDataTool.class);
+    private static final String STR_INPUT_DATA = "Input data: \n";
+
+    private CheckDataTool() {}
 
     public static String checkData(String data) {
         boolean isJSON = isJSON(data);
@@ -54,33 +60,26 @@ public class CheckDataTool {
         try {
             new JSONObject(data);
         } catch (JSONException ex) {
+            logger.error(STR_INPUT_DATA + data + "\n is not json object", ex);
             try {
                 new JSONArray(data);
             } catch (JSONException ex1) {
+                logger.error(STR_INPUT_DATA + data + "\n is not json array", ex1);
                 return false;
             }
         }
         return true;
-
-        // try {
-        // final ObjectMapper mapper = new ObjectMapper();
-        // mapper.readTree(data);
-        // return true;
-        // } catch (IOException e) {
-        // return false;
-        // }
     }
 
     public static boolean isXML(String data) {
         try {
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new InputSource(new StringReader(data)));
+            dBuilder.parse(new InputSource(new StringReader(data)));
             return true;
         } catch (Exception ex) {
+            logger.error(STR_INPUT_DATA + data + "\n is not xml document", ex);
             return false;
         }
-
     }
-
 }
