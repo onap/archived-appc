@@ -24,6 +24,13 @@
 
 package org.onap.appc.dg.common.impl;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.Constants;
 import org.onap.appc.dg.common.VNFConfigurator;
 import org.onap.appc.exceptions.APPCException;
@@ -31,15 +38,7 @@ import org.onap.appc.mdsal.MDSALStore;
 import org.onap.appc.mdsal.exception.MDSALStoreException;
 import org.onap.appc.mdsal.impl.MDSALStoreFactory;
 import org.onap.appc.mdsal.objects.BundleInfo;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.apache.commons.lang3.StringUtils;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
 
 
 public class VNFConfiguratorImpl implements VNFConfigurator {
@@ -57,48 +56,49 @@ public class VNFConfiguratorImpl implements VNFConfigurator {
         String configJSON = params.get("configJSON");
         String requestId = params.get("requestId");
         String prefix = params.get("prefix");
-        prefix = StringUtils.isEmpty(prefix)? "":prefix+".";
+        prefix = StringUtils.isEmpty(prefix) ? "" : prefix + ".";
 
         MDSALStore store = MDSALStoreFactory.createMDSALStore();
 
         logger.debug("Inputs Received : uniqueId = " + uniqueId +
-                                        " , yang = " + yang +
-                                        " , configJSON = " + configJSON +
-                                        " , requestId = " + requestId +
-                                        " , prefix = " +prefix);
+            " , yang = " + yang +
+            " , configJSON = " + configJSON +
+            " , requestId = " + requestId +
+            " , prefix = " + prefix);
 
         try {
 
-            if(StringUtils.isEmpty(uniqueId)
-                    ||StringUtils.isEmpty(yang)
-                    || StringUtils.isEmpty(configJSON)
-                    || StringUtils.isEmpty(requestId)){
+            if (StringUtils.isEmpty(uniqueId)
+                || StringUtils.isEmpty(yang)
+                || StringUtils.isEmpty(configJSON)
+                || StringUtils.isEmpty(requestId)) {
                 throw new APPCException("One or more input parameters are empty : uniqueId = " + uniqueId + " " +
-                        ", yang = " + yang +
-                        " , configJSON = " + configJSON +
-                        " , requestId = " + requestId);
+                    ", yang = " + yang +
+                    " , configJSON = " + configJSON +
+                    " , requestId = " + requestId);
             }
 
             Date revision = new SimpleDateFormat(Constants.YANG_REVISION_FORMAT).parse(Constants.YANG_REVISION);
 
-            boolean isYangAlreadyLoaded = store.isModulePresent(uniqueId,revision);
+            boolean isYangAlreadyLoaded = store.isModulePresent(uniqueId, revision);
 
-            if(!isYangAlreadyLoaded){
+            if (!isYangAlreadyLoaded) {
                 BundleInfo bundleInfo = getBundleInfo(uniqueId);
-                store.storeYangModule(yang,bundleInfo);
+                store.storeYangModule(yang, bundleInfo);
             }
-            store.storeJson(uniqueId, requestId , configJSON);
+            store.storeJson(uniqueId, requestId, configJSON);
             context.setAttribute(prefix + STATUS, SUCCESS);
         } catch (ParseException e) {
-            String errorMessage ="Error parsing the date : " + Constants.YANG_REVISION + " into format " + Constants.YANG_REVISION_FORMAT;
-            logger.error(errorMessage,e);
+            String errorMessage = "Error parsing the date : " + Constants.YANG_REVISION + " into format "
+                + Constants.YANG_REVISION_FORMAT;
+            logger.error(errorMessage, e);
             context.setAttribute(prefix + STATUS, FAILURE);
             context.setAttribute(prefix + ERROR_MESSAGE, errorMessage);
             throw new APPCException(e.getMessage());
-        }catch (MDSALStoreException e){
+        } catch (MDSALStoreException e) {
             String errorMessage = "Error while adding yang to MD-SAL store." + e.getMessage();
-            logger.error(errorMessage,e);
-            context.setAttribute(prefix + STATUS,FAILURE);
+            logger.error(errorMessage, e);
+            context.setAttribute(prefix + STATUS, FAILURE);
             context.setAttribute(prefix + ERROR_MESSAGE, errorMessage);
             throw new APPCException(e.getMessage());
         }

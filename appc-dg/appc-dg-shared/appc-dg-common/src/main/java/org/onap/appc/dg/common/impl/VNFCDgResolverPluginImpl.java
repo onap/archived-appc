@@ -24,16 +24,16 @@
 
 package org.onap.appc.dg.common.impl;
 
+import java.util.Map;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
-import java.util.Map;
-
 public class VNFCDgResolverPluginImpl implements org.onap.appc.dg.common.VNFCDgResolverPlugin {
+
     @Override
     public void resolveVNFCDg(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         DgResolverPluginImpl dgResolverPlugin = new DgResolverPluginImpl();
-        params.put("DGResolutionType" , "VNFC");
-        dgResolverPlugin.resolveDg(params,ctx);
+        params.put("DGResolutionType", "VNFC");
+        dgResolverPlugin.resolveDg(params, ctx);
     }
 }

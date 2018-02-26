@@ -27,17 +27,19 @@ package org.onap.appc.dg.common.impl;
 import org.onap.appc.rankingframework.RankedAttributesContext;
 
 public class VNFResolver extends AbstractResolver {
+
     VNFResolver(int interval) {
         super(interval);
     }
 
     @Override
     protected FlowKey resolve(String... args) {
-        return resolve(args[0],args[1],args[2],args[3]);
+        return resolve(args[0], args[1], args[2], args[3]);
     }
 
 
-    protected FlowKey resolve(final String action, final String vnfType, final String vnfVersion, final String apiVersion) {
+    protected FlowKey resolve(final String action, final String vnfType, final String vnfVersion,
+        final String apiVersion) {
         RankedAttributesContext context = new RankedAttributesContext() {
             @Override
             public Object getAttributeValue(String name) {

@@ -24,12 +24,12 @@
 
 package org.onap.appc.dg.common;
 
+import java.util.Map;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
-import java.util.Map;
-
 @FunctionalInterface
 public interface VnfExecutionFlow extends SvcLogicJavaPlugin {
-    void getVnfExecutionFlowData(Map<String,String> params, SvcLogicContext context);
+
+    void getVnfExecutionFlowData(Map<String, String> params, SvcLogicContext context);
 }

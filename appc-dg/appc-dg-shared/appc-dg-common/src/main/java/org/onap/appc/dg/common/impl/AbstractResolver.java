@@ -24,11 +24,10 @@
 
 package org.onap.appc.dg.common.impl;
 
-import org.onap.appc.rankingframework.RankedAttributesResolver;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
 import java.util.concurrent.locks.ReentrantLock;
+import org.onap.appc.rankingframework.RankedAttributesResolver;
 
 abstract class AbstractResolver {
 
@@ -113,5 +112,6 @@ abstract class AbstractResolver {
 
         return dgResolver;
     }
-    protected abstract FlowKey resolve(final String...args);
+
+    protected abstract FlowKey resolve(final String... args);
 }

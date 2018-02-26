@@ -25,11 +25,9 @@
 package org.onap.appc.dg.common;
 
 import java.util.Map;
-
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
-
 
 
 public interface LegacyUtil extends SvcLogicJavaPlugin {
