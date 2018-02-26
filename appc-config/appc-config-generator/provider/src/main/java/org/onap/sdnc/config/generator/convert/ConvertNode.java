@@ -121,14 +121,7 @@ public class ConvertNode implements SvcLogicJavaPlugin {
     }
 
     private String tryFetchEscapedData(String unEscapeData, String dataType) throws InvalidParameterException {
-        if (StringUtils.isBlank(unEscapeData)) {
-            throw new InvalidParameterException("Unescape (" + ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA
-                + ") param is missing for escapeData conversion." + unEscapeData);
-        }
-        if (StringUtils.isBlank(dataType)) {
-            throw new InvalidParameterException(DATA_TYPE_STR + ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE
-                + ")param is missing for escapeData conversion.");
-        }
+        validateInput(unEscapeData, dataType);
         if (ConfigGeneratorConstant.DATA_TYPE_JSON.equalsIgnoreCase(dataType)) {
             return StringEscapeUtils.escapeJavaScript(unEscapeData);
         } else if (ConfigGeneratorConstant.DATA_TYPE_XML.equalsIgnoreCase(dataType)) {
@@ -139,6 +132,17 @@ public class ConvertNode implements SvcLogicJavaPlugin {
             throw new InvalidParameterException(DATA_TYPE_STR + ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE
                 + ") param  value (" + dataType
                 + ")is not supported  for escapeData conversion.");
+        }
+    }
+
+    private void validateInput(String unEscapeData, String dataType) throws InvalidParameterException {
+        if (StringUtils.isBlank(unEscapeData)) {
+            throw new InvalidParameterException("Unescape (" + ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA
+                + ") param is missing for escapeData conversion." + unEscapeData);
+        }
+        if (StringUtils.isBlank(dataType)) {
+            throw new InvalidParameterException(DATA_TYPE_STR + ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE
+                + ")param is missing for escapeData conversion.");
         }
     }
 

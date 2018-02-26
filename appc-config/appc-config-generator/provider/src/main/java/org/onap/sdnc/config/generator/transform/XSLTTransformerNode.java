@@ -32,7 +32,6 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.Map;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
@@ -43,7 +42,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
-
+import org.onap.sdnc.config.generator.merge.ParameterMissingException;
 
 public class XSLTTransformerNode implements SvcLogicJavaPlugin {
 
@@ -68,12 +67,12 @@ public class XSLTTransformerNode implements SvcLogicJavaPlugin {
                 }
             }
             if (StringUtils.isBlank(templateData)) {
-                throw new Exception("In-param templateFile/templateData value is missing");
+                throw new ParameterMissingException("In-param templateFile/templateData value is missing");
             }
 
             String requestData = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA);
             if (StringUtils.isBlank(requestData)) {
-                throw new Exception("In-param requestData value is missing");
+                throw new ParameterMissingException("In-param requestData value is missing");
             }
 
             String transformedData = transform(requestData, templateData);
@@ -83,24 +82,25 @@ public class XSLTTransformerNode implements SvcLogicJavaPlugin {
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
         } catch (Exception e) {
-            e.printStackTrace();
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
                 ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
                 e.getMessage());
-            log.error("Failed in XSLTTransformerNode : " + e.getMessage());
+            log.error("Failed in XSLTTransformerNode", e);
             throw new SvcLogicException(e.getMessage());
         }
     }
 
-    public String transform(String requestData, String templateData)
-        throws TransformerConfigurationException, TransformerException {
+    private String transform(String requestData, String templateData) throws TransformerException {
         StringWriter xmlResultResource = new StringWriter();
-        Transformer xmlTransformer = TransformerFactory.newInstance()
+
+        Transformer xmlTransformer = TransformerFactory
+            .newInstance()
             .newTransformer(new StreamSource(new StringReader(templateData)));
-        xmlTransformer.transform(new StreamSource(new StringReader(requestData)),
-            new StreamResult(xmlResultResource));
+
+        xmlTransformer
+            .transform(new StreamSource(new StringReader(requestData)), new StreamResult(xmlResultResource));
+
         return xmlResultResource.getBuffer().toString();
     }
-
 }

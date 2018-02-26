@@ -32,6 +32,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.onap.sdnc.config.generator.merge.ParameterMissingException;
 import org.onap.sdnc.config.generator.tool.CheckDataTool;
 import org.onap.sdnc.config.generator.tool.LogParserTool;
 
@@ -47,7 +48,7 @@ public class PatternNode implements SvcLogicJavaPlugin {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             String logData = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_LOG_DATA);
             if (StringUtils.isBlank(logData)) {
-                throw new Exception("Log Data is missing");
+                throw new ParameterMissingException("Log Data is missing");
             }
             LogParserTool logParserTool = new LogParserTool();
             String parsedError = logParserTool.parseErrorLog(logData);
@@ -60,7 +61,7 @@ public class PatternNode implements SvcLogicJavaPlugin {
                 ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
                 e.getMessage());
-            log.error("Failed in parsing error log " + e.getMessage());
+            log.error("Failed in parsing error log", e);
             throw new SvcLogicException(e.getMessage());
         }
     }
@@ -73,7 +74,7 @@ public class PatternNode implements SvcLogicJavaPlugin {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             String checkData = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA);
             if (StringUtils.isBlank(checkData)) {
-                throw new Exception("Check Data is missing");
+                throw new ParameterMissingException("Check Data is missing");
             }
             String dataType = CheckDataTool.checkData(checkData);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_DATA_TYPE,
@@ -85,9 +86,8 @@ public class PatternNode implements SvcLogicJavaPlugin {
                 ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
                 e.getMessage());
-            log.error("Failed in checkDataType " + e.getMessage());
+            log.error("Failed in checkDataType", e);
             throw new SvcLogicException(e.getMessage());
         }
     }
-
 }

@@ -39,8 +39,9 @@ import org.osgi.framework.ServiceRegistration;
 
 public class ConfigGeneratorActivator implements BundleActivator {
 
-    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
-
+    private static final String STR_REGISTERING_SERVICE = "Registering service ";
+    private static final String STR_REGISTERING_SERVICE_SUCCESS = "Registering service successful for ";
+    private List<ServiceRegistration> registrations = new LinkedList<>();
 
     private static final EELFLogger log =
         EELFManager.getInstance().getLogger(ConfigGeneratorActivator.class);
@@ -49,29 +50,29 @@ public class ConfigGeneratorActivator implements BundleActivator {
     public void start(BundleContext ctx) throws Exception {
 
         ConvertNode convertNode = new ConvertNode();
-        log.info("Registering service " + convertNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE + convertNode.getClass().getName());
         registrations.add(ctx.registerService(convertNode.getClass().getName(), convertNode, null));
-        log.info("Registering service sccessful for  " + convertNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE_SUCCESS + convertNode.getClass().getName());
 
         MergeNode mergeNode = new MergeNode();
-        log.info("Registering service " + mergeNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE + mergeNode.getClass().getName());
         registrations.add(ctx.registerService(mergeNode.getClass().getName(), mergeNode, null));
-        log.info("Registering service sccessful for " + mergeNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE_SUCCESS + mergeNode.getClass().getName());
 
         PatternNode patternNode = new PatternNode();
-        log.info("Registering service " + patternNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE + patternNode.getClass().getName());
         registrations.add(ctx.registerService(patternNode.getClass().getName(), patternNode, null));
-        log.info("Registering service sccessful for " + patternNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE_SUCCESS + patternNode.getClass().getName());
 
         ReaderNode readerNode = new ReaderNode();
-        log.info("Registering service " + readerNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE + readerNode.getClass().getName());
         registrations.add(ctx.registerService(readerNode.getClass().getName(), readerNode, null));
-        log.info("Registering service sccessful for " + readerNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE_SUCCESS + readerNode.getClass().getName());
 
         FileWriterNode writerNode = new FileWriterNode();
-        log.info("Registering service " + writerNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE + writerNode.getClass().getName());
         registrations.add(ctx.registerService(writerNode.getClass().getName(), writerNode, null));
-        log.info("Registering service sccessful for " + writerNode.getClass().getName());
+        log.info(STR_REGISTERING_SERVICE_SUCCESS + writerNode.getClass().getName());
 
     }
 
@@ -79,9 +80,6 @@ public class ConfigGeneratorActivator implements BundleActivator {
     public void stop(BundleContext arg0) throws Exception {
         for (ServiceRegistration registration : registrations) {
             registration.unregister();
-            registration = null;
         }
-
     }
-
 }

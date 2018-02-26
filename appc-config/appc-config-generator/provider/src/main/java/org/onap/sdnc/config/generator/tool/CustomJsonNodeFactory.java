@@ -29,8 +29,8 @@ import com.fasterxml.jackson.databind.node.TextNode;
 
 public class CustomJsonNodeFactory extends JsonNodeFactory {
 
+    @Override
     public TextNode textNode(String text) {
         return new CustomTextNode(text);
     }
-
 }

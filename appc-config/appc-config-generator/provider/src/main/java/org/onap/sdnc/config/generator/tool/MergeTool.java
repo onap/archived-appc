@@ -26,14 +26,13 @@ package org.onap.sdnc.config.generator.tool;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -44,8 +43,9 @@ import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 
-
 public class MergeTool {
+
+    private MergeTool() {}
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(MergeTool.class);
 
@@ -64,19 +64,16 @@ public class MergeTool {
 
         Template t = ve.getTemplate("TemplateResource");
         VelocityContext context = new VelocityContext();
-        Iterator<Map.Entry<String, String>> entries = dataMap.entrySet().iterator();
-        while (entries.hasNext()) {
-            Map.Entry<String, String> entry = entries.next();
+        for (Entry<String, String> entry : dataMap.entrySet()) {
             context.put(entry.getKey(), entry.getValue());
         }
         t.merge(context, writer);
         return writer.toString();
     }
 
-
     public static String mergeJson2TemplateData(String template, String jsonData,
-        String templateType, String doPrettyOutput)
-        throws JsonParseException, JsonMappingException, IOException {
+        String templateType, String doPrettyOutput) throws IOException {
+
         String mergedData = template;
         if (StringUtils.isNotBlank(template) && StringUtils.isNotBlank(jsonData)) {
             Velocity.init();
@@ -99,17 +96,20 @@ public class MergeTool {
             writer.flush();
             mergedData = writer.toString();
 
-            if (StringUtils.isNotBlank(templateType) && StringUtils.isNotBlank(doPrettyOutput)
-                && ConfigGeneratorConstant.Y.equalsIgnoreCase(doPrettyOutput)
-                && (ConfigGeneratorConstant.DATA_TYPE_JSON.equalsIgnoreCase(templateType)
-                || ConfigGeneratorConstant.DATA_TYPE_XML
-                .equalsIgnoreCase(templateType))) {
+            if (prettyPrint(templateType, doPrettyOutput)) {
                 // Perform Prettying
-
             }
         }
         return mergedData;
-
     }
 
+    private static boolean isJsonOrXml(String templateType) {
+        return ConfigGeneratorConstant.DATA_TYPE_JSON.equalsIgnoreCase(templateType)
+            || ConfigGeneratorConstant.DATA_TYPE_XML.equalsIgnoreCase(templateType);
+    }
+
+    private static boolean prettyPrint(String templateType, String doPrettyOutput) {
+        return StringUtils.isNotBlank(templateType) && StringUtils.isNotBlank(doPrettyOutput)
+            && ConfigGeneratorConstant.Y.equalsIgnoreCase(doPrettyOutput) && isJsonOrXml(templateType);
+    }
 }

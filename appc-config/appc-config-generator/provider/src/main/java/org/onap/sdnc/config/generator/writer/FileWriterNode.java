@@ -24,6 +24,8 @@
 
 package org.onap.sdnc.config.generator.writer;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.File;
 import java.util.Map;
 import org.apache.commons.io.FileUtils;
@@ -32,17 +34,13 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 public class FileWriterNode implements SvcLogicJavaPlugin {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(FileWriterNode.class);
 
-
-
     public void writeFile(Map<String, String> inParams, SvcLogicContext ctx)
-            throws SvcLogicException {
+        throws SvcLogicException {
         log.info("Received writeFile call with params : " + inParams);
         String responsePrefix = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX);
         try {
@@ -50,27 +48,22 @@ public class FileWriterNode implements SvcLogicJavaPlugin {
             String fileName = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME);
             String fileContents = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA);
 
-
             File file = new File(fileName);
             File filePath = file.getParentFile();
             FileUtils.forceMkdir(filePath);
 
             FileUtils.writeStringToFile(file, fileContents,
-                    ConfigGeneratorConstant.STRING_ENCODING);
-
+                ConfigGeneratorConstant.STRING_ENCODING);
 
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
-                    ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
-                    ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
+                ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
-                    e.getMessage());
-            log.error("Failed in writeFile " + e.getMessage());
+                e.getMessage());
+            log.error("Failed in writeFile", e);
             throw new SvcLogicException(e.getMessage());
         }
     }
-
-
-
 }

@@ -37,14 +37,14 @@ public class LogParserTool {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(JSONTool.class);
 
     private String[] singleLines;
-    private List<String> recentErrors = new ArrayList<String>();
-    ;
+    private List<String> recentErrors = new ArrayList<>();
     private Date todaysDate = new Date();
     private SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    private final int minMilli = 60000;
-    private final int IN_TIME = 0;
-    private final int NOT_IN_TIME = 1;
-    private final int NO_DATE = 2;
+
+    private static final int MIN_MILLI = 60000;
+    private static final int IN_TIME = 0;
+    private static final int NOT_IN_TIME = 1;
+    private static final int NO_DATE = 2;
 
     public String parseErrorLog(String data) {
         singleLines = data.split("\\r?\\n");
@@ -52,9 +52,9 @@ public class LogParserTool {
             getNearestDates();
 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Failed to get nearest dates", e);
         }
-        if (recentErrors.size() == 0) {
+        if (recentErrors.isEmpty()) {
             recentErrors.clear();
             return "Did not find the string 'Starting orchestration of file backed up to /var/opt/MetaSwitch/orch/orch_conf.json' in the log file with timestamp within the last 5 minutes";
         } else if (recentErrors.size() == 1) {
@@ -68,7 +68,7 @@ public class LogParserTool {
         }
     }
 
-    public void getNearestDates() throws ParseException {
+    private void getNearestDates() throws ParseException {
         int result;
         for (int i = singleLines.length - 1; i >= 0; i--) {
             if (singleLines[i].contains("Starting orchestration of file backed up to")
@@ -87,16 +87,14 @@ public class LogParserTool {
         Date newDate;
         try {
             newDate = dFormat.parse(line.substring(0, 19));
-            if ((todaysDate.getTime() - newDate.getTime()) <= 5 * minMilli) {
+            if ((todaysDate.getTime() - newDate.getTime()) <= 5 * MIN_MILLI) {
                 return IN_TIME;
             } else {
                 return NOT_IN_TIME;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Failed to parse date", e);
             return NO_DATE;
         }
     }
-
-
 }

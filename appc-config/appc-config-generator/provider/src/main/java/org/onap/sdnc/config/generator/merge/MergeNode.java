@@ -42,8 +42,9 @@ public class MergeNode implements SvcLogicJavaPlugin {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(MergeNode.class);
 
-    public void mergeDataOnTemplate(Map<String, String> inParams, SvcLogicContext ctx)
-        throws SvcLogicException { /* TODO implement this method */ }
+    public void mergeDataOnTemplate(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        /* TODO implement this method */
+    }
 
     public void mergeJsonDataOnTemplate(Map<String, String> inParams, SvcLogicContext ctx)
         throws SvcLogicException {
@@ -139,6 +140,7 @@ public class MergeNode implements SvcLogicJavaPlugin {
         }
     }
 
-    public void mergeYamlDataOnTemplate(Map<String, String> inParams, SvcLogicContext ctx)
-        throws SvcLogicException { /* TODO implement this method */}
+    public void mergeYamlDataOnTemplate(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        /* TODO implement this method */
+    }
 }

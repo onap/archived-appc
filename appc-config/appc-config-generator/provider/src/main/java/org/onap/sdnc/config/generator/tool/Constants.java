@@ -26,11 +26,10 @@ package org.onap.sdnc.config.generator.tool;
 
 public class Constants {
 
-    public static final String DBLIB_SERVICE =
-        "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
+    public static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
     public static final String DEVICE_AUTHENTICATION = "DEVICE_AUTHENTICATION";
     public static final String SCHEMA_SDNCTL = "SDNCTL";
-
     public static final String APPC_CONFIG_DIR = "/opt/onap/appc/data/properties";
 
+    private Constants() {}
 }

@@ -40,7 +40,6 @@ public class ReaderNode implements SvcLogicJavaPlugin {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(MergeNode.class);
 
-
     public void getFileData(Map<String, String> inParams, SvcLogicContext ctx)
         throws SvcLogicException {
         log.info("Received getFileData call with params : " + inParams);
@@ -61,10 +60,8 @@ public class ReaderNode implements SvcLogicJavaPlugin {
                 ConfigGeneratorConstant.OUTPUT_STATUS_FAILURE);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_ERROR_MESSAGE,
                 e.getMessage());
-            log.error("Failed in merging data to template " + e.getMessage());
+            log.error("Failed in merging data to template", e);
             throw new SvcLogicException(e.getMessage());
         }
     }
-
-
 }

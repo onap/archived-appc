@@ -37,32 +37,33 @@ import org.onap.sdnc.config.generator.pattern.TestPatternNode;
 import org.powermock.reflect.Whitebox;
 
 public class TestDataTool {
+
     @Mock
-    LogParserTool lp = new LogParserTool();
+    private LogParserTool logParserTool = new LogParserTool();
 
     @Test
     public void testCheckData() throws IOException {
         String data = IOUtils.toString(
-                TestPatternNode.class.getClassLoader()
-                        .getResourceAsStream("convert/payload_cli_config.json"),
-                ConfigGeneratorConstant.STRING_ENCODING);
+            TestPatternNode.class.getClassLoader()
+                .getResourceAsStream("convert/payload_cli_config.json"),
+            ConfigGeneratorConstant.STRING_ENCODING);
         CheckDataTool.checkData(data);
     }
 
     @Test
     public void testIsJSON() throws IOException {
         String data = IOUtils.toString(
-                TestPatternNode.class.getClassLoader()
-                        .getResourceAsStream("convert/payload_cli_config.json"),
-                ConfigGeneratorConstant.STRING_ENCODING);
+            TestPatternNode.class.getClassLoader()
+                .getResourceAsStream("convert/payload_cli_config.json"),
+            ConfigGeneratorConstant.STRING_ENCODING);
         CheckDataTool.isJSON(data);
     }
 
     @Test
     public void testIsXML() throws IOException {
         String data = IOUtils.toString(
-                TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/xml_data.xml"),
-                ConfigGeneratorConstant.STRING_ENCODING);
+            TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/xml_data.xml"),
+            ConfigGeneratorConstant.STRING_ENCODING);
         CheckDataTool.isXML(data);
     }
 
@@ -93,9 +94,9 @@ public class TestDataTool {
         EscapeUtils.escapeString(null);
     }
 
-    // @Test(expected = Exception.class)
+    @Test(expected = Exception.class)
     public void testgetData() throws Exception {
-        ArrayList argList = null;
+        List<String> argList = null;
         String schema = "sdnctl";
         String tableName = "dual";
         String getselectData = "123";
@@ -103,14 +104,13 @@ public class TestDataTool {
         DbServiceUtil.getData(tableName, argList, schema, getselectData, getDataClasue);
     }
 
-    // @Test(expected = Exception.class)
+    @Test(expected = Exception.class)
     public void testupdateDB() throws Exception {
-        String setCluase = null;
-        String schema = "sdnctl";
+        String setClause = null;
         String tableName = "dual";
-        ArrayList inputArgs = null;
+        List<String> inputArgs = null;
         String whereClause = "123='123'";
-        DbServiceUtil.updateDB(tableName, inputArgs, schema, whereClause, setCluase);
+        DbServiceUtil.updateDB(tableName, inputArgs, whereClause, setClause);
     }
 
     // @Test(expected = Exception.class)
@@ -121,9 +121,9 @@ public class TestDataTool {
     @Test
     public void testJSONTool() throws Exception {
         String data = IOUtils.toString(
-                TestPatternNode.class.getClassLoader()
-                        .getResourceAsStream("convert/payload_cli_config.json"),
-                ConfigGeneratorConstant.STRING_ENCODING);
+            TestPatternNode.class.getClassLoader()
+                .getResourceAsStream("convert/payload_cli_config.json"),
+            ConfigGeneratorConstant.STRING_ENCODING);
         JSONTool.convertToProperties(data);
         List<String> blockKeys = new ArrayList<String>();
         blockKeys.add("vnf-type");
@@ -134,8 +134,8 @@ public class TestDataTool {
     @Test
     public void testLogParserTool() throws Exception {
         String data = IOUtils.toString(
-                TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/errorlog.txt"),
-                ConfigGeneratorConstant.STRING_ENCODING);
+            TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/errorlog.txt"),
+            ConfigGeneratorConstant.STRING_ENCODING);
         LogParserTool lpt = new LogParserTool();
         lpt.parseErrorLog(data);
     }
@@ -150,6 +150,6 @@ public class TestDataTool {
     @Test
     public void testcheckDateTime() throws Exception {
         String line = "2017-08-20T17:40:23.100361+00:00";
-        Whitebox.invokeMethod(lp, "checkDateTime", line);
+        Whitebox.invokeMethod(logParserTool, "checkDateTime", line);
     }
 }

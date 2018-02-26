@@ -28,9 +28,7 @@ import org.apache.commons.lang3.StringUtils;
 
 public class EscapeUtils {
 
-    public EscapeUtils() {
-        // TODO Auto-generated constructor stub
-    }
+    private EscapeUtils() {}
 
     public static String escapeSql(String str) {
         if (str == null) {
