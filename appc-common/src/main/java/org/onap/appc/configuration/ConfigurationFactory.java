@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
@@ -104,7 +105,7 @@ import com.att.eelf.i18n.EELFResourceManager;
  */
 public final class ConfigurationFactory {
 
-    private static final EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ConfigurationFactory.class);
 
     /**
      * This is a string constant for the comma character. It's intended to be used a common string
@@ -177,17 +178,15 @@ public final class ConfigurationFactory {
                         config = new DefaultConfiguration();
                         initialize(null);
                     }
-                } catch (Exception t) {
-                    logger.error("getConfiguration", t);
                 } finally {
                     writeLock.unlock();
                 }
                 readLock.lock();
             }
-            return config;
         } finally {
             readLock.unlock();
         }
+        return config;
     }
 
     /**
@@ -201,34 +200,26 @@ public final class ConfigurationFactory {
      *         can be altered if needed.
      */
     public static Configuration getConfiguration(final Object owner) {
+        DefaultConfiguration local;
         ReadLock readLock = lock.readLock();
         readLock.lock();
         try {
-            DefaultConfiguration local = (DefaultConfiguration) localConfigs.get(owner);
+            local = (DefaultConfiguration) localConfigs.get(owner);
             if (local == null) {
                 readLock.unlock();
                 WriteLock writeLock = lock.writeLock();
                 writeLock.lock();
-                try {
-                    local = (DefaultConfiguration) localConfigs.get(owner);
-                    if (local == null) {
-                        DefaultConfiguration global = (DefaultConfiguration) getConfiguration();
-                        try {
-                            local = (DefaultConfiguration) global.clone();
-                        } catch (CloneNotSupportedException e) {
-                            logger.error("getConfiguration", e);
-                        }
-                        localConfigs.put(owner, local);
-                    }
-                } finally {
-                    writeLock.unlock();
+                local = (DefaultConfiguration) localConfigs.get(owner);
+                if (local == null) {
+                    local = getClonedDefaultConfiguration(owner, local);
                 }
-                readLock.lock();
+                writeLock.unlock();
             }
-            return local;
+            readLock.lock();
         } finally {
             readLock.unlock();
         }
+        return local;
     }
 
     /**
@@ -258,6 +249,20 @@ public final class ConfigurationFactory {
         } finally {
             writeLock.unlock();
         }
+    }
+
+    private static DefaultConfiguration getClonedDefaultConfiguration(Object owner, DefaultConfiguration local) {
+        Optional<DefaultConfiguration> global =
+                Optional.ofNullable((DefaultConfiguration) getConfiguration());
+        try {
+            if (global.isPresent()) {
+                local = (DefaultConfiguration) global.get().clone();
+            }
+        } catch (CloneNotSupportedException e) {
+            logger.error("getClonedDefaultConfiguration", e);
+        }
+        localConfigs.put(owner, local);
+        return local;
     }
 
     /**
@@ -302,8 +307,7 @@ public final class ConfigurationFactory {
                 try {
                     in.close();
                 } catch (IOException e) {
-                    // not much we can do since logger may not be configured yet
-                    e.printStackTrace(System.out);
+                    logger.error("Cannot close inputStream", e);
                 }
             }
             for (String key : config.getProperties().stringPropertyNames()) {
@@ -367,9 +371,7 @@ public final class ConfigurationFactory {
                             stream.close();
                         }
                     } catch (IOException e) {
-                        // not much we can do since logger may not be configured
-                        // yet
-                        e.printStackTrace(System.out);
+                        logger.error("Unable to close stream", e);
                     }
                 }
             }
