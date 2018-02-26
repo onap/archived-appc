@@ -25,7 +25,9 @@
 package org.onap.appc.aai.utils;
 
 public class AaiClientConstant {
-    private AaiClientConstant() {}//hidden public constructor
+
+    private AaiClientConstant() {
+    }//hidden public constructor
 
     public static final String INPUT_PARAM_RESPONSE_PRIFIX = "responsePrefix";
     public static final String OUTPUT_PARAM_STATUS = "status";

@@ -26,7 +26,5 @@ package org.onap.appc.instar.interfaces;
 
 public interface RestClientInterface {
 
-	
-	public String sendRequest(String operation) throws Exception;
-
+    public String sendRequest(String operation) throws Exception;
 }

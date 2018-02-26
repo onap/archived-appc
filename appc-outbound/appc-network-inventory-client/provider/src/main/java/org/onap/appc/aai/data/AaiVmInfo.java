@@ -27,6 +27,7 @@ package org.onap.appc.aai.data;
 import java.util.List;
 
 public class AaiVmInfo {
+
     public String getVserverId() {
         return vserverId;
     }
