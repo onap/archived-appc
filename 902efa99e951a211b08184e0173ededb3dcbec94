@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a501946b",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2018-02-27T06:19:51Z",
+      "side": 1,
+      "message": "Can someone in the team please tell me the correct information for these please?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 25
+      },
+      "revId": "902efa99e951a211b08184e0173ededb3dcbec94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
