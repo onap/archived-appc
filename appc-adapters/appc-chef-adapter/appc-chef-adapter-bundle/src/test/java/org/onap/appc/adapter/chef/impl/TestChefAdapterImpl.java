@@ -48,7 +48,7 @@ public class TestChefAdapterImpl {
 
     @Before
     public void setup() {
-        adapter = new ChefAdapterImpl(Boolean.TRUE);
+        adapter = new ChefAdapterImpl();
         params = new HashMap<>();
         params.put("pemPath",
                 "/src/test/resources/testclient.pem");

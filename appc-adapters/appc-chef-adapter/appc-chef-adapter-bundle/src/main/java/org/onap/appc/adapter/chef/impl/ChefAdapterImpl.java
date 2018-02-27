@@ -115,28 +115,7 @@ public class ChefAdapterImpl implements ChefAdapter {
      * This default constructor is used as a work around because the activator wasnt getting called
      */
     public ChefAdapterImpl() {
-        initialize();
-    }
-
-    public ChefAdapterImpl(Properties props) {
-        initialize();
-    }
-
-    /**
-     * This constructor is used primarily in the test cases to bypass initialization of the adapter for isolated,
-     * disconnected testing
-     *
-     * @param initialize True if the adapter is to be initialized, can false if not
-     */
-
-    public ChefAdapterImpl(boolean initialize) {
-        if (initialize) {
-            initialize();
-        }
-    }
-
-    public ChefAdapterImpl(String key) {
-        initialize();
+        logger.info("Initialize Chef Adapter");
     }
 
     @SuppressWarnings("nls")
@@ -394,12 +373,9 @@ public class ChefAdapterImpl implements ChefAdapter {
         String nodeObject = "{\"json_class\":\"Chef::Node\",\"default\":{" + defaults
             + "},\"chef_type\":\"node\",\"run_list\":[" + runList + "],\"override\":{" + overrides
             + "},\"normal\": {" + normal + "},\"automatic\":{},\"name\":\"" + name + "\",\"chef_environment\":\""
-            + chefEnvironment + "\"}";
+            + chefEnvironment + "\",}";
         logger.info(nodeObject);
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setAttribute("chef.nodeObject", nodeObject);
+        ctx.setAttribute("chef.nodeObject", nodeObject);
     }
 
     /**
@@ -755,15 +731,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         svcLogic.setAttribute(messageStr, message);
         logger.info(codeStr + ": " + svcLogic.getAttribute(codeStr));
         logger.info(messageStr + ": " + svcLogic.getAttribute(messageStr));
-    }
-
-
-    /**
-     * initialize the provider adapter by building the context cache
-     */
-    private void initialize() {
-
-        logger.info("Initialize Chef Adapter");
     }
 
     @SuppressWarnings("static-method")
