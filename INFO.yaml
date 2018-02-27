@@ -1,0 +1,47 @@
+---
+project: 'appc'
+project_creation_date: '2017-02-10'
+lifecycle_state: 'Incubation'
+project_lead: &onap_releng_ptl
+    name: 'Randa Maher'
+    email: 'rx196w@att.com'
+    id: 'rx196w'
+    company: 'ATT'
+    timezone: 'America/North Carolina'
+primary_contact: *onap_releng_ptl
+issue_tracking:
+    type: 'jira'
+    url: 'https://jira.onap.org/projects/APPC'
+    key: 'APPC'
+meetings:
+    - type: 'zoom'
+        agenda: 'https://wiki.onap.org/display/DW/Application+Controller+Project'
+        url: 'https://wiki.onap.org/display/DW/APPC+Meeting+Minutes'
+        server: 'n/a'
+        channel: 'n/a'
+        repeats: 'weekly'
+        time: '14:00 UTC'
+committers:
+    - <<: *onap_releng_ptl
+    - name: 'Marcus Williams'
+        email: 'marcus.williams@intel.com'
+        company: 'Intel'
+        id: 'mgkwill'
+        timezone: 'America/Portland'
+    - name: 'Patrick Brady'
+        email: 'pb071s@att.com'
+        company: 'ATT'
+        id: 'pb071'
+        timezone: 'America/Bothell'
+    - name: 'Skip Wonnell'
+        email: 'skip@att.com'
+        company: 'ATT'
+        id: 'skipwonnell'
+        timezone: 'America/Missouri'
+    - name: 'Takamune Cho'
+        email: 'tc012c@att.com'
+        company: 'ATT'
+        id: 'Takamune_Cho'
+        timezone: 'America/Ney Jersey'
+tsc:
+    approval: 'https://lists.onap.org/pipermail/onap-tsc'
