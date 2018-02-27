@@ -67,6 +67,7 @@ public class SshJcraftWrapper {
     static final String EOL = "\n";
     static final String CHANNEL_SHELL_TYPE = "shell";
     static final String CHANNEL_SUBSYSTEM_TYPE = "subsystem";
+    static final String CHANNEL_SFTP_TYPE = "sftp";
     private static final String TERMINAL_BASIC_MODE = "vt102";
     static final String STRICT_HOST_CHECK_KEY = "StrictHostKeyChecking";
     static final String STRICT_HOST_CHECK_VALUE = "no";
@@ -654,71 +655,26 @@ public class SshJcraftWrapper {
         return passWord;
     }
 
-    public void sftpPutFile(String sourcePath, String destDirectory) throws IOException {
-        try {
-            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.connect(30 * 1000);
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            sftp.connect();
-            log.debug("Sending via sftp from source: {0} to destination: {1}", sourcePath, destDirectory);
-            sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
-            sftpSession.disconnect();
-        } catch (JSchException ex) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
-            throw new IOException(ex.getMessage());
-        } catch (SftpException ex) {
-            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
-            throw new IOException(ex.getMessage());
-        }
-    }
-
     public void sftpPutStringData(String stringOfData, String fullPathDest) throws IOException {
+        ChannelSftp sftp = null;
         try {
-            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.connect(30 * 1000);
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            sftp.connect();
             InputStream is = new ByteArrayInputStream(stringOfData.getBytes());
+            sftp = getSftpConnection(hostName, userName, passWord);
             log.debug("Sending via sftp stringOfData to destination: {0}", fullPathDest);
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
-            sftpSession.disconnect();
         } catch (JSchException ex) {
             log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
             log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
+        } finally {
+            disconnectSftp(sftp);
         }
     }
 
     public String sftpGet(String fullFilePathName) throws IOException {
-        try {
-            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.connect(30 * 1000);
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            sftp.connect();
-            InputStream in = sftp.get(fullFilePathName);
-            String sftpFileString = readInputStreamAsString(in);
-            log.debug("Received data via sftp connection sftpFileString={0} from fullFilePathName={1}",
-                sftpFileString, fullFilePathName);
-            sftpSession.disconnect();
-            return sftpFileString;
-        } catch (JSchException ex) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
-            throw new IOException(ex.getMessage());
-        } catch (SftpException ex) {
-            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "GET", ex.getMessage());
-            throw new IOException(ex.getMessage());
-        }
+        return get(fullFilePathName, hostName, userName, passWord);
     }
 
     public static String readInputStreamAsString(InputStream in) throws IOException {
@@ -732,7 +688,6 @@ public class SshJcraftWrapper {
         }
         return buf.toString();
     }
-
 
     public void logMemoryUsage() {
         int mb = 1024 * 1024;
@@ -797,56 +752,31 @@ public class SshJcraftWrapper {
 
 
     public void put(String sourcePath, String destDirectory) throws IOException {
+        ChannelSftp sftp = null;
         try {
-            Session sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.connect(30 * 1000);
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            sftp.connect();
+            sftp = getSftpConnection(hostName, userName, passWord);
             log.debug("Sending via sftp from source: {0} to destination: {1}", sourcePath, destDirectory);
             sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
-            sftpSession.disconnect();
         } catch (JSchException ex) {
             log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
             throw new IOException(ex.getMessage());
         } catch (SftpException ex) {
             log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
+        } finally {
+            disconnectSftp(sftp);
         }
     }
 
     public void put(InputStream is, String fullPathDest, String hostName, String userName, String passWord)
         throws IOException {
-        Session sftpSession = null;
+        ChannelSftp sftp = null;
         try {
-            log.debug("Sftp put invoked, connection details: username={1} hostname={2}",
-                userName, hostName);
-            jsch = new JSch();
-            java.util.Properties config = new java.util.Properties();
-            config.put("StrictHostKeyChecking", "no");
-            sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.setConfig(config);
-            sftpSession.connect(30 * 1000);
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            sftp.connect();
+            log.debug("Sftp put invoked, connection details: username={1} hostname={2}", userName, hostName);
+            sftp = getSftpConnection(hostName, userName, passWord);
             String oldFiles = fullPathDest + "*";
             log.debug("Deleting old files: {0}", oldFiles);
-            try {
-                sftp.rm(oldFiles);
-            } catch (SftpException ex) {
-                String exp = "No such file";
-                if (ex.getMessage() != null && ex.getMessage().contains(exp)) {
-                    log.warn("No files found, continue");
-                } else {
-                    log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "RM", ex.getMessage());
-                    throw ex;
-                }
-            }
+            removeOldFiles(sftp, oldFiles, hostName, userName);
             log.debug("Sending stringOfData to destination {0}", fullPathDest);
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
         } catch (JSchException ex) {
@@ -856,28 +786,29 @@ public class SshJcraftWrapper {
             log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
             throw new IOException(ex.getMessage());
         } finally {
-            if (sftpSession != null) {
-                sftpSession.disconnect();
+            disconnectSftp(sftp);
+        }
+    }
+
+    private void removeOldFiles(ChannelSftp sftp, String oldFiles, String hostname, String username) throws SftpException {
+        try {
+            sftp.rm(oldFiles);
+        } catch (SftpException ex) {
+            if (ChannelSftp.SSH_FX_NO_SUCH_FILE == ex.id) {
+                log.warn("No files found, continue");
+            } else {
+                log.error(Msg.SFTP_TRANSFER_FAILED, hostname, username, "RM", ex.getMessage());
+                throw ex;
             }
         }
     }
 
     public String get(String fullFilePathName, String hostName, String userName, String passWord) throws IOException {
-        Session sftpSession = null;
+        ChannelSftp sftp = null;
         try {
             log.debug("Sftp get invoked, connection details: username={1} hostname={2}",
                 userName, hostName);
-            jsch = new JSch();
-            sftpSession = jsch.getSession(userName, hostName, DEFAULT_PORT);
-            java.util.Properties config = new java.util.Properties();
-            config.put("StrictHostKeyChecking", "no");
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.setConfig(config);
-            sftpSession.connect(30 * 1000);
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            sftp.connect();
+            sftp = getSftpConnection(hostName, userName, passWord);
             InputStream in = sftp.get(fullFilePathName);
             return readInputStreamAsString(in);
         } catch (JSchException ex) {
@@ -887,10 +818,29 @@ public class SshJcraftWrapper {
             log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "GET", ex.getMessage());
             throw new IOException(ex.getMessage());
         } finally {
-            if (sftpSession != null) {
-                sftpSession.disconnect();
-            }
+            disconnectSftp(sftp);
         }
+    }
+
+    private void disconnectSftp (ChannelSftp sftp) {
+        if (sftp != null) {
+            sftp.disconnect();
+        }
+        if (session != null) {
+            session.disconnect();
+            session = null;
+        }
+    }
+
+    ChannelSftp getSftpConnection(String hostname, String username, String password) throws JSchException {
+        connectSession(hostname, username, password, DEFAULT_PORT, 30_000);
+        ChannelSftp sftp = openSftpChannel(session);
+        sftp.connect();
+        return sftp;
+    }
+
+    ChannelSftp openSftpChannel(Session sftpSession) throws JSchException {
+        return (ChannelSftp) sftpSession.openChannel(CHANNEL_SFTP_TYPE);
     }
 
     public String send(String cmd, String delimiter) throws IOException {
@@ -959,14 +909,18 @@ public class SshJcraftWrapper {
     }
 
     private Channel provideSessionChannel(String channelType, int port, int timeout) throws JSchException {
-        session = jsch.getSession(this.userName, this.hostName, port);
-        session.setPassword(this.passWord);
-        session.setUserInfo(new MyUserInfo()); //needed?
-        session.setConfig(STRICT_HOST_CHECK_KEY, STRICT_HOST_CHECK_VALUE);
-        session.connect(timeout);
+        connectSession(this.hostName, this.userName, this.passWord, port, timeout);
         session.setServerAliveCountMax(
             0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
         return session.openChannel(channelType);
+    }
+
+    private void connectSession(String hostname, String username, String password, int port, int timeout) throws JSchException {
+        session = jsch.getSession(username, hostname, port);
+        session.setPassword(password);
+        session.setUserInfo(new MyUserInfo()); //needed?
+        session.setConfig(STRICT_HOST_CHECK_KEY, STRICT_HOST_CHECK_VALUE);
+        session.connect(timeout);
     }
 
 }
