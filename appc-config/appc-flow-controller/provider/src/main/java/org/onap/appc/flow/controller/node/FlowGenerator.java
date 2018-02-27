@@ -22,6 +22,10 @@
 
 package org.onap.appc.flow.controller.node;
 
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.ACTION_LEVEL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.PAYLOAD;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REQUEST_ACTION;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import java.util.ArrayList;
@@ -31,44 +35,52 @@ import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.ResponseAction;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.data.Transactions;
-import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class FlowGenerator {
-    
-    private static final  EELFLogger log = EELFManager.getInstance().getLogger(FlowGenerator.class);
 
-    public Transactions createSingleStepModel(Map<String, String> inParams, SvcLogicContext ctx) {
+  private static final EELFLogger log = EELFManager.getInstance().getLogger(FlowGenerator.class);
 
-        log.debug("Starting generating single Step flow" );
-        log.debug("Data in context"  + ctx.getAttributeKeySet() );
+  public Transactions createSingleStepModel(Map<String, String> inParams, SvcLogicContext ctx) {
 
-        Transaction singleTransaction = new Transaction();
-        singleTransaction.setTransactionId(1);
-        singleTransaction.setAction(ctx.getAttribute(FlowControllerConstants.REQUEST_ACTION));
-        //Need to discuss how to get action level if not in request
-        singleTransaction.setActionLevel(FlowControllerConstants.VNF);
-        singleTransaction.setPayload(ctx.getAttribute(FlowControllerConstants.PAYLOAD));
-        singleTransaction.setActionLevel(ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL));
+    log.debug("Starting generating single Step flow");
+    log.debug("Data in context" + ctx.getAttributeKeySet());
 
-        List<Response> responseList  = new ArrayList<>();
-        Response response = new Response();
-                
-        ResponseAction ra = new ResponseAction();                    
-        ra.setStop(true);
-        response.setResponseAction(ra);
-        
-        responseList.add(response);
-        singleTransaction.setResponses(responseList);
+    Transactions transactions = new Transactions();
+    transactions.setTransactions(getTransactions(ctx));
 
-        List<Transaction> transactionList = new ArrayList<>();
-        transactionList.add(singleTransaction);
+    log.debug("FlowGenerator.createSingleStepModel Sequence String" + transactions.toString());
 
-        Transactions transactions = new Transactions();
-        transactions.setTransactions(transactionList);
+    return transactions;
+  }
 
-        log.debug("FlowGenerator.createSingleStepModel Sequence String" + transactions.toString());
-        
-        return transactions;
-    }
+  private List<Transaction> getTransactions(SvcLogicContext ctx) {
+    Transaction singleTransaction = new Transaction();
+    singleTransaction.setTransactionId(1);
+    singleTransaction.setAction(ctx.getAttribute(REQUEST_ACTION));
+    //Need to discuss how to get action level if not in request
+    singleTransaction.setPayload(ctx.getAttribute(PAYLOAD));
+    singleTransaction.setActionLevel(ctx.getAttribute(ACTION_LEVEL));
+
+    singleTransaction.setResponses(getResponses());
+
+    List<Transaction> transactionList = new ArrayList<>();
+    transactionList.add(singleTransaction);
+
+    return transactionList;
+  }
+
+  private List<Response> getResponses() {
+
+    ResponseAction ra = new ResponseAction();
+    ra.setStop(true);
+
+    Response response = new Response();
+    response.setResponseAction(ra);
+
+    List<Response> responseList = new ArrayList<>();
+    responseList.add(response);
+
+    return responseList;
+  }
 }
