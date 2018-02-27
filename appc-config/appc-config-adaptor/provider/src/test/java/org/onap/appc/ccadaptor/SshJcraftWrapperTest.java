@@ -33,20 +33,23 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
+import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelShell;
 import com.jcraft.jsch.ChannelSubsystem;
 import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.JSchException;
 import com.jcraft.jsch.Session;
+import com.jcraft.jsch.SftpException;
 import com.jcraft.jsch.UserInfo;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -75,6 +78,9 @@ public class SshJcraftWrapperTest {
     private static final String SUBSYSTEM = "netconf";
     private static final String PROMPT = "]]>]]>";
     private static final String SEARCH_STR = "</rpc-reply>";
+    private static final String REMOTE_PATH = "/var/tmp/path/";
+    private static final String SOURCE_PATH = "/tmp/local/path/";
+    private static final String IO_EXCEPTION_MSG = "IOException should be thrown";
     private static final int READ_TIMEOUT = 180_000;
     private static final int PORT_NUM = 23;
     private static final int SESSION_TIMEOUT = 30_000;
@@ -94,6 +100,8 @@ public class SshJcraftWrapperTest {
     private InputStream channelIs;
     @Mock
     private OutputStream channelOs;
+    @Mock
+    private ChannelSftp channelSftp;
 
     @Before
     public void setUpTest() throws Exception {
@@ -108,7 +116,7 @@ public class SshJcraftWrapperTest {
 
     @Ignore
     @Test
-    public void TestCheckIfReceivedStringMatchesDelimeter(){
+    public void TestCheckIfReceivedStringMatchesDelimeter() {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.getTheDate();
         boolean result = wrapper.checkIfReceivedStringMatchesDelimeter("#", "test#", "test#");
@@ -117,7 +125,7 @@ public class SshJcraftWrapperTest {
 
     @Ignore
     @Test
-    public void testRemoveWhiteSpaceAndNewLineCharactersAroundString(){
+    public void testRemoveWhiteSpaceAndNewLineCharactersAroundString() {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         String nameSpace = wrapper.removeWhiteSpaceAndNewLineCharactersAroundString("namespace ");
         Assert.assertEquals("namespace", nameSpace);
@@ -125,24 +133,24 @@ public class SshJcraftWrapperTest {
 
     @Ignore
     @Test
-    public void testStripOffCmdFromRouterResponse(){
+    public void testStripOffCmdFromRouterResponse() {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         String result = wrapper.stripOffCmdFromRouterResponse("test\nsuccess");
         Assert.assertEquals("success\n", result);
     }
 
     //@Test
-    public void testGetLastFewLinesOfFile() throws FileNotFoundException, IOException{
+    public void testGetLastFewLinesOfFile() throws FileNotFoundException, IOException {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         URL path = SshJcraftWrapperTest.class.getResource("Test");
         File file = new File(path.getFile());
-        String value = wrapper.getLastFewLinesOfFile(file,1);
+        String value = wrapper.getLastFewLinesOfFile(file, 1);
         Assert.assertEquals("\nTest data 3", value);
     }
 
     @Ignore
-    @Test(expected=Exception.class)
-    public void testSetRouterCommandType() throws IOException{
+    @Test(expected = Exception.class)
+    public void testSetRouterCommandType() throws IOException {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.setRouterCommandType("test");
         wrapper.receiveUntil("test", 2, "test");
@@ -150,7 +158,7 @@ public class SshJcraftWrapperTest {
 
     @Ignore
     @Test
-    public void testValues() throws IOException{
+    public void testValues() throws IOException {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.setEquipNameCode("testcode");
         wrapper.setRouterCommandType("testcommand");
@@ -164,8 +172,8 @@ public class SshJcraftWrapperTest {
     }
 
     @Ignore
-    @Test(expected=Exception.class)
-    public void testSetRouterCommandType2() throws IOException{
+    @Test(expected = Exception.class)
+    public void testSetRouterCommandType2() throws IOException {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.appendToRouterFile("test", 2);
         StringBuilder sb = new StringBuilder();
@@ -175,8 +183,8 @@ public class SshJcraftWrapperTest {
     }
 
     @Ignore
-    @Test(expected=Exception.class)
-    public void testSetRouterCommandType3() throws IOException{
+    @Test(expected = Exception.class)
+    public void testSetRouterCommandType3() throws IOException {
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.checkIfReceivedStringMatchesDelimeter(3, "test");
     }
@@ -191,7 +199,7 @@ public class SshJcraftWrapperTest {
         cut.connect(HOST, USER, PASS);
 
         //then
-        fail("IOException should be thrown");
+        fail(IO_EXCEPTION_MSG);
     }
 
     @Test
@@ -209,13 +217,13 @@ public class SshJcraftWrapperTest {
     @Test
     public void connect_shouldSetUpSessionWithProperInvocationOrder() throws Exception {
         //given
-        InOrder inOrder =  inOrder(session, channelShell);
+        InOrder inOrder = inOrder(session, channelShell);
 
         //when
         cut.connect(HOST, USER, PASS);
 
         //then
-        verifySessionConfigurationOrderForChannelShellOpenning(
+        verifySessionConfigurationOrderForChannelShellOpening(
             inOrder, USER, HOST, PASS, SshJcraftWrapper.DEFAULT_PORT, SESSION_TIMEOUT);
     }
 
@@ -240,7 +248,7 @@ public class SshJcraftWrapperTest {
         cut.connect(HOST, USER, PASS, SESSION_TIMEOUT, PORT_NUM, SUBSYSTEM);
 
         //then
-        fail("IOException should be thrown");
+        fail(IO_EXCEPTION_MSG);
     }
 
     @Test
@@ -255,7 +263,7 @@ public class SshJcraftWrapperTest {
     @Test
     public void connect_withSubsystem_shouldSetUpSessionWithProperInvocationOrder() throws Exception {
         //given
-        InOrder inOrder =  inOrder(session, channelSubsystem);
+        InOrder inOrder = inOrder(session, channelSubsystem);
 
         //when
         cut.connect(HOST, USER, PASS, SESSION_TIMEOUT, PORT_NUM, SUBSYSTEM);
@@ -264,7 +272,8 @@ public class SshJcraftWrapperTest {
         verify(jSchMock).getSession(USER, HOST, PORT_NUM);
         inOrder.verify(session).setPassword(PASS);
         inOrder.verify(session).setUserInfo(any(UserInfo.class));
-        inOrder.verify(session).setConfig(SshJcraftWrapper.STRICT_HOST_CHECK_KEY, SshJcraftWrapper.STRICT_HOST_CHECK_VALUE);
+        inOrder.verify(session)
+            .setConfig(SshJcraftWrapper.STRICT_HOST_CHECK_KEY, SshJcraftWrapper.STRICT_HOST_CHECK_VALUE);
         inOrder.verify(session).connect(SESSION_TIMEOUT);
         inOrder.verify(session).setServerAliveCountMax(0);
         inOrder.verify(session).openChannel(SshJcraftWrapper.CHANNEL_SUBSYSTEM_TYPE);
@@ -283,7 +292,7 @@ public class SshJcraftWrapperTest {
         cut.connect(HOST, USER, PASS, PROMPT, SESSION_TIMEOUT);
 
         //then
-        fail("IOException should be thrown");
+        fail(IO_EXCEPTION_MSG);
     }
 
     @Test
@@ -313,13 +322,13 @@ public class SshJcraftWrapperTest {
     @Test
     public void connect_withPrompt_shouldSetUpSessionWithProperInvocationOrder() throws Exception {
         //given
-        InOrder inOrder =  inOrder(session, channelShell);
+        InOrder inOrder = inOrder(session, channelShell);
 
         //when
         cut.connect(HOST, USER, PASS, PROMPT, SESSION_TIMEOUT);
 
         //then
-        verifySessionConfigurationOrderForChannelShellOpenning(
+        verifySessionConfigurationOrderForChannelShellOpening(
             inOrder, USER, HOST, PASS, SshJcraftWrapper.DEFAULT_PORT, SESSION_TIMEOUT);
     }
 
@@ -332,7 +341,7 @@ public class SshJcraftWrapperTest {
         cut.connect(HOST, USER, PASS, PROMPT, SESSION_TIMEOUT, PORT_NUM);
 
         //then
-        fail("IOException should be thrown");
+        fail(IO_EXCEPTION_MSG);
     }
 
     @Test
@@ -362,20 +371,22 @@ public class SshJcraftWrapperTest {
     @Test
     public void connect_withPort_shouldSetUpSessionWithProperInvocationOrder() throws Exception {
         //given
-        InOrder inOrder =  inOrder(session, channelShell);
+        InOrder inOrder = inOrder(session, channelShell);
 
         //when
         cut.connect(HOST, USER, PASS, PROMPT, SESSION_TIMEOUT, PORT_NUM);
 
         //then
-        verifySessionConfigurationOrderForChannelShellOpenning(inOrder, USER, HOST, PASS, PORT_NUM, SESSION_TIMEOUT);
+        verifySessionConfigurationOrderForChannelShellOpening(inOrder, USER, HOST, PASS, PORT_NUM, SESSION_TIMEOUT);
     }
 
-    private void verifySessionConfigurationOrderForChannelShellOpenning(InOrder inOrder, String user, String host, String pass, int port, int sessionTimeout) throws Exception {
+    private void verifySessionConfigurationOrderForChannelShellOpening(InOrder inOrder, String user, String host,
+        String pass, int port, int sessionTimeout) throws Exception {
         verify(jSchMock).getSession(user, host, port);
         inOrder.verify(session).setPassword(pass);
         inOrder.verify(session).setUserInfo(any(UserInfo.class));
-        inOrder.verify(session).setConfig(SshJcraftWrapper.STRICT_HOST_CHECK_KEY, SshJcraftWrapper.STRICT_HOST_CHECK_VALUE);
+        inOrder.verify(session)
+            .setConfig(SshJcraftWrapper.STRICT_HOST_CHECK_KEY, SshJcraftWrapper.STRICT_HOST_CHECK_VALUE);
         inOrder.verify(session).connect(sessionTimeout);
         inOrder.verify(session).setServerAliveCountMax(0);
         inOrder.verify(session).openChannel(SshJcraftWrapper.CHANNEL_SHELL_TYPE);
@@ -548,22 +559,22 @@ public class SshJcraftWrapperTest {
     @Test
     public void receiveUntil_shouldReadUnderlyingStream_andStripOffFirstLine() throws Exception {
         //given
-        String command = "Command"+SshJcraftWrapper.EOL;
-        String reply = "Reply"+SshJcraftWrapper.EOL;
-        String streamContent = command+reply+PROMPT;
+        String command = "Command" + SshJcraftWrapper.EOL;
+        String reply = "Reply" + SshJcraftWrapper.EOL;
+        String streamContent = command + reply + PROMPT;
         provideConnectedSubsystemInstanceWithStreamContent(streamContent);
 
         //when
         String result = cut.receiveUntil(PROMPT, SESSION_TIMEOUT, command);
 
         //then
-        assertEquals(reply+PROMPT, result);
+        assertEquals(reply + PROMPT, result);
     }
 
     @Test
     public void receiveUntil_shouldReadUnderlyingStream_andReturnWholeReadString() throws Exception {
         //given
-        String streamContent = "Command and Reply in just one line"+PROMPT;
+        String streamContent = "Command and Reply in just one line" + PROMPT;
         provideConnectedSubsystemInstanceWithStreamContent(streamContent);
 
         //when
@@ -590,14 +601,15 @@ public class SshJcraftWrapperTest {
         String result = cut.receiveUntil(PROMPT, SESSION_TIMEOUT, "");
 
         //then
-        assertEquals("CommandWithSpecialCharactersSet"+PROMPT, result);
+        assertEquals("CommandWithSpecialCharactersSet" + PROMPT, result);
     }
 
     @Test
-    public void receiveUntil_shouldReadUnderlyingStream_untilCLIDelimiterFound_whenProperDelimiterSet() throws Exception {
+    public void receiveUntil_shouldReadUnderlyingStream_untilCLIDelimiterFound_whenProperDelimiterSet()
+        throws Exception {
         //given
         String cliDelimiter = "#$";
-        String delimiters = PROMPT+SshJcraftWrapper.DELIMITERS_SEPARATOR+cliDelimiter;
+        String delimiters = PROMPT + SshJcraftWrapper.DELIMITERS_SEPARATOR + cliDelimiter;
         String streamContent = "Command for CLI invocation #";
         provideConnectedSubsystemInstanceWithStreamContent(streamContent);
 
@@ -636,12 +648,14 @@ public class SshJcraftWrapperTest {
     }
 
     @Test
-    public void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile_confirmFromFile() throws Exception {
+    public void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile_confirmFromFile()
+        throws Exception {
         receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile();
     }
 
     @Test
-    public void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile_confirmFromBuffer() throws Exception {
+    public void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile_confirmFromBuffer()
+        throws Exception {
         //given
         int biggerBufferSize = 32;
         cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, biggerBufferSize);
@@ -652,9 +666,9 @@ public class SshJcraftWrapperTest {
     private void receiveUntil_shouldWriteOutputToRouterFile_whenReadingIOSXRswConfigFile() throws Exception {
         //given
         String routerName = "router";
-        String command = "RP/0/RP0/CPU0: "+routerName+" #IOS_XR_uploadedSwConfigCmd";
+        String command = "RP/0/RP0/CPU0: " + routerName + " #IOS_XR_uploadedSwConfigCmd";
         String configFileEnding = "\nXML>";
-        String streamContent = "Config file\ncontent"+configFileEnding;
+        String streamContent = "Config file\ncontent" + configFileEnding;
         provideConnectedSubsystemInstanceWithStreamContent(streamContent);
 
         //when
@@ -668,7 +682,7 @@ public class SshJcraftWrapperTest {
         teardownFile(routerName);
     }
 
-    private void provideConnectedSubsystemInstanceWithStreamContent( String streamContent) throws Exception {
+    private void provideConnectedSubsystemInstanceWithStreamContent(String streamContent) throws Exception {
         given(channelSubsystem.getInputStream()).willReturn(IOUtils.toInputStream(streamContent, "UTF-8"));
         cut.connect(HOST, USER, PASS, SESSION_TIMEOUT, PORT_NUM, SUBSYSTEM);
         assertTrue(cut.isConnected());
@@ -676,7 +690,7 @@ public class SshJcraftWrapperTest {
 
     private void teardownFile(String routerName) {
         File file = new File(routerName);
-        if(file.exists() && file.isFile()) {
+        if (file.exists() && file.isFile()) {
             file.delete();
         }
     }
@@ -693,7 +707,7 @@ public class SshJcraftWrapperTest {
         String command = "sdc";
         String delimiter = ":";
         InOrder inOrder = inOrder(channelOs);
-        provideConnectedSubsystemInstanceWithStreamContent(command+delimiter);
+        provideConnectedSubsystemInstanceWithStreamContent(command + delimiter);
         given(channelSubsystem.getOutputStream()).willReturn(channelOs);
 
         //when
@@ -701,7 +715,7 @@ public class SshJcraftWrapperTest {
 
         //then
         verifySdcCommandSent(inOrder);
-        assertEquals(command+delimiter, result);
+        assertEquals(command + delimiter, result);
     }
 
     @Test
@@ -729,14 +743,15 @@ public class SshJcraftWrapperTest {
     }
 
     @Test
-    public void send_withReceive_shouldWriteCommandInChunksToChannelOutputStream_andReturnReceivedCommand() throws Exception {
+    public void send_withReceive_shouldWriteCommandInChunksToChannelOutputStream_andReturnReceivedCommand()
+        throws Exception {
         //given
         cut = new SshJcraftWrapper(jSchMock, READ_INTERVAL_MS, 1);
         cut.setCharsChunkSize(1);
         String command = "sdc";
         String delimiter = ":";
         int timeout = 9000;
-        provideConnectedSubsystemInstanceWithStreamContent(command+delimiter+SshJcraftWrapper.EOL);
+        provideConnectedSubsystemInstanceWithStreamContent(command + delimiter + SshJcraftWrapper.EOL);
         given(channelSubsystem.getOutputStream()).willReturn(channelOs);
         InOrder inOrder = inOrder(channelOs, session);
 
@@ -745,7 +760,7 @@ public class SshJcraftWrapperTest {
 
         //then
         verifySdcCommandSentInChunk(inOrder, timeout);
-        assertEquals(command+delimiter, result);
+        assertEquals(command + delimiter, result);
     }
 
     @Test
@@ -755,7 +770,7 @@ public class SshJcraftWrapperTest {
         cut.setCharsChunkSize(1);
         String command = "sdc";
         int timeout = 9000;
-        provideConnectedSubsystemInstanceWithStreamContent(command+SshJcraftWrapper.EOL);
+        provideConnectedSubsystemInstanceWithStreamContent(command + SshJcraftWrapper.EOL);
         given(channelSubsystem.getOutputStream()).willReturn(channelOs);
         InOrder inOrder = inOrder(channelOs, session);
 
@@ -766,7 +781,7 @@ public class SshJcraftWrapperTest {
         verifySdcCommandSentInChunk(inOrder, timeout);
     }
 
-    private void verifySdcCommandSentInChunk(InOrder inOrder, int timeout) throws Exception{
+    private void verifySdcCommandSentInChunk(InOrder inOrder, int timeout) throws Exception {
         inOrder.verify(channelOs).write('s');
         inOrder.verify(channelOs).flush();
         inOrder.verify(session).setTimeout(timeout);
@@ -789,7 +804,7 @@ public class SshJcraftWrapperTest {
         cut.setSessionTimeoutMs(-1);
         String command = "sdc";
         String delimiter = ":";
-        provideConnectedSubsystemInstanceWithStreamContent(command+SshJcraftWrapper.EOL);
+        provideConnectedSubsystemInstanceWithStreamContent(command + SshJcraftWrapper.EOL);
         given(channelSubsystem.getOutputStream()).willReturn(channelOs);
 
         //when
@@ -806,7 +821,7 @@ public class SshJcraftWrapperTest {
         cut.setCharsChunkSize(1);
         String command = "sdc";
         String delimiter = ":";
-        provideConnectedSubsystemInstanceWithStreamContent(command+SshJcraftWrapper.EOL);
+        provideConnectedSubsystemInstanceWithStreamContent(command + SshJcraftWrapper.EOL);
         given(channelSubsystem.getOutputStream()).willReturn(channelOs);
         doThrow(new JSchException("failed to set session timeout")).when(session).setTimeout(anyInt());
 
@@ -847,7 +862,7 @@ public class SshJcraftWrapperTest {
         cut.sendChar(charNum);
 
         //then
-        fail("IOException should be thrown");
+        fail(IO_EXCEPTION_MSG);
     }
 
     @Test
@@ -860,7 +875,7 @@ public class SshJcraftWrapperTest {
         InOrder inOrder = inOrder(channelOs);
 
         //when
-        cut.send(buffer,offset,buffer.length);
+        cut.send(buffer, offset, buffer.length);
 
         //then
         inOrder.verify(channelOs).write(buffer, offset, buffer.length);
@@ -879,9 +894,286 @@ public class SshJcraftWrapperTest {
         doThrow(new IOException()).when(channelOs).write(buffer, offset, buffer.length);
 
         //when
-        cut.send(buffer,offset,buffer.length);
+        cut.send(buffer, offset, buffer.length);
 
         //then
-        fail("IOException should be thrown");
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test
+    public void getSftpConnection_shouldSetupSessionWithProperInvocationOrder() throws Exception {
+        //given
+        SshJcraftWrapper instance = spy(cut);
+        given(instance.openSftpChannel(session)).willReturn(channelSftp);
+        InOrder inOrder = inOrder(session, channelSftp, instance);
+
+        //when
+        ChannelSftp result = instance.getSftpConnection(HOST, USER, PASS);
+
+        //then
+        verify(jSchMock).getSession(USER, HOST, SshJcraftWrapper.DEFAULT_PORT);
+        inOrder.verify(session).setPassword(PASS);
+        inOrder.verify(session).setUserInfo(any(UserInfo.class));
+        inOrder.verify(session)
+            .setConfig(SshJcraftWrapper.STRICT_HOST_CHECK_KEY, SshJcraftWrapper.STRICT_HOST_CHECK_VALUE);
+        inOrder.verify(session).connect(SESSION_TIMEOUT);
+        inOrder.verify(instance).openSftpChannel(session);
+        inOrder.verify(channelSftp).connect();
+        inOrder.verifyNoMoreInteractions();
+        assertEquals(channelSftp, result);
+    }
+
+    @Test
+    public void sftp_get_shouldReadFromChannelInputStream_andCloseConnection() throws Exception {
+        //given
+        String streamContent = "test input stream content";
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        given(channelSftp.get(REMOTE_PATH)).willReturn(IOUtils.toInputStream(streamContent, "UTF-8"));
+
+        //when
+        String result = spyInstance.get(REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        assertEquals(streamContent, result);
+        verify(channelSftp).disconnect();
+        verify(session).disconnect();
+    }
+
+    @Test(expected = IOException.class)
+    public void sftp_get_shouldThrowIOException_whenJschFails() throws Exception {
+        //given
+        SshJcraftWrapper spyInstance = spy(cut);
+        doThrow(new JSchException()).when(spyInstance).openSftpChannel(session);
+
+        //when
+        spyInstance.get(REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test(expected = IOException.class)
+    public void sftp_get_shouldThrowIOException_whenSftpOperationFails() throws Exception {
+        //given
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        doThrow(new SftpException(0, "sftp error")).when(channelSftp).get(REMOTE_PATH);
+
+        //when
+        spyInstance.get(REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test
+    public void sftp_get_shouldCloseSessionAndChannel_whenExceptionOccursOnConnectedInstance() throws Exception {
+        //given
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        doThrow(new SftpException(0, "sftp error")).when(channelSftp).get(REMOTE_PATH);
+        boolean ioException = false;
+
+        //when
+        try {
+            spyInstance.get(REMOTE_PATH, HOST, USER, PASS);
+        } catch (IOException e) {
+            ioException = true;
+        }
+
+        //then
+        assertTrue(ioException);
+        verify(channelSftp).disconnect();
+        verify(session).disconnect();
+    }
+
+    @Test
+    public void sftp_get_shouldSkipClosingSessionAndChannel_whenExceptionOccursOnNotConnectedInstance() throws Exception {
+        //given
+        doThrow(new JSchException()).when(jSchMock).getSession(anyString(), anyString(), anyInt());
+        boolean ioException = false;
+
+        //when
+        try {
+            cut.get(REMOTE_PATH, HOST, USER, PASS);
+        } catch (IOException e) {
+            ioException = true;
+        }
+
+        //then
+        assertTrue(ioException);
+        verify(channelSftp, never()).disconnect();
+        verify(session, never()).disconnect();
+    }
+
+    @Test
+    public void sftp_put_withIs_shouldRemoveOldFilesFromDestinationPath_andPutNewData() throws Exception {
+        //given
+        InputStream is = IOUtils.toInputStream("test input stream content", "UTF-8");
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        InOrder inOrder = inOrder(channelSftp, session);
+
+        //when
+        spyInstance.put(is, REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        inOrder.verify(channelSftp).rm(REMOTE_PATH + "*");
+        inOrder.verify(channelSftp).put(is, REMOTE_PATH, ChannelSftp.OVERWRITE);
+        inOrder.verify(channelSftp).disconnect();
+        inOrder.verify(session).disconnect();
+        inOrder.verifyNoMoreInteractions();
+    }
+
+    @Test
+    public void sftp_put_withIs_shouldContinueInsertingNewData_whenFileNotFoundDuringRemoval() throws Exception {
+        //given
+        InputStream is = IOUtils.toInputStream("test input stream content", "UTF-8");
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        doThrow(new SftpException(ChannelSftp.SSH_FX_NO_SUCH_FILE, "No such file/dir"))
+            .when(channelSftp).rm(REMOTE_PATH + "*");
+
+        //when
+        spyInstance.put(is, REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        verify(channelSftp).rm(REMOTE_PATH + "*");
+        verify(channelSftp).put(is, REMOTE_PATH, ChannelSftp.OVERWRITE);
+    }
+
+    @Test(expected = IOException.class)
+    public void sftp_put_withIs_shouldThrowIOException_whenSftpFails() throws Exception {
+        //given
+        InputStream is = IOUtils.toInputStream("test input stream content", "UTF-8");
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        doThrow(new SftpException(ChannelSftp.SSH_FX_FAILURE, "general error"))
+            .when(channelSftp).rm(anyString());
+
+        //when
+        spyInstance.put(is, REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test(expected = IOException.class)
+    public void sftp_put_withIs_shouldThrowIOException_whenJschFails() throws Exception {
+        //given
+        InputStream is = IOUtils.toInputStream("test input stream content", "UTF-8");
+        SshJcraftWrapper spyInstance = spy(cut);
+        doThrow(new JSchException()).when(spyInstance).openSftpChannel(session);
+
+        //when
+        spyInstance.put(is, REMOTE_PATH, HOST, USER, PASS);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test
+    public void sftp_put_withSourcePath_shouldPutSrcPathToDestinationPath_andDisconnectAfterwards() throws Exception {
+        //given
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+
+        //when
+        spyInstance.put(SOURCE_PATH, REMOTE_PATH);
+
+        //then
+        verify(channelSftp).put(SOURCE_PATH, REMOTE_PATH, ChannelSftp.OVERWRITE);
+        verify(channelSftp).disconnect();
+        verify(session).disconnect();
+    }
+
+    @Test(expected = IOException.class)
+    public void sftp_put_withSourcePath_shouldThrowIOException_whenSftpFails() throws Exception {
+        //given
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        doThrow(new SftpException(ChannelSftp.SSH_FX_FAILURE, "general error"))
+            .when(channelSftp).put(anyString(), anyString(), anyInt());
+
+        //when
+        spyInstance.put(SOURCE_PATH, REMOTE_PATH);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test(expected = IOException.class)
+    public void sftp_put_withSourcePath_shouldThrowIOException_whenJschFails() throws Exception {
+        //given
+        SshJcraftWrapper spyInstance = spy(cut);
+        doThrow(new JSchException()).when(spyInstance).openSftpChannel(session);
+
+        //when
+        spyInstance.put(SOURCE_PATH, REMOTE_PATH);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test
+    public void sftpPutStringData_shouldPutInputStreamToRemotePath() throws Exception {
+        //given
+        String inputData = "Test data";
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+
+        //when
+        spyInstance.sftpPutStringData(inputData, REMOTE_PATH);
+
+        //then
+        verify(channelSftp).put(any(InputStream.class), eq(REMOTE_PATH), eq(ChannelSftp.OVERWRITE));
+        verify(channelSftp).disconnect();
+        verify(session).disconnect();
+    }
+
+    @Test(expected = IOException.class)
+    public void sftpPutStringData_shouldThrowIOException_whenJschFails() throws Exception {
+        //given
+        String inputData = "Test data";
+        SshJcraftWrapper spyInstance = spy(cut);
+        doThrow(new JSchException()).when(spyInstance).openSftpChannel(session);
+
+        //when
+        spyInstance.sftpPutStringData(inputData, REMOTE_PATH);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test(expected = IOException.class)
+    public void sftpPutStringData_shouldThrowIOException_whenSftpFails() throws Exception {
+        //given
+        String inputData = "Test data";
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        doThrow(new SftpException(ChannelSftp.SSH_FX_FAILURE, "general error"))
+            .when(channelSftp).put(any(InputStream.class), anyString(), anyInt());
+
+        //when
+        spyInstance.sftpPutStringData(inputData, REMOTE_PATH);
+
+        //then
+        fail(IO_EXCEPTION_MSG);
+    }
+
+    @Test
+    public void sftpGet_shouldReadFromChannelInputStream_withInstanceCredentials() throws Exception {
+        //given
+        String remoteStreamContent = "test input stream content";
+        SshJcraftWrapper spyInstance = spy(cut);
+        given(spyInstance.openSftpChannel(session)).willReturn(channelSftp);
+        given(channelSftp.get(REMOTE_PATH)).willReturn(IOUtils.toInputStream(remoteStreamContent, "UTF-8"));
+
+        //when
+        String result = spyInstance.sftpGet(REMOTE_PATH);
+
+        //then
+        assertEquals(remoteStreamContent, result);
     }
 }
