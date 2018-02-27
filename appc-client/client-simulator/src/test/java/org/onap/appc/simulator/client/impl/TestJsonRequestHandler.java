@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -34,19 +34,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.client.lcm.api.LifeCycleManagerStateful;
 import org.onap.appc.client.lcm.exceptions.AppcClientException;
 import org.onap.appc.simulator.client.main.ClientRunner;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({LifeCycleManagerStateful.class})
+@RunWith(MockitoJUnitRunner.class)
 
 public class TestJsonRequestHandler {
 
@@ -76,6 +74,4 @@ public class TestJsonRequestHandler {
         FileFilter fileFilter = new WildcardFileFilter("*.json");
         return new ArrayList<File>(Arrays.asList(dir.toFile().listFiles(fileFilter)));
     }
-
-
 }
