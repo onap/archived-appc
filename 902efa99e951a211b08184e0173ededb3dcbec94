@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_2e79e1c7",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-02-28T00:28:53Z",
+      "side": 1,
+      "message": "If you look at the Resources wiki on ONAP, the primary contacts are not always the PTLs. We should align yaml to info on wiki",
+      "revId": "902efa99e951a211b08184e0173ededb3dcbec94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a501946b",
         "filename": "INFO.yaml",
         "patchSetId": 1
@@ -18,6 +35,53 @@
         "startChar": 0,
         "endLine": 23,
         "endChar": 25
+      },
+      "revId": "902efa99e951a211b08184e0173ededb3dcbec94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6e6b69f1",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-02-28T00:28:53Z",
+      "side": 1,
+      "message": "APPC weekly project calls are at 11AM EST, which would be 16:00 UTC right now, but do we really want this level of info in this yaml?",
+      "parentUuid": "5a93c517_a501946b",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 25
+      },
+      "revId": "902efa99e951a211b08184e0173ededb3dcbec94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0e7c25b4",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-02-28T00:28:53Z",
+      "side": 1,
+      "message": "Skip stepped down from committer to contributor; wiki page was updated to reflect this.",
+      "range": {
+        "startLine": 36,
+        "startChar": 13,
+        "endLine": 36,
+        "endChar": 26
       },
       "revId": "902efa99e951a211b08184e0173ededb3dcbec94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
