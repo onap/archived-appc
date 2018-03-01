@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -190,6 +190,7 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
         String fileCategory = inParams.get(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY);
         String templateName = ctx.getAttribute("template-name");
+        String templateModelId = ctx.getAttribute("template-model-id");
         QueryStatus status;
         String responsePrefix1 = "";
 
@@ -200,22 +201,51 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
             log.info("RESPONSEPREFIX1 : " + responsePrefix1);
 
             if (StringUtils.isBlank(templateName)) {
+                if (StringUtils.isNotBlank(templateModelId)) {
+                    status = db.getTemplateWithTemplateModelId(ctx, responsePrefix, fileCategory,templateModelId);
+                    if (status == QueryStatus.FAILURE) {
+                        throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
+                    }
+                    if (!(status == QueryStatus.NOT_FOUND) ) {
+                        ctx.setAttribute(responsePrefix1 + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                                AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+                        log.info("GetTemplate Successful ");
+                        return;
+                    }
+                }
                 status = db.getTemplate(ctx, responsePrefix, fileCategory);
                 if (status == QueryStatus.FAILURE) {
                     throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
                 }
 
                 if (status == QueryStatus.NOT_FOUND) {
-
-                    status = db.getTemplateByVnfTypeNAction(ctx, responsePrefix, fileCategory);
-
-                    if (status == QueryStatus.FAILURE) {
-                        throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
+                    if (StringUtils.isNotBlank(templateModelId)) {
+                        status = db.getTemplateByVnfTypeNActionWithTemplateModelId(ctx, responsePrefix, fileCategory,templateModelId);
+                        if (status == QueryStatus.FAILURE) {
+                            throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
+                        }
+                        if (!(status == QueryStatus.NOT_FOUND) ) {
+                            ctx.setAttribute(responsePrefix1 + AppcDataServiceConstant.OUTPUT_PARAM_STATUS,
+                                    AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS);
+                            log.info("GetTemplate Successful ");
+                            return;
+                        }
                     }
-
                     if (status == QueryStatus.NOT_FOUND) {
-                        throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
+
+
+                        status = db.getTemplateByVnfTypeNAction(ctx, responsePrefix, fileCategory);
+
+                        if (status == QueryStatus.FAILURE) {
+                            throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
+                        }
+
+                        if (status == QueryStatus.NOT_FOUND) {
+                            throw new QueryException(UNABLE_TO_READ_STR + fileCategory);
+                        }
                     }
+
+
                 }
             } else {
 
@@ -629,20 +659,33 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         log.info("Received getVnfcReference call with params : " + inParams);
 
         String responsePrefix = inParams.get(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX);
-        QueryStatus status;
+        String templateModelId = ctx.getAttribute("template-model-id");
+        log.info("getVnfcReference():::"+templateModelId);
+        QueryStatus status = null;
 
         try {
             if (!StringUtils.isBlank(ctx.getAttribute("vnfc-type"))) {
+
+
                 status = db.getVnfcReferenceByVnfcTypeNAction(ctx, responsePrefix);
 
                 if (status == QueryStatus.FAILURE) {
                     throw new QueryException("Unable to Read vnfc-reference");
                 }
-            }
-            status = db.getVnfcReferenceByVnfTypeNAction(ctx, responsePrefix);
 
-            if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE) {
-                throw new QueryException("Unable to Read vnfc reference");
+            }
+            if (StringUtils.isNotBlank(templateModelId)) {
+                status = db.getVnfcReferenceByVnfTypeNActionWithTemplateModelId(ctx, responsePrefix,templateModelId);
+                if (status == QueryStatus.FAILURE) {
+                    throw new QueryException("Unable to Read vnfc-reference with template-model-id");
+                }
+            }
+            if (StringUtils.isBlank(templateModelId) || (StringUtils.isNotBlank(templateModelId) && (status == QueryStatus.NOT_FOUND))) {
+                status = db.getVnfcReferenceByVnfTypeNAction(ctx, responsePrefix);
+
+                if (status == QueryStatus.NOT_FOUND || status == QueryStatus.FAILURE) {
+                    throw new QueryException("Unable to Read vnfc reference");
+                }
             }
 
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
@@ -794,4 +837,5 @@ public class ConfigResourceNode implements SvcLogicJavaPlugin {
         }
         return capabilityCheckNeeded;
     }
+
 }
