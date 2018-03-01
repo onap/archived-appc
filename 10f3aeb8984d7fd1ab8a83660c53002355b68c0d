@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_6d3e06dc",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-03-01T18:26:34Z",
+      "side": 1,
+      "message": "Should this test method have some kind of verify statements? Right now it seems to just be running the code without confirming that its working.",
+      "revId": "10f3aeb8984d7fd1ab8a83660c53002355b68c0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
