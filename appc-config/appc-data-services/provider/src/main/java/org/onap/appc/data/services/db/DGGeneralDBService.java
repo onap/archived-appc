@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -42,6 +42,7 @@ public class DGGeneralDBService {
     private static DGGeneralDBService dgGeneralDBService = null;
 
     public static DGGeneralDBService initialise() {
+
         if (dgGeneralDBService == null) {
             dgGeneralDBService = new DGGeneralDBService();
         }
@@ -51,6 +52,12 @@ public class DGGeneralDBService {
     private DGGeneralDBService() {
         if (serviceLogic == null) {
             serviceLogic = new SqlResource();
+        }
+    }
+
+    protected DGGeneralDBService(SqlResource svcLogic) {
+        if (serviceLogic == null) {
+            serviceLogic = svcLogic;
         }
     }
 
@@ -117,8 +124,8 @@ public class DGGeneralDBService {
                     + " FROM ASDC_ARTIFACTS a, ASDC_REFERENCE b " + " WHERE a.artifact_name = b.artifact_name "
                     + " AND file_category =  '" + fileCategory + "'" + " AND action =  $request-action "
                     + " AND vnf_type =  $vnf-type ) ; ";
-
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
+
         }
         return status;
     }
@@ -291,7 +298,7 @@ public class DGGeneralDBService {
 
     }
 
-    
+
     public QueryStatus getTemplateByArtifactType(SvcLogicContext ctx, String prefix, String fileCategory, String artifactType)
             throws SvcLogicException {
         QueryStatus status = null;
@@ -307,27 +314,27 @@ public class DGGeneralDBService {
         }
         return status;
     }
-    
-    
+
+
     public QueryStatus getConfigFilesByVnfVmNCategory(SvcLogicContext ctx, String prefix, String fileCategory, String vnfId, String vmName)
             throws SvcLogicException {
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
-            
+
             String key = "SELECT  file_content ,  config_file_id "
                     + " FROM CONFIGFILES "
                     + " WHERE config_file_id = ( SELECT MAX(config_file_id) configfileid " + " FROM CONFIGFILES "
                     + " WHERE file_category = '"    + fileCategory + "'"
                     + " AND vnf_id =  '" + vnfId + "'"
                     + " AND vm_name = '" + vmName + "' ) ; ";
-            
-            
+
+
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
         }
         return status;
     }
-    
-    
+
+
     public QueryStatus getDownloadConfigTemplateByVnf(SvcLogicContext ctx, String prefix)
             throws SvcLogicException {
         QueryStatus status = null;
@@ -337,16 +344,16 @@ public class DGGeneralDBService {
         }
         return status;
     }
-    
-    
-    
+
+
+
     public QueryStatus saveConfigTransactionLog(SvcLogicContext ctx, String prefix) throws SvcLogicException {
 
         QueryStatus status = null;
 
         if (serviceLogic != null && ctx != null) {
-                
-        
+
+
                 String key = "INSERT INTO CONFIG_TRANSACTION_LOG " + " SET request_id = $request-id , "
                 + " message_type = $log-message-type , "
                 + " message = $log-message ;";
@@ -354,61 +361,61 @@ public class DGGeneralDBService {
 
                 status = serviceLogic.save("SQL", false, false, key, null, prefix, ctx);
 
-        
+
 
         }
         return status;
 
     }
 
-    
+
     public QueryStatus getVnfcReferenceByVnfcTypeNAction(SvcLogicContext ctx, String prefix)
             throws SvcLogicException {
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
-            
+
             String key = "SELECT  * "
                     + " FROM VNFC_REFERENCE "
                     + " WHERE vnf_type =  $vnf-type "
                     + " AND vnfc_type = $vnfc-type "
                     + " AND action =  $request-action "
                     + " ORDER BY vm_instance, vnfc_instance ; ";
-            
-            
+
+
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
         }
         return status;
     }
 
-    
+
     public QueryStatus getVnfcReferenceByVnfTypeNAction(SvcLogicContext ctx, String prefix)
             throws SvcLogicException {
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
-            
+
             String key = "SELECT  * "
                     + " FROM VNFC_REFERENCE "
                     + " WHERE vnf_type =  $vnf-type "
                     + " AND action =  $request-action   "
                     + " ORDER BY vm_instance, vnfc_instance ; ";
-            
+
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
         }
         return status;
     }
-    
-    
+
+
     public QueryStatus getUploadConfigInfo(SvcLogicContext ctx, String prefix)
             throws SvcLogicException {
         QueryStatus status = null;
         if (serviceLogic != null && ctx != null) {
-            
+
             String key = "SELECT  * , UNIX_TIMESTAMP(UPLOAD_DATE) UPLOAD_TIMESTAMP "
                     + " FROM UPLOAD_CONFIG "
                     + " WHERE upload_config_id = " +
                     "( SELECT MAX(upload_config_id) uploadconfigid " + " FROM UPLOAD_CONFIG "
                     + " WHERE vnf_id =  $vnf-id  AND vm_name = $vm-name ) ; ";
-                
+
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
         }
         return status;
@@ -444,5 +451,63 @@ public class DGGeneralDBService {
 
          return localContext.getAttribute("artifact-content");
  }
+
+    public QueryStatus getTemplateWithTemplateModelId(SvcLogicContext ctx, String prefix, String fileCategory,
+            String templateModelId) throws SvcLogicException {
+        QueryStatus status = null;
+        String templatePattern = "'%_"+ templateModelId +"%'";
+        if (serviceLogic != null && ctx != null) {
+            String key = "SELECT artifact_content file_content , asdc_artifacts_id config_file_id "
+                    + " FROM ASDC_ARTIFACTS "
+                    + " WHERE asdc_artifacts_id = ( SELECT MAX(a.asdc_artifacts_id) configfileid  "
+                    + " FROM ASDC_ARTIFACTS a, ASDC_REFERENCE b " + " WHERE a.artifact_name = b.artifact_name "
+                    + " AND file_category =  '" + fileCategory + "'" + " AND action =  $request-action "
+                    + " AND vnf_type =  $vnf-type  " + " AND vnfc_type =   $vnfc-type ) and ASDC_ARTIFACTS.artifact_name like "
+                    + templatePattern + "; ";
+            log.info("getTemplateWithTemplateModelId()::: with template:::"+ key);
+
+            status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
+        }
+        return status;
+    }
+
+    public QueryStatus getTemplateByVnfTypeNActionWithTemplateModelId(SvcLogicContext ctx, String prefix,
+            String fileCategory, String templateModelId) throws SvcLogicException {
+        QueryStatus status = null;
+        String templatePattern = "'%_"+ templateModelId +"%'";
+        if (serviceLogic != null && ctx != null) {
+            String key = "SELECT artifact_content file_content , asdc_artifacts_id config_file_id "
+                    + " FROM ASDC_ARTIFACTS "
+                    + " WHERE asdc_artifacts_id = (SELECT MAX(a.asdc_artifacts_id) configfileid  "
+                    + " FROM ASDC_ARTIFACTS a, ASDC_REFERENCE b " + " WHERE a.artifact_name = b.artifact_name "
+                    + " AND file_category =  '" + fileCategory + "'" + " AND action =  $request-action "
+                    + " AND vnf_type =  $vnf-type )  and ASDC_ARTIFACTS.artifact_name like "
+                    + templatePattern + "; ";
+            log.info("getTemplateByVnfTypeNActionWithTemplateModelId()::: with template:::"+ key);
+
+            status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
+        }
+        return status;
+
+    }
+
+    public QueryStatus getVnfcReferenceByVnfTypeNActionWithTemplateModelId(SvcLogicContext ctx, String prefix,
+            String templateModelId) throws SvcLogicException {
+        QueryStatus status = null;
+        if (serviceLogic != null && ctx != null) {
+
+            String key = "SELECT  * "
+                    + " FROM VNFC_REFERENCE "
+                    + " WHERE vnf_type =  $vnf-type "
+                    + " AND action =  $request-action   "
+                    + " AND template_id = '"
+                    + templateModelId + "'"
+                    + " ORDER BY vm_instance, vnfc_instance ; ";
+
+            log.info("getVnfcReferenceByVnfTypeNActionWithTemplateModelId()::: with template:::"+ key);
+            status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
+        }
+        return status;
+    }
 
 }
