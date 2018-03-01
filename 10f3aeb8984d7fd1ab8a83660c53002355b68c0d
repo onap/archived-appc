@@ -16,6 +16,29 @@
       "revId": "10f3aeb8984d7fd1ab8a83660c53002355b68c0d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e57eae69",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-01T19:21:11Z",
+      "side": 1,
+      "message": "or add Assert statement to ensure this test case really been verified.",
+      "range": {
+        "startLine": 654,
+        "startChar": 58,
+        "endLine": 654,
+        "endChar": 73
+      },
+      "revId": "10f3aeb8984d7fd1ab8a83660c53002355b68c0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
