@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -86,6 +86,7 @@ public class VNFConfiguratorImpl implements VNFConfigurator {
                 BundleInfo bundleInfo = getBundleInfo(uniqueId);
                 store.storeYangModule(yang, bundleInfo);
             }
+            store.storeYangModuleOnLeader(yang,uniqueId);
             store.storeJson(uniqueId, requestId, configJSON);
             context.setAttribute(prefix + STATUS, SUCCESS);
         } catch (ParseException e) {
