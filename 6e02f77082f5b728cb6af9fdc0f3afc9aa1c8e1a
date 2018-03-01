@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_97be0564",
+        "filename": "appc-client/client-simulator/src/test/java/org/onap/appc/simulator/client/impl/TestJsonRequestHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-03-01T08:29:59Z",
+      "side": 1,
+      "message": "Should we just remove these commented out lines? If you think there\u0027s a good reason to keep them, we can keep them.",
+      "revId": "6e02f77082f5b728cb6af9fdc0f3afc9aa1c8e1a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
