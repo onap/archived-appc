@@ -126,7 +126,7 @@ public class FlowControlNodeTest {
   {
     Map<Integer, Transaction> transactionMap = new HashMap<Integer,Transaction>();
     SvcLogicContext  ctx = new SvcLogicContext();
-    Whitebox.invokeMethod(f, "exeuteAllTransaction",transactionMap, ctx);
+    Whitebox.invokeMethod(f, "executeAllTransaction",transactionMap, ctx);
 
   }
   @Test
