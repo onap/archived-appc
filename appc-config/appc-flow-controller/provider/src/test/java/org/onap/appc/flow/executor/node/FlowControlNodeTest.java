@@ -91,22 +91,6 @@ public class FlowControlNodeTest {
 
 
   }
-  @Test
-  public void testgetInventoryInfo() throws Exception
-  {
-    SvcLogicContext  ctx = new SvcLogicContext();
-    String  vnfid = "test";
-    ctx.setAttribute( " tmp.vnfInfo.vnf.vnf-name","test");
-    ctx.setAttribute("tmp.vnfInfo.vm-count", "0");
-    ctx.setAttribute( " tmp.vnfInfo.vnf.vnf-type","test");
-    ctx.setAttribute( "tmp.vnfInfo.vm[0 ].vserverId","test" );
-    ctx.setAttribute( "tmp.vnfInfo.vm[0 ].vnfc-name","test" );
-    ctx.setAttribute( "tmp.vnfInfo.vm[0].vnfc-type","test" );
-    ctx.setAttribute( " tmp.vnfInfo.vm[0].vnfc-count","1");
-
-    Whitebox.invokeMethod(f, "getInventoryInfo", ctx, vnfid);
-
-  }
   @Ignore("Test is taking 60 seconds")
   @Test(expected=Exception.class)
   public void testprocessFlowSequence() throws Exception
