@@ -63,9 +63,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -89,10 +87,7 @@ import org.onap.appc.flow.controller.interfaceData.DependencyInfo;
 import org.onap.appc.flow.controller.interfaceData.Input;
 import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
 import org.onap.appc.flow.controller.interfaceData.RequestInfo;
-import org.onap.appc.flow.controller.interfaceData.Vm;
-import org.onap.appc.flow.controller.interfaceData.VnfInfo;
 import org.onap.appc.flow.controller.interfaceData.Vnfcs;
-import org.onap.appc.flow.controller.interfaceData.Vnfcslist;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
 import org.onap.appc.flow.controller.utils.EncryptionTool;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -103,6 +98,19 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
 
   private static final EELFLogger log = EELFManager.getInstance().getLogger(FlowControlNode.class);
   private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+
+  private final EnvVariables envVariables;
+  private final FlowControlDBService dbService;
+
+  public FlowControlNode() {
+    this.envVariables = new EnvVariables();
+    this.dbService = FlowControlDBService.initialise();
+  }
+
+  FlowControlNode(EnvVariables envVariables, FlowControlDBService dbService) {
+    this.envVariables = envVariables;
+    this.dbService = dbService;
+  }
 
   public void processFlow(Map<String, String> inParams, SvcLogicContext ctx)
       throws SvcLogicException {
@@ -119,7 +127,6 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
       localContext.setAttribute(RESPONSE_PREFIX, responsePrefix);
       ctx.setAttribute(RESPONSE_PREFIX, responsePrefix);
 
-      FlowControlDBService dbService = FlowControlDBService.initialise();
       dbService.getFlowReferenceData(ctx, inParams, localContext);
 
       for (String key : localContext.getAttributeKeySet()) {
@@ -142,7 +149,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
 
     String fn = "FlowExecutorNode.processflowSequence";
     log.debug(fn + "Received model for flow : " + localContext.toString());
-    FlowControlDBService dbService = FlowControlDBService.initialise();
+    
     String flowSequence = null;
     for (String key : localContext.getAttributeKeySet()) {
       log.debug(key + "=" + ctx.getAttribute(key));
@@ -352,7 +359,6 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
   private void compileFlowDependencies(Transaction transaction, SvcLogicContext localContext)
       throws Exception {
 
-    FlowControlDBService dbService = FlowControlDBService.initialise();
     dbService.populateModuleAndRPC(transaction, localContext.getAttribute(VNF_TYPE));
     ObjectMapper mapper = new ObjectMapper();
     log.debug("Individual Transaction Details :" + transaction.toString());
@@ -404,7 +410,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
       requestInfo.setActionIdentifier(actionIdentifier);
       log.debug("RequestInfo: " + requestInfo.toString());
 
-      InventoryInfo inventoryInfo = getInventoryInfo(ctx, vnfId);
+      InventoryInfo inventoryInfo = new InventoryInfoExtractor().getInventoryInfo(ctx, vnfId);
       DependencyInfo dependencyInfo = getDependencyInfo(ctx);
       Capabilities capabilities = getCapabilitiesData(ctx);
 
@@ -445,7 +451,6 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
 
     String fn = "FlowExecutorNode.getDependencyInfo";
     DependencyInfo dependencyInfo = new DependencyInfo();
-    FlowControlDBService dbService = FlowControlDBService.initialise();
     String dependencyData = dbService.getDependencyInfo(ctx);
     log.info(fn + "dependencyDataInput:" + dependencyData);
 
@@ -467,7 +472,6 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
 
     String fn = "FlowExecutorNode.getCapabilitiesData";
     Capabilities capabilities = new Capabilities();
-    FlowControlDBService dbService = FlowControlDBService.initialise();
     String capabilitiesData = dbService.getCapabilitiesData(ctx);
     log.info(fn + "capabilitiesDataInput:" + capabilitiesData);
 
@@ -524,54 +528,12 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
     return capabilities;
   }
 
-  private InventoryInfo getInventoryInfo(SvcLogicContext ctx, String vnfId) throws Exception {
-    String fn = "FlowExecutorNode.getInventoryInfo";
-
-    VnfInfo vnfInfo = new VnfInfo();
-    vnfInfo.setVnfId(vnfId);
-    vnfInfo.setVnfName(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name"));
-    vnfInfo.setVnfType(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type"));
-
-    String vmcount = ctx.getAttribute("tmp.vnfInfo.vm-count");
-    if (StringUtils.isNotBlank(vmcount)) {
-      int vmCount = Integer.parseInt(vmcount);
-      log.info(fn + "vmcount:" + vmCount);
-
-      Vm vm = new Vm();
-      Vnfcslist vnfc = new Vnfcslist();
-      for (int i = 0; i < vmCount; i++) {
-        vm.setVserverId(ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vserver-id"));
-        String vnfccount = ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-count");
-        int vnfcCount = Integer.parseInt(vnfccount);
-        if (vnfcCount > 0) {
-          vnfc.setVnfcName(ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-name"));
-          vnfc.setVnfcType(ctx.getAttribute("tmp.vnfInfo.vm[" + i + "].vnfc-type"));
-          vm.setVnfc(vnfc);
-        }
-        vnfInfo.getVm().add(vm);
-      }
-    }
-    InventoryInfo inventoryInfo = new InventoryInfo();
-    inventoryInfo.setVnfInfo(vnfInfo);
-    log.info(fn + "Inventory Output:" + inventoryInfo.toString());
-
-    return inventoryInfo;
-  }
-
-  private static Properties loadProperties() throws Exception {
-    Properties props = new Properties();
-    String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
-    if (propDir == null) {
+  private Properties loadProperties() throws Exception {
+    String directory = envVariables.getenv(SDNC_CONFIG_DIR_VAR);
+    if (directory == null) {
       throw new Exception("Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
     }
-    String propFile = propDir + APPC_FLOW_CONTROLLER;
-    try (InputStream propStream = new FileInputStream(propFile)) {
-
-      props.load(propStream);
-
-    } catch (Exception e) {
-      throw new Exception("Could not load properties file " + propFile, e);
-    }
-    return props;
+    String path = directory + APPC_FLOW_CONTROLLER;
+    return PropertiesLoader.load(path);
   }
 }
