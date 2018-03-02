@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -234,5 +234,18 @@ Map<String, String> inParams  =new HashMap<String, String>();
         } catch (SvcLogicException e) {
             e.printStackTrace();
         }
+    }
+    
+    @Test
+    public void testgetVfModduleModelInfo() throws Exception{
+        SvcLogicContext ctx = new SvcLogicContext();
+        AAIResourceNode aai = new AAIResourceNode();
+        AAIClient aaic=null;
+        MockAaiService aaiService=new MockAaiService(aaic);
+        Map<String, String> inParams  =new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        aai.processForVfModuleModelInfo(aaiService,inParams, ctx);
+        assertEquals(ctx.getAttribute("template-model-id"),"model0001");
+        
     }
 }

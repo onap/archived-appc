@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -37,6 +37,7 @@ import org.onap.appc.aai.client.aai.AaiService;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
 
 public class MockAaiService extends AaiService {
@@ -84,5 +85,15 @@ public class MockAaiService extends AaiService {
             }
         
         
+        }
+        
+        @Override
+        public SvcLogicContext readResource(String query, String prefix, String resourceType) throws Exception {
+            SvcLogicContext resourceContext = new SvcLogicContext();
+            resourceContext.setAttribute("vfModuleInfo.model-invariant-id","invid01");
+            resourceContext.setAttribute("vfModuleInfo.model-version-id","versid01");
+            resourceContext.setAttribute("modelInfo.model-name","model0001");
+           
+            return resourceContext;
         }
 }

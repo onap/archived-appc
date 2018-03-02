@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -432,4 +432,64 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         log.info("setVmParams()::setVmParamsVM level action:" + params.toString());
         return params;
     }
+    
+    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        log.info("vfModuleInfo()::Retrieving vf-module information :" + inParams.toString());
+        String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+        try {
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            AaiService aaiService = getAaiService();
+            processForVfModuleModelInfo(aaiService,inParams,ctx);
+        } catch (Exception e) {
+            ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+                AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            log.error("Failed in vfModuleInfo", e);
+        }
+    }
+            
+    public void processForVfModuleModelInfo(AaiService aaiService, Map<String, String> inParams, SvcLogicContext ctx) {
+        log.info("processForVfModuleModelInfo()::Retrieving vf-module information :" + inParams.toString());
+        String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+        try {
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            Map<String, String> params = new HashMap<>();
+            params.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
+                inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
+            params.put("vnfId", inParams.get("vnf-id"));
+            params.put("vfModuleId", inParams.get("vf-module-id"));
+            SvcLogicContext vfModuleCtx = new SvcLogicContext();
+            aaiService.getVfModuleInfo(params, vfModuleCtx);
+    
+            String modelInvariantId = vfModuleCtx.getAttribute(responsePrefix + "vfModule.model-invariant-id");
+            String modelVersionId = vfModuleCtx.getAttribute(responsePrefix + "vfModule.model-version-id");
+            log.info("processForVfModuleModelInfo()::modelInvariantId=" + modelInvariantId+",modelVersionId="+modelVersionId);
+            
+            Map<String, String> modelParams = new HashMap<>();
+            modelParams.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
+                    inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
+            SvcLogicContext modelCtx = new SvcLogicContext();
+            if (StringUtils.isNotBlank(modelInvariantId) && StringUtils.isNotBlank(modelVersionId)) {
+                modelParams.put("model-invariant-id", modelInvariantId);
+                modelParams.put("model-version-id", modelVersionId);
+                
+            } else {
+                log.info("processForVfModuleModelInfo()::model-invariant-id or model-version-id is blank, not getting model info !!!!");
+                return;
+            }
+            aaiService.getModelVersionInfo(modelParams,modelCtx);
+            String modelName = modelCtx.getAttribute(responsePrefix+"vfModule.model-name");
+            log.info("processForVfModuleModelInfo()::modelName for vfModule:::"+modelName);
+            log.info("Setting context template-model-id as :::"+modelName);
+            ctx.setAttribute("template-model-id", modelName);
+            log.info("processForVfModuleModelInfo() ::: End");
+            } 
+            catch (Exception e) {
+                ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+                    AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+                ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+                log.error("Failed in vfModuleInfo", e);
+            }
+
+}
 }
