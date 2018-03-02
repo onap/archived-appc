@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -643,5 +643,42 @@ public class AaiService {
         String resourceKey = "generic-vnf.vnf-id = '" + ctx.getAttribute("vnf-id") + "'";
 
         updateResource("generic-vnf", resourceKey, vnfParams);
+    }
+
+    public void getVfModuleInfo(Map<String, String> params, SvcLogicContext vfModuleCtx) throws Exception {
+        log.info("Received getVfModuleInfo call with params : " + params);
+        String prefix = params.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+        prefix = StringUtils.isNotBlank(prefix) ? (prefix + ".") : "";
+
+        String vnfId = params.get("vnfId");
+        String vfModuleId = params.get("vfModuleId");
+        String resourceKey = "generic-vnf.vnf-id = '" + vnfId +
+                "' AND vf-module.vf-module-id = '" + vfModuleId + "'";
+        String queryPrefix = "vfModuleInfo";
+        String resourceType = "vf-module";
+        SvcLogicContext vfmCtx = readResource(resourceKey, queryPrefix, resourceType);
+        String modelInvariantId=vfmCtx.getAttribute("vfModuleInfo.model-invariant-id");
+        log.info("getVfModuleInfo():::modelInvariant="+modelInvariantId);
+        vfModuleCtx.setAttribute(prefix+"vfModule.model-invariant-id", vfmCtx.getAttribute("vfModuleInfo.model-invariant-id"));
+        vfModuleCtx.setAttribute(prefix+"vfModule.model-version-id", vfmCtx.getAttribute("vfModuleInfo.model-version-id"));
+        log.info("End - getVfModuleInfo");
+    }
+
+    public void getModelVersionInfo(Map<String, String> modelParams, SvcLogicContext modelCtx) throws Exception {
+        log.info("Received getModelVersionInfo call with params : " + modelParams);
+        String prefix = modelParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+        prefix = StringUtils.isNotBlank(prefix) ? (prefix + ".") : "";
+
+        String modelInvariantId = modelParams.get("model-invariant-id");
+        String modelVersionId = modelParams.get("model-version-id");
+        String resourceKey = "model.model-invariant-id = '" + modelInvariantId +
+                "' AND model-ver.model-version-id = '" + modelVersionId + "'";
+        String queryPrefix = "modelInfo";
+        String resourceType = "model-ver";
+        SvcLogicContext vfmCtx = readResource(resourceKey, queryPrefix, resourceType);
+        log.info("getModelVersionInfo():::modelname="+vfmCtx.getAttribute("modelInfo.model-name"));
+        modelCtx.setAttribute(prefix+"vfModule.model-name", vfmCtx.getAttribute("modelInfo.model-name"));
+        log.info("End - getModelVersionInfo");
+
     }
 }

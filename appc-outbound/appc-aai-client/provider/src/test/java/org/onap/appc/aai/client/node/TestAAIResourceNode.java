@@ -2,22 +2,22 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
@@ -54,16 +54,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 public class TestAAIResourceNode {
-    
+
     //Removed for ONAP integration
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(TestAAIResourceNode.class);
-    
+
     @Test
     public void sortVServer() throws Exception{
-        
+
         //log.info("Test");
-        
+
         ArrayList<Map<String, String>> vservers = new ArrayList<Map<String, String>>();
         HashMap<String, String> vserverMap = new HashMap<String, String>();
         vserverMap.put("vserver-id", "vserverId9");
@@ -92,7 +92,7 @@ public class TestAAIResourceNode {
                 return o1.get("vserver-name").compareTo(o2.get("vserver-name"));
             }
         });
-        
+
         SvcLogicContext ctx = new SvcLogicContext();
         AAIResourceNode aai = new AAIResourceNode();
         aai.populateContext(vservers, ctx, "vserver.");
@@ -101,7 +101,7 @@ public class TestAAIResourceNode {
 
     @Test
     public void testAllVServer() throws Exception{
-        
+
         MockAAIResourceNode mrn = new MockAAIResourceNode();
         SvcLogicContext ctx = new SvcLogicContext();
         populateAllVServerInfo(ctx, "tmp.vnfInfo");
@@ -119,7 +119,7 @@ public class TestAAIResourceNode {
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-name"), "vserverName2");
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vf-module-id"), "vfModule2");
         //assertNull(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-name"));
-        
+
         // VM2
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[1].vserver-id"), "ibcxvm0001id");
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[1].tenant-id"), "tenantid1");
@@ -144,13 +144,13 @@ public class TestAAIResourceNode {
          ctx.setAttribute(prefix+ ".vm[1].tenant-id", "tenantid1");
          ctx.setAttribute(prefix+ ".vm[1].cloud-owner", "cloudOwner1");
          ctx.setAttribute(prefix+ ".vm[1].cloud-region-id", "cloudRegionId1");
-         
+
     }
-    
+
     public static class MockAAIResourceNode extends AAIResourceNode {
         private static final EELFLogger log = EELFManager.getInstance().getLogger(MockAAIResourceNode.class);
          private AAIClient aaiClient;
-        
+
         public AaiService getAaiService() {
             log.info("In MockAAI");
             return new MockAaiService(aaiClient);
@@ -159,7 +159,7 @@ public class TestAAIResourceNode {
 
     @Test
     public void testPopulateContext() throws Exception{
-        
+
         ArrayList<Map<String, String>> vservers = new ArrayList<Map<String, String>>();
         HashMap<String, String> vserverMap = new HashMap<String, String>();
         vserverMap = new HashMap<String, String>();
@@ -194,7 +194,7 @@ public class TestAAIResourceNode {
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id"), "vserverId1");
         assertEquals(ctx.getAttribute("vm-name"), "vServerName3");
     }
-    
+
     @Test
     public final void testGetVnfInfo() {
         SvcLogicContext ctx = new SvcLogicContext();
@@ -206,7 +206,7 @@ Map<String, String> inParams  =new HashMap<String, String>();
         } catch (SvcLogicException e) {
             e.printStackTrace();
         }
-    
+
     }
     @Test
     public final void testaddVnfcs()
@@ -220,19 +220,32 @@ Map<String, String> inParams  =new HashMap<String, String>();
         } catch (SvcLogicException e) {
             e.printStackTrace();
         }
-        
+
     }
     @Test
     public final void  testupdateVnfAndVServerStatus(){
         SvcLogicContext ctx = new SvcLogicContext();
         AAIResourceNode aai = new AAIResourceNode();
 Map<String, String> inParams  =new HashMap<String, String>();
-        
+
         inParams.put("responsePrefix", "tmp.vnfInfo");
         try {
             aai.updateVnfAndVServerStatus(inParams, ctx);
         } catch (SvcLogicException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testgetVfModduleModelInfo() throws Exception{
+        SvcLogicContext ctx = new SvcLogicContext();
+        AAIResourceNode aai = new AAIResourceNode();
+        AAIClient aaic=null;
+        MockAaiService aaiService=new MockAaiService(aaic);
+        Map<String, String> inParams  =new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        aai.processForVfModuleModelInfo(aaiService,inParams, ctx);
+        assertEquals(ctx.getAttribute("template-model-id"),"model0001");
+
     }
 }
