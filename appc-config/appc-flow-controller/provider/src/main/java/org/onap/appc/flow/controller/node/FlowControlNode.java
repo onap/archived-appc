@@ -66,7 +66,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -150,11 +149,21 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
 
     String fn = "FlowExecutorNode.processflowSequence";
     log.debug(fn + "Received model for flow : " + localContext.toString());
-    
+
+    localContext
+        .getAttributeKeySet()
+        .forEach(key -> log.debug(key + "=" + ctx.getAttribute(key)));
+
+    String flowSequence = getFlowSequence(inParams, ctx, localContext);
+
+    log.debug("Received Flow Sequence : " + flowSequence);
+    HashMap<Integer, Transaction> transactionMap = createTransactionMap(flowSequence, localContext);
+    executeAllTransaction(transactionMap, ctx);
+    log.info("Executed all the transaction successfully");
+  }
+
+  String getFlowSequence(Map<String, String> inParams, SvcLogicContext ctx, SvcLogicContext localContext) throws Exception {
     String flowSequence = null;
-    for (String key : localContext.getAttributeKeySet()) {
-      log.debug(key + "=" + ctx.getAttribute(key));
-    }
     if (localContext.getAttribute(SEQUENCE_TYPE) != null) {
       if (localContext.getAttribute(GENERATION_NODE) != null) {
         GraphExecutor transactionExecutor = new GraphExecutor();
@@ -225,11 +234,7 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
       flowSequence = mapper.writeValueAsString(trans);
       log.debug("Single step Flow Sequence : " + flowSequence);
     }
-
-    log.debug("Received Flow Sequence : " + flowSequence);
-    HashMap<Integer, Transaction> transactionMap = createTransactionMap(flowSequence, localContext);
-    executeAllTransaction(transactionMap, ctx);
-    log.info("Executed all the transaction successfully");
+    return flowSequence;
   }
 
   private void executeAllTransaction(HashMap<Integer, Transaction> transactionMap, SvcLogicContext ctx)
@@ -448,28 +453,29 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
     return inputData;
   }
 
-  private DependencyInfo getDependencyInfo(SvcLogicContext ctx) throws Exception {
+  DependencyInfo getDependencyInfo(SvcLogicContext ctx) throws SvcLogicException, IOException {
 
     String fn = "FlowExecutorNode.getDependencyInfo";
-    DependencyInfo dependencyInfo = new DependencyInfo();
     String dependencyData = dbService.getDependencyInfo(ctx);
     log.info(fn + "dependencyDataInput:" + dependencyData);
 
-    if (dependencyData != null) {
-      ObjectMapper mapper = new ObjectMapper();
-      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-      //JsonNode dependencyInfoData = mapper.readTree(dependencyData).get("dependencyInfo");
-      JsonNode vnfcData = mapper.readTree(dependencyData).get("vnfcs");
-      List<Vnfcs> vnfclist = Arrays.asList(mapper.readValue(vnfcData.toString(), Vnfcs[].class));
-      dependencyInfo.getVnfcs().addAll(vnfclist);
-
-      log.info("Dependency Output:" + dependencyInfo.toString());
+    DependencyInfo dependencyInfo = new DependencyInfo();
+    if (dependencyData == null) {
+      return dependencyInfo;
     }
+
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+    //JsonNode dependencyInfoData = mapper.readTree(dependencyData).get("dependencyInfo");
+    JsonNode vnfcData = mapper.readTree(dependencyData).get("vnfcs");
+    dependencyInfo.getVnfcs().addAll(mapper.readValue(vnfcData.toString(), new TypeReference<List<Vnfcs>>(){}));
+
+    log.info("Dependency Output:" + dependencyInfo.toString());
     return dependencyInfo;
   }
 
-  Capabilities getCapabilitiesData(SvcLogicContext ctx) throws Exception {
+  Capabilities getCapabilitiesData(SvcLogicContext ctx) throws SvcLogicException, IOException {
 
     String fn = "FlowExecutorNode.getCapabilitiesData";
     String capabilitiesData = dbService.getCapabilitiesData(ctx);
