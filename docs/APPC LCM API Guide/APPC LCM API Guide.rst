@@ -61,7 +61,7 @@ An LCM command is sent as a request to the APPC using an HTTP POST request or in
 Message Bus and the LCM API Client Library
 ------------------------------------------
 
-The recommended approach for sending/receiving requests to APPC is via the message bus.   To support this approach, an APPC client library is available and should be used.  The client library aims to provide consumers of APPC capabilities with a strongly-typed Java interface and to encapsulate the actual interaction with APPC component via the message bus.
+The recommended approach for sending/receiving requests to APPC is via the message bus.  To support this approach, an APPC client library is available and should be used.  The client library aims to provide consumers of APPC capabilities with a strongly-typed Java interface and to encapsulate the actual interaction with APPC component via the message bus.
 
 For more details, see the APPC Client Library Guide at:
 
