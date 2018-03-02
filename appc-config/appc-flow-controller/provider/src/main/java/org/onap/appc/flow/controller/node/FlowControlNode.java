@@ -59,6 +59,7 @@ import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VSERVE
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -468,64 +469,40 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
     return dependencyInfo;
   }
 
-  private Capabilities getCapabilitiesData(SvcLogicContext ctx) throws Exception {
+  Capabilities getCapabilitiesData(SvcLogicContext ctx) throws Exception {
 
     String fn = "FlowExecutorNode.getCapabilitiesData";
-    Capabilities capabilities = new Capabilities();
     String capabilitiesData = dbService.getCapabilitiesData(ctx);
     log.info(fn + "capabilitiesDataInput:" + capabilitiesData);
 
-    if (capabilitiesData != null) {
-      ObjectMapper mapper = new ObjectMapper();
-      mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-      mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-      JsonNode capabilitiesNode = mapper.readValue(capabilitiesData, JsonNode.class);
-      log.info("capabilitiesNode:" + capabilitiesNode.toString());
-
-      JsonNode vnfs = capabilitiesNode.findValue(VNF);
-      List<String> vnfsList = new ArrayList<>();
-      if (vnfs != null) {
-        for (int i = 0; i < vnfs.size(); i++) {
-          String vnf = vnfs.get(i).asText();
-          vnfsList.add(vnf);
-        }
-      }
-
-      JsonNode vfModules = capabilitiesNode.findValue(VF_MODULE);
-      List<String> vfModulesList = new ArrayList<>();
-      if (vfModules != null) {
-        for (int i = 0; i < vfModules.size(); i++) {
-          String vfModule = vfModules.get(i).asText();
-          vfModulesList.add(vfModule);
-        }
-      }
-
-      JsonNode vnfcs = capabilitiesNode.findValue(VNFC);
-      List<String> vnfcsList = new ArrayList<>();
-      if (vnfcs != null) {
-        for (int i = 0; i < vnfcs.size(); i++) {
-          String vnfc1 = vnfcs.get(i).asText();
-          vnfcsList.add(vnfc1);
-        }
-      }
-
-      JsonNode vms = capabilitiesNode.findValue(VM);
-      List<String> vmList = new ArrayList<>();
-      if (vms != null) {
-        for (int i = 0; i < vms.size(); i++) {
-          String vm1 = vms.get(i).asText();
-          vmList.add(vm1);
-        }
-      }
-
-      capabilities.getVnfc().addAll(vnfcsList);
-      capabilities.getVnf().addAll(vnfsList);
-      capabilities.getVfModule().addAll(vfModulesList);
-      capabilities.getVm().addAll(vmList);
-
-      log.info("Capabilities Output:" + capabilities.toString());
+    Capabilities capabilities = new Capabilities();
+    if (capabilitiesData == null) {
+      return capabilities;
     }
+
+    ObjectMapper mapper = new ObjectMapper();
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+
+    JsonNode capabilitiesNode = mapper.readTree(capabilitiesData);
+    log.info("capabilitiesNode:" + capabilitiesNode.toString());
+
+    capabilities.getVfModule().addAll(extractParameterList(mapper, capabilitiesNode, VF_MODULE));
+    capabilities.getVnfc().addAll(extractParameterList(mapper, capabilitiesNode, VNFC));
+    capabilities.getVnf().addAll(extractParameterList(mapper, capabilitiesNode, VNF));
+    capabilities.getVm().addAll(extractParameterList(mapper, capabilitiesNode, VM));
+
+    log.info("Capabilities Output:" + capabilities.toString());
+
     return capabilities;
+  }
+
+  private <T> List<T> extractParameterList(ObjectMapper mapper, JsonNode root, String parameter) throws IOException {
+    JsonNode parameterNode = root.get(parameter);
+    if (parameterNode == null) {
+      return new ArrayList<>();
+    }
+    return mapper.readValue(parameterNode.toString(), new TypeReference<List<T>>() {});
   }
 
   private Properties loadProperties() throws Exception {
