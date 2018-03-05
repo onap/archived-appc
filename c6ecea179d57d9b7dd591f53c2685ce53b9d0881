@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2e678e27",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/executor/node/FlowControlNodeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-05T14:05:43Z",
+      "side": 1,
+      "message": "Sonar report does not count for using powermock. I still gave +2, but would be better to migrate to mockito. I have Whitebox method source code: appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/Whitebox.java. just FYI.",
+      "range": {
+        "startLine": 52,
+        "startChar": 29,
+        "endLine": 52,
+        "endChar": 37
+      },
+      "revId": "c6ecea179d57d9b7dd591f53c2685ce53b9d0881",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
