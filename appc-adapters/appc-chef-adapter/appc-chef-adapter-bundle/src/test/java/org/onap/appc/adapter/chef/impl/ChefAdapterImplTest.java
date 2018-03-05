@@ -39,10 +39,10 @@ public class ChefAdapterImplTest {
     public void nodeObjectBuilder_shouldBuildJsonNodeObject_forPassedParams_andAddToSvcLogicContext() {
         // GIVEN
         Map<String, String> params = givenInputParams();
+        SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
         ChefAdapter chefAdapter = new ChefAdapterImpl();
-        SvcLogicContext svcLogicContext = new SvcLogicContext();
         chefAdapter.nodeObejctBuilder(params, svcLogicContext);
 
         // THEN
@@ -77,5 +77,20 @@ public class ChefAdapterImplTest {
         expectedJson.put("run_list", ImmutableList.of("val1", "val2", "val3"));
         expectedJson.put("chef_environment", "testChefEnvVal");
         return expectedJson.toString();
+    }
+
+    @Test
+    public void combineStrings_shouldConcatenateTwoParamStrings_andSetThemInSvcContext() {
+        // GIVEN
+        Map<String, String> params = ImmutableMap
+            .of("dgContext", "contextValue", "String1", "paramString1", "String2", "paramString2");
+        SvcLogicContext svcLogicContext = new SvcLogicContext();
+
+        // WHEN
+        ChefAdapter chefAdapter = new ChefAdapterImpl();
+        chefAdapter.combineStrings(params, svcLogicContext);
+
+        // THEN
+        assertThat(svcLogicContext.getAttribute("contextValue")).isEqualTo("paramString1paramString2");
     }
 }

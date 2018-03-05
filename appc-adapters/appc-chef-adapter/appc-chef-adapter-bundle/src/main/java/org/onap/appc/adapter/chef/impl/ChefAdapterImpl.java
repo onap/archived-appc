@@ -416,10 +416,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         JSONObject jsonConfig = new JSONObject(allConfigData);
         String contextData = fetchContextData(key, jsonConfig);
 
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setAttribute(dgContext, contextData);
+        ctx.setAttribute(dgContext, contextData);
     }
 
     private String fetchContextData(String key, JSONObject jsonConfig) {
@@ -443,10 +440,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         String string2 = params.get("String2");
         String dgContext = params.get("dgContext");
         String contextData = string1 + string2;
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setAttribute(dgContext, contextData);
+        ctx.setAttribute(dgContext, contextData);
     }
 
     /**
