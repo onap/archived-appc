@@ -69,10 +69,11 @@ public class ConfigScaleOutService extends AbstractBaseService {
 
         // validate payload
         String keyName = "payload";
-        if (payload == null) {
-            status = buildStatusForParamName(LCMCommandStatus.MISSING_MANDATORY_PARAMETER, keyName);
-            return;
-        }
+//        if (payload == null) {
+//            status = buildStatusForParamName(LCMCommandStatus.MISSING_MANDATORY_PARAMETER, keyName);
+//            return;
+//        }
+        if (payload !=null) {
         String payloadString = payload.getValue();
         status = validateMustHaveParamValue(
             payloadString == null ? payloadString : payloadString.trim(), "payload");
@@ -87,6 +88,7 @@ public class ConfigScaleOutService extends AbstractBaseService {
             logger.error(String.format("ConfigScaleOutService (%s) got IOException when converting payload", rpcName), e);
             status = buildStatusForErrorMsg(LCMCommandStatus.UNEXPECTED_ERROR, e.getMessage());
         }
+    }
     }
 
     void proceedAction(CommonHeader commonHeader,
