@@ -97,19 +97,18 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 public class FlowControlNode implements SvcLogicJavaPlugin {
 
   private static final EELFLogger log = EELFManager.getInstance().getLogger(FlowControlNode.class);
-  private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
 
-  private final EnvVariables envVariables;
   private final FlowControlDBService dbService;
+  private final FlowSequenceGenerator flowSequenceGenerator;
 
   public FlowControlNode() {
-    this.envVariables = new EnvVariables();
     this.dbService = FlowControlDBService.initialise();
+    this.flowSequenceGenerator = new FlowSequenceGenerator();
   }
 
-  FlowControlNode(EnvVariables envVariables, FlowControlDBService dbService) {
-    this.envVariables = envVariables;
+  FlowControlNode(FlowControlDBService dbService, FlowSequenceGenerator flowSequenceGenerator) {
     this.dbService = dbService;
+    this.flowSequenceGenerator = flowSequenceGenerator;
   }
 
   public void processFlow(Map<String, String> inParams, SvcLogicContext ctx)
@@ -154,87 +153,12 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
         .getAttributeKeySet()
         .forEach(key -> log.debug(key + "=" + ctx.getAttribute(key)));
 
-    String flowSequence = getFlowSequence(inParams, ctx, localContext);
+    String flowSequence = flowSequenceGenerator.getFlowSequence(inParams, ctx, localContext);
 
     log.debug("Received Flow Sequence : " + flowSequence);
     HashMap<Integer, Transaction> transactionMap = createTransactionMap(flowSequence, localContext);
     executeAllTransaction(transactionMap, ctx);
     log.info("Executed all the transaction successfully");
-  }
-
-  String getFlowSequence(Map<String, String> inParams, SvcLogicContext ctx, SvcLogicContext localContext) throws Exception {
-    String flowSequence = null;
-    if (localContext.getAttribute(SEQUENCE_TYPE) != null) {
-      if (localContext.getAttribute(GENERATION_NODE) != null) {
-        GraphExecutor transactionExecutor = new GraphExecutor();
-        Boolean generatorExists = transactionExecutor.hasGraph(
-            "APPC_COMMOM",
-            localContext.getAttribute(GENERATION_NODE),
-            null,
-            "sync"
-        );
-
-        if (generatorExists) {
-          flowSequence = transactionExecutor.executeGraph(
-              "APPC_COMMOM",
-              localContext.getAttribute(GENERATION_NODE),
-              null, "sync", null)
-              .getProperty(FLOW_SEQUENCE);
-        } else {
-          throw new Exception("Can not find Custom defined Flow Generator for "
-              + localContext.getAttribute(GENERATION_NODE));
-        }
-
-      } else if ((localContext.getAttribute(SEQUENCE_TYPE)).equalsIgnoreCase(DESINGTIME)) {
-
-        localContext.setAttribute(VNFC_TYPE, ctx.getAttribute(VNFC_TYPE));
-        flowSequence = dbService.getDesignTimeFlowModel(localContext);
-
-        if (flowSequence == null) {
-          throw new Exception("Flow Sequence is not found User Designed VNF " + ctx.getAttribute(VNF_TYPE));
-        }
-
-      } else if ((localContext.getAttribute(SEQUENCE_TYPE)).equalsIgnoreCase(RUNTIME)) {
-
-        Transaction transaction = new Transaction();
-        String input = collectInputParams(ctx, transaction);
-        log.info("CollectInputParamsData-Input: " + input);
-
-        RestExecutor restExe = new RestExecutor();
-        Map<String, String> flowSeq = restExe.execute(transaction, localContext);
-
-        JSONObject sequence = new JSONObject(flowSeq.get("restResponse"));
-        if (sequence.has("output")) {
-          flowSequence = sequence.getJSONObject("output").toString();
-        }
-        log.info("MultistepSequenceGenerator-Output: " + flowSequence);
-
-        if (flowSequence == null) {
-          throw new Exception("Failed to get the Flow Sequece runtime for VNF type"
-              + ctx.getAttribute(VNF_TYPE));
-        }
-
-      } else if ((localContext.getAttribute(SEQUENCE_TYPE)).equalsIgnoreCase(EXTERNAL)) {
-        //String input = collectInputParams(localContext);
-        //    flowSequnce = ""; //get it from the External interface calling the Rest End point - TBD
-        //if(flowSequnce == null)
-
-        throw new Exception("Flow Sequence not found for " + ctx.getAttribute(VNF_TYPE));
-
-      } else {
-        //No other type of model supported...
-        //in Future can get flowModel from other generators which will be included here
-        throw new Exception("No information found for sequence Owner Design-Time Vs Run-Time");
-      }
-
-    } else {
-      FlowGenerator flowGenerator = new FlowGenerator();
-      Transactions trans = flowGenerator.createSingleStepModel(inParams, ctx);
-      ObjectMapper mapper = new ObjectMapper();
-      flowSequence = mapper.writeValueAsString(trans);
-      log.debug("Single step Flow Sequence : " + flowSequence);
-    }
-    return flowSequence;
   }
 
   private void executeAllTransaction(HashMap<Integer, Transaction> transactionMap, SvcLogicContext ctx)
@@ -380,143 +304,4 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
     //get a field in transction class as transactionhandle interface and register the Handler here for each trnactions
   }
 
-  private String collectInputParams(SvcLogicContext ctx, Transaction transaction) throws Exception {
-
-    String fn = "FlowExecuteNode.collectInputParams";
-    Properties prop = loadProperties();
-    log.info("Loaded Properties " + prop.toString());
-
-    String vnfId = ctx.getAttribute(VNF_ID);
-    String inputData = null;
-    log.debug(fn + "vnfId :" + vnfId);
-
-    if (StringUtils.isBlank(vnfId)) {
-      throw new Exception("VnfId is missing");
-    }
-
-    try {
-      ActionIdentifier actionIdentifier = new ActionIdentifier();
-      log.debug("Enter ActionIdentifier");
-      if (StringUtils.isNotBlank(vnfId)) {
-        actionIdentifier.setVnfId(vnfId);
-      }
-      if (StringUtils.isNotBlank(ctx.getAttribute(VSERVER_ID))) {
-        actionIdentifier.setVserverId(ctx.getAttribute(VSERVER_ID));
-      }
-      if (StringUtils.isNotBlank(ctx.getAttribute(VNFC_NAME))) {
-        actionIdentifier.setVnfcName(ctx.getAttribute(VNFC_NAME));
-      }
-      log.info("ActionIdentifierData" + actionIdentifier.toString());
-
-      RequestInfo requestInfo = new RequestInfo();
-      log.info("Enter RequestInfo");
-      requestInfo.setAction(ctx.getAttribute(REQUEST_ACTION));
-      requestInfo.setActionLevel(ctx.getAttribute(ACTION_LEVEL));
-      requestInfo.setPayload(ctx.getAttribute(PAYLOAD));
-      requestInfo.setActionIdentifier(actionIdentifier);
-      log.debug("RequestInfo: " + requestInfo.toString());
-
-      InventoryInfo inventoryInfo = new InventoryInfoExtractor().getInventoryInfo(ctx, vnfId);
-      DependencyInfo dependencyInfo = getDependencyInfo(ctx);
-      Capabilities capabilities = getCapabilitiesData(ctx);
-
-      Input input = new Input();
-      log.info("Enter InputData");
-      input.setRequestInfo(requestInfo);
-      input.setInventoryInfo(inventoryInfo);
-      input.setDependencyInfo(dependencyInfo);
-      input.setCapabilities(capabilities);
-      log.info(fn + "Input parameters:" + input.toString());
-
-      ObjectMapper mapper = new ObjectMapper();
-      mapper.setSerializationInclusion(Include.NON_NULL);
-      mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-      inputData = mapper.writeValueAsString(input);
-      log.info("InputDataJson:" + inputData);
-
-    } catch (Exception e) {
-      log.error("Error occurred in " + fn, e);
-    }
-
-    String resourceUri = prop.getProperty(SEQ_GENERATOR_URL);
-    log.info(fn + "resourceUri= " + resourceUri);
-
-    EncryptionTool et = EncryptionTool.getInstance();
-    String pass = et.decrypt(prop.getProperty(SEQ_GENERATOR_PWD));
-
-    transaction.setPayload(inputData);
-    transaction.setExecutionRPC("POST");
-    transaction.setuId(prop.getProperty(SEQ_GENERATOR_UID));
-    transaction.setPswd(pass);
-    transaction.setExecutionEndPoint(resourceUri);
-
-    return inputData;
-  }
-
-  DependencyInfo getDependencyInfo(SvcLogicContext ctx) throws SvcLogicException, IOException {
-
-    String fn = "FlowExecutorNode.getDependencyInfo";
-    String dependencyData = dbService.getDependencyInfo(ctx);
-    log.info(fn + "dependencyDataInput:" + dependencyData);
-
-    DependencyInfo dependencyInfo = new DependencyInfo();
-    if (dependencyData == null) {
-      return dependencyInfo;
-    }
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-    //JsonNode dependencyInfoData = mapper.readTree(dependencyData).get("dependencyInfo");
-    JsonNode vnfcData = mapper.readTree(dependencyData).get("vnfcs");
-    dependencyInfo.getVnfcs().addAll(mapper.readValue(vnfcData.toString(), new TypeReference<List<Vnfcs>>(){}));
-
-    log.info("Dependency Output:" + dependencyInfo.toString());
-    return dependencyInfo;
-  }
-
-  Capabilities getCapabilitiesData(SvcLogicContext ctx) throws SvcLogicException, IOException {
-
-    String fn = "FlowExecutorNode.getCapabilitiesData";
-    String capabilitiesData = dbService.getCapabilitiesData(ctx);
-    log.info(fn + "capabilitiesDataInput:" + capabilitiesData);
-
-    Capabilities capabilities = new Capabilities();
-    if (capabilitiesData == null) {
-      return capabilities;
-    }
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-
-    JsonNode capabilitiesNode = mapper.readTree(capabilitiesData);
-    log.info("capabilitiesNode:" + capabilitiesNode.toString());
-
-    capabilities.getVfModule().addAll(extractParameterList(mapper, capabilitiesNode, VF_MODULE));
-    capabilities.getVnfc().addAll(extractParameterList(mapper, capabilitiesNode, VNFC));
-    capabilities.getVnf().addAll(extractParameterList(mapper, capabilitiesNode, VNF));
-    capabilities.getVm().addAll(extractParameterList(mapper, capabilitiesNode, VM));
-
-    log.info("Capabilities Output:" + capabilities.toString());
-
-    return capabilities;
-  }
-
-  private <T> List<T> extractParameterList(ObjectMapper mapper, JsonNode root, String parameter) throws IOException {
-    JsonNode parameterNode = root.get(parameter);
-    if (parameterNode == null) {
-      return new ArrayList<>();
-    }
-    return mapper.readValue(parameterNode.toString(), new TypeReference<List<T>>() {});
-  }
-
-  private Properties loadProperties() throws Exception {
-    String directory = envVariables.getenv(SDNC_CONFIG_DIR_VAR);
-    if (directory == null) {
-      throw new Exception("Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
-    }
-    String path = directory + APPC_FLOW_CONTROLLER;
-    return PropertiesLoader.load(path);
-  }
 }
