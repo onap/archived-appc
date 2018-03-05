@@ -248,4 +248,34 @@ Map<String, String> inParams  =new HashMap<String, String>();
         assertEquals(ctx.getAttribute("template-model-id"),"model0001");
 
     }
+    @Test
+    public final void testSetVmParams() {
+        SvcLogicContext ctx = new SvcLogicContext();
+        String vServerId = "vserver02";
+        ctx.setAttribute("tmp.vnfInfo.vm-count","3");
+        ctx.setAttribute("tmp.vnfInfo.vm[0].vserver-id","vserver01");
+        ctx.setAttribute("tmp.vnfInfo.vm[1].vserver-id","vserver02");
+        ctx.setAttribute("tmp.vnfInfo.vm[1].tenant-id","ten01");
+        ctx.setAttribute("tmp.vnfInfo.vm[1].cloud-region-id","cr01");
+        ctx.setAttribute("tmp.vnfInfo.vm[1].cloud-owner","co01");
+        AAIResourceNode aairn= new AAIResourceNode();
+        Map <String, String> params  = aairn.setVmParams(ctx, vServerId);
+        assertNotNull(params);
+    }
+    @Test
+    public final void testGetVnfcInformationForVserver() throws Exception{
+        MockAAIResourceNode aairn = new MockAAIResourceNode();
+        SvcLogicContext ctx = new SvcLogicContext();
+        SvcLogicContext newVnfcCtx = new SvcLogicContext();
+        Map<String,String> inParams = new HashMap<String, String>();
+        Map<String,String> vnfcParams = new HashMap<String, String>();
+        String responsePrefix="test.";
+        inParams.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
+        vnfcParams.put("vnfcName", "vnfcName2");
+        aairn.getVnfcInformationForVserver(vnfcParams, newVnfcCtx, inParams, ctx, aairn.getAaiService(), responsePrefix);
+        assertEquals(ctx.getAttribute("test.vm.vnfc.vnfc-name"),"vnfcName2");
+        assertEquals(ctx.getAttribute("test.vm.vnfc.vnfc-type"), "vnfcType2");
+        assertEquals(ctx.getAttribute("test.vm.vnfc.vnfc-function-code"), "vnfcFuncCode2");
+        assertEquals(ctx.getAttribute("test.vm.vnfc.vnfc-group-notation"), "vnfcGrpNot2");
+    }
 }

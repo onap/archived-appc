@@ -373,7 +373,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         }
     }
 
-    private void getVnfcInformationForVserver(Map<String, String> vnfcParams, SvcLogicContext newVnfcCtx,
+    public void getVnfcInformationForVserver(Map<String, String> vnfcParams, SvcLogicContext newVnfcCtx,
         Map<String, String> inParams, SvcLogicContext ctx, AaiService aaiService, String responsePrefix)
         throws Exception {
         log.info("getVnfcInformationForVserver()::vnfcParams:" + vnfcParams.toString());
@@ -400,7 +400,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         ctx.setAttribute(responsePrefix + "vm.vnfc.vnfc-ipaddress-v4-oam-vip", vnfcV4OamIp);
     }
 
-    private Map<String, String> setVmParams(SvcLogicContext ctx, String vServerId) {
+    public Map<String, String> setVmParams(SvcLogicContext ctx, String vServerId) {
         log.info("setVmParams()::setVmParamsVM level action:" + vServerId);
         Map<String, String> params = new HashMap<>();
         int vmCount = 0;
