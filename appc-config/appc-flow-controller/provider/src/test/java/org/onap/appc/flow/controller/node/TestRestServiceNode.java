@@ -27,6 +27,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.onap.appc.flow.controller.node.InputParamsCollector.SDNC_CONFIG_DIR_VAR;
 import static org.onap.appc.flow.controller.node.RestServiceNode.REST_RESPONSE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 
@@ -47,7 +48,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 public class TestRestServiceNode {
 
   private static final String RESOURCE_URI = "resource-uri";
-  private static final String MOCK_ENV = "src/test/resources";
   private static final String REST_BODY_RESPONSE = "{ 'state' : 'TEST' }";
 
   private RestServiceNode restServiceNode;
@@ -87,7 +87,8 @@ public class TestRestServiceNode {
     when(restExecutorMock.execute(eq(transaction), any(SvcLogicContext.class)))
         .thenReturn(restResponseMap);
 
-    EnvVariables envVariables = new EnvVariables(envKey -> MOCK_ENV);
+    EnvVariables envVariables = mock(EnvVariables.class);
+    when(envVariables.getenv(SDNC_CONFIG_DIR_VAR)).thenReturn("src/test/resources");
     restServiceNode = new RestServiceNode(transactionHandlerMock, restExecutorMock, uriExtractorMock, envVariables);
   }
 
