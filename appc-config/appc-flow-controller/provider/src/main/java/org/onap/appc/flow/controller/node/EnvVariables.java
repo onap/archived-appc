@@ -3,7 +3,9 @@ package org.onap.appc.flow.controller.node;
 import java.util.function.Function;
 
 /**
- * Wrapper for accessing environment variables
+ * Wrapper which allows to mock static calls of System.getenv()
+ *
+ * @see System#getenv()
  */
 class EnvVariables {
 
@@ -11,13 +13,6 @@ class EnvVariables {
 
   EnvVariables() {
     envSupplier = System::getenv;
-  }
-
-  /**
-   * Allows to override environment variables in tests, prefer to use default constructor
-   */
-  EnvVariables(Function<String, String> envSupplier) {
-    this.envSupplier = envSupplier;
   }
 
   String getenv(String variable) {
