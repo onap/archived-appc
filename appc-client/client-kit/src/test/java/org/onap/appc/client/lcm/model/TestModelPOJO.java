@@ -49,6 +49,8 @@ public class TestModelPOJO {
         pojoClassName.add(ConfigExportOutput.class);
         pojoClassName.add(ConfigModifyInput.class);
         pojoClassName.add(ConfigModifyOutput.class);
+        pojoClassName.add(ConfigScaleOutInput.class);
+        pojoClassName.add(ConfigScaleOutOutput.class);
         pojoClassName.add(ConfigRestoreInput.class);
         pojoClassName.add(ConfigRestoreOutput.class);
         pojoClassName.add(ConfigureInput.class);
