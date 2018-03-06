@@ -247,7 +247,7 @@ public class AaiService {
             String vserverName = ctx.getAttribute(aaiRefKey + "vserver-name");
             String vnfcName = vserverName + vnfcFuncCode + "001";
             String groupNotation = getGroupNotation(groupNotationType, groupNotationValue, vnfcName, vserverName,
-                    prefix, ctx, vnfcType);
+                    prefix, ctx, vnfcType, vnfcFuncCode, vmCount);
 
             String ipAddressV4OamVip = null;
             if ("Y".equals(populateIpAddressV4OamVip)) {
@@ -372,7 +372,7 @@ public class AaiService {
     }
 
     public String getGroupNotation(String groupNotationType, String groupNotationValue, String vnfcName,
-            String vserverName, String prefix, SvcLogicContext ctx, String vnfcRefVnfcType) throws Exception {
+            String vserverName, String prefix, SvcLogicContext ctx, String vnfcRefVnfcType, String vnfcFuncCode, int vmCount) throws Exception {
 
         String grpNotation = null;
 
@@ -446,9 +446,52 @@ public class AaiService {
                 }
             }
         }
+        else if ("existing-value".equals(groupNotationType)) {
+ /* This is a new value being added.  Find the existing vnfc records in A&AI inventory with the same vnfc-function code as the value in vnfc_reference table.
+  * Verify that the group-notation value is the same for all such records found in inventory.
+  * if all records do not have the same group-notation value, write the new vnfc record to A&AI inventory without a group-notation value and continue to the next VM in the vnfc_reference table.  A 501 intermediate error message should be sent after all new VNFC records have been added to A&AI.
+    If all records match, use the same group-notation value for the new vnfc record as found in the existing vnfc records.
+*/
+            grpNotation = getGroupNotationForExistigValue(ctx, prefix, vnfcFuncCode, vmCount);
+         }
 
         log.info("RETURNED GROUPNOTATION " + grpNotation);
         return grpNotation;
+    }
+
+    public String getGroupNotationForExistigValue(SvcLogicContext ctx, String prefix, String vnfcFuncCode, int vmCount) {
+        String vfModuleId = ctx.getAttribute("req-vf-module-id"); //Coming from request-params
+        boolean first=true;
+        String aaiGroupNotationValue=null;
+        for (int i=0;i<vmCount;i++ )
+        {
+            String ind =  "tmp.vnfInfo.vm["+i+"].";
+            String aaiFuncCode = ctx.getAttribute(ind+"vnfc-function-code");
+            String aaiGroupNotation = ctx.getAttribute(ind+"group-notation");
+            String aaiVfModuleId = ctx.getAttribute(ind+"vf-module-id");
+
+            log.info("getGroupNotationForExistigValue()::: vfModuleId="+vfModuleId+", aaiFuncCode="+aaiFuncCode
+            +", aaiGroupNotation="+aaiGroupNotation+",aaiVfMOduleId="+aaiVfModuleId);
+
+            if (StringUtils.isNotBlank(aaiFuncCode) && aaiFuncCode.equals(vnfcFuncCode) &&
+            (StringUtils.isNotBlank(vfModuleId) &&  StringUtils.isNotBlank(aaiVfModuleId) && aaiVfModuleId.equals(vfModuleId))) {
+                if (null==aaiGroupNotationValue && first) {
+                    if (null == aaiGroupNotation) {//Return if null
+                        return null;
+                    }
+                    aaiGroupNotationValue = ctx.getAttribute(ind+"group-notation");
+                    first=false;
+                }
+                else {
+                    if (!StringUtils.equals(aaiGroupNotationValue, ctx.getAttribute(ind+"group-notation"))) {
+                        log.info("Values are different, returning null");
+                        return null;
+                    }
+                }
+            }
+        }
+
+        return aaiGroupNotationValue;
     }
 
     public String getGroupNotationForVServer(SvcLogicContext ctx, String prefix, String vserverName) {
