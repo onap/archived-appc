@@ -22,6 +22,30 @@
       "revId": "d63d3445ff25a99aa8bb1ca10dbdc2f120c45f60",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_026dc303",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-03-06T07:43:17Z",
+      "side": 1,
+      "message": "Hi Takamune, It is quite simple. The removed lines are nothing more than boilerplate code. What this retrieveData method does is it extracts some data from json received in params input map, and sets the successfully extracted value inside the SvcLogiContext. The data can be set in the SvcLogicContex using the ctx variable explicitly - no added value from wrapping it with the RequestContext object. If you analyze the flow you can notice that the RequestContext object is redundant as it does absolutely nothing additional with the logic. The requestContext object wraps the SvcLogicContext and then returns a reference to the same object via the getSvcLogicContext() method without doing anything else. The isAlive method is an empty invocation since no other usages of the RequestContext are present and the object has method level scope - it is discarded after the retrieveData ends.\nThe JUnits I have written also prove this, I replaced the lines only after having the method covered with tests. So removing these lines does not affect the logic and improves readability.",
+      "parentUuid": "5a93c517_3164d348",
+      "range": {
+        "startLine": 419,
+        "startChar": 8,
+        "endLine": 419,
+        "endChar": 11
+      },
+      "revId": "d63d3445ff25a99aa8bb1ca10dbdc2f120c45f60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
