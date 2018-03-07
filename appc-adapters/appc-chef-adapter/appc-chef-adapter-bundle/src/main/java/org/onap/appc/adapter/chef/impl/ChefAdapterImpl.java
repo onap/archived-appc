@@ -23,11 +23,9 @@
  */
 package org.onap.appc.adapter.chef.impl;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -109,12 +107,12 @@ public class ChefAdapterImpl implements ChefAdapter {
     private static final String CHEF_SERVER_RESULT_MSG_STR = "chefServerResult.message";
     private static final String CHEF_ACTION_STR = "chefAction";
     private static final String NODE_LIST_STR = "NodeList";
-    private ChefApiClientFactory chefApiClientFactory = new ChefApiClientFactory();
+    private final ChefApiClientFactory chefApiClientFactory;
+    private final PrivateKeyChecker privateKeyChecker;
 
-    /**
-     * This default constructor is used as a work around because the activator wasnt getting called
-     */
-    public ChefAdapterImpl() {
+    ChefAdapterImpl(ChefApiClientFactory chefApiClientFactory, PrivateKeyChecker privateKeyChecker) {
+        this.chefApiClientFactory = chefApiClientFactory;
+        this.privateKeyChecker = privateKeyChecker;
         logger.info("Initialize Chef Adapter");
     }
 
@@ -136,7 +134,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                 JSONObject envJ = new JSONObject(env);
                 String envName = envJ.getString("name");
                 String message;
-                if (privateKeyCheck()) {
+                if (privateKeyChecker.doesExist(clientPrivatekey)) {
                     // update the details of an environment on the Chef server.
                     ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
                     ChefResponse chefResponse = chefApiClient.put("/environments/" + envName, env);
@@ -187,7 +185,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                 rc.isAlive();
                 code = 200;
                 String message = null;
-                if (privateKeyCheck()) {
+                if (privateKeyChecker.doesExist(clientPrivatekey)) {
                     ChefApiClient cac = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
 
                     for (String nodeName: nodes) {
@@ -295,7 +293,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                 for (String node : nodes) {
                     String chefAction = "/nodes/" + node;
                     String message;
-                    if (privateKeyCheck()) {
+                    if (privateKeyChecker.doesExist(clientPrivatekey)) {
                         ChefResponse chefResponse = getApiMethod(chefAction);
                         code = chefResponse.getStatusCode();
                         message = chefResponse.getBody();
@@ -396,17 +394,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         }
     }
 
-    private Boolean privateKeyCheck() {
-        File f = new File(clientPrivatekey);
-        if (f.exists()) {
-            logger.info("Key exists");
-            return true;
-        } else {
-            logger.info("Key doesn't exists");
-            return false;
-        }
-    }
-
     @SuppressWarnings("nls")
     @Override
     public void retrieveData(Map<String, String> params, SvcLogicContext ctx) {
@@ -458,7 +445,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         int code;
         String message;
 
-        if (privateKeyCheck()) {
+        if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefResponse chefResponse = getApiMethod(chefAction);
             code = chefResponse.getStatusCode();
             message = chefResponse.getBody();
@@ -483,7 +470,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         rc.isAlive();
         int code;
         String message;
-        if (privateKeyCheck()) {
+        if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
 
             ChefResponse chefResponse = chefApiClient.put(chefAction, chefNodeStr);
@@ -513,7 +500,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         int code;
         String message;
         // should load pem from somewhere else
-        if (privateKeyCheck()) {
+        if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
 
             // need pass path into it
@@ -541,7 +528,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         rc.isAlive();
         int code;
         String message;
-        if (privateKeyCheck()) {
+        if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
             ChefResponse chefResponse = chefApiClient.delete(chefAction);
             code = chefResponse.getStatusCode();
@@ -718,7 +705,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String codeStr = "server".equals(target) ? CHEF_SERVER_RESULT_CODE_STR : CHEF_CLIENT_RESULT_CODE_STR;
-        String messageStr = "client".equals(target) ? CHEF_SERVER_RESULT_MSG_STR : CHEF_CLIENT_RESULT_MSG_STR;
+        String messageStr = "client".equals(target) ? CHEF_CLIENT_RESULT_MSG_STR : CHEF_SERVER_RESULT_MSG_STR;
 
         svcLogic.setStatus(OUTCOME_SUCCESS);
         svcLogic.setAttribute(codeStr, Integer.toString(code));
