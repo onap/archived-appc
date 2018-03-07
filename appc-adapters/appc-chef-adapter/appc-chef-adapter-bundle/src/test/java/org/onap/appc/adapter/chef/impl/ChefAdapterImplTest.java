@@ -42,7 +42,7 @@ public class ChefAdapterImplTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterImpl();
+        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
         chefAdapter.nodeObejctBuilder(params, svcLogicContext);
 
         // THEN
@@ -87,7 +87,7 @@ public class ChefAdapterImplTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterImpl();
+        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
         chefAdapter.combineStrings(params, svcLogicContext);
 
         // THEN

@@ -33,6 +33,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.appc.adapter.chef.ChefAdapter;
 import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.exceptions.ZoneException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -41,14 +42,14 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 public class TestChefAdapterImpl {
     private SvcLogicContext svcContext;
 
-    private ChefAdapterImpl adapter;
+    private ChefAdapter adapter;
 
     private Map<String, String> params;
     private String getAttribute;
 
     @Before
     public void setup() {
-        adapter = new ChefAdapterImpl();
+        adapter = new ChefAdapterFactory().create();
         params = new HashMap<>();
         params.put("pemPath",
                 "/src/test/resources/testclient.pem");

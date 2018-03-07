@@ -17,25 +17,24 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.impl;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
-import org.onap.appc.adapter.chef.chefclient.impl.ChefApiClientImpl;
-import org.onap.appc.adapter.chef.chefclient.impl.ChefApiHeaderFactory;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import java.io.File;
 
-public class ChefApiClientFactory {
+class PrivateKeyChecker {
 
-    private HttpClient httpClient = HttpClients.createDefault();
-    private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(PrivateKeyChecker.class);
 
-    public ChefApiClient create(String endPoint, String organizations, String userId, String pemPath) {
-        return new ChefApiClientImpl(httpClient,
-            chefApiHeaderFactory,
-            endPoint,
-            organizations,
-            userId,
-            pemPath);
+    Boolean doesExist(String clientPrivateKeyPath) {
+        File f = new File(clientPrivateKeyPath);
+        if (f.exists()) {
+            logger.info("Key exists");
+            return true;
+        } else {
+            logger.info("Key doesn't exists");
+            return false;
+        }
     }
 }

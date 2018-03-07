@@ -41,7 +41,7 @@ public class ChefAdapterImplDataRetrieverTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterImpl();
+        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
         chefAdapter.retrieveData(params, svcLogicContext);
 
         // THEN
@@ -55,7 +55,7 @@ public class ChefAdapterImplDataRetrieverTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterImpl();
+        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
         chefAdapter.retrieveData(params, svcLogicContext);
 
         // THEN
@@ -69,7 +69,7 @@ public class ChefAdapterImplDataRetrieverTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterImpl();
+        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
         chefAdapter.retrieveData(params, svcLogicContext);
 
         // THEN
