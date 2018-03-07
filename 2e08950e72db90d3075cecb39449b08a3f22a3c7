@@ -22,6 +22,30 @@
       "revId": "2e08950e72db90d3075cecb39449b08a3f22a3c7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aea73a4f",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 3081
+      },
+      "writtenOn": "2018-03-07T14:14:03Z",
+      "side": 1,
+      "message": "If neither of branches matched, the value of groupNotation was kept. The case is, it was null (line 396).",
+      "parentUuid": "5a93c517_ae73ba4c",
+      "range": {
+        "startLine": 477,
+        "startChar": 15,
+        "endLine": 477,
+        "endChar": 19
+      },
+      "revId": "2e08950e72db90d3075cecb39449b08a3f22a3c7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
