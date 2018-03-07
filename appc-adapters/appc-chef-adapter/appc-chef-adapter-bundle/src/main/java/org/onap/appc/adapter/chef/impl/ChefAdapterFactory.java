@@ -17,25 +17,14 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.impl;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
-import org.onap.appc.adapter.chef.chefclient.impl.ChefApiClientImpl;
-import org.onap.appc.adapter.chef.chefclient.impl.ChefApiHeaderFactory;
+import org.onap.appc.adapter.chef.ChefAdapter;
+import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
 
-public class ChefApiClientFactory {
+public class ChefAdapterFactory {
 
-    private HttpClient httpClient = HttpClients.createDefault();
-    private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
-
-    public ChefApiClient create(String endPoint, String organizations, String userId, String pemPath) {
-        return new ChefApiClientImpl(httpClient,
-            chefApiHeaderFactory,
-            endPoint,
-            organizations,
-            userId,
-            pemPath);
+    public ChefAdapter create() {
+        return new ChefAdapterImpl(new ChefApiClientFactory(), new PrivateKeyChecker());
     }
 }

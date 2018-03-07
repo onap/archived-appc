@@ -27,7 +27,7 @@ package org.onap.appc.adapter.chef;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.Constants;
-import org.onap.appc.adapter.chef.impl.ChefAdapterImpl;
+import org.onap.appc.adapter.chef.impl.ChefAdapterFactory;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.i18n.Msg;
@@ -74,6 +74,7 @@ public class ChefActivator implements BundleActivator {
      */
     private Configuration configuration = ConfigurationFactory.getConfiguration();
 
+
     /**
      * Called when this bundle is started so the Framework can perform the bundle-specific activities necessary to start
      * this bundle. This method can be used to register services or to allocate any resources that this bundle needs.
@@ -95,7 +96,7 @@ public class ChefActivator implements BundleActivator {
 
         String appName = readApplicationNameFromProperties();
         logger.info(Msg.COMPONENT_INITIALIZING, appName, ADAPTER_NAME);
-        adapter = new ChefAdapterImpl();
+        adapter = new ChefAdapterFactory().create();
         if (registration == null) {
             logger.info(Msg.REGISTERING_SERVICE, appName, ADAPTER_NAME,
                 ChefAdapter.class.getSimpleName());

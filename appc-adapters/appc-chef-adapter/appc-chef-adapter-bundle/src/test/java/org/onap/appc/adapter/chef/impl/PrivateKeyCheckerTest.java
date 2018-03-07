@@ -17,25 +17,24 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.adapter.chef.chefclient;
+package org.onap.appc.adapter.chef.impl;
 
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
-import org.onap.appc.adapter.chef.chefclient.impl.ChefApiClientImpl;
-import org.onap.appc.adapter.chef.chefclient.impl.ChefApiHeaderFactory;
+import static junit.framework.TestCase.assertFalse;
+import static junit.framework.TestCase.assertTrue;
 
-public class ChefApiClientFactory {
+import org.junit.Test;
 
-    private HttpClient httpClient = HttpClients.createDefault();
-    private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
+public class PrivateKeyCheckerTest {
 
-    public ChefApiClient create(String endPoint, String organizations, String userId, String pemPath) {
-        return new ChefApiClientImpl(httpClient,
-            chefApiHeaderFactory,
-            endPoint,
-            organizations,
-            userId,
-            pemPath);
+    @Test
+    public void doesExist_shouldReturnTrue_whenFileExists() {
+        String pemFilePath = getClass().getResource("/testclient.pem").getPath();
+        assertTrue(new PrivateKeyChecker().doesExist(pemFilePath));
     }
+
+    @Test
+    public void doesExist_shouldReturnFalse_whenFileDoesNotExist() {
+        assertFalse(new PrivateKeyChecker().doesExist("dummyPemFile"));
+    }
+
 }
