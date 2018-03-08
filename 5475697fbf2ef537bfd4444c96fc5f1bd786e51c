@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_a86f05fb",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/InventoryInfoExtractor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-08T07:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_5c7acbbd",
+      "range": {
+        "startLine": 1,
+        "startChar": 27,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "5475697fbf2ef537bfd4444c96fc5f1bd786e51c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_dc4d7b9b",
         "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/InventoryInfoExtractorTest.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-07T15:04:44Z",
       "side": 1,
       "message": "please add license header",
+      "range": {
+        "startLine": 1,
+        "startChar": 27,
+        "endLine": 1,
+        "endChar": 37
+      },
+      "revId": "5475697fbf2ef537bfd4444c96fc5f1bd786e51c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_487a01be",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/InventoryInfoExtractorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-08T07:13:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_dc4d7b9b",
       "range": {
         "startLine": 1,
         "startChar": 27,
