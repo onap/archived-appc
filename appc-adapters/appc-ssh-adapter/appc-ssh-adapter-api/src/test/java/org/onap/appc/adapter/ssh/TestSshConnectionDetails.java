@@ -59,5 +59,4 @@ public class TestSshConnectionDetails {
         assertNotNull(sshConnectionDetails.getPassword());
         assertEquals(sshConnectionDetails.getPassword(), "password");
     }
-
 }
