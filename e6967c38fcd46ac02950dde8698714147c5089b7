@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_86a1d595",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-api/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-09T14:19:01Z",
+      "side": 1,
+      "message": "without these lines added, the test should pass also.",
+      "range": {
+        "startLine": 43,
+        "startChar": 29,
+        "endLine": 43,
+        "endChar": 34
+      },
+      "revId": "e6967c38fcd46ac02950dde8698714147c5089b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
