@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_c69b5d64",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-09T14:14:25Z",
+      "side": 1,
+      "message": "would you explain why you changed this line?",
+      "range": {
+        "startLine": 708,
+        "startChar": 54,
+        "endLine": 708,
+        "endChar": 80
+      },
+      "revId": "eaf8af308cc52ca2b8c0f90e139fcfe7ba213dbf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
