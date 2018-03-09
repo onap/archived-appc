@@ -10,3 +10,4 @@ APPC Documentation Repository
    APPC Logging Guide/APPC Logging Guide
    APPC User Guide/APPC User Guide
    APPC OAM API Guide/APPC OAM API Guide
+   APPC CDT Guide/APPC CDT Guide
