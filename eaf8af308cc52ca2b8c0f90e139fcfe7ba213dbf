@@ -22,6 +22,30 @@
       "revId": "eaf8af308cc52ca2b8c0f90e139fcfe7ba213dbf",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_068065be",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-03-09T14:43:46Z",
+      "side": 1,
+      "message": "The reason why I changed this is because this seems like a small bug since the result assigned to messageStr looks switched in an unintentional way. Before my change the result of the condition was:\nif target is \"server\"\ncodeStr    \u003d chefServerResult.code\nmessageStr \u003d chefClientResult.message\n\nafter my change if target is \"server\":\ncodeStr    \u003d chefServerResult.code\nmessageStr \u003d chefServerResult.message\n\nand for target \"client\"\ncodeStr    \u003d chefClientResult.code\nmessageStr \u003d chefClientResult.message\n\nIf this is in any way incorrect then please let me know",
+      "parentUuid": "5a93c517_c69b5d64",
+      "range": {
+        "startLine": 708,
+        "startChar": 54,
+        "endLine": 708,
+        "endChar": 80
+      },
+      "revId": "eaf8af308cc52ca2b8c0f90e139fcfe7ba213dbf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
