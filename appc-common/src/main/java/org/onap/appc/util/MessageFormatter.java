@@ -32,13 +32,11 @@ import java.util.regex.Pattern;
 
 public class MessageFormatter {
     private final static String paramNameRegexGroupName = "paramName";
-    private final static String paramRegex = "\\$\\{(?<paramName>[^}$]+)\\}"; // start with ${ and
-                                                                              // after there is one
-                                                                              // or more characters
-                                                                              // that are not $ and
-                                                                              // not } and ended
-                                                                              // with }
 
+    /**
+     * start with ${ and after there is one or more characters that are not $ and not } and ended with }
+     */
+    private final static String paramRegex = "\\$\\{(?<paramName>[^}$]+)\\}";
 
     public static String format(String messageTemplate, Map<String, Object> params) {
         if (StringUtils.isEmpty(messageTemplate))
@@ -69,7 +67,7 @@ public class MessageFormatter {
     public static List<String> getParamsNamesList(String messageTemplate) {
         List<String> paramsNames = null;
         if (!StringUtils.isEmpty(messageTemplate)) {
-            paramsNames = new ArrayList<String>();
+            paramsNames = new ArrayList<>();
             Matcher m = Pattern.compile(paramRegex).matcher(messageTemplate);
             while (m.find()) {
                 String paramName = m.group(paramNameRegexGroupName);
