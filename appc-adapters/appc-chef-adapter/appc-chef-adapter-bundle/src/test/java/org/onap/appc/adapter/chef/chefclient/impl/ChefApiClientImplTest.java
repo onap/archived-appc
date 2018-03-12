@@ -55,6 +55,7 @@ public class ChefApiClientImplTest {
     private static final String USER_ID = "testUser";
     private static final String REQUEST_PATH = "/test/path";
     private static final String BODY = "SOME BODY STRING";
+    private static final String PEM_FILEPATH = "path/to/pemFile";
     private static final ImmutableMap<String, String> HEADERS = ImmutableMap.<String, String>builder()
         .put("Content-type", "application/json")
         .put("Accept", "application/json")
@@ -71,7 +72,6 @@ public class ChefApiClientImplTest {
 
     @InjectMocks
     private ChefApiClientFactory chefApiClientFactory;
-    private static final String PEM_FILEPATH = "path/to/pemFile";
     private ChefApiClient chefApiClient;
 
     @Before
