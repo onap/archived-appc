@@ -28,7 +28,7 @@
   </parent>
   <artifactId>appc-common</artifactId>
   <name>APP-C Common</name>
-  <packaging>bundle</packaging>
+  <packaging>pom</packaging>
   <description>Common library shared across all modules</description>
 
 <!-- <packaging>bundle</packaging> -->
