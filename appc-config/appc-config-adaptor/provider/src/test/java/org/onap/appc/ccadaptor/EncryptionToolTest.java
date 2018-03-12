@@ -24,23 +24,46 @@
 
 package org.onap.appc.ccadaptor;
 
-import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EncryptionToolTest {
 
-    @Test
-    public void testEncrypt() {
-        EncryptionTool tool = EncryptionTool.getInstance();
-        String value = tool.encrypt("encrypt");
-        Assert.assertEquals("enc:JjEZHlg7VQ==", value);
+    private static final String PLAIN_TEXT = "encrypt";
+    private static final String ENCRYPTED_TEXT = "enc:JjEZHlg7VQ==";
+    private static final String FAKE_ENCRYPTED_TEXT = "jsaASGou!na=e";
+
+    private static EncryptionTool encryptionTool;
+
+    @BeforeClass
+    public static void setup() {
+        encryptionTool = EncryptionTool.getInstance();
     }
 
     @Test
-    public void testDecrypt() {
-        EncryptionTool tool = EncryptionTool.getInstance();
-        String value = tool.decrypt("enc:JjEZHlg7VQ==");
-        Assert.assertEquals("encrypt", value);
+    public void should_return_null_when_given_null_to_encrypt() {
+        assertEquals(null, encryptionTool.encrypt(null));
     }
 
+    @Test
+    public void should_encrypt_given_string() {
+        assertEquals(ENCRYPTED_TEXT, encryptionTool.encrypt(PLAIN_TEXT));
+    }
+
+    @Test
+    public void should_return_null_when_given_null_to_decrypt() {
+        assertEquals(null, encryptionTool.decrypt(null));
+    }
+
+    @Test
+    public void should_return_same_string_when_given_unencrypted_string() {
+        assertEquals(FAKE_ENCRYPTED_TEXT, encryptionTool.decrypt(FAKE_ENCRYPTED_TEXT));
+    }
+
+    @Test
+    public void should_decrypt_given_string() {
+        assertEquals(PLAIN_TEXT, encryptionTool.decrypt(ENCRYPTED_TEXT));
+    }
 }
