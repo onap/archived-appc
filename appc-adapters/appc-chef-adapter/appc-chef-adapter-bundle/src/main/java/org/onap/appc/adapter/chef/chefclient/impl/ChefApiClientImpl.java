@@ -38,20 +38,13 @@ import org.onap.appc.adapter.chef.chefclient.impl.ChefRequestBuilder.OngoingRequ
 public class ChefApiClientImpl implements ChefApiClient {
 
     private final HttpClient httpClient;
-    private final ChefApiHeaderFactory chefApiHeaderFactory;
-    private String endpoint;
-    private String userId;
-    private String pemPath;
-    private String organizations;
+    private final String endpoint;
+    private final HttpHeaderFactory httpHeaderFactory;
 
-    public ChefApiClientImpl(HttpClient httpClient, ChefApiHeaderFactory chefApiHeaderFactory,
-        String endpoint, String organizations, String userId, String pemPath) {
+    public ChefApiClientImpl(HttpClient httpClient, String endpoint, HttpHeaderFactory httpHeaderFactory) {
         this.httpClient = httpClient;
-        this.chefApiHeaderFactory = chefApiHeaderFactory;
         this.endpoint = endpoint;
-        this.organizations = organizations;
-        this.userId = userId;
-        this.pemPath = pemPath;
+        this.httpHeaderFactory = httpHeaderFactory;
     }
 
     @Override
@@ -59,7 +52,7 @@ public class ChefApiClientImpl implements ChefApiClient {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpGet()
             .withPath(path)
-            .withHeaders(chefApiHeaderFactory.create("GET", path, "", userId, organizations, pemPath));
+            .withHeaders(httpHeaderFactory.create("GET", path, ""));
         return execute(requestBuilder);
     }
 
@@ -68,7 +61,7 @@ public class ChefApiClientImpl implements ChefApiClient {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpDelete()
             .withPath(path)
-            .withHeaders(chefApiHeaderFactory.create("DELETE", path, "", userId, organizations, pemPath));
+            .withHeaders(httpHeaderFactory.create("DELETE", path, ""));
         return execute(requestBuilder);
     }
 
@@ -77,7 +70,7 @@ public class ChefApiClientImpl implements ChefApiClient {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpPost(body)
             .withPath(path)
-            .withHeaders(chefApiHeaderFactory.create("POST", path, body, userId, organizations, pemPath));
+            .withHeaders(httpHeaderFactory.create("POST", path, body));
         return execute(requestBuilder);
     }
 
@@ -86,7 +79,7 @@ public class ChefApiClientImpl implements ChefApiClient {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpPut(body)
             .withPath(path)
-            .withHeaders(chefApiHeaderFactory.create("PUT", path, body, userId, organizations, pemPath));
+            .withHeaders(httpHeaderFactory.create("PUT", path, body));
         return execute(requestBuilder);
     }
 
@@ -104,3 +97,4 @@ public class ChefApiClientImpl implements ChefApiClient {
         }
     }
 }
+
