@@ -103,6 +103,8 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             ArrayList<Map<String, String>> vservers = new ArrayList<>();
 
             int vmWithNoVnfcsCount = 0;
+            int vmsWithNoVnfcsForVfModule = 0;
+            int vmCountForVfModule = 0;
             String vmCountStr = ctx.getAttribute(responsePrefix + "vm-count");
 
             if (vmCountStr == null) {
@@ -145,6 +147,8 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 }
 
                 vserverMap.put("vnfc-count", vnfcCount);
+                String vfModuleForVserver = vmServerCtx.getAttribute(responsePrefix + "vm.vf-module-id");
+                String vfModuleFromRequest =  ctx.getAttribute("req-vf-module-id");
 
                 if (vnfcName != null) {
                     Map<String, String> paramsVnfc = new HashMap<String, String>();
@@ -166,6 +170,15 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
                 } else {
                     vmWithNoVnfcsCount++;
+                    //ConfigScaleOut
+                    log.info("getAllVServersVnfcsInfo()::Vf Modules: "+vfModuleForVserver+", "+vfModuleFromRequest);
+                    if (StringUtils.isNotBlank(vfModuleForVserver) && StringUtils.equalsIgnoreCase(vfModuleForVserver,vfModuleFromRequest)) {
+                        vmsWithNoVnfcsForVfModule++;
+                    }
+                }
+
+                if (StringUtils.isNotBlank(vfModuleForVserver) && StringUtils.equalsIgnoreCase(vfModuleForVserver,vfModuleFromRequest)){
+                    vmCountForVfModule++;
                 }
                 vservers.add(vserverMap);
 
@@ -179,8 +192,12 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             log.info("VMCOUNT IN GETALLVSERVERS " + vmCount);
             log.info("VMSWITHNOVNFCSCOUNT IN GETALLVSERVERS " + vmWithNoVnfcsCount);
+            log.info("VMSWITHNOVNFCSCOUNTFOR VFMODULE IN GETALLVSERVERS " + vmsWithNoVnfcsForVfModule);
+            log.info("VMCOUNT FOR VFMODULE IN GETALLVSERVERS " + vmCountForVfModule);
             ctx.setAttribute(responsePrefix + ATTR_VNF_VM_COUNT, String.valueOf(vmCount));
             ctx.setAttribute(responsePrefix + "vnf.vm-with-no-vnfcs-count", String.valueOf(vmWithNoVnfcsCount));
+            ctx.setAttribute(responsePrefix + "vnf.vm-with-no-vnfcs-count-vf-module", String.valueOf(vmsWithNoVnfcsForVfModule));
+            ctx.setAttribute(responsePrefix + "vnf.vm-count-for-vf-module", String.valueOf(vmCountForVfModule));
 
 
         } catch (Exception e) {
@@ -259,17 +276,25 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             } else {
                 vmCount = Integer.parseInt(vmCountStr);
             }
-            if (vmCount < vnfcRefLen) {
+            String vfModuleIdFromRequest = ctx.getAttribute("req-vf-module-id");
+            if ((vmCount < vnfcRefLen) &&  StringUtils.isBlank(vfModuleIdFromRequest)) {
                 throw new ResourceNodeInternalException("Vnfc and VM count mismatch");
+            }
+
+            //ConfigScaleOut
+            if (StringUtils.isNotBlank(vfModuleIdFromRequest)) {
+                processCheckForVfModule(vfModuleIdFromRequest, ctx, responsePrefix,vnfcRefLen);
             }
 
             log.info("VMCOUNT " + vmCount);
             log.info("VNFCREFLEN " + vnfcRefLen);
+
+
             if (StringUtils.isBlank(ctx.getAttribute("vnfc-type"))) {
                 aai.updateVnfStatusWithOAMAddress(inParams, ctx);
             }
 
-            aai.insertVnfcs(inParams, ctx, vnfcRefLen, vmCount);
+            aai.insertVnfcs(inParams, ctx, vnfcRefLen, vmCount,vfModuleIdFromRequest);
 
             ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
                 AppcAaiClientConstant.OUTPUT_STATUS_SUCCESS);
@@ -283,6 +308,31 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             throw new SvcLogicException(e.getMessage());
         }
+    }
+
+    private void processCheckForVfModule(String vfModuleIdFromRequest, SvcLogicContext ctx,
+    String responsePrefix, int vnfcRefLen) throws ResourceNodeInternalException {
+
+        log.info("processCheckForVfModule()::vfModuleId From Request"+vfModuleIdFromRequest+"-"+vnfcRefLen);
+        int vmsWithoutVnfcsForVfModule = 0;
+        String vmsWithoutVnfcsForVfModuleStr = ctx.getAttribute(responsePrefix + "vnf.vm-with-no-vnfcs-count-vf-module");
+        if (StringUtils.isBlank(vmsWithoutVnfcsForVfModuleStr) && StringUtils.isNotBlank(vfModuleIdFromRequest)) {
+            log.info("addVnfcs()::No vmsWithoutVnfcsForVfModule for vfmodule="+vfModuleIdFromRequest);
+        }
+        else {
+            vmsWithoutVnfcsForVfModule = Integer.parseInt(vmsWithoutVnfcsForVfModuleStr);
+        }
+        log.info("addVnfcs():::Number of VMs without vnfcs for vfmodule: "+vmsWithoutVnfcsForVfModule);
+        String vmsForVfModuleStr = ctx.getAttribute(responsePrefix +"vnf.vm-count-for-vf-module");
+        int vmsForVfModule = 0;
+        if (StringUtils.isNotBlank(vmsForVfModuleStr)) {
+            vmsForVfModule = Integer.parseInt(vmsForVfModuleStr);
+        }
+        if ((vmsForVfModule != vnfcRefLen ) &&  StringUtils.isNotBlank(vfModuleIdFromRequest)) {
+            throw new ResourceNodeInternalException("Vnfc and VM count mismatch for vfModule in request="+vfModuleIdFromRequest);
+        }
+        log.info("processCheckForVfModule()::vmsForVfModule " + vmsForVfModule);
+
     }
 
     private int trySetVnfcRefLen(String vnfcRefLenStr) throws ResourceNodeInternalException {

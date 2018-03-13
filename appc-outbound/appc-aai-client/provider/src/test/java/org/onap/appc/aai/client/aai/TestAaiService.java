@@ -250,7 +250,7 @@ public class TestAaiService {
 
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
-        mockAai.insertVnfcs(inParams, ctx, 2, 2);
+        mockAai.insertVnfcs(inParams, ctx, 2, 2,"vfModuleId1");
 
 
     }
@@ -269,7 +269,7 @@ public class TestAaiService {
 
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
-        mockAai.insertVnfcs(inParams, ctx, 2, 2);
+        mockAai.insertVnfcs(inParams, ctx, 2, 2, null);
 
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-name"), "dbjx0001vm001dbj001");
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-function-code"), "dbj");
@@ -296,7 +296,7 @@ public class TestAaiService {
 
         mockAai.populateAllVnfInfo1(ctx, "tmp.vnfInfo");
 
-        mockAai.insertVnfcs(inParams, ctx, 2, 2);
+        mockAai.insertVnfcs(inParams, ctx, 2, 2,null);
 
 
 
