@@ -216,7 +216,7 @@ public class AaiService {
 
     }
 
-    public void insertVnfcs(Map<String, String> params, SvcLogicContext ctx, int vnfcRefLen, int vmCount)
+    public void insertVnfcs(Map<String, String> params, SvcLogicContext ctx, int vnfcRefLen, int vmCount, String vfModuleIdFromRequest)
             throws Exception {
         log.info("Received insertVnfcs call with params : " + params);
 
@@ -227,6 +227,15 @@ public class AaiService {
         log.debug("vnfcRefIndx" + vnfcRefIndx);
         for (int i = 0; i < vmCount; i++) {
             String aaiRefKey = prefix + "vm[" + i + "].";
+
+            //ConfigScaleOut - Do not process vms that are not associated with vfmodule id if vfmodule id is present
+            if (StringUtils.isNotBlank(vfModuleIdFromRequest)){
+                String vmVfModuleId = ctx.getAttribute(aaiRefKey+"vf-module-id");
+                log.info("insertVnfcs():::vfModule for vm is="+vmVfModuleId);
+                if (StringUtils.isBlank(vmVfModuleId) || !StringUtils.equalsIgnoreCase(vmVfModuleId,vfModuleIdFromRequest)) {
+                    continue;
+                }
+            }
 
             log.info("VNFCNAME IN INSERTVNFCS " + ctx.getAttribute(aaiRefKey + "vnfc-name"));
             String vnfcNameAAI = ctx.getAttribute(aaiRefKey + "vnfc-name");

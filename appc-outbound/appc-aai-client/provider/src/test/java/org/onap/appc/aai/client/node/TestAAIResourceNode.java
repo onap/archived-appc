@@ -131,7 +131,14 @@ public class TestAAIResourceNode {
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[1].vnfc-type"), "vnfcType2");
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[1].vnfc-function-code"), "vnfcFuncCode2");
         assertEquals(ctx.getAttribute("tmp.vnfInfo.vm[1].group-notation"), "vnfcGrpNot2");
+
+        ctx.setAttribute("tmp.vnfInfo.vm[0].vserver-id","ibcm0001id");
+        ctx.setAttribute("req-vf-module-id","vfModule1");
+        mrn.getAllVServersVnfcsInfo(inParams, ctx);
+        assertEquals(ctx.getAttribute("tmp.vnfInfo.vnf.vm-with-no-vnfcs-count-vf-module"),"1");
+        assertEquals(ctx.getAttribute("tmp.vnfInfo.vnf.vm-count-for-vf-module"),"1");
     }
+
     public void populateAllVServerInfo(SvcLogicContext ctx, String prefix) throws Exception {
          ctx.setAttribute("vnf-id", "ibcx0001v");
          ctx.setAttribute("vnf-host-ip-address", "000.00.00.00");
