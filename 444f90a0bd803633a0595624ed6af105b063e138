@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e8197ad1",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-13T18:11:13Z",
+      "side": 1,
+      "message": "please change to your cooperate name and 2018",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "444f90a0bd803633a0595624ed6af105b063e138",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
