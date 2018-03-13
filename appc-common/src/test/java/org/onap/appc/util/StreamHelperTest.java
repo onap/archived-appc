@@ -31,7 +31,7 @@ import java.io.ByteArrayInputStream;
 import org.junit.Test;
 import org.onap.appc.util.StreamHelper;
 
-public class TestStreamHelper {
+public class StreamHelperTest {
 
     private static final String text = "Filler text (also placeholder text or dummy text) is text that shares "
         + "some characteristics of a real written text, but is random or otherwise generated. It may be used "
@@ -66,16 +66,22 @@ public class TestStreamHelper {
         + "$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijk\n";
 
     @Test
-    public void testStreamHelperNullStream() {
+    public void should_return_empty_string_when_given_null_input_stream() {
         assertNotNull(StreamHelper.getStringFromInputStream(null));
         assertEquals("", StreamHelper.getStringFromInputStream(null));
     }
 
     @Test
-    public void testStreamHelperByteArrayStream() {
-        ByteArrayInputStream in = new ByteArrayInputStream(text.getBytes());
+    public void should_return_empty_string_when_given_empty_byte_array() {
+        ByteArrayInputStream emptyInputStream = new ByteArrayInputStream(new byte[0]);
 
-        assertEquals(text, StreamHelper.getStringFromInputStream(in));
+        assertEquals("", StreamHelper.getStringFromInputStream(emptyInputStream));
     }
 
+    @Test
+    public void should_return_string_when_given_byte_array() {
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(text.getBytes());
+
+        assertEquals(text, StreamHelper.getStringFromInputStream(inputStream));
+    }
 }
