@@ -23,26 +23,20 @@
  */
 package org.onap.appc.adapter.chef.impl;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.onap.appc.adapter.chef.ChefAdapter;
-import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
 import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
+import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
 import org.onap.appc.adapter.chef.chefclient.api.ChefResponse;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 /**
  * This class implements the {@link ChefAdapter} interface. This interface defines the behaviors that our service
@@ -545,23 +539,20 @@ public class ChefAdapterImpl implements ChefAdapter {
      * Trigger target vm run chef
      */
     @Override
-    public void trigger(Map<String, String> params, SvcLogicContext ctx) {
+    public void trigger(Map<String, String> params, SvcLogicContext svcLogicContext) {
         logger.info("Run trigger method");
         String tVmIp = params.get("ip");
-        RequestContext rc = new RequestContext(ctx);
+        RequestContext rc = new RequestContext(svcLogicContext);
         rc.isAlive();
 
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet httpGet = new HttpGet(tVmIp);
-            HttpResponse response = httpClient.execute(httpGet);
-            int responseCode = response.getStatusLine().getStatusCode();
-            HttpEntity entity = response.getEntity();
-            String responseOutput = EntityUtils.toString(entity);
-            chefClientResult(rc, responseCode, responseOutput);
-            doSuccess(rc);
+        try {
+            ChefResponse chefResponse = chefApiClientFactory.create(tVmIp).get("");
+            chefClientResult(rc, chefResponse.getStatusCode(), chefResponse.getBody());
+            svcLogicContext.setAttribute("chefAgent.code", "200");
         } catch (Exception e) {
             logger.error("An error occurred when executing trigger method", e);
-            doFailure(rc, 500, e.toString());
+            svcLogicContext.setAttribute("chefAgent.code", "500");
+            svcLogicContext.setAttribute("chefAgent.message", e.toString());
         }
     }
 
@@ -661,34 +652,6 @@ public class ChefAdapterImpl implements ChefAdapter {
             logger.error("An error occurred when executing pushJob method", e);
             doFailure(ctx, code, e.getMessage());
         }
-    }
-
-    @SuppressWarnings("static-method")
-    private void doFailure(RequestContext rc, int code, String message) {
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        String msg = (message == null) ? Integer.toString(code) : message;
-        if (msg.contains("\n")) {
-            msg = msg.substring(msg.indexOf('\n'));
-        }
-
-        String status;
-        try {
-            status = Integer.toString(code);
-        } catch (Exception e) {
-            status = "500";
-            logger.error("Parsing status code failed. Setting it to \"500\"", e);
-        }
-        svcLogic.setAttribute("chefAgent.code", status);
-        svcLogic.setAttribute("chefAgent.message", msg);
-    }
-
-    /**
-     * @param rc The request context that manages the state and recovery of the request for the life of its processing.
-     */
-    @SuppressWarnings("static-method")
-    private void doSuccess(RequestContext rc) {
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        svcLogic.setAttribute("chefAgent.code", "200");
     }
 
     @SuppressWarnings("static-method")

@@ -24,7 +24,10 @@ import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
 
 public class ChefAdapterFactory {
 
+    private ChefApiClientFactory chefApiClientFactory = new ChefApiClientFactory();
+    private PrivateKeyChecker privateKeyChecker = new PrivateKeyChecker();
+
     public ChefAdapter create() {
-        return new ChefAdapterImpl(new ChefApiClientFactory(), new PrivateKeyChecker());
+        return new ChefAdapterImpl(chefApiClientFactory, privateKeyChecker);
     }
 }

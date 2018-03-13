@@ -19,6 +19,7 @@
  */
 package org.onap.appc.adapter.chef.chefclient;
 
+import com.google.common.collect.ImmutableMap;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
@@ -36,5 +37,12 @@ public class ChefApiClientFactory {
             endPoint,
             (methodName, requestPath, body) -> chefApiHeaderFactory
                 .create(methodName, requestPath, body, userId, organizations, pemPath));
+    }
+
+    public ChefApiClient create(String endPoint) {
+        return new ChefApiClientImpl(
+            httpClient,
+            endPoint,
+            (methodName, requestPath, body) -> ImmutableMap.of());
     }
 }

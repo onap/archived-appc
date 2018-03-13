@@ -21,19 +21,43 @@ package org.onap.appc.adapter.chef.impl;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Answers.RETURNS_DEEP_STUBS;
+import static org.mockito.BDDMockito.given;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.Collections;
 import java.util.Map;
+import org.apache.http.HttpStatus;
 import org.json.JSONObject;
 import org.junit.Test;
-import org.onap.appc.adapter.chef.ChefAdapter;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
+import org.onap.appc.adapter.chef.chefclient.api.ChefResponse;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ChefAdapterImplTest {
 
     private static final String EXPECTED_NODE_OBJECT_ATTR_NAME = "chef.nodeObject";
+    private static final String RESULT_CODE_ATTR_KEY = "chefClientResult.code";
+    private static final String RESULT_MESSAGE_ATTR_KEY = "chefClientResult.message";
+    private static final String EXPECTED_RESPONSE_MSG = "chefResponseMessage";
+    private static final String IP_PARAM = "ip";
+    private static final String ENDPOINT_IP = "http://127.0.0.1";
+    private static final String CHEF_AGENT_CODE_KEY = "chefAgent.code";
+    private static final String CHEF_AGENT_MESSAGE_KEY = "chefAgent.message";
+
+    @Mock(answer = RETURNS_DEEP_STUBS)
+    private ChefApiClientFactory chefApiClientFactory;
+    @Mock
+    private PrivateKeyChecker privateKeyChecker;
+
+    @InjectMocks
+    private ChefAdapterFactory chefAdapterFactory;
 
     @Test
     public void nodeObjectBuilder_shouldBuildJsonNodeObject_forPassedParams_andAddToSvcLogicContext() {
@@ -42,8 +66,7 @@ public class ChefAdapterImplTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
-        chefAdapter.nodeObejctBuilder(params, svcLogicContext);
+        chefAdapterFactory.create().nodeObejctBuilder(params, svcLogicContext);
 
         // THEN
         assertThat(resultJson(svcLogicContext)).isEqualTo(expectedJson());
@@ -87,10 +110,43 @@ public class ChefAdapterImplTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
-        chefAdapter.combineStrings(params, svcLogicContext);
+        chefAdapterFactory.create().combineStrings(params, svcLogicContext);
 
         // THEN
         assertThat(svcLogicContext.getAttribute("contextValue")).isEqualTo("paramString1paramString2");
+    }
+
+    @Test
+    public void trigger_shouldTriggerTargetEndpoint_andUpdateSvclogicContext() {
+        // GIVEN
+        Map<String, String> params = ImmutableMap.of(IP_PARAM, ENDPOINT_IP);
+        SvcLogicContext svcLogicContext = new SvcLogicContext();
+        given(chefApiClientFactory.create(ENDPOINT_IP).get(""))
+            .willReturn(ChefResponse.create(HttpStatus.SC_OK, EXPECTED_RESPONSE_MSG));
+
+        // WHEN
+        chefAdapterFactory.create().trigger(params, svcLogicContext);
+
+        // THEN
+        assertThat(svcLogicContext.getAttribute(CHEF_AGENT_CODE_KEY)).isEqualTo(Integer.toString(HttpStatus.SC_OK));
+        assertThat(svcLogicContext.getStatus()).isEqualTo("success");
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY)).isEqualTo(Integer.toString(HttpStatus.SC_OK));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(EXPECTED_RESPONSE_MSG);
+    }
+
+    @Test
+    public void trigger_shouldUpdateSvcLogicContext_withFailStatusAndMsg_whenExceptionOccurs() {
+        // GIVEN
+        Map<String, String> params = ImmutableMap.of(IP_PARAM, ENDPOINT_IP);
+        SvcLogicContext svcLogicContext = new SvcLogicContext();
+        given(chefApiClientFactory.create(ENDPOINT_IP)).willThrow(new RuntimeException());
+
+        // WHEN
+        chefAdapterFactory.create().trigger(params, svcLogicContext);
+
+        // THEN
+        assertThat(svcLogicContext.getAttribute(CHEF_AGENT_CODE_KEY))
+            .isEqualTo(Integer.toString(HttpStatus.SC_INTERNAL_SERVER_ERROR));
+        assertThat(svcLogicContext.getAttribute(CHEF_AGENT_MESSAGE_KEY)).isEqualTo(new RuntimeException().toString());
     }
 }
