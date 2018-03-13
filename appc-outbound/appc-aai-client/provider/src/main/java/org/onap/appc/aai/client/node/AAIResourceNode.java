@@ -500,7 +500,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
     }
 
     public void processForVfModuleModelInfo(AaiService aaiService, Map<String, String> inParams, SvcLogicContext ctx) {
-        log.info("processForVfModuleModelInfo()::Retrieving vf-module information :" + inParams.toString());
+        log.info("processForVfModuleModelInfo()::Retrieving vf-module information :" + inParams);
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
@@ -542,5 +542,25 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 log.error("Failed in vfModuleInfo", e);
             }
 
-}
+    }
+
+    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        log.info("getFormattedValue()::Formatting values :" + inParams.toString());
+        String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+        try {
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            String inputValue = inParams.get("inputParameter");
+            if (StringUtils.isBlank(inputValue)) {
+            	return;
+            }
+            String outputValue = StringUtils.replace(inputValue, "/", "_");//change / to _
+            outputValue = StringUtils.replace(outputValue," ","");//remove space
+            ctx.setAttribute("template-model-id", outputValue);
+        } catch (Exception e) {
+            ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
+                AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            log.error("Failed in getFormattedValue", e);
+        }
+    }
 }

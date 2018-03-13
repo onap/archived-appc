@@ -285,4 +285,16 @@ Map<String, String> inParams  =new HashMap<String, String>();
         assertEquals(ctx.getAttribute("test.vm.vnfc.vnfc-function-code"), "vnfcFuncCode2");
         assertEquals(ctx.getAttribute("test.vm.vnfc.vnfc-group-notation"), "vnfcGrpNot2");
     }
+
+    @Test
+    public final void testGetFormattedValue() throws Exception{
+        MockAAIResourceNode aairn = new MockAAIResourceNode();
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String,String> inParams = new HashMap<String, String>();
+        inParams.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
+        inParams.put("inputParameter", "Some/Value/With/ Many Spaces");
+        aairn.getFormattedValue(inParams, ctx);
+        assertEquals(ctx.getAttribute("template-model-id"),"Some_Value_With_ManySpaces");
+
+    }
 }
