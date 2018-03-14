@@ -22,6 +22,30 @@
       "revId": "1b95de6edc0a13504e342680f1b8d61cc41ef34f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b7698ffa",
+        "filename": "appc-common/src/main/java/org/onap/appc/metadata/impl/MetadataServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 3081
+      },
+      "writtenOn": "2018-03-14T15:03:51Z",
+      "side": 1,
+      "message": "I was trying something and forget to remove it. Gonna fix that now.",
+      "parentUuid": "5a93c517_77d307d5",
+      "range": {
+        "startLine": 29,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "1b95de6edc0a13504e342680f1b8d61cc41ef34f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
