@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_1742c3ad",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/exception/DataAccessExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-14T14:37:31Z",
+      "side": 1,
+      "message": "need a license header",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "23a6493a78c391586a24e1de87901c71a24a1523",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
