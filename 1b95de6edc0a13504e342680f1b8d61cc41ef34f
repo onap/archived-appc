@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_77d307d5",
+        "filename": "appc-common/src/main/java/org/onap/appc/metadata/impl/MetadataServiceImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-14T14:48:25Z",
+      "side": 1,
+      "message": "would you please explain why you add this import?",
+      "range": {
+        "startLine": 29,
+        "startChar": 37,
+        "endLine": 29,
+        "endChar": 54
+      },
+      "revId": "1b95de6edc0a13504e342680f1b8d61cc41ef34f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
