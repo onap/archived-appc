@@ -78,5 +78,4 @@ public class TestVnf {
     public void testToString_ContainsString() {
         assertTrue(vnf.toString().contains("vnfId"));
     }
-
 }

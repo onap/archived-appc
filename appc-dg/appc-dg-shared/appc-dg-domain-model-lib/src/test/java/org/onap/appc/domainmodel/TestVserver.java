@@ -78,5 +78,4 @@ public class TestVserver {
         public void testToString_ContainsString() {
             assertTrue(vserver.toString().contains("Vserver"));
         }
-
 }

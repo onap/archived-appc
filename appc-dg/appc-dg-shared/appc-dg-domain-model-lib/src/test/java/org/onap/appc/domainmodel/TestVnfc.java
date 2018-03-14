@@ -70,5 +70,4 @@ public class TestVnfc {
         assertNotNull(vnfc.isMandatory());
         assertEquals(vnfc.isMandatory(),false);
     }
-
 }
