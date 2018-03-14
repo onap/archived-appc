@@ -35,7 +35,14 @@
     <artifactId>lock-manager-api</artifactId>
     <name>APPC Lock Manager - API</name>
     <packaging>bundle</packaging>
-
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
     <build>
         <plugins>
             <plugin>
