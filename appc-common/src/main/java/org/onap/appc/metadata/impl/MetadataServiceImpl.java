@@ -26,6 +26,7 @@ package org.onap.appc.metadata.impl;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import com.google.common.annotations.VisibleForTesting;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 
 import javax.sql.rowset.CachedRowSet;
@@ -45,54 +46,60 @@ public class MetadataServiceImpl implements MetadataService {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(MetadataServiceImpl.class);
 
-    private MetadataCache<DependencyModelIdentifier,String> cache;
+    private MetadataCache<DependencyModelIdentifier, String> cache;
 
-    public MetadataServiceImpl(){
+    public MetadataServiceImpl() {
         initialize();
     }
 
-    private void initialize(){
+    private void initialize() {
         cache = MetadataCacheFactory.getInstance().getMetadataCache();
         // TODO initialze dbLibService
     }
 
-    public void setDbLibService(DbLibService dbLibService) {
+    void setDbLibService(DbLibService dbLibService) {
         this.dbLibService = dbLibService;
+    }
+
+    void setCache(MetadataCache<DependencyModelIdentifier, String> cache) {
+        this.cache = cache;
     }
 
     @Override
     public String getVnfModel(DependencyModelIdentifier modelIdentifier) {
-        logger.debug("Reading Vnf Model data from cache for vnfType : "+ modelIdentifier.getVnfType() +" and catalog version : " +modelIdentifier.getCatalogVersion());
+        logger.debug("Reading Vnf Model data from cache for vnfType : " + modelIdentifier.getVnfType()
+            + " and catalog version : " + modelIdentifier.getCatalogVersion());
         String vnfModel = cache.getObject(modelIdentifier);
-        if(vnfModel ==null || vnfModel.length() ==0){
+        if (vnfModel == null || vnfModel.length() == 0) {
             logger.debug("Vnf Model not available in cache. Reading from database.");
             vnfModel = readVnfModel(modelIdentifier);
-            if(vnfModel !=null  && vnfModel.length()>0){
+            if (vnfModel != null && vnfModel.length() > 0) {
                 logger.debug("Adding retrieved Vnf Model to cache.");
-                addVnfModel(modelIdentifier,vnfModel);
+                addVnfModel(modelIdentifier, vnfModel);
             }
         }
         return vnfModel;
     }
 
     private void addVnfModel(DependencyModelIdentifier modelIdentifier, String vnfModel) {
-        cache.putObject(modelIdentifier,vnfModel);
+        cache.putObject(modelIdentifier, vnfModel);
     }
 
     private String readVnfModel(DependencyModelIdentifier modelIdentifier) {
 
-        logger.debug("Reading Vnf Model data from database for RESOURCE_NAME : "+ modelIdentifier.getVnfType() +" and RESOURCE_VERSION : " +modelIdentifier.getCatalogVersion());
+        logger.debug("Reading Vnf Model data from database for RESOURCE_NAME : " + modelIdentifier.getVnfType()
+            + " and RESOURCE_VERSION : " + modelIdentifier.getCatalogVersion());
         StringBuilder query = new StringBuilder();
-        String vnfModel =null;
-        query.append("SELECT ARTIFACT_CONTENT FROM sdnctl.ASDC_ARTIFACTS WHERE RESOURCE_NAME = ? ") ;
+        String vnfModel = null;
+        query.append("SELECT ARTIFACT_CONTENT FROM sdnctl.ASDC_ARTIFACTS WHERE RESOURCE_NAME = ? ");
         ArrayList<String> argList = new ArrayList<>();
         argList.add(modelIdentifier.getVnfType());
 
-        if (modelIdentifier.getCatalogVersion()==null){
+        if (modelIdentifier.getCatalogVersion() == null) {
             query.append(" ORDER BY  SUBSTRING_INDEX(RESOURCE_VERSION, '.', 1)*1  DESC , " +
-                    "SUBSTRING_INDEX(SUBSTRING_INDEX(RESOURCE_VERSION, '.', 2),'.', -1) *1 DESC , " +
-                    "SUBSTRING_INDEX(RESOURCE_VERSION, '.', -1)*1 DESC ;");
-        }else{
+                "SUBSTRING_INDEX(SUBSTRING_INDEX(RESOURCE_VERSION, '.', 2),'.', -1) *1 DESC , " +
+                "SUBSTRING_INDEX(RESOURCE_VERSION, '.', -1)*1 DESC ;");
+        } else {
             query.append("AND RESOURCE_VERSION = ? ;");
             argList.add(modelIdentifier.getCatalogVersion());
         }
@@ -101,16 +108,18 @@ public class MetadataServiceImpl implements MetadataService {
             if (data.first()) {
                 vnfModel = data.getString("ARTIFACT_CONTENT");
                 if (vnfModel == null || vnfModel.isEmpty()) {
-                    logger.error("Invalid dependency model for vnf type : "+ modelIdentifier.getVnfType() +" and catalog version : " +modelIdentifier.getCatalogVersion());
+                    logger.error("Invalid dependency model for vnf type : " + modelIdentifier.getVnfType()
+                        + " and catalog version : " + modelIdentifier.getCatalogVersion());
                     throw new RuntimeException("Invalid or Empty VNF Model");
                 }
                 logger.debug("Retrieved Vnf Model : " + vnfModel);
-            }else {
-                logger.warn("VNF Model not found in datastore for RESOURCE_NAME : "+ modelIdentifier.getVnfType() +" AND RESOURCE_VERSION : " +modelIdentifier.getCatalogVersion());
+            } else {
+                logger.warn("VNF Model not found in datastore for RESOURCE_NAME : " + modelIdentifier.getVnfType()
+                    + " AND RESOURCE_VERSION : " + modelIdentifier.getCatalogVersion());
             }
         } catch (SQLException e) {
             throw new RuntimeException("Database error occurred");
         }
-        return  vnfModel;
+        return vnfModel;
     }
 }
