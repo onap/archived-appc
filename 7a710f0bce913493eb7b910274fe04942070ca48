@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_57e60be9",
+        "filename": "appc-common/src/test/java/org/onap/appc/metadata/impl/MetadataServiceImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-14T14:29:36Z",
+      "side": 1,
+      "message": "need license header",
+      "range": {
+        "startLine": 1,
+        "startChar": 22,
+        "endLine": 1,
+        "endChar": 30
+      },
+      "revId": "7a710f0bce913493eb7b910274fe04942070ca48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
