@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_3db55d7d",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-15T07:35:16Z",
+      "side": 0,
+      "message": "1) Here we create new Transaction()",
+      "range": {
+        "startLine": 199,
+        "startChar": 8,
+        "endLine": 199,
+        "endChar": 52
+      },
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5db86974",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-15T07:35:16Z",
+      "side": 0,
+      "message": "2) and we are passing that Transaction to collectInputParams() as argument, \n\n  please notice transaction has empty fields right now\n\n3) we return String variable \u0027input\u0027 but there is no other usage than log content. I will back to this variable later.",
+      "range": {
+        "startLine": 200,
+        "startChar": 23,
+        "endLine": 200,
+        "endChar": 60
+      },
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1dae612e",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-15T07:35:16Z",
+      "side": 0,
+      "message": "4) here transaction is passed",
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3a3a43e7",
         "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
         "patchSetId": 3
@@ -19,6 +82,40 @@
         "endLine": 397,
         "endChar": 9
       },
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_dda31941",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-15T07:35:16Z",
+      "side": 0,
+      "message": "5) and here we set fields of this transaction, this is the same transaction as the one defined in line 199 (obviously, Java is passing objects via reference).",
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3d6c7d07",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 453,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-15T07:35:16Z",
+      "side": 0,
+      "message": "6) Now we return our inputData that I mentioned earlier. It is equal to transaction payload. See line 447.\n\nSo the in the end we can refactor this code to:\na) create transaction inside method,\nb) fill it inside method,\nc) and replace return with transaction and retrieve input param with transaction.getPayload()",
       "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
