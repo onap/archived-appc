@@ -26,17 +26,30 @@ package org.onap.appc.listener.LCM.conv;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.onap.appc.listener.LCM.model.DmaapMessage;
 import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
 import org.onap.appc.listener.util.Mapper;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class Converter {
-   
-    public static DmaapOutgoingMessage convJsonNodeToDmaapOutgoingMessage(DmaapMessage event, JsonNode inObj) {
-    	DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
+
+    private Converter() {
+    }
+
+    public static DmaapOutgoingMessage convertJsonNodeToDmaapOutgoingMessage(DmaapMessage event, JsonNode inObj){
+
+        if (event == null || inObj == null) {
+            throw new IllegalArgumentException("One of given arguments is null");
+        }
+
+        DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
         outObj.setBody(inObj);
         outObj.setRpcName(event.getRpcName());
         outObj.setVersion(event.getVersion());
@@ -45,58 +58,80 @@ public class Converter {
         return outObj;
     }
 
-    public static String convDmaapOutgoingMessageToJsonString(DmaapMessage inObj) throws JsonProcessingException {
-//        return Mapper.toJsonString(inObj);
+    public static String convertDmaapOutgoingMessageToJsonString(DmaapMessage inObj) throws JsonProcessingException {
+
+        if (inObj == null)
+            throw new IllegalArgumentException("Input message is null");
+
+
         ObjectMapper objectMapper = new ObjectMapper();
-        ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true)
-                .writer().withFeatures(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
+        ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, true)
+            .writer().withFeatures(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
         return writer.writeValueAsString(inObj);
 
     }
 
-    public static DmaapOutgoingMessage buildDmaapOutgoingMessageWithUnexpectedError(DmaapMessage event,Exception inputException) {
-    	DmaapOutgoingMessage dmaapOutgoingMessage = null;
-        String errMsg = StringUtils.isEmpty(inputException.getMessage())? inputException.toString() : inputException.getMessage();
+    public static DmaapOutgoingMessage buildDmaapOutgoingMessageWithUnexpectedError(DmaapMessage event,
+        Exception inputException) {
+
+        if (event == null || inputException == null) {
+            throw new IllegalArgumentException("One of given arguments is null");
+        }
+
+        DmaapOutgoingMessage dmaapOutgoingMessage;
+        String errMsg =
+            StringUtils.isEmpty(inputException.getMessage()) ? inputException.toString() : inputException.getMessage();
         JSONObject commonHeaderJsonObject = Mapper.toJsonObject(event.getBody().get("input").get("common-header"));
-        JSONObject jsonObjectOutput = new JSONObject().accumulate("common-header", commonHeaderJsonObject).accumulate("status", new JSONObject().accumulate("code",200).accumulate("value",errMsg));
+        JSONObject jsonObjectOutput = new JSONObject().accumulate("common-header", commonHeaderJsonObject)
+            .accumulate("status", new JSONObject().accumulate("code", 200).accumulate("value", errMsg));
         dmaapOutgoingMessage = new DmaapOutgoingMessage();
         dmaapOutgoingMessage.setRpcName(event.getRpcName());
         dmaapOutgoingMessage.setCorrelationID(event.getCorrelationID());
         dmaapOutgoingMessage.setType("error");
         dmaapOutgoingMessage.setVersion(event.getVersion());
-        JSONObject jsonObjectBody = new JSONObject().accumulate("output",jsonObjectOutput);
+        JSONObject jsonObjectBody = new JSONObject().accumulate("output", jsonObjectOutput);
         JsonNode jsonNodeBody = Mapper.toJsonNodeFromJsonString(jsonObjectBody.toString());
         dmaapOutgoingMessage.setBody(jsonNodeBody);
         return dmaapOutgoingMessage;
     }
 
     public static String extractRequestIdWithSubId(JsonNode dmaapBody) {
-        //TODO: null pointer exception if dmaapBody is null, check if null or ensure is not null before calling
+
+        if (dmaapBody == null) {
+            throw new IllegalArgumentException("Dmaap body is null");
+        }
+
         JsonNode commonHeaderJsonNode = dmaapBody.get("input").get("common-header");
-        String requestId = getValue(commonHeaderJsonNode,"request-id","");
-        String subRequestId = getValue(commonHeaderJsonNode,"sub-request-id","");
-        if(!StringUtils.isEmpty(subRequestId)){
-            requestId = requestId +"-"+subRequestId;
+        String requestId = getValue(commonHeaderJsonNode, "request-id", "");
+        String subRequestId = getValue(commonHeaderJsonNode, "sub-request-id", "");
+        if (!StringUtils.isEmpty(subRequestId)) {
+            requestId = requestId + "-" + subRequestId;
         }
         return requestId;
     }
 
     public static Integer extractStatusCode(JsonNode event) {
+
+        if (event == null){
+            throw new IllegalArgumentException("Input event is null");
+        }
+
         Integer statusCode;
         statusCode = event.get("output").get("status").get("code").asInt();
         return statusCode;
     }
 
-    private static String getValue(JsonNode jsonNode,String name,String defaultValue){
-        if(jsonNode == null){
+    private static String getValue(JsonNode jsonNode, String name, String defaultValue) {
+        if (jsonNode == null) {
             return defaultValue;
         }
         JsonNode childJsonNode = jsonNode.get(name);
-        if(childJsonNode == null){
+        if (childJsonNode == null) {
             return defaultValue;
         }
         String value = childJsonNode.asText();
-        if(value == null){
+        if (value == null) {
             return defaultValue;
         }
         return value;

@@ -66,7 +66,7 @@ public class WorkerImpl implements Runnable {
         // message at the end
         try {
             JsonNode outputJsonNode = doDG(event.getRpcName(), event.getBody());
-            DmaapOutgoingMessage dmaapOutgoingMessage= Converter.convJsonNodeToDmaapOutgoingMessage(event, outputJsonNode);
+            DmaapOutgoingMessage dmaapOutgoingMessage= Converter.convertJsonNodeToDmaapOutgoingMessage(event, outputJsonNode);
             postMessageToDMaaP(dmaapOutgoingMessage,requestIdWithSubId);
             Integer statusCode = extractStatusCode(dmaapOutgoingMessage.getBody());
             if (ProviderOperations.isSucceeded(statusCode)) {
@@ -114,7 +114,7 @@ public class WorkerImpl implements Runnable {
     private void postMessageToDMaaP(DmaapOutgoingMessage dmaapOutgoingMessage,String requestIdWithSubId) {
         String dmaapOutgoingMessageJsonString;
         try {
-            dmaapOutgoingMessageJsonString = Converter.convDmaapOutgoingMessageToJsonString(dmaapOutgoingMessage);
+            dmaapOutgoingMessageJsonString = Converter.convertDmaapOutgoingMessageToJsonString(dmaapOutgoingMessage);
             dmaap.postStatus(dmaapOutgoingMessage.getCambriaPartition(),dmaapOutgoingMessageJsonString);
         } catch (JsonProcessingException e) {
             LOG.error("failed to postMessageToDMaaP requestIdWithSubId: "+requestIdWithSubId+" dmaapOutgoingMessage: "+dmaapOutgoingMessage, e);
