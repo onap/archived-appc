@@ -31,6 +31,7 @@ import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.adapter.chef.ChefAdapter;
@@ -62,12 +63,12 @@ public class ChefAdapterImplHttpMethodTest {
     @Mock
     private ChefApiClient chefApiClient;
 
-    private ChefAdapter chefAdapter;
+    @InjectMocks
+    private ChefAdapterFactory chefAdapterFactory;
     private SvcLogicContext svcLogicContext;
 
     @Before
     public void setUp() {
-        chefAdapter = new ChefAdapterImpl(chefApiClientFactory, privateKeyChecker);
         svcLogicContext = new SvcLogicContext();
     }
 
@@ -122,7 +123,7 @@ public class ChefAdapterImplHttpMethodTest {
         given(responseSupplier.get()).willReturn(ChefResponse.create(HttpStatus.SC_OK, EXPECTED_RESPONSE_MSG));
 
         // WHEN
-        chefAdapterCall.accept(chefAdapter);
+        chefAdapterCall.accept(chefAdapterFactory.create());
 
         // THEN
         assertThat(svcLogicContext.getStatus()).isEqualTo("success");
@@ -135,7 +136,7 @@ public class ChefAdapterImplHttpMethodTest {
         given(privateKeyChecker.doesExist(CLIENT_PRIVATE_KEY_PATH)).willReturn(false);
 
         // WHEN
-        chefAdapterCall.accept(chefAdapter);
+        chefAdapterCall.accept(chefAdapterFactory.create());
 
         // THEN
         verifyZeroInteractions(chefApiClient);
