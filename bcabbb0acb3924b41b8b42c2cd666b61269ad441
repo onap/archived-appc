@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_917a5a86",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/utils/EncryptionToolTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-15T17:00:39Z",
+      "side": 1,
+      "message": "Removing extra spaces at EOL is generally preferred but is not required.",
+      "revId": "bcabbb0acb3924b41b8b42c2cd666b61269ad441",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
