@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_71154e9a",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-15T18:54:03Z",
+      "side": 0,
+      "message": "where this \"if\" statement for GENERATION_NODE in your new code?",
+      "range": {
+        "startLine": 168,
+        "startChar": 36,
+        "endLine": 168,
+        "endChar": 51
+      },
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3db55d7d",
         "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
         "patchSetId": 3
