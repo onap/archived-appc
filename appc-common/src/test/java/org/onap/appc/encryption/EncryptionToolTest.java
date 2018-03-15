@@ -25,22 +25,49 @@
 package org.onap.appc.encryption;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.onap.appc.encryption.EncryptionTool;
 
-public class TestEncryption {
+public class EncryptionToolTest {
+
+    private static final String PLAIN_TEXT = "text to encrypt";
+    private static final String EMPTY_STR = "";
+
+    private EncryptionTool encryptionTool = EncryptionTool.getInstance();
 
     @Test
-    public void testEncryptionDecryption() {
-        String plain = "AppC";
-        String enc = EncryptionTool.getInstance().encrypt(plain);
-        assertNotEquals(plain, enc);
-        String dec = EncryptionTool.getInstance().decrypt(enc);
-        assertNotEquals(enc, dec);
-        assertEquals(plain, dec);
-        System.out.println(String.format("%s = [%s]", plain, enc));
+    public void should_return_prefix_given_empty_string() {
+        assertEquals("enc:", encryptionTool.encrypt(EMPTY_STR));
     }
 
+    @Test
+    public void should_return_null_given_null() {
+        assertNull(encryptionTool.encrypt(null));
+    }
+
+    @Test
+    public void should_encrypt_given_string() {
+        String encrypted = encryptionTool.encrypt(PLAIN_TEXT);
+
+        assertNotEquals(encrypted, PLAIN_TEXT);
+        assertTrue(encrypted.startsWith(EncryptionTool.ENCRYPTED_VALUE_PREFIX));
+    }
+
+    @Test
+    public void should_not_decrypt_string_when_not_starting_with_prefix() {
+
+        assertNull(encryptionTool.decrypt(null));
+        assertEquals("mdi/12!dsao91", encryptionTool.decrypt("mdi/12!dsao91"));
+    }
+
+    @Test
+    public void should_decrypt_given_encrypted_string() {
+        String encrypted = encryptionTool.encrypt(PLAIN_TEXT);
+
+        assertEquals(PLAIN_TEXT, encryptionTool.decrypt(encrypted));
+    }
 }
