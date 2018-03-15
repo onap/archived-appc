@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3a3a43e7",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowControlNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-15T00:38:00Z",
+      "side": 0,
+      "message": "would you explain more about your logic for your refactoring code? like you create a new object called Transaction.",
+      "range": {
+        "startLine": 397,
+        "startChar": 8,
+        "endLine": 397,
+        "endChar": 9
+      },
+      "revId": "cd64fe135b4d6a293b07868425855e17793e3512",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
