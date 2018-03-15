@@ -21,6 +21,7 @@ package org.onap.appc.adapter.chef.impl;
 
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.BDDMockito.given;
 
@@ -38,6 +39,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.adapter.chef.chefclient.ChefApiClientFactory;
 import org.onap.appc.adapter.chef.chefclient.api.ChefResponse;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ChefAdapterImplTest {
@@ -148,5 +150,46 @@ public class ChefAdapterImplTest {
         assertThat(svcLogicContext.getAttribute(CHEF_AGENT_CODE_KEY))
             .isEqualTo(Integer.toString(HttpStatus.SC_INTERNAL_SERVER_ERROR));
         assertThat(svcLogicContext.getAttribute(CHEF_AGENT_MESSAGE_KEY)).isEqualTo(new RuntimeException().toString());
+    }
+
+    @Test
+    public void chefInfo_shouldUpdateSvcLogicContext_withFailStatusAndMsg_andThrowException_whenUsernameParamIsMissing() {
+        Map<String, String> params = ImmutableMap.of(
+            "serverAddress", "http://chefAddress",
+            "organizations", "onap");
+        checkIfInputParamsAreValidated(params);
+    }
+
+    @Test
+    public void chefInfo_shouldUpdateSvcLogicContext_withFailStatusAndMsg_andThrowException_whenServerAddressParamIsMissing() {
+        Map<String, String> params = ImmutableMap.of(
+            "username", "TestUsername",
+            "organizations", "onap");
+        checkIfInputParamsAreValidated(params);
+    }
+
+    @Test
+    public void chefInfo_shouldUpdateSvcLogicContext_withFailStatusAndMsg_andThrowException_whenOrganizationsParamIsMissing() {
+        Map<String, String> params = ImmutableMap.of(
+            "username", "TestUsername",
+            "serverAddress", "http://chefAddress");
+        checkIfInputParamsAreValidated(params);
+    }
+
+    private void checkIfInputParamsAreValidated(Map<String, String> params) {
+        // GIVEN
+        String expectedErrorMsg = "Missing mandatory param(s) such as username, serverAddress, organizations";
+        SvcLogicContext svcLogicContext = new SvcLogicContext();
+
+        // WHEN// THEN
+        assertThatExceptionOfType(SvcLogicException.class)
+            .isThrownBy(() -> chefAdapterFactory.create().chefGet(params, svcLogicContext))
+            .withMessage("Chef Adapter error:"
+                + expectedErrorMsg);
+        assertThat(svcLogicContext.getStatus()).isEqualTo("failure");
+        assertThat(svcLogicContext.getAttribute("chefServerResult.code"))
+            .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
+        assertThat(svcLogicContext.getAttribute("chefServerResult.message"))
+            .isEqualTo(expectedErrorMsg);
     }
 }
