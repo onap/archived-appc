@@ -22,6 +22,30 @@
       "revId": "23a6493a78c391586a24e1de87901c71a24a1523",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5d46297c",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/exception/DataAccessExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1539
+      },
+      "writtenOn": "2018-03-15T07:41:11Z",
+      "side": 1,
+      "message": "Hi Taka,\nFrom Line number 1 to 19 is my license header. I have used same license header in my previous commits. \nCan you please suggest, do you expect any changes in current license header?",
+      "parentUuid": "5a93c517_1742c3ad",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "23a6493a78c391586a24e1de87901c71a24a1523",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
