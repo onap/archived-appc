@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f13cfec9",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/TestConnectionDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-15T16:57:52Z",
+      "side": 1,
+      "message": "ONAP uses 4 spaces for indentation:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "22272beba4ae8e7b09a3006303fbab3b54ada64f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_11388ad1",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/TestConnectionDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-15T16:57:52Z",
+      "side": 1,
+      "message": "ONAP doesn\u0027t allow wildcarding of imports:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "22272beba4ae8e7b09a3006303fbab3b54ada64f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
