@@ -50,34 +50,34 @@ public final class HexHelper {
     })
     public static final String CM_VERSION = "@(#) [version] [crtime]";
 
-    private static final char[] HEX_TABLE = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-        'E', 'F' };
+    private static final char[] HEX_TABLE = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
+        'E', 'F'};
 
     /**
      * The logger for this class.
      */
     private static final Logger LOG = LoggerFactory.getLogger(HexHelper.class);
 
-    private static Map<Character, Integer> TextToHex;
+    private static Map<Character, Integer> textToHex;
 
     static {
-        TextToHex = new HashMap<>();
-        TextToHex.put(Character.valueOf('0'), Integer.valueOf(0));
-        TextToHex.put(Character.valueOf('1'), Integer.valueOf(1));
-        TextToHex.put(Character.valueOf('2'), Integer.valueOf(2));
-        TextToHex.put(Character.valueOf('3'), Integer.valueOf(3));
-        TextToHex.put(Character.valueOf('4'), Integer.valueOf(4));
-        TextToHex.put(Character.valueOf('5'), Integer.valueOf(5));
-        TextToHex.put(Character.valueOf('6'), Integer.valueOf(6));
-        TextToHex.put(Character.valueOf('7'), Integer.valueOf(7));
-        TextToHex.put(Character.valueOf('8'), Integer.valueOf(8));
-        TextToHex.put(Character.valueOf('9'), Integer.valueOf(9));
-        TextToHex.put(Character.valueOf('A'), Integer.valueOf(10));
-        TextToHex.put(Character.valueOf('B'), Integer.valueOf(11));
-        TextToHex.put(Character.valueOf('C'), Integer.valueOf(12));
-        TextToHex.put(Character.valueOf('D'), Integer.valueOf(13));
-        TextToHex.put(Character.valueOf('E'), Integer.valueOf(14));
-        TextToHex.put(Character.valueOf('F'), Integer.valueOf(15));
+        textToHex = new HashMap<>();
+        textToHex.put('0', 0);
+        textToHex.put('1', 1);
+        textToHex.put('2', 2);
+        textToHex.put('3', 3);
+        textToHex.put('4', 4);
+        textToHex.put('5', 5);
+        textToHex.put('6', 6);
+        textToHex.put('7', 7);
+        textToHex.put('8', 8);
+        textToHex.put('9', 9);
+        textToHex.put('A', 10);
+        textToHex.put('B', 11);
+        textToHex.put('C', 12);
+        textToHex.put('D', 13);
+        textToHex.put('E', 14);
+        textToHex.put('F', 15);
     }
 
     /**
@@ -88,65 +88,76 @@ public final class HexHelper {
     }
 
     /**
-     * Converts an array of bytes to the equivalent string representation using hexadecimal notation and returning that
-     * representation in a StringBuffer.
-     * 
-     * @param bytes
-     *            The bytes to be converted to a hexadecimal string
+     * Converts an array of bytes to the equivalent string representation using hexadecimal notation
+     *
+     * @param bytes The bytes to be converted to a hexadecimal string
      * @return The string representation
      */
-    public static StringBuffer convertBytesToHexSB(byte[] bytes) {
-        StringBuffer sb = new StringBuffer(bytes.length * 2);
-        int byteLen = bytes.length;
-        for (int index = 0; index < byteLen; index++) {
+    public static String convertBytesToHex(byte[] bytes) throws EncryptionException{
+
+        if (bytes == null)
+            throw new EncryptionException("Given byte array is null");
+
+        StringBuilder builder = new StringBuilder(bytes.length * 2);
+        for (byte aByte : bytes) {
             char tempChar;
             // Get the first 4 bits (high) Do bitwise logical AND to get rid of
             // low nibble. Shift results to right by 4 and get char
             // representation
-            tempChar = HEX_TABLE[((bytes[index] & 0xf0) >>> 4)];
-            sb.append(tempChar);
+            tempChar = HEX_TABLE[(aByte & 0xf0) >>> 4];
+            builder.append(tempChar);
 
             // Get the last 4 bits (low) Do bitwise logical AND to get rid of
             // high nibble. Get char representation
-            tempChar = HEX_TABLE[(bytes[index] & 0x0f)];
-            sb.append(tempChar);
+            tempChar = HEX_TABLE[aByte & 0x0f];
+            builder.append(tempChar);
         }
-        return sb;
+        return builder.toString();
     }
 
     /**
      * Converts a hexadecimal string representation of a binary value to an array of bytes
-     * 
-     * @param hexValue
-     *            The hex representation string to be converted
+     *
+     * @param hexValue The hex representation string to be converted
      * @return The array of bytes that contains the binary value
      */
     @SuppressWarnings("nls")
-    public static byte[] convertHexToBytes(String hexValue) {
-        byte[] bytes = null;
+    public static byte[] convertHexToBytes(String hexValue) throws EncryptionException {
+
+        if (hexValue ==null)
+            throw new EncryptionException("Given hex value is null");
+
+        byte[] bytes;
         byte high;
         byte low;
         char hexChar;
 
-        StringBuffer buffer = new StringBuffer(hexValue.toUpperCase());
-        if (buffer.length() % 2 != 0) {
-            LOG.warn("Invalid HEX value length. "
-                + "The length of the value has to be a multiple of 2. Prepending '0' value.");
-            buffer.insert(0, '0');
+        StringBuilder builder = new StringBuilder(hexValue.toUpperCase());
+        if (builder.length() % 2 != 0) {
+            LOG.warn("Invalid HEX value length. The length of the value has to be a multiple of 2."
+                + " Prepending '0' value.");
+            builder.insert(0, '0');
         }
-        int hexLength = buffer.length();
+        int hexLength = builder.length();
         int byteLength = hexLength / 2;
 
         bytes = new byte[byteLength];
-        for (int index = 0; index < hexLength; index += 2) {
-            hexChar = buffer.charAt(index);
-            high = (TextToHex.get(Character.valueOf(hexChar))).byteValue();
-            high = (byte) (high << 4);
-            hexChar = buffer.charAt(index + 1);
-            low = (TextToHex.get(Character.valueOf(hexChar))).byteValue();
-            high = (byte) (high | low);
-            bytes[index / 2] = high;
+        try {
+            for (int index = 0; index < hexLength; index += 2) {
+                hexChar = builder.charAt(index);
+                high = textToHex.get(hexChar).byteValue();
+                high = (byte) (high << 4);
+                hexChar = builder.charAt(index + 1);
+                low = textToHex.get(hexChar).byteValue();
+                high = (byte) (high | low);
+                bytes[index / 2] = high;
+            }
         }
+        catch (NullPointerException e){
+            LOG.error("Given string contains not hexadecimal values", e);
+            throw new EncryptionException("Given string contains not hexadecimal values");
+        }
+
         return bytes;
     }
 }
