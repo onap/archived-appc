@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_46597633",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/test/java/org/onap/appc/adapter/chef/impl/ChefAdapterImplJobPusherTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-15T14:26:32Z",
+      "side": 1,
+      "message": "Please add license hearder",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4ae9b8cae193d7b980973faa5feae64108e19922",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
