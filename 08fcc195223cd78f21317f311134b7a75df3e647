@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_66a4b2b9",
+        "filename": "appc-common/src/test/java/org/onap/appc/encryption/HexHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-15T15:02:07Z",
+      "side": 1,
+      "message": "need a license header",
+      "range": {
+        "startLine": 1,
+        "startChar": 22,
+        "endLine": 1,
+        "endChar": 32
+      },
+      "revId": "08fcc195223cd78f21317f311134b7a75df3e647",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
