@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableMap;
 import java.util.Map;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
-import org.onap.appc.adapter.chef.ChefAdapter;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class ChefAdapterImplDataRetrieverTest {
@@ -41,8 +40,7 @@ public class ChefAdapterImplDataRetrieverTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
-        chefAdapter.retrieveData(params, svcLogicContext);
+        new ChefAdapterFactory().create().retrieveData(params, svcLogicContext);
 
         // THEN
         Assertions.assertThat(svcLogicContext.getAttribute(DG_CONTEXT_VALUE)).isEqualTo("testValue");
@@ -55,8 +53,7 @@ public class ChefAdapterImplDataRetrieverTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
-        chefAdapter.retrieveData(params, svcLogicContext);
+        new ChefAdapterFactory().create().retrieveData(params, svcLogicContext);
 
         // THEN
         Assertions.assertThat(svcLogicContext.getAttribute(DG_CONTEXT_VALUE)).isEqualTo("{\"param\":\"testValue\"}");
@@ -69,8 +66,7 @@ public class ChefAdapterImplDataRetrieverTest {
         SvcLogicContext svcLogicContext = new SvcLogicContext();
 
         // WHEN
-        ChefAdapter chefAdapter = new ChefAdapterFactory().create();
-        chefAdapter.retrieveData(params, svcLogicContext);
+        new ChefAdapterFactory().create().retrieveData(params, svcLogicContext);
 
         // THEN
         Assertions.assertThat(svcLogicContext.getAttribute(DG_CONTEXT_VALUE)).isEqualTo("[\"val1\",\"val2\",\"val3\"]");
