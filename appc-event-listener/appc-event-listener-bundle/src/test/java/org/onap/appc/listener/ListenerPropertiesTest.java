@@ -40,7 +40,7 @@ import org.onap.appc.listener.AbstractListener;
 import org.onap.appc.listener.ListenerProperties;
 import org.onap.appc.listener.ListenerProperties.KEYS;
 
-public class TestListenerProperties {
+public class ListenerPropertiesTest {
 
     private Properties good, bad, both;
     private String prefix;

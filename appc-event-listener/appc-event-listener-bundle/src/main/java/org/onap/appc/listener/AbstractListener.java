@@ -43,18 +43,13 @@ public abstract class AbstractListener implements Listener {
     private final EELFLogger LOG = EELFManager.getInstance().getLogger(AbstractListener.class);
 
     protected AtomicBoolean run = new AtomicBoolean(false);
-
     protected int QUEUED_MIN = 1;
     protected int QUEUED_MAX = 10;
-
     protected int THREAD_MIN = 4;
     protected int THREAD_MAX = THREAD_MIN; // Fixed thread pool
     protected int THREAD_SCALE_DOWN_SEC = 10; // Number of seconds to wait until we remove idle threads
-
     protected ThreadPoolExecutor executor;
-
     protected EventHandler dmaap;
-
     protected ListenerProperties props;
 
     private String listenerId;
@@ -157,6 +152,5 @@ public abstract class AbstractListener implements Listener {
         public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
             LOG.error(String.format("A job was rejected. [%s]", r));
         }
-
     }
 }

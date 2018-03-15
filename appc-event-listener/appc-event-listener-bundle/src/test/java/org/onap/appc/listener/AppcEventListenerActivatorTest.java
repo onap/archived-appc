@@ -38,7 +38,7 @@ import static org.mockito.Mockito.doReturn;
 
 import org.onap.appc.listener.AppcEventListenerActivator;
 
-public class TestAppcDmaapListenerActivator {
+public class AppcEventListenerActivatorTest {
 
     @Test
     public void testStartStopDefaultProperties() {
@@ -53,21 +53,21 @@ public class TestAppcDmaapListenerActivator {
         }
         assertNotNull(appc.getName());
     }
-    
+
     @Test
     public void testStartStopEmptyProperties() {
         InputStream input = getClass().getResourceAsStream("/org/onap/appc/empty.properties");
         Properties props = new Properties();
-         try {
-             props.load(input);
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
+        try {
+            props.load(input);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         AppcEventListenerActivator appc = new AppcEventListenerActivator();
         AppcEventListenerActivator spyAppc = Mockito.spy(appc);
         doReturn(props).when(spyAppc).getProperties();
-        
+
         try {
             spyAppc.start(null);
             Thread.sleep(1000);

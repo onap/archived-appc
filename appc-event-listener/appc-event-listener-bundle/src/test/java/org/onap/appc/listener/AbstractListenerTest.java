@@ -28,30 +28,24 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyLong;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 
+import java.util.concurrent.TimeUnit;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.appc.listener.AbstractListener;
 import org.onap.appc.listener.ListenerProperties;
+import sun.awt.windows.ThemeReader;
 
-public class TestAbstractListener {
-
-    private class DummyListener extends AbstractListener {
-        public DummyListener(ListenerProperties props) {
-            super(props);
-        }
-
-        public boolean getRun() {
-            return run.get();
-        }
-
-        public ThreadPoolExecutor getExecutor() {
-            return executor;
-        }
-    }
+public class AbstractListenerTest {
 
     private DummyListener listener;
     private ListenerProperties props;
@@ -65,37 +59,96 @@ public class TestAbstractListener {
     }
 
     @Test
-    public void testRun() {
-        Thread t = new Thread(listener);
-        t.run();
-        assertFalse(t.isAlive()); // Should die immediately
-    }
+    public void stop_should_shutdown_executor() {
 
-    @Test
-    public void testStop() {
+        EventHandler mockEventHandler = mock(EventHandler.class);
+        listener.setEventHandler(mockEventHandler);
+
+        Thread thread = new Thread(listener);
+        thread.start();
+
+        assertTrue(thread.isAlive());
+        assertTrue(listener.getRun());
+        assertFalse(listener.getExecutor().isShutdown());
+        assertFalse(listener.getExecutor().isTerminated());
+
         listener.stop();
+
         assertFalse(listener.getRun());
         assertTrue(listener.getExecutor().isShutdown());
+        assertTrue(listener.getExecutor().isTerminated());
+
+        verify(mockEventHandler).closeClients();
+
     }
 
     @Test
-    public void testStopNow() {
+    public void stopNow_should_clear_executors_queue_and_call_stop() throws InterruptedException {
+        EventHandler mockEventHandler = mock(EventHandler.class);
+        listener.setEventHandler(mockEventHandler);
+
+        ThreadPoolExecutor mockExecutor = mock(ThreadPoolExecutor.class);
+        BlockingQueue<Runnable> mockBlockingQueue = mock(BlockingQueue.class);
+        listener.setExecutor(mockExecutor);
+        when(mockExecutor.getQueue()).thenReturn(mockBlockingQueue);
+
+        Thread thread = new Thread(listener);
+        thread.start();
+
+        assertTrue(thread.isAlive());
+        assertTrue(listener.getRun());
+
         listener.stopNow();
+
         assertFalse(listener.getRun());
-        assertTrue(listener.getExecutor().isShutdown());
+        verify(mockExecutor).shutdown();
+        verify(mockExecutor).awaitTermination(anyLong(), any(TimeUnit.class));
+        verify(mockBlockingQueue).clear();
+        verify(mockEventHandler).closeClients();
     }
 
     @Test
-    public void testBenchmark() {
+    public void getBenchmark_result_should_contain_listenerId() {
         String out = listener.getBenchmark();
         assertNotNull(out);
         assertTrue(out.contains(listener.getListenerId()));
     }
 
     @Test
-    public void testListenerId() {
+    public void getListenerId_should_return_properties_prefix_by_default() {
         assertEquals(props.getPrefix(), listener.getListenerId());
         listener.setListenerId("newId");
         assertEquals("newId", listener.getListenerId());
+    }
+
+
+    private class DummyListener extends AbstractListener {
+
+        DummyListener(ListenerProperties props) {
+            super(props);
+        }
+
+        boolean getRun() {
+            return run.get();
+        }
+
+        public ThreadPoolExecutor getExecutor() {
+            return executor;
+        }
+
+        void setEventHandler(EventHandler eventHandler){
+            dmaap = eventHandler;
+        }
+
+        void setExecutor(ThreadPoolExecutor executor){
+            this.executor = executor;
+        }
+
+        @Override
+        public void run() {
+
+            while (run.get()) {
+            }
+        }
     }
 }
