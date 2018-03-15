@@ -24,15 +24,9 @@
 
 package org.onap.appc.encryption;
 
-public class EncryptionException extends RuntimeException {
+public class EncryptionException extends Exception {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8259594446628138378L;
-
-    public EncryptionException(String message, Throwable cause) {
-        super(message, cause);
+    public EncryptionException(String message) {
+        super(message);
     }
-
 }
