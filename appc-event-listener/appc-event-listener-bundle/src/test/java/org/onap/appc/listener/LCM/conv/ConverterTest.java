@@ -28,25 +28,24 @@ import static org.junit.Assert.assertEquals;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.Assert;
 import org.junit.Test;
 import org.onap.appc.listener.LCM.model.DmaapIncomingMessage;
-import org.onap.appc.listener.LCM.model.DmaapMessage;
 import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
-import org.onap.appc.listener.demo.model.OutgoingMessage;
 import org.onap.appc.listener.util.Mapper;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class ConverterTest {
 
-    private static final String jsonInputBodyStr = "{\"input\":{ \"common-header\": { \"timestamp\": \"2016-08-03T08:50:18.97Z\", "
-        + "\"api-ver\": \"1\", \"originator-id\": \"1\", \"request-id\": \"123\", \"sub-request-id\": \"1\", "
-        + "\"flags\": { \"force\":\"TRUE\", \"ttl\":\"9900\" } }, \"action\": \"Stop\", "
-        + "\"action-identifiers\": { \"vnf-id\": \"TEST\" } }}";
+    private static final String jsonInputBodyStr =
+        "{\"input\":{ \"common-header\": { \"timestamp\": \"2016-08-03T08:50:18.97Z\", "
+            + "\"api-ver\": \"1\", \"originator-id\": \"1\", \"request-id\": \"123\", \"sub-request-id\": \"1\", "
+            + "\"flags\": { \"force\":\"TRUE\", \"ttl\":\"9900\" } }, \"action\": \"Stop\", "
+            + "\"action-identifiers\": { \"vnf-id\": \"TEST\" } }}";
 
-    private static final String jsonOutputBodyStr = "{\"output\":{\"common-header\":{\"timestamp\":\"2016-08-03T08:50:18.97Z\","
-        + "\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},\"sub-request-id\":\"1\","
-        + "\"request-id\":\"123\",\"originator-id\":\"1\"},\"status\":{\"value\":\"TestException\",\"code\":200}}}";
+    private static final String jsonOutputBodyStr =
+        "{\"output\":{\"common-header\":{\"timestamp\":\"2016-08-03T08:50:18.97Z\","
+            + "\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},\"sub-request-id\":\"1\","
+            + "\"request-id\":\"123\",\"originator-id\":\"1\"},\"status\":{\"value\":\"TestException\",\"code\":200}}}";
 
     private static final String expectedDmaapOutgoingMessageAsJsonString = "{\"body\":{\"output\":{\"common-header\":"
         + "{\"timestamp\":\"2016-08-03T08:50:18.97Z\",\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},"
@@ -133,7 +132,6 @@ public class ConverterTest {
         String requestIdWithSubId = Converter.extractRequestIdWithSubId(dmaapIncomingMessage.getBody());
         assertEquals("123-1", requestIdWithSubId);
     }
-
 
 
     @Test(expected = IllegalArgumentException.class)
