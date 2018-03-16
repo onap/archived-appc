@@ -26,13 +26,13 @@ package org.onap.appc.listener.LCM.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DmaapMessage{
+public class DmaapMessage {
 
     @JsonProperty("version")
     private String version;
@@ -52,51 +52,50 @@ public class DmaapMessage{
     @JsonProperty("body")
     private JsonNode body;
 
-    public DmaapMessage() {
-    }
-
     public String getVersion() {
         return version;
     }
 
-    public void setVersion(String version) {
-        this.version = version;
-    }
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getCorrelationID() {
         return correlationID;
     }
 
-    public void setCorrelationID(String correlationID) {
-        this.correlationID = correlationID;
-    }
-
     public String getCambriaPartition() {
         return cambriaPartition;
-    }
-
-    public void setCambriaPartition(String cambriaPartition) {
-        this.cambriaPartition = cambriaPartition;
     }
 
     public String getRpcName() {
         return rpcName;
     }
 
-    public void setRpcName(String rpcName) {
-        this.rpcName = rpcName;
-    }
-
     public JsonNode getBody() {
         return body;
+    }
+
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setCorrelationID(String correlationID) {
+        this.correlationID = correlationID;
+    }
+
+    public void setCambriaPartition(String cambriaPartition) {
+        this.cambriaPartition = cambriaPartition;
+    }
+
+    public void setRpcName(String rpcName) {
+        this.rpcName = rpcName;
     }
 
     public void setBody(JsonNode body) {
@@ -106,14 +105,13 @@ public class DmaapMessage{
     @Override
     public String toString() {
         return "DmaapMessage{" +
-                "version='" + version + '\'' +
-                ", type='" + type + '\'' +
-                ", correlationId='" + correlationID + '\'' +
-                ", cambriaPartition='" + cambriaPartition + '\'' +
-                ", rpcName='" + rpcName + '\'' +
-                ", body=" + body +
-                '}';
+            "version='" + version + '\'' +
+            ", type='" + type + '\'' +
+            ", correlationId='" + correlationID + '\'' +
+            ", cambriaPartition='" + cambriaPartition + '\'' +
+            ", rpcName='" + rpcName + '\'' +
+            ", body=" + body +
+            '}';
     }
-
 }
 
