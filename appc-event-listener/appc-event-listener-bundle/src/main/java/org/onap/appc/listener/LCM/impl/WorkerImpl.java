@@ -24,18 +24,16 @@
 
 package org.onap.appc.listener.LCM.impl;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.listener.EventHandler;
 import org.onap.appc.listener.LCM.conv.Converter;
 import org.onap.appc.listener.LCM.model.DmaapMessage;
 import org.onap.appc.listener.LCM.model.DmaapOutgoingMessage;
 import org.onap.appc.listener.LCM.operation.ProviderOperations;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class WorkerImpl implements Runnable {
 
@@ -59,15 +57,21 @@ public class WorkerImpl implements Runnable {
 
     @Override
     public void run() {
+
+        if (checkParametersForNull(event, dmaap, providerOperations)) {
+            throw new IllegalStateException("Cannot run worker. One of its parameters is null");
+        }
+
         String requestIdWithSubId = extractRequestIdWithSubId(event.getBody());
         LOG.debug(String.format("Started working on %s", requestIdWithSubId));
 
-        // Run the dg in a try catch to handle all exceptions and update the
-        // message at the end
+        // Run the dg in a try catch to handle all exceptions and update the message at the end
         try {
+
             JsonNode outputJsonNode = doDG(event.getRpcName(), event.getBody());
-            DmaapOutgoingMessage dmaapOutgoingMessage= Converter.convertJsonNodeToDmaapOutgoingMessage(event, outputJsonNode);
-            postMessageToDMaaP(dmaapOutgoingMessage,requestIdWithSubId);
+            DmaapOutgoingMessage dmaapOutgoingMessage = Converter
+                .convertJsonNodeToDmaapOutgoingMessage(event, outputJsonNode);
+            postMessageToDMaaP(dmaapOutgoingMessage, requestIdWithSubId);
             Integer statusCode = extractStatusCode(dmaapOutgoingMessage.getBody());
             if (ProviderOperations.isSucceeded(statusCode)) {
                 LOG.debug(String.format("Event %s finished successfully", requestIdWithSubId));
@@ -76,17 +80,22 @@ public class WorkerImpl implements Runnable {
             }
 
         } catch (Exception e) {
-            // Unknown exception from DG method. Fail and pass the exception
-            // along
+            // Unknown exception from DG method. Fail and pass the exception along
             String msg = "Exception: " + e.getMessage();
             LOG.error(String.format("Event %s finished with failure. %s", requestIdWithSubId, msg));
-            DmaapOutgoingMessage dmaapOutgoingMessage= Converter.buildDmaapOutgoingMessageWithUnexpectedError(event, e);
-            postMessageToDMaaP(dmaapOutgoingMessage,requestIdWithSubId);
+            DmaapOutgoingMessage dmaapOutgoingMessage = Converter
+                .buildDmaapOutgoingMessageWithUnexpectedError(event, e);
+            postMessageToDMaaP(dmaapOutgoingMessage, requestIdWithSubId);
         }
 
         LOG.debug("Done working on " + requestIdWithSubId);
     }
 
+    private boolean checkParametersForNull(DmaapMessage message, EventHandler dmaap,
+        ProviderOperations providerOperations) {
+
+        return message == null || dmaap == null || providerOperations == null;
+    }
 
     private Integer extractStatusCode(JsonNode event) {
         Integer statusCode = null;
@@ -99,7 +108,7 @@ public class WorkerImpl implements Runnable {
     }
 
 
-    private String extractRequestIdWithSubId(JsonNode event){
+    private String extractRequestIdWithSubId(JsonNode event) {
         String requestId = "";
         try {
             requestId = Converter.extractRequestIdWithSubId(event);
@@ -110,18 +119,19 @@ public class WorkerImpl implements Runnable {
     }
 
 
-
-    private void postMessageToDMaaP(DmaapOutgoingMessage dmaapOutgoingMessage,String requestIdWithSubId) {
+    private void postMessageToDMaaP(DmaapOutgoingMessage dmaapOutgoingMessage, String requestIdWithSubId) {
         String dmaapOutgoingMessageJsonString;
         try {
             dmaapOutgoingMessageJsonString = Converter.convertDmaapOutgoingMessageToJsonString(dmaapOutgoingMessage);
-            dmaap.postStatus(dmaapOutgoingMessage.getCambriaPartition(),dmaapOutgoingMessageJsonString);
+            dmaap.postStatus(dmaapOutgoingMessage.getCambriaPartition(), dmaapOutgoingMessageJsonString);
         } catch (JsonProcessingException e) {
-            LOG.error("failed to postMessageToDMaaP requestIdWithSubId: "+requestIdWithSubId+" dmaapOutgoingMessage: "+dmaapOutgoingMessage, e);
+            LOG.error(
+                "failed to postMessageToDMaaP requestIdWithSubId: " + requestIdWithSubId + " dmaapOutgoingMessage: "
+                    + dmaapOutgoingMessage, e);
         }
     }
 
     private JsonNode doDG(String rpcName, JsonNode msg) throws APPCException {
-        return providerOperations.topologyDG(rpcName,msg);
+        return providerOperations.topologyDG(rpcName, msg);
     }
 }
