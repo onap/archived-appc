@@ -34,6 +34,24 @@
       "revId": "7d06b8c1f09a6af9cbfc4c0ef3e518a667b423f2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e07e6518",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/FlowSequenceGenerator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-03-16T07:15:04Z",
+      "side": 1,
+      "message": "On original code we have cases where we generate flow sequence from:\n1) GENERATION NODE\n2) all SEQUENCE TYPES\n3) flow generator otherwise\n\nI wrote tests to get expected outcomes and then mapped it to:\n1) -\u003e 82 line\n2) -\u003e 101 line\n3) -\u003e 93 line\n\nBut I must admit that indeed this is poor to reading apart from some IDE help. I will try to provide better (I hope) solution.",
+      "parentUuid": "5a93c517_91f49a5b",
+      "revId": "7d06b8c1f09a6af9cbfc4c0ef3e518a667b423f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
