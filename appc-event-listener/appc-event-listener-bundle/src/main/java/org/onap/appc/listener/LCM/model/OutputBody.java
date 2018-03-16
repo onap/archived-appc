@@ -32,7 +32,6 @@ import org.onap.appc.listener.util.Mapper;
 
 /**
  * This class represents a message being sent out to DMaaP by APPC to update listeners on the status of a request
- *
  */
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -53,36 +52,25 @@ public class OutputBody {
     public OutputBody() {
     }
 
+    public OutputBody(InputBody msg) {
+        this.header = new CommonHeader(msg.getCommonHeader());
+    }
+
 
     public JSONObject toResponse() {
         return Mapper.toJsonObject(this);
-    }
-
-    public OutputBody(InputBody msg) {
-        this.header = new CommonHeader(msg.getCommonHeader());
     }
 
     public String getLocked() {
         return locked;
     }
 
-    public void setLocked(String locked) {
-        this.locked = locked;
-    }
     public String getPayload() {
         return payload;
     }
 
-    public void setPayload(String payload) {
-        this.payload = payload;
-    }
-
     public CommonHeader getHeader() {
         return header;
-    }
-
-    public void setHeader(CommonHeader header) {
-        this.header = header;
     }
 
     public ResponseStatus getStatus() {
@@ -91,6 +79,18 @@ public class OutputBody {
 
     public void setStatus(ResponseStatus status) {
         this.status = status;
+    }
+
+    public void setLocked(String locked) {
+        this.locked = locked;
+    }
+
+    public void setHeader(CommonHeader header) {
+        this.header = header;
+    }
+
+    public void setPayload(String payload) {
+        this.payload = payload;
     }
 
     @Override

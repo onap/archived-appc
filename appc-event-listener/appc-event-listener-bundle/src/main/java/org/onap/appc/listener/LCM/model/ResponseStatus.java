@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseStatus {
+
     @JsonProperty("code")
     private Integer code;
     @JsonProperty("message")
@@ -49,25 +50,24 @@ public class ResponseStatus {
         return code;
     }
 
-    public void setCode(Integer code) {
-        code = code;
-    }
 
     public String getValue() {
         return value;
     }
 
-
+    public void setCode(Integer code) {
+        this.code = code;
+    }
 
     public void setValue(String value) {
-        value = value;
+        this.value = value;
     }
 
     @Override
     public String toString() {
         return "ResponseStatus{" +
-                "code=" + code +
-                ", value='" + value + '\'' +
-                '}';
+            "code=" + code +
+            ", value='" + value + '\'' +
+            '}';
     }
 }
