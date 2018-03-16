@@ -22,13 +22,11 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.listener.impl;
+package org.onap.appc.listener.LCM.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.Properties;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,12 +35,11 @@ import org.onap.appc.listener.ListenerProperties;
 import org.onap.appc.listener.demo.impl.ListenerImpl;
 
 @Ignore
-public class TestListener {
+public class ListenerImplTest {
 
     private static final String PROP_FILE = "/org/onap/appc/default.properties";
 
     private Listener listener;
-
     private Properties props;
 
     @Before
@@ -56,15 +53,6 @@ public class TestListener {
             fail("Failed to setup test: " + e.getMessage());
         }
         listener = new ListenerImpl(new ListenerProperties("appc.ClosedLoop", props));
-    }
-
-    @Test
-    public void testListenerId() {
-        String originalId = listener.getListenerId();
-        String newId = originalId + "-new";
-
-        listener.setListenerId(newId);
-        assertEquals(newId, listener.getListenerId());
     }
 
     @Test
@@ -83,11 +71,6 @@ public class TestListener {
             e.printStackTrace();
             fail(e.getMessage());
         }
-    }
-
-    @Test
-    public void testUpdateProperties() {
-
     }
 
     @Test
