@@ -22,6 +22,30 @@
       "revId": "4ae9b8cae193d7b980973faa5feae64108e19922",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c35b3320",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/test/java/org/onap/appc/adapter/chef/impl/ChefAdapterImplJobPusherTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-03-16T11:02:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_46597633",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4ae9b8cae193d7b980973faa5feae64108e19922",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
