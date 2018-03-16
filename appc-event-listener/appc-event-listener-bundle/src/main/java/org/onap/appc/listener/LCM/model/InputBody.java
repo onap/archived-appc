@@ -50,32 +50,33 @@ public class InputBody {
         return payload;
     }
 
-    public void setPayload(Object payload) {
-        this.payload = payload;
-    }
-    @JsonIgnore
-    public void setPayloadAsString(String payload) {
-        this.payload = payload;
-    }
-
     public String getAction() {
         return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
     }
 
     public ActionIdentifiers getActionIdentifiers() {
         return actionIdentifiers;
     }
 
-    public void setActionIdentifiers(ActionIdentifiers actionIdentifiers) {
-        this.actionIdentifiers = actionIdentifiers;
-    }
-
     public CommonHeader getCommonHeader() {
         return commonHeader;
+    }
+
+    @JsonIgnore
+    public void setPayloadAsString(String payload) {
+        this.payload = payload;
+    }
+
+    public void setPayload(Object payload) {
+        this.payload = payload;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public void setActionIdentifiers(ActionIdentifiers actionIdentifiers) {
+        this.actionIdentifiers = actionIdentifiers;
     }
 
     public void setCommonHeader(CommonHeader commonHeader) {
