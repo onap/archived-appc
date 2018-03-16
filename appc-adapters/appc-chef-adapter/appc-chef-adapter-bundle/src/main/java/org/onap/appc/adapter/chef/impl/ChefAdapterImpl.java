@@ -565,7 +565,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             String jobID = params.get("jobid");
             String retry = params.get("retryTimes");
             String intrva = params.get("retryInterval");
-            if (StringUtils.isNotBlank(retry) && StringUtils.isNotBlank(intrva)) {
+            if (StringUtils.isNotBlank(jobID) && StringUtils.isNotBlank(retry) && StringUtils.isNotBlank(intrva)) {
 
                 int retryTimes = Integer.parseInt(params.get("retryTimes"));
                 int retryInterval = Integer.parseInt(params.get("retryInterval"));
@@ -604,14 +604,12 @@ public class ChefAdapterImpl implements ChefAdapter {
         if ("complete".equals(status)) {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "200");
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
+        } else if ("running".equals(status)) {
+            svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "202");
+            svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, "chef client runtime out");
         } else {
-            if ("running".equals(status)) {
-                svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "202");
-                svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, "chef client runtime out");
-            } else {
-                svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "500");
-                svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
-            }
+            svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "500");
+            svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
         }
     }
 
