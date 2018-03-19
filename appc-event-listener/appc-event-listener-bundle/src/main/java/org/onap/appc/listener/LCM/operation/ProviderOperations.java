@@ -24,7 +24,24 @@
 
 package org.onap.appc.listener.LCM.operation;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHeaders;
@@ -48,46 +65,45 @@ import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.listener.LCM.model.ResponseStatus;
 import org.onap.appc.listener.util.Mapper;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.Socket;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.security.*;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-
 public class ProviderOperations {
 
     private final EELFLogger LOG = EELFManager.getInstance().getLogger(ProviderOperations.class);
 
     private URL url;
-    private String basic_auth;
+    private String basicAuth;
 
     private static ProviderOperationRequestFormatter requestFormatter = new GenericProviderOperationRequestFormatter();
+
+
+    public ProviderOperations(String url, String username, String password){
+        setAuthentication(username, password);
+        try {
+            this.url = new URL(url);
+        } catch (MalformedURLException e) {
+            LOG.error("An error occurred while building url", e);
+        }
+    }
 
     /**
      * Calls the AppcProvider to run a topology directed graph
      *
-     * @param msg The incoming message to be run
+     * @param message The incoming message to be run
      * @return True if the result is success. Never returns false and throws an exception instead.
      * @throws UnsupportedEncodingException
      * @throws Exception                    if there was a failure processing the request. The exception message is the failure reason.
      */
     @SuppressWarnings("nls")
-    public JsonNode topologyDG(String rpcName, JsonNode msg) throws APPCException {
-        if (msg == null) {
+    public JsonNode topologyDG(String rpcName, JsonNode message) throws APPCException {
+        if (message == null) {
             throw new APPCException("Provided message was null");
         }
 
-        HttpPost post = null;
+        HttpPost postRequest = buildPostRequest(rpcName, message);
+        return getJsonNode(message, postRequest);
+    }
+
+    private HttpPost buildPostRequest(String rpcName, JsonNode message) throws APPCException {
+        HttpPost post;
         try {
 
             // Concatenate the "action" on the end of the URL
@@ -99,22 +115,25 @@ public class ProviderOperations {
             post.setHeader(HttpHeaders.ACCEPT, "application/json");
 
             // Set Auth
-            if (basic_auth != null) {
-                post.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + basic_auth);
+            if (basicAuth != null) {
+                post.setHeader(HttpHeaders.AUTHORIZATION, "Basic " + basicAuth);
             }
 
-            String body = Mapper.toJsonString(msg);
+            String body = Mapper.toJsonString(message);
             StringEntity entity = new StringEntity(body);
             entity.setContentType("application/json");
-            post.setEntity(new StringEntity(body));
+            post.setEntity(entity);
         } catch (UnsupportedEncodingException | MalformedURLException e) {
             throw new APPCException(e);
         }
+        return post;
+    }
 
+    private JsonNode getJsonNode(JsonNode message, HttpPost post) throws APPCException {
         HttpClient client = getHttpClient();
 
-        int httpCode = 0;
-        String respBody = null;
+        int httpCode;
+        String respBody;
         try {
             HttpResponse response = client.execute(post);
             httpCode = response.getStatusLine().getStatusCode();
@@ -131,16 +150,12 @@ public class ProviderOperations {
                 LOG.error("Error processing response from provider. Could not map response to json", e);
                 throw new APPCException("APPC has an unknown RPC error");
             }
-
             ResponseStatus responseStatus = requestFormatter.getResponseStatus(json);
-
             if (!isSucceeded(responseStatus.getCode())) {
-                LOG.warn(String.format("Operation failed [%s]", msg.toString()));
+                LOG.warn(String.format("Operation failed [%s]", message.toString()));
             }
-
             return json;
         }
-
         throw new APPCException(String.format("Unexpected response from endpoint: [%d] - %s ", httpCode, respBody));
     }
 
@@ -157,7 +172,7 @@ public class ProviderOperations {
         try {
             url = new URL(newUrl);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            LOG.error("An error occurred while building url", e);
         }
     }
 
@@ -172,11 +187,11 @@ public class ProviderOperations {
     public String setAuthentication(String user, String password) {
         if (user != null && password != null) {
             String authStr = user + ":" + password;
-            basic_auth = new String(Base64.encodeBase64(authStr.getBytes()));
+            basicAuth = new String(Base64.encodeBase64(authStr.getBytes()));
         } else {
-            basic_auth = null;
+            basicAuth = null;
         }
-        return basic_auth;
+        return basicAuth;
     }
 
     @SuppressWarnings("deprecation")
@@ -221,7 +236,7 @@ public class ProviderOperations {
         private SSLContext sslContext = SSLContext.getInstance("TLS");
 
         public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
-                KeyStoreException, UnrecoverableKeyException {
+            KeyStoreException, UnrecoverableKeyException {
             super(truststore);
 
             TrustManager tm = new X509TrustManager() {
@@ -240,13 +255,13 @@ public class ProviderOperations {
             };
 
             sslContext.init(null, new TrustManager[]{
-                    tm
+                tm
             }, null);
         }
 
         @Override
         public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
-                throws IOException {
+            throws IOException {
             return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
         }
 
@@ -257,7 +272,8 @@ public class ProviderOperations {
     }
 
     public static boolean isSucceeded(Integer code) {
+
+        //FIXME is it working as intended?
         return code != null && ((code == 100) || (code == 400));
     }
-
 }
