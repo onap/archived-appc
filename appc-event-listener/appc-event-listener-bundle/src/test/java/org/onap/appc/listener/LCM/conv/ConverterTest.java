@@ -25,6 +25,10 @@
 package org.onap.appc.listener.LCM.conv;
 
 import static org.junit.Assert.assertEquals;
+import static org.onap.appc.listener.TestUtil.JSON_INPUT_BODY_STR;
+import static org.onap.appc.listener.TestUtil.JSON_OUTPUT_BODY_STR;
+import static org.onap.appc.listener.TestUtil.buildDmaapIncomingMessage;
+import static org.onap.appc.listener.TestUtil.buildDmaapOutgoingMessage;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -36,22 +40,11 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class ConverterTest {
 
-    private static final String jsonInputBodyStr =
-        "{\"input\":{ \"common-header\": { \"timestamp\": \"2016-08-03T08:50:18.97Z\", "
-            + "\"api-ver\": \"1\", \"originator-id\": \"1\", \"request-id\": \"123\", \"sub-request-id\": \"1\", "
-            + "\"flags\": { \"force\":\"TRUE\", \"ttl\":\"9900\" } }, \"action\": \"Stop\", "
-            + "\"action-identifiers\": { \"vnf-id\": \"TEST\" } }}";
-
-    private static final String jsonOutputBodyStr =
-        "{\"output\":{\"common-header\":{\"timestamp\":\"2016-08-03T08:50:18.97Z\","
-            + "\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},\"sub-request-id\":\"1\","
-            + "\"request-id\":\"123\",\"originator-id\":\"1\"},\"status\":{\"value\":\"TestException\",\"code\":200}}}";
-
-    private static final String expectedDmaapOutgoingMessageAsJsonString = "{\"body\":{\"output\":{\"common-header\":"
-        + "{\"timestamp\":\"2016-08-03T08:50:18.97Z\",\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},"
-        + "\"sub-request-id\":\"1\",\"request-id\":\"123\",\"originator-id\":\"1\"},\"status\":"
-        + "{\"value\":\"TestException\",\"code\":200}}},\"cambria.partition\":\"MSO\",\"rpc-name\":\"test\"}";
-
+    private static final String EXPECTED_DMAAP_OUTGOING_MESSAGE_AS_JSON_STRING =
+        "{\"body\":{\"output\":{\"common-header\":"
+            + "{\"timestamp\":\"2016-08-03T08:50:18.97Z\",\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},"
+            + "\"sub-request-id\":\"1\",\"request-id\":\"123\",\"originator-id\":\"1\"},\"locked\":\"test-locked\",\""
+            + "status\":{\"message\":\"test message\",\"code\":200}}},\"cambria.partition\":\"MSO\",\"rpc-name\":\"test\"}";
 
     @Test(expected = IllegalArgumentException.class)
     public void convertJsonNodeToDmaapOutgoingMessage_should_throw_when_given_null_arguments() {
@@ -66,7 +59,7 @@ public class ConverterTest {
         message.setRpcName("test");
         message.setCorrelationID("test-1");
         message.setVersion("v1");
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonInputBodyStr);
+        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(JSON_INPUT_BODY_STR);
         message.setBody(jsonNode);
 
         DmaapOutgoingMessage result = Converter.convertJsonNodeToDmaapOutgoingMessage(message, jsonNode);
@@ -90,10 +83,10 @@ public class ConverterTest {
 
         DmaapOutgoingMessage message = new DmaapOutgoingMessage();
         message.setRpcName("test");
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonOutputBodyStr);
+        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(JSON_OUTPUT_BODY_STR);
         message.setBody(jsonNode);
 
-        assertEquals(expectedDmaapOutgoingMessageAsJsonString,
+        assertEquals(EXPECTED_DMAAP_OUTGOING_MESSAGE_AS_JSON_STRING,
             Converter.convertDmaapOutgoingMessageToJsonString(message));
     }
 
@@ -147,22 +140,5 @@ public class ConverterTest {
         assertEquals(200L, statusCode.longValue());
     }
 
-    private DmaapIncomingMessage buildDmaapIncomingMessage() {
-        DmaapIncomingMessage dmaapIncomingMessage = new DmaapIncomingMessage();
-        dmaapIncomingMessage.setRpcName("test");
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonInputBodyStr);
-        dmaapIncomingMessage.setBody(jsonNode);
-        return dmaapIncomingMessage;
-
-    }
-
-    private DmaapOutgoingMessage buildDmaapOutgoingMessage() {
-        DmaapOutgoingMessage dmaapOutgoingMessage = new DmaapOutgoingMessage();
-        dmaapOutgoingMessage.setRpcName("test");
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonOutputBodyStr);
-        dmaapOutgoingMessage.setBody(jsonNode);
-        return dmaapOutgoingMessage;
-
-    }
 
 }
