@@ -24,6 +24,7 @@
 package org.onap.appc.listener.LCM.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.onap.appc.listener.TestUtil.JSON_INPUT_BODY_STR;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Before;
@@ -31,12 +32,6 @@ import org.junit.Test;
 import org.onap.appc.listener.util.Mapper;
 
 public class DmaapOutgoingMessageTest {
-
-    private static final String jsonInputBodyStr =
-        "{\"input\":{ \"common-header\": { \"timestamp\": \"2016-08-03T08:50:18.97Z\", "
-            + "\"api-ver\": \"1\", \"originator-id\": \"1\", \"request-id\": \"123\", \"sub-request-id\": \"1\", "
-            + "\"flags\": { \"force\":\"TRUE\", \"ttl\":\"9900\" } }, \"action\": \"Stop\", "
-            + "\"action-identifiers\": { \"vnf-id\": \"TEST\" } }}";
 
     private DmaapOutgoingMessage dmaapOutgoingMessage;
 
@@ -53,7 +48,7 @@ public class DmaapOutgoingMessageTest {
 
     @Test
     public void toString_should_return_valid_string_representation() {
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonInputBodyStr);
+        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(JSON_INPUT_BODY_STR);
 
         dmaapOutgoingMessage.setVersion("test-version");
         dmaapOutgoingMessage.setType("test-type");
