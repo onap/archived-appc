@@ -31,7 +31,6 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 
 import com.att.aft.dme2.internal.jersey.core.util.Base64;
-import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
@@ -45,16 +44,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.listener.LCM.operation.ProviderOperations.MySSLSocketFactory;
-import org.onap.appc.listener.util.Mapper;
 
 public class ProviderOperationsTest {
-
-    private static final String jsonInputBodyStr =
-        "{\"input\":{ \"common-header\": { \"timestamp\": \"2016-08-03T08:50:18.97Z\", "
-            + "\"api-ver\": \"1\", \"originator-id\": \"1\", \"request-id\": \"123\", \"sub-request-id\": \"1\", "
-            + "\"flags\": { \"force\":\"TRUE\", \"ttl\":\"9900\" } }, \"action\": \"Stop\", "
-            + "\"action-identifiers\": { \"vnf-id\": \"TEST\" } }}";
-    private final JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonInputBodyStr);
 
     private ProviderOperations providerOperations;
     private MySSLSocketFactory socketFactory;
@@ -104,12 +95,6 @@ public class ProviderOperationsTest {
         providerOperations.topologyDG("test-rpc-name", null);
     }
 
-    @Test
-    public void todo() throws APPCException {
-        //TODO write some test cases for topologyDG method
-//        JsonNode result = providerOperations.topologyDG("test", jsonNode);
-    }
-
     @Test(expected = SocketException.class)
     public void sslSocketFactory_should_throw_when_socket_not_connected() throws IOException {
         Socket socket = socketFactory.createSocket();
@@ -117,4 +102,6 @@ public class ProviderOperationsTest {
 
         socketFactory.createSocket(socket, "127.0.0.1", 123, true);
     }
+
+    //TODO write some test cases for topologyDG method
 }

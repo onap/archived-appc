@@ -25,6 +25,7 @@ package org.onap.appc.listener.LCM.model;
 
 import static junit.framework.TestCase.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.onap.appc.listener.TestUtil.buildCommonHeader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -91,23 +92,5 @@ public class OutputBodyTest {
 
         assertEquals("test-locked", response.get("locked"));
         assertEquals("{\"payload\": \"value\"", response.get("payload"));
-    }
-
-    private CommonHeader buildCommonHeader() {
-
-        CommonHeader commonHeader = new CommonHeader();
-        commonHeader.setTimeStamp("test-timestamp");
-        commonHeader.setApiVer("test-api-version");
-        commonHeader.setOriginatorId("test-originator-id");
-        commonHeader.setRequestID("test-request-id");
-        commonHeader.setSubRequestId("test-subrequest-id");
-
-        Map<String, String> flags = new HashMap<>();
-        flags.put("key1", "flag1");
-        flags.put("key2", "flag2");
-        flags.put("key3", "flag3");
-
-        commonHeader.setFlags(flags);
-        return commonHeader;
     }
 }
