@@ -254,6 +254,16 @@ public class Converter {
                 ((UpgradePreCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradePreCheckOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case AttachVolume:
+                outObj = new AttachVolumeOutputBuilder();
+                ((AttachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((AttachVolumeOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case DetachVolume:
+                outObj = new DetachVolumeOutputBuilder();
+                ((DetachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DetachVolumeOutputBuilder)outObj).setStatus(status);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
