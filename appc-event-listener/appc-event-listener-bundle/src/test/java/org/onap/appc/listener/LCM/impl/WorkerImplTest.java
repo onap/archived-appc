@@ -28,26 +28,17 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.onap.appc.listener.TestUtil.JSON_OUTPUT_BODY_STR;
+import static org.onap.appc.listener.TestUtil.buildDmaapMessage;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.Test;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.listener.EventHandler;
-import org.onap.appc.listener.LCM.model.DmaapMessage;
 import org.onap.appc.listener.LCM.operation.ProviderOperations;
 import org.onap.appc.listener.util.Mapper;
 
 public class WorkerImplTest {
-
-    private static final String jsonInputBodyStr =
-        "{\"input\":{ \"common-header\": { \"timestamp\": \"2016-08-03T08:50:18.97Z\", "
-            + "\"api-ver\": \"1\", \"originator-id\": \"1\", \"request-id\": \"123\", \"sub-request-id\": \"1\", "
-            + "\"flags\": { \"force\":\"TRUE\", \"ttl\":\"9900\" } }, \"action\": \"Stop\", "
-            + "\"action-identifiers\": { \"vnf-id\": \"TEST\" } }}";
-
-    private static final String jsonOutputBodyStr = "{\"output\":{\"common-header\":{\"timestamp\":\"2016-08-03T08:50:18.97Z\","
-        + "\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},\"sub-request-id\":\"1\","
-        + "\"request-id\":\"123\",\"originator-id\":\"1\"},\"status\":{\"value\":\"TestException\",\"code\":200}}}";
 
     private EventHandler mockEventHandler = mock(EventHandler.class);
     private ProviderOperations mockProviderOperations = mock(ProviderOperations.class);
@@ -76,7 +67,7 @@ public class WorkerImplTest {
     @Test
     public void should_post_message_to_dmaap_on_successful_run() throws APPCException {
 
-        JsonNode testOutputJsonNode = Mapper.toJsonNodeFromJsonString(jsonOutputBodyStr);
+        JsonNode testOutputJsonNode = Mapper.toJsonNodeFromJsonString(JSON_OUTPUT_BODY_STR);
         when(mockProviderOperations.topologyDG(anyString(), any(JsonNode.class)))
             .thenReturn(testOutputJsonNode);
 
@@ -84,15 +75,5 @@ public class WorkerImplTest {
         worker.run();
 
         verify(mockEventHandler).postStatus(anyString(), anyString());
-    }
-
-
-    private DmaapMessage buildDmaapMessage() {
-
-        DmaapMessage dmaapMessage = new DmaapMessage();
-        dmaapMessage.setRpcName("test");
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonInputBodyStr);
-        dmaapMessage.setBody(jsonNode);
-        return dmaapMessage;
     }
 }
