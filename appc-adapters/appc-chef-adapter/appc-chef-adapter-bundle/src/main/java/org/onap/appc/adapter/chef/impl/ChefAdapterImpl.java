@@ -119,7 +119,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         String env = params.get("Environment");
         logger.info("Environmnet" + env);
         if (env.equals(StringUtils.EMPTY)) {
-            chefServerResult(new RequestContext(ctx), 200, "Skip Environment block ");
+            chefServerResult(ctx, 200, "Skip Environment block ");
         } else {
             String message;
             if (privateKeyChecker.doesExist(clientPrivatekey)) {
@@ -138,7 +138,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                         message = chefResponse.getBody();
                         logger.info("requestbody {}", chefResponse.getBody());
                     }
-                    chefServerResult(new RequestContext(ctx), code, message);
+                    chefServerResult(ctx, code, message);
                 } catch (JSONException e) {
                     code = 401;
                     logger.error(POSTING_REQUEST_JSON_ERROR_STR, e);
@@ -171,8 +171,6 @@ public class ChefAdapterImpl implements ChefAdapter {
                 nodeListS = nodeListS.replace("\"", StringUtils.EMPTY);
                 nodeListS = nodeListS.replace(" ", StringUtils.EMPTY);
                 List<String> nodes = Arrays.asList(nodeListS.split("\\s*,\\s*"));
-                RequestContext rc = new RequestContext(ctx);
-                rc.isAlive();
                 code = 200;
                 String message = null;
                 if (privateKeyChecker.doesExist(clientPrivatekey)) {
@@ -196,7 +194,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                     message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
                     doFailure(ctx, code, message);
                 }
-                chefServerResult(rc, code, message);
+                chefServerResult(ctx, code, message);
             } else {
                 throw new SvcLogicException("Missing Mandatory param(s) Node , NodeList ");
             }
@@ -232,10 +230,6 @@ public class ChefAdapterImpl implements ChefAdapter {
                     pushRequest = "{" + "\"command\": \"chef-client\"," + "\"run_timeout\": 300," + "\"nodes\":"
                         + nodeList + "," + "\"env\": {}," + "\"capture_output\": true" + "}";
                 }
-                RequestContext rc = new RequestContext(ctx);
-
-                rc.isAlive();
-                SvcLogicContext svcLogic = rc.getSvcLogicContext();
                 ChefApiClient cac = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
                 ChefResponse chefResponse = cac.post(chefAction, pushRequest);
                 code = chefResponse.getStatusCode();
@@ -246,10 +240,10 @@ public class ChefAdapterImpl implements ChefAdapter {
                     int startIndex = message.indexOf("jobs") + 5;
                     int endIndex = message.length() - 2;
                     String jobID = message.substring(startIndex, endIndex);
-                    svcLogic.setAttribute("jobID", jobID);
+                    ctx.setAttribute("jobID", jobID);
                     logger.info(jobID);
                 }
-                chefServerResult(rc, code, message);
+                chefServerResult(ctx, code, message);
             } else {
                 throw new SvcLogicException("Missing Mandatory param(s)  NodeList ");
             }
@@ -323,9 +317,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                     }
                 }
 
-                RequestContext rc = new RequestContext(ctx);
-                rc.isAlive();
-                chefServerResult(rc, code, returnMessage);
+                chefServerResult(ctx, code, returnMessage);
             } else {
                 throw new SvcLogicException("Missing Mandatory param(s)  NodeList ");
             }
@@ -430,8 +422,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         logger.info("chef get method");
         chefInfo(params, ctx);
         String chefAction = params.get(CHEF_ACTION_STR);
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
         int code;
         String message;
 
@@ -443,7 +433,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             code = 500;
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
-        chefServerResult(rc, code, message);
+        chefServerResult(ctx, code, message);
     }
 
     /**
@@ -456,8 +446,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         chefInfo(params, ctx);
         String chefAction = params.get(CHEF_ACTION_STR);
         String chefNodeStr = params.get("chefRequestBody");
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
         int code;
         String message;
         if (privateKeyChecker.doesExist(clientPrivatekey)) {
@@ -471,7 +459,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
-        chefServerResult(rc, code, message);
+        chefServerResult(ctx, code, message);
     }
 
     /**
@@ -485,8 +473,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         String chefNodeStr = params.get("chefRequestBody");
         String chefAction = params.get(CHEF_ACTION_STR);
 
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
         int code;
         String message;
         // should load pem from somewhere else
@@ -503,7 +489,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
-        chefServerResult(rc, code, message);
+        chefServerResult(ctx, code, message);
     }
 
     /**
@@ -514,8 +500,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         logger.info("chef delete method");
         chefInfo(params, ctx);
         String chefAction = params.get(CHEF_ACTION_STR);
-        RequestContext rc = new RequestContext(ctx);
-        rc.isAlive();
         int code;
         String message;
         if (privateKeyChecker.doesExist(clientPrivatekey)) {
@@ -528,7 +512,7 @@ public class ChefAdapterImpl implements ChefAdapter {
             message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
         }
         logger.info(code + "   " + message);
-        chefServerResult(rc, code, message);
+        chefServerResult(ctx, code, message);
     }
 
     /**
@@ -538,12 +522,10 @@ public class ChefAdapterImpl implements ChefAdapter {
     public void trigger(Map<String, String> params, SvcLogicContext svcLogicContext) {
         logger.info("Run trigger method");
         String tVmIp = params.get("ip");
-        RequestContext rc = new RequestContext(svcLogicContext);
-        rc.isAlive();
 
         try {
             ChefResponse chefResponse = chefApiClientFactory.create(tVmIp).get("");
-            chefClientResult(rc, chefResponse.getStatusCode(), chefResponse.getBody());
+            chefClientResult(svcLogicContext, chefResponse.getStatusCode(), chefResponse.getBody());
             svcLogicContext.setAttribute("chefAgent.code", "200");
         } catch (Exception e) {
             logger.error("An error occurred when executing trigger method", e);
@@ -568,9 +550,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 
                 String chefAction = "/pushy/jobs/" + jobID;
 
-                RequestContext rc = new RequestContext(ctx);
-                rc.isAlive();
-                SvcLogicContext svcLogic = rc.getSvcLogicContext();
                 String message = StringUtils.EMPTY;
                 String status = StringUtils.EMPTY;
                 for (int i = 0; i < retryTimes; i++) {
@@ -585,7 +564,7 @@ public class ChefAdapterImpl implements ChefAdapter {
                         break;
                     }
                 }
-                resolveSvcLogicAttributes(svcLogic, message, status);
+                resolveSvcLogicAttributes(ctx, message, status);
             } else {
                 throw new SvcLogicException("Missing Mandatory param(s) retryTimes , retryInterval ");
             }
@@ -625,9 +604,6 @@ public class ChefAdapterImpl implements ChefAdapter {
             chefInfo(params, ctx);
             String pushRequest = params.get("pushRequest");
             String chefAction = "/pushy/jobs";
-            RequestContext rc = new RequestContext(ctx);
-            rc.isAlive();
-            SvcLogicContext svcLogic = rc.getSvcLogicContext();
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
             ChefResponse chefResponse = chefApiClient.post(chefAction, pushRequest);
 
@@ -637,10 +613,10 @@ public class ChefAdapterImpl implements ChefAdapter {
                 int startIndex = message.indexOf("jobs") + 6;
                 int endIndex = message.length() - 2;
                 String jobID = message.substring(startIndex, endIndex);
-                svcLogic.setAttribute("jobID", jobID);
+                ctx.setAttribute("jobID", jobID);
                 logger.info(jobID);
             }
-            chefServerResult(rc, code, message);
+            chefServerResult(ctx, code, message);
         } catch (Exception e) {
             code = 401;
             logger.error("An error occurred when executing pushJob method", e);
@@ -649,26 +625,25 @@ public class ChefAdapterImpl implements ChefAdapter {
     }
 
     @SuppressWarnings("static-method")
-    private void chefServerResult(RequestContext rc, int code, String message) {
-        initSvcLogic(rc, code, message, "server");
+    private void chefServerResult(SvcLogicContext svcLogicContext, int code, String message) {
+        initSvcLogic(svcLogicContext, code, message, "server");
     }
 
     @SuppressWarnings("static-method")
-    private void chefClientResult(RequestContext rc, int code, String message) {
-        initSvcLogic(rc, code, message, "client");
+    private void chefClientResult(SvcLogicContext svcLogicContext, int code, String message) {
+        initSvcLogic(svcLogicContext, code, message, "client");
     }
 
-    private void initSvcLogic(RequestContext rc, int code, String message, String target) {
+    private void initSvcLogic(SvcLogicContext svcLogicContext, int code, String message, String target) {
 
-        SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String codeStr = "server".equals(target) ? CHEF_SERVER_RESULT_CODE_STR : CHEF_CLIENT_RESULT_CODE_STR;
         String messageStr = "client".equals(target) ? CHEF_CLIENT_RESULT_MSG_STR : CHEF_SERVER_RESULT_MSG_STR;
 
-        svcLogic.setStatus(OUTCOME_SUCCESS);
-        svcLogic.setAttribute(codeStr, Integer.toString(code));
-        svcLogic.setAttribute(messageStr, message);
-        logger.info(codeStr + ": " + svcLogic.getAttribute(codeStr));
-        logger.info(messageStr + ": " + svcLogic.getAttribute(messageStr));
+        svcLogicContext.setStatus(OUTCOME_SUCCESS);
+        svcLogicContext.setAttribute(codeStr, Integer.toString(code));
+        svcLogicContext.setAttribute(messageStr, message);
+        logger.info(codeStr + ": " + svcLogicContext.getAttribute(codeStr));
+        logger.info(messageStr + ": " + svcLogicContext.getAttribute(messageStr));
     }
 
     @SuppressWarnings("static-method")
