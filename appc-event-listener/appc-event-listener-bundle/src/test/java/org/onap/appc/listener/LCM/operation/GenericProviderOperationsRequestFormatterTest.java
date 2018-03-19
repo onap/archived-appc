@@ -25,6 +25,7 @@ package org.onap.appc.listener.LCM.operation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.onap.appc.listener.TestUtil.JSON_OUTPUT_BODY_STR;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.net.MalformedURLException;
@@ -39,13 +40,7 @@ import org.onap.appc.listener.util.Mapper;
 
 public class GenericProviderOperationsRequestFormatterTest {
 
-    private static final String jsonOutputBodyStr =
-        "{\"output\":{\"common-header\":{\"timestamp\":\"2016-08-03T08:50:18.97Z\","
-            + "\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},\"sub-request-id\":\"1\","
-            + "\"request-id\":\"123\",\"originator-id\":\"1\"},\"locked\": \"test-locked\","
-            + "\"status\":{\"message\":\"test message\",\"code\":200}}}";
-
-    private static final String invalidJsonOutputBodyStr =
+    private static final String INVALID_JSON_OUTPUT_BODY_STR =
         "{\"output\":{\"common-header\":{\"timestamp\":\"2016-08-03T08:50:18.97Z\","
             + "\"api-ver\":\"1\",\"flags\":{\"force\":\"TRUE\",\"ttl\":\"9900\"},\"sub-request-id\":\"1\","
             + "\"request-id\":\"123\",\"originator-id\":\"1\"}}}";
@@ -76,14 +71,14 @@ public class GenericProviderOperationsRequestFormatterTest {
     @Test(expected = APPCException.class)
     public void should_throw_when_invalid_json() throws APPCException {
 
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(invalidJsonOutputBodyStr);
+        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(INVALID_JSON_OUTPUT_BODY_STR);
         requestFormatter.getResponseStatus(jsonNode);
     }
 
     @Test
     public void should_extract_response_status() throws APPCException {
 
-        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(jsonOutputBodyStr);
+        JsonNode jsonNode = Mapper.toJsonNodeFromJsonString(JSON_OUTPUT_BODY_STR);
         ResponseStatus status = requestFormatter.getResponseStatus(jsonNode);
 
         assertEquals("test message", status.getValue());
@@ -93,7 +88,7 @@ public class GenericProviderOperationsRequestFormatterTest {
     @Test
     public void should_return_extract_locked_field() throws APPCException {
 
-        assertNull(requestFormatter.getLocked(new JSONObject(invalidJsonOutputBodyStr)));
-        assertEquals("test-locked", requestFormatter.getLocked(new JSONObject(jsonOutputBodyStr)));
+        assertNull(requestFormatter.getLocked(new JSONObject(INVALID_JSON_OUTPUT_BODY_STR)));
+        assertEquals("test-locked", requestFormatter.getLocked(new JSONObject(JSON_OUTPUT_BODY_STR)));
     }
 }
