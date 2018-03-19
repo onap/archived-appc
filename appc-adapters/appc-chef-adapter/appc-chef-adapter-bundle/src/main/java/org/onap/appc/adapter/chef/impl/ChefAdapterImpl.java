@@ -114,7 +114,6 @@ public class ChefAdapterImpl implements ChefAdapter {
     @Override
     public void vnfcEnvironment(Map<String, String> params, SvcLogicContext ctx) throws SvcLogicException {
         int code;
-        try {
             logger.info("environment of VNF-C");
             chefInfo(params, ctx);
             String env = params.get("Environment");
@@ -122,39 +121,39 @@ public class ChefAdapterImpl implements ChefAdapter {
             if (env.equals(StringUtils.EMPTY)) {
                 chefServerResult(ctx, 200, "Skip Environment block ");
             } else {
-                JSONObject envJ = new JSONObject(env);
-                String envName = envJ.getString("name");
                 String message;
                 if (privateKeyChecker.doesExist(clientPrivatekey)) {
-                    // update the details of an environment on the Chef server.
-                    ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
-                    ChefResponse chefResponse = chefApiClient.put("/environments/" + envName, env);
-                    code = chefResponse.getStatusCode();
-                    message = chefResponse.getBody();
-                    if (code == 404) {
-                        // need create a new environment
-                        chefResponse = chefApiClient.post("/environments", env);
+                    try {
+                        JSONObject envJ = new JSONObject(env);
+                        String envName = envJ.getString("name");
+                        // update the details of an environment on the Chef server.
+                        ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
+                        ChefResponse chefResponse = chefApiClient.put("/environments/" + envName, env);
                         code = chefResponse.getStatusCode();
                         message = chefResponse.getBody();
-                        logger.info("requestbody {}", chefResponse.getBody());
+                        if (code == 404) {
+                            // need create a new environment
+                            chefResponse = chefApiClient.post("/environments", env);
+                            code = chefResponse.getStatusCode();
+                            message = chefResponse.getBody();
+                            logger.info("requestbody {}", chefResponse.getBody());
+                        }
+                        chefServerResult(ctx, code, message);
+                    } catch (JSONException e) {
+                        code = 401;
+                        logger.error(POSTING_REQUEST_JSON_ERROR_STR, e);
+                        doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
+                    } catch (Exception e) {
+                        code = 401;
+                        logger.error(POSTING_REQUEST_ERROR_STR, e);
+                        doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
                     }
-
                 } else {
                     code = 500;
                     message = CANNOT_FIND_PRIVATE_KEY_STR + clientPrivatekey;
                     doFailure(ctx, code, message);
                 }
-                chefServerResult(ctx, code, message);
             }
-        } catch (JSONException e) {
-            code = 401;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
-        } catch (Exception e) {
-            code = 401;
-            logger.error(POSTING_REQUEST_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
-        }
     }
 
     @SuppressWarnings("nls")
