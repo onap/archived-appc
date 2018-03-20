@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7039b140",
+        "filename": "appc-directed-graph/pom.xml",
+        "patchSetId": 4
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-20T21:40:56Z",
+      "side": 1,
+      "message": "missing $",
+      "revId": "ff286ea030490eef3d57df78eb5c92c1ea7b8ea6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
