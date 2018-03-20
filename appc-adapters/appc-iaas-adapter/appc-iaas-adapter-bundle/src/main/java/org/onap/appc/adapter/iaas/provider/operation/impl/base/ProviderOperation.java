@@ -118,7 +118,6 @@ public abstract class ProviderOperation implements IProviderOperation {
         debugParameters(params);
         debugContext(context);
     }
-
     /**
      * This method is used to dump the value of the parameters to the log for debugging purposes.
      *
@@ -129,7 +128,6 @@ public abstract class ProviderOperation implements IProviderOperation {
             logger.debug(Msg.PROPERTY_VALUE, entry.getKey(), entry.getValue());
         }
     }
-
     /**
      * This method is used to create a diagnostic dump of the context for the log
      *
@@ -139,7 +137,6 @@ public abstract class ProviderOperation implements IProviderOperation {
     private void debugContext(SvcLogicContext context) {
         Set<String> keys = context.getAttributeKeySet();
         StringBuilder builder = new StringBuilder();
-
         builder.append("Service Logic Context: Status ");
         builder.append(Constants.LPAREN);
         builder.append(context.getStatus());
@@ -163,7 +160,6 @@ public abstract class ProviderOperation implements IProviderOperation {
                 builder.append(Constants.NL);
             }
         }
-
         logger.debug(builder.toString());
     }
 
@@ -214,9 +210,14 @@ public abstract class ProviderOperation implements IProviderOperation {
     protected void doFailure(RequestContext rc, HttpStatus code, String message, Throwable cause) throws APPCException {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
         String msg = (message == null) ? code.getReasonPhrase() : message;
+        if ((msg.contains("PALOS"))) {
+             msg = msg.substring(msg.indexOf("PALOS"), msg.length());
+         msg = msg.substring(msg.indexOf("PALOS"), msg.indexOf("\n"));
+         } else {
         if (msg.contains("\n")) {
             msg = msg.substring(0, msg.indexOf('\n'));
-        }
+            }
+           }
         String status;
         try {
             status = Integer.toString(code.getStatusCode());
@@ -227,7 +228,6 @@ public abstract class ProviderOperation implements IProviderOperation {
         svcLogic.setStatus(Outcome.FAILURE.toString());
         svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_CODE, status);
         svcLogic.setAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
-
         if (null != cause) {
             throw new APPCException(cause);
         }
@@ -262,7 +262,6 @@ public abstract class ProviderOperation implements IProviderOperation {
         if (vm == null) {
             throw new RequestFailedException(String.format("The value %s cannot be null.", name));
         }
-
         // Check that its a good uri
         // This will probably never get hit bc of an earlier check while parsing
         // the string to a VMURL
@@ -274,11 +273,9 @@ public abstract class ProviderOperation implements IProviderOperation {
             throw new RequestFailedException(
                 String.format("The value %s is not well formed [%s].", name, vm.toString()));
         }
-
         // Check the tenant and vmid segments
         String patternRegex = "([0-9a-f]{8}(-)?[0-9a-f]{4}(-)?[0-9a-f]{4}(-)?[0-9a-f]{4}(-)?[0-9a-f]{12})";
         Pattern pattern = Pattern.compile(patternRegex, Pattern.CASE_INSENSITIVE);
-
         if (!pattern.matcher(vm.getTenantId()).matches()) {
             throw new RequestFailedException(
                 String.format("The value %s has an invalid tenantId [%s].", name, vm.getTenantId()));
@@ -292,12 +289,9 @@ public abstract class ProviderOperation implements IProviderOperation {
     private ProviderCache createProviderCache(VMURL vm, IdentityURL ident) {
         if (vm != null && ident != null) {
             ProviderCache cache = new ProviderCache();
-
             cache.setIdentityURL(ident.toString());
             cache.setProviderName(ident.toString());
-
             TenantCache tenant = cache.addTenant(vm.getTenantId(), null, defaultUser, defaultPassword, defaultDomain);
-
             // Make sure we could initialize the the cache otherwise return null
             if (tenant != null && tenant.isInitialized()) {
                 return cache;
@@ -305,7 +299,6 @@ public abstract class ProviderOperation implements IProviderOperation {
         }
         return null;
     }
-
     /**
      * This method is a general helper method used to locate a server given its fully-qualified self-link URL on a
      * supported provider, regardless of region(s), and to return an opened context that can be used to access that
@@ -321,19 +314,16 @@ public abstract class ProviderOperation implements IProviderOperation {
         VMURL vm = VMURL.parseURL(selfLinkURL);
         IdentityURL ident = IdentityURL.parseURL(providerName);
         String appName = configuration.getProperty(org.onap.appc.Constants.PROPERTY_APPLICATION_NAME);
-
         if (vm == null) {
             String msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, selfLinkURL);
             logger.error(msg);
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             return null;
         }
-
         /*
          * Get the cache of tenants and contexts for the named provider, if one exists
          */
         ProviderCache cache = providerCache.get(providerName);
-
         /*
          * If one doesn't exist, try and create it. If we have enough information to create it successfully, add it to
          * the cache and continue, otherwise fail the request.
@@ -352,17 +342,14 @@ public abstract class ProviderOperation implements IProviderOperation {
                 return null;
             }
         }
-
         if (providerName == null) {
             logger.debug(
                 String.format("Using the default provider cache [%s] since no valid identity url was passed in.",
                     cache.getIdentityURL()));
         }
-
         // get the tenant cache for the vm
         String identityURL = cache.getIdentityURL();
         TenantCache tenantCache = cache.getTenant(vm.getTenantId());
-
         if (tenantCache == null) {
             // no tenantCache matching tenant, add tenant to the provider cache
             tenantCache = cache.addTenant(vm.getTenantId(), null, defaultUser, defaultPassword, defaultDomain);
@@ -374,7 +361,6 @@ public abstract class ProviderOperation implements IProviderOperation {
                 return null;
             }
         }
-
         // reserve the context
         String tenantName = tenantCache.getTenantName();
         String tenantId = tenantCache.getTenantId();
@@ -382,7 +368,6 @@ public abstract class ProviderOperation implements IProviderOperation {
 
         if (region != null) {
             Pool<Context> pool = tenantCache.getPools().get(region);
-
             while (rc.attempt()) {
                 try {
                     Context context = pool.reserve();
@@ -401,19 +386,16 @@ public abstract class ProviderOperation implements IProviderOperation {
                 } catch (Exception e) {
                     String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e,
                         e.getClass().getSimpleName(), "find", selfLinkURL, tenantCache.getTenantName());
-
                     logger.error(msg, e);
                     doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
                     return null;
                 }
             }
-
             String msg = EELFResourceManager.format(Msg.CONNECTION_FAILED, providerName, identityURL);
             logger.error(msg);
             doFailure(rc, HttpStatus.BAD_GATEWAY_502, msg);
             return null;
         }
-
         String msg = EELFResourceManager.format(Msg.SERVER_NOT_FOUND, selfLinkURL);
         logger.error(msg);
         doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
@@ -428,7 +410,6 @@ public abstract class ProviderOperation implements IProviderOperation {
 
     protected Context resolveContext(RequestContext rc, Map<String, String> params, String appName, String vmUrl)
         throws RequestFailedException {
-
         VMURL vm = VMURL.parseURL(vmUrl);
         if (vm == null) {
             String msg = EELFResourceManager.format(Msg.INVALID_SELF_LINK_URL, appName, vmUrl);
@@ -439,18 +420,13 @@ public abstract class ProviderOperation implements IProviderOperation {
         validateVMURL(vm);
         IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
         String identStr = (ident == null) ? null : ident.toString();
-
         return getContext(rc, vmUrl, identStr);
-
     }
-
 
     protected abstract ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
         throws APPCException;
-
     @Override
     public ModelObject doOperation(Map<String, String> params, SvcLogicContext context) throws APPCException {
-
         return executeProviderOperation(params, context);
     }
 }

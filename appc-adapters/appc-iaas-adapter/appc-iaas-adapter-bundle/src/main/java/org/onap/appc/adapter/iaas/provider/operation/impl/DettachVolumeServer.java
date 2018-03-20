@@ -37,21 +37,29 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Iterator;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
 import org.onap.appc.adapter.iaas.impl.IdentityURL;
 import org.onap.appc.adapter.iaas.impl.RequestContext;
 import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
 import org.onap.appc.exceptions.APPCException;
+import com.att.cdp.exceptions.TimeoutException;
+import com.att.cdp.openstack.util.ExceptionMapper;
 import org.onap.appc.i18n.Msg;
+import com.woorea.openstack.base.client.OpenStackBaseException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class DettachVolumeServer extends ProviderServerOperation {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(DettachVolumeServer.class);
+    private static final Configuration config = ConfigurationFactory.getConfiguration();
 
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
@@ -87,31 +95,32 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
-                VolumeService volumeService = contx.getVolumeService();
-                logger.info("collecting volume status for volume -id: " + volumeId);
-                List<Volume> volumes = volumeService.getVolumes();
                 Volume volume = new Volume();
-                logger.info("Size of volume list: " + volumes.size());
-                if (volumes != null && !volumes.isEmpty()) {
-                    if (volumes.contains(volumeId)) {
-                        volume.setId(volumeId);
-                        logger.info("Ready to Detach Volume from the server: " + Volume.Status.DETACHING);
-                        service.detachVolume(server, volume);
-                        logger.info("Volume status after performing detach: " + volume.getStatus());
-                        if (validateDetach(volumeService, volumeId)) {
-                            doSuccess(requestContext);
-                        } else {
-                            String msg = "Volume with volume id " + volumeId + " cannot be detached ";
-                            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
-                            doFailure(requestContext, HttpStatus.NOT_IMPLEMENTED_501, msg);
-                            logger.info("unable to detach volume  from the server");
-                        }
-                    } else {
-                        String msg = "Volume with volume id " + volumeId + " cannot be detached as it doesn't exists";
+                VolumeService vs = contx.getVolumeService();
+                Volume s = vs.getVolume(volumeId);
+                boolean flag = false;
+                if (validateDetach(service, vm.getServerId(), volumeId)) {
+                    volume.setId(volumeId);
+                    logger.info("Ready to Detach Volume from the server:");
+                    service.detachVolume(server, volume);
+                    flag = true;
+                } else {
+                    String msg = "Volume with volume id " + volumeId + " cannot be detached as it does not exists";
+                    logger.info("Volume doesnot exists:");
+                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    doFailure(requestContext, HttpStatus.METHOD_NOT_ALLOWED_405, msg);
+                    flag = false;
+                }
+                if (flag) {
+                    if (validateDetach(requestContext, service, vm.getServerId(), volumeId)) {
+                        String msg = "Volume with volume id " + volumeId + " cannot be detached ";
                         ctx.setAttribute("VOLUME_STATUS", "FAILURE");
-                        doFailure(requestContext, HttpStatus.NOT_IMPLEMENTED_501, msg);
+                        doFailure(requestContext, HttpStatus.CONFLICT_409, msg);
+                    } else {
+                        logger.info("status of detaching volume");
+                        ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                        doSuccess(requestContext);
                     }
-                    logger.info("volumestatus:" + ctx.getAttribute("VOLUME_STATUS"));
                 }
                 context.close();
             } else {
@@ -125,24 +134,85 @@ public class DettachVolumeServer extends ProviderServerOperation {
             logger.error("An error occurred when processing the request", e);
             doFailure(requestContext, e.getStatus(), e.getMessage());
         } catch (Exception e) {
-            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e, e.getClass().getSimpleName(),
+            String msg = EELFResourceManager.format(Msg.DETTACHINGVOLUME_SERVER, e, e.getClass().getSimpleName(),
                     DETACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
             logger.error(msg, e);
+            try {
+                ExceptionMapper.mapException((OpenStackBaseException) e);
+            } catch (ZoneException e1) {
+                logger.error(e1.getMessage());
+            }
+
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
         return server;
     }
 
-    protected boolean validateDetach(VolumeService volumeService, String volId)
+    protected boolean validateDetach(ComputeService ser, String vm, String volumeId)
             throws RequestFailedException, ZoneException {
         boolean flag = false;
-        List<Volume> volumes = volumeService.getVolumes();
-        if (!volumes.contains(volId)) {
-            flag = true;
-        } else {
-            flag = false;
+        Map<String, String> map = ser.getAttachments(vm);
+        if (map != null && !(map.isEmpty())) {
+            Iterator<Entry<String, String>> it = map.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry volumes = (Map.Entry) it.next();
+                logger.info("volumes available in before detach");
+                logger.info("device" + volumes.getKey() + "volume" + volumes.getValue());
+                if (volumes.getValue().equals(volumeId)) {
+                    flag = true;
+                }
+            }
         }
-        logger.info("validateDetach flag-->" + flag);
+        logger.info("DettachVolume  Flag" + flag);
         return flag;
     }
+
+    protected boolean validateDetach(RequestContext rc, ComputeService ser, String vm, String volumeId)
+            throws RequestFailedException, ZoneException {
+        boolean flag = false;
+        String msg = null;
+        config.setProperty(Constants.PROPERTY_RETRY_DELAY, "10");
+        config.setProperty(Constants.PROPERTY_RETRY_LIMIT, "30");
+        while (rc.attempt()) {
+            Map<String, String> map = ser.getAttachments(vm);
+            if (map != null && !(map.isEmpty())) {
+            Iterator<Entry<String, String>> it = map.entrySet().iterator();
+            logger.info("volumes available after  detach ");
+            while (it.hasNext()) {
+                Map.Entry volumes = (Map.Entry) it.next();
+                logger.info(" devices " + volumes.getKey() + " volumes" + volumes.getValue());
+                if (volumes.getValue().equals(volumeId)) {
+                    logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());
+                    flag = true;
+                    break;
+                } else {
+                    flag = false;
+                }
+                logger.info("Dettachvolume flag-->" + flag+"Attempts"+rc.getAttempts());
+            }
+            if (flag) {
+                rc.delay();
+            } else {
+                flag = false;
+                break;
+            }
+        }
+            else
+            {
+                flag = false;
+                logger.info( rc.getAttempts() + "No.of attempts");
+                break;
+            }
+        }
+        if ((rc.getAttempts() == 30) && (!flag)) {
+            msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, Long.toString(rc.getRetryDelay()),
+                    Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
+            logger.error(msg);
+            logger.info(msg);
+            throw new TimeoutException(msg);
+        }
+        logger.info("DettachVolume Flag -->" + flag);
+        return flag;
+    }
+
 }
