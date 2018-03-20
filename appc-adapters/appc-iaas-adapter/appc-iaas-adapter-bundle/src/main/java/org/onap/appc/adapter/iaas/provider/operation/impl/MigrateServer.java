@@ -38,6 +38,7 @@ import org.onap.appc.adapter.iaas.ProviderAdapter;
 import org.onap.appc.adapter.iaas.impl.IdentityURL;
 import org.onap.appc.adapter.iaas.impl.RequestContext;
 import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import com.att.cdp.exceptions.ContextConnectionException;
 import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
@@ -56,7 +57,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.Iterator;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.MIGRATE_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -69,11 +69,10 @@ public class MigrateServer extends ProviderServerOperation {
     /**
      * A list of valid initial VM statuses for a migrate operations
      */
-    private final Collection<Server.Status> migratableStatuses =
-            Arrays.asList(Server.Status.READY, Server.Status.RUNNING, Server.Status.SUSPENDED);
+    private final Collection<Server.Status> migratableStatuses = Arrays.asList(Server.Status.READY,
+            Server.Status.RUNNING, Server.Status.SUSPENDED);
 
-
-    private String getConnectionExceptionMessage(RequestContext rc, Context ctx, ZoneException e)
+    private String getConnectionExceptionMessage(RequestContext rc, Context ctx, ContextConnectionException e)
             throws ZoneException {
         return EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, ctx.getProvider().getName(),
                 ctx.getComputeService().getURL(), ctx.getTenant().getName(), ctx.getTenant().getId(), e.getMessage(),
@@ -82,110 +81,115 @@ public class MigrateServer extends ProviderServerOperation {
     }
 
     private void migrateServer(RequestContext rc, Server server, SvcLogicContext svcCtx)
-            throws ZoneException, RequestFailedException {
+            throws ZoneException, RequestFailedException, APPCException {
         String msg;
         Context ctx = server.getContext();
         ComputeService service = ctx.getComputeService();
-
         // Init status will equal final status
         Server.Status initialStatus = server.getStatus();
-
         if (initialStatus == null) {
             throw new ZoneException("Failed to determine server's starting status");
         }
-
         // We can only migrate certain statuses
         if (!migratableStatuses.contains(initialStatus)) {
             throw new ZoneException(String.format("Cannot migrate server that is in %s state. Must be in one of [%s]",
                     initialStatus, migratableStatuses));
         }
-
         setTimeForMetricsLogger();
-
         // Is the skip Hypervisor check attribute populated?
         String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
         if (skipHypervisorCheck == null && svcCtx != null) {
             skipHypervisorCheck = svcCtx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
         }
-
         // Always perform Hypervisor check
         // unless the skip is set to true
         if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
             // Check of the Hypervisor for the VM Server is UP and reachable
             checkHypervisor(server);
         }
-
         boolean inConfirmPhase = false;
-
-        while (rc.attempt()) {
-            try {
-                if (!inConfirmPhase) {
-                    // Initial migrate request
-                    service.migrateServer(server.getId());
-                    // Wait for change to verify resize
-                    waitForStateChange(rc, server, Server.Status.READY);
-                    inConfirmPhase = true;
-                }
-
-                // Verify resize
-                service.processResize(server);
-                // Wait for complete. will go back to init status
-                waitForStateChange(rc, server, initialStatus);
-                logger.info("Completed migrate request successfully");
-                metricsLogger.info("Completed migrate request successfully");
-
-                break;
-
-            } catch (ZoneException e) {
+        try {
+            while (rc.attempt()) {
                 try {
+                    if (!inConfirmPhase) {
+                        // Initial migrate request
+                        service.migrateServer(server.getId());
+                        // Wait for change to verify resize
+                        waitForStateChange(rc, server, Server.Status.READY);
+                        inConfirmPhase = true;
+                    }
+                    // Verify resize
+                    if (server.getStatus().equals(Server.Status.ERROR)) {
+                        msg = "Cannot Perform 'processResize' in  vm_state " + Server.Status.ERROR;
+                        logger.info(msg);
+                        msg = EELFResourceManager.format(Msg.MIGRATE_SERVER_FAILED, service.getURL());
+                        logger.error(msg);
+                        throw new RequestFailedException("Waiting for State Change", msg, HttpStatus.CONFLICT_409,
+                                server);
+                    } else {
+                        service.processResize(server);
+                        // Wait for complete. will go back to init status
+                        waitForStateChange(rc, server, initialStatus);
+                        logger.info("Completed migrate request successfully");
+                        metricsLogger.info("Completed migrate request successfully");
+
+                        break;
+                    }
+                } catch (ContextConnectionException e) {
                     msg = getConnectionExceptionMessage(rc, ctx, e);
-                } catch (ZoneException e1) {
-                    String phase = inConfirmPhase ? "VERIFY MIGRATE" : "REQUEST MIGRATE";
-                    msg = EELFResourceManager.format(Msg.MIGRATE_SERVER_FAILED, server.getName(), server.getId(), phase,
-                        e1.getMessage());
-                    generateEvent(rc, false, msg);
-                    logger.error(msg, e1);
-                    metricsLogger.error(msg, e1);
-                    throw new RequestFailedException("Migrate Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+                    logger.error(msg, e);
+                    if (server.getStatus().equals(Server.Status.ERROR)) {
+                        doFailure(rc, HttpStatus.EXPECTATION_FAILED_417, e.getMessage());
+                        throw new RequestFailedException("Migrate Server", msg, HttpStatus.CONFLICT_409, server);
+                    } else {
+                        rc.delay();
+                    }
                 }
-                logger.error(msg, e);
-                metricsLogger.error(msg, e);
-                rc.delay();
             }
+
+        } catch (ZoneException e) {
+            String phase = inConfirmPhase ? "VERIFY MIGRATE" : "REQUEST MIGRATE";
+            msg = EELFResourceManager.format(Msg.MIGRATE_SERVER_FAILED, server.getName(), server.getId(), phase,
+                    e.getMessage());
+            generateEvent(rc, false, msg);
+            logger.error(msg, e);
+            doFailure(rc, HttpStatus.EXPECTATION_FAILED_417, e.getMessage());
+            throw new RequestFailedException("Migrate Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405, server);
+        } catch (Exception ex) {
+            String phase = inConfirmPhase ? "VERIFY MIGRATE" : "REQUEST MIGRATE";
+            msg = EELFResourceManager.format(Msg.MIGRATE_SERVER_FAILED, server.getName(), server.getId(), phase,
+                    ex.getMessage());
+            generateEvent(rc, false, msg);
+            logger.error(msg, ex);
+            doFailure(rc, HttpStatus.EXPECTATION_FAILED_417, ex.getMessage());
         }
+    
+
     }
 
     /**
      * @see org.onap.appc.adapter.iaas.ProviderAdapter#migrateServer(java.util.Map,
      *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
-    private Server migrateServer(Map<String, String> params, SvcLogicContext ctx) {
+    private Server migrateServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
-
         setTimeForMetricsLogger();
-
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-
             String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
             VMURL vm = VMURL.parseURL(vm_url);
-
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
-
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
-
             server = conductServerMigration(rc, vm_url, identStr, ctx);
-
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
-
         return server;
     }
 
@@ -194,11 +198,8 @@ public class MigrateServer extends ProviderServerOperation {
             throws APPCException {
         setMDC(Operation.MIGRATE_SERVICE.toString(), "App-C IaaS Adapter:Migrate", ADAPTER_NAME);
         logOperation(Msg.MIGRATING_SERVER, params, context);
-
         setTimeForMetricsLogger();
-
         metricsLogger.info("Executing Provider Operation: Migrate");
-
         return migrateServer(params, context);
     }
 
@@ -218,12 +219,12 @@ public class MigrateServer extends ProviderServerOperation {
         MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.MigrateServer");
     }
 
-    private Server conductServerMigration(RequestContext rc, String vm_url, String identStr, SvcLogicContext ctx) throws RequestFailedException {
+    private Server conductServerMigration(RequestContext rc, String vm_url, String identStr, SvcLogicContext ctx)
+            throws RequestFailedException,APPCException  {
         String msg;
         Context context = getContext(rc, vm_url, identStr);
         VMURL vm = VMURL.parseURL(vm_url);
         Server server = null;
-
         try {
             if (context != null) {
                 server = lookupServer(rc, context, vm.getServerId());
