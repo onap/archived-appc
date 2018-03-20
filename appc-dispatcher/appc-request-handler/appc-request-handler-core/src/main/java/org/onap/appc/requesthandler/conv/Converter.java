@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -253,6 +252,16 @@ public class Converter {
                 outObj = new UpgradePreCheckOutputBuilder();
                 ((UpgradePreCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradePreCheckOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case AttachVolume:
+                outObj = new AttachVolumeOutputBuilder();
+                ((AttachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((AttachVolumeOutputBuilder)outObj).setStatus(status);
+                return outObj;  
+            case DetachVolume:
+                outObj = new DetachVolumeOutputBuilder();
+                ((DetachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DetachVolumeOutputBuilder)outObj).setStatus(status);
                 return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
