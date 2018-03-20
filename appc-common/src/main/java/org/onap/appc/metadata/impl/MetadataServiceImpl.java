@@ -56,7 +56,7 @@ public class MetadataServiceImpl implements MetadataService {
         // TODO initialze dbLibService
     }
 
-    void setDbLibService(DbLibService dbLibService) {
+    public void setDbLibService(DbLibService dbLibService) {
         this.dbLibService = dbLibService;
     }
 
