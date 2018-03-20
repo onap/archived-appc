@@ -37,15 +37,22 @@ import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
 import org.onap.appc.adapter.iaas.impl.IdentityURL;
 import org.onap.appc.adapter.iaas.impl.RequestContext;
 import org.onap.appc.adapter.iaas.impl.RequestFailedException;
+import com.att.cdp.exceptions.TimeoutException;
 import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import com.woorea.openstack.base.client.OpenStackBaseException;
+import com.att.cdp.openstack.util.ExceptionMapper;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import java.util.Iterator;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -53,6 +60,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 public class AttachVolumeServer extends ProviderServerOperation {
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(AttachVolumeServer.class);
+    private static final Configuration config = ConfigurationFactory.getConfiguration();
 
     private Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
         Server server = null;
@@ -85,27 +93,28 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 logger.info("collecting volume status for volume -id:" + volumeId);
                 List<Volume> volumes = volumeService.getVolumes();
                 Volume volume = new Volume();
-                logger.info("Size of volume list :" + volumes.size());
-                if (volumes != null && !volumes.isEmpty()) {
-                    if (!(volumes.contains(volumeId))) {
-                        volume.setId(volumeId);
-                        logger.info("Ready to Attach Volume to the server:");
-                        service.attachVolume(server, volume, device);
-                        logger.info("Volume status after performing attach:" + volume.getStatus());
-                        if (validateAttach(volumeService, volumeId)) {
-                            ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
-                            doSuccess(requestContext);
-                        } else {
-                            String msg = "Failed to attach Volume";
-                            logger.info("Volume with " + volumeId + " unable to attach");
-                            ctx.setAttribute("VOLUME_STATUS", "FAILURE");
-                            doFailure(requestContext, HttpStatus.NOT_IMPLEMENTED_501, msg);
-                        }
+                boolean flag = false;
+                if (validateAttach(service, vm.getServerId(), volumeId, device)) {
+                    String msg = "Volume with volume id " + volumeId + " cannot be attached as it already exists";
+                    logger.info("Already volumes exists:");
+                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    doFailure(requestContext, HttpStatus.METHOD_NOT_ALLOWED_405, msg);
+                    flag = false;
+                } else {
+                    volume.setId(volumeId);
+                    logger.info("Ready to Attach Volume to the server:");
+                    service.attachVolume(server, volume, device);
+                    flag = true;
+                }
+                if (flag) {
+                    if (validateAttach(requestContext, service, vm.getServerId(), volumeId, device)) {
+                        ctx.setAttribute("VOLUME_STATUS", "SUCCESS");
+                        doSuccess(requestContext);
                     } else {
-                        String msg = "Volume with volume id " + volumeId + " cannot be attached as it already exists";
-                        logger.info("Alreday volumes exists:");
+                        String msg = "Volume with " + volumeId + " unable  to attach";
+                        logger.info("Volume with " + volumeId + " unable to attach");
                         ctx.setAttribute("VOLUME_STATUS", "FAILURE");
-                        doFailure(requestContext, HttpStatus.NOT_IMPLEMENTED_501, msg);
+                        doFailure(requestContext, HttpStatus.CONFLICT_409, msg);
                     }
                 }
                 context.close();
@@ -124,6 +133,11 @@ public class AttachVolumeServer extends ProviderServerOperation {
             String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
                     ATTACHVOLUME_SERVICE.toString(), vmUrl, tenantName);
             ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+            try {
+                ExceptionMapper.mapException((OpenStackBaseException) ex);
+            } catch (ZoneException e1) {
+                logger.error(e1.getMessage());
+            }
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
         return server;
@@ -137,16 +151,62 @@ public class AttachVolumeServer extends ProviderServerOperation {
         return attachVolume(params, context);
     }
 
-    protected boolean validateAttach(VolumeService volumeService, String volumeId)
+    protected boolean validateAttach(ComputeService ser, String vm, String volumeId, String device)
             throws RequestFailedException, ZoneException {
         boolean flag = false;
-        List<Volume> volumeList = volumeService.getVolumes();
-        if (volumeList.contains(volumeId)) {
-            flag = true;
-        } else {
-            flag = false;
+        Map<String, String> map = ser.getAttachments(vm);
+        Iterator<Entry<String, String>> it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry volumes = (Map.Entry) it.next();
+            if (map != null && !(map.isEmpty())) {
+                logger.info("volumes available before attach");
+                logger.info("device" + volumes.getKey() + "Values" + volumes.getValue());
+                if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
+                    logger.info("Device " + volumes.getKey() + "Volumes" + volumes.getValue());
+                    flag = true;
+                }
+            }
         }
-        logger.info("validateAttach flag-->" + flag);
+        logger.info("AttachVolumeFlag" + flag);
+        return flag;
+    }
+    
+    protected boolean validateAttach(RequestContext rc, ComputeService ser, String vm, String volumeId, String device)
+            throws RequestFailedException, ZoneException {
+        boolean flag = false;
+        String msg = null;
+        config.setProperty(Constants.PROPERTY_RETRY_DELAY, "10");
+        config.setProperty(Constants.PROPERTY_RETRY_LIMIT, "30");
+        while (rc.attempt()) {
+            Map<String, String> map = ser.getAttachments(vm);
+            if (map != null && !(map.isEmpty())) {
+                Iterator<Entry<String, String>> it = map.entrySet().iterator();
+                logger.info("volumes available after attach ");
+                while (it.hasNext()) {
+                    Map.Entry volumes = (Map.Entry) it.next();
+                    logger.info(" devices " + volumes.getKey() + "volumes" + volumes.getValue());
+                    if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
+                        logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag) {
+                    logger.info("AttachVolume" + rc.getAttempts() + "No.of attempts");
+                    break;
+                } else {
+                    rc.delay();
+                }
+            }
+        }
+        if ((rc.getAttempts() == 30) && (!flag)) {
+
+            msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, Long.toString(rc.getRetryDelay()),
+                    Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
+            logger.error(msg);
+            throw new TimeoutException(msg);
+        }
+        logger.info("AttachVolume Flag -->" + flag);
         return flag;
     }
 }
