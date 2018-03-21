@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_eee5dd38",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-03-21T09:03:04Z",
+      "side": 1,
+      "message": "please fix indentation. It\u0027s hard to find where is \u0027if\u0027 for this \u0027else\u0027",
+      "revId": "5a2f0f5e6d38f4bb65be551e24d682d9e8cfa69c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_babab8be",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/MigrateServer.java",
         "patchSetId": 1
