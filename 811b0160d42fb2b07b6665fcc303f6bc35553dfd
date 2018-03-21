@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_dafa1b43",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-21T20:44:23Z",
+      "side": 1,
+      "message": "You removed 3 lines from original. Would you mind to explain why you think those 3 line in the original code are redundant?",
+      "range": {
+        "startLine": 607,
+        "startChar": 40,
+        "endLine": 607,
+        "endChar": 44
+      },
+      "revId": "811b0160d42fb2b07b6665fcc303f6bc35553dfd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fa8ef7cf",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-21T20:44:23Z",
+      "side": 1,
+      "message": "Would you explain the difference between SvcLogicContext and RequestContext objects, since you changed ? Thanks -Taka",
+      "range": {
+        "startLine": 638,
+        "startChar": 45,
+        "endLine": 638,
+        "endChar": 46
+      },
+      "revId": "811b0160d42fb2b07b6665fcc303f6bc35553dfd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
