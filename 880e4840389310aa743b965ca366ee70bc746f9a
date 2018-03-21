@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_b1309a08",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-21T13:46:07Z",
+      "side": 1,
+      "message": "the original code was init a new StringEntity. but you are not. I assume you think the original code is a bug? Would you explain? Thanks",
+      "range": {
+        "startLine": 125,
+        "startChar": 27,
+        "endLine": 125,
+        "endChar": 33
+      },
+      "revId": "880e4840389310aa743b965ca366ee70bc746f9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_713a12e9",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-21T13:46:07Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 276,
+        "startChar": 41,
+        "endLine": 276,
+        "endChar": 42
+      },
+      "revId": "880e4840389310aa743b965ca366ee70bc746f9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
