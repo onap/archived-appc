@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_da4c5bcb",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-21T20:25:28Z",
+      "side": 1,
+      "message": "this if statement was after init JSONObject in original, but your new code is before init JSONObject, would you please explain that? Thanks",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 60
+      },
+      "revId": "bcb9a21ec6b3d28806e839cc5571e919c104441f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
