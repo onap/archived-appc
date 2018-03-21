@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ba93984e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/DettachVolumeServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-03-21T08:59:54Z",
+      "side": 1,
+      "message": "why iterator instead of simple and readable for each loop or stream?",
+      "revId": "5a2f0f5e6d38f4bb65be551e24d682d9e8cfa69c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_babab8be",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/MigrateServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3541
+      },
+      "writtenOn": "2018-03-21T08:59:54Z",
+      "side": 1,
+      "message": "is it used or added by mistake?",
+      "revId": "5a2f0f5e6d38f4bb65be551e24d682d9e8cfa69c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
