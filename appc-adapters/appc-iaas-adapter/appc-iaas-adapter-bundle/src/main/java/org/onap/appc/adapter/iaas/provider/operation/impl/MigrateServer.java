@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -56,7 +55,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.Iterator;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.MIGRATE_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
