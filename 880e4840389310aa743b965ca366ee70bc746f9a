@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_b4a088a6",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 3081
+      },
+      "writtenOn": "2018-03-21T14:39:50Z",
+      "side": 1,
+      "message": "I thought, that was author\u0027s intention, since \"entity\" variable isn\u0027t used anywhere else.",
+      "parentUuid": "5a93c517_b1309a08",
+      "range": {
+        "startLine": 125,
+        "startChar": 27,
+        "endLine": 125,
+        "endChar": 33
+      },
+      "revId": "880e4840389310aa743b965ca366ee70bc746f9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_713a12e9",
         "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-21T13:46:07Z",
       "side": 1,
       "message": "?",
+      "range": {
+        "startLine": 276,
+        "startChar": 41,
+        "endLine": 276,
+        "endChar": 42
+      },
+      "revId": "880e4840389310aa743b965ca366ee70bc746f9a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_74b3e00a",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/LCM/operation/ProviderOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 3081
+      },
+      "writtenOn": "2018-03-21T14:39:50Z",
+      "side": 1,
+      "message": "400 isn\u0027t a status code i would expect to receive after successful operation",
+      "parentUuid": "5a93c517_713a12e9",
       "range": {
         "startLine": 276,
         "startChar": 41,
