@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_0b259c09",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-21T01:33:25Z",
+      "side": 1,
+      "message": "I just found out that you added another junit dependency.",
+      "range": {
+        "startLine": 54,
+        "startChar": 16,
+        "endLine": 54,
+        "endChar": 17
+      },
+      "revId": "952cf60abedf9a87694525e6e4b590717e3075a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
