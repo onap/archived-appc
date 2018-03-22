@@ -2,7 +2,7 @@
 # ============LICENSE_START=======================================================
 # ONAP : APPC
 # ================================================================================
-# Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+# Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
 # ================================================================================
 # Copyright (C) 2017 Amdocs
 # =============================================================================
@@ -18,7 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # 
-# ECOMP is a trademark and service mark of AT&T Intellectual Property.
 # ============LICENSE_END=========================================================
 ###
 
@@ -26,7 +25,7 @@
 
 ODL_HOME=${ODL_HOME:-/opt/opendaylight/current}
 ODL_KARAF_CLIENT=${ODL_KARAF_CLIENT:-${ODL_HOME}/bin/client}
-ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-"-u karaf"}
+ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-""}
 INSTALLERDIR=$(dirname $0)
 
 REPOZIP=${INSTALLERDIR}/${features.boot}-${project.version}.zip
@@ -40,4 +39,4 @@ else
 fi
 
 ${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repositories}
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install ${features.boot}
+
