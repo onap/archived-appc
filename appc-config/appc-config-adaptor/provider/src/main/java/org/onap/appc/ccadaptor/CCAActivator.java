@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -39,7 +39,7 @@ public class CCAActivator implements BundleActivator
 {
 
   private static final String CCA_PROP_FILE_VAR = "SDNC_CCA_PROPERTIES";
-  private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+  private static final String APPC_CONFIG_DIR_VAR = "APPC_CONFIG_DIR";
 
   @SuppressWarnings("rawtypes")
   private ServiceRegistration registration = null;
@@ -56,10 +56,10 @@ public class CCAActivator implements BundleActivator
     String propFileName = System.getenv(CCA_PROP_FILE_VAR);
     if (propFileName == null)
     {
-      String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
+      String propDir = System.getenv(APPC_CONFIG_DIR_VAR);
       if (propDir == null)
         throw new ConfigurationException(
-          "Cannot find config file - " + CCA_PROP_FILE_VAR + " and " + SDNC_CONFIG_DIR_VAR + " unset");
+          "Cannot find config file - " + CCA_PROP_FILE_VAR + " and " + APPC_CONFIG_DIR_VAR + " unset");
 
       propFileName = propDir + "/appc-config-adaptor.properties";
       log.warn("Environment variable " + CCA_PROP_FILE_VAR + " unset - defaulting to " + propFileName);
