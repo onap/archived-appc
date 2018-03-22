@@ -2,7 +2,7 @@
 # ============LICENSE_START=======================================================
 # ONAP : APPC
 # ================================================================================
-# Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+# Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
 # ================================================================================
 # Copyright (C) 2017 Amdocs
 # =============================================================================
@@ -26,7 +26,7 @@
 
 ODL_HOME=${ODL_HOME:-/opt/opendaylight/current}
 ODL_KARAF_CLIENT=${ODL_KARAF_CLIENT:-${ODL_HOME}/bin/client}
-ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-"-u karaf"}
+ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-""}
 INSTALLERDIR=$(dirname $0)
 
 REPOZIP=${INSTALLERDIR}/${features.boot}-${project.version}.zip
@@ -51,7 +51,7 @@ ${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.wo
 ${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:repo-add ${features.repo.lockManager}
 
 # INSTALLING appc-license-manager first since it's a dependency on other features
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install ${features.boot.licenseManager}
+#${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install -r ${features.boot.licenseManager}
 
-${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install ${features.boot}
+
 
