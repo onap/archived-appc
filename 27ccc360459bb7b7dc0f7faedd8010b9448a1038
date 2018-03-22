@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ad02726d",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/test/java/org/onap/appc/listener/impl/EventHandlerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-03-22T15:12:58Z",
+      "side": 1,
+      "message": "please remove this line. there is a new guide line where we don\u0027t need to put this line in the license header.",
+      "range": {
+        "startLine": 21,
+        "startChar": 49,
+        "endLine": 21,
+        "endChar": 61
+      },
+      "revId": "27ccc360459bb7b7dc0f7faedd8010b9448a1038",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
