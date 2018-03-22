@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -28,10 +28,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">
 
-    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
+    <!--<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>-->
 
     <feature name='appc-oam' description="appc oam module" version='${project.version}'>
-	<feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
+	<feature >odl-mdsal-broker</feature>
         <feature version='${project.version}'>appc-lifecycle-management</feature>
         <bundle>mvn:org.onap.appc/appc-oam-model/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-oam-bundle/${project.version}</bundle>
