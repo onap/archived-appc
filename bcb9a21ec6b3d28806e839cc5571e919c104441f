@@ -22,6 +22,30 @@
       "revId": "bcb9a21ec6b3d28806e839cc5571e919c104441f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_34e31335",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-03-22T06:47:35Z",
+      "side": 1,
+      "message": "Hi Takamune, This is basically a small optimization. The JSONObject is used to parse the env JSON parameter and extract the name value which then is passed into the chefApiClient.put method. \nIn the old code the JSONObject was not used any other place outside of the if(privateKeyChecker.doesExist()) condition block. This meant that the JSONObject was created and parsed even though there was a risk of it not being used in case the privateKeyChecker statement evaluated to false. I moved this inside the if-statement so that the JSONObject is created and used only when we are certain that it will be needed - to avoid unnecessary processing. Of course this change was made after I had written the unit tests. Hope this clarifies and is acceptable",
+      "parentUuid": "5a93c517_da4c5bcb",
+      "range": {
+        "startLine": 125,
+        "startChar": 44,
+        "endLine": 125,
+        "endChar": 60
+      },
+      "revId": "bcb9a21ec6b3d28806e839cc5571e919c104441f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
