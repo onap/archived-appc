@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -19,7 +19,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   ============LICENSE_END=========================================================
   -->
 
@@ -32,7 +31,7 @@
 	<feature name='appc-dg-shared' description="appc-dg-shared" version='${project.version}'>
 		<feature version='${project.version}'>appc-ssh-adapter</feature>
 		<feature version='${project.version}'>appc-netconf-adapter</feature>
-		<feature>sdnc-sli</feature>
+		<feature>ccsdk-sli</feature>
         <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
         <bundle start-level="85" start="true">mvn:org.onap.appc/appc-dg-common/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-dg-ssh/${project.version}</bundle>
