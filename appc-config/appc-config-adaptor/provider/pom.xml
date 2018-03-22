@@ -19,7 +19,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   ============LICENSE_END=========================================================
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -128,7 +127,8 @@
                         <Bundle-SymbolicName>appc.config.adaptor</Bundle-SymbolicName>
                         <Bundle-Activator>org.onap.appc.ccadaptor.CCAActivator</Bundle-Activator>
                         <Export-Package>org.onap.appc.adaptor</Export-Package>
-                        <Import-Package>*</Import-Package>
+                        <Import-Package>*;resolution:=optional</Import-Package>
+                        <Embed-Dependency>jasypt,jsch,eelf-core</Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                     <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>

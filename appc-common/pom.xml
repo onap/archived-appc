@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   ============LICENSE_END=========================================================
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -154,7 +153,7 @@
               org.onap.appc.*, com.att.eelf.*, ch.qos.logback.*, org.jasypt.*
             </Export-Package>
             <Import-Package>*;resolution:=optional</Import-Package>
-            <Embed-Dependency>eelf-core, logback-core, logback-classic, jasypt</Embed-Dependency>
+            <Embed-Dependency>eelf-core, logback-core, logback-classic, jasypt, dblib-provider</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
           </instructions>
         </configuration>

@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -19,7 +19,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   ============LICENSE_END=========================================================
   -->
 
@@ -41,7 +40,7 @@
 
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
         <feature version='${odl.mdsal.version}'>odl-mdsal-broker</feature>
-        <feature>sdnc-sli</feature>
+        <feature>ccsdk-sli</feature>
         <bundle>mvn:org.onap.appc/appc-interfaces-service-bundle/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-aai-client-provider/${project.version}</bundle>
         <bundle>wrap:mvn:com.fasterxml.jackson.dataformat/jackson-dataformat-yaml/2.3.0</bundle>
