@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -28,11 +28,11 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
-    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
+    <!--<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>-->
 
     <feature name='appc-netconf-adapter' description="appc-netconf-adapter" version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
+        <feature >odl-mdsal-broker</feature>
 <!--         <bundle>mvn:org.onap.appc/appc-dmaap-adapter-bundle/${project.version}</bundle> -->
         <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
         <bundle start-level="75">mvn:org.onap.ccsdk.sli.core/dblib-provider/${sdnctl.dblib.version}</bundle>

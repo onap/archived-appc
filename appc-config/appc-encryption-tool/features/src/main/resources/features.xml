@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APP-C
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property.  All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,26 +24,20 @@
     xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
-    <repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
+    <!--<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>-->
 
     <feature name='appc-config-encryption-tool' description="Application Controller Encription Tool"
         version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-        <feature version="${odl.mdsal.version}">odl-mdsal-broker</feature>
+        <feature >odl-mdsal-broker</feature>
 
-        <feature>sdnc-dblib</feature>
-        <feature>sdnc-sli</feature>
-        <feature>sdnc-sql-resource</feature>
+        <feature>ccsdk-dblib</feature>
+        <feature>ccsdk-sli</feature>
+        <feature>ccsdk-sql-resource</feature>
 
         <bundle>mvn:commons-lang/commons-lang/2.6</bundle>
         <bundle>mvn:org.apache.velocity/velocity/${velocity.version}</bundle>
         <bundle>mvn:commons-collections/commons-collections/${common.collections.version}</bundle>
-        <bundle>wrap:mvn:commons-configuration/commons-configuration/1.10</bundle>
-        <bundle>wrap:mvn:org.jasypt/jasypt/1.9.2</bundle>
-        <bundle>mvn:mysql/mysql-connector-java/${mysql.connector.version}</bundle>
-        <bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>
-        <bundle>mvn:ch.qos.logback/logback-core/${logback.version}</bundle>
-        <bundle>mvn:ch.qos.logback/logback-classic/${logback.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-config-encryption-tool-provider/${project.version}</bundle>
     </feature>
 </features>
