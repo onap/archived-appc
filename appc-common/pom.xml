@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -154,7 +154,7 @@
               org.onap.appc.*, com.att.eelf.*, ch.qos.logback.*, org.jasypt.*
             </Export-Package>
             <Import-Package>*;resolution:=optional</Import-Package>
-            <Embed-Dependency>eelf-core, logback-core, logback-classic, jasypt</Embed-Dependency>
+            <Embed-Dependency>eelf-core, logback-core, logback-classic, jasypt, dblib-provider</Embed-Dependency>
             <Embed-Transitive>true</Embed-Transitive>
           </instructions>
         </configuration>

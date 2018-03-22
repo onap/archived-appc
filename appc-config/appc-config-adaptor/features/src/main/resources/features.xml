@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APP-C
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property.  All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,11 +24,11 @@
 	xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
-	<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
+	<!--<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>-->
 
 	<feature name='appc-config-adaptor' description="Application Controller Config Adaptor"
 		version='${project.version}'>
-		<feature>sdnc-sli</feature>
+		<feature>ccsdk-sli</feature>
 		<bundle>wrap:mvn:com.jcraft/jsch/0.1.52</bundle>
 		<bundle>wrap:mvn:org.jasypt/jasypt/1.9.2</bundle>
 		<bundle>wrap:mvn:com.att.eelf/eelf-core/${eelf.version}</bundle>

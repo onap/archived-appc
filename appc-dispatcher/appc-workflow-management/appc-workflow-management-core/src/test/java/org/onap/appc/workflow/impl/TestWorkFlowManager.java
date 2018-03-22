@@ -38,15 +38,7 @@ import org.onap.appc.workflow.objects.WorkflowExistsOutput;
 import org.onap.appc.workflow.objects.WorkflowRequest;
 import org.onap.appc.workflow.objects.WorkflowResponse;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicGraph;
-import org.onap.ccsdk.sli.core.sli.SvcLogicNode;
-import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
-import org.onap.ccsdk.sli.core.sli.provider.SvcLogicActivator;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
-import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 

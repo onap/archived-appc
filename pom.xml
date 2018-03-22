@@ -3,7 +3,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
 ================================================================================
 Copyright (C) 2017 Amdocs
 =============================================================================
@@ -26,8 +26,8 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>odlparent-carbon-sr1</artifactId>
-        <version>0.1.0</version>
+        <artifactId>odlparent</artifactId>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
 
@@ -86,6 +86,22 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         <!-- <salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath> -->
         
         <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
+        
+        <sdnctl.dblib.version>0.2.1-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.sli.version>0.2.1-SNAPSHOT</sdnctl.sli.version>
+        <ccsdk.sli.adaptors.version>0.2.1-SNAPSHOT</ccsdk.sli.adaptors.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
+        <odl.sal.api.gen.plugin.version>0.11.1</odl.sal.api.gen.plugin.version>
+        <odl.yangtools.version>1.2.1</odl.yangtools.version>
+        <odl.mdsal.yang.binding.version>0.11.1</odl.mdsal.yang.binding.version>
+        <odl.mdsal.version>1.6.1</odl.mdsal.version>
+        <odl.mdsal.features.version>2.3.1</odl.mdsal.features.version>
+        <odl.yang.jmx.generator.version>0.7.1</odl.yang.jmx.generator.version>
+        <odl.ietf-yang-types.version>2010.09.24.11.1</odl.ietf-yang-types.version>
+        <odl.ietf-inet-types.version>2010.09.24.11.1</odl.ietf-inet-types.version>
+        <odl.controller.config.api.version>0.7.1</odl.controller.config.api.version>
+        <odl.commons.opendaylight.version>2.0.5</odl.commons.opendaylight.version>
+        <odl.karaf.empty.distro.version>1.8.3-Carbon</odl.karaf.empty.distro.version>
 
     </properties>
 
@@ -184,6 +200,17 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     <!-- ================================================================================== -->
     <dependencyManagement>
         <dependencies>
+              <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>22.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava-testlib</artifactId>
+        <version>22.0</version>
+        <scope>test</scope>
+      </dependency>
             <dependency>
                 <groupId>org.opendaylight.controller</groupId>
                 <artifactId>config-api</artifactId>
@@ -416,6 +443,12 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
 
 
     <!-- ================================================================================== -->
