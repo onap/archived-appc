@@ -3,7 +3,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
 ================================================================================
 Copyright (C) 2017 Amdocs
 =============================================================================
@@ -44,7 +44,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 						<Bundle-SymbolicName>org.onap.appc.artifact.handler</Bundle-SymbolicName>
 						<Bundle-Activator>org.onap.appc.artifact.handler.SdcArtifactHandlerActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.artifact.handler,org.opendaylight.controller.config.yang.config.artifact-handler_provider.impl</Export-Package>
-						<Import-Package>*</Import-Package>
+						<Import-Package>!org.apache.commons.configuration,*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
 					</instructions>
 					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
