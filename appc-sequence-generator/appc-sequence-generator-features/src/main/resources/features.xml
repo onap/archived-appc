@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APP-C
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property.  All rights reserved.
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -24,12 +24,12 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
-	<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>
+	<!--<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>-->
 
 	<feature name='appc-sequence-generator' description="Appc Sequence Generator"
 		version='${project.version}'>
 		<!--<feature version="${odl.controller.mdsal.version}">odl-mdsal-broker</feature>-->
-		<!--<feature>sdnc-sli</feature>-->
+		<!--<feature>ccsdk-sli</feature>-->
 		<bundle dependency="true">mvn:org.onap.appc/domain-model-lib/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-common/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-sequence-generator-model/${project.version}</bundle>
