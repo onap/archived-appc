@@ -18,7 +18,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   ============LICENSE_END=========================================================
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
@@ -176,7 +175,7 @@
 						<!--<Bundle-SymbolicName>org.onap.appc.adapter.messaging.dmaap</Bundle-SymbolicName>-->
 						<Bundle-Activator>org.onap.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.adapter.messaging.*</Export-Package>
-						<Import-Package>!org.slf4j.event,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*,org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets,org.w3c.*</Import-Package>
+						<Import-Package>!org.slf4j.event,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*,org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|appc-message-adapter-api|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis|pax-*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>

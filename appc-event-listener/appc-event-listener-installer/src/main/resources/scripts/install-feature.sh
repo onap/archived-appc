@@ -2,7 +2,7 @@
 # ============LICENSE_START=======================================================
 # ONAP : APPC
 # ================================================================================
-# Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+# Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
 # ================================================================================
 # Copyright (C) 2017 Amdocs
 # =============================================================================
@@ -18,7 +18,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 # 
-# ECOMP is a trademark and service mark of AT&T Intellectual Property.
 # ============LICENSE_END=========================================================
 ###
 
@@ -26,7 +25,7 @@
 
 ODL_HOME=${ODL_HOME:-/opt/opendaylight/current}
 ODL_KARAF_CLIENT=${ODL_KARAF_CLIENT:-${ODL_HOME}/bin/client}
-ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-"-u karaf"}
+ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-""}
 INSTALLERDIR=$(dirname $0)
 
 REPOZIP=${INSTALLERDIR}/${features.boot}-${project.version}.zip
@@ -52,7 +51,7 @@ while [ $COUNT -lt 10 ]; do
 done
 COUNT=0
 while [ $COUNT -lt 10 ]; do
-	${ODL_KARAF_CLIENT} ${ODL_KARAF_CLIENT_OPTS} feature:install ${features.boot} 2> /tmp/installErr
+	 2> /tmp/installErr
 		cat /tmp/installErr
 	if grep -q 'Failed to get the session' /tmp/installErr; then
 		sleep 10

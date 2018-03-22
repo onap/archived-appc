@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -19,7 +19,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   ============LICENSE_END=========================================================
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -80,7 +79,7 @@
                             org.onap.appc.domainmodel.lcm,org.onap.ccsdk.sli.core.dblib,org.onap.appc.dao.util,*;resolution:=optional
                         </Import-Package>
                         <Export-Package>
-                            org.onap.appc.transactionrecorder,org.onap.appc.transactionrecorder.objects
+                            org.onap.appc.transactionrecorder,org.onap.appc.transactionrecorder.impl,org.onap.appc.transactionrecorder.objects
                         </Export-Package>
                     </instructions>
                 </configuration>
