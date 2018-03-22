@@ -3,7 +3,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
 ================================================================================
 Copyright (C) 2017 Amdocs
 =============================================================================
@@ -86,6 +86,19 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
         <!-- <salGeneratorPath>src/main/yang-gen-sal</salGeneratorPath> -->
         
         <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
+        
+        <sdnctl.dblib.version>0.2.1-SNAPSHOT</sdnctl.dblib.version>
+        <sdnctl.sli.version>0.2.1-SNAPSHOT</sdnctl.sli.version>
+        <commons.collections.version>3.2.2</commons.collections.version>
+        <odl.sal.api.gen.plugin.version>0.11.2</odl.sal.api.gen.plugin.version>
+        <odl.yangtools.version>1.2.2</odl.yangtools.version>
+        <odl.mdsal.yang.binding.version>0.11.2</odl.mdsal.yang.binding.version>
+        <odl.mdsal.version>1.6.2</odl.mdsal.version>
+        <odl.mdsal.features.version>2.3.1</odl.mdsal.features.version>
+        <odl.yang.jmx.generator.version>0.7.2</odl.yang.jmx.generator.version>
+        <odl.ietf-yang-types.version>2010.09.24.11.2</odl.ietf-yang-types.version>
+        <odl.ietf-inet-types.version>2010.09.24.11.2</odl.ietf-inet-types.version>
+        <odl.controller.config.api.version>0.7.2</odl.controller.config.api.version>
 
     </properties>
 
@@ -184,6 +197,17 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
     <!-- ================================================================================== -->
     <dependencyManagement>
         <dependencies>
+              <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>22.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava-testlib</artifactId>
+        <version>22.0</version>
+        <scope>test</scope>
+      </dependency>
             <dependency>
                 <groupId>org.opendaylight.controller</groupId>
                 <artifactId>config-api</artifactId>
@@ -416,6 +440,12 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
 
 
     <!-- ================================================================================== -->

@@ -2,7 +2,7 @@
 # ============LICENSE_START=======================================================
 # ONAP : APP-C
 # ================================================================================
-# Copyright (C) 2017 AT&T Intellectual Property.  All rights reserved.
+# Copyright (C) 2017-2018 AT&T Intellectual Property.  All rights reserved.
 # ================================================================================
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 ODL_HOME=${ODL_HOME:-/opt/opendaylight/current}
 ODL_KARAF_CLIENT=${ODL_KARAF_CLIENT:-${ODL_HOME}/bin/client}
-ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-"-u karaf"}
+ODL_KARAF_CLIENT_OPTS=${ODL_KARAF_CLIENT_OPTS:-""}
 INSTALLERDIR=$(dirname $0)
 
 REPOZIP=${INSTALLERDIR}/${features.boot}-${project.version}.zip
