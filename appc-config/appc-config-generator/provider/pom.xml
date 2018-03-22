@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   ============LICENSE_END=========================================================
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -52,6 +51,14 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+                <dependency>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
+            <artifactId>dblib-provider</artifactId>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -96,17 +103,17 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-	<dependency>
-		<groupId>org.powermock</groupId>
-		<artifactId>powermock-api-mockito</artifactId>
-		<version>1.6.4</version>
-		<scope>test</scope>
-    	</dependency>
-	    <dependency>
-	    <groupId>org.mockito</groupId>
-	    <artifactId>mockito-core</artifactId>
-	    <scope>test</scope>
-    	</dependency>
+    <dependency>
+        <groupId>org.powermock</groupId>
+        <artifactId>powermock-api-mockito</artifactId>
+        <version>1.6.4</version>
+        <scope>test</scope>
+        </dependency>
+        <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <scope>test</scope>
+        </dependency>
 
     </dependencies>
 
@@ -124,7 +131,8 @@
                         <Export-Package>org.onap.sdnc.config.generator,org.onap.sdnc.config.generator.compare,org.onap.sdnc.config.generator.convert,
                             org.onap.sdnc.config.generator.merge,org.onap.sdnc.config.generator.pattern,org.onap.sdnc.config.generator.tool,
                             org.onap.sdnc.config.generator.transform</Export-Package>
-                        <Import-Package>*</Import-Package>
+                        <Import-Package>!com.werken.xpath,!com.google.common.collect,*;resolution:=optional</Import-Package>
+                        <Embed-Dependency>guava,jackson-databind,jackson-annotations,jackson-core,eelf-core,logback-core,logback-classic,commons-io,jettison,velocity,commons-collections</Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                     <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>

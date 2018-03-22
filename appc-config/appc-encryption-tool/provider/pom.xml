@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   ============LICENSE_END=========================================================
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -48,7 +47,7 @@
         <dependency>
             <groupId>org.onap.ccsdk.sli.adaptors</groupId>
             <artifactId>sql-resource-provider</artifactId>
-	    <version>${ccsdk.sli.adaptors.version}</version>
+        <version>${ccsdk.sli.adaptors.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -59,6 +58,10 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.att.eelf</groupId>
@@ -87,7 +90,9 @@
                         <Bundle-SymbolicName>org.onap.appc.encryptiontool</Bundle-SymbolicName>
                         <Bundle-Activator>org.onap.appc.encryptiontool.EncryptionToolActivator</Bundle-Activator>
                         <Export-Package>org.onap.appc.encryptiontool</Export-Package>
-                        <Import-Package>*</Import-Package>
+                        <Import-Package>!com.google.common.collect,*;resolution:=optional</Import-Package>
+                        <!--  <Embed-Dependency>guava,logback-core,logback-classic,eelf-core,jasypt,commons-configuration</Embed-Dependency> -->
+                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|!appc-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                     <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
