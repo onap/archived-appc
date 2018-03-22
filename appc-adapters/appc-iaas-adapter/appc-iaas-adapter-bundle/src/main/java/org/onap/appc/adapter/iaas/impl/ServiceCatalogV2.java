@@ -263,7 +263,7 @@ public class ServiceCatalogV2 extends ServiceCatalog {
             Matcher matcher = urlPattern.matcher(endpointUrl);
             if (!matcher.matches() ||
                 !url.getHost().equals(matcher.group(1)) ||
-                (url.getPort() != null && url.getPort().equals(matcher.group(2))) ) {
+                (url.getPort() != null && !url.getPort().equals(matcher.group(2))) ) {
                 continue;
             }
 
