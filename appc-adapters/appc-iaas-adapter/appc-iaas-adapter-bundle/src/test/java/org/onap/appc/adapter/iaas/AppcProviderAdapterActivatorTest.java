@@ -41,7 +41,7 @@ import org.osgi.framework.ServiceRegistration;
 public class AppcProviderAdapterActivatorTest {
 
     @Mock
-    private ServiceRegistration<ProviderAdapter> serviceRegistration;
+    private ServiceRegistration serviceRegistration;
     @Mock
     private BundleContext bundleContext;
 

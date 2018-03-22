@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -43,7 +43,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Import-Package>*</Import-Package>
+                        <Import-Package>!com.google.common.collect,*</Import-Package>
+                        <Embed-Dependency>guava</Embed-Dependency>
                     </instructions>
                 </configuration>
             </plugin>

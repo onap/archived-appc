@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -56,7 +56,7 @@ public class MetadataServiceImpl implements MetadataService {
         // TODO initialze dbLibService
     }
 
-    void setDbLibService(DbLibService dbLibService) {
+    public void setDbLibService(DbLibService dbLibService) {
         this.dbLibService = dbLibService;
     }
 
