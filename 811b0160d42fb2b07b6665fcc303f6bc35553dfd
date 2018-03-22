@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_54da5fea",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-03-22T07:47:28Z",
+      "side": 1,
+      "message": "Hi Takamune, I answered this in another comment.",
+      "parentUuid": "5a93c517_dafa1b43",
+      "range": {
+        "startLine": 607,
+        "startChar": 40,
+        "endLine": 607,
+        "endChar": 44
+      },
+      "revId": "811b0160d42fb2b07b6665fcc303f6bc35553dfd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_fa8ef7cf",
         "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2018-03-21T20:44:23Z",
       "side": 1,
       "message": "Would you explain the difference between SvcLogicContext and RequestContext objects, since you changed ? Thanks -Taka",
+      "range": {
+        "startLine": 638,
+        "startChar": 45,
+        "endLine": 638,
+        "endChar": 46
+      },
+      "revId": "811b0160d42fb2b07b6665fcc303f6bc35553dfd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_94d0e7ca",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 638,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-03-22T07:47:28Z",
+      "side": 1,
+      "message": "Hi Takamune,\nSvcLogicContext is basically a kind of global object passed into each private method and this is where the result messages, status codes are set once the execution of a specific method finishes. You can say that it stores the outcome.\nBefore my change RequestContext was created inside each method and required the SvcLogicContext to be passed during construction. The only methods invoked on the RequestContext was isAlive() and getSvcLogicContext(). The logic of the isAlive was not actually used in any way - the date set inside the class by the method was not being accessed anywhere. The getSvcLogicContext() did nothing more than return the original SvcLogicContext reference that was passed into the RequestContext during construction. So instead of using the getSvcLogicContext() we can just use the original SvcLogicContext.\nSo the first step I did was to switch to using the SvcLogicContext without the intermediary RequestContext.\nThis quickly proved that the RequestContext was not being used anywhere else. So in my opinion it was better to remove the class instead of writing unit tests for unused code.",
+      "parentUuid": "5a93c517_fa8ef7cf",
       "range": {
         "startLine": 638,
         "startChar": 45,
