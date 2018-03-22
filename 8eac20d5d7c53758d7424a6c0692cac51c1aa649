@@ -22,6 +22,30 @@
       "revId": "8eac20d5d7c53758d7424a6c0692cac51c1aa649",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2d02e20b",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/test/java/org/onap/appc/listener/impl/EventHandlerImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 3081
+      },
+      "writtenOn": "2018-03-22T16:15:37Z",
+      "side": 1,
+      "message": "That was commented out by its author in the old file. \n\nIt\u0027s not working since FrameWorkUtil.getBundle(EventHnadlerImpl.class) in getConsumer and getProducer methods always return null.\nBy the way, thats why i had to override them.",
+      "parentUuid": "5a93c517_ed4e3a96",
+      "range": {
+        "startLine": 174,
+        "startChar": 7,
+        "endLine": 174,
+        "endChar": 11
+      },
+      "revId": "8eac20d5d7c53758d7424a6c0692cac51c1aa649",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
