@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -37,6 +36,7 @@ import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
+import org.onap.ccsdk.sli.adaptors.aai.AAIRequest;
 import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.adaptors.aai.AAIServiceException;
 import org.osgi.framework.BundleContext;
@@ -142,7 +142,7 @@ public class CommandTask implements Runnable {
         if (statusCode == 100 || statusCode == 400) {
             SvcLogicContext ctx = new SvcLogicContext();
             ctx = getVnfdata(commandRequest.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), "vnf", ctx);
-            aaiService.deleteGenericVnfData(commandRequest.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), ctx.getAttribute("vnf.resource-version"));
+            deleteGenericVnfData(commandRequest.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), ctx.getAttribute("vnf.resource-version"));
 
         }
     }
@@ -194,4 +194,20 @@ public class CommandTask implements Runnable {
             logger.error(e.getMessage(),e);
         }
     }
+    
+	public boolean deleteGenericVnfData(String vnf_id, String resourceVersion) throws AAIServiceException {
+		boolean response = false;
+
+		try {
+			AAIRequest request = aaiService.getRequestFromResource("generic-vnf");
+			request.addRequestProperty("generic-vnf.vnf-id", vnf_id);
+			response = aaiService.delete(request, resourceVersion);
+		} catch(AAIServiceException aaiexc) {
+			throw aaiexc;
+		} catch (Exception exc) {
+			logger.warn("deleteGenericVnfData", exc);
+			throw new AAIServiceException(exc);
+		}
+		return response;
+	}
 }
