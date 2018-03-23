@@ -54,7 +54,7 @@
         <bundle.plugin.version>2.5.0</bundle.plugin.version>
         <cambria.client.version>0.0.1</cambria.client.version>
         <eelf.core.version>1.0.0</eelf.core.version>
-        <eelf.version>0.0.4</eelf.version>
+        <eelf.version>1.0.0</eelf.version>
         <freemarker.version>2.3.23</freemarker.version>
         <java.version>1.8</java.version>
         <junit.version>4.12</junit.version>
