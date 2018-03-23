@@ -45,17 +45,18 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 @RunWith(MockitoJUnitRunner.class)
 public class ChefAdapterImplVNFCOperationsTest {
 
+    private static final String CHEF_END_POINT = "https://localhost/organizations/onap";
+    private static final String USERNAME = "testclient";
+    private static final String ORGANIZATIONS = "onap";
+    private static final String SERVER_ADDRESS = "localhost";
     private static final String CLIENT_PRIVATE_KEY_PATH = "/opt/onap/appc/chef/localhost/onap/testclient.pem";
     private static final String RESULT_CODE_ATTR_KEY = "chefServerResult.code";
     private static final String RESULT_MESSAGE_ATTR_KEY = "chefServerResult.message";
-    private static final String USERNAME = "testclient";
-    private static final String SERVER_ADDRESS = "localhost";
-    private static final String ORGANIZATIONS = "onap";
-    private static final String ENV_PARAM_KEY = "Environment";
-    private static final String ENV_JSON_VALUE = "{name:envName}";
     private static final String FAILURE_STATUS = "failure";
     private static final String SUCCESS_STATUS = "success";
     private static final String CHEF_ADAPTER_ERROR_PREFIX = "Chef Adapter error:";
+    private static final String ENV_PARAM_KEY = "Environment";
+    private static final String ENV_JSON_VALUE = "{name:envName}";
 
     @Mock
     private PrivateKeyChecker privateKeyChecker;
@@ -95,7 +96,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         String expectedErrorMessage = "New Environment Created";
         Map<String, String> params = givenInputParams(immutableEntry(ENV_PARAM_KEY, ENV_JSON_VALUE));
         given(privateKeyChecker.doesExist(CLIENT_PRIVATE_KEY_PATH)).willReturn(true);
-        given(chefApiClientFactory.create("https://localhost/organizations/onap", ORGANIZATIONS, USERNAME,
+        given(chefApiClientFactory.create(CHEF_END_POINT, ORGANIZATIONS, USERNAME,
             CLIENT_PRIVATE_KEY_PATH)).willReturn(chefApiClient);
         given(chefApiClient.put("/environments/" + "envName", ENV_JSON_VALUE))
             .willReturn(ChefResponse.create(HttpStatus.SC_NOT_FOUND, ""));
@@ -156,7 +157,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         String expectedErrorMessage = "Error posting request: ";
         Map<String, String> params = givenInputParams(immutableEntry(ENV_PARAM_KEY, ENV_JSON_VALUE));
         given(privateKeyChecker.doesExist(CLIENT_PRIVATE_KEY_PATH)).willReturn(true);
-        given(chefApiClientFactory.create("https://localhost/organizations/onap", ORGANIZATIONS, USERNAME,
+        given(chefApiClientFactory.create(CHEF_END_POINT, ORGANIZATIONS, USERNAME,
             CLIENT_PRIVATE_KEY_PATH)).willThrow(new NullPointerException("Null value encountered"));
 
         // WHEN  // THEN
@@ -168,6 +169,108 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
             .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).startsWith(expectedErrorMessage);
+    }
+
+    @Test
+    public void vnfcNodeObjects_shouldUpdateNodeObjects_andSetCodeAndMessageFromLastSuccessfulResponseInSvcLogicContext()
+        throws SvcLogicException {
+        // GIVEN
+        ChefResponse firstNodeResponse = ChefResponse.create(HttpStatus.SC_OK, "firstMessage");
+        ChefResponse secondNodeResponse = ChefResponse.create(HttpStatus.SC_OK, "secondMessage");
+        int expectedHttpStatus = HttpStatus.SC_OK;
+        String expectedMessage = "secondMessage";
+
+        assertNodeObjectsAreUpdatedFor(firstNodeResponse, secondNodeResponse, expectedHttpStatus, expectedMessage);
+    }
+
+    @Test
+    public void vnfcNodeObjects_shouldStopProcessingNodeObjectUpdates_whenFirstReturnedResponseIsOtherThan_200()
+        throws SvcLogicException {
+        ChefResponse firstNodeResponse = ChefResponse.create(HttpStatus.SC_ACCEPTED, "firstMessage");
+        ChefResponse secondNodeResponse = ChefResponse.create(HttpStatus.SC_OK, "secondMessage");
+        int expectedHttpStatus = HttpStatus.SC_ACCEPTED;
+        String expectedMessage = "firstMessage";
+
+        assertNodeObjectsAreUpdatedFor(firstNodeResponse, secondNodeResponse, expectedHttpStatus, expectedMessage);
+    }
+
+    public void assertNodeObjectsAreUpdatedFor(ChefResponse firstNodeResponse, ChefResponse secondNodeResponse,
+        int expectedHttpStatus, String expectedMessage) throws SvcLogicException {
+        // GIVEN
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"),
+            immutableEntry("Node", "{name:nodeName}"));
+
+        given(privateKeyChecker.doesExist(CLIENT_PRIVATE_KEY_PATH)).willReturn(true);
+        given(chefApiClientFactory.create(CHEF_END_POINT, ORGANIZATIONS, USERNAME,
+            CLIENT_PRIVATE_KEY_PATH)).willReturn(chefApiClient);
+        given(chefApiClient.put("/nodes/" + "test1.vnf_b.onap.com", "{\"name\":\"test1.vnf_b.onap.com\"}"))
+            .willReturn(firstNodeResponse);
+        given(chefApiClient
+            .put("/nodes/" + "test2.vnf_b.onap.com", "{\"name\":\"test2.vnf_b.onap.com\"}"))
+            .willReturn(secondNodeResponse);
+
+        // WHEN
+        chefAdapterFactory.create().vnfcNodeobjects(params, svcLogicContext);
+
+        // THEN
+        assertThat(svcLogicContext.getStatus()).isEqualTo(SUCCESS_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(expectedHttpStatus));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedMessage);
+    }
+
+    @Test
+    public void vnfcNodeObjects_shouldThrowSvcLogicException_whenNodeListParamIsEmpty() {
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", ""),
+            immutableEntry("Node", "{name:nodeName}"));
+        checkMissingParamsAreValidated(params);
+    }
+
+    @Test
+    public void vnfcNodeObjects_shouldThrowSvcLogicException_whenNodeParamIsEmpty() {
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"),
+            immutableEntry("Node", ""));
+        checkMissingParamsAreValidated(params);
+    }
+
+    public void checkMissingParamsAreValidated(Map<String, String> params) {
+        // GIVEN
+        String expectedErrorMsg = "Missing Mandatory param(s) Node , NodeList ";
+
+        // WHEN  // THEN
+        assertThatExceptionOfType(SvcLogicException.class)
+            .isThrownBy(() -> chefAdapterFactory.create().vnfcNodeobjects(params, svcLogicContext))
+            .withMessage(CHEF_ADAPTER_ERROR_PREFIX + "Error posting request: " + expectedErrorMsg);
+
+        assertThat(svcLogicContext.getStatus()).isEqualTo(FAILURE_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY))
+            .isEqualTo("Error posting request: " + expectedErrorMsg);
+    }
+
+    @Test
+    public void vnfcNodeObjects_shouldNotUpdateNodes_andHandleJSONException_whenJSONParamsAreMalformed() {
+        // GIVEN
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"),
+            immutableEntry("Node", "MALFORMED_JSON"));
+        String expectedErrorMessage = "Error posting request due to invalid JSON block: ";
+        given(privateKeyChecker.doesExist(CLIENT_PRIVATE_KEY_PATH)).willReturn(true);
+
+        // WHEN  // THEN
+        assertThatExceptionOfType(SvcLogicException.class)
+            .isThrownBy(() -> chefAdapterFactory.create().vnfcNodeobjects(params, svcLogicContext))
+            .withMessageStartingWith(CHEF_ADAPTER_ERROR_PREFIX + expectedErrorMessage);
+
+        assertThat(svcLogicContext.getStatus()).isEqualTo(FAILURE_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY))
+            .startsWith(expectedErrorMessage);
     }
 
     private Map<String, String> givenInputParams(Entry<String, String>... entries) {
