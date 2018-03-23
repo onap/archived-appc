@@ -3,70 +3,65 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
        http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
   ============LICENSE_END=========================================================
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
-		<groupId>org.onap.appc</groupId>
-		<artifactId>appc-outbound</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
-	</parent>
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.onap.appc</groupId>
+        <artifactId>appc-outbound</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
+    </parent>
 
-	<modelVersion>4.0.0</modelVersion>
-	<packaging>pom</packaging>
-	<artifactId>appc-network-inventory-client</artifactId>
-	<name>APPC Network Inventory Client</name>
+    <modelVersion>4.0.0</modelVersion>
+    <packaging>pom</packaging>
+    <artifactId>appc-network-inventory-client</artifactId>
+    <name>APPC Network Inventory Client</name>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <logback.version>1.2.0</logback.version>
+        <common.collections.version>3.2.2</common.collections.version>
+        <common.io.version>2.5</common.io.version>
+        <jettison.version>1.3.7</jettison.version>
+        <velocity.version>1.7</velocity.version>
+        <jackson.version>2.3.2</jackson.version>
+        <snakeyaml.version>1.12</snakeyaml.version>
+    </properties>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<logback.version>1.1.1</logback.version>
-		<common.collections.version>3.2.2</common.collections.version>
-		<common.io.version>2.5</common.io.version>
-		<jettison.version>1.3.7</jettison.version>
-		<velocity.version>1.7</velocity.version>
-		<jackson.version>2.3.2</jackson.version>
-		<snakeyaml.version>1.12</snakeyaml.version>
-	</properties>
-
-
-	<dependencyManagement>
-
-		<dependencies>
-			<dependency>
-				<groupId>org.onap.appc</groupId>
-				<artifactId>appc-network-inventory-client-features</artifactId>
-				<classifier>features</classifier>
-				<type>xml</type>
-				<version>${project.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.onap.appc</groupId>
-				<artifactId>appc-network-inventory-client-provider</artifactId>
-				<version>${project.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	<modules>
-		<module>provider</module>
-		<module>features</module>
-		<module>installer</module>
-	</modules>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.onap.appc</groupId>
+                <artifactId>appc-network-inventory-client-features</artifactId>
+                <classifier>features</classifier>
+                <type>xml</type>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.onap.appc</groupId>
+                <artifactId>appc-network-inventory-client-provider</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <modules>
+        <module>provider</module>
+        <module>features</module>
+        <module>installer</module>
+    </modules>
 </project>
