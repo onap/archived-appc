@@ -79,4 +79,24 @@ public class TestVnf {
         assertTrue(vnf.toString().contains("vnfId"));
     }
 
+    @Test
+    public void testetVnfcs() {
+        Vnfc vnfc = new Vnfc();
+        vnfc.setVnfcName("A");
+        vnfc.setVnfcType("B");
+        vnfc.setResilienceType("RS1");
+        vnfc.setMandatory(true);
+        List<Vserver> vserverList=new LinkedList<>();
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vserver.setVnfc(vnfc);
+        vserverList.add(vserver);
+        vnfc.addVservers(vserverList);
+        vnf.setVservers(vserverList);
+        assertTrue(vnf.getVnfcs()!=null);
+    }
 }

@@ -21,6 +21,9 @@ package org.onap.appc.domainmodel;
 
 import static org.junit.Assert.*;
 
+
+
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -29,6 +32,7 @@ import org.junit.Test;
 
 public class TestVnfc {
     private Vnfc vnfc;
+
 
     @Before
     public void SetUp() {
@@ -71,4 +75,85 @@ public class TestVnfc {
         assertEquals(vnfc.isMandatory(),false);
     }
 
+
+    @Test
+    public void testToStringWithASingleVserver() {
+        vnfc.setVnfcName("A");
+        vnfc.setVnfcType("B");
+        vnfc.setMandatory(false);
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vserver.setVnfc(vnfc);
+        vnfc.addVserver(vserver);
+        
+       
+       System.out.println("ok vnfc = " + vnfc.toString());
+       
+       assertEquals(vnfc.toString(),"Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n");
+    }
+    
+    @Test
+    public void testHashCode() {
+        vnfc.setVnfcName("A");
+        vnfc.setVnfcType("B");
+        vnfc.setResilienceType("RS1");
+        vnfc.setMandatory(true);
+        List<Vserver> vserverList=new LinkedList<>();
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vserver.setVnfc(vnfc);
+        vserverList.add(vserver);
+        vnfc.addVservers(vserverList);
+        System.out.println("ok vnfc hashcode = " + vnfc.hashCode());
+
+       assertTrue(vnfc.hashCode() == 81141437);
+    }
+    
+    @Test
+    public void testCompareVnfc() {
+        Vnfc vnfc1 = new Vnfc();
+        vnfc1.setVnfcName("A");
+        vnfc1.setVnfcType("B");
+        vnfc1.setMandatory(false);
+        vnfc1.setResilienceType("RS1");
+
+        vnfc.setVnfcName("A");
+        vnfc.setVnfcType("B");
+        vnfc.setResilienceType("RS1");
+
+        vnfc.setMandatory(true);
+       
+       
+       assertFalse(vnfc.equals(vnfc1));
+    }
+    
+    @Test
+    public void testToStringWithVserverList() {
+        vnfc.setVnfcName("A");
+        vnfc.setVnfcType("B");
+        vnfc.setMandatory(false);
+        List<Vserver> vserverList=new LinkedList<>();
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vserver.setVnfc(vnfc);
+        vserverList.add(vserver);
+        vnfc.setVserverList(vserverList);
+        
+       
+       System.out.println("vnfc = " + vnfc.toString());
+       
+       assertEquals(vnfc.toString(),"Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n");
+    }
 }
