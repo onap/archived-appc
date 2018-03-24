@@ -14,7 +14,6 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 .. ============LICENSE_END============================================
-.. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 .. _appc_client_library:
 
@@ -47,7 +46,7 @@ This guide discusses the Application Controller (APPC) Client Library and how to
 About the Client Library
 ------------------------
 
-The APPC client library provides consumers of APPC capabilities with a strongly-typed Java interface and encapsulates the actual interaction with the APPC component over an asynchronous messaging channel such as UEB.
+The APPC client library provides consumers of APPC capabilities with a strongly-typed Java interface and encapsulates the actual interaction with the APPC component over an asynchronous messaging channel such as DMaaP.
 
 Consumer Logic
 --------------
@@ -68,7 +67,7 @@ Asynchronous Flow
 ^^^^^^^^^^^^^^^^^
 
 -  The APPC Client Library is called using an asynchronous API utilizing a full command object, which is mapped to a JSON representation.
--  The APPC client calls the UEB client and sends the JSON command to a configured topic.
+-  The APPC client calls the DMaaP client and sends the JSON command to a configured topic.
 -  The APPC client pulls response messages from the configured topic.
 -  On receiving the response for the command, the APPC client runs the relevant callback method of the consumer ResponseHandler.
 
@@ -76,7 +75,7 @@ Synchronous Flow
 ^^^^^^^^^^^^^^^^
 
 -  The APPC Client Library is called using a synchronous API using a full command object, which is mapped to a JSON representation.
--  The APPC client calls the UEB client and sends the JSON command to a configured topic.
+-  The APPC client calls the DMaaP client and sends the JSON command to a configured topic.
 -  The APPC client pulls response messages from the configured topic.
 -  On receiving the **final** response for the command, the APPC client returns the response object with a final status.
 
@@ -91,7 +90,7 @@ The Java application that runs the APPC client kit uses the following jar files:
     -  org.onap.appc.client:client-kit
     -  org.onap.appc.client:client-lib
 
-The client library JAR files are located in the repository under ``com\\att\\appc\\client``.
+The client library JAR files are located in the repository under ``com\att\appc\client``.
 
 Initialization
 --------------
@@ -112,13 +111,15 @@ Specify the following configuration properties as method parameters:
     -  "poolMembers"
     -  “client.response.timeout”
     -  “client.graceful.shutdown.timeout”
+    -  “controllerType”
 
 Shutdown
 --------
 
-Shutdown the client by calling the following method:
+Shutdown the client by calling the following method, first if Controller Type is not included, the second when Controller Type is included:
 
-``void shutdownLifeCycleManager(boolean isForceShutdown)``
+``void shutdownLifeCycleManager(boolean isForceShutdown)``, or 
+``void shutdownLifeCycleManager(boolean isForceShutdown, String controllerType)``
 
 If the ``isForceShutdown`` flag is set to false, the client shuts down as soon as all responses for pending requests are received, or upon configurable timeout. (``client.graceful.shutdown.timeout``).
 
@@ -220,3 +221,4 @@ This API call produces the following media types according to the **Accept** req
 .. |image0| image:: image2.png
    :width: 5.60495in
    :height: 4.55272in
+
