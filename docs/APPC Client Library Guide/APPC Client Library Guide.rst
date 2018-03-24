@@ -136,7 +136,7 @@ Invoke the LCM commands by:
 
 In this case, client should implement the ResponseHandler<T> interface.
 
-    -  Executing commands synchronously, for example:
+    -  Executing commands synchronously, for example: 
 
 ``LiveUpgradeOutput liveUpgrade(LiveUpgradeInput liveUpgradeInput) throws AppcClientException;)``
 
