@@ -42,5 +42,4 @@ public class ProviderResponseTest {
         Assert.assertNotNull(providerResponse.getStatus());
         Assert.assertEquals(200,providerResponse.getStatus());
     }
-
 }
