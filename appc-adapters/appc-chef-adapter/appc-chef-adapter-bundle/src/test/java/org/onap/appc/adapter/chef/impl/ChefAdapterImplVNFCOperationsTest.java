@@ -273,6 +273,83 @@ public class ChefAdapterImplVNFCOperationsTest {
             .startsWith(expectedErrorMessage);
     }
 
+    @Test
+    public void vnfcPushJob_shouldUpdateSvcContextWithJobId_whenPushJobWasSuccessfullyCreatedWithCallbackUrl()
+        throws SvcLogicException {
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"),
+            immutableEntry("CallbackCapable", "true"),
+            immutableEntry("RequestId", "666"),
+            immutableEntry("CallbackUrl", "someURLForCallback"));
+        int expectedResponseStatus = HttpStatus.SC_CREATED;
+        String expectedResponseMessage = "jobs:666-9";
+
+        assertVnfcPushJobExecutionFor(params, buildJsonRequestWithCallback(), expectedResponseStatus,
+            expectedResponseMessage);
+        assertThat(svcLogicContext.getAttribute("jobID")).isEqualTo("666");
+    }
+
+    private String buildJsonRequestWithCallback() {
+        return "{" + "\"command\": \"chef-client\"," + "\"run_timeout\": 300," + "\"nodes\":"
+            + "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]" + "," + "\"env\": {\"RequestId\": \"" + "666"
+            + "\", \"CallbackUrl\": \""
+            + "someURLForCallback" + "\"}," + "\"capture_output\": true" + "}";
+    }
+
+    @Test
+    public void vnfcPushJob_shouldUpdateSvcContextWithJobId_whenPushJobWasSuccessfullyCreatedWithoutCallbackUrl()
+        throws SvcLogicException {
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"),
+            immutableEntry("RequestId", "666"));
+        int expectedResponseStatus = HttpStatus.SC_OK;
+        String expectedResponseMessage = "jobs:666-9";
+
+        assertVnfcPushJobExecutionFor(params, buildJsonRequestWithoutCallback(), expectedResponseStatus,
+            expectedResponseMessage);
+        assertThat(svcLogicContext.getAttribute("jobID")).isBlank();
+    }
+
+    private String buildJsonRequestWithoutCallback() {
+        return "{" + "\"command\": \"chef-client\"," + "\"run_timeout\": 300," + "\"nodes\":"
+            + "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]" + "," + "\"env\": {}," + "\"capture_output\": true"
+            + "}";
+    }
+
+    public void assertVnfcPushJobExecutionFor(Map<String, String> params, String pushRequestWithCallback,
+        int expectedResponseStatus, String expectedResponseMessage) throws SvcLogicException {
+        // GIVEN
+        given(chefApiClientFactory.create(CHEF_END_POINT, ORGANIZATIONS, USERNAME,
+            CLIENT_PRIVATE_KEY_PATH)).willReturn(chefApiClient);
+        given(chefApiClient.post("/pushy/jobs", pushRequestWithCallback))
+            .willReturn(ChefResponse.create(expectedResponseStatus, expectedResponseMessage));
+
+        // WHEN
+        chefAdapterFactory.create().vnfcPushJob(params, svcLogicContext);
+
+        // THEN
+        assertThat(svcLogicContext.getStatus()).isEqualTo(SUCCESS_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(expectedResponseStatus));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedResponseMessage);
+    }
+
+    @Test
+    public void vnfcPushJob_shouldNotPushJob_andThrowException_whenNodeListParamIsEmpty() {
+        // GIVEN
+        String expectedErrorMessage = "Error posting request: Missing Mandatory param(s)  NodeList ";
+        Map<String, String> params = givenInputParams();
+        // WHEN  // THEN
+        assertThatExceptionOfType(SvcLogicException.class)
+            .isThrownBy(() -> chefAdapterFactory.create().vnfcPushJob(params, svcLogicContext))
+            .withMessageStartingWith(CHEF_ADAPTER_ERROR_PREFIX + expectedErrorMessage);
+
+        assertThat(svcLogicContext.getStatus()).isEqualTo(FAILURE_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedErrorMessage);
+    }
+
     private Map<String, String> givenInputParams(Entry<String, String>... entries) {
         Builder<String, String> paramsBuilder = ImmutableMap.builder();
         paramsBuilder.put("username", USERNAME)

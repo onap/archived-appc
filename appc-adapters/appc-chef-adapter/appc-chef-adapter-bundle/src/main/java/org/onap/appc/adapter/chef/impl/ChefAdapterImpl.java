@@ -247,10 +247,6 @@ public class ChefAdapterImpl implements ChefAdapter {
             } else {
                 throw new SvcLogicException("Missing Mandatory param(s)  NodeList ");
             }
-        } catch (JSONException e) {
-            code = 401;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
         } catch (Exception e) {
             code = 401;
             logger.error(POSTING_REQUEST_ERROR_STR, e);
