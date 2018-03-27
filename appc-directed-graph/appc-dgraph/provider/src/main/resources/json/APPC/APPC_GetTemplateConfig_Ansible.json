@@ -1,440 +1,339 @@
-[
-    {
-        "id": "5803aa79.45b404",
-        "type": "method",
-        "name": "method GetTemplateConfig_Ansible",
-        "xml": "<method rpc='GetTemplateConfig_Ansible' mode='sync'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 588.7499847412109,
-        "y": 107.5,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "b3dc5912.de0548"
-            ]
-        ]
-    },
-    {
-        "id": "35047526.e59a1a",
-        "type": "dgstart",
-        "name": "DGSTART",
-        "outputs": 1,
-        "x": 127.0594711303711,
-        "y": 106.5714282989502,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "2ac38826.404d58"
-            ]
-        ]
-    },
-    {
-        "id": "2ac38826.404d58",
-        "type": "service-logic",
-        "name": "APPC 4.0.0",
-        "module": "APPC",
-        "version": "4.0.0",
-        "comments": "",
-        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
-        "outputs": 1,
-        "x": 325.2023391723633,
-        "y": 104.14286041259766,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "5803aa79.45b404"
-            ]
-        ]
-    },
-    {
-        "id": "7e21bb0c.03de44",
-        "type": "execute",
-        "name": "execute getTemplate",
-        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getTemplate\">\n<parameter name=\"fileCategory\" value=\"config_template\" />\n<parameter name=\"responsePrefix\" value=\"config-template\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 419.70245361328125,
-        "y": 319.5358352661133,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "54cd3796.95a458",
-                "90f2178d.ba27c8"
-            ]
-        ]
-    },
-    {
-        "id": "90f2178d.ba27c8",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 694.059513092041,
-        "y": 361.0000648498535,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "5392ab8b.3b7874"
-            ]
-        ]
-    },
-    {
-        "id": "5392ab8b.3b7874",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 885.7896118164062,
-        "y": 362.1429262161255,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "d978e419.70a338"
-            ]
-        ]
-    },
-    {
-        "id": "d978e419.70a338",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status=\"failure\">\n<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$config-template.error-message`\"/>\n\t\n\t\n\t",
-        "comments": "",
-        "x": 1115.4563827514648,
-        "y": 364.9206962585449,
-        "z": "b2b332b8.ecb4c",
-        "wires": []
-    },
-    {
-        "id": "54cd3796.95a458",
-        "type": "failure",
-        "name": "not-found",
-        "xml": "<outcome value='not-found'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 700.583324432373,
-        "y": 283.6667594909668,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "e0937d2c.970ef"
-            ]
-        ]
-    },
-    {
-        "id": "e0937d2c.970ef",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 884.916576385498,
-        "y": 288.0000877380371,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "9df2fa59.e3b388"
-            ]
-        ]
-    },
-    {
-        "id": "b3dc5912.de0548",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "comments": "",
-        "outputs": 1,
-        "x": 156.20235061645508,
-        "y": 342.5000410079956,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "7e21bb0c.03de44",
-                "941be79f.807ed8",
-                "7b6affbc.ca3f"
-            ]
-        ]
-    },
-    {
-        "id": "ebd8afae.4253d",
-        "type": "not-found",
-        "name": "found",
-        "xml": "<outcome value='found'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1145.6310234069824,
-        "y": 448.46429920196533,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "b022a59b.66efe8"
-            ]
-        ]
-    },
-    {
-        "id": "8ced2749.1c0918",
-        "type": "other",
-        "name": "not-found",
-        "xml": "<outcome value='not-found'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1149.7382049560547,
-        "y": 517.2143268585205,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "bb3ddb29.67e8a8"
-            ]
-        ]
-    },
-    {
-        "id": "941be79f.807ed8",
-        "type": "call",
-        "name": "call  Generic_AnsibleDG",
-        "xml": "<call module='APPC' rpc='Generic_AnsibleDG' mode='sync' >\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 324.91674041748047,
-        "y": 606.8571729660034,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "f0ca9dc.a029d6",
-                "c14fa4fe.f59ef8"
-            ]
-        ]
-    },
-    {
-        "id": "b022a59b.66efe8",
-        "type": "call",
-        "name": "call  MergeTemplateData",
-        "xml": "<call module='APPC' rpc='MergeTemplateData' mode='sync' >\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1352.857192993164,
-        "y": 447.1428565979004,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "18d834e5.32eb1b",
-        "type": "execute",
-        "name": "execute getTemplate Parameter_definition",
-        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getTemplateByVnfTypeNAction\">\n<parameter name=\"fileCategory\" value=\"config_template\" />\n<parameter name=\"responsePrefix\" value=\"config-template\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 878.5714721679688,
-        "y": 471.4286117553711,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "ebd8afae.4253d",
-                "8ced2749.1c0918"
-            ]
-        ]
-    },
-    {
-        "id": "bb3ddb29.67e8a8",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 1361.4285202026367,
-        "y": 528.5714836120605,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f0ca9dc.a029d6",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 562.8571891784668,
-        "y": 657.1429481506348,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "4d19c7fd.436708"
-            ]
-        ]
-    },
-    {
-        "id": "4d19c7fd.436708",
-        "type": "returnSuccess",
-        "name": "return success",
-        "xml": "<return status='success'>\n<parameter name='device-running-config' value=\"`$tmp.deviceconfig.file-content`\" />\n<parameter name='output.status.code' value='`$output.status.code`' />\n<parameter name='output.status.message' value='`$output.status.message`'/>\n<parameter name='output.status.results' value = '`$output.status.results`'/>\n",
-        "comments": "",
-        "x": 780.5716171264648,
-        "y": 663.5714693069458,
-        "z": "b2b332b8.ecb4c",
-        "wires": []
-    },
-    {
-        "id": "c14fa4fe.f59ef8",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 547.1428833007812,
-        "y": 558.5713958740234,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "55b4f534.292e5c"
-            ]
-        ]
-    },
-    {
-        "id": "55b4f534.292e5c",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status='failure'>\n<parameter name='output.status.code' value='200' />\n<parameter name='output.status.message' value='`$output.status.message`'/>\n",
-        "comments": "",
-        "x": 798.571403503418,
-        "y": 574.28564453125,
-        "z": "b2b332b8.ecb4c",
-        "wires": []
-    },
-    {
-        "id": "9df2fa59.e3b388",
-        "type": "execute",
-        "name": "execute: getAnsibleRunningConfig",
-        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getConfigFilesByVnfActionNCategory\">\n<parameter name=\"fileCategory\" value=\"device_configuration\" />\n<parameter name='vnfname' value=\"`$config.vnf-name`\" />\n<parameter name='action' value=\"`$config.action`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.deviceconfig\" />\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1141.6666107177734,
-        "y": 200.00000953674316,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "44e9bc7b.8cfb94",
-                "15aafa2c.198166",
-                "5aacae79.29154"
-            ]
-        ]
-    },
-    {
-        "id": "5aacae79.29154",
-        "type": "success",
-        "name": "success",
-        "xml": "<outcome value='success'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1287.6666412353516,
-        "y": 281.9999647140503,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "8117d87b.2808a8"
-            ]
-        ]
-    },
-    {
-        "id": "8117d87b.2808a8",
-        "type": "block",
-        "name": "block",
-        "xml": "<block>\n",
-        "atomic": "false",
-        "comments": "",
-        "outputs": 1,
-        "x": 1450.6666412353516,
-        "y": 281.9999647140503,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "b514f44.0458208"
-            ]
-        ]
-    },
-    {
-        "id": "15aafa2c.198166",
-        "type": "other",
-        "name": "other",
-        "xml": "<outcome value='Other'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1435.6666412353516,
-        "y": 224.9999647140503,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "44e9bc7b.8cfb94",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 1441.3333206176758,
-        "y": 162.6666498184204,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "5e2afb10.22e314"
-            ]
-        ]
-    },
-    {
-        "id": "b514f44.0458208",
-        "type": "returnSuccess",
-        "name": "return success",
-        "xml": "<return status='success'>\n<parameter name='device-running-config' value=\"`$tmp.deviceconfig.file-content`\" />\n",
-        "comments": "",
-        "x": 1653.6666412353516,
-        "y": 283.9999647140503,
-        "z": "b2b332b8.ecb4c",
-        "wires": []
-    },
-    {
-        "id": "5e2afb10.22e314",
-        "type": "block",
-        "name": "block",
-        "xml": "<block>\n",
-        "atomic": "false",
-        "comments": "",
-        "outputs": 1,
-        "x": 1617.3333206176758,
-        "y": 166.6666498184204,
-        "z": "b2b332b8.ecb4c",
-        "wires": [
-            [
-                "bd876721.641cc8"
-            ]
-        ]
-    },
-    {
-        "id": "bd876721.641cc8",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status=\"failure\">\n<parameter name=\"error-code\" value=\"\"/>\n<parameter name=\"dcae-error-message\" value=\"`$tmp.deviceconfig.error-message`\"/>\n\n",
-        "comments": "",
-        "x": 1809.3333206176758,
-        "y": 159.6666498184204,
-        "z": "b2b332b8.ecb4c",
-        "wires": []
-    },
-    {
-        "id": "7b6affbc.ca3f",
-        "type": "set",
-        "name": "set tmp.message",
-        "xml": "<set>\n<parameter name=\"tmp.message\" value=\"`$error-code + ':' + $error-message`\"/>\n",
-        "comments": "",
-        "x": 308.75404357910156,
-        "y": 702.3611240386963,
-        "z": "b2b332b8.ecb4c",
-        "wires": []
-    }
-]
+[{
+    "id": "64298fa7.6eab",
+    "type": "method",
+    "name": "method GetTemplateConfig_Ansible",
+    "xml": "<method rpc='GetTemplateConfig_Ansible' mode='sync'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 524.6905136108398,
+    "y": 54.78571152687073,
+    "z": "c635d405.112438",
+    "wires": [["a16f990d.bfbc08"]]
+},
+{
+    "id": "3d83a335.a950bc",
+    "type": "dgstart",
+    "name": "DGSTART",
+    "outputs": 1,
+    "x": 107.28571319580078,
+    "y": 79.57142734527588,
+    "z": "c635d405.112438",
+    "wires": [["9a8e0176.09715"]]
+},
+{
+    "id": "9a8e0176.09715",
+    "type": "service-logic",
+    "name": "APPC 4.0.0",
+    "module": "APPC",
+    "version": "4.0.0",
+    "comments": "",
+    "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.openecomp.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+    "outputs": 1,
+    "x": 261.1428680419922,
+    "y": 51.428571939468384,
+    "z": "c635d405.112438",
+    "wires": [["64298fa7.6eab"]]
+},
+{
+    "id": "831c9f31.a8932",
+    "type": "execute",
+    "name": "execute getTemplate",
+    "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getTemplate\">\n<parameter name=\"fileCategory\" value=\"config_template\" />\n<parameter name=\"responsePrefix\" value=\"config-template\" />",
+    "comments": "",
+    "outputs": 1,
+    "x": 355.64298248291016,
+    "y": 266.821546792984,
+    "z": "c635d405.112438",
+    "wires": [["a0e75486.1eda18",
+    "17e6919.76d9a6e",
+    "3a927737.d59708"]]
+},
+{
+    "id": "a16f990d.bfbc08",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "comments": "",
+    "outputs": 1,
+    "x": 92.14287948608398,
+    "y": 289.78575253486633,
+    "z": "c635d405.112438",
+    "wires": [["831c9f31.a8932",
+    "23f2fdd7.5ac712",
+    "25358328.a7b87c"]]
+},
+{
+    "id": "708b7296.ea5c5c",
+    "type": "not-found",
+    "name": "found",
+    "xml": "<outcome value='found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1081.5715522766113,
+    "y": 395.75001072883606,
+    "z": "c635d405.112438",
+    "wires": [["aa984fc9.ceff4"]]
+},
+{
+    "id": "996ddcaa.b670e",
+    "type": "other",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1085.6787338256836,
+    "y": 464.50003838539124,
+    "z": "c635d405.112438",
+    "wires": [["5ebec77e.195338"]]
+},
+{
+    "id": "39b0035c.ce94cc",
+    "type": "call",
+    "name": "call  Generic_AnsibleDG",
+    "xml": "<call module='APPC' rpc='Generic_AnsibleDG' mode='sync' >\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 499.4287109375,
+    "y": 541.2857456207275,
+    "z": "c635d405.112438",
+    "wires": [["907fdc28.d558",
+    "507c8a3d.c26e24"]]
+},
+{
+    "id": "aa984fc9.ceff4",
+    "type": "call",
+    "name": "call  MergeTemplateData",
+    "xml": "<call module='APPC' rpc='MergeTemplateData' mode='sync' >\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1288.797721862793,
+    "y": 394.4285681247711,
+    "z": "c635d405.112438",
+    "wires": [[]]
+},
+{
+    "id": "45c7ff98.f908f",
+    "type": "execute",
+    "name": "execute getTemplate Parameter_definition",
+    "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getTemplateByVnfTypeNAction\">\n<parameter name=\"fileCategory\" value=\"config_template\" />\n<parameter name=\"responsePrefix\" value=\"config-template\" />",
+    "comments": "",
+    "outputs": 1,
+    "x": 814.5120010375977,
+    "y": 418.7143232822418,
+    "z": "c635d405.112438",
+    "wires": [["708b7296.ea5c5c",
+    "996ddcaa.b670e"]]
+},
+{
+    "id": "5ebec77e.195338",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 1297.3690490722656,
+    "y": 475.8571951389313,
+    "z": "c635d405.112438",
+    "wires": [[]]
+},
+{
+    "id": "23f2fdd7.5ac712",
+    "type": "set",
+    "name": "Set Action",
+    "xml": "<set>\n<parameter name='request-action' value=\"GetRunningConfig\" />\n",
+    "comments": "",
+    "x": 338.5714416503906,
+    "y": 216.2857208251953,
+    "z": "c635d405.112438",
+    "wires": []
+},
+{
+    "id": "532324b8.7607ac",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1164.5235786437988,
+    "y": 311.4285583496094,
+    "z": "c635d405.112438",
+    "wires": [["81881f82.e8718"]]
+},
+{
+    "id": "37db39ee.479f96",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1252.4759407043457,
+    "y": 193.52384042739868,
+    "z": "c635d405.112438",
+    "wires": [["17934b5e.863a65"]]
+},
+{
+    "id": "17934b5e.863a65",
+    "type": "block",
+    "name": "block",
+    "xml": "<block>\n",
+    "atomic": "false",
+    "comments": "",
+    "outputs": 1,
+    "x": 1428.4759407043457,
+    "y": 197.52384042739868,
+    "z": "c635d405.112438",
+    "wires": [[]]
+},
+{
+    "id": "17e6919.76d9a6e",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 561.952520098005,
+    "y": 293.3333697319031,
+    "z": "c635d405.112438",
+    "wires": [["ed2accea.93295"]]
+},
+{
+    "id": "a0e75486.1eda18",
+    "type": "failure",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 568.4763314383371,
+    "y": 216.00006437301636,
+    "z": "c635d405.112438",
+    "wires": [["ed2accea.93295"]]
+},
+{
+    "id": "ed2accea.93295",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 762.809585571289,
+    "y": 323.190541267395,
+    "z": "c635d405.112438",
+    "wires": [["aa4b0b45.5fc018"]]
+},
+{
+    "id": "aa4b0b45.5fc018",
+    "type": "get-resource",
+    "name": "get-resource: APPC.GetRunningConfig",
+    "xml": "<get-resource\n\tplugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' \n\tresource='SQL'\n    key=\"SELECT FILE_CONTENT FROM CONFIGFILES WHERE FILE_CATEGORY = 'device_configuration' AND VNF_NAME = $vnf-name\n    \t\tAND ACTION IN ('Configure', 'ConfigModify', 'ConfigRestore') \n    \t\tAND CREATION_DATE IN (SELECT MAX(CREATION_DATE) FROM CONFIGFILES) ;\"\n    force='true'\n\tpfx='APPC.GetRunningConfig'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 955.5713500976561,
+    "y": 250.52385759353638,
+    "z": "c635d405.112438",
+    "wires": [["37db39ee.479f96",
+    "532324b8.7607ac"]]
+},
+{
+    "id": "81881f82.e8718",
+    "type": "set",
+    "name": "set GetRunningConfig",
+    "xml": "<set>\n<parameter name='APPC.GetRunningConfig' value='`$APPC.GetRunningConfig.FILE-CONTENT`' />\n\n\n\n\n\n",
+    "comments": "",
+    "x": 1421.8570861816406,
+    "y": 314.52384090423584,
+    "z": "c635d405.112438",
+    "wires": []
+},
+{
+    "id": "3a927737.d59708",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 437.85711669921875,
+    "y": 374.80954572132646,
+    "z": "c635d405.112438",
+    "wires": [["60cc2251.f2ed4c"]]
+},
+{
+    "id": "60cc2251.f2ed4c",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 400,
+    "y": 442.8571472167969,
+    "z": "c635d405.112438",
+    "wires": [["39b0035c.ce94cc"]]
+},
+{
+    "id": "507c8a3d.c26e24",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 700.0000495910645,
+    "y": 615.714298248291,
+    "z": "c635d405.112438",
+    "wires": [["90bce11.187a52"]]
+},
+{
+    "id": "90bce11.187a52",
+    "type": "returnSuccess",
+    "name": "return success",
+    "xml": "<return status='success'>\n<parameter name='APPC.GetRunningConfig' value=\"`$APPC.GetRunningConfig`\" />\n<parameter name='output.status.code' value='`$output.status.code`' />\n<parameter name='output.status.message' value='`$output.status.message`'/>\n<parameter name='output.status.results' value = '`$output.status.results`'/>\n",
+    "comments": "",
+    "x": 941.4288787841797,
+    "y": 619.285683631897,
+    "z": "c635d405.112438",
+    "wires": []
+},
+{
+    "id": "907fdc28.d558",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 754.2857551574707,
+    "y": 514.2855968475342,
+    "z": "c635d405.112438",
+    "wires": [["689e0447.d7db4c"]]
+},
+{
+    "id": "689e0447.d7db4c",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status='failure'>\n<parameter name='output.status.code' value='`$output.status.code`' />\n<parameter name='output.status.message' value='`$output.status.message`'/>\n",
+    "comments": "",
+    "x": 1002.9999923706055,
+    "y": 545.7141237258911,
+    "z": "c635d405.112438",
+    "wires": []
+},
+{
+    "id": "3190acbd.5b74a4",
+    "type": "comment",
+    "name": "Change of getDeviceRunningConfig",
+    "info": "Need to change getDeviceRunningconfig when chef returns configuartion.\n\nRight now just returning deviceRunningConfig",
+    "comments": "",
+    "x": 862.7621231079102,
+    "y": 662.0952320098877,
+    "z": "c635d405.112438",
+    "wires": []
+},
+{
+    "id": "25358328.a7b87c",
+    "type": "set",
+    "name": "set tmp.message",
+    "xml": "<set>\n<parameter name=\"tmp.message\" value=\"`$error-code + ':' + $error-message`\"/>\n<parameter name='request-action' value=\"`$input.action`\" />\n",
+    "comments": "",
+    "x": 340,
+    "y": 722.5714111328125,
+    "z": "c635d405.112438",
+    "wires": []
+}]
