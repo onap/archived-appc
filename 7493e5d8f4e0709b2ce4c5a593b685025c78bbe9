@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_02cf91b1",
+        "filename": "appc-oam/appc-oam-bundle/src/test/java/org/onap/appc/oam/messageadapter/DmaapOutgoingMessageTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-27T19:12:55Z",
+      "side": 1,
+      "message": "is this check needed?   the next assertion will fail if getType() returns null and the next assertion will also produce a more descriptive message.\n\nsame question applies to most of the other tests",
+      "revId": "7493e5d8f4e0709b2ce4c5a593b685025c78bbe9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
