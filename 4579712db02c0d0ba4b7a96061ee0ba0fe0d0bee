@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a2f81dc5",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_GetDeviceRunningConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-27T19:26:05Z",
+      "side": 1,
+      "message": "the schema location should use www.onap.org",
+      "revId": "4579712db02c0d0ba4b7a96061ee0ba0fe0d0bee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e25705c9",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_GetDeviceRunningConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-27T19:26:05Z",
+      "side": 1,
+      "message": "this package is not defined in ONAP-APPC.   should it be:  org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource",
+      "revId": "4579712db02c0d0ba4b7a96061ee0ba0fe0d0bee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e225c55c",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_GetDeviceRunningConfig.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-27T19:26:05Z",
+      "side": 1,
+      "message": "The at\u0026t e-mail address should be removed.",
+      "revId": "4579712db02c0d0ba4b7a96061ee0ba0fe0d0bee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6219b521",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_GetTemplateConfig_Ansible.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-27T19:26:05Z",
+      "side": 1,
+      "message": "this package name doesn\u0027t exist in ONAP.   it should be org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource",
+      "revId": "4579712db02c0d0ba4b7a96061ee0ba0fe0d0bee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e2dce548",
+        "filename": "appc-directed-graph/appc-dgraph/provider/src/main/resources/json/APPC/APPC_GetTemplateConfig_Chef.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-27T19:26:05Z",
+      "side": 1,
+      "message": "schema locations should be www.onap.org",
+      "revId": "4579712db02c0d0ba4b7a96061ee0ba0fe0d0bee",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
