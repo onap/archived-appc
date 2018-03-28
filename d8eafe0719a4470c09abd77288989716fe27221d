@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f2a4a9ba",
+        "filename": "appc-common/src/test/java/org/onap/appc/logging/LoggingUtilsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-28T19:55:23Z",
+      "side": 1,
+      "message": "Avoid wildcard imports:  refer to the ONAP/Google java style guidelines:  ONAP:  https://wiki.onap.org/display/DW/Java+code+style,  Google: https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports",
+      "revId": "d8eafe0719a4470c09abd77288989716fe27221d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
