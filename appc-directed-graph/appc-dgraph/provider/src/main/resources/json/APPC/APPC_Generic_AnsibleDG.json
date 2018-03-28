@@ -1,20 +1,20 @@
 [
     {
-        "id": "b5695572.e1f768",
+        "id": "6c3ba22c.f9189c",
         "type": "dgstart",
         "name": "DGSTART",
         "outputs": 1,
-        "x": 246.75,
-        "y": 188.38194274902344,
-        "z": "e0baaa9e.9241d8",
+        "x": 173,
+        "y": 93,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "188edda2.26da82"
+                "6441e1c2.6c0268"
             ]
         ]
     },
     {
-        "id": "188edda2.26da82",
+        "id": "6441e1c2.6c0268",
         "type": "service-logic",
         "name": "APPC 4.0.0",
         "module": "APPC",
@@ -22,470 +22,470 @@
         "comments": "",
         "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
         "outputs": 1,
-        "x": 324.2152862548828,
-        "y": 138,
-        "z": "e0baaa9e.9241d8",
+        "x": 250.4652862548828,
+        "y": 42.61805725097656,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "a8cc7c7b.a911c"
+                "8b013654.37fd9"
             ]
         ]
     },
     {
-        "id": "a8cc7c7b.a911c",
+        "id": "8b013654.37fd9",
         "type": "method",
         "name": "method Generic_AnsibleDG",
         "xml": "<method rpc='Generic_AnsibleDG' mode='sync'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 575.7777862548828,
-        "y": 138,
-        "z": "e0baaa9e.9241d8",
+        "x": 502.0277862548828,
+        "y": 42.61805725097656,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "42d7ac6f.bd3da4"
+                "6137b378.656594"
             ]
         ]
     },
     {
-        "id": "e00096a6.7888c8",
+        "id": "74fb795.4f68e08",
         "type": "call",
         "name": "call: ansible-adapter-1.0",
         "xml": "<call module=\"APPC\" rpc=\"ansible-adapter-1.0\" mode=\"sync\">",
         "comments": "",
         "outputs": 1,
-        "x": 415.1322479248047,
-        "y": 789.0123748779297,
-        "z": "e0baaa9e.9241d8",
+        "x": 341.3822479248047,
+        "y": 693.6304321289062,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "dd503c7d.4cc9c",
-                "515c4830.7e8bf",
-                "8dc86977.b38688"
+                "a5b6f5fd.9563",
+                "2cd7cfcd.3765a",
+                "168ffa9e.43c14d"
             ]
         ]
     },
     {
-        "id": "784c8fbc.57a35",
+        "id": "a07a1ffd.68cae",
         "type": "execute",
         "name": "execute params",
         "xml": " <execute plugin=\"org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper\" method =\"getProperty\">\n <parameter name=\"prefix\" value =\"property\"/>\n\n \n  ",
         "comments": "",
         "outputs": 1,
-        "x": 635.5484161376953,
-        "y": 411.40953063964844,
-        "z": "e0baaa9e.9241d8",
+        "x": 561.7984161376953,
+        "y": 316.027587890625,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "36822bdd.3c9f4c",
-                "14c5365c.bf1ae2"
+                "c9d30c5a.682988",
+                "8aa0688b.226ae8"
             ]
         ]
     },
     {
-        "id": "6282ba56.52f5dc",
+        "id": "4eb8ef57.7bc8b",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status='failure'>\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value=\"`$property.error-message`\" />\n",
         "comments": "",
-        "x": 1270.5695495605469,
-        "y": 705.9290771484375,
-        "z": "e0baaa9e.9241d8",
+        "x": 1196.8195495605469,
+        "y": 610.5471343994141,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "4bbf0c97.541b6c",
+        "id": "acaef25c.218b28",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 1101.840202331543,
-        "y": 706.1082782745361,
-        "z": "e0baaa9e.9241d8",
+        "x": 1028.090202331543,
+        "y": 610.7263355255127,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "6282ba56.52f5dc"
+                "4eb8ef57.7bc8b"
             ]
         ]
     },
     {
-        "id": "14c5365c.bf1ae2",
+        "id": "8aa0688b.226ae8",
         "type": "not-found",
         "name": "not-found",
         "xml": "<outcome value='not-found'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 903.7777557373047,
-        "y": 703.7290954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 830.0277557373047,
+        "y": 608.3471527099609,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "4bbf0c97.541b6c"
+                "acaef25c.218b28"
             ]
         ]
     },
     {
-        "id": "36822bdd.3c9f4c",
+        "id": "c9d30c5a.682988",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 884.7904510498047,
-        "y": 637.5832824707031,
-        "z": "e0baaa9e.9241d8",
+        "x": 811.0404510498047,
+        "y": 542.2013397216797,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "4bbf0c97.541b6c"
+                "acaef25c.218b28"
             ]
         ]
     },
     {
-        "id": "712b83f9.f9d13c",
+        "id": "92d97097.efde08",
         "type": "execute",
         "name": "execute Convert payload to DG Context ",
         "xml": "<execute plugin=\"org.onap.sdnc.config.generator.convert.ConvertNode\" method=\"convertJson2DGContext\">\n<parameter name=\"jsonData\" value=\"`$tmp.merge.mergedData`\" />\n<parameter name=\"isEscaped\" value=\"Y\" />\n<parameter name=\"blockKeys\" value=\"EnvParameters,PlaybookName,Timeout,NodeList\" />\n<parameter name=\"responsePrefix\" value=\"tmp.convertnode\" />",
         "comments": "",
         "outputs": 1,
-        "x": 686.3645477294922,
-        "y": 227.9910430908203,
-        "z": "e0baaa9e.9241d8",
+        "x": 612.6145477294922,
+        "y": 132.60910034179688,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "59d56560.86430c",
-                "b723b3b5.45f6e8"
+                "81d05948.54ba98",
+                "6b6b762d.10648"
             ]
         ]
     },
     {
-        "id": "2addd9a1.c88c26",
+        "id": "b26ef86f.518fa8",
         "type": "set",
         "name": "set Payload params ",
         "xml": "<set>\n<parameter name='PlaybookName' value='`$PlaybookName`' />\n<parameter name='NodeList' value='`$NodeList`'/>\n<parameter name='vnf_id' value='`$vnf-id`' />\n<parameter name='AgentUrl' value='`$url`'/>\n <parameter name='User' value='`$user`'/>\n  <parameter name='Password' value='`$password`'/>\n  <parameter name='EnvParameters' value='`$EnvParameters`'/>\n  <parameter name='Timeout' value='`$Timeout`'/>\n\n\n\n",
         "comments": "",
-        "x": 537.6720733642578,
-        "y": 687.3932952880859,
-        "z": "e0baaa9e.9241d8",
+        "x": 463.9220733642578,
+        "y": 592.0113525390625,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "b723b3b5.45f6e8",
+        "id": "6b6b762d.10648",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 969.6027374267578,
-        "y": 259.64585876464844,
-        "z": "e0baaa9e.9241d8",
+        "x": 895.8527374267578,
+        "y": 164.263916015625,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "8dccb387.ae749"
+                "17a92ef.8e2a351"
             ]
         ]
     },
     {
-        "id": "59d56560.86430c",
+        "id": "81d05948.54ba98",
         "type": "not-found",
         "name": "not-found",
         "xml": "<outcome value='not-found'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 965.4360504150391,
-        "y": 317.92918395996094,
-        "z": "e0baaa9e.9241d8",
+        "x": 891.6860504150391,
+        "y": 222.5472412109375,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "63752d22.117204"
+                "db05d5b7.dbcfe"
             ]
         ]
     },
     {
-        "id": "8dccb387.ae749",
+        "id": "17a92ef.8e2a351",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 1092.2694854736328,
-        "y": 263.81248474121094,
-        "z": "e0baaa9e.9241d8",
+        "x": 1018.5194854736328,
+        "y": 168.4305419921875,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "a7ab8921.136fd"
+                "8a22f79.d24bd88"
             ]
         ]
     },
     {
-        "id": "63752d22.117204",
+        "id": "db05d5b7.dbcfe",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 1091.6026763916016,
-        "y": 325.29576110839844,
-        "z": "e0baaa9e.9241d8",
+        "x": 1017.8526763916016,
+        "y": 229.913818359375,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "904c921.5af1af"
+                "60ca360b.c4498"
             ]
         ]
     },
     {
-        "id": "904c921.5af1af",
+        "id": "60ca360b.c4498",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"Unable to process convert payload to context.\"/>\n\t\n",
         "comments": "",
-        "x": 1240.8026275634766,
-        "y": 327.4791717529297,
-        "z": "e0baaa9e.9241d8",
+        "x": 1167.0526275634766,
+        "y": 232.09722900390625,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "42d7ac6f.bd3da4",
+        "id": "6137b378.656594",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic=\"true\">",
         "atomic": "true",
         "outputs": 1,
-        "x": 371.869384765625,
-        "y": 250.5791015625,
-        "z": "e0baaa9e.9241d8",
+        "x": 298.119384765625,
+        "y": 155.19715881347656,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "712b83f9.f9d13c",
-                "784c8fbc.57a35",
-                "e00096a6.7888c8",
-                "2addd9a1.c88c26",
-                "ba353d30.9cba68",
-                "d73c3e3f.a0265",
-                "e3e0839e.5ac55",
-                "2c49a4ef.2b4054",
-                "bbcf695c.7db238"
+                "92d97097.efde08",
+                "a07a1ffd.68cae",
+                "74fb795.4f68e08",
+                "b26ef86f.518fa8",
+                "833c47f4.4e765",
+                "3ea33ebc.934832",
+                "396dca00.c135de",
+                "1a649673.55382a",
+                "9f424e11.57d15"
             ]
         ]
     },
     {
-        "id": "a7ab8921.136fd",
+        "id": "8a22f79.d24bd88",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status=\"failure\">\n<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$tmp.convertnode.error-message`\"/>\n\t\n\t",
         "comments": "",
-        "x": 1234.835952758789,
-        "y": 261.2124481201172,
-        "z": "e0baaa9e.9241d8",
+        "x": 1161.085952758789,
+        "y": 165.83050537109375,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "f3ff11af.e308e",
+        "id": "fb756701.8cc94",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status=\"failure\">\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value='`$org.onap.appc.adapter.ansible.message`'/>",
         "comments": "",
-        "x": 1124.7217254638672,
-        "y": 857.5862731933594,
-        "z": "e0baaa9e.9241d8",
+        "x": 1050.9717254638672,
+        "y": 762.2043304443359,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "dd503c7d.4cc9c",
+        "id": "a5b6f5fd.9563",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 838.5193634033203,
-        "y": 839.1625366210938,
-        "z": "e0baaa9e.9241d8",
+        "x": 764.7693634033203,
+        "y": 743.7805938720703,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "f3ff11af.e308e"
+                "fb756701.8cc94"
             ]
         ]
     },
     {
-        "id": "515c4830.7e8bf",
+        "id": "2cd7cfcd.3765a",
         "type": "not-found",
         "name": "not-found",
         "xml": "<outcome value='not-found'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 814.7194366455078,
-        "y": 921.7124633789062,
-        "z": "e0baaa9e.9241d8",
+        "x": 740.9694366455078,
+        "y": 826.3305206298828,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "5de54d.eecbb2b4"
+                "3aa5b2e4.4b57a6"
             ]
         ]
     },
     {
-        "id": "ba353d30.9cba68",
+        "id": "833c47f4.4e765",
         "type": "set",
         "name": "set Payload params ",
         "xml": "<set>\n<parameter name='PlaybookName' value='`$block_PlaybookName`' />\n<parameter name='NodeList' value ='`$block_NodeList`'/>\n<parameter name='vnf_id' value='`$vnf-id`' />\n<parameter name='EnvParameters' value='`$block_EnvParameters`'/>\n<parameter name='Timeout' value='`$block_Timeout`'/>\n\n\n\n",
         "comments": "",
-        "x": 686.1944732666016,
-        "y": 284.6041717529297,
-        "z": "e0baaa9e.9241d8",
+        "x": 612.4444732666016,
+        "y": 189.22222900390625,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "5de54d.eecbb2b4",
+        "id": "3aa5b2e4.4b57a6",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status=\"failure\">\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value='ansible-adapter-1.0.0 Dg not found'/>",
         "comments": "",
-        "x": 1069.3611297607422,
-        "y": 965.6280212402344,
-        "z": "e0baaa9e.9241d8",
+        "x": 995.6111297607422,
+        "y": 870.2460784912109,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "b172801d.e502f",
-        "type": "returnSuccess",
-        "name": "return success",
-        "xml": "<return status='success'>\n<parameter name='error-code' value='400' />\n<parameter name='error-message' value='`$org.onap.appc.adapter.ansible.message`'/>\n",
-        "comments": "",
-        "x": 853.6468963623047,
-        "y": 1062.7708435058594,
-        "z": "e0baaa9e.9241d8",
-        "wires": []
-    },
-    {
-        "id": "8dc86977.b38688",
+        "id": "168ffa9e.43c14d",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 612.2183074951172,
-        "y": 1003.5804138183594,
-        "z": "e0baaa9e.9241d8",
+        "x": 538.4683074951172,
+        "y": 908.1984710693359,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "b172801d.e502f"
+                "5ce0b58c.6872f4"
             ]
         ]
     },
     {
-        "id": "d73c3e3f.a0265",
+        "id": "3ea33ebc.934832",
         "type": "record",
         "name": "record",
         "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name='field2' value='`$user`'/>\n  <parameter name='field3' value='`$password`'/>\n    <parameter name='field4' value='`$url`'/>",
         "comments": "",
         "outputs": 1,
-        "x": 552.9278106689453,
-        "y": 590.7375946044922,
-        "z": "e0baaa9e.9241d8",
+        "x": 479.1778106689453,
+        "y": 495.35565185546875,
+        "z": "23466936.d3b346",
         "wires": [
             []
         ]
     },
     {
-        "id": "e3e0839e.5ac55",
+        "id": "396dca00.c135de",
         "type": "set",
         "name": "set properties",
         "xml": "<set>\n<parameter name=\"user\" value='`$property.user`'/>\n<parameter name=\"password\" value='`$property.password`'/>\n<parameter name=\"url\" value='`$property.url`'/>\n\n\n",
         "comments": "",
-        "x": 607.7555389404297,
-        "y": 490.44859313964844,
-        "z": "e0baaa9e.9241d8",
+        "x": 534.0055389404297,
+        "y": 395.066650390625,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "2c49a4ef.2b4054",
+        "id": "1a649673.55382a",
         "type": "get-resource",
         "name": "get-resource: APPC.protocol",
         "xml": "<get-resource\n\tplugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' \n\tresource='SQL'\n\tkey=\"SELECT DISTINCT PROTOCOL FROM PROTOCOL_REFERENCE WHERE ACTION = $input.action AND VNF_TYPE = $vnf-type ;\"\n    force='true'\n\tpfx='APPC.protocol'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 680.8610992431641,
-        "y": 334.40415954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 607.1110992431641,
+        "y": 239.022216796875,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "5639d27.5b0172c",
-                "67033f80.598758"
+                "807ba35f.9fcfa",
+                "796cea13.170434"
             ]
         ]
     },
     {
-        "id": "b743b90d.bf9438",
+        "id": "e363dbdc.c08d48",
         "type": "set",
         "name": "set protocol",
         "xml": "<set>\n<parameter name='APPC.protocol.PROTOCOL' value='`$APPC.protocol.PROTOCOL`' />\n\n\n\n\n\n",
         "comments": "",
-        "x": 1115.861099243164,
-        "y": 439.40415954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 1042.111099243164,
+        "y": 344.022216796875,
+        "z": "23466936.d3b346",
         "wires": []
     },
     {
-        "id": "5639d27.5b0172c",
+        "id": "807ba35f.9fcfa",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 932.8610992431641,
-        "y": 385.40415954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 859.1110992431641,
+        "y": 290.022216796875,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "d70f7795.117818"
+                "aadd71a1.cf4068"
             ]
         ]
     },
     {
-        "id": "d70f7795.117818",
+        "id": "aadd71a1.cf4068",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 1079.861099243164,
-        "y": 394.40415954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 1006.1110992431641,
+        "y": 299.022216796875,
+        "z": "23466936.d3b346",
         "wires": [
             []
         ]
     },
     {
-        "id": "67033f80.598758",
+        "id": "796cea13.170434",
         "type": "success",
         "name": "success",
         "xml": "<outcome value='success'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 929.8610992431641,
-        "y": 434.40415954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 856.1110992431641,
+        "y": 339.022216796875,
+        "z": "23466936.d3b346",
         "wires": [
             [
-                "b743b90d.bf9438"
+                "e363dbdc.c08d48"
             ]
         ]
     },
     {
-        "id": "bbcf695c.7db238",
+        "id": "9f424e11.57d15",
         "type": "record",
         "name": "record",
         "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name='field2' value='`$user`'/>\n  <parameter name='field3' value='`$APPC.protocol.PROTOCOL`'/>\n    <parameter name='field4' value='`$url`'/>",
         "comments": "",
         "outputs": 1,
-        "x": 717.8610992431641,
-        "y": 371.40415954589844,
-        "z": "e0baaa9e.9241d8",
+        "x": 644.1110992431641,
+        "y": 276.022216796875,
+        "z": "23466936.d3b346",
         "wires": [
             []
         ]
+    },
+    {
+        "id": "5ce0b58c.6872f4",
+        "type": "set",
+        "name": "set payloadResponse",
+        "xml": "<set>\n<parameter name='error-code' value='400' />\n<parameter name='error-message' value='`$org.onap.appc.adapter.ansible.message`'/>\n<parameter name='output-payload' value='`$org.onap.appc.adapter.ansible.results`'/>",
+        "comments": "",
+        "x": 837,
+        "y": 971,
+        "z": "23466936.d3b346",
+        "wires": []
     }
 ]
