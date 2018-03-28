@@ -16,6 +16,24 @@
       "revId": "1ace0b1080cfeeee5098c1d14790778b659e1786",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_af8f9d22",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/utils/SdcArtifactHandlerConstantsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1539
+      },
+      "writtenOn": "2018-03-28T10:15:35Z",
+      "side": 1,
+      "message": "Agree, since assertEquals is checked first, assertNotNull is not adding any value here. I will remove assertNotNull statement.",
+      "parentUuid": "5a93c517_6fd0ccf7",
+      "revId": "1ace0b1080cfeeee5098c1d14790778b659e1786",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
