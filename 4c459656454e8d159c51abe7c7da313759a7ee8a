@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_3253f13a",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/utils/TestJAXBUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-28T21:00:40Z",
+      "side": 1,
+      "message": "Not 100% required to remove the extra spaces at the end of a line, but a nice touch if you can.   (they show up as bright red in Gerrit and are distracting)",
+      "revId": "4c459656454e8d159c51abe7c7da313759a7ee8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_92444575",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/utils/TestJAXBUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-28T21:00:40Z",
+      "side": 1,
+      "message": "Should this test fail if the Exception is thrown?",
+      "revId": "4c459656454e8d159c51abe7c7da313759a7ee8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_12583555",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/utils/TestJAXBUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-28T21:00:40Z",
+      "side": 1,
+      "message": "This opening brace should be on the preceding line:  https://google.github.io/styleguide/javaguide.html#s4.1.2-blocks-k-r-style",
+      "revId": "4c459656454e8d159c51abe7c7da313759a7ee8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_923be5ea",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/utils/TestJSONUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-28T21:00:40Z",
+      "side": 1,
+      "message": "Please see previous comments about brace placement, empty catches (should the test fail), and extra spaces.",
+      "revId": "4c459656454e8d159c51abe7c7da313759a7ee8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_52255dc0",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/utils/TestJSONUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-28T21:00:40Z",
+      "side": 1,
+      "message": "Does input.json exist?",
+      "revId": "4c459656454e8d159c51abe7c7da313759a7ee8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
