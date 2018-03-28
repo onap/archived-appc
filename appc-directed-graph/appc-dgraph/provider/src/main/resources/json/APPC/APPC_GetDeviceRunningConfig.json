@@ -49,7 +49,7 @@
     "id": "26aeca14.cd8d26",
     "type": "execute",
     "name": "execute: Get Rest Configuration",
-    "xml": "<execute plugin=\"com.att.sdnctl.restconf.RestConfCallNode\" method=\"getConfiguration\">\n<parameter name=\"hostIpAddress\" value=\"`$hostIpAddress`\" />\n<parameter name=\"protocol\" value=\"`$protocol`\" />\n<parameter name=\"responsePrefix\" value=\"restconf\" />\n",
+    "xml": "<execute plugin=\"org.onap.sdnc.restconf.RestConfCallNode\" method=\"getConfiguration\">\n<parameter name=\"hostIpAddress\" value=\"`$hostIpAddress`\" />\n<parameter name=\"protocol\" value=\"`$protocol`\" />\n<parameter name=\"responsePrefix\" value=\"restconf\" />\n",
     "comments": "",
     "outputs": 1,
     "x": 612.5,
