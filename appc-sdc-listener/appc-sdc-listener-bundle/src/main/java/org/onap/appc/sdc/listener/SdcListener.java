@@ -28,10 +28,10 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.results.IDistributionClientResult;
-import org.openecomp.sdc.impl.DistributionClientFactory;
-import org.openecomp.sdc.utils.DistributionActionResultEnum;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.results.IDistributionClientResult;
+import org.onap.sdc.impl.DistributionClientFactory;
+import org.onap.sdc.utils.DistributionActionResultEnum;
 
 import java.net.URL;
 import java.util.HashMap;

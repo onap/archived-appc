@@ -32,10 +32,10 @@ import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.onap.appc.sdc.listener.ProviderOperations;
 import org.onap.appc.sdc.listener.ProviderResponse;
 import org.onap.appc.sdc.listener.Util;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 

@@ -29,10 +29,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.sdc.artifacts.object.SDCArtifact;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.lang.reflect.Constructor;
@@ -86,7 +86,7 @@ public class TestArtifactProcessor {
     private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException,
             InstantiationException, InvocationTargetException {
 
-        INotificationData notificationData = (INotificationData)getObject("org.openecomp.sdc.impl.NotificationDataImpl");
+        INotificationData notificationData = (INotificationData)getObject("org.onap.sdc.impl.NotificationDataImpl");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
 
@@ -97,7 +97,7 @@ public class TestArtifactProcessor {
     private List<IResourceInstance> getResources() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
         List<IResourceInstance> resources = new ArrayList<>();
-        IResourceInstance resource = (IResourceInstance)getObject("org.openecomp.sdc.impl.JsonContainerResourceInstance");
+        IResourceInstance resource = (IResourceInstance)getObject("org.onap.sdc.impl.JsonContainerResourceInstance");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
         invokeMethod(resource,"setArtifacts",serviceArtifacts);
@@ -131,7 +131,7 @@ public class TestArtifactProcessor {
     private List<IArtifactInfo> getServiceArtifacts() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
         List<IArtifactInfo> serviceArtifacts = new ArrayList<>();
-        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.openecomp.sdc.impl.ArtifactInfoImpl");
+        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.onap.sdc.impl.ArtifactInfoImpl");
         invokeMethod(artifactInfo,"setArtifactType","VF_LICENSE");
         invokeMethod(artifactInfo,"setArtifactUUID","abcd-efgh-ijkl");
         serviceArtifacts.add(artifactInfo);
@@ -141,7 +141,7 @@ public class TestArtifactProcessor {
     private List<IArtifactInfo> getServiceArtifactsForConfig() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
         List<IArtifactInfo> serviceArtifacts = new ArrayList<>();
-        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.openecomp.sdc.impl.ArtifactInfoImpl");
+        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.onap.sdc.impl.ArtifactInfoImpl");
         invokeMethod(artifactInfo,"setArtifactType","APPC_CONFIG");
         invokeMethod(artifactInfo,"setArtifactUUID","abcd-efgh-ijkl");
         serviceArtifacts.add(artifactInfo);

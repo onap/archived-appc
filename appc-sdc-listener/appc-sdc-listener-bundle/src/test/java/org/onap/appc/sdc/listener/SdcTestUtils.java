@@ -25,9 +25,9 @@ package org.onap.appc.sdc.listener;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -58,7 +58,7 @@ public class SdcTestUtils {
     private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException,
             InstantiationException, InvocationTargetException {
 
-        INotificationData notificationData = (INotificationData)getObject("org.openecomp.sdc.impl.NotificationDataImpl");
+        INotificationData notificationData = (INotificationData)getObject("org.onap.sdc.impl.NotificationDataImpl");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
 
@@ -73,7 +73,7 @@ public class SdcTestUtils {
 
     private IResourceInstance getResources() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
-        IResourceInstance resource = (IResourceInstance)getObject("org.openecomp.sdc.impl.JsonContainerResourceInstance");
+        IResourceInstance resource = (IResourceInstance)getObject("org.onap.sdc.impl.JsonContainerResourceInstance");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
         invokeMethod(resource,"setArtifacts",serviceArtifacts);
@@ -105,7 +105,7 @@ public class SdcTestUtils {
     private List<IArtifactInfo> getServiceArtifacts() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
         List<IArtifactInfo> serviceArtifacts = new ArrayList<>();
-        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.openecomp.sdc.impl.ArtifactInfoImpl");
+        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.onap.sdc.impl.ArtifactInfoImpl");
         invokeMethod(artifactInfo,"setArtifactType","TOSCA_CSAR");
         invokeMethod(artifactInfo,"setArtifactUUID","abcd-efgh-ijkl");
         serviceArtifacts.add(artifactInfo);
@@ -113,7 +113,7 @@ public class SdcTestUtils {
     }
     private IArtifactInfo getServiceArtifact() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
-        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.openecomp.sdc.impl.ArtifactInfoImpl");
+        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.onap.sdc.impl.ArtifactInfoImpl");
         invokeMethod(artifactInfo,"setArtifactType","TOSCA_CSAR");
         invokeMethod(artifactInfo,"setArtifactUUID","abcd-efgh-ijkl");
         return artifactInfo;

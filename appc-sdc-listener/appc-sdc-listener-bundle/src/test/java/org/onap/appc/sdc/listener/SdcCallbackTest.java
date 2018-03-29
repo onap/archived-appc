@@ -38,14 +38,14 @@ import org.onap.appc.sdc.artifacts.impl.ArtifactProcessorFactory;
 import org.onap.appc.sdc.artifacts.impl.ToscaCsarArtifactProcessor;
 import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.onap.appc.sdc.artifacts.object.SDCReference;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.consumer.INotificationCallback;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
-import org.openecomp.sdc.api.results.IDistributionClientDownloadResult;
-import org.openecomp.sdc.impl.DistributionClientDownloadResultImpl;
-import org.openecomp.sdc.utils.DistributionActionResultEnum;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.consumer.INotificationCallback;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.results.IDistributionClientDownloadResult;
+import org.onap.sdc.impl.DistributionClientDownloadResultImpl;
+import org.onap.sdc.utils.DistributionActionResultEnum;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
@@ -181,7 +181,7 @@ public class SdcCallbackTest {
 
     private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 
-        INotificationData notificationData = (INotificationData)getObject("org.openecomp.sdc.impl.NotificationDataImpl");
+        INotificationData notificationData = (INotificationData)getObject("org.onap.sdc.impl.NotificationDataImpl");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
 
@@ -191,7 +191,7 @@ public class SdcCallbackTest {
 
     private List<IResourceInstance> getResources() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         List<IResourceInstance> resources = new ArrayList<>();
-        IResourceInstance resource = (IResourceInstance)getObject("org.openecomp.sdc.impl.JsonContainerResourceInstance");
+        IResourceInstance resource = (IResourceInstance)getObject("org.onap.sdc.impl.JsonContainerResourceInstance");
 
         List<IArtifactInfo> serviceArtifacts = getServiceArtifacts();
         invokeMethod(resource,"setArtifacts",serviceArtifacts);
@@ -224,7 +224,7 @@ public class SdcCallbackTest {
 
     private List<IArtifactInfo> getServiceArtifacts() throws ClassNotFoundException, InvocationTargetException, InstantiationException, IllegalAccessException {
         List<IArtifactInfo> serviceArtifacts = new ArrayList<>();
-        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.openecomp.sdc.impl.ArtifactInfoImpl");
+        IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.onap.sdc.impl.ArtifactInfoImpl");
         invokeMethod(artifactInfo,"setArtifactType","TOSCA_CSAR");
         invokeMethod(artifactInfo,"setArtifactUUID","abcd-efgh-ijkl");
         serviceArtifacts.add(artifactInfo);
