@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -17,8 +17,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -36,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.sdc.api.consumer.IConfiguration;
+import org.onap.sdc.api.consumer.IConfiguration;
 
 public class SdcConfig implements IConfiguration {
 

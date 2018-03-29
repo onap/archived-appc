@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -17,8 +17,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -28,10 +26,10 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.results.IDistributionClientResult;
-import org.openecomp.sdc.impl.DistributionClientFactory;
-import org.openecomp.sdc.utils.DistributionActionResultEnum;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.results.IDistributionClientResult;
+import org.onap.sdc.impl.DistributionClientFactory;
+import org.onap.sdc.utils.DistributionActionResultEnum;
 
 import java.net.URL;
 import java.util.HashMap;

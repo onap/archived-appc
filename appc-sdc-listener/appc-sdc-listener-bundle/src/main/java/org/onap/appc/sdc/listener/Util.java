@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -17,22 +17,20 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.sdc.listener;
-import org.openecomp.sdc.utils.DistributionStatusEnum;
+import org.onap.sdc.utils.DistributionStatusEnum;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.onap.appc.exceptions.APPCException;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.consumer.IDistributionStatusMessage;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.consumer.IDistributionStatusMessage;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 
 public class Util {
 
