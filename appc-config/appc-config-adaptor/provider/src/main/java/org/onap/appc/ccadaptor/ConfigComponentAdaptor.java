@@ -530,7 +530,7 @@ public class ConfigComponentAdaptor implements SvcLogicAdaptor {
     }
 
     private boolean nullOrEmpty(String parmval) {
-        return parmval != null && parmval.length() > 0;
+        return !(parmval != null && parmval.length() > 0);
     }
 
     private void handleRpcError(HttpResponse r, String response) {

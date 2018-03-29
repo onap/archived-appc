@@ -269,4 +269,5 @@ public class ConfigComponentAdaptorTest {
         String result = Whitebox.invokeMethod(cca, "prepare", ctx, "test", "test");
         Assert.assertEquals("template", result);
     }
+    
 }
