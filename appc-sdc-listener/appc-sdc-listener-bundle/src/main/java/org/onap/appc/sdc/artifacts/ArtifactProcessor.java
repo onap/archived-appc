@@ -25,7 +25,7 @@
 package org.onap.appc.sdc.artifacts;
 
 import org.onap.appc.exceptions.APPCException;
-import org.openecomp.sdc.api.results.IDistributionClientDownloadResult;
+import org.onap.sdc.api.results.IDistributionClientDownloadResult;
 
 /**
  * This interface provides api processArtifact which cab have multiple implementation

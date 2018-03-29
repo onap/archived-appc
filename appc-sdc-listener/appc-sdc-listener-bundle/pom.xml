@@ -70,7 +70,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 		</dependency>
 
 		<dependency>
-			<groupId>org.openecomp.sdc.sdc-distribution-client</groupId>
+			<groupId>org.onap.sdc.sdc-distribution-client</groupId>
 			<artifactId>sdc-distribution-client</artifactId>
 			<version>${sdc-client.version}</version>
 		</dependency>

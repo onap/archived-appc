@@ -25,9 +25,9 @@ package org.onap.appc.sdc.listener;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 
 import java.io.File;
 import java.io.FileInputStream;

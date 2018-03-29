@@ -36,11 +36,11 @@ import org.onap.appc.sdc.artifacts.helper.DependencyModelGenerator;
 import org.onap.appc.sdc.artifacts.object.Resource;
 import org.onap.appc.sdc.artifacts.object.SDCArtifact;
 import org.onap.appc.sdc.artifacts.object.SDCReference;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
-import org.openecomp.sdc.api.results.IDistributionClientDownloadResult;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.results.IDistributionClientDownloadResult;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;

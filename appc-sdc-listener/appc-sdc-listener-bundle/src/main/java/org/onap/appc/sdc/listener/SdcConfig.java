@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
-import org.openecomp.sdc.api.consumer.IConfiguration;
+import org.onap.sdc.api.consumer.IConfiguration;
 
 public class SdcConfig implements IConfiguration {
 

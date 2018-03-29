@@ -23,16 +23,16 @@
  */
 
 package org.onap.appc.sdc.listener;
-import org.openecomp.sdc.utils.DistributionStatusEnum;
+import org.onap.sdc.utils.DistributionStatusEnum;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.onap.appc.exceptions.APPCException;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.consumer.IDistributionStatusMessage;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.consumer.IDistributionStatusMessage;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 
 public class Util {
 

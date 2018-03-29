@@ -29,10 +29,10 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.sdc.artifacts.object.SDCArtifact;
-import org.openecomp.sdc.api.IDistributionClient;
-import org.openecomp.sdc.api.notification.IArtifactInfo;
-import org.openecomp.sdc.api.notification.INotificationData;
-import org.openecomp.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.lang.reflect.Constructor;
