@@ -2,23 +2,21 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -197,7 +195,8 @@ public class DesignDBService {
             createArtifactTrackingRecord(payload, requestID, sdcArtifactId, sdcReferenceId);
             String status = getDataFromActionStatus(payload, STATUS);
             if (status == null || status.isEmpty()) {
-                setActionStatus(payload, "Not Tested");
+              log.info("Action Status is: "+ status);
+              setActionStatus(payload, "Not Tested");
             }
             linkstatusRelationShip(sdcArtifactId, sdcReferenceId, payload);
 
@@ -227,9 +226,9 @@ public class DesignDBService {
 
         if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
             .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
-            queryString = queryString + " AND  VNFC_TYPE =  ? ) )";
+            queryString = queryString + " AND  VNFC_TYPE =  ? GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ) )";
         } else {
-            queryString = queryString + " ) ) ";
+            queryString = queryString + " GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ) ) ";
         }
         log.info(QUERY_STR + queryString);
         boolean data = dbservice.updateDBData(queryString, argList);
@@ -310,6 +309,7 @@ public class DesignDBService {
         if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
             .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
+            log.info("Vnfc-Type: " + payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
         } else {
             argList.add(null);
         }
@@ -322,6 +322,8 @@ public class DesignDBService {
         }
         argList.add(status);
 
+        log.info("QueryString: " + insertQuery);
+        log.info("Arguments List: " + argList);
         boolean updateStatus = dbservice.updateDBData(insertQuery, argList);
         if (!updateStatus)
             throw new DBException("Error while updating Action Status");
