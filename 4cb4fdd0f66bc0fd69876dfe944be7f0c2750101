@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_82ddc516",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/TransactionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:14:14Z",
+      "side": 1,
+      "message": "indentation should be four spaces:  https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "4cb4fdd0f66bc0fd69876dfe944be7f0c2750101",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
