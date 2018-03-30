@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_42e7bde4",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/ResponseActionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:15:04Z",
+      "side": 1,
+      "message": "indentation needs to be four spaces:   https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "3472571e17c9cdaaad01deb6597d83274347e282",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
