@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e2a7e9a5",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:09:14Z",
+      "side": 1,
+      "message": "Consider using 2018",
+      "revId": "ba11e2113b790d928e44bd80615c2fe64b4f763c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_229e3155",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:09:14Z",
+      "side": 1,
+      "message": "Can this file be removed from the commit?",
+      "revId": "ba11e2113b790d928e44bd80615c2fe64b4f763c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c2ac2d8f",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-03-30T15:09:14Z",
+      "side": 1,
+      "message": "Consider using 2018",
+      "revId": "ba11e2113b790d928e44bd80615c2fe64b4f763c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
