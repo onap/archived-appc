@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-18 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
- * ============LICENSE_END=========================================================
+ * * ============LICENSE_END=========================================================
  */
 package org.onap.appc.flow.controller.executorImpl;
 
@@ -51,7 +49,7 @@ public class RestExecutor implements FlowExecutorInterface {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RestExecutor.class);
 
     @Override
-    public Map<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception{
+    public Map<String, String> execute(Transaction transaction, SvcLogicContext ctx) throws Exception {
         log.info("Configuring Rest Operation....." + transaction.toString());
         Map<String, String> outputMessage = new HashMap<>();
         Client client = null;
@@ -61,35 +59,29 @@ public class RestExecutor implements FlowExecutorInterface {
             SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, new javax.net.ssl.TrustManager[] {new SecureRestClientTrustManager()}, null);
             DefaultClientConfig defaultClientConfig = new DefaultClientConfig();
-            defaultClientConfig.getProperties().put(
-                    HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
+            defaultClientConfig.getProperties().put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
                     new HTTPSProperties(getHostnameVerifier(), sslContext));
             client = createClient(defaultClientConfig);
-            client.addFilter(new HTTPBasicAuthFilter(transaction.getuId(), transaction.getPswd()));
+            if ((transaction.getuId() != null) && (transaction.getPswd() != null)) {
+                client.addFilter(new HTTPBasicAuthFilter(transaction.getuId(), transaction.getPswd()));
+            }
             WebResource webResource = client.resource(new URI(transaction.getExecutionEndPoint()));
             webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
 
-            ClientResponse clientResponse = getClientResponse(transaction, webResource)
-                    .orElseThrow(() -> new Exception(
-                    "Cannot determine the state of : "
-                    + transaction.getActionLevel()
-                    + " HTTP response is null"));
+            ClientResponse clientResponse = getClientResponse(transaction, webResource).orElseThrow(() -> new Exception(
+                    "Cannot determine the state of : " + transaction.getActionLevel() + " HTTP response is null"));
 
             processClientResponse(clientResponse, transaction, outputMessage);
 
             log.info("Completed Rest Operation.....");
 
         } catch (Exception e) {
-            log.debug("failed in RESTCONT Action ("
-                    + transaction.getExecutionRPC()
-                    + ") for the resource "
-                    + transaction.getExecutionEndPoint()
-                    + ", fault message :"
-                    + e.getMessage());
+            log.debug("failed in RESTCONT Action (" + transaction.getExecutionRPC() + ") for the resource "
+                    + transaction.getExecutionEndPoint() + ", fault message :" + e.getMessage());
             throw new Exception("Error While Sending Rest Request", e);
 
         } finally {
-            if(client != null) {
+            if (client != null) {
                 client.destroy();
             }
         }
@@ -105,28 +97,27 @@ public class RestExecutor implements FlowExecutorInterface {
     }
 
     private Optional<ClientResponse> getClientResponse(Transaction transaction, WebResource webResource) {
-        String responseDataType=MediaType.APPLICATION_JSON;
-        String requestDataType=MediaType.APPLICATION_JSON;
+        String responseDataType = MediaType.APPLICATION_JSON;
+        String requestDataType = MediaType.APPLICATION_JSON;
         ClientResponse clientResponse = null;
 
         log.info("Starting Rest Operation.....");
-        if(HttpMethod.GET.equalsIgnoreCase(transaction.getExecutionRPC())) {
+        if (HttpMethod.GET.equalsIgnoreCase(transaction.getExecutionRPC())) {
             clientResponse = webResource.accept(responseDataType).get(ClientResponse.class);
-        }else if(HttpMethod.POST.equalsIgnoreCase(transaction.getExecutionRPC())) {
+        } else if (HttpMethod.POST.equalsIgnoreCase(transaction.getExecutionRPC())) {
             clientResponse = webResource.type(requestDataType).post(ClientResponse.class, transaction.getPayload());
-        }else if(HttpMethod.PUT.equalsIgnoreCase(transaction.getExecutionRPC())) {
+        } else if (HttpMethod.PUT.equalsIgnoreCase(transaction.getExecutionRPC())) {
             clientResponse = webResource.type(requestDataType).put(ClientResponse.class, transaction.getPayload());
-        }else if(HttpMethod.DELETE.equalsIgnoreCase(transaction.getExecutionRPC())) {
+        } else if (HttpMethod.DELETE.equalsIgnoreCase(transaction.getExecutionRPC())) {
             clientResponse = webResource.delete(ClientResponse.class);
         }
         return Optional.ofNullable(clientResponse);
     }
 
-    private void processClientResponse (ClientResponse clientResponse,
-                                        Transaction transaction,
-                                        Map<String, String> outputMessage ) throws Exception {
+    private void processClientResponse(ClientResponse clientResponse, Transaction transaction,
+            Map<String, String> outputMessage) throws Exception {
 
-        if(clientResponse.getStatus() == Status.OK.getStatusCode()) {
+        if (clientResponse.getStatus() == Status.OK.getStatusCode()) {
             Response response = new Response();
             response.setResponseCode(String.valueOf(Status.OK.getStatusCode()));
             transaction.setResponses(Collections.singletonList(response));
@@ -136,10 +127,8 @@ public class RestExecutor implements FlowExecutorInterface {
             if (StringUtils.isNotBlank(errorMsg)) {
                 log.debug("Error Message from Client Response" + errorMsg);
             }
-            throw new Exception("Cannot determine the state of : "
-                    + transaction.getActionLevel()
-                    + " HTTP error code : "
-                    + clientResponse.getStatus());
+            throw new Exception("Cannot determine the state of : " + transaction.getActionLevel()
+                    + " HTTP error code : " + clientResponse.getStatus());
         }
     }
 }

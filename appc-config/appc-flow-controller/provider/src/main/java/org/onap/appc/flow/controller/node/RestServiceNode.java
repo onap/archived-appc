@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
- * ============LICENSE_END=========================================================
+ * * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.flow.controller.node;
 
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_FLOW_CONTROLLER;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_SOUTHBOUND;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_STATUS;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_FAILURE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_SUCCESS;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -44,82 +41,81 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 
 public class RestServiceNode implements SvcLogicJavaPlugin {
 
-  private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
-  private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
+    public static final String APPC_CONFIG_DIR_VAR = "APPC_CONFIG_DIR";
 
-  static final String REST_RESPONSE = "restResponse";
+    static final String REST_RESPONSE = "restResponse";
 
-  private final TransactionHandler transactionHandler;
-  private final RestExecutor restExecutor;
-  private final ResourceUriExtractor resourceUriExtractor;
-  private final EnvVariables envVariables;
+    private final TransactionHandler transactionHandler;
+    private final RestExecutor restExecutor;
+    private final ResourceUriExtractor resourceUriExtractor;
+    private final EnvVariables envVariables;
 
-  public RestServiceNode() {
-    this.transactionHandler = new TransactionHandler();
-    this.restExecutor = new RestExecutor();
-    this.resourceUriExtractor = new ResourceUriExtractor();
-    this.envVariables = new EnvVariables();
-  }
-
-  /**
-   * Constructor for tests, prefer to use no arg constructor
-   */
-  RestServiceNode(TransactionHandler transactionHandler, RestExecutor restExecutor,
-      ResourceUriExtractor uriExtractor, EnvVariables envVariables) {
-    this.transactionHandler = transactionHandler;
-    this.restExecutor = restExecutor;
-    this.resourceUriExtractor = uriExtractor;
-    this.envVariables = envVariables;
-  }
-
-  public void sendRequest(Map<String, String> inParams, SvcLogicContext ctx)
-      throws SvcLogicException {
-    String fn = "RestServiceNode.sendRequest";
-    log.info("Received processParamKeys call with params : " + inParams);
-    String responsePrefix = inParams.get(INPUT_PARAM_RESPONSE_PREFIX);
-    try {
-      responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
-      //Remove below for Block
-      for (String key : ctx.getAttributeKeySet()) {
-        log.info(fn + "Getting Key = " + key + "and Value = " + ctx.getAttribute(key));
-      }
-
-      Properties prop = loadProperties();
-      log.info("Loaded Properties " + prop.toString());
-
-      String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
-
-      log.info("Rest Constructed URL : " + resourceUri);
-
-      Transaction transaction = transactionHandler.buildTransaction(ctx, prop, resourceUri);
-      Map<String, String> output = restExecutor.execute(transaction, ctx);
-
-      String json = output.get(REST_RESPONSE);
-      log.info("Received response from Interface " + json);
-
-      JsonNode validatedJson = JsonValidator.validate(json);
-
-      if (validatedJson != null) {
-        log.info("state is " + validatedJson.findValue("state"));
-        ctx.setAttribute(responsePrefix + OUTPUT_STATUS_MESSAGE, output.get(REST_RESPONSE));
-      }
-
-      ctx.setAttribute(responsePrefix + OUTPUT_PARAM_STATUS, OUTPUT_STATUS_SUCCESS);
-
-    } catch (Exception e) {
-      ctx.setAttribute(responsePrefix + OUTPUT_PARAM_STATUS, OUTPUT_STATUS_FAILURE);
-      ctx.setAttribute(responsePrefix + OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
-      log.error("Error Message : " + e.getMessage(), e);
-      throw new SvcLogicException(e.getMessage());
+    public RestServiceNode() {
+        this.transactionHandler = new TransactionHandler();
+        this.restExecutor = new RestExecutor();
+        this.resourceUriExtractor = new ResourceUriExtractor();
+        this.envVariables = new EnvVariables();
     }
-  }
 
-  private Properties loadProperties() throws Exception {
-    String directory = envVariables.getenv(SDNC_CONFIG_DIR_VAR);
-    if (directory == null) {
-      throw new Exception("Cannot find Property file: " + SDNC_CONFIG_DIR_VAR);
+    /**
+     * Constructor for tests, prefer to use no arg constructor
+     */
+    RestServiceNode(TransactionHandler transactionHandler, RestExecutor restExecutor, ResourceUriExtractor uriExtractor,
+            EnvVariables envVariables) {
+        this.transactionHandler = transactionHandler;
+        this.restExecutor = restExecutor;
+        this.resourceUriExtractor = uriExtractor;
+        this.envVariables = envVariables;
     }
-    String path = directory + APPC_FLOW_CONTROLLER;
-    return PropertiesLoader.load(path);
-  }
+
+    public void sendRequest(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+        String fn = "RestServiceNode.sendRequest";
+        log.info("Received processParamKeys call with params : " + inParams);
+        String responsePrefix = inParams.get(INPUT_PARAM_RESPONSE_PREFIX);
+        try {
+            responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
+            // Remove below for Block
+            for (String key : ctx.getAttributeKeySet()) {
+                log.info(fn + "Getting Key = " + key + "and Value = " + ctx.getAttribute(key));
+            }
+
+            Properties prop = loadProperties();
+            log.info("Loaded Properties " + prop.toString());
+
+            String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
+
+            log.info("Rest Constructed URL : " + resourceUri);
+
+            Transaction transaction = transactionHandler.buildTransaction(ctx, prop, resourceUri);
+            Map<String, String> output = restExecutor.execute(transaction, ctx);
+
+            String json = output.get(REST_RESPONSE);
+            log.info("Received response from Interface " + json);
+
+            JsonNode validatedJson = JsonValidator.validate(json);
+
+            if (validatedJson != null) {
+                log.info("state is " + validatedJson.findValue("state"));
+                ctx.setAttribute(responsePrefix + OUTPUT_STATUS_MESSAGE, output.get(REST_RESPONSE));
+            }
+
+            ctx.setAttribute(responsePrefix + OUTPUT_PARAM_STATUS, OUTPUT_STATUS_SUCCESS);
+
+        } catch (Exception e) {
+            ctx.setAttribute(responsePrefix + OUTPUT_PARAM_STATUS, OUTPUT_STATUS_FAILURE);
+            ctx.setAttribute(responsePrefix + OUTPUT_PARAM_ERROR_MESSAGE, e.getMessage());
+            log.error("Error Message : " + e.getMessage(), e);
+            throw new SvcLogicException(e.getMessage());
+        }
+    }
+
+    private Properties loadProperties() throws Exception {
+        String directory = envVariables.getenv(APPC_CONFIG_DIR_VAR);
+        if (directory == null) {
+            throw new Exception("Cannot find Property file: " + APPC_CONFIG_DIR_VAR);
+        }
+        String path = directory + APPC_SOUTHBOUND;
+        return PropertiesLoader.load(path);
+    }
 }
