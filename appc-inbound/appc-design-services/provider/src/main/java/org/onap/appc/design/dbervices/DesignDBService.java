@@ -197,7 +197,8 @@ public class DesignDBService {
             createArtifactTrackingRecord(payload, requestID, sdcArtifactId, sdcReferenceId);
             String status = getDataFromActionStatus(payload, STATUS);
             if (status == null || status.isEmpty()) {
-                setActionStatus(payload, "Not Tested");
+              log.info("Action Status is: "+ status);
+              setActionStatus(payload, "Not Tested");
             }
             linkstatusRelationShip(sdcArtifactId, sdcReferenceId, payload);
 
@@ -227,9 +228,9 @@ public class DesignDBService {
 
         if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
             .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
-            queryString = queryString + " AND  VNFC_TYPE =  ? ) )";
+            queryString = queryString + " AND  VNFC_TYPE =  ? GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ) )";
         } else {
-            queryString = queryString + " ) ) ";
+            queryString = queryString + " GROUP BY VNF_TYPE HAVING COUNT(VNF_TYPE)>=1 ) ) ";
         }
         log.info(QUERY_STR + queryString);
         boolean data = dbservice.updateDBData(queryString, argList);
@@ -310,6 +311,7 @@ public class DesignDBService {
         if (payloadObject.get(DesignServiceConstants.VNFC_TYPE) != null && !payloadObject
             .get(DesignServiceConstants.VNFC_TYPE).textValue().isEmpty()) {
             argList.add(payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
+            log.info("Vnfc-Type: " + payloadObject.get(DesignServiceConstants.VNFC_TYPE).textValue());
         } else {
             argList.add(null);
         }
@@ -322,6 +324,8 @@ public class DesignDBService {
         }
         argList.add(status);
 
+        log.info("QueryString: " + insertQuery);
+        log.info("Arguments List: " + argList);
         boolean updateStatus = dbservice.updateDBData(insertQuery, argList);
         if (!updateStatus)
             throw new DBException("Error while updating Action Status");
