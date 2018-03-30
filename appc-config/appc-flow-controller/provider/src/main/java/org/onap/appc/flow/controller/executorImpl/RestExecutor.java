@@ -65,7 +65,9 @@ public class RestExecutor implements FlowExecutorInterface {
                     HTTPSProperties.PROPERTY_HTTPS_PROPERTIES,
                     new HTTPSProperties(getHostnameVerifier(), sslContext));
             client = createClient(defaultClientConfig);
-            client.addFilter(new HTTPBasicAuthFilter(transaction.getuId(), transaction.getPswd()));
+            if((transaction.getuId() !=null)&&(transaction.getPswd() !=null)){
+                client.addFilter(new HTTPBasicAuthFilter(transaction.getuId(), transaction.getPswd()));
+            }
             WebResource webResource = client.resource(new URI(transaction.getExecutionEndPoint()));
             webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
 

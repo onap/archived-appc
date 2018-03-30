@@ -22,10 +22,13 @@ package org.onap.appc.flow.controller.node;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.HTTP;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_CONTEXT;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_HOST_IP_ADDRESS;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PORT_NUMBER;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_SUB_CONTEXT;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_URL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF_TYPE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PROTOCOL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PORT;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_CONTEXT_URL;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -39,13 +42,14 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
  */
 class ResourceUriExtractor {
 
+
   private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
 
   String extractResourceUri(SvcLogicContext ctx, Properties prop) throws Exception {
     String resourceUri = ctx.getAttribute(INPUT_URL);
 
     if (StringUtils.isBlank(resourceUri)) {
-      resourceUri = getAddress(ctx);
+      resourceUri = getAddress(ctx, prop);
       log.info("resourceUri= " + resourceUri);
       resourceUri += getContext(ctx, prop);
       log.info("resourceUri= " + resourceUri);
@@ -56,20 +60,22 @@ class ResourceUriExtractor {
     return resourceUri;
   }
 
-  private String getAddress(SvcLogicContext ctx) {
+  private String getAddress(SvcLogicContext ctx, Properties prop) {
     String address = ctx.getAttribute(INPUT_HOST_IP_ADDRESS);
-    String port = ctx.getAttribute(INPUT_PORT_NUMBER);
+    String portPath = ctx.getAttribute(VNF_TYPE)+"."+(REST_PROTOCOL)+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)+"."+(REST_PORT);
+    String port = prop.getProperty(portPath);
     return HTTP + address + ":" + port;
   }
 
   private String getContext(SvcLogicContext ctx, Properties prop) throws Exception {
     String context;
+    String urlPath = ctx.getAttribute(VNF_TYPE)+"."+REST_PROTOCOL+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)+"."+REST_CONTEXT_URL;
     if (StringUtils.isNotBlank(ctx.getAttribute(INPUT_CONTEXT))) {
       context = "/" + ctx.getAttribute(INPUT_CONTEXT);
-    } else if (prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".context") != null) {
-      context = "/" + prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".context");
+    } else if (prop.getProperty(urlPath) != null) {
+      context = "/" + prop.getProperty(urlPath);
     } else {
-      throw new Exception("Could Not found the context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
+      throw new Exception("Could not find the context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
     }
     return context;
   }
@@ -81,9 +87,9 @@ class ResourceUriExtractor {
     } else if (prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".sub-context") != null) {
       subContext = "/" + prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".sub-context");
     } else {
-      throw new Exception("Could Not found the sub context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
+      throw new Exception("Could not find the sub context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
     }
     return subContext;
   }
-
+ 
 }

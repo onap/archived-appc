@@ -42,6 +42,7 @@ public class FlowControllerConstants {
     public static final String DESINGTIME = "DesignTime";
     public static final String RUNTIME = "RunTime";
     public static final String APPC_FLOW_CONTROLLER = "/appc-flow-controller.properties";
+    public static final String APPC_SOUTHBOUND = "/appc_southbound.properties";
     public static final String VNF_TYPE = "vnf-type";
     public static final String ACTION = "action";
     public static final String VNFC_TYPE = "vnfc-type";
@@ -98,7 +99,7 @@ public class FlowControllerConstants {
     public static final String OUTPUT_STATUS_MESSAGE = "status-message";
     public static final String HEALTHY = "healthy";
     public static final String INPUT_URL = "input.url";
-    public static final String INPUT_HOST_IP_ADDRESS = "host-ip-address";
+    public static final String INPUT_HOST_IP_ADDRESS = "request-parameters.host-ip-address";
     public static final String INPUT_PORT_NUMBER = "port-number";
     public static final String INPUT_CONTEXT = "context";
     public static final String INPUT_SUB_CONTEXT = "sub-context";
@@ -116,4 +117,10 @@ public class FlowControllerConstants {
     public static final String VF_MODULE = "vf-module";
     public static final String VNFC_NAME = "vnfc-name";
     public static final String AAI_VNF_TYPE = "aai-vnf-type";
+    public static final String REST_PROTOCOL = "REST";
+    public static final String HEALTHCHECK ="HealthCheck";
+    public static final String REST_USER="user";
+    public static final String REST_PWD="password";
+    public static final String REST_PORT="port";
+    public static final String REST_CONTEXT_URL="url";
 }
