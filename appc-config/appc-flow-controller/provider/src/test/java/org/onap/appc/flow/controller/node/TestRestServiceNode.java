@@ -27,7 +27,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.onap.appc.flow.controller.node.InputParamsCollector.SDNC_CONFIG_DIR_VAR;
+import static org.onap.appc.flow.controller.node.RestServiceNode.APPC_CONFIG_DIR_VAR;
 import static org.onap.appc.flow.controller.node.RestServiceNode.REST_RESPONSE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 
@@ -88,7 +88,7 @@ public class TestRestServiceNode {
         .thenReturn(restResponseMap);
 
     EnvVariables envVariables = mock(EnvVariables.class);
-    when(envVariables.getenv(SDNC_CONFIG_DIR_VAR)).thenReturn("src/test/resources");
+    when(envVariables.getenv(APPC_CONFIG_DIR_VAR)).thenReturn("src/test/resources");
     restServiceNode = new RestServiceNode(transactionHandlerMock, restExecutorMock, uriExtractorMock, envVariables);
   }
 

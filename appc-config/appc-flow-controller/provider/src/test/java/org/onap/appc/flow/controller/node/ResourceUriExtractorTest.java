@@ -23,10 +23,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_CONTEXT;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_HOST_IP_ADDRESS;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PORT_NUMBER;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_SUB_CONTEXT;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_URL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_CONTEXT_URL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PORT;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PROTOCOL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF_TYPE;
 
 import java.util.Properties;
 import org.junit.Assert;
@@ -67,7 +70,7 @@ public class ResourceUriExtractorTest {
   public void should_extract_url_input_if_context_input_provided() throws Exception {
     when(ctx.getAttribute(INPUT_URL)).thenReturn("");
     when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
-    when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
+    when(prop.getProperty(ctx.getAttribute(VNF_TYPE)+"."+(REST_PROTOCOL)+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)+"."+(REST_PORT))).thenReturn("8080");
 
     when(ctx.getAttribute(INPUT_CONTEXT)).thenReturn("input-context");
     when(ctx.getAttribute(INPUT_SUB_CONTEXT)).thenReturn("input-sub-context");
@@ -79,16 +82,13 @@ public class ResourceUriExtractorTest {
 
   @Test
   public void should_extract_url_input_if_request_action_provided() throws Exception {
+      when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
+      when(ctx.getAttribute(INPUT_URL)).thenReturn("");
+      when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
+      when(prop.getProperty(ctx.getAttribute(VNF_TYPE)+"."+(REST_PROTOCOL)+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)+"."+(REST_PORT))).thenReturn("8080");
 
-    when(ctx.getAttribute(INPUT_URL)).thenReturn("");
-    when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
-    when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
-
-    when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
-    when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
-
-    when(prop.getProperty("request-action.context")).thenReturn("ra-context");
-    when(prop.getProperty("request-action.sub-context")).thenReturn("ra-sub-context");
+      when(prop.getProperty(ctx.getAttribute(VNF_TYPE)+"."+REST_PROTOCOL+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)+"."+REST_CONTEXT_URL)).thenReturn("ra-context");
+      when(prop.getProperty("request-action.sub-context")).thenReturn("ra-sub-context");
 
     String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
 
@@ -99,10 +99,10 @@ public class ResourceUriExtractorTest {
   public void should_throw_exception_if_missing_context() throws Exception {
     when(ctx.getAttribute(INPUT_URL)).thenReturn("");
     when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
-    when(ctx.getAttribute(INPUT_PORT_NUMBER)).thenReturn("8080");
+    when(prop.getProperty(ctx.getAttribute(VNF_TYPE)+"."+(REST_PROTOCOL)+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)+"."+(REST_PORT))).thenReturn("8080");
 
     expectedException.expect(Exception.class);
-    expectedException.expectMessage("Could Not found the context for operation null");
+    expectedException.expectMessage("Could not find the context for operation null");
 
     resourceUriExtractor.extractResourceUri(ctx, prop);
   }

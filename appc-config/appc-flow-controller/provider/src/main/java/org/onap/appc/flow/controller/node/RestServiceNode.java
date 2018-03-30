@@ -22,7 +22,7 @@
 
 package org.onap.appc.flow.controller.node;
 
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_FLOW_CONTROLLER;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_SOUTHBOUND;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_ERROR_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_PARAM_STATUS;
@@ -45,7 +45,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 public class RestServiceNode implements SvcLogicJavaPlugin {
 
   private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
-  private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+  public static final String APPC_CONFIG_DIR_VAR = "APPC_CONFIG_DIR";
 
   static final String REST_RESPONSE = "restResponse";
 
@@ -115,11 +115,11 @@ public class RestServiceNode implements SvcLogicJavaPlugin {
   }
 
   private Properties loadProperties() throws Exception {
-    String directory = envVariables.getenv(SDNC_CONFIG_DIR_VAR);
+    String directory = envVariables.getenv(APPC_CONFIG_DIR_VAR);
     if (directory == null) {
-      throw new Exception("Cannot find Property file: " + SDNC_CONFIG_DIR_VAR);
+      throw new Exception("Cannot find Property file: " + APPC_CONFIG_DIR_VAR);
     }
-    String path = directory + APPC_FLOW_CONTROLLER;
+    String path = directory + APPC_SOUTHBOUND;
     return PropertiesLoader.load(path);
   }
 }
