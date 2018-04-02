@@ -533,7 +533,7 @@
         "id": "dac167ea.e66c4",
         "type": "execute",
         "name": "execute getFormattedValue",
-        "xml": "<execute plugin=\"org.onap.appc.aai.client.node.AAIResourceNode\" method=\"getFormattedValue\">\n<parameter name=\"inputParameter\" value=\"`controller-template-id`\" />\n\n",
+        "xml": "<execute plugin=\"org.onap.appc.aai.client.node.AAIResourceNode\" method=\"getFormattedValue\">\n<parameter name=\"inputParameter\" value=\"`$controller-template-id`\" />\n\n",
         "comments": "Sets context variable template-model-id set to the formatted controller-template-id",
         "outputs": 1,
         "x": 952,
