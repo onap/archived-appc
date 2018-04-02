@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f65d6b49",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/UnmodifiablePropertiesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-04-02T21:50:43Z",
+      "side": 1,
+      "message": "change to 2018 please",
+      "range": {
+        "startLine": 5,
+        "startChar": 21,
+        "endLine": 5,
+        "endChar": 22
+      },
+      "revId": "2b6a387570d748ab119452163f7a2448ef05213b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_56477f77",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/UnmodifiablePropertiesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-04-02T21:50:43Z",
+      "side": 1,
+      "message": "remove these lines belong to Amdocs",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "2b6a387570d748ab119452163f7a2448ef05213b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
