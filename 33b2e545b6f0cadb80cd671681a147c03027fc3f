@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_9698a71c",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/core/TimerServiceImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-02T21:14:34Z",
+      "side": 1,
+      "message": "Wildcard imports not allowed:  https://wiki.onap.org/display/DW/Java+code+style, https://google.github.io/styleguide/javaguide.html#s3.3.1-wildcard-imports",
+      "revId": "33b2e545b6f0cadb80cd671681a147c03027fc3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
