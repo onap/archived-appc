@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -50,15 +49,15 @@ public class WrapperEncryptionTool {
         String port = args[5];
         String url = args[6];
 
-        if (StringUtils.isNotBlank(user)) {
+        if (StringUtils.isBlank(user)) {
             log.info("ERROR-USER can not be null");
             return;
         }
-        if (StringUtils.isNotBlank(password)) {
+        if (StringUtils.isBlank(password)) {
             log.info("ERROR-PASSWORD can not be null");
             return;
         }
-        if (StringUtils.isNotBlank(protocol) || StringUtils.isNotBlank(vnfType) || StringUtils.isNotBlank(action)) {
+        if (StringUtils.isBlank(protocol) || StringUtils.isBlank(vnfType) || StringUtils.isBlank(action)) {
             log.info("ERROR-PROTOCOL ,Action and VNF-TYPE both can not be null");
             return;
         }
@@ -66,7 +65,7 @@ public class WrapperEncryptionTool {
         EncryptionTool et = EncryptionTool.getInstance();
         String enPass = et.encrypt(password);
 
-        if (StringUtils.isNotBlank(protocol)) {
+        if (StringUtils.isBlank(protocol)) {
             updateProperties(user, vnfType, enPass, action, port, url, protocol);
         }
     }
@@ -77,13 +76,13 @@ public class WrapperEncryptionTool {
             log.info("Received Inputs protocol:%s User:%s vnfType:%s action:%surl:%s port:%s ", protocol, user,
                 vnfType, action, url, port);
             String property = protocol;
-            if (StringUtils.isBlank(vnfType)) {
-                if (StringUtils.isBlank(protocol) && StringUtils.isBlank(action)) {
+            if (StringUtils.isNotBlank(vnfType)) {
+                if (StringUtils.isNotBlank(protocol) && StringUtils.isNotBlank(action)) {
                     property = vnfType + "." + protocol + "." + action;
                 } else if (StringUtils.isNotBlank(protocol)){
                     property = vnfType;
                 }
-            } else if (StringUtils.isBlank(protocol)){
+            } else if (StringUtils.isNotBlank(protocol)){
                 property = protocol;
             }
 
