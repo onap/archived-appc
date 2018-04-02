@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_56ebff77",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/core/CoreRegistryTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-02T21:12:07Z",
+      "side": 1,
+      "message": "Wildcard imports are not allowed.",
+      "revId": "b8442f8248e5984e93d714003e5811276959ccf2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_16fd773b",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/core/TaskQueueManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-02T21:12:07Z",
+      "side": 1,
+      "message": "Wildcard imports not allowed",
+      "revId": "b8442f8248e5984e93d714003e5811276959ccf2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f601eb39",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/core/TaskQueueManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-02T21:12:07Z",
+      "side": 1,
+      "message": "Use spaces for indentation (4)",
+      "revId": "b8442f8248e5984e93d714003e5811276959ccf2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b6fb6346",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/core/TaskQueueTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-02T21:12:07Z",
+      "side": 1,
+      "message": "Use spaces for indentation",
+      "revId": "b8442f8248e5984e93d714003e5811276959ccf2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
