@@ -161,6 +161,12 @@ public class RequestContextTest {
         assertTrue(rc.getTotalDuration() >= 2 * delay);
         rc.reset();
         rc.delay();
+	// Ensure exceeded timeToLive
+        try {
+            Thread.sleep(1L);
+        } catch (Throwable e) {
+            // Even if interrupted, assume enough delay has occurred
+        }
         assertFalse(rc.isAlive());
         assertTrue(rc.getTotalDuration() >= 3 * delay);
     }
