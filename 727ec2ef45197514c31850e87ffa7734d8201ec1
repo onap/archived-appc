@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_19eb67b1",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/TransactionsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2731
+      },
+      "writtenOn": "2018-04-03T06:06:54Z",
+      "side": 1,
+      "message": "Removed, but please be aware that this line is still present in many classes.",
+      "parentUuid": "5a93c517_22c5d13c",
+      "revId": "727ec2ef45197514c31850e87ffa7734d8201ec1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_c2c3cd36",
         "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/TransactionsTest.java",
         "patchSetId": 1
