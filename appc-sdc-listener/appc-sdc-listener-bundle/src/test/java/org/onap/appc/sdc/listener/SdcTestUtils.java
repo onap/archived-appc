@@ -21,12 +21,6 @@
  */
 package org.onap.appc.sdc.listener;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.onap.sdc.api.notification.IArtifactInfo;
-import org.onap.sdc.api.notification.INotificationData;
-import org.onap.sdc.api.notification.IResourceInstance;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.lang.reflect.Constructor;
@@ -37,6 +31,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.onap.sdc.api.IDistributionClient;
+import org.onap.sdc.api.consumer.IDistributionStatusMessage;
+import org.onap.sdc.api.notification.IArtifactInfo;
+import org.onap.sdc.api.notification.INotificationData;
+import org.onap.sdc.api.notification.IResourceInstance;
+import org.onap.sdc.utils.DistributionStatusEnum;
+import static org.mockito.Mockito.mock;
 
 public class SdcTestUtils {
 
@@ -51,6 +55,46 @@ public class SdcTestUtils {
         ProviderResponse response=new ProviderResponse(200,"Success");
         Assert.assertEquals(200,response.getStatus());
         Assert.assertEquals("Success",response.getBody());
+    }
+
+    @Test
+    public void testParseResponse() throws Exception {
+        Util.parseResponse(readInput("/output/TestUtilResponse.json"));
+    }
+
+    @Test
+    public void testBuildDistributionStatusMessage() throws Exception {
+        Util.buildDistributionStatusMessage
+        (getClient(), getNotificationData(), getServiceArtifact(),
+                DistributionStatusEnum.DOWNLOAD_OK);
+    }
+
+    @Test
+    public void testGetTimestamp() {
+        IDistributionStatusMessage distStatusMsg = null;
+        try {
+            distStatusMsg = Util.buildDistributionStatusMessage
+                (getClient(), getNotificationData(), getServiceArtifact(),
+                DistributionStatusEnum.DOWNLOAD_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Assert.assertNotEquals(0, distStatusMsg.getTimestamp());
+    
+    }
+
+    @Test
+    public void testGetStatus() {
+        IDistributionStatusMessage distStatusMsg = null;
+        try {
+            distStatusMsg = Util.buildDistributionStatusMessage
+                (getClient(), getNotificationData(), getServiceArtifact(),
+                DistributionStatusEnum.DOWNLOAD_OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Assert.assertNotEquals(DistributionStatusEnum.DOWNLOAD_OK, distStatusMsg.getStatus());
+    
     }
 
     private INotificationData getNotificationData() throws ClassNotFoundException, IllegalAccessException,
@@ -82,7 +126,8 @@ public class SdcTestUtils {
         return resource;
     }
 
-    private void invokeMethod(Object object, String methodName,Object... arguments) throws IllegalAccessException, InvocationTargetException {
+    private void invokeMethod(Object object, String methodName,Object... arguments) throws IllegalAccessException, 
+        InvocationTargetException {
         Method[] methods = object.getClass().getDeclaredMethods();
         for(Method method:methods){
             if(methodName.equalsIgnoreCase(method.getName())){
@@ -91,7 +136,9 @@ public class SdcTestUtils {
             }
         }
     }
-    private Object getObject(String fqcn) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+
+    private Object getObject(String fqcn) throws ClassNotFoundException, InstantiationException, 
+        IllegalAccessException, InvocationTargetException {
         Constructor constructor = Arrays.asList(Class.forName(fqcn).getDeclaredConstructors())
                 .stream()
                 .filter(constructor1 -> constructor1.getParameterCount()==0)
@@ -100,6 +147,7 @@ public class SdcTestUtils {
         constructor.setAccessible(true);
         return constructor.newInstance();
     }
+
     private List<IArtifactInfo> getServiceArtifacts() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
         List<IArtifactInfo> serviceArtifacts = new ArrayList<>();
@@ -109,6 +157,7 @@ public class SdcTestUtils {
         serviceArtifacts.add(artifactInfo);
         return serviceArtifacts;
     }
+
     private IArtifactInfo getServiceArtifact() throws ClassNotFoundException, InvocationTargetException,
             InstantiationException, IllegalAccessException {
         IArtifactInfo artifactInfo = (IArtifactInfo)getObject("org.onap.sdc.impl.ArtifactInfoImpl");
@@ -116,6 +165,7 @@ public class SdcTestUtils {
         invokeMethod(artifactInfo,"setArtifactUUID","abcd-efgh-ijkl");
         return artifactInfo;
     }
+
     private String readInput(String inputFile) throws URISyntaxException {
         File file = new File(this.getClass().getResource(inputFile).toURI());
         byte[] bFile = new byte[(int) file.length()];
@@ -125,5 +175,9 @@ public class SdcTestUtils {
             e.printStackTrace();
         }
         return new String(bFile);
+    }
+
+    private IDistributionClient getClient()  {
+        return mock(IDistributionClient.class);
     }
 }
