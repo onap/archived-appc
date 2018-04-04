@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -62,75 +61,81 @@ import org.onap.appc.i18n.Msg;
 
 public class SshJcraftWrapper {
 
-    private static final EELFLogger log = EELFManager.getInstance().getLogger(SshJcraftWrapper.class);
-    static final int DEFAULT_PORT = 22;
-    static final String EOL = "\n";
-    static final String CHANNEL_SHELL_TYPE = "shell";
-    static final String CHANNEL_SUBSYSTEM_TYPE = "subsystem";
-    static final String CHANNEL_SFTP_TYPE = "sftp";
-    private static final String TERMINAL_BASIC_MODE = "vt102";
-    static final String STRICT_HOST_CHECK_KEY = "StrictHostKeyChecking";
-    static final String STRICT_HOST_CHECK_VALUE = "no";
-    static final String DELIMITERS_SEPARATOR = "|";
-
+    InputStream inputStream = null;
+    OutputStream outputStream = null;
+    DebugLog debugLog = new DebugLog();
+    private String debugLogFileName = "/tmp/sshJcraftWrapperDebug";
     private TelnetListener listener = null;
     private String routerLogFileName = null;
+    private String host = null;
+    private String RouterName = null;
+    private int BUFFER_SIZE = 512000;
+    char[] charBuffer = new char[BUFFER_SIZE];
+    // private int BUFFER_SIZE = 4000000;
+    private DataInputStream dis = null;
     private BufferedReader reader = null;
     private BufferedWriter out = null;
-    private File tmpFile = null;
+    private File _tmpFile = null;
     private JSch jsch = null;
     private Session session = null;
     private Channel channel = null;
+    private String tId = "";
     private String aggregatedReceivedString = "";
+    private File extraDebugFile = new File("/tmp/sshJcraftWrapperDEBUG");
     private String routerCmdType = "XML";
     private String routerFileName = null;
     private File jcraftReadSwConfigFileFromDisk = new File("/tmp/jcraftReadSwConfigFileFromDisk");
     private String equipNameCode = null;
-    private String routerName = null;
     private String hostName = null;
     private String userName = null;
     private String passWord = null;
-    private int readIntervalMs = 500;
-    private int readBufferSizeBytes = 512_000;
-    private int charsChunkSize = 300_000;
-    private int sessionTimeoutMs = 9_000;
-    private char[] charBuffer;
+    private StringBuffer charactersFromBufferFlush = new StringBuffer();
     private Runtime runtime = Runtime.getRuntime();
+    private DebugLog dbLog = new DebugLog();
 
-    public SshJcraftWrapper() {
-        this.jsch = new JSch();
-        this.charBuffer = new char[readBufferSizeBytes];
-    }
-
-    SshJcraftWrapper(JSch jsch, int readIntervalMs, int readBufferSizeBytes) {
-        this.readIntervalMs = readIntervalMs;
-        this.jsch = jsch;
-        this.readBufferSizeBytes = readBufferSizeBytes;
-        this.charBuffer = new char[readBufferSizeBytes];
+    public void SshJcraftWrapper() {
+        String fn = "SshJcraftWrapper.SshJcraftWrapper";
+        debugLog.printRTAriDebug(fn, "SshJcraftWrapper has been instantated");
+        routerLogFileName = "/tmp/" + host;
+        this.host = host;
     }
 
     public void connect(String hostname, String username, String password, String prompt, int timeOut)
         throws IOException {
-        log.debug("Attempting to connect to {0} username={1} prompt='{2}' timeOut={3}",
-            hostname, username, prompt, timeOut);
-        routerName = hostname;
+        String fn = "SshJcraftWrapper.connect";
+        jsch = new JSch();
+        debugLog.printRTAriDebug(fn,
+            "Attempting to connect to " + hostname + " username=" + username + " prompt='"
+                + prompt + "' timeOut=" + timeOut);
+        debugLog.printRTAriDebug(fn, "Trace A");
+        RouterName = hostname;
         hostName = hostname;
         userName = username;
         passWord = password;
         try {
-            channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, timeOut);
-            ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
-                readBufferSizeBytes);
+            session = jsch.getSession(username, hostname, 22);
+            UserInfo ui = new MyUserInfo();
+            session.setPassword(password);
+            session.setUserInfo(ui);
+            session.connect(timeOut);
+            channel = session.openChannel("shell");
+            session.setServerAliveCountMax(
+                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
+            ((ChannelShell) channel).setPtyType("vt102");
+            inputStream = channel.getInputStream();
+            dis = new DataInputStream(inputStream);
+            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
-            log.info("Successfully connected. Flushing input buffer.");
+            debugLog.printRTAriDebug(fn, "Successfully connected.");
+            debugLog.printRTAriDebug(fn, "Flushing input buffer");
             try {
                 receiveUntil(prompt, 3000, "No cmd was sent, just waiting");
-            } catch (IOException e) {
-                log.warn("Caught an Exception: Nothing to flush out.", e);
+            } catch (Exception e) {
+                debugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
             }
-        } catch (JSchException e) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostname, String.valueOf(DEFAULT_PORT), username);
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
+            // dbLog.storeData("ErrorMsg= Exception trying to connect to "+hostname +" "+e);
             throw new IOException(e.toString());
         }
     }
@@ -138,42 +143,66 @@ public class SshJcraftWrapper {
     // User specifies the port number.
     public void connect(String hostname, String username, String password, String prompt, int timeOut, int portNum)
         throws IOException {
-        log.debug("Attempting to connect to {0} username={1} prompt='{2}' timeOut={3} portNum={4}",
-            hostname, username, prompt, timeOut, portNum);
-        routerName = hostname;
+        String fn = "SshJcraftWrapper.connect";
+        debugLog.printRTAriDebug(fn,
+            ":Attempting to connect to " + hostname + " username=" + username + " prompt='"
+                + prompt + "' timeOut=" + timeOut + " portNum=" + portNum);
+        RouterName = hostname;
         hostName = hostname;
         userName = username;
         passWord = password;
+        RouterName = hostname;
+        jsch = new JSch();
         try {
-            channel = provideSessionChannel(CHANNEL_SHELL_TYPE, portNum, timeOut);
-            ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
-                readBufferSizeBytes);
+            session = jsch.getSession(username, hostname, portNum);
+            UserInfo ui = new MyUserInfo();
+            session.setPassword(password);
+            session.setUserInfo(ui);
+            session.setConfig("StrictHostKeyChecking", "no");
+            debugLog.printRTAriDebug(fn, ":StrictHostKeyChecking set to 'no'");
+
+            session.connect(timeOut);
+            session.setServerAliveCountMax(
+                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
+            channel = session.openChannel("shell");
+            ((ChannelShell) channel).setPtyType("vt102");
+            inputStream = channel.getInputStream();
+            dis = new DataInputStream(inputStream);
+            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
-            log.info("Successfully connected. Flushing input buffer.");
+            debugLog.printRTAriDebug(fn, ":Successfully connected.");
+            debugLog.printRTAriDebug(fn, ":Flushing input buffer");
             try {
-                if ("]]>]]>".equals(prompt)) {
+                if (prompt.equals("]]>]]>")) {
                     receiveUntil("]]>]]>", 10000, "No cmd was sent, just waiting");
                 } else {
                     receiveUntil(":~#", 5000, "No cmd was sent, just waiting");
                 }
-            } catch (IOException e) {
-                log.warn("Caught an Exception: Nothing to flush out.", e);
+            } catch (Exception e) {
+                debugLog.printRTAriDebug(fn, "Caught an Exception::: Nothing to flush out.");
             }
-        } catch (JSchException e) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostname, String.valueOf(portNum), username);
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, ":Caught an Exception. e=" + e);
+            dbLog.outputStackTrace(e);
+
+            // dbLog.storeData("ErrorMsg= Exception trying to connect to "+hostname +" "+e);
             throw new IOException(e.toString());
         }
     }
 
 
-    public String receiveUntil(String delimeters, int timeout, String cmdThatWasSent) throws IOException {
-        checkConnection();
+    public String receiveUntil(String delimeters, int timeout, String cmdThatWasSent)
+        throws TimedOutException, IOException {
+        String fn = "SshJcraftWrapper.receiveUntil";
         boolean match = false;
         boolean cliPromptCmd = false;
-        StringBuilder sb = new StringBuilder();
-        StringBuilder sbReceive = new StringBuilder();
-        log.debug("delimeters='{0}' timeout={1} cmdThatWasSent='{2}'", delimeters, timeout, cmdThatWasSent);
+        StringBuffer sb2 = new StringBuffer();
+        StringBuffer sbReceive = new StringBuffer();
+        debugLog.printRTAriDebug(fn,
+            "delimeters='" + delimeters + "' timeout=" + timeout + " cmdThatWasSent='" + cmdThatWasSent + "'");
+        appendToFile(debugLogFileName,
+            fn + " delimeters='" + delimeters + "' timeout=" + timeout + " cmdThatWasSent='" + cmdThatWasSent + "'\n");
+        String CmdThatWasSent = removeWhiteSpaceAndNewLineCharactersAroundString(cmdThatWasSent);
         int readCounts = 0;
         aggregatedReceivedString = "";
         FileWriter fileWriter = null;
@@ -183,16 +212,22 @@ public class SshJcraftWrapper {
             session.setTimeout(timeout);  // This is the socket timeout value.
             while (!match) {
                 if (new Date().getTime() > deadline) {
-                    String formattedCmd = removeWhiteSpaceAndNewLineCharactersAroundString(cmdThatWasSent);
-                    log.error(Msg.SSH_CONNECTION_TIMEOUT, routerName, formattedCmd);
-                    throw new TimedOutException("Routine has timed out");
+                    debugLog.printRTAriDebug(fn,
+                        "Throwing a TimedOutException: time in routine has exceed our deadline: RouterName:"
+                            + RouterName + " CmdThatWasSent=" + CmdThatWasSent);
+                    throw new TimedOutException("Timeout: time in routine has exceed our deadline");
                 }
-                sleep(readIntervalMs);
-                int len = reader.read(charBuffer, 0, readBufferSizeBytes);
-                log.trace("After reader. Read command len={0}", len);
+                try {
+                    Thread.sleep(500);
+                } catch (java.lang.InterruptedException ee) {
+                    boolean ignore = true;
+                }
+                int len = reader.read(charBuffer, 0, BUFFER_SIZE);
+                appendToFile(debugLogFileName, fn + " After reader.read cmd: len=" + len + "\n");
                 if (len <= 0) {
-                    log.error(Msg.SSH_CONNECTION_TIMEOUT, routerName, cmdThatWasSent);
-                    throw new TimedOutException("Received a SocketTimeoutException router=" + routerName);
+                    debugLog.printRTAriDebug(fn,
+                        "Reader read " + len + " bytes. Looks like we timed out, router=" + RouterName);
+                    throw new TimedOutException("Received a SocketTimeoutException router=" + RouterName);
                 }
                 if (!cliPromptCmd) {
                     if (cmdThatWasSent.indexOf("IOS_XR_uploadedSwConfigCmd") != -1) {
@@ -200,24 +235,26 @@ public class SshJcraftWrapper {
                             // This is a IOS XR sw config file. We will write it to the disk.
                             timeout = timeout * 2;
                             deadline = new Date().getTime() + timeout;
-                            log.debug("IOS XR upload for software config: timeout={0}", timeout);
+                            debugLog.printRTAriDebug(fn, "IOS XR upload for software config: timeout=" + timeout);
                             StringTokenizer st = new StringTokenizer(cmdThatWasSent);
                             st.nextToken();
                             routerFileName = st.nextToken();
                             fileWriter = new FileWriter(routerFileName);
                             out = new BufferedWriter(fileWriter);
-                            routerLogFileName = "/tmp/" + routerName;
-                            tmpFile = new File(routerLogFileName);
-                            log.debug("Prepared for writing swConfigFile to disk, routerFileName=" + routerFileName);
+                            routerLogFileName = "/tmp/" + RouterName;
+                            _tmpFile = new File(routerLogFileName);
+                            debugLog.printRTAriDebug(fn,
+                                "Will write the swConfigFile to disk, routerFileName=" + routerFileName);
                         }
+                        int c;
                         out.write(charBuffer, 0, len);
                         out.flush();
-                        log.debug("{0} bytes has been written to the disk", len);
-                        if (tmpFile.exists()) {
+                        appendToFile(debugLogFileName, fn + " Wrote " + len + " bytes to the disk\n");
+                        if (_tmpFile.exists()) {
                             appendToRouterFile(routerLogFileName, len);
                         }
                         match = checkIfReceivedStringMatchesDelimeter(len, "\nXML>");
-                        if (match) {
+                        if (match == true) {
                             out.flush();
                             out.close();
                             out = null;
@@ -225,96 +262,93 @@ public class SshJcraftWrapper {
                         }
                     } else {
                         readCounts++;
-                        log.debug("Reader read {0} of data within {1} read iteration", len, readCounts);
+                        appendToFile(debugLogFileName,
+                            fn + " readCounts=" + readCounts + "  Reader read " + len + " of data\n");
                         int c;
-                        sb.setLength(0);
+                        sb2.setLength(0);
                         for (int i = 0; i < len; i++) {
                             c = charBuffer[i];
                             if ((c != 7) && (c != 13) && (c != 0) && (c != 27)) {
-                                sbReceive.append(charBuffer[i]);
-                                sb.append(charBuffer[i]);
+                                sbReceive.append((char) charBuffer[i]);
+                                sb2.append((char) charBuffer[i]);
                             }
                         }
-                        appendToRouterFile("/tmp/" + routerName, len);
+                        appendToRouterFile("/tmp/" + RouterName, len);
                         if (listener != null) {
-                            listener.receivedString(sb.toString());
+                            listener.receivedString(sb2.toString());
                         }
-                        match = checkIfReceivedStringMatchesDelimeter(delimeters, sb.toString(), cmdThatWasSent);
-                        if (match) {
-                            log.trace("Match was true, breaking the loop.");
+
+                        appendToFile(debugLogFileName, fn + " Trace 1\n");
+                        match = checkIfReceivedStringMatchesDelimeter(delimeters, sb2.toString(), cmdThatWasSent);
+                        appendToFile(debugLogFileName, fn + " Trace 2\n");
+                        if (match == true) {
+                            appendToFile(debugLogFileName, fn + " Match was true, breaking...\n");
                             break;
                         }
                     }
                 } else {
-                    log.trace("cliPromptCmd");
-                    sb.setLength(0);
+                    debugLog.printRTAriDebug(fn, "cliPromptCmd, Trace 2");
+                    sb2.setLength(0);
                     for (int i = 0; i < len; i++) {
-                        sbReceive.append(charBuffer[i]);
-                        sb.append(charBuffer[i]);
+                        sbReceive.append((char) charBuffer[i]);
+                        sb2.append((char) charBuffer[i]);
                     }
-                    appendToRouterFile("/tmp/" + routerName, sb);
+                    appendToRouterFile("/tmp/" + RouterName, sb2);
                     if (listener != null) {
-                        listener.receivedString(sb.toString());
+                        listener.receivedString(sb2.toString());
                     }
-                    log.debug("sb2={0}  delimiters={1}", sb.toString(), delimeters);
-                    if (sb.toString().contains("\nariPrompt>")) {
-                        log.debug("Found ari prompt");
+                    debugLog.printRTAriDebug(fn, "sb2='" + sb2.toString() + "'  delimeters='" + delimeters + "'");
+                    if (sb2.toString().indexOf("\nariPrompt>") != -1) {
+                        debugLog.printRTAriDebug(fn, "Found our prompt");
+                        match = true;
                         break;
                     }
                 }
             }
-        } catch (JSchException | IOException e) {
-            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
-            throw new TimedOutException(e.getMessage());
+        } catch (JSchException e) {
+            debugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e.toString());
+            dbLog.outputStackTrace(e);
+            throw new TimedOutException(e.toString());
+        } catch (IOException ee) {
+            debugLog.printRTAriDebug(fn, "Caught an IOException: ee=" + ee.toString());
+            dbLog.outputStackTrace(ee);
+            throw new TimedOutException(ee.toString());
         } finally {
             try {
                 if (fileWriter != null) {
                     fileWriter.close();
                 }
-            } catch (IOException ex) {
-                log.warn("Failed to close fileWriter output stream", ex);
+            } catch(IOException ex) {
+                debugLog.printRTAriDebug(fn, "Failed to close fileWriter output stream: ex=" + ex);
             }
         }
-        return stripOffCmdFromRouterResponse(sbReceive.toString());
-    }
-
-    private void sleep(long timeoutMs) {
-        try {
-            TimeUnit.MILLISECONDS.sleep(timeoutMs);
-        } catch (java.lang.InterruptedException ee) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    private void checkConnection() {
-        try {
-            if (!isConnected() || !reader.ready()) {
-                throw new IllegalStateException("Connection not established. Cannot perform action.");
-            }
-        } catch (IOException e) {
-            throw new IllegalStateException("Reader stream is closed. Cannot perform action.", e);
-        }
+        String result = stripOffCmdFromRouterResponse(sbReceive.toString());
+        debugLog.printRTAriDebug(fn, "Leaving method successfully");
+        return result;
     }
 
     public boolean checkIfReceivedStringMatchesDelimeter(String delimeters, String receivedString,
         String cmdThatWasSent) {
         // The delimeters are in a '|' seperated string. Return true on the first match.
-        log.debug("Entered checkIfReceivedStringMatchesDelimeter: delimeters={0} cmdThatWasSent={1} receivedString={2}",
-            delimeters, cmdThatWasSent, receivedString);
-        StringTokenizer st = new StringTokenizer(delimeters, DELIMITERS_SEPARATOR);
+        String fn = "SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter";
+        appendToFile(debugLogFileName,
+            fn + " Entered:  delimeters='" + delimeters + " cmdThatWasSent='" + cmdThatWasSent + "' receivedString='"
+                + receivedString + "'\n");
+        StringTokenizer st = new StringTokenizer(delimeters, "|");
 
-        if ((delimeters.contains("#$")) || ("CLI".equals(routerCmdType)))  // This would be an IOS XR, CLI command.
+        if ((delimeters.indexOf("#$") != -1) || (routerCmdType.equals("CLI")))  // This would be an IOS XR, CLI command.
         {
-            int x = receivedString.lastIndexOf('#');
+            int x = receivedString.lastIndexOf("#");
             int y = receivedString.length() - 1;
-            log.debug("IOS XR, CLI command");
-            if (log.isTraceEnabled()) {
-                log.trace("cmdThatWasSent={0}, lastIndexOf hash delimiter={1}, maxIndexNum={2}", cmdThatWasSent, x, y);
+            appendToFile(debugLogFileName, fn + " IOS XR, CLI command\n");
+            if (extraDebugFile.exists()) {
+                appendToFile(debugLogFileName,
+                    fn + " :::cmdThatWasSent='" + cmdThatWasSent + "'  x=" + x + " y=" + y + "\n");
             }
             return (x != -1) && (y == x);
         }
-        if (cmdThatWasSent.contains("show config")) {
-            log.trace("In the block for 'show config'");
+        if (cmdThatWasSent.indexOf("show config") != -1) {
+            appendToFile(debugLogFileName, fn + "In the block for 'show config'\n");
             while (st.hasMoreTokens()) {
                 String delimeter = st.nextToken();
                 // Make sure we don't get faked out by a response of " #".
@@ -323,172 +357,217 @@ public class SshJcraftWrapper {
                 // LAAR2#
                 int x = receivedString.lastIndexOf(delimeter);
                 if ((receivedString.lastIndexOf(delimeter) != -1) && (receivedString.lastIndexOf(" #") != x - 1)) {
-                    log.debug("receivedString={0}", receivedString);
-                    log.trace("Found ending for 'show config' command, exiting.");
-                    return true;
+                    appendToFile(debugLogFileName, fn + "receivedString=\n'" + receivedString + "'\n");
+                    appendToFile(debugLogFileName,
+                        fn + "Returning true for the 'show config' command. We found our real delmeter. \n\n");
+                    return (true);
                 }
             }
         } else {
             aggregatedReceivedString = aggregatedReceivedString + receivedString;
-            appendToFile("/tmp/aggregatedReceivedString.debug", aggregatedReceivedString);
+            _appendToFile("/tmp/aggregatedReceivedString.debug", aggregatedReceivedString);
 
-            log.debug("receivedString={0}", receivedString);
             while (st.hasMoreTokens()) {
                 String delimeter = st.nextToken();
-                log.debug("Looking for an delimiter of:{0}", delimeter);
+                appendToFile(debugLogFileName, fn + " Looking for an delimeter of:'" + delimeter + "'\n");
+                appendToFile(debugLogFileName, fn + " receivedString='" + receivedString);
                 if (aggregatedReceivedString.indexOf(delimeter) != -1) {
-                    log.debug("Found delimiter={0}, exiting", delimeter);
+                    debugLog.printRTAriDebug(fn, "Found our delimeter, which was: '" + delimeter + "'");
                     aggregatedReceivedString = "";
-                    return true;
+                    return (true);
                 }
             }
         }
-        return false;
+        return (false);
     }
 
     public boolean checkIfReceivedStringMatchesDelimeter(int len, String delimeter) {
+        String fnName = "SshJcraftWrapper.checkIfReceivedStringMatchesDelimeter:::";
         int x;
         int c;
         String str = StringUtils.EMPTY;
 
         if (jcraftReadSwConfigFileFromDisk()) {
-            log.trace("jcraftReadSwConfigFileFromDisk block");
+            DebugLog.printAriDebug(fnName, "jcraftReadSwConfigFileFromDisk block");
             File fileName = new File(routerFileName);
-            log.debug("jcraftReadSwConfigFileFromDisk::: Will read the tail end of the file from the disk");
+            appendToFile(debugLogFileName,
+                fnName + " jcraftReadSwConfigFileFromDisk::: Will read the tail end of the file from the disk");
             try {
                 str = getLastFewLinesOfFile(fileName, 3);
             } catch (IOException e) {
-                log.warn("IOException occurred, while reading file=" + fileName, e);
+                DebugLog.printAriDebug(fnName, "Caught an Exception, e=" + e);
+                dbLog.outputStackTrace(e);
+                e.printStackTrace();
             }
         } else {
+            // DebugLog.printAriDebug(fnName, "TRACE 1: ******************************");
             // When looking at the end of the charBuffer, don't include any linefeeds or spaces. We only want to make the smallest string possible.
             for (x = len - 1; x >= 0; x--) {
                 c = charBuffer[x];
+                if (extraDebugFile.exists()) {
+                    appendToFile(debugLogFileName, fnName + " x=" + x + " c=" + c + "\n");
+                }
                 if ((c != 10) && (c != 32)) // Not a line feed nor a space.
                 {
                     break;
                 }
             }
             if ((x + 1 - 13) >= 0) {
-                str = new String(charBuffer, x + 1 - 13, 13);
-                log.debug("str:{0}", str);
+                str = new String(charBuffer, (x + 1 - 13), 13);
+                appendToFile(debugLogFileName, fnName + " str:'" + str + "'\n");
             } else {
                 File fileName = new File(routerFileName);
-                log.debug("Will read the tail end of the file from the disk, x={0} len={1} str={2} routerFileName={3}",
-                    x, len, str, routerFileName);
+                appendToFile(debugLogFileName,
+                    fnName + " Will read the tail end of the file from the disk, x=" + x + " len=" + len + " str::'"
+                        + str + "' routerFileName='" + routerFileName + "'\n");
+                DebugLog.printAriDebug(fnName,
+                    "Will read the tail end of the file from the disk, x=" + x + " len=" + len + " str::'" + str
+                        + "' routerFileName='" + routerFileName + "'");
                 try {
                     str = getLastFewLinesOfFile(fileName, 3);
                 } catch (IOException e) {
-                    log.warn("IOException occurred, while reading file=" + fileName, e);
+                    DebugLog.printAriDebug(fnName, "Caught an Exception, e=" + e);
+                    dbLog.outputStackTrace(e);
+                    e.printStackTrace();
                 }
             }
         }
 
-        log.debug("Parsed string was str='{0}', searched delimiter was {1}");
-        return str.contains(delimeter);
+        if (str.indexOf(delimeter) != -1) {
+            DebugLog.printAriDebug(fnName, "str in break is:'" + str + "'" + " delimeter='" + delimeter + "'");
+            appendToFile(debugLogFileName,
+                fnName + " str in break is:'" + str + " delimeter='" + delimeter + "'" + "'\n");
+            return (true);
+        } else {
+            appendToFile(debugLogFileName, fnName + " Returning false");
+            return (false);
+        }
+
     }
 
     public void closeConnection() {
-        log.info("Closing connection");
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        } catch (IOException ex) {
-            log.warn("Could not close reader instance", ex);
-        } finally {
-            if (isConnected()) {
-                channel.disconnect();
-                session.disconnect();
-                channel = null;
-                session = null;
-            }
-            reader = null;
-        }
-    }
-
-    boolean isConnected() {
-        return channel != null && session != null;
+        String fn = "SshJcraftWrapper.closeConnection";
+        debugLog.printRTAriDebug(fn, "Executing the closeConnection....");
+        inputStream = null;
+        outputStream = null;
+        dis = null;
+        charBuffer = null;
+        session.disconnect();
+        session = null;
     }
 
     public void send(String cmd) throws IOException {
-        try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
-            String command = enhanceCommandWithEOL(cmd);
-            int length = command.length();
-            log.debug("Sending ssh command: length={0}, payload: {1}", command.length(), command);
-            if(isCmdLengthEnoughToSendInChunks(length, charsChunkSize)) {
-                sendSshCommandInChunks(command, dos);
+        String fn = "SshJcraftWrapper.send";
+        OutputStream out = channel.getOutputStream();
+        DataOutputStream dos = new DataOutputStream(out);
+
+        if ((cmd.charAt(cmd.length() - 1) != '\n') && (cmd.charAt(cmd.length() - 1) != '\r')) {
+            cmd += "\n";
+        }
+        int length = cmd.length();
+        int i = -1;
+        int nchars = 300000;
+        int ncharsTotalSent = 0;
+        int ncharsSent = 0;
+
+        appendToFile(debugLogFileName, fn + ": Sending: '" + cmd);
+        // debugLog.printRTAriDebug (fn, "cmd = "+cmd);
+        debugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
+        try {
+            if (length > 600000) {
+                int timeout = 9000;
+                for (i = 0; i < length; i += nchars) {
+                    String Cmd = cmd.substring(i, Math.min(length, i + nchars));
+                    ncharsSent = Cmd.length();
+                    ncharsTotalSent = ncharsTotalSent + Cmd.length();
+                    debugLog.printRTAriDebug(fn, "i=" + i + " Sending Cmd: ncharsSent=" + ncharsSent);
+                    dos.writeBytes(Cmd);
+                    dos.flush();
+                    try {
+                        debugLog.printRTAriDebug(fn, ":::i=" + i + " length=" + length);
+                        if (ncharsSent < length) {
+                            receiveUntilBufferFlush(ncharsSent, timeout, "buffer flush  i=" + i);
+                        } else {
+                            debugLog.printRTAriDebug(fn, "i=" + i + " No Waiting this time....");
+                            dos.flush();
+                        }
+                    } catch (Exception e) {
+                        debugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
+                    }
+                }
             } else {
-                sendSshCommand(command, dos);
+                debugLog.printRTAriDebug(fn, "Before executing the dos.writeBytes");
+                dos.writeBytes(cmd);
             }
+            dos.flush();
+            debugLog.printRTAriDebug(fn, "Leaving method");
+            appendToFile(debugLogFileName, fn + ": Leaving method\n");
         } catch (IOException e) {
-            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
-            throw e;
+            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            dbLog.outputStackTrace(e);
+            throw new IOException(e.toString());
         }
     }
 
+
     public void sendChar(int v) throws IOException {
-        try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
-            if (log.isTraceEnabled()) {
-                log.trace("Sending charCode: {0}", v);
-            }
+        String fn = "SshJcraftWrapper.sendChar";
+        OutputStream out = channel.getOutputStream();
+        DataOutputStream dos = new DataOutputStream(out);
+        try {
+            debugLog.printRTAriDebug(fn, "Sending: '" + v + "'");
             dos.writeChar(v);
             dos.flush();
         } catch (IOException e) {
-            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
-            throw e;
+            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            throw new IOException(e.toString());
         }
     }
 
     public void send(byte[] b, int off, int len) throws IOException {
-        try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
+        String fn = "SshJcraftWrapper.send:byte[]";
+        OutputStream out = channel.getOutputStream();
+        DataOutputStream dos = new DataOutputStream(out);
+        try {
             dos.write(b, off, len);
             dos.flush();
         } catch (IOException e) {
-            log.error(Msg.SSH_DATA_EXCEPTION, e.getMessage());
-            throw e;
+            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            throw new IOException(e.toString());
         }
     }
 
     public static class MyUserInfo implements UserInfo, UIKeyboardInteractive {
 
-        @Override
         public String getPassword() {
             return null;
         }
 
-        @Override
         public boolean promptYesNo(String str) {
             return false;
         }
 
-        @Override
         public String getPassphrase() {
             return null;
         }
 
-        @Override
         public boolean promptPassphrase(String message) {
             return false;
         }
 
-        @Override
         public boolean promptPassword(String message) {
             return false;
         }
 
-        @Override
         public void showMessage(String message) {
-            //stub
         }
 
-        @Override
         public String[] promptKeyboardInteractive(String destination,
             String name,
             String instruction,
             String[] prompt,
             boolean[] echo) {
-            return new String[0];
+            return null;
         }
     }
 
@@ -496,103 +575,184 @@ public class SshJcraftWrapper {
         this.listener = listener;
     }
 
-    private void appendToFile(String fileName, String dataToWrite) {
-        File outputFile = new File(fileName);
-        if (outputFile.exists()) {
-            try (FileWriter fw = new FileWriter(fileName, true); BufferedWriter ow = new BufferedWriter(fw)) {
-                ow.write(dataToWrite);
-                ow.close();
-            } catch (IOException e) {
-                log.warn("IOException occurred while writing to file=" + fileName, e);
+    public void appendToFile(String fileName, String dataToWrite) {
+        String fn = "SshJcraftWrapper.appendToFile";
+
+        try {
+            // First check to see if a file 'fileName' exist, if it does
+            // write to it. If it does not exist, don't write to it.
+            File tmpFile = new File(fileName);
+            if (tmpFile.exists()) {
+                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
+                // out.write(dataToWrite);
+                // out.write(getTheDate() +": " +Thread.currentThread().getName() +": "+dataToWrite);
+                out.write(getTheDate() + ": " + tId + ": " + dataToWrite);
+                out.close();
             }
+        } catch (IOException e) {
+            debugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception: e=" + e);
         }
     }
 
-    public String getTheDate() {
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy H:mm:ss  ");
-        return dateFormat.format(Calendar.getInstance().getTime());
+    public void _appendToFile(String fileName, String dataToWrite) {
+        String fn = "SshJcraftWrapper.appendToFile";
+
+        try {
+            // First check to see if a file 'fileName' exist, if it does
+            // write to it. If it does not exist, don't write to it.
+            File tmpFile = new File(fileName);
+            if (tmpFile.exists()) {
+                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
+                out.write(dataToWrite);
+                out.close();
+            }
+        } catch (IOException e) {
+            debugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception: e=" + e);
+        }
     }
 
 
-    public void appendToRouterFile(String fileName, StringBuilder dataToWrite) {
-        appendToFile(fileName, dataToWrite.toString());
+    public String getTheDate() {
+        Calendar cal = Calendar.getInstance();
+        java.util.Date today = cal.getTime();
+        DateFormat df1 = DateFormat.getDateInstance();
+        DateFormat df3 = new SimpleDateFormat("MM/dd/yyyy H:mm:ss  ");
+        return (df3.format(today));
+    }
+
+
+    public void appendToRouterFile(String fileName, StringBuffer dataToWrite) {
+        String fnName = "SshJcraftWrapper.appendToRouterFile";
+        debugLog.printRTAriDebug(fnName, "Entered.... ");
+        try {
+            // First check to see if a file 'fileName' exist, if it does
+            // write to it. If it does not exist, don't write to it.
+            File tmpFile = new File(fileName);
+            {
+                // if ((tmpFile.exists()) && (tmpFile.setWritable(true, true)))
+                if (tmpFile.exists()) {
+                    BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
+                    // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
+                    out.write(dataToWrite.toString());
+                    out.close();
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("writeToFile() exception: " + e);
+            e.printStackTrace();
+        }
     }
 
     public void appendToRouterFile(String fileName, int len) {
-        File outputFile = new File(fileName);
-        if (outputFile.exists()) {
-            try (FileWriter fw = new FileWriter(fileName, true); BufferedWriter ow = new BufferedWriter(fw)) {
-                ow.write(charBuffer, 0, len);
-                ow.close();
-            } catch (IOException e) {
-                log.warn("Could not write data to router file:" + fileName, e);
+        String fnName = "SshJcraftWrapper.appendToFile";
+        // debugLog.printRTAriDebug (fnName, "Entered.... len="+len);
+        try {
+            // First check to see if a file 'fileName' exist, if it does
+            // write to it. If it does not exist, don't write to it.
+            File tmpFile = new File(fileName);
+            // if ((tmpFile.exists()) && (tmpFile.setWritable(true, true)))
+            if (tmpFile.exists()) {
+                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
+                // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
+                out.write(charBuffer, 0, len);
+                out.close();
             }
+        } catch (IOException e) {
+            System.err.println("writeToFile() exception: " + e);
+            e.printStackTrace();
         }
     }
 
     public String removeWhiteSpaceAndNewLineCharactersAroundString(String str) {
-        if (str != null && !StringUtils.EMPTY.equals(str)) {
-            StringTokenizer strTok = new StringTokenizer(str, EOL);
-            StringBuilder sb = new StringBuilder();
+        if (str != null) {
+            StringTokenizer strTok = new StringTokenizer(str, "\n");
+            StringBuffer sb = new StringBuffer();
 
             while (strTok.hasMoreTokens()) {
                 String line = strTok.nextToken();
                 sb.append(line);
             }
-            return sb.toString().trim();
+            return (sb.toString().trim());
+        } else {
+            return (str);
         }
-        return StringUtils.EMPTY;
     }
 
     public String stripOffCmdFromRouterResponse(String routerResponse) {
+        String fn = "SshJcraftWrapper.stripOffCmdFromRouterResponse";
+        // appendToFile(debugLogFileName, fn+": routerResponse='"+routerResponse +"'\n");
+
         // The session of SSH will echo the command sent to the router, in the router's response.
         // Since all our commands are terminated by a '\n', strip off the first line
         // of the response from the router. This first line contains the orginal command.
 
-        String[] responseTokens = routerResponse.split(EOL, 2);
-        return responseTokens[responseTokens.length - 1];
+        StringTokenizer rr = new StringTokenizer(routerResponse, "\n");
+        StringBuffer sb = new StringBuffer();
+
+        int numTokens = rr.countTokens();
+        // debugLog.printRTAriDebug (fn, "Number of lines in the response from the router is:" +numTokens);
+        if (numTokens > 1) {
+            rr.nextToken(); //Skip the first line.
+            while (rr.hasMoreTokens()) {
+                sb.append(rr.nextToken() + '\n');
+            }
+        }
+        return (sb.toString());
     }
 
     public void setRouterCommandType(String type) {
+        String fn = "SshJcraftWrapper.setRouterCommandType";
         this.routerCmdType = type;
-        log.debug("Router command type is set to: {0}", type);
+        debugLog.printRTAriDebug(fn, "Setting routerCmdType to a value of '" + type + "'");
     }
 
-    public String getLastFewLinesOfFile(File file, int linesToRead) throws IOException {
+    public String getLastFewLinesOfFile(File file, int linesToRead) throws  IOException {
+        String fn = "SshJcraftWrapper.getLastFewLinesOfFile";
+        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
+        int lines = 0;
+        StringBuilder builder = new StringBuilder();
         String tail = "";
-        try(RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r")) {
-            int lines = 0;
-            StringBuilder builder = new StringBuilder();
-            long length = file.length();
-            length--;
-            randomAccessFile.seek(length);
-            for (long seek = length; seek >= 0; --seek) {
-                randomAccessFile.seek(seek);
-                char c = (char) randomAccessFile.read();
-                builder.append(c);
-                if (c == '\n') {
-                    builder = builder.reverse();
-                    tail = builder.append(tail).toString();
-                    lines++;
-                    builder.setLength(0);
-                    if (lines == linesToRead) {
-                        break;
-                    }
+        long length = file.length();
+        length--;
+        randomAccessFile.seek(length);
+        for (long seek = length; seek >= 0; --seek) {
+            randomAccessFile.seek(seek);
+            char c = (char) randomAccessFile.read();
+            builder.append(c);
+            if (c == '\n') {
+                builder = builder.reverse();
+                // System.out.println(builder.toString());
+                tail = builder.toString() + tail;
+                lines++;
+                builder.setLength(0);
+                if (lines == linesToRead) {
+                    break;
                 }
             }
         }
-        if (log.isDebugEnabled()) {
-            log.debug("Content read from file={0} was tail={1}", file.getName(), tail);
+        randomAccessFile.close();
+        if (!jcraftReadSwConfigFileFromDisk()) {
+            debugLog.printRTAriDebug(fn, "tail='" + tail + "'");
         }
+        appendToFile(debugLogFileName, "tail='" + tail + "'\n");
         return tail;
     }
 
     public boolean jcraftReadSwConfigFileFromDisk() {
-        return jcraftReadSwConfigFileFromDisk.exists();
+        if (jcraftReadSwConfigFileFromDisk.exists()) {
+            return (true);
+        } else {
+            return (false);
+        }
     }
 
     public String getEquipNameCode() {
-        return equipNameCode;
+        return (equipNameCode);
+
     }
 
     public void setEquipNameCode(String equipNameCode) {
@@ -600,15 +760,20 @@ public class SshJcraftWrapper {
     }
 
     public String getRouterName() {
-        return routerName;
+        return (RouterName);
     }
 
     // Routine does reads until it has read 'nchars' or times out.
-    public String receiveUntilBufferFlush(int ncharsSent, int timeout, String command) throws IOException {
-        log.debug("ncharsSent={0}, timeout={1}, message={2}", ncharsSent, timeout, command);
+    public void receiveUntilBufferFlush(int ncharsSent, int timeout, String message)
+        throws TimedOutException, IOException {
+        String fn = "SshJcraftWrapper.receiveUntilBufferFlush";
+        StringBuffer sb2 = new StringBuffer();
+        StringBuffer sbReceive = new StringBuffer();
+        debugLog.printRTAriDebug(fn, "ncharsSent=" + ncharsSent + " timeout=" + timeout + " " + message);
         int ncharsTotalReceived = 0;
         int ncharsRead = 0;
-        StringBuilder received = new StringBuilder();
+        boolean flag = false;
+        charactersFromBufferFlush.setLength(0);
 
         long deadline = new Date().getTime() + timeout;
         logMemoryUsage();
@@ -616,65 +781,120 @@ public class SshJcraftWrapper {
             session.setTimeout(timeout);  // This is the socket timeout value.
             while (true) {
                 if (new Date().getTime() > deadline) {
-                    log.error(Msg.SSH_CONNECTION_TIMEOUT, routerName, command);
-                    throw new TimedOutException("Routine has timed out");
+                    debugLog.printRTAriDebug(fn,
+                        "Throwing a TimedOutException: time in routine has exceed our deadline: ncharsSent="
+                            + ncharsSent + " ncharsTotalReceived=" + ncharsTotalReceived);
+                    flag = true;
+                    throw new TimedOutException("Timeout: time in routine has exceed our deadline");
                 }
-                ncharsRead = reader.read(charBuffer, 0, readBufferSizeBytes);
-                if(ncharsRead >=0) {
-                    received.append(charBuffer, 0, ncharsRead);
-                }
+                ncharsRead = reader.read(charBuffer, 0, BUFFER_SIZE);
                 if (listener != null) {
                     listener.receivedString(String.copyValueOf(charBuffer, 0, ncharsRead));
                 }
-                appendToRouterFile("/tmp/" + routerName, ncharsRead);
+                appendToRouterFile("/tmp/" + RouterName, ncharsRead);
                 ncharsTotalReceived = ncharsTotalReceived + ncharsRead;
+                // debugLog.printRTAriDebug (fn, "::ncharsSent="+ncharsSent+" ncharsTotalReceived="+ncharsTotalReceived +" ncharsRead="+ncharsRead);
                 if (ncharsTotalReceived >= ncharsSent) {
-                    log.debug("Received the correct number of characters, ncharsSent={0}, ncharsTotalReceived={1}",
-                        ncharsSent, ncharsTotalReceived);
+                    debugLog.printRTAriDebug(fn,
+                        "Received the correct number of characters, ncharsSent=" + ncharsSent + " ncharsTotalReceived="
+                            + ncharsTotalReceived);
                     logMemoryUsage();
-                    return received.toString();
+                    return;
                 }
             }
         } catch (JSchException e) {
-            log.error(Msg.SSH_SESSION_CONFIG_ERROR, e.getMessage());
-            log.debug("ncharsSent={0}, ncharsTotalReceived={1}, ncharsRead={2} until error occurred",
-                ncharsSent, ncharsTotalReceived, ncharsRead);
-            throw new TimedOutException(e.getMessage());
+            debugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e);
+            debugLog.printRTAriDebug(fn,
+                "ncharsSent=" + ncharsSent + " ncharsTotalReceived=" + ncharsTotalReceived + " ncharsRead="
+                    + ncharsRead);
+            throw new TimedOutException(e.toString());
         }
     }
 
     public String getHostName() {
-        return hostName;
+        return (hostName);
     }
 
     public String getUserName() {
-        return userName;
+        return (userName);
     }
 
     public String getPassWord() {
-        return passWord;
+        return (passWord);
     }
 
-    public void sftpPutStringData(String stringOfData, String fullPathDest) throws IOException {
-        ChannelSftp sftp = null;
+    public void sftpPut(String sourcePath, String destDirectory) throws IOException {
+        String fn = "SshJcraftWrapper.sftp";
         try {
+            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            UserInfo ui = new MyUserInfo();
+            sftpSession.setPassword(passWord);
+            sftpSession.setUserInfo(ui);
+            sftpSession.connect(30 * 1000);
+            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
+            debugLog.printRTAriDebug(fn, "Connecting....");
+            sftp.connect();
+            debugLog.printRTAriDebug(fn, "Sending " + sourcePath + " --> " + destDirectory);
+            sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
+            debugLog.printRTAriDebug(fn, "Sent successfully");
+            sftpSession.disconnect();
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            throw new IOException(e.toString());
+        }
+    }
+
+
+    public void SftpPut(String stringOfData, String fullPathDest) throws IOException {
+        String fn = "SshJcraftWrapper.Sftp";
+        try {
+            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            UserInfo ui = new MyUserInfo();
+            sftpSession.setPassword(passWord);
+            sftpSession.setUserInfo(ui);
+            sftpSession.connect(30 * 1000);
+            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
+            debugLog.printRTAriDebug(fn, "Connecting....");
+            sftp.connect();
             InputStream is = new ByteArrayInputStream(stringOfData.getBytes());
-            sftp = getSftpConnection(hostName, userName, passWord);
-            log.debug("Sending via sftp stringOfData to destination: {0}", fullPathDest);
+            debugLog.printRTAriDebug(fn, "Sending stringOfData --> " + fullPathDest);
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
-        } catch (JSchException ex) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
-            throw new IOException(ex.getMessage());
-        } catch (SftpException ex) {
-            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
-            throw new IOException(ex.getMessage());
-        } finally {
-            disconnectSftp(sftp);
+            debugLog.printRTAriDebug(fn, "Sent successfully");
+            sftpSession.disconnect();
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            throw new IOException(e.toString());
         }
     }
 
     public String sftpGet(String fullFilePathName) throws IOException {
-        return get(fullFilePathName, hostName, userName, passWord);
+        String fn = "SshJcraftWrapper.Sftp";
+        try {
+            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            UserInfo ui = new MyUserInfo();
+            sftpSession.setPassword(passWord);
+            sftpSession.setUserInfo(ui);
+            sftpSession.connect(30 * 1000);
+            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
+            debugLog.printRTAriDebug(fn, "Connecting....");
+            sftp.connect();
+            InputStream in = null;
+            in = sftp.get(fullFilePathName);
+            String sftpFileString = readInputStreamAsString(in);
+            debugLog.printRTAriDebug(fn, "Retreived successfully");
+            // debugLog.printRTAriDebug (fn, "sftpFileString="+sftpFileString);
+            sftpSession.disconnect();
+            return (sftpFileString);
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            throw new IOException(e.toString());
+        }
     }
 
     public static String readInputStreamAsString(InputStream in) throws IOException {
@@ -689,238 +909,266 @@ public class SshJcraftWrapper {
         return buf.toString();
     }
 
+
     public void logMemoryUsage() {
+        String fn = "SshJcraftWrapper.logMemoryUsage";
         int mb = 1024 * 1024;
         long usedMemory;
-        long maxMemoryAvailable;
-        long memoryLeftOnHeap;
-        maxMemoryAvailable = runtime.maxMemory() / mb;
-        usedMemory = (runtime.totalMemory() / mb) - (runtime.freeMemory() / mb);
-        memoryLeftOnHeap = maxMemoryAvailable - usedMemory;
-        log.info("Memory usage: maxMemoryAvailable={0}, usedMemory={1}, memoryLeftOnHeap={2}",
-            maxMemoryAvailable, usedMemory, memoryLeftOnHeap);
+        long maxMemoryAdvailable;
+        long memoryLetfOnHeap;
+        maxMemoryAdvailable = (runtime.maxMemory() / mb);
+        usedMemory = ((runtime.totalMemory() / mb) - (runtime.freeMemory() / mb));
+        memoryLetfOnHeap = maxMemoryAdvailable - usedMemory;
+        DebugLog.printAriDebug(fn,
+            "maxMemoryAdvailable=" + maxMemoryAdvailable + " usedMemory=" + usedMemory + " memoryLetfOnHeap="
+                + memoryLetfOnHeap);
     }
 
-    public void connect(String hostname, String username, String password, int timeOut, int portNum,
+    // ----------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------
+
+
+    // User specifies the port number, and the subsystem
+    public void connect(String hostname, String username, String password, String prompt, int timeOut, int portNum,
         String subsystem) throws IOException {
+        String fn = "SshJcraftWrapper.connect";
 
-        if (log.isDebugEnabled()) {
-            log.debug(
-                "Attempting to connect to {0} username={1} timeOut={2} portNum={3} subsystem={4}",
-                hostname, username, timeOut, portNum, subsystem);
-        }
-        this.routerName = hostname;
-        this.hostName = hostname;
-        this.userName = username;
-        this.passWord = password;
+        debugLog.printRTAriDebug(fn,
+            ":::Attempting to connect to " + hostname + " username=" + username + " prompt='"
+                + prompt + "' timeOut=" + timeOut + " portNum=" + portNum + " subsystem=" + subsystem);
+        RouterName = hostname;
+        jsch = new JSch();
         try {
-            channel = provideSessionChannel(CHANNEL_SUBSYSTEM_TYPE, portNum, timeOut);
+            session = jsch.getSession(username, hostname, portNum);
+            UserInfo ui = new MyUserInfo();
+            session.setPassword(password);
+            session.setUserInfo(ui);
+            session.setConfig("StrictHostKeyChecking", "no");
+            session.connect(timeOut);
+            session.setServerAliveCountMax(
+                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
+            channel = session.openChannel("subsystem");
             ((ChannelSubsystem) channel).setSubsystem(subsystem);
-            ((ChannelSubsystem) channel).setPty(true); //expected ptyType vt102
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
-                readBufferSizeBytes);
-            channel.connect(5000);
-        } catch (JSchException e) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostname, String.valueOf(portNum), username);
-            throw new IOException(e.getMessage());
+            // ((ChannelSubsystem)channel).setPtyType("vt102");
+            ((ChannelSubsystem) channel).setPty(true);
+
+            inputStream = channel.getInputStream();
+            dis = new DataInputStream(inputStream);
+            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
+            channel.connect();
+            debugLog.printRTAriDebug(fn, "Successfully connected.");
+            debugLog.printRTAriDebug(fn, "Five second sleep....");
+            try {
+                Thread.sleep(5000);
+            } catch (java.lang.InterruptedException ee) {
+                boolean ignore = true;
+            }
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
+            throw new IOException(e.toString());
         }
     }
 
-    public void connect(String hostName, String username, String password) throws IOException {
-        log.debug("Attempting to connect to {0} username={1} portNumber={2}", hostName, username, DEFAULT_PORT);
-        this.routerName = hostName;
+    public void connect(String hostName, String username, String password, int portNumber) throws IOException {
+        String fn = "SshJcraftWrapper.connect";
+        jsch = new JSch();
+        debugLog.printRTAriDebug(fn,
+            "::Attempting to connect to " + hostName + " username=" + username + " portNumber=" + portNumber);
+        debugLog.printRTAriDebug(fn, "Trace C");
+        RouterName = hostName;
         this.hostName = hostName;
-        this.userName = username;
-        this.passWord = password;
+        userName = username;
+        passWord = password;
         try {
-            channel = provideSessionChannel(CHANNEL_SHELL_TYPE, DEFAULT_PORT, 30000);
-            ((ChannelShell) channel).setPtyType(TERMINAL_BASIC_MODE);
-            reader = new BufferedReader(new InputStreamReader(new DataInputStream(channel.getInputStream())),
-                readBufferSizeBytes);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            session = jsch.getSession(username, hostName, 22);
+            // session = jsch.getSession(username, hostName, portNumber);
+            UserInfo ui = new MyUserInfo();
+            session.setConfig(config);
+            session.setPassword(password);
+            session.setUserInfo(ui);
+            session.connect(30000);
+            channel = session.openChannel("shell");
+            session.setServerAliveCountMax(
+                0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
+            ((ChannelShell) channel).setPtyType("vt102");
+            inputStream = channel.getInputStream();
+            dis = new DataInputStream(inputStream);
+            reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
+            debugLog.printRTAriDebug(fn, "::Successfully connected.");
+            debugLog.printRTAriDebug(fn, "::Flushing input buffer");
             try {
                 receiveUntil(":~#", 9000, "No cmd was sent, just waiting, but we can stop on a '~#'");
             } catch (Exception e) {
-                log.warn("Caught an Exception: Nothing to flush out.", e);
+                debugLog.printRTAriDebug(fn, "Caught an Exception::: Nothing to flush out.");
             }
 
-        } catch (JSchException e) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), username);
-            throw new IOException(e.getMessage());
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
+            // dbLog.storeData("ErrorMsg= Exception trying to connect to "+hostName +" "+e);
+            throw new IOException(e.toString());
         }
     }
 
 
     public void put(String sourcePath, String destDirectory) throws IOException {
-        ChannelSftp sftp = null;
+        String fn = "SshJcraftWrapper.sftp";
         try {
-            sftp = getSftpConnection(hostName, userName, passWord);
-            log.debug("Sending via sftp from source: {0} to destination: {1}", sourcePath, destDirectory);
+            Session sftpSession = jsch.getSession(userName, hostName, 22);
+            UserInfo ui = new MyUserInfo();
+            sftpSession.setPassword(passWord);
+            sftpSession.setUserInfo(ui);
+            sftpSession.connect(30 * 1000);
+            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
+            debugLog.printRTAriDebug(fn, "Connecting....");
+            sftp.connect();
+            debugLog.printRTAriDebug(fn, "Sending " + sourcePath + " --> " + destDirectory);
             sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
-        } catch (JSchException ex) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
-            throw new IOException(ex.getMessage());
-        } catch (SftpException ex) {
-            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
-            throw new IOException(ex.getMessage());
-        } finally {
-            disconnectSftp(sftp);
+            debugLog.printRTAriDebug(fn, "Sent successfully");
+            sftpSession.disconnect();
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            throw new IOException(e.toString());
         }
     }
 
     public void put(InputStream is, String fullPathDest, String hostName, String userName, String passWord)
         throws IOException {
-        ChannelSftp sftp = null;
+        String fn = "SshJcraftWrapper.put";
+        Session sftpSession = null;
         try {
-            log.debug("Sftp put invoked, connection details: username={1} hostname={2}", userName, hostName);
-            sftp = getSftpConnection(hostName, userName, passWord);
+            debugLog.printRTAriDebug(fn, "userName=" + userName + " hostName=" + hostName);
+            jsch = new JSch();
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            sftpSession = jsch.getSession(userName, hostName, 22);
+            UserInfo ui = new MyUserInfo();
+            sftpSession.setPassword(passWord);
+            sftpSession.setUserInfo(ui);
+            sftpSession.setConfig(config);
+            sftpSession.connect(30 * 1000);
+            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
+            debugLog.printRTAriDebug(fn, "Connecting....");
+            sftp.connect();
             String oldFiles = fullPathDest + "*";
-            log.debug("Deleting old files: {0}", oldFiles);
-            removeOldFiles(sftp, oldFiles, hostName, userName);
-            log.debug("Sending stringOfData to destination {0}", fullPathDest);
+            debugLog.printRTAriDebug(fn, "Deleting old files --> " + oldFiles);
+            try {
+                sftp.rm(oldFiles);
+                debugLog.printRTAriDebug(fn, "Sending stringOfData --> " + fullPathDest);
+            } catch (SftpException sft) {
+                String exp = "No such file";
+                if (sft.getMessage() != null && sft.getMessage().contains(exp)) {
+                    debugLog.printRTAriDebug(fn, "No files found -- Continue");
+                } else {
+                    debugLog.printRTAriDebug(fn, "Exception while sftp.rm " + sft.getMessage());
+                    sft.printStackTrace();
+                    throw sft;
+                }
+            }
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
-        } catch (JSchException ex) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
-            throw new IOException(ex.getMessage());
-        } catch (SftpException ex) {
-            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "PUT", ex.getMessage());
-            throw new IOException(ex.getMessage());
+            debugLog.printRTAriDebug(fn, "Sent successfully");
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            throw new IOException(e.toString());
         } finally {
-            disconnectSftp(sftp);
-        }
-    }
-
-    private void removeOldFiles(ChannelSftp sftp, String oldFiles, String hostname, String username) throws SftpException {
-        try {
-            sftp.rm(oldFiles);
-        } catch (SftpException ex) {
-            if (ChannelSftp.SSH_FX_NO_SUCH_FILE == ex.id) {
-                log.warn("No files found, continue");
-            } else {
-                log.error(Msg.SFTP_TRANSFER_FAILED, hostname, username, "RM", ex.getMessage());
-                throw ex;
+            if(sftpSession != null) {
+                sftpSession.disconnect();
             }
         }
     }
 
+
     public String get(String fullFilePathName, String hostName, String userName, String passWord) throws IOException {
-        ChannelSftp sftp = null;
+        String fn = "SshJcraftWrapper.get";
+        Session sftpSession = null;
         try {
-            log.debug("Sftp get invoked, connection details: username={1} hostname={2}",
-                userName, hostName);
-            sftp = getSftpConnection(hostName, userName, passWord);
+            debugLog.printRTAriDebug(fn, "userName=" + userName + " hostName=" + hostName);
+            jsch = new JSch();
+            sftpSession = jsch.getSession(userName, hostName, 22);
+            java.util.Properties config = new java.util.Properties();
+            config.put("StrictHostKeyChecking", "no");
+            UserInfo ui = new MyUserInfo();
+            sftpSession.setPassword(passWord);
+            sftpSession.setUserInfo(ui);
+            sftpSession.setConfig(config);
+            sftpSession.connect(30 * 1000);
+            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
+            debugLog.printRTAriDebug(fn, "Connecting....");
+            sftp.connect();
             InputStream in = sftp.get(fullFilePathName);
-            return readInputStreamAsString(in);
-        } catch (JSchException ex) {
-            log.error(Msg.CANNOT_ESTABLISH_CONNECTION, hostName, String.valueOf(DEFAULT_PORT), userName);
-            throw new IOException(ex.getMessage());
-        } catch (SftpException ex) {
-            log.error(Msg.SFTP_TRANSFER_FAILED, hostName, userName, "GET", ex.getMessage());
-            throw new IOException(ex.getMessage());
+            String sftpFileString = readInputStreamAsString(in);
+            debugLog.printRTAriDebug(fn, "Retreived successfully");
+            return sftpFileString;
+        } catch (Exception e) {
+            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            throw new IOException(e.toString());
         } finally {
-            disconnectSftp(sftp);
+            if(sftpSession != null) {
+                sftpSession.disconnect();
+            }
         }
-    }
-
-    private void disconnectSftp (ChannelSftp sftp) {
-        if (sftp != null) {
-            sftp.disconnect();
-        }
-        if (session != null) {
-            session.disconnect();
-            session = null;
-        }
-    }
-
-    ChannelSftp getSftpConnection(String hostname, String username, String password) throws JSchException {
-        connectSession(hostname, username, password, DEFAULT_PORT, 30_000);
-        ChannelSftp sftp = openSftpChannel(session);
-        sftp.connect();
-        return sftp;
-    }
-
-    ChannelSftp openSftpChannel(Session sftpSession) throws JSchException {
-        return (ChannelSftp) sftpSession.openChannel(CHANNEL_SFTP_TYPE);
     }
 
     public String send(String cmd, String delimiter) throws IOException {
-        try (OutputStream os = channel.getOutputStream(); DataOutputStream dos = new DataOutputStream(os)) {
-            String command = enhanceCommandWithEOL(cmd);
-            int length = command.length();
-            log.debug("Sending ssh command: length={0}, payload: {1}", command.length(), command);
-            if(isCmdLengthEnoughToSendInChunks(length, charsChunkSize)) {
-                return sendSshCommandInChunks(command, dos);
-            } else {
-                sendSshCommand(command, dos);
-                return receiveUntil(delimiter, 300000, cmd);
-            }
+        String fn = "SshJcraftWrapper.send";
+        OutputStream out = channel.getOutputStream();
+        DataOutputStream dos = new DataOutputStream(out);
+
+        if ((cmd.charAt(cmd.length() - 1) != '\n') && (cmd.charAt(cmd.length() - 1) != '\r')) {
+            cmd += "\n";
         }
-    }
+        int length = cmd.length();
+        int i = -1;
+        int nchars = 300000;
+        int ncharsTotalSent = 0;
+        int ncharsSent = 0;
 
-    private void sendSshCommand(@Nonnull String command, @Nonnull DataOutputStream channelOutputStream)
-        throws IOException {
-        channelOutputStream.writeBytes(command);
-        channelOutputStream.flush();
-    }
-
-    private String sendSshCommandInChunks(@Nonnull String command, @Nonnull DataOutputStream channelOutputStream) throws IOException {
-        StringBuilder received =  new StringBuilder();
-        int charsTotalSent = 0;
-        int length = command.length();
-        for (int i = 0; i < length; i += charsChunkSize) {
-            String commandChunk = command.substring(i, Math.min(length, i + charsChunkSize));
-            int numCharsSentInChunk = commandChunk.length();
-            charsTotalSent = charsTotalSent + commandChunk.length();
-            log.debug("Iteration nr:{0}, sending command chunk: {1}", i, numCharsSentInChunk);
-            channelOutputStream.writeBytes(commandChunk);
-            channelOutputStream.flush();
-            try {
-                if (numCharsSentInChunk < length) {
-                    received.append(receiveUntilBufferFlush(numCharsSentInChunk, sessionTimeoutMs, command));
-                } else {
-                    log.trace("i={0}, flush immediately", i);
-                    channelOutputStream.flush();
+        debugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
+        debugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
+        try {
+            if (length > 600000) {
+                int timeout = 9000;
+                for (i = 0; i < length; i += nchars) {
+                    String Cmd = cmd.substring(i, Math.min(length, i + nchars));
+                    ncharsSent = Cmd.length();
+                    ncharsTotalSent = ncharsTotalSent + Cmd.length();
+                    debugLog.printRTAriDebug(fn, "i=" + i + " Sending Cmd: ncharsSent=" + ncharsSent);
+                    dos.writeBytes(Cmd);
+                    dos.flush();
+                    try {
+                        debugLog.printRTAriDebug(fn, ":::i=" + i + " length=" + length);
+                        if (ncharsSent < length) {
+                            receiveUntilBufferFlush(ncharsSent, timeout, "buffer flush  i=" + i);
+                        } else {
+                            debugLog.printRTAriDebug(fn, "i=" + i + " No Waiting this time....");
+                            dos.flush();
+                        }
+                    } catch (Exception e) {
+                        debugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
+                    }
                 }
-            } catch (IOException ex) {
-                log.warn("IOException occurred: nothing to flush out", ex);
+            } else {
+                debugLog.printRTAriDebug(fn, "Before executing the dos.writeBytes");
+                dos.writeBytes(cmd);
             }
+            dos.flush();
+            // Now lets get the response.
+            String response = receiveUntil(delimiter, 300000, cmd);
+            debugLog.printRTAriDebug(fn, "Leaving method");
+            return (response);
+        } catch (IOException e) {
+            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            throw new IOException(e.toString());
         }
-        return received.toString();
     }
 
-    public void setSessionTimeoutMs(int sessionTimeoutMs) {
-        this.sessionTimeoutMs = sessionTimeoutMs;
-    }
-
-    void setCharsChunkSize(int charsChunkSize) {
-        this.charsChunkSize = charsChunkSize;
-    }
-
-    private boolean isCmdLengthEnoughToSendInChunks(int length, int chunkSize) {
-        return length > 2 * chunkSize;
-    }
-
-    private String enhanceCommandWithEOL(@Nonnull String originalCommand) {
-        char commandEnding = originalCommand.charAt(originalCommand.length() - 1);
-        if (commandEnding != '\n' && commandEnding != '\r') {
-            return originalCommand + EOL;
-        }
-        return originalCommand;
-    }
-
-    private Channel provideSessionChannel(String channelType, int port, int timeout) throws JSchException {
-        connectSession(this.hostName, this.userName, this.passWord, port, timeout);
-        session.setServerAliveCountMax(
-            0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
-        return session.openChannel(channelType);
-    }
-
-    private void connectSession(String hostname, String username, String password, int port, int timeout) throws JSchException {
-        session = jsch.getSession(username, hostname, port);
-        session.setPassword(password);
-        session.setUserInfo(new MyUserInfo()); //needed?
-        session.setConfig(STRICT_HOST_CHECK_KEY, STRICT_HOST_CHECK_VALUE);
-        session.connect(timeout);
-    }
 
 }
