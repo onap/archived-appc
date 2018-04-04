@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_5876c03f",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/listener/SdcTestUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-04-04T21:13:46Z",
+      "side": 1,
+      "message": "powermockito does not count for test coverage",
+      "range": {
+        "startLine": 43,
+        "startChar": 33,
+        "endLine": 43,
+        "endChar": 45
+      },
+      "revId": "d4ea5d47901b734dacf472c148e0d4bfd9183027",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
