@@ -148,10 +148,9 @@
 
 		<!-- DMaaP Client -->
  		<dependency> 
- 			<groupId>com.att.nsa</groupId> 
+ 			<groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId> 
  			<artifactId>dmaapClient</artifactId>
-            <version>0.2.12</version> 
-<!--  			<version>${dmaap.client.version}</version>  -->
+            <version>${dmaap.client.version}</version> 
 		</dependency> 
 
 		<dependency>
