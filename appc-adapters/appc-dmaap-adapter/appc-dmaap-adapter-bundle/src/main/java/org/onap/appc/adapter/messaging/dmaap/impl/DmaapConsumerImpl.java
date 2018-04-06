@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -78,8 +77,13 @@ public class DmaapConsumerImpl implements Consumer {
         props.setProperty("host", urlsStr);
         props.setProperty("group", consumerGroupName);
         props.setProperty("id", consumerId);
-        props.setProperty("username", user);
-        props.setProperty("password", password);
+        if(user != null && password != null) {
+        	props.setProperty("username", user);
+        	props.setProperty("password", password);
+        }else {
+        	props.setProperty("TransportType", "HTTPNOAUTH");
+        }
+        
         if (filter != null) {
             props.setProperty("filter", filter);
         }
@@ -134,7 +138,7 @@ public class DmaapConsumerImpl implements Consumer {
     @Override
     public synchronized void updateCredentials(String key, String secret) {
         LOG.info(String.format("Setting auth to %s for %s", key, this.toString()));
-        props.setProperty("user",String.valueOf(key));
+        props.setProperty("username",String.valueOf(key));
         props.setProperty("password",String.valueOf(secret));
         client = null;
     }
@@ -227,4 +231,11 @@ public class DmaapConsumerImpl implements Consumer {
         }
     }
 
+    public Properties getProperties() {
+    	return props;
+    }
+    
+    public boolean isHttps() {
+    	return useHttps;
+    }
 }
