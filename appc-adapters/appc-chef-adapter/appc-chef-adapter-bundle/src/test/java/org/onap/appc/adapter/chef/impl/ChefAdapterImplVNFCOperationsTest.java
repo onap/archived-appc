@@ -350,6 +350,46 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedErrorMessage);
     }
 
+    @Test
+    public void fetchResults_shouldNotFetchResults_andThrowException_whenNodeListParamIsEmpty() {
+        // GIVEN
+        String expectedErrorMessage = "Error posting request: Missing Mandatory param(s)  NodeList ";
+        Map<String, String> params = givenInputParams();
+        // WHEN  // THEN
+        assertThatExceptionOfType(SvcLogicException.class)
+            .isThrownBy(() -> chefAdapterFactory.create().fetchResults(params, svcLogicContext))
+            .withMessageStartingWith(CHEF_ADAPTER_ERROR_PREFIX + expectedErrorMessage);
+
+        assertThat(svcLogicContext.getStatus()).isEqualTo(FAILURE_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedErrorMessage);
+    }
+
+    @Test
+    public void fetchResults_shouldNotFetchResults_andThrowException_whenPrivateKeyCheckFails() {
+        // GIVEN
+        Map<String, String> params = givenInputParams(
+            immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"));
+        String expectedErrorMessage =
+            "Error posting request: "
+            + CHEF_ADAPTER_ERROR_PREFIX
+            + "Cannot find the private key in the APPC file system, please load the private key to "
+            + CLIENT_PRIVATE_KEY_PATH;
+        given(privateKeyChecker.doesExist(CLIENT_PRIVATE_KEY_PATH)).willReturn(false);
+
+        // WHEN  // THEN
+        assertThatExceptionOfType(SvcLogicException.class)
+            .isThrownBy(() -> chefAdapterFactory.create().fetchResults(params, svcLogicContext))
+            .withMessage(CHEF_ADAPTER_ERROR_PREFIX + expectedErrorMessage);
+
+        assertThat(svcLogicContext.getStatus()).isEqualTo(FAILURE_STATUS);
+        assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
+            .isEqualTo(Integer.toString(HttpStatus.SC_UNAUTHORIZED));
+        assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY))
+            .isEqualTo(expectedErrorMessage);
+    }
+
     private Map<String, String> givenInputParams(Entry<String, String>... entries) {
         Builder<String, String> paramsBuilder = ImmutableMap.builder();
         paramsBuilder.put("username", USERNAME)
