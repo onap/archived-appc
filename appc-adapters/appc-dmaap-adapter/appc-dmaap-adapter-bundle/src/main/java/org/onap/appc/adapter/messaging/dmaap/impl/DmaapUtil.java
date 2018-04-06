@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,72 +18,138 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.adapter.messaging.dmaap.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class DmaapUtil {
 
-    private static final char DELIMITER = '_';
+    private static final char   DELIMITER             = '_';
+
+    static final String         DMAAP_PROPERTIES_PATH = "org.onap.appc.dmaap.profile.path";
+
+    private static final Logger log                   = LoggerFactory.getLogger(DmaapUtil.class);
 
     private DmaapUtil() {
     }
 
     private static String createPreferredRouteFileIfNotExist(String topic) throws IOException {
         String topicPreferredRouteFileName;
-        topicPreferredRouteFileName = topic+"preferredRoute.properties";
-        File fo= new File(topicPreferredRouteFileName);
-        if(!fo.exists()) {
+        topicPreferredRouteFileName = topic + "preferredRoute.properties";
+        File fo = new File(topicPreferredRouteFileName);
+        if (!fo.exists()) {
             ClassLoader classLoader = DmaapUtil.class.getClassLoader();
             InputStream inputStream = classLoader.getResourceAsStream("preferredRoute.txt");
             Properties props = new Properties();
             props.load(inputStream);
-            String fileName = topic != null ? topic+ DELIMITER +"MR1" : DELIMITER +"MR1";
+            String fileName = topic != null ? topic + DELIMITER + "MR1" : DELIMITER + "MR1";
             props.setProperty("preferredRouteKey", fileName);
             topicPreferredRouteFileName = topic + "preferredRoute.properties";
-            props.store(new FileOutputStream(topicPreferredRouteFileName), "preferredRoute.properties file created on the fly for topic:" + topic + " on:" + System.currentTimeMillis());
+            props.store(new FileOutputStream(topicPreferredRouteFileName),
+                    "preferredRoute.properties file created on the fly for topic:" + topic + " on:"
+                            + System.currentTimeMillis());
         }
         return topicPreferredRouteFileName;
     }
 
-    public static String createConsumerPropFile(String topic, Properties props)throws IOException {
+    public static String createConsumerPropFile(String topic, Properties props) throws IOException {
         String defaultProfFileName = "consumer.properties";
-        return createConsumerProducerPropFile(topic, defaultProfFileName,props);
+
+        log.debug("Creating DMaaP Consumer Property File for topic " + topic);
+        return createConsumerProducerPropFile(topic, defaultProfFileName, props);
     }
 
-    public static String createProducerPropFile(String topic, Properties props)throws IOException {
+    public static String createProducerPropFile(String topic, Properties props) throws IOException {
         String defaultProfFileName = "producer.properties";
-        return createConsumerProducerPropFile(topic, defaultProfFileName,props);
+
+        log.debug("Creating DMaaP Producer Property File for topic " + topic);
+        return createConsumerProducerPropFile(topic, defaultProfFileName, props);
     }
 
-    private static String createConsumerProducerPropFile(String topic, String defaultProfFileName, Properties props) throws IOException {
-        ClassLoader classLoader = DmaapUtil.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(defaultProfFileName);
-        Properties defaultProps = new Properties();
-        defaultProps.load(inputStream);
-        defaultProps.setProperty("topic",topic);
+    private static String createConsumerProducerPropFile(String topic, String defaultProfFileName, Properties props)
+            throws IOException {
+        Properties defaultProps = getDefaultProperties(defaultProfFileName);
+
+        defaultProps.setProperty("topic", topic);
 
         String preferredRouteFileName = DmaapUtil.createPreferredRouteFileIfNotExist(topic);
-        if(props != null && !props.isEmpty()){
+        if (props != null && !props.isEmpty()) {
             defaultProps.putAll(props);
         }
-        defaultProps.setProperty("topic",topic);
-        defaultProps.setProperty("DME2preferredRouterFilePath",preferredRouteFileName);
+        defaultProps.setProperty("topic", topic);
+        defaultProps.setProperty("DME2preferredRouterFilePath", preferredRouteFileName);
         String id = defaultProps.getProperty("id");
         String topicConsumerPropFileName = defaultProfFileName;
-        topicConsumerPropFileName = id != null ? id+ DELIMITER +topicConsumerPropFileName : DELIMITER +topicConsumerPropFileName;
-        topicConsumerPropFileName = topic != null ? topic+ DELIMITER +topicConsumerPropFileName : DELIMITER +topicConsumerPropFileName;
+        topicConsumerPropFileName = id != null ? id + DELIMITER + topicConsumerPropFileName
+                : DELIMITER + topicConsumerPropFileName;
+        topicConsumerPropFileName = topic != null ? topic + DELIMITER + topicConsumerPropFileName
+                : DELIMITER + topicConsumerPropFileName;
 
-        defaultProps.store(new FileOutputStream(topicConsumerPropFileName), defaultProfFileName+" file created on the fly for topic:"+topic+" on:"+System.currentTimeMillis());
+        defaultProps.store(new FileOutputStream(topicConsumerPropFileName), defaultProfFileName
+                + " file created on the fly for topic:" + topic + " on:" + System.currentTimeMillis());
         return topicConsumerPropFileName;
     }
 
+    private static Properties getDefaultProperties(String profileName) {
+        Properties props = new Properties();
+
+        // use appc configuration to get all properties which includes
+        // appc.properties and system properties
+        // allowing variable to be set in any location
+        Configuration config = ConfigurationFactory.getConfiguration();
+        String dmaapPropPath = config.getProperty(DMAAP_PROPERTIES_PATH);
+
+        if (dmaapPropPath != null) {
+            // load from file system
+
+            File profileFile = new File(dmaapPropPath, profileName);
+            FileInputStream inputStream = null;
+
+            log.info("Loading DMaaP Profile from " + profileFile.getAbsolutePath());
+
+            if (profileFile.exists()) {
+                try {
+                    inputStream = new FileInputStream(profileFile);
+                    props.load(inputStream);
+                } catch (IOException e) {
+                    log.error("Exception loading DMaaP Profile from " + profileFile.getAbsolutePath(), e);
+                } finally {
+                    try {
+                        if (inputStream != null) {
+                            inputStream.close();
+                        }
+                    } catch (IOException ex) {
+                        log.warn("Exception closing DMaaP Profile file " + profileFile.getAbsolutePath(), ex);
+                    }
+                }
+            }
+        }
+        if (props.isEmpty()) {
+            // load default Profile from class
+            log.info("Loading Default DMaaP Profile");
+
+            ClassLoader classLoader = DmaapUtil.class.getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(profileName);
+            try {
+                props.load(inputStream);
+            } catch (IOException e) {
+                log.error("Exception loading Default DMaaP Profile", e);
+            }
+        }
+
+        return props;
+    }
 }
