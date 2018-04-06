@@ -382,26 +382,31 @@ public class DBService {
     }
 
     private void resolveUrlAction(String url, String property, PropertiesConfiguration conf) {
-        if (conf.containsKey(property + "." + "url") && !url.isEmpty()) {
-            conf.setProperty(property + "." + "url", url);
+        if (conf.containsKey(property + "." + "url") ) {
+            if (url != null && !url.isEmpty()) {
+                conf.setProperty(property + "." + "url", url);
+            }
         } else {
             conf.addProperty(property + "." + "url", url);
         }
     }
 
     private void resolvePortAction(String port, String property, PropertiesConfiguration conf) {
-        if (conf.containsKey(property + "." + "port") && !port.isEmpty()) {
-            conf.setProperty(property + "." + "port", port);
+        if (conf.containsKey(property + "." + "port")) {
+            if (port != null && !port.isEmpty()) {
+                conf.setProperty(property + "." + "port", port);
+            }
         } else {
             conf.addProperty(property + "." + "port", port);
         }
     }
 
     private void resolveUserAction(boolean isUpdate, String user, String property, PropertiesConfiguration conf) {
-        if (conf.containsKey(property + "." + "user") && !user.isEmpty()) {
-            conf.setProperty(property + "." + "user", user);
+        if (conf.containsKey(property + "." + "user")) {
+            if (user != null && !user.isEmpty()) {
+                conf.setProperty(property + "." + "user", user);
+            }
         } else {
-            log.info("is Adding to southbound.properties" + isUpdate);
             conf.addProperty(property + "." + "user", user);
         }
     }
