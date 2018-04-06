@@ -21,92 +21,92 @@
   ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.onap.appc</groupId>
-		<artifactId>appc-dmaap-adapter</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.onap.appc</groupId>
+        <artifactId>appc-dmaap-adapter</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>appc-dmaap-adapter-bundle</artifactId>
-	<packaging>bundle</packaging>
-	<name>DMaaP Adapter - bundle</name>
+    <artifactId>appc-dmaap-adapter-bundle</artifactId>
+    <packaging>bundle</packaging>
+    <name>DMaaP Adapter - bundle</name>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-message-adapter-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-metric-bundle</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-common</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+    <dependencies>
+        <dependency>
+        	<groupId>org.onap.appc</groupId>
+        	<artifactId>appc-message-adapter-api</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.onap.appc</groupId>
+        	<artifactId>appc-metric-bundle</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
+        <dependency>
+        	<groupId>org.onap.appc</groupId>
+        	<artifactId>appc-common</artifactId>
+        	<version>${project.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+        	<groupId>junit</groupId>
+        	<artifactId>junit</artifactId>
+        	<scope>test</scope>
+        </dependency>
 
-		<dependency>
-			<groupId>equinoxSDK381</groupId>
-			<artifactId>org.eclipse.osgi</artifactId>
-		</dependency>
+        <dependency>
+        	<groupId>equinoxSDK381</groupId>
+        	<artifactId>org.eclipse.osgi</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			</dependency>
+        <dependency>
+        	<groupId>commons-codec</groupId>
+        	<artifactId>commons-codec</artifactId>
+        	</dependency>
 
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
+        <dependency>
+        	<groupId>commons-lang</groupId>
+        	<artifactId>commons-lang</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
-		</dependency>
+        <dependency>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+        	<groupId>com.fasterxml.jackson.core</groupId>
+        	<artifactId>jackson-annotations</artifactId>
+        </dependency>
 
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest-core</artifactId>
-			</dependency>
-		<dependency>
-			<groupId>org.objenesis</groupId>
-			<artifactId>objenesis</artifactId>
-			<version>2.2</version>
-		</dependency>
+        <dependency>
+        	<groupId>org.mockito</groupId>
+        	<artifactId>mockito-core</artifactId>
+        	</dependency>
+        <dependency>
+        	<groupId>org.powermock</groupId>
+        	<artifactId>powermock-api-mockito</artifactId>
+        	<scope>test</scope>
+        </dependency>
+        <dependency>
+        	<groupId>org.hamcrest</groupId>
+        	<artifactId>hamcrest-core</artifactId>
+        	</dependency>
+        <dependency>
+        	<groupId>org.objenesis</groupId>
+        	<artifactId>objenesis</artifactId>
+        	<version>2.2</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<scope>test</scope>
-		</dependency>
+        <dependency>
+        	<groupId>org.powermock</groupId>
+        	<artifactId>powermock-module-junit4</artifactId>
+        	<scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -116,74 +116,73 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
             </dependency>
-		<dependency>
-			<groupId>org.onap.ccsdk.sli.core</groupId>
-			<artifactId>sli-common</artifactId>
-			<scope>compile</scope>
-			<!-- Added exclusion to prevent missing dependency issue on dblib -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.onap.ccsdk.sli.core</groupId>
-					<artifactId>dblib-provider</artifactId>
-				</exclusion>
-				<exclusion>
-					<artifactId>slf4j-simple</artifactId>
-					<groupId>org.slf4j</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+        	<groupId>org.onap.ccsdk.sli.core</groupId>
+        	<artifactId>sli-common</artifactId>
+        	<scope>compile</scope>
+        	<!-- Added exclusion to prevent missing dependency issue on dblib -->
+        	<exclusions>
+        		<exclusion>
+        			<groupId>org.onap.ccsdk.sli.core</groupId>
+        			<artifactId>dblib-provider</artifactId>
+        		</exclusion>
+        		<exclusion>
+        			<artifactId>slf4j-simple</artifactId>
+        			<groupId>org.slf4j</groupId>
+        		</exclusion>
+        	</exclusions>
+        </dependency>
 
-		<dependency>
-			<groupId>org.onap.ccsdk.sli.core</groupId>
-			<artifactId>sli-provider</artifactId>
-			<scope>compile</scope>
-			<!-- Added exclusion to prevent missing dependency issue on dblib -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.onap.ccsdk.sli.core</groupId>
-					<artifactId>dblib-provider</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+        <dependency>
+        	<groupId>org.onap.ccsdk.sli.core</groupId>
+        	<artifactId>sli-provider</artifactId>
+        	<scope>compile</scope>
+        	<!-- Added exclusion to prevent missing dependency issue on dblib -->
+        	<exclusions>
+        		<exclusion>
+        			<groupId>org.onap.ccsdk.sli.core</groupId>
+        			<artifactId>dblib-provider</artifactId>
+        		</exclusion>
+        	</exclusions>
+        </dependency>
 
-		<!-- DMaaP Client -->
- 		<dependency> 
- 			<groupId>com.att.nsa</groupId> 
- 			<artifactId>dmaapClient</artifactId>
-            <version>0.2.12</version> 
-<!--  			<version>${dmaap.client.version}</version>  -->
-		</dependency> 
+        <!-- DMaaP Client -->
+         <dependency> 
+         	<groupId>org.onap.dmaap.messagerouter.dmaapclient</groupId> 
+         	<artifactId>dmaapClient</artifactId>
+            <version>${dmaap.client.version}</version> 
+        </dependency> 
 
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>			
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+        	<groupId>org.json</groupId>
+        	<artifactId>json</artifactId>			
+        </dependency>
+        <dependency>
+        	<groupId>commons-io</groupId>
+        	<artifactId>commons-io</artifactId>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-				<extensions>true</extensions>
-				<configuration>
-					<instructions>
-						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-						<Bundle-Version>${project.version}</Bundle-Version>
-						<!--<Bundle-SymbolicName>org.onap.appc.adapter.messaging.dmaap</Bundle-SymbolicName>-->
-						<Bundle-Activator>org.onap.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>
-						<Export-Package>org.onap.appc.adapter.messaging.*</Export-Package>
-						<Import-Package>!org.slf4j.event,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*,org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets,org.w3c.*</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|appc-message-adapter-api|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis|pax-*</Embed-Dependency>
-						<Embed-Transitive>true</Embed-Transitive>
-						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>
-					</instructions>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+        	<plugin>
+        		<groupId>org.apache.felix</groupId>
+        		<artifactId>maven-bundle-plugin</artifactId>
+        		<extensions>true</extensions>
+        		<configuration>
+        			<instructions>
+        				<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+        				<Bundle-Version>${project.version}</Bundle-Version>
+        				<!--<Bundle-SymbolicName>org.onap.appc.adapter.messaging.dmaap</Bundle-SymbolicName>-->
+        				<Bundle-Activator>org.onap.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>
+        				<Export-Package>org.onap.appc.adapter.messaging.*</Export-Package>
+        				<Import-Package>!org.slf4j.event,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*,org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets,org.w3c.*</Import-Package>
+        				<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|appc-message-adapter-api|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis|pax-*</Embed-Dependency>
+        				<Embed-Transitive>true</Embed-Transitive>
+        				<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>
+        			</instructions>
+        		</configuration>
+        	</plugin>
+        </plugins>
+    </build>
 </project>

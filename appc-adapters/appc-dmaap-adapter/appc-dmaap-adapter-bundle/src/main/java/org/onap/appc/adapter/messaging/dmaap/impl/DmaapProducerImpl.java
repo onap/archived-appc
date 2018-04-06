@@ -76,15 +76,19 @@ public class DmaapProducerImpl implements Producer {
 
     public DmaapProducerImpl(Collection<String> urls, Set<String> topicNames, String user, String password) {
         topics = topicNames;
-        if (urls == null || user == null || password == null) {
-            throw new IllegalArgumentException("one of these mandaory argument is null: urls, user, password");
+        if (urls == null) {
+            throw new IllegalArgumentException("Mandaory argument is null: urls");
         }
         this.props = new Properties();
         String urlsStr = StringUtils.join(urls, ',');
         props.setProperty("host",urlsStr);
         props.setProperty("id", UUID.randomUUID().toString());
-        props.setProperty("username",user);
-        props.setProperty("password",password);
+        if(user != null && password != null) {
+            props.setProperty("username",user);
+            props.setProperty("password",password);
+        }else {
+            props.setProperty("TransportType", "HTTPNOAUTH");
+        }
     }
 
     private void initMetric() {
@@ -136,7 +140,7 @@ public class DmaapProducerImpl implements Producer {
     @Override
     public synchronized void updateCredentials(String key, String secret) {
         LOG.info(String.format("Setting auth to %s for %s", key, this.toString()));
-        props.setProperty("user", String.valueOf(key));
+        props.setProperty("username", String.valueOf(key));
         props.setProperty("password", String.valueOf(secret));
         clients = null;
     }
@@ -214,4 +218,11 @@ public class DmaapProducerImpl implements Producer {
         }
     }
 
+    public Properties getProperties() {
+        return props;
+    }
+    
+    public boolean isHttps() {
+        return useHttps;
+    }
 }
