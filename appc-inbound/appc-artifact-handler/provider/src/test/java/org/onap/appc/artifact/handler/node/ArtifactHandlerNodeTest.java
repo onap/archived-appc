@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -245,7 +244,7 @@ public class ArtifactHandlerNodeTest {
                     vnfActionList, vmActionVnfcFunctionCodesList);
         }
     }
-    
+
     @Test
     public void testIsCapabilityArtifactNeeded() throws Exception {
         String scopeObjStr1= "{\"vnf-type\":\"someVnf\",\"vnfc-type\":\"somVnfc\"}";
@@ -255,6 +254,31 @@ public class ArtifactHandlerNodeTest {
         SvcLogicContext context = new SvcLogicContext();
         assertFalse(artifactHandlerNode.isCapabilityArtifactNeeded(scope1, context));
         assertTrue(artifactHandlerNode.isCapabilityArtifactNeeded(scope2, context));
+    }
+
+    @Test
+    public void testProcessArtifactListsWithMultipleTemplates() throws Exception {
+        String contentStr = "{\r\n\t\t\"action\": \"ConfigScaleOut\",\r\n\t\t\"action-level\": \"vnf\",\r\n\t\t\"scope\": {\r\n\t\t\t\"vnf-type\": "
+                + "\"vCfgSO-0405\",\r\n\t\t\t\"vnfc-type\": \"\"\r\n\t\t},\r\n\t\t\"template\": \"Y\",\r\n\t\t\"vm\": [{\r\n\t\t\t\"template-id\": "
+                + "\"TID-0405-EZ\",\r\n\t\t\t\"vm-instance\": 1,\r\n\t\t\t\"vnfc\": [{\r\n\t\t\t\t\"vnfc-instance\": \"1\",\r\n\t\t\t\t\"vnfc-function-code\": "
+                + "\"Cfg-ez\",\r\n\t\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\t\"group-notation-type\": \"first-vnfc-name\",\r\n\t\t\t\t\"group-notation-value\":"
+                + " \"pair\",\r\n\t\t\t\t\"vnfc-type\": \"vCfg-0405-ez\"\r\n\t\t\t}]\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"template-id\": "
+                + "\"TID-0405-EZ\",\r\n\t\t\t\"vm-instance\": 2,\r\n\t\t\t\"vnfc\": [{\r\n\t\t\t\t\"vnfc-instance\": \"1\",\r\n\t\t\t\t\"vnfc-function-code\": "
+                + "\"Cfg-ez\",\r\n\t\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\t\"group-notation-type\": \"first-vnfc-name\",\r\n\t\t\t\t\"group-notation-value\":"
+                + " \"pair\",\r\n\t\t\t\t\"vnfc-type\": \"vCfg-0405-ez\"\r\n\t\t\t}]\r\n\t\t}],\r\n\t\t\"device-protocol\": \"ANSIBLE\",\r\n\t\t\"user-name\": \"root\","
+                + "\r\n\t\t\"port-number\": \"22\",\r\n\t\t\"artifact-list\": [{\r\n\t\t\t\"artifact-name\": \"template_ConfigScaleOut_vCfgSO-0405_0.0.1V_TID-0405-EZ.json\","
+                + "\r\n\t\t\t\"artifact-type\": \"config_template\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"artifact-name\": \"pd_ConfigScaleOut_vCfgSO-0405_0.0.1V_TID-0405-EZ.yaml\","
+                + "\r\n\t\t\t\"artifact-type\": \"parameter_definitions\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"artifact-name\": "
+                + "\"template_ConfigScaleOut_vCfgSO-0405_0.0.1V_TID-0405-EZ-2.json\",\r\n\t\t\t\"artifact-type\": \"config_template\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"artifact-name\": "
+                + "\"pd_ConfigScaleOut_vCfgSO-0405_0.0.1V_TID-0405-EZ-2.yaml\",\r\n\t\t\t\"artifact-type\": \"parameter_definitions\"\r\n\t\t}],\r\n\t\t\"template-id-list\":"
+                + " [\"TID-0405-EZ\",\r\n\t\t\"TID-0405-EZ-2\"],\r\n\t\t\"scopeType\": \"vnf-type\"\r\n\t}";
+        JSONObject content = new JSONObject(contentStr);
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("vnf-type", "someVnf");
+        context.setAttribute("action", "ConfigScaleOut");
+        artifactHandlerNode.processArtifactList(content, dbService, context);;
+
     }
 
 }
