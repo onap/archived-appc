@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_531bf5c9",
+        "filename": "appc-common/src/test/java/org/onap/appc/CmdLineTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-04-09T16:24:45Z",
+      "side": 1,
+      "message": "no \"*\" in code style.",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 33
+      },
+      "revId": "4a979b3a5a61f17aed3e4648410e6b9a1ca50e2b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
