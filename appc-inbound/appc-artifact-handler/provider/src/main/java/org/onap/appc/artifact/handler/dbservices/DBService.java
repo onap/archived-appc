@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -155,10 +154,13 @@ public class DBService {
     }
 
     public void processSdcReferences(SvcLogicContext context, boolean isUpdate) throws SvcLogicException {
+        processSdcReferences(context, isUpdate, null);
+    }
+
+    public void processSdcReferences(SvcLogicContext context, boolean isUpdate, String modelId) throws SvcLogicException {
         String key;
         QueryStatus status;
-
-        if (isUpdate && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
+         if (isUpdate && context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
             .equals(SdcArtifactHandlerConstants.CAPABILITY)) {
             log.info("Updating capability artifact in ASDC_REFERENCE");
             key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_SDC_REFERENCE + "  set ARTIFACT_NAME = $"
@@ -171,6 +173,9 @@ public class DBService {
                 + SdcArtifactHandlerConstants.VNFC_TYPE + AND_FILE_CAT_QUERY_STR
                 + SdcArtifactHandlerConstants.FILE_CATEGORY + AND_ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION
                 + AND_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
+            if (StringUtils.isNotBlank(modelId)) {
+                key += createQueryListForTemplateIds(modelId);
+            }
         } else {
             if (context.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY)
                 .equals(SdcArtifactHandlerConstants.CAPABILITY)) {
@@ -197,7 +202,11 @@ public class DBService {
         }
     }
 
-    public boolean isArtifactUpdateRequired(SvcLogicContext context, String db)
+    public boolean isArtifactUpdateRequired(SvcLogicContext context, String db) throws DBException {
+        return isArtifactUpdateRequired( context,  db, null);
+    }
+
+    public boolean isArtifactUpdateRequired(SvcLogicContext context, String db, String modelId)
         throws DBException {
         try {
             log.info("Checking if Update required for this data");
@@ -207,6 +216,22 @@ public class DBService {
             log.info("VNFC_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VNFC_INSTANCE));
             log.info("VM_INSTANCE=" + context.getAttribute(SdcArtifactHandlerConstants.VM_INSTANCE));
             log.info("VNF_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
+
+            //Check for templates
+            //if templates are present - there might be multiple records, so validate
+            if( db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE) && StringUtils.isNotBlank(modelId)) {
+                log.info("ModelId is sent!!");
+                  String queryPart = createQueryListForTemplateIds(modelId);
+                  log.info("Querypart is = "+queryPart);
+                   if (isUpdateRequiredForTemplates(queryPart, context, db)) {
+                       log.info("Update is Required!!");
+                    return true;
+                   } else {
+                       log.info("Insert is Required!!");
+                       return false;
+                   }
+            }
+
             String whereClause;
             QueryStatus status;
             whereClause = WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
@@ -674,5 +699,42 @@ public class DBService {
                 + context.getAttribute(SdcArtifactHandlerConstants.ACTION) + " and "
                 + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE), e);
         }
+    }
+
+
+    public boolean isUpdateRequiredForTemplates(String queryPart, SvcLogicContext context, String db) throws DBException {
+        try {
+            log.info("Checking if Update required for this data");
+            log.info("db" + db);
+            log.info("ACTION=" + context.getAttribute(SdcArtifactHandlerConstants.ACTION));
+            log.info("VNF_TYPE=" + context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE));
+            log.info("");
+            String whereClause;
+            QueryStatus status;
+            whereClause = WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE ;
+            whereClause = resolveWhereClause(context, db, whereClause);
+            whereClause += queryPart;
+            if (validate(db)) {
+                if (!db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION)) {
+                    String key = "select COUNT(*) from " + db + whereClause;
+                    log.info("SELECT String : " + key);
+                    status = serviceLogic.query("SQL", false, null, key, null, null, context);
+                    checkForFailure(db, status);
+                    String count = context.getAttribute("COUNT(*)");
+                    log.info("Number of row Returned : " + count + ": " + status + ":");
+                    return tryAddCountAttribute(context, count);
+                }
+            }
+            log.info("Problems validating DB and/or Context ");
+            return false;
+
+        } catch (SvcLogicException e) {
+            throw new DBException("An error occurred while checking for artifact update", e);
+        }
+    }
+
+    public String createQueryListForTemplateIds(String modelId) {
+        String queryPart = " AND ARTIFACT_NAME like '%_" + modelId+".%'";
+        return queryPart;
     }
 }

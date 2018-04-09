@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -410,7 +409,12 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         try {
             if (content.has(ARTIFACT_LIST_PARAM) && content.get(ARTIFACT_LIST_PARAM) instanceof JSONArray) {
                 JSONArray artifactLists = (JSONArray) content.get(ARTIFACT_LIST_PARAM);
-                doProcessArtifactList(dbservice, context, artifactLists);
+                JSONArray templateIdList = null;
+                if (content.has("template-id-list") && null != content.get("template-id-list")
+                        && content.get("template-id-list") instanceof JSONArray) {
+                        templateIdList = content.getJSONArray("template-id-list");
+                }
+                doProcessArtifactList(dbservice, context, artifactLists, templateIdList);
             }
         } catch (Exception e) {
             log.error("An error occurred when processing artifact list", e);
@@ -418,14 +422,23 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         }
     }
 
-    private void doProcessArtifactList(DBService dbservice, SvcLogicContext context, JSONArray artifactLists)
+    private void doProcessArtifactList(DBService dbservice, SvcLogicContext context, JSONArray artifactLists,
+        JSONArray templateIdList)
         throws SvcLogicException, SQLException, ConfigurationException, DBException {
         boolean pdFile = false;
-        String suffix = null;
+        int modelInd = 0;
 
         for (int i = 0; i < artifactLists.length(); i++) {
+            String suffix = null;
+            String model = null;
             JSONObject artifact = (JSONObject) artifactLists.get(i);
             log.info("artifact is " + artifact);
+
+            //Get Model details
+            if (null != templateIdList && i>0 && i%2==0) {
+                modelInd++;
+            }
+
             setAttribute(context, artifact::getString, ARTIFACT_NAME);
             context.setAttribute(FILE_CATEGORY,
                 artifact.getString(ARTIFACT_TYPE));
@@ -436,26 +449,46 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 suffix = artifact.getString(ARTIFACT_NAME).substring(PD.length());
                 pdFile = true;
             }
-            log.info("Artifact-type = " + context.getAttribute(ARTIFACT_TYPE));
-            dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
+            log.info("Artifact-type = " + context.getAttribute(FILE_CATEGORY));
+            log.info("Artifact-name = " + context.getAttribute(ARTIFACT_NAME));
+
+            if (null != templateIdList  && modelInd < templateIdList.length()) {
+                model = templateIdList.getString(modelInd);
+                log.info("Model is ::: "+model+"  ,modelInd = "+modelInd);
+            }
+
+            if (StringUtils.isNotBlank(model)) {
+                dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
+                    DB_SDC_REFERENCE, model),model);
+            }
+            else {
+                dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
                 DB_SDC_REFERENCE));
+            }
 
             cleanArtifactInstanceData(context);
+            //Moving this into the for loop to account for mulitple artifact sets with pds
+            if (pdFile) {
+                log.info("Sending information related to pdfile Artifact");
+                tryUpdateContext(dbservice, context, pdFile, suffix, model);
+                pdFile=false;//set to false afterprocessing yang and Tosca
+            }
         }
-        tryUpdateContext(dbservice, context, pdFile, suffix);
+
     }
 
-    private void tryUpdateContext(DBService dbservice, SvcLogicContext context, boolean pdFile, String suffix)
+    private void tryUpdateContext(DBService dbservice, SvcLogicContext context, boolean pdFile,
+            String suffix, String model)
         throws SvcLogicException, SQLException, ConfigurationException, DBException {
         if (pdFile) {
             context.setAttribute(ARTIFACT_NAME, "Tosca".concat(suffix));
             context.setAttribute(FILE_CATEGORY, TOSCA_MODEL);
             dbservice.processSdcReferences(context,
-                dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
+                dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE, model), model);
             context.setAttribute(ARTIFACT_NAME, "Yang".concat(suffix));
             context.setAttribute(FILE_CATEGORY, PARAMETER_YANG);
             dbservice.processSdcReferences(context,
-                dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE));
+                dbservice.isArtifactUpdateRequired(context, DB_SDC_REFERENCE, model), model);
         }
     }
 
