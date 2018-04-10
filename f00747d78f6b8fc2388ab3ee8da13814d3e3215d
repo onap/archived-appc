@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_7aab5e1e",
+        "filename": "appc-common/src/test/java/org/onap/appc/pool/PoolDrainedExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-04-10T15:25:21Z",
+      "side": 1,
+      "message": "no wildcard for import the classes.",
+      "range": {
+        "startLine": 22,
+        "startChar": 30,
+        "endLine": 22,
+        "endChar": 33
+      },
+      "revId": "f00747d78f6b8fc2388ab3ee8da13814d3e3215d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
