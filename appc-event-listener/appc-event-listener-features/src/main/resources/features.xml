@@ -33,10 +33,6 @@
     <feature name='appc-event-listener' description="event listener" version='${project.version}'>
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
 <!--         <feature >odl-mdsal-broker</feature> -->
-        <feature >odl-mdsal-broker</feature>
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
-        <bundle dependency="true">mvn:org.onap.appc/appc-metric-bundle/${project.version}</bundle>
-        <bundle>mvn:org.onap.ccsdk.sli.core/dblib-provider/${sdnctl.dblib.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-event-listener-bundle/${project.version}</bundle>
     </feature>
 
