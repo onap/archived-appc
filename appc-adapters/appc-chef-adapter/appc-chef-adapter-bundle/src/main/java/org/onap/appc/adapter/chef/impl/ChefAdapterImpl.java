@@ -28,6 +28,7 @@ import com.att.eelf.configuration.EELFManager;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -288,12 +289,13 @@ public class ChefAdapterImpl implements ChefAdapter {
                         allNodeData = allNodeData.getJSONObject("normal");
                         String attribute = "PushJobOutput";
 
-                        String resultData = allNodeData.optString(attribute);
+                        String resultData = allNodeData.optString(attribute, null);
                         if (resultData == null) {
-                            resultData = allNodeData.optJSONObject(attribute).toString();
-
+                            resultData = Optional.ofNullable(allNodeData.optJSONObject(attribute))
+                                .map(p -> p.toString()).orElse(null);
                             if (resultData == null) {
-                                resultData = allNodeData.optJSONArray(attribute).toString();
+                                resultData = Optional.ofNullable(allNodeData.optJSONArray(attribute))
+                                    .map(p -> p.toString()).orElse(null);
 
                                 if (resultData == null) {
                                     code = 500;
