@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_270cc33a",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-16T21:20:54Z",
+      "side": 1,
+      "message": "How are the changes to this file related to APPC-437?",
+      "revId": "271fd4ab33a381f3770e53aeaf4a1efc43e9f5d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_871a776d",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-16T21:20:54Z",
+      "side": 1,
+      "message": "Doesn\u0027t this update change the flow since now resultData can be null?   Is this fixing a bug?",
+      "revId": "271fd4ab33a381f3770e53aeaf4a1efc43e9f5d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
