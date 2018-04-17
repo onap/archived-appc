@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_5a6526b3",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-04-17T07:56:05Z",
+      "side": 1,
+      "message": "These changes are the result of having written unit tests for the fetchResult method. The tests pointed out several bugs in the code and without these changes the if(resultData \u003d\u003dnull) conditions are untestable + some bugs have been fixed. I\u0027ll explain in a little bit more detail.\n\nIn the original code, the first condition if(resultData \u003d\u003dnull) never resolves to \"true\".\nThe reason for this can be found in the behavior of the optString method\u0027s documentation:\n\n\"Get an optional string associated with a key. It returns an empty string if there is no such key. If the value is not a string and is not null, then it is converted to a string.\"\n\nThe optString method never returns null, only an empty string when no value has been found. That is why I used the overloaded optString which returns null as the default value instead of an empty string. This change allows the logic to go inside the other conditions, but unfortunately another bug is unveiled:\n\n           resultData \u003d allNodeData.optJSONObject(attribute).toString();\n           resultData \u003d allNodeData.optJSONArray(attribute).toString();\n\nThe optJSONObject and optJSONArray do in fact return null (unlike the optString method) when no value for a given key exists. But because the toString() method is invoked on a null reference, a NullPointerException will be thrown which is clearly a developer mistake. The new implementation uses lambda expressions and Optional object from java to do the toString() conversion only if a non null value exists, otherwise resultData is assigned null and the next check can be performed.",
+      "parentUuid": "5a93c517_270cc33a",
+      "revId": "271fd4ab33a381f3770e53aeaf4a1efc43e9f5d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_871a776d",
         "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-04-16T21:20:54Z",
       "side": 1,
       "message": "Doesn\u0027t this update change the flow since now resultData can be null?   Is this fixing a bug?",
+      "revId": "271fd4ab33a381f3770e53aeaf4a1efc43e9f5d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fa5512c2",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-04-17T07:56:05Z",
+      "side": 1,
+      "message": "Yes, this is a bug fix, please check my previous explanation:)",
+      "parentUuid": "5a93c517_871a776d",
       "revId": "271fd4ab33a381f3770e53aeaf4a1efc43e9f5d5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
