@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d11358ff",
+        "filename": "appc-client/code-generator/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1125
+      },
+      "writtenOn": "2018-04-18T15:48:49Z",
+      "side": 1,
+      "message": "Hi Taka.   Does the license text for this file need to be updated?",
+      "revId": "6a66d1cd0c3d789f4a687896ee50e4dd1b1c96ec",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
