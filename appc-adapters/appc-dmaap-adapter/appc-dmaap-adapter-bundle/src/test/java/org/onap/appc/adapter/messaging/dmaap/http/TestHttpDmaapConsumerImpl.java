@@ -107,17 +107,6 @@ public class TestHttpDmaapConsumerImpl {
     }
 
     @Test
-    public void shouldNotGetHttpRequest_whenCredencialsAreNotProvided() {
-
-        httpDmaapConsumer.updateCredentials(null, null);
-
-        List<String> output =  httpDmaapConsumer.fetch(TIMEOUT_MS, LIMIT);
-
-        assertTrue(output.isEmpty());
-        verifyNoMoreInteractions(httpClient, httpResponse, statusLine, entity);
-    }
-
-    @Test
     public void shouldNotBeSuccessful_whenHttpResponseIsOtherThanOk() throws Exception {
 
         when(statusLine.getStatusCode()).thenReturn(FORBIDDEN.getStatusCode());

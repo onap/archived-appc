@@ -52,23 +52,22 @@ abstract class CommonHttpClient {
     }
 
     protected HttpGet getReq(URI uri, int timeoutMs) throws AuthenticationException {
-        if (authStr == null) {
-            throw new AuthenticationException("All DMaaP requests require authentication and none was provided.");
-        }
 
         HttpGet out = (uri == null) ? new HttpGet() : new HttpGet(uri);
-        out.setHeader("Authorization", String.format("Basic %s", authStr));
+        if (authStr != null) {
+            out.setHeader("Authorization", String.format("Basic %s", authStr));
+        }
+      
         out.setConfig(getConfig(timeoutMs));
         return out;
     }
 
     protected HttpPost postReq(String url) throws AuthenticationException {
-        if (authStr == null) {
-            throw new AuthenticationException("All DMaaP requests require authentication and none was provided.");
-        }
 
         HttpPost out = (url == null) ? new HttpPost() : new HttpPost(url);
-        out.setHeader("Authorization", String.format("Basic %s", authStr));
+        if (authStr != null) {
+            out.setHeader("Authorization", String.format("Basic %s", authStr));
+        }
         out.setConfig(getConfig(0));
         return out;
     }
