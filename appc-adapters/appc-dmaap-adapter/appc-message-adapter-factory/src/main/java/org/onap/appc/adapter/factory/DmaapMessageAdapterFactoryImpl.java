@@ -30,25 +30,29 @@ import java.util.Set;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapConsumerImpl;
+import org.onap.appc.adapter.messaging.dmaap.http.HttpDmaapProducerImpl;
 
 public class DmaapMessageAdapterFactoryImpl implements MessageAdapterFactory {
 
     
     @Override
     public Producer createProducer(Collection<String> pools, String writeTopic, String apiKey, String apiSecret) {
-        return  new  DmaapProducerImpl(pools, writeTopic,apiKey, apiSecret);
+        return  new  HttpDmaapProducerImpl(pools, writeTopic);
     }
 
     @Override
     public Producer createProducer(Collection<String> pools, Set<String> writeTopics, String apiKey, String apiSecret) {
-        return new DmaapProducerImpl(pools, writeTopics, apiKey, apiSecret);
+        String topic = "";
+        for(String s : writeTopics){
+            topic = s;
+        }
+        return new HttpDmaapProducerImpl(pools,topic);
     }
 
     @Override
     public Consumer createConsumer(Collection<String> pool, String readTopic, 
             String clientName, String clientId, String filterJson, String apiKey, String apiSecret) {
-        return new DmaapConsumerImpl(pool, readTopic, clientName, clientId, apiKey, apiSecret, filterJson);
+        return new HttpDmaapConsumerImpl(pool, readTopic, clientName, clientId, apiKey, apiSecret, filterJson);
     }
 }
