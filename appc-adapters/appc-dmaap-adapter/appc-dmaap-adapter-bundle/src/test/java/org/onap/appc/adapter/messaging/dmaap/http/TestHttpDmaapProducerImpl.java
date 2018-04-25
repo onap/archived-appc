@@ -93,17 +93,6 @@ public class TestHttpDmaapProducerImpl {
     }
 
     @Test
-    public void shouldNotPostHttpRequest_whenCredencialsAreNotProvided() {
-
-        httpDmaapProducer.updateCredentials(null, null);
-
-        boolean successful = httpDmaapProducer.post(PARTITION, DATA);
-
-        assertFalse(successful);
-        verifyNoMoreInteractions(httpClient, httpResponse, statusLine);
-    }
-
-    @Test
     public void shouldNotBeSuccessful_whenHttpResponseIsOtherThanOk() throws Exception {
 
         when(statusLine.getStatusCode()).thenReturn(FORBIDDEN.getStatusCode());

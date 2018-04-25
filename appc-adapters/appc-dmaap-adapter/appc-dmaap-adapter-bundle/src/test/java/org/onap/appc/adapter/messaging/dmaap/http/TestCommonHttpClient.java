@@ -69,14 +69,6 @@ public class TestCommonHttpClient {
         assertEquals(httpGet.getConfig().getSocketTimeout(), TIMEOUT + TIMEOUT_OFFSET);
     }
 
-    @Test(expected = AuthenticationException.class)
-    public void shoudNotGetHttpRequest_whenBasicAuthNotSet() throws AuthenticationException {
-
-        noBasicAuth();
-
-        commonHttpClient.getReq(URI, TIMEOUT);
-    }
-
     @Test
     public void shouldPostHttpRequest_whenSetBasicAuth() throws AuthenticationException {
 
@@ -88,14 +80,6 @@ public class TestCommonHttpClient {
         assertNotNull(httpPost.getFirstHeader("Authorization"));
         assertNotNull(httpPost.getConfig());
         assertEquals(httpPost.getConfig().getSocketTimeout(), TIMEOUT_OFFSET);
-    }
-
-    @Test(expected = AuthenticationException.class)
-    public void shoudNotPostHttpRequest_whenBasicAuthNotSet() throws AuthenticationException {
-
-        noBasicAuth();
-
-        commonHttpClient.postReq(URL);
     }
 
     @Test
