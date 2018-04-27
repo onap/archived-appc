@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -86,6 +87,7 @@ public class ChefAdapterImplJobPusherTest {
         assertThat(svcLogicContext.getAttribute(JOB_ID)).isEqualTo("666");
     }
 
+    @SuppressWarnings("unchecked")
     public void assertSuccessfulPostCallForStatus(int expectedHttpStatus) throws SvcLogicException {
         // GIVEN
         Map<String, String> params = givenInputParams(
@@ -106,6 +108,7 @@ public class ChefAdapterImplJobPusherTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(EXPECTED_RESPONSE_MSG);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void pushJob_shouldHandleAllOccurringExceptions_duringMethodExecution() {
         // GIVEN
@@ -126,6 +129,7 @@ public class ChefAdapterImplJobPusherTest {
         assertThat(svcLogicContext.getAttribute(JOB_ID)).isBlank();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void checkPushJob_shouldSetFailStatusAndMsgInContext_andThrowException_whenRetryTimesParamIsMissing() {
         // GIVEN
@@ -137,6 +141,7 @@ public class ChefAdapterImplJobPusherTest {
         assertIfInputParamsAreValidated(params);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void checkPushJob_shouldSetFailStatusAndMsgInContext_andThrowException_whenRetryIntervalParamIsMissing() {
         // GIVEN
@@ -148,6 +153,7 @@ public class ChefAdapterImplJobPusherTest {
         assertIfInputParamsAreValidated(params);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void checkPushJob_shouldSetFailStatusAndMsgInContext_andThrowException_whenJobIdParamIsMissing() {
         // GIVEN
@@ -211,6 +217,7 @@ public class ChefAdapterImplJobPusherTest {
             ChefResponse.create(HttpStatus.SC_OK, "{status:running}"));
     }
 
+    @SuppressWarnings("unchecked")
     public void assertCheckJobStatusFor(String expectedHttpStatus, String expectedMessage, ChefResponse firstResponse,
         ChefResponse... nextResponses) throws SvcLogicException {
 
@@ -233,6 +240,7 @@ public class ChefAdapterImplJobPusherTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedMessage);
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, String> givenInputParams(Entry<String, String>... entries) {
         Builder<String, String> paramsBuilder = ImmutableMap.builder();
         paramsBuilder.put("username", USERNAME)

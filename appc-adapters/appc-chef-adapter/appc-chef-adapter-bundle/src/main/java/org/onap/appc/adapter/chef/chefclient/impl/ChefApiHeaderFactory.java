@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,11 +27,6 @@ import java.util.Date;
 public class ChefApiHeaderFactory {
 
     private FormattedTimestamp formattedTimestamp = new FormattedTimestamp();
-
-    static {
-        System.setProperty("javax.net.ssl.trustStore", "/opt/onap/appc/chef/chefServerSSL.jks");
-        System.setProperty("javax.net.ssl.trustStorePassword", "adminadmin");
-    }
 
     public ImmutableMap<String, String> create(String methodName, String path, String body, String userId,
         String organizations, String pemPath) {

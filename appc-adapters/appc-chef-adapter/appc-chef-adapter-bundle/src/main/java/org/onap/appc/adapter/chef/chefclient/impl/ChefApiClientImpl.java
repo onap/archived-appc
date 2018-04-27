@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -17,8 +17,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -26,6 +24,9 @@ package org.onap.appc.adapter.chef.chefclient.impl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -39,11 +40,14 @@ public class ChefApiClientImpl implements ChefApiClient {
 
     private final HttpClient httpClient;
     private final String endpoint;
+    private final String organization;
     private final HttpHeaderFactory httpHeaderFactory;
-
-    public ChefApiClientImpl(HttpClient httpClient, String endpoint, HttpHeaderFactory httpHeaderFactory) {
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ChefApiClientImpl.class);
+    public ChefApiClientImpl(HttpClient httpClient, String endpoint, String organization,
+            HttpHeaderFactory httpHeaderFactory) {
         this.httpClient = httpClient;
         this.endpoint = endpoint;
+        this.organization = organization;
         this.httpHeaderFactory = httpHeaderFactory;
     }
 
@@ -51,7 +55,7 @@ public class ChefApiClientImpl implements ChefApiClient {
     public ChefResponse get(String path) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpGet()
-            .withPath(path)
+            .withPath(getPath(path))
             .withHeaders(httpHeaderFactory.create("GET", path, ""));
         return execute(requestBuilder);
     }
@@ -60,7 +64,7 @@ public class ChefApiClientImpl implements ChefApiClient {
     public ChefResponse delete(String path) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpDelete()
-            .withPath(path)
+            .withPath(getPath(path))
             .withHeaders(httpHeaderFactory.create("DELETE", path, ""));
         return execute(requestBuilder);
     }
@@ -69,7 +73,7 @@ public class ChefApiClientImpl implements ChefApiClient {
     public ChefResponse post(String path, String body) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpPost(body)
-            .withPath(path)
+            .withPath(getPath(path))
             .withHeaders(httpHeaderFactory.create("POST", path, body));
         return execute(requestBuilder);
     }
@@ -78,13 +82,17 @@ public class ChefApiClientImpl implements ChefApiClient {
     public ChefResponse put(String path, String body) {
         OngoingRequestBuilder requestBuilder = ChefRequestBuilder.newRequestTo(endpoint)
             .httpPut(body)
-            .withPath(path)
+            .withPath(getPath(path))
             .withHeaders(httpHeaderFactory.create("PUT", path, body));
+        logger.info("request: PATH: "+path+ " body: "+body);
         return execute(requestBuilder);
     }
 
     private ChefResponse execute(OngoingRequestBuilder chefRequest) {
         try {
+            if (httpClient == null) {
+                return ChefResponse.create(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Could not create http client for chef");
+            }
             HttpResponse response = httpClient.execute(chefRequest.build());
             int statusCode = response.getStatusLine().getStatusCode();
             HttpEntity httpEntity = response.getEntity();
@@ -95,6 +103,10 @@ public class ChefApiClientImpl implements ChefApiClient {
         } catch (URISyntaxException ex) {
             return ChefResponse.create(HttpStatus.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
         }
+    }
+
+    private String getPath(String path) {
+        return "/organizations/" + organization + path;
     }
 }
 

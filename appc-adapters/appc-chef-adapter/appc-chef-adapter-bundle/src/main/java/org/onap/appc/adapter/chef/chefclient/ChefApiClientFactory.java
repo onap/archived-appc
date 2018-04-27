@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,30 +20,51 @@
  */
 package org.onap.appc.adapter.chef.chefclient;
 
-import com.google.common.collect.ImmutableMap;
+import java.io.File;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.onap.appc.adapter.chef.chefclient.api.ChefApiClient;
 import org.onap.appc.adapter.chef.chefclient.impl.ChefApiClientImpl;
 import org.onap.appc.adapter.chef.chefclient.impl.ChefApiHeaderFactory;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.google.common.collect.ImmutableMap;
 
 public class ChefApiClientFactory {
 
-    private HttpClient httpClient = HttpClients.createDefault();
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ChefApiClientFactory.class);
+
+    private HttpClient createChefHttpClient() {
+        String trustStoreFileName = "/opt/app/bvc/chef/chefServerSSL.jks";
+        char[] trustStoreCreds = "adminadmin".toCharArray();
+        try {
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                    SSLContexts.custom().loadTrustMaterial(new File(trustStoreFileName), trustStoreCreds).build(),
+                    SSLConnectionSocketFactory.getDefaultHostnameVerifier());
+            return HttpClients.custom().setSSLSocketFactory(sslsf).build();
+        } catch (KeyManagementException | NoSuchAlgorithmException | KeyStoreException | CertificateException
+                | IOException e) {
+            logger.error(e.getMessage(), e);
+        }
+        return null;
+    }
+
+    private HttpClient httpClient = createChefHttpClient();
     private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
 
     public ChefApiClient create(String endPoint, String organizations, String userId, String pemPath) {
-        return new ChefApiClientImpl(
-            httpClient,
-            endPoint,
-            (methodName, requestPath, body) -> chefApiHeaderFactory
+        return new ChefApiClientImpl(httpClient, endPoint, organizations, (methodName, requestPath, body) -> chefApiHeaderFactory
                 .create(methodName, requestPath, body, userId, organizations, pemPath));
     }
 
-    public ChefApiClient create(String endPoint) {
-        return new ChefApiClientImpl(
-            httpClient,
-            endPoint,
-            (methodName, requestPath, body) -> ImmutableMap.of());
+    public ChefApiClient create(String endPoint, String organizations)  {
+        return new ChefApiClientImpl(httpClient, endPoint, organizations, (methodName, requestPath, body) -> ImmutableMap.of());
     }
 }

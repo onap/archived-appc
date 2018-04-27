@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,6 +75,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         svcLogicContext = new SvcLogicContext();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcEnvironment_shouldSkipEnvironmentCreation_whenEnvParamIsEmpty() throws SvcLogicException {
         // GIVEN
@@ -89,6 +91,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo("Skip Environment block ");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcEnvironment_shouldCreateNewEnvironment_forEnvParam_whenRequestedEnvDoesNotExist()
         throws SvcLogicException {
@@ -113,6 +116,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedErrorMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcEnvironment_shouldNotAttemptEnvCreation_andThrowException_whenPrivateKeyCheckFails() {
         // GIVEN
@@ -132,6 +136,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .isEqualTo(expectedErrorMsg + CLIENT_PRIVATE_KEY_PATH);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcEnvironment_shouldNotAttemptEnvCreation_andHandleJSONException_whenJSONParamsAreMalformed() {
         // GIVEN
@@ -151,6 +156,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .startsWith(expectedErrorMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcEnvironment_shouldNotAttemptEnvCreation_andHandleException_whenExceptionOccursDuringExecution() {
         // GIVEN
@@ -163,7 +169,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         // WHEN  // THEN
         assertThatExceptionOfType(SvcLogicException.class)
             .isThrownBy(() -> chefAdapterFactory.create().vnfcEnvironment(params, svcLogicContext))
-            .withMessage(CHEF_ADAPTER_ERROR_PREFIX + expectedErrorMessage + "Null value encountered");
+            .withMessage(CHEF_ADAPTER_ERROR_PREFIX + expectedErrorMessage + "vnfcEnvironmentNull value encountered");
 
         assertThat(svcLogicContext.getStatus()).isEqualTo(FAILURE_STATUS);
         assertThat(svcLogicContext.getAttribute(RESULT_CODE_ATTR_KEY))
@@ -194,6 +200,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertNodeObjectsAreUpdatedFor(firstNodeResponse, secondNodeResponse, expectedHttpStatus, expectedMessage);
     }
 
+    @SuppressWarnings("unchecked")
     public void assertNodeObjectsAreUpdatedFor(ChefResponse firstNodeResponse, ChefResponse secondNodeResponse,
         int expectedHttpStatus, String expectedMessage) throws SvcLogicException {
         // GIVEN
@@ -220,6 +227,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcNodeObjects_shouldThrowSvcLogicException_whenNodeListParamIsEmpty() {
         Map<String, String> params = givenInputParams(
@@ -228,6 +236,7 @@ public class ChefAdapterImplVNFCOperationsTest {
         checkMissingParamsAreValidated(params);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcNodeObjects_shouldThrowSvcLogicException_whenNodeParamIsEmpty() {
         Map<String, String> params = givenInputParams(
@@ -238,7 +247,7 @@ public class ChefAdapterImplVNFCOperationsTest {
 
     public void checkMissingParamsAreValidated(Map<String, String> params) {
         // GIVEN
-        String expectedErrorMsg = "Missing Mandatory param(s) Node , NodeList ";
+        String expectedErrorMsg = "vnfcNodeobjectsMissing Mandatory param(s) Node , NodeList ";
 
         // WHEN  // THEN
         assertThatExceptionOfType(SvcLogicException.class)
@@ -252,6 +261,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .isEqualTo("Error posting request: " + expectedErrorMsg);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcNodeObjects_shouldNotUpdateNodes_andHandleJSONException_whenJSONParamsAreMalformed() {
         // GIVEN
@@ -273,6 +283,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .startsWith(expectedErrorMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcPushJob_shouldUpdateSvcContextWithJobId_whenPushJobWasSuccessfullyCreatedWithCallbackUrl()
         throws SvcLogicException {
@@ -296,6 +307,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             + "someURLForCallback" + "\"}," + "\"capture_output\": true" + "}";
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcPushJob_shouldUpdateSvcContextWithJobId_whenPushJobWasSuccessfullyCreatedWithoutCallbackUrl()
         throws SvcLogicException {
@@ -334,10 +346,11 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedResponseMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void vnfcPushJob_shouldNotPushJob_andThrowException_whenNodeListParamIsEmpty() {
         // GIVEN
-        String expectedErrorMessage = "Error posting request: Missing Mandatory param(s)  NodeList ";
+        String expectedErrorMessage = "Error posting request: vnfcPushJobMissing Mandatory param(s)  NodeList ";
         Map<String, String> params = givenInputParams();
         // WHEN  // THEN
         assertThatExceptionOfType(SvcLogicException.class)
@@ -350,10 +363,11 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedErrorMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void fetchResults_shouldNotFetchResults_andThrowException_whenNodeListParamIsEmpty() {
         // GIVEN
-        String expectedErrorMessage = "Error posting request: Missing Mandatory param(s)  NodeList ";
+        String expectedErrorMessage = "Error posting request: fetchResultsMissing Mandatory param(s)  NodeList ";
         Map<String, String> params = givenInputParams();
         // WHEN  // THEN
         assertThatExceptionOfType(SvcLogicException.class)
@@ -366,13 +380,14 @@ public class ChefAdapterImplVNFCOperationsTest {
         assertThat(svcLogicContext.getAttribute(RESULT_MESSAGE_ATTR_KEY)).isEqualTo(expectedErrorMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void fetchResults_shouldNotFetchResults_andThrowException_whenPrivateKeyCheckFails() {
         // GIVEN
         Map<String, String> params = givenInputParams(
             immutableEntry("NodeList", "[\"test1.vnf_b.onap.com\", \"test2.vnf_b.onap.com\"]"));
         String expectedErrorMessage =
-            "Error posting request: "
+            "Error posting request: fetchResults"
                 + CHEF_ADAPTER_ERROR_PREFIX
                 + "Cannot find the private key in the APPC file system, please load the private key to "
                 + CLIENT_PRIVATE_KEY_PATH;
@@ -390,6 +405,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .isEqualTo(expectedErrorMessage);
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void fetchResults_shouldUpdateSvcLogicContextWithJsonResponse_fromSuccessfulChefServerCall()
         throws SvcLogicException {
@@ -414,6 +430,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .isEqualTo("{\"test1.vnf_b.onap.com\":{\"PushJobOutput\":\"ssh start/running, process 1090\"}}");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void fetchResults_shouldUpdateSvcLogicContextWithFailedMessage_whenReturnedJSONMessageIsMissingAttribute()
         throws SvcLogicException {
@@ -438,6 +455,7 @@ public class ChefAdapterImplVNFCOperationsTest {
             .isEqualTo("Cannot find PushJobOutput");
     }
 
+    @SuppressWarnings("unchecked")
     private Map<String, String> givenInputParams(Entry<String, String>... entries) {
         Builder<String, String> paramsBuilder = ImmutableMap.builder();
         paramsBuilder.put("username", USERNAME)

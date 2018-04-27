@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -123,7 +124,7 @@ public class ChefAdapterImplTest {
         // GIVEN
         Map<String, String> params = ImmutableMap.of(IP_PARAM, ENDPOINT_IP);
         SvcLogicContext svcLogicContext = new SvcLogicContext();
-        given(chefApiClientFactory.create(ENDPOINT_IP).get(""))
+        given(chefApiClientFactory.create(ENDPOINT_IP, "").get(""))
             .willReturn(ChefResponse.create(HttpStatus.SC_OK, EXPECTED_RESPONSE_MSG));
 
         // WHEN
@@ -141,7 +142,7 @@ public class ChefAdapterImplTest {
         // GIVEN
         Map<String, String> params = ImmutableMap.of(IP_PARAM, ENDPOINT_IP);
         SvcLogicContext svcLogicContext = new SvcLogicContext();
-        given(chefApiClientFactory.create(ENDPOINT_IP)).willThrow(new RuntimeException());
+        given(chefApiClientFactory.create(ENDPOINT_IP, "")).willThrow(new RuntimeException());
 
         // WHEN
         chefAdapterFactory.create().trigger(params, svcLogicContext);
