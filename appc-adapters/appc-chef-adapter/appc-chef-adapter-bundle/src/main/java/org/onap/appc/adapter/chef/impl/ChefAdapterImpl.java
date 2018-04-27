@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -17,8 +17,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 package org.onap.appc.adapter.chef.impl;
@@ -146,8 +144,8 @@ public class ChefAdapterImpl implements ChefAdapter {
                     doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
                 } catch (Exception e) {
                     code = 401;
-                    logger.error(POSTING_REQUEST_ERROR_STR, e);
-                    doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
+                    logger.error(POSTING_REQUEST_ERROR_STR + "vnfcEnvironment", e);
+                    doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + "vnfcEnvironment"+ e.getMessage());
                 }
             } else {
                 code = 500;
@@ -201,12 +199,12 @@ public class ChefAdapterImpl implements ChefAdapter {
             }
         } catch (JSONException e) {
             code = 401;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
+            logger.error(POSTING_REQUEST_JSON_ERROR_STR +"vnfcNodeobjects", e);
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR +"vnfcNodeobjects" + e.getMessage());
         } catch (Exception e) {
             code = 401;
-            logger.error(POSTING_REQUEST_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
+            logger.error(POSTING_REQUEST_ERROR_STR +"vnfcNodeobjects", e);
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR +"vnfcNodeobjects"+ e.getMessage());
         }
     }
 
@@ -250,8 +248,8 @@ public class ChefAdapterImpl implements ChefAdapter {
             }
         } catch (Exception e) {
             code = 401;
-            logger.error(POSTING_REQUEST_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
+            logger.error(POSTING_REQUEST_ERROR_STR + "vnfcPushJob", e);
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + "vnfcPushJob"+ e.getMessage());
         }
     }
 
@@ -321,12 +319,12 @@ public class ChefAdapterImpl implements ChefAdapter {
             }
         } catch (JSONException e) {
             code = 401;
-            logger.error(POSTING_REQUEST_JSON_ERROR_STR, e);
-            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + e.getMessage());
+            logger.error(POSTING_REQUEST_JSON_ERROR_STR + "fetchResults", e);
+            doFailure(ctx, code, POSTING_REQUEST_JSON_ERROR_STR + "fetchResults" + e.getMessage());
         } catch (Exception e) {
             code = 401;
-            logger.error(POSTING_REQUEST_ERROR_STR , e);
-            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + e.getMessage());
+            logger.error(POSTING_REQUEST_ERROR_STR + "fetchResults" , e);
+            doFailure(ctx, code, POSTING_REQUEST_ERROR_STR + "fetchResults"+ e.getMessage());
         }
     }
 
@@ -382,7 +380,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         String dgContext = params.get("dgContext");
         JSONObject jsonConfig = new JSONObject(allConfigData);
         String contextData = fetchContextData(key, jsonConfig);
-
         ctx.setAttribute(dgContext, contextData);
     }
 
@@ -522,7 +519,7 @@ public class ChefAdapterImpl implements ChefAdapter {
         String tVmIp = params.get("ip");
 
         try {
-            ChefResponse chefResponse = chefApiClientFactory.create(tVmIp).get("");
+            ChefResponse chefResponse = chefApiClientFactory.create(tVmIp, organizations).get("");
             chefClientResult(svcLogicContext, chefResponse.getStatusCode(), chefResponse.getBody());
             svcLogicContext.setAttribute("chefAgent.code", "200");
         } catch (Exception e) {

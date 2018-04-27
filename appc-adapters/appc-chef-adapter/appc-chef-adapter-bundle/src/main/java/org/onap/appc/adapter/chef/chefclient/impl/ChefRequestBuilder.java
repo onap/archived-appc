@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,8 +34,7 @@ import org.apache.http.entity.StringEntity;
 
 final class ChefRequestBuilder {
 
-    private ChefRequestBuilder() {
-    }
+    private ChefRequestBuilder() {}
 
     static OngoingRequestBuilder newRequestTo(String endPoint) {
         return new OngoingRequestBuilder(endPoint);
@@ -68,21 +68,22 @@ final class ChefRequestBuilder {
 
         public OngoingRequestBuilder httpPost(String body) {
             HttpPost httpPost = new HttpPost();
-            toEntity(body);
+            httpPost.setEntity(toEntity(body));
             httpRequestBase = httpPost;
             return this;
         }
 
         public OngoingRequestBuilder httpPut(String body) {
             HttpPut httpPut = new HttpPut();
-            toEntity(body);
+            httpPut.setEntity(toEntity(body));
             httpRequestBase = httpPut;
             return this;
         }
 
-        private void toEntity(String body) {
+        private StringEntity toEntity(String body) {
             StringEntity stringEntity = new StringEntity(body, "UTF-8");
             stringEntity.setContentType("application/json");
+            return stringEntity;
         }
 
         public OngoingRequestBuilder withHeaders(ImmutableMap<String, String> headers) {
@@ -93,13 +94,11 @@ final class ChefRequestBuilder {
         public HttpRequestBase build() throws URISyntaxException {
             setRequestUri();
             setRequestHeaders();
-
             return httpRequestBase;
         }
 
         private void setRequestUri() throws URISyntaxException {
-            URI fullPath = new URIBuilder(endPoint)
-                .setPath(path).build();
+            URI fullPath = new URIBuilder(endPoint).setPath(path).build();
             httpRequestBase.setURI(fullPath);
         }
 

@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -199,7 +200,7 @@ public class ChefApiClientImplTest {
             boolean headersMatch = checkIfHeadersMatch(httpRequestBase);
             try {
                 return methodName.equals(httpRequestBase.getMethod())
-                    && new URI(END_POINT + REQUEST_PATH).equals(httpRequestBase.getURI())
+                    && new URI(END_POINT + "/organizations/" + ORGANIZATIONS_PATH + REQUEST_PATH).equals(httpRequestBase.getURI())
                     && headersMatch;
             } catch (URISyntaxException e) {
                 e.printStackTrace();
