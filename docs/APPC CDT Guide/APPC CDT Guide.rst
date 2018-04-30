@@ -14,7 +14,6 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 .. ============LICENSE_END============================================
-.. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 .. _appc_cdt_guide:
 
@@ -671,7 +670,29 @@ Using APPC CDT TEST action to test a VNF configuration template
 The APPC CDT **TEST** action is used to initiate configuration
 and other lifecycle commands.
 
- ** DETAIL COMING SOON **
+**Prerequisites**
+  - Testing requires an instance of the target VNF to be reachable from your test environment.
+  - You have created the on-boarding artifacts (e.g., reference file, template, etc) for the target VNF type and action in CDT and saved them to APPC. 
+  - You have created a user input spreadsheet for the VNF and action you wish to test. 
+
+**Steps to use the “TEST” function of the APPC Design Tool**
+
+1. Choose the TEST function on the APPC Design Tool home page
+  
+   |image33|
+  
+2. Upload the user input spreadsheet
+3. Click on EXECUTE TEST 
+4. View test progress; poll for test status if necessary.
+  
+   |image34|
+  
+   |image35|
+  
+5. View Test Results
+  
+   |image36|
+
 
 Note on populating southbound properties:
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -832,4 +853,17 @@ Note: Do not alter file names because APPC CDT requires a specific file naming f
 .. |image32| image:: media/image32.png
    :width: 9.00000in
    :height: 5.18958in
+.. |image33| image:: media/image33.png
+   :width: 9.00000in
+   :height: 5.18958in
+.. |image34| image:: media/image34.png
+   :width: 9.00000in
+   :height: 5.18958in
+.. |image35| image:: media/image35.png
+   :width: 9.00000in
+   :height: 5.18958in
+.. |image36| image:: media/image36.png
+   :width: 9.00000in
+   :height: 5.18958in
+
 
