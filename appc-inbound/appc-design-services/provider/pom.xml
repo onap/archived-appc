@@ -41,6 +41,7 @@
                     <instructions>
                         <Export-Package>org.onap.appc.design.services</Export-Package>
                         <Import-Package>org.onap.appc.instar,*;resolution:=optional</Import-Package>
+                        <Embed-Dependency>jackson-dataformat-yaml</Embed-Dependency>
                          <DynamicImport-Package>*</DynamicImport-Package>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
@@ -143,7 +144,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>2.3.0</version>
+            <version>2.3.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

@@ -23,17 +23,17 @@
   -->
 
 
-<features name="app-cntrl-network-inventory-client-${project.version}"
+<features name="appc-network-inventory-client-${project.version}"
 	xmlns="http://karaf.apache.org/xmlns/features/v1.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 
 	<!--<repository>mvn:org.opendaylight.mdsal/features-mdsal/${odl.mdsal.features.version}/xml/features</repository>-->
 
-	<feature name='app-cntrl-network-inventory' description="Application Controller Instar Client"
+	<feature name='appc-network-inventory-client' description="Application Controller Instar Client"
 		version='${project.version}'>
 		<!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
-		<feature >odl-mdsal-broker</feature>
-		<feature version= "${sdnctl.sli.version}">ccsdk-sli</feature>
+		<feature>odl-mdsal-broker</feature>
+		<feature>ccsdk-sli</feature>
 		
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		<bundle>mvn:commons-collections/commons-collections/${common.collections.version}</bundle>		
