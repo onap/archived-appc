@@ -34,7 +34,7 @@
 	<properties>
 		<application.name>appc-network-inventory-client</application.name>
 		<features.boot>appc-network-inventory-client</features.boot>
-		<features.repositories>mvn:org.onap.appc/appc-network-inventory-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/appc-network-inventory-client-features/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
