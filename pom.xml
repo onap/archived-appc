@@ -25,7 +25,7 @@ limitations under the License.
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
 
 
@@ -85,9 +85,9 @@ limitations under the License.
 
         <onap.nexus.url>https://nexus.onap.org</onap.nexus.url>
         
-        <sdnctl.dblib.version>0.2.1-SNAPSHOT</sdnctl.dblib.version>
-        <sdnctl.sli.version>0.2.1-SNAPSHOT</sdnctl.sli.version>
-        <ccsdk.sli.adaptors.version>0.2.1-SNAPSHOT</ccsdk.sli.adaptors.version>
+        <sdnctl.dblib.version>${ccsdk.sli.core.version}</sdnctl.dblib.version>
+        <sdnctl.sli.version>${ccsdk.sli.core.version}</sdnctl.sli.version>
+        <!-- <ccsdk.sli.adaptors.version>${ccsdk.sli.adaptors.version}</ccsdk.sli.adaptors.version> -->
         <commons.collections.version>3.2.2</commons.collections.version>
         <odl.sal.api.gen.plugin.version>0.11.1</odl.sal.api.gen.plugin.version>
         <odl.yangtools.version>1.2.1</odl.yangtools.version>
