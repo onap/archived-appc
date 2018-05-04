@@ -41,6 +41,7 @@
                     <instructions>
                     <Export-Package>org.onap.appc.interfaces.services</Export-Package>
                          <Import-Package>org.onap.appc.aai.client,*;resolution:=optional</Import-Package>
+                         <Embed-Dependency>jackson-dataformat-yaml</Embed-Dependency>
                          <DynamicImport-Package>*</DynamicImport-Package>
                                      <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
