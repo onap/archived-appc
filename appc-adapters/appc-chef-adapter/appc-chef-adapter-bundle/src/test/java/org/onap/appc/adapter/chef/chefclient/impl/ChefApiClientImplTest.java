@@ -35,6 +35,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 import org.junit.Before;
@@ -197,15 +198,26 @@ public class ChefApiClientImplTest {
         public boolean matches(Object argument) {
             HttpRequestBase httpRequestBase = (HttpRequestBase) argument;
 
-            boolean headersMatch = checkIfHeadersMatch(httpRequestBase);
             try {
                 return methodName.equals(httpRequestBase.getMethod())
-                    && new URI(END_POINT + "/organizations/" + ORGANIZATIONS_PATH + REQUEST_PATH).equals(httpRequestBase.getURI())
-                    && headersMatch;
+                    && new URI(END_POINT + "/organizations/" + ORGANIZATIONS_PATH + REQUEST_PATH)
+                    .equals(httpRequestBase.getURI())
+                    && checkIfBodyMatches(httpRequestBase)
+                    && checkIfHeadersMatch(httpRequestBase);
             } catch (URISyntaxException e) {
                 e.printStackTrace();
                 return false;
             }
+        }
+
+        public boolean checkIfBodyMatches(HttpRequestBase httpRequestBase) {
+            if (httpRequestBase instanceof HttpEntityEnclosingRequestBase) {
+                HttpEntityEnclosingRequestBase requestBaseWithBody = (HttpEntityEnclosingRequestBase) httpRequestBase;
+                StringEntity stringEntity = new StringEntity(BODY, "UTF-8");
+                stringEntity.setContentType("application/json");
+                return stringEntity.toString().equals(requestBaseWithBody.getEntity().toString());
+            }
+            return true;
         }
 
         private boolean checkIfHeadersMatch(HttpRequestBase httpRequestBase) {
