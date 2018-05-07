@@ -42,7 +42,7 @@ APPC:GetVfModuleInfo:4.0.0:sync
 APPC:ProcessParameterDefinition:4.0.0:sync
 APPC:PublishConfiguration:4.0.0:sync
 APPC:topology-operation-all:2.0.0:sync
-SDC-MESSAGE:configuration-document-request:3.0.0:sync
+ASDC-MESSAGE:configuration-document-request:3.0.0:sync
 
 Appc-API:service-configuration-operation:4.0.0:sync
 Appc-API:service-configuration-prepare:4.0.0:sync
@@ -72,8 +72,10 @@ APPC:Stop_VNF:2.0.2:sync
 APPC:StopVM_VM:2.0.0:sync
 APPC:Stop_VM:2.0.0:sync
 APPC:StopApplication_VM_vSCP:2.0.0:sync
+APPC:Generic_Configure:4.0.0:sync
 APPC:Generic_Sync:2.0.0:sync
 APPC:Generic_Audit:2.0.0:sync
+APPC:Generic_Restart:3.0.0:sync
 APPC:Start_VNF:2.0.0:sync
 APPC:Start_VNFC:2.0.0:sync
 APPC:Start_VM:2.0.0:sync
