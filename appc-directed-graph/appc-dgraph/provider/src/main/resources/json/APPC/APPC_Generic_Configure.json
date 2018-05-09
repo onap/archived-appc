@@ -694,7 +694,7 @@
         "id": "1f6bd833.d3d578",
         "type": "get-resource",
         "name": "get-resource: APPC.protocol",
-        "xml": "<get-resource\n\tplugin='onap.ccsdk.sli.core.sli.resource.sql.SqlResource' \n\tresource='SQL'\n\tkey=\"SELECT DISTINCT PROTOCOL FROM PROTOCOL_REFERENCE WHERE ACTION = $input.action AND VNF_TYPE = $vnf-type ;\"\n    force='true'\n\tpfx='APPC.protocol'>\n",
+        "xml": "<get-resource\n\tplugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' \n\tresource='SQL'\n\tkey=\"SELECT DISTINCT PROTOCOL FROM PROTOCOL_REFERENCE WHERE ACTION = $input.action AND VNF_TYPE = $vnf-type ;\"\n    force='true'\n\tpfx='APPC.protocol'>\n",
         "comments": "",
         "outputs": 1,
         "x": 416.64276123046875,
