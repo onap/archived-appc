@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 public class DbService {
 
     private static final Logger Log = LoggerFactory.getLogger(DbService.class);
-    private static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
+    private static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DbLibService";
     private DbLibService dbLibSvc = null;
 
     public DbService() throws DBException {
