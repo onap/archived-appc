@@ -41,7 +41,7 @@
 				<configuration>
 					<instructions>
 						<Import-Package>!com.google.common.collect,*</Import-Package>
-						<Embed-Dependency>*</Embed-Dependency>
+						<Embed-Dependency>!yang-binding,!yang-common,*</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
@@ -77,86 +77,27 @@
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<executions>
-					<execution>
-						<configuration>
-							<executable>python</executable>
-							<arguments>
-								<argument>scripts/python/yang2props.py</argument>
-								<argument>src/main/yang/artifact-handler.yang</argument>
-								<argument>target/artifact-handler.properties</argument>
-							</arguments>
-						</configuration>
-						<id>generation</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>${project.build.directory}/artifact-handler.properties</file>
-									<type>properties</type>
-									<classifier>artifact-handler</classifier>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>yang</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${project.basedir}/src/main/yang/artifact-handler.yang</file>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <version>${project.version}</version>
+                            <packaging>yang</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 		</plugins>
-		<pluginManagement>
-			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.codehaus.mojo
-										</groupId>
-										<artifactId>
-											exec-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.2.1,)
-										</versionRange>
-										<goals>
-											<goal>exec</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
 	<dependencies>
 		<dependency>
@@ -170,12 +111,10 @@
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-inet-types</artifactId>
-			<version>${odl.ietf-inet-types.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-yang-types</artifactId>
-			<version>${odl.ietf-yang-types.version}</version>
 		</dependency>
 	</dependencies>
 </project>

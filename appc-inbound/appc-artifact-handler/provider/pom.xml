@@ -44,8 +44,7 @@ limitations under the License.
 						<Bundle-Activator>org.onap.appc.artifact.handler.SdcArtifactHandlerActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.artifact.handler,org.opendaylight.controller.config.yang.config.artifact-handler_provider.impl</Export-Package>
 						<Import-Package>!com.google,!org.apache.commons.configuration,*;resolution:=optional</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|!appc-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
-						<DynamicImport-Package>*</DynamicImport-Package>
+						<Embed-Dependency>!appc-artifact-handler-model,!config-api,!sal-binding-api,!sal-binding-config,!sal-common-util,*;scope=compile|runtime;artifactId=!sli-common|!appc-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
 					</instructions>
 					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
 				</configuration>
@@ -121,6 +120,7 @@ limitations under the License.
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-artifact-handler-model</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.controller</groupId>
