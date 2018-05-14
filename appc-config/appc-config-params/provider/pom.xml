@@ -105,7 +105,7 @@
 							org.onap.sdnc.config.params.parser,org.onap.sdnc.config.params.transformer,
 							org.onap.sdnc.config.params.transformer.tosca,org.onap.sdnc.config.params.transformer.tosca.exceptions</Export-Package>
 						<Import-Package>!com.google.common.collect,*</Import-Package>
-						<Embed-Dependency>guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml,snakeyaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
+						<Embed-Dependency>guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
 						<DynamicImport-Package>*</DynamicImport-Package>
 					</instructions>
 					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
