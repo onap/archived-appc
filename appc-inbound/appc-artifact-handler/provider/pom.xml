@@ -46,7 +46,6 @@ limitations under the License.
 						<Import-Package>!com.google,!org.apache.commons.configuration,*;resolution:=optional</Import-Package>
 						<Embed-Dependency>commons-configuration,guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml</Embed-Dependency>
 					</instructions>
-					<manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>
 				</configuration>
 			</plugin>
             <plugin>
