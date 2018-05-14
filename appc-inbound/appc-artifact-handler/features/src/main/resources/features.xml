@@ -40,6 +40,7 @@
 		<bundle>mvn:org.onap.appc/appc-config-params-provider/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-artifact-handler-model/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-artifact-handler-provider/${project.version}</bundle>
+		<bundle>wrap:mvn:org.onap.appc/appc-yang-generator/${project.version}</bundle>
 		<configfile finalname="etc/opendaylight/karaf/200-artifact-handler-provider.xml">mvn:org.onap.appc/appc-artifact-handler-provider/${project.version}/xml/config</configfile>
 	</feature>
 
