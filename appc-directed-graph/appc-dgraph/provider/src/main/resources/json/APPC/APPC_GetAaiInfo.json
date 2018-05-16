@@ -379,7 +379,7 @@
         "id": "d8941356.9baa7",
         "type": "execute",
         "name": "execute getVfModuleModelInfo",
-        "xml": "<execute plugin=\"org.onap.appc.aai.client.node.AAIResourceNode\" method=\"getVfModuleModelInfo\">\n<parameter name=\"vnf-id\" value=\"`$vnf-id`\" />\n<parameter name=\"vf-module-id\" value=\"`$vf-module-id`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.vnfInfo\" />\n",
+        "xml": "<execute plugin=\"org.onap.appc.aai.client.node.AAIResourceNode\" method=\"getVfModuleModelInfo\">\n<parameter name=\"vnf-id\" value=\"`$vnf-id`\" />\n<parameter name=\"vf-module-id\" value=\"`$req-vf-module-id`\" />\n<parameter name=\"responsePrefix\" value=\"tmp.vnfInfo\" />\n",
         "comments": "",
         "outputs": 1,
         "x": 881,
