@@ -352,7 +352,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         String Contents = parameters.get("Contents");
         String netconfHelloCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <hello xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n    <capabilities>\n   <capability>urn:ietf:params:netconf:base:1.0</capability>\n  <capability>urn:com:ericsson:ebase:1.1.0</capability> </capabilities>\n </hello>";
         String terminateConnectionCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n    <rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n <close-session/> \n </rpc>\n ]]>]]>";
-        String commitCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <rpc> <commit/> </rpc>\n ]]>]]>";
+        String commitCmd = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n <rpc xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\"> <commit/> </rpc>\n ]]>]]>";
 
         log(fnName,
             "xml-download: User_name=" + User_name + " Host_ip_address=" + Host_ip_address
