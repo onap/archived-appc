@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
   ============LICENSE_END=========================================================
-  ECOMP is a trademark and service mark of AT&T Intellectual Property.
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -94,7 +93,7 @@
                         <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic,appc-data-lib;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.onap.appc.metricservice.impl.MetricServiceImpl,org.onap.appc.metricservice.MetricService,org.onap.appc.metricservice.policy.*,org.onap.appc.metricservice.metric.*</Export-Service>
-                        <Export-Package>org.onap.appc.metricservice,org.onap.appc.metricservice.impl,org.onap.appc.metricservice.policy,org.onap.appc.metricservice.publisher,org.onap.appc.metricservice.metric,org.apache.http</Export-Package>
+                        <Export-Package>org.onap.appc.metricservice,org.onap.appc.metricservice.impl,org.onap.appc.metricservice.policy,org.onap.appc.metricservice.publisher,org.onap.appc.metricservice.metric</Export-Package>
                         <Import-Package>!groovy.lang,!javax.*,!org.apache.log,!org.apache.log4j.*,!org.codehaus.jackson.*,!org.codehaus.jackson.map.*,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.apache.commons.lang3,!org.codehaus.janino,!org.jasypt.*,!com.ibm.icu.*,!com.sun.faces.*,*;resolution:=optional</Import-Package>
                     </instructions>
                 </configuration>

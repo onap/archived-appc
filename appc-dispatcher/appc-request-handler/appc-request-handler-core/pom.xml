@@ -18,7 +18,6 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-
   ============LICENSE_END=========================================================
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -140,6 +139,7 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Export-Service>org.onap.appc.requesthandler.RequestHandler</Export-Service>
+                        <Export-Package>org.onap.appc.requesthandler*,org.onap.appc.requesthandler.conv,org.onap.appc.validation*,org.onap.messageadapter*</Export-Package>
                         <Import-Package>
                             org.onap.appc.adapter.messaging.*,
                             org.onap.appc.adapter.message.*,
@@ -150,7 +150,10 @@
                             org.onap.appc.transactionrecorder,
                             org.onap.appc.transactionrecorder.impl,
                             org.onap.appc.transactionrecorder.objects,
+                            org.onap.appc.rest.client,
                             org.onap.appc.dao.util,
+                            org.apache.http.params,
+                            !org.onap.appc.requesthandler.conv,
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>
