@@ -1,4 +1,0 @@
-{
-	"BUrouterIP": "135.69.228.1",
-	"DestinationSubnet": "0.0.0.0/0"
-}

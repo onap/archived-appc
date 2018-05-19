@@ -1,6 +1,6 @@
-.. ============LICENSE_START==========================================
+﻿.. ============LICENSE_START==========================================
 .. ===================================================================
-.. Copyright © 2017 AT&T Intellectual Property. All rights reserved.
+.. Copyright © 2017-2018 AT&T Intellectual Property. All rights reserved.
 .. ===================================================================
 .. Licensed under the Creative Commons License, Attribution 4.0 Intl.  (the "License");
 .. you may not use this documentation except in compliance with the License.
@@ -14,7 +14,6 @@
 .. See the License for the specific language governing permissions and
 .. limitations under the License.
 .. ============LICENSE_END============================================
-.. ECOMP is a trademark and service mark of AT&T Intellectual Property.
 
 Release Notes
 =============
@@ -27,79 +26,146 @@ Release Notes
 ..	* This note must be removed after content has been added.
 
 
-Version: 1.2.0
+Version: 1.3.0
 --------------
 
 
-:Release Date: 2017-11-16
+:Release Date: 2018-06-07
 
 
 **New Features**
 
-The Amsterdam release continued evolving the design driven architecture of and functionality for APPC. 
-APPC aims to be completely agnostic and make no assumption about the network. 
+The Beijing release added the following functionality:
+ 
+ - Added support for the following LCM actions: 
+ 
+    - To support in-place software upgrade:
+	
+      - QuiesceTraffic
+      - ResumeTraffic
+      - UpgradeSoftware
+      - UpgradePreCheck
+      - UpgradePostCheck
+      - UpgradeBackup
+      - UpgradeBackout
+	  
+    - To support storage management in OpenStack
+	
+	  - AttachVolume
+	  - DetachVolume
+	  
+	- To support Manual Scale Out use case
+	
+	  - ConfigScaleOut (more details can be found in teh APPC Epic: `APPC-431 <https://jira.onap.org/browse/APPC-431>`)
+	  
+    - To support general operations 
+	
+	  - ActionStatus
+	  
+    - A desciption of all of the above LCM actions can be found in the APPC LCM API Guide on readthedoc:
 
-The main goal of the Amsterdam release was to:
- - Support the vCPE use case as part of the closed loop action to perform a Restart on the vGMUX
- - Demonstrate integration with MultiCloud as a proxy to OpenStack 
- - Continue supporting the vFW closed loop use case as part of regression from the seed contribution. 
-
-Other key features added in this release include:
-
- - Support for Ansible 
-   - The Ansible Extension for APP-C allows management of VNFs that support Ansible. Ansible is a an open-source VNF management framework that provides an almost cli like set of tools in a structured form. APPC supports Ansible through the following three additions: An Ansible server interface, Ansible Adapter, and Ansible Directed Graph. 
- - Support for Chef 
-   - The Chef Extension for APPC allows management of VNFs that support Chef through the following two additions: a Chef Adapter and Chef Directed Graph.
- - LifeCycle Management (LCM) APIs via standalone DGs or via the DGOrchestrator architecture to trigger actions on VMs, VNFs, or VNFCs
- - OAM APIs to manage the APPC application itself
- - Upgrade of OpenDaylight to Carbon version
-
+ - Contributed the APPC Controller Design Tool (CDT), which enables self-serve capabilities by allowing users to model their VNF/VNFC for consumption by APPC to use in the execution of requests to perform life cycle management activities.
+ 
+	- More details on the APPC CDT can be found in the APPC CDT User Guide in readthedocs.
+	- Additional information on how the APPC CDT tool was used to model the vLB and build teh artifacts needed by APPC to execute teh ConfigScaleOut action can be found at the following wiki pages: https://wiki.onap.org/pages/viewpage.action?pageId=33065185 
+	
+ - Additional contributions as part of Beijing include: 
+ 
+	- Support for Platform Maturity requirements, including:
+	
+       - Increased security
+	   
+		  - Added security to ODL web-based API access via AAF (see `APPC-404 <https://jira.onap.org/browse/APPC-404>` for additional details)
+		  - Addressed critical alerts reported via Nexus IQ to the extent possible (see `APPC-656 <https://jira.onap.org/browse/APPC-656>`)
+		  
+       - Stability
+	   
+		  - Executed 72 hour stability test on both Heat and OOM deployed environments using JMeter to drive a steady set of transactions over the 72 hour period (see the following wiki page for more details: https://wiki.onap.org/display/DW/ONAP+APPC+72+Hour+Stability+Test+Results )
+		  
+       - Resiliency
+	   
+		  - Support for OOM deployment, which enables resiliency via use of Kubernetes (see `APPC-414 <https://jira.onap.org/browse/APPC-414>` for additional details) 
+		  
+	- Upgraded OpenDaylight (ODL) version to Nitrogen
+      
+      
 
 
 **Bug Fixes**
-	- This is technically the first release of APPC, previous release was the seed code contribution. As such, the defects fixed in this release were raised during the course of the release. Anything not closed is captured below under Known Issues. If you want to review the defects fixed in the Amsterdam release, refer to `Jira <https://jira.onap.org/issues/?filter=10570&jql=project%20%3D%20APPC%20AND%20issuetype%20%3D%20Bug%20AND%20status%20%3D%20Closed%20AND%20fixVersion%20%3D%20%22Amsterdam%20Release%22>`_. 
+
+	- The following defects that were documented as known issues in Amsterdam have been fixed in Beijing release:
 	
-	- Please also refer to the notes below. Given the timeframe and resource limitations, not all functions of the release could be validated. Items that were validated are documented on the wiki at the link provide below. If you find issues in the course of your work with APPC, please open a defect in the Application Controller project of Jira (jira.onpa.org)
+	 	- `APPC-316 <https://jira.onap.org/browse/APPC-316>`_ - Null payload issue for Stop Application
+	
+	    - `APPC-315 <https://jira.onap.org/browse/APPC-315>`_ - appc-request-handler is giving error java.lang.NoClassDefFoundError 
+
+	    - `APPC-312 <https://jira.onap.org/browse/APPC-312>`_ - APPC request is going to wrong request handler and rejecting request. 
+	
+	    - `APPC-311 <https://jira.onap.org/browse/APPC-311>`_ - The APPC LCM Provider Healthcheck
+	
+	    - `APPC-309 <https://jira.onap.org/browse/APPC-309>`_ - APPC LCM Provider URL missing in appc.properties. 
+	
+	    - `APPC-307 <https://jira.onap.org/browse/APPC-307>`_ - Embed jackson-annotations dependency in appc-dg-common during run-time 
+	
+	    - `APPC-276 <https://jira.onap.org/browse/APPC-276>`_ - Some Junit are breaking convention causing excessively long build
+	  
+	    - `APPC-248 <https://jira.onap.org/browse/APPC-248>`_ - There is an compatibility issue between PowerMock and Jacoco which causes Sonar coverage not to be captured. Fix is to move to Mockito.
+	
 	
 **Known Issues**
 
- 	- `APPC-316 <https://jira.onap.org/browse/APPC-316>`_ - Null payload issue for Stop Application; Stop action will not work with a null payload. Ensure when testing Stop action that payload is included. 
+ 	- `APPC-912 <https://jira.onap.org/browse/APPC-912>`_ - MalformedChunkCodingException in MDSALStoreImpl.getNodeName
 	
-	- `APPC-315 <https://jira.onap.org/browse/APPC-315>`_ - appc-request-handler is giving error java.lang.NoClassDefFoundError - This error results in vnf state and lock not being released. The workaround is to manually remove the entries from the VNF_LOCK_MANAGEMENT and VNF_STATE_MANAGEMENT tables.
-	   - ``DELETE FROM VNF_LOCK_MANAGEMENT where RESOURCE_ID="vnf-id"``
-	   - ``DELETE FROM VNF_STATE_MANAGEMENT where VNF_ID="vnf-id"``
+	- `APPC-892 <https://jira.onap.org/browse/APPC-892>`_ - Cntl+4 to highlight and replace feature- Textbox is accepting space  and able to submit without giving any value
 
-	- `APPC-312 <https://jira.onap.org/browse/APPC-312>`_ - APPC request is going to wrong request handler and rejecting request. Configure request failing with following error: ``REJECTED Action Configure is not supported on VM level``.
+	- `APPC-869 <https://jira.onap.org/browse/APPC-869>`_ - VM Snapshot error occurs during image validation.
 	
-	- `APPC-311 <https://jira.onap.org/browse/APPC-311>`_ - The APPC LCM Provider Healthcheck, which does a healthceck on a VNF, is failing. No known workaround at this time. 
+	- `APPC-814 <https://jira.onap.org/browse/APPC-814>`_ - Update openecomp-tosca-datatype namespace  
 	
-	- `APPC-309 <https://jira.onap.org/browse/APPC-309>`_ - The property: ``appc.LCM.provider.url=http://127.0.0.1:8181/restconf/operations/appc-provider-lcm`` is missing from appc.properties in the appc deployment.  The property can be manually added as a workaround, then bounce the appc container. 
-	
-	- `APPC-307 <https://jira.onap.org/browse/APPC-307>`_ - Missing jackson-annotations dependency in appc-dg-common - This issue results in Rebuild operation via the APPC Provider not to work. Use instead Rebuild via the APPC LCM Provider using DGOrchestrator.
-	
-	- `APPC-276 <https://jira.onap.org/browse/APPC-276>`_ - A number of junit testcases need to be reworked because they are causing APPC builds to take much  longer to complete. This issue does not cause the build to fail, just take longer. You can comment out these junit in your local build if this is a problem. 
-	  
-	- `APPC-248 <https://jira.onap.org/browse/APPC-248>`_ - There is an compatibility issue between PowerMock and Jacoco which causes Sonar coverage not to be captured. There is no functional impact on APPC.
+	- `APPC-340 <https://jira.onap.org/browse/APPC-340>`_ - APPC rejecting request even for decimal of millisecond timestamp difference
 	 
 	- `APPC-154 <https://jira.onap.org/browse/APPC-154>`_ - Logging issue - Request REST API of APPC has RequestID (MDC) in Body or Payload section instead of Header.
 	
 	
 **Security Issues**
-	- Communication over DMaaP currently does not use secure topics in this release.
-	- AAF is deactivated by default in this release and was not validated or committed as part of the Amsterdam Release.
 
+	- Communication over DMaaP currently does not use secure topics in this release. This has dependency on DMaaP to enable. 
+	- The following Nexus IQ issues are currently open on the Beijing release: 
+	  
+	   - Critical Threat Level per Nexus IQ Report (Note that these have been assessed for Beijing and determined not to be a risk for APPC based on usage)
+	   
+	     - CVE-2017-7525 - Component: org.codehaus.jackson : jackson-mapper-asl : 1.9.13 - Filename: jackson-mapper-asl-1.9.13.jar
+		 - CVE-2017-7525 - Component: org.codehaus.jackson : jackson-mapper-asl : 1.9.2 - Filename: jackson-mapper-asl-1.9.2.jar
+		 - CVE-2017-7525 -  Component: com.fasterxml.jackson.core : jackson-databind : 2.8.1 - Filename: jackson-databind-2.8.1.jar
+		 - CVE-2017-7525 - Component: com.fasterxml.jackson.core : jackson-databind : 2.3.2 - Filename: jackson-databind-2.3.2.jar
+		 - SONATYPE-2017-0355 - Component: com.fasterxml.jackson.core : jackson-core : 2.3.2 - Filename: jackson-core-2.3.2.jar
+		 - SONATYPE-2017-0359 - Component: oorg.apache.karaf.jaas : org.apache.karaf.jaas.modules : 4.0.10 - 4.0.10 - Filename: org.apache.karaf.jaas.modules-4.0.10.jar
+         	 - SONATYPE-2017-0359 - Component: org.apache.httpcomponents : httpclient : 4.5.2 - Filename: httpclient-4.5.2.jar
+		 - CVE-2017-1000028 - Component: org.glassfish.grizzly : grizzly-http : 2.3.28 - Filename: grizzly-http-2.3.28.jar
+		 - SONATYPE-2017-0355 -  Component: com.fasterxml.jackson.core : jackson-core : 2.8.1 - Filename: jackson-core-2.8.1.jar
+       
+	   - Severe Threat Level per Nexus IQ Report
+	   
+	     - CVE-2018-10237 - Component: com.google.guava : guava : 22.0 - Filename: guava-22.0.jar
+		 - CVE-2018-10237 - Component: com.google.guava : guava : 18.0 - Filename: guava-18.0.jar
+		 - SONATYPE-2016-0397 -  Component: com.fasterxml.jackson.core : jackson-core : 2.3.2 - Filename: jackson-core-2.3.2.jar
+		 - SONATYPE-2017-0356 - Component: io.netty : netty-handler : 4.1.8.Final - Filename: netty-handler-4.1.8.Final.jar
+		 - CVE-2016-5725 - Component: com.jcraft : jsch : 0.1.52 - Filename: jsch-0.1.52.jar
+		 - CVE-2015-5262 - Component: org.apache.karaf.jaas : org.apache.karaf.jaas.modules : 4.0.10 - Filename: org.apache.karaf.jaas.modules-4.0.10.jar
+		 - CVE-2016-5725 - Component: com.jcraft : jsch : 0.1.51 - Filename: jsch-0.1.51.jar
 
+		 
+	Full report from Nexus IQ - :download:`appc-Build-20180518-NexusIQ Report.pdf` Copy of full Nexus IQ Report
+	
 **Other**
 
 - Limitations, Constraints and other worthy notes
 
-  - LCM Healthcheck and Configure actions do not work.
-  - The APPC actions validated in this release are captured here: https://wiki.onap.org/display/DW/APPC+Testing+Scope+and+Status
+  - It is impossible for us to test all aspect of the application. Scope of testing done in Beijing is captured on the following wiki: https://wiki.onap.org/display/DW/APPC+Beijing+Testing+Scope+and+Status
   - Currently APPC only supports OpenStack
   - OpenStack Hypervisorcheck is turned off by default. If you want to invoke this functionality via the appc.properties, you need to enable it and ensure you have Admin level access to OpenStack.
   - Integration with MultiCloud is supported for Standalone Restart (i.e., not via DGOrchestrator). For any other action, such as Stop, Start, etc.. via MultiCloud requires the MultiCloud identity URL to be either passed in the payload or defined in appc.properties.
   - APPC needs Admin level access for Tenant level operations. 
-  - Currently, if DGs are modified in appc.git repo, they must be manually moved to the appc/deployment repo. 
   - Currently, the "ModifyConfig" API and the implementation in the Master Directed Graph is only designed to work with the vFW Closed-Loop Demo.
   
 

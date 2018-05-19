@@ -119,7 +119,7 @@ Onboarding Process Steps:
 3. Create a **parameter definition** file describing instance-specific
    parameters in the template.
 
-	-  Once you have a template, use the **Synchronize** button to
+	-  Once you have a template, use the **Synchronize Template Parameters** button to
 	   automatically create/update a parameter definition file (and a
 	   parameter name-value pair file) based on the template.
 
@@ -138,7 +138,7 @@ Onboarding Process Steps:
 
 4. Create a **parameter name-value pair file** for those parameters.
 
-	-  Once you have a template, use the **Synchronize** button to
+	-  Once you have a template, use the **Synchronize Template Parameters** button to
 	   automatically create a parameter name-value pair file (and a
 	   parameter definition file) based on the template.
 
@@ -146,19 +146,18 @@ Onboarding Process Steps:
 	   instance-specific data into the user input spreadsheet used at run
 	   time. The parameter name-value file can also be used to automatically
 	   create a template via the **Merge** function as described in step 2.
+	   
+	- You can also use the **Synchronize With Name Values** button to update the parameter definitions to match an existing parameter name-values pair file.
 
 5. **Test** the template in your test environment using the **TEST** function of APPC CDT
 
-	-  Use the **Save to APP-C** button in the CDT GUI to save the
-	   artifacts for your VNF to APPC.  
+	-  Use the **Save All to APP-C** button in the CDT GUI to save the
+	   artifacts for your VNF to APPC.  This makes the current version of artifacts available to both the APPC CDT and APPC Run Time. 
 
-	-  Prepare a “user input” excel file on your PC and upload it to the
-	   **TEST** function in the APPC CDT.
+	-  Prepare a “user input” excel file on your PC and upload it to the APPC CDT.
 
-	-  Use the **TEST** function in the APPC CDT to execute the on-boarded action on the VNF. Verify the VNF works as expected. 
+	-  **Execute** the onboarded action on the VNF. View test progress and test results. . 
 	
-	**NOTE** The **TEST** function is currently being developed as part of Beijing release and screen shots in this document are not yet updated to show this new function yet. 
-
 The screen shots in following sections illustrate how to use the APPC CDT GUI for each step.
 
 Artifacts used for Onboarding:
@@ -194,8 +193,8 @@ optional for templates of other actions.
 OpenStack and REST protocols do not use a template or parameter
 definitions or name-value pairs.
 
-Using the APPC Design Tool for VNF Onboarding
-=============================================
+Using the APPC Controller Design Tool for VNF Onboarding
+========================================================
 
 Go to the APPC CDT GUI in the test environment using a Firefox browser.
 
@@ -243,7 +242,7 @@ If you choose to create a new VNF, you will see a pop-up box like this.
 
 |image9|
 
-Enter the VNF Type (and optional VNFC Type) and click next.
+Enter the VNF Type (and optional VNFC Type) and click next. (The optional VNFC check box is explained later)
 
 Alternatively, you can leave the VNF type blank and choose “PROCEED
 ANYWAY” if you want to proceed to the Reference Data screen where you
@@ -276,7 +275,40 @@ for each file, but the windows are all placed on top of each other. You
 can drag the pop-up windows if you want to see them all at the same
 time.
 
-|image15|
+|
+
+
+
+|
+
+When using the Mozilla Firefox browser, selecting “Download to PC will display a dialog box giving you a choice of opening or saving the files, and an option to “Do this automatically for files like this for now on”. Choosing “save” and checking this option is a convenient way to easily save multiple downloaded artifacts from APP-C to your PC
+
+|image15a|
+
+Note regarding VNFC Type
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+There are a limited number of VNF’s that are identified by both VNF type and VNFC type. When adding a new VNF of this kind to APP-C, enter the VNF type and check the VNFC box in the pop-up window, and choose NEXT.
+
+Alternatively, you can leave the VNF type blank and choose “PROCEED ANYWAY” if you want to proceed to the Reference Data screen where you can populate the VNF reference data by uploading an existing Reference File or by manually entering it. 
+
+|image15b|
+
+On the subsequent Reference screen, you must add the VNFC type(s).
+
+|image15c|
+
+Enter the new VNFC type and click ADD to add it to a drop-down list of VNFC types for this VNF.  Repeat for each VNFC type you wish to add.
+
+|image15d|
+
+Choose the desired VNFC Type from the drop-down list of VNFC types.
+
+|image15e|
+
+In the VNFC section, you must re-enter the VNFC type to match what you previously selected.
+
+|image15f|
 
 Populate OpenStack actions for a VM
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -305,7 +337,7 @@ APPC will import the data from the excel and display the results.
 The Template and Parameter Definition tabs do not apply to OpenStack
 commands.
 
-REFERENCE DATA SCREEN HELP
+**REFERENCE DATA SCREEN HELP**
 
 +--------------------------+------------------------------------------------------------------------------------------------------------------+
 | **Field/Object**         | **Description**                                                                                                  |
@@ -352,63 +384,72 @@ REFERENCE DATA SCREEN HELP
 This table shows which actions and protocols are currently available for
 on-boarding with the Beijing release.
 
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-|  **Action**                            | **Netconf/   | **Ansible**   | **Chef**   | **REST**   | **OpenStack    |
-|                                        | Restconf**   |               |            |            | (VM Level)**   |
-+========================================+==============+===============+============+============+================+
-| **AttachVolume**                       |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Configure**                          | YES          | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Config Modify**                      | YES          | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Config Backup**                      |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Config Restore**                     |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **ConfigScaleOut**                     | YES          | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **DetachVolume**                       |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Evacuate**                           |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **GetRunning Config\***                | YES          | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **HealthCheck**                        |              | YES           | YES        | YES        |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Migrate**                            |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **QuiesceTraffic**                     |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Rebuild**                            |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Restart**                            |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **ResumeTraffic**                      |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Snapshot**                           |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Start**                              |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Start Application**                  |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Stop**                               |              |               |            |            | YES            |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **Stop Application**                   |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **UpgradeBackout**                     |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **UpgradeBackup**                      |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **UpgradePostCheck**                   |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **UpgradePreCheck**                    |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
-| **UpgradeSoftware**                    |              | YES           | YES        |            |                |
-+----------------------------------------+--------------+---------------+------------+------------+----------------+
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+|  **Action**                            |**Netconf-XML**| **Ansible**   | **Chef**   | **REST**   | **OpenStack**  |**Protocol is**|
+|                                        |**Restconf**   |               |            |            | **(VM Level)** |**Not**        |
+|                                        |               |               |            |            |                |**Applicable** |
++========================================+===============+===============+============+============+================+===============+
+| **ActionStatus**                       |               |               |            |            |                |     NA        |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **AttachVolume**                       |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Audit**                              | YES           | YES           | YES        | YES        |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **CheckLock**                          |               |               |            |            |                |     NA        |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Configure**                          | YES           | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Config Modify**                      | YES           | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Config Backup**                      |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Config Restore**                     |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **ConfigScaleOut**                     | YES           | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **DetachVolume**                       |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Evacuate**                           |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **HealthCheck**                        |               | YES           | YES        | YES        |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Lock**                               |               |               |            |            |                |      NA       |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Migrate**                            |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **QuiesceTraffic**                     |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Rebuild**                            |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Restart**                            |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **ResumeTraffic**                      |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Snapshot**                           |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Start**                              |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Start Application**                  |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Stop**                               |               |               |            |            | YES            |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Stop Application**                   |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Sync**                               | YES           | YES           | YES        |  YES       |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **Unlock**                             |               |               |            |            |                |       NA      |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **UpgradeBackout**                     |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **UpgradeBackup**                      |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **UpgradePostCheck**                   |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **UpgradePreCheck**                    |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
+| **UpgradeSoftware**                    |               | YES           | YES        |            |                |               |
++----------------------------------------+---------------+---------------+------------+------------+----------------+---------------+
  
- \* GetRunningConfig is used internally by APP-C and is not callable by clients via the APP-C API.   
-
 
 
 Create a template from a “golden” configuration file
@@ -455,24 +496,19 @@ uploaded to APP-C CDT.
 Next, designate instance-specific values as parameters, using this
 procedure:
 
-    1) Highlight the instance-specific value with the cursor
+    1) Highlight the instance-specific value (such as “node0 )  with the cursor and then type “CTRL” and “4”
 
     |image19|
 
-    2) Type “CTRL” and “4” to insert a parameter name.
+    2) Type the name you want to use for this parameter into the pop-up window and click SUBMIT
 
     |image20|
 
-    3) Type the parameter name in the parentheses
+    3) The system will display your parameter name after the value you highlighted
 
     |image21|
 
-    4) Type “CTRL” and “S” to save the parameter.
-
-    |image22|
-
-Repeat for each instance-specific value that you wish to turn into a
-parameter.
+    4) Repeat for each instance-specific value that you wish to turn into a parameter.
 
 *Summary of editing commands:*
 
@@ -497,16 +533,17 @@ Notes on naming Parameters:
 -  Do not use parameter names which are sub-strings of other parameter
    names. For example, don’t use field1 and field12 as parameter names.
 
+In the template, the first instance of a parameter will be highlighted in green and subsequent instances of the same parameter will be highlighted in orange. 
 
 Synchronizing a Template
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once you have named all the parameters (this example shows 2
-parameters), click the “SYNCHRONIZE” button to automatically create a
+Once you have named all the parameters (this example shows 3
+parameters), click the “SYNCHRONIZE TEMPLATE PARAMETERS”  button to automatically create a
 parameter definition file and a parameter name-value file. The next
 sections describe these files.
 
-It may take a few seconds for the system to SYNCHRONIZE; when it is
+It may take a few seconds for the system to synchronize; when it is
 complete, you will be taken to the Parameter Definition screen.
 
 Remember to use the SAVE and/or DOWNLOAD buttons on the Reference Data
@@ -521,13 +558,15 @@ In addition to creating new templates, you can also modify an existing
 template by adding or removing parameter names.
 
 To add a new parameter name, follow the steps in the Create a template from a "golden" configuration file section above.
-SYNCHRONIZE to add the new parameter to the name/value and parameter
+SYNCHRONIZE TEMPLATE PARAMETERS  to add the new parameter to the name/value and parameter
 definition GUI.
 
 To remove an existing parameter name, remove the parameter name (i.e.,
 ${name}) using the backspace key and replace with the static value. Then
-SYNCHRONIZE to remove the parameter from the name/value and parameter
+SYNCHRONIZE TEMPLATE PARAMETERS  to remove the parameter from the name/value and parameter
 definition GUI.
+
+If the available template has parameter names (as opposed to the golden configuration/ base config typically shared by VNF owners), you can upload that template and manually add the braces around the parameter names.  Then click on SYNCHRONIZE TEMPLATE PARAMETERS to generate the PD file with source as Manual.
 
 Remember to use the SAVE and/or DOWNLOAD buttons on the Reference Data
 screen to preserve your work.
@@ -535,14 +574,14 @@ screen to preserve your work.
 Create a parameter definition file describing instance-specific parameters in the template 
 ------------------------------------------------------------------------------------------
 
-Clicking the “SYNCHRONIZE” button after creating a template will automatically create/update a parameter definition file for
+Clicking the “SYNCHRONIZE TEMPLATE PARAMETERS” button after creating a template will automatically create/update a parameter definition file for
 that template (and a parameter name-value file described in the next
 section). Alternatively, you can upload an existing parameter definition
 file from your PC.
 
 You can view or edit the definition fields for each parameter via the
 Parameter Definition screen. Note that any edits to the parameter names
-would be overwritten by a subsequent SYNCHRONIZE with the template.
+would be overwritten by a subsequent SYNCHRONIZE TEMPLATE PARAMETERS.
 
 |image24|
 
@@ -551,7 +590,7 @@ Select a Source for each parameter
 
 There are three choices for the source:
 
-1. External Systems (e.g., INSTAR). APPC will automatically obtain parameter values from
+1. **External Systems**. APPC will automatically obtain parameter values from
    an external system (typically IP addresses for VNF’s). First, obtain a
    “key file” for your VNF. Then use the
    “Upload Key File” button on the Parameter Definition screen. APPC
@@ -559,7 +598,7 @@ There are three choices for the source:
    from an external system.
 
 
-2. ***A&AI***. APPC will automatically obtain parameter values from
+2. **A&AI**. APPC will automatically obtain parameter values from
    A&AI (typically VNF/VNFC/VM identifiers). After selecting “A&AI”,
    select a rule type and APPC will automatically populate the key
    names and values. For rule types that include a list, populate the
@@ -567,7 +606,7 @@ There are three choices for the source:
 
     |image26|
 
-3. ***Manual.*** APPC will use a manually-created excel to populate
+3. **Manual**. APPC will use a manually-created excel to populate
    parameter values. Later section describes this User Input Spreadsheet.
 
 Remember to use the SAVE and/or DOWNLOAD buttons on the Reference Data
@@ -576,7 +615,7 @@ screen to preserve your work.
 Create a file containing name-value pairs for parameters
 --------------------------------------------------------
 
-Clicking the “SYNCHRONIZE” button after creating a template (see section
+Clicking the “SYNCHRONIZE TEMPLATE PARAMETERS” button after creating a template (see section
 Synchronizing a Template) will automatically create/update a parameter name-value pair file
 for that template (and a parameter definition file described in the
 previous section).
@@ -592,7 +631,7 @@ on the Reference Data screen to preserve your work.
 Option: Using MERGE to automatically create a template from a parameter name-value pair file
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The APPC Design Tool also provides a way to create a template from an
+APPC CDT also provides a way to create a template from an
 existing parameter name-value pair file. This is useful when the
 configuration of the VNF has changed. Rather than manually recreating
 the template, you can use the MERGE function to automatically add
@@ -610,12 +649,10 @@ parameters.
 
 |image29|
 
-Next, click “MERGE”. APPC will automatically add parameters to the
-configuration file using the name-value pairs. Wherever APPC finds a
-matching value, it will add the corresponding parameter name.
+Next, click “MERGE FROM PARAM”. APPC will automatically associate the parameter values in the uploaded configuration with parameter names from the parameter name/value. If duplicate parameter values are found in the configuration, APP-C will highlight the duplicate value & name in orange and let the user edit the parameter name.  When the duplicate parameter name has been successfully replaced with a unique name, the highlight will change from orange to green..
 
-After using the MERGE button to create a template, you can use the
-SYNCHRONIZE button to create/update the parameter definition file and
+After using the MERGE FROM PARAM button to create a template, you can use the
+SYNCHRONIZE TEMPLATE PARAMETERS button to create/update the parameter definition file and
 name-value files.
 
 Remember to use the SAVE and/or DOWNLOAD buttons on the Reference Data
@@ -623,8 +660,44 @@ screen to preserve your work.
 
 |image30|
 
+
+Option: Synchronize with Name/Values
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+There may be a scenario where you have created or uploaded a template, and SYNCHONIZED TEMPLATE PARAMETERS, and then you want to remove some name-value pairs. APPC provides a SYNCHRONIZE WITH NAME VALUES button that will automatically synchronize the parameter definitions with your updated name value pairs.
+
+
+  - Step 1: Create or upload template
+  
+  - Step 2: SYNCHRONIZE TEMPLATE PARAMETERS. (APPC will update Parameter Definition file and Name-Value Pair file to match Template.)
+  
+  - Step 3: Manually edit Name-Value Pair file (or upload a changed Name-Value Pair file)
+  
+  - Step 4: SYNCHRONIZE WITH NAME VALUES. (see screen shot below)(APPC will update Parameter Definition file to match Name-Value Pair file.)
+  
+  - Step 5: Examine Parameter Definitions to confirm they now match updated Name-Value Pair file.
+
+
+|image30a|
+  
+  
 Test the template in a lab using APPC CDT Test Function
-=======================================================================
+=======================================================
+
+The APPC CDT **TEST** action is used to initiate configuration
+and other lifecycle commands
+
+**Prerequisites:**
+   - A. Testing requires an instance of the target VNF to be reachable from your test environment.
+   - B.	You have created the on-boarding artifacts (e.g., reference file, template, etc) for the target VNF type and action in CDT and saved  them to APPC. 
+   - C.	You have created a user input spreadsheet for the VNF and action you wish to test. 
+
+**Steps to Test a template:**
+   - 1.	Choose the TEST function on the APPC CDT home page
+   - 2.	Upload the user input spreadsheet
+   - 3.	Click on EXECUTE TEST
+   - 4.	View test progress; poll for test status if necessary.
+   - 5.	View Test Results
+
 
 User Input Spreadsheet
 ----------------------
@@ -632,24 +705,19 @@ User Input Spreadsheet
 The following steps are used to prepare a user input spreadsheet for the
 VNF instance and action to be tested.
 
-1. Start with this generic 1802 user input excel spreadsheet.
+1. Start with this generic user input excel spreadsheet.
 
     :download:`Generic 1802 User Input Spreadsheet v.02.xlsx` (compatible with excel 2013)
 
-2. Update the user-input sections of the spreadsheet.
+    Update the user-input sections of the spreadsheet.
 
-   a) Upload Data tab: choose action, populate VNF-ID
+     - a) Upload Data tab: choose action, populate VNF-ID
 
-   b) >Action< tab: Select the tab for the action being tested. Choose a
-   protocol and enter required action identifiers & request parameter
-   values. Enter any payload parameter names and values required for
-   this associated template. (copy/paste from a name-value pair file or
-   other source).
+     - b) >Action< tab: Select the tab for the action being tested. Choose a protocol and enter required action identifiers & request parameter values. Enter any payload parameter names and values required for this associated template. (copy/paste from a name-value pair file or other source).
 
-   The screen shots on the following pages show the user input sections
-   highlighted in yellow.
+    The screen shots on the following pages show the user input sections highlighted in yellow.
 
-1. Save the spreadsheet with a name for your VNF instance and action.
+2. Save the spreadsheet with a name for your VNF instance and action.
 
 “Upload Data” tab – Select action to be tested and populate any action
 identifiers such as vnf-id.
@@ -664,16 +732,8 @@ copy/paste from a name-value pair file or other source).
 
 |image32|
 
-Using APPC CDT TEST action to test a VNF configuration template
------------------------------------------------------------------
-
-The APPC CDT **TEST** action is used to initiate configuration
-and other lifecycle commands.
-
-**Prerequisites**
-  - Testing requires an instance of the target VNF to be reachable from your test environment.
-  - You have created the on-boarding artifacts (e.g., reference file, template, etc) for the target VNF type and action in CDT and saved them to APPC. 
-  - You have created a user input spreadsheet for the VNF and action you wish to test. 
+Using APPC CDT TEST Function
+----------------------------
 
 **Steps to use the “TEST” function of the APPC Design Tool**
 
@@ -701,7 +761,7 @@ When a new vnf-type is created or a new action is added to an existing
 vnf-type using the CDT tool and the Reference Data artifact is loaded to
 APPC, an update is made to the APPC run-time southbound properties
 file for the vnf-type.   The southbound properties are needed for
-connecting to a VNF instance or Ansible server.   The southbound
+connecting to a VNF instance or Ansible server.  The southbound
 properties contain the following information:
 
 ``{vnf\_type}.{protocol}.{action}.user = {value}``
@@ -713,46 +773,43 @@ properties contain the following information:
 ``{vnf\_type}.{protocol}.{action}.url = {value}``
 
 The user, port, and url values are contained in the Reference Data
-artifact, if populated by the self-service user.  The password value is
-updated by T2 production support using a GUI tool provided. <TO DO: CHECK ON THIS>
+artifact, if populated by the self-service user. 
 
-The current process which creates the southbound properties from the
-Reference Data only updates the southbound properties file only a single
-node in the APPC cluster.   
+The current process that creates the southbound properties from the Reference Data only updates the southbound properties file on a single APPC node in the ODL cluster..   
 
 
 APP-C Design Tool - File Descriptions
 =====================================
 
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
-| **File Description**                                                                                                                 | **File Format**   | **File name / example**                              |
-+======================================================================================================================================+===================+======================================================+
-|                                                                                                                                      |                   |                                                      |
-| **Pre-template Config file** –contains a ‘golden’ or working configuration (for Netconf) or JSON data block (for Chef or Ansible).   | XML, JSON         |  :download:`simple xml config.txt`                   |
-|                                                                                                                                      |                   |                                                      |
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
-|                                                                                                                                      |                   |                                                      |
-| **Reference file**  [5]_– describes a VNF in terms of its subtending VM’s and VNFC’s and the actions/protocols being onboarded.      | XML, JSON         |  :download:`reference_AllAction_vPQR_0.0.1V.json`    |
-|                                                                                                                                      |                   |                                                      |
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
-|                                                                                                                                      |                   |                                                      |
-| **Template file** – a configuration file with parameters for instance-specific fields.                                               | XML               |  :download:`template_Configure_vABC_0.0.1.txt`       |
-|                                                                                                                                      |                   |                                                      |
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
-|                                                                                                                                      |                   |                                                      |
-| **Parameter Definition file** (aka pd\_Configure) contains **parameter definitions** associated with a template.                     | YAML              |  :download:`pd_Configure_vABC_0.0.1V.yaml.txt`       |
-|                                                                                                                                      |                   |                                                      |
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
-|                                                                                                                                      |                   |                                                      |
-| **Name-Value file** (aka param\_Configure) contains name-value pairs for parameters associated with a template.                      | JSON              |  :download:`param_Configure_vABC_0.0.1V.txt`         |
-|                                                                                                                                      |                   |                                                      |
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
-|                                                                                                                                      |                   |                                                      |
-| **Key data file** – contains external system data to populate a PD configure file.                                                   | TXT               |   <TO DO: Need sample file>                          |
-|                                                                                                                                      |                   |                                                      |
-+--------------------------------------------------------------------------------------------------------------------------------------+-------------------+------------------------------------------------------+
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
+| **File Description**                                                                                                                 | **File Format**   |
++======================================================================================================================================+===================+
+|                                                                                                                                      |                   |
+| **Pre-template Config file** –contains a ‘golden’ or working configuration (for Netconf) or JSON data block (for Chef or Ansible).   | XML, JSON         |
+|                                                                                                                                      |                   |
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
+|                                                                                                                                      |                   |
+| **Reference file**  – describes a VNF in terms of its subtending VM’s and VNFC’s and the actions/protocols being onboarded.          | XML, JSON         |
+|                                                                                                                                      |                   |
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
+|                                                                                                                                      |                   |
+| **Template file** – a configuration file with parameters for instance-specific fields.                                               | XML               |
+|                                                                                                                                      |                   |
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
+|                                                                                                                                      |                   |
+| **Parameter Definition file** (aka pd\_Configure) contains **parameter definitions** associated with a template.                     | YAML              |
+|                                                                                                                                      |                   |
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
+|                                                                                                                                      |                   |
+| **Name-Value file** (aka param\_Configure) contains name-value pairs for parameters associated with a template.                      | JSON              |
+|                                                                                                                                      |                   |
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
+|                                                                                                                                      |                   |
+| **Key data file** – contains external system data to populate a PD configure file.                                                   | TXT               |
+|                                                                                                                                      |                   |
++--------------------------------------------------------------------------------------------------------------------------------------+-------------------+
 
-Note: Do not alter file names because APPC CDT requires a specific file naming format. Note that for yaml files, Sphinx is not able to handle correctly, so we had to add .txt to allow the download. Please remember to remove .txt from pd_Configure_vABC_0.0.1V.yaml.txt when you download it.
+
 
 .. |image0| image:: media/image0.png
    :width: 7.88889in 
@@ -802,6 +859,12 @@ Note: Do not alter file names because APPC CDT requires a specific file naming f
 .. |image15| image:: media/image15.png
    :width: 9.05556in
    :height: 5.09375in
+.. |image15a| image:: media/image15a.png 
+.. |image15b| image:: media/image15b.png 
+.. |image15c| image:: media/image15c.png 
+.. |image15d| image:: media/image15d.png 
+.. |image15e| image:: media/image15e.png 
+.. |image15f| image:: media/image15f.png  
 .. |image16| image:: media/image16.png
    :width: 5.79167in
    :height: 3.74135in
@@ -823,9 +886,6 @@ Note: Do not alter file names because APPC CDT requires a specific file naming f
 .. |image21| image:: media/image21.png
    :width: 5.32292in
    :height: 1.92771in
-.. |image22| image:: media/image22.png
-   :width: 5.31153in
-   :height: 1.83333in
 .. |image23| image:: media/image23.png
    :width: 7.54167in
    :height: 4.24219in
@@ -847,6 +907,7 @@ Note: Do not alter file names because APPC CDT requires a specific file naming f
 .. |image30| image:: media/image30.png
    :width: 8.07407in
    :height: 4.54167in
+.. |image30a| image:: media/image30a.png   
 .. |image31| image:: media/image31.png
    :width: 9.00000in
    :height: 5.18958in
