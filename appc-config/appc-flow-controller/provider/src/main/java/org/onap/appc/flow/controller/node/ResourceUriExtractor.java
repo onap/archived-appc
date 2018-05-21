@@ -82,15 +82,12 @@ class ResourceUriExtractor {
     }
 
     private String getSubContext(SvcLogicContext ctx, Properties prop) throws Exception {
-        String subContext;
+        String subContext = "";
         if (StringUtils.isNotBlank(ctx.getAttribute(INPUT_SUB_CONTEXT))) {
             subContext = "/" + ctx.getAttribute(INPUT_SUB_CONTEXT);
         } else if (prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".sub-context") != null) {
             subContext = "/" + prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION) + ".sub-context");
-        } else {
-            throw new Exception(
-                    "Could not find the sub context for operation " + ctx.getAttribute(INPUT_REQUEST_ACTION));
-        }
+        } 
         return subContext;
     }
 
