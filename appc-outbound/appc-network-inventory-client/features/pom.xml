@@ -26,7 +26,7 @@
 	<parent>
 		<groupId>org.onap.appc</groupId>
 		<artifactId>appc-network-inventory-client</artifactId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-network-inventory-client-features</artifactId>
 	<name>APPC Network Inventory - Features</name>

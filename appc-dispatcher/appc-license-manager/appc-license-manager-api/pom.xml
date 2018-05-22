@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-license-manager</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
     <artifactId>appc-license-manager-api</artifactId>
     <name>APPC License Manager - API</name>

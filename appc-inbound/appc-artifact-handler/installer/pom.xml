@@ -26,7 +26,7 @@
 	<parent>
 		<artifactId>appc-artifact-handler</artifactId>
 		<groupId>org.onap.appc</groupId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-artifact-handler-installer</artifactId>
 	<name>appc-artifact-handler-installer</name>

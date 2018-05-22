@@ -29,7 +29,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-workflow-management</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-workflow-management-core</artifactId>

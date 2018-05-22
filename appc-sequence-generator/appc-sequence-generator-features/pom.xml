@@ -28,7 +28,7 @@
   <parent>
     <groupId>org.onap.appc</groupId>
     <artifactId>appc-sequence-generator</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.4.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-sequence-generator-features</artifactId>
   <name>Application Controller Sequence Generator Features</name>

@@ -26,7 +26,7 @@
 	<parent>
 		<artifactId>appc-design-services</artifactId>
 		<groupId>org.onap.appc</groupId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-design-services-installer</artifactId>
 	<name>appc-design-services-installer</name>

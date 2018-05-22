@@ -27,7 +27,7 @@ ECOMP is a trademark and service mark of AT&T Intellectual Property.
 	<parent>
 		<artifactId>appc-sdc-listener</artifactId>
 		<groupId>org.onap.appc</groupId>
-		<version>1.3.0-SNAPSHOT</version>
+		<version>1.4.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>appc-sdc-listener-features</artifactId>
 	<name>Event Listener - Features</name>

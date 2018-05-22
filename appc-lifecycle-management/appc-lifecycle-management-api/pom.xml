@@ -23,12 +23,12 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-lifecycle-management</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <artifactId>appc-lifecycle-management-api</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>appc-lifecycle-management-api</name>

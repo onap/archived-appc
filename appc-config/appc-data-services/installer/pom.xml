@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-config-data-services</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.4.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-config-data-services-installer</artifactId>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-config-data-services-provider</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>1.4.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
     <build>
