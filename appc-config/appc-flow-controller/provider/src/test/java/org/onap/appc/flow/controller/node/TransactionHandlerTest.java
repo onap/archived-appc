@@ -23,6 +23,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION_TYPE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PROTOCOL;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF_TYPE;
 
 import java.util.Properties;
 import org.junit.Assert;
@@ -77,10 +79,16 @@ public class TransactionHandlerTest {
 
     when(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE)).thenReturn("input-ra-type");
     when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("input-ra");
+    when(ctx.getAttribute(VNF_TYPE)).thenReturn("vnf");
+    
+    String userKey = ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "." + ctx.getAttribute(INPUT_REQUEST_ACTION) 
+                     + ".user";
+    String passwordKey = ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "." + ctx.getAttribute(INPUT_REQUEST_ACTION) 
+                     + ".password";
 
-    when(prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION).concat(".default-rest-user")))
+    when(prop.getProperty(userKey))
         .thenReturn("rest-user");
-    when(prop.getProperty(ctx.getAttribute(INPUT_REQUEST_ACTION).concat(".default-rest-pass")))
+    when(prop.getProperty(passwordKey))
         .thenReturn("rest-pass");
 
     Transaction transaction = transactionHandler.buildTransaction(ctx, prop, "some uri");
