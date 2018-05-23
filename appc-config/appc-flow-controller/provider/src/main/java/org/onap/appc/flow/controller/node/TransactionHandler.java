@@ -21,6 +21,8 @@ package org.onap.appc.flow.controller.node;
 
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION_TYPE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF_TYPE;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PROTOCOL;
 
 import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
@@ -37,7 +39,11 @@ class TransactionHandler {
 
     String inputRequestAction = ctx.getAttribute(INPUT_REQUEST_ACTION);
     String inputRequestActionType = ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE);
+    String vnfType = ctx.getAttribute(VNF_TYPE);
 
+    if (StringUtils.isBlank(vnfType)) {
+        throw new Exception("Don't know vnf type to send REST request for  " + INPUT_REQUEST_ACTION + " - " +vnfType);
+    }
     if (StringUtils.isBlank(inputRequestActionType)) {
       throw new Exception("Don't know REST operation for Action " + inputRequestActionType);
     }
@@ -50,10 +56,13 @@ class TransactionHandler {
     transaction.setExecutionRPC(inputRequestActionType);
     transaction.setAction(INPUT_REQUEST_ACTION);
 
-    //This code need to get changed to get the UserID and pass from a common place.
-    transaction.setuId(prop.getProperty(inputRequestAction.concat(".default-rest-user")));
-    transaction.setPswd(prop.getProperty(inputRequestAction.concat(".default-rest-pass")));
-
+    String userKey = vnfType + "." + REST_PROTOCOL + "." + inputRequestAction + ".user";
+    String passwordKey = vnfType + "." +  REST_PROTOCOL + "." + inputRequestAction + ".password";
+    transaction.setuId(prop.getProperty(userKey));
+    transaction.setPswd(prop.getProperty(passwordKey));
+    if (StringUtils.isBlank(transaction.getuId()) || StringUtils.isBlank(transaction.getPswd())) {
+        throw new Exception ("User Id or Password is not set !!!");
+    }
     return transaction;
   }
 
