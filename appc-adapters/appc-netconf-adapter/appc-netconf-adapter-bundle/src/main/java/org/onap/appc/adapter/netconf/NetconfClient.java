@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -26,21 +25,21 @@ package org.onap.appc.adapter.netconf;
 
 import org.onap.appc.exceptions.APPCException;
 
-
-
 public interface NetconfClient {
 
     /**
      * Open connection to netconf device.
      *
-     * @param connectionDetails object providing details required for netconf connection
+     * @param connectionDetails
+     *            object providing details required for netconf connection
      */
     void connect(NetconfConnectionDetails connectionDetails) throws APPCException;
 
     /**
      * Send Netconf message to device and receive response.
      *
-     * @param message input netconf xml message
+     * @param message
+     *            input netconf xml message
      * @return output netconf xml message
      */
     String exchangeMessage(String message) throws APPCException;
@@ -48,13 +47,14 @@ public interface NetconfClient {
     /**
      * send configuration to Netconf server
      *
-     * @param configuration - xml configuration payload
+     * @param configuration
+     *            - xml configuration payload
      */
     void configure(String configuration) throws APPCException;
 
     /**
      * returns running configuration of Netconf server
-	*/
+     */
     String getConfiguration() throws APPCException;
 
     /**

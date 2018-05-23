@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -35,7 +34,7 @@ public class TestAppcDmaapAdapterActivator {
     @Test
     public void test_dmaap_activator() {
         // This does nothing since the activator does nothing
-    	AppcDmaapAdapterActivator appc = new AppcDmaapAdapterActivator();
+        AppcDmaapAdapterActivator appc = new AppcDmaapAdapterActivator();
         try {
             appc.start(null);
             appc.stop(null);

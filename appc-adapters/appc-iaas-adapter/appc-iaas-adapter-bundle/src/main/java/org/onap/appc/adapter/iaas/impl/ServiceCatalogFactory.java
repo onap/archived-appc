@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -30,39 +29,47 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 public class ServiceCatalogFactory {
-	
-	private static EELFLogger logger= EELFManager.getInstance().getLogger(org.onap.appc.adapter.iaas.impl.ServiceCatalogFactory.class);
+
+    private static EELFLogger logger = EELFManager.getInstance()
+            .getLogger(org.onap.appc.adapter.iaas.impl.ServiceCatalogFactory.class);
 
     /**
-     * This method accepts a fully qualified identity service URL and uses that to determine which version of the
-     * serviceCatalog to load.
+     * This method accepts a fully qualified identity service URL and uses that
+     * to determine which version of the serviceCatalog to load.
      *
-     * @param url The parsed URL of the identity service
-     * @param projectIdentifier The project or tenant to be used to connect to the service
-     * @param principal The principal or user to be used to connect to the service
-     * @param ceredential The credential or password to be used to connect to the service
-     * @param properties Properties object for proxy information
-     * @return The serviceCatalog for identity service version specified in the url, null if not supported.
+     * @param url
+     *            The parsed URL of the identity service
+     * @param projectIdentifier
+     *            The project or tenant to be used to connect to the service
+     * @param principal
+     *            The principal or user to be used to connect to the service
+     * @param ceredential
+     *            The credential or password to be used to connect to the
+     *            service
+     * @param properties
+     *            Properties object for proxy information
+     * @return The serviceCatalog for identity service version specified in the
+     *         url, null if not supported.
      */
     public static ServiceCatalog getServiceCatalog(String url, String projectIdentifier, String principal,
             String credential, String domain, Properties properties) {
-    	IdentityURL idUrl = IdentityURL.parseURL(url);
-    	if(idUrl == null){
-    		logger.error("Url " + url + " could not be parsed.");
-    		return null;
-    	}
+        IdentityURL idUrl = IdentityURL.parseURL(url);
+        if (idUrl == null) {
+            logger.error("Url " + url + " could not be parsed.");
+            return null;
+        }
         String version = idUrl.getVersion();
-        if(version == null){
-        	logger.error("Invalid Identity URL check configuration");
-        	return null;
+        if (version == null) {
+            logger.error("Invalid Identity URL check configuration");
+            return null;
         }
         String prefix = version.split("\\.")[0];
         if (prefix != null) {
             switch (prefix) {
-                case "v2":
-                    return new ServiceCatalogV2(url, projectIdentifier, principal, credential, properties);
-                case "v3":
-                    return new ServiceCatalogV3(url, projectIdentifier, principal, credential, domain, properties);
+            case "v2":
+                return new ServiceCatalogV2(url, projectIdentifier, principal, credential, properties);
+            case "v3":
+                return new ServiceCatalogV3(url, projectIdentifier, principal, credential, domain, properties);
             }
         }
         return null;

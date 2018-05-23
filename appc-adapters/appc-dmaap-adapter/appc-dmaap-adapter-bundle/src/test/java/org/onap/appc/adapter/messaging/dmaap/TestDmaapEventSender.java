@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -102,7 +101,7 @@ public class TestDmaapEventSender {
     }
 
     /*
-     * This test runs agains a real Dmaap (or a simulator) that should be cofigured in test.properties file.
+     * This test runs against a real DMaaP (or a simulator) that should be configured in test.properties file.
      */
     @Test
     @Ignore // requires connection to a live DMaaP server

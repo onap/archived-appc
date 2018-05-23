@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 package org.onap.appc.adapter.message;
@@ -30,13 +29,13 @@ import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.Producer;
 
 public interface MessageAdapterFactory {
-	
-	// TODO: how do you configure the MessageService type?
-	
-	public Producer createProducer(Collection<String> pools, String writeTopic, String apiKey, String apiSecret);
-	
-	public Producer createProducer(Collection<String> pools, Set<String> writeTopics, String apiKey, String apiSecret);
 
-	public Consumer createConsumer(Collection<String> pool, String readTopic, 
-			                              String clientName, String clientId, String filter_json, String apiKey, String apiSecret);
+    // TODO: how do you configure the MessageService type?
+
+    public Producer createProducer(Collection<String> pools, String writeTopic, String apiKey, String apiSecret);
+
+    public Producer createProducer(Collection<String> pools, Set<String> writeTopics, String apiKey, String apiSecret);
+
+    public Consumer createConsumer(Collection<String> pool, String readTopic, String clientName, String clientId,
+            String filter_json, String apiKey, String apiSecret);
 }

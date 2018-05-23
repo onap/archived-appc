@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -26,23 +25,22 @@ package org.onap.appc.adapter.netconf.exception;
 
 public class NetconfDAOException extends RuntimeException {
 
-	private static final long serialVersionUID = -155423437162622414L;
+    private static final long serialVersionUID = -155423437162622414L;
 
-	public NetconfDAOException(){
-            // for NetconfDAOException
-	}
+    public NetconfDAOException() {
+        // for NetconfDAOException
+    }
 
-	public NetconfDAOException(String message){
-		super(message);
-	}
+    public NetconfDAOException(String message) {
+        super(message);
+    }
 
-	public NetconfDAOException(Throwable cause){
-		super(cause);
-	}
+    public NetconfDAOException(Throwable cause) {
+        super(cause);
+    }
 
-	public NetconfDAOException(String message , Throwable cause){
-		super(message , cause);
-	}
-	
-	
+    public NetconfDAOException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

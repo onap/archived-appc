@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 package org.onap.appc.adapter.factory;
@@ -29,19 +28,17 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 public class DmaapMessageAdapterFactoryActivator implements BundleActivator {
-	private ServiceRegistration registration;
+    private ServiceRegistration registration;
 
-	@Override
-	public void start(BundleContext context) throws Exception {
-		registration = context.registerService(
-				MessageAdapterFactory.class.getName(),
-				new DmaapMessageAdapterFactoryImpl(),
-				null);
-	}
+    @Override
+    public void start(BundleContext context) throws Exception {
+        registration = context.registerService(MessageAdapterFactory.class.getName(),
+                new DmaapMessageAdapterFactoryImpl(), null);
+    }
 
-	@Override
-	public void stop(BundleContext context) throws Exception {
-		registration.unregister();
-	}
+    @Override
+    public void stop(BundleContext context) throws Exception {
+        registration.unregister();
+    }
 
 }

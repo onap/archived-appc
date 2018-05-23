@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -26,43 +25,58 @@ package org.onap.appc.adapter.netconf;
 
 import org.onap.appc.exceptions.APPCException;
 
-
-
 public interface NetconfClientRestconf {
 
     /*
-    mount device to controller
-     @param deviceMountPointName - the name of the mounting point in controller
-     @param payload - json data describing device info
+     * mount device to controller
+     * 
+     * @param deviceMountPointName - the name of the mounting point in
+     * controller
+     * 
+     * @param payload - json data describing device info
      */
     void connect(String deviceMountPointName, String payload) throws APPCException;
 
     /*
-    check connection to device
-    @param deviceMountPointName - the name of the mounting point in controller
+     * check connection to device
+     * 
+     * @param deviceMountPointName - the name of the mounting point in
+     * controller
      */
     boolean checkConnection(String deviceMountPointName) throws APPCException;
 
     /*
-	send configuration to Netconf server
-	 @param configuration - xml configuration payload
-	 @param deviceMountPointName - the name of the mounting point in controller
-	 @param moduleName - name of the yang model
-	 @param nodeName - name of the node created in server
-	*/
-    void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName) throws APPCException;
+     * send configuration to Netconf server
+     * 
+     * @param configuration - xml configuration payload
+     * 
+     * @param deviceMountPointName - the name of the mounting point in
+     * controller
+     * 
+     * @param moduleName - name of the yang model
+     * 
+     * @param nodeName - name of the node created in server
+     */
+    void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName)
+            throws APPCException;
 
     /*
-	returns configuration of Netconf server
-	 @param deviceMountPointName - the name of the mounting point in controller
-	 @param moduleName - name of the yang model
-	 @param nodeName - name of the node created in server
-	*/
+     * returns configuration of Netconf server
+     * 
+     * @param deviceMountPointName - the name of the mounting point in
+     * controller
+     * 
+     * @param moduleName - name of the yang model
+     * 
+     * @param nodeName - name of the node created in server
+     */
     String getConfiguration(String deviceName, String moduleName, String nodeName) throws APPCException;
 
     /*
-    unmount device
-     @param deviceMountPointName - the name of the mounting point in controller
+     * unmount device
+     * 
+     * @param deviceMountPointName - the name of the mounting point in
+     * controller
      */
     void disconnect(String deviceMountPointName) throws APPCException;
 }

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 package org.onap.appc.adapter.iaas.provider.operation.impl;
@@ -30,10 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
-import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
-import org.onap.appc.configuration.Configuration;
-import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.StackService;
