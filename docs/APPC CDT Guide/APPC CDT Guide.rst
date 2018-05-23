@@ -208,7 +208,7 @@ Clicking on “About Us” will display the current software version and who to 
 
 Choose “My VNF’s”.
 
-If you have not used APPC CDT previously, you will be asked to
+If you have not used APPC CDT previously, you will be asked to 
 enter your user id. Your work will be stored under this user id. There
 is no password required at this time.
 
