@@ -76,6 +76,7 @@ import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.V
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_INSTANCE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_TYPE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNF_TYPE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.URL;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -318,6 +319,9 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 }
                 if (content.has(PORT_NUMBER)) {
                     setAttribute(context, content::getString, PORT_NUMBER);
+                }
+                if (content.has(URL)) {
+                    setAttribute(context, content::getString, URL);
                 }
                 processArtifactList(content, dbservice, context);
                 processConfigTypeActions(content, dbservice, context);
