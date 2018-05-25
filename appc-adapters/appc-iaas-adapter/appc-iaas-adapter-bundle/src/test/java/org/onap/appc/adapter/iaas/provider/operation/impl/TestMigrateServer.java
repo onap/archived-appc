@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 package org.onap.appc.adapter.iaas.provider.operation.impl;
@@ -33,11 +32,7 @@ import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
 import java.util.Map;
-import java.util.Optional;
-
-import static java.util.Optional.of;
 import static org.mockito.Mockito.*;
 
 public class TestMigrateServer {
