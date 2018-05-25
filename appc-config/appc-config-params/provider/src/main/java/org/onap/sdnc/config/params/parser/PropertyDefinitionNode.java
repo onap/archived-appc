@@ -111,7 +111,8 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
             }
 
             if (StringUtils.isBlank(requestParamJson)) {
-                throw new MissingParameterException(STR_JSON_DATA_MISSING);
+                //throw new MissingParameterException(STR_JSON_DATA_MISSING);
+                log.info("processExternalSystemParamKeys:: "+ STR_JSON_DATA_MISSING);
             }
 
             if (StringUtils.isBlank(systemName)) {
@@ -152,7 +153,10 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
             String mergeJsonData = inParams.get(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA);
 
             if (StringUtils.isBlank(requestParamJson)) {
-                throw new MissingParameterException(STR_JSON_DATA_MISSING);
+                //throw new MissingParameterException(STR_JSON_DATA_MISSING);
+                Map <String,String> tempMap=new HashMap<String, String> ();
+                requestParamJson = tempMap.toString();
+                log.info("mergeJsonData()::"+STR_JSON_DATA_MISSING);
             }
 
             if (StringUtils.isBlank(mergeJsonData)) {
@@ -230,7 +234,10 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
         }
 
         if (StringUtils.isBlank(requestParamJson)) {
-            throw new MissingParameterException("Request Param is Missing ..");
+            //throw new MissingParameterException("Request Param is Missing ..");
+            log.info("getSystemRequestParamInfoFromPD() ::: requestParamJson is blank!!!");
+            HashMap paramMap = new HashMap <String, String> ();
+            requestParamJson = paramMap.toString();
         }
 
         ObjectMapper mapper = new ObjectMapper();
@@ -324,7 +331,11 @@ public class PropertyDefinitionNode implements SvcLogicJavaPlugin {
             }
 
             if (StringUtils.isBlank(configParams)) {
-                throw new MissingParameterException("Request Param (configParams) is Missing ..");
+                //throw new MissingParameterException("Request Param (configParams) is Missing ..");
+                Map <String,String> tempMap=new HashMap<String, String> ();
+                configParams = tempMap.toString();
+                log.info("validateParams():: Request Param (configParams) is Missing ..");
+                
             }
             PropertyDefinition propertyDefinition = parsePDContent(pdContent);
             ObjectMapper mapper = new ObjectMapper();
