@@ -246,7 +246,7 @@
         "id": "62735c5f.2a9b9c",
         "type": "execute",
         "name": "DetachVolume",
-        "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='dettachVolume'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\" />\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$vm-id`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$identity-url`\" />\n<parameter name=\"org.onap.appc.volumeid\" value=\"`$volumeAttachment.volumeId`\" />\n<parameter name=\"org.onap.appc.device\" value=\"`$volumeAttachment.device`\" />\n<parameter name=\"org.onap.appc.tag\" value=\"`$volumeAttachment.tag`\"/>",
+        "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='dettachVolume'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\" />\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$vm-id`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$identity-url`\" />\n<parameter name=\"org.onap.appc.volumeid\" value=\"`$volumeId`\" />\n<parameter name=\"org.onap.appc.device\" value=\"`$device`\" />\n<parameter name=\"org.onap.appc.tag\" value=\"`$tag`\"/>",
         "comments": "",
         "outputs": 1,
         "x": 653.1166381835938,
