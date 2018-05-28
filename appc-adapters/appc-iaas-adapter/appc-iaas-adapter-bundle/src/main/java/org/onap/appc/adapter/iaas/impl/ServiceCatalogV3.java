@@ -30,7 +30,6 @@ import com.att.cdp.openstack.util.ExceptionMapper;
 import com.att.cdp.pal.util.Time;
 import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.spi.RequestState;
-import com.google.common.collect.Lists;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.base.client.OpenStackClientConnector;
 import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
@@ -229,7 +228,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         Lock readLock = rwLock.readLock();
         readLock.lock();
         try {
-            return project.getName();
+            return getProject().getName();
         } finally {
             readLock.unlock();
         }
@@ -403,5 +402,9 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             }
         }
         return now.getTime();
+    }
+    
+    public Project getProject(){
+    	return project;
     }
 }
