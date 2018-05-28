@@ -24,18 +24,17 @@
 
 package org.onap.appc.adapter.iaas.impl;
 
+import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
 import java.lang.reflect.Field;
 import java.util.Map;
-import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
-import org.onap.appc.exceptions.APPCException;
-import com.att.cdp.zones.model.ModelObject;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.MDC;
+import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderOperation;
 import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.MDC_SERVICE;
+import org.slf4j.MDC;
+import com.att.cdp.zones.model.ModelObject;
 
 /**
  * This class is used to test methods and functions of the adapter implementation that do not
@@ -82,10 +81,7 @@ public class TestProviderOperation extends ProviderOperation {
     @Test(expected = RequestFailedException.class)
     public void testValidateParameterPatternExpectFailNullValue() throws RequestFailedException {
         MDC.put(MDC_SERVICE, "junit");
-        SvcLogicContext svcContext = new SvcLogicContext();
-        RequestContext rc = new RequestContext(svcContext);
         String link = null;
-
         validateVMURL(VMURL.parseURL(link));
     }
 
@@ -98,10 +94,7 @@ public class TestProviderOperation extends ProviderOperation {
     @Test(expected = RequestFailedException.class)
     public void testValidateParameterPatternExpectFailEmptyValue() throws RequestFailedException {
         MDC.put(MDC_SERVICE, "junit");
-        SvcLogicContext svcContext = new SvcLogicContext();
-        RequestContext rc = new RequestContext(svcContext);
         String link = "";
-
         validateVMURL(VMURL.parseURL(link));
     }
 
@@ -114,10 +107,7 @@ public class TestProviderOperation extends ProviderOperation {
     @Test(expected = RequestFailedException.class)
     public void testValidateParameterPatternExpectFailBlankValue() throws RequestFailedException {
         MDC.put(MDC_SERVICE, "junit");
-        SvcLogicContext svcContext = new SvcLogicContext();
-        RequestContext rc = new RequestContext(svcContext);
         String link = " ";
-
         validateVMURL(VMURL.parseURL(link));
     }
 
@@ -130,10 +120,7 @@ public class TestProviderOperation extends ProviderOperation {
     @Test(expected = RequestFailedException.class)
     public void testValidateParameterPatternExpectFailBadURL() throws RequestFailedException {
         MDC.put(MDC_SERVICE, "junit");
-        SvcLogicContext svcContext = new SvcLogicContext();
-        RequestContext rc = new RequestContext(svcContext);
         String link = "http://some.host:1234/01d82c08594a4b23a0f9260c94be0c4d/";
-
         validateVMURL(VMURL.parseURL(link));
     }
 
@@ -146,11 +133,8 @@ public class TestProviderOperation extends ProviderOperation {
     @Test
     public void testValidateParameterPatternValidURL() throws RequestFailedException {
         MDC.put(MDC_SERVICE, "junit");
-        SvcLogicContext svcContext = new SvcLogicContext();
-        RequestContext rc = new RequestContext(svcContext);
         String link =
                 "http://some.host:1234/v2/01d82c08594a4b23a0f9260c94be0c4d/servers/f888f89f-096b-421e-ba36-34f714071551";
-
         validateVMURL(VMURL.parseURL(link));
     }
 
