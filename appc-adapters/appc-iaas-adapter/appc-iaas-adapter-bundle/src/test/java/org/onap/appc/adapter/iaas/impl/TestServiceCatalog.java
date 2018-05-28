@@ -2,9 +2,9 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2017-2018 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,54 +26,43 @@
 
 package org.onap.appc.adapter.iaas.impl;
 
-import com.att.cdp.exceptions.ZoneException;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.onap.appc.configuration.ConfigurationFactory;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.CALLS_REAL_METHODS;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.CALLS_REAL_METHODS;
-import static org.mockito.Mockito.mock;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.appc.configuration.ConfigurationFactory;
+
+import com.att.cdp.exceptions.ZoneException;
 
 /**
  * This class tests the service catalog against a known provider.
  */
+@RunWith(MockitoJUnitRunner.class)
 public class TestServiceCatalog {
 
     // Number
     private static int EXPECTED_REGIONS = 2;
-    private static int EXPECTED_ENDPOINTS = 1;
-
-    private static String PRINCIPAL;
-    private static String CREDENTIAL;
-    private static String TENANT_NAME;
-    private static String TENANT_ID;
-    private static String IDENTITY_URL;
-    private static String REGION_NAME;
 
     private ServiceCatalog catalog;
 
-    private Properties properties;
 
     @BeforeClass
     public static void before() {
         Properties props = ConfigurationFactory.getConfiguration().getProperties();
-        IDENTITY_URL = props.getProperty("provider1.identity");
-        PRINCIPAL = props.getProperty("provider1.tenant1.userid", "appc");
-        CREDENTIAL = props.getProperty("provider1.tenant1.password", "appc");
-        TENANT_NAME = props.getProperty("provider1.tenant1.name", "appc");
-        TENANT_ID = props.getProperty("provider1.tenant1.id",
-                props.getProperty("test.tenantid", "abcde12345fghijk6789lmnopq123rst"));
-        REGION_NAME = props.getProperty("provider1.tenant1.region", "RegionOne");
 
         EXPECTED_REGIONS = Integer.valueOf(props.getProperty("test.expected-regions", "2"));
-        EXPECTED_ENDPOINTS = Integer.valueOf(props.getProperty("test.expected-endpoints", "0"));
     }
 
     /**
@@ -83,20 +72,28 @@ public class TestServiceCatalog {
      */
     @Before
     public void setup() throws ZoneException {
-        properties = new Properties();
-        catalog = mock(ServiceCatalog.class, CALLS_REAL_METHODS);
+        catalog = Mockito.mock(ServiceCatalog.class, CALLS_REAL_METHODS);
+        Mockito.doCallRealMethod().when(catalog).trackRequest();
         catalog.rwLock = new ReentrantReadWriteLock();
-
         Set<String> testdata = new HashSet<>();
         testdata.add("RegionOne");
         catalog.regions = testdata;
     }
 
     /**
-     * Test that we find all of the expected region(s)
+     * Ensure that we set up the Region property correctly
      */
     @Test
     public void testKnownRegions() {
         assertEquals(EXPECTED_REGIONS, catalog.getRegions().size());
+    }
+    
+    /**
+     * Ensure that we invoke the track request method
+     */
+    @Test
+    public void testTrackRequest() {
+    	catalog.trackRequest();
+        verify(catalog,times(1)).trackRequest();
     }
 }

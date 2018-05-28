@@ -2,9 +2,9 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2018 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,7 +69,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     /**
      * reference to operation factory
      */
-    ProviderOperationFactory factory = ProviderOperationFactory.getInstance();
+    private ProviderOperationFactory factory;
     /**
      * A cache of providers that are predefined.
      */
@@ -98,6 +98,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     @SuppressWarnings("all")
     public ProviderAdapterImpl(boolean initialize) {
         configuration = ConfigurationFactory.getConfiguration();
+        factory = ProviderOperationFactory.getInstance();
         if (initialize) {
             initialize();
         }

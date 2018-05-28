@@ -34,7 +34,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.configuration.ConfigurationFactory;
-
+/**
+ * This class is used to test methods and functions of the VMURL
+ */
 public class TestVMURL {
 
     private static String IP;
@@ -42,6 +44,7 @@ public class TestVMURL {
     private static String TENANTID;
     private static String VMID;
     private static String URL;
+    private static String VERSION;
 
     @BeforeClass
     public static void before() {
@@ -50,6 +53,7 @@ public class TestVMURL {
         PORT = props.getProperty("test.port");
         TENANTID = props.getProperty("test.tenantid");
         VMID = props.getProperty("test.vmid");
+        VERSION = props.getProperty("test.version");
     }
 
     /**
@@ -65,6 +69,7 @@ public class TestVMURL {
         assertEquals(PORT, url.getPort());
         assertEquals(TENANTID, url.getTenantId());
         assertEquals(VMID, url.getServerId());
+        assertEquals(VERSION, url.getVersion());
         assertEquals(url.toString(), URL);
     }
 
@@ -78,6 +83,7 @@ public class TestVMURL {
         assertNull(url.getPath());
         assertEquals(TENANTID, url.getTenantId());
         assertEquals(VMID, url.getServerId());
+        assertEquals(VERSION, url.getVersion());
         assertEquals(url.toString(), URL);
     }
 

@@ -2,9 +2,9 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2018 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +122,10 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         configuration = ConfigurationFactory.getConfiguration();
         logger = EELFManager.getInstance().getLogger(getClass());
         this.provider = provider;
-        configuration = ConfigurationFactory.getConfiguration();
+        String url = provider.getIdentityURL();
+        String tenant = tenantName == null ? tenantId : tenantName;
+        Properties properties = configuration.getProperties();
+        catalog = ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
     }
 
     /**
@@ -158,12 +161,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         int max = configuration.getIntegerProperty(Constants.PROPERTY_MAX_POOL_SIZE);
         int delay = configuration.getIntegerProperty(Constants.PROPERTY_RETRY_DELAY);
         int limit = configuration.getIntegerProperty(Constants.PROPERTY_RETRY_LIMIT);
-
         String url = provider.getIdentityURL();
-        String tenant = tenantName == null ? tenantId : tenantName;
         Properties properties = configuration.getProperties();
-        catalog = ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
-
         if (catalog == null) {
             logger.error(Msg.IAAS_UNSUPPORTED_IDENTITY_SERVICE, url);
             return;
