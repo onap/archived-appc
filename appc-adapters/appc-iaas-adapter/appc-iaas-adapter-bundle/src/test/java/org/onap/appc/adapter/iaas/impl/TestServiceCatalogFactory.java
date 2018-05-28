@@ -27,6 +27,9 @@ import java.util.Properties;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ * This class tests the service catalog factory against a known provider.
+ */
 public class TestServiceCatalogFactory {
 
     @Test
@@ -85,4 +88,33 @@ public class TestServiceCatalogFactory {
 
         Assert.assertNull(catalog);
     }
+
+    @Test
+    public void testGetServiceCatalogEmptyURL() {
+        String url = null;
+        String tenantIdentifier = null;
+        String principal = null;
+        String credential = null;
+        String domain = null;
+        Properties properties = null;
+        ServiceCatalog catalog = ServiceCatalogFactory.getServiceCatalog(url, tenantIdentifier, principal, credential,
+                domain, properties);
+
+        Assert.assertNull(catalog);
+    }
+
+    @Test
+    public void testGetServiceCatalogWithoutVersion() {
+        String url = "http://192.168.1.1:5000/";
+        String tenantIdentifier = null;
+        String principal = null;
+        String credential = null;
+        String domain = null;
+        Properties properties = null;
+        ServiceCatalog catalog = ServiceCatalogFactory.getServiceCatalog(url, tenantIdentifier, principal, credential,
+                domain, properties);
+
+        Assert.assertNull(catalog);
+    }
+
 }
