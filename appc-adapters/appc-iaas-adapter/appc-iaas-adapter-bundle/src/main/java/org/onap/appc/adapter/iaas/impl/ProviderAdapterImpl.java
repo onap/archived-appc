@@ -69,7 +69,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     /**
      * reference to operation factory
      */
-    ProviderOperationFactory factory = ProviderOperationFactory.getInstance();
+    private ProviderOperationFactory factory;
     /**
      * A cache of providers that are predefined.
      */
@@ -258,6 +258,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
          * provider2.identity=http://provider2:5000/v2.0 provider2.tenant1.name=someName
          * provider2.tenant1.userid=someUser provider2.tenant1.password=somePassword </pre> </p>
          */
+        factory = ProviderOperationFactory.getInstance();
         providerCache = new HashMap<>();
         Properties properties = configuration.getProperties();
         List<Node> providers = StructuredPropertyHelper.getStructuredProperties(properties, Property.PROVIDER);
