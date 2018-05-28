@@ -2,9 +2,9 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2018 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,6 @@ import com.att.cdp.openstack.util.ExceptionMapper;
 import com.att.cdp.pal.util.Time;
 import com.att.cdp.zones.ContextFactory;
 import com.att.cdp.zones.spi.RequestState;
-import com.google.common.collect.Lists;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import com.woorea.openstack.base.client.OpenStackClientConnector;
 import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
@@ -229,7 +228,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         Lock readLock = rwLock.readLock();
         readLock.lock();
         try {
-            return project.getName();
+            return getProject().getName();
         } finally {
             readLock.unlock();
         }
@@ -403,5 +402,9 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             }
         }
         return now.getTime();
+    }
+    
+    public Project getProject(){
+    	return project;
     }
 }

@@ -26,6 +26,9 @@ import org.junit.Test;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Stack;
 
+/**
+ * This class is used to test methods and functions of the Request Failed Exception class
+ */
 public class RequestFailedExceptionTest {
 
     @Test
@@ -48,6 +51,7 @@ public class RequestFailedExceptionTest {
     @Test
     public void testRequestFailedExceptionStringStringHttpStatusServer() {
         Server server=new Server();
+        server.setId("svrId");
         HttpStatus status=HttpStatus.OK_200;
         String reason="Success";
         String operation="POST";
@@ -56,10 +60,12 @@ public class RequestFailedExceptionTest {
         requestFailedException.setReason(reason);
         requestFailedException.setServerId("svrId");
         requestFailedException.setStatus(status);
+        requestFailedException.setServer(server);
         Assert.assertEquals("POST",requestFailedException.getOperation());
         Assert.assertEquals("Success",requestFailedException.getReason());
         Assert.assertEquals("svrId",requestFailedException.getServerId());
         Assert.assertEquals( HttpStatus.OK_200,requestFailedException.getStatus());
+        Assert.assertEquals(server, requestFailedException.getServer());
     }
 
     @Test
@@ -119,5 +125,22 @@ public class RequestFailedExceptionTest {
         Assert.assertEquals(throwable, requestFailedException.getCause());
         Assert.assertTrue(requestFailedException.getLocalizedMessage().contains(message));
         Assert.assertTrue(requestFailedException.getMessage().contains(message));
+    }
+    
+    /**
+     * This test case is used to test the request failed exception class without server
+     * 
+     */
+    @Test
+    public void testRequestFailedExceptionThrowableStringWithoutServer() {
+        String tMessage = "throwable message";
+        Server server=null;
+        HttpStatus status=HttpStatus.ACCEPTED_202;
+        String reason="Success";
+        String operation="POST";
+        Throwable throwable = new Throwable(tMessage);
+        RequestFailedException requestFailedException = new RequestFailedException(throwable,operation,reason, status, server);
+        Assert.assertEquals(throwable, requestFailedException.getCause());
+        Assert.assertNull(requestFailedException.getServer());
     }
 }
