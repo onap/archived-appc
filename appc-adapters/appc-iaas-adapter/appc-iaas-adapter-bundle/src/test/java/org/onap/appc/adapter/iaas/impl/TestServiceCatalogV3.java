@@ -22,28 +22,37 @@
  * ============LICENSE_END=========================================================
  */
 
-
-
 package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import com.att.cdp.exceptions.ZoneException;
-import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
+import static org.mockito.Mockito.when;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.configuration.ConfigurationFactory;
+import com.google.common.collect.ImmutableMap;
+import com.woorea.openstack.keystone.v3.model.Token;
+import com.woorea.openstack.keystone.v3.model.Token.Service;
+import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
 
 /**
  * This class tests the service catalog against a known provider.
  */
-@Ignore
+@RunWith(MockitoJUnitRunner.class)
 public class TestServiceCatalogV3 {
 
     // Number
@@ -57,10 +66,27 @@ public class TestServiceCatalogV3 {
     private static String TENANT_ID;
     private static String IDENTITY_URL;
     private static String REGION_NAME;
+    private static String PUBLIC_URL;
+
+    private static String IP;
+    private static String PORT;
+    private static String TENANTID;
+    private static String VMID;
+    private static String URL;
 
     private ServiceCatalogV3 catalog;
 
+    private ServiceCatalogV3 spyCatalog;
+
     private Properties properties;
+
+    private Token.Project project = new Token.Project();
+
+    private final Set<String> regions = new HashSet<>(Arrays.asList("RegionOne"));
+
+    private Map<String, Service> serviceTypes;
+
+    private Map<String, List<Service.Endpoint>> serviceEndpoints;
 
     @BeforeClass
     public static void before() {
@@ -74,41 +100,68 @@ public class TestServiceCatalogV3 {
                 props.getProperty("test.tenantid", "abcde12345fghijk6789lmnopq123rst"));
         REGION_NAME = props.getProperty("provider1.tenant1.region", "RegionOne");
 
+        IP = props.getProperty("test.ip");
+        PORT = props.getProperty("test.port");
+        TENANTID = props.getProperty("test.tenantid");
+        VMID = props.getProperty("test.vmid");
+
         EXPECTED_REGIONS = Integer.valueOf(props.getProperty("test.expected-regions", "0"));
         EXPECTED_ENDPOINTS = Integer.valueOf(props.getProperty("test.expected-endpoints", "0"));
+        PUBLIC_URL =
+                "http://192.168.1.2:5000/v2/abcde12345fghijk6789lmnopq123rst/servers/abc12345-1234-5678-890a-abcdefg12345";
+
     }
 
     /**
-     * Setup the test environment by loading a new service catalog for each test
-     * 
-     * @throws ZoneException
+     * Use reflection to locate fields and methods so that they can be manipulated during the test
+     * to change the internal state accordingly.
      */
     @Before
-    public void setup() throws ZoneException {
+    public void setup() {
+        URL = String.format("http://%s:%s/v2/%s/servers/%s", IP, PORT, TENANTID, VMID);
         properties = new Properties();
         catalog = new ServiceCatalogV3(IDENTITY_URL, TENANT_NAME, PRINCIPAL, CREDENTIAL, DOMAIN, properties);
+        spyCatalog = Mockito.spy(catalog);
+        project.setId(TENANT_ID);
+        project.setName(TENANT_NAME);
+        final Service service = new Service();
+        serviceTypes = ImmutableMap.<String, Service>builder().put(ServiceCatalog.COMPUTE_SERVICE, service)
+                .put(ServiceCatalog.IDENTITY_SERVICE, service).put(ServiceCatalog.IMAGE_SERVICE, service)
+                .put(ServiceCatalog.NETWORK_SERVICE, service).put(ServiceCatalog.VOLUME_SERVICE, service).build();
+        final Service.Endpoint endpoint = new Service.Endpoint();
+        endpoint.setUrl(PUBLIC_URL);
+        endpoint.setRegion(REGION_NAME);
+        final List<Service.Endpoint> endpoints = Arrays.asList(endpoint);
+        serviceEndpoints = ImmutableMap.<String, List<Service.Endpoint>>builder()
+                .put(ServiceCatalog.COMPUTE_SERVICE, endpoints).build();
+        Map<String, Object> privateFields =
+                ImmutableMap.<String, Object>builder().put("project", project).put("regions", regions)
+                        .put("serviceTypes", serviceTypes).put("serviceEndpoints", serviceEndpoints).build();
+        CommonUtility.injectMockObjects(privateFields, catalog);
+        CommonUtility.injectMockObjectsInBaseClass(privateFields, catalog);
     }
 
     /**
-     * Test that the tenant name and ID are returned correctly
+     * Ensure that we get the Tenant Name & Tenant Id property are returned correctly
      */
     @Test
     public void testKnownTenant() {
+        when(spyCatalog.getProject()).thenReturn(project);
         assertEquals(TENANT_NAME, catalog.getProjectName());
         assertEquals(TENANT_ID, catalog.getProjectId());
     }
 
     /**
-     * Test that we find all of the expected region(s)
+     * Ensure that we set up the Region property correctly
      */
     @Test
     public void testKnownRegions() {
         assertEquals(EXPECTED_REGIONS, catalog.getRegions().size());
-        // assertEquals(REGION_NAME, catalog.getRegions().toArray()[0]);
+        assertEquals(REGION_NAME, catalog.getRegions().toArray()[0]);
     }
 
     /**
-     * Test that we can check for published services correctly
+     * Ensure that that we can check for published services correctly
      */
     @Test
     public void testServiceTypesPublished() {
@@ -117,12 +170,11 @@ public class TestServiceCatalogV3 {
     }
 
     /**
-     * Check that we can get the list of published services
+     * Ensure that we can get the list of published services
      */
     @Test
     public void testPublishedServicesList() {
         List<String> services = catalog.getServiceTypes();
-
         assertTrue(services.contains(ServiceCatalog.COMPUTE_SERVICE));
         assertTrue(services.contains(ServiceCatalog.IDENTITY_SERVICE));
         assertTrue(services.contains(ServiceCatalog.IMAGE_SERVICE));
@@ -131,24 +183,42 @@ public class TestServiceCatalogV3 {
     }
 
     /**
-     * Test that we can get the endpoint(s) for a service
+     * Ensure that we can get the endpoint(s) for a service
      */
     @Test
     public void testEndpointList() {
         List<Endpoint> endpoints = catalog.getEndpoints(ServiceCatalog.COMPUTE_SERVICE);
-
         assertNotNull(endpoints);
         assertFalse(endpoints.isEmpty());
         assertEquals(EXPECTED_ENDPOINTS, endpoints.size());
-
-        Endpoint endpoint = endpoints.get(0);
-        // assertEquals(REGION_NAME, endpoint.getRegion());
     }
 
+    /**
+     * Ensure that we override the toString method
+     */
     @Test
     public void testToString() {
         String testString = catalog.toString();
         assertNotNull(testString);
+    }
+
+    /**
+     * Ensure that we can get the VM Region
+     */
+    @Test
+    public void testGetVMRegion() {
+        VMURL url = VMURL.parseURL(URL);
+        String region = catalog.getVMRegion(url);
+        assertEquals(REGION_NAME, region);
+    }
+
+    /**
+     * Ensure that we can get the null region when no URL is passed
+     */
+    @Test
+    public void testGetVMRegionWithoutURL() {
+        String region = catalog.getVMRegion(null);
+        assertNull(region);
     }
 
     @Ignore
