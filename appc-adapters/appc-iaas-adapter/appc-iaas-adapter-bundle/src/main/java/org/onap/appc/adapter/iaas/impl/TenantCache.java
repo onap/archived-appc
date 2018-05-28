@@ -24,13 +24,6 @@
 
 package org.onap.appc.adapter.iaas.impl;
 
-import com.att.cdp.exceptions.ContextConnectionException;
-import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.Provider;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +36,13 @@ import org.onap.appc.pool.Allocator;
 import org.onap.appc.pool.Destructor;
 import org.onap.appc.pool.Pool;
 import org.onap.appc.pool.PoolSpecificationException;
+import com.att.cdp.exceptions.ContextConnectionException;
+import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.zones.Context;
+import com.att.cdp.zones.ContextFactory;
+import com.att.cdp.zones.Provider;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 /**
  * This class maintains a cache of tenants within a specific provider.
@@ -158,12 +158,10 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         int max = configuration.getIntegerProperty(Constants.PROPERTY_MAX_POOL_SIZE);
         int delay = configuration.getIntegerProperty(Constants.PROPERTY_RETRY_DELAY);
         int limit = configuration.getIntegerProperty(Constants.PROPERTY_RETRY_LIMIT);
-
         String url = provider.getIdentityURL();
         String tenant = tenantName == null ? tenantId : tenantName;
         Properties properties = configuration.getProperties();
-        catalog = ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
-
+        catalog = getServiceCatalogFactory(url, tenant, properties);
         if (catalog == null) {
             logger.error(Msg.IAAS_UNSUPPORTED_IDENTITY_SERVICE, url);
             return;
@@ -196,12 +194,16 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         }
     }
 
+    public ServiceCatalog getServiceCatalogFactory(String url, String tenant, Properties properties) {
+        return ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
+    }
+
     private void createPools(int min, int max, String url, Properties properties) {
         for (String region : catalog.getRegions()) {
             try {
                 Pool<Context> pool = new Pool<>(min, max);
                 pool.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, url);
-                pool.setProperty(ContextFactory.PROPERTY_TENANT, tenantName);
+                pool.setProperty(ContextFactory.PROPERTY_TENANT, getTenantName());
                 pool.setProperty(ContextFactory.PROPERTY_CLIENT_CONNECTOR_CLASS, CLIENT_CONNECTOR_CLASS);
                 pool.setProperty(ContextFactory.PROPERTY_RETRY_DELAY,
                         configuration.getProperty(Constants.PROPERTY_RETRY_DELAY));
