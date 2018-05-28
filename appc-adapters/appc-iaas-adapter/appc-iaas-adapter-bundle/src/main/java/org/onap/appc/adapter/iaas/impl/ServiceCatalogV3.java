@@ -23,25 +23,6 @@
 
 package org.onap.appc.adapter.iaas.impl;
 
-import com.att.cdp.exceptions.ContextConnectionException;
-import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.openstack.util.ExceptionMapper;
-import com.att.cdp.pal.util.Time;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.spi.RequestState;
-import com.google.common.collect.Lists;
-import com.woorea.openstack.base.client.OpenStackBaseException;
-import com.woorea.openstack.base.client.OpenStackClientConnector;
-import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
-import com.woorea.openstack.keystone.v3.Keystone;
-import com.woorea.openstack.keystone.v3.api.TokensResource;
-import com.woorea.openstack.keystone.v3.model.Authentication;
-import com.woorea.openstack.keystone.v3.model.Authentication.Identity;
-import com.woorea.openstack.keystone.v3.model.Authentication.Scope;
-import com.woorea.openstack.keystone.v3.model.Token;
-import com.woorea.openstack.keystone.v3.model.Token.Project;
-import com.woorea.openstack.keystone.v3.model.Token.Service;
-import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,6 +36,24 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import com.att.cdp.exceptions.ContextConnectionException;
+import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.openstack.util.ExceptionMapper;
+import com.att.cdp.pal.util.Time;
+import com.att.cdp.zones.ContextFactory;
+import com.att.cdp.zones.spi.RequestState;
+import com.woorea.openstack.base.client.OpenStackBaseException;
+import com.woorea.openstack.base.client.OpenStackClientConnector;
+import com.woorea.openstack.base.client.OpenStackSimpleTokenProvider;
+import com.woorea.openstack.keystone.v3.Keystone;
+import com.woorea.openstack.keystone.v3.api.TokensResource;
+import com.woorea.openstack.keystone.v3.model.Authentication;
+import com.woorea.openstack.keystone.v3.model.Authentication.Identity;
+import com.woorea.openstack.keystone.v3.model.Authentication.Scope;
+import com.woorea.openstack.keystone.v3.model.Token;
+import com.woorea.openstack.keystone.v3.model.Token.Project;
+import com.woorea.openstack.keystone.v3.model.Token.Service;
+import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
 
 /**
  * This class is used to capture and cache the service catalog for a specific OpenStack provider.
@@ -225,13 +224,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
      */
     @Override
     public String getProjectName() {
-        Lock readLock = rwLock.readLock();
-        readLock.lock();
-        try {
-            return project.getName();
-        } finally {
-            readLock.unlock();
-        }
+        return getProject().getName();
     }
 
     /**
@@ -402,5 +395,15 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             }
         }
         return now.getTime();
+    }
+    
+    public Project getProject() {
+        Lock readLock = rwLock.readLock();
+        readLock.lock();
+        try {
+            return project;
+        } finally {
+            readLock.unlock();
+        }
     }
 }

@@ -51,18 +51,12 @@ public class ServiceCatalogFactory {
     		return null;
     	}
         String version = idUrl.getVersion();
-        if(version == null){
-        	logger.error("Invalid Identity URL check configuration");
-        	return null;
-        }
         String prefix = version.split("\\.")[0];
-        if (prefix != null) {
-            switch (prefix) {
-                case "v2":
-                    return new ServiceCatalogV2(url, projectIdentifier, principal, credential, properties);
-                case "v3":
-                    return new ServiceCatalogV3(url, projectIdentifier, principal, credential, domain, properties);
-            }
+        if("v2".equals(prefix)){
+        	return new ServiceCatalogV2(url, projectIdentifier, principal, credential, properties);
+        }
+        else if("v3".equals(prefix)){
+        	return new ServiceCatalogV3(url, projectIdentifier, principal, credential, domain, properties);
         }
         return null;
     }
