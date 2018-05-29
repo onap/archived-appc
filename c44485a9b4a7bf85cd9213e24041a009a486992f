@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_e3664b29",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-05-29T22:19:18Z",
+      "side": 1,
+      "message": "AAF is not correct. Please update to APPC.\n\nAlso, I don\u0027t think it\u0027s correct to say all criticals have been closed. We documented any items still open in the wiki and assessed their risk impact, which was false/positive for most or no impact. Maybe the more accurate wording would be \"most critical have been address and for those remaining open have been evaluated and determined to be false positive.",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 4
+      },
+      "revId": "c44485a9b4a7bf85cd9213e24041a009a486992f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4375bfca",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-05-29T22:19:18Z",
+      "side": 1,
+      "message": "Why is this link necessary from APPC release notes? This should be included at the release level release notes, not here.",
+      "range": {
+        "startLine": 146,
+        "startChar": 5,
+        "endLine": 146,
+        "endChar": 25
+      },
+      "revId": "c44485a9b4a7bf85cd9213e24041a009a486992f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_836bc7f0",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-05-29T22:19:18Z",
+      "side": 1,
+      "message": "Why is this link necessary from APPC release notes? This should be included at the release level release notes, not here.",
+      "range": {
+        "startLine": 148,
+        "startChar": 4,
+        "endLine": 148,
+        "endChar": 42
+      },
+      "revId": "c44485a9b4a7bf85cd9213e24041a009a486992f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
