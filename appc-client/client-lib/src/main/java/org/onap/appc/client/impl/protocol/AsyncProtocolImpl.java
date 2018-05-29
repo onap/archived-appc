@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,7 +18,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -72,6 +71,7 @@ class AsyncProtocolImpl implements AsyncProtocol {
 
     private static final EELFLogger LOG = EELFManager.getInstance().getLogger(AsyncProtocolImpl.class);
 
+    private String controllerType = null;
 
     AsyncProtocolImpl() {
 
@@ -87,8 +87,10 @@ class AsyncProtocolImpl implements AsyncProtocol {
             throw new ProtocolException("Callback param should not be null!");
         }
         this.callback = callback;
-
-        try {
+        
+        controllerType = props.getProperty(UEBPropertiesKeys.CONTROLLER_TYPE);
+        
+        try {            
             messageService.init(props);
             //get message bus listener thread
             //start the thread after initializing services
@@ -100,7 +102,11 @@ class AsyncProtocolImpl implements AsyncProtocol {
 
     @Override
     public void sendRequest(String payload, MessageContext context) throws ProtocolException {
-
+        if (controllerType != null && controllerType.length()!= 0 && (!controllerType.equals("APPC")))
+        {
+            context.setPartiton(controllerType);
+        }
+        
         //get message to be sent to appc from payload and context
         String message = messageWriter.write(payload, context);
         try {
