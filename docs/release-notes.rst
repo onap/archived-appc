@@ -128,13 +128,20 @@ The following issues remain open at the end of Beijing release.
 	- `APPC-154 <https://jira.onap.org/browse/APPC-154>`_ - Logging issue - Request REST API of APPC has RequestID (MDC) in Body or Payload section instead of Header.
 	
 	
-**Security Issues**
+**Security Notes**
 
-The security issues that remain open at the end of Beijing release can be found in the attached report from Nexus IQ - :download:`appc-Build-20180518-NexusIQ Report.pdf` Copy of full Nexus IQ Report.
-	  
-	
+APPC code has been formally scanned during build time using NexusIQ and all Critical vulnerabilities have been addressed, items that remain open have been assessed for risk and determined to be false positive. The APPC open Critical security vulnerabilities and their risk assessment have been documented as part of the `project <https://wiki.onap.org/pages/viewpage.action?pageId=25438971>`_.
+
 Additionally, communication over DMaaP currently does not use secure topics in this release. This has dependency on DMaaP to enable. 	
 
+
+Quick Links:
+ 	- `APPC project page <https://wiki.onap.org/display/DW/Application+Controller+Project>`_
+ 	
+ 	- `Passing Badge information for APPC <https://bestpractices.coreinfrastructure.org/en/projects/1579>`_
+ 	
+ 	- `Project Vulnerability Review Table for APPC <https://wiki.onap.org/pages/viewpage.action?pageId=25438971>`_
+ 	
 **Other**
 
 - Limitations, Constraints and other worthy notes
