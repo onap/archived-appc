@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_237c33b5",
+        "filename": "docs/release-notes.rst",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1567
+      },
+      "writtenOn": "2018-05-30T01:02:26Z",
+      "side": 1,
+      "message": "Why is this necessary from APPC release notes? This should be included at the release level release notes, not here.",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 133,
+        "endChar": 54
+      },
+      "revId": "c44485a9b4a7bf85cd9213e24041a009a486992f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_e3664b29",
         "filename": "docs/release-notes.rst",
         "patchSetId": 1
