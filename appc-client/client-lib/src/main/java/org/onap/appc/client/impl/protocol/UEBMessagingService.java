@@ -41,6 +41,8 @@ class UEBMessagingService implements MessagingService {
 
     private static final String DEFAULT_READ_TIMEOUT_MS = "60000";
     private static final String DEFAULT_READ_LIMIT = "1000";
+    private static final String DEFAULT_READ_TOPIC = "client-read";
+    private static final String DEFAULT_WRITE_TOPIC = "client-write";
 
     private Consumer consumer;
     private Producer producer;
@@ -52,14 +54,40 @@ class UEBMessagingService implements MessagingService {
             throws IOException, GeneralSecurityException, NoSuchFieldException, IllegalAccessException {
 
         if (props != null) {
-            String readTopic = props.getProperty(UEBPropertiesKeys.TOPIC_READ);
-            String writeTopic = props.getProperty(UEBPropertiesKeys.TOPIC_WRITE);
-            String cType = props.getProperty(UEBPropertiesKeys.CONTROLLER_TYPE);
+            String readTopic = null;
+            String writeTopic = null;
+            String cType = props.getProperty(UEBPropertiesKeys.CONTROLLER_TYPE); //CONTROLLER_TYPE = "controllerType"
+            
             if (cType != null && cType.length()!= 0 && (!cType.equals("APPC")))
             {
-                readTopic = cType + "-" + readTopic;
-                writeTopic = cType + "-" + writeTopic;
+                logger.debug("Using controller type " + cType + " for topic properties");
+                
+                readTopic = props.getProperty(cType + "-" + UEBPropertiesKeys.TOPIC_READ);
+                if(readTopic == null) {
+                    logger.error("Error reading property '"+ cType + "-" + UEBPropertiesKeys.TOPIC_READ + "' defaulting to " + DEFAULT_READ_TOPIC);
+                    readTopic = DEFAULT_READ_TOPIC;
+                }
+                writeTopic = props.getProperty(cType + "-" + UEBPropertiesKeys.TOPIC_WRITE);
+                if(writeTopic == null) {
+                    logger.error("Error reading property '"+ cType + "-" + UEBPropertiesKeys.TOPIC_READ + "' defaulting to " + DEFAULT_WRITE_TOPIC);
+                    writeTopic = DEFAULT_WRITE_TOPIC;
+                }
             }
+            else {
+                readTopic = props.getProperty(UEBPropertiesKeys.TOPIC_READ); //TOPIC_READ = "topic.read"
+                if(readTopic == null) {
+                    logger.error("Error reading property '"+ UEBPropertiesKeys.TOPIC_READ + "' defaulting to " + DEFAULT_READ_TOPIC);
+                    readTopic = DEFAULT_READ_TOPIC;
+                }
+                writeTopic = props.getProperty(UEBPropertiesKeys.TOPIC_WRITE); //TOPIC_WRITE = "topic.write"
+                if(writeTopic == null) {
+                    logger.error("Error reading property '" + UEBPropertiesKeys.TOPIC_READ + "' defaulting to " + DEFAULT_WRITE_TOPIC);
+                    writeTopic = DEFAULT_WRITE_TOPIC;
+                }
+            }
+            
+            logger.debug("Using topics: Read = '" + readTopic + "' Write = '" + writeTopic + "'");
+            
             String apiKey = props.getProperty(UEBPropertiesKeys.AUTH_USER);
             String apiSecret = props.getProperty(UEBPropertiesKeys.AUTH_SECRET);
             String readTimeoutString = props.getProperty(UEBPropertiesKeys.TOPIC_READ_TIMEOUT, DEFAULT_READ_TIMEOUT_MS);
