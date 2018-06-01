@@ -30,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.appc.util.JsonUtil;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
@@ -38,6 +39,8 @@ import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.executor.objects.LCMCommandStatus;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
+
+import java.util.Map;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
@@ -56,6 +59,7 @@ public class ConfigScaleOutServiceTest {
     private ConfigScaleOutService configscaleoutServiceAction;
     @Before
     public void setUp() throws Exception {
+
         configscaleoutServiceAction = spy(new ConfigScaleOutService());
     }
 
@@ -149,20 +153,23 @@ public class ConfigScaleOutServiceTest {
         configscaleoutServiceAction.validate(mockCommonHeader, Action.ConfigScaleOut, mockAI, null);
         Mockito.verify(configscaleoutServiceAction, times(1)).validateExcludedActIds(any(), any());
         status = (Status) Whitebox.getInternalState(configscaleoutServiceAction, "status");
-        Assert.assertTrue("Should skip Payload",true);
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
 
         // test empty payload
 
         Mockito.doReturn("").when(mockPayload).getValue();
         configscaleoutServiceAction.validate(mockCommonHeader, Action.ConfigScaleOut, mockAI, mockPayload);
         status = (Status) Whitebox.getInternalState(configscaleoutServiceAction, "status");
-        Assert.assertTrue("Should skip Payload",true);
+        Assert.assertEquals("should return invalid parameter",
+                Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
 
         // test space payload
         Mockito.doReturn(" ").when(mockPayload).getValue();
         configscaleoutServiceAction.validate(mockCommonHeader, Action.ConfigScaleOut, mockAI, mockPayload);
         status = (Status) Whitebox.getInternalState(configscaleoutServiceAction, "status");
-        Assert.assertTrue("Should skip Payload",true);
+        Assert.assertEquals("should return invalid parameter",
+                Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
     }
 }
 
