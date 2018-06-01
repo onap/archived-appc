@@ -41,6 +41,7 @@ public class ConfigScaleOutService extends AbstractBaseService {
         super(Action.ConfigScaleOut);
         logger.debug("ConfigScaleOutService starts");
     }
+
     public ConfigScaleOutOutputBuilder process(ConfigScaleOutInput input) {
         CommonHeader commonHeader = input.getCommonHeader();
         ActionIdentifiers actionIdentifiers = input.getActionIdentifiers();
@@ -48,7 +49,7 @@ public class ConfigScaleOutService extends AbstractBaseService {
 
         validate(commonHeader, input.getAction(), actionIdentifiers, payload);
         if (status == null) {
-            proceedAction(commonHeader,actionIdentifiers,payload);
+            proceedAction(commonHeader, actionIdentifiers, payload);
         }
 
         ConfigScaleOutOutputBuilder outputBuilder = new ConfigScaleOutOutputBuilder();
@@ -69,14 +70,14 @@ public class ConfigScaleOutService extends AbstractBaseService {
 
         // validate payload
         String keyName = "payload";
-//        if (payload == null) {
-//            status = buildStatusForParamName(LCMCommandStatus.MISSING_MANDATORY_PARAMETER, keyName);
-//            return;
-//        }
-        if (payload !=null) {
+        if (payload == null) {
+            status = buildStatusForParamName(LCMCommandStatus.MISSING_MANDATORY_PARAMETER, keyName);
+            return;
+        }
+//        if (payload !=null) {
         String payloadString = payload.getValue();
         status = validateMustHaveParamValue(
-            payloadString == null ? payloadString : payloadString.trim(), "payload");
+                payloadString == null ? payloadString : payloadString.trim(), "payload");
         if (status != null) {
             return;
         }
@@ -84,12 +85,14 @@ public class ConfigScaleOutService extends AbstractBaseService {
         try {
             Map<String, String> payloadMap = JsonUtil.convertJsonStringToFlatMap(payloadString);
             validateMustHaveParamValue(payloadMap.get(keyName), keyName);
+            validateMustHaveParamValue(payloadMap.get("payload.request-parameters.vf-module-id"), "vf-module-id");
         } catch (IOException e) {
             logger.error(String.format("ConfigScaleOutService (%s) got IOException when converting payload", rpcName), e);
             status = buildStatusForErrorMsg(LCMCommandStatus.UNEXPECTED_ERROR, e.getMessage());
         }
     }
-    }
+
+//    }
 
     void proceedAction(CommonHeader commonHeader,
                        ActionIdentifiers actionIdentifiers,
