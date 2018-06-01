@@ -1,4 +1,4 @@
-﻿.. ============LICENSE_START==========================================
+.. ============LICENSE_START==========================================
 .. ===================================================================
 .. Copyright © 2017-2018 AT&T Intellectual Property. All rights reserved.
 .. ===================================================================
@@ -113,9 +113,13 @@ The following defects that were documented as known issues in Amsterdam have bee
 	
 **Known Issues**
 
-The following issues remain open at the end of Beijing release. 
+The following issues remain open at the end of Beijing release. Please refer to Jira for further details and workaround, if available.
 
- 	- `APPC-912 <https://jira.onap.org/browse/APPC-912>`_ - MalformedChunkCodingException in MDSALStoreImpl.getNodeName
+    - `APPC-940 <https://jira.onap.org/browse/APPC-940>`_ - APPC CDT Tool is not updating appc_southbound.properties with the URL supplied for REST
+
+    - `APPC-929 <https://jira.onap.org/browse/APPC-929>`_ - LCM API - ConfigScaleOut- Payload parameter to be manadatory - "true"
+ 
+	- `APPC-912 <https://jira.onap.org/browse/APPC-912>`_ - MalformedChunkCodingException in MDSALStoreImpl.getNodeName
 	
 	- `APPC-892 <https://jira.onap.org/browse/APPC-892>`_ - Cntl+4 to highlight and replace feature- Textbox is accepting space  and able to submit without giving any value
 
@@ -158,4 +162,3 @@ Quick Links:
 ===========
 
 End of Release Notes
-
