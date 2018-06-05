@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_38d52bb9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-06-05T19:39:21Z",
+      "side": 1,
+      "message": "What about the other constructors? Factory won\u0027t be set there.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_98e31fa4",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-06-05T19:39:21Z",
+      "side": 1,
+      "message": "The 2017 shouldn\u0027t be removed here. You actually don\u0027t have to update these at all, if you\u0027re not in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d8d9a7f5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-06-05T19:39:21Z",
+      "side": 1,
+      "message": "The 2017 shouldn\u0027t be removed here. You actually don\u0027t have to update these at all, if you\u0027re not in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b8e05b97",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-06-05T19:39:21Z",
+      "side": 1,
+      "message": "The 2017 shouldn\u0027t be removed here. You actually don\u0027t have to update these at all, if you\u0027re not in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_78f2d370",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-06-05T19:39:21Z",
+      "side": 1,
+      "message": "We generally try to avoid using tab characters, 4 space characters should be used instead of a tab.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d800c737",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-06-05T19:39:21Z",
+      "side": 1,
+      "message": "This should be \"2017-2018\", but you don\u0027t have to update it at all if you aren\u0027t in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
