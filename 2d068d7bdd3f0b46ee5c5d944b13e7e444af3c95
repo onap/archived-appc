@@ -16,6 +16,24 @@
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_12f29006",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-05T11:02:44Z",
+      "side": 1,
+      "message": "These errors are unexpected in the tests and will be logged to stdout when tests fail. In the enclosing package some unexpected errors are written to stdout and some are thrown by the methods in question. I think the effect will be the same in that the errors are visible as output when the unit tests fail.",
+      "parentUuid": "5a93c517_402fe788",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
