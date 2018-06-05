@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a38b4c67",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2018-06-05T20:47:32Z",
+      "side": 1,
+      "message": "this is where we add this, hence device is returning this:\n\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: \u003cnc:rpc-reply xmlns:nc\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns:junos\u003d\"http://xml.juniper.net/junos/18.1I0/junos\" xmlns\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id\u003d\"1\"\u003e\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: \u003cnc:ok/\u003e\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: \u003c/nc:rpc-reply\u003e\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: ]]\u003e]]\u003e",
+      "range": {
+        "startLine": 383,
+        "startChar": 65,
+        "endLine": 383,
+        "endChar": 71
+      },
+      "revId": "9e943ef787d27a33cab46f43da272b802fbe2725",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_43e84816",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2018-06-05T20:47:32Z",
+      "side": 1,
+      "message": "same for commit\n\nJun  5 20:37:25 [NETCONF] - [16025] Incoming: \u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e\n \u003crpc xmlns\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id\u003d\"1\"\u003e \u003ccommit/\u003e \u003c/rpc\u003e\n ]]\u003e]]\u003e\n\nJun  5 20:37:25 [NETCONF] - [16025] Outgoing: \u003cnc:rpc-reply xmlns:nc\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns:junos\u003d\"http://xml.juniper.net/junos/18.1I0/junos\" xmlns\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id\u003d\"1\"\u003e\nJun  5 20:37:26 [NETCONF] - [16025] Outgoing: \u003cnc:ok/\u003e\nJun  5 20:37:26 [NETCONF] - [16025] Outgoing: \u003c/nc:rpc-reply\u003e\nJun  5 20:37:26 [NETCONF] - [16025] Outgoing: ]]\u003e]]\u003e\nJun  5 20:3 \u003c/edit-config\u003e \u003c/rpc\u003e]]\u003e]]\u003e\n\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: \u003cnc:rpc-reply xmlns:nc\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" xmlns:junos\u003d\"http://xml.juniper.net/junos/18.1I0/junos\" xmlns\u003d\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id\u003d\"1\"\u003e\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: \u003cnc:ok/\u003e\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: \u003c/nc:rpc-reply\u003e\nJun  5 20:37:24 [NETCONF] - [16025] Outgoing: ]]\u003e]]\u003e",
+      "range": {
+        "startLine": 394,
+        "startChar": 38,
+        "endLine": 394,
+        "endChar": 47
+      },
+      "revId": "9e943ef787d27a33cab46f43da272b802fbe2725",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
