@@ -383,7 +383,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
             loadConfigurationString = loadConfigurationString + "]]>]]>";
             sshJcraftWrapper.send(loadConfigurationString);
             DebugLog.printAriDebug(fnName, ":After sending loadConfigurationString");
-            response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 600000, "");
+            response = sshJcraftWrapper.receiveUntil("]]>]]>", 600000, "");
             if (response.indexOf("rpc-error") != -1) {
                 DebugLog.printAriDebug(fnName, "Error from device: Response from device had 'rpc-error'");
                 DebugLog.printAriDebug(fnName, "response=\n" + response + "\n");
@@ -393,7 +393,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
                 DebugLog.printAriDebug(fnName, ":LoadConfiguration was a success, sending commit cmd");
                 sshJcraftWrapper.send(commitCmd);
                 DebugLog.printAriDebug(fnName, ":After sending commitCmd");
-                response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 180000, "");
+                response = sshJcraftWrapper.receiveUntil("]]>]]>", 180000, "");
                 if (response.indexOf("rpc-error") != -1) {
                     DebugLog.printAriDebug(fnName, "Error from device: Response from device had 'rpc-error'");
                     DebugLog.printAriDebug(fnName, "response=\n" + response + "\n");
