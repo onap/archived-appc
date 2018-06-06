@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_a4711246",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-06T11:46:49Z",
+      "side": 1,
+      "message": "Fixed. Moved this line to initialize() method.",
+      "parentUuid": "5a93c517_38d52bb9",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_98e31fa4",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogFactory.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-06-05T19:39:21Z",
       "side": 1,
       "message": "The 2017 shouldn\u0027t be removed here. You actually don\u0027t have to update these at all, if you\u0027re not in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_84741637",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-06T11:46:49Z",
+      "side": 1,
+      "message": "Ok. Shall I remove it for TestProviderAdapterImpl,TestProviderOperation,TestServiceCatalog files as well?",
+      "parentUuid": "5a93c517_98e31fa4",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
