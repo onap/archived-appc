@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_e70ab778",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogFactory.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Reverted it to older format.",
+      "parentUuid": "5a93c517_ae1ecc0b",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_d8d9a7f5",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV3.java",
         "patchSetId": 2
@@ -101,6 +119,24 @@
       "writtenOn": "2018-06-05T19:39:21Z",
       "side": 1,
       "message": "The 2017 shouldn\u0027t be removed here. You actually don\u0027t have to update these at all, if you\u0027re not in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c20e8932",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Reverted it to older format.",
+      "parentUuid": "5a93c517_d8d9a7f5",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -141,6 +177,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_82188176",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Reverted it to older format.",
+      "parentUuid": "5a93c517_b8e05b97",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_eedb744d",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
         "patchSetId": 2
@@ -158,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_a7c82f57",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "In the older code, it is defined before the while loop. All I have done is moved the line 163 from initialize() to constructor.",
+      "parentUuid": "5a93c517_eedb744d",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_cee23801",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/RequestFailedExceptionTest.java",
         "patchSetId": 2
@@ -169,6 +241,24 @@
       "writtenOn": "2018-06-06T19:11:47Z",
       "side": 1,
       "message": "maybe add a value for server so can then assert that it was properly saved",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c7c53b3e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/RequestFailedExceptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "This test case is used to assert the Request Failed Exception class without server object and checks how it behaves in this scenario. Hence server value is made as NULL.",
+      "parentUuid": "5a93c517_cee23801",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -210,6 +300,42 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_e7fcf774",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "No. It wont work that way. We get compile time error \"Wildcard is not allowed at this location\"",
+      "parentUuid": "5a93c517_ae3d6c2e",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_022471ad",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "5a93c517_78f2d370",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_ae7a4c23",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
         "patchSetId": 2
@@ -221,6 +347,24 @@
       "writtenOn": "2018-06-06T19:11:47Z",
       "side": 1,
       "message": "is cast needed?",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0702436f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Not required. Fixed",
+      "parentUuid": "5a93c517_ae7a4c23",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -261,6 +405,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_c7f3fb9d",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "No. It wont work that way. We get compile time error \"Wildcard is not allowed at this location\"",
+      "parentUuid": "5a93c517_6e4764bd",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_4ec068e0",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestServiceCatalogV2.java",
         "patchSetId": 2
@@ -272,6 +434,24 @@
       "writtenOn": "2018-06-06T19:11:47Z",
       "side": 1,
       "message": "a method like this appears in a number of test classes - perhaps extract it into a common test-utility class.  Maybe two flavors, one version that takes a Class and another that does not.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_073fa3d7",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestServiceCatalogV2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Moved to CommonUtility class",
+      "parentUuid": "5a93c517_4ec068e0",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -295,6 +475,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_87edf3b9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestServiceCatalogV2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "This test case is ignored and I have no intention of fixing it as it deals with live open stack connection which I don\u0027t have. I will revert the changes I made on this test case.",
+      "parentUuid": "5a93c517_ee6b74ef",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_2e495c8e",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestTenantCache.java",
         "patchSetId": 2
@@ -312,6 +510,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_674787bd",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestTenantCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Do you want me to remove testDestroy() test case?",
+      "parentUuid": "5a93c517_2e495c8e",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_d800c737",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
         "patchSetId": 2
@@ -323,6 +539,24 @@
       "writtenOn": "2018-06-05T19:39:21Z",
       "side": 1,
       "message": "This should be \"2017-2018\", but you don\u0027t have to update it at all if you aren\u0027t in one of these companies.",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_874413b8",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T13:30:13Z",
+      "side": 1,
+      "message": "Reverted it to older format",
+      "parentUuid": "5a93c517_d800c737",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
