@@ -16,6 +16,24 @@
       "revId": "3220e1a05347b868ddf86762f508b3b0a61c86c4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_028791d8",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T16:24:28Z",
+      "side": 1,
+      "message": "Probably I may be wrong but the reason why I moved this to constructor is to test the code written in while loop in initialize(). In the original code, I can not able to inject the mock catalog object into initialize() because the object is created within initialize().\nCan you suggest me a better way to inject the mock catalog object into Tenant Cache class?",
+      "parentUuid": "5a93c517_a2c25d84",
+      "revId": "3220e1a05347b868ddf86762f508b3b0a61c86c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
