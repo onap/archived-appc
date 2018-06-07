@@ -55,6 +55,42 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_58fef706",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_550482c5",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_582597ac",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_12f29006",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_d5cc128d",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
         "patchSetId": 1
@@ -66,6 +102,24 @@
       "writtenOn": "2018-06-05T15:55:21Z",
       "side": 1,
       "message": "remove surround try/catch",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7803b30d",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_d5cc128d",
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -89,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_38244bae",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_b5a86678",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_35ebf6b1",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
         "patchSetId": 1
@@ -100,6 +172,24 @@
       "writtenOn": "2018-06-05T15:55:21Z",
       "side": 1,
       "message": "don\u0027t catch.  This comment applies to multiple places",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b8185b76",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_35ebf6b1",
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -123,6 +213,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_89c2ef32",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_f5f34e9d",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_95476abc",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
         "patchSetId": 1
@@ -134,6 +242,24 @@
       "writtenOn": "2018-06-05T15:55:21Z",
       "side": 1,
       "message": "same comments regarding catching exceptions as stated in TestProviderOperation.java",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_69e1a3cf",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_95476abc",
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -157,6 +283,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_49dce718",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_75641e49",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_f5682e23",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
         "patchSetId": 1
@@ -168,6 +312,24 @@
       "writtenOn": "2018-06-05T15:55:21Z",
       "side": 1,
       "message": "wrap with assertNull()",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_49038776",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_f5682e23",
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -191,6 +353,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_692f63f7",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_f5d6eec2",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_b5f70659",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
         "patchSetId": 1
@@ -202,6 +382,24 @@
       "writtenOn": "2018-06-05T15:55:21Z",
       "side": 1,
       "message": "is it possible to add more states to the argument list and then verify that they\u0027re all added to RequestState?",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_27edff8e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_b5f70659",
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -225,6 +423,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_495f0776",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_9591aaf3",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_95568a29",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
         "patchSetId": 1
@@ -236,6 +452,24 @@
       "writtenOn": "2018-06-05T15:55:21Z",
       "side": 1,
       "message": "Not sure how long this test takes.  However, it would be good to hook the code so that System.currentTimeInMillis \u0026 Thread.sleep() can be overridden by this test case and turned into a few semaphore operations instead - thus eliminating the sleep altogether.  Could replace the calls with static method calls than can then be overridden with powermock, though I\u0027ve heard that code coverage may not work correctly with powermock - I typically use static Factory objects to provide hooks and then override the factory during junit testing",
+      "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_87e09397",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-07T12:07:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_95568a29",
       "revId": "2d068d7bdd3f0b46ee5c5d944b13e7e444af3c95",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
