@@ -160,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_e2cf0528",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV3.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T16:24:28Z",
+      "side": 1,
+      "message": "Yeah. You are right. Fixed.",
+      "parentUuid": "5a93c517_8e1510e7",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_b8e05b97",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
         "patchSetId": 2
@@ -424,6 +442,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_82ede1b9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T16:24:28Z",
+      "side": 1,
+      "message": "I didn\u0027t fix this one yet. I\u0027m working on..",
+      "parentUuid": "5a93c517_02455116",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6e4764bd",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderCache.java",
         "patchSetId": 2
@@ -576,6 +612,24 @@
       "side": 1,
       "message": "I meant remove the \"verify().destroy()\" line, as we already know that \"destroy()\" was called because that\u0027s what is invoked in line 139 - unless we\u0027re trying to verify that \"destroy()\" doesn\u0027t call itself recursively.  Similar comment for subsequent tests.",
       "parentUuid": "5a93c517_674787bd",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0239d140",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestTenantCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-07T16:24:28Z",
+      "side": 1,
+      "message": "I agree but the destroy() is a void method. We can not assert the void method in junit so just to make sure that the junit invoked the method I have added the verify().\nI will remove it now.",
+      "parentUuid": "5a93c517_6253f5e2",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
