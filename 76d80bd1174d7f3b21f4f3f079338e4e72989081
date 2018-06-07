@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a23fbdb4",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T13:53:50Z",
+      "side": 1,
+      "message": "not sure if sonar complains about test code, but this should be split onto separate lines, or use \"forEach()\".",
+      "revId": "76d80bd1174d7f3b21f4f3f079338e4e72989081",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_025b112f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T13:53:50Z",
+      "side": 1,
+      "message": "this could be removed",
+      "revId": "76d80bd1174d7f3b21f4f3f079338e4e72989081",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c263e9db",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T13:53:50Z",
+      "side": 1,
+      "message": "this \"assertNull\" should be around the call in the next test case instead, testLookupServerContextConnectionException.",
+      "revId": "76d80bd1174d7f3b21f4f3f079338e4e72989081",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_429fd9b4",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T13:53:50Z",
+      "side": 1,
+      "message": "either remove the try/catch wrapper, or add fail() before the catch block",
+      "revId": "76d80bd1174d7f3b21f4f3f079338e4e72989081",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
