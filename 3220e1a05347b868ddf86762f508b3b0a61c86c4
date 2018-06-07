@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_a2c25d84",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T14:32:20Z",
+      "side": 1,
+      "message": "This code should probably be moved back to initialize().  In the original code, setTenantId() or setTenantName() was probably called before initialize(), thus \"tenant\" would have taken a value from one of them.  By moving it to the constructor, however, those values will be null at this point, and thus \"tenant\" will also be null, which is probably not what is wanted when getServiceCatalog() is invoked.\n\nIf I\u0027m mistaken, and setTenantXx() is not called before initialize(), then this line should be removed altogether and \"tenant\" replaced with \"null\" in the following call to getServiceCatalog(), so as to make it clear that that is the parameter that is being passed.",
+      "revId": "3220e1a05347b868ddf86762f508b3b0a61c86c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
