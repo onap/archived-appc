@@ -265,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_62bc5507",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/RequestFailedExceptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T14:32:20Z",
+      "side": 1,
+      "message": "Oh, duh, you\u0027re absolutely right.",
+      "parentUuid": "5a93c517_c7c53b3e",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_78f2d370",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
         "patchSetId": 2
@@ -382,6 +400,24 @@
       "writtenOn": "2018-06-06T19:11:47Z",
       "side": 1,
       "message": "Refactor and extract this chunk of code that\u0027s repeated in subsequent test cases, with just minor parameter changes.  In fact, the adapter method to invoke could also be passed as a functional argument (e.g., Adapter::restartServer)",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_02455116",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T14:32:20Z",
+      "side": 1,
+      "message": "This still needs to be done.  Using such a method, most of these test cases could be turned into one-liners.",
+      "parentUuid": "5a93c517_8ea8b078",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -522,6 +558,24 @@
       "side": 1,
       "message": "Do you want me to remove testDestroy() test case?",
       "parentUuid": "5a93c517_2e495c8e",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6253f5e2",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestTenantCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-07T14:32:20Z",
+      "side": 1,
+      "message": "I meant remove the \"verify().destroy()\" line, as we already know that \"destroy()\" was called because that\u0027s what is invoked in line 139 - unless we\u0027re trying to verify that \"destroy()\" doesn\u0027t call itself recursively.  Similar comment for subsequent tests.",
+      "parentUuid": "5a93c517_674787bd",
       "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
