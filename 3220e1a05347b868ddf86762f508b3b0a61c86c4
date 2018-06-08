@@ -34,6 +34,24 @@
       "revId": "3220e1a05347b868ddf86762f508b3b0a61c86c4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_35fc483f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/TenantCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-08T14:00:11Z",
+      "side": 1,
+      "message": "The way I normally get around that is to extract the call into a separate method that can be overridden during junit.  If powermock provided coverage, then I\u0027d move the call into a static method and use powermock to override it.  However, without powermock, the way I normally do it is to create a nested static Factory class and a static Factory object that, by default, points to a real Factory object.  That class would have a method that wraps the call to \"ServiceCatalogFactory.getServiceCatalog(...)\".  I would also add protected getFactory and setFactory methods so that the junit could save the original factory (in @BeforeClass), replace it with a mock (in @Before), and then restore it (in @AfterClass) once the tests complete.  A little kludgy, but it works.\n\nUnfortunately, as it is, I\u0027m pretty sure the code will not work.",
+      "parentUuid": "5a93c517_028791d8",
+      "revId": "3220e1a05347b868ddf86762f508b3b0a61c86c4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
