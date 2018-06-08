@@ -1,4 +1,4 @@
-.. ============LICENSE_START==========================================
+﻿.. ============LICENSE_START==========================================
 .. ===================================================================
 .. Copyright © 2017-2018 AT&T Intellectual Property. All rights reserved.
 .. ===================================================================
@@ -98,7 +98,7 @@ The following defects that were documented as known issues in Amsterdam have bee
 
 	- `APPC-315 <https://jira.onap.org/browse/APPC-315>`_ - appc-request-handler is giving error java.lang.NoClassDefFoundError 
 
-	- `APPC-312 <https://jira.onap.org/browse/APPC-312>`_ - APPC request is going to wrong request handler and rejecting request. 
+	- `APPC-312 <https://jira.onap.org/browse/APPC-312>`_ - APPC request is going to wrong request handler and rejecting request
 
 	- `APPC-311 <https://jira.onap.org/browse/APPC-311>`_ - The APPC LCM Provider Healthcheck
 
@@ -115,13 +115,19 @@ The following defects that were documented as known issues in Amsterdam have bee
 
 The following issues remain open at the end of Beijing release. Please refer to Jira for further details and workaround, if available.
 
+        - `APPC-987 <https://jira.onap.org/browse/APPC-987>`_ - APPC Investigate TRANSACTION Table Aging. See **Other** section for further information
+	
+	- `APPC-977 <https://jira.onap.org/browse/APPC-977>`_ - Procedures needed for enabling AAF support in OOM. See **Other** section for further information
+	
+        - `APPC-973 <https://jira.onap.org/browse/APPC-973>`_ - Fix delimiter string for xml-download CDT action
+	
 	- `APPC-940 <https://jira.onap.org/browse/APPC-940>`_ - APPC CDT Tool is not updating appc_southbound.properties with the URL supplied for REST
 
-    - `APPC-929 <https://jira.onap.org/browse/APPC-929>`_ - LCM API - ConfigScaleOut- Payload parameter to be manadatory - "true"
+        - `APPC-929 <https://jira.onap.org/browse/APPC-929>`_ - LCM API - ConfigScaleOut- Payload parameter to be manadatory set to "true"
  
 	- `APPC-912 <https://jira.onap.org/browse/APPC-912>`_ - MalformedChunkCodingException in MDSALStoreImpl.getNodeName
 	
-	- `APPC-892 <https://jira.onap.org/browse/APPC-892>`_ - Cntl+4 to highlight and replace feature- Textbox is accepting space  and able to submit without giving any value
+	- `APPC-892 <https://jira.onap.org/browse/APPC-892>`_ - Cntl+4 to highlight and replace feature-Textbox is accepting space  and able to submit without giving any value
 
 	- `APPC-869 <https://jira.onap.org/browse/APPC-869>`_ - VM Snapshot error occurs during image validation.
 	
@@ -150,12 +156,26 @@ Quick Links:
 
 - Limitations, Constraints and other worthy notes
 
-	  - It is impossible for us to test all aspect of the application. Scope of testing done in Beijing is captured on the following wiki:   https://wiki.onap.org/display/DW/APPC+Beijing+Testing+Scope+and+Status
-	  - Currently APPC only supports OpenStack
-	  - OpenStack Hypervisorcheck is turned off by default. If you want to invoke this functionality via the appc.properties, you need to enable it and ensure you have Admin level access to OpenStack.
-	  - Integration with MultiCloud is supported for Standalone Restart (i.e., not via DGOrchestrator). For any other action, such as Stop, Start, etc.. via MultiCloud requires the MultiCloud identity URL to be either passed in the payload or defined in appc.properties.
-	  - APPC needs Admin level access for Tenant level operations. 
-	  - Currently, the "ModifyConfig" API and the implementation in the Master Directed Graph is only designed to work with the vFW Closed-Loop Demo.
+	- An issue was discovered with usage of AAF in an OOM deployed environment after the Beijing release was created. The issue was twofold (tracked under `APPC-977 <https://jira.onap.org/browse/APPC-977>`_):
+	  
+	     - Needed APPC configuration files were missing in Beijing OOM , and 
+	     - AAF updated their certificates to require 2way certs, which requires APPC updates 
+		 
+          Additionally, in a Heat deployed environment, a manual workaround will be required to authorize with AAF if they are using 2way certificates.  For instruction on workaround steps needed depending on type of deployment, please refer to the following wiki: https://wiki.onap.org/display/DW/AAF+Integration+with+APPC.  
+
+        - During the testing of the vCPE/vMUX closed loop scenarios in an OOM deployed environment, an issue was encountered where transactions were not being deleted from the TRANSACTION table and was blocking other Restart request from completing successfully (tracked under `APPC-987 <https://jira.onap.org/browse/APPC-987>`_). A workaround is available and documented in the Jira ticket.
+
+        - It is impossible for us to test all aspect of the application. Scope of testing done in Beijing is captured on the following wiki:   https://wiki.onap.org/display/DW/APPC+Beijing+Testing+Scope+and+Status
+	  
+	- Currently APPC only supports OpenStack
+	  
+	- OpenStack Hypervisorcheck is turned off by default. If you want to invoke this functionality via the appc.properties, you need to enable it and ensure you have Admin level access to OpenStack.
+	  
+	- Integration with MultiCloud is supported for Standalone Restart (i.e., not via DGOrchestrator). For any other action, such as Stop, Start, etc.. via MultiCloud requires the MultiCloud identity URL to be either passed in the payload or defined in appc.properties.
+	  
+	- APPC needs Admin level access for Tenant level operations. 
+	  
+	- Currently, the "ModifyConfig" API and the implementation in the Master Directed Graph is only designed to work with the vFW Closed-Loop Demo.
   
 
 Version: 1.2.0
@@ -175,7 +195,6 @@ The main goal of the Amsterdam release was to:
  - Continue supporting the vFW closed loop use case as part of regression from the seed contribution. 
 
 Other key features added in this release include:
-
  - Support for Ansible 
    - The Ansible Extension for APP-C allows management of VNFs that support Ansible. Ansible is a an open-source VNF management framework that provides an almost cli like set of tools in a structured form. APPC supports Ansible through the following three additions: An Ansible server interface, Ansible Adapter, and Ansible Directed Graph. 
  - Support for Chef 
@@ -187,6 +206,7 @@ Other key features added in this release include:
 
 
 **Bug Fixes**
+
 	- This is technically the first release of APPC, previous release was the seed code contribution. As such, the defects fixed in this release were raised during the course of the release. Anything not closed is captured below under Known Issues. If you want to review the defects fixed in the Amsterdam release, refer to `Jira <https://jira.onap.org/issues/?filter=10570&jql=project%20%3D%20APPC%20AND%20issuetype%20%3D%20Bug%20AND%20status%20%3D%20Closed%20AND%20fixVersion%20%3D%20%22Amsterdam%20Release%22>`_. 
 	
 	- Please also refer to the notes below. Given the timeframe and resource limitations, not all functions of the release could be validated. Items that were validated are documented on the wiki at the link provide below. If you find issues in the course of your work with APPC, please open a defect in the Application Controller project of Jira (jira.onpa.org)
