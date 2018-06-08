@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f5dee0d9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-08T13:56:16Z",
+      "side": 1,
+      "message": "no wildcard imports. here is the google Java Style Guide you could follow: http://checkstyle.sourceforge.net/reports/google-java-style-20170228.html#s3.3-import-statements",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "35cb48087d77b35fd7a9f2c20b11d104a2b5fb06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_95ed1c91",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderServerOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-08T13:56:16Z",
+      "side": 1,
+      "message": "no wildcard import",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 36
+      },
+      "revId": "35cb48087d77b35fd7a9f2c20b11d104a2b5fb06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b5f05867",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/TestProviderStackOperation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-08T13:56:16Z",
+      "side": 1,
+      "message": "no wildcard imports",
+      "range": {
+        "startLine": 21,
+        "startChar": 30,
+        "endLine": 21,
+        "endChar": 33
+      },
+      "revId": "35cb48087d77b35fd7a9f2c20b11d104a2b5fb06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
