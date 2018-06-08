@@ -460,6 +460,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_75289033",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-08T11:01:29Z",
+      "side": 1,
+      "message": "Refactored it. Is it ok now?",
+      "parentUuid": "5a93c517_82ede1b9",
+      "revId": "ebeba8c73590fb753a0b2d5f7446d04e97f0e4fd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_6e4764bd",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/impl/TestProviderCache.java",
         "patchSetId": 2
