@@ -28,7 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.Mockito;
 import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
@@ -61,174 +61,172 @@ import static org.powermock.api.mockito.PowerMockito.verifyPrivate;
 import static org.powermock.api.mockito.PowerMockito.verifyStatic;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ExecuteNodeActionImpl.class, FrameworkUtil.class, Thread.class})
+@PrepareForTest({ FrameworkUtil.class, Thread.class })
 public class ExecuteNodeActionImplTest {
-    @Spy
-    private ExecuteNodeActionImpl mockedExecuteNodeActionImpl = new ExecuteNodeActionImpl();
-    @Mock
-    private EELFLogger eelfLogger;
-    @Mock
-    private AAIService aaiService;
+	private ExecuteNodeActionImpl mockedExecuteNodeActionImpl = PowerMockito.spy(new ExecuteNodeActionImpl());
+	@Mock
+	private EELFLogger eelfLogger;
+	@Mock
+	private AAIService aaiService;
 
-    private final String resourceType = "resourceType";
-    private final String prefix = "prefix";
-    private final String resourceKey = "resourceKey";
-    private final String attributeName = "attributeName";
-    private final String attributeValue = "attributeValue";
+	private final String resourceType = "resourceType";
+	private final String prefix = "prefix";
+	private final String resourceKey = "resourceKey";
+	private final String attributeName = "attributeName";
+	private final String attributeValue = "attributeValue";
 
-    private Map<String, String> params = new HashMap<>();
-    private SvcLogicContext svcLogicContext = new SvcLogicContext();
-    private SvcLogicResource.QueryStatus queryStatus = SvcLogicResource.QueryStatus.SUCCESS;
+	private Map<String, String> params = new HashMap<>();
+	private SvcLogicContext svcLogicContext = new SvcLogicContext();
+	private SvcLogicResource.QueryStatus queryStatus = SvcLogicResource.QueryStatus.SUCCESS;
 
+	@Before
+	public void setUp() throws Exception {
+		Whitebox.setInternalState(mockedExecuteNodeActionImpl, "aaiService", aaiService);
 
-    @Before
-    public void setUp() throws Exception {
-        Whitebox.setInternalState(mockedExecuteNodeActionImpl, "aaiService", aaiService);
+		params.put("resourceType", resourceType);
+		params.put("prefix", prefix);
+		params.put("resourceKey", resourceKey);
+		params.put("attributeName", attributeName);
+		params.put("attributeValue", attributeValue);
+	}
 
-        params.put("resourceType", resourceType);
-        params.put("prefix", prefix);
-        params.put("resourceKey", resourceKey);
-        params.put("attributeName", attributeName);
-        params.put("attributeValue", attributeValue);
-    }
+	@Test
+	public void testGetAAIservice() throws Exception {
+		// sref is not null
+		mockStatic(FrameworkUtil.class);
+		Bundle mockedBundle = mock(Bundle.class);
+		BundleContext mockedBundleContext = mock(BundleContext.class);
+		ServiceReference mockedServiceReference = mock(ServiceReference.class);
+		PowerMockito.when(FrameworkUtil.getBundle(AAIService.class)).thenReturn(mockedBundle);
+		PowerMockito.doReturn(mockedBundleContext).when(mockedBundle).getBundleContext();
+		PowerMockito.doReturn(mockedServiceReference).when(mockedBundleContext)
+				.getServiceReference(AAIService.class.getName());
 
-    @Test
-    public void testInitialize() throws Exception {
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "getAAIservice");
-        Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "initialize");
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("getAAIservice");
-    }
+		Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "initialize");
+		verify(mockedBundleContext, times(1)).getService(mockedServiceReference);
 
-    @Test
-    public void testGetAAIservice() throws Exception {
-        // sref is not null
-        mockStatic(FrameworkUtil.class);
-        Bundle mockedBundle = mock(Bundle.class);
-        BundleContext mockedBundleContext = mock(BundleContext.class);
-        ServiceReference mockedServiceReference = mock(ServiceReference.class);
-        PowerMockito.when(FrameworkUtil.getBundle(AAIService.class)).thenReturn(mockedBundle);
-        PowerMockito.doReturn(mockedBundleContext).when(mockedBundle).getBundleContext();
-        PowerMockito.doReturn(mockedServiceReference).when(mockedBundleContext)
-            .getServiceReference(AAIService.class.getName());
+		// sref is null
+		PowerMockito.doReturn(null).when(mockedBundleContext).getServiceReference(AAIService.class.getName());
+		Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "getAAIservice");
+		verify(mockedBundleContext, times(1)).getService(mockedServiceReference);
+	}
 
-        Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "getAAIservice");
-        verify(mockedBundleContext, times(1)).getService(mockedServiceReference);
+	@Test
+	public void testWaitMethod() throws Exception {
+		mockStatic(Thread.class);
+		params.put("waitTime", "1");
+		mockedExecuteNodeActionImpl.waitMethod(params, svcLogicContext);
+		verifyStatic(times(1));
+	}
 
-        // sref is null
-        PowerMockito.doReturn(null).when(mockedBundleContext)
-            .getServiceReference(AAIService.class.getName());
-        Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "getAAIservice");
-        verify(mockedBundleContext, times(1)).getService(mockedServiceReference);
-    }
+	@Test
+	public void testGetResource() throws Exception {
+		AAIService aaiService = setupForResourceTests();
+		PowerMockito.doReturn(queryStatus).when(aaiService).query(Mockito.<String>any(), Mockito.anyBoolean(),
+				Mockito.<String>any(), Mockito.<String>any(), Mockito.<String>any(), Mockito.<String>any(),
+				Mockito.any(SvcLogicContext.class));
 
-    @Test
-    public void testWaitMethod() throws Exception {
-        mockStatic(Thread.class);
-        params.put("waitTime", "1");
-        mockedExecuteNodeActionImpl.waitMethod(params, svcLogicContext);
-        verifyStatic(times(1));
-    }
+		mockedExecuteNodeActionImpl.getResource(params, svcLogicContext);
 
-    @Test
-    public void testGetResource() throws Exception {
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "initialize");
-        PowerMockito.doReturn(queryStatus).when(aaiService).query(resourceType, false, null,
-            resourceKey, prefix, null, svcLogicContext);
+		verify(aaiService, times(1)).query(resourceType, false, null, resourceKey, prefix, null, svcLogicContext);
+		assertEquals(queryStatus.toString(), svcLogicContext.getAttribute("getResource_result"));
+	}
 
-        mockedExecuteNodeActionImpl.getResource(params, svcLogicContext);
+	@Test
+	public void testPostResource() throws Exception {
+		AAIService aaiService = setupForResourceTests();
+		PowerMockito.doReturn(queryStatus).when(aaiService).update(eq(resourceType), eq(resourceKey), anyMap(),
+				eq(prefix), eq(svcLogicContext));
 
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("initialize");
-        verify(aaiService, times(1)).query(resourceType, false, null,
-            resourceKey, prefix, null, svcLogicContext);
-        assertEquals(queryStatus.toString(), svcLogicContext.getAttribute("getResource_result"));
-    }
+		mockedExecuteNodeActionImpl.postResource(params, svcLogicContext);
 
-    @Test
-    public void testPostResource() throws Exception {
+		verify(aaiService, times(1)).update(eq(resourceType), eq(resourceKey), anyMap(), eq(prefix),
+				eq(svcLogicContext));
+		assertEquals(svcLogicContext.getAttribute("postResource_result"), queryStatus.toString());
+	}
 
+	@Test
+	public void testDeleteResource() throws Exception {
+		AAIService aaiService = setupForResourceTests();
 
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "initialize");
-        PowerMockito.doReturn(queryStatus).when(aaiService).update(eq(resourceType), eq(resourceKey), anyMap(),
-            eq(prefix), eq(svcLogicContext));
+		PowerMockito.doReturn(queryStatus).when(aaiService).delete(eq(resourceType), eq(resourceKey),
+				eq(svcLogicContext));
 
-        mockedExecuteNodeActionImpl.postResource(params, svcLogicContext);
+		mockedExecuteNodeActionImpl.deleteResource(params, svcLogicContext);
 
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("initialize");
-        verify(aaiService, times(1)).update(eq(resourceType), eq(resourceKey), anyMap(),
-            eq(prefix), eq(svcLogicContext));
-        assertEquals(svcLogicContext.getAttribute("postResource_result"), queryStatus.toString());
-    }
+		verify(aaiService, times(1)).delete(eq(resourceType), eq(resourceKey), eq(svcLogicContext));
+		assertEquals(svcLogicContext.getAttribute("deleteResource_result"), queryStatus.toString());
+	}
 
-    @Test
-    public void testDeleteResource() throws Exception {
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "initialize");
+	@Test
+	public void testGetVnfHierarchySuccess() throws Exception {
+		Map<String, Set<String>> vnfcHierarchyMap = new HashMap<>();
+		Set<String> vServersList = new HashSet<>();
+		vnfcHierarchyMap.put("SMP", vServersList);
+		vServersList.add("smp-0-url");
+		vServersList.add("smp-1-url");
 
-        PowerMockito.doReturn(queryStatus).when(aaiService).delete(eq(resourceType), eq(resourceKey),
-            eq(svcLogicContext));
+		AAIService aaiService = setupForResourceTests();
+		
+		PowerMockito.doReturn(queryStatus).when(aaiService).query(Mockito.<String>any(), Mockito.anyBoolean(),
+				Mockito.<String>any(), Mockito.<String>any(), Mockito.<String>any(), Mockito.<String>any(),
+				Mockito.any(SvcLogicContext.class));
 
-        mockedExecuteNodeActionImpl.deleteResource(params, svcLogicContext);
+		mockedExecuteNodeActionImpl.getVnfHierarchy(params, svcLogicContext);
 
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("initialize");
-        verify(aaiService, times(1)).delete(eq(resourceType), eq(resourceKey),
-            eq(svcLogicContext));
-        assertEquals(svcLogicContext.getAttribute("deleteResource_result"), queryStatus.toString());
-    }
+		assertEquals("0", svcLogicContext.getAttribute("VNF.VNFCCount"));
+		assertEquals("SUCCESS", svcLogicContext.getAttribute("getVnfHierarchy_result"));
+	}
 
-    @Test
-    public void testGetVnfHierarchySuccess() throws Exception {
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "initialize");
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "populateVnfcsDetailsinContext", anyMap(), eq
-            (svcLogicContext));
-        PowerMockito.when(aaiService.query(any(), eq(false), anyString(), any(), any(), anyString(),
-            any(SvcLogicContext.class))).thenReturn(queryStatus);
+	@Test(expected = APPCException.class)
+	public void testGetVnfHierarchyFailure() throws Exception {
+		queryStatus = SvcLogicResource.QueryStatus.FAILURE;
+		AAIService aaiService = setupForResourceTests();
+		PowerMockito.doReturn(queryStatus).when(aaiService).query(Mockito.<String>any(), Mockito.anyBoolean(),
+				Mockito.<String>any(), Mockito.<String>any(), Mockito.<String>any(), Mockito.<String>any(),
+				Mockito.any(SvcLogicContext.class));
 
-        mockedExecuteNodeActionImpl.getVnfHierarchy(params, svcLogicContext);
+		mockedExecuteNodeActionImpl.getVnfHierarchy(params, svcLogicContext);
 
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("initialize");
-        assertEquals("0", svcLogicContext.getAttribute("VNF.VNFCCount"));
-        assertEquals("SUCCESS", svcLogicContext.getAttribute("getVnfHierarchy_result"));
-    }
+		assertEquals("0", svcLogicContext.getAttribute("VNF.VNFCCount"));
+		assertEquals("FAILURE", svcLogicContext.getAttribute("getVnfHierarchy_result"));
+		assertTrue(svcLogicContext.getAttribute("output.status.message") != null);
+	}
 
-    @Test(expected = APPCException.class)
-    public void testGetVnfHierarchyFailure() throws Exception {
-        queryStatus = SvcLogicResource.QueryStatus.FAILURE;
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "initialize");
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "populateVnfcsDetailsinContext", anyMap(),
-            eq(svcLogicContext));
-        PowerMockito.when(aaiService.query(any(), eq(false), anyString(), any(), any(), anyString(),
-            any(SvcLogicContext.class))).thenReturn(queryStatus);
+	@Test
+	public void testPopulateVnfcsDetailsinContext() throws Exception {
+		Map<String, Set<String>> vnfcHierarchyMap = new HashMap<>();
+		Set<String> vServersList = new HashSet<>();
+		vnfcHierarchyMap.put("SMP", vServersList);
+		vServersList.add("smp-0-url");
+		vServersList.add("smp-1-url");
 
-        mockedExecuteNodeActionImpl.getVnfHierarchy(params, svcLogicContext);
+		AAIService aaiService = setupForResourceTests();
+		PowerMockito.when(aaiService.query(eq("vnfc"), eq(false), anyString(), eq("vnfc-name = 'SMP'"),
+				eq("vnfcRetrived"), anyString(), any(SvcLogicContext.class))).thenReturn(queryStatus);
 
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("initialize");
-        assertEquals("0", svcLogicContext.getAttribute("VNF.VNFCCount"));
-        assertEquals("FAILURE", svcLogicContext.getAttribute("getVnfHierarchy_result"));
-        assertTrue(svcLogicContext.getAttribute("output.status.message") != null);
-    }
+		Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "populateVnfcsDetailsinContext", vnfcHierarchyMap,
+				svcLogicContext);
 
-    @Test
-    public void testPopulateVnfcsDetailsinContext() throws Exception {
-        Map<String, Set<String>> vnfcHierarchyMap = new HashMap<>();
-        Set<String> vServersList = new HashSet<>();
-        vnfcHierarchyMap.put("SMP", vServersList);
-        vServersList.add("smp-0-url");
-        vServersList.add("smp-1-url");
-
-        PowerMockito.doNothing().when(mockedExecuteNodeActionImpl, "initialize");
-        PowerMockito.when(aaiService.query(eq("vnfc"), eq(false), anyString(),
-            eq("vnfc-name = 'SMP'"), eq("vnfcRetrived"), anyString(), any(SvcLogicContext.class)))
-            .thenReturn(queryStatus);
-
-        Whitebox.invokeMethod(mockedExecuteNodeActionImpl, "populateVnfcsDetailsinContext",
-            vnfcHierarchyMap, svcLogicContext);
-
-        verify(mockedExecuteNodeActionImpl, times(1)).getResource(anyMap(),
-            any(SvcLogicContext.class));
-        verifyPrivate(mockedExecuteNodeActionImpl, times(1)).invoke("initialize");
-        assertEquals(null, svcLogicContext.getAttribute("VNF.VNFC[0].TYPE"));
-        assertEquals(null, svcLogicContext.getAttribute("VNF.VNFC[0].NAME"));
-        assertEquals("2", svcLogicContext.getAttribute("VNF.VNFC[0].VM_COUNT"));
-        assertTrue(vServersList.contains(svcLogicContext.getAttribute("VNF.VNFC[0].VM[0].URL")));
-        assertTrue(vServersList.contains(svcLogicContext.getAttribute("VNF.VNFC[0].VM[1].URL")));
-    }
+		verify(mockedExecuteNodeActionImpl, times(1)).getResource(anyMap(), any(SvcLogicContext.class));
+		assertEquals(null, svcLogicContext.getAttribute("VNF.VNFC[0].TYPE"));
+		assertEquals(null, svcLogicContext.getAttribute("VNF.VNFC[0].NAME"));
+		assertEquals("2", svcLogicContext.getAttribute("VNF.VNFC[0].VM_COUNT"));
+		assertTrue(vServersList.contains(svcLogicContext.getAttribute("VNF.VNFC[0].VM[0].URL")));
+		assertTrue(vServersList.contains(svcLogicContext.getAttribute("VNF.VNFC[0].VM[1].URL")));
+	}
+	
+	private AAIService setupForResourceTests() {
+		mockStatic(FrameworkUtil.class);
+		Bundle mockedBundle = mock(Bundle.class);
+		BundleContext mockedBundleContext = mock(BundleContext.class);
+		ServiceReference mockedServiceReference = mock(ServiceReference.class);
+		PowerMockito.when(FrameworkUtil.getBundle(AAIService.class)).thenReturn(mockedBundle);
+		PowerMockito.doReturn(mockedBundleContext).when(mockedBundle).getBundleContext();
+		PowerMockito.doReturn(mockedServiceReference).when(mockedBundleContext)
+				.getServiceReference(AAIService.class.getName());
+		AAIService aaiService = PowerMockito.mock(AAIService.class);
+		PowerMockito.doReturn(aaiService).when(mockedBundleContext).getService(mockedServiceReference);
+		return aaiService;
+	}
 }
