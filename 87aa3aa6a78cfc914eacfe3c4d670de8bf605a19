@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_8937414d",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-12T18:46:29Z",
+      "side": 1,
+      "message": "don\u0027t use tab. use 4+ spaces. https://wiki.onap.org/display/DW/Java+code+style",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "87aa3aa6a78cfc914eacfe3c4d670de8bf605a19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_09bed1ae",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
         "patchSetId": 1
