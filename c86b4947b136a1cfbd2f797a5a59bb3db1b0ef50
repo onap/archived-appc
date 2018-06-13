@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_8d08a429",
+        "filename": "appc-config/appc-data-services/installer/src/assembly/assemble_installer_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-13T18:57:54Z",
+      "side": 1,
+      "message": "missing 2018",
+      "revId": "c86b4947b136a1cfbd2f797a5a59bb3db1b0ef50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4d129c59",
+        "filename": "appc-config/appc-data-services/installer/src/assembly/assemble_mvnrepo_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-13T18:57:54Z",
+      "side": 1,
+      "message": "missing 2018",
+      "revId": "c86b4947b136a1cfbd2f797a5a59bb3db1b0ef50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6d0d1835",
+        "filename": "appc-config/appc-encryption-tool/installer/src/assembly/assemble_installer_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-13T18:57:54Z",
+      "side": 1,
+      "message": "missing 2018",
+      "revId": "c86b4947b136a1cfbd2f797a5a59bb3db1b0ef50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0d1c9469",
+        "filename": "appc-config/appc-encryption-tool/installer/src/assembly/assemble_mvnrepo_zip.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-13T18:57:54Z",
+      "side": 1,
+      "message": "missing 2018",
+      "revId": "c86b4947b136a1cfbd2f797a5a59bb3db1b0ef50",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
