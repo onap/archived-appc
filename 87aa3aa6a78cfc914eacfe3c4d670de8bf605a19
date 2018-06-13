@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_92568505",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-13T08:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_8937414d",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 8
+      },
+      "revId": "87aa3aa6a78cfc914eacfe3c4d670de8bf605a19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_09bed1ae",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2018-06-12T17:52:30Z",
       "side": 1,
       "message": "where are these variables used?",
+      "revId": "87aa3aa6a78cfc914eacfe3c4d670de8bf605a19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b2594137",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-13T08:31:52Z",
+      "side": 1,
+      "message": "They were copied in error from another test, now removed in patchset 2.",
+      "parentUuid": "5a93c517_09bed1ae",
       "revId": "87aa3aa6a78cfc914eacfe3c4d670de8bf605a19",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
