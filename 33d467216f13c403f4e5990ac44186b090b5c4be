@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_2d4f1036",
+        "filename": "appc-directed-graph/dg-loader/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-13T20:30:49Z",
+      "side": 1,
+      "message": "does this file even need to be updated?",
+      "revId": "33d467216f13c403f4e5990ac44186b090b5c4be",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
