@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -18,10 +18,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
 package org.onap.appc.requesthandler.impl;
+
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -30,12 +45,9 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.domainmodel.lcm.ActionLevel;
-import org.onap.appc.domainmodel.lcm.RequestContext;
 import org.onap.appc.domainmodel.lcm.RequestStatus;
-import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
-import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.domainmodel.lcm.Status;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.requesthandler.exceptions.MultipleRecordsRetrievedException;
 import org.onap.appc.transactionrecorder.TransactionRecorder;
@@ -48,17 +60,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyCollection;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 /**
  * Test class for LocalRequestHandlerImpl
@@ -70,14 +71,14 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
     private final String vnfId = "vnfId";
     private final String subRequestId = "subRequestId";
     private final String originatorId = "originatorId";
-    private final String ACCEPTED_IN_PROGRESS_Response = "{\"status-reason\":\"ACCEPTED\"," +
-        "\"status\":\"IN_PROGRESS\"}";
-    private final String SUCCESSFUL_SUCCESSFUL_Response = "{\"status-reason\":\"SUCCESSFUL\"," +
-        "\"status\":\"SUCCESSFUL\"}";
-    private final String RECEIVED_IN_PROGRESS_Response = "{\"status-reason\":\"RECEIVED\"," +
-        "\"status\":\"IN_PROGRESS\"}";
-    private final String UNKNOWN_FAILED_Response = "{\"status-reason\":\"UNKNOWN\"," +
-        "\"status\":\"FAILED\"}";
+    private final String ACCEPTED_IN_PROGRESS_Response = "{\"status-reason\":\"ACCEPTED\","
+        + "\"status\":\"IN_PROGRESS\"}";
+    private final String SUCCESSFUL_SUCCESSFUL_Response = "{\"status-reason\":\"SUCCESSFUL\","
+        + "\"status\":\"SUCCESSFUL\"}";
+    private final String RECEIVED_IN_PROGRESS_Response = "{\"status-reason\":\"RECEIVED\","
+        + "\"status\":\"IN_PROGRESS\"}";
+    private final String UNKNOWN_FAILED_Response = "{\"status-reason\":\"UNKNOWN\","
+        + "\"status\":\"FAILED\"}";
 
     private LocalRequestHandlerImpl requestHandler;
     private TransactionRecorder recorder;
@@ -97,8 +98,8 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
         Producer producer = mock(Producer.class);
         MessageAdapterFactory factory = mock(MessageAdapterFactory.class);
         Mockito.when(myBundleContext.getService(svcRef)).thenReturn(factory);
-        Mockito.when(factory.createProducer(anyCollection(), anyString(), anyString(), anyString())).thenReturn
-            (producer);
+        Mockito.when(factory.createProducer(anyCollectionOf(String.class), anyString(), anyString(), anyString()))
+            .thenReturn(producer);
 
         requestHandler = spy(new LocalRequestHandlerImpl());
 
@@ -116,9 +117,9 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
      */
     @Test
     public void testHandleRequestSuccessfulWithSearchCriteriaOne() throws APPCException {
-        final String payload = "{\"request-id\":\"requestId\"," +
-            "\"sub-request-id\":\"subRequestId\"," +
-            "\"originator-id\":\"originatorId\"}";
+        final String payload = "{\"request-id\":\"requestId\","
+            + "\"sub-request-id\":\"subRequestId\","
+            + "\"originator-id\":\"originatorId\"}";
 
         List<RequestStatus> result = Arrays.asList(RequestStatus.SUCCESSFUL);
         PowerMockito.when(recorder.getRecords(requestId, subRequestId, originatorId, vnfId)).thenReturn(result);
@@ -135,9 +136,9 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
      */
     @Test
     public void testHandleRequestReceivedWithSearchCriteriaOne() throws APPCException {
-        final String payload = "{\"request-id\":\"requestId\"," +
-            "\"sub-request-id\":\"subRequestId\"," +
-            "\"originator-id\":\"originatorId\"}";
+        final String payload = "{\"request-id\":\"requestId\","
+            + "\"sub-request-id\":\"subRequestId\","
+            + "\"originator-id\":\"originatorId\"}";
 
         List<RequestStatus> result = Arrays.asList(RequestStatus.RECEIVED);
         PowerMockito.when(recorder.getRecords(requestId, subRequestId, originatorId, vnfId)).thenReturn(result);
@@ -154,8 +155,8 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
      */
     @Test
     public void testHandleRequestFailedWithSearchCriteriaTwo() throws APPCException {
-        final String payload = "{\"request-id\":\"requestId\"," +
-            "\"sub-request-id\":\"subRequestId\"}";
+        final String payload = "{\"request-id\":\"requestId\","
+            + "\"sub-request-id\":\"subRequestId\"}";
 
         List<RequestStatus> result = Arrays.asList(RequestStatus.UNKNOWN);
         PowerMockito.when(recorder.getRecords(requestId, subRequestId, null, vnfId)).thenReturn(result);
@@ -166,7 +167,6 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
     }
 
     @Test
-
     public void testSuccessHandleRequest() throws Exception {
         RuntimeContext runtimeContext = createRequestHandlerRuntimeContext("vnfId",
             "{\"request-id\":\"request-id\"}");
@@ -218,5 +218,25 @@ public class LocalRequestHandlerImplTest implements LocalRequestHanlderTestHelpe
         Assert.assertTrue(status.name().equals("NOT_FOUND"));
     }
 
-
+    @Test
+    public void testHandleRequestMultipleRecordException() throws Exception {
+        final EELFLogger logger = spy(EELFManager.getInstance().getLogger(LocalRequestHandlerImpl.class));
+        Whitebox.setInternalState(requestHandler, "logger", logger);
+        RuntimeContext runtimeContext = createRequestHandlerRuntimeContext("vnfId",
+            "{\"request-id\":\"request-id\"}");
+        RequestStatus rs1 = RequestStatus.ABORTED;
+        RequestStatus rs2 = RequestStatus.ACCEPTED;
+        List<RequestStatus> rqList = new ArrayList<RequestStatus>(2);
+        rqList.add(rs1);
+        rqList.add(rs2);
+        Mockito.when(recorder.getRecords(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyString())).thenReturn(rqList);
+        requestHandler.handleRequest(runtimeContext);
+        Status status = new Status();
+        status.setCode(315);
+        status.setMessage("MULTIPLE REQUESTS FOUND - using search criteria: request-id=request-id AND vnf-id=vnfId");
+        Mockito.verify(logger).debug("RequestStatus is set to MULTIPLE_REQUESTS_FOUND due to "
+                + "MultipleRecordsRetrievedException", "MULTIPLE REQUESTS FOUND USING SEARCH CRITERIA: request-id="
+                + "request-id AND vnf-id=vnfId");
+    }
 }
