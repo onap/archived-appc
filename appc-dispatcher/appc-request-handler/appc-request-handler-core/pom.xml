@@ -79,6 +79,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
+            <artifactId>appc-workflow-management-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
             <artifactId>appc-request-handler-api</artifactId>
             <version>${project.version}</version>
         </dependency>
