@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
 ============LICENSE_START==========================================
 ONAP : APPC
@@ -18,10 +19,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-ECOMP is a trademark and service mark of AT&T Intellectual Property.
 ============LICENSE_END============================================
 -->
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <profiles version="2">
   <profile kind="CleanUpProfile" name="APPC Cleanup Profile"
     version="2">
