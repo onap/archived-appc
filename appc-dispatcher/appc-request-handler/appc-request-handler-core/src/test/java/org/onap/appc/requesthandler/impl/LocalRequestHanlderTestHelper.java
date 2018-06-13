@@ -23,15 +23,34 @@
 
 package org.onap.appc.requesthandler.impl;
 
+import org.mockito.Mockito;
+import org.onap.appc.adapter.message.MessageAdapterFactory;
+import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
 import org.onap.appc.domainmodel.lcm.ActionLevel;
 import org.onap.appc.domainmodel.lcm.CommonHeader;
+import org.onap.appc.domainmodel.lcm.Flags;
 import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.RequestStatus;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
-
+import org.onap.appc.lockmanager.api.LockManager;
+import org.onap.appc.requesthandler.RequestHandler;
+import org.onap.appc.transactionrecorder.TransactionRecorder;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.powermock.api.mockito.PowerMockito;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyCollectionOf;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Creates RequestContextInput for ActionStatus JUnits
@@ -78,5 +97,33 @@ public interface LocalRequestHanlderTestHelper {
         builder.setOriginatorId(originatorId);
         builder.setTimestamp(new Date(System.currentTimeMillis()));
         return builder;
+    }
+    
+    default CommonHeader getCommonHeader(String requestId, Date date) {
+        CommonHeader builder = new CommonHeader();
+        builder.setRequestId(requestId);
+        builder.setTimestamp(date);
+        Flags flags = new Flags();
+        flags.setTtl(0);
+        builder.setFlags(flags);
+        return builder;
+    }
+    
+    default void setupForHandlerImplTests() {
+        mockStatic(FrameworkUtil.class);
+        Bundle myBundle = mock(Bundle.class);
+        PowerMockito.when(FrameworkUtil.getBundle(any())).thenReturn(myBundle);
+
+        BundleContext myBundleContext = mock(BundleContext.class);
+        Mockito.when(myBundle.getBundleContext()).thenReturn(myBundleContext);
+
+        ServiceReference svcRef = mock(ServiceReference.class);
+        Mockito.when(myBundleContext.getServiceReference(MessageAdapterFactory.class.getName())).thenReturn(svcRef);
+
+        Producer producer = mock(Producer.class);
+        MessageAdapterFactory factory = mock(MessageAdapterFactory.class);
+        Mockito.when(myBundleContext.getService(svcRef)).thenReturn(factory);
+        Mockito.when(factory.createProducer(anyCollectionOf(String.class), anyString(), anyString(), anyString()))
+        .thenReturn(producer);
     }
 }
