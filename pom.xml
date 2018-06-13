@@ -628,6 +628,7 @@ limitations under the License.
     <!-- The modules we build every time -->
     <!-- ================================================================================== -->
     <modules>
+        <module>appc-parent</module>
         <module>appc-common</module>
     </modules>
     <!-- Adding profiles for testing -->
