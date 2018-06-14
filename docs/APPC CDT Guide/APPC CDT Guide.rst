@@ -198,7 +198,11 @@ Using the APPC Controller Design Tool for VNF Onboarding
 
 Go to the APPC CDT GUI in the test environment using a Firefox browser.
 
-http://<server>:8080/config-design-tool/index.html#/home
+http://<server>:<port>
+
+- Where:  
+	- <server> = The server IP or host where CDT is deployed.
+	- <port> = By default 8080 for a HEAT deployed CDT or 30289 for an OOM deplyed CDT.
 
 |image4|
 
