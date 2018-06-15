@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Copyright (C) 2018 Nokia
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,36 +25,29 @@
 
 package org.onap.appc.dg.util;
 
-import org.junit.Before;
+import static org.mockito.Mockito.verifyZeroInteractions;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 import org.osgi.framework.BundleContext;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class AppcDgUtilActivatorTest {
 
     @Mock
     private BundleContext bundleContext;
 
-    private AppcDgUtilActivator appcDgUtilActivator;
-
-    @Before
-    public void setUp() throws Exception {
-        appcDgUtilActivator = new AppcDgUtilActivator();
-    }
-
     @Test
     public void start() {
-        appcDgUtilActivator.start(bundleContext);
-        PowerMockito.verifyStatic();
+        new AppcDgUtilActivator().start(bundleContext);
+        verifyZeroInteractions(bundleContext);
     }
 
     @Test
     public void stop() {
-        appcDgUtilActivator.stop(bundleContext);
-        PowerMockito.verifyStatic();
+        new AppcDgUtilActivator().stop(bundleContext);
+        verifyZeroInteractions(bundleContext);
     }
 }
