@@ -1,0 +1,395 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_06cb124b",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "Any way to refactor common chunks of code, appearing in multiple test cases, into separate methods?",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_86064284",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "Prefix with \"Copyright (C)\"?",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_86df220c",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_26e64ee9",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_46e91ab6",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e6cf0656",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_66dc5619",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/AbstractRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a6d9fe23",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "Add 2018\nCould also add Copyright line for Ericsson",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c6d44aeb",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_46003a66",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "maybe change to: assertEquals(\"NOT_FOUND\", status.name())",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e6f62690",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_06f2329b",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c6420aab",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "refactor common code into separate methods",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_26fdee6e",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestHandlerImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "Seems like the initialization code for producer-bundle-framework is used in several test classes.  Perhaps extract it into a test utility class?",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a647bebb",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "refactor common code into separate methods",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a6f01e92",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "Add 2018",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c6ebeaa2",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_662a16e9",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_862de2ff",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_26340e49",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4637da4d",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e63dc62d",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0639d23e",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/RequestValidatorImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-15T12:51:05Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "4de156e0f0a6c252cfe7cb8fd55623623b623978",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
