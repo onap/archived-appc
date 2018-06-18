@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4c113903",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestHandlerImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-18T15:09:42Z",
+      "side": 1,
+      "message": "There were changes made by AT\u0026T personnel during 2018, so it should probably still have \"-2018\".  Not sure what happens if two different companies make changes to the same file during the same year.  Do they both put copyright notices with the same year?  I\u0027ll have to defer to Randa on this.",
+      "revId": "d4bce2d6f9c835f01985ef473843f4b51d188b14",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
