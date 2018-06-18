@@ -51,6 +51,24 @@
       "revId": "d4bce2d6f9c835f01985ef473843f4b51d188b14",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ece5a50a",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/impl/LocalRequestHandlerImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-18T15:26:44Z",
+      "side": 1,
+      "message": "Didn\u0027t mean to remove that. I will replace in all files where it has been removed",
+      "parentUuid": "5a93c517_4c113903",
+      "revId": "d4bce2d6f9c835f01985ef473843f4b51d188b14",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
