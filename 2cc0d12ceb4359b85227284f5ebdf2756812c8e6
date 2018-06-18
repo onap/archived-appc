@@ -16,6 +16,24 @@
       "revId": "2cc0d12ceb4359b85227284f5ebdf2756812c8e6",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ec528567",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-18T17:21:02Z",
+      "side": 1,
+      "message": "or \"\\\\.\" perhaps",
+      "parentUuid": "5a93c517_2c594d8e",
+      "revId": "2cc0d12ceb4359b85227284f5ebdf2756812c8e6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
