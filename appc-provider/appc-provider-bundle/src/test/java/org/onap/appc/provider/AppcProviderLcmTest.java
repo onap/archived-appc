@@ -131,22 +131,13 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.Co
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.StatusBuilder;
-import org.opendaylight.yangtools.yang.common.RpcError;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.executor.objects.LCMCommandStatus;
 import org.onap.appc.provider.lcm.service.*;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
-import org.osgi.framework.FrameworkUtil;
 import org.onap.appc.provider.Whitebox;
-
-/*
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-*/
 
 import java.time.Clock;
 import java.time.LocalDateTime;
@@ -156,8 +147,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
@@ -166,10 +156,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-/*
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-import static org.powermock.api.mockito.PowerMockito.whenNew;
-*/
+
 /**
  * Integration Test class for AppcProviderLcm.
  */
@@ -223,6 +210,13 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         doReturn(successlcmStatus).when(responseContext).getStatus();
         doReturn(400).when(successlcmStatus).getCode();
         doReturn("success").when(successlcmStatus).getMessage();
+    }
+    
+    @After
+    public void tearDown() throws Exception {
+        if (appcProviderLcm != null) {
+            appcProviderLcm.close();
+        }
     }
 
     @Test
@@ -1387,13 +1381,60 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         //Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
     }
 
-    @After
-    public void tearDown() throws Exception {
-        if (appcProviderLcm != null) {
-            appcProviderLcm.close();
-        }
+    @Test
+    public void testTimestampFormatShort() throws Exception {
+        // Validation success
+        doReturn("Success").when(successlcmStatus).getMessage();
+        doReturn(responseContext).when(requestHandlerOutput).getResponseContext();
+        doReturn(requestHandlerOutput).when(appcProviderLcm).executeRequest(any());
+        doReturn(null).when(validationService).validateInput(any(), any(), any());
+
+        ConfigExportInput configExportInput = mock(ConfigExportInput.class);
+        LocalDateTime time = LocalDateTime.of(2018,6,18,0,0,1);
+        doReturn(newCommonHeader("request-id-aduit",time)).when(configExportInput).getCommonHeader();
+        doReturn(newActionIdentifier("vnf-id", "vnfc-id", "vserver-id"))
+            .when(configExportInput).getActionIdentifiers();
+
+        Future<RpcResult<ConfigExportOutput>> results = appcProviderLcm.configExport
+            (configExportInput);
+        Assert.assertEquals(302, (int)results.get().getResult().getStatus().getCode());
     }
 
+    @Test
+    public void testTimestampFormatLong() throws Exception {
+        // Validation success
+        doReturn("Success").when(successlcmStatus).getMessage();
+        doReturn(responseContext).when(requestHandlerOutput).getResponseContext();
+        doReturn(requestHandlerOutput).when(appcProviderLcm).executeRequest(any());
+        doReturn(null).when(validationService).validateInput(any(), any(), any());
+
+        ConfigExportInput configExportInput = mock(ConfigExportInput.class);
+        LocalDateTime time = LocalDateTime.of(2018,6,18,0,0,1,999999999);
+        doReturn(newCommonHeader("request-id-aduit",time)).when(configExportInput).getCommonHeader();
+        doReturn(newActionIdentifier("vnf-id", "vnfc-id", "vserver-id"))
+            .when(configExportInput).getActionIdentifiers();
+
+        Future<RpcResult<ConfigExportOutput>> results = appcProviderLcm.configExport
+            (configExportInput);
+        Assert.assertEquals(302, (int)results.get().getResult().getStatus().getCode());
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testTimestampFormatFail() throws Exception {
+        // Validation success
+        doReturn("Success").when(successlcmStatus).getMessage();
+        doReturn(responseContext).when(requestHandlerOutput).getResponseContext();
+        doReturn(requestHandlerOutput).when(appcProviderLcm).executeRequest(any());
+        doReturn(null).when(validationService).validateInput(any(), any(), any());
+
+        ConfigExportInput configExportInput = mock(ConfigExportInput.class);
+        LocalDateTime time = LocalDateTime.of(2018,6,18,0,0,0);
+        doReturn(newCommonHeader("request-id-aduit",time)).when(configExportInput).getCommonHeader();
+        doReturn(newActionIdentifier("vnf-id", "vnfc-id", "vserver-id"))
+            .when(configExportInput).getActionIdentifiers();
+
+        appcProviderLcm.configExport(configExportInput);
+    }
 
     private ActionIdentifiers newActionIdentifier(String vnfId, String vnfcId, String vserverId) {
         ActionIdentifiersBuilder actionIdentifiersBuilder = new ActionIdentifiersBuilder();
@@ -1410,6 +1451,15 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         commonHeaderBuilder.setOriginatorId("originatortest");
         commonHeaderBuilder.setTimestamp(ZULU.getDefaultInstance(LocalDateTime.now(Clock.systemUTC()).toString() +
             "Z"));
+        return commonHeaderBuilder.build();
+    }
+
+    private CommonHeader newCommonHeader(String requestId, LocalDateTime time) {
+        CommonHeaderBuilder commonHeaderBuilder = new CommonHeaderBuilder();
+        commonHeaderBuilder.setRequestId(requestId);
+        commonHeaderBuilder.setApiVer("2.0.0");
+        commonHeaderBuilder.setOriginatorId("originatortest");
+        commonHeaderBuilder.setTimestamp(ZULU.getDefaultInstance(time.toString() + "Z"));
         return commonHeaderBuilder.build();
     }
 }
