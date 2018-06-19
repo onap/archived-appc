@@ -46,6 +46,30 @@
       "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f20ca03b",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-19T14:32:35Z",
+      "side": 1,
+      "message": "We probably do not need nanosecond precision. I assume if you remove testTimestampFormatLong(), and revert the change back in yang file. the tests would go through?",
+      "parentUuid": "5a93c517_771ac27d",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
