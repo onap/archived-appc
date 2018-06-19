@@ -70,7 +70,7 @@ public class SdcArtifactHandlerConstants {
     public static final String USER_NAME = "user-name";
     public static final String PORT_NUMBER = "port-number";
     public static final String DOWNLOAD_DG_REFERENCE = "download-dg-reference";
-
+    public static final String VNFC_TYPE_LIST = "vnfc-type-list";
     
     public static final String DB_DOWNLOAD_DG_REFERENCE = "DOWNLOAD_DG_REFERENCE";
     public static final String DB_SDC_REFERENCE = "ASDC_REFERENCE";
@@ -92,5 +92,6 @@ public class SdcArtifactHandlerConstants {
     public static final String ARTIFACT_NAME_CAPABILITY = "capability";
     public static final String APPC_CONFIG_DIR="/opt/appcauth";
     public static final String URL="url";
+    public static final String OPENSTACK = "OS";
 }
 

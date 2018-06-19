@@ -75,8 +75,10 @@ import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.V
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_FUNCTION_CODE_LIST;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_INSTANCE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_TYPE;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNFC_TYPE_LIST;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNF_TYPE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.URL;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.OPENSTACK;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -310,7 +312,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 setAttribute(context, documentInfo::getString, ARTIFACT_TYPE);
                 processActionLists(content, actionLevel, vnfcActionList, vfModuleActionList, vnfActionList,
                     vmActionVnfcFunctionCodesList);
-                storeCapabilityArtifact = isCapabilityArtifactNeeded(scope, context);
+                JSONArray vnfcTypeList = setVnfcTypeInformation(scope, context);
+                storeCapabilityArtifact = isCapabilityArtifactNeeded(context);
                 if (content.has(DEVICE_PROTOCOL)) {
                     setAttribute(context, content::getString, DEVICE_PROTOCOL);
                 }
@@ -323,12 +326,15 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 if (content.has(URL)) {
                     setAttribute(context, content::getString, URL);
                 }
-                processArtifactList(content, dbservice, context);
+                processArtifactList(content, dbservice, context, vnfcTypeList);
                 processConfigTypeActions(content, dbservice, context);
                 dbservice.processDeviceAuthentication(context,
                     dbservice.isArtifactUpdateRequired(context, DB_DEVICE_AUTHENTICATION));
 
-                populateProtocolReference(dbservice, content);
+                String actionProtocol = tryGetProtocol(content);
+                if (!StringUtils.equalsIgnoreCase(actionProtocol, OPENSTACK)) {
+                     populateProtocolReference(dbservice, content);
+                }
 
                 context.setAttribute(VNFC_TYPE, null);
 
@@ -356,22 +362,37 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         return true;
     }
 
-    public boolean isCapabilityArtifactNeeded(JSONObject scope, SvcLogicContext context) {
-        boolean storeCapabilityArtifact = true;
+    public boolean isCapabilityArtifactNeeded(SvcLogicContext context) {
+        String vnfcType = context.getAttribute(VNFC_TYPE);
+        if (StringUtils.isNotBlank(vnfcType)) {
+            log.info("No capability Artifact for this reference data as it is at VNFC level!!" );
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    public JSONArray setVnfcTypeInformation(JSONObject scope, SvcLogicContext context) {
+        JSONArray vnfcTypeList = null;
         if (scope.has(VNFC_TYPE)
             && !scope.isNull(VNFC_TYPE)) {
             String vnfcTypeScope = scope.getString(VNFC_TYPE);
             if (StringUtils.isNotBlank(vnfcTypeScope)) {
                 setAttribute(context, scope::getString, VNFC_TYPE);
-                storeCapabilityArtifact = false;
-                log.info("No capability Artifact for this reference data as it is at VNFC level!!");
+                log.info("VNFC Type has been set for this reference artifact!!"+vnfcTypeScope);
             } else {
                 context.setAttribute(VNFC_TYPE, null);
             }
         } else {
             context.setAttribute(VNFC_TYPE, null);
         }
-        return storeCapabilityArtifact;
+        if (scope.has(VNFC_TYPE_LIST) && !scope.isNull(VNFC_TYPE_LIST)
+            && scope.get(VNFC_TYPE_LIST) instanceof JSONArray) {
+            vnfcTypeList = scope.getJSONArray(VNFC_TYPE_LIST);
+            log.info("VNFC TYPE LIST found for this artifact!! "+ vnfcTypeList.toString());
+        }
+        return vnfcTypeList;
     }
 
     public void processActionLists(JSONObject content, String actionLevel, JSONArray vnfcActionList,
@@ -406,7 +427,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
         return null != actionLevel && actionLevel.equalsIgnoreCase(actionLevelVnfc);
     }
 
-    public void processArtifactList(JSONObject content, DBService dbservice, SvcLogicContext context)
+    public void processArtifactList(JSONObject content, DBService dbservice, SvcLogicContext context, JSONArray vnfcTypeList)
         throws ArtifactHandlerInternalException {
 
 
@@ -418,7 +439,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                         && content.get("template-id-list") instanceof JSONArray) {
                         templateIdList = content.getJSONArray("template-id-list");
                 }
-                doProcessArtifactList(dbservice, context, artifactLists, templateIdList);
+                doProcessArtifactList(dbservice, context, artifactLists, templateIdList, vnfcTypeList);
+
             }
         } catch (Exception e) {
             log.error("An error occurred when processing artifact list", e);
@@ -427,11 +449,10 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     }
 
     private void doProcessArtifactList(DBService dbservice, SvcLogicContext context, JSONArray artifactLists,
-        JSONArray templateIdList)
+        JSONArray templateIdList, JSONArray vnfcTypeList)
         throws SvcLogicException, SQLException, ConfigurationException, DBException {
         boolean pdFile = false;
-        int modelInd = 0;
-
+        int modelInd = 0,  vnfcRefInd = 0;
         for (int i = 0; i < artifactLists.length(); i++) {
             String suffix = null;
             String model = null;
@@ -439,10 +460,13 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             log.info("artifact is " + artifact);
 
             //Get Model details
-            if (null != templateIdList && i>0 && i%2==0) {
+            if (null != templateIdList && i>0 && i%2==0) {//Should this be changed to 3 to account for 3 artifacts
                 modelInd++;
             }
-
+            if (null != vnfcTypeList && i>0 && i%3==0) { 
+            	//TDP 517180 - CD tool has made changes to send 3 artifacts instead of 2
+                vnfcRefInd++;
+            }
             setAttribute(context, artifact::getString, ARTIFACT_NAME);
             context.setAttribute(FILE_CATEGORY,
                 artifact.getString(ARTIFACT_TYPE));
@@ -460,7 +484,13 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                 model = templateIdList.getString(modelInd);
                 log.info("Model is ::: "+model+"  ,modelInd = "+modelInd);
             }
-
+            if (null != vnfcTypeList && vnfcRefInd < vnfcTypeList.length() ) {
+                String vnfcType = vnfcTypeList.getString(vnfcRefInd);
+                if (StringUtils.isNotBlank(vnfcType)) {
+                    context.setAttribute(VNFC_TYPE, vnfcType);
+                }
+                log.info("Setting vnfc type from vnfc-type-list ::"+vnfcType);
+            }
             if (StringUtils.isNotBlank(model)) {
                 dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
                     DB_SDC_REFERENCE, model),model);
