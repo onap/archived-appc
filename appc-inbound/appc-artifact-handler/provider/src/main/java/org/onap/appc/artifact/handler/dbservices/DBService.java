@@ -237,7 +237,6 @@ public class DBService {
             whereClause = WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE;
             whereClause = resolveWhereClause(context, db, whereClause);
             if (validate(db)) {
-                if (!db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION)) {
                     String key = "select COUNT(*) from " + db + whereClause;
                     log.info("SELECT String : " + key);
                     status = serviceLogic.query("SQL", false, null, key, null, null, context);
@@ -245,19 +244,9 @@ public class DBService {
                     String count = context.getAttribute("COUNT(*)");
                     log.info("Number of row Returned : " + count + ": " + status + ":");
                     return tryAddCountAttribute(context, count);
-                } else {
-                    log.info("Check for update or insert for properties file");
-                    String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
-                    String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
-                    String vnfType = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
-                    PropertiesConfiguration conf = new PropertiesConfiguration(
-                        System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
-                    String property = tryCreatePropertyStr(protocol, action, vnfType);
-                    return keyExists(conf, property);
-                }
             }
             return false;
-        } catch (SvcLogicException | ConfigurationException e) {
+        } catch (SvcLogicException e) {
             throw new DBException("An error occurred while checking for artifact update", e);
         }
     }
@@ -294,14 +283,6 @@ public class DBService {
         }
     }
 
-    private String tryCreatePropertyStr(String protocol, String action, String vnfType) {
-
-        if (StringUtils.isNotBlank(vnfType) && StringUtils.isNotBlank(protocol) && StringUtils
-            .isNotBlank(action)) {
-            return vnfType + "." + protocol + "." + action;
-        }
-        return "";
-    }
 
     private String resolveWhereClause(SvcLogicContext context, String db, String whereClause) {
         if (db != null) {
@@ -313,6 +294,12 @@ public class DBService {
                     + SdcArtifactHandlerConstants.ACTION;
             } else if (db.equals(SdcArtifactHandlerConstants.DB_DOWNLOAD_DG_REFERENCE)) {
                 return " where PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL;
+            } else if (db.equals(SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION)) {
+                log.info(" DB validation for Device authentication " + whereClause + " AND  PROTOCOL = $"
+                             + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " AND ACTION = $"
+                             + SdcArtifactHandlerConstants.ACTION);
+                return whereClause + " AND  PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL
+                             + " AND ACTION = $" + SdcArtifactHandlerConstants.ACTION;
             } else if (db.equals(SdcArtifactHandlerConstants.DB_CONFIG_ACTION_DG)) {
                 return whereClause + AND_ACTION_QUERY_STR + SdcArtifactHandlerConstants.ACTION;
             } else if (db.equals(SdcArtifactHandlerConstants.DB_VNFC_REFERENCE)) {
@@ -362,77 +349,66 @@ public class DBService {
         try {
             String fn = "DBService.processDeviceAuthentication";
             log.info(fn + "Starting DB operation for Device Authentication " + isUpdate);
-            String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
-            String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
-            String vnfType = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
-            String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
             String port = context.getAttribute(SdcArtifactHandlerConstants.PORT_NUMBER);
             String user = context.getAttribute(SdcArtifactHandlerConstants.USER_NAME);
-            String property = vnfType + "." + protocol + "." + action;
-            log.info("property :" + property);
-            if (StringUtils.isBlank(url)) {
-                url = "";
-            }
+            String protocol = context.getAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL);
+            String action = context.getAttribute(SdcArtifactHandlerConstants.ACTION);
+            String vnftype = context.getAttribute(SdcArtifactHandlerConstants.VNF_TYPE);
+
             if (StringUtils.isBlank(port)) {
-                port = "";
+                port = "0";
             }
             if (StringUtils.isBlank(user)) {
                 user = "";
             }
-            if (isInvalidInput(protocol, action, vnfType)) {
+            if (isInvalidInput(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, SdcArtifactHandlerConstants.ACTION,
+                      	SdcArtifactHandlerConstants.VNF_TYPE)) {
                 throw new SvcLogicException(
                     "Error While processing reference File as few or all of parameters VNF_TYPE,PROTOCOL,ACTION are missing ");
             }
-            PropertiesConfiguration conf =
-                new PropertiesConfiguration(System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
-            log.info("is Updating to southbound  properties : " + isUpdate);
 
-            resolveUserAction(isUpdate, user, property, conf);
-            resolvePortAction(port, property, conf);
-            resolveUrlAction(url, property, conf);
-            tryAddPasswordProperty(property, conf);
+            log.info("Starting DB operation for Device authentication " + isUpdate);
+            log.info("credentials"+user + "user" + "port" + port +"protocol"+protocol+"action"+action+"vnftype"+vnftype);
+            String key;
+            QueryStatus status;
+            if (isUpdate) {
+                key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION + " set USER_NAME = '"
+                        + user + "' , PORT_NUMBER = " + port + "";
+                if (context.getAttributeKeySet().contains(SdcArtifactHandlerConstants.URL)) {
+                    String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
+                    if (StringUtils.isBlank(url)) {
+                        url = "";
+                    }
+                    key = key + ", URL = '" + url + "' ";
+                }
+                key = key + WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE + "  AND PROTOCOL = $"
+                        + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " AND  ACTION = $"
+                        + SdcArtifactHandlerConstants.ACTION;
+            } else {
+                key = "insert into DEVICE_AUTHENTICATION set VNF_TYPE = '" + vnftype + "' , PROTOCOL = '" + protocol
+                        + "' , " + "ACTION = '" + action + "' , USER_NAME = '" + user + "' , PORT_NUMBER = '" + port
+                        + "'";
+                if (context.getAttributeKeySet().contains(SdcArtifactHandlerConstants.URL)) {
+                    String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
+                    if (StringUtils.isBlank(url)) {
+                        url = "";
+                    }
+                    key = key + ", URL = '" + url + "' ";
+                }
+            }
 
-            log.info("About to save to properties file");
-            conf.save();
-            log.info("saved to properties file");
-        } catch (SvcLogicException | ConfigurationException e) {
+            log.info("Query forDevice authentication  " + key);
+            if (serviceLogic != null && context != null) {
+
+                status = serviceLogic.save("SQL", false, false, key, null, null, context);
+                if (status.toString().equals(FAILURE_PARAM)) {
+                    throw new SvcLogicException("Error While processing DEVICE_AUTHENTICATION table ");
+                }
+            }
+
+        } catch (SvcLogicException e) {
+
             throw new DBException("An error occurred when processing device authentication", e);
-        }
-    }
-
-    private void tryAddPasswordProperty(String property, PropertiesConfiguration conf) {
-        if (!conf.containsKey(property + "." + "password")) {
-            conf.addProperty(property + "." + "password", "");
-        }
-    }
-
-    private void resolveUrlAction(String url, String property, PropertiesConfiguration conf) {
-        if (conf.containsKey(property + "." + "url") ) {
-            if (url != null && !url.isEmpty()) {
-                conf.setProperty(property + "." + "url", url);
-            }
-        } else {
-            conf.addProperty(property + "." + "url", url);
-        }
-    }
-
-    private void resolvePortAction(String port, String property, PropertiesConfiguration conf) {
-        if (conf.containsKey(property + "." + "port")) {
-            if (port != null && !port.isEmpty()) {
-                conf.setProperty(property + "." + "port", port);
-            }
-        } else {
-            conf.addProperty(property + "." + "port", port);
-        }
-    }
-
-    private void resolveUserAction(boolean isUpdate, String user, String property, PropertiesConfiguration conf) {
-        if (conf.containsKey(property + "." + "user")) {
-            if (user != null && !user.isEmpty()) {
-                conf.setProperty(property + "." + "user", user);
-            }
-        } else {
-            conf.addProperty(property + "." + "user", user);
         }
     }
 
