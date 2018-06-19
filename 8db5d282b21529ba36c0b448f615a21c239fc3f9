@@ -16,6 +16,24 @@
       "revId": "8db5d282b21529ba36c0b448f615a21c239fc3f9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_37119a04",
+        "filename": "appc-dg-util/appc-dg-util-bundle/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-06-19T05:54:26Z",
+      "side": 1,
+      "message": "The mockit-core or junit dependency? What do you mean it is not needed ?",
+      "parentUuid": "5a93c517_8c2e6141",
+      "revId": "8db5d282b21529ba36c0b448f615a21c239fc3f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
