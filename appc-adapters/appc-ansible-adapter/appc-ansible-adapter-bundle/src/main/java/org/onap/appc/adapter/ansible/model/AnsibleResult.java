@@ -33,6 +33,15 @@ public class AnsibleResult {
     private int statusCode;
     private String statusMessage;
     private String results;
+    private String output;
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+   this.output = output;
+   }
 
     public AnsibleResult() {
         this(-1, EMPTY_VALUE, EMPTY_VALUE);
@@ -48,6 +57,13 @@ public class AnsibleResult {
         results = result;
     }
 
+    public AnsibleResult(int code, String message, String result, String outputData) {
+        statusCode = code;
+        statusMessage = message;
+        results = result;
+        output = outputData;
+    }
+
     public void setStatusCode(int code) {
         this.statusCode = code;
     }
@@ -60,10 +76,12 @@ public class AnsibleResult {
         this.results = results;
     }
 
-    void set(int code, String message, String results) {
+    void set(int code, String message, String results, String output) {
         this.statusCode = code;
         this.statusMessage = message;
         this.results = results;
+        this.output = output;
+
     }
 
     public int getStatusCode() {

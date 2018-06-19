@@ -233,6 +233,12 @@ public class AnsibleMessageParser {
             ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
             ansibleResult.setStatusMessage("Results not found in GET for response");
         }
+        if(!postRsp.isNull("Output")) {
+            LOGGER.info("Processing results-output in response");
+            JSONObject output = postRsp.getJSONObject("Output");
+            ansibleResult.setOutput(output.toString());
+        }
+
         return ansibleResult;
     }
 
