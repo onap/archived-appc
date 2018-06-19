@@ -180,14 +180,27 @@ public class ChefAdapterImplJobPusherTest {
     public void checkPushJob_shouldCheckJobStatusOnlyOnce_withoutAdditionalRetries_whenFirstReturnedJobStatusIs_Complete()
         throws SvcLogicException {
         String expectedHttpStatus = Integer.toString(HttpStatus.SC_OK);
-        String expectedMessage = "{status:complete}";
+        //String expectedMessage = "{status:complete}";
+        String expectedMessage = "{\"nodes\":{\"succeeded\":[\"NODE1.atttest.com\"]},\"id\":\"26d\",\"command\":\"chef-client\",\"status\":\"complete\"} ";
+        assertCheckJobStatusFor(
+            expectedHttpStatus,
+            expectedMessage,
+            ChefResponse.create(HttpStatus.SC_OK, expectedMessage),
+            ChefResponse.create(HttpStatus.SC_OK, "{status:running}"));
+    }
+    @Test
+    public void checkPushJob_withFailedNode_whenFirstReturnedJobStatusIs_Complete()
+        throws SvcLogicException {
+        String expectedHttpStatus = "401";
+        String message = "{\"nodes\":{\"failed\":[\"NODE1.atttest.com\"]},\"id\":\"26d\",\"command\":\"chef-client\",\"status\":\"complete\"} ";
+        String expectedMessage = "PushJob Status Complete but check failed nodes in the message :"+ message ;
 
         assertCheckJobStatusFor(
             expectedHttpStatus,
             expectedMessage,
-            ChefResponse.create(HttpStatus.SC_OK, "{status:complete}"),
-            ChefResponse.create(HttpStatus.SC_OK, "{status:running}"));
+            ChefResponse.create(HttpStatus.SC_OK, message));
     }
+
 
     @Test
     public void checkPushJob_shouldCheckJobStatusExpectedNumberOf_ThreeRetryTimes_whenEachReturnedStatusIs_Running()

@@ -570,10 +570,16 @@ public class ChefAdapterImpl implements ChefAdapter {
         }
     }
 
-    private void resolveSvcLogicAttributes(SvcLogicContext svcLogic, String message, String status) {
+    private void resolveSvcLogicAttributes(SvcLogicContext svcLogic, String message, String status) throws Exception {
         if ("complete".equals(status)) {
+             if(hasFailedNode(message)) {
+                String finalMessage = "PushJob Status Complete but check failed nodes in the message :"+ message ;
+                svcLogic.setAttribute("chefServerResult.code", "401");
+                svcLogic.setAttribute("chefServerResult.message", finalMessage);
+             }else {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "200");
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
+                   }
         } else if ("running".equals(status)) {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "202");
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, "chef client runtime out");
@@ -582,7 +588,34 @@ public class ChefAdapterImpl implements ChefAdapter {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
         }
     }
+       private Boolean hasFailedNode(String message) throws Exception {
+        try {
+        JSONObject messageJson = new JSONObject(message);
+        JSONObject node = messageJson.getJSONObject("nodes");
 
+        if(node == null) {
+            logger.debug("Status Complete but node details in the message is null : "+message);
+            return Boolean.TRUE ;
+        }
+
+
+        if(node.has("failed") && !(node.isNull("failed")) && (node.getJSONArray("failed").length()!= 0)) {
+
+
+            logger.debug("Status Complete but one or more Failed nodes ....FAILURE "+message);
+            return Boolean.TRUE ;
+        }
+
+        logger.debug("Status Complete and no failed nodes ....SUCCESS "+message);
+        return Boolean.FALSE ;
+
+
+        }catch(Exception e) {
+            logger.error("Exception occured in hasFailedNode", e);
+            throw new Exception("Exception occured in hasFailedNode"+e.getMessage());
+        }
+
+    }
     private void sleepFor(int retryInterval) {
         try {
             Thread.sleep(retryInterval); // 1000 milliseconds is one second.
