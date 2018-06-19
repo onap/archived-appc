@@ -193,7 +193,7 @@
         "id": "18420693.2d9f89",
         "type": "set",
         "name": "set error code and message",
-        "xml": "<set>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='Start VM status is error' />\n",
+        "xml": "<set>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='`$error-message`' />\n",
         "comments": "",
         "x": 1398,
         "y": 507,
