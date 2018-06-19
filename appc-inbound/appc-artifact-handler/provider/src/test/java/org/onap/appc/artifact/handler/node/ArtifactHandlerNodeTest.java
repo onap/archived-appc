@@ -39,7 +39,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.nio.charset.Charset;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class ArtifactHandlerNodeTest {
@@ -225,7 +227,7 @@ public class ArtifactHandlerNodeTest {
         JSONObject content=new JSONObject(contentStr);
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext context = new SvcLogicContext();
-        artifactHandlerNode.processArtifactList(content,dbService,context);
+        artifactHandlerNode.processArtifactList(content,dbService,context, null);
      }
 
     @Test
@@ -252,12 +254,14 @@ public class ArtifactHandlerNodeTest {
         JSONObject scope1 = new JSONObject(scopeObjStr1);
         JSONObject scope2 = new JSONObject(scopeObjStr2);
         SvcLogicContext context = new SvcLogicContext();
-        assertFalse(artifactHandlerNode.isCapabilityArtifactNeeded(scope1, context));
-        assertTrue(artifactHandlerNode.isCapabilityArtifactNeeded(scope2, context));
+        artifactHandlerNode.setVnfcTypeInformation(scope1, context);
+        assertFalse(artifactHandlerNode.isCapabilityArtifactNeeded(context));
+        artifactHandlerNode.setVnfcTypeInformation(scope2, context);
+        assertTrue(artifactHandlerNode.isCapabilityArtifactNeeded(context));
     }
 
     @Test
-    public void testProcessArtifactListsWithMultipleTemplatesThrowsExceptionOnFailure() throws Exception {
+    public void testProcessArtifactListsWithMultipleTemplates() throws Exception {
         String contentStr = "{\r\n\t\t\"action\": \"ConfigScaleOut\",\r\n\t\t\"action-level\": \"vnf\",\r\n\t\t\"scope\": {\r\n\t\t\t\"vnf-type\": "
                 + "\"vCfgSO-0405\",\r\n\t\t\t\"vnfc-type\": \"\"\r\n\t\t},\r\n\t\t\"template\": \"Y\",\r\n\t\t\"vm\": [{\r\n\t\t\t\"template-id\": "
                 + "\"TID-0405-EZ\",\r\n\t\t\t\"vm-instance\": 1,\r\n\t\t\t\"vnfc\": [{\r\n\t\t\t\t\"vnfc-instance\": \"1\",\r\n\t\t\t\t\"vnfc-function-code\": "
@@ -277,7 +281,40 @@ public class ArtifactHandlerNodeTest {
         SvcLogicContext context = new SvcLogicContext();
         context.setAttribute("vnf-type", "someVnf");
         context.setAttribute("action", "ConfigScaleOut");
-        artifactHandlerNode.processArtifactList(content, dbService, context);;
+        artifactHandlerNode.processArtifactList(content, dbService, context, null);
+    }
+
+    @Test
+    public void testProcessArtifactListsWithVnfcTypeList() throws Exception {
+        String contentStr = "{\r\n\t\"action\": \"Configure\",\r\n\t\"action-level\": \"vnf\",\r\n\t\"scope\": {\r\n\t\t\"vnf-type\": "
+                + "\"newtypeofvnf\",\r\n\t\t\"vnfc-type-list\": [\"vnfctype1\",\"vnfctype2\"]\r\n\t},\r\n\t\"template\": \"Y\",\r\n\t\"vm\":"
+                + " [{\r\n\t\t\t\"vm-instance\": 1,\r\n\t\t\t\"template-id\": \"vnfctype1\",\r\n\t\t\t\"vnfc\": [{\r\n\t\t\t\t\"vnfc-instance\": "
+                + "\"1\",\r\n\t\t\t\t\"vnfc-function-code\": \"fcx\",\r\n\t\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\t\"group-notation-type\": "
+                + "\"first-vnfc-name\",\r\n\t\t\t\t\"group-notation-value\": \"pair\",\r\n\t\t\t\t\"vnfc-type\": \"vDBE\"\r\n\t\t\t}]\r\n\t\t},"
+                + "\r\n\t\t{\r\n\t\t\t\"vm-instance\": 1,\r\n\t\t\t\"template-id\": \"vnfctype2\",\r\n\t\t\t\"vnfc\": [{\r\n\t\t\t\t\"vnfc-instance\": "
+                + "\"1\",\r\n\t\t\t\t\"vnfc-function-code\": \"fcx\",\r\n\t\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\t\"group-notation-type\": "
+                + "\"first-vnfc-name\",\r\n\t\t\t\t\"group-notation-value\": \"pair\",\r\n\t\t\t\t\"vnfc-type\": \"vDBE\"\r\n\t\t\t}]\r\n\t\t},"
+                + "\r\n\t\t{\r\n\t\t\t\"vm-instance\": 2,\r\n\t\t\t\"template-id\": \"vnfctype2\",\r\n\t\t\t\"vnfc\": [{\r\n\t\t\t\t\"vnfc-instance\": "
+                + "\"1\",\r\n\t\t\t\t\"vnfc-function-code\": \"fcx\",\r\n\t\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\t\"group-notation-type\": "
+                + "\"first-vnfc-name\",\r\n\t\t\t\t\"group-notation-value\": \"pair\",\r\n\t\t\t\t\"vnfc-type\": \"vDBE\"\r\n\t\t\t}]\r\n\t\t}\r\n\t],"
+                + "\r\n\t\"device-protocol\": \"NETCONF-XML\",\r\n\t\"user-name\": \"netconf\",\r\n\t\"port-number\": \"20\",\r\n\t\"artifact-list\": "
+                + "[{\r\n\t\t\t\"artifact-name\": \"template_ConfigScaleOut_newtypeofvnf_0.0.1V_vnfctype1.xml\",\r\n\t\t\t\"artifact-type\": "
+                + "\"config_template\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"artifact-name\": \"pd_ConfigScaleOut_newtypeofvnf_0.0.1V_vnfctype1.yaml\","
+                + "\r\n\t\t\t\"artifact-type\": \"parameter_definitions\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"artifact-name\": "
+                + "\"template_ConfigScaleOut_newtypeofvnf_0.0.1V_vnfctype2.xml\",\r\n\t\t\t\"artifact-type\": "
+                + "\"config_template\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"artifact-name\": \"pd_ConfigScaleOut_newtypeofvnf_0.0.1V_vnfctype2.yaml\","
+                + "\r\n\t\t\t\"artifact-type\": \"parameter_definitions\"\r\n\t\t}\r\n\t],\r\n\t\"scopeType\": \"vnf-type\"\r\n}";
+        JSONObject content = new JSONObject(contentStr);
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("vnf-type", "someVnf");
+        context.setAttribute("action", "Configure");
+        JSONObject scope = (JSONObject)content.get("scope");
+        JSONArray vnfcTypeList = artifactHandlerNode.setVnfcTypeInformation(scope, context);
+        artifactHandlerNode.processArtifactList(content, dbService, context, vnfcTypeList);
+        JSONArray vnfcLists = scope.getJSONArray("vnfc-type-list");   
+        assertEquals(vnfcLists.toString(), "[\"vnfctype1\",\"vnfctype2\"]");
+        assertNotNull (vnfcTypeList);
 
     }
 
