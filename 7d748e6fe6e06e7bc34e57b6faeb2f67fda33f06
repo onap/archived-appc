@@ -22,6 +22,30 @@
       "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_771ac27d",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-19T14:12:45Z",
+      "side": 1,
+      "message": "Current regex causes intermittent test failures and could also cause intermittent failures in operation. It would also lead to failures nearly 100% of the time on a system that returns current time with nanosecond rather than millisecond precision. Please advise whether to also change the appc-provider.yang file to the correct regex or to abandon this change.",
+      "parentUuid": "5a93c517_37b8ba74",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
