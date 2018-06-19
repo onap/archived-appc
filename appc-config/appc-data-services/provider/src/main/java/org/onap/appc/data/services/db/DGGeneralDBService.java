@@ -286,7 +286,7 @@ public class DGGeneralDBService {
         if (serviceLogic != null && ctx != null) {
             String key = "UPDATE UPLOAD_CONFIG " + " SET  config_indicator         =  null "
                     + " WHERE upload_config_id != " + maxId + " AND config_indicator         =  'Current' "
-                    + " AND vnf_id = $vnf-id " + " AND vm_name =  $vm-name ; ";
+                    + " AND vnf_id = $vnf-id " + " AND vnfc_type =  $vnfc-type ; ";
 
             status = serviceLogic.save("SQL", false, false, key, null, prefix, ctx);
 
