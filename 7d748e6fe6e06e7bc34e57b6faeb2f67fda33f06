@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_37b8ba74",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-19T13:17:47Z",
+      "side": 1,
+      "message": "there is the same typedef ZULU at appc-provide.yang. if you only change this file, then the typedef ZULU is not getting in-sync. I don\u0027t recommend to extend more digits in here. it\u0027s a trivial change and we have to make sure for the backwards compatible to deal with the complexity of this application.",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
