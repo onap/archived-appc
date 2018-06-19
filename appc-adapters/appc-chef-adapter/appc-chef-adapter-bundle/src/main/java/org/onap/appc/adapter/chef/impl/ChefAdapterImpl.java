@@ -419,7 +419,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         String chefAction = params.get(CHEF_ACTION_STR);
         int code;
         String message;
-
         if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefResponse chefResponse = getApiMethod(chefAction);
             code = chefResponse.getStatusCode();
@@ -445,7 +444,6 @@ public class ChefAdapterImpl implements ChefAdapter {
         String message;
         if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
-
             ChefResponse chefResponse = chefApiClient.put(chefAction, chefNodeStr);
             code = chefResponse.getStatusCode();
             message = chefResponse.getBody();
@@ -467,13 +465,11 @@ public class ChefAdapterImpl implements ChefAdapter {
         logger.info(username + " " + clientPrivatekey + " " + chefserver + " " + organizations);
         String chefNodeStr = params.get("chefRequestBody");
         String chefAction = params.get(CHEF_ACTION_STR);
-
         int code;
         String message;
         // should load pem from somewhere else
         if (privateKeyChecker.doesExist(clientPrivatekey)) {
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
-
             // need pass path into it
             // "/nodes/testnode"
             ChefResponse chefResponse = chefApiClient.post(chefAction, chefNodeStr);
@@ -517,7 +513,6 @@ public class ChefAdapterImpl implements ChefAdapter {
     public void trigger(Map<String, String> params, SvcLogicContext svcLogicContext) {
         logger.info("Run trigger method");
         String tVmIp = params.get("ip");
-
         try {
             ChefResponse chefResponse = chefApiClientFactory.create(tVmIp, organizations).get("");
             chefClientResult(svcLogicContext, chefResponse.getStatusCode(), chefResponse.getBody());
@@ -542,9 +537,7 @@ public class ChefAdapterImpl implements ChefAdapter {
 
                 int retryTimes = Integer.parseInt(params.get("retryTimes"));
                 int retryInterval = Integer.parseInt(params.get("retryInterval"));
-
                 String chefAction = "/pushy/jobs/" + jobID;
-
                 String message = StringUtils.EMPTY;
                 String status = StringUtils.EMPTY;
                 for (int i = 0; i < retryTimes; i++) {
@@ -570,10 +563,16 @@ public class ChefAdapterImpl implements ChefAdapter {
         }
     }
 
-    private void resolveSvcLogicAttributes(SvcLogicContext svcLogic, String message, String status) {
+    private void resolveSvcLogicAttributes(SvcLogicContext svcLogic, String message, String status) throws Exception {
         if ("complete".equals(status)) {
+             if(hasFailedNode(message)) {
+                String finalMessage = "PushJob Status Complete but check failed nodes in the message :"+ message ;
+                svcLogic.setAttribute("chefServerResult.code", "401");
+                svcLogic.setAttribute("chefServerResult.message", finalMessage);
+             }else {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "200");
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
+                   }
         } else if ("running".equals(status)) {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, "202");
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, "chef client runtime out");
@@ -582,7 +581,26 @@ public class ChefAdapterImpl implements ChefAdapter {
             svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, message);
         }
     }
+       private Boolean hasFailedNode(String message) throws Exception {
+        try {
+        JSONObject messageJson = new JSONObject(message);
+        JSONObject node = messageJson.getJSONObject("nodes");
+        if(node == null) {
+            logger.debug("Status Complete but node details in the message is null : "+message);
+            return Boolean.TRUE ;
+        }
+        if(node.has("failed") && !(node.isNull("failed")) && (node.getJSONArray("failed").length()!= 0)) {
+            logger.debug("Status Complete but one or more Failed nodes ....FAILURE "+message);
+            return Boolean.TRUE ;
+        }
+        logger.debug("Status Complete and no failed nodes ....SUCCESS "+message);
+        return Boolean.FALSE ;
+        }catch(Exception e) {
+            logger.error("Exception occured in hasFailedNode", e);
+            throw new Exception("Exception occured in hasFailedNode"+e.getMessage());
+        }
 
+    }
     private void sleepFor(int retryInterval) {
         try {
             Thread.sleep(retryInterval); // 1000 milliseconds is one second.
@@ -601,7 +619,6 @@ public class ChefAdapterImpl implements ChefAdapter {
             String chefAction = "/pushy/jobs";
             ChefApiClient chefApiClient = chefApiClientFactory.create(chefserver, organizations, username, clientPrivatekey);
             ChefResponse chefResponse = chefApiClient.post(chefAction, pushRequest);
-
             code = chefResponse.getStatusCode();
             String message = chefResponse.getBody();
             if (code == 201) {
@@ -633,7 +650,6 @@ public class ChefAdapterImpl implements ChefAdapter {
 
         String codeStr = "server".equals(target) ? CHEF_SERVER_RESULT_CODE_STR : CHEF_CLIENT_RESULT_CODE_STR;
         String messageStr = "client".equals(target) ? CHEF_CLIENT_RESULT_MSG_STR : CHEF_SERVER_RESULT_MSG_STR;
-
         svcLogicContext.setStatus(OUTCOME_SUCCESS);
         svcLogicContext.setAttribute(codeStr, Integer.toString(code));
         svcLogicContext.setAttribute(messageStr, message);
@@ -645,11 +661,9 @@ public class ChefAdapterImpl implements ChefAdapter {
     private void doFailure(SvcLogicContext svcLogic, int code, String message) throws SvcLogicException {
 
         String cutMessage = message.contains("\n") ? message.substring(message.indexOf('\n')) : message;
-
         svcLogic.setStatus(OUTCOME_FAILURE);
         svcLogic.setAttribute(CHEF_SERVER_RESULT_CODE_STR, Integer.toString(code));
         svcLogic.setAttribute(CHEF_SERVER_RESULT_MSG_STR, cutMessage);
-
         throw new SvcLogicException("Chef Adapter error:" + cutMessage);
     }
 }
