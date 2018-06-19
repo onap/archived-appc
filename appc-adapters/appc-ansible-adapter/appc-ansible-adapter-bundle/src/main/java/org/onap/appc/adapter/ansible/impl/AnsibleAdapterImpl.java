@@ -40,6 +40,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.onap.appc.encryption.EncryptionTool;
 
 /**
  * This class implements the {@link AnsibleAdapter} interface. This interface defines the behaviors
@@ -75,6 +76,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private static final String RESULT_CODE_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.result.code";
     private static final String MESSAGE_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.message";
     private static final String RESULTS_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.results";
+    private static final String OUTPUT_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.output";
     private static final String ID_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.Id";
     private static final String LOG_ATTRIBUTE_NAME = "org.onap.appc.adapter.ansible.log";
 
@@ -224,7 +226,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
             agentUrl = (String) jsonPayload.remove("AgentUrl");
             user = (String) jsonPayload.remove("User");
-            password = (String) jsonPayload.remove(PASSWORD);
+            password = EncryptionTool.getInstance().decrypt((String) jsonPayload.remove(PASSWORD));
             id = jsonPayload.getString("Id");
             payload = jsonPayload.toString();
             logger.info("Updated Payload  = " + payload);
@@ -315,20 +317,23 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         int code = -1;
         String message = StringUtils.EMPTY;
         String results = StringUtils.EMPTY;
+        String output = StringUtils.EMPTY;
 
         try {
             // Try to retrieve the test results (modify the URL for that)
-            AnsibleResult testResult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
+            AnsibleResult testResult = queryServer(reqUri, params.get("User"),  EncryptionTool.getInstance().decrypt(params.get(PASSWORD)));
             code = testResult.getStatusCode();
             message = testResult.getStatusMessage();
 
-            if (code == 200) {
+            if (code == 200 || code == 400) {
                 logger.info("Parsing response from Server = " + message);
                 // Valid HTTP. process the Ansible message
                 testResult = messageProcessor.parseGetResponse(message);
                 code = testResult.getStatusCode();
                 message = testResult.getStatusMessage();
                 results = testResult.getResults();
+                output = testResult.getOutput();
+
             }
 
             logger.info("Request response = " + message);
@@ -355,6 +360,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         ctx.setAttribute(RESULT_CODE_ATTRIBUTE_NAME, Integer.toString(400));
         ctx.setAttribute(MESSAGE_ATTRIBUTE_NAME, message);
         ctx.setAttribute(RESULTS_ATTRIBUTE_NAME, results);
+        ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
         ctx.setStatus(OUTCOME_SUCCESS);
     }
 
@@ -379,7 +385,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         String message = StringUtils.EMPTY;
         try {
             // Try to retrieve the test results (modify the url for that)
-            AnsibleResult testResult = queryServer(reqUri, params.get("User"), params.get(PASSWORD));
+            AnsibleResult testResult = queryServer(reqUri, params.get("User"), EncryptionTool.getInstance().decrypt(params.get(PASSWORD)));
             message = testResult.getStatusMessage();
             logger.info("Request output = " + message);
             ctx.setAttribute(LOG_ATTRIBUTE_NAME, message);
