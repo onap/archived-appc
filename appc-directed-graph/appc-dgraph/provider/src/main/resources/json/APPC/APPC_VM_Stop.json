@@ -218,7 +218,7 @@
         "id": "32f7f639.b0517a",
         "type": "set",
         "name": "set error code and message",
-        "xml": "<set>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='Stop VM status is error' />\n",
+        "xml": "<set>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='`$error-message`' />\n",
         "comments": "",
         "x": 1345,
         "y": 241.5666732788086,

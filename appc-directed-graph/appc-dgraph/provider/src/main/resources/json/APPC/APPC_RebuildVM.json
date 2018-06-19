@@ -35,7 +35,7 @@
         "id": "5bf06fcf.867b98",
         "type": "execute",
         "name": "rebuildServer()",
-        "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='rebuildServer'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\" />\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$vm-id`\"/>\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$identity-url`\" />\n<parameter name=\"org.onap.appc.skiphypervisorcheck\" value=\"`$skip-hypervisor-check`\" />",
+        "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='rebuildServer'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\" />\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$vm-id`\"/>\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$identity-url`\" />\n<parameter name=\"org.onap.appc.payload\" value=\"`$input.payload`\" />\n<parameter name=\"org.onap.appc.skiphypervisorcheck\" value=\"`$skip-hypervisor-check`\" />",
         "comments": "",
         "outputs": 1,
         "x": 722.7499694824219,
