@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_78286f85",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:10:31Z",
+      "side": 1,
+      "message": "should throw a specific exception instead of a general \"Exception\" object.",
+      "revId": "88b56dbf693eb0e0cc4ff17cadc60ae713eb4db4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d8118354",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:10:31Z",
+      "side": 1,
+      "message": "use constants for the attribute names in this line and the next",
+      "revId": "88b56dbf693eb0e0cc4ff17cadc60ae713eb4db4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f80c7f3b",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:10:31Z",
+      "side": 1,
+      "message": "this line and the next should be indented to match lines 570 \u0026 571",
+      "revId": "88b56dbf693eb0e0cc4ff17cadc60ae713eb4db4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_582573ac",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:10:31Z",
+      "side": 1,
+      "message": "should throw a specific exception instead of a general \"Exception\" object.",
+      "revId": "88b56dbf693eb0e0cc4ff17cadc60ae713eb4db4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_981bfb72",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:10:31Z",
+      "side": 1,
+      "message": "indent the lines inside of the \"try\" block to match those inside of the \"catch\" block",
+      "revId": "88b56dbf693eb0e0cc4ff17cadc60ae713eb4db4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b816f747",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:10:31Z",
+      "side": 1,
+      "message": "sonar will complain about this - should throw a specific exception instead of a general \"Exception\" object.",
+      "revId": "88b56dbf693eb0e0cc4ff17cadc60ae713eb4db4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
