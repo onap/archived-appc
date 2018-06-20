@@ -812,6 +812,10 @@ public enum Msg implements EELFResolvableErrorEnum {
 
     DETTACHINGVOLUME_SERVER,
 
+    REBOOT_SERVER,
+    /**
+     * {0} IAAS Adapter reboot  of server requested
+     */
     /**
      * Unsupported identity service version, unable to retrieve ServiceCatalog
      * for identity service {0}
