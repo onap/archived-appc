@@ -951,8 +951,6 @@ public class SshJcraftWrapper {
                 0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
             channel = session.openChannel("subsystem");
             ((ChannelSubsystem) channel).setSubsystem(subsystem);
-            // ((ChannelSubsystem)channel).setPtyType("vt102");
-            ((ChannelSubsystem) channel).setPty(true);
 
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
