@@ -118,6 +118,30 @@
       "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7d6061a4",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-06-20T11:58:10Z",
+      "side": 1,
+      "message": "In the case that the CommonHeader object is instantiated using the constructor of CommonHeader class that takes an existing CommonHeader object this format is applied. \nWhen the setTimestamp method of the CommonHeader class is used to set the timestamp this check format is not applied and when the CommonHeaderBuilder is used to construct a CommonHeader implementation then the format is not applied either. The date formatting seems to be mainly done in the classes using the CommonHeader.setTimestamp and the CommonHeaderBuilder methods of instantiating these objects so I was not able to find a case that would cause failures in operation.\nThe regex pattern in ZULU does not match the DateFormat definitions defined in various classes but it is less restrictive so will not fail. I will change this code review to just apply the DateFormat to the timestamp of the CommonHeader objects instantiated within the intermittently failing tests and remove the proposed changes to this YANG definition.",
+      "parentUuid": "5a93c517_12982c69",
+      "range": {
+        "startLine": 69,
+        "startChar": 12,
+        "endLine": 69,
+        "endChar": 16
+      },
+      "revId": "7d748e6fe6e06e7bc34e57b6faeb2f67fda33f06",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
