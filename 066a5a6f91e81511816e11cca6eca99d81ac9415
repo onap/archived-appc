@@ -16,6 +16,24 @@
       "revId": "066a5a6f91e81511816e11cca6eca99d81ac9415",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b8eb57a3",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2018-06-20T20:54:38Z",
+      "side": 1,
+      "message": "Jim appc error codes are different than http status codes,appc-401 code indicates error and 400 indicates success whereas httpstatus codes 400-indicates bad request and 401-indicates unauthorized ,to avoid this ambiguity i added constants instead of httpstatus codes.",
+      "parentUuid": "5a93c517_f88ebf31",
+      "revId": "066a5a6f91e81511816e11cca6eca99d81ac9415",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
