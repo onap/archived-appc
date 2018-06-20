@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_3dead974",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Woow !!.. It\u0027s really good and very handy. Thank you for the suggestion :)",
+      "parentUuid": "5a93c517_fd8eb131",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_9d9d2d69",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-06-20T12:58:50Z",
       "side": 1,
       "message": "verify or assert that the status is pending",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5d7805f8",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Added Verify.",
+      "parentUuid": "5a93c517_9d9d2d69",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_7d7b81f4",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Added Verify.",
+      "parentUuid": "5a93c517_3dadf99b",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_bd982976",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2018-06-20T12:58:50Z",
       "side": 1,
       "message": "verify or assert that message is set",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1d827dc8",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Added Verify.",
+      "parentUuid": "5a93c517_bd982976",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,41 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_5d5fa575",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Added assertNotNull",
+      "parentUuid": "5a93c517_5d87a512",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_dd52d567",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "In this test case, if the password is incorrect, it shouldn\u0027t create ConnectionBuilder and so the AnsibleAdapterImpl initialize should also fail. Which inturn should not create Ansible Adapter impl object.\nBut in actual case, the AnsibleAdapter object is created. Any suggestions please?",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_7d8aa11b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 1
@@ -98,6 +205,24 @@
       "writtenOn": "2018-06-20T12:58:50Z",
       "side": 1,
       "message": "new file - should this just be 2018?",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bdeb49a3",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "This is the License header shared by my colleague working in policy component in ONAP. Is there a different format for APPC?",
+      "parentUuid": "5a93c517_7d8aa11b",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -121,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_fdfb1146",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "5a93c517_1d811dfb",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3d84190a",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 1
@@ -132,6 +275,24 @@
       "writtenOn": "2018-06-20T12:58:50Z",
       "side": 1,
       "message": "need to test anything?  Or is this sufficient as is?",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_dd3df52d",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "This test case tries to invoke the constructor with keystore file and password. I\u0027m not sure how to assert it. \nProbably I can do something like assertNotNull(connectionBuilder); Is it ok?",
+      "parentUuid": "5a93c517_3d84190a",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -155,6 +316,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_fd38f13c",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "Probably I can do something like assertNotNull(connectionBuilder); Is it ok?",
+      "parentUuid": "5a93c517_dd7ad524",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_fd755133",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 1
@@ -166,6 +345,24 @@
       "writtenOn": "2018-06-20T12:58:50Z",
       "side": 1,
       "message": "need to test anything?  Or is this sufficient as is?",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9d476dbc",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "This test is used to invoke the setHttpContext method and set httpcontext object. As this is a void method, I\u0027m not sure how to assert it. Probably I cna use verify method to assert that the method is invoked atleast once.\nverify(spyConnectionBuilder, times(1)).setHttpContext(USERNAME, PASSWORD);",
+      "parentUuid": "5a93c517_fd755133",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -189,6 +386,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_3d009965",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "During the last review-APPC-436, I was told not to modify the existing License headers. Is it ok to modify?",
+      "parentUuid": "5a93c517_9d744d37",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_bd6fc95f",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
         "patchSetId": 1
@@ -200,6 +415,24 @@
       "writtenOn": "2018-06-20T12:58:50Z",
       "side": 1,
       "message": "delete this line",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_fdf1d196",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-20T14:18:54Z",
+      "side": 1,
+      "message": "During the last review-APPC-436, I was told not to modify the existing License headers. Is it ok to modify?",
+      "parentUuid": "5a93c517_bd6fc95f",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
