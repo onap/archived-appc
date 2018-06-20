@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_f88ebf31",
+        "filename": "appc-adapters/appc-chef-adapter/appc-chef-adapter-bundle/src/main/java/org/onap/appc/adapter/chef/impl/ChefAdapterImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T19:05:19Z",
+      "side": 1,
+      "message": "status codes are already defined in HttpURLConnection and HttpStatus, perhaps consider using codes from one of those instead of defining new STATUS_xxx constants",
+      "revId": "066a5a6f91e81511816e11cca6eca99d81ac9415",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
