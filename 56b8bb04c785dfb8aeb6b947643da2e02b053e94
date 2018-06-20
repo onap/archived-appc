@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_fd055115",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:00:54Z",
+      "side": 1,
+      "message": "Actually, you can thank Joss - I recently learned about it from something he did.  :-)",
+      "parentUuid": "5a93c517_3dead974",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_9d9d2d69",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Added Verify.",
       "parentUuid": "5a93c517_9d9d2d69",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9d044d19",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:00:54Z",
+      "side": 1,
+      "message": "I was thinking more along the lines of: what does reqExec() do?  Is there something else that it should invoke (which can be verified), or is there some adapater.getXxx() method that can be called to verify that it did what is expected?",
+      "parentUuid": "5a93c517_5d7805f8",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -194,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_bdffc901",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:00:54Z",
+      "side": 1,
+      "message": "in that case, this is sufficient as is - it will throw an exception if the constructor fails, which will cause the test case to fail",
+      "parentUuid": "5a93c517_dd52d567",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_7d8aa11b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 1
@@ -223,6 +277,24 @@
       "side": 1,
       "message": "This is the License header shared by my colleague working in policy component in ONAP. Is there a different format for APPC?",
       "parentUuid": "5a93c517_7d8aa11b",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_58fed306",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:00:54Z",
+      "side": 1,
+      "message": "I meant, change \"2016-2018\" to \"2018\" since this file didn\u0027t exist prior to 2018.",
+      "parentUuid": "5a93c517_bdeb49a3",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -398,6 +470,24 @@
       "side": 1,
       "message": "During the last review-APPC-436, I was told not to modify the existing License headers. Is it ok to modify?",
       "parentUuid": "5a93c517_9d744d37",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_78014f03",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:00:54Z",
+      "side": 1,
+      "message": "You can add additional copyright lines for your company, with appropriate years - similar to the way there is a copyright line for both AT\u0026T and Amdocs.",
+      "parentUuid": "5a93c517_3d009965",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
