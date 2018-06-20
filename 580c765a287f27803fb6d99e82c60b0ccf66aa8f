@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_181feb5c",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1983
+      },
+      "writtenOn": "2018-06-20T15:09:29Z",
+      "side": 1,
+      "message": "I just checked with code owner, we dont need this file in ONAP",
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_9d2d2dab",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
         "patchSetId": 1
@@ -19,6 +36,23 @@
         "endLine": 32,
         "endChar": 24
       },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3822e7a3",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1983
+      },
+      "writtenOn": "2018-06-20T15:09:29Z",
+      "side": 1,
+      "message": "we dont need this file in ONAP",
       "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
