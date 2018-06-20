@@ -23,43 +23,88 @@
 
 package org.onap.appc.adapter.ansible.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
-
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
+import org.onap.appc.adapter.ansible.model.AnsibleResult;
+import org.onap.appc.configuration.Configuration;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.powermock.reflect.Whitebox;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class TestAnsibleAdapterImpl {
 
-    private final String PENDING = "100";
-    private final String SUCCESS = "400";
-    private String message = "{\"Results\":{\"192.168.1.10\":{\"Id\":\"101\",\"StatusCode\":200,\"StatusMessage\":\"SUCCESS\"}},\"StatusCode\":200,\"StatusMessage\":\"FINISHED\"}";
+    private static String KEYSTORE_PASSWORD;
+    private static Configuration configuration;
 
     private AnsibleAdapterImpl adapter;
-    private String TestId;
     private boolean testMode = true;
     private Map<String, String> params;
     private SvcLogicContext svcContext;
+    private JSONObject jsonPayload;
+    private AnsibleResult result;
+    private String agentUrl = "https://192.168.1.1";
+    private AnsibleAdapterImpl spyAdapter;
 
+    @Mock
+    private AnsibleMessageParser messageProcessor;
 
+    @Mock
+    private ConnectionBuilder httpClient;
+
+    /**
+     * Load the configuration properties
+     */
+    @BeforeClass
+    public static void once() {
+        configuration = ConfigurationFactory.getConfiguration();
+        KEYSTORE_PASSWORD = configuration.getProperty("org.onap.appc.adapter.ansible.trustStore.trustPasswd");
+
+    }
+
+    /**
+     * Use reflection to locate fields and methods so that they can be manipulated during the test
+     * to change the internal state accordingly.
+     *
+     */
     @Before
-    public void setup() throws IllegalArgumentException {
+    public void setup() {
         testMode = true;
         svcContext = new SvcLogicContext();
         adapter = new AnsibleAdapterImpl(testMode);
-
         params = new HashMap<>();
-        params.put("AgentUrl", "https://192.168.1.1");
-        params.put("User", "test");
-        params.put("Password", "test");
+        params.put("AgentUrl", agentUrl);
+        jsonPayload = new JSONObject();
+        jsonPayload.put("Id", "100");
+        jsonPayload.put("User", "test");
+        jsonPayload.put("Password", "test");
+        jsonPayload.put("PlaybookName", "test_playbook.yaml");
+        jsonPayload.put("AgentUrl", agentUrl);
+        result = new AnsibleResult();
+        result.setStatusMessage("Success");
+        result.setResults("Success");
+        Whitebox.setInternalState(adapter, "messageProcessor", messageProcessor);
+        spyAdapter = Mockito.spy(adapter);
     }
 
     @After
@@ -70,60 +115,196 @@ public class TestAnsibleAdapterImpl {
         svcContext = null;
     }
 
+    /**
+     * This test case is used to test the request is submitted and the status is marked to pending
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
     @Test
-    public void reqExec_shouldSetPending() throws IllegalStateException, IllegalArgumentException {
-
-        params.put("PlaybookName", "test_playbook.yaml");
-
-        try {
-            adapter.reqExec(params, svcContext);
-            String status = svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
-            TestId = svcContext.getAttribute("org.onap.appc.adapter.ansible.result.Id");
-            System.out.println("Comparing " + PENDING + " and " + status);
-            assertEquals(PENDING, status);
-        } catch (SvcLogicException e) {
-            String status = svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
-            fail(e.getMessage() + " Code = " + status);
-        } catch (Exception e) {
-            fail(e.getMessage() + " Unknown exception encountered ");
-        }
+    public void reqExec_shouldSetPending() throws SvcLogicException, APPCException {
+        result.setStatusCode(100);
+        when(messageProcessor.reqMessage(params)).thenReturn(jsonPayload);
+        when(messageProcessor.parsePostResponse(anyString())).thenReturn(result);
+        spyAdapter.reqExec(params, svcContext);
+        verify(spyAdapter, times(1)).reqExec(params, svcContext);
     }
 
+    /**
+     * This test case is used to test the request is process and the status is marked to success
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
     @Test
-    public void reqExecResult_shouldSetSuccess() throws IllegalStateException, IllegalArgumentException {
-
+    public void reqExecResult_shouldSetSuccess() throws SvcLogicException, APPCException {
         params.put("Id", "100");
-
-        for (String ukey : params.keySet()) {
-            System.out.println(String.format("Ansible Parameter %s = %s", ukey, params.get(ukey)));
-        }
-
-        try {
-            adapter.reqExecResult(params, svcContext);
-            String status = svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
-            assertEquals(SUCCESS, status);
-        } catch (SvcLogicException e) {
-            String status = svcContext.getAttribute("org.onap.appc.adapter.ansible.result.code");
-            fail(e.getMessage() + " Code = " + status);
-        } catch (Exception e) {
-            fail(e.getMessage() + " Unknown exception encountered ");
-        }
+        result.setStatusCode(200);
+        when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
+        when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
+        spyAdapter.reqExecResult(params, svcContext);
+        verify(spyAdapter, times(1)).reqExecResult(params, svcContext);
     }
 
+    /**
+     * This test case is used to test the Failure of the request
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExecResult_Failure() throws SvcLogicException, APPCException {
+        params.put("Id", "100");
+        result.setStatusCode(100);
+        result.setStatusMessage("Failed");
+        when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
+        when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
+        adapter.reqExecResult(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the APPC Exception
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExecResult_appcException() throws APPCException, SvcLogicException {
+        when(messageProcessor.reqUriResult(params)).thenThrow(new APPCException());
+        adapter.reqExecResult(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the Number Format Exception
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExecResult_numberFormatException()
+            throws IllegalStateException, IllegalArgumentException, APPCException, SvcLogicException {
+        when(messageProcessor.reqUriResult(params)).thenThrow(new NumberFormatException());
+        adapter.reqExecResult(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the logs executed for the specific request
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
     @Test
-    public void reqExecLog_shouldSetMessage() throws IllegalStateException, IllegalArgumentException {
-
+    public void reqExecLog_shouldSetMessage() throws SvcLogicException, APPCException {
         params.put("Id", "101");
-
-        try {
-            adapter.reqExecLog(params, svcContext);
-            String status = svcContext.getAttribute("org.onap.appc.adapter.ansible.log");
-            assertEquals(message, status);
-        } catch (SvcLogicException e) {
-            String status = svcContext.getAttribute("org.onap.appc.adapter.ansible.log");
-            fail(e.getMessage() + " Code = " + status);
-        } catch (Exception e) {
-            fail(e.getMessage() + " Unknown exception encountered ");
-        }
+        when(messageProcessor.reqUriLog(params)).thenReturn(agentUrl);
+        adapter.reqExecLog(params, svcContext);
     }
+
+    /**
+     * This test case is used to test the APPC Exception
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExecException()
+            throws IllegalStateException, IllegalArgumentException, APPCException, SvcLogicException {
+        when(messageProcessor.reqUriLog(params)).thenThrow(new APPCException("Appc Exception"));
+        adapter.reqExecLog(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the APPC Exception
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExec_AppcException()
+            throws IllegalStateException, IllegalArgumentException, SvcLogicException, APPCException {
+        when(messageProcessor.reqMessage(params)).thenThrow(new APPCException());
+        adapter.reqExec(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the JSON Exception
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExec_JsonException()
+            throws IllegalStateException, IllegalArgumentException, SvcLogicException, APPCException {
+        when(messageProcessor.reqMessage(params)).thenThrow(new JSONException("Json Exception"));
+        adapter.reqExec(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the Number Format Exception
+     *
+     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
+     *         Exception
+     * @throws APPCException If the request cannot be processed for some reason
+     */
+    @Test(expected = SvcLogicException.class)
+    public void reqExec_NumberFormatException()
+            throws IllegalStateException, IllegalArgumentException, SvcLogicException, APPCException {
+        when(messageProcessor.reqMessage(params)).thenThrow(new NumberFormatException("Numbre Format Exception"));
+        adapter.reqExec(params, svcContext);
+    }
+
+    /**
+     * This test case is used to test the constructor with no client type
+     *
+     */
+    @Test
+    public void testInitializeWithDefault() {
+        configuration.setProperty("org.onap.appc.adapter.ansible.clientType", "");
+        adapter = new AnsibleAdapterImpl();
+        assertNotNull(adapter);
+    }
+
+    /**
+     * This test case is used to test the constructor with client type as TRUST_ALL
+     *
+     */
+    @Test
+    public void testInitializeWithTrustAll() {
+        configuration.setProperty("org.onap.appc.adapter.ansible.clientType", "TRUST_ALL");
+        adapter = new AnsibleAdapterImpl();
+        assertNotNull(adapter);
+    }
+
+    /**
+     * This test case is used to test the constructor with client type as TRUST_CERT
+     *
+     */
+    @Test
+    public void testInitializeWithTrustCert() {
+        configuration.setProperty("org.onap.appc.adapter.ansible.clientType", "TRUST_CERT");
+        configuration.setProperty("org.onap.appc.adapter.ansible.trustStore.trustPasswd", KEYSTORE_PASSWORD);
+        adapter = new AnsibleAdapterImpl();
+        assertNotNull(adapter);
+    }
+
+    /**
+     * This test case is used to test the constructor with exception
+     *
+     */
+    @Test
+    public void testInitializeWithException() {
+        configuration.setProperty("org.onap.appc.adapter.ansible.clientType", "TRUST_CERT");
+        configuration.setProperty("org.onap.appc.adapter.ansible.trustStore.trustPasswd", "appc");
+        adapter = new AnsibleAdapterImpl();
+    }
+
 }
