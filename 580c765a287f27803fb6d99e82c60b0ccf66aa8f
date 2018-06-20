@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_9d2d2dab",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpConnect.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-20T14:50:43Z",
+      "side": 1,
+      "message": "please remove the tab, use 4+ spaces instead.\n\nwhere is the test code?",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bd282998",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-20T14:50:43Z",
+      "side": 1,
+      "message": "please use the standard header",
+      "range": {
+        "startLine": 5,
+        "startChar": 1,
+        "endLine": 5,
+        "endChar": 3
+      },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_5d17a554",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-20T14:50:43Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 18,
+        "startChar": 11,
+        "endLine": 18,
+        "endChar": 17
+      },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_1d111d5d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-20T14:50:43Z",
+      "side": 1,
+      "message": "where is the test code?",
+      "range": {
+        "startLine": 39,
+        "startChar": 16,
+        "endLine": 39,
+        "endChar": 28
+      },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_7d1aa17d",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-20T14:50:43Z",
+      "side": 1,
+      "message": "no tab, use 4+ spaces",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 3
+      },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3d14194c",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/sftp/SftpSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-20T14:50:43Z",
+      "side": 1,
+      "message": "remove the blank line only contains spaces",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 24
+      },
+      "revId": "580c765a287f27803fb6d99e82c60b0ccf66aa8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_7dbe2166",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
         "patchSetId": 1
