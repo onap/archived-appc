@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_98321bf1",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-20T15:13:06Z",
+      "side": 1,
+      "message": "If there\u0027s nothing that can be checked, then that\u0027s fine.  I wouldn\u0027t bother doing a verify() of a method that was invoked on the previous line.",
+      "parentUuid": "5a93c517_9d044d19",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3dadf99b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
