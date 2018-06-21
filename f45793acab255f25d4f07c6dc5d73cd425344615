@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_6fad029b",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/executorImpl/GraphExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T22:03:07Z",
+      "side": 1,
+      "message": "remove the \"println\"",
+      "revId": "f45793acab255f25d4f07c6dc5d73cd425344615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2f8ffa2f",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/InventoryInfoExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T22:03:07Z",
+      "side": 1,
+      "message": "too much indentation for \"}\"",
+      "revId": "f45793acab255f25d4f07c6dc5d73cd425344615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_cf9d3668",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/InventoryInfoExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T22:03:07Z",
+      "side": 1,
+      "message": "just curious: Does this attribute name really have spaces around it?",
+      "revId": "f45793acab255f25d4f07c6dc5d73cd425344615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ef983277",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/ResourceUriExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T22:03:07Z",
+      "side": 1,
+      "message": "use StringUtils.isNotBlank() instead of \"!\u003d\", in case of empty string?",
+      "revId": "f45793acab255f25d4f07c6dc5d73cd425344615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8f872e12",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/ResourceUriExtractorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T22:03:07Z",
+      "side": 1,
+      "message": "Is there no constant for \"port\"?  Perhaps there should be.",
+      "revId": "f45793acab255f25d4f07c6dc5d73cd425344615",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
