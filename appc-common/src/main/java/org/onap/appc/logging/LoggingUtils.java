@@ -37,6 +37,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.UUID;
 
 /**
  * Logging utilities
@@ -123,19 +124,17 @@ public class LoggingUtils {
     private static void populateAuditLogContext(Instant beginTimeStamp, Instant endTimeStamp,
             String code, String responseDescription, String className) {
         populateTimeContext(beginTimeStamp, endTimeStamp);
-        MDC.put(LoggingConstants.MDCKeys.RESPONSE_CODE, code);
-        MDC.put(LoggingConstants.MDCKeys.STATUS_CODE, "100".equals(code) || "400".equals(code)
-                ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR);
-        MDC.put(LoggingConstants.MDCKeys.RESPONSE_DESCRIPTION,
-                responseDescription != null ? responseDescription : "");
+        populateRequestContext();
+        String statusCode = ("100".equals(code) || "400".equals(code))
+                ? LoggingConstants.StatusCodes.COMPLETE : LoggingConstants.StatusCodes.ERROR;
+        populateResponseContext(statusCode, code, responseDescription );
         MDC.put(LoggingConstants.MDCKeys.CLASS_NAME, className != null ? className : "");
     }
 
     private static void cleanAuditErrorContext() {
+        cleanRequestContext();
         cleanTimeContext();
-        MDC.remove(LoggingConstants.MDCKeys.STATUS_CODE);
-        MDC.remove(LoggingConstants.MDCKeys.RESPONSE_CODE);
-        MDC.remove(LoggingConstants.MDCKeys.RESPONSE_DESCRIPTION);
+        cleanResponseContext();
         MDC.remove(LoggingConstants.MDCKeys.CLASS_NAME);
     }
 
@@ -155,6 +154,7 @@ public class LoggingUtils {
     private static void populateMetricLogContext(Instant beginTimeStamp, Instant endTimeStamp,
             String targetEntity, String targetServiceName, String statusCode, String responseCode,
             String responseDescription, String className) {
+        populateRequestContext();
         populateTimeContext(beginTimeStamp, endTimeStamp);
         populateTargetContext(targetEntity, targetServiceName);
         populateResponseContext(statusCode, responseCode, responseDescription);
@@ -162,6 +162,7 @@ public class LoggingUtils {
     }
 
     private static void cleanMetricContext() {
+        cleanRequestContext();
         cleanTimeContext();
         cleanTargetContext();
         cleanResponseContext();
@@ -179,6 +180,41 @@ public class LoggingUtils {
         MDC.remove(LoggingConstants.MDCKeys.TARGET_SERVICE_NAME);
     }
 
+    private static void populateRequestContext() {
+        try {
+            UUID.fromString(MDC.get(MDC_KEY_REQUEST_ID));
+            //reaching here without exception means existing RequestId is
+            //valid UUID as per ECOMP logging standards, no-op
+        } catch (Exception e) {
+            MDC.put(MDC_KEY_REQUEST_ID, UUID.randomUUID().toString());
+        }
+
+        try {
+            String partnerName = MDC.get(LoggingConstants.MDCKeys.PARTNER_NAME);
+
+            //ECOMP logging standards require some value for PartnerName.  Default to appc if empty
+            if (partnerName.isEmpty())
+                MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, "appc");
+        } catch (Exception e) {
+            MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, "appc");
+        }
+
+        try {
+            String serviceName = MDC.get(MDC_SERVICE_NAME);
+
+            //ECOMP logging standards require some value for ServiceName.  Default to DEFAULT if empty
+            if (serviceName.isEmpty())
+                MDC.put(MDC_SERVICE_NAME, "DEFAULT");
+        } catch (Exception e) {
+            MDC.put(MDC_SERVICE_NAME, "DEFAULT");
+        }
+    }
+
+    private static void cleanRequestContext() {
+        MDC.remove(MDC_KEY_REQUEST_ID);
+        MDC.remove(LoggingConstants.MDCKeys.PARTNER_NAME);
+        MDC.remove(MDC_SERVICE_NAME);
+    }
     private static void populateTimeContext(Instant beginTimeStamp, Instant endTimeStamp) {
         String beginTime = "";
         String endTime = "";
@@ -195,7 +231,7 @@ public class LoggingUtils {
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, elapsedTime);
     }
 
-    private static String generateTimestampStr(Instant timeStamp) {
+    public static String generateTimestampStr(Instant timeStamp) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
         TimeZone tz = TimeZone.getTimeZone("UTC");
         df.setTimeZone(tz);
