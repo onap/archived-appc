@@ -76,6 +76,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_4f084628",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T19:19:14Z",
+      "side": 1,
+      "message": "no - leave that.\n\nYou added code to doProcessArtifactList() to set the vnfc type from the vnfc type list - I\u0027d like to see a test case that exercises (and verifies) that particular piece of code.  Maybe the existing test case, testProcessArtifactListsWithVnfcTypeList, already does that - if so, you could add an assertEquals to verify that context now has the vnfc type that doProcessArtifactList() should have stuck into it (which may be different than the value, \"someVnf\", stuck into by lines 281 and 309)",
+      "parentUuid": "5a93c517_2c8388aa",
+      "range": {
+        "startLine": 281,
+        "startChar": 42,
+        "endLine": 281,
+        "endChar": 49
+      },
+      "revId": "62fce35e1d016908faec24dba6494888ff162b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_2cfce83e",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
         "patchSetId": 3
