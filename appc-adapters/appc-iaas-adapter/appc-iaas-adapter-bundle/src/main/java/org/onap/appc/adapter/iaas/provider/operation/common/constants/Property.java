@@ -39,4 +39,6 @@ public class Property {
     public static final String PROVIDER_TENANT_USERID = "userid";
     public static final String PROVIDER_TYPE = "type";
     public static final String SKIP_HYPERVISOR_CHECK = "org.onap.appc.iaas.skiphypervisorcheck";
+    public static final String PAYLOAD = "org.onap.appc.payload";
+
 }
