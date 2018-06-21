@@ -1,0 +1,9 @@
+Code-Review+1: Michal Kabaj <michal.kabaj@nokia.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Jim Hahn <jrh3@att.com>
+Code-Review+2: Takamune Cho <tc012c@att.com>
+Submitted-by: Takamune Cho <tc012c@att.com>
+Submitted-at: Thu, 21 Jun 2018 15:25:49 +0000
+Reviewed-on: https://gerrit.onap.org/r/55193
+Project: appc
+Branch: refs/heads/master
