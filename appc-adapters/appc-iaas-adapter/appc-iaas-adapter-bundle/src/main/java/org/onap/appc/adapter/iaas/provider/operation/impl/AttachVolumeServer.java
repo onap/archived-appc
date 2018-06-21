@@ -88,6 +88,10 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
+                if ((volumeId == null || volumeId.isEmpty()) || (device == null || device.isEmpty())) {
+                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    doFailure(requestContext, HttpStatus.BAD_REQUEST_400, "Both Device or Volumeid are mandatory");
+                }
                 VolumeService volumeService = contx.getVolumeService();
                 logger.info("collecting volume status for volume -id:" + volumeId);
                 List<Volume> volumes = volumeService.getVolumes();
@@ -169,7 +173,7 @@ public class AttachVolumeServer extends ProviderServerOperation {
         logger.info("AttachVolumeFlag" + isValid);
         return isValid;
     }
-    
+
     protected boolean validateAttach(RequestContext rc, ComputeService ser, String vm, String volumeId, String device)
             throws RequestFailedException, ZoneException {
         boolean isValid = false;
@@ -199,7 +203,6 @@ public class AttachVolumeServer extends ProviderServerOperation {
             }
         }
         if ((rc.getAttempts() == 30) && (!isValid)) {
-
             msg = EELFResourceManager.format(Msg.CONNECTION_FAILED_RETRY, Long.toString(rc.getRetryDelay()),
                     Integer.toString(rc.getAttempts()), Integer.toString(rc.getRetryLimit()));
             logger.error(msg);

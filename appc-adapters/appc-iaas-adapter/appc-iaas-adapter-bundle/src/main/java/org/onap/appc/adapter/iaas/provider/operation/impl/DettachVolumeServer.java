@@ -92,6 +92,10 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 requestContext.reset();
                 server = lookupServer(requestContext, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
+                if (volumeId == null || volumeId.isEmpty()) {
+                    ctx.setAttribute("VOLUME_STATUS", "FAILURE");
+                    doFailure(requestContext, HttpStatus.BAD_REQUEST_400, "Volumeid is mandatory");
+                }
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
                 Volume volume = new Volume();
@@ -175,31 +179,29 @@ public class DettachVolumeServer extends ProviderServerOperation {
         while (rc.attempt()) {
             Map<String, String> map = ser.getAttachments(vm);
             if (map != null && !(map.isEmpty())) {
-            Iterator<Entry<String, String>> it = map.entrySet().iterator();
-            logger.info("volumes available after  detach ");
-            while (it.hasNext()) {
-                Map.Entry volumes = (Map.Entry) it.next();
-                logger.info(" devices " + volumes.getKey() + " volumes" + volumes.getValue());
-                if (volumes.getValue().equals(volumeId)) {
-                    logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());
-                    flag = true;
-                    break;
+                Iterator<Entry<String, String>> it = map.entrySet().iterator();
+                logger.info("volumes available after  detach ");
+                while (it.hasNext()) {
+                    Map.Entry volumes = (Map.Entry) it.next();
+                    logger.info(" devices " + volumes.getKey() + " volumes" + volumes.getValue());
+                    if (volumes.getValue().equals(volumeId)) {
+                        logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());
+                        flag = true;
+                        break;
+                    } else {
+                        flag = false;
+                    }
+                    logger.info("Dettachvolume flag-->" + flag + "Attempts" + rc.getAttempts());
+                }
+                if (flag) {
+                    rc.delay();
                 } else {
                     flag = false;
+                    break;
                 }
-                logger.info("Dettachvolume flag-->" + flag+"Attempts"+rc.getAttempts());
-            }
-            if (flag) {
-                rc.delay();
             } else {
                 flag = false;
-                break;
-            }
-        }
-            else
-            {
-                flag = false;
-                logger.info( rc.getAttempts() + "No.of attempts");
+                logger.info(rc.getAttempts() + "No.of attempts");
                 break;
             }
         }
