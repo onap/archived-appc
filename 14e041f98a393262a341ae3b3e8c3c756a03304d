@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_0c6c8c35",
+        "filename": "appc-common/src/main/java/org/onap/appc/logging/LoggingUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-21T15:12:48Z",
+      "side": 1,
+      "message": "is it using \"private\" good enough?",
+      "range": {
+        "startLine": 234,
+        "startChar": 54,
+        "endLine": 234,
+        "endChar": 63
+      },
+      "revId": "14e041f98a393262a341ae3b3e8c3c756a03304d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
