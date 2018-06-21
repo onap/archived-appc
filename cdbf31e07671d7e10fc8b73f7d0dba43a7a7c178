@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4f8126fa",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T22:10:00Z",
+      "side": 1,
+      "message": "This doesn\u0027t do it - all this does is to verify the data that this test case created.\n\nWhat we need to verify is that line 490 of doProcessArtifactList() actually gets executed and does what we expect.  Is there no way to test this?  Can we, perhaps, do context.getAttribute(\"vnf-type\") and verify that it now has the value extracted from the vnfc type list instead of the original value (i.e., \"someVnf\") that the test case set?",
+      "revId": "cdbf31e07671d7e10fc8b73f7d0dba43a7a7c178",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
