@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -59,9 +60,9 @@ public class TransactionHandlerTest {
     when(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE)).thenReturn("");
 
     expectedException.expect(Exception.class);
-    expectedException.expectMessage("Don't know vnf type to send REST request for  request-action - null");
+    expectedException.expectMessage("Don't know REST operation for Action");
     transactionHandler = new TransactionHandler();
-    transactionHandler.buildTransaction(ctx, prop, RESOURCE_URI);
+    transactionHandler.buildTransaction(ctx, RESOURCE_URI);
   }
 
   @Test
@@ -70,8 +71,8 @@ public class TransactionHandlerTest {
     when(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE)).thenReturn("foo");
 
     expectedException.expect(Exception.class);
-    expectedException.expectMessage("Don't know vnf type to send REST request for  request-action - null");
-    transactionHandler.buildTransaction(ctx, prop, "some uri");
+    expectedException.expectMessage("Don't know request-action request-action");
+    transactionHandler.buildTransaction(ctx, "some uri");
   }
 
   @Test
@@ -80,18 +81,16 @@ public class TransactionHandlerTest {
     when(ctx.getAttribute(INPUT_REQUEST_ACTION_TYPE)).thenReturn("input-ra-type");
     when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("input-ra");
     when(ctx.getAttribute(VNF_TYPE)).thenReturn("vnf");
-    
-    String userKey = ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "." + ctx.getAttribute(INPUT_REQUEST_ACTION) 
+
+    String userKey = ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "." + ctx.getAttribute(INPUT_REQUEST_ACTION)
                      + ".user";
-    String passwordKey = ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "." + ctx.getAttribute(INPUT_REQUEST_ACTION) 
+    String passwordKey = ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "." + ctx.getAttribute(INPUT_REQUEST_ACTION)
                      + ".password";
 
-    when(prop.getProperty(userKey))
-        .thenReturn("rest-user");
-    when(prop.getProperty(passwordKey))
-        .thenReturn("rest-pass");
+    when(ctx.getAttribute("user")).thenReturn("rest-user");
+    when(ctx.getAttribute("pwd")).thenReturn("rest-pass");
 
-    Transaction transaction = transactionHandler.buildTransaction(ctx, prop, "some uri");
+    Transaction transaction = transactionHandler.buildTransaction(ctx,"some uri");
 
     Assert.assertEquals(INPUT_REQUEST_ACTION, transaction.getAction());
     Assert.assertEquals("input-ra-type", transaction.getExecutionRPC());

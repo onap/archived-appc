@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,13 +36,14 @@ class InventoryInfoExtractor {
 
   private static final EELFLogger log = EELFManager.getInstance().getLogger(InventoryInfoExtractor.class);
 
-  InventoryInfo getInventoryInfo(SvcLogicContext ctx, String vnfId) {
+  InventoryInfo getInventoryInfo(SvcLogicContext ctx, String vnfId)  {
     String fn = "InventoryInfoExtractor.getInventoryInfo";
 
     VnfInfo vnfInfo = new VnfInfo();
     vnfInfo.setVnfId(vnfId);
     vnfInfo.setVnfName(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name"));
     vnfInfo.setVnfType(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type"));
+    vnfInfo.setIdentityUrl(getIdentityUrl(ctx,vnfInfo,vnfId));
 
     String vmcount = ctx.getAttribute("tmp.vnfInfo.vm-count");
     log.info(fn + "vmcount:" + vmcount);
@@ -62,6 +64,7 @@ class InventoryInfoExtractor {
   private void processVm(SvcLogicContext ctx, VnfInfo vnfInfo, int index) {
     Vm vm = new Vm();
     vm.setVserverId(ctx.getAttribute("tmp.vnfInfo.vm[" + index + "].vserver-id"));
+    vm.setVmId(ctx.getAttribute("tmp.vnfInfo.vm[" + index + "].vserver-selflink"));
     int vnfcCount = Integer.parseInt(ctx.getAttribute("tmp.vnfInfo.vm[" + index + "].vnfc-count"));
     if (vnfcCount > 0) {
       Vnfcslist vnfc = new Vnfcslist();
@@ -70,6 +73,26 @@ class InventoryInfoExtractor {
       vm.setVnfc(vnfc);
     }
     vnfInfo.getVm().add(vm);
+  }
+
+
+  public String getIdentityUrl(SvcLogicContext ctx, VnfInfo vnfInfo, String vnfId) {
+      String identityUrl = "";
+      for (String key : ctx.getAttributeKeySet()) {
+            log.debug("InventoryData " + key + "=" + ctx.getAttribute(key));
+      }
+      String urlFromPayload= ctx.getAttribute("AICIdentity");
+      log.info("Url from payload:" + urlFromPayload);
+      String urlFromAAI=ctx.getAttribute("tmp.vnfInfo.identity-url");
+
+      if(StringUtils.isNotBlank(urlFromPayload)){
+          identityUrl=urlFromPayload;
+      }else if(StringUtils.isNotBlank(urlFromAAI)){
+          identityUrl=urlFromAAI;
+      }
+    return identityUrl;
+
+
   }
 
 }

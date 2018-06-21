@@ -25,12 +25,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.onap.appc.flow.controller.node.RestServiceNode.APPC_CONFIG_DIR_VAR;
 import static org.onap.appc.flow.controller.node.RestServiceNode.REST_RESPONSE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Rule;
@@ -75,14 +73,13 @@ public class TestRestServiceNode {
         HashMap<String, String> restResponseMap = new HashMap<>();
         restResponseMap.put(REST_RESPONSE, REST_BODY_RESPONSE.replaceAll("'", "\""));
 
-        when(uriExtractorMock.extractResourceUri(any(SvcLogicContext.class), any(Properties.class)))
+        when(uriExtractorMock.extractResourceUri(any(SvcLogicContext.class)))
                 .thenReturn(RESOURCE_URI);
-        when(transactionHandlerMock.buildTransaction(any(SvcLogicContext.class), any(Properties.class),
+        when(transactionHandlerMock.buildTransaction(any(SvcLogicContext.class),
                 eq(RESOURCE_URI))).thenReturn(transaction);
         when(restExecutorMock.execute(eq(transaction), any(SvcLogicContext.class))).thenReturn(restResponseMap);
 
         EnvVariables envVariables = mock(EnvVariables.class);
-        when(envVariables.getenv(APPC_CONFIG_DIR_VAR)).thenReturn("src/test/resources");
         restServiceNode = new RestServiceNode(transactionHandlerMock, restExecutorMock, uriExtractorMock, envVariables);
     }
 
@@ -95,15 +92,15 @@ public class TestRestServiceNode {
         restServiceNode.sendRequest(params, ctxMock);
 
         // then
-        verify(uriExtractorMock).extractResourceUri(eq(ctxMock), any(Properties.class));
-        verify(transactionHandlerMock).buildTransaction(eq(ctxMock), any(Properties.class), eq(RESOURCE_URI));
+        verify(uriExtractorMock).extractResourceUri(eq(ctxMock));
+        verify(transactionHandlerMock).buildTransaction(eq(ctxMock), eq(RESOURCE_URI));
         verify(restExecutorMock).execute(transaction, ctxMock);
         verifyNoMoreInteractions(uriExtractorMock, transactionHandlerMock, restExecutorMock);
     }
 
     @Test
     public void should_rethrow_exception_from_uri_extractor() throws Exception {
-        when(uriExtractorMock.extractResourceUri(eq(ctxMock), any(Properties.class)))
+        when(uriExtractorMock.extractResourceUri(eq(ctxMock)))
                 .thenThrow(new Exception("resource uri exception"));
 
         expectedException.expect(SvcLogicException.class);
@@ -114,7 +111,7 @@ public class TestRestServiceNode {
 
     @Test
     public void should_rethrow_exception_from_transaction_handler() throws Exception {
-        when(transactionHandlerMock.buildTransaction(eq(ctxMock), any(Properties.class), eq(RESOURCE_URI)))
+        when(transactionHandlerMock.buildTransaction(eq(ctxMock), eq(RESOURCE_URI)))
                 .thenThrow(new Exception("transaction exception"));
 
         expectedException.expect(SvcLogicException.class);
