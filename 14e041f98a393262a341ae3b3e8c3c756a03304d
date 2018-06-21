@@ -22,6 +22,30 @@
       "revId": "14e041f98a393262a341ae3b3e8c3c756a03304d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6c6f50fd",
+        "filename": "appc-common/src/main/java/org/onap/appc/logging/LoggingUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1995
+      },
+      "writtenOn": "2018-06-21T18:21:46Z",
+      "side": 1,
+      "message": "changed to public to invoke this from other classes that are logging audit and metric and it\u0027s more of a utility method",
+      "parentUuid": "5a93c517_0c6c8c35",
+      "range": {
+        "startLine": 234,
+        "startChar": 54,
+        "endLine": 234,
+        "endChar": 63
+      },
+      "revId": "14e041f98a393262a341ae3b3e8c3c756a03304d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
