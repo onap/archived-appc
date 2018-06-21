@@ -107,3 +107,4 @@ APPC:VM_Start:2.0.0:sync
 APPC:VM_Stop:2.0.0:sync
 APPC:AttachVolumeVM:4.0.0:sync
 APPC:DetachVolumeVM:4.0.0:sync
+APPC:RebootVM:4.0.0:sync

@@ -1,0 +1,262 @@
+[
+    {
+        "id": "2908a6da.b2a8ca",
+        "type": "dgstart",
+        "name": "DGSTART",
+        "outputs": 1,
+        "x": 79.11666870117188,
+        "y": 100.11666870117188,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "995f28f7.17ac08"
+            ]
+        ]
+    },
+    {
+        "id": "995f28f7.17ac08",
+        "type": "service-logic",
+        "name": "APPC 4.0.0",
+        "module": "APPC",
+        "version": "4.0.0",
+        "comments": "",
+        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+        "outputs": 1,
+        "x": 236.11666870117188,
+        "y": 100.11666870117188,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "13428bfe.c24b7c"
+            ]
+        ]
+    },
+    {
+        "id": "13428bfe.c24b7c",
+        "type": "method",
+        "name": "RebootVM",
+        "xml": "<method rpc='RebootVM' mode='sync'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 434.1166687011719,
+        "y": 102.11666870117188,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "bf97077a.524938"
+            ]
+        ]
+    },
+    {
+        "id": "37f23061.4a84c",
+        "type": "success",
+        "name": "SUCCESS",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 802.1166381835938,
+        "y": 312.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "2916b3cf.482764"
+            ]
+        ]
+    },
+    {
+        "id": "25a4b4ec.294ce4",
+        "type": "other",
+        "name": "other",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 811.1166381835938,
+        "y": 191.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "5491c1ea.b5ae1"
+            ]
+        ]
+    },
+    {
+        "id": "bd19dd70.f3047",
+        "type": "returnSuccess",
+        "name": "return success",
+        "xml": "<return status='success'>\n<parameter name='error-message' value='`$error-message`' />",
+        "comments": "",
+        "x": 1358.1166381835938,
+        "y": 284.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": []
+    },
+    {
+        "id": "2bac0636.1502ca",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='`$error-message`' />",
+        "comments": "",
+        "x": 1119.1166381835938,
+        "y": 191.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": []
+    },
+    {
+        "id": "2916b3cf.482764",
+        "type": "switchNode",
+        "name": "switch status",
+        "xml": "<switch test='`$REBOOT_STATUS`'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 995.1166381835938,
+        "y": 313.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "21120d2e.1cbe7a",
+                "cdc5d6c9.13f118"
+            ]
+        ]
+    },
+    {
+        "id": "21120d2e.1cbe7a",
+        "type": "success",
+        "name": "SUCCESS",
+        "xml": "<outcome value='SUCCESS'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1177.1166381835938,
+        "y": 283.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "bd19dd70.f3047"
+            ]
+        ]
+    },
+    {
+        "id": "cdc5d6c9.13f118",
+        "type": "outcome",
+        "name": "ERROR",
+        "xml": "<outcome value='Other'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 1169.1166381835938,
+        "y": 442.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "3bf641fb.7fe476"
+            ]
+        ]
+    },
+    {
+        "id": "3bf641fb.7fe476",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 1302.1166381835938,
+        "y": 443.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "9329c487.eecde",
+                "cd3bd4e.e949528"
+            ]
+        ]
+    },
+    {
+        "id": "9329c487.eecde",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value='`$error-message`' />\n",
+        "comments": "",
+        "x": 1437.1166381835938,
+        "y": 484.1166687011719,
+        "z": "be85a121.0dcb68",
+        "wires": []
+    },
+    {
+        "id": "5491c1ea.b5ae1",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 967.1166381835938,
+        "y": 191.11663818359375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "2bac0636.1502ca"
+            ]
+        ]
+    },
+    {
+        "id": "16882635.3581a2",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field2\" value=\"`'input.payload = ' + $input.payload`\" />\n<parameter name=\"field3\" value=\"`'vm-id in context=' + $vm-id`\" />\n<parameter name=\"field4\" value=\"`'rebootype in context=' + $type`\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 801.2333679199219,
+        "y": 132.11666870117188,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "bf97077a.524938",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 622.9833374023438,
+        "y": 160.98333740234375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "16882635.3581a2",
+                "8ea85be7.1c77e8"
+            ]
+        ]
+    },
+    {
+        "id": "cd3bd4e.e949528",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name=\"field3\" value=\"`'error-message = ' + $error-message`\" />\n<parameter name=\"field4\" value=\"`'error-code = ' + $error_code`\" />",
+        "comments": "",
+        "outputs": 1,
+        "x": 1426.9833374023438,
+        "y": 414.98333740234375,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8ea85be7.1c77e8",
+        "type": "execute",
+        "name": "RebootVM",
+        "xml": "<execute plugin='org.onap.appc.adapter.iaas.ProviderAdapter' method='rebootServer'>\n<parameter name=\"org.onap.appc.provider.name\" value=\"OpenStack\" />\n<parameter name=\"org.onap.appc.instance.url\" value=\"`$vm-id`\" />\n<parameter name=\"org.onap.appc.identity.url\" value=\"`$identity-url`\" />\n<parameter name=\"org.onap.appc.reboot.type\" value=\"`$type`\" />\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 639.1166381835938,
+        "y": 246.11666870117188,
+        "z": "be85a121.0dcb68",
+        "wires": [
+            [
+                "25a4b4ec.294ce4",
+                "37f23061.4a84c"
+            ]
+        ]
+    }
+]
