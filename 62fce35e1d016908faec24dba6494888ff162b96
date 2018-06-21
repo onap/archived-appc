@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_cce304a3",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T15:55:04Z",
+      "side": 1,
+      "message": "security issue - use parameterized SQL",
+      "revId": "62fce35e1d016908faec24dba6494888ff162b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ecde00da",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T15:55:04Z",
+      "side": 1,
+      "message": "security issue - use parameterized SQL",
+      "revId": "62fce35e1d016908faec24dba6494888ff162b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4ce7f4ac",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T15:55:04Z",
+      "side": 1,
+      "message": "indent this line",
+      "revId": "62fce35e1d016908faec24dba6494888ff162b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2cfce83e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-21T15:55:04Z",
+      "side": 1,
+      "message": "maybe add another test case to verify that doProcessArtifactList() set the context with the correct vnf-type.  (Or include a check in the above test case.)",
+      "revId": "62fce35e1d016908faec24dba6494888ff162b96",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
