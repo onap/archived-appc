@@ -20,6 +20,7 @@
  */
 package org.onap.appc.flow.controller.executorImpl;
 
+import org.json.JSONObject;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import java.util.Enumeration;
@@ -82,6 +83,17 @@ public class GraphExecutor implements FlowExecutorInterface {
         String fn = "GraphExecutor.execute ";
         log.debug(fn + "About to execute graph : " + transaction.getExecutionRPC());
 
+        String payload = transaction.getPayload();
+        log.debug("payload:" + payload);
+
+        JSONObject json = new JSONObject(payload);
+        for (Object key : json.keySet()) {
+            String keyStr = (String)key;
+            Object keyvalue = json.get(keyStr);
+            String value= keyvalue.toString();
+            ctx.setAttribute(keyStr, value);
+            log.debug("key: "+ keyStr + " value: " + keyvalue);
+        }
         Properties parms = new Properties();
         for (Object key : ctx.getAttributeKeySet()) {
             String parmName = (String) key;

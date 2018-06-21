@@ -31,7 +31,6 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Map;
-import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.executorImpl.RestExecutor;
@@ -42,7 +41,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 public class RestServiceNode implements SvcLogicJavaPlugin {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RestServiceNode.class);
-    public static final String APPC_CONFIG_DIR_VAR = "APPC_CONFIG_DIR";
 
     static final String REST_RESPONSE = "restResponse";
 
@@ -80,14 +78,11 @@ public class RestServiceNode implements SvcLogicJavaPlugin {
                 log.info(fn + "Getting Key = " + key + "and Value = " + ctx.getAttribute(key));
             }
 
-            Properties prop = loadProperties();
-            log.info("Loaded Properties " + prop.toString());
-
-            String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
+            String resourceUri = resourceUriExtractor.extractResourceUri(ctx);
 
             log.info("Rest Constructed URL : " + resourceUri);
 
-            Transaction transaction = transactionHandler.buildTransaction(ctx, prop, resourceUri);
+            Transaction transaction = transactionHandler.buildTransaction(ctx, resourceUri);
             Map<String, String> output = restExecutor.execute(transaction, ctx);
 
             String json = output.get(REST_RESPONSE);
@@ -110,12 +105,5 @@ public class RestServiceNode implements SvcLogicJavaPlugin {
         }
     }
 
-    private Properties loadProperties() throws Exception {
-        String directory = envVariables.getenv(APPC_CONFIG_DIR_VAR);
-        if (directory == null) {
-            throw new Exception("Cannot find Property file: " + APPC_CONFIG_DIR_VAR);
-        }
-        String path = directory + APPC_SOUTHBOUND;
-        return PropertiesLoader.load(path);
-    }
+
 }

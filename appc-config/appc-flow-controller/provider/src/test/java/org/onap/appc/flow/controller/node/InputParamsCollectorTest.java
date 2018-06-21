@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,8 +81,7 @@ public class InputParamsCollectorTest {
 
     Transaction transaction = inputParamsCollector.collectInputParams(ctx);
 
-    Assert.assertEquals(
-        "{\"input\":{\"request-info\":{\"action\":\"some-request-action\",\"payload\":\"some-payload\",\"action-level\":\"some-action-level\",\"action-identifier\":{\"vnf-id\":\"some-vnf-id\",\"vserver-id\":\"some-vserver-id\",\"vnfc-name\":\"some-vnfc-name\"}},\"inventory-info\":{\"vnf-info\":{\"vnf-id\":\"some-vnf-id\",\"vm\":[]}},\"dependency-info\":{\"vnfcs\":[{\"vnfc-type\":\"some-type\",\"mandatory\":\"some-mandatory\",\"resilience\":\"some-resilience\",\"parents\":[]},{\"vnfc-type\":\"some-type\",\"mandatory\":\"some-mandatory\",\"resilience\":\"some-resilience\",\"parents\":[]}]},\"capabilities\":{\"vnf\":[\"vnf-1\",\"vnf-2\"],\"vm\":[\"vm-1\",\"vm-2\"],\"vnfc\":[\"vnfc-1\",\"vnfc-2\"],\"vf-module\":[\"vf-module-1\",\"vf-module-2\"]}}}",
+    Assert.assertEquals("{\"input\":{\"request-info\":{\"action\":\"some-request-action\",\"payload\":\"some-payload\",\"action-level\":\"some-action-level\",\"action-identifier\":{\"vnf-id\":\"some-vnf-id\",\"vserver-id\":\"some-vserver-id\",\"vnfc-name\":\"some-vnfc-name\"}},\"inventory-info\":{\"vnf-info\":{\"vnf-id\":\"some-vnf-id\",\"identity-url\":\"\",\"vm\":[]}},\"capabilities\":{\"vnf\":[\"vnf-1\",\"vnf-2\"],\"vm\":[\"vm-1\",\"vm-2\"],\"vnfc\":[\"vnfc-1\",\"vnfc-2\"],\"vf-module\":[\"vf-module-1\",\"vf-module-2\"]}}}",
         transaction.getPayload());
     Assert.assertEquals("POST", transaction.getExecutionRPC());
     Assert.assertEquals("seq-generator-uid", transaction.getuId());

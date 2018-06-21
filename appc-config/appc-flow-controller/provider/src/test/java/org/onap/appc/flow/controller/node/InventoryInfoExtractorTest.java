@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
+import org.onap.appc.flow.controller.interfaceData.VnfInfo;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class InventoryInfoExtractorTest {
@@ -55,11 +57,15 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vm[1].vnfc-name")).thenReturn("some-vnfc-name-1");
     when(ctx.getAttribute("tmp.vnfInfo.vm[1].vnfc-type")).thenReturn("some-vnfc-type-1");
 
+    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+
     String vnfId = "some-vnf-id";
     InventoryInfo inventoryInfo = inventoryInfoExtractor.getInventoryInfo(ctx, vnfId);
 
     Assert.assertEquals(
-        "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, vnfType=some-vnf-type, vm=[Vm [vserverId=some-id-0, vnfc=Vnfcslist [vnfcType=some-vnfc-type-0, vnfcName=some-vnfc-name-0]], Vm [vserverId=some-id-1, vnfc=Vnfcslist [vnfcType=some-vnfc-type-1, vnfcName=some-vnfc-name-1]]]]]",
+        "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, vnfType=some-vnf-type, " +
+        "identityUrl=some-url, vm=[Vm [vserverId=some-id-0, vmId=null, " +
+        "vnfc=Vnfcslist [vnfcType=some-vnfc-type-0, vnfcName=some-vnfc-name-0]], Vm [vserverId=some-id-1, vmId=null, vnfc=Vnfcslist [vnfcType=some-vnfc-type-1, vnfcName=some-vnfc-name-1]]]]]",
         inventoryInfo.toString());
   }
 
@@ -68,6 +74,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn("2");
+    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -83,8 +90,11 @@ public class InventoryInfoExtractorTest {
     InventoryInfo inventoryInfo = inventoryInfoExtractor.getInventoryInfo(ctx, vnfId);
 
     Assert.assertEquals(
-        "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, vnfType=some-vnf-type, vm=[Vm [vserverId=some-id-0, vnfc=Vnfcslist [vnfcType=some-vnfc-type-0, vnfcName=some-vnfc-name-0]], Vm [vserverId=some-id-1, vnfc=null]]]]",
-        inventoryInfo.toString());
+            "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, "
+            + "vnfType=some-vnf-type, identityUrl=some-url, vm=[Vm [vserverId=some-id-0, "
+            + "vmId=null, vnfc=Vnfcslist [vnfcType=some-vnfc-type-0, vnfcName=some-vnfc-name-0]], "
+            + "Vm [vserverId=some-id-1, vmId=null, vnfc=null]]]]",
+            inventoryInfo.toString());
   }
 
   @Test
@@ -92,6 +102,8 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn("0");
+    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -106,9 +118,9 @@ public class InventoryInfoExtractorTest {
     String vnfId = "some-vnf-id";
     InventoryInfo inventoryInfo = inventoryInfoExtractor.getInventoryInfo(ctx, vnfId);
 
-    Assert.assertEquals(
-        "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, vnfType=some-vnf-type, vm=null]]",
-        inventoryInfo.toString());
+    Assert.assertEquals("InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, "
+            + "vnfType=some-vnf-type, identityUrl=some-url, vm=null]]",
+            inventoryInfo.toString());
   }
 
   @Test
@@ -116,6 +128,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn("");
+    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -131,8 +144,9 @@ public class InventoryInfoExtractorTest {
     InventoryInfo inventoryInfo = inventoryInfoExtractor.getInventoryInfo(ctx, vnfId);
 
     Assert.assertEquals(
-        "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, vnfType=some-vnf-type, vm=null]]",
-        inventoryInfo.toString());
+            "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, "
+            + "vnfType=some-vnf-type, identityUrl=some-url, vm=null]]",
+            inventoryInfo.toString());
   }
 
   @Test
@@ -140,6 +154,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn(null);
+    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -155,8 +170,29 @@ public class InventoryInfoExtractorTest {
     InventoryInfo inventoryInfo = inventoryInfoExtractor.getInventoryInfo(ctx, vnfId);
 
     Assert.assertEquals(
-        "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, vnfType=some-vnf-type, vm=null]]",
-        inventoryInfo.toString());
+            "InventoryInfo [vnfInfo=VnfInfo [vnfId=some-vnf-id, vnfName=some-vnf-name, "
+            + "vnfType=some-vnf-type, identityUrl=some-url, vm=null]]",
+            inventoryInfo.toString());
+  }
+
+  @Test
+  public void testGetIdentityUrl_from_payload() throws Exception{
+      InventoryInfoExtractor info = new InventoryInfoExtractor();
+      when(ctx.getAttribute("AICIdentity")).thenReturn("some_url");
+      VnfInfo vnfInfo = new VnfInfo();
+      String url=info.getIdentityUrl(ctx, vnfInfo, "123");
+      System.out.println(info.toString());
+      Assert.assertEquals(url, "some_url");
+  }
+
+  @Test
+  public void testGetIdentityUrl_from_Inventory() throws Exception{
+      InventoryInfoExtractor info = new InventoryInfoExtractor();
+      when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some_url_from_inventory");
+      VnfInfo vnfInfo = new VnfInfo();
+      String url=info.getIdentityUrl(ctx, vnfInfo, "123");
+      System.out.println(info.toString());
+      Assert.assertEquals(url, "some_url_from_inventory");
   }
 
 }
