@@ -1,20 +1,20 @@
 [
     {
-        "id": "eb339652.aa1bb",
+        "id": "dda01d01.8efea",
         "type": "dgstart",
         "name": "DGSTART",
         "outputs": 1,
-        "x": 361.8833312988281,
-        "y": 294.5666790008545,
-        "z": "8fbf021e.b75288",
+        "x": 107,
+        "y": 100.99999809265137,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "6a6b9cbd.5c5064"
+                "4285b095.ad6f98"
             ]
         ]
     },
     {
-        "id": "6a6b9cbd.5c5064",
+        "id": "4285b095.ad6f98",
         "type": "service-logic",
         "name": "APPC 4.0.0",
         "module": "APPC",
@@ -22,208 +22,389 @@
         "comments": "",
         "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
         "outputs": 1,
-        "x": 520.8833312988281,
-        "y": 290.5666790008545,
-        "z": "8fbf021e.b75288",
+        "x": 266,
+        "y": 96.99999809265137,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "ad9ed23f.8f9c68"
+                "e5582833.17866"
             ]
         ]
     },
     {
-        "id": "ad9ed23f.8f9c68",
+        "id": "e5582833.17866",
         "type": "method",
         "name": "method healthcheck",
         "xml": "<method rpc='healthcheck' mode='sync'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 725.8833389282227,
-        "y": 289.5666809082031,
-        "z": "8fbf021e.b75288",
+        "x": 471.00000762939453,
+        "y": 96,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "23912012.6a432"
+                "29f83645.69f632"
             ]
         ]
     },
     {
-        "id": "23912012.6a432",
+        "id": "29f83645.69f632",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic=\"true\">",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 385.8833312988281,
-        "y": 398.5666790008545,
-        "z": "8fbf021e.b75288",
+        "x": 131,
+        "y": 204.99999809265137,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "96f48524.be9e1",
-                "d37d976d.cb8ed"
+                "998e3410.3369e8",
+                "cb2757ad.de9de8",
+                "2d14f196.a6ca16",
+                "498108f.d34d378",
+                "c5398023.70d25",
+                "240eb04.368db5"
             ]
         ]
     },
     {
-        "id": "96f48524.be9e1",
+        "id": "998e3410.3369e8",
         "type": "execute",
         "name": "execute get and executeFlowSequence",
         "xml": "<execute plugin=\"org.onap.appc.flow.controller.node.RestServiceNode\" method=\"sendRequest\">\n<parameter name=\"responsePrefix\" value=\"APPC.healthcheck\" />\n\n",
         "comments": "",
         "outputs": 1,
-        "x": 438.8832702636719,
-        "y": 497.01111030578613,
-        "z": "8fbf021e.b75288",
+        "x": 240.99993896484375,
+        "y": 615.4444580078125,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "6be528f6.12212",
-                "d4a71709.a43268",
-                "c328bc28.cc53f"
+                "132553a3.a51034",
+                "d54c208b.83a2d",
+                "642a9ad3.f303cc"
             ]
         ]
     },
     {
-        "id": "6be528f6.12212",
+        "id": "132553a3.a51034",
         "type": "failure",
         "name": "not-found",
         "xml": "<outcome value='not-found'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 737.994457244873,
-        "y": 469.34446811676025,
-        "z": "8fbf021e.b75288",
+        "x": 569.1111259460449,
+        "y": 580.7777996063232,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "248dee55.40e1d2"
+                "70d13f13.0b98f8"
             ]
         ]
     },
     {
-        "id": "248dee55.40e1d2",
+        "id": "70d13f13.0b98f8",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 891.4388961791992,
-        "y": 456.5666694641113,
-        "z": "8fbf021e.b75288",
+        "x": 722.5555648803711,
+        "y": 568.0000009536743,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "31d502fd.89de4e"
+                "ad46f0c9.98d34"
             ]
         ]
     },
     {
-        "id": "31d502fd.89de4e",
+        "id": "ad46f0c9.98d34",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status=\"failure\">\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value=\"Unable to find Execute Node DG sendRequest\" />\n\n\n\t",
         "comments": "",
-        "x": 1059.9667205810547,
-        "y": 443.9000587463379,
-        "z": "8fbf021e.b75288",
+        "x": 891.0833892822266,
+        "y": 555.3333902359009,
+        "z": "ca6ae49d.5804d",
         "wires": []
     },
     {
-        "id": "d4a71709.a43268",
+        "id": "d54c208b.83a2d",
         "type": "failure",
         "name": "failure",
         "xml": "<outcome value='failure'>\n",
         "comments": "",
         "outputs": 1,
-        "x": 739.6610946655273,
-        "y": 514.1222286224365,
-        "z": "8fbf021e.b75288",
+        "x": 570.7777633666992,
+        "y": 625.5555601119995,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "1d2f2a87.475dc5"
+                "4a3daa6d.e2b974"
             ]
         ]
     },
     {
-        "id": "1d2f2a87.475dc5",
+        "id": "4a3daa6d.e2b974",
         "type": "block",
         "name": "block",
         "xml": "<block>\n",
         "atomic": "false",
         "comments": "",
         "outputs": 1,
-        "x": 891.2166862487793,
-        "y": 507.34448051452637,
-        "z": "8fbf021e.b75288",
+        "x": 722.3333549499512,
+        "y": 618.7778120040894,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "bc79231c.35d1f"
+                "ccdbfd0d.c05ed"
             ]
         ]
     },
     {
-        "id": "bc79231c.35d1f",
+        "id": "ccdbfd0d.c05ed",
         "type": "returnFailure",
         "name": "return failure",
         "xml": "<return status=\"failure\">\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value=\"`$APPC.healthcheck.error-message`\" />\n\n\n\t",
         "comments": "",
-        "x": 1053.2723236083984,
-        "y": 500.5111427307129,
-        "z": "8fbf021e.b75288",
+        "x": 884.3889923095703,
+        "y": 611.9444742202759,
+        "z": "ca6ae49d.5804d",
         "wires": []
     },
     {
-        "id": "d37d976d.cb8ed",
+        "id": "cb2757ad.de9de8",
         "type": "set",
         "name": "set Context params",
         "xml": "<set>\n<parameter name='vnf-id' value='`$input.action-identifiers.vnf-id`' /> \n<parameter name='service-instance-id' value='`$input.action-identifiers.service-instance-id`' /> \n\n<parameter name='request-id' value='`$input.common-header.request-id`' />\n\n<parameter name='originator-id' value='`$input.common-header.originator-id`' /> \n\n<!-- Not required in Get request<parameter name='payload' value='`$input.payload`' />  -->\n\n<parameter name='request-action-type' value= 'GET' /> \n\n\n\n",
         "comments": "",
-        "x": 1149.0261611938477,
-        "y": 373.67383003234863,
-        "z": "8fbf021e.b75288",
+        "x": 882.142822265625,
+        "y": 98.10714721679688,
+        "z": "ca6ae49d.5804d",
         "wires": []
     },
     {
-        "id": "c328bc28.cc53f",
+        "id": "642a9ad3.f303cc",
         "type": "success",
         "name": "outcome: Other",
         "xml": "<outcome value=\"Other\">",
         "comments": "",
         "outputs": 1,
-        "x": 749.9944763183594,
-        "y": 571.9000425338745,
-        "z": "8fbf021e.b75288",
+        "x": 581.1111450195312,
+        "y": 683.3333740234375,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "a4c92174.a2ada8"
+                "e8bbf5.52a31c08"
             ]
         ]
     },
     {
-        "id": "a4c92174.a2ada8",
+        "id": "e8bbf5.52a31c08",
         "type": "block",
         "name": "block : atomic",
         "xml": "<block atomic=\"true\">",
         "atomic": "true",
         "comments": "",
         "outputs": 1,
-        "x": 931.3277626037598,
-        "y": 570.2333450317383,
-        "z": "8fbf021e.b75288",
+        "x": 762.4444313049316,
+        "y": 681.6666765213013,
+        "z": "ca6ae49d.5804d",
         "wires": [
             [
-                "f6918f40.5299c"
+                "34ba67fe.c0a528"
             ]
         ]
     },
     {
-        "id": "f6918f40.5299c",
+        "id": "34ba67fe.c0a528",
         "type": "set",
         "name": "set payloadResponse",
         "xml": "<set>\n<parameter name='output.payload' value='`$APPC.healthcheck.status-message`' /> \n\n\n\n\n",
         "comments": "",
-        "x": 1175.8833465576172,
-        "y": 561.3166847229004,
-        "z": "8fbf021e.b75288",
+        "x": 1007.0000152587891,
+        "y": 672.7500162124634,
+        "z": "ca6ae49d.5804d",
         "wires": []
+    },
+    {
+        "id": "2d14f196.a6ca16",
+        "type": "get-resource",
+        "name": "get-resource",
+        "xml": "<get-resource\n\tplugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' \n\tresource='SQL'\n\tkey=\"SELECT DISTINCT PROTOCOL FROM PROTOCOL_REFERENCE WHERE ACTION = $input.action AND VNF_TYPE = $vnf-type ;\"\n    force='true'\n\tpfx='APPC.protocol'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 389,
+        "y": 217,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "f8ff44d8.ec0b8",
+                "fc824ec.4d19ab"
+            ]
+        ]
+    },
+    {
+        "id": "f8ff44d8.ec0b8",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 603,
+        "y": 166,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "adee68d3.e0ca2"
+            ]
+        ]
+    },
+    {
+        "id": "fc824ec.4d19ab",
+        "type": "success",
+        "name": "success",
+        "xml": "<outcome value='success'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 570,
+        "y": 250,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "6bbab4a.29b954c"
+            ]
+        ]
+    },
+    {
+        "id": "adee68d3.e0ca2",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 765,
+        "y": 164,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6bbab4a.29b954c",
+        "type": "set",
+        "name": "set protocol",
+        "xml": "<set>\n<parameter name='APPC.protocol.PROTOCOL' value='`$APPC.protocol.PROTOCOL`' />",
+        "comments": "",
+        "x": 763,
+        "y": 241,
+        "z": "ca6ae49d.5804d",
+        "wires": []
+    },
+    {
+        "id": "498108f.d34d378",
+        "type": "execute",
+        "name": "execute get property",
+        "xml": " <execute plugin=\"org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper\" method =\"getProperty\">\n <parameter name=\"prefix\" value =\"property\"/>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 424,
+        "y": 316,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "63cda702.a4978",
+                "a687c5e4.57d97"
+            ]
+        ]
+    },
+    {
+        "id": "63cda702.a4978",
+        "type": "failure",
+        "name": "failure",
+        "xml": "<outcome value='failure'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 626,
+        "y": 315,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "bd7dc6c1.2c92b"
+            ]
+        ]
+    },
+    {
+        "id": "a687c5e4.57d97",
+        "type": "not-found",
+        "name": "not-found",
+        "xml": "<outcome value='not-found'>\n",
+        "comments": "",
+        "outputs": 1,
+        "x": 636,
+        "y": 385,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "bd7dc6c1.2c92b"
+            ]
+        ]
+    },
+    {
+        "id": "bd7dc6c1.2c92b",
+        "type": "block",
+        "name": "block",
+        "xml": "<block>\n",
+        "atomic": "false",
+        "comments": "",
+        "outputs": 1,
+        "x": 780,
+        "y": 326,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            [
+                "235da745.236048"
+            ]
+        ]
+    },
+    {
+        "id": "235da745.236048",
+        "type": "returnFailure",
+        "name": "return failure",
+        "xml": "<return status='failure'>\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value=\"`$property.error-message`\" />",
+        "comments": "",
+        "x": 927,
+        "y": 325,
+        "z": "ca6ae49d.5804d",
+        "wires": []
+    },
+    {
+        "id": "c5398023.70d25",
+        "type": "set",
+        "name": "set properties",
+        "xml": "<set>\n<parameter name=\"user\" value='`$property.user`'/>\n<parameter name=\"pwd\" value='`$property.password`'/>\n<parameter name=\"url\" value='`$property.url`'/>\n<parameter name=\"port\" value='`$property.port`'/>",
+        "comments": "",
+        "x": 338,
+        "y": 440,
+        "z": "ca6ae49d.5804d",
+        "wires": []
+    },
+    {
+        "id": "240eb04.368db5",
+        "type": "record",
+        "name": "record",
+        "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name='user' value='`$user`'/>\n<parameter name='password' value='`$password`'/>\n<parameter name='url' value='`$url`'/>\n<parameter name='port' value='`$port`'/>",
+        "comments": "",
+        "outputs": 1,
+        "x": 311,
+        "y": 511,
+        "z": "ca6ae49d.5804d",
+        "wires": [
+            []
+        ]
     }
 ]

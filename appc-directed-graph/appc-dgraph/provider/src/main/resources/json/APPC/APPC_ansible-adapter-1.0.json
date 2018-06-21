@@ -212,7 +212,7 @@
         "id": "2c831d15.81b10a",
         "type": "returnSuccess",
         "name": "return success",
-        "xml": "<return status='success'>\n<parameter name='output.status.code' value='`$org.onap.appc.adapter.ansible.result.code`' />\n<parameter name='output.status.message' value='`$org.onap.appc.adapter.ansible.message`'/>\n<parameter name='output.status.results' value = '`$org.onap.appc.adapter.ansible.results`'/>\n",
+        "xml": "<return status='success'>\n<parameter name='output.status.code' value='`$org.onap.appc.adapter.ansible.result.code`' />\n<parameter name='output.status.message' value='`$org.onap.appc.adapter.ansible.message`'/>\n<parameter name='output.status.results' value = '`$org.onap.appc.adapter.ansible.results`'/>\n<parameter name='output.status.outputdata' value= '`$org.onap.appc.adapter.ansible.output`'/>\n",
         "comments": "",
         "x": 814.6999816894531,
         "y": 621.8833348751068,
