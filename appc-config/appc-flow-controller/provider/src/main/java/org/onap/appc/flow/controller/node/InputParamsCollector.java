@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2018 AT&T intellectual property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,10 +120,10 @@ class InputParamsCollector {
 
     InventoryInfo inventoryInfo = new InventoryInfoExtractor().getInventoryInfo(ctx, vnfId);
     Capabilities capabilities = new CapabilitiesDataExtractor(dbService).getCapabilitiesData(ctx);
-    DependencyInfo dependencyInfo = getDependencyInfo(ctx);
+    ctx.setAttribute("artifact-content", null);
 
     log.info("Enter InputData");
-    Input input = getInput(requestInfo, inventoryInfo, dependencyInfo, capabilities);
+    Input input = getInput(requestInfo, inventoryInfo, null, capabilities);
     log.info(fn + "Input parameters:" + input.toString());
 
     ObjectMapper mapper = new ObjectMapper();

@@ -118,7 +118,7 @@ public class FlowControllerConstants {
     public static final String REST_PROTOCOL = "REST";
     public static final String HEALTHCHECK ="HealthCheck";
     public static final String REST_USER="user";
-    public static final String REST_PWD="password";
+    public static final String REST_PWD="pwd";
     public static final String REST_PORT="port";
     public static final String REST_CONTEXT_URL="url";
 }

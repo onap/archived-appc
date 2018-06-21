@@ -40,6 +40,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "vserverId",
+    "vmId",
     "vnfc"
 })
 @XmlRootElement(name = "vm")
@@ -48,6 +49,9 @@ public class Vm {
     @XmlElement(name = "vserver-id", required = true)
     @JsonProperty("vserver-id")
     protected String vserverId;
+    @XmlElement(required = true)
+    @JsonProperty("vm-id")
+    protected String vmId;
     @XmlElement(required = true)
     @JsonProperty("vnfc")
     protected Vnfcslist vnfc;
@@ -102,7 +106,15 @@ public class Vm {
 
     @Override
     public String toString() {
-        return "Vm [vserverId=" + vserverId + ", vnfc=" + vnfc + "]";
+        return "Vm [vserverId=" + vserverId + ", vmId=" + vmId + ", vnfc=" + vnfc + "]";
+    }
+
+    public String getVmId() {
+        return vmId;
+    }
+
+    public void setVmId(String vmId) {
+        this.vmId = vmId;
     }
 
 }

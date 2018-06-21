@@ -59,6 +59,9 @@ public class VnfInfo {
     @XmlElement(name = "vnf-type", required = true)
     @JsonProperty("vnf-type")
     protected String vnfType;
+    @XmlElement(name = "identity-url")
+    @JsonProperty("identity-url")
+    protected String identityUrl;
     @JsonProperty("vm")
     protected List<Vm> vm;
 
@@ -166,7 +169,15 @@ public class VnfInfo {
     @Override
     public String toString() {
         return "VnfInfo [vnfId=" + vnfId + ", vnfName=" + vnfName
-                + ", vnfType=" + vnfType + ", vm=" + vm + "]";
+                + ", vnfType=" + vnfType + ", identityUrl=" + identityUrl + ", vm=" + vm + "]";
+    }
+
+    public String getIdentityUrl() {
+        return identityUrl;
+    }
+
+    public void setIdentityUrl(String identityUrl) {
+        this.identityUrl = identityUrl;
     }
 
 }

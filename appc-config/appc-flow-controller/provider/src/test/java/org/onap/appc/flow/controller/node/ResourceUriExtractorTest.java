@@ -62,7 +62,7 @@ public class ResourceUriExtractorTest {
         when(ctx.getAttribute(INPUT_URL)).thenReturn("http://localhost:8080");
 
         resourceUriExtractor = new ResourceUriExtractor();
-        String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
+        String resourceUri = resourceUriExtractor.extractResourceUri(ctx);
 
         Assert.assertEquals("http://localhost:8080", resourceUri);
     }
@@ -71,15 +71,13 @@ public class ResourceUriExtractorTest {
     public void should_extract_url_input_if_context_input_provided() throws Exception {
         when(ctx.getAttribute(INPUT_URL)).thenReturn("");
         when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
-        when(prop.getProperty(ctx.getAttribute(VNF_TYPE) + "." + (REST_PROTOCOL) + "."
-                + ctx.getAttribute(INPUT_REQUEST_ACTION) + "." + (REST_PORT))).thenReturn("8080");
+        when(ctx.getAttribute("port")).thenReturn("8080");
 
         when(ctx.getAttribute(INPUT_CONTEXT)).thenReturn("input-context");
-        when(ctx.getAttribute(INPUT_SUB_CONTEXT)).thenReturn("input-sub-context");
 
-        String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
+        String resourceUri = resourceUriExtractor.extractResourceUri(ctx);
 
-        Assert.assertEquals("http://localhost:8080/input-context/input-sub-context", resourceUri);
+        Assert.assertEquals("http://localhost:8080/input-context", resourceUri);
     }
 
     @Test
@@ -87,29 +85,27 @@ public class ResourceUriExtractorTest {
         when(ctx.getAttribute(INPUT_REQUEST_ACTION)).thenReturn("request-action");
         when(ctx.getAttribute(INPUT_URL)).thenReturn("");
         when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
-        when(prop.getProperty(ctx.getAttribute(VNF_TYPE) + "." + (REST_PROTOCOL) + "."
-                + ctx.getAttribute(INPUT_REQUEST_ACTION) + "." + (REST_PORT))).thenReturn("8080");
-
-        when(prop.getProperty(ctx.getAttribute(VNF_TYPE) + "." + REST_PROTOCOL + "."
-                + ctx.getAttribute(INPUT_REQUEST_ACTION) + "." + REST_CONTEXT_URL)).thenReturn("ra-context");
+        when(ctx.getAttribute("port")).thenReturn("8080");
+        when(ctx.getAttribute(INPUT_CONTEXT)).thenReturn("ra-context");
         when(prop.getProperty("request-action.sub-context")).thenReturn("ra-sub-context");
 
-        String resourceUri = resourceUriExtractor.extractResourceUri(ctx, prop);
+        String resourceUri = resourceUriExtractor.extractResourceUri(ctx);
 
-        Assert.assertEquals("http://localhost:8080/ra-context/ra-sub-context", resourceUri);
+        Assert.assertEquals("http://localhost:8080/ra-context", resourceUri);
     }
 
     @Test
     public void should_throw_exception_if_missing_context() throws Exception {
         when(ctx.getAttribute(INPUT_URL)).thenReturn("");
         when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
-        when(prop.getProperty(ctx.getAttribute(VNF_TYPE) + "." + (REST_PROTOCOL) + "."
-                + ctx.getAttribute(INPUT_REQUEST_ACTION) + "." + (REST_PORT))).thenReturn("8080");
+        when(ctx.getAttribute(INPUT_HOST_IP_ADDRESS)).thenReturn("localhost");
+        when(prop.getProperty(ctx.getAttribute(VNF_TYPE)+"."+(REST_PROTOCOL)+"."+ctx.getAttribute(INPUT_REQUEST_ACTION)
+            +"."+(REST_PORT))).thenReturn("8080");
 
         expectedException.expect(Exception.class);
         expectedException.expectMessage("Could not find the context for operation null");
 
-        resourceUriExtractor.extractResourceUri(ctx, prop);
+        resourceUriExtractor.extractResourceUri(ctx);
     }
 
 }
