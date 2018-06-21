@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -35,6 +36,7 @@ import org.onap.appc.pool.Allocator;
 import org.onap.appc.pool.Destructor;
 import org.onap.appc.pool.Pool;
 import org.onap.appc.pool.PoolSpecificationException;
+
 import com.att.cdp.exceptions.ContextConnectionException;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.Context;
@@ -46,10 +48,13 @@ import com.att.eelf.configuration.EELFManager;
 /**
  * This class maintains a cache of tenants within a specific provider.
  * <p>
- * Providers may be multi-tenant, such as OpenStack, where the available services and resources vary from one tenant to
- * another. Therefore, the provider cache maintains a cache of tenants and the service catalogs for each, as well as the
- * credentials used to access the tenants, and a pool of Context objects for each tenant. The context pool allows use of
- * the CDP abstraction layer to access the services of the provider within the specific tenant.
+ * Providers may be multi-tenant, such as OpenStack, where the available
+ * services and resources vary from one tenant to another. Therefore, the
+ * provider cache maintains a cache of tenants and the service catalogs for
+ * each, as well as the credentials used to access the tenants, and a pool of
+ * Context objects for each tenant. The context pool allows use of the CDP
+ * abstraction layer to access the services of the provider within the specific
+ * tenant.
  * </p>
  */
 public class TenantCache implements Allocator<Context>, Destructor<Context> {
@@ -115,17 +120,20 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     /**
      * Construct the cache of tenants for the specified provider
      *
-     * @param provider The provider
+     * @param provider
+     *            The provider
      */
     public TenantCache(ProviderCache provider) {
         configuration = ConfigurationFactory.getConfiguration();
         logger = EELFManager.getInstance().getLogger(getClass());
         this.provider = provider;
+        configuration = ConfigurationFactory.getConfiguration();
     }
 
     /**
-     * @return True when the cache has been initialized. A tenant cache is initialized when the service catalog for the
-     *         tenant on the specified provider has been loaded and processed.
+     * @return True when the cache has been initialized. A tenant cache is
+     *         initialized when the service catalog for the tenant on the specified
+     *         provider has been loaded and processed.
      */
     public boolean isInitialized() {
         return initialized;
@@ -134,24 +142,28 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     /**
      * Initializes the tenant cache.
      * <p>
-     * This method authenticates to the provider and obtains the service catalog. For the service catalog we can
-     * determine all supported regions for this provider, as well as all published services and their endpoints. We will
+     * This method authenticates to the provider and obtains the service catalog.
+     * For the service catalog we can determine all supported regions for this
+     * provider, as well as all published services and their endpoints. We will
      * cache and maintain a copy of the service catalog for later queries.
      * </p>
      * <p>
-     * Once the catalog has been obtained, we create a context pool for each region defined. The context allows access
-     * to services of a single region only, so we need a separate context by region. It is possible to operate on
-     * resources that span regions, but to do so will require acquiring a context for each region of interest.
+     * Once the catalog has been obtained, we create a context pool for each region
+     * defined. The context allows access to services of a single region only, so we
+     * need a separate context by region. It is possible to operate on resources
+     * that span regions, but to do so will require acquiring a context for each
+     * region of interest.
      * </p>
      * <p>
-     * The context pool maintains the reusable context objects and allocates them as needed. This class is registered as
-     * the allocator and destructor for the pool, so that we can create a new context when needed, and close it when no
+     * The context pool maintains the reusable context objects and allocates them as
+     * needed. This class is registered as the allocator and destructor for the
+     * pool, so that we can create a new context when needed, and close it when no
      * longer used.
      * </p>
+     * throws RequestFailedException
      */
     public void initialize() {
         logger.debug("Initializing TenantCache");
-
         int min = configuration.getIntegerProperty(Constants.PROPERTY_MIN_POOL_SIZE);
         int max = configuration.getIntegerProperty(Constants.PROPERTY_MAX_POOL_SIZE);
         int delay = configuration.getIntegerProperty(Constants.PROPERTY_RETRY_DELAY);
@@ -159,12 +171,12 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
         String url = provider.getIdentityURL();
         String tenant = tenantName == null ? tenantId : tenantName;
         Properties properties = configuration.getProperties();
-        catalog = getServiceCatalogFactory(url, tenant, properties);
+        catalog = ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
         if (catalog == null) {
             logger.error(Msg.IAAS_UNSUPPORTED_IDENTITY_SERVICE, url);
             return;
         }
-
+        String msg = null;
         int attempt = 1;
         while (attempt <= limit) {
             try {
@@ -183,17 +195,14 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
                 }
             } catch (ZoneException e) {
                 logger.error("An error occurred when initializing cache", e);
+                msg = e.getMessage();
                 break;
             }
         }
-
         if (!initialized) {
             logger.error(Msg.CONNECTION_FAILED, provider.getProviderName(), url);
+            
         }
-    }
-
-    public ServiceCatalog getServiceCatalogFactory(String url, String tenant, Properties properties) {
-        return ServiceCatalogFactory.getServiceCatalog(url, tenant, userid, password, domain, properties);
     }
 
     private void createPools(int min, int max, String url, Properties properties) {
@@ -201,7 +210,7 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
             try {
                 Pool<Context> pool = new Pool<>(min, max);
                 pool.setProperty(ContextFactory.PROPERTY_IDENTITY_URL, url);
-                pool.setProperty(ContextFactory.PROPERTY_TENANT, getTenantName());
+                pool.setProperty(ContextFactory.PROPERTY_TENANT, tenantName);
                 pool.setProperty(ContextFactory.PROPERTY_CLIENT_CONNECTOR_CLASS, CLIENT_CONNECTOR_CLASS);
                 pool.setProperty(ContextFactory.PROPERTY_RETRY_DELAY,
                         configuration.getProperty(Constants.PROPERTY_RETRY_DELAY));
@@ -231,11 +240,13 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * This method accepts a fully qualified compute node URL and uses that to determine which region of the provider
-     * hosts that compute node.
+     * This method accepts a fully qualified compute node URL and uses that to
+     * determine which region of the provider hosts that compute node.
      *
-     * @param url The parsed URL of the compute node
-     * @return The region name, or null if no region of this tenant hosts that compute node.
+     * @param url
+     *            The parsed URL of the compute node
+     * @return The region name, or null if no region of this tenant hosts that
+     *         compute node.
      */
     public String determineRegion(VMURL url) {
         logger.debug(String.format("Attempting to determine VM region for %s", url));
@@ -252,7 +263,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param domain the value for domain
+     * @param domain
+     *            the value for domain
      */
     public void setDomain(String domain) {
         this.domain = domain;
@@ -266,7 +278,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param provider the value for provider
+     * @param provider
+     *            the value for provider
      */
     public void setProvider(ProviderCache provider) {
         this.provider = provider;
@@ -280,7 +293,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param password the value for password
+     * @param password
+     *            the value for password
      */
     public void setPassword(String password) {
         this.password = password;
@@ -294,7 +308,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param tenantId the value for tenantId
+     * @param tenantId
+     *            the value for tenantId
      */
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
@@ -308,7 +323,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param tenantName the value for tenantName
+     * @param tenantName
+     *            the value for tenantName
      */
     public void setTenantName(String tenantName) {
         this.tenantName = tenantName;
@@ -322,7 +338,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @param userid the value for userid
+     * @param userid
+     *            the value for userid
      */
     public void setUserid(String userid) {
         this.userid = userid;
@@ -355,7 +372,8 @@ public class TenantCache implements Allocator<Context>, Destructor<Context> {
     }
 
     /**
-     * @see org.onap.appc.pool.Destructor#destroy(java.lang.Object, org.onap.appc.pool.Pool)
+     * @see org.onap.appc.pool.Destructor#destroy(java.lang.Object,
+     *      org.onap.appc.pool.Pool)
      */
     @Override
     public void destroy(Context context, Pool<Context> pool) {

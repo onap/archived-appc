@@ -78,8 +78,11 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
     static final String PROPERTY_INPUT_SNAPSHOT_ID = "org.onap.appc.snapshot.id";
     static final String DG_OUTPUT_PARAM_NAMESPACE = "output.";
     static final String SKIP_HYPERVISOR_CHECK = "org.onap.appc.skiphypervisorcheck";
+    static final String PAYLOAD = "payload";
     static final String VOLUME_ID = "org.onap.appc.volumeid";
     static final String DEVICE = "org.onap.appc.device";
+    static final String REBOOT_TYPE = "org.onap.appc.reboot.type";
+    static final String PROPERTY_REQUEST_SNAPSHOT_ID = "snapshot-id";
     /**
      * This method is used to restart an existing virtual machine given the fully qualified URL of the machine.
      * <p>
@@ -262,4 +265,5 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be restarted for some reason
      */
     Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
+    
 }

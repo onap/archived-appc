@@ -49,6 +49,7 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
+import org.onap.appc.logging.LoggingConstants;
 import org.slf4j.MDC;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -66,10 +67,8 @@ public class CreateSnapshot extends ProviderServerOperation {
 
     private String generateSnapshotName(String server) {
         setTimeForMetricsLogger();
-
         SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
         metricsLogger.info("Snapshot Name Generated: Snapshot of %s at %s", server, df.format(new Date()));
-
         return String.format("Snapshot of %s at %s", server, df.format(new Date()));
     }
 
@@ -77,16 +76,12 @@ public class CreateSnapshot extends ProviderServerOperation {
         Context context = server.getContext();
         Provider provider = context.getProvider();
         ImageService service = context.getImageService(); // Already checked access by this point
-
         String snapshotName = generateSnapshotName(server.getName());
-
         setTimeForMetricsLogger();
-
         logger.info(String.format("Creating snapshot of server %s (%s) with name %s", server.getName(), server.getId(),
                 snapshotName));
         metricsLogger.info(String.format("Creating snapshot of server %s (%s) with name %s", server.getName(),
                 server.getId(), snapshotName));
-
         // Request Snapshot
         String msg;
         while (rc.attempt()) {
@@ -110,7 +105,6 @@ public class CreateSnapshot extends ProviderServerOperation {
             throw new RequestFailedException("Stop Server", msg, HttpStatus.BAD_GATEWAY_502, server);
         }
         rc.reset();
-
         // Locate snapshot image
         Image snapshot = null;
         while (rc.attempt()) {
@@ -136,10 +130,8 @@ public class CreateSnapshot extends ProviderServerOperation {
             throw new RequestFailedException("Stop Server", msg, HttpStatus.BAD_GATEWAY_502, server);
         }
         rc.reset();
-
         // Wait for it to be ready
         waitForStateChange(rc, snapshot, Image.Status.ACTIVE);
-
         return snapshot;
     }
 
@@ -147,7 +139,6 @@ public class CreateSnapshot extends ProviderServerOperation {
         Image snapshot = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
-
         setTimeForMetricsLogger();
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
@@ -157,7 +148,6 @@ public class CreateSnapshot extends ProviderServerOperation {
             VMURL vm = VMURL.parseURL(vm_url);
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
-
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             snapshot = createSnapshotNested(snapshot, rc, vm, vm_url, identStr);
@@ -167,21 +157,17 @@ public class CreateSnapshot extends ProviderServerOperation {
         return snapshot;
     }
 
-    private Image createSnapshotNested(Image SnapShot, RequestContext RcContext, VMURL vm, String vmUrl, String identStr) 
-            throws APPCException {
-
+    private Image createSnapshotNested(Image SnapShot, RequestContext RcContext, VMURL vm, String vmUrl,
+            String identStr) throws APPCException {
         String msg;
-
         Context context = null;
-        String tenantName = "Unknown";//this variable is also used in catch
+        String tenantName = "Unknown";// this variable is also used in catch
         try {
             context = getContext(RcContext, vmUrl, identStr);
             if (context != null) {
                 tenantName = context.getTenantName();
                 Server server = lookupServer(RcContext, context, vm.getServerId());
-
                 logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
-
                 if (hasImageAccess(RcContext, context)) {
                     SnapShot = createSnapshot(RcContext, server);
                     doSuccess(RcContext);
@@ -201,8 +187,7 @@ public class CreateSnapshot extends ProviderServerOperation {
             doFailure(RcContext, HttpStatus.NOT_FOUND_404, msg);
         } catch (Exception e1) {
             msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1, e1.getClass().getSimpleName(),
-                    Operation.SNAPSHOT_SERVICE.toString(), vmUrl,
-                    tenantName);
+                    Operation.SNAPSHOT_SERVICE.toString(), vmUrl, tenantName);
             logger.error(msg, e1);
             doFailure(RcContext, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
         }
@@ -212,29 +197,17 @@ public class CreateSnapshot extends ProviderServerOperation {
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
             throws APPCException {
-
         setMDC(Operation.SNAPSHOT_SERVICE.toString(), "App-C IaaS Adapter:Snapshot", ADAPTER_NAME);
         logOperation(Msg.SNAPSHOTING_SERVER, params, context);
         setTimeForMetricsLogger();
-
         metricsLogger.info("Executing Provider Operation: Create Snapshot");
-
         return createSnapshot(params, context);
     }
 
     private void setTimeForMetricsLogger() {
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "cdp");
-        MDC.put("TargetServiceName", "create snapshot");
-        MDC.put("ClassName", "org.onap.appc.adapter.iaas.provider.operation.impl.CreateSnapshot");
+        MDC.put(LoggingConstants.MDCKeys.TARGET_ENTITY, "cdp");
+        MDC.put(LoggingConstants.MDCKeys.TARGET_SERVICE_NAME, "create snapshot");
+        MDC.put(LoggingConstants.MDCKeys.CLASS_NAME,
+                "org.onap.appc.adapter.iaas.provider.operation.impl.CreateSnapshot");
     }
 }
