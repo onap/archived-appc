@@ -45,6 +45,7 @@ import org.osgi.framework.ServiceReference;
 import org.slf4j.MDC;
 
 import java.net.InetAddress;
+import java.util.UUID;
 
 import static com.att.eelf.configuration.Configuration.*;
 import static com.att.eelf.configuration.Configuration.MDC_SERVICE_INSTANCE_ID;
@@ -169,7 +170,17 @@ public class CommandTask implements Runnable {
 
 
     private void setInitialLogProperties(CommandRequest request) {
-        MDC.put(MDC_KEY_REQUEST_ID, request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getRequestId());
+        String reqId = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getRequestId();
+
+        try {
+            MDC.put(MDC_KEY_REQUEST_ID, UUID.fromString(reqId).toString());
+            //reaching here without exception means existing RequestId is
+            //valid UUID as per ECOMP logging standards
+        } catch (Exception e) {
+            String reqIdUUID = UUID.randomUUID().toString();
+            MDC.put(MDC_KEY_REQUEST_ID, reqIdUUID);
+            logger.info("Replaced invalid requestID of " + reqId + ".  New value is " + reqIdUUID + ".");
+        }
         if (request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getActionIdentifiers().getServiceInstanceId() != null)
             MDC.put(MDC_SERVICE_INSTANCE_ID, request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getActionIdentifiers().getServiceInstanceId());
         MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getOriginatorId());
