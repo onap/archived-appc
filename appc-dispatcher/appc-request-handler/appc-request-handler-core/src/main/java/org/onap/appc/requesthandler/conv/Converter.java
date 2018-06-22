@@ -176,6 +176,11 @@ public class Converter {
                 ((RebuildOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((RebuildOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case Reboot:
+                outObj = new RebootOutputBuilder();
+                ((RebootOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((RebootOutputBuilder)outObj).setStatus(status);
+                return outObj;
             case Migrate:
                 outObj = new MigrateOutputBuilder();
                 ((MigrateOutputBuilder)outObj).setCommonHeader(commonHeader);
