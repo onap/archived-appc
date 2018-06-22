@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_625af9f3",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-22T19:37:23Z",
+      "side": 1,
+      "message": "how do you identify to use 10? also use constant would be feasible",
+      "range": {
+        "startLine": 132,
+        "startChar": 27,
+        "endLine": 132,
+        "endChar": 29
+      },
+      "revId": "c8751fda37cd7637a6a9d632003402d5d316e1af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0271b576",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-22T19:37:23Z",
+      "side": 1,
+      "message": "how do you identify to use 30? also use constant would be feasible",
+      "range": {
+        "startLine": 160,
+        "startChar": 51,
+        "endLine": 160,
+        "endChar": 52
+      },
+      "revId": "c8751fda37cd7637a6a9d632003402d5d316e1af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a26001a5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestRebootServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-06-22T19:37:23Z",
+      "side": 1,
+      "message": "this should be in one line",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 10
+      },
+      "revId": "c8751fda37cd7637a6a9d632003402d5d316e1af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
