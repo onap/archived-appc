@@ -1,23 +1,23 @@
+
 /*-
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
- * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -27,126 +27,180 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Payload;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ZULU;
+import org.mockito.Mockito;
+import org.mockito.internal.util.reflection.Whitebox;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.executor.objects.LCMCommandStatus;
+import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
+import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
+import static org.mockito.Matchers.isNull;
 
-@RunWith(PowerMockRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RebootServiceTest {
-    private final String vserverId = "vserverId";
+    private final Action myAction = Action.Reboot;
+    private  String PAYLOAD_STRING = "{\"A\":\"A-value\",\"B\":{\"C\":\"B.C-value\",\"D\":\"B.D-value\"}}";
+    private RebootInput mockInput = mock(RebootInput.class);
+    private CommonHeader mockCommonHeader = mock(CommonHeader.class);
+    private ActionIdentifiers mockAI = mock(ActionIdentifiers.class);
+    private Payload mockPayload = mock(Payload.class);
+    private AbstractBaseService abstractService= mock(AbstractBaseService.class);
+    //private Action action = mock(Action.class);
 
-    @Mock
     private RebootService rebootService;
-    @Mock
-    private RebootInput rebootInput;
-    @Mock
-    private ActionIdentifiers actionIdentifiers;
-    @Mock
-    private org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader commonHeader;
-
-    private Payload payload;
-
     @Before
     public void setUp() throws Exception {
-        rebootService = new RebootService();
-        payload = new Payload("{\"reboot-type\":\"hard\"}");
-
-        PowerMockito.doReturn(actionIdentifiers).when(rebootInput).getActionIdentifiers();
-        PowerMockito.doReturn(payload).when(rebootInput).getPayload();
-        PowerMockito.doReturn(commonHeader).when(rebootInput).getCommonHeader();
-        PowerMockito.doReturn(new ZULU("2017-09-05T16:55:55.807Z")).when(commonHeader).getTimestamp();
-        PowerMockito.doReturn("2.00").when(commonHeader).getApiVer();
-        PowerMockito.doReturn("demo-lcm-stop-id#1").when(commonHeader).getRequestId();
-        PowerMockito.doReturn("demo-lcm-stop-id#2").when(commonHeader).getSubRequestId();
-        PowerMockito.doReturn("originator-id").when(commonHeader).getOriginatorId();
-        PowerMockito.doReturn(Action.Reboot).when(rebootInput).getAction();
+        rebootService = spy(new RebootService());
     }
 
     @Test
-    public void testConstructor() throws Exception {
-        Action expectedAction = Action.Reboot;
-        Assert.assertEquals("Should have proper ACTION", expectedAction,
-            (Action) org.powermock.reflect.Whitebox.getInternalState(rebootService, "expectedAction"));
-        Assert.assertEquals("Should have reboot RPC name", expectedAction.name().toLowerCase(),
-            (org.powermock.reflect.Whitebox.getInternalState(rebootService, "rpcName")).toString());
+    public void testValidateMissingParameters() throws Exception {
+        rebootService.validate(mockInput);
+        Status status = (Status) Whitebox.getInternalState(rebootService, "status");
+        //testing missing parameters in the input
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
+    }
+    @Test
+    public void testValidateForInvalidAction() throws Exception {
+
+        Mockito.doReturn(mockCommonHeader).when(mockInput).getCommonHeader();
+        Mockito.doReturn(mockPayload).when(mockInput).getPayload();
+        Mockito.doReturn(PAYLOAD_STRING).when(mockPayload).getValue();
+        ZULU zuluTimeStamp = new ZULU("2017-06-29T21:44:00.35Z");
+        Mockito.doReturn(zuluTimeStamp).when(mockCommonHeader).getTimestamp();
+        Mockito.doReturn("api ver").when(mockCommonHeader).getApiVer();
+        Mockito.doReturn("orignator Id").when(mockCommonHeader).getOriginatorId();
+        Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
+
+        Mockito.doReturn(Action.AttachVolume).when(mockInput).getAction();
+        Mockito.doReturn(mockAI).when(mockInput).getActionIdentifiers();
+        Mockito.doReturn("vserverId").when(mockAI).getVserverId();
+
+        // test invalid action
+        rebootService.validate(mockInput);
+        Status status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
     }
 
     @Test
-    public void testProcessAccepted() throws Exception {
-        PowerMockito.doReturn(vserverId).when(actionIdentifiers).getVserverId();
-        RebootOutputBuilder process = rebootService.process(rebootInput);
-        PowerMockito.verifyPrivate(rebootService, times(1)).invoke("validate", rebootInput);
-        Assert.assertNotNull(process.getCommonHeader());
-        Assert.assertNotNull(process.getStatus());
+    public void testValidateForMissingActionIdentifiers() throws Exception {
+
+        Mockito.doReturn(mockCommonHeader).when(mockInput).getCommonHeader();
+        Mockito.doReturn(mockPayload).when(mockInput).getPayload();
+        Mockito.doReturn(PAYLOAD_STRING).when(mockPayload).getValue();
+        ZULU zuluTimeStamp = new ZULU("2017-06-29T21:44:00.35Z");
+        Mockito.doReturn(zuluTimeStamp).when(mockCommonHeader).getTimestamp();
+        Mockito.doReturn("api ver").when(mockCommonHeader).getApiVer();
+        Mockito.doReturn("orignator Id").when(mockCommonHeader).getOriginatorId();
+        Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
+
+        Mockito.doReturn(Action.Reboot).when(mockInput).getAction();
+        //Mockito.doReturn(mockAI).when(mockInput).getActionIdentifiers();
+        Mockito.doReturn("vserverId").when(mockAI).getVserverId();
+
+        // test invalid action
+        rebootService.validate(mockInput);
+        Status status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
     }
 
     @Test
-    public void testProcessError() throws Exception {
-        RebootOutputBuilder process = rebootService.process(rebootInput);
-        PowerMockito.verifyPrivate(rebootService, times(1))
-            .invoke("validate", rebootInput);
-        Assert.assertNotNull(process.getStatus());
-    }
+    public void testValidateMissingOrIncorrectPayload() throws Exception {
+        PAYLOAD_STRING = "{\"A\":\"A-value\",\"B\":{\"C\":\"B.C-value\",\"D\":\"B.D-value\"},\"type\":\"HARD\"}";
 
-    @Test
-    public void testValidateSuccess() throws Exception {
-        PowerMockito.doReturn(vserverId).when(actionIdentifiers).getVserverId();
-        Status validate = Whitebox.invokeMethod(rebootService, "validate", rebootInput);
-        Assert.assertNull(validate);
-    }
+        Mockito.doReturn(mockCommonHeader).when(mockInput).getCommonHeader();
+        ZULU zuluTimeStamp = new ZULU("2017-06-29T21:44:00.35Z");
+        Mockito.doReturn(zuluTimeStamp).when(mockCommonHeader).getTimestamp();
+        Mockito.doReturn("api ver").when(mockCommonHeader).getApiVer();
+        Mockito.doReturn("orignator Id").when(mockCommonHeader).getOriginatorId();
+        Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
 
-    @Test
-    public void testValidateMissingVserverId() throws Exception {
-        PowerMockito.doReturn("").when(actionIdentifiers).getVserverId();
-        Whitebox.invokeMethod(rebootService, "validate", rebootInput);
-        Status status = Whitebox.getInternalState(rebootService, "status");
-        Assert.assertNotNull(status);
-    }
+        Mockito.doReturn(Action.Reboot).when(mockInput).getAction();
+        Mockito.doReturn(mockAI).when(mockInput).getActionIdentifiers();
+        Mockito.doReturn("vserverId").when(mockAI).getVserverId();
+        Mockito.doReturn("vnfId").when(mockAI).getVnfId();
 
-    @Test
-    public void testValidateWrongAction() throws Exception {
-        PowerMockito.doReturn(Action.Audit).when(rebootInput).getAction();
-        PowerMockito.doReturn("").when(actionIdentifiers).getVserverId();
-        Whitebox.invokeMethod(rebootService, "validate", rebootInput);
-        Status status = Whitebox.getInternalState(rebootService, "status");
-        Assert.assertNotNull(status);
-    }
+        //testing missing payload
+        rebootService.validate(mockInput);
+        Status status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
 
-    @Test
-    public void testValidateMissingActionIdentifier() throws Exception {
-        PowerMockito.doReturn(actionIdentifiers).when(rebootInput).getActionIdentifiers();
-        Whitebox.invokeMethod(rebootService, "validate", rebootInput);
-        Status status = Whitebox.getInternalState(rebootService, "status");
-        Assert.assertNotNull(status);
+        //testing payload with no value or empty
+        Mockito.doReturn(mockPayload).when(mockInput).getPayload();
+        rebootService.validate(mockInput);
+        status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
+
+        //Incorrect PayLoad leads to unexpected error during conversion to map
+        PAYLOAD_STRING = "{\"A\":\"A-value\"\"B\":{\"C\":\"B.C-value\",\"D\":\"B.D-value\"},\"type\":\"HARD\"}";
+        Mockito.doReturn(PAYLOAD_STRING).when(mockPayload).getValue();
+        rebootService.validate(mockInput);
+        status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.UNEXPECTED_ERROR.getResponseCode()), status.getCode());
     }
 
     @Test
     public void testValidateMissingRebootType() throws Exception {
-        Payload payload = new Payload("{}");
-        PowerMockito.doReturn(payload).when(rebootInput).getPayload();
-        PowerMockito.doReturn(vserverId).when(actionIdentifiers).getVserverId();
-        Whitebox.invokeMethod(rebootService, "validate", rebootInput);
-        Status status = Whitebox.getInternalState(rebootService, "status");
-        Assert.assertNotNull(status);
+
+        Mockito.doReturn(mockCommonHeader).when(mockInput).getCommonHeader();
+        Mockito.doReturn(mockPayload).when(mockInput).getPayload();
+        Mockito.doReturn(PAYLOAD_STRING).when(mockPayload).getValue();
+        ZULU zuluTimeStamp = new ZULU("2017-06-29T21:44:00.35Z");
+        Mockito.doReturn(zuluTimeStamp).when(mockCommonHeader).getTimestamp();
+        Mockito.doReturn("api ver").when(mockCommonHeader).getApiVer();
+        Mockito.doReturn("orignator Id").when(mockCommonHeader).getOriginatorId();
+        Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
+
+        Mockito.doReturn(Action.Reboot).when(mockInput).getAction();
+        Mockito.doReturn(mockAI).when(mockInput).getActionIdentifiers();
+        Mockito.doReturn("vserverId").when(mockAI).getVserverId();
+        Mockito.doReturn("vnfId").when(mockAI).getVnfId();
+
+        // testing missing reboot-type in the payload
+        rebootService.validate(mockInput);
+        Status status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return status null",
+                null, status);
     }
 
     @Test
-    public void testValidateWrongRebootType() throws Exception {
-        Payload payload = new Payload("{\"reboot-type\":\"1\"}");
-        PowerMockito.doReturn(payload).when(rebootInput).getPayload();
-        PowerMockito.doReturn(vserverId).when(actionIdentifiers).getVserverId();
-        Whitebox.invokeMethod(rebootService, "validate", rebootInput);
-        Status status = Whitebox.getInternalState(rebootService, "status");
-        Assert.assertNotNull(status);
+    public void testValidateInvalidRebootType() throws Exception {
+        PAYLOAD_STRING = "{\"A\":\"A-value\",\"B\":{\"C\":\"B.C-value\",\"D\":\"B.D-value\"},\"type\":\"test\"}";
+        Mockito.doReturn(mockCommonHeader).when(mockInput).getCommonHeader();
+        Mockito.doReturn(mockPayload).when(mockInput).getPayload();
+        Mockito.doReturn(PAYLOAD_STRING).when(mockPayload).getValue();
+        ZULU zuluTimeStamp = new ZULU("2017-06-29T21:44:00.35Z");
+        Mockito.doReturn(zuluTimeStamp).when(mockCommonHeader).getTimestamp();
+        Mockito.doReturn("api ver").when(mockCommonHeader).getApiVer();
+        Mockito.doReturn("orignator Id").when(mockCommonHeader).getOriginatorId();
+        Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
+
+        Mockito.doReturn(Action.Reboot).when(mockInput).getAction();
+        Mockito.doReturn(mockAI).when(mockInput).getActionIdentifiers();
+        Mockito.doReturn("vserverId").when(mockAI).getVserverId();
+        Mockito.doReturn("vnfId").when(mockAI).getVnfId();
+
+        // test invalid reboot-type ex: pass "test" in this case
+        rebootService.validate(mockInput);
+        Status status = (Status) Whitebox.getInternalState(rebootService, "status");
+        Assert.assertEquals("should return missing parameter",
+                Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
     }
+
 }
+
