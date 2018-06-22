@@ -265,5 +265,5 @@ public interface ProviderAdapter extends SvcLogicJavaPlugin {
      * @throws APPCException If the server cannot be restarted for some reason
      */
     Image createSnapshot(Map<String, String> params, SvcLogicContext ctx) throws APPCException;
-    
+    Server rebootServer(Map<String, String> params, SvcLogicContext context) throws APPCException;
 }

@@ -115,4 +115,10 @@ public enum Operation {
             return "dettachVolume";
         }
     },
+    REBOOT_SERVICE {
+        @Override
+        public String toString(){
+            return "rebootServer";
+        }
+    },
 }
