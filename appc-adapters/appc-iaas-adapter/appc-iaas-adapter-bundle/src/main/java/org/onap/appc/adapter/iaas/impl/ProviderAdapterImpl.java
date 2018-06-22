@@ -328,4 +328,14 @@ public class ProviderAdapterImpl implements ProviderAdapter {
             op.setDefaultUser(DEFAULT_USER);
             return (Server) op.doOperation(params, ctx);
     }
+    @Override
+    public Server rebootServer(Map<String, String> params, SvcLogicContext context) throws APPCException {
+        IProviderOperation op = factory.getOperationObject(Operation.REBOOT_SERVICE);
+        op.setProviderCache(this.providerCache);
+        op.setDefaultPassword(DEFAULT_PASS);
+        op.setDefaultUser(DEFAULT_USER);
+        op.setDefaultDomain(DEFAULT_DOMAIN);
+        return (Server) op.doOperation(params, context);
+    }
+
 }
