@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_62119903",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2018-06-22T19:45:41Z",
+      "side": 1,
+      "message": "10 and 30 are part of requirment ,will change them to constants,10 is the delay time and 30 is number of attemptes",
+      "parentUuid": "5a93c517_625af9f3",
+      "range": {
+        "startLine": 132,
+        "startChar": 27,
+        "endLine": 132,
+        "endChar": 29
+      },
+      "revId": "c8751fda37cd7637a6a9d632003402d5d316e1af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_0271b576",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
         "patchSetId": 1
