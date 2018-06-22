@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_6f00a266",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-22T09:27:35Z",
+      "side": 1,
+      "message": "I have added the verify",
+      "parentUuid": "5a93c517_98321bf1",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3dadf99b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -266,6 +284,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_2ff29a9b",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-22T09:27:35Z",
+      "side": 1,
+      "message": "This is bit tricky here. Even though I created a scenario for the exception, the AnsibleAdapterImpl object is instantiated. I have observed in the code that, when an exception occurs, it just logs the exception and creates object (Line number 197 in AnsibleAdapterImpl class). I think it is not the right way. your thoughts on this?",
+      "parentUuid": "5a93c517_bdffc901",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_7d8aa11b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 1
@@ -313,6 +349,24 @@
       "side": 1,
       "message": "I meant, change \"2016-2018\" to \"2018\" since this file didn\u0027t exist prior to 2018.",
       "parentUuid": "5a93c517_bdeb49a3",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_efeb52a2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-22T09:27:35Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "5a93c517_58fed306",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -506,6 +560,24 @@
       "side": 1,
       "message": "You can add additional copyright lines for your company, with appropriate years - similar to the way there is a copyright line for both AT\u0026T and Amdocs.",
       "parentUuid": "5a93c517_3d009965",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8f2acee5",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/resources/org/onap/appc/default.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-22T09:27:35Z",
+      "side": 1,
+      "message": "Added",
+      "parentUuid": "5a93c517_78014f03",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
