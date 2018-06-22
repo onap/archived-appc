@@ -445,7 +445,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     @Override
     public Future<RpcResult<RebootOutput>> reboot(RebootInput input) {
         logger.debug(String.format("LCM reboot received input: %s", input.toString()));
-        RebootOutputBuilder outputBuilder = new RebootService().process(input);
+        RebootOutputBuilder outputBuilder = new RebootService().reboot(input);
         RpcResult<RebootOutput> result =
                 RpcResultBuilder.<RebootOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);

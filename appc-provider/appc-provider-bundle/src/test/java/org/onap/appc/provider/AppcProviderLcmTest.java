@@ -1214,7 +1214,7 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         RebootService mockReboot = mock(RebootService.class);
 
         //whenNew(RebootService.class).withNoArguments().thenReturn(mockReboot);
-        when(mockReboot.process(mockInput)).thenReturn(mockRebootOutputBuilder);
+        when(mockReboot.reboot(mockInput)).thenReturn(mockRebootOutputBuilder);
         when(mockRebootOutputBuilder.build()).thenReturn(mockOutput);
 
         Future<RpcResult<RebootOutput>> results = appcProviderLcm.reboot(mockInput);
