@@ -110,6 +110,9 @@ public class ProviderOperationFactory {
                 case DETACHVOLUME_SERVICE:
                     opObject = new DettachVolumeServer();
                     break;
+                case REBOOT_SERVICE:
+                    opObject = new RebootServer();
+                    break;
                 default:
                     throw new APPCException("Unsupported provider operation.");
             }

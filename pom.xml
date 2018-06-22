@@ -49,7 +49,7 @@ limitations under the License.
         <!-- VERSIONS -->
 
 
-        <cdp.pal.version>1.1.25.6-oss</cdp.pal.version>
+        <cdp.pal.version>1.1.25.8-oss</cdp.pal.version>
         <dmaap.client.version>1.1.5</dmaap.client.version>
         <eelf.version>1.0.0</eelf.version>
         <eelf.maven.plugin.version>1.0.0</eelf.maven.plugin.version>
