@@ -1,8 +1,7 @@
-/*-
- * ============LICENSE_START=======================================================
+/*===============CENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
+ * ECOMP is a trademark and service mark of AT&T Intellectual Property.
  * ============LICENSE_END=========================================================
  */
 
@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.sql.rowset.CachedRowSet;
 import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
@@ -52,9 +53,21 @@ public class DbServiceUtil {
 
         String selectQuery = "select " + getselectData + "from " + tableName + " where " + getDataClasue;
         return jdbcDataSource.getData(selectQuery, Lists.newArrayList(argList), schema);
+     }
+
+    public static boolean deleteData(String tableName, List<String> argList) throws SQLException {
+        String deleteQuery = "delete from " + tableName;
+        log.info(deleteQuery);
+        return jdbcDataSource.writeData(deleteQuery, (ArrayList<String>) argList, Constants.SCHEMA_SDNCTL);
     }
 
+     public static boolean insertDB(String tableName, List<String> argList,  String setCluase,String whereClause)
+        throws SQLException {
 
+            String insertPasswordString = "INSERT INTO  " + tableName + " (" + setCluase + " )   VALUES (" + whereClause +")";
+            log.info(insertPasswordString+"insert statment"+argList);
+            return jdbcDataSource.writeData(insertPasswordString, Lists.newArrayList(argList), Constants.SCHEMA_SDNCTL);
+     }
     public static DBResourceManager initDbLibService() throws IOException {
         Properties props = new Properties();
         File file = new File("/opt/onap/appc/data/properties/dblib.properties");
@@ -64,3 +77,4 @@ public class DbServiceUtil {
         return jdbcDataSource;
     }
 }
+
