@@ -1,5 +1,4 @@
-/*-
- * ============LICENSE_START=======================================================
+/*===============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
@@ -27,6 +26,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.sql.rowset.CachedRowSet;
 import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
@@ -52,9 +52,21 @@ public class DbServiceUtil {
 
         String selectQuery = "select " + getselectData + "from " + tableName + " where " + getDataClasue;
         return jdbcDataSource.getData(selectQuery, Lists.newArrayList(argList), schema);
+     }
+
+    public static boolean deleteData(String tableName, List<String> argList) throws SQLException {
+        String deleteQuery = "delete from " + tableName;
+        log.info(deleteQuery);
+        return jdbcDataSource.writeData(deleteQuery, Lists.newArrayList(argList), Constants.SCHEMA_SDNCTL);
     }
 
+     public static boolean insertDB(String tableName, List<String> argList, String setClause,String whereClause)
+        throws SQLException {
 
+            String insertPasswordString = "INSERT INTO  " + tableName + " (" + setClause + " )   VALUES (" + whereClause +")";
+            log.info(insertPasswordString + " insert statement " + argList);
+            return jdbcDataSource.writeData(insertPasswordString, Lists.newArrayList(argList), Constants.SCHEMA_SDNCTL);
+     }
     public static DBResourceManager initDbLibService() throws IOException {
         Properties props = new Properties();
         File file = new File("/opt/onap/appc/data/properties/dblib.properties");
@@ -64,3 +76,4 @@ public class DbServiceUtil {
         return jdbcDataSource;
     }
 }
+
