@@ -23,9 +23,10 @@
 
 package org.onap.appc.encryptiontool.wrapper;
 
-import java.util.Iterator;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import java.util.ArrayList;
+import javax.sql.rowset.CachedRowSet;
 import org.apache.commons.lang.StringUtils;
+import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,14 +42,13 @@ public class WrapperEncryptionTool {
     }
 
     public static void main(String[] args) {
-        String vnfType = args[0];
-        String protocol = args[1];
-        String user = args[2];
-        String password = args[3];
-        String action = args[4];
-        String port = args[5];
-        String url = args[6];
-
+          String vnfType = args[0];
+          String protocol = args[1];
+          String user = args[2];
+          String password = args[3];
+          String action = args[4];
+          String port = args[5];
+          String url = args[6];
         if (StringUtils.isBlank(user)) {
             log.info("ERROR-USER can not be null");
             return;
@@ -61,104 +61,55 @@ public class WrapperEncryptionTool {
             log.info("ERROR-PROTOCOL ,Action and VNF-TYPE both can not be null");
             return;
         }
-
         EncryptionTool et = EncryptionTool.getInstance();
         String enPass = et.encrypt(password);
-
-        if (StringUtils.isBlank(protocol)) {
-            updateProperties(user, vnfType, enPass, action, port, url, protocol);
-        }
+        updateProperties(user, vnfType, enPass, action, port, url, protocol);
     }
 
-    public static void updateProperties(String user, String vnfType, String password, String action, String port,
-        String url, String protocol) {
+    public static void updateProperties(String user, String vnfType, String enPass, String action, String port,
+            String url, String protocol) {
+        DBResourceManager dbResourceManager = null;
+        ArrayList<String> getList = new ArrayList<>();
+        getList.add(vnfType);
+        getList.add(protocol);
+        getList.add(action);
+        String whereClause = " VNF_TYPE = ? AND  PROTOCOL = ?  AND ACTION = ? ";
+        String setClause = " USER_NAME = ?, PASSWORD = ?, PORT_NUMBER = ?,URL = ? ";
+        String insertClause = " USER_NAME,PASSWORD,PORT_NUMBER,URL,VNF_TYPE,PROTOCOL,ACTION";
+        String insertsetClause = " ?,?,?,?,?,?,?";
         try {
-            log.info("Received Inputs protocol:%s User:%s vnfType:%s action:%surl:%s port:%s ", protocol, user,
-                vnfType, action, url, port);
-            String property = protocol;
-            if (StringUtils.isNotBlank(vnfType)) {
-                if (StringUtils.isNotBlank(protocol) && StringUtils.isNotBlank(action)) {
-                    property = vnfType + "." + protocol + "." + action;
-                } else if (StringUtils.isNotBlank(protocol)){
-                    property = vnfType;
-                }
-            } else if (StringUtils.isNotBlank(protocol)){
-                property = protocol;
+            dbResourceManager = DbServiceUtil.initDbLibService();
+            CachedRowSet data = DbServiceUtil.getData(Constants.DEVICE_AUTHENTICATION, getList, Constants.SCHEMA_SDNCTL,
+                    "*", whereClause);
+            int rowCount = 0;
+            if (data.first()) {
+                rowCount++;
+                   log.info(rowCount + "rowcount");
             }
-
-            PropertiesConfiguration conf = new PropertiesConfiguration(
-                System.getenv("APPC_CONFIG_DIR") + "/appc_southbound.properties");
-
-            if (conf.subset(property) != null) {
-
-                Iterator<String> it = conf.subset(property).getKeys();
-                if (it.hasNext()) {
-                    while (it.hasNext()) {
-                        String key = it.next();
-                        log.info("key---value pairs");
-                        log.info(property + "." + key + "------" + conf.getProperty(property + "." + key));
-                        resolveProperty(user, password, port, url, property, conf, key);
-                    }
-                } else {
-                    resolvePropertyAction(user, password, port, url, property, conf);
-                }
+            getList.clear();
+            getList.add(user);
+            getList.add(enPass);
+            getList.add(port);
+            getList.add(url);
+            getList.add(vnfType);
+            getList.add(protocol);
+            getList.add(action);
+            if (rowCount == 1) {
+                DbServiceUtil.updateDB(Constants.DEVICE_AUTHENTICATION, getList, whereClause, setClause);
+                log.info("APPC-MESSAGE: Password Updated Successfully");
+            } else {
+                DbServiceUtil.insertDB(Constants.DEVICE_AUTHENTICATION, getList, insertClause, insertsetClause);
+                log.info("APPC-MESSAGE: password  Inserted Successfully");
             }
-            conf.save();
         } catch (Exception e) {
             log.debug("Caught Exception", e);
             log.info("Caught exception", e);
             log.info("APPC-MESSAGE:" + e.getMessage());
+            dbResourceManager.cleanUp();
 
         } finally {
-            System.exit(0);
+            dbResourceManager.cleanUp();
         }
     }
 
-    private static void resolvePropertyAction(String user, String password, String port, String url, String property,
-        PropertiesConfiguration conf) {
-        if (containsParam(user, property, conf, USER_PARAM)) {
-            conf.setProperty(property + "." + USER_PARAM, user);
-        } else {
-            conf.addProperty(property + "." + USER_PARAM, user);
-        }
-        if (containsParam(user, property, conf, PASS_PARAM)) {
-            conf.setProperty(property + "." + PASS_PARAM, password);
-        } else {
-            conf.addProperty(property + "." + PASS_PARAM, password);
-        }
-        if (containsParam(user, property, conf, PORT_PARAM)) {
-            conf.setProperty(property + "." + PORT_PARAM, port);
-        } else if (port != null && !port.isEmpty()) {
-            conf.addProperty(property + "." + PORT_PARAM, port);
-        }
-        if (containsParam(user, property, conf, URL_PARAM)) {
-            conf.setProperty(property + "." + URL_PARAM, url);
-        } else {
-            conf.addProperty(property + "." + URL_PARAM, url);
-        }
-    }
-
-    private static void resolveProperty(String user, String password, String port, String url, String property,
-        PropertiesConfiguration conf, String key) {
-        if (contains(user, property, key, USER_PARAM)) {
-            conf.setProperty(property + "." + key, user);
-        }
-        if (contains(user, property, key, PASS_PARAM)) {
-            conf.setProperty(property + "." + key, password);
-        }
-        if (contains(user, property, key, PORT_PARAM)) {
-            conf.setProperty(property + "." + key, port);
-        }
-        if (contains(user, property, key, URL_PARAM)) {
-            conf.setProperty(property + "." + key, url);
-        }
-    }
-
-    private static boolean containsParam(String var, String property, PropertiesConfiguration conf, String param) {
-        return StringUtils.isNotBlank(var) && conf.containsKey(property + "." + param);
-    }
-
-    private static boolean contains(String var, String property, String key, String param) {
-        return StringUtils.isNotBlank(var) && (property + "." + key).contains(param);
-    }
 }
