@@ -62,9 +62,9 @@ public class LoadFromDB {
 
 
             log.info("Size of Map data:"+mp.size());
-                File file  = new File(System.getenv("APPC_CONFIG_DIR"));
+                File file  = new File(Constants.APPC_CONFIG_DIR );
                 file.mkdir();
-                file  = new File(System.getenv("APPC_CONFIG_DIR")+"/appc_southbound.properties");
+                file  = new File(Constants.APPC_CONFIG_DIR + "/appc_southbound.properties");
                 if(file.exists())
                 {
                      log.info("APPC-MESSAGE:" + " File already Exists");
@@ -81,7 +81,7 @@ public class LoadFromDB {
 
                 log.info("Size of Map file:"+mp.size());
                 PropertiesConfiguration conf = new PropertiesConfiguration(
-                       System.getenv("APPC_CONFIG_DIR")+"/appc_southbound.properties");
+                        Constants.APPC_CONFIG_DIR + "/appc_southbound.properties");
 
 
                 for (Map.Entry<String, String> key : mp.entrySet()) {
