@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_254e3bc3",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/RebootService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T15:33:05Z",
+      "side": 1,
+      "message": "OK.  So in other words, the Amdocs copyright should not have appeared in the original file.",
+      "parentUuid": "5a93c517_e570530a",
+      "revId": "db9ce4b397b784d338a13e9b650c89462d151ce8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_c26aed80",
         "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/RebootService.java",
         "patchSetId": 2
