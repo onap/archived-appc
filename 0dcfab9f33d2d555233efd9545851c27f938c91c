@@ -1,0 +1,310 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4056d507",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "\"LICENSE\"",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_60599134",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "re-add \"-2018\"",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a028f985",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0039add7",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "cast will not work if argList is not actually an ArrayList.  Better to use Lists.newArrayList(argList).  (Although, the best solution would be to modify jdbcDataSourcer.writeData to accept a plain List instead of requiring an ArrayList, then no conversion would be required.)",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c032e5f1",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "typo: setCluase -\u003e setClause",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e02da190",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "need spaces at each end of the literal",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_203b89c9",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "add \"-2018\"",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c0498561",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e044c148",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "sonar will complain: should use functional notation (i.e.,  a lambda expression) instead: forEachRemaining(confKeys -\u003e{...})",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_80737db3",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "choose a different parameter name so this \"confKeys\" is not confused with the \"confKeys\" defined on line 57.  Or better yet, delete line 57 altogether and change line 59 to: conf.getKeys().forEachRemaining(...)",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_00676deb",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "should this \"endsWith\" instead of \"contains\"?",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a076b9a1",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "two issues:\n1) this will throw an IndexOutOfBoundsException if there aren\u0027t at least three components preceding \".user\"\n2) do the \"split\" operation once instead of repeating it three times",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2062a9d9",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "use functional notation",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e0b28148",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "why concatenate these only to split them up again?  Why not just create a class that has a field for each component and stick that into the map?  (Note: this is up to you to do if you see fit.)",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a09d59bd",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "1) security issue - SQL inject errors; use a parameterized statement instead of quoted strings (it\u0027s also more performant\n\n2) only do key.split once and value.split once",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c08e6579",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "maybe add a \"continue\" here? - don\u0027t what to invoke writeData() if an exception occurs",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_80e85d17",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/LoadIntoDB.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "remove this line.  It is unnecessary and makes it difficult to junit test",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e0e04128",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T19:22:56Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "0dcfab9f33d2d555233efd9545851c27f938c91c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
