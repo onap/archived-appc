@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_655c437e",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/RebootServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1995
+      },
+      "writtenOn": "2018-06-25T15:33:28Z",
+      "side": 1,
+      "message": "Reboot action was implemented by Amdocs but was never in usage. For 1806 release Reboot action with new functionalities has been introduced. So I had to replace the existing class to remove the confusion. The functionalities in this class is not a pre-existing from previous releases.",
+      "parentUuid": "5a93c517_25207bf7",
+      "revId": "db9ce4b397b784d338a13e9b650c89462d151ce8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_e265a9af",
         "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/RebootServiceTest.java",
         "patchSetId": 2
