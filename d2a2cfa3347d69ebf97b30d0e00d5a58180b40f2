@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_c504371a",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T18:34:53Z",
+      "side": 1,
+      "message": "the equals(\"\") check is still redundant (i.e., isEmpty() is synonymous with equals(\"\"))",
+      "parentUuid": "5a93c517_c52d17aa",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_a52d6bff",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
         "patchSetId": 2
@@ -72,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_80fe1d04",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T18:34:53Z",
+      "side": 1,
+      "message": "Is there an enum that can be used instead of the literal, \"ACTIVE\"?",
+      "parentUuid": "5a93c517_e5285399",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_4534a749",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
         "patchSetId": 2
@@ -101,6 +137,24 @@
       "side": 1,
       "message": "it polls to check status after reboot ,and induces delay if not desired state reached and breaks loop after particular attempts",
       "parentUuid": "5a93c517_4534a749",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_600bd124",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T18:34:53Z",
+      "side": 1,
+      "message": "lines 156-157 will never be executed.  Line 150 is the only place where status is set to \"true\", and then it immediately breaks out of the loop (line 151), thus skipping down to line 163.  Consequently, whenever line 155 is executed, status will always be \"false\" and only line 159 will be executed.  In other words, lines 155-160 can be collapsed down to a single line: rc.delay();",
+      "parentUuid": "5a93c517_85170f54",
       "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
