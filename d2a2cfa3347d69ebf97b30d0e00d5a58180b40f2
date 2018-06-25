@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_852aafe5",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "the \"|| reboo...\" part is redundant.\n\nShould there be a check for null?",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a52d6bff",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "can server.getStatus() be null?  If so, need to check for null.\n\nIs there an enum that can be used instead of the literal, \"ACTIVE\"?",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_4534a749",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "at this point, status is always false, thus this condition will never be executed",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_25395b3f",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "Should this \"if\" block be moved before the previous \"if\" block?",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6537634e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "unnecessary to set status here",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_053e9f29",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/RebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "typo: \"servere\" -\u003e \"server\"",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_c54757bb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestRebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "no need to wrap this in a try/catch block",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_e54293aa",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestRebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-25T14:59:17Z",
+      "side": 1,
+      "message": "maybe add an additional assertEquals to verify that REBOOT_STATUS\u003dSUCCESS?",
+      "revId": "d2a2cfa3347d69ebf97b30d0e00d5a58180b40f2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
