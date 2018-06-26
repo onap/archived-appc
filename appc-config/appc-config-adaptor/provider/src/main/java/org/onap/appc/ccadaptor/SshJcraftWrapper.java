@@ -43,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -710,7 +711,7 @@ public class SshJcraftWrapper {
         debugLog.printRTAriDebug(fn, "Setting routerCmdType to a value of '" + type + "'");
     }
 
-    public String getLastFewLinesOfFile(File file, int linesToRead) throws  IOException {
+    public String getLastFewLinesOfFile(File file, int linesToRead) throws FileNotFoundException, IOException {
         String fn = "SshJcraftWrapper.getLastFewLinesOfFile";
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
         int lines = 0;
