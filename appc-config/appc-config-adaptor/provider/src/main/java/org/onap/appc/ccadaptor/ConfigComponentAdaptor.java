@@ -56,6 +56,7 @@ private String auditUser = null;
 private String auditPassword = null;
 private String configCallbackUrl = null;
 private String auditCallbackUrl = null;
+private int DEFAULT_TIMEOUT_GETRUNNING_CLI = 120 * 1000 ;
 
 public ConfigComponentAdaptor(Properties props) {
     if (props != null) {
@@ -307,7 +308,9 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
                         DebugLog.printAriDebug(fnName, "Found a Response line: line=" + line);
                         String delemeter = getStringBetweenQuotes(line);
                         DebugLog.printAriDebug(fnName, "The delemeter=" + delemeter);
-                        String tmpResponse = sshJcraftWrapper.receiveUntil(delemeter, 30 * 1000, command);
+                        //DEFAULT_TIMEOUT_GETRUNNING_CLI : changed the default time out to 2 mins in 1806
+                        String tmpResponse = sshJcraftWrapper.receiveUntil(delemeter,
+                                             DEFAULT_TIMEOUT_GETRUNNING_CLI, command);
                         response += tmpResponse;
                         if (showConfigFlag) {
                             showConfigFlag = false;
@@ -383,7 +386,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
             loadConfigurationString = loadConfigurationString + "]]>]]>";
             sshJcraftWrapper.send(loadConfigurationString);
             DebugLog.printAriDebug(fnName, ":After sending loadConfigurationString");
-            response = sshJcraftWrapper.receiveUntil("]]>]]>", 600000, "");
+            response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 600000, "");
             if (response.indexOf("rpc-error") != -1) {
                 DebugLog.printAriDebug(fnName, "Error from device: Response from device had 'rpc-error'");
                 DebugLog.printAriDebug(fnName, "response=\n" + response + "\n");
@@ -393,7 +396,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
                 DebugLog.printAriDebug(fnName, ":LoadConfiguration was a success, sending commit cmd");
                 sshJcraftWrapper.send(commitCmd);
                 DebugLog.printAriDebug(fnName, ":After sending commitCmd");
-                response = sshJcraftWrapper.receiveUntil("]]>]]>", 180000, "");
+                response = sshJcraftWrapper.receiveUntil("</rpc-reply>", 180000, "");
                 if (response.indexOf("rpc-error") != -1) {
                     DebugLog.printAriDebug(fnName, "Error from device: Response from device had 'rpc-error'");
                     DebugLog.printAriDebug(fnName, "response=\n" + response + "\n");
@@ -950,13 +953,24 @@ public static String _readFile(String fileName) {
 }
 
 private String trimResponse(String response) {
+    log.debug("runningConfig before trimResponse : " + response);
     StringTokenizer line = new StringTokenizer(response, "\n");
     StringBuffer sb = new StringBuffer();
+    String runningConfig = "" ;
     boolean captureText = false;
     while (line.hasMoreTokens()) {
         String token = line.nextToken();
         if (token.indexOf("<configuration xmlns=") != -1) {
             captureText = true;
+        }else if(token.indexOf("<data>") != -1) {
+            log.debug("token-line:with in Data: "+token);
+            captureText = true;
+            continue;
+        }
+
+        if(token.indexOf("</data>") != -1) {
+            log.debug("token-line:with in </data>"+token);
+            captureText = false;
         }
         if (captureText) {
             sb.append(token + "\n");
@@ -965,7 +979,10 @@ private String trimResponse(String response) {
             captureText = false;
         }
     }
-    return (sb.toString());
+    runningConfig = sb.toString();
+
+    log.info("ConfigComponentAdaptor:RunningConfig after trimResponse : " + runningConfig);
+    return runningConfig;
 }
 
 public static void main(String args[]) throws Exception {

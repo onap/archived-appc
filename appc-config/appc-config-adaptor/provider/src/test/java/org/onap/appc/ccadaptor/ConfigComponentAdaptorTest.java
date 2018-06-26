@@ -209,6 +209,45 @@ public class ConfigComponentAdaptorTest {
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
         String result = Whitebox.invokeMethod(cca, "trimResponse", "testData");
         Assert.assertEquals("", result);
+
+
+        String withConfigData = "<data>\n" +
+                "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\">\n" +
+                "<version>1.1X.0</version>\n" +
+                "<groups>\n" +
+                "<name>node0</name>\n" +
+                "</configuration>\n" +
+                "</data>\n" +
+                "</rpc-reply>\n" +
+                "]]>]]>\n" +
+                "";
+        String compareString = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\">\n"
+                + "<version>1.1X.0</version>\n"
+                + "<groups>\n"
+                + "<name>node0</name>\n"
+                + "</configuration>\n";
+
+        String result3 = Whitebox.invokeMethod(cca, "trimResponse", withConfigData);
+        Assert.assertEquals(compareString, result3);
+
+        String withData = "]]>]]>\n" +
+                "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n" +
+                "<data>\n" +
+                "<sgsn-mme xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
+                "<allocation-retention-priority xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
+                "<allocation-retention-priority>1</allocation-retention-priority>\n" +
+                "</allocation-retention-priority>\n" +
+                "</data>\n" +
+                "</rpc-reply>\n" +
+                "]]>]]";
+        String compareStringWithData = "<sgsn-mme xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
+                "<allocation-retention-priority xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
+                "<allocation-retention-priority>1</allocation-retention-priority>\n" +
+                "</allocation-retention-priority>\n";
+        String result2 = Whitebox.invokeMethod(cca, "trimResponse", withData);
+        Assert.assertEquals(compareStringWithData,result2);
+
+
     }
 
     @Test
