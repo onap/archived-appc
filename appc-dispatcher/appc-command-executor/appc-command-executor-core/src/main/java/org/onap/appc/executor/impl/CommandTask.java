@@ -48,8 +48,6 @@ import java.net.InetAddress;
 import java.util.UUID;
 
 import static com.att.eelf.configuration.Configuration.*;
-import static com.att.eelf.configuration.Configuration.MDC_SERVICE_INSTANCE_ID;
-import static com.att.eelf.configuration.Configuration.MDC_SERVICE_NAME;
 
 /**
  * This abstract class is base class for all Command tasks. All command task must inherit this class.

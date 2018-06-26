@@ -108,13 +108,9 @@ public class EncryptionTool {
      *
      * @return The encryption tool to be used
      */
-    public static final EncryptionTool getInstance() {
+    public static final synchronized EncryptionTool getInstance() {
         if (instance == null) {
-            synchronized (lock) {
-                if (instance == null) {
-                    instance = new EncryptionTool();
-                }
-            }
+            instance = new EncryptionTool();
         }
         return instance;
     }

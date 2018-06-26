@@ -74,7 +74,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.UUID;
-
+import java.util.TimeZone;
 import static com.att.eelf.configuration.Configuration.MDC_INSTANCE_UUID;
 import static com.att.eelf.configuration.Configuration.MDC_KEY_REQUEST_ID;
 import static com.att.eelf.configuration.Configuration.MDC_SERVER_FQDN;
@@ -226,11 +226,11 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
         }
         updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.STATE, record.getRequestState());
         updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.RESULT_CODE,
-            String.valueOf(record.getResultCode()));
+                String.valueOf(record.getResultCode()));
         if (RequestStatus.valueOf(record.getRequestState()).isTerminal()) {
-            Date endTime = new Date(System.currentTimeMillis());
+            Date endTime = new Date();
             updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.END_TIME,
-                dateToStringConverterMillis(endTime));
+                    dateToStringConverterMillis(endTime));
         }
         try {
             transactionRecorder.update(record.getTransactionId(), updateColumns);
@@ -461,6 +461,7 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
 
     public static String dateToStringConverterMillis(Date date) {
         SimpleDateFormat customDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        customDate.setTimeZone(TimeZone.getTimeZone("UTC"));
         if (date != null) {
             return customDate.format(date);
         }
