@@ -710,7 +710,7 @@ public class SshJcraftWrapper {
         debugLog.printRTAriDebug(fn, "Setting routerCmdType to a value of '" + type + "'");
     }
 
-    public String getLastFewLinesOfFile(File file, int linesToRead) throws  IOException {
+    public String getLastFewLinesOfFile(File file, int linesToRead) throws IOException {
         String fn = "SshJcraftWrapper.getLastFewLinesOfFile";
         RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
         int lines = 0;
