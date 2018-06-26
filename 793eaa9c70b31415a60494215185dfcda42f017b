@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_565a1ff3",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "wondering why this is method is implemented using StringTokenizer instead of indexOf() or Pattern?",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b65363e1",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "add \"continue\" here?",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_16457714",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 966,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "add space separator between values: \u0027Data\"\u0027 -\u003e \u0027Data \"\u0027",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f649eb32",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 967,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f6700b75",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 714,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "sonar prefers that a single exception type be thrown.  However, in this case, I think you can just remove the FileNotFoundException since it\u0027s a subclass of IOException.  Why was it added in the first place?",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_166c979c",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "use assertEquals, instead - to verify that it extracts the correct thing",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b66a837f",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-26T20:43:00Z",
+      "side": 1,
+      "message": "use assertEquals, instead",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
