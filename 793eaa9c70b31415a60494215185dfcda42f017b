@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_3988a321",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-06-27T20:07:34Z",
+      "side": 1,
+      "message": "Seems to me that the expectation is that the data tag is outside the configuration tag and the entire text within the configuration tags is extracted. The unit test case added justifies the same as well. \u003cdata\u003e\u003cconfiguration\u003eXXX\u003c/configuration\u003e\u003c/data\u003e and the entire text between the data tags is extracted.",
+      "parentUuid": "5a93c517_79c70b65",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_16457714",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
         "patchSetId": 1
