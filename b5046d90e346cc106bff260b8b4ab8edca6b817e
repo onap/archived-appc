@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_3140bd06",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T13:40:12Z",
+      "side": 1,
+      "message": "Ah. My bad.. Missed that..",
+      "parentUuid": "5a93c517_11bee100",
+      "revId": "b5046d90e346cc106bff260b8b4ab8edca6b817e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_b1bccd07",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 5
