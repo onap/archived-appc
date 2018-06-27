@@ -16,6 +16,24 @@
       "revId": "4799f803b857ee3ad56d91f8d6641d92d5b77bb7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b12dadaa",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-27T16:21:50Z",
+      "side": 1,
+      "message": "still need a space at the start of the literal: \"insert -\u003e \" insert",
+      "parentUuid": "5a93c517_d12dd990",
+      "revId": "4799f803b857ee3ad56d91f8d6641d92d5b77bb7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
