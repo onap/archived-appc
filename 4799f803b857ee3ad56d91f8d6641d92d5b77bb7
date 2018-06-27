@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d12dd990",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/DbServiceUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-27T12:51:30Z",
+      "side": 1,
+      "message": "1) typo: statment -\u003e statement\n2) still need spaces at each end of the literal: \"insert statment\" -\u003e \" insert statement \"\n3) does the \"setClause\" include the actual password, or just place-holders (i.e., \"?\") for it?  If it includes the actual password, then should probably not include it in the logged message",
+      "revId": "4799f803b857ee3ad56d91f8d6641d92d5b77bb7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
