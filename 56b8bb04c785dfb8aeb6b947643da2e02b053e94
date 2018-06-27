@@ -162,6 +162,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_162017f7",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T09:25:36Z",
+      "side": 1,
+      "message": "Fixed. If the request is pending, the status code of 100 is added to the service context attribute.",
+      "parentUuid": "5a93c517_85870f12",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3dadf99b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -215,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_f66b2b1d",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T09:25:36Z",
+      "side": 1,
+      "message": "I have found a bug in this method(reqExecResult). When the status is updated to success, 200 is returned from the service. But in the service context 400 is added which is incorrect. Reference : AnsibleAdapterImpl.java \u0026 Line number 343 \u0026 355.",
+      "parentUuid": "5a93c517_a58a4b18",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_bd982976",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -262,6 +298,24 @@
       "side": 1,
       "message": "The test name, reqExecLog_shouldSetMessage, implies that reqExecLog will set a \"message\".  Is there any way to verify that it actually set the \"message\"?",
       "parentUuid": "5a93c517_1d827dc8",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_164ed7c2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T09:25:36Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "5a93c517_6584430b",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
