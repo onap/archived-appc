@@ -198,6 +198,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_917671a2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T13:02:03Z",
+      "side": 1,
+      "message": "Yes. Fixed this in previous patch",
+      "parentUuid": "5a93c517_311f5d5d",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_3dadf99b",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -287,6 +305,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_316d1dcd",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T13:02:03Z",
+      "side": 1,
+      "message": "I have found a bug in the existing method. I think we need to change the status code to 200 rather than 400 during success scenario",
+      "parentUuid": "5a93c517_512229a4",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_bd982976",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -370,6 +406,24 @@
       "side": 1,
       "message": "is there some assertEquals() that can be added here to verify that the message has been set?",
       "parentUuid": "5a93c517_164ed7c2",
+      "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b1604dd0",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestAnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-06-27T13:02:03Z",
+      "side": 1,
+      "message": "Yes. Fixed this in previous patch",
+      "parentUuid": "5a93c517_f13815d6",
       "revId": "56b8bb04c785dfb8aeb6b947643da2e02b053e94",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
