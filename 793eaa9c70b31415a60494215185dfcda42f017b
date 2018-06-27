@@ -126,6 +126,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_39b663dd",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-06-27T20:37:19Z",
+      "side": 1,
+      "message": "In that case, I\u0027m confused as to why this was changed at all, since it already captured everything including the \"configuration\" tags.  The changes lead me to believe that it\u0027s trying to capture stuff when the \"configuration\" element is missing.  Or maybe it\u0027s trying to capture other stuff that\u0027s inside of \"data\", but outside of \"configuration\".  If so, it only captures stuff up to and including \"configuration\"; it won\u0027t capture anything that appears after the \"configuration\" element.  So given \"\u003cdata\u003e\u003chello\u003eworld\u003c/hello\u003e\u003cconfiguration\u003eabc\u003c/configuration\u003e\u003cafter\u003ebye\u003c/after\u003e\u003c/data\u003e\", it will capture \"\u003chello\u003eworld\u003c/hello\u003e\u003cconfiguration\u003eabc\u003c/configuration\u003e\" and will not capture \"\u003cafter\u003ebye\u003c/after\u003e\".",
+      "parentUuid": "5a93c517_3988a321",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_16457714",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
         "patchSetId": 1
