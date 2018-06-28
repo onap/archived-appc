@@ -640,6 +640,7 @@ limitations under the License.
     <modules>
         <module>appc-parent</module>
         <module>appc-common</module>
+        <module>appc-core</module>
     </modules>
     <!-- Adding profiles for testing -->
     <profiles>
