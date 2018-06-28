@@ -25,6 +25,8 @@ package org.onap.appc.provider;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.logging.LoggingUtils;
 import org.onap.appc.util.StringHelper;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
@@ -35,6 +37,8 @@ import org.slf4j.MDC;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimeZone;
@@ -73,21 +77,14 @@ public class AppcProviderClient {
         throws SvcLogicException {
 
         /*
-         * Set End time for Metrics Logger
+         * Set properties for Metrics Logger
          */
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-        df.setTimeZone(tz);
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String durationStr = String.valueOf(duration);
-        String endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
-        MDC.put("TargetEntity", "sli");
-        MDC.put("TargetServiceName", "execute");
-        MDC.put("ClassName", "org.onap.appc.provider.AppcProviderClient");
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        MDC.put(LoggingConstants.MDCKeys.TARGET_ENTITY, "sli");
+        MDC.put(LoggingConstants.MDCKeys.TARGET_SERVICE_NAME, "execute");
+        MDC.put(LoggingConstants.MDCKeys.CLASS_NAME, "org.onap.appc.provider.AppcProviderClient");
 
         LOG.debug("Parameters passed to SLI: " + StringHelper.propertiesToString(parms));
         metricsLogger.info("Parameters passed to SLI: " + StringHelper.propertiesToString(parms));
@@ -97,12 +94,14 @@ public class AppcProviderClient {
         /*
          * Set End time for Metrics Logger
          */
-        endTime = System.currentTimeMillis();
-        duration = endTime - startTime;
-        durationStr = String.valueOf(duration);
-        endTimeStrUTC = df.format(new Date());
-        MDC.put("EndTimestamp", endTimeStrUTC);
-        MDC.put("ElapsedTime", durationStr);
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
+        String durationStr = String.valueOf(duration);
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
 
         LOG.debug("Parameters returned by SLI: " + StringHelper.propertiesToString(respProps));
         metricsLogger.info("Parameters returned by SLI: " + StringHelper.propertiesToString(respProps));
