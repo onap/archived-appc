@@ -150,7 +150,7 @@
           <instructions>
             <Bundle-SymbolicName>appc-common</Bundle-SymbolicName>
             <Export-Package>
-              org.onap.appc.*, com.att.eelf.*, ch.qos.logback.*, org.jasypt.*
+              org.onap.appc.*, ch.qos.logback.*, org.jasypt.*
             </Export-Package>
             <Import-Package>*;resolution:=optional</Import-Package>
             <Embed-Dependency>eelf-core, logback-core, logback-classic, jasypt, dblib-provider</Embed-Dependency>
