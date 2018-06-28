@@ -16,6 +16,24 @@
       "revId": "913accafa1a9c9f498ac8475956f4486405f3a16",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_bcc9015c",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 959,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-06-28T17:18:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a93c517_f9af9b7b",
+      "revId": "913accafa1a9c9f498ac8475956f4486405f3a16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
