@@ -38,6 +38,8 @@ import com.att.eelf.i18n.EELFResourceManager;
 import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
 import java.util.TimeZone;
@@ -45,6 +47,8 @@ import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.i18n.Msg;
+import org.onap.appc.logging.LoggingConstants;
+import org.onap.appc.logging.LoggingUtils;
 import org.onap.appc.provider.AppcProvider;
 import org.onap.appc.provider.AppcProviderClient;
 import org.onap.appc.provider.ResponseHeaderBuilder;
@@ -116,22 +120,28 @@ public class TopologyService {
     }
 
     /**
-     * Modify configuration
+     * Set MDC metric and audit logging configuration
      *
+     * @param operation The operation being run
      * @param hdr The common request header
-     * @param data The payload of the configuration
-     * @return The rpc result of the operation
+     * @param reqId RequestIf from common header
+     * @return void
      */
-    public RpcResult<ModifyConfigOutput> modifyConfig(CommonRequestHeader hdr, ConfigPayload data) {
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        df.setTimeZone(tz);
-        String requestId = hdr.getServiceRequestId();
+    public void setMetricAndAuditConfig(String operation, String reqId) {
 
+        try {
+            MDC.put(MDC_KEY_REQUEST_ID, java.util.UUID.fromString(reqId).toString());
+            //reaching here without exception means existing RequestId is
+            //valid UUID as per ECOMP logging standards
+        } catch (Exception e) {
+            String reqIdUUID = java.util.UUID.randomUUID().toString();
+            MDC.put(MDC_KEY_REQUEST_ID, reqIdUUID);
+            logger.info("Replaced invalid requestID of " + reqId + ".  New value is " + reqIdUUID + ".");
+        }
+
+        String op = "App-C Provider:" + operation;
         MDC.put(MDC_REMOTE_HOST, "");
-        MDC.put(MDC_KEY_REQUEST_ID, requestId);
-        MDC.put(MDC_SERVICE_NAME, "App-C Provider:Restart");
+        MDC.put(MDC_SERVICE_NAME, op);
         MDC.put(MDC_SERVICE_INSTANCE_ID, "");
         try {
             MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
@@ -141,11 +151,33 @@ public class TopologyService {
         }
         MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
         MDC.put(MDC_ALERT_SEVERITY, "0");
-        MDC.put(START_TIME_PARAM, Long.toString(startTime));
         MDC.put(TARGET_PARAM, "appc");
+        MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, "appc");
+        MDC.put(LoggingConstants.MDCKeys.TARGET_ENTITY, "appc");
+        MDC.put(LoggingConstants.MDCKeys.TARGET_SERVICE_NAME, op);
+        MDC.put(LoggingConstants.MDCKeys.STATUS_CODE, "COMPLETE");
+    }
+
+
+    /**
+     * Modify configuration
+     *
+     * @param hdr The common request header
+     * @param data The payload of the configuration
+     * @return The rpc result of the operation
+     */
+    public RpcResult<ModifyConfigOutput> modifyConfig(CommonRequestHeader hdr, ConfigPayload data) {
+        String requestId = hdr.getServiceRequestId();
         logger.info(String.format("Starting RESTART for request with id [%s]", requestId));
-        metricsLogger.info(String.format(RESTART_INITIATED_STR,
-            startTime, requestId));
+        setMetricAndAuditConfig("Restart", requestId);
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        //For complete logging compliance, an initial end time and elapsed time are required
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
+        metricsLogger.info(String.format(RESTART_INITIATED_STR, startTimeStr, requestId));
 
         /*
          * Copy any needed inputs or other values into the properties to be passed to the DG model
@@ -171,32 +203,33 @@ public class TopologyService {
          */
         boolean success = callGraph(properties);
 
-        MDC.put(TARGET_PARAM, "appc");
         String statusStr = success ? SUCCESS_PARAM : FAILURE_PARAM;
         String infomsg =
-            String.format("APPC0119I ModifyConfig '%s' finished with status %s. Reason: %s", requestId, statusStr,
-                reason);
+                String.format("APPC0119I ModifyConfig '%s' finished with status %s. Reason: %s", requestId, statusStr,
+                        reason);
         logger.info(infomsg);
 
         ModifyConfigOutputBuilder rob = new ModifyConfigOutputBuilder();
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
+
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
         String durationStr = String.valueOf(duration);
-        MDC.put(END_TIME_PARAM, endTimeStr);
-        MDC.put(DURATION_PARAM, durationStr);
+
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
         rob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
 
         auditLogger.info(String.format(
-            "Audit Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Audit Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
         metricsLogger.info(String.format(
-            "Metrics Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Metrics Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
         return RpcResultBuilder.<ModifyConfigOutput>status(true).withResult(rob.build()).build();
-
     }
 
 
@@ -208,30 +241,19 @@ public class TopologyService {
      * @return The rpc result of the restart operation
      */
     public RpcResult<MigrateOutput> migrate(CommonRequestHeader hdr, VnfResource vnf) {
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
         String requestId = hdr.getServiceRequestId();
+        logger.info(String.format("Starting MIGRATE for request with id [%s]", requestId));
+        setMetricAndAuditConfig("Migrate", requestId);
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        //For complete logging compliance, an initial end time and elapsed time are required
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
 
-        MDC.put(MDC_REMOTE_HOST, "");
-        MDC.put(MDC_KEY_REQUEST_ID, requestId);
-        MDC.put(MDC_SERVICE_NAME, "App-C Provider:Migrate");
-        MDC.put(MDC_SERVICE_INSTANCE_ID, "");
-        try {
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-        } catch (Exception e) {
-            logger.error(ERROR_STR, e);
-        }
-        MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
-        MDC.put(MDC_ALERT_SEVERITY, "0");
-        MDC.put(START_TIME_PARAM, startTimeStr);
-        MDC.put(TARGET_PARAM, "appc");
-        logger.info(String.format("Starting ANY for request with id [%s]", requestId));
         metricsLogger.info(String.format(RESTART_INITIATED_STR,
-            startTime, requestId));
+                startTimeStr, requestId));
 
         /*
          * Copy any needed inputs or other values into the properties to be passed to the DG model
@@ -248,36 +270,33 @@ public class TopologyService {
         }
 
         /*
-         * Attempt to call the DG with the appropriate properties
+         * Generate the appropriate response
          */
         boolean success = callGraph(properties);
 
-        /*
-         * Generate the appropriate response
-         */
-        MDC.put(TARGET_PARAM, "appc");
         String statusStr = success ? SUCCESS_PARAM : FAILURE_PARAM;
         String infomsg =
-            String.format("APPC0118I Migrate '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
+                String.format("APPC0118I Migrate '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
         logger.info(infomsg);
 
         MigrateOutputBuilder mob = new MigrateOutputBuilder();
-
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
         String durationStr = String.valueOf(duration);
-        MDC.put(END_TIME_PARAM, endTimeStr);
-        MDC.put(DURATION_PARAM, durationStr);
+
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
         mob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
         mob.setVmId(new UUID(vmId));
 
         auditLogger.info(String.format(
-            "Audit Logger: APPC0118I Migrate '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Audit Logger: APPC0118I Migrate '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
         metricsLogger.info(String.format(
-            "Metrics Logger: APPC0118I Migrate '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Metrics Logger: APPC0118I Migrate '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
         return RpcResultBuilder.<MigrateOutput>status(true).withResult(mob.build()).build();
@@ -291,29 +310,19 @@ public class TopologyService {
      * @return The rpc result of the restart operation
      */
     public RpcResult<RestartOutput> restart(CommonRequestHeader hdr, VnfResource vnf) {
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        df.setTimeZone(tz);
         String requestId = hdr.getServiceRequestId();
-
-        MDC.put(MDC_REMOTE_HOST, "");
-        MDC.put(MDC_KEY_REQUEST_ID, requestId);
-        MDC.put(MDC_SERVICE_NAME, "App-C Provider:Restart");
-        MDC.put(MDC_SERVICE_INSTANCE_ID, "");
-        try {
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-        } catch (Exception e) {
-            logger.error(ERROR_STR, e);
-        }
-        MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
-        MDC.put(MDC_ALERT_SEVERITY, "0");
-        MDC.put(START_TIME_PARAM, Long.toString(startTime));
-        MDC.put(TARGET_PARAM, "appc");
         logger.info(String.format("Starting RESTART for request with id [%s]", requestId));
+        setMetricAndAuditConfig("Restart", requestId);
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        //For complete logging compliance, an initial end time and elapsed time are required
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
+
         metricsLogger.info(String.format(RESTART_INITIATED_STR,
-            startTime, requestId));
+                startTimeStr, requestId));
 
         /*
          * Copy any needed inputs or other values into the properties to be passed to the DG model
@@ -336,28 +345,30 @@ public class TopologyService {
         /*
          * Generate the appropriate response
          */
-        MDC.put(TARGET_PARAM, "appc");
+
         String statusStr = success ? SUCCESS_PARAM : FAILURE_PARAM;
         String infomsg =
-            String.format("APPC0119I Restart '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
+                String.format("APPC0119I Restart '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
         logger.info(infomsg);
 
         RestartOutputBuilder rob = new RestartOutputBuilder();
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
         String durationStr = String.valueOf(duration);
-        MDC.put(END_TIME_PARAM, endTimeStr);
-        MDC.put(DURATION_PARAM, durationStr);
+
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
         rob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
         rob.setVmId(new UUID(vmId));
 
         auditLogger.info(String.format(
-            "Audit Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Audit Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
         metricsLogger.info(String.format(
-            "Metrics Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Metrics Logger: APPC0119I Restart '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
         return RpcResultBuilder.<RestartOutput>status(true).withResult(rob.build()).build();
@@ -371,30 +382,20 @@ public class TopologyService {
      * @return The rpc result of the rebuild operation
      */
     public RpcResult<RebuildOutput> rebuild(CommonRequestHeader hdr, VnfResource vnf) {
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        df.setTimeZone(tz);
-        String startTimeStr = df.format(new Date());
         String requestId = hdr.getServiceRequestId();
 
-        MDC.put(MDC_REMOTE_HOST, "");
-        MDC.put(MDC_KEY_REQUEST_ID, requestId);
-        MDC.put(MDC_SERVICE_NAME, "App-C Provider:Rebuild");
-        MDC.put(MDC_SERVICE_INSTANCE_ID, "");
-        try {
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-        } catch (Exception e) {
-            logger.error(ERROR_STR, e);
-        }
-        MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
-        MDC.put(MDC_ALERT_SEVERITY, "0");
-        MDC.put(START_TIME_PARAM, startTimeStr);
-        MDC.put(TARGET_PARAM, "appc");
         logger.info(String.format("Starting REBUILD for request with id [%s]", requestId));
+        setMetricAndAuditConfig("Rebuild", requestId);
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        //For complete logging compliance, an initial end time and elapsed time are required
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
+
         metricsLogger.info(String.format(RESTART_INITIATED_STR,
-            startTime, requestId));
+                startTimeStr, requestId));
 
         /*
          * Copy any needed inputs or other values into the properties to be passed to the DG model
@@ -421,26 +422,28 @@ public class TopologyService {
         MDC.put(TARGET_PARAM, "appc");
         String statusStr = success ? SUCCESS_PARAM : FAILURE_PARAM;
         String infomsg =
-            String.format("APPC0120I Rebuild '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
+                String.format("APPC0120I Rebuild '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
         logger.info(infomsg);
 
         RebuildOutputBuilder rob = new RebuildOutputBuilder();
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
         String durationStr = String.valueOf(duration);
-        MDC.put(END_TIME_PARAM, endTimeStr);
-        MDC.put(DURATION_PARAM, durationStr);
+
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
         rob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
         rob.setOriginalVmId(new UUID(vmId));
         rob.setNewVmId(new UUID(vmId));
 
         auditLogger.info(String.format(
-            "Audit Logger: APPC0120I Rebuild '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Audit Logger: APPC0120I Rebuild '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
         metricsLogger.info(String.format(
-            "Metrics Logger: APPC0120I Rebuild '%s' finished with status %s. Start Time: [%s]. End Time: [%s].  Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Metrics Logger: APPC0120I Rebuild '%s' finished with status %s. Start Time: [%s]. End Time: [%s].  Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
         return RpcResultBuilder.<RebuildOutput>status(true).withResult(rob.build()).build();
@@ -454,28 +457,19 @@ public class TopologyService {
      * @return The rpc result of the restart operation
      */
     public RpcResult<SnapshotOutput> snapshot(CommonRequestHeader hdr, VnfResource vnf) {
-        long startTime = System.currentTimeMillis();
-        TimeZone tz = TimeZone.getTimeZone("UTC");
-        DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        df.setTimeZone(tz);
         String requestId = hdr.getServiceRequestId();
-        MDC.put(MDC_REMOTE_HOST, "");
-        MDC.put(MDC_KEY_REQUEST_ID, requestId);
-        MDC.put(MDC_SERVICE_NAME, "App-C Provider:Snapshot");
-        MDC.put(MDC_SERVICE_INSTANCE_ID, "");
-        try {
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-        } catch (Exception e) {
-            logger.error(ERROR_STR, e);
-        }
-        MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
-        MDC.put(MDC_ALERT_SEVERITY, "0");
-        MDC.put(START_TIME_PARAM, Long.toString(startTime));
-        MDC.put(TARGET_PARAM, "appc");
         logger.info(String.format("Starting SNAPSHOT for request with id [%s]", requestId));
+        setMetricAndAuditConfig("Snapshot", requestId);
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        //For complete logging compliance, an initial end time and elapsed time are required
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
+
         metricsLogger.info(String.format("Metrics Logger: App-C Snapshot initiated. Start Time: [%s]. Request ID: [%s]",
-            startTime, requestId));
+                startTimeStr, requestId));
 
         /*
          * Copy any needed inputs or other values into the properties to be passed to the DG model
@@ -498,28 +492,29 @@ public class TopologyService {
         /*
          * Generate the appropriate response
          */
-        MDC.put(TARGET_PARAM, "appc");
         String statusStr = success ? SUCCESS_PARAM : FAILURE_PARAM;
         String infomsg =
-            String.format("APPC0119I Snapshot '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
+                String.format("APPC0119I Snapshot '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
         logger.info(infomsg);
 
         SnapshotOutputBuilder sob = new SnapshotOutputBuilder();
-        long endTime = System.currentTimeMillis();
-        long duration = endTime - startTime;
-        String endTimeStr = String.valueOf(endTime);
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
         String durationStr = String.valueOf(duration);
-        MDC.put(END_TIME_PARAM, endTimeStr);
-        MDC.put(DURATION_PARAM, durationStr);
+
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
         sob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
         sob.setVmId(new UUID(vmId));
 
         auditLogger.info(String.format(
-            "Audit Logger: APPC0119I Snapshot '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Audit Logger: APPC0119I Snapshot '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
         metricsLogger.info(String.format(
-            "Metrics Logger: APPC0119I Snapshot '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, duration, requestId, reason));
+                "Metrics Logger: APPC0119I Snapshot '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Duration: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTimeStr, endTimeStr, duration, requestId, reason));
 
         // Status must be set to true to indicate that our return is expected
         return RpcResultBuilder.<SnapshotOutput>status(true).withResult(sob.build()).build();
@@ -527,34 +522,28 @@ public class TopologyService {
 
     /**************************************************/
 
-    public RpcResult<VmstatuscheckOutput> vmstatuscheck(CommonRequestHeader hdr, VnfResource vnf) {
-        long startTime = System.currentTimeMillis();
+    public RpcResult<VmstatuscheckOutput> vmstatuscheck(CommonRequestHeader hdr, VnfResource vnf) {        long startTime = System.currentTimeMillis();
         String requestId = hdr.getServiceRequestId();
-
-        MDC.clear();
-        MDC.put(MDC_REMOTE_HOST, "");
-        MDC.put(MDC_KEY_REQUEST_ID, requestId);
-        MDC.put(MDC_SERVICE_NAME, "App-C Provider:vmstatuscheck");
-        MDC.put(MDC_SERVICE_INSTANCE_ID, "");
-        try {
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-        } catch (Exception e) {
-            logger.error(ERROR_STR, e);
-        }
-        MDC.put(MDC_INSTANCE_UUID, java.util.UUID.randomUUID().toString());
-        MDC.put(MDC_ALERT_SEVERITY, "0");
         logger.info(String.format("Starting VMSTATUSCHECK for request with id [%s]", requestId));
+        MDC.clear();
+        setMetricAndAuditConfig("vmstatuscheck", requestId);
+        Date startTimestamp = new Date();
+        Instant startTimestampInstant = startTimestamp.toInstant();
+        String startTimeStr = LoggingUtils.generateTimestampStr(startTimestampInstant);
+        //For complete logging compliance, an initial end time and elapsed time are required
+        MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, startTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");
 
         performanceLogger.info(String
-            .format("Performance Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime,
-                requestId));
+                .format("Performance Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime,
+                        requestId));
         auditLogger.info(String
-            .format("Audit Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime,
-                requestId));
+                .format("Audit Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime,
+                        requestId));
         metricsLogger.info(String
-            .format("Metrics Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime,
-                requestId));
+                .format("Metrics Logger: App-C vmstatuscheck initiated. Start Time: [%s]. Request ID: [%s]", startTime,
+                        requestId));
 
         /*
          * Copy any needed inputs or other values into the properties to be passed to the DG model
@@ -580,19 +569,28 @@ public class TopologyService {
          */
         String statusStr = success ? SUCCESS_PARAM : FAILURE_PARAM;
         String infomsg =
-            String.format("VMSTATUSCHECK '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
+                String.format("VMSTATUSCHECK '%s' finished with status %s. Reason: %s", requestId, statusStr, reason);
         logger.info(infomsg);
-        long endTime = System.currentTimeMillis();
+
+        Date endTimestamp = new Date();
+        Instant endTimestampInstant = endTimestamp.toInstant();
+        String endTimeStr = LoggingUtils.generateTimestampStr(endTimestampInstant);
+        long duration = ChronoUnit.MILLIS.between(startTimestampInstant, endTimestampInstant);
+        String durationStr = String.valueOf(duration);
+
+        MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, endTimeStr);
+        MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, durationStr);
+
         auditLogger.info(String.format(
-            "Audit Logger: VMSTATUSCHECK '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, requestId, reason));
+                "Audit Logger: VMSTATUSCHECK '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTime, endTimeStr, requestId, reason));
         metricsLogger.info(String.format(
-            "Metrics Logger: VMSTATUSCHECK '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Request ID: [%s]. Reason:%s",
-            requestId, statusStr, startTime, endTime, requestId, reason));
+                "Metrics Logger: VMSTATUSCHECK '%s' finished with status %s. Start Time: [%s]. End Time: [%s]. Request ID: [%s]. Reason:%s",
+                requestId, statusStr, startTime, endTimeStr, requestId, reason));
+
         String tempstring2 = properties.getProperty(Constants.STATUS_GETTER).trim();
 
         VmstatuscheckOutputBuilder vob = new VmstatuscheckOutputBuilder();
-        long duration = System.currentTimeMillis() - startTime;
         vob.setCommonResponseHeader(ResponseHeaderBuilder.buildHeader(success, requestId, reason, duration));
         vob.setStatMsg(tempstring2);
 
@@ -634,13 +632,13 @@ public class TopologyService {
                     Properties respProps = svcLogicClient.execute(module, method, version, mode, props);
                     reason = "Failed";      // Assume it failed unless proven otherwise
                     logger.debug(EELFResourceManager.format(Msg.DEBUG_GRAPH_RESPONSE_HEADER, appName, graphName,
-                        Integer.toString(respProps.size())));
+                            Integer.toString(respProps.size())));
                     logKeys(graphName, appName, respProps);
                     success = resolveSuccess(graphName, appName, respProps);
                 } catch (Exception e) {
                     success = false;
                     reason = EELFResourceManager.format(Msg.EXCEPTION_CALLING_DG, e, appName,
-                        e.getClass().getSimpleName(), graphName, e.getMessage());
+                            e.getClass().getSimpleName(), graphName, e.getMessage());
                     logger.error(reason);
                 }
             } else {
@@ -651,7 +649,7 @@ public class TopologyService {
         } catch (Exception e) {
             success = false;
             reason = EELFResourceManager.format(Msg.EXCEPTION_CALLING_DG, e, appName, e.getClass().getSimpleName(),
-                graphName, e.getMessage());
+                    graphName, e.getMessage());
             logger.error(reason);
         }
 
@@ -670,7 +668,7 @@ public class TopologyService {
              * and the response will be set to failed regardless if the DG worked or not.
              */
             reason = EELFResourceManager.format(Msg.PARAMETER_IS_MISSING, appName, graphName,
-                Constants.ATTRIBUTE_ERROR_CODE);
+                    Constants.ATTRIBUTE_ERROR_CODE);
             logger.error(reason);
             return false;
         }
@@ -682,7 +680,7 @@ public class TopologyService {
             int errorCode = Integer.parseInt(errorCodeProperty);
             if (errorCode >= 300) {
                 reason = EELFResourceManager.format(Msg.DG_FAILED_RESPONSE, appName, graphName,
-                    errorCodeProperty, respProps.getProperty(Constants.ATTRIBUTE_ERROR_MESSAGE));
+                        errorCodeProperty, respProps.getProperty(Constants.ATTRIBUTE_ERROR_MESSAGE));
                 logger.error(reason);
                 return false;
             } else {
@@ -692,7 +690,7 @@ public class TopologyService {
             }
         } catch (NumberFormatException e) {
             reason = EELFResourceManager.format(Msg.PARAMETER_NOT_NUMERIC, appName, graphName,
-                Constants.ATTRIBUTE_ERROR_CODE, errorCodeProperty);
+                    Constants.ATTRIBUTE_ERROR_CODE, errorCodeProperty);
             logger.error(reason);
             return false;
         }
@@ -701,8 +699,9 @@ public class TopologyService {
     private void logKeys(String graphName, String appName, Properties respProps) {
         for (String key : respProps.stringPropertyNames()) {
             logger.debug(EELFResourceManager.format(
-                Msg.DEBUG_GRAPH_RESPONSE_DETAIL, appName, graphName, key, (String) respProps.get(key)));
+                    Msg.DEBUG_GRAPH_RESPONSE_DETAIL, appName, graphName, key, (String) respProps.get(key)));
         }
     }
 
 }
+
