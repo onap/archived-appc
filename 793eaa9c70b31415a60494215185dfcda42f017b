@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_59ca4f1b",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 964,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-06-28T01:41:35Z",
+      "side": 1,
+      "message": "The developer that worked on this code will address this.",
+      "parentUuid": "5a93c517_3988a321",
+      "revId": "793eaa9c70b31415a60494215185dfcda42f017b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_16457714",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
         "patchSetId": 1
