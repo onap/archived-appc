@@ -100,6 +100,7 @@ public class Converter {
                 outObj = new HealthCheckOutputBuilder();
                 ((HealthCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((HealthCheckOutputBuilder)outObj).setStatus(status);
+                ((HealthCheckOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case LiveUpgrade:
                 outObj = new LiveUpgradeOutputBuilder();
@@ -242,6 +243,7 @@ public class Converter {
                 outObj = new UpgradePostCheckOutputBuilder();
                 ((UpgradePostCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradePostCheckOutputBuilder)outObj).setStatus(status);
+                ((UpgradePostCheckOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case UpgradeBackup:
                 outObj = new UpgradeBackupOutputBuilder();
@@ -257,6 +259,7 @@ public class Converter {
                 outObj = new UpgradePreCheckOutputBuilder();
                 ((UpgradePreCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((UpgradePreCheckOutputBuilder)outObj).setStatus(status);
+                ((UpgradePreCheckOutputBuilder)outObj).setPayload(payload);
                 return outObj;
             case AttachVolume:
                 outObj = new AttachVolumeOutputBuilder();
