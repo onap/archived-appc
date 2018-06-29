@@ -30,6 +30,7 @@ import static org.onap.appc.design.services.util.DesignServiceConstants.ARTIFACT
 import static org.onap.appc.design.services.util.DesignServiceConstants.ARTIFACT_TYPE;
 import static org.onap.appc.design.services.util.DesignServiceConstants.ARTIFACT_VERSOIN;
 import static org.onap.appc.design.services.util.DesignServiceConstants.GETARTIFACT;
+import static org.onap.appc.design.services.util.DesignServiceConstants.GETAPPCTIMESTAMPUTC;
 import static org.onap.appc.design.services.util.DesignServiceConstants.GETDESIGNS;
 import static org.onap.appc.design.services.util.DesignServiceConstants.GETSTATUS;
 import static org.onap.appc.design.services.util.DesignServiceConstants.PROTOCOL;
@@ -55,15 +56,19 @@ public class RequestValidator {
     }
 
     public static void validate(String action, String payload) throws RequestValidationException, IOException {
-        log.info("payload" + payload);
+        log.info("validate: action:"  +  action );
+        log.info("validate: payload:" + payload);
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode payloadObject = objectMapper.readTree(payload);
-        log.info("payloadObject" + payloadObject.get(ARTIFACT_CONTENTS));
+        log.info("payloadObject:" + payloadObject.get(ARTIFACT_CONTENTS));
 
-        String errorString;
+        String errorString= null;
         switch (action) {
             case GETDESIGNS:
                 errorString = resolveGetDesignsErrorString(payloadObject);
+                break;
+            case GETAPPCTIMESTAMPUTC:
+                log.info("validate: No payload validation needed for Timestamp.");
                 break;
             case GETARTIFACT:
                 errorString = resolveGetArtifactErrorString(payloadObject);

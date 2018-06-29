@@ -31,6 +31,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 import org.onap.appc.design.data.ArtifactInfo;
 import org.onap.appc.design.data.DesignInfo;
 import org.onap.appc.design.data.DesignResponse;
@@ -79,6 +80,9 @@ public class DesignDBService {
             case DesignServiceConstants.GETDESIGNS:
                 response = getDesigns(payload, requestID);
                 break;
+            case DesignServiceConstants.GETAPPCTIMESTAMPUTC:
+                response =  getAppcTimestampUTC( requestID );
+                break;
             case DesignServiceConstants.ADDINCART:
                 response = setInCart(payload, requestID);
                 break;
@@ -108,6 +112,20 @@ public class DesignDBService {
 
         }
         return response;
+    }
+
+    private String getAppcTimestampUTC( String requestID) throws Exception
+    {
+      log.info("Starting getAppcTimestampUTC: requestID:"+ requestID );
+      java.util.TimeZone gmtTZ= java.util.TimeZone.getTimeZone("GMT");
+      java.text.SimpleDateFormat formatter =
+        new java.text.SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
+      formatter.setTimeZone( gmtTZ );
+      java.util.Date dateVal= new java.util.Date();
+      log.info("getAppcTimestampUTC: current local Date:["+ dateVal+"]");
+      String timeStr= formatter.format( dateVal );
+      log.info("getAppcTimestampUTC: returning:["+timeStr+"]");
+      return outString;
     }
 
     private String setInCart(String payload, String requestID) throws Exception {
