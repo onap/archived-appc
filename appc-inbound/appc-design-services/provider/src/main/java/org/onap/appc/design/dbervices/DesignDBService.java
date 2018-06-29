@@ -31,6 +31,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Calendar;
 import org.onap.appc.design.data.ArtifactInfo;
 import org.onap.appc.design.data.DesignInfo;
 import org.onap.appc.design.data.DesignResponse;
@@ -79,6 +80,9 @@ public class DesignDBService {
             case DesignServiceConstants.GETDESIGNS:
                 response = getDesigns(payload, requestID);
                 break;
+            case DesignServiceConstants.GETAPPCTIMESTAMPUTC:
+                response =  getAppcTimestampUTC( requestID );
+                break;
             case DesignServiceConstants.ADDINCART:
                 response = setInCart(payload, requestID);
                 break;
@@ -108,6 +112,44 @@ public class DesignDBService {
 
         }
         return response;
+    }
+
+    private String getAppcTimestampUTC( String requestID) throws Exception
+    {
+      log.info("Starting getAppcTimestampUTC: requestID:"+ requestID );
+      try{
+        java.util.TimeZone gmtTZ= java.util.TimeZone.getTimeZone("GMT");
+        java.util.GregorianCalendar theCalendar=
+          new java.util.GregorianCalendar( gmtTZ );
+        int Year= theCalendar.get( Calendar.YEAR );
+        int Month= 1 + theCalendar.get( Calendar.MONTH );
+        int Day= theCalendar.get( Calendar.DAY_OF_MONTH );
+        int Hour= theCalendar.get( Calendar.HOUR_OF_DAY );
+        int Minute= theCalendar.get( Calendar.MINUTE );
+        int Second= theCalendar.get( Calendar.SECOND );
+        int Millisec= theCalendar.get( Calendar.MILLISECOND );
+        java.lang.StringBuffer stbT= new java.lang.StringBuffer();
+        java.text.DecimalFormat nfmt2= new java.text.DecimalFormat( "00" );
+        stbT.append( String.valueOf(Year) );
+        stbT.append( "-"+ nfmt2.format(Month) );
+        stbT.append( "-"+ nfmt2.format(Day) );
+        stbT.append( "T"+ nfmt2.format(Hour) );
+        stbT.append( ":"+ nfmt2.format(Minute) );
+        stbT.append( ":"+ nfmt2.format(Second) );
+        stbT.append( "."+ nfmt2.format(Millisec) );
+        stbT.append( "Z" );
+        String timeStr= stbT.toString();
+        // String outString = "{ \"tsvalue\":\""+ timeStr +"\" }";
+        String outString = timeStr;
+          log.info("TimestampUTC:[" + outString +"]");
+        return outString;
+      }
+      catch(Exception e)
+      {
+        log.error("Error while getAppcTimestampUTC : " + e.getMessage());
+        e.printStackTrace();
+        throw e;
+      }
     }
 
     private String setInCart(String payload, String requestID) throws Exception {

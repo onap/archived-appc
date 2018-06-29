@@ -33,11 +33,14 @@ public class DbResponseProcessor {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(DbResponseProcessor.class);
     public String parseResponse(String dbresposne, String action) throws Exception {
         
-        log.info("Starting Parsing the response for action : " + action +  "\n data "  + dbresposne );
+        log.info("Starting Parsing the response for action :[" + action +  "]\n data:[" + dbresposne +"]" );
         String response ;         
         switch (action) {
         case DesignServiceConstants.GETDESIGNS:
             response =  getDesignsResponse(dbresposne);
+            break;
+        case DesignServiceConstants.GETAPPCTIMESTAMPUTC:
+            response = getAppcTimestampResponse(dbresposne);
             break;
         case DesignServiceConstants.ADDINCART:
             response =  getAddInCartResponse(dbresposne);
@@ -105,5 +108,10 @@ public class DbResponseProcessor {
     private String getDesignsResponse(String dbresposne) {
         return dbresposne;
         
+    }
+
+    private String getAppcTimestampResponse(String dbresposne) {
+        log.info("getAppcTimestampResponse:["  + dbresposne +"]" );
+        return dbresposne;
     }
 }
