@@ -36,6 +36,7 @@ public class DesignServiceConstants {
         public static final String DATA_TYPE_SQL = "SQL";
             
         public static final String GETDESIGNS = "getDesigns";
+        public static final String GETAPPCTIMESTAMPUTC = "getAppcTimestampUTC";
         public static final String UPLOADARTIFACTS =  "uploadArtifacts";
         public static final String  VALIDATETEMPLATE =  "validateTemplate";
         public static final String GETSTATUS =  "getStatus";
