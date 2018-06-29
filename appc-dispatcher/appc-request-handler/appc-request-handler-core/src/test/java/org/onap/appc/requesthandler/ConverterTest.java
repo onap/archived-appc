@@ -41,7 +41,7 @@ public class ConverterTest {
     private String expectedDmaapOutgoingMessageJsonStringRollback ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"rollback\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringSnapshot ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"snapshot\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringAudit ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"audit\",\"type\":\"response\"}";
-    private String expectedDmaapOutgoingMessageJsonStringHealthCheck ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"health-check\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringHealthCheck ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"health-check\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringLiveUpgrade ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"live-upgrade\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringLock ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"lock\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringModifyConfig ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"config-modify\",\"type\":\"response\"}";
@@ -50,6 +50,12 @@ public class ConverterTest {
     private String expectedDmaapOutgoingMessageJsonStringSync ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"sync\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringTerminate ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"terminate\",\"type\":\"response\"}";
     private String expectedDmaapOutgoingMessageJsonStringUnlock ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"unlock\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringUpgradePreCheck ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"upgrade-pre-check\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringUpgradePostCheck ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"upgrade-post-check\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringUpgradeSoftware ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"upgradesoftware\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringUpgradeBackout ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"upgradebackout\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringUpgradeBackup ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"upgradebackup\",\"type\":\"response\"}";
+
     private String expectedJsonBodyStrwithPayload ="{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}}";
     private String expectedDmaapOutgoingMessageJsonStringReboot ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"reboot\",\"type\":\"response\"}";
 
@@ -146,16 +152,16 @@ public class ConverterTest {
     }
     @Test
     public void convAsyncResponseToBuilderHealthCheckTest() throws JsonProcessingException {
-        ResponseContext asyncResponse = buildAsyncResponse();
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
         VNFOperation action = VNFOperation.HealthCheck;
         String rpcName = convertActionNameToUrl(action.name());
         String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
-        Assert.assertEquals(expectedJsonBodyStr,jsonStr);
+        Assert.assertEquals(expectedJsonBodyStrwithPayload,jsonStr);
     }
 
     @Test
     public void convAsyncResponseToDmaapOutgoingMessageJsonStringHealthCheckTest() throws JsonProcessingException {
-        ResponseContext asyncResponse = buildAsyncResponse();
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
         VNFOperation action = VNFOperation.HealthCheck;
         String rpcName = convertActionNameToUrl(action.name());
         String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
@@ -328,6 +334,98 @@ public class ConverterTest {
         System.out.println("jsonStr = " + jsonStr);
         Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringReboot,jsonStr);
     }
+    @Test
+    public void convAsyncResponseToBuilderUpgradePreCheckTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.UpgradePreCheck;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStrwithPayload,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringUpgradePreCheckTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.UpgradePreCheck;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradePreCheck,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToBuilderUpgradePostCheckTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.UpgradePostCheck;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStrwithPayload,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringUpgradePostCheckTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponsewithPayload();
+        VNFOperation action = VNFOperation.UpgradePostCheck;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradePostCheck,jsonStr);
+    }
+    @Test
+    public void convAsyncResponseToBuilderUpgradeSoftwareTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.UpgradeSoftware;
+        String rpcName = action.name().toLowerCase();
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStr,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringUpgradeSoftwareTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.UpgradeSoftware;
+        String rpcName = action.name().toLowerCase();
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradeSoftware,jsonStr);
+    }
+    @Test
+    public void convAsyncResponseToBuilderUpgradeBackoutTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.UpgradeBackout;
+        String rpcName = action.name().toLowerCase();
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStr,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringUpgradeBackoutTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.UpgradeBackout;
+        String rpcName = action.name().toLowerCase();
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradeBackout,jsonStr);
+    }
+    @Test
+    public void convAsyncResponseToBuilderUpgradeBackupTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.UpgradeBackup;
+        String rpcName = action.name().toLowerCase();
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStr,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringUpgradeBackupTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.UpgradeBackup;
+        String rpcName = action.name().toLowerCase();
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradeBackup,jsonStr);
+    }
+
     /*@Test
     public void convAsyncResponseToBuilderTest() throws JsonProcessingException {
         AsyncResponse asyncResponse = buildAsyncResponse();

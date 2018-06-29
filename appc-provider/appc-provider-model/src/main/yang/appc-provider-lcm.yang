@@ -536,6 +536,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+                    }
         }
     }
 
@@ -582,6 +586,10 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+                         }
         }
     }
 
@@ -960,6 +968,11 @@ module appc-provider-lcm {
         output {
             uses common-header;
             uses status;
+            leaf payload {
+                type payload;
+                mandatory true;
+                         }
+
         }
     }
 
