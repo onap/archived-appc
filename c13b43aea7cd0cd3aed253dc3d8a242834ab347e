@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_6d074182",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-02T15:01:11Z",
+      "side": 1,
+      "message": "this seems like a lot of code.  Why not just use SimpleDateFormat?  That would eliminate the need for try/catch and reduce this whole thing to just three lines: 1) create SimpleDateFormat 2) set its time zone 3) format(new Date())",
+      "revId": "c13b43aea7cd0cd3aed253dc3d8a242834ab347e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2db379ea",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-02T15:01:11Z",
+      "side": 1,
+      "message": "use StringBuilder instead of StringBuffer",
+      "revId": "c13b43aea7cd0cd3aed253dc3d8a242834ab347e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_cdf7758b",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-02T15:01:11Z",
+      "side": 1,
+      "message": "code should not invoke printStackTrace - if a stack trace is desired, then use log.error(\"message\", e) instead",
+      "revId": "c13b43aea7cd0cd3aed253dc3d8a242834ab347e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
