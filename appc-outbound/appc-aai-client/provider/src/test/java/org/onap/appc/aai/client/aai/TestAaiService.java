@@ -381,4 +381,21 @@ public class TestAaiService {
         assertEquals (groupNotationValue4,"gn1");
 
     }
+
+    @Test
+    public void testgetIdentityUrl() throws Exception {
+
+        MockAaiService mockAai = new MockAaiService(aaiClient);
+
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        inParams.put("cloudOwner", "testCloudOwner");
+        inParams.put("cloudRegionId", "testCloudRegionId");
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        mockAai.getIdentityUrl(inParams, ctx);
+        assertEquals(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url"), "TestUrl");
+
+    }
+
 }

@@ -57,6 +57,8 @@ public class MockAaiService extends AaiService {
             populateVmContext(resourceContext, prefix);
         } else if ("vnfc".equals(resourceType)) {
             populateVnfcContext(resourceContext, prefix);
+        } else if ("cloud-region".equals(resourceType)) {
+            resourceContext.setAttribute(prefix + ".identity-url", "TestUrl");
         }
 
         return resourceContext;

@@ -149,6 +149,7 @@ public class AaiService {
             SvcLogicContext vmCtx = readResource(resourceKey, PARAM_VM_INFO, PARAM_VSERVER);
             ctx.setAttribute(prefix + "vm.prov-status", vmCtx.getAttribute("vmInfo.prov-status"));
             ctx.setAttribute(prefix + "vm.vserver-name", vmCtx.getAttribute("vmInfo.vserver-name"));
+            ctx.setAttribute(prefix + "vm.vserver-selflink", vmCtx.getAttribute("vmInfo.vserver-selflink"));
 
             String relLen = vmCtx.getAttribute("vmInfo.relationship-list.relationship_length");
             int relationshipLength = 0;
@@ -399,7 +400,7 @@ public class AaiService {
         if (SvcLogicResource.QueryStatus.SUCCESS.equals(response)) {
             log.info("Added VNFC SUCCESSFULLY " + vnfcName);
         } else if (SvcLogicResource.QueryStatus.FAILURE.equals(response)) {
-            throw new AaiServiceInternalException("VNFC Add failed for for vnfc_name " + vnfcName);
+            throw new AaiServiceInternalException("VNFC Add failed for vnfc_name " + vnfcName);
         }
     }
 
@@ -759,5 +760,27 @@ public class AaiService {
         modelCtx.setAttribute(prefix + "vfModule.model-name", vfmCtx.getAttribute("modelInfo.model-name"));
         log.info("End - getModelVersionInfo");
 
+    }
+
+    public void getIdentityUrl(Map<String, String> params, SvcLogicContext ctx) throws Exception{
+        log.info("Recieved getIdentityUrl call with params : "+params);
+        String prefix = params.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
+        prefix = StringUtils.isNotBlank(prefix) ? (prefix + ".") : "";
+
+        String cloudOwner = params.get("cloudOwner");
+        String cloudRegionId = params.get("cloudRegionId");
+        // per comment from git review, we need to sanitize the two parameters 
+        // to avoid security issues
+        cloudOwner = cloudOwner.replaceAll("'", "");
+        cloudRegionId = cloudRegionId.replaceAll("'", "");
+        log.debug("cloudOwner" +cloudOwner +"," +"cloudRegionId"+ cloudRegionId);
+        String resourceKey = "cloud-region.cloud-owner = '" + cloudOwner +
+                "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
+        String queryPrefix ="urlInfo";
+        String resourceType = "cloud-region";
+        SvcLogicContext urlCtx = readResource(resourceKey, queryPrefix, resourceType);
+        log.info("IdentityUrl: "+urlCtx.getAttribute("urlInfo.identity-url"));
+        ctx.setAttribute(prefix+"cloud-region.identity-url", urlCtx.getAttribute("urlInfo.identity-url"));
+ 
     }
 }
