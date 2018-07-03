@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_8892bbf4",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 770,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-03T13:54:06Z",
+      "side": 1,
+      "message": "are there any constants that could be used in place of the string literals?  If not, then it\u0027s fine as is.",
+      "revId": "7dd0cfd58d97efe9a3ce1b950b55d09f0aa294b5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a88d37d5",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 773,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-03T13:54:06Z",
+      "side": 1,
+      "message": "probably need to sanitize the two parameters to avoid security issues from sql-injection",
+      "revId": "7dd0cfd58d97efe9a3ce1b950b55d09f0aa294b5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_48bcb36c",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 778,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-03T13:54:06Z",
+      "side": 1,
+      "message": "are there any constants that could be used in place of the string literals?  If not, then it\u0027s fine as is.",
+      "revId": "7dd0cfd58d97efe9a3ce1b950b55d09f0aa294b5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
