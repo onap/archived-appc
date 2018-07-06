@@ -1,3 +1,1 @@
-
-
-[{"transactionId":1,"action":"Start","action-level":"vm","action-identifier":{"vserver-id":"be_vserverid1"},"payload":"ABC","responses":[{"response-message":"failure","response-action":{"ignore":"true"}}]},{"transactionId":2,"action":"Start","action-level":"vm","action-identifier":{"vserver-id":"smp_vserverid1"},"payload":"ABC","responses":[{"response-message":"failure","response-action":{"ignore":"true"}}]}]
+[{"transactionId":1,"action":"Start","action-level":"vm","action-identifier":{"vserver-id":"be_vserverid1"},"payload":"{\"identity-url\":\"test_url\",\"vm-id\":\"vm-id\"}","responses":[{"response-message":"failure","response-action":{"ignore":"true"}}]},{"transactionId":2,"action":"Start","action-level":"vm","action-identifier":{"vserver-id":"smp_vserverid1"},"payload":"{\"identity-url\":\"test_url\",\"vm-id\":\"vm-id\"}","responses":[{"response-message":"failure","response-action":{"ignore":"true"}}]}]
