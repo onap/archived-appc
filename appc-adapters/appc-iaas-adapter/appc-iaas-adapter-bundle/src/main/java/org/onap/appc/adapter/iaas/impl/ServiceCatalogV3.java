@@ -55,6 +55,8 @@ import com.woorea.openstack.keystone.v3.model.Token.Project;
 import com.woorea.openstack.keystone.v3.model.Token.Service;
 import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
 
+import javax.validation.constraints.Null;
+
 /**
  * This class is used to capture and cache the service catalog for a specific OpenStack provider.
  * <p>
@@ -171,6 +173,11 @@ public class ServiceCatalogV3 extends ServiceCatalog {
 
         try {
             token = authenticate.execute();
+            // Ensure that token is not null before accessing
+            // local expiration or the internal details of token
+            if (token == null) {
+                throw new NullPointerException("Access token is null. Failed to init ServiceCatalogV3");
+            }
             expiresLocal = getLocalExpiration(token);
             project = token.getProject();
             tokenProvider = new OpenStackSimpleTokenProvider(token.getId());
@@ -386,13 +393,11 @@ public class ServiceCatalogV3 extends ServiceCatalog {
      */
     private static long getLocalExpiration(Token accessToken) {
         Date now = Time.getCurrentUTCDate();
-        if (accessToken != null) {
-            Calendar issued = accessToken.getIssuedAt();
-            Calendar expires = accessToken.getExpiresAt();
-            if (issued != null && expires != null) {
-                long tokenLife = expires.getTimeInMillis() - issued.getTimeInMillis();
-                return now.getTime() + tokenLife;
-            }
+        Calendar issued = accessToken.getIssuedAt();
+        Calendar expires = accessToken.getExpiresAt();
+        if (issued != null && expires != null) {
+            long tokenLife = expires.getTimeInMillis() - issued.getTimeInMillis();
+            return now.getTime() + tokenLife;
         }
         return now.getTime();
     }

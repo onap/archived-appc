@@ -105,10 +105,11 @@ public class WrapperEncryptionTool {
             log.debug("Caught Exception", e);
             log.info("Caught exception", e);
             log.info("APPC-MESSAGE:" + e.getMessage());
-            dbResourceManager.cleanUp();
-
         } finally {
-            dbResourceManager.cleanUp();
+            //When dbResourceManager is not created then no need to cleanup
+            if (dbResourceManager != null) {
+                dbResourceManager.cleanUp();
+            }
         }
     }
 
