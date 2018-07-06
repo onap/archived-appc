@@ -43,16 +43,18 @@ public class RestartSequenceGenerator implements SequenceGenerator{
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(RestartSequenceGenerator.class);
 
     @Override
-    public List<Transaction> generateSequence(SequenceGeneratorInput input) throws APPCException {
+    public List<Transaction> generateSequence(SequenceGeneratorInput input) throws Exception {
             logger.info("Generating sequence without dependency model");
             return generateSequenceWithOutDependency(input);
     }
 
-    private List<Transaction> generateSequenceWithOutDependency(SequenceGeneratorInput input) {
+    private List<Transaction> generateSequenceWithOutDependency(SequenceGeneratorInput input) throws Exception{
+        String payload = null;
         List<Transaction> transactionList = new LinkedList<>();
         Integer transactionId = 1;
         List<Vserver> vservers = input.getInventoryModel().getVnf().getVservers();
         List<Integer> transactionIds = new LinkedList<>();
+        PayloadGenerator payloadGenerator = new PayloadGenerator();
             for (Vserver vm : vservers) {
                 Transaction transactionStop = new Transaction();
                 transactionStop.setTransactionId(transactionId);
@@ -62,7 +64,10 @@ public class RestartSequenceGenerator implements SequenceGenerator{
                 ActionIdentifier actionIdentifier = new ActionIdentifier();
                 actionIdentifier.setvServerId(vm.getId());
                 transactionStop.setActionIdentifier(actionIdentifier);
-                transactionStop.setPayload(input.getRequestInfo().getPayload());
+                String vmId = vm.getId();
+		String url = vm.getUrl();
+		payload = payloadGenerator.getPayload(input, vmId, url);
+		transactionStop.setPayload(payload);
                 if (vservers.size()>1) {
                     Response failureResponse = new Response();
                     failureResponse.setResponseMessage(Constants.ResponseMessage.FAILURE.getResponse());
@@ -83,7 +88,8 @@ public class RestartSequenceGenerator implements SequenceGenerator{
                 ActionIdentifier actionIdentifierStart = new ActionIdentifier();
                 actionIdentifierStart.setvServerId(vm.getId());
                 transactionStart.setActionIdentifier(actionIdentifierStart);
-                transactionStart.setPayload(input.getRequestInfo().getPayload());
+                payload = payloadGenerator.getPayload(input, vmId, url);
+	        transactionStart.setPayload(payload);
                 if (vservers.size()>1) {
                     Response failureResponse = new Response();
                     failureResponse.setResponseMessage(Constants.ResponseMessage.FAILURE.getResponse());
