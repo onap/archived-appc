@@ -55,6 +55,11 @@ public class DependencyManagerImpl implements DependencyManager {
         if(dependencyModel == null){
             logger.debug("Dependency model not found in cache, creating strategy for reading it");
             DependencyType strategy = getStrategy(dependencyType);
+            // Throw exception if strategy could not be created because it is required
+            // to retrieve the vnfc dependency model later
+            if (strategy == null) {
+                throw new NullPointerException("Strategy is null. Failed to retrieve Vnfc Dependency Model");
+            }
             dependencyModel = strategy.getVnfcDependencyModel(modelIdentifier);
         }
         if (logger.isTraceEnabled()) {
