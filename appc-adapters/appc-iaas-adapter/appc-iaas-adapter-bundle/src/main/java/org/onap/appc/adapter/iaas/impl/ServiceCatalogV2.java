@@ -161,6 +161,12 @@ public class ServiceCatalogV2 extends ServiceCatalog {
 
         try {
             access = authenticate.execute();
+            //Ensure that access or the access token is not null before
+            //checking local expiration or accessing the tenant information
+            if (access == null || access.getToken() == null) {
+                throw new NullPointerException("The access key used to access the provider or access token is null." +
+                        "Failed to init ServiceCatalogV2");
+            }
             expiresLocal = getLocalExpiration(access);
             tenant = access.getToken().getTenant();
             tokenProvider = new OpenStackSimpleTokenProvider(access.getToken().getId());
@@ -370,13 +376,11 @@ public class ServiceCatalogV2 extends ServiceCatalog {
      */
     private static long getLocalExpiration(Access accessKey) {
         Date now = Time.getCurrentUTCDate();
-        if (accessKey != null && accessKey.getToken() != null) {
-            Calendar issued = accessKey.getToken().getIssued_at();
-            Calendar expires = accessKey.getToken().getExpires();
-            if (issued != null && expires != null) {
-                long tokenLife = expires.getTimeInMillis() - issued.getTimeInMillis();
-                return now.getTime() + tokenLife;
-            }
+        Calendar issued = accessKey.getToken().getIssued_at();
+        Calendar expires = accessKey.getToken().getExpires();
+        if (issued != null && expires != null) {
+            long tokenLife = expires.getTimeInMillis() - issued.getTimeInMillis();
+            return now.getTime() + tokenLife;
         }
         return now.getTime();
     }

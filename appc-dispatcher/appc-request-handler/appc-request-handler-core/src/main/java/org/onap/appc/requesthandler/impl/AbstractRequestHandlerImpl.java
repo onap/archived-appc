@@ -408,6 +408,13 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
         if (logger.isDebugEnabled())
             logger.debug("Metric getting initialized");
         MetricService metricService = getMetricservice();
+        // Check for the metric service created before trying to create registry using
+        // the metricService object
+        if (metricService == null) {
+            // Cannot find service reference for org.onap.appc.metricservice.MetricService
+            throw new NullPointerException("org.onap.appc.metricservice.MetricService is null. " +
+                    "Failed to init Metric");
+        }
         metricRegistry = metricService.createRegistry("APPC");
         DispatchingFuntionMetric dispatchingFuntionMetric = metricRegistry.metricBuilderFactory().
             dispatchingFunctionCounterBuilder().
