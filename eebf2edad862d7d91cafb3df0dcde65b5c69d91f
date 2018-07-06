@@ -1,0 +1,497 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_16ea49ac",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/SequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "sonar prefers that specific exceptions be thrown, in this case, APPCException.  If there is absolutely no way to get around throwing a generic Exception, then remove the APPCException from the \"throws\" clause.",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b6c9155c",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "If this is new, change to 2018.  If it\u0027s existing, then 2017-2018.",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_76c38d38",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "If this is a new file, then remove the Amdocs lines",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d6c4e142",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3604257d",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "make this final and move it below dgGeneralDBService",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b6d035f8",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "does this need to be thread-safe?  If so, use the on-demand-holder idom.",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_76daad18",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "this test is not needed",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d6f2a19a",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "this will throw an NPE if localContext is null.  Perhaps it would be best to check for localContext once at the start and immediately return.  Then no additional checks are needed in the rest of the method body",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_96d5f9e6",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "don\u0027t need to check serviceLogic !\u003d null",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_56077181",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "typo: Quersy -\u003e Query",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f6fd5d6f",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "use this instead: status \u003d\u003d QueryStatus.FAILURE",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b6f7d58b",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "use this instead: status \u003d\u003d QueryStatus.FAILURE",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_76f14d94",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "this will throw an NPE if localContext is null",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_96ec19bd",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dgplugin/impl/SequenceGeneratorPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "sonar prefers a specific exception.  If this code throws more generic exceptions, then perhaps those should be caught and wrapped in an APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_36dd0515",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/PayloadGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "if this is a new file, then remove the \"2017-\"",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_96be59ad",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/PayloadGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "If this is a new file, then remove the Amdocs lines",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_562e91fb",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "prefer: throws APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f6347d4b",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "prefer: throws APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b625950b",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "are we sure that the first action in the input is the \"stop\" action?",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_d62061fa",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "are we sure that the second action in the input is a \"start\" action?",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_76486dcc",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "prefer: throws APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_9643b9ae",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "prefer: throws APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_3612e5b4",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StopSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "prefer: throws APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_56153199",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StopSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "prefer: throws APPCException",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_160fa989",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/provider/SequenceGeneratorProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "if possible, just catch APPCException here",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_761f0db8",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/resources/payload.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "doesn\u0027t RestartSequenceGenerator expect the \"stop\" action to come first?  Or maybe this isn\u0027t used there.",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f6e6bde7",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "put \"-2018\" back in",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_56e0d1cb",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_961ad9c4",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T20:17:24Z",
+      "side": 1,
+      "message": "add cases for Stop \u0026 Restart?",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
