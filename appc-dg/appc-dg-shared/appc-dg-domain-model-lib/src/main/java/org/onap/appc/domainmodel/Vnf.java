@@ -33,6 +33,7 @@ public class Vnf {
     private String vnfId;
     private String vnfType;
     private String vnfVersion;
+    private String identityUrl;
     private  List <Vserver> vservers;
 
     public Vnf(){
@@ -93,5 +94,11 @@ public class Vnf {
         return new LinkedList<>(vnfcs);
     }
 
+    public String getIdentityUrl() {
+		return identityUrl;
+    }
 
+    public void setIdentityUrl(String identityUrl) {
+		this.identityUrl = identityUrl;
+    }
 }

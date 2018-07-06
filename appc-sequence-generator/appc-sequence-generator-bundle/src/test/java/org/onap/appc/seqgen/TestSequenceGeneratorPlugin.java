@@ -4,8 +4,6 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
- * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,11 +24,13 @@ package org.onap.appc.seqgen;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.onap.appc.seqgen.dbservices.SequenceGeneratorDBServices;
 import org.onap.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
 import org.onap.appc.seqgen.dgplugin.impl.SequenceGeneratorPluginImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
+import static org.mockito.Mockito.mock;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,6 +41,7 @@ import java.util.Map;
 public class TestSequenceGeneratorPlugin {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(TestSequenceGeneratorPlugin.class);
+    private SequenceGeneratorPlugin seqImpl;
 
     @Test
     public void testGenerateSequenceStart() throws URISyntaxException, IOException {
@@ -50,8 +51,8 @@ public class TestSequenceGeneratorPlugin {
         SvcLogicContext context = new SvcLogicContext();
         context.setAttribute("inputJSON",inputJSON);
 
-        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
-        plugin.generateSequence(params,context);
+        seqImpl = new SequenceGeneratorPluginImpl();
+        seqImpl.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
         String actualOutput = readOutput("/output/Start2.json");
@@ -276,23 +277,6 @@ public class TestSequenceGeneratorPlugin {
 
         String outputJSON = context.getAttribute("output");
         String actualOutput = readOutput("/output/start-singleVmPerVnfc.json");
-        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
-    }
-
-    @Test
-    public  void testGenerateSequenceStopWithoutDep() throws  URISyntaxException,IOException{
-        String inputJSON = readInput("/input/stop-WithoutDep.json");
-
-        Map<String,String> params = new HashMap<>();
-        SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute("inputJSON",inputJSON);
-
-        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
-        plugin.generateSequence(params,context);
-
-        String outputJSON = context.getAttribute("output");
-        String actualOutput = readOutput("/output/stop-WithoutDep.json");
-
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 

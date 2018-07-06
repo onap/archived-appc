@@ -96,7 +96,7 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
 
         return sequenceGeneratorInput;
     }
-    private List<Transaction> generateSequence(SequenceGeneratorInput sequenceGeneratorInput) throws APPCException {
+    private List<Transaction> generateSequence(SequenceGeneratorInput sequenceGeneratorInput) throws Exception {
         if (sequenceGeneratorInput.getRequestInfo() == null) {
             throw new APPCException("Request info is not provided in the input");
         }
@@ -262,9 +262,12 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
 
         String vnfId = vnfInfo.get("vnf-id").asText();
         String vnfType = vnfInfo.get("vnf-type").asText();
+        String identityUrl = vnfInfo.get("identity-url").asText();
         Vnf vnf =new Vnf();
         vnf.setVnfId(vnfId);
         vnf.setVnfType(vnfType);
+        vnf.setIdentityUrl(identityUrl);
+        logger.debug("IdentityUrl in SeqGen:" + identityUrl);
         Map<Vnfc, List<Vserver>> vfcs = new HashMap<>();
         JsonNode vms = vnfInfo.get("vm");
         if(vms.size()<1){
@@ -275,8 +278,10 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
                 throw new APPCException("vserver-id not found ");
             }
             String vserverId = vm.get("vserver-id").asText();
+            String vmId =vm.get("vm-id").asText();
             Vserver vserver = new Vserver();
             vserver.setId(vserverId);
+            vserver.setUrl(vmId);
             if (vm.get("vnfc")!=null&& vm.get("vnfc").get("vnfc-name") != null && vm.get("vnfc").get("vnfc-type")!= null) {
                 Vnfc vfc = new Vnfc();
                 vfc.setVnfcType(vm.get("vnfc").get("vnfc-type").asText());

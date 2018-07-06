@@ -1,0 +1,27 @@
+{
+"output_payload-model": {
+		"sequence-generator": "multistep-sequence-generator",
+		"action-list": [{
+				"action": "start",
+				"payload-fields": {
+					"identity-url": "$identity-url",
+					"vm-id": "$vm-id"
+				}
+			},
+			{
+				"action": "stop",
+				"payload-fields": {
+					"identity-url": "$identity-url",
+					"vm-id": "$vm-id"
+				}
+			},
+			{
+				"action": "restart",
+				"payload-fields": {
+					"identity-url": "$identity-url",
+					"vm-id": "$vm-id"
+				}
+			}
+		]
+	}
+}
