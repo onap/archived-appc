@@ -69,9 +69,9 @@ public class DebugLog {
             // write to it. If it does not exist, don't write to it.
             File tmpFile = new File(fileName);
             if (tmpFile.exists()) {
-                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-                out.write(dataToWrite);
-                out.close();
+                try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
+                    out.write(dataToWrite);
+                }
             }
         } catch (IOException e) {
             DebugLog.printRTAriDebug(fn, "writeToFile() exception: " + e);
