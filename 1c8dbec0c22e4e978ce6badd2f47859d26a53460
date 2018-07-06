@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_d68381a7",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-06T21:52:42Z",
+      "side": 1,
+      "message": "remove these lines - they\u0027re redundant with lines 114-117 (and could cause an NPE when an exception occurs)",
+      "revId": "1c8dbec0c22e4e978ce6badd2f47859d26a53460",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
