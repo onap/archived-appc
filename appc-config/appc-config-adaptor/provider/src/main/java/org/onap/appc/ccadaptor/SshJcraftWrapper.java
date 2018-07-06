@@ -583,11 +583,11 @@ public class SshJcraftWrapper {
             // write to it. If it does not exist, don't write to it.
             File tmpFile = new File(fileName);
             if (tmpFile.exists()) {
-                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-                // out.write(dataToWrite);
-                // out.write(getTheDate() +": " +Thread.currentThread().getName() +": "+dataToWrite);
-                out.write(getTheDate() + ": " + tId + ": " + dataToWrite);
-                out.close();
+                try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
+                    // out.write(dataToWrite);
+                    // out.write(getTheDate() +": " +Thread.currentThread().getName() +": "+dataToWrite);
+                    out.write(getTheDate() + ": " + tId + ": " + dataToWrite);
+                }
             }
         } catch (IOException e) {
             debugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
@@ -604,9 +604,9 @@ public class SshJcraftWrapper {
             // write to it. If it does not exist, don't write to it.
             File tmpFile = new File(fileName);
             if (tmpFile.exists()) {
-                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-                out.write(dataToWrite);
-                out.close();
+                try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
+                    out.write(dataToWrite);
+                }
             }
         } catch (IOException e) {
             debugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
@@ -635,10 +635,10 @@ public class SshJcraftWrapper {
             {
                 // if ((tmpFile.exists()) && (tmpFile.setWritable(true, true)))
                 if (tmpFile.exists()) {
-                    BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-                    // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
-                    out.write(dataToWrite.toString());
-                    out.close();
+                    try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
+                        // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
+                        out.write(dataToWrite.toString());
+                    }
                 }
             }
         } catch (IOException e) {
@@ -656,10 +656,10 @@ public class SshJcraftWrapper {
             File tmpFile = new File(fileName);
             // if ((tmpFile.exists()) && (tmpFile.setWritable(true, true)))
             if (tmpFile.exists()) {
-                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
-                // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
-                out.write(charBuffer, 0, len);
-                out.close();
+                try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
+                    // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
+                    out.write(charBuffer, 0, len);
+                }
             }
         } catch (IOException e) {
             System.err.println("writeToFile() exception: " + e);
@@ -712,29 +712,29 @@ public class SshJcraftWrapper {
 
     public String getLastFewLinesOfFile(File file, int linesToRead) throws IOException {
         String fn = "SshJcraftWrapper.getLastFewLinesOfFile";
-        RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r");
-        int lines = 0;
-        StringBuilder builder = new StringBuilder();
         String tail = "";
-        long length = file.length();
-        length--;
-        randomAccessFile.seek(length);
-        for (long seek = length; seek >= 0; --seek) {
-            randomAccessFile.seek(seek);
-            char c = (char) randomAccessFile.read();
-            builder.append(c);
-            if (c == '\n') {
-                builder = builder.reverse();
-                // System.out.println(builder.toString());
-                tail = builder.toString() + tail;
-                lines++;
-                builder.setLength(0);
-                if (lines == linesToRead) {
-                    break;
+        try(RandomAccessFile randomAccessFile = new RandomAccessFile(file, "r")) {
+            int lines = 0;
+            StringBuilder builder = new StringBuilder();
+            long length = file.length();
+            length--;
+            randomAccessFile.seek(length);
+            for (long seek = length; seek >= 0; --seek) {
+                randomAccessFile.seek(seek);
+                char c = (char) randomAccessFile.read();
+                builder.append(c);
+                if (c == '\n') {
+                    builder = builder.reverse();
+                    // System.out.println(builder.toString());
+                    tail = builder.toString() + tail;
+                    lines++;
+                    builder.setLength(0);
+                    if (lines == linesToRead) {
+                        break;
+                    }
                 }
             }
         }
-        randomAccessFile.close();
         if (!jcraftReadSwConfigFileFromDisk()) {
             debugLog.printRTAriDebug(fn, "tail='" + tail + "'");
         }
