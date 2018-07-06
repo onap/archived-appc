@@ -86,10 +86,16 @@ module sequence-generator {
                 leaf vnf-type {
                     type string;
                 }
+                leaf identity-url {
+                    type string;
+                }
                 list vm {
                     ordered-by user;
                     key "vserver-id";
                     leaf vserver-id {
+                        type string;
+                    }
+                    leaf vm-id {
                         type string;
                     }
                     container vnfc {

@@ -123,7 +123,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
             SequenceGeneratorInput seqGenInput = buildSeqGenInput(input);
             List<Transaction> transactions = seqGenerator.generateSequence(seqGenInput);
             rpcResult = buildSuccessResponse(transactions);
-        } catch (APPCException e) {
+        } catch (Exception e) {
             log.error("Error Generating Sequence",e);
             rpcResult = buildFailureResponse(e.getMessage());
         }
@@ -471,6 +471,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         Vnf vnf=new Vnf();
         vnf.setVnfId(input.getInventoryInfo().getVnfInfo().getVnfId());
         vnf.setVnfType(input.getInventoryInfo().getVnfInfo().getVnfType());
+        vnf.setIdentityUrl(input.getInventoryInfo().getVnfInfo().getIdentityUrl());
         return vnf;
     }
 
