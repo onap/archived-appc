@@ -60,7 +60,7 @@ public class StopSequenceGenerator implements SequenceGenerator {
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(StopSequenceGenerator.class);
 
     @Override
-    public List<Transaction> generateSequence(SequenceGeneratorInput input) throws APPCException {
+    public List<Transaction> generateSequence(SequenceGeneratorInput input) throws Exception {
         if (input.getRequestInfo().getActionLevel().equals(ActionLevel.VNF.getAction()) && input.getDependencyModel() != null ) {
             if(isVnfcPresent(input)) {
                 FlowStrategies flowStrategy = readFlowStrategy(input);
@@ -81,7 +81,9 @@ public class StopSequenceGenerator implements SequenceGenerator {
             }
     }
 
-    private List<Transaction> generateSequenceWithOutDependency(SequenceGeneratorInput input){
+    private List<Transaction> generateSequenceWithOutDependency(SequenceGeneratorInput input)throws Exception{
+        String payload = null;
+        PayloadGenerator payloadGenerator = new PayloadGenerator();
         List<Transaction> transactionList = new LinkedList<>();
         Integer transactionId = 1;
         List<Vserver> vservers = input.getInventoryModel().getVnf().getVservers();
@@ -95,7 +97,10 @@ public class StopSequenceGenerator implements SequenceGenerator {
             ActionIdentifier actionIdentifier = new ActionIdentifier();
             actionIdentifier.setvServerId(vm.getId());
             transaction.setActionIdentifier(actionIdentifier);
-            transaction.setPayload(input.getRequestInfo().getPayload());
+            String vmId = vm.getId();
+            String url = vm.getUrl();
+            payload = payloadGenerator.getPayload(input, vmId, url);
+            transaction.setPayload(payload);
             if(vservers.size()>1){
                 Response failureResponse = new Response();
                 failureResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());

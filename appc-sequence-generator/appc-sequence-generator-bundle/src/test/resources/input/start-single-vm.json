@@ -1,56 +1,42 @@
+
 {
-	"request-info":
-	{
+	"request-info": {
 		"action": "Start",
 		"action-level": "vm",
-		"action-identifier":
-		{
+		"action-identifier": {
 			"vserver-id": "dbgx0001v"
 		},
 		"payload": "ABC"
 	},
-	"inventory-info":
-	{
-		"vnf-info":
-		{
+	"inventory-info": {
+		"vnf-info": {
 			"vnf-id" : "abc",
-			"vnf-name": "vVNF",
-			"vnf-type": "vVNF",
+			"vnf-name": "vSCP",
+			"vnf-type": "vSCP",
 			"vnf-version" : "1.0",
-			"vm":
-			[
+			"identity-url" : "test_url",
+			"vm": [
 					{
-						"vserver-id" : "vnfc2_vserverid1",
+						"vserver-id" : "be_vserverid1",
+						"vm-id" : "vm-id1",
 						"vnfc":
 								{
-									"vnfc-type": "VNFC2",
-									"vnfc-name": "VNFC2 - Name"
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
 								}
 					}
-			]
+				 ]
 		}
 	},
-	"dependency-info":
-	{
+	"dependency-info": {
 
 	},
-	"tunable-parameters":
-	{
+	"tunable-parameters": {
 
 	},
-	"capabilities" :
-	{
-		"vm" :
-		[
-			"Stop",
-			"Start"
-		],
-		"vnfc":
-		[
-			"StopApplication",
-			"StartApplication",
-			"HealthCheck"
-		]
+	"capabilities" : {
+		"vm" : ["Stop", "Start"],
+		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
 	}
 }
 
