@@ -1,42 +1,43 @@
 
-
 {
-    "request-info": {
-        "action": "Start",
-        "action-level": "vm",
-        "action-identifier": {
-            "vserver-id": "dbgx0001v"
-        },
-        "payload": "ABC"
-    },
-    "inventory-info": {
-        "vnf-info": {
-            "vnf-id" : "abc",
-            "vnf-name": "vSCP",
-            "vnf-type": "vSCP",
-            "vnf-version" : "1.0",
-            "vm": [
-                    {
-                        "vserver-id" : "be_vserverid1",
-                        "vnfc":
-                                {
-                                    "vnfc-type": "BE",
-                                    "vnfc-name": "BE - Name"
-                                }
-                    }
-                 ]
-        }
-    },
-    "dependency-info": {
+	"request-info": {
+		"action": "Start",
+		"action-level": "vm",
+		"action-identifier": {
+			"vserver-id": "dbgx0001v"
+		},
+		"payload": "ABC"
+	},
+	"inventory-info": {
+		"vnf-info": {
+			"vnf-id" : "abc",
+			"vnf-name": "vSCP",
+			"vnf-type": "vSCP",
+			"vnf-version" : "1.0",
+			"identity-url" : "test_url",
+			"vm": [
+					{
+						"vserver-id" : "be_vserverid1",
+						"vm-id" : "vm-id1",
+						"vnfc":
+								{
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
+								}
+					}
+				 ]
+		}
+	},
+	"dependency-info": {
 
-    },
-    "tunable-parameters": {
+	},
+	"tunable-parameters": {
 
-    },
-    "capabilities" : {
-        "vm" : ["Stop", "Start"],
-        "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
-    }
+	},
+	"capabilities" : {
+		"vm" : ["Stop", "Start"],
+		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
+	}
 }
 
 

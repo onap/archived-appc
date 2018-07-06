@@ -1,7 +1,5 @@
-
-
 {
-	"request-info": {
+"request-info": {
 		"action": "Start",
 		"action-level": "vnf",
 		"action-identifier": {
@@ -15,9 +13,11 @@
 			"vnf-name": "vSCP",
 			"vnf-type": "vSCP",
 			"vnf-version" : "1.0",
+			"identity-url" : "test_url",
 			"vm": [
 					{
 						"vserver-id" : "be_vserverid1",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "BE",
@@ -27,6 +27,7 @@
 					},
 					{
 						"vserver-id" : "fe_vserverid1",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "FE",
@@ -36,6 +37,7 @@
 					},
 					{
 						"vserver-id" : "fe_vserverid2",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "FE",
@@ -45,6 +47,7 @@
 					},
 					{
 						"vserver-id" : "be_vserverid2",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "BE",
@@ -54,6 +57,7 @@
 					},
 					{
 						"vserver-id" : "be_vserverid3",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "BE",
@@ -63,6 +67,7 @@
 					},
 					{
 						"vserver-id" : "smp_vserverid1",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "SMP",
@@ -72,6 +77,7 @@
 					},
 					{
 						"vserver-id" : "smp_vserverid2",
+						"vm-id" : "vm_id1",
 						"vnfc": 
 								{
 									"vnfc-type": "SMP",
@@ -80,6 +86,7 @@
 					},
 					{
 						"vserver-id" : "be_vserverid4",
+						"vm-id" : "vm_id1",
 						"vnfc":
 						{
 							"vnfc-type": "BE",
@@ -89,6 +96,7 @@
 					},
 					{
 						"vserver-id" : "be_vserverid5",
+						"vm-id" : "vm_id1",
 						"vnfc":
 						{
 							"vnfc-type": "BE",
@@ -137,5 +145,3 @@
 		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
 	}
 }
-
-

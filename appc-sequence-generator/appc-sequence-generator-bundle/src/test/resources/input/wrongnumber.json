@@ -1,141 +1,151 @@
 
 
 {
-    "request-info": {
-        "action": "Start",
-        "action-level": "vnf",
-        "action-identifier": {
-            "vnf-id": "dbgx0001v"
-        },
-        "payload": "ABC"
-    },
-    "inventory-info": {
-        "vnf-info": {
-            "vnf-id" : "abc",
-            "vnf-name": "vSCP",
-            "vnf-type": "vSCP",
-            "vnf-version" : "1.0",
-            "vm": [
-                    {
-                        "vserver-id" : "be_vserverid1",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "BE",
-                                    "vnfc-name": "BE - Name"
-                                }
-                                
-                    },
-                    {
-                        "vserver-id" : "fe_vserverid1",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "FE",
-                                    "vnfc-name": "FE - Name"
-                                }
-                                
-                    },
-                    {
-                        "vserver-id" : "fe_vserverid2",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "FE",
-                                    "vnfc-name": "FE - Name"
-                                }
-                                
-                    },
-                    {
-                        "vserver-id" : "be_vserverid2",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "BE",
-                                    "vnfc-name": "BE - Name"
-                                }
-                                
-                    },
-                    {
-                        "vserver-id" : "be_vserverid3",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "BE",
-                                    "vnfc-name": "BE - Name"
-                                }
-                                
-                    },
-                    {
-                        "vserver-id" : "smp_vserverid1",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "SMP",
-                                    "vnfc-name": "SMP - Name"
-                                }
-                                
-                    },
-                    {
-                        "vserver-id" : "smp_vserverid2",
-                        "vnfc": 
-                                {
-                                    "vnfc-type": "SMP",
-                                    "vnfc-name": "SMP - Name"
-                                }                                
-                    },
-                    {
-                        "vserver-id" : "be_vserverid4",
-                        "vnfc":
-                        {
-                            "vnfc-type": "BE",
-                            "vnfc-name": "BE - Name"
-                        }
+	"request-info": {
+		"action": "Start",
+		"action-level": "vnf",
+		"action-identifier": {
+			"vnf-id": "dbgx0001v"
+		},
+		"payload": "ABC"
+	},
+	"inventory-info": {
+		"vnf-info": {
+			"vnf-id" : "abc",
+			"vnf-name": "vSCP",
+			"vnf-type": "vSCP",
+			"vnf-version" : "1.0",
+			"identity-url" : "test_url",
+			"vm": [
+					{
+						"vserver-id" : "be_vserverid1",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
+								}
+								
+					},
+					{
+						"vserver-id" : "fe_vserverid1",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "FE",
+									"vnfc-name": "FE - Name"
+								}
+								
+					},
+					{
+						"vserver-id" : "fe_vserverid2",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "FE",
+									"vnfc-name": "FE - Name"
+								}
+								
+					},
+					{
+						"vserver-id" : "be_vserverid2",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
+								}
+								
+					},
+					{
+						"vserver-id" : "be_vserverid3",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "BE",
+									"vnfc-name": "BE - Name"
+								}
+								
+					},
+					{
+						"vserver-id" : "smp_vserverid1",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "SMP",
+									"vnfc-name": "SMP - Name"
+								}
+								
+					},
+					{
+						"vserver-id" : "smp_vserverid2",
+						"vm-id" : "vm_id1",
+						"vnfc": 
+								{
+									"vnfc-type": "SMP",
+									"vnfc-name": "SMP - Name"
+								}								
+					},
+					{
+						"vserver-id" : "be_vserverid4",
+						"vm-id" : "vm_id1",
+						"vnfc":
+						{
+							"vnfc-type": "BE",
+							"vnfc-name": "BE - Name"
+						}
 
-                    },
-                    {
-                        "vserver-id" : "be_vserverid5",
-                        "vnfc":
-                        {
-                            "vnfc-type": "BE",
-                            "vnfc-name": "BE - Name"
-                        }
+					},
+					{
+						"vserver-id" : "be_vserverid5",
+						"vm-id" : "vm_id1",
+						"vnfc":
+						{
+							"vnfc-type": "BE",
+							"vnfc-name": "BE - Name"
+						}
 
-                    }
-            ]
-        }
-    },
-    "dependency-info": {
-        "vnfcs" : [
-            {
-                "vnfc-type" : "BE",
-                "mandatory" : "true",
-                "resilience": "Active-Active",
-                "parents" : [
-                    "SMP"
-                ]
-            },
-            {
-                "vnfc-type" : "FE",
-                "mandatory" : "true",
-                "resilience": "Active-Active",
-                "parents" : [
-                    "BE"
-                ]
-            },
-            {
-                "vnfc-type" : "SMP",
-                "mandatory" : "true",
-                "resilience": "Active-Passive",
-                "parents" : []
-            }
-        ]
-    },
-    "tunable-parameters": {
-        "strategy" : "FORWARD",
-        "wait-time": "6a",
-        "retry-count": "5"
-    },
-    "capabilities" : {
-        "vnf": ["Stop", "Start", "StartApplication","StopApplication"],
-        "vf-module": ["Stop", "Start"],
-        "vm" : ["Stop", "Start"],
-        "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
-    }
+					}
+			]
+		}
+	},
+	"dependency-info": {
+		"vnfcs" : [
+			{
+				"vnfc-type" : "BE",
+				"mandatory" : "true",
+				"resilience": "Active-Active",
+				"parents" : [
+					"SMP"
+				]
+			},
+			{
+				"vnfc-type" : "FE",
+				"mandatory" : "true",
+				"resilience": "Active-Active",
+				"parents" : [
+					"BE"
+				]
+			},
+			{
+				"vnfc-type" : "SMP",
+				"mandatory" : "true",
+				"resilience": "Active-Passive",
+				"parents" : []
+			}
+		]
+	},
+	"tunable-parameters": {
+		"strategy" : "FORWARD",
+		"wait-time": "6a",
+		"retry-count": "5"
+	},
+	"capabilities" : {
+		"vnf": ["Stop", "Start", "StartApplication","StopApplication"],
+		"vf-module": ["Stop", "Start"],
+		"vm" : ["Stop", "Start"],
+		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
+	}
 }
 
 
