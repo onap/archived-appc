@@ -1,5 +1,3 @@
-
-
 {
   "request-info": {
     "action": "Stop",
@@ -15,9 +13,11 @@
       "vnf-name": "vSCP",
       "vnf-type": "vSCP",
       "vnf-version" : "1.0",
+      "identity-url" : "test_url",
       "vm": [
         {
           "vserver-id" : "be_vserverid1",
+          "vm-id" : "vm_id1",
           "vnfc":
           {
             "vnfc-type": "BE",
@@ -26,6 +26,7 @@
         },
         {
           "vserver-id" : "smp_vserverid1",
+          "vm-id" : "vm_id1",
           "vnfc":
           {
             "vnfc-type": "SMP",
@@ -46,5 +47,3 @@
     "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
   }
 }
-
-

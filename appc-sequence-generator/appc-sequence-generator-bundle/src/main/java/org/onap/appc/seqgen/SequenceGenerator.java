@@ -40,5 +40,5 @@ public interface SequenceGenerator {
      * @return returns runtime sequence for LCM operation execution
      * @throws APPCException
      */
-    List<Transaction> generateSequence(SequenceGeneratorInput input) throws APPCException;
+    List<Transaction> generateSequence(SequenceGeneratorInput input) throws Exception;
 }
