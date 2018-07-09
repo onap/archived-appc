@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_ccd76e4e",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/DebugLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2018-07-09T15:06:14Z",
+      "side": 1,
+      "message": "close bufferwriter",
+      "revId": "da8d16cb974f9b203a59fb350e2179bf19ac3bce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_ecf26a05",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2018-07-09T15:06:14Z",
+      "side": 1,
+      "message": "why out.close() is removed streams should be closed",
+      "revId": "da8d16cb974f9b203a59fb350e2179bf19ac3bce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0cf6b6f9",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2018-07-09T15:06:14Z",
+      "side": 1,
+      "message": "close the stream",
+      "revId": "da8d16cb974f9b203a59fb350e2179bf19ac3bce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8ce1662c",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2018-07-09T15:06:14Z",
+      "side": 1,
+      "message": "close streams at all lines 641,662,737",
+      "revId": "da8d16cb974f9b203a59fb350e2179bf19ac3bce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
