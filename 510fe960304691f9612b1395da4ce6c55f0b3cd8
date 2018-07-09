@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_4c927e4c",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-09T18:53:50Z",
+      "side": 1,
+      "message": "this will still throw an NPE if localContext is null",
+      "revId": "510fe960304691f9612b1395da4ce6c55f0b3cd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_2c8ff224",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-09T18:53:50Z",
+      "side": 1,
+      "message": "this will still throw an NPE if localContext is null",
+      "revId": "510fe960304691f9612b1395da4ce6c55f0b3cd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_0c9c765c",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-09T18:53:50Z",
+      "side": 1,
+      "message": "did something happen with the indentation?",
+      "revId": "510fe960304691f9612b1395da4ce6c55f0b3cd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_aca22298",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StartSequenceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-09T18:53:50Z",
+      "side": 1,
+      "message": "did something happen with the indentation?",
+      "revId": "510fe960304691f9612b1395da4ce6c55f0b3cd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_cc9d2e59",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StartSequenceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-09T18:53:50Z",
+      "side": 1,
+      "message": "did something happen with the indentation?",
+      "revId": "510fe960304691f9612b1395da4ce6c55f0b3cd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_6cac1a8d",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StopSequenceGenerator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-09T18:53:50Z",
+      "side": 1,
+      "message": "did something happen with the indentation?  same comment for subsequent changed lines",
+      "revId": "510fe960304691f9612b1395da4ce6c55f0b3cd8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
