@@ -325,6 +325,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_16a2494b",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2018-07-09T18:27:40Z",
+      "side": 1,
+      "message": "Yes.. its stop",
+      "parentUuid": "5a93c517_b625950b",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_d62061fa",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
         "patchSetId": 1
@@ -336,6 +354,24 @@
       "writtenOn": "2018-07-06T20:17:24Z",
       "side": 1,
       "message": "are we sure that the second action in the input is a \"start\" action?",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_b68835c7",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/RestartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2018-07-09T18:27:40Z",
+      "side": 1,
+      "message": "yes it is start",
+      "parentUuid": "5a93c517_d62061fa",
       "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -444,6 +480,24 @@
     },
     {
       "key": {
+        "uuid": "5a93c517_5698d11a",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/resources/payload.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2018-07-09T18:27:40Z",
+      "side": 1,
+      "message": "This is not abouut restart action- This is a model to see show wat fields are needed for stop ,start and restart action",
+      "parentUuid": "5a93c517_761f0db8",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_f6e6bde7",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
         "patchSetId": 1
@@ -489,6 +543,24 @@
       "writtenOn": "2018-07-06T20:17:24Z",
       "side": 1,
       "message": "add cases for Stop \u0026 Restart?",
+      "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_f69ebd06",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2018-07-09T18:27:40Z",
+      "side": 1,
+      "message": "There are many test cases for Stop and Restart",
+      "parentUuid": "5a93c517_961ad9c4",
       "revId": "eebf2edad862d7d91cafb3df0dcde65b5c69d91f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
