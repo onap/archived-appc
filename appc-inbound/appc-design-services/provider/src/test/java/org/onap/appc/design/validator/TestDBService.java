@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Copyright (C) 2018 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -52,6 +54,7 @@ public class TestDBService {
             DesignDBService dbservice = DesignDBService.initialise();
             dbservice.execute("getDesigns", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -66,6 +69,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             dbservice.execute("getStatus", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -80,6 +84,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             dbservice.execute("uploadArtifact", payload, "1234");
         } catch (Exception e) {
+           logger.error("Exception ", e);
         }
     }
 
@@ -94,6 +99,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             design.execute("getArtifact", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -108,6 +114,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             design.execute("setInCart", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -122,6 +129,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             design.execute("setProtocolReference", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -136,6 +144,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             design.execute("setStatus", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -150,6 +159,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             design.execute("getArtifactReference", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -164,6 +174,7 @@ public class TestDBService {
             Whitebox.invokeMethod(db, "getDbLibService");
             design.execute("getGuiReference", payload, "1234");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -180,6 +191,7 @@ public class TestDBService {
             DesignDBService design = DesignDBService.initialise();
             Whitebox.invokeMethod(design, "linkstatusRelationShip", 1, 1, payload);
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -192,6 +204,7 @@ public class TestDBService {
             DesignDBService design = DesignDBService.initialise();
             Whitebox.invokeMethod(design, "getSDCReferenceID", payload);
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -203,6 +216,7 @@ public class TestDBService {
             DesignDBService design = DesignDBService.initialise();
             Whitebox.invokeMethod(design, "getDataFromActionStatus", payload, "Test");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -214,6 +228,7 @@ public class TestDBService {
             DesignDBService design = DesignDBService.initialise();
             Whitebox.invokeMethod(design, "setActionStatus", payload, "Accepted");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
         
@@ -225,6 +240,7 @@ public class TestDBService {
             DesignDBService design = DesignDBService.initialise();
             Whitebox.invokeMethod(design, "getSDCArtifactIDbyRequestID", "0");
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 
@@ -236,6 +252,7 @@ public class TestDBService {
             DesignDBService design = DesignDBService.initialise();
             Whitebox.invokeMethod(design, "createArtifactTrackingRecord",payload,"0",1,1);
         } catch (Exception e) {
+            logger.error("Exception ", e);
         }
     }
 }
