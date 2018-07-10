@@ -28,6 +28,7 @@ import org.junit.Test;
 import org.onap.appc.design.dbervices.DbResponseProcessor;
 
 public class TestDbResponse {
+	private static final EELFLogger log = EELFManager.getInstance().getLogger(TestDbResponse.class);
 
     @Test
     public void testDbResponse() {
@@ -45,6 +46,7 @@ public class TestDbResponse {
             dbResponse.parseResponse("Test", "getStatus");
             dbResponse.parseResponse("Test", "Test");
         } catch (Exception e) {
+        	logger.error(e.getMessage());
         }
     }
 }
