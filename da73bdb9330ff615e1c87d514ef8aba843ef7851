@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_c71f496f",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/ValidatorExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-10T13:12:08Z",
+      "side": 1,
+      "message": "change to 2018 IBM if this is a new file created by you",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "da73bdb9330ff615e1c87d514ef8aba843ef7851",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_8729419d",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/ValidatorExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-10T13:12:08Z",
+      "side": 1,
+      "message": "do not use tab, use 4+ spaces, based on google code style",
+      "range": {
+        "startLine": 43,
+        "startChar": 5,
+        "endLine": 43,
+        "endChar": 8
+      },
+      "revId": "da73bdb9330ff615e1c87d514ef8aba843ef7851",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
