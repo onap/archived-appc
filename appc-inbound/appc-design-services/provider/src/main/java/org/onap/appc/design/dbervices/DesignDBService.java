@@ -174,8 +174,7 @@ public class DesignDBService {
         log.info("Record Deleted");
 
         if (payloadObject.get(DesignServiceConstants.TEMPLATE) != null &&
-            !payloadObject.get(DesignServiceConstants.TEMPLATE).textValue().isEmpty()) {
-
+            !payloadObject.get(DesignServiceConstan
             argList.add(payloadObject.get(DesignServiceConstants.TEMPLATE).textValue());
         } else {
             argList.add("NO");
