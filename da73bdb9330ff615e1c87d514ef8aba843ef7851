@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a93c517_678af465",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-10T13:52:29Z",
+      "side": 1,
+      "message": "what happened here?  seems like the line was truncated somehow.",
+      "revId": "da73bdb9330ff615e1c87d514ef8aba843ef7851",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a7bebcfe",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/ValidatorExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-10T13:52:29Z",
+      "side": 1,
+      "message": "if this is a new file and you\u0027re doing work on behalf of AT\u0026T, then line 5 should say \"2018\" instead of \"2017-2018\" and line 7 should be removed altogether.  On the other hand, if you\u0027re doing work on behalf of Amdocs, then line 5 should be removed and line 7 should say \"2018\" instead of \"2017\"",
+      "revId": "da73bdb9330ff615e1c87d514ef8aba843ef7851",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a93c517_c71f496f",
         "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/ValidatorExceptionTest.java",
         "patchSetId": 1
@@ -19,6 +53,23 @@
         "endLine": 7,
         "endChar": 28
       },
+      "revId": "da73bdb9330ff615e1c87d514ef8aba843ef7851",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a93c517_a790fc96",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/ValidatorExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-10T13:52:29Z",
+      "side": 1,
+      "message": "seems like this test is missing something.  What\u0027s it supposed to be verifying?",
       "revId": "da73bdb9330ff615e1c87d514ef8aba843ef7851",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
