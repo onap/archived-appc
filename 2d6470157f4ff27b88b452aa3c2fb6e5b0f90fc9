@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a93c517_cde687e8",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/constant/ConstantsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-11T13:37:52Z",
+      "side": 1,
+      "message": "please restore the previous copyright lines.",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "2d6470157f4ff27b88b452aa3c2fb6e5b0f90fc9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
