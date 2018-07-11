@@ -35,6 +35,7 @@ import java.io.Reader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.XMLConstants;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
@@ -134,6 +135,10 @@ public class ValidatorService {
 
         try {
             DocumentBuilderFactory dBF = DocumentBuilderFactory.newInstance();
+            dBF.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            dBF.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            dBF.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+
             DocumentBuilder builder = dBF.newDocumentBuilder();
             builder.parse(new InputSource(new ByteArrayInputStream(payload.getBytes("utf-8"))));
             return DesignServiceConstants.SUCCESS;
