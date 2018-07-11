@@ -1,10 +1,10 @@
+package org.onap.appc.requesthandler.Constants;
+
 /*-
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2018 IBM Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,27 +14,27 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIES OR ConstantsDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
  * ============LICENSE_END=========================================================
  */
-
-package org.onap.appc.requesthandler.constant;
-
+    
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import java.util.concurrent.TimeUnit;
 
 public class ConstantsTest {
 
     @Test
-    public void TestConstants(){
+    public void TestConstantsstants() {
 
-        Constants Con = new Constants();
-        Assert.assertEquals(900000, Con.DEFAULT_IDLE_TIMEOUT);
+        Assert.assertEquals(900000, Constants.DEFAULT_IDLE_TIMEOUT);
+        Assert.assertEquals(30, Constants.DEFAULT_TTL);
+        Assert.assertEquals("SUCCESS", Constants.SUCCESS_MSG);
+        Assert.assertEquals("FAILURE", Constants.FAILURE_MSG);
+        Assert.assertEquals("true", Constants.DEFAULT_LOGGING_FLAG);
+        Assert.assertEquals("org.onap.appc.workflow.default.ttl", Constants.DEFAULT_TTL_KEY);
 
     }
 }
