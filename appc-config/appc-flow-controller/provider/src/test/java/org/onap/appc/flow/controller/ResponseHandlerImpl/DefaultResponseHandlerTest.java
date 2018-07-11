@@ -21,8 +21,10 @@ package org.onap.appc.flow.controller.ResponseHandlerImpl;
 
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import org.junit.Test;
+import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.ResponseAction;
 import org.onap.appc.flow.controller.data.Transaction;
 
@@ -31,20 +33,51 @@ public class DefaultResponseHandlerTest {
     @Test
     public void handlerResponse_shouldReturnEmptyResponseAction_whenTransactionResponsesAreNull() {
         Transaction transaction = new Transaction();
-        assertDefaultResponseAction(transaction);
+        assertExpectedResponseAction(transaction, new ResponseAction());
     }
 
     @Test
     public void handlerResponse_shouldReturnEmptyResponseAction_whenTransactionResponsesAreEmpty() {
         Transaction transaction = new Transaction();
         transaction.setResponses(Collections.emptyList());
-        assertDefaultResponseAction(transaction);
+        assertExpectedResponseAction(transaction, new ResponseAction());
     }
 
-    private void assertDefaultResponseAction(Transaction transaction) {
+    @Test
+    public void handlerResponse_shouldReturnExpectedResponseAction_forMatchingStatusCode() {
         // GIVEN
-        ResponseAction expectedResponseAction = new ResponseAction();
+        ResponseAction expectedResponseAction = createExpectedResponseAction();
+        String responseCode = "404";
 
+        Transaction transaction = new Transaction();
+        transaction.setStatusCode(responseCode);
+        transaction.setResponses(Lists.newArrayList(
+            createResponse(null, null),
+            createResponse(null, "500"),
+            createResponse(expectedResponseAction, responseCode)));
+
+        assertExpectedResponseAction(transaction, expectedResponseAction);
+    }
+
+    private ResponseAction createExpectedResponseAction() {
+        ResponseAction expectedResponseAction = new ResponseAction();
+        expectedResponseAction.setIntermediateMessage(true);
+        expectedResponseAction.setJump("value1");
+        expectedResponseAction.setRetry("value2");
+        expectedResponseAction.setWait("value3");
+        expectedResponseAction.setIgnore(true);
+        expectedResponseAction.setStop(true);
+        return expectedResponseAction;
+    }
+
+    private Response createResponse(ResponseAction expectedResponseAction, String responseCode) {
+        Response response = new Response();
+        response.setResponseCode(responseCode);
+        response.setResponseAction(expectedResponseAction);
+        return response;
+    }
+
+    private void assertExpectedResponseAction(Transaction transaction, ResponseAction expectedResponseAction) {
         // WHEN
         ResponseAction responseAction = new DefaultResponseHandler().handlerResponse(transaction);
 
