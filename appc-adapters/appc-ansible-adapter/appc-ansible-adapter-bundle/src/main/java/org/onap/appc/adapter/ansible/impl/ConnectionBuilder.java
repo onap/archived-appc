@@ -2,9 +2,9 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,6 +81,7 @@ public class ConnectionBuilder {
         try(FileInputStream fs = new FileInputStream(certFile)) {
 
             /* Generate a certificate from the X509 */
+            logger.debug("Generate a certificate from the X509");
             CertificateFactory cf = CertificateFactory.getInstance("X.509");
             X509Certificate cert = (X509Certificate) cf.generateCertificate(fs);
 
@@ -94,8 +95,11 @@ public class ConnectionBuilder {
                     SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
 
             httpClient = HttpClients.custom().setSSLSocketFactory(factory).build();
+            logger.debug("httpclient connection successful");
         }
     }
+    
+        
 
     /**
      * Constructor which trusts all certificates in a specific java keystore file (assumes a JKS
@@ -105,6 +109,7 @@ public class ConnectionBuilder {
             KeyManagementException, NoSuchAlgorithmException, CertificateException {
 
         /* Load the specified trustStore */
+        logger.debug("Load the specified trustStore");
         KeyStore keystore = KeyStore.getInstance("JKS");
         FileInputStream readStream = new FileInputStream(trustStoreFile);
         keystore.load(readStream, trustStorePasswd);
@@ -114,6 +119,7 @@ public class ConnectionBuilder {
                 SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
 
         httpClient = HttpClients.custom().setSSLSocketFactory(factory).build();
+        logger.debug("httpclient connection successful");
     }
 
     /**
