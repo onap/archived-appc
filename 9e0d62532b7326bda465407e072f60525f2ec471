@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_216d2a05",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/tool/TestConstants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-13T13:04:00Z",
+      "side": 1,
+      "message": "typo: remove trailing \"stants\"",
+      "revId": "9e0d62532b7326bda465407e072f60525f2ec471",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
