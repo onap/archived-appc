@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +24,8 @@
  */
 
 package org.onap.appc.design.validator;
+
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.InputStream;
@@ -238,4 +242,12 @@ public class TestDBService {
         } catch (Exception e) {
         }
     }
+    @Test
+    public void testGetAppcTimestampUTC() throws Exception {
+             String requestId = "1234";
+             DesignDBService design = DesignDBService.initialise();
+             String result =  Whitebox.invokeMethod(design, "getAppcTimestampUTC",requestId);
+             assertTrue(result.endsWith("Z"));
+    }
+
 }
