@@ -238,4 +238,14 @@ public class TestDBService {
         } catch (Exception e) {
         }
     }
+    @Test
+    public void testGetAppcTimestampUTC(){
+         try {
+             String requestId = "1234";
+             DesignDBService design = DesignDBService.initialise();
+             Whitebox.invokeMethod(design, "getAppcTimestampUTC",requestId);
+         } catch (Exception e) {
+         }
+    }
+
 }
