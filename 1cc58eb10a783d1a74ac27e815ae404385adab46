@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_355800fa",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-16T14:39:47Z",
+      "side": 1,
+      "message": "please add 2018 IBM as you modified the code.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "1cc58eb10a783d1a74ac27e815ae404385adab46",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
