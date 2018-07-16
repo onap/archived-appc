@@ -16,6 +16,24 @@
       "revId": "3f5a124765ffb554caef398cb343b9c9402c6a81",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_90524212",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-16T18:25:34Z",
+      "side": 1,
+      "message": "\"new File()\" won\u0027t, but \"toPath()\" could.  It throws a subclass of RuntimeException, which will propagate out of the connect() method.  Is that OK?  Perhaps that\u0027s the behavior we want?",
+      "parentUuid": "1a9dcd25_75ee888d",
+      "revId": "3f5a124765ffb554caef398cb343b9c9402c6a81",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
