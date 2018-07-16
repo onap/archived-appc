@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_759528e3",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDBService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-16T17:32:43Z",
+      "side": 1,
+      "message": "remove try/catch wrapper",
+      "revId": "8beb1add03aa91b62866a055149180766cda0046",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_959a3413",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDBService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-16T17:32:43Z",
+      "side": 1,
+      "message": "anything that would be appropriate to verify() or assertEquals()?",
+      "revId": "8beb1add03aa91b62866a055149180766cda0046",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
