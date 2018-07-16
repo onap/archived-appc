@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -221,5 +223,16 @@ public class TestDGGeneralDBService {
         String templateModelId = "template001";
         String fileCategory="testCategory";
         dbService.getTemplateByVnfTypeNActionWithTemplateModelId(ctx, prefix, fileCategory, templateModelId);
+    }
+
+    @Test
+    public void testGetConfigFileReferenceByVnfType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("request-action", "Configure");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.getConfigFileReferenceByVnfType(ctx, "test");
+        assertEquals(status, QueryStatus.SUCCESS);
+
     }
 }
