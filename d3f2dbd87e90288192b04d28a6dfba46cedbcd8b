@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_7560c835",
+        "filename": "appc-common/src/main/java/org/onap/appc/util/MessageFormatter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-07-16T17:09:28Z",
+      "side": 1,
+      "message": "You added the new line for IBM correctly, but the other copyright lines should not be removed or modified.",
+      "revId": "d3f2dbd87e90288192b04d28a6dfba46cedbcd8b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
