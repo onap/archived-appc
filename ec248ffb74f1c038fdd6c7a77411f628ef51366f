@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_156aa41a",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-07-16T17:08:34Z",
+      "side": 0,
+      "message": "The 2017 should not have been removed",
+      "revId": "ec248ffb74f1c038fdd6c7a77411f628ef51366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_b5765005",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-07-16T17:08:34Z",
+      "side": 0,
+      "message": "This line should not have been removed",
+      "revId": "ec248ffb74f1c038fdd6c7a77411f628ef51366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
