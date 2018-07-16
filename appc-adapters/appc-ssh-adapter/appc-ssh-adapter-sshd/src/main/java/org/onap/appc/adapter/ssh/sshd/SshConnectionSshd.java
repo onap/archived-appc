@@ -23,26 +23,28 @@
 
 package org.onap.appc.adapter.ssh.sshd;
 
+import org.apache.sshd.client.channel.ClientChannelEvent;
 import org.onap.appc.adapter.ssh.Constants;
 import org.onap.appc.adapter.ssh.SshConnection;
 import org.onap.appc.adapter.ssh.SshException;
 import org.onap.appc.encryption.EncryptionTool;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-import org.apache.sshd.ClientChannel;
-import org.apache.sshd.ClientSession;
-import org.apache.sshd.SshClient;
+import org.apache.sshd.client.session.ClientSession;
+import org.apache.sshd.client.SshClient;
 import org.apache.sshd.client.channel.ChannelExec;
 import org.apache.sshd.client.future.AuthFuture;
 import org.apache.sshd.client.future.OpenFuture;
-import org.apache.sshd.common.KeyPairProvider;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.keyprovider.FileKeyPairProvider;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
+import java.io.File;
 import java.io.OutputStream;
 import java.security.KeyPair;
+import java.util.Arrays;
 
 /**
  * Implementation of SshConnection interface based on Apache MINA SSHD library.
@@ -86,14 +88,14 @@ class SshConnectionSshd implements SshConnection {
         sshClient.start();
         try {
             clientSession =
-                sshClient.connect(EncryptionTool.getInstance().decrypt(username), host, port).await().getSession();
+                sshClient.connect(EncryptionTool.getInstance().decrypt(username), host, port).verify().getSession();
             if (password != null) {
                 clientSession.addPasswordIdentity(EncryptionTool.getInstance().decrypt(password));
             }
             if (keyFile != null) {
-                KeyPairProvider keyPairProvider = new FileKeyPairProvider(new String[] {
-                    keyFile
-                });
+                KeyPairProvider keyPairProvider = new FileKeyPairProvider(
+                        new File(keyFile).toPath()
+                );
                 KeyPair keyPair = keyPairProvider.loadKeys().iterator().next();
                 clientSession.addPublicKeyIdentity(keyPair);
             }
@@ -183,7 +185,7 @@ class SshConnectionSshd implements SshConnection {
             OpenFuture openFuture = client.open();
             int exitStatus;
             try {
-                client.waitFor(ClientChannel.CLOSED, timeout);
+                client.waitFor(Arrays.asList(ClientChannelEvent.CLOSED), timeout);
                 openFuture.verify();
                 Integer exitStatusI = client.getExitStatus();
                 if (exitStatusI == null) {

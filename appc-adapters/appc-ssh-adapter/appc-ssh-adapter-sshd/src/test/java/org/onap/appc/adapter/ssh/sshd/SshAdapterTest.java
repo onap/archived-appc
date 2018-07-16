@@ -23,27 +23,27 @@
 
 package org.onap.appc.adapter.ssh.sshd;
 
-import org.apache.sshd.SshServer;
+import org.apache.sshd.server.SshServer;
+import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.util.OsUtils;
-import org.apache.sshd.server.Command;
-import org.apache.sshd.server.CommandFactory;
-import org.apache.sshd.server.PasswordAuthenticator;
-import org.apache.sshd.server.PublickeyAuthenticator;
-import org.apache.sshd.server.command.ScpCommandFactory;
+import org.apache.sshd.server.command.Command;
+import org.apache.sshd.server.auth.password.PasswordAuthenticator;
+import org.apache.sshd.server.auth.pubkey.PublickeyAuthenticator;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
+import org.apache.sshd.server.scp.ScpCommandFactory;
 import org.apache.sshd.server.session.ServerSession;
-import org.apache.sshd.server.sftp.SftpSubsystem;
 import org.apache.sshd.server.shell.ProcessShellFactory;
+import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 import org.hamcrest.CoreMatchers;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 import org.onap.appc.adapter.ssh.SshAdapter;
 import org.onap.appc.adapter.ssh.SshConnection;
 import org.onap.appc.adapter.ssh.SshException;
-import org.onap.appc.adapter.ssh.sshd.SshAdapterSshd;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.BindException;
@@ -51,6 +51,7 @@ import java.security.PublicKey;
 import java.util.Collections;
 import java.util.EnumSet;
 
+//@Ignore
 public class SshAdapterTest {
 
     private static final boolean START_SERVER = true;
@@ -162,42 +163,43 @@ public class SshAdapterTest {
 
     private void startServer() throws IOException {
         sshd = SshServer.setUpDefaultServer();
-        sshd.setSubsystemFactories(Collections.<NamedFactory<Command>>singletonList(new SftpSubsystem.Factory()));
-        sshd.setCommandFactory(new ScpCommandFactory(new CommandFactory() {
+        sshd.setSubsystemFactories(Collections.<NamedFactory<Command>>singletonList(new SftpSubsystemFactory()));
+        sshd.setCommandFactory(new ScpCommandFactory() {
 
             public Command createCommand(String command) {
-                EnumSet<ProcessShellFactory.TtyOptions> ttyOptions;
-                if (OsUtils.isUNIX()) {
-                    ttyOptions = EnumSet.of(ProcessShellFactory.TtyOptions.ONlCr);
-                } else {
-                    ttyOptions = EnumSet.of(ProcessShellFactory.TtyOptions.Echo, ProcessShellFactory.TtyOptions.ICrNl, ProcessShellFactory.TtyOptions.ONlCr);
-                }
-                return new ProcessShellFactory(command.split(" "), ttyOptions).create();
+                //EnumSet<ProcessShellFactory.TtyOptions> ttyOptions;
+                //if (OsUtils.isUNIX()) {
+                //    ttyOptions = EnumSet.of(ProcessShellFactory.TtyOptions.ONlCr);
+                //} else {
+                //    ttyOptions = EnumSet.of(ProcessShellFactory.TtyOptions.Echo, ProcessShellFactory.TtyOptions.ICrNl, ProcessShellFactory.TtyOptions.ONlCr);
+                //}
+                //return new ProcessShellFactory(command.split(" "), ttyOptions).create();
+                
+                return new ProcessShellFactory(command.split(" ")).create();
             }
-        }));
+        });
         if (OsUtils.isUNIX()) {
-            sshd.setShellFactory(new ProcessShellFactory(new String[]{"/bin/sh", "-i", "-l"},
-                    EnumSet.of(ProcessShellFactory.TtyOptions.ONlCr)));
+            sshd.setShellFactory(new ProcessShellFactory(new String[]{"/bin/sh", "-i", "-l"}/*,
+                    EnumSet.of(ProcessShellFactory.TtyOptions.ONlCr)*/));
         } else {
-            sshd.setShellFactory(new ProcessShellFactory(new String[]{"cmd.exe "},
-                    EnumSet.of(ProcessShellFactory.TtyOptions.Echo, ProcessShellFactory.TtyOptions.ICrNl, ProcessShellFactory.TtyOptions.ONlCr)));
+            sshd.setShellFactory(new ProcessShellFactory(new String[]{"cmd.exe "}/*,
+                    EnumSet.of(ProcessShellFactory.TtyOptions.Echo, ProcessShellFactory.TtyOptions.ICrNl, ProcessShellFactory.TtyOptions.ONlCr)*/));
         }
 //		if(SecurityUtils.isBouncyCastleRegistered()) {
 //			sshd.setKeyPairProvider(new PEMGeneratorHostKeyProvider(System.getProperty("java.io.tmpdir") + "/key.pem"));
 //		} else {
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(System.getProperty("java.io.tmpdir") + "/key.ser"));
+        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(new File(System.getProperty("java.io.tmpdir") + "/key.ser")));
 //		}
         sshd.setPasswordAuthenticator(new PasswordAuthenticator() {
-
             @Override
             public boolean authenticate(String username, String password, ServerSession session) {
                 return (SSH_USERNAME.equals(username) && SSH_PASSWORD.equals(password));
             }
         });
         sshd.setPublickeyAuthenticator(new PublickeyAuthenticator() {
-
+            // We're testing access using passwords, so do not authorize authentitication using public keys
             public boolean authenticate(String username, PublicKey key, ServerSession session) {
-                return true;
+                return false;
             }
         });
         sshd.getProperties().put(SshServer.WELCOME_BANNER, "Welcome to SSHD\n");
@@ -236,11 +238,11 @@ public class SshAdapterTest {
     private void stopServer() {
         try {
             if (sshd != null) {
-                sshd.stop(true);
+                sshd.stop();
                 System.out.println("SSH server stopped on port [" + sshPort + "]. [" + getClass().getName() + "#" + System.identityHashCode(this) + "]");
             }
-        } catch (InterruptedException e) {
-            System.err.println("=> Error stopping SSH server.");
+        } catch (IOException e) {
+            System.err.println("=> IO Error stopping SSH server.");
             e.printStackTrace();
         } finally {
             sshd = null;
