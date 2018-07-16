@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_f501383a",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/src/test/java/org/onap/appc/interfaceService/serviceExecutor/TestServiceExecutor.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-16T17:30:00Z",
+      "side": 1,
+      "message": "is there anything useful to verify() or assert() here?",
+      "revId": "35ee97e87fee7506e16f5a5ff7be97aafb4ffe9b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
