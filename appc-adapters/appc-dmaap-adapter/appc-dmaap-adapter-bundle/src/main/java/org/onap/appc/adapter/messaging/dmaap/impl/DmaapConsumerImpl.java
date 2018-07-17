@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -117,7 +119,7 @@ public class DmaapConsumerImpl implements Consumer {
     /**
      * @return An instance of MRConsumer created from our class variables.
      */
-    private synchronized MRConsumer getClient(int waitMs, int limit) {
+    synchronized MRConsumer getClient(int waitMs, int limit) {
         try {
             props.setProperty("timeout", String.valueOf(waitMs));
             props.setProperty("limit", String.valueOf(limit));
