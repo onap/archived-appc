@@ -3,7 +3,9 @@
  * ONAP : APPC 
  * ================================================================================ 
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved. 
- * ============================================================================= 
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -24,7 +26,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -32,6 +33,7 @@ import java.util.Properties;
 
 import org.junit.Ignore;
 import org.junit.Test;
+
 
 public class TestDmaapConsumerImpl {
     String[]           hostList = { "192.168.1.1" };
@@ -61,6 +63,7 @@ public class TestDmaapConsumerImpl {
     @Test
     public void testDmaapConsumerImplwithFilter() {
 
+    	filter="";
         DmaapConsumerImpl consumer = new DmaapConsumerImpl(hosts, topic, group, id, key, secret, filter);
 
         assertNotNull(consumer);
@@ -102,10 +105,14 @@ public class TestDmaapConsumerImpl {
         assertEquals("secret", props.getProperty("password"));
     }
 
-    @Ignore
+    
     @Test
     public void testFetch() {
-        fail("Not yet implemented");
+    	DmaapConsumerImpl consumer = new DmaapConsumerImpl(hosts, topic, group, id, key, secret);
+
+        assertNotNull(consumer);
+        
+        consumer.fetch(5000,500);
     }
 
     @Ignore
@@ -152,5 +159,23 @@ public class TestDmaapConsumerImpl {
         assertEquals(true, consumer.isHttps());
 
     }
-
+    
+    @Test
+    public void testGetClient() 
+    {
+    	DmaapConsumerImpl consumer = new DmaapConsumerImpl(hosts, topic, group, id, key, secret);
+    	assertNotNull(consumer);    
+    	consumer.getClient(1000,5);
+    	Properties props= consumer.getProperties();
+    	assertEquals("1000", props.getProperty("timeout"));
+    	assertEquals("5", props.getProperty("limit"));
+    }
+    
+    @Test
+    public void testInitMetric() 
+    {
+    	DmaapConsumerImpl consumer = new DmaapConsumerImpl(hosts, topic, group, id, key, secret);
+    	assertNotNull(consumer); 
+    	
+    }
 }
