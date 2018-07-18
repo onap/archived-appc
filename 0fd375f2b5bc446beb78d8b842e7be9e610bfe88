@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_73469b25",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/dbervices/FlowControlDBService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T19:27:44Z",
+      "side": 1,
+      "message": "don\u0027t need this \"if\" test.  For that matter, don\u0027t need it in the previous constructor method either.",
+      "revId": "0fd375f2b5bc446beb78d8b842e7be9e610bfe88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_b363c3b0",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/executor/node/FlowControlDBServiceTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T19:27:44Z",
+      "side": 1,
+      "message": "use @Ignore instead of commenting this out?",
+      "revId": "0fd375f2b5bc446beb78d8b842e7be9e610bfe88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_53583ffa",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/executor/node/FlowControlDBServiceTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T19:27:44Z",
+      "side": 1,
+      "message": "why are comments needed?  @Ignore should be sufficient, unless there\u0027s a compilation issue?  Same question for subsequent test cases",
+      "revId": "0fd375f2b5bc446beb78d8b842e7be9e610bfe88",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
