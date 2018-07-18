@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_18c41491",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T14:04:41Z",
+      "side": 1,
+      "message": "don\u0027t wrap in try/catch, or else re-throw the exception in the \"catch\" block",
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_9837c4b0",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T14:04:41Z",
+      "side": 1,
+      "message": "remove try/catch, or re-throw exception?",
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_3848f02c",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T14:04:41Z",
+      "side": 1,
+      "message": "\"if\" test is not needed",
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_d8546ccc",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T14:04:41Z",
+      "side": 1,
+      "message": "need to synchronize \"df\" since it may be the static value from getDateFormatter()?",
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_985ee4e8",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T14:04:41Z",
+      "side": 1,
+      "message": "move inside \"if\" block",
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
