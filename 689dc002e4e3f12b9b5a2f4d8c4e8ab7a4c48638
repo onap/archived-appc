@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a9dcd25_d8e6ac44",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T13:50:04Z",
+      "side": 1,
+      "message": "add \"2018\"",
+      "revId": "689dc002e4e3f12b9b5a2f4d8c4e8ab7a4c48638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_f8e36831",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T13:50:04Z",
+      "side": 1,
+      "message": "change to assertEquals()",
+      "revId": "689dc002e4e3f12b9b5a2f4d8c4e8ab7a4c48638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_98d02455",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T13:50:04Z",
+      "side": 1,
+      "message": "use assertEquals",
+      "revId": "689dc002e4e3f12b9b5a2f4d8c4e8ab7a4c48638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_b8d5e044",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T13:50:04Z",
+      "side": 1,
+      "message": "use assertTrue(... instanceof Date)",
+      "revId": "689dc002e4e3f12b9b5a2f4d8c4e8ab7a4c48638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a9dcd25_58ca9ca2",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-18T13:50:04Z",
+      "side": 1,
+      "message": "while at it, maybe add cases for Double and Boolean, too",
+      "revId": "689dc002e4e3f12b9b5a2f4d8c4e8ab7a4c48638",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
