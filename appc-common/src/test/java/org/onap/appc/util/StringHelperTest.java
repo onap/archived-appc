@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia Solutions and Networks
  * =============================================================================
+ * Copyright (C) 2018 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -32,11 +34,11 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -53,6 +55,41 @@ public class StringHelperTest {
         assertEquals(".*", StringHelper.convertToRegex(""));
         assertEquals(".*", StringHelper.convertToRegex("  "));
     }
+    
+    @Test
+    public void convertToRegex_should_return_proper_regex_when_we_provide_a_proper_string_expression(){
+        String expected=".*test\\.jpg.test123\\.jpeg$";
+        assertEquals(expected,StringHelper.convertToRegex("*test.jpg+test123.jpeg"));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_null_as_input(){
+        assertNull(StringHelper.resolveToType(null));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_integer_as_input(){
+    	Integer expected=-112;
+    	assertEquals(expected,StringHelper.resolveToType("-112"));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_double_as_input(){
+    	Double expected=-112.12;
+    	assertEquals(expected,StringHelper.resolveToType("-112.12"));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_boolean_as_input(){
+    	Boolean expected=true;
+    	assertEquals(expected,StringHelper.resolveToType("true"));
+    }
+  
+    @Test
+    public void test_ResolveToType_with_date_as_input(){
+       assertTrue(StringHelper.resolveToType("1994-11-05T08:15:30-05:00") instanceof Date);
+    }
+    
 
     @Test
     public void getShortenedString_should_return_null_when_given_null(){
