@@ -57,7 +57,11 @@ public class FlowControlDBService {
             serviceLogic = new SqlResource();
         }
     }
-    
+
+    protected FlowControlDBService(SqlResource svcLogic) {
+            serviceLogic = svcLogic;
+    }
+
     public static FlowControlDBService initialise() {
         if (dgGeneralDBService == null) {
             dgGeneralDBService = new FlowControlDBService();
