@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia Solutions and Networks
  * =============================================================================
+ * Copyright (C) IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -32,7 +34,6 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +54,27 @@ public class StringHelperTest {
         assertEquals(".*", StringHelper.convertToRegex(""));
         assertEquals(".*", StringHelper.convertToRegex("  "));
     }
+    
+    @Test
+    public void convertToRegex_should_return_proper_regex_when_we_provide_a_proper_string_expression(){
+        assertNotNull(".*", StringHelper.convertToRegex("*test.jpg+test123.jpeg"));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_null_as_input(){
+        assertNull(StringHelper.resolveToType(null));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_integer_as_input(){
+    	assertNotNull(StringHelper.resolveToType("\\-1287686"));
+    }
+    
+    @Test
+    public void test_ResolveToType_with_date_as_input(){
+       assertNotNull(StringHelper.resolveToType("1994-11-05T08:15:30-05:00"));
+    }
+    
 
     @Test
     public void getShortenedString_should_return_null_when_given_null(){
