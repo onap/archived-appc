@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a9dcd25_1872d47c",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-07-18T14:07:07Z",
+      "side": 1,
+      "message": "Should be \"IBM\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_18c41491",
         "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
         "patchSetId": 1
