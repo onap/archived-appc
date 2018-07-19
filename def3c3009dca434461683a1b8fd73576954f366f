@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_3ca47d56",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-19T12:52:18Z",
+      "side": 1,
+      "message": "Thanks for the link, I had forgotten the exact rule for adding additional contributors and indicating modifications.  In this particular case, however, there was no prior company name on the copyright.",
+      "parentUuid": "da7095c5_39b9efe9",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "def3c3009dca434461683a1b8fd73576954f366f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a9dcd25_18c41491",
         "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
         "patchSetId": 1
