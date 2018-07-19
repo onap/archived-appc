@@ -50,6 +50,24 @@
       "revId": "f453c88cc181ce3b820ad8d6a2c3f5788873443b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_c25eb812",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/impl/TestDmaapConsumerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-19T18:52:35Z",
+      "side": 1,
+      "message": "the default wait time is 60 sec. I am editing the pull request and changing the wait time to 5 sec.",
+      "parentUuid": "da7095c5_7c367505",
+      "revId": "f453c88cc181ce3b820ad8d6a2c3f5788873443b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
