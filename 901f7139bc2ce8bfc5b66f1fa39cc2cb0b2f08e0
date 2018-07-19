@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_c28c7882",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-19T19:06:43Z",
+      "side": 1,
+      "message": "prefix with \"Modifications\"",
+      "revId": "901f7139bc2ce8bfc5b66f1fa39cc2cb0b2f08e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_22f3f40b",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-19T19:06:43Z",
+      "side": 1,
+      "message": "is there not anything else (e.g., output fields) that can be verified?",
+      "revId": "901f7139bc2ce8bfc5b66f1fa39cc2cb0b2f08e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_42f868e5",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-19T19:06:43Z",
+      "side": 1,
+      "message": "is there not anything else (e.g., output fields) that can be verified?",
+      "revId": "901f7139bc2ce8bfc5b66f1fa39cc2cb0b2f08e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
