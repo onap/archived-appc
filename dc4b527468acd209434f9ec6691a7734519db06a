@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_9c1ca96c",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/test/java/org/onap/appc/licmgr/impl/LicenseManagerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-07-19T08:20:01Z",
+      "side": 1,
+      "message": "Suggestion: I would suggest removing the final modifier. There is no real benefit in adding it to every local variable in this class since the scope of the method is really limited and there is no risk of someone reassigning something to the variable. In this case in my opinon the final keywords pose more readability issues, than actually protect against something. It is your own code after all so you should trust yourself not to reuse the vars :)",
+      "revId": "dc4b527468acd209434f9ec6691a7734519db06a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_5c2611bc",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/test/java/org/onap/appc/licmgr/impl/LicenseManagerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-07-19T08:20:01Z",
+      "side": 1,
+      "message": "Suggestion: Why not remove the duplicate CUT(class under test) instance creation: declare it as a field, instantiate in a @Before setUp method ?",
+      "revId": "dc4b527468acd209434f9ec6691a7734519db06a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_3c255dab",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/test/java/org/onap/appc/licmgr/impl/LicenseManagerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-07-19T08:20:01Z",
+      "side": 1,
+      "message": "Is this String really a representation of a valid XML ? have you tried to paste this String value in a web xml validator to check the outcome? I think it mail fail:) You can also test the xml by using java validator.\nBasically try to change the XML input value into a more full-fledged xml file (i.e. has root element). For quick reference check https://www.w3schools.com/xml/xml_validator.asp",
+      "revId": "dc4b527468acd209434f9ec6691a7734519db06a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
