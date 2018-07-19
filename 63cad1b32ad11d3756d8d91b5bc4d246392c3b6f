@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_fc2125b5",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/StringHelperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-19T13:54:38Z",
+      "side": 1,
+      "message": "Prefix with \"Modifications\"",
+      "revId": "63cad1b32ad11d3756d8d91b5bc4d246392c3b6f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
