@@ -1,0 +1,203 @@
+[
+  {
+    "id": "d0a37aca.0c33d8",
+    "type": "method",
+    "name": "saltstack-adapter-1.0",
+    "xml": "<method rpc='saltstack-adapter-1.0' mode='sync'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 513,
+    "y": 258,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "13a34f15.93e311"
+      ]
+    ]
+  },
+  {
+    "id": "248a9dfd.eb46a2",
+    "type": "service-logic",
+    "name": "APPC 2.0.1",
+    "module": "APPC",
+    "version": "2.0.1",
+    "comments": "",
+    "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='2.0.1'>",
+    "outputs": 1,
+    "x": 290,
+    "y": 257,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "d0a37aca.0c33d8"
+      ]
+    ]
+  },
+  {
+    "id": "da657b0a.4913e8",
+    "type": "returnSuccess",
+    "name": "return success",
+    "xml": "<return status='success'>\n<parameter name='output.status.code' value='`$org.openecomp.appc.adapter.saltstack.result.code`' />\n<parameter name='output.status.message' value='`$org.openecomp.appc.adapter.saltstack.message`'/>\n<parameter name='output.status.results' value = '`$org.openecomp.appc.adapter.saltstack.results`'/>\n",
+    "comments": "",
+    "x": 892,
+    "y": 350,
+    "z": "92f1736a.e86cb",
+    "wires": []
+  },
+  {
+    "id": "62e903a6.8ff3fc",
+    "type": "dgstart",
+    "name": "DGSTART",
+    "outputs": 1,
+    "x": 121,
+    "y": 256,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "248a9dfd.eb46a2"
+      ]
+    ]
+  },
+  {
+    "id": "d40a76f5.6790c8",
+    "type": "comment",
+    "name": "SaltStack Adaptor DG",
+    "info": "",
+    "comments": "",
+    "x": 498,
+    "y": 135,
+    "z": "92f1736a.e86cb",
+    "wires": []
+  },
+  {
+    "id": "9dd7507b.6ed5a",
+    "type": "comment",
+    "name": "request-method = reqExecSLS, req-action = \"execute SLS\"",
+    "info": "This would be the ideal adaptor the orchestrator DG will call, this just takes in SlsName.",
+    "comments": "",
+    "x": 508,
+    "y": 189,
+    "z": "92f1736a.e86cb",
+    "wires": []
+  },
+  {
+    "id": "13a34f15.93e311",
+    "type": "execute",
+    "name": "execute",
+    "xml": "<execute plugin='org.openecomp.appc.adapter.saltstack.SaltstackAdapter' method='reqExecSLS' >\n                        <parameter name='HostName' value='`$AgentUrl`'/>\n                        <parameter name='Port' value='`$Port`'/>\n                        <parameter name='User' value='`$User`'/>\n                        <parameter name='Password' value='`$Password`'/>\n                        <parameter name='Id' value='test2'/>\n                        <parameter name='SlsName' value='test-file.sls'/>\n                        <parameter name='NodeList' value='`$NodeList`'/>\n                        <parameter name='Timeout' value='`$Timeout`'/>\n                        <parameter name='FileParameters' value='`$FileParameters`'/>\n                        <parameter name='EnvParameters' value='`$EnvParameters`'/>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 203,
+    "y": 387,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "da9c1a12.f9d9e8",
+        "7e35b134.fc96d"
+      ]
+    ]
+  },
+  {
+    "id": "da9c1a12.f9d9e8",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 396,
+    "y": 348,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "d94f5bef.1243d8"
+      ]
+    ]
+  },
+  {
+    "id": "7e35b134.fc96d",
+    "type": "other",
+    "name": "other",
+    "xml": "<outcome value='Other'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 394,
+    "y": 420,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "8b167035.306ac"
+      ]
+    ]
+  },
+  {
+    "id": "8b167035.306ac",
+    "type": "switchNode",
+    "name": "switch",
+    "xml": "<switch test=\"`$org.onap.appc.adapter.saltstack.result.code`\">\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 546,
+    "y": 408,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "aeddd67e.fb2cc8",
+        "7b4042e5.4315dc"
+      ]
+    ]
+  },
+  {
+    "id": "7b4042e5.4315dc",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='200'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 709,
+    "y": 354,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "da657b0a.4913e8"
+      ]
+    ]
+  },
+  {
+    "id": "aeddd67e.fb2cc8",
+    "type": "other",
+    "name": "other",
+    "xml": "<outcome value='Other'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 706,
+    "y": 423,
+    "z": "92f1736a.e86cb",
+    "wires": [
+      [
+        "be650ca.231d3f"
+      ]
+    ]
+  },
+  {
+    "id": "d94f5bef.1243d8",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status='failure'>\n<parameter name='error-code' value='200' />\n<parameter name='error-message' value='`$org.openecomp.appc.adapter.saltstack.message`' />\n<parameter name='output.status.results' value='`$org.openecomp.appc.adapter.saltstack.results`' />\n",
+    "comments": "",
+    "x": 556,
+    "y": 332,
+    "z": "92f1736a.e86cb",
+    "wires": []
+  },
+  {
+    "id": "be650ca.231d3f",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status='failure'>\n<parameter name='error-code' value='200' />\n<parameter name='error-message' value='`$org.openecomp.appc.adapter.saltstack.message`' />\n<parameter name='output.status.results' value='`$org.openecomp.appc.adapter.saltstack.results`' />\n",
+    "comments": "",
+    "x": 876,
+    "y": 420,
+    "z": "92f1736a.e86cb",
+    "wires": []
+  }
+]
