@@ -44,6 +44,16 @@ public class SshAdapterMock implements SshAdapter {
 		return sshConnectionMock;
 	}
 
+	@Override
+	public SshConnection getConnection(String host, int port, String keyFile) {
+		SshConnectionMock sshConnectionMock = new SshConnectionMock(host, port, keyFile);
+		sshConnectionMock.setReturnStatus(returnStatus);
+		sshConnectionMock.setReturnStdout(returnStdout);
+		sshConnectionMock.setReturnStderr(returnStderr);
+		connectionMocks.add(sshConnectionMock);
+		return sshConnectionMock;
+	}
+
 	public List<SshConnectionMock> getConnectionMocks() {
 		return connectionMocks;
 	}
