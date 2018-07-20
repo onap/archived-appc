@@ -28,14 +28,24 @@ package org.onap.appc.adapter.ssh;
  */
 public interface SshAdapter {
 
-	/**
-	 * Creates instance of SshConnection.
-	 *
-	 * @param host remote host to open SSH connection to
-	 * @param port remote SSH port
-	 * @param username SSH connection user name
-	 * @param password SSH connection password
-	 * @return instance of SshConnection
-	 */
-	SshConnection getConnection(String host, int port, String username, String password);
+    /**
+     * Creates instance of SshConnection.
+     *
+     * @param host remote host to open SSH connection to
+     * @param port remote SSH port
+     * @param username SSH connection user name
+     * @param password SSH connection password
+     * @return instance of SshConnection
+     */
+    SshConnection getConnection(String host, int port, String username, String password);
+
+    /**
+     * Creates instance of SshConnection.
+     *
+     * @param host remote host to open SSH connection to
+     * @param port remote SSH port
+     * @param keyFile SSH connection key file location
+     * @return instance of SshConnection
+     */
+    SshConnection getConnection(String host, int port, String keyFile);
 }
