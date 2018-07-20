@@ -29,49 +29,48 @@ public class TestSshConnectionMock {
     private SshConnectionMock sshConnectionMock;
     @Before
     public void setUp() {
-        sshConnectionMock=new SshConnectionMock("localhost", 8080, "myUser", "myPassword");
+        sshConnectionMock=new SshConnectionMock("localhost", 8080, "myUser", "myPassword", "sampleKeyFile");
     }
     
     @Test
     public void testGetHost() {
-        assertNotNull(sshConnectionMock.getHost());
-        assertEquals(sshConnectionMock.getHost(), "localhost");
+        assertEquals("localhost", sshConnectionMock.getHost());
     }
 
     @Test
     public void testGetPort() {
-        assertNotNull(sshConnectionMock.getPort());
-        assertEquals(sshConnectionMock.getPort(), 8080);
+        assertEquals(8080, sshConnectionMock.getPort());
     }
 
     @Test
     public void testGetUsername() {
-        assertNotNull(sshConnectionMock.getUsername());
-        assertEquals(sshConnectionMock.getUsername(), "myUser");
+        assertEquals("myUser", sshConnectionMock.getUsername());
     }
 
     @Test
     public void testGetPassword() {
-        assertNotNull(sshConnectionMock.getPassword());
-        assertEquals(sshConnectionMock.getPassword(), "myPassword");
+        assertEquals("myPassword", sshConnectionMock.getPassword());
     }
+
+    @Test
+    public void testKeyFile() {
+        assertEquals("sampleKeyFile", sshConnectionMock.getKeyFile());
+    }
+
     @Test
     public void testGetReturnStderr() {
         sshConnectionMock.setReturnStderr("returnStderr");
-        assertNotNull(sshConnectionMock.getReturnStderr());
-        assertEquals(sshConnectionMock.getReturnStderr(), "returnStderr");
+        assertEquals("returnStderr", sshConnectionMock.getReturnStderr());
     }
     @Test
     public void testGetReturnStdout() {
         sshConnectionMock.setReturnStdout("returnStdout");
-        assertNotNull(sshConnectionMock.getReturnStdout());
-        assertEquals(sshConnectionMock.getReturnStdout(), "returnStdout");
+        assertEquals("returnStdout", sshConnectionMock.getReturnStdout());
     }
     @Test
     public void testGetReturnStatus() {
         sshConnectionMock.setReturnStatus(200);
-        assertNotNull(sshConnectionMock.getReturnStatus());
-        assertEquals(sshConnectionMock.getReturnStatus(), 200);
+        assertEquals(200, sshConnectionMock.getReturnStatus());
     }
     @Test
     public void testGetExecutedCommands() {
