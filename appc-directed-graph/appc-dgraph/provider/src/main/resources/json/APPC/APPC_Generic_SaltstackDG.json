@@ -1,0 +1,492 @@
+[
+  {
+    "id": "2ff56d35.9cc372",
+    "type": "dgstart",
+    "name": "DGSTART",
+    "outputs": 1,
+    "x": 179,
+    "y": 121.38194274902344,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "931d0f74.f471"
+      ]
+    ]
+  },
+  
+  {
+    "id": "931d0f74.f471",
+    "type": "service-logic",
+    "name": "APPC 4.0.0",
+    "module": "APPC",
+    "version": "4.0.0",
+    "comments": "",
+    "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+    "outputs": 1,
+    "x": 256.4652862548828,
+    "y": 71,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "e6af4304.7678c"
+      ]
+    ]
+  },
+  {
+    "id": "e6af4304.7678c",
+    "type": "method",
+    "name": "method Generic_SaltstackDG",
+    "xml": "<method rpc='Generic_SaltstackDG' mode='sync'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 508.0277862548828,
+    "y": 71,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "c0b8fd04.dc633"
+      ]
+    ]
+  },
+  {
+    "id": "57472817.348168",
+    "type": "call",
+    "name": "call: saltstack-adapter-1.0",
+    "xml": "<call module=\"APPC\" rpc=\"saltstack-adapter-1.0\" mode=\"sync\">",
+    "comments": "",
+    "outputs": 1,
+    "x": 347.3822479248047,
+    "y": 722.0123748779297,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "9a3e86e4.b18268",
+        "88f50f6.08c54f",
+        "338aa5f4.02181a"
+      ]
+    ]
+  },
+  {
+    "id": "2156eba9.e0f5a4",
+    "type": "execute",
+    "name": "execute params",
+    "xml": " <execute plugin=\"org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper\" method =\"getProperty\">\n <parameter name=\"prefix\" value =\"property\"/>\n\n \n  ",
+    "comments": "",
+    "outputs": 1,
+    "x": 565.7984008789062,
+    "y": 344.4095458984375,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "c42ae6fe.082688",
+        "a978277e.ef3a98"
+      ]
+    ]
+  },
+  {
+    "id": "6a59194.93669e8",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status='failure'>\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value=\"`$property.error-message`\" />\n",
+    "comments": "",
+    "x": 1202.8195495605469,
+    "y": 638.9290771484375,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "6933f2f1.4dff0c",
+    "type": "block",
+    "name": "block",
+    "xml": "<block>\n",
+    "atomic": "false",
+    "comments": "",
+    "outputs": 1,
+    "x": 1034.090202331543,
+    "y": 639.1082782745361,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "6a59194.93669e8"
+      ]
+    ]
+  },
+  {
+    "id": "a978277e.ef3a98",
+    "type": "not-found",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 836.0277557373047,
+    "y": 636.7290954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "6933f2f1.4dff0c"
+      ]
+    ]
+  },
+  {
+    "id": "c42ae6fe.082688",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 817.0404510498047,
+    "y": 570.5832824707031,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "6933f2f1.4dff0c"
+      ]
+    ]
+  },
+  {
+    "id": "d446dd93.4e304",
+    "type": "execute",
+    "name": "execute Convert payload to DG Context ",
+    "xml": "<execute plugin=\"org.onap.sdnc.config.generator.convert.ConvertNode\" method=\"convertJson2DGContext\">\n<parameter name=\"jsonData\" value=\"`$tmp.merge.mergedData`\" />\n<parameter name=\"isEscaped\" value=\"Y\" />\n<parameter name=\"blockKeys\" value=\"EnvParameters,SlsName,Timeout,NodeList\" />\n<parameter name=\"responsePrefix\" value=\"tmp.convertnode\" />",
+    "comments": "",
+    "outputs": 1,
+    "x": 618.6145477294922,
+    "y": 160.9910430908203,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "b58d7720.d26a58",
+        "14a935dd.bcb8aa"
+      ]
+    ]
+  },
+  {
+    "id": "f267d9ca.e7dc38",
+    "type": "set",
+    "name": "set Payload params ",
+    "xml": "<set>\n<parameter name='SlsName' value='`$SlsName`' />\n<parameter name='NodeList' value='`$NodeList`'/>\n<parameter name='vnf_id' value='`$vnf-id`' />\n<parameter name='AgentUrl' value='`$agenturl`'/>\n<parameter name='Port' value='`$port`'/>\n <parameter name='User' value='`$user`'/>\n  <parameter name='Password' value='`$password`'/>\n  <parameter name='EnvParameters' value='`$EnvParameters`'/>\n  <parameter name='Timeout' value='`$Timeout`'/>\n\n\n\n",
+    "comments": "",
+    "x": 469.9220733642578,
+    "y": 620.3932952880859,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "14a935dd.bcb8aa",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 901.8527374267578,
+    "y": 192.64585876464844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "cba14ec8.0cc6a"
+      ]
+    ]
+  },
+  {
+    "id": "b58d7720.d26a58",
+    "type": "not-found",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 897.6860504150391,
+    "y": 250.92918395996094,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "d13f277e.d2dc38"
+      ]
+    ]
+  },
+  {
+    "id": "cba14ec8.0cc6a",
+    "type": "block",
+    "name": "block",
+    "xml": "<block>\n",
+    "atomic": "false",
+    "comments": "",
+    "outputs": 1,
+    "x": 1024.5194854736328,
+    "y": 196.81248474121094,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "1586c63.8ddab3a"
+      ]
+    ]
+  },
+  {
+    "id": "d13f277e.d2dc38",
+    "type": "block",
+    "name": "block",
+    "xml": "<block>\n",
+    "atomic": "false",
+    "comments": "",
+    "outputs": 1,
+    "x": 1023.8526763916016,
+    "y": 258.29576110839844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "78587fe.5484a8"
+      ]
+    ]
+  },
+  {
+    "id": "78587fe.5484a8",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"Unable to process convert payload to context.\"/>\n\t\n",
+    "comments": "",
+    "x": 1173.0526275634766,
+    "y": 260.4791717529297,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "c0b8fd04.dc633",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 304.119384765625,
+    "y": 183.5791015625,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "d446dd93.4e304",
+        "2156eba9.e0f5a4",
+        "57472817.348168",
+        "f267d9ca.e7dc38",
+        "dfba6b8.9b70d98",
+        "d43125bf.bfef78",
+        "80b97c31.1bf5c",
+        "4cadf4b1.ecb31c",
+        "fb62d965.c86628"
+      ]
+    ]
+  },
+  {
+    "id": "1586c63.8ddab3a",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status=\"failure\">\n<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$tmp.convertnode.error-message`\"/>\n\t\n\t",
+    "comments": "",
+    "x": 1167.085952758789,
+    "y": 194.2124481201172,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "1340e056.aa2fd",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status=\"failure\">\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value='`$org.onap.appc.adapter.saltstack.message`'/>",
+    "comments": "",
+    "x": 1056.9717254638672,
+    "y": 790.5862731933594,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "9a3e86e4.b18268",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 770.7693634033203,
+    "y": 772.1625366210938,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "1340e056.aa2fd"
+      ]
+    ]
+  },
+  {
+    "id": "88f50f6.08c54f",
+    "type": "not-found",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 746.9694366455078,
+    "y": 854.7124633789062,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "3cce9b47.cc9d94"
+      ]
+    ]
+  },
+  {
+    "id": "dfba6b8.9b70d98",
+    "type": "set",
+    "name": "set Payload params ",
+    "xml": "<set>\n<parameter name='SlsName' value='`$block_SlsName`' />\n<parameter name='NodeList' value ='`$block_NodeList`'/>\n<parameter name='vnf_id' value='`$vnf-id`' />\n<parameter name='EnvParameters' value='`$block_EnvParameters`'/>\n<parameter name='Timeout' value='`$block_Timeout`'/>\n\n\n\n",
+    "comments": "",
+    "x": 618.4444732666016,
+    "y": 217.6041717529297,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "3cce9b47.cc9d94",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status=\"failure\">\n<parameter name='error-code' value=\"401\" />\n<parameter name='error-message' value='saltstack-adapter-1.0.0 Dg not found'/>",
+    "comments": "",
+    "x": 1001.6111297607422,
+    "y": 898.6280212402344,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "338aa5f4.02181a",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 544.4683074951172,
+    "y": 936.5804138183594,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "b111cb20.d49d68"
+      ]
+    ]
+  },
+  {
+    "id": "d43125bf.bfef78",
+    "type": "record",
+    "name": "record",
+    "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name='field2' value='`$user`'/>\n  <parameter name='field3' value='`$password`'/>\n    <parameter name='field4' value='`$agenturl`'/>\n    <parameter name='field5' value='`$port`'/>",
+    "comments": "",
+    "outputs": 1,
+    "x": 485.1778106689453,
+    "y": 523.7375946044922,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "80b97c31.1bf5c",
+    "type": "set",
+    "name": "set properties",
+    "xml": "<set>\n<parameter name=\"user\" value='`$property.user`'/>\n<parameter name=\"password\" value='`$property.password`'/>\n<parameter name=\"agenturl\" value='`$property.url`'/>\n<parameter name=\"port\" value='`$property.port`'/>\n\n\n",
+    "comments": "",
+    "x": 540.0055389404297,
+    "y": 423.44859313964844,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "4cadf4b1.ecb31c",
+    "type": "get-resource",
+    "name": "get-resource: APPC.protocol",
+    "xml": "<get-resource\n\tplugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' \n\tresource='SQL'\n\tkey=\"SELECT DISTINCT PROTOCOL FROM PROTOCOL_REFERENCE WHERE ACTION = $input.action AND VNF_TYPE = $vnf-type ;\"\n    force='true'\n\tpfx='APPC.protocol'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 613.1110992431641,
+    "y": 267.40415954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "16a3a457.b2ca5c",
+        "b6c9c524.2697c8"
+      ]
+    ]
+  },
+  {
+    "id": "d837201e.5ee9c",
+    "type": "set",
+    "name": "set protocol",
+    "xml": "<set>\n<parameter name='APPC.protocol.PROTOCOL' value='`$APPC.protocol.PROTOCOL`' />\n\n\n\n\n\n",
+    "comments": "",
+    "x": 1048.111099243164,
+    "y": 372.40415954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  },
+  {
+    "id": "16a3a457.b2ca5c",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 865.1110992431641,
+    "y": 318.40415954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "76d2fc6b.d7bf84"
+      ]
+    ]
+  },
+  {
+    "id": "76d2fc6b.d7bf84",
+    "type": "block",
+    "name": "block",
+    "xml": "<block>\n",
+    "atomic": "false",
+    "comments": "",
+    "outputs": 1,
+    "x": 1012.1110992431641,
+    "y": 327.40415954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "b6c9c524.2697c8",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 862.1110992431641,
+    "y": 367.40415954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      [
+        "d837201e.5ee9c"
+      ]
+    ]
+  },
+  {
+    "id": "fb62d965.c86628",
+    "type": "record",
+    "name": "record",
+    "xml": "<record plugin=\"onap.ccsdk.sli.core.sli.recording.Slf4jRecorder\">\n<parameter name=\"level\" value=\"info\"/>\n<parameter name=\"logger\" value=\"message-log\"/>\n<parameter name=\"field1\" value=\"__TIMESTAMP__\"/>\n<parameter name='field2' value='`$user`'/>\n  <parameter name='field3' value='`$APPC.protocol.PROTOCOL`'/>\n    <parameter name='field4' value='`$url`'/>\n    <parameter name='field5' value='`$port`'/>",
+    "comments": "",
+    "outputs": 1,
+    "x": 650.1110992431641,
+    "y": 304.40415954589844,
+    "z": "43cf6a26.00fae4",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "b111cb20.d49d68",
+    "type": "set",
+    "name": "set payloadResponse",
+    "xml": "<set>\n<parameter name='error-code' value='400' />\n<parameter name='error-message' value='`$org.onap.appc.adapter.saltstack.message`'/>\n<parameter name='output-payload' value='`$org.onap.appc.adapter.saltstack.results`'/>",
+    "comments": "",
+    "x": 843,
+    "y": 999.3819427490234,
+    "z": "43cf6a26.00fae4",
+    "wires": []
+  }
+]
