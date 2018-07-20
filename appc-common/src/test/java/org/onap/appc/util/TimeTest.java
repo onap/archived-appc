@@ -2,19 +2,22 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2018
+ * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *      http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
  * ============LICENSE_END=========================================================
  */
 
@@ -22,6 +25,8 @@
 package org.onap.appc.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -29,6 +34,8 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 
 public class TimeTest {
@@ -76,4 +83,46 @@ public class TimeTest {
         assertEquals(epochSecs, utcSecs);
     }
 
+    @Test
+    public void testEndOfDayLocal() {
+        final Date dateNow = new Date();
+        assertTrue(Time.endOfDayLocal(dateNow) instanceof Date);
+    }
+    
+    @Test
+    public void testGetDateByLocaleAndTimeZone() {
+       final Date dateNow = new Date("19-Jul-2018");
+       Locale locale = new Locale("fr"); 
+       TimeZone timeZone = TimeZone.getTimeZone("Europe/France");
+       String expected="19 juil. 2018 00:00:00";
+       assertEquals(expected,Time.getDateByLocaleAndTimeZone(dateNow,locale,timeZone));
+    }
+    
+    @Test
+    public void testUtcFormat() {
+       final Date date = new Date("19-Jul-2018");
+       String expected="07/19/2018 00:00:00";
+       assertEquals(expected,Time.utcFormat(date));
+    }
+    
+    @Test
+    public void testLocalTime() {
+       long expected=1551883631;
+       assertEquals(expected,Time.localTime(1532083631));
+    }
+    
+    @Test
+    public void testSetDate() {
+    	Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2018);
+        cal.set(Calendar.MONTH, 07);
+        cal.set(Calendar.DAY_OF_MONTH, 03);
+        Calendar cal1= Time.setDate(cal, 2018, 07, 03);
+        assertEquals(cal, cal1);
+    }
+    
+    @Test
+    public void testStartOfDayLocal() {
+    	assertTrue(Time.startOfDayLocal() instanceof Date);
+    }
 }
