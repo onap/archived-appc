@@ -28,8 +28,13 @@ import org.onap.appc.adapter.ssh.SshConnection;
 
 public class SshAdapterSshd implements SshAdapter {
 
-	@Override
-	public SshConnection getConnection(String host, int port, String username, String password) {
-		return new SshConnectionSshd(host, port, username, password);
-	}
+    @Override
+    public SshConnection getConnection(String host, int port, String username, String password) {
+        return new SshConnectionSshd(host, port, username, password);
+    }
+
+    @Override
+    public SshConnection getConnection(String host, int port, String keyFile) {
+        return new SshConnectionSshd(host, port, keyFile);
+    }
 }

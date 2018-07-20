@@ -55,6 +55,14 @@ public class TestSshConnectionMock {
         assertNotNull(sshConnectionMock.getPassword());
         assertEquals(sshConnectionMock.getPassword(), "myPassword");
     }
+
+    @Test
+    public void testKeyFile() {
+        sshConnectionMock=new SshConnectionMock("localhost", 8080, "sampleKeyFile");
+        assertNotNull(sshConnectionMock.getKeyFile());
+        assertEquals(sshConnectionMock.getKeyFile(), "sampleKeyFile");
+    }
+
     @Test
     public void testGetReturnStderr() {
         sshConnectionMock.setReturnStderr("returnStderr");
