@@ -38,6 +38,7 @@ public class SshConnectionMock implements SshConnection {
 	private int port;
 	private String username;
 	private String password;
+	private String keyFile;
 	private long timeout;
 
 	private int returnStatus = DEF_SUCCESS_STATUS;
@@ -53,6 +54,12 @@ public class SshConnectionMock implements SshConnection {
 		this.port = port;
 		this.username = username;
 		this.password = password;
+	}
+
+	public SshConnectionMock(String host, int port, String keyFile) {
+		this.host = host;
+		this.port = port;
+		this.keyFile = keyFile;
 	}
 
 	@Override
@@ -122,6 +129,10 @@ public class SshConnectionMock implements SshConnection {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getKeyFile() {
+		return keyFile;
 	}
 
 	public int getConnectCallCount() {
