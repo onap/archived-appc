@@ -30,45 +30,45 @@ import java.io.OutputStream;
  */
 public interface SshConnection {
 
-	/**
-	 * Connect to SSH server.
-	 */
-	void connect();
-
-	/**
-	 * Connect to SSH Server using a retry mechanism
-	 */
-	void connectWithRetry();
-
-	/**
-	 * Disconnect from SSH server.
-	 */
-	void disconnect();
-
-	/**
-	 * Exec remote command over SSH. Return command execution status.
-	 * Command output is written to out or err stream.
-	 *
-	 * @param cmd command to execute
-	 * @param out content of sysout will go to this stream
-	 * @param err content of syserr will go to this stream
-	 * @return command execution status
-	 */
-	int execCommand(String cmd, OutputStream out, OutputStream err);
-
-	/**
-	 * Exec remote command over SSH with pseudo-tty. Return command execution status.
-	 * Command output is written to out stream only as pseudo-tty writes to one stream only.
-	 *
-	 * @param cmd command to execute
-	 * @param out content of sysout will go to this stream
-	 * @return command execution status
-	 */
-	int execCommandWithPty(String cmd, OutputStream out);
-
-	/**
-	 * Set the command execution timeout
-	 * @param timeout time in milliseconds
+    /**
+     * Connect to SSH server.
      */
-	void setExecTimeout(long timeout);
+    void connect();
+
+    /**
+     * Connect to SSH Server using a retry mechanism
+     */
+    void connectWithRetry();
+
+    /**
+     * Disconnect from SSH server.
+     */
+    void disconnect();
+
+    /**
+     * Exec remote command over SSH. Return command execution status.
+     * Command output is written to out or err stream.
+     *
+     * @param cmd command to execute
+     * @param out content of sysout will go to this stream
+     * @param err content of syserr will go to this stream
+     * @return command execution status
+     */
+    int execCommand(String cmd, OutputStream out, OutputStream err);
+
+    /**
+     * Exec remote command over SSH with pseudo-tty. Return command execution status.
+     * Command output is written to out stream only as pseudo-tty writes to one stream only.
+     *
+     * @param cmd command to execute
+     * @param out content of sysout will go to this stream
+     * @return command execution status
+     */
+    int execCommandWithPty(String cmd, OutputStream out);
+
+    /**
+     * Set the command execution timeout
+     * @param timeout time in milliseconds
+     */
+    void setExecTimeout(long timeout);
 }
