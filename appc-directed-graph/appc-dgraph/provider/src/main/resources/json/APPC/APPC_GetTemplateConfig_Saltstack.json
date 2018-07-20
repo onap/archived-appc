@@ -1,0 +1,423 @@
+[
+  {
+    "id": "b857a189.e6bd3",
+    "type": "method",
+    "name": "method GetTemplateConfig_Saltstack",
+    "xml": "<method rpc='GetTemplateConfig_Saltstack' mode='sync'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 536,
+    "y": 54.357139587402344,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "e043a2ff.952ce"
+      ]
+    ]
+  },
+  {
+    "id": "87ed9e15.43415",
+    "type": "dgstart",
+    "name": "DGSTART",
+    "outputs": 1,
+    "x": 118.59519958496094,
+    "y": 79.1428554058075,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "b1a345c6.544fb8"
+      ]
+    ]
+  },
+  {
+    "id": "b1a345c6.544fb8",
+    "type": "service-logic",
+    "name": "APPC 4.0.0",
+    "module": "APPC",
+    "version": "4.0.0",
+    "comments": "",
+    "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+    "outputs": 1,
+    "x": 272.45235443115234,
+    "y": 51,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "b857a189.e6bd3"
+      ]
+    ]
+  },
+  {
+    "id": "140179f2.3667a6",
+    "type": "execute",
+    "name": "execute getTemplate",
+    "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getTemplate\">\n<parameter name=\"fileCategory\" value=\"config_template\" />\n<parameter name=\"responsePrefix\" value=\"config-template\" />",
+    "comments": "",
+    "outputs": 1,
+    "x": 366.9524688720703,
+    "y": 266.3929748535156,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "81bab949.2b99f8",
+        "1b593f3.333a3c1",
+        "52cb7ea9.ad6da"
+      ]
+    ]
+  },
+  {
+    "id": "e043a2ff.952ce",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "comments": "",
+    "outputs": 1,
+    "x": 103.45236587524414,
+    "y": 289.35718059539795,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "140179f2.3667a6",
+        "9e2dd6d6.780828",
+        "29d5901e.6a264"
+      ]
+    ]
+  },
+  {
+    "id": "e2ca644f.185d18",
+    "type": "not-found",
+    "name": "found",
+    "xml": "<outcome value='found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1092.8810386657715,
+    "y": 395.3214387893677,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "ac25c0d0.dfeb2"
+      ]
+    ]
+  },
+  {
+    "id": "a344df37.307a1",
+    "type": "other",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1096.9882202148438,
+    "y": 464.07146644592285,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "fa65d6ac.586688"
+      ]
+    ]
+  },
+  {
+    "id": "bc954001.31c87",
+    "type": "call",
+    "name": "call  Generic_SaltstackDG",
+    "xml": "<call module='APPC' rpc='Generic_SaltstackDG' mode='sync' >\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 508.7381896972656,
+    "y": 542.857177734375,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "55473217.d48f8c",
+        "7931095f.12b268"
+      ]
+    ]
+  },
+  {
+    "id": "ac25c0d0.dfeb2",
+    "type": "call",
+    "name": "call  MergeTemplateData",
+    "xml": "<call module='APPC' rpc='MergeTemplateData' mode='sync' >\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1300.1072082519531,
+    "y": 393.99999618530273,
+    "z": "1a890777.689879",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "ff0e1e15.65f09",
+    "type": "execute",
+    "name": "execute getTemplate Parameter_definition",
+    "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"getTemplateByVnfTypeNAction\">\n<parameter name=\"fileCategory\" value=\"config_template\" />\n<parameter name=\"responsePrefix\" value=\"config-template\" />",
+    "comments": "",
+    "outputs": 1,
+    "x": 825.8214874267578,
+    "y": 418.28575134277344,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "e2ca644f.185d18",
+        "a344df37.307a1"
+      ]
+    ]
+  },
+  {
+    "id": "fa65d6ac.586688",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 1308.6785354614258,
+    "y": 475.4286231994629,
+    "z": "1a890777.689879",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "9e2dd6d6.780828",
+    "type": "set",
+    "name": "Set Action",
+    "xml": "<set>\n<parameter name='request-action' value=\"GetRunningConfig\" />\n",
+    "comments": "",
+    "x": 349.8809280395508,
+    "y": 215.85714888572693,
+    "z": "1a890777.689879",
+    "wires": []
+  },
+  {
+    "id": "57298e21.678e8",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1175.833065032959,
+    "y": 310.999986410141,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "76fd1c.15d692e4"
+      ]
+    ]
+  },
+  {
+    "id": "f38d2070.bee1c",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 1263.7854270935059,
+    "y": 193.0952684879303,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "d914cd89.52158"
+      ]
+    ]
+  },
+  {
+    "id": "d914cd89.52158",
+    "type": "block",
+    "name": "block",
+    "xml": "<block>\n",
+    "atomic": "false",
+    "comments": "",
+    "outputs": 1,
+    "x": 1439.7854270935059,
+    "y": 197.0952684879303,
+    "z": "1a890777.689879",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "1b593f3.333a3c1",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 573.2620064871653,
+    "y": 292.9047977924347,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "c7e4996a.22db48"
+      ]
+    ]
+  },
+  {
+    "id": "81bab949.2b99f8",
+    "type": "failure",
+    "name": "not-found",
+    "xml": "<outcome value='not-found'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 579.7858178274973,
+    "y": 215.57149243354797,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "c7e4996a.22db48"
+      ]
+    ]
+  },
+  {
+    "id": "c7e4996a.22db48",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 774.1190719604492,
+    "y": 322.76196932792664,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "5501541c.54ce1c"
+      ]
+    ]
+  },
+  {
+    "id": "5501541c.54ce1c",
+    "type": "get-resource",
+    "name": "get-resource: APPC.GetRunningConfig",
+    "xml": "<get-resource\n\tplugin='org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource' \n\tresource='SQL'\n    key=\"SELECT FILE_CONTENT FROM CONFIGFILES WHERE FILE_CATEGORY = 'device_configuration' AND VNF_NAME = $vnf-name\n    \t\tAND ACTION IN ('Configure', 'ConfigModify', 'ConfigRestore') \n    \t\tAND CREATION_DATE IN (SELECT MAX(CREATION_DATE) FROM CONFIGFILES) ;\"\n    force='true'\n\tpfx='APPC.GetRunningConfig'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 966.8808364868164,
+    "y": 250.095285654068,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "f38d2070.bee1c",
+        "57298e21.678e8"
+      ]
+    ]
+  },
+  {
+    "id": "76fd1c.15d692e4",
+    "type": "set",
+    "name": "set GetRunningConfig",
+    "xml": "<set>\n<parameter name='APPC.GetRunningConfig' value='`$APPC.GetRunningConfig.FILE-CONTENT`' />\n\n\n\n\n\n",
+    "comments": "",
+    "x": 1433.1665725708008,
+    "y": 314.09526896476746,
+    "z": "1a890777.689879",
+    "wires": []
+  },
+  {
+    "id": "52cb7ea9.ad6da",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 449.1666030883789,
+    "y": 374.3809737818581,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "7625a463.aa9f3c"
+      ]
+    ]
+  },
+  {
+    "id": "7625a463.aa9f3c",
+    "type": "block",
+    "name": "block : atomic",
+    "xml": "<block atomic=\"true\">",
+    "atomic": "true",
+    "outputs": 1,
+    "x": 411.30948638916016,
+    "y": 442.4285752773285,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "bc954001.31c87"
+      ]
+    ]
+  },
+  {
+    "id": "7931095f.12b268",
+    "type": "success",
+    "name": "success",
+    "xml": "<outcome value='success'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 711.3095359802246,
+    "y": 615.2857263088226,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "21d341c4.01e0ee"
+      ]
+    ]
+  },
+  {
+    "id": "21d341c4.01e0ee",
+    "type": "returnSuccess",
+    "name": "return success",
+    "xml": "<return status='success'>\n<parameter name='APPC.GetRunningConfig' value=\"`$APPC.GetRunningConfig`\" />\n<parameter name='output.status.code' value='`$output.status.code`' />\n<parameter name='output.status.message' value='`$output.status.message`'/>\n<parameter name='output.status.results' value = '`$output.status.results`'/>\n",
+    "comments": "",
+    "x": 952.7383651733398,
+    "y": 618.8571116924286,
+    "z": "1a890777.689879",
+    "wires": []
+  },
+  {
+    "id": "55473217.d48f8c",
+    "type": "failure",
+    "name": "failure",
+    "xml": "<outcome value='failure'>\n",
+    "comments": "",
+    "outputs": 1,
+    "x": 765.5952415466309,
+    "y": 513.8570249080658,
+    "z": "1a890777.689879",
+    "wires": [
+      [
+        "11263fd0.55a6"
+      ]
+    ]
+  },
+  {
+    "id": "11263fd0.55a6",
+    "type": "returnFailure",
+    "name": "return failure",
+    "xml": "<return status='failure'>\n<parameter name='output.status.code' value='`$output.status.code`' />\n<parameter name='output.status.message' value='`$output.status.message`'/>\n",
+    "comments": "",
+    "x": 1014.3094787597656,
+    "y": 545.2855517864227,
+    "z": "1a890777.689879",
+    "wires": []
+  },
+  {
+    "id": "664beb49.cb72c4",
+    "type": "comment",
+    "name": "Change of getDeviceRunningConfig",
+    "info": "Need to change getDeviceRunningconfig when chef returns configuartion.\n\nRight now just returning deviceRunningConfig",
+    "comments": "",
+    "x": 874.0716094970703,
+    "y": 661.6666600704193,
+    "z": "1a890777.689879",
+    "wires": []
+  },
+  {
+    "id": "29d5901e.6a264",
+    "type": "set",
+    "name": "set tmp.message",
+    "xml": "<set>\n<parameter name=\"tmp.message\" value=\"`$error-code + ':' + $error-message`\"/>\n<parameter name='request-action' value=\"`$input.action`\" />\n",
+    "comments": "",
+    "x": 351.30948638916016,
+    "y": 722.1428391933441,
+    "z": "1a890777.689879",
+    "wires": []
+  }
+]
