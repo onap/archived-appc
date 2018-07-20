@@ -97,4 +97,32 @@ public class TimeTest {
        String expected="19 juil. 2018 00:00:00";
        assertEquals(expected,Time.getDateByLocaleAndTimeZone(dateNow,locale,timeZone));
     }
+    
+    @Test
+    public void testUtcFormat() {
+       final Date date = new Date("19-Jul-2018");
+       String expected="07/19/2018 00:00:00";
+       assertEquals(expected,Time.utcFormat(date));
+    }
+    
+    @Test
+    public void testLocalTime() {
+       long expected=1532083631; 
+       assertEquals(expected,Time.localTime(1532083631));
+    }
+    
+    @Test
+    public void testSetDate() {
+    	Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2018);
+        cal.set(Calendar.MONTH, 07);
+        cal.set(Calendar.DAY_OF_MONTH, 03);
+        Calendar cal1= Time.setDate(cal, 2018, 07, 03);
+        assertEquals(cal, cal1);
+    }
+    
+    @Test
+    public void testStartOfDayLocal() {
+    	assertTrue(Time.startOfDayLocal() instanceof Date);
+    }
 }
