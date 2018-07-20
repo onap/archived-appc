@@ -34,10 +34,11 @@ public class SshConnectionMock implements SshConnection {
 
 	private static final int DEF_SUCCESS_STATUS = 0;
 
-	private String host;
-	private int port;
-	private String username;
-	private String password;
+	private final String host;
+	private final int port;
+	private final String username;
+	private final String password;
+	private final String keyFile;
 	private long timeout;
 
 	private int returnStatus = DEF_SUCCESS_STATUS;
@@ -48,11 +49,12 @@ public class SshConnectionMock implements SshConnection {
 	private int disconnectCallCount = 0;
 	private List<String> executedCommands = new ArrayList<>();
 
-	public SshConnectionMock(String host, int port, String username, String password) {
+	public SshConnectionMock(String host, int port, String username, String password, String keyFile) {
 		this.host = host;
 		this.port = port;
 		this.username = username;
 		this.password = password;
+		this.keyFile = keyFile;
 	}
 
 	@Override
@@ -122,6 +124,10 @@ public class SshConnectionMock implements SshConnection {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getKeyFile() {
+		return keyFile;
 	}
 
 	public int getConnectCallCount() {
