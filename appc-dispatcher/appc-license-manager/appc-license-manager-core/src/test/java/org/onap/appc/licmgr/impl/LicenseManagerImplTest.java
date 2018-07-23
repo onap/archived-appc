@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2018 Nokia.
+ * Modifications Copyright (C) 2018 Nokia
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,14 +24,15 @@ package org.onap.appc.licmgr.impl;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.mockito.BDDMockito.given;
 import static org.onap.appc.licmgr.Constants.SDC_ARTIFACTS_FIELDS.ARTIFACT_CONTENT;
 
+import java.io.InputStream;
 import java.util.Collections;
-import java.util.Map;
 import java.util.HashMap;
 import org.junit.Before;
+import java.util.Map;
+import java.util.Scanner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -53,6 +54,7 @@ public class LicenseManagerImplTest {
     @Before
     public void setUp() {
         licenseManager = new LicenseManagerImpl();
+        licenseManager.setDAService(licenseDataAccessService);
     }
 
     @Test
@@ -65,15 +67,13 @@ public class LicenseManagerImplTest {
             .willReturn(Collections.emptyMap());
 
         // WHEN THEN
-        licenseManager.setDAService(licenseDataAccessService);
-
         assertThatExceptionOfType(DataAccessException.class)
             .isThrownBy(() -> licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION))
             .withMessage(expectedMessage);
     }
 
     @Test
-    public void retrieveLicenseModel_shouldReturnLicenseModelWithNullValues_whenXmlIsMalformed() {
+    public void retrieveLicenseModel_shouldThrowException_whenXmlIsMalformed() {
 
         // GIVEN
         String malformedXml = "xyz";
@@ -83,27 +83,21 @@ public class LicenseManagerImplTest {
         given(licenseDataAccessService.retrieveLicenseModelData(VNF_TYPE, VNF_VERSION))
             .willReturn(licenseModelData);
 
-        // WHEN
-        licenseManager.setDAService(licenseDataAccessService);
-        LicenseModel licenseModel = licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION);
-
-        // THEN
-        assertNull(licenseModel.getEntitlementPoolUuid());
-        assertNull(licenseModel.getLicenseKeyGroupUuid());
+        // WHEN THEN
+        assertThatExceptionOfType(DataAccessException.class)
+            .isThrownBy(() -> licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION));
     }
 
     @Test
     public void retrieveLicenseModel_shouldReturnCorrectLicenseModel_whenCorrectXmlExists() {
 
         // GIVEN
-        String expectedEntitlementPool = "default_entitlement_pool";
-        String expectedKeyGroup = "default_key_group";
+        String expectedEntitlementPool = "default_entitlement_pool_uuid";
+        String expectedKeyGroup = "default_lkg_uuid";
 
-        String correctlyFormedXml = String.format("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-            + "<parent>\n"
-            + "<entitlement-pool-uuid>%s</entitlement-pool-uuid>\n"
-            + "<license-key-group-uuid>%s</license-key-group-uuid>\n"
-            + "</parent>", expectedEntitlementPool, expectedKeyGroup);
+        ClassLoader classLoader = getClass().getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream("test-vf-license-model.xml");
+        String correctlyFormedXml = new Scanner(inputStream).useDelimiter("\\A").next();
 
         Map<String, String> licenseModelData = new HashMap<>();
         licenseModelData.put(ARTIFACT_CONTENT.name(), correctlyFormedXml);
@@ -111,7 +105,6 @@ public class LicenseManagerImplTest {
             .willReturn(licenseModelData);
 
         // WHEN
-        licenseManager.setDAService(licenseDataAccessService);
         LicenseModel licenseModel = licenseManager.retrieveLicenseModel(VNF_TYPE, VNF_VERSION);
 
         // THEN
