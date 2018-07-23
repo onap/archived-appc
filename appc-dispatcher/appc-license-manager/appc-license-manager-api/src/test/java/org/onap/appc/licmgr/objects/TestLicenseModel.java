@@ -3,7 +3,9 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
-*=================================================================================
+* ================================================================================
+* Copyright (C) 2018 Nokia
+* ================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -28,19 +30,17 @@ public class TestLicenseModel {
 
     @Before
     public void setUp() {
-        licenseModel = new LicenseModel();
+        licenseModel = new LicenseModel("EntitlementPoolUuid", "LicenseKeyGroupUuid");
     }
 
     @Test
     public void testGetEntitlementPoolUuid() {
-        licenseModel.setEntitlementPoolUuid("EntitlementPoolUuid");
         Assert.assertNotNull(licenseModel.getEntitlementPoolUuid());
         Assert.assertEquals(licenseModel.getEntitlementPoolUuid(), "EntitlementPoolUuid");
     }
 
     @Test
     public void testGetLicenseKeyGroupUuid() {
-        licenseModel.setLicenseKeyGroupUuid("LicenseKeyGroupUuid");
         Assert.assertNotNull(licenseModel.getLicenseKeyGroupUuid());
         Assert.assertEquals(licenseModel.getLicenseKeyGroupUuid(), "LicenseKeyGroupUuid");
     }
