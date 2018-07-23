@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_1b3e56b9",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-api/src/main/java/org/onap/appc/adapter/ssh/SshConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3201
+      },
+      "writtenOn": "2018-07-23T23:21:43Z",
+      "side": 1,
+      "message": "This will mean we also have to change the dependent project that use this API. This might be unnecessary for this commit. May be will make a separate Jirra for this. Thanks",
+      "parentUuid": "da7095c5_824afb81",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_c22eb3a5",
         "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_5b5cce25",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 3201
+      },
+      "writtenOn": "2018-07-23T23:21:43Z",
+      "side": 1,
+      "message": "It is not mandatory but this I believe is structured.",
+      "parentUuid": "da7095c5_c22eb3a5",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_22220fba",
         "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/main/java/org/onap/appc/adapter/ssh/SshConnectionMock.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2018-07-23T13:51:10Z",
       "side": 1,
       "message": "make this field final (and perhaps the others, too)",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_fb404237",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/main/java/org/onap/appc/adapter/ssh/SshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 3201
+      },
+      "writtenOn": "2018-07-23T23:21:43Z",
+      "side": 1,
+      "message": "If this is final then we have to initialise all the fields and this means we cannot change this during the test.",
+      "parentUuid": "da7095c5_22220fba",
       "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -81,6 +135,24 @@
       "writtenOn": "2018-07-23T13:51:10Z",
       "side": 1,
       "message": "these arguments should be swapped; the expected value should appear on the left (the other assertEquals in this file are also incorrect)",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_db477e4a",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3201
+      },
+      "writtenOn": "2018-07-23T23:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_62400757",
       "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
