@@ -34,7 +34,11 @@
 
     <service id="inputParameterValidationService" interface="org.onap.appc.dg.util.InputParameterValidation" ref="inputParameterValidationBean"/>
 
-    <bean id="executeNodeActionBean" class="org.onap.appc.dg.util.impl.ExecuteNodeActionImpl" scope="prototype" >
+    <bean id="aaiServiceFactory" class="org.onap.appc.dg.util.impl.AAIServiceFactory">
+    </bean>
+
+    <bean id="executeNodeActionBean" class="org.onap.appc.dg.util.impl.ExecuteNodeActionImpl" scope="prototype">
+        <argument ref="aaiServiceFactory"/>
     </bean>
 
     <service id="executeNodeActionService" interface="org.onap.appc.dg.util.ExecuteNodeAction" ref="executeNodeActionBean"/>
