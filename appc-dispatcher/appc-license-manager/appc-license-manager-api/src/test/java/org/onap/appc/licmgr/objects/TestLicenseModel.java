@@ -28,19 +28,17 @@ public class TestLicenseModel {
 
     @Before
     public void setUp() {
-        licenseModel = new LicenseModel();
+        licenseModel = new LicenseModel("EntitlementPoolUuid", "LicenseKeyGroupUuid");
     }
 
     @Test
     public void testGetEntitlementPoolUuid() {
-        licenseModel.setEntitlementPoolUuid("EntitlementPoolUuid");
         Assert.assertNotNull(licenseModel.getEntitlementPoolUuid());
         Assert.assertEquals(licenseModel.getEntitlementPoolUuid(), "EntitlementPoolUuid");
     }
 
     @Test
     public void testGetLicenseKeyGroupUuid() {
-        licenseModel.setLicenseKeyGroupUuid("LicenseKeyGroupUuid");
         Assert.assertNotNull(licenseModel.getLicenseKeyGroupUuid());
         Assert.assertEquals(licenseModel.getLicenseKeyGroupUuid(), "LicenseKeyGroupUuid");
     }

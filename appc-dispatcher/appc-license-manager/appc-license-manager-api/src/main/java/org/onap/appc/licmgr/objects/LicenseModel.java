@@ -23,25 +23,20 @@
 
 package org.onap.appc.licmgr.objects;
 
-public class LicenseModel {
+public final class LicenseModel {
 
-    private String entitlementPoolUuid;
+    public LicenseModel(String entitlementPoolUuid, String licenseKeyGroupUuid){
+        this.entitlementPoolUuid = entitlementPoolUuid;
+        this.licenseKeyGroupUuid = licenseKeyGroupUuid;
+    }
 
-    private String licenseKeyGroupUuid;
+    private final String entitlementPoolUuid;
+    private final String licenseKeyGroupUuid;
 
     public String getEntitlementPoolUuid() {
         return entitlementPoolUuid;
     }
-
-    public void setEntitlementPoolUuid(String entitlementPoolUuid) {
-        this.entitlementPoolUuid = entitlementPoolUuid;
-    }
-
     public String getLicenseKeyGroupUuid() {
         return licenseKeyGroupUuid;
-    }
-
-    public void setLicenseKeyGroupUuid(String licenseKeyGroupUuid) {
-        this.licenseKeyGroupUuid = licenseKeyGroupUuid;
     }
 }
