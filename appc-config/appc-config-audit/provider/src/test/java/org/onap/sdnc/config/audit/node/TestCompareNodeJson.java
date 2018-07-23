@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,6 +31,7 @@ import org.junit.Test;
 import org.onap.sdnc.config.audit.node.CompareNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import static org.junit.Assert.assertEquals;
 
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -49,6 +52,25 @@ public class TestCompareNodeJson {
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
     }
+    
+    @Test
+    public void TestCompareCliForNoPayload() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        cmp.compare(testMap, ctx);
+        assertEquals ("FAILURE",ctx.getAttribute("STATUS"));
+    }
+    
+    @Test
+    public void TestCompareCliForNullCompareType() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        testMap.put("compareDataType", "RestConf");
+        cmp.compare(testMap, ctx);
+        assertEquals ("FAILURE",ctx.getAttribute("STATUS"));
+    }
 
     @Test
     public void TestCompareJsonFordifferentPayload() throws SvcLogicException {
@@ -62,5 +84,19 @@ public class TestCompareNodeJson {
         testMap.put("targetData", testJson);
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("FAILURE"));
+    }
+    
+    @Test
+    public void TestCompareJsonFordifferentPayloadWithXMLDataType() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        String controlJson = "{\n\"input\": {\n   \"appc-request-header\": {\n       \"svc-request-id\": \"000000000\", \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
+        String testJson = "{\n\"input\": {\n  \"appc-request-header\": { \n \"svc-action\": \"prepare\"   \n }, \n\"request-information\": {\n \"request-id\": \"0000000000\", \n\"request-action\": \"VsbgServiceActivateRequest\", \n\"request-sub-action\": \"PREPARE\",  \n \"source\": \"Version2\" \n} \n} \n}";
+        testMap.put("compareDataType", "XML");
+        testMap.put("sourceData", controlJson);
+        testMap.put("targetData", testJson);
+        cmp.compare(testMap, ctx);
+        assertEquals ("FAILURE",ctx.getAttribute("STATUS"));
     }
 }
