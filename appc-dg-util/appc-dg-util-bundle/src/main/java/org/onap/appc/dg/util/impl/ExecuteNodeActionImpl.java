@@ -35,14 +35,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.onap.appc.dg.util.ExecuteNodeAction;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
-import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
-import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
-import org.osgi.framework.BundleContext;
-import org.osgi.framework.FrameworkUtil;
-import org.osgi.framework.ServiceReference;
 
 
 public class ExecuteNodeActionImpl implements ExecuteNodeAction {
@@ -63,30 +58,10 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     private static final String RELATED_TO_PROPERTY_LEN_PARAM = "related-to-property_length";
     public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
 
-    private AAIService aaiService;
-    protected AAIClient client;
+    private AAIServiceFactory aaiServiceFactory = new AAIServiceFactory();
 
-    public ExecuteNodeActionImpl() { /*default constructor*/}
-
-    /**
-     * initialize the SDNC adapter (AAIService) by building the context.
-     */
-    private void initialize() {
-        getAAIservice();
-    }
-
-    private void getAAIservice() {
-        BundleContext bctx = FrameworkUtil.getBundle(AAIService.class).getBundleContext();
-        // Get AAIadapter reference
-        ServiceReference sref = bctx.getServiceReference(AAIService.class.getName());
-        if (sref != null) {
-            logger.info("AAIService from bundlecontext");
-            aaiService = (AAIService) bctx.getService(sref);
-
-        } else {
-            logger.info("AAIService error from bundlecontext");
-            logger.error(EELFResourceManager.format(Msg.AAI_CONNECTION_FAILED, "AAIService"));
-        }
+    public ExecuteNodeActionImpl(AAIServiceFactory aaiServiceFactory) {
+        this.aaiServiceFactory = aaiServiceFactory;
     }
 
     /**
@@ -110,7 +85,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
 
     @Override
     public void getResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        initialize();
         String resourceType = params.get(RESOURCE_TYPE_PARAM);
         String ctxPrefix = params.get(PREFIX_PARAM);
         String resourceKey = params.get(RESOURCE_KEY_PARAM);
@@ -119,10 +93,10 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             logger.debug("inside getResorce");
             logger.debug("Retrieving " + resourceType + " details from A&AI for Key : " + resourceKey);
         }
-        client = aaiService;
+
         try {
             SvcLogicResource.QueryStatus response =
-                client.query(resourceType, false, null, resourceKey, ctxPrefix, null, ctx);
+                aaiServiceFactory.getAAIService().query(resourceType, false, null, resourceKey, ctxPrefix, null, ctx);
             logger.info(AAI_RESPONSE_STR + response.toString());
             ctx.setAttribute(GET_RESOURCE_RESULT, response.toString());
         } catch (SvcLogicException e) {
@@ -136,7 +110,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
 
     @Override
     public void postResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        initialize();
         String resourceType = params.get(RESOURCE_TYPE_PARAM);
         String ctxPrefix = params.get(PREFIX_PARAM);
         String resourceKey = params.get(RESOURCE_KEY_PARAM);
@@ -149,10 +122,10 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         }
         Map<String, String> data = new HashMap<>();
         data.put(attName, attValue);
-        client = aaiService;
 
         try {
-            SvcLogicResource.QueryStatus response = client.update(resourceType, resourceKey, data, ctxPrefix, ctx);
+            SvcLogicResource.QueryStatus response = aaiServiceFactory.getAAIService()
+                .update(resourceType, resourceKey, data, ctxPrefix, ctx);
             logger.info(AAI_RESPONSE_STR + response.toString());
             ctx.setAttribute("postResource_result", response.toString());
         } catch (SvcLogicException e) {
@@ -166,7 +139,6 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
 
     @Override
     public void deleteResource(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        initialize();
         String resourceType = params.get(RESOURCE_TYPE_PARAM);
         String resourceKey = params.get(RESOURCE_KEY_PARAM);
 
@@ -174,9 +146,10 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             logger.debug("inside deleteResource");
             logger.debug("Deleting " + resourceType + " details From A&AI for Key : " + resourceKey);
         }
-        client = aaiService;
+
         try {
-            SvcLogicResource.QueryStatus response = client.delete(resourceType, resourceKey, ctx);
+            SvcLogicResource.QueryStatus response = aaiServiceFactory.getAAIService()
+                .delete(resourceType, resourceKey, ctx);
             logger.info(AAI_RESPONSE_STR + response.toString());
             ctx.setAttribute("deleteResource_result", response.toString());
         } catch (SvcLogicException e) {
@@ -360,7 +333,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         return 0;
     }
 
-    private void populateVnfcsDetailsinContext(Map<String, Set<String>> vnfcHierarchyMap, SvcLogicContext ctx)
+    void populateVnfcsDetailsinContext(Map<String, Set<String>> vnfcHierarchyMap, SvcLogicContext ctx)
         throws APPCException {
         SvcLogicContext vnfcCtx = new SvcLogicContext();
         int vnfcCounter = 0;
