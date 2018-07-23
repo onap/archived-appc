@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_8260bb36",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-23T13:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_42fe236d",
+      "revId": "1bfb1351e7d090e6b6483eadadcb79be2122ffad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_a2093f97",
         "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_a265bf46",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-23T13:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_a2093f97",
+      "revId": "1bfb1351e7d090e6b6483eadadcb79be2122ffad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_62032774",
         "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2018-07-23T12:45:48Z",
       "side": 1,
       "message": "use assertEquals",
+      "revId": "1bfb1351e7d090e6b6483eadadcb79be2122ffad",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_425aa384",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-23T13:44:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da7095c5_62032774",
       "revId": "1bfb1351e7d090e6b6483eadadcb79be2122ffad",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
