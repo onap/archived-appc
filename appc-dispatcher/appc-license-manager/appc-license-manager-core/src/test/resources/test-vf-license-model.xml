@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ============LICENSE_START=======================================================
+  ONAP : APPC
+  ================================================================================
+  Copyright (C) 2018 Nokia
+  =============================================================================
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  ============LICENSE_END=========================================================
+  -->
+<vf-license-model>
+  <vnf-id>default_vnf_id</vnf-id>
+  <vendor-name>default_vendor_name</vendor-name>
+  <feature-group-list>
+    <feature-group>
+      <feature-group-uuid>default_feature_group_uuid</feature-group-uuid>
+      <name>default_fg_name</name>
+      <description>default_fg_ description</description>
+      <att-part-number>default_part_number</att-part-number>
+      <entitlement-pool-list>
+        <entitlement-pool>
+          <entitlement-pool-uuid>default_entitlement_pool_uuid</entitlement-pool-uuid>
+          <name>default_ep_name</name>
+          <description>default_ep_description</description>
+          <manufacturer-reference-number>default_manufacturer_reference_number</manufacturer-reference-number>
+          <threshold-value>
+            <value>1</value>
+            <unit>default_unit</unit>
+          </threshold-value>
+          <entitlement-metric>
+            <value>default_em_value</value>
+          </entitlement-metric>
+          <increments>default_increments</increments>
+          <aggregation-function>
+            <value>default_af_value</value>
+          </aggregation-function>
+          <time>
+            <value>default_time</value>
+          </time>
+        </entitlement-pool>
+      </entitlement-pool-list>
+      <license-key-group-list>
+        <license-key-group>
+          <license-key-group-uuid>default_lkg_uuid</license-key-group-uuid>
+          <name>default_lkg_name</name>
+          <description>default_lkg_description</description>
+          <type>default_lkg_type</type>
+        </license-key-group>
+      </license-key-group-list>
+    </feature-group>
+  </feature-group-list>
+</vf-license-model>
