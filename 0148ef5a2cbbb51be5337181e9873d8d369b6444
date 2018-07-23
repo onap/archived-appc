@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_824afb81",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-api/src/main/java/org/onap/appc/adapter/ssh/SshConnection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-23T13:51:10Z",
+      "side": 1,
+      "message": "maybe extend AutoCloseable or Closeable, and change \"disconnect\" to \"close\"?  That way it can be used in a try-with-resources, which will ensure that it is closed when the block completes.",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_c22eb3a5",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-23T13:51:10Z",
+      "side": 1,
+      "message": "is an \"else\" needed? Or is it ok to fall through and possibly throw a NullPointerException later?",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_22220fba",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/main/java/org/onap/appc/adapter/ssh/SshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-23T13:51:10Z",
+      "side": 1,
+      "message": "make this field final (and perhaps the others, too)",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_02258bc1",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-23T13:51:10Z",
+      "side": 1,
+      "message": "this test is not needed; the assertEquals is sufficient",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_62400757",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-23T13:51:10Z",
+      "side": 1,
+      "message": "these arguments should be swapped; the expected value should appear on the left (the other assertEquals in this file are also incorrect)",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
