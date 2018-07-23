@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,6 +48,16 @@ public class TestCompareNodeCli {
         testMap.put("targetData", "This is a Text Configuration of Device");
         cmp.compare(testMap, ctx);
         assert (ctx.getAttribute("STATUS").equals("SUCCESS"));
+    }
+    
+    @Test
+    public void TestCompareCliForNoPayload() throws SvcLogicException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> testMap = new HashMap<String, String>();
+        CompareNode cmp = new CompareNode();
+        testMap.put("compareDataType", "Cli");
+        cmp.compare(testMap, ctx);
+        assertEquals(ctx.getAttribute("STATUS"),"FAILURE");
     }
 
     @Test
