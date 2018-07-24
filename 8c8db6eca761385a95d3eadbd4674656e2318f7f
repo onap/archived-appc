@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_2c519e62",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-07-24T19:58:39Z",
+      "side": 1,
+      "message": "Could you replace these tab characters with 4 space characters? As per the onap code style guide: https://wiki.onap.org/display/DW/Java+code+style",
+      "revId": "8c8db6eca761385a95d3eadbd4674656e2318f7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
