@@ -379,7 +379,7 @@ public class DBService {
                     if (StringUtils.isBlank(url)) {
                         url = "" ;
                     }
-                    key = key + ", URL = $" + SdcArtifactHandlerConstants.USER_NAME + "";
+                    key = key + ", URL = '" + url + "' ";
                 }
                 key = key + WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE + "  AND PROTOCOL = $"
                         + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " AND  ACTION = $"
@@ -391,7 +391,7 @@ public class DBService {
                     if (StringUtils.isBlank(url)) {
                         url = "";
                     }
-                    key = key + ", URL = $" + SdcArtifactHandlerConstants.USER_NAME + "";
+                    key = key + ", URL = '" + url + "' ";
                 }
             }
 
