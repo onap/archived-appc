@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_566d8503",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestSQLSaveQuery.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-24T14:12:34Z",
+      "side": 1,
+      "message": "add \"Modifications\"",
+      "revId": "55bea6f8a017a33b68eac8ac514805e1c572f9af",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
