@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_87a1a5ab",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/main/java/org/onap/appc/adapter/ssh/SshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 3201
+      },
+      "writtenOn": "2018-07-24T23:26:20Z",
+      "side": 1,
+      "message": "As you can see we can create 2 types of ssh connection one is BASIC (user and password) and SSH Key based, hence constructors SshConnectionMock(String host, int port, String username, String password) and SshConnectionMock(String host, int port, String keyFile) respectively. I cannot make keyFile to final the same for username and password parameters. However, I can make \u0027host\u0027 and \u0027port\u0027 to final but not other parameters.",
+      "parentUuid": "da7095c5_9618fd85",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_02258bc1",
         "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
         "patchSetId": 2
