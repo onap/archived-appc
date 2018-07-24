@@ -17,4 +17,9 @@
         <module>single-feature-parent</module>
     </modules>
 
+    <parent>
+    	<groupId>org.onap.appc</groupId>
+    	<artifactId>appc</artifactId>
+    	<version>1.4.0-SNAPSHOT</version>
+    </parent>
 </project>
