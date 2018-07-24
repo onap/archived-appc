@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_acccce36",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-24T20:00:29Z",
+      "side": 1,
+      "message": "escape url or use a parameterized query",
+      "revId": "b9e84d8ef53fd1b57f515555392cd731b6b13783",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_6cd6b6c7",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/dbservices/DBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-24T20:00:29Z",
+      "side": 1,
+      "message": "escape url or use a parameterized query",
+      "revId": "b9e84d8ef53fd1b57f515555392cd731b6b13783",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
