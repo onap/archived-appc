@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "da7095c5_9618fd85",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/main/java/org/onap/appc/adapter/ssh/SshConnectionMock.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-24T14:20:55Z",
+      "side": 1,
+      "message": "yes, so adding \"final\" not only protects from modification, but also enforces that all constructors initialize all fields.  (Obviously, this doesn\u0027t apply to the fields listed below \"timeout\".)\nNot sure about the concern of changing it during the test.  This class provides no mechanism to change the keyFile, so unless the test modifies it via Whitebox, then that shouldn\u0027t be an issue.  To test different returns by getKeyFile(), simply construct different SshConnectionMock objects.",
+      "parentUuid": "da7095c5_fb404237",
+      "revId": "0148ef5a2cbbb51be5337181e9873d8d369b6444",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da7095c5_02258bc1",
         "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
         "patchSetId": 2
