@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_367491ce",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/PreCheckTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-24T14:09:21Z",
+      "side": 1,
+      "message": "add IBM copyright?",
+      "revId": "f1d98941adf1a193462785d30c7241206350434c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
