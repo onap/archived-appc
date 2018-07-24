@@ -25,17 +25,19 @@
 package org.onap.appc.util;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
-
+import java.text.ParseException;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import javax.xml.datatype.XMLGregorianCalendar;
+
+import org.junit.Test;
 
 
 public class TimeTest {
@@ -124,5 +126,24 @@ public class TimeTest {
     @Test
     public void testStartOfDayLocal() {
     	assertTrue(Time.startOfDayLocal() instanceof Date);
+    }
+    
+    @Test
+    public void testTimeStamp() {
+    	assertTrue(Time.timestamp() instanceof XMLGregorianCalendar);
+    }
+    
+    @Test
+    public void testDateToStringConverterMillis() {
+    	String dateString=Time.dateToStringConverterMillis(new Date("02/09/2004"));
+    	String expected="2004-02-09 00:00:00:000";
+    	assertEquals(expected, dateString);
+    }
+    
+    @Test
+    public void testStringToDateConverterMillis() throws ParseException{
+    	Date date=Time.stringToDateConverterMillis("2004-02-09 00:00:00:000");
+    	Date expected=new Date("02/09/2004");
+    	assertEquals(expected, date);
     }
 }
