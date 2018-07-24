@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
+import static org.junit.Assert.assertEquals;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -56,6 +59,36 @@ public class TestSQLSaveQuery {
 
         }
 
+    }
+    
+    @Test
+    public void testSQLSaveQueryForNestedRequestId() throws IOException{
+            String message = FileUtils.readFileToString(new File("src/test/resources/query/sampledata.txt"));
+            SvcLogicContext ctx = new SvcLogicContext();
+            ctx.setAttribute("request-id", "1234");
+            String escapedMessage = StringEscapeUtils.escapeSql(message);
+            ctx.setAttribute("log_message", escapedMessage);
+            String key = "INSERT INTO CONFIG_TRANSACTION_LOG "
+                    + " SET request_id = $[$request-id] , message_type  =  'request' ,  message        =  $log_message ;";
+            String resolvedContext = resolveCtxVars(key, ctx);
+            String expected="INSERT INTO CONFIG_TRANSACTION_LOG SET request_id = 'null' , message_type = 'request' , message = '' ;";
+            assertEquals(expected.trim(),resolvedContext.trim());
+    }
+    
+    @Test
+    public void testSQLSaveQueryForCryptKey() throws IOException{
+            String message = FileUtils.readFileToString(new File("src/test/resources/query/sampledata.txt"));
+            SvcLogicContext ctx = new SvcLogicContext();
+            ctx.setAttribute("request-id", "1234");
+            String escapedMessage = StringEscapeUtils.escapeSql(message);
+            ctx.setAttribute("log_message", escapedMessage);
+            ctx.setAttribute("ctxVarName", "test_crypt_key");
+            String key = "INSERT INTO CONFIG_TRANSACTION_LOG "
+                    + " SET request_id = $request-id , message_type  =  'request' ,  message        =  $CRYPT_KEY ;";
+            String resolvedContext = resolveCtxVars(key, ctx);
+            String expected="INSERT INTO CONFIG_TRANSACTION_LOG SET request_id = '1234' , message_type = 'request' , message = '' ;";
+            assertEquals(expected.trim(),resolvedContext.trim());
+       
     }
 
     private String resolveCtxVars(String key, SvcLogicContext ctx) {
