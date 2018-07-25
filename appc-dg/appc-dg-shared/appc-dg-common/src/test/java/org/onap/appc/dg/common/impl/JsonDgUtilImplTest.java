@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -30,7 +32,8 @@ import org.junit.Test;
 import org.onap.appc.dg.common.impl.JsonDgUtilImpl;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -167,5 +170,19 @@ public class JsonDgUtilImplTest {
 
         Assert.assertNotNull(ctx.getAttribute(key));
 
+    }
+    
+    @Test
+    public void testCvaasFileNameAndFileContentToContext() throws Exception {
+
+        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
+        String key1 = "running-config.upload-date";
+        String testValueKey1 = "2004-02-09 00:00:00:000";
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+        ctx.setAttribute(key1, testValueKey1);
+        jsonDgUtil.cvaasFileNameAndFileContentToContext(params, ctx);
+        assertNotNull(ctx.getAttribute("cvaas-file-content"));
+        assertTrue(ctx.getAttribute("cvaas-file-content") instanceof String);
     }
 }
