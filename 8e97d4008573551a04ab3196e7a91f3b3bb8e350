@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_d0c194e5",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/TransactionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-25T16:08:42Z",
+      "side": 1,
+      "message": "as much as I prefer to use assertEquals, hashcodes are one case where it\u0027s problematic, as the codes can change depending on the jvm.  Perhaps it would be better to create three transaction objects, two with the same values and one with one value that\u0027s slightly different (\u0027some_action\u0027 -\u003e \u0027some_actioo\u0027).  Then verify that the hashcodes are the same for the two equal objects, and different for the different object",
+      "revId": "8e97d4008573551a04ab3196e7a91f3b3bb8e350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
