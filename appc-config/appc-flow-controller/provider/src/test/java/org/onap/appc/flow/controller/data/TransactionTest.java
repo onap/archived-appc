@@ -3,7 +3,9 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia Intellectual Property. All rights reserved.
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,7 +24,7 @@ package org.onap.appc.flow.controller.data;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
+import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.Before;
@@ -208,6 +210,46 @@ public class TransactionTest {
         other.setAction("action");
 
         Assert.assertTrue(transaction.equals(other));
+    }
+    
+    @Test
+    public void testHashCode()
+    {
+        ActionIdentifier actionIdentifier = mock(ActionIdentifier.class);
+        when(actionIdentifier.toString()).thenReturn("some_action_identifier");
+
+        PreCheck precheck = mock(PreCheck.class);
+        when(precheck.toString()).thenReturn("some_precheck");
+
+        Response response = mock(Response.class);
+        when(response.toString()).thenReturn("some_response");
+        ArrayList<Response> responses = new ArrayList<>();
+        responses.add(response);
+
+        Parameters parameters = mock(Parameters.class);
+        when(parameters.toString()).thenReturn("some_parameters");
+        ArrayList<Parameters> parametersList = new ArrayList<>();
+        parametersList.add(parameters);
+
+        transaction.setAction("some_action");
+        transaction.setActionIdentifier(actionIdentifier);
+        transaction.setActionLevel("some_action_level");
+        transaction.setExecutionRPC("some_execution_rpc");
+        transaction.setExecutionType("some_execution_type");
+        transaction.setExecutionModule("some_execution_module");
+        transaction.setExecutionEndPoint("some_execution_endpoint");
+        transaction.setState("some_state");
+        transaction.setStatus("some_status");
+        transaction.setStatusCode("some_status_code");
+        transaction.setPswd("some_pass");
+        transaction.setPayload("some_payload");
+        transaction.setPrecheck(precheck);
+        transaction.setParameters(parametersList);
+        transaction.setResponses(responses);
+        transaction.setTransactionId(133);
+        transaction.setuId("some_uid");
+        System.out.println("hashcode=="+ transaction.hashCode());
+        assertEquals(-1195100161,transaction.hashCode());
     }
 
 }
