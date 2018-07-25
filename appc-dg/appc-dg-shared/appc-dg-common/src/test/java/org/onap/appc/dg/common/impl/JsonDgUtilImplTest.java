@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,13 +26,15 @@
 package org.onap.appc.dg.common.impl;
 
 import ch.qos.logback.core.Appender;
+import java.text.SimpleDateFormat;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.appc.dg.common.impl.JsonDgUtilImpl;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +43,8 @@ import static org.mockito.Mockito.mock;
 public class JsonDgUtilImplTest {
 
     private final Appender appender = mock(Appender.class);
-
+    private static final ThreadLocal<SimpleDateFormat> DATE_TIME_PARSER_THREAD_LOCAL = ThreadLocal
+            .withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
 
     @Test
     public void testFlatAndAddToContext() throws Exception {
@@ -167,5 +172,20 @@ public class JsonDgUtilImplTest {
 
         Assert.assertNotNull(ctx.getAttribute(key));
 
+    }
+    
+    @Test
+    public void testCvaasFileNameAndFileContentToContext() throws Exception {
+
+        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
+        String key1 = "running-config.upload-date";
+        String testValueKey1 = "2004-02-09 00:00:00:000";
+        Long epochUploadTimestamp = DATE_TIME_PARSER_THREAD_LOCAL.get().parse(testValueKey1).getTime();
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+        ctx.setAttribute(key1, testValueKey1);
+        jsonDgUtil.cvaasFileNameAndFileContentToContext(params, ctx);
+        assertNotNull(ctx.getAttribute("cvaas-file-content"));
+        assertTrue(ctx.getAttribute("cvaas-file-content").contains(epochUploadTimestamp.toString()));
     }
 }
