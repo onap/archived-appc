@@ -16,6 +16,24 @@
       "revId": "d7df82bb3766cd7af06f7321bf7a472321d328fe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_cdbfbbcf",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/impl/JsonDgUtilImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-25T13:08:56Z",
+      "side": 1,
+      "message": "value will be a big JSON string..dont think its good to assert equal to that string.",
+      "parentUuid": "da7095c5_cd0a5bd2",
+      "revId": "d7df82bb3766cd7af06f7321bf7a472321d328fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
