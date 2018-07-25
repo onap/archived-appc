@@ -22,6 +22,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.appc.domainmodel.lcm.RuntimeContext;
 
 public class TestCommandExecutorInput {
 
@@ -48,5 +49,13 @@ public class TestCommandExecutorInput {
         assertNotEquals(commandExecutorInput.toString(), null);
 
     }
+    
+    @Test
+    public void testGetRuntimeContext() {
+        RuntimeContext runtime= new RuntimeContext();
+        commandExecutorInput.setRuntimeContext(runtime);
+        assertEquals(runtime, commandExecutorInput.getRuntimeContext());
 
+    }
+    
 }
