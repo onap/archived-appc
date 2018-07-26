@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -20,6 +22,8 @@
 package org.onap.appc.domainmodel.lcm;
 
 import static org.junit.Assert.*;
+
+import java.util.Date;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -86,6 +90,14 @@ public class TestCommonHeader {
     @Test
     public void testToString_ContainsString() {
         assertTrue(commonHeader.toString().contains("CommonHeader{flags"));
+    }
+    
+    @Test
+    public void testTimeStamp() {
+       commonHeader.setTimestamp(new Date("02/09/2004"));
+       String timeStamp= commonHeader.getTimeStamp().toString();
+       String expected="Mon Feb 09 00:00:00 [UTC] 2004";
+       assertEquals(expected, timeStamp);
     }
 
 }
