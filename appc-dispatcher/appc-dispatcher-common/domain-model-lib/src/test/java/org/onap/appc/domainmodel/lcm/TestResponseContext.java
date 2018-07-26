@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -64,6 +66,21 @@ public class TestResponseContext {
     @Test
     public void testToString_ContainsString() {
         assertTrue(responseContext.toString().contains("ResponseContext{commonHeader"));
+    }
+    
+    @Test
+    public void testAddKeyValueToAdditionalContext() {
+        String key="key1";
+        String value="value1";
+        responseContext.addKeyValueToAdditionalContext(key, value);
+        Map<String, String> additionalContext= responseContext.getAdditionalContext();
+        Assert.assertEquals("value1", additionalContext.get("key1"));
+    }
+    
+    @Test
+    public void testGetPayloadObject() {
+        responseContext.setPayloadObject("ABC:2000");
+        Assert.assertEquals("ABC:2000", responseContext.getPayloadObject());
     }
 
 }
