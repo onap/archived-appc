@@ -582,6 +582,8 @@ Commands, or actions, may be currently supported on all VNF types or a limited s
 +------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     QuiesceTraffic     | Yes       |                  |                |          | Chef and Ansible only (requires self-service onboarding)   |
 +------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     Reboot             |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
++------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Rebuild            |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
 +------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Restart            |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
@@ -1436,7 +1438,63 @@ The response does not include any payload parameters.
 
     A specific error message is returned if there is a timeout error.
 
+Reboot
+-------
 
+The Reboot is used to reboot a VM.
+
+ 
+There are two types supported: HARD and SOFT. A SOFT reboot attempts a graceful shutdown and restart of the server. A HARD reboot attempts a forced shutdown and restart of the server. The HARD reboot corresponds to the power cycles of the server.
+
+**NOTE:** The command implementation is based on OpenStack functionality.  For further details, see http://developer.openstack.org/api-ref/compute/.
+
++------------------------------+-----------------------------------------------------------------------------------------------+
+| **Input Block**              | api-ver should be set to 2.00 for current version of Reboot                                   |
++------------------------------+-----------------------------------------------------------------------------------------------+
+|     **Target URL**           |     /restconf/operations/appc-provider-lcm:reboot                                             |
++------------------------------+-----------------------------------------------------------------------------------------------+
+|     **Action**               |     Reboot                                                                                    |
++------------------------------+-----------------------------------------------------------------------------------------------+
+|     **Action-identifiers**   |     Vnf-id, vserver-id                                                                        |
++------------------------------+-----------------------------------------------------------------------------------------------+
+|     **Payload Parameters**   |     See table below                                                                           |
++------------------------------+-----------------------------------------------------------------------------------------------+
+|     **Revision History**     |     New in R3 release.                                                                        |
++------------------------------+-----------------------------------------------------------------------------------------------+
+
+Payload Parameters
+
++-----------------+-----------------------------------------------+-----------------+-----------------------------------------+
+| **Parameter**   |     **Description**                           | **Required?**   | **Example**                             |
++=================+===============================================+=================+=========================================+
+| type            |     The type of reboot.  Values are           | No              |                                         |
+|                 |     HARD and SOFT.  If not                    |                 |                                         |
+|                 |     specified, SOFT reboot is                 |                 | "payload":                              |
+|                 |     performed.                                |                 | "{\\"type\\": \\"HARD\\",               |
+|                 |                                               |                 |   \\"vm-id\\": \\"<VM-ID>\\",           |
+|                 |                                               |                 | \\"identity-url\\":                     |
+|                 |                                               |                 | \\"<IDENTITY-URL>\\"                    |
+|                 |                                               |                 | }"                                      | 
++-----------------+-----------------------------------------------+-----------------+                                         |
+| vm-id           |     The unique identifier (UUID) of           | Yes             |                                         |
+|                 |     the resource. For backwards-              |                 |                                         |
+|                 |     compatibility, this can be the self-      |                 |                                         |
+|                 |     link URL of the VM.                       |                 |                                         |
+|                 |                                               |                 |                                         |
+|                 |                                               |                 |                                         |
+|                 |                                               |                 |                                         |
+|                 |                                               |                 |                                         |
++-----------------+-----------------------------------------------+-----------------+                                         |
+| identity-url    |     The identity url used to access the       | Yes             |                                         |
+|                 |     resource.                                 |                 |                                         |
++-----------------+-----------------------------------------------+-----------------+-----------------------------------------+
+
+Reboot Response
+^^^^^^^^^^^^^^^
+
+**Success:** A successful Rebuild returns a success status code 400.  
+
+**Failure:** A failed Rebuild returns a failure code 401 and the failure message.
 
 Rebuild
 -------
