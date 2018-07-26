@@ -16,6 +16,24 @@
       "revId": "8e97d4008573551a04ab3196e7a91f3b3bb8e350",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da7095c5_fbeef9b3",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/TransactionTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-26T10:26:31Z",
+      "side": 1,
+      "message": "i get your point but it is not going to fail in this case. Also, the build has been successful, that means the test case has passed. The hashcode value is going to remain the same irrespective of VMs.",
+      "parentUuid": "da7095c5_d0c194e5",
+      "revId": "8e97d4008573551a04ab3196e7a91f3b3bb8e350",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
