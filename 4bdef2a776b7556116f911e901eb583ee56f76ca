@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_90579702",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-api/src/test/java/org/onap/appc/executor/objects/TestCommandExecutorInput.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-26T13:10:35Z",
+      "side": 1,
+      "message": "swap arguments",
+      "revId": "4bdef2a776b7556116f911e901eb583ee56f76ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
