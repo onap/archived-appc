@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da7095c5_3031ebec",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-api/src/test/java/org/onap/appc/executor/objects/TestLCMCommandStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-26T13:09:34Z",
+      "side": 1,
+      "message": "maybe change java.lang.Object to Object",
+      "revId": "57d9f2b7642cf26aef00c5cb7b0547cafa384e1f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
