@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 TechMahindra
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -20,6 +22,9 @@
 package org.onap.appc.domainmodel.lcm;
 
 import static org.junit.Assert.*;
+
+import java.time.Instant;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -127,4 +132,40 @@ public class TestTransactionRecord {
     public void testToString_ContainsString() {
         assertTrue(transactionRecord.toString().contains("TransactionRecord{transactionId"));
     }
+    
+    @Test
+    public void testGetOriginTimeStamp() {
+        Instant instant= Instant.now();
+        transactionRecord.setOriginTimestamp(instant);
+        assertEquals(instant, transactionRecord.getOriginTimestamp());
+    }
+    
+    @Test
+    public void testGetStartTime() {
+        Instant instant= Instant.now();
+        transactionRecord.setStartTime(instant);
+        assertEquals(instant, transactionRecord.getStartTime());
+    }
+    
+    @Test
+    public void testGetEndTime() {
+        Instant instant= Instant.now();
+        transactionRecord.setEndTime(instant);
+        assertEquals(instant, transactionRecord.getEndTime());
+    }
+    
+    @Test
+    public void testGetOperation() {
+        VNFOperation vnfOperation= VNFOperation.ActionStatus;
+        transactionRecord.setOperation(vnfOperation);
+        assertEquals(vnfOperation, transactionRecord.getOperation());
+    }
+    
+    @Test
+    public void testGetMode() {
+        Flags.Mode mode= Flags.Mode.EXCLUSIVE;
+        transactionRecord.setMode(mode);
+        assertEquals("EXCLUSIVE", transactionRecord.getMode());
+    }
+    
 }
