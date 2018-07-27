@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -22,6 +24,7 @@ package org.onap.appc.requesthandler.objects;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.appc.domainmodel.lcm.RequestContext;
 
 public class TestRequestHandlerInput {
     private RequestHandlerInput requestHandlerInput;
@@ -47,5 +50,12 @@ public class TestRequestHandlerInput {
     @Test
     public void testToString_ContainsString() {
         Assert.assertTrue(requestHandlerInput.toString().contains("requestContext"));
+    }
+    
+    @Test
+    public void testGetRequestContext() {
+        RequestContext requestContext= new RequestContext();
+        requestHandlerInput.setRequestContext(requestContext);
+        Assert.assertEquals(requestContext, requestHandlerInput.getRequestContext());
     }
 }
