@@ -22,11 +22,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>org.onap.appc</groupId>
-		<artifactId>appc-rest-adapter</artifactId>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
 	</parent>
 
+        <groupId>org.onap.appc</groupId>
 	<artifactId>appc-rest-adapter-bundle</artifactId>
 	<packaging>bundle</packaging>
 	<name>rest Adapter - bundle</name>
@@ -78,12 +80,14 @@
 			<groupId>com.att.cdp</groupId>
 			<artifactId>cdp-pal-common</artifactId>
 			<scope>compile</scope>
+                        <version>${cdp.pal.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.att.cdp</groupId>
 			<artifactId>cdp-pal-openstack</artifactId>
 			<scope>compile</scope>
+                        <version>${cdp.pal.version}</version>
 		</dependency>
 
 		<dependency>
@@ -126,11 +130,6 @@
             <scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-jaxrs</artifactId>
-			<version>1.9.13</version>
-		</dependency>
 
 		<dependency>
 			<groupId>commons-codec</groupId>
@@ -187,6 +186,7 @@
 			<dependency>
 				<groupId>org.mariadb.jdbc</groupId>
 				<artifactId>mariadb-java-client</artifactId>
+                <version>${mariadb.client.version}</version>
 			</dependency>
 
 		<dependency>
@@ -216,8 +216,7 @@
 						<Bundle-SymbolicName>appc-rest-adapter</Bundle-SymbolicName>
 						<Bundle-Activator>org.onap.appc.adapter.rest.RestActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.adapter.rest</Export-Package>
-						<Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*</Import-Package>
-						<Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis|jaxp-api</Embed-Dependency>
+						<Import-Package>*</Import-Package>
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
 				</configuration>
