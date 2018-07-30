@@ -22,10 +22,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>appc-metric</artifactId>
-    <groupId>org.onap.appc</groupId>
+    <artifactId>odlparent-lite</artifactId>
+    <groupId>org.onap.appc.parent</groupId>
     <version>1.4.0-SNAPSHOT</version>
+    <relativePath />
   </parent>
+  <groupId>org.onap.appc</groupId>
   <artifactId>appc-metric-installer</artifactId>
   <name>APPC Metric - Karaf Installer</name>
   <packaging>pom</packaging>
@@ -33,7 +35,7 @@
   <properties>
     <application.name>appc-metric</application.name>
     <features.boot>appc-metric</features.boot>
-    <features.repositories>mvn:org.onap.appc/appc-metric-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.onap.appc/onap-appc-metric/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
   </properties>
 
@@ -41,7 +43,7 @@
 
     <dependency>
       <groupId>org.onap.appc</groupId>
-      <artifactId>appc-metric-features</artifactId>
+      <artifactId>onap-appc-metric</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
       <type>xml</type>
