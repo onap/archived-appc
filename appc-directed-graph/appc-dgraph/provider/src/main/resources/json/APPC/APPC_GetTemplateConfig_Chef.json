@@ -1,4 +1,5 @@
-[{
+[
+  {
     "id": "474f3afb.a3db24",
     "type": "dgstart",
     "name": "DGSTART",
@@ -6,9 +7,13 @@
     "x": 147,
     "y": 111.00000190734863,
     "z": "94e86086.2ff71",
-    "wires": [["cc0ffd3f.b63cd"]]
-},
-{
+    "wires": [
+      [
+        "cc0ffd3f.b63cd"
+      ]
+    ]
+  },
+  {
     "id": "cc0ffd3f.b63cd",
     "type": "service-logic",
     "name": "APPC 4.0.0",
@@ -20,9 +25,13 @@
     "x": 328.00000762939453,
     "y": 68.57142925262451,
     "z": "94e86086.2ff71",
-    "wires": [["d652a69c.2573f8"]]
-},
-{
+    "wires": [
+      [
+        "d652a69c.2573f8"
+      ]
+    ]
+  },
+  {
     "id": "d652a69c.2573f8",
     "type": "method",
     "name": "method GetTemplateConfig_Chef ",
@@ -32,9 +41,13 @@
     "x": 591.5476837158203,
     "y": 71.92856788635254,
     "z": "94e86086.2ff71",
-    "wires": [["d18eff93.eb14f"]]
-},
-{
+    "wires": [
+      [
+        "d18eff93.eb14f"
+      ]
+    ]
+  },
+  {
     "id": "d18eff93.eb14f",
     "type": "block",
     "name": "block : atomic",
@@ -45,11 +58,15 @@
     "x": 159.00001907348633,
     "y": 306.92860984802246,
     "z": "94e86086.2ff71",
-    "wires": [["3b15cd2d.821332",
-    "9b65458e.5b1e98",
-    "a36ba4d6.2c6688"]]
-},
-{
+    "wires": [
+      [
+        "3b15cd2d.821332",
+        "9b65458e.5b1e98",
+        "a36ba4d6.2c6688"
+      ]
+    ]
+  },
+  {
     "id": "29e56f4.bdbe99",
     "type": "execute",
     "name": "execute isPDFILE",
@@ -59,10 +76,14 @@
     "x": 779.9166679382324,
     "y": 517.5952529907227,
     "z": "94e86086.2ff71",
-    "wires": [["39e0794.313fc86",
-    "1ed9c019.ae2df"]]
-},
-{
+    "wires": [
+      [
+        "39e0794.313fc86",
+        "1ed9c019.ae2df"
+      ]
+    ]
+  },
+  {
     "id": "39e0794.313fc86",
     "type": "not-found",
     "name": "not-found",
@@ -72,9 +93,11 @@
     "x": 1025.9166717529297,
     "y": 498.09522247314453,
     "z": "94e86086.2ff71",
-    "wires": [[]]
-},
-{
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "1ed9c019.ae2df",
     "type": "other",
     "name": "other",
@@ -84,9 +107,13 @@
     "x": 1020.4166717529297,
     "y": 540.0952491760254,
     "z": "94e86086.2ff71",
-    "wires": [["48b163ef.9f2bfc"]]
-},
-{
+    "wires": [
+      [
+        "48b163ef.9f2bfc"
+      ]
+    ]
+  },
+  {
     "id": "48b163ef.9f2bfc",
     "type": "call",
     "name": "call  chefDG",
@@ -96,9 +123,13 @@
     "x": 1187.416690826416,
     "y": 542.5952291488647,
     "z": "94e86086.2ff71",
-    "wires": [["d759b85b.fae9e8"]]
-},
-{
+    "wires": [
+      [
+        "d759b85b.fae9e8"
+      ]
+    ]
+  },
+  {
     "id": "d759b85b.fae9e8",
     "type": "block",
     "name": "block : atomic",
@@ -108,20 +139,24 @@
     "x": 1366.1667938232422,
     "y": 543.8452787399292,
     "z": "94e86086.2ff71",
-    "wires": [["5449d9db.093b88"]]
-},
-{
+    "wires": [
+      [
+        "5449d9db.093b88"
+      ]
+    ]
+  },
+  {
     "id": "5449d9db.093b88",
     "type": "returnSuccess",
     "name": "return success",
-    "xml": "<return status='success'>\n<parameter name='output.status.code' value='`$org.onap.appc.adapter.ansible.result.code`' />\n<parameter name='output.status.message' value='`$org.onap.appc.adapter.ansible.message`'/>\n<parameter name='output.status.results' value = '`$output.status.results`'/>\n",
+    "xml": "<return status='success'>\n<parameter name='output.status.code' value='`$chefServerResult.code`' />\n<parameter name='output.status.message' value='finish' />\n<parameter name='output.status.results' value='`$chefServerResult.message`' />\n",
     "comments": "",
     "x": 1548.666706085205,
     "y": 543.8452339172363,
     "z": "94e86086.2ff71",
     "wires": []
-},
-{
+  },
+  {
     "id": "bde23f8d.a3fa4",
     "type": "call",
     "name": "call  Generic_ChefDG",
@@ -131,10 +166,14 @@
     "x": 445.3334197998047,
     "y": 595.0953197479248,
     "z": "94e86086.2ff71",
-    "wires": [["43fbac1d.0c1c24",
-    "206a6826.5cf278"]]
-},
-{
+    "wires": [
+      [
+        "43fbac1d.0c1c24",
+        "206a6826.5cf278"
+      ]
+    ]
+  },
+  {
     "id": "954fec4e.93e8f",
     "type": "success",
     "name": "success",
@@ -144,9 +183,13 @@
     "x": 1238.9521827697754,
     "y": 235.1904354095459,
     "z": "94e86086.2ff71",
-    "wires": [["f7addcef.22067"]]
-},
-{
+    "wires": [
+      [
+        "f7addcef.22067"
+      ]
+    ]
+  },
+  {
     "id": "168aed4a.93b013",
     "type": "failure",
     "name": "failure",
@@ -156,9 +199,13 @@
     "x": 1358.3331909179688,
     "y": 124.42856121063232,
     "z": "94e86086.2ff71",
-    "wires": [["66ab792e.5436a8"]]
-},
-{
+    "wires": [
+      [
+        "66ab792e.5436a8"
+      ]
+    ]
+  },
+  {
     "id": "66ab792e.5436a8",
     "type": "block",
     "name": "block",
@@ -169,9 +216,11 @@
     "x": 1534.3331909179688,
     "y": 128.42856121063232,
     "z": "94e86086.2ff71",
-    "wires": [[]]
-},
-{
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "3b15cd2d.821332",
     "type": "execute",
     "name": "execute getTemplate",
@@ -181,11 +230,15 @@
     "x": 390.2382354736328,
     "y": 338.96442222595215,
     "z": "94e86086.2ff71",
-    "wires": [["ea97965e.f38b18",
-    "eaf78bb4.52fa78",
-    "160c81ed.70050e"]]
-},
-{
+    "wires": [
+      [
+        "ea97965e.f38b18",
+        "eaf78bb4.52fa78",
+        "160c81ed.70050e"
+      ]
+    ]
+  },
+  {
     "id": "eaf78bb4.52fa78",
     "type": "failure",
     "name": "failure",
@@ -195,9 +248,13 @@
     "x": 646.3811264038086,
     "y": 319.95239543914795,
     "z": "94e86086.2ff71",
-    "wires": [["d967b007.473f5"]]
-},
-{
+    "wires": [
+      [
+        "d967b007.473f5"
+      ]
+    ]
+  },
+  {
     "id": "ea97965e.f38b18",
     "type": "failure",
     "name": "not-found",
@@ -207,9 +264,13 @@
     "x": 652.9049377441406,
     "y": 242.61909008026123,
     "z": "94e86086.2ff71",
-    "wires": [["d967b007.473f5"]]
-},
-{
+    "wires": [
+      [
+        "d967b007.473f5"
+      ]
+    ]
+  },
+  {
     "id": "d967b007.473f5",
     "type": "block",
     "name": "block : atomic",
@@ -219,9 +280,13 @@
     "x": 837.2381896972656,
     "y": 246.95241832733154,
     "z": "94e86086.2ff71",
-    "wires": [["5ad2d1ac.67bda"]]
-},
-{
+    "wires": [
+      [
+        "5ad2d1ac.67bda"
+      ]
+    ]
+  },
+  {
     "id": "206a6826.5cf278",
     "type": "success",
     "name": "success",
@@ -231,9 +296,13 @@
     "x": 668.6666259765625,
     "y": 706.761884689331,
     "z": "94e86086.2ff71",
-    "wires": [["8fa01d79.09849"]]
-},
-{
+    "wires": [
+      [
+        "8fa01d79.09849"
+      ]
+    ]
+  },
+  {
     "id": "8fa01d79.09849",
     "type": "returnSuccess",
     "name": "return success",
@@ -243,8 +312,8 @@
     "y": 710.333270072937,
     "z": "94e86086.2ff71",
     "wires": []
-},
-{
+  },
+  {
     "id": "43fbac1d.0c1c24",
     "type": "failure",
     "name": "failure",
@@ -254,9 +323,13 @@
     "x": 652.952320098877,
     "y": 608.1903324127197,
     "z": "94e86086.2ff71",
-    "wires": [["7f584955.519aa8"]]
-},
-{
+    "wires": [
+      [
+        "7f584955.519aa8"
+      ]
+    ]
+  },
+  {
     "id": "7f584955.519aa8",
     "type": "returnFailure",
     "name": "return failure",
@@ -266,8 +339,8 @@
     "y": 623.9045810699463,
     "z": "94e86086.2ff71",
     "wires": []
-},
-{
+  },
+  {
     "id": "9b65458e.5b1e98",
     "type": "set",
     "name": "Set Action",
@@ -277,8 +350,8 @@
     "y": 250.0000286102295,
     "z": "94e86086.2ff71",
     "wires": []
-},
-{
+  },
+  {
     "id": "5ad2d1ac.67bda",
     "type": "get-resource",
     "name": "get-resource: APPC.GetRunningConfig",
@@ -288,10 +361,14 @@
     "x": 1029.9999542236328,
     "y": 174.2857346534729,
     "z": "94e86086.2ff71",
-    "wires": [["168aed4a.93b013",
-    "954fec4e.93e8f"]]
-},
-{
+    "wires": [
+      [
+        "168aed4a.93b013",
+        "954fec4e.93e8f"
+      ]
+    ]
+  },
+  {
     "id": "f7addcef.22067",
     "type": "set",
     "name": "set GetRunningConfig",
@@ -301,8 +378,8 @@
     "y": 238.28571796417236,
     "z": "94e86086.2ff71",
     "wires": []
-},
-{
+  },
+  {
     "id": "160c81ed.70050e",
     "type": "success",
     "name": "success",
@@ -312,9 +389,13 @@
     "x": 522.2857230050223,
     "y": 401.4285714285714,
     "z": "94e86086.2ff71",
-    "wires": [["500403e1.fd551c"]]
-},
-{
+    "wires": [
+      [
+        "500403e1.fd551c"
+      ]
+    ]
+  },
+  {
     "id": "500403e1.fd551c",
     "type": "block",
     "name": "block : atomic",
@@ -324,9 +405,13 @@
     "x": 459.4285583496094,
     "y": 497.1428527832031,
     "z": "94e86086.2ff71",
-    "wires": [["bde23f8d.a3fa4"]]
-},
-{
+    "wires": [
+      [
+        "bde23f8d.a3fa4"
+      ]
+    ]
+  },
+  {
     "id": "daccf9f.9646908",
     "type": "comment",
     "name": "Change of getDeviceRunningConfig",
@@ -336,8 +421,8 @@
     "y": 753.142822265625,
     "z": "94e86086.2ff71",
     "wires": []
-},
-{
+  },
+  {
     "id": "a36ba4d6.2c6688",
     "type": "set",
     "name": "set tmp.message",
@@ -347,4 +432,5 @@
     "y": 755.4285888671875,
     "z": "94e86086.2ff71",
     "wires": []
-}]
+  }
+]
