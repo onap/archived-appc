@@ -52,7 +52,7 @@ public class RequestValidator {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RequestValidator.class);
 
-    private RequestValidator() {
+    public RequestValidator() {
     }
 
     public static void validate(String action, String payload) throws RequestValidationException, IOException {
