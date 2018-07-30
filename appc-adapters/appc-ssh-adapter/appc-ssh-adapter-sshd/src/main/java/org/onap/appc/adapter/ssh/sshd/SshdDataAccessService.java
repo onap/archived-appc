@@ -44,9 +44,17 @@ public class SshdDataAccessService implements SshDataAccessService {
         this.schema = schema;
     }
 
+    public String getSchema() {
+        return this.schema;
+    }
+
     @Override
     public void setDbLibService(DbLibService dbLibService) {
         this.dbLibService = dbLibService;
+    }
+
+    public DbLibService getDbLibService() {
+        return this.dbLibService;
     }
 
     @Override
