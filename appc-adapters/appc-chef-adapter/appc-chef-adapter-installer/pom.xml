@@ -26,18 +26,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>appc-chef-adapter</artifactId>
-        <groupId>org.onap.appc</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <groupId>org.onap.appc.parent</groupId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
     <artifactId>appc-chef-adapter-installer</artifactId>
+    <groupId>org.onap.appc</groupId>
+    <version>1.4.0-SNAPSHOT</version>
     <name>APPC Chef Adapter - Karaf Installer</name>
     <packaging>pom</packaging>
     <properties>
         <application.name>appc-chef-adapter</application.name>
         <features.boot>appc-chef-adapter</features.boot>
         <features.repositories>
-            mvn:org.onap.appc/appc-chef-adapter-features/${project.version}/xml/features
+            mvn:org.onap.appc/onap-appc-chef-adapter/${project.version}/xml/features
         </features.repositories>
         <include.transitive.dependencies>false</include.transitive.dependencies>
         <licenseDir>${project.parent.parent.parent.basedir}</licenseDir>
@@ -45,8 +48,9 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-chef-adapter-features</artifactId>
+            <artifactId>onap-appc-chef-adapter</artifactId>
             <classifier>features</classifier>
+            <version>${project.version}</version>
             <type>xml</type>
             <exclusions>
                 <exclusion>
