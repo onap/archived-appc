@@ -21,19 +21,18 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>appc-adapters</artifactId>
-        <groupId>org.onap.appc</groupId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>appc-netconf-adapter</artifactId>
+    <groupId>org.onap.appc</groupId>
+    <version>1.4.0-SNAPSHOT</version>
     <name>NETCONF adapter</name>
     <packaging>pom</packaging>
-
-    <properties>
-        <feature.netconf.connector.version>1.0.1-Beryllium-SR1</feature.netconf.connector.version>
-    </properties>
 
     <reporting>
         <plugins>
