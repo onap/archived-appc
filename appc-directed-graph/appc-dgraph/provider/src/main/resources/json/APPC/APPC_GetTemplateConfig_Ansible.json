@@ -1,4 +1,5 @@
-[{
+[
+  {
     "id": "64298fa7.6eab",
     "type": "method",
     "name": "method GetTemplateConfig_Ansible",
@@ -8,9 +9,13 @@
     "x": 524.6905136108398,
     "y": 54.78571152687073,
     "z": "c635d405.112438",
-    "wires": [["a16f990d.bfbc08"]]
-},
-{
+    "wires": [
+      [
+        "a16f990d.bfbc08"
+      ]
+    ]
+  },
+  {
     "id": "3d83a335.a950bc",
     "type": "dgstart",
     "name": "DGSTART",
@@ -18,9 +23,13 @@
     "x": 107.28571319580078,
     "y": 79.57142734527588,
     "z": "c635d405.112438",
-    "wires": [["9a8e0176.09715"]]
-},
-{
+    "wires": [
+      [
+        "9a8e0176.09715"
+      ]
+    ]
+  },
+  {
     "id": "9a8e0176.09715",
     "type": "service-logic",
     "name": "APPC 4.0.0",
@@ -32,9 +41,13 @@
     "x": 261.1428680419922,
     "y": 51.428571939468384,
     "z": "c635d405.112438",
-    "wires": [["64298fa7.6eab"]]
-},
-{
+    "wires": [
+      [
+        "64298fa7.6eab"
+      ]
+    ]
+  },
+  {
     "id": "831c9f31.a8932",
     "type": "execute",
     "name": "execute getTemplate",
@@ -44,11 +57,15 @@
     "x": 355.64298248291016,
     "y": 266.821546792984,
     "z": "c635d405.112438",
-    "wires": [["a0e75486.1eda18",
-    "17e6919.76d9a6e",
-    "3a927737.d59708"]]
-},
-{
+    "wires": [
+      [
+        "a0e75486.1eda18",
+        "17e6919.76d9a6e",
+        "3a927737.d59708"
+      ]
+    ]
+  },
+  {
     "id": "a16f990d.bfbc08",
     "type": "block",
     "name": "block : atomic",
@@ -59,11 +76,15 @@
     "x": 92.14287948608398,
     "y": 289.78575253486633,
     "z": "c635d405.112438",
-    "wires": [["831c9f31.a8932",
-    "23f2fdd7.5ac712",
-    "25358328.a7b87c"]]
-},
-{
+    "wires": [
+      [
+        "831c9f31.a8932",
+        "23f2fdd7.5ac712",
+        "25358328.a7b87c"
+      ]
+    ]
+  },
+  {
     "id": "708b7296.ea5c5c",
     "type": "not-found",
     "name": "found",
@@ -73,9 +94,13 @@
     "x": 1081.5715522766113,
     "y": 395.75001072883606,
     "z": "c635d405.112438",
-    "wires": [["aa984fc9.ceff4"]]
-},
-{
+    "wires": [
+      [
+        "aa984fc9.ceff4"
+      ]
+    ]
+  },
+  {
     "id": "996ddcaa.b670e",
     "type": "other",
     "name": "not-found",
@@ -85,9 +110,13 @@
     "x": 1085.6787338256836,
     "y": 464.50003838539124,
     "z": "c635d405.112438",
-    "wires": [["5ebec77e.195338"]]
-},
-{
+    "wires": [
+      [
+        "5ebec77e.195338"
+      ]
+    ]
+  },
+  {
     "id": "39b0035c.ce94cc",
     "type": "call",
     "name": "call  Generic_AnsibleDG",
@@ -97,10 +126,14 @@
     "x": 499.4287109375,
     "y": 541.2857456207275,
     "z": "c635d405.112438",
-    "wires": [["907fdc28.d558",
-    "507c8a3d.c26e24"]]
-},
-{
+    "wires": [
+      [
+        "907fdc28.d558",
+        "507c8a3d.c26e24"
+      ]
+    ]
+  },
+  {
     "id": "aa984fc9.ceff4",
     "type": "call",
     "name": "call  MergeTemplateData",
@@ -110,9 +143,11 @@
     "x": 1288.797721862793,
     "y": 394.4285681247711,
     "z": "c635d405.112438",
-    "wires": [[]]
-},
-{
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "45c7ff98.f908f",
     "type": "execute",
     "name": "execute getTemplate Parameter_definition",
@@ -122,10 +157,14 @@
     "x": 814.5120010375977,
     "y": 418.7143232822418,
     "z": "c635d405.112438",
-    "wires": [["708b7296.ea5c5c",
-    "996ddcaa.b670e"]]
-},
-{
+    "wires": [
+      [
+        "708b7296.ea5c5c",
+        "996ddcaa.b670e"
+      ]
+    ]
+  },
+  {
     "id": "5ebec77e.195338",
     "type": "block",
     "name": "block : atomic",
@@ -135,9 +174,11 @@
     "x": 1297.3690490722656,
     "y": 475.8571951389313,
     "z": "c635d405.112438",
-    "wires": [[]]
-},
-{
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "23f2fdd7.5ac712",
     "type": "set",
     "name": "Set Action",
@@ -147,8 +188,8 @@
     "y": 216.2857208251953,
     "z": "c635d405.112438",
     "wires": []
-},
-{
+  },
+  {
     "id": "532324b8.7607ac",
     "type": "success",
     "name": "success",
@@ -158,9 +199,13 @@
     "x": 1164.5235786437988,
     "y": 311.4285583496094,
     "z": "c635d405.112438",
-    "wires": [["81881f82.e8718"]]
-},
-{
+    "wires": [
+      [
+        "81881f82.e8718"
+      ]
+    ]
+  },
+  {
     "id": "37db39ee.479f96",
     "type": "failure",
     "name": "failure",
@@ -170,9 +215,13 @@
     "x": 1252.4759407043457,
     "y": 193.52384042739868,
     "z": "c635d405.112438",
-    "wires": [["17934b5e.863a65"]]
-},
-{
+    "wires": [
+      [
+        "17934b5e.863a65"
+      ]
+    ]
+  },
+  {
     "id": "17934b5e.863a65",
     "type": "block",
     "name": "block",
@@ -183,9 +232,11 @@
     "x": 1428.4759407043457,
     "y": 197.52384042739868,
     "z": "c635d405.112438",
-    "wires": [[]]
-},
-{
+    "wires": [
+      []
+    ]
+  },
+  {
     "id": "17e6919.76d9a6e",
     "type": "failure",
     "name": "failure",
@@ -195,9 +246,13 @@
     "x": 561.952520098005,
     "y": 293.3333697319031,
     "z": "c635d405.112438",
-    "wires": [["ed2accea.93295"]]
-},
-{
+    "wires": [
+      [
+        "ed2accea.93295"
+      ]
+    ]
+  },
+  {
     "id": "a0e75486.1eda18",
     "type": "failure",
     "name": "not-found",
@@ -207,9 +262,13 @@
     "x": 568.4763314383371,
     "y": 216.00006437301636,
     "z": "c635d405.112438",
-    "wires": [["ed2accea.93295"]]
-},
-{
+    "wires": [
+      [
+        "ed2accea.93295"
+      ]
+    ]
+  },
+  {
     "id": "ed2accea.93295",
     "type": "block",
     "name": "block : atomic",
@@ -219,9 +278,13 @@
     "x": 762.809585571289,
     "y": 323.190541267395,
     "z": "c635d405.112438",
-    "wires": [["aa4b0b45.5fc018"]]
-},
-{
+    "wires": [
+      [
+        "aa4b0b45.5fc018"
+      ]
+    ]
+  },
+  {
     "id": "aa4b0b45.5fc018",
     "type": "get-resource",
     "name": "get-resource: APPC.GetRunningConfig",
@@ -231,10 +294,14 @@
     "x": 955.5713500976561,
     "y": 250.52385759353638,
     "z": "c635d405.112438",
-    "wires": [["37db39ee.479f96",
-    "532324b8.7607ac"]]
-},
-{
+    "wires": [
+      [
+        "37db39ee.479f96",
+        "532324b8.7607ac"
+      ]
+    ]
+  },
+  {
     "id": "81881f82.e8718",
     "type": "set",
     "name": "set GetRunningConfig",
@@ -244,8 +311,8 @@
     "y": 314.52384090423584,
     "z": "c635d405.112438",
     "wires": []
-},
-{
+  },
+  {
     "id": "3a927737.d59708",
     "type": "success",
     "name": "success",
@@ -255,9 +322,13 @@
     "x": 437.85711669921875,
     "y": 374.80954572132646,
     "z": "c635d405.112438",
-    "wires": [["60cc2251.f2ed4c"]]
-},
-{
+    "wires": [
+      [
+        "60cc2251.f2ed4c"
+      ]
+    ]
+  },
+  {
     "id": "60cc2251.f2ed4c",
     "type": "block",
     "name": "block : atomic",
@@ -267,9 +338,13 @@
     "x": 400,
     "y": 442.8571472167969,
     "z": "c635d405.112438",
-    "wires": [["39b0035c.ce94cc"]]
-},
-{
+    "wires": [
+      [
+        "39b0035c.ce94cc"
+      ]
+    ]
+  },
+  {
     "id": "507c8a3d.c26e24",
     "type": "success",
     "name": "success",
@@ -279,9 +354,13 @@
     "x": 700.0000495910645,
     "y": 615.714298248291,
     "z": "c635d405.112438",
-    "wires": [["90bce11.187a52"]]
-},
-{
+    "wires": [
+      [
+        "90bce11.187a52"
+      ]
+    ]
+  },
+  {
     "id": "90bce11.187a52",
     "type": "returnSuccess",
     "name": "return success",
@@ -291,8 +370,8 @@
     "y": 619.285683631897,
     "z": "c635d405.112438",
     "wires": []
-},
-{
+  },
+  {
     "id": "907fdc28.d558",
     "type": "failure",
     "name": "failure",
@@ -302,9 +381,13 @@
     "x": 754.2857551574707,
     "y": 514.2855968475342,
     "z": "c635d405.112438",
-    "wires": [["689e0447.d7db4c"]]
-},
-{
+    "wires": [
+      [
+        "689e0447.d7db4c"
+      ]
+    ]
+  },
+  {
     "id": "689e0447.d7db4c",
     "type": "returnFailure",
     "name": "return failure",
@@ -314,19 +397,19 @@
     "y": 545.7141237258911,
     "z": "c635d405.112438",
     "wires": []
-},
-{
+  },
+  {
     "id": "3190acbd.5b74a4",
     "type": "comment",
     "name": "Change of getDeviceRunningConfig",
-    "info": "Need to change getDeviceRunningconfig when chef returns configuartion.\n\nRight now just returning deviceRunningConfig",
+    "info": "Need to change getDeviceRunningconfig when Ansible returns configuration.\n\nRight now just returning deviceRunningConfig",
     "comments": "",
     "x": 862.7621231079102,
     "y": 662.0952320098877,
     "z": "c635d405.112438",
     "wires": []
-},
-{
+  },
+  {
     "id": "25358328.a7b87c",
     "type": "set",
     "name": "set tmp.message",
@@ -336,4 +419,5 @@
     "y": 722.5714111328125,
     "z": "c635d405.112438",
     "wires": []
-}]
+  }
+]
