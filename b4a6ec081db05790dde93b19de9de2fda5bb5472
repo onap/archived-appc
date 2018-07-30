@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "9a6a9dd7_609568e3",
+        "filename": "appc-inbound/appc-design-services/provider/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:12:47Z",
+      "side": 1,
+      "message": "\"Modifications\" \u003d\u003e \"Modification\"",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_809afc12",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/RequestValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:12:47Z",
+      "side": 1,
+      "message": "\"Modifications\" \u003d\u003e \"Modification\"",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_60600836",
         "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/RequestValidator.java",
         "patchSetId": 2
@@ -13,6 +47,23 @@
       "writtenOn": "2018-07-30T21:11:10Z",
       "side": 1,
       "message": "this should probably remain private, as it is not intended that clients would create objects of this type",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_209f7005",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestArifactHandlerClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:12:47Z",
+      "side": 1,
+      "message": "\"Modifications\" \u003d\u003e \"Modification\"",
       "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -47,6 +98,23 @@
       "writtenOn": "2018-07-30T21:11:10Z",
       "side": 1,
       "message": "maybe just delete this whole file?",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_40a4e456",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:12:47Z",
+      "side": 1,
+      "message": "\"Modifications\" \u003d\u003e \"Modification\"",
       "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
