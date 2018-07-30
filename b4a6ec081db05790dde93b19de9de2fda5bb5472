@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_60600836",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/RequestValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:11:10Z",
+      "side": 1,
+      "message": "this should probably remain private, as it is not intended that clients would create objects of this type",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_405f0473",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestArifactHandlerClient.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:11:10Z",
+      "side": 1,
+      "message": "use @Ignore instead of commenting out this method",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_20d1b0cd",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:11:10Z",
+      "side": 1,
+      "message": "maybe just delete this whole file?",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_60eec88d",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestRequestValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T21:11:10Z",
+      "side": 1,
+      "message": "\"validate\" is a static method, so the first argument to invokeMethod() should be RequestValidator.class instead of rv.  This comment applies through-out this file",
+      "revId": "b4a6ec081db05790dde93b19de9de2fda5bb5472",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
