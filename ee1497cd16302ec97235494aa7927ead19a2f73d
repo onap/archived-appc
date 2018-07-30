@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_c05eb412",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/main/java/org/onap/appc/licmgr/objects/LicenseModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "Add this? Modifications Copyright 2018 Nokia",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_6074889c",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/main/java/org/onap/appc/licmgr/objects/LicenseModelBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_609b28ca",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/objects/TestLicenseModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "Add this? Modifications Copyright 2018 Nokia",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_80a0bcf5",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "Add this? Modifications Copyright 2018 Nokia",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_400e2436",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need to check isReady()?",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_80043c16",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "sonar: method should only thrown one type of exception",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_80799c95",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/CheckedBiConsumer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_206e90ca",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/XmlInputFactoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_8052fc11",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/XmlInputFactoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "is it expected that this class will provide value?  Or perhaps be mocked?",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_407384b1",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/XmlToLicenseModelConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_00658ce0",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/test/java/org/onap/appc/licmgr/impl/XmlToLicenseModelConverterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_a06140d5",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/test/resources/test-vf-license-model.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-30T18:28:05Z",
+      "side": 1,
+      "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
