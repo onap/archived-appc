@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -52,7 +54,7 @@ public class RequestValidator {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RequestValidator.class);
 
-    private RequestValidator() {
+    public RequestValidator() {
     }
 
     public static void validate(String action, String payload) throws RequestValidationException, IOException {
