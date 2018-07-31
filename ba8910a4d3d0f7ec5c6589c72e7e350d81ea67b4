@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_f1714878",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/test/java/org/onap/appc/listener/demo/model/TestMessages.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T13:04:27Z",
+      "side": 1,
+      "message": "\"Modifications\" \u003d\u003e \"Modification\"",
+      "revId": "ba8910a4d3d0f7ec5c6589c72e7e350d81ea67b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_515d94e8",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/test/java/org/onap/appc/listener/demo/model/TestMessages.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T13:04:27Z",
+      "side": 1,
+      "message": "maybe also add a test case where isValid() is false?",
+      "revId": "ba8910a4d3d0f7ec5c6589c72e7e350d81ea67b4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
