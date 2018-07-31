@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "9a6a9dd7_c64a4cac",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3699
+      },
+      "writtenOn": "2018-07-31T11:08:08Z",
+      "side": 1,
+      "message": "The intention of isReady() method was to stop xml processing when both fields are set, just for a slight performance improvement. It is checked before every iteration of the processing loop. I think that checking it here wouldn\u0027t help much, as it could be false only if the xml wouldn\u0027t contain the required fields. In the original implementation it was also possible to create LicenseModel object with empty fields in that case. Or maybe should we handle this situation somehow?",
+      "parentUuid": "9a6a9dd7_400e2436",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_80043c16",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
         "patchSetId": 1
@@ -149,6 +167,24 @@
       "writtenOn": "2018-07-30T18:28:05Z",
       "side": 1,
       "message": "is it expected that this class will provide value?  Or perhaps be mocked?",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_661260b6",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/XmlInputFactoryWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3699
+      },
+      "writtenOn": "2018-07-31T11:08:08Z",
+      "side": 1,
+      "message": "You are right, it was supposed to be mocked but it\u0027s not necessary at this stage. I\u0027ll remove it.",
+      "parentUuid": "9a6a9dd7_8052fc11",
       "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
