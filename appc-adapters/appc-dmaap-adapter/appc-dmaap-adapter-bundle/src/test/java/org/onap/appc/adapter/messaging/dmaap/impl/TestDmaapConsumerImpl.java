@@ -105,7 +105,7 @@ public class TestDmaapConsumerImpl {
         assertEquals("secret", props.getProperty("password"));
     }
 
-    
+    @Ignore("test is taking 130 sec")
     @Test
     public void testFetch() {
     	DmaapConsumerImpl consumer = new DmaapConsumerImpl(hosts, topic, group, id, key, secret);
