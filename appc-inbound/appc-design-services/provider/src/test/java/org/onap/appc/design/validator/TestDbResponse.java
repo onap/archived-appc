@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,16 +25,14 @@
 
 package org.onap.appc.design.validator;
 
-import java.util.ArrayList;
 import org.junit.Test;
 import org.onap.appc.design.dbervices.DbResponseProcessor;
 
 public class TestDbResponse {
 
     @Test
-    public void testDbResponse() {
+    public void testDbResponse() throws Exception{
         DbResponseProcessor dbResponse = new DbResponseProcessor();
-        try {
             dbResponse.parseResponse("Test", "getDesigns");
             dbResponse.parseResponse("Test", "addInCart");
             dbResponse.parseResponse("Test", "getArtifactReference");
@@ -43,8 +43,7 @@ public class TestDbResponse {
             dbResponse.parseResponse("Test", "setProtocolReference");
             dbResponse.parseResponse("Test", "setInCart");
             dbResponse.parseResponse("Test", "getStatus");
-            dbResponse.parseResponse("Test", "Test");
-        } catch (Exception e) {
-        }
+            dbResponse.parseResponse("Test", "getAppcTimestampUTC");
+            
     }
 }
