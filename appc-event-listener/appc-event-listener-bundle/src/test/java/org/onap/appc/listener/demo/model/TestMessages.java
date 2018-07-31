@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,6 +24,7 @@
  */
 
 package org.onap.appc.listener.demo.model;
+
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -87,12 +90,26 @@ public class TestMessages {
         assertNotNull(out.getStatus().getValue());
 
     }
+    
+    @Test
+    public void testGetRequest()
+    {
+        String request="testRequest";
+        in.setRequest(request);
+        assertEquals(request, in.getRequest());
+    }
+    
+    @Test
+    public void testIsValid()
+    {
+        assertEquals(true, in.isValid());
+    }
 
     @Test
     @Ignore
     public void testIncommingToOutgoing(){
-    	OutgoingMessage newOut;
-    	newOut = Mapper.mapOne(in.toOutgoing(Status.ACCEPTED), OutgoingMessage.class);
+        OutgoingMessage newOut;
+        newOut = Mapper.mapOne(in.toOutgoing(Status.ACCEPTED), OutgoingMessage.class);
         assertNotNull(newOut);
         assertNotNull(newOut.getHeader().getApiVer());
         assertNotNull(newOut.getHeader().getOriginatorId());
