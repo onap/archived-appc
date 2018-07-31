@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_71ba18e3",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestRequestValidator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T13:23:34Z",
+      "side": 1,
+      "message": "sorry, forgot to mention this before: maybe add a test case where \"validate\" returns something other than null?",
+      "revId": "bc986da6aab7b36850c87de9ce3f4662933d3135",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
