@@ -86,6 +86,24 @@
       "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_f33dd0bc",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-31T18:56:22Z",
+      "side": 1,
+      "message": "the cast to (Long) is needed. If i remove this cast, I get a compilation error saying \"Incompatible conditional operand types long and Long\"",
+      "parentUuid": "9a6a9dd7_111ddc0f",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
