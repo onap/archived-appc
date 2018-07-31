@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a6a9dd7_712c584b",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T13:19:23Z",
+      "side": 1,
+      "message": "could still match against a regular expression, \"19 j.* 2018 00:00:00\" - that should work regardless of the platform.\n\n(Personally, I don\u0027t understand why this would give different results depending on the platform.  Both the Locale and the TimeZone are fixed, thus it should ALWAYS return the same string.  If it really is giving different results on different platforms, then that may indicate there\u0027s a bug in the \"Time\" class.)",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_91d80c55",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T13:19:23Z",
+      "side": 1,
+      "message": "assertEquals should still work here.  UTC format is fixed, thus it should always return the same string.",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_111ddc0f",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T13:19:23Z",
+      "side": 1,
+      "message": "the cast to (Long) is not needed",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
