@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_93025cb3",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDbResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T19:44:36Z",
+      "side": 1,
+      "message": "remove try/catch wrapper",
+      "revId": "bfaf30fe495c4571a983ff624a7ec70f918f50ab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
