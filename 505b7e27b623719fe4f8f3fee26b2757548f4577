@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9a6a9dd7_6c9b1fca",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T15:26:07Z",
+      "side": 1,
+      "message": "nvm - forgot that the Date object is constructed in local time.",
+      "parentUuid": "9a6a9dd7_712c584b",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_91d80c55",
         "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-07-31T13:19:23Z",
       "side": 1,
       "message": "assertEquals should still work here.  UTC format is fixed, thus it should always return the same string.",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a6a9dd7_cc302beb",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T15:26:07Z",
+      "side": 1,
+      "message": "nvm - forgot that the Date object is constructed in local time.",
+      "parentUuid": "9a6a9dd7_91d80c55",
       "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
