@@ -16,6 +16,24 @@
       "revId": "f13b552850b111291a18e7b3a31002cd3fef225a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5374c49b",
+        "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-api/src/test/java/org/onap/appc/workflow/objects/TestWorkflowRequest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-07-31T20:07:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a6a9dd7_710538c1",
+      "revId": "f13b552850b111291a18e7b3a31002cd3fef225a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
