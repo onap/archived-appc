@@ -168,4 +168,11 @@ public class TestTransactionRecord {
         assertEquals("EXCLUSIVE", transactionRecord.getMode());
     }
     
+    @Test
+    public void testGetRequestState() {
+        RequestStatus requestStatus= RequestStatus.ACCEPTED;
+        transactionRecord.setRequestState(requestStatus);
+        assertEquals("ACCEPTED", transactionRecord.getRequestState());
+    }
+    
 }
