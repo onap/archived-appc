@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -22,6 +24,7 @@ package org.onap.appc.workflow.objects;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
 
 public class TestWorkflowResponse {
     private WorkflowResponse workflowResponse=new WorkflowResponse(); 
@@ -34,5 +37,12 @@ public class TestWorkflowResponse {
     @Test
     public void testToString_ContainsString() {
         assertTrue(workflowResponse.toString().contains("responseContext"));
+    }
+    
+    @Test
+    public void testGetResponseContext() {
+        ResponseContext responseContext= new ResponseContext();
+        workflowResponse.setResponseContext(responseContext);
+        assertEquals(responseContext, workflowResponse.getResponseContext());
     }
 }
