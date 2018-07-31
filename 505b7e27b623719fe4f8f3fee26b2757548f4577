@@ -104,6 +104,24 @@
       "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_93b81c2c",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-07-31T19:26:11Z",
+      "side": 1,
+      "message": "Ah, so Time.localTime() returns a primitive long.  In that case, just invoke it and don\u0027t bother with either assert.  Could put a comment something along the lines of \"this test succeeds if localTime() does not throw an exception\"",
+      "parentUuid": "1a76adc5_f33dd0bc",
+      "revId": "505b7e27b623719fe4f8f3fee26b2757548f4577",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
