@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5c9b71c9",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestEscapeUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-01T13:07:41Z",
+      "side": 1,
+      "message": "remove the suppression",
+      "revId": "1b5eafd9c28f36eb0e7ade81a85e2cbc26ce70d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3caa35d5",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestEscapeUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-01T13:07:41Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "1b5eafd9c28f36eb0e7ade81a85e2cbc26ce70d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fcab5dd4",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestEscapeUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-01T13:07:41Z",
+      "side": 1,
+      "message": "use static method access instead of member access (i.e., \"escapeUtils\" -\u003e \"EscapeUtils\")",
+      "revId": "1b5eafd9c28f36eb0e7ade81a85e2cbc26ce70d6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
