@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_026594e0",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/TestAaiService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-01T21:49:03Z",
+      "side": 1,
+      "message": "is there nothing that can be tested here?  This method call has no side-effects?",
+      "revId": "5bea3a0cc70c200ee6e8e7842cf91d6a349e37c2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
