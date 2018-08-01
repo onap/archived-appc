@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -125,6 +127,16 @@ public class TestValidatorService {
         } catch (Exception e) {
         }
         Assert.assertEquals(null, response);
+        
+    }
+    
+    @Test
+    public void testValidValidateVelocity() throws Exception{
+        String response = null;
+        String validateVelocity = "{\"Test\" \"Test1\" }";
+        ValidatorService vs = new ValidatorService();
+        response = vs.execute("", validateVelocity, "VELOCITY");
+        Assert.assertEquals("success", response);
         
     }
 }
