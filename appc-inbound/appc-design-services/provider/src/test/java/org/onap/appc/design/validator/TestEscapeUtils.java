@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,20 +25,22 @@
 
 package org.onap.appc.design.validator;
 
-import java.io.IOException;
 import org.junit.Test;
 import org.onap.appc.design.services.util.EscapeUtils;
-import org.onap.appc.design.xinterface.XInterfaceService;
-import org.onap.appc.design.xinterface.XResponseProcessor;
+
 import junit.framework.Assert;
 
+@SuppressWarnings({ "deprecation", "static-access" })
 public class TestEscapeUtils {
-
+    
     @Test
     public void testEscapeUtils() {
 
         EscapeUtils escapeUtils = new EscapeUtils();
+        String expected="\\\\''Test Data\\\\''";
         String str = escapeUtils.escapeSql("\\'Test Data\\'");
-        assert (true);
+        String str1=escapeUtils.escapeSql(null);
+        Assert.assertEquals(expected, str);
+        Assert.assertNull(str1);
     }
 }
