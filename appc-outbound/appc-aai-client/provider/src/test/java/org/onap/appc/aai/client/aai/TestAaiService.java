@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -396,6 +398,14 @@ public class TestAaiService {
         mockAai.getIdentityUrl(inParams, ctx);
         assertEquals(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url"), "TestUrl");
 
+    } 
+    
+    @Test
+    public void testAddvnfc()
+    {
+        MockAaiService mockAai = new MockAaiService(aaiClient);
+        Map<String, String> params=mockAai.getExpectedParams();
+        mockAai.addVnfc("ibcxvm0002func0001",params , "");        
     }
 
 }
