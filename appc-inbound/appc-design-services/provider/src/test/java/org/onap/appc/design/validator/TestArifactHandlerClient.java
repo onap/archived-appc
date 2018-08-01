@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,24 +25,20 @@
 
 package org.onap.appc.design.validator;
 
-import org.junit.Before;
+import java.io.File;
+
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.onap.appc.design.services.util.ArtifactHandlerClient;
+
 import junit.framework.Assert;
-import static org.mockito.Mockito.*;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Enumeration;
-import java.util.Properties;
-import org.apache.commons.io.FileUtils;
 
 public class TestArifactHandlerClient {
         
     @Test
-    public void testCreateArtifactData(){
+    public void testCreateArtifactData() throws Exception{
         
-        try{
+        
         String content = FileUtils.readFileToString(new File("src/test/resources/uploadArtifact"));
         String payload = " { \"userID\": \"00000\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"Configure\", \"artifact-name\":\"DesignRestArtifact_reference\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"DESIGNTOOL-TEST\",\"artifact-contents\":  "  
         + content + 
@@ -49,15 +47,13 @@ public class TestArifactHandlerClient {
         ArtifactHandlerClient ahi = new ArtifactHandlerClient();
         String value =  ahi.createArtifactData(payload, requestID);
         Assert.assertTrue(!value.isEmpty());
-        }catch(Exception e)
-        {
-        }
+        
     }
         
     @Test
-    public void testExecute(){
+    public void testExecute() throws Exception{
         
-        try{
+        
         String content = FileUtils.readFileToString(new File("src/test/resources/uploadArtifact"));
         String payload = " { \"userID\": \"00000\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"Configure\", \"artifact-name\":\"DesignRestArtifact_reference\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"DESIGNTOOL-TEST\",\"artifact-contents\":  "  
         + content + 
@@ -65,8 +61,6 @@ public class TestArifactHandlerClient {
         String rpc = "Post";
         ArtifactHandlerClient ahi = new ArtifactHandlerClient();
         ahi.execute(payload, rpc);
-        }catch(Exception e)
-        {
-        }
+        
     }
 }
