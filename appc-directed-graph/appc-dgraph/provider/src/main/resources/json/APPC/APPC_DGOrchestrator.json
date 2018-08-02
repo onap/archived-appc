@@ -183,7 +183,7 @@
         "id": "ca5807aa.f436",
         "type": "set",
         "name": "set error-code 401 and message",
-        "xml": "<set>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value=\"`$tmp.flowControl.status-message`\" />\n<parameter name='output-payload' value=\"\" />\n",
+        "xml": "<set>\n<parameter name='error-code' value='401' />\n<parameter name='error-message' value=\"`$tmp.flowControl.status-message`\" />\n<parameter name='output-payload' value='`$output-payload`' />\n",
         "comments": "",
         "x": 2459.99755859375,
         "y": 347.3666076660156,
