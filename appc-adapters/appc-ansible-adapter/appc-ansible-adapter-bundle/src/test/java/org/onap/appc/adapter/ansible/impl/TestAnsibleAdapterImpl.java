@@ -150,7 +150,7 @@ public class TestAnsibleAdapterImpl {
         when(messageProcessor.reqUriResult(params)).thenReturn(agentUrl);
         when(messageProcessor.parseGetResponse(anyString())).thenReturn(result);
         spyAdapter.reqExecResult(params, svcContext);
-        assertEquals(SUCCESS, svcContext.getAttribute(RESULT_CODE_ATTRIBUTE_NAME));
+        assertEquals("400", svcContext.getAttribute(RESULT_CODE_ATTRIBUTE_NAME));
     }
 
     /**
