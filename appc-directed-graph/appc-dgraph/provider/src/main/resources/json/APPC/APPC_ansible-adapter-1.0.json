@@ -37,7 +37,7 @@
         "id": "53079a4f.559f84",
         "type": "returnFailure",
         "name": "return failure",
-        "xml": "<return status='failure'>\n<parameter name='error-code' value='200' />\n<parameter name='error-message' value='`$org.onap.appc.adapter.ansible.message`' />\n<parameter name='output.status.results' value='`$org.onap.appc.adapter.ansible.results`' />\n",
+        "xml": "<return status='failure'>\n<parameter name='error-code' value='200' />\n<parameter name='error-message' value='`$org.onap.appc.adapter.ansible.message`' />\n<parameter name='output.status.results' value='`$org.onap.appc.adapter.ansible.results`' />\n<parameter name='output.status.outputdata' value= '`$org.onap.appc.adapter.ansible.output`/>\n",
         "comments": "",
         "x": 1218.6999816894531,
         "y": 669.8833348751068,
