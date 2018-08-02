@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_6dc79913",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/main/java/org/onap/appc/licmgr/objects/LicenseModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-02T08:46:20Z",
+      "side": 1,
+      "message": "Reorder class members: fields, constructor(s), methods",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_6074889c",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/main/java/org/onap/appc/licmgr/objects/LicenseModelBuilder.java",
         "patchSetId": 1
@@ -47,6 +64,23 @@
       "writtenOn": "2018-07-30T18:28:05Z",
       "side": 1,
       "message": "Add this? Modifications Copyright 2018 Nokia",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0dd865ee",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/objects/TestLicenseModel.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-02T08:46:20Z",
+      "side": 1,
+      "message": "While this class has been here before, there is no reason to have a separate Unit test class for POJO objects. There is no benefit in testing static structures since they have no logic. They should be tested as part of the logic they are used in. And this is the case here. The object has already been tested as part of the LicenseManagerImpl class. Right now this only requires additional code maintenance. My suggestion would be to remove this, but as a separate ticket",
       "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -105,6 +139,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_e8407737",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-02T08:46:20Z",
+      "side": 1,
+      "message": "Some naming cleanup has to be done based on the class responsibilities.\nMy first suggestion would be to move the convert method higher, inside the LicenseManagerImpl. Right now the Convert class both \"manages\" the conversion and provides a function for the conversion. I would separate this. And it won\u0027t have to be static anymore :)\n\nNext I would propose doing some renaming.\n\nThe converter class name collides with the XMLToLicenseModelConverter class. This may seem ambiguous to some. After extracting the method I\u0027d suggest renaming the static nested class to something that would identify it as a XML function provider. Since this converter class actually relies on the vf model license xml structure (which it parses) it would be good to indicate that in the name.\n\nAlso I\u0027d suggest moving the class to a separate file and making it package scoped. This logic should be closer to the XmlToLicenseModelConverter instead.",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_80043c16",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
         "patchSetId": 1
@@ -122,6 +173,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_0d22a5b9",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-02T08:46:20Z",
+      "side": 1,
+      "message": "@Jim If I am not mistake this rule applies to public methods, since each exposed methods are in fact the API and the possible future clients cannot be known. And that is sensible since multiple (if not all) checked exceptions in public methods force additional code on the clients. In This case however the situation is different - the convert method is private and not accessible from outside the class. The private nested static class has been introduced only for the purpose of having structure and organize the code to a limited degree. The exceptions never leave the LicenseManagerImpl class and are caught at the highest possible level, without affecting the users.",
+      "parentUuid": "9a6a9dd7_80043c16",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_80799c95",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/CheckedBiConsumer.java",
         "patchSetId": 1
@@ -133,6 +202,23 @@
       "writtenOn": "2018-07-30T18:28:05Z",
       "side": 1,
       "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_28a50f04",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/CheckedBiConsumer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-02T08:46:20Z",
+      "side": 1,
+      "message": "1. The functional interface name is very generic but the accept method throws the very specific XMLStreamException Consider renaming the interface to something more specific (i.e.XMLStreamConsumer?)\n\n2. Declare this interface as part of the XMLToLicenseModelConverter, move both classes from the xml package one level higher, and change public scope modifiers to package default",
       "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -202,6 +288,23 @@
       "writtenOn": "2018-07-30T18:28:05Z",
       "side": 1,
       "message": "need license",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e8ae37e7",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/XmlToLicenseModelConverter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-02T08:46:20Z",
+      "side": 1,
+      "message": "rename method apply to convert :)",
       "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
