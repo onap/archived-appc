@@ -191,6 +191,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_b233c9f5",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/LicenseManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-02T15:57:13Z",
+      "side": 1,
+      "message": "Thanks for pointing that out - hadn\u0027t realized it was only applicable to public method.  I withdraw this particular comment.",
+      "parentUuid": "1a76adc5_0d22a5b9",
+      "revId": "ee1497cd16302ec97235494aa7927ead19a2f73d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a6a9dd7_80799c95",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-core/src/main/java/org/onap/appc/licmgr/impl/xml/CheckedBiConsumer.java",
         "patchSetId": 1
