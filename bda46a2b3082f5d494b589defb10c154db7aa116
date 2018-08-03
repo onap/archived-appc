@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c64807cf",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-03T14:13:07Z",
+      "side": 1,
+      "message": "really want to set this to 400 in all cases, even if code\u003d200?  If so, then maybe add a comment to that effect and simply use \"400\" instead of \"Integer.toString(400)\"",
+      "revId": "bda46a2b3082f5d494b589defb10c154db7aa116",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
