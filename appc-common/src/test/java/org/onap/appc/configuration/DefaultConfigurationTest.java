@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -103,7 +105,16 @@ public class DefaultConfigurationTest {
         defaultConfiguration.setProperty(booleanKey, "abc");
         Assert.assertFalse(defaultConfiguration.getBooleanProperty(booleanKey));
     }
-
+    
+    @Test
+    public void testSetPropAndGetBooleanPropertyForEncryptedValue()
+    {
+        String booleanKey = "booleanKey";
+        defaultConfiguration.setProperty(booleanKey, "enc:true");
+        Assert.assertFalse(defaultConfiguration.getBooleanProperty(booleanKey));
+    }
+    
+   
     @Test
     public void testSetPropAndGetBooleanPropertyWithDefaultValue() throws Exception {
         String booleanKey = "booleanKey";
