@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -318,5 +320,13 @@ public class PoolTest implements Allocator<Testable>, Destructor<Testable> {
         Testable e = new Element(index++);
 
         return e;
+    }
+    
+    @Test
+    public void testGetAndSetProperties() throws PoolSpecificationException
+    {
+        pool= new Pool<Testable>(3, 5);
+        pool.setProperty("key1", "value1");
+        assertEquals("value1", pool.getProperty("key1"));
     }
 }
