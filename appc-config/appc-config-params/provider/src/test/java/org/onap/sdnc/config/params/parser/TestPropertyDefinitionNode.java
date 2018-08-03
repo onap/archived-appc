@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM
+ * Modification Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +29,8 @@ package org.onap.sdnc.config.params.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +39,7 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.sdnc.config.params.ParamsHandlerConstant;
 import org.onap.sdnc.config.params.data.PropertyDefinition;
 import org.onap.sdnc.config.params.transformer.ArtificatTransformer;
@@ -115,6 +118,22 @@ public class TestPropertyDefinitionNode {
         assertNotNull(mergedParams);
         assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+    }
+    
+    @Test
+    public void mergeJsonDataForEmptyParams() throws SvcLogicException, IOException {
+        
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA, mergeJsonData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.mergeJsonData(inParams, ctx);
+        String status= ctx.getAttribute("test.status");
+        assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS,status);
+                
     }
 
     @Test
