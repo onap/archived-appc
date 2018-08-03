@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_26c77b47",
+        "filename": "appc-common/src/test/java/org/onap/appc/concurrent/TestSignal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-03T14:07:29Z",
+      "side": 1,
+      "message": "is this needed?",
+      "revId": "ba0191f3e134cb39bb3abf67ae1918ef4280efcf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a6e2abd3",
+        "filename": "appc-common/src/test/java/org/onap/appc/concurrent/TestSignal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-03T14:07:29Z",
+      "side": 1,
+      "message": "pretty sure this will cause the test to take 5 seconds.  perhaps change this to 50ms instead of 5000ms.",
+      "revId": "ba0191f3e134cb39bb3abf67ae1918ef4280efcf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c6da4717",
+        "filename": "appc-common/src/test/java/org/onap/appc/concurrent/TestSignal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-03T14:07:29Z",
+      "side": 1,
+      "message": "the way I normally test things like this is to get the time before calling \"waitForAny\", make the call, and then verify that the new time exceeds the old time by the expected amount of milliseconds",
+      "revId": "ba0191f3e134cb39bb3abf67ae1918ef4280efcf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
