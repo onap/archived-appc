@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a694eb37",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-03T14:01:01Z",
+      "side": 1,
+      "message": "this line can be combined with the next - \"new Node()\" is unnecessary",
+      "revId": "3925d40b19d59522eda234251b4d7125f39203d8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
