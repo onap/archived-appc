@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,7 +27,7 @@ package org.onap.appc.concurrent;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
+import static org.junit.Assert.assertEquals;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -33,6 +35,8 @@ import java.util.concurrent.TimeoutException;
 
 import org.junit.Test;
 import org.onap.appc.concurrent.Signal;
+
+
 
 public class TestSignal {
 
@@ -119,7 +123,7 @@ public class TestSignal {
                 System.out.println(formatter.format(new Date()) + " FRED: Received shutdown");
                 completed = true;
             } catch (TimeoutException e) {
-                e.printStackTrace();
+                
             }
         }
 
@@ -130,5 +134,14 @@ public class TestSignal {
         public Signal getSignal() {
             return signal;
         }
+    }
+    
+    @Test
+    public void testWaitForAny() throws Exception
+    {
+        Signal mySignal = new Signal(Thread.currentThread());
+        mySignal.setTimeout(50L);
+        String receivedSignal= mySignal.waitForAny(SIGNAL_READY);
+        assertEquals("READY", receivedSignal);
     }
 }
