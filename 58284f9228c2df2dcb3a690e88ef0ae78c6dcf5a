@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_46b077dd",
+        "filename": "appc-common/src/test/java/org/onap/appc/configuration/DefaultConfigurationTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-03T14:03:41Z",
+      "side": 1,
+      "message": "is this correct?  shouldn\u0027t setting it to \u0027enc:true\u0027 cause it to return true?  Or should it always return false when set to \u0027enc:xxx\u0027, regardless of the value of \u0027xxx\u0027?",
+      "revId": "58284f9228c2df2dcb3a690e88ef0ae78c6dcf5a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
