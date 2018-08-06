@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,7 +48,10 @@ public class ConfigComponentAdaptorTest {
         parameters.put("Password", "password");
         parameters.put("Port_number", "22");
         parameters.put("Get_config_template", Get_config_template);
-
+        parameters.put("config-component-configUrl","testUrl");
+        parameters.put("config-component-configPassword","testPassword");
+        parameters.put("config-component-configUser","testUser");
+        
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
             "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
