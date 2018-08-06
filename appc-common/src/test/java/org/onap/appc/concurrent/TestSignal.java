@@ -144,4 +144,12 @@ public class TestSignal {
         String receivedSignal= mySignal.waitForAny(SIGNAL_READY);
         assertEquals("READY", receivedSignal);
     }
+    
+    @Test(expected=TimeoutException.class)
+    public void testWaitForAnyForEmptySignal() throws TimeoutException
+    {
+        Signal mySignal = new Signal(Thread.currentThread());
+        mySignal.setTimeout(50L);
+        assertEquals("", mySignal.waitForAny());
+    }
 }
