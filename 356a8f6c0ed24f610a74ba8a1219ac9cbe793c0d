@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_cef33972",
+        "filename": "appc-common/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-06T12:28:32Z",
+      "side": 1,
+      "message": "maybe add two more cases, one with the same name but different values, and another with same value but different name",
+      "revId": "356a8f6c0ed24f610a74ba8a1219ac9cbe793c0d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
