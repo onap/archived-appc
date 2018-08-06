@@ -246,5 +246,17 @@ public class TestStructuredPropertyHelper {
         assertEquals("testName = testValue",str);
     }
     
+    @Test
+    public void testEquals()
+    {
+        Node node0 = new Node();
+        node0.setName("testName");
+        node0.setValue("testValue");
+        Node node1 = new Node();
+        node1.setName("testName");
+        node1.setValue("testValue");
+        assertTrue(node0.equals(node1));    
+    }
+    
    
 }
