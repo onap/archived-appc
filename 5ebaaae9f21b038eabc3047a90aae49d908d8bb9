@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ff9b3d70",
+        "filename": "appc-common/src/test/java/org/onap/appc/concurrent/TestSignal.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-06T20:51:36Z",
+      "side": 1,
+      "message": "can remove \"receivedSignal\" (and assertEquals) altogether",
+      "revId": "5ebaaae9f21b038eabc3047a90aae49d908d8bb9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
