@@ -372,26 +372,27 @@ public class DBService {
             String key;
             QueryStatus status;
             if (isUpdate) {
-                key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION + " set USER_NAME = $"
-                        + SdcArtifactHandlerConstants.USER_NAME + " , PORT_NUMBER = $" + SdcArtifactHandlerConstants.PORT_NUMBER + "";
+            	key = UPDATE_QUERY_STR + SdcArtifactHandlerConstants.DB_DEVICE_AUTHENTICATION + " set USER_NAME = '"
+                        + user + "' , PORT_NUMBER = " + port + "";
                 if (context.getAttributeKeySet().contains(SdcArtifactHandlerConstants.URL)) {
                     String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
                     if (StringUtils.isBlank(url)) {
                         url = "" ;
                     }
-                    key = key + ", URL = $" + SdcArtifactHandlerConstants.URL + " ";
+                    key = key + ", URL = '" + url + "' ";
                 }
                 key = key + WHERE_VNF_TYPE_QUERY_STR + SdcArtifactHandlerConstants.VNF_TYPE + "  AND PROTOCOL = $"
                         + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " AND  ACTION = $"
                         + SdcArtifactHandlerConstants.ACTION;
             } else {
-                key = "insert into DEVICE_AUTHENTICATION set VNF_TYPE = $" + SdcArtifactHandlerConstants.VNF_TYPE + " , PROTOCOL = $" + SdcArtifactHandlerConstants.DEVICE_PROTOCOL + " , " + "ACTION = $" + SdcArtifactHandlerConstants.ACTION + " , USER_NAME = $" + SdcArtifactHandlerConstants.USER_NAME + " , PORT_NUMBER = $" + SdcArtifactHandlerConstants.PORT_NUMBER + "";
-                if (context.getAttributeKeySet().contains(SdcArtifactHandlerConstants.URL)) {
+            	key = "insert into DEVICE_AUTHENTICATION set VNF_TYPE = '" + vnftype + "' , PROTOCOL = '" + protocol
+                        + "' , " + "ACTION = '" + action + "' , USER_NAME = '" + user + "' , PORT_NUMBER = '" + port
+                        + "'";                if (context.getAttributeKeySet().contains(SdcArtifactHandlerConstants.URL)) {
                     String url = context.getAttribute(SdcArtifactHandlerConstants.URL);
                     if (StringUtils.isBlank(url)) {
                         url = "";
                     }
-                    key = key + ", URL = $" + SdcArtifactHandlerConstants.URL + " ";
+                    key = key + ", URL = '" + url + "' ";
                 }
             }
 
