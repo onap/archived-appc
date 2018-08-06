@@ -144,4 +144,20 @@ public class TestSignal {
         String receivedSignal= mySignal.waitForAny(SIGNAL_READY);
         assertEquals("READY", receivedSignal);
     }
+    
+    @Test
+    public void testWaitForAnyForEmptySignal() 
+    {
+        Signal mySignal = new Signal(Thread.currentThread());
+        mySignal.setTimeout(50L);
+        String receivedSignal="";
+        try{
+         receivedSignal= mySignal.waitForAny();
+        }
+        catch(Exception e)
+        {
+            
+        }
+        assertEquals("", receivedSignal);
+    }
 }
