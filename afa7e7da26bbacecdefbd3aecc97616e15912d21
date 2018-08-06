@@ -52,6 +52,24 @@
       "revId": "afa7e7da26bbacecdefbd3aecc97616e15912d21",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7f2bad30",
+        "filename": "appc-common/src/test/java/org/onap/appc/concurrent/TestSignal.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-06T20:30:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_bf0aa5d0",
+      "revId": "afa7e7da26bbacecdefbd3aecc97616e15912d21",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
