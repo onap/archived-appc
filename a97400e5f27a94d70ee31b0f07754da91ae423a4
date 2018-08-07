@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_916ebdc8",
+        "filename": "appc-common/src/test/java/org/onap/appc/concurrent/TestSignal.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-07T12:38:25Z",
+      "side": 1,
+      "message": "don\u0027t need assertEquals() - can simply invoke mySignal.waitForAny()",
+      "revId": "a97400e5f27a94d70ee31b0f07754da91ae423a4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
