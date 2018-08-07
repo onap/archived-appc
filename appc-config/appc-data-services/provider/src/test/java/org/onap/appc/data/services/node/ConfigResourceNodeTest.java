@@ -155,6 +155,31 @@ public class ConfigResourceNodeTest {
         configResourceNode.getVnfcReference(inParams, contextMock);
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
+    
+    @Test
+    public void testGetCapability() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        contextMock.setAttribute("responsePrefix", "testResponsePrefix");
+        contextMock.setAttribute("caplevel", "testCapLevel");
+        contextMock.setAttribute("checkCapability", "testCheckCapability");
+        contextMock.setAttribute("vServerId", "testVServerId");
+        contextMock.setAttribute("vnf-type", "testVnfType");
+        configResourceNode.getCapability(inParams, contextMock);
+        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+    
+    @Test
+    public void testGetConfigFilesByVnfVmNCategory() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        contextMock.setAttribute("responsePrefix", "testResponsePrefix");
+        contextMock.setAttribute("fileCategory", "testFileCategory");
+        contextMock.setAttribute("vnfId", "testVnfId");
+        contextMock.setAttribute("vmName", "testVmName");
+        configResourceNode.getConfigFilesByVnfVmNCategory(inParams, contextMock);
+        verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
 
     @Test
     public void should_add_attribute_with_success_if_save_config_files_succeed() throws SvcLogicException {
