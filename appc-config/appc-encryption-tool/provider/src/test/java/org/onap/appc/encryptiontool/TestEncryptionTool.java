@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,6 +36,7 @@ import org.onap.appc.encryptiontool.wrapper.EncryptionTool;
 import org.onap.appc.encryptiontool.wrapper.EncryptionToolDGWrapper;
 import org.onap.appc.encryptiontool.wrapper.WrapperEncryptionTool;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import static org.junit.Assert.assertEquals;
 
 public class TestEncryptionTool {
 
@@ -97,5 +100,12 @@ public class TestEncryptionTool {
         inParams.put("propertyName", "user");
         inParams.put("prefix", "user");
         et.getProperty(inParams, ctx);
+    }
+    
+    @Test
+    public void testEncrypt() throws Exception {
+        EncryptionTool et = EncryptionTool.getInstance();
+        String s1=et.encrypt("sampleText");
+        assertEquals("enc:MD4XHE0udVFHOw==", s1);
     }
 }
