@@ -204,11 +204,48 @@ public class TransactionTest {
 
     @Test
     public void equals() {
+        ActionIdentifier actionIdentifier = mock(ActionIdentifier.class);
+        PreCheck precheck = mock(PreCheck.class);
+        ArrayList<Response> responses = new ArrayList<>();
+        Parameters parameters = mock(Parameters.class);
+        ArrayList<Parameters> parametersList = new ArrayList<>();
+        parametersList.add(parameters);
         transaction.setAction("action");
-
+        transaction.setActionIdentifier(actionIdentifier);
+        transaction.setActionLevel("some_action_level");
+        transaction.setExecutionRPC("some_execution_rpc");
+        transaction.setExecutionType("some_execution_type");
+        transaction.setExecutionModule("some_execution_module");
+        transaction.setExecutionEndPoint("some_execution_endpoint");
+        transaction.setState("some_state");
+        transaction.setStatus("some_status");
+        transaction.setStatusCode("some_status_code");
+        transaction.setPswd("some_pass");
+        transaction.setPayload("some_payload");
+        transaction.setPrecheck(precheck);
+        transaction.setParameters(parametersList);
+        transaction.setResponses(responses);
+        transaction.setTransactionId(133);
+        transaction.setuId("some_uid");
         Transaction other = new Transaction();
         other.setAction("action");
-
+        other.setAction("action");
+        other.setActionIdentifier(actionIdentifier);
+        other.setActionLevel("some_action_level");
+        other.setExecutionRPC("some_execution_rpc");
+        other.setExecutionType("some_execution_type");
+        other.setExecutionModule("some_execution_module");
+        other.setExecutionEndPoint("some_execution_endpoint");
+        other.setState("some_state");
+        other.setStatus("some_status");
+        other.setStatusCode("some_status_code");
+        other.setPswd("some_pass");
+        other.setPayload("some_payload");
+        other.setPrecheck(precheck);
+        other.setParameters(parametersList);
+        other.setResponses(responses);
+        other.setTransactionId(133);
+        other.setuId("some_uid");
         Assert.assertTrue(transaction.equals(other));
     }
     
