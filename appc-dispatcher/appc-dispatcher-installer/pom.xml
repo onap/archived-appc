@@ -50,10 +50,10 @@
             mvn:org.onap.appc/appc-command-executor-features/${project.version}/xml/features
         </features.repo.commandExecutor>
         <features.repo.lifecycleManagement>
-            mvn:org.onap.appc/appc-lifecycle-management-features/${project.version}/xml/features
+            mvn:org.onap.appc/onap-appc-lifecycle-management/${project.version}/xml/features
         </features.repo.lifecycleManagement>
         <features.repo.licenseManager>
-            mvn:org.onap.appc/appc-license-manager-features/${project.version}/xml/features
+            mvn:org.onap.appc/onap-appc-license-manager/${project.version}/xml/features
         </features.repo.licenseManager>
         <features.repo.workflowManagement>
             mvn:org.onap.appc/appc-workflow-management-features/${project.version}/xml/features
@@ -92,7 +92,7 @@
 
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-lifecycle-management-features</artifactId>
+            <artifactId>onap-appc-lifecycle-management</artifactId>
             <version>${project.version}</version>
             <classifier>features</classifier>
             <type>xml</type>
@@ -108,7 +108,7 @@
 
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-license-manager-features</artifactId>
+            <artifactId>onap-appc-license-manager</artifactId>
             <version>${project.version}</version>
             <classifier>features</classifier>
             <type>xml</type>
