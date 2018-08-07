@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3148095b",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-07T12:37:10Z",
+      "side": 1,
+      "message": "I don\u0027t think sonar likes wild cards",
+      "revId": "d8979aed0c14358bc35725581f20065bdc3cdbc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_114b8d5a",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-07T12:37:10Z",
+      "side": 1,
+      "message": "the arguments are backwards",
+      "revId": "d8979aed0c14358bc35725581f20065bdc3cdbc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
