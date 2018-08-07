@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Copyright (C) 2018 IBM
+ * Modification Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 package org.onap.appc.data.services.db;
 
 import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -234,5 +235,28 @@ public class TestDGGeneralDBService {
         QueryStatus status = dbService.getConfigFileReferenceByVnfType(ctx, "test");
         assertEquals(status, QueryStatus.SUCCESS);
 
+    }
+    
+    @Test
+    public void testGetTemplateByArtifactType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("request-action", "Configure");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.getTemplateByArtifactType(ctx, "test","XML","APPC-CONFIG");
+        assertEquals(QueryStatus.SUCCESS, status);
+
+    }
+    
+    @Test
+    public void testCleanContextPropertyByPrefix()
+    {
+    	SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("request-action", "Configure");
+        ctx.setAttribute(".vnfc-type", "Configure");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        dbService.cleanContextPropertyByPrefix(ctx, "test");
+        assertEquals(2,ctx.getAttributeKeySet().size());
     }
 }
