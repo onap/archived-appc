@@ -26,11 +26,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.onap.appc</groupId>
-        <artifactId>appc-license-manager</artifactId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>binding-parent</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
     <artifactId>appc-license-manager-api</artifactId>
+    <groupId>org.onap.appc</groupId>
+    <version>1.4.0-SNAPSHOT</version>
     <name>APPC License Manager - API</name>
     <packaging>bundle</packaging>
     <url>http://maven.apache.org</url>
