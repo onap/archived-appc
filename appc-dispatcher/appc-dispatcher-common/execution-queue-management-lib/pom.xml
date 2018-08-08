@@ -43,7 +43,7 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-common</artifactId>
+            <artifactId>appc-common-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

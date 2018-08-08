@@ -23,20 +23,26 @@ limitations under the License.
 
     <parent>
         <groupId>org.onap.appc.parent</groupId>
-        <artifactId>odlparent-lite</artifactId>
+        <artifactId>feature-repo-parent</artifactId>
         <version>1.4.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.appc</groupId>
-    <artifactId>appc-command-executor-feature-aggregator</artifactId>
+    <artifactId>features-appc-request-handler</artifactId>
     <version>1.4.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>feature</packaging>
 
     <name></name>
 
-    <modules>
-        <module>onap-appc-command-executor</module>
-        <module>features-appc-command-executor</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>onap-appc-request-handler</artifactId>
+            <version>${project.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+
+    </dependencies>
 </project>

@@ -25,11 +25,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.onap.appc</groupId>
-        <artifactId>appc-request-handler</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
+	</parent>
 
     <artifactId>appc-request-handler-core</artifactId>
     <packaging>bundle</packaging>
@@ -40,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-common</artifactId>
+            <artifactId>appc-common-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -130,6 +131,7 @@
         <dependency>
             <groupId>equinoxSDK381</groupId>
             <artifactId>org.eclipse.osgi</artifactId>
+            <version>${equinox.osgi.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -161,10 +163,12 @@
                             !org.onap.appc.requesthandler.conv,
                             *;resolution:=optional
                         </Import-Package>
+                        <_removeheaders>Import-Service</_removeheaders>
                     </instructions>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
+    <groupId>org.onap.appc</groupId>
 </project>
