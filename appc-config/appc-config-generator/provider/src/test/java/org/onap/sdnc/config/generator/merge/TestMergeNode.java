@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,6 +26,8 @@
 package org.onap.sdnc.config.generator.merge;
 
 import static org.junit.Assert.assertEquals;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
@@ -97,6 +101,22 @@ public class TestMergeNode {
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> inParams = new HashMap<String, String>();
         mergeNode.mergeDataOnTemplate(inParams, ctx);
+    }
+    
+    @Test
+    public void testMmergeDataOnTemplateWithTemplateData() throws SvcLogicException, IOException {
+        MergeNode mergeNode = new MergeNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        String jsonData = "{name1:value1,name2:value2}";
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
+        String templateData = "testTemplateData";
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, templateData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        mergeNode.mergeJsonDataOnTemplate(inParams, ctx);
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+
     }
 
     @Test
