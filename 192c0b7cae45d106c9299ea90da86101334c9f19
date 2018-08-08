@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_d8a692c1",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/merge/TestMergeNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-08T12:49:10Z",
+      "side": 1,
+      "message": "arguments to assertEquals() are reversed",
+      "revId": "192c0b7cae45d106c9299ea90da86101334c9f19",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
