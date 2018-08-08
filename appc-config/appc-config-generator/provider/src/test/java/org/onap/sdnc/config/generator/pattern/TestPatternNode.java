@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -89,6 +91,18 @@ public class TestPatternNode {
                 TestPatternNode.class.getClassLoader().getResourceAsStream("pattern/text_data.txt"),
                 ConfigGeneratorConstant.STRING_ENCODING);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA, stringData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        patternNode.checkDataType(inParams, ctx);
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+    }
+    
+    @Test
+    public void testCheckDataType() throws Exception {
+        PatternNode patternNode = new PatternNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA, "testData");
         SvcLogicContext ctx = new SvcLogicContext();
         patternNode.checkDataType(inParams, ctx);
         assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
