@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,6 +36,7 @@ import org.mockito.Mock;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 import org.onap.sdnc.config.generator.pattern.TestPatternNode;
 import org.powermock.reflect.Whitebox;
+import static org.junit.Assert.assertEquals;
 
 public class TestDataTool {
 
@@ -150,5 +153,12 @@ public class TestDataTool {
     public void testcheckDateTime() throws Exception {
         String line = "2017-08-20T17:40:23.100361+00:00";
         Whitebox.invokeMethod(logParserTool, "checkDateTime", line);
+    }
+    
+    @Test
+    public void testCheckDataXml()
+    {
+        String data="<xml><configuration</configuration>";
+        assertEquals(ConfigGeneratorConstant.DATA_TYPE_TEXT,CheckDataTool.checkData(data));
     }
 }
