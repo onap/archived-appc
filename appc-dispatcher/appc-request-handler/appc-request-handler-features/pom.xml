@@ -1,132 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ============LICENSE_START=======================================================
-  ONAP : APPC
-  ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
-  ================================================================================
-  Copyright (C) 2017 Amdocs
-  =============================================================================
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+============LICENSE_START=======================================================
+ONAP : APPC
+================================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+=============================================================================
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+      http://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-
-  ============LICENSE_END=========================================================
-  -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+============LICENSE_END=========================================================
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
-        <artifactId>appc-request-handler</artifactId>
-        <groupId>org.onap.appc</groupId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
 
-    <name>APPC Request Handler - Features</name>
-    <artifactId>appc-request-handler-features</artifactId>
-    <packaging>jar</packaging>
+    <groupId>org.onap.appc</groupId>
+    <artifactId>appc-request-handler-feature-aggregator</artifactId>
+    <version>1.4.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
+    <name></name>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
-            <artifactId>appc-request-handler-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.appc</groupId>
-            <artifactId>appc-request-handler-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
-
-    <build>
-        <resources>
-            <resource>
-                <filtering>true</filtering>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>filter</id>
-                        <goals>
-                            <goal>resources</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--<plugin>
-              &lt;!&ndash; launches the feature test, which validates that your karaf feature
-                can be installed inside of a karaf container. It doesn't validate that your
-                functionality works correctly, just that you have all of the dependent bundles
-                defined correctly. &ndash;&gt;
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <version>2.16</version>
-              <configuration>
-                <systemPropertyVariables>
-                  <karaf.distro.groupId>org.opendaylight.controller</karaf.distro.groupId>
-                  <karaf.distro.artifactId>opendaylight-karaf-empty</karaf.distro.artifactId>
-                  <karaf.distro.version>${odl.karaf.empty.distro.version}</karaf.distro.version>
-                </systemPropertyVariables>
-                <dependenciesToScan>
-                  <dependency>org.opendaylight.yangtools:features-test</dependency>
-                </dependenciesToScan>
-                <classpathDependencyExcludes>
-                  &lt;!&ndash; The dependencies which bring in AbstractDataBrokerTest class
-                    brings in a second PaxExam container which results in the feature tests failing
-                    with a message similar to: "ERROR o.ops4j.pax.exam.spi.PaxExamRuntime - Ambiguous
-                    TestContainer ..." This excludes the container we don't want to use. &ndash;&gt;
-                  <classpathDependencyExcludes>org.ops4j.pax.exam:pax-exam-container-native</classpathDependencyExcludes>
-                </classpathDependencyExcludes>
-              </configuration>
-            </plugin>-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-artifacts</id>
-                        <goals>
-                            <goal>attach-artifact</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <artifacts>
-                                <artifact>
-                                    <file>${project.build.directory}/classes/${features.file}</file>
-                                    <type>xml</type>
-                                    <classifier>features</classifier>
-                                </artifact>
-                            </artifacts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Skipping ODL feature test -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <skipTests>true</skipTests>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <modules>
+        <module>onap-appc-request-handler</module>
+        <module>features-appc-request-handler</module>
+    </modules>
 </project>
