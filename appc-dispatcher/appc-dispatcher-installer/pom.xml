@@ -44,10 +44,10 @@
         <features.repo.dispatcher>mvn:org.onap.appc/appc-dispatcher-features/${project.version}/xml/features
         </features.repo.dispatcher>
         <features.repo.requestHandler>
-            mvn:org.onap.appc/appc-request-handler-features/${project.version}/xml/features
+            mvn:org.onap.appc/onap-appc-request-handler/${project.version}/xml/features
         </features.repo.requestHandler>
         <features.repo.commandExecutor>
-            mvn:org.onap.appc/appc-command-executor-features/${project.version}/xml/features
+            mvn:org.onap.appc/onap-appc-command-executor/${project.version}/xml/features
         </features.repo.commandExecutor>
         <features.repo.lifecycleManagement>
             mvn:org.onap.appc/onap-appc-lifecycle-management/${project.version}/xml/features
@@ -56,7 +56,7 @@
             mvn:org.onap.appc/onap-appc-license-manager/${project.version}/xml/features
         </features.repo.licenseManager>
         <features.repo.workflowManagement>
-            mvn:org.onap.appc/appc-workflow-management-features/${project.version}/xml/features
+            mvn:org.onap.appc/onap-appc-workflow-management/${project.version}/xml/features
         </features.repo.workflowManagement>
         <features.repo.lockManager>mvn:org.onap.appc/lock-manager-features/${project.version}/xml/features
         </features.repo.lockManager>
@@ -76,7 +76,7 @@
 
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-request-handler-features</artifactId>
+            <artifactId>onap-appc-request-handler</artifactId>
             <version>${project.version}</version>
             <classifier>features</classifier>
             <type>xml</type>
@@ -84,7 +84,7 @@
 
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-command-executor-features</artifactId>
+            <artifactId>onap-appc-command-executor</artifactId>
             <version>${project.version}</version>
             <classifier>features</classifier>
             <type>xml</type>
@@ -100,7 +100,7 @@
 
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-workflow-management-features</artifactId>
+            <artifactId>onap-appc-workflow-management</artifactId>
             <version>${project.version}</version>
             <classifier>features</classifier>
             <type>xml</type>
