@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-common</artifactId>
+            <artifactId>appc-common-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -81,6 +81,7 @@
                         <Export-Package>
                             org.onap.appc.transactionrecorder,org.onap.appc.transactionrecorder.impl,org.onap.appc.transactionrecorder.objects
                         </Export-Package>
+                        <_removeheaders>Import-Service,Export-Service</_removeheaders>
                     </instructions>
                 </configuration>
             </plugin>

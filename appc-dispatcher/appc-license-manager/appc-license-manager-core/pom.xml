@@ -82,6 +82,7 @@
         <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>dblib-provider</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
@@ -104,6 +105,7 @@
                             org.onap.appc.licmgr,org.onap.appc.licmgr.exception,org.onap.appc.licmgr.objects,
                             *;resolution:=optional
                         </Import-Package>
+                        <_removeheaders>Import-Service</_removeheaders>
 
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
