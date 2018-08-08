@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,7 +25,7 @@
 
 package org.onap.sdnc.config.generator.convert;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertEquals; 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -158,5 +160,19 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "String");
         convertNode.unEscapeData(inParams, ctx);
 
+    }
+    
+    @Test
+    public void testEscapeDataForValidUnescapeDataString() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        String unescapeData = "testUnescapeData";
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, unescapeData);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE,
+                ConfigGeneratorConstant.DATA_TYPE_SQL);
+        ConvertNode convertNode = new ConvertNode();
+        convertNode.escapeData(inParams, ctx);
+        assertEquals(unescapeData, ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_ESCAPE_DATA));
     }
 }
