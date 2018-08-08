@@ -94,4 +94,16 @@ public class TestPatternNode {
         assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
     }
+    
+    @Test
+    public void testCheckDataType() throws Exception {
+        PatternNode patternNode = new PatternNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_CHECK_DATA, "testData");
+        SvcLogicContext ctx = new SvcLogicContext();
+        patternNode.checkDataType(inParams, ctx);
+        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
+                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+    }
 }
