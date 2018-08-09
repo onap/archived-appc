@@ -24,10 +24,12 @@ limitations under the License.
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>appc-sdc-listener</artifactId>
-		<groupId>org.onap.appc</groupId>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>odlparent-lite</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
 	</parent>
+        <groupId>org.onap.appc</groupId>
 	<artifactId>appc-sdc-listener-installer</artifactId>
 	<name>SDC Listener - Karaf Installer</name>
 	<packaging>pom</packaging>
@@ -35,7 +37,7 @@ limitations under the License.
 	<properties>
 		<application.name>appc-sdc-listener</application.name>
 		<features.boot>appc-sdc-listener</features.boot>
-		<features.repositories>mvn:org.onap.appc/appc-sdc-listener-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/onap-appc-sdc-listener/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
@@ -43,7 +45,7 @@ limitations under the License.
 
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-sdc-listener-features</artifactId>
+			<artifactId>onap-appc-sdc-listener</artifactId>
 			<version>${project.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
