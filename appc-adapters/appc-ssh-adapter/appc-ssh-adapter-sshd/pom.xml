@@ -22,11 +22,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.onap.appc</groupId>
-        <artifactId>appc-ssh-adapter</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
+	</parent>
+	<groupId>org.onap.appc</groupId>
 
     <artifactId>appc-ssh-adapter-sshd</artifactId>
     <packaging>bundle</packaging>
@@ -42,16 +44,19 @@
             <groupId>org.apache.sshd</groupId>
             <artifactId>sshd-core</artifactId>
             <scope>provided</scope>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.sshd</groupId>
             <artifactId>sshd-sftp</artifactId>
             <scope>provided</scope>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.sshd</groupId>
             <artifactId>sshd-scp</artifactId>
             <scope>provided</scope>
+            <version>2.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.att.eelf</groupId>
@@ -64,7 +69,7 @@
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-common</artifactId>
+            <artifactId>appc-common-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -86,6 +91,7 @@
                         <Import-Package>!org.apache.log,!org.apache.commons.logging,!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.jasypt.*,*</Import-Package>
                         <Embed-Dependency>!dblib-provider,jasypt,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
+                        <_removeheaders>Import-Service</_removeheaders>
                     </instructions>
                 </configuration>
             </plugin>
