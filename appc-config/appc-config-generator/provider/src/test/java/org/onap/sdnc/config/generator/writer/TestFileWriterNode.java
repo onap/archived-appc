@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modfication Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,4 +48,12 @@ public class TestFileWriterNode {
         assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
     }
+    
+    @Test(expected=Exception.class)
+    public void testWriteFileForEmptyParams() throws Exception {
+        FileWriterNode FileWriterNode = new FileWriterNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        FileWriterNode.writeFile(inParams, ctx);
+      }
 }
