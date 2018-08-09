@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0b891126",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/writer/TestFileWriterNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:35:14Z",
+      "side": 1,
+      "message": "is there a specific type of exception that\u0027s expected?",
+      "revId": "db278cfb9aa2da79c4cd2f51bf021c71fa52a9c3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
