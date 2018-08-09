@@ -21,11 +21,12 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <artifactId>appc-dg-util</artifactId>
-    <groupId>org.onap.appc</groupId>
-    <version>1.4.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
   <artifactId>appc-dg-util-installer</artifactId>
   <name>APPC DG Util - Karaf Installer</name>
   <packaging>pom</packaging>
@@ -33,7 +34,7 @@
   <properties>
     <application.name>appc-dg-util</application.name>
     <features.boot>appc-dg-util</features.boot>
-    <features.repositories>mvn:org.onap.appc/appc-dg-util-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.onap.appc/onap-appc-dg-util/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
   </properties>
 
@@ -41,7 +42,7 @@
 
     <dependency>
       <groupId>org.onap.appc</groupId>
-      <artifactId>appc-dg-util-features</artifactId>
+      <artifactId>onap-appc-dg-util</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
       <type>xml</type>
@@ -150,4 +151,5 @@
     </plugins>
   </build>
 
+  <groupId>org.onap.appc</groupId>
 </project>
