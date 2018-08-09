@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modification Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -57,5 +59,26 @@ public class TestXSLTTransformerNode {
                 + ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_TRANSFORMED_DATA));
 
     }
+    
+    @Test(expected=Exception.class)
+    public void testTransformDataForEmptyTemplateData() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA, "testRequestData");
+        XSLTTransformerNode transformerNode = new XSLTTransformerNode();
+        transformerNode.transformData(inParams, ctx);
+        
+    }
+    
+    @Test(expected=Exception.class)
+    public void testTransformDataForEmptyRequestData() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        XSLTTransformerNode transformerNode = new XSLTTransformerNode();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, "testTemplateData");
+        transformerNode.transformData(inParams, ctx);
+       
+    }
+
 
 }
