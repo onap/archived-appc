@@ -24,10 +24,12 @@ limitations under the License.
 
 
 	<parent>
-		<artifactId>appc-sdc-listener</artifactId>
-		<groupId>org.onap.appc</groupId>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
 	</parent>
+        <groupId>org.onap.appc</groupId>
 
 	<properties>
 		<jackson-yaml-version>2.8.1</jackson-yaml-version>
@@ -93,7 +95,7 @@ limitations under the License.
 
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-common</artifactId>
+			<artifactId>appc-common-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
