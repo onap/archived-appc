@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_4b6ce99c",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:33:16Z",
+      "side": 1,
+      "message": "really want to do this lookup on every call, instead of caching it?  Or can the bundle properties be changed dynamically?",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2b640db8",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:33:16Z",
+      "side": 1,
+      "message": "maybe remove \".getName()\" and then change sref to \"ServiceReference\u003cAAIService\u003e\".  That will avoid the need to cast in line 25",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2b0badd7",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:33:16Z",
+      "side": 1,
+      "message": "really want to do this lookup on every call, instead of caching it?  Or can the bundle properties be changed dynamically?  (same question through-out)",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0bbb51e6",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:33:16Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2bc08d4f",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:33:16Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_8bce8182",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-09T13:33:16Z",
+      "side": 1,
+      "message": "could use assertNotNull(), but this is fine",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
