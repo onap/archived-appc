@@ -20,11 +20,13 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>binding-parent</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
     <groupId>org.onap.appc</groupId>
-    <artifactId>appc-dg-shared</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
-  </parent>
 
   <artifactId>appc-dg-dependency-model</artifactId>
   <packaging>jar</packaging>
@@ -41,7 +43,7 @@
   <dependencies>
     <dependency>
       <groupId>org.onap.appc</groupId>
-      <artifactId>appc-common</artifactId>
+      <artifactId>appc-common-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
@@ -99,6 +101,10 @@
       <groupId>org.onap.appc</groupId>
       <artifactId>appc-dg-domain-model-lib</artifactId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>equinoxSDK381</groupId>
+        <artifactId>org.eclipse.osgi</artifactId>
     </dependency>
   </dependencies>
 

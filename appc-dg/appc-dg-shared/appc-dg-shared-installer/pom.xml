@@ -21,11 +21,13 @@
   -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.onap.appc</groupId>
-		<artifactId>appc-dg-shared</artifactId>
-		<version>1.4.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+        <groupId>org.onap.appc</groupId>
 	<artifactId>appc-dg-shared-installer</artifactId>
 	<name>APPC DG Shared - Karaf Installer</name>
 	<packaging>pom</packaging>
@@ -33,13 +35,13 @@
 	<properties>
 		<application.name>appc-dg-shared</application.name>
 		<features.boot>appc-dg-shared</features.boot>
-		<features.repositories>mvn:org.onap.appc/appc-dg-shared-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/onap-appc-dg-shared/${project.version}/xml/features</features.repositories>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-dg-shared-features</artifactId>
+			<artifactId>onap-appc-dg-shared</artifactId>
 			<version>${project.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
@@ -47,15 +49,7 @@
 
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-ssh-adapter-features</artifactId>
-			<version>${project.version}</version>
-			<classifier>features</classifier>
-			<type>xml</type>
-		</dependency>
-
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-netconf-adapter-features</artifactId>
+			<artifactId>onap-appc-ssh-adapter</artifactId>
 			<version>${project.version}</version>
 			<classifier>features</classifier>
 			<type>xml</type>
