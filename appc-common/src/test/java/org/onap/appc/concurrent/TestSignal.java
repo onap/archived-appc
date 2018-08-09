@@ -152,4 +152,12 @@ public class TestSignal {
         mySignal.setTimeout(50L);
         mySignal.waitForAny();
     }
+    
+    @Test
+    public void testIsSignaled() throws TimeoutException
+    {
+        Signal mySignal = new Signal(Thread.currentThread());
+        assertFalse(mySignal.isSignaled(SIGNAL_READY));
+        
+    }
 }
