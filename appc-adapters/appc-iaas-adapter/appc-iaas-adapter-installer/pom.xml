@@ -22,10 +22,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>appc-iaas-adapter</artifactId>
-    <groupId>org.onap.appc</groupId>
+    <artifactId>odlparent-lite</artifactId>
+    <groupId>org.onap.appc.parent</groupId>
     <version>1.4.0-SNAPSHOT</version>
+    <relativePath />
   </parent>
+  <groupId>org.onap.appc</groupId>
   <artifactId>appc-iaas-adapter-installer</artifactId>
   <name>IaaS Adapter - Karaf Installer</name>
   <packaging>pom</packaging>
@@ -33,15 +35,16 @@
   <properties>
     <application.name>appc-iaas-adapter</application.name>
     <features.boot>appc-iaas-adapter</features.boot>
-    <features.repositories>mvn:org.onap.appc/appc-iaas-adapter-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.onap.appc/onap-appc-iaas-adapter/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.onap.appc</groupId>
-      <artifactId>appc-iaas-adapter-features</artifactId>
+      <artifactId>onap-appc-iaas-adapter</artifactId>
       <classifier>features</classifier>
+      <version>${project.version}</version>
       <type>xml</type>
       <exclusions>
         <exclusion>
