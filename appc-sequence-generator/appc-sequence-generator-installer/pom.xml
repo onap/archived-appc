@@ -24,11 +24,13 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.onap.appc</groupId>
-    <artifactId>appc-sequence-generator</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
-  </parent>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+        <groupId>org.onap.appc</groupId>
   <artifactId>appc-sequence-generator-installer</artifactId>
   <name>Appc Sequence Generator : Karaf Installer</name>
   <packaging>pom</packaging>
@@ -36,15 +38,16 @@
   <properties>
     <application.name>appc-sequence-generator</application.name>
     <features.boot>appc-sequence-generator</features.boot>
-    <features.repositories>mvn:org.onap.appc/appc-sequence-generator-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.onap.appc/onap-appc-sequence-generator/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
+    <feature-name>appc-sequence-generator</feature-name>
   </properties>
 
   <dependencies>
 
     <dependency>
       <groupId>org.onap.appc</groupId>
-      <artifactId>appc-sequence-generator-features</artifactId>
+      <artifactId>onap-appc-sequence-generator</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
       <type>xml</type>
