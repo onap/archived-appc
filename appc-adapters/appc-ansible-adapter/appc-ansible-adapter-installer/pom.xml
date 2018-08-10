@@ -24,24 +24,28 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>appc-ansible-adapter</artifactId>
-        <groupId>org.onap.appc</groupId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
+        <groupId>org.onap.appc</groupId>
     <artifactId>appc-ansible-adapter-installer</artifactId>
     <name>Ansible Adapter - Karaf Installer</name>
     <packaging>pom</packaging>
     <properties>
         <application.name>appc-ansible-adapter</application.name>
         <features.boot>appc-ansible-adapter</features.boot>
-        <features.repositories>mvn:org.onap.appc/appc-ansible-adapter-features/${project.version}/xml/features</features.repositories>
+        <features.repositories>mvn:org.onap.appc/onap-appc-ansible-adapter/${project.version}/xml/features</features.repositories>
         <include.transitive.dependencies>false</include.transitive.dependencies>
+        <feature-name>appc-ansible-adapter</feature-name>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-ansible-adapter-features</artifactId>
+            <artifactId>onap-appc-ansible-adapter</artifactId>
             <classifier>features</classifier>
+            <version>${project.version}</version>
             <type>xml</type>
             <exclusions>
                 <exclusion>
