@@ -22,10 +22,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.onap.appc</groupId>
-        <artifactId>appc-config-data-services</artifactId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
+  <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-config-data-services-installer</artifactId>
     <name>Config Component Data Services - Installer</name>
@@ -33,14 +35,15 @@
     <properties>
         <application.name>appc-config-data-services</application.name>
         <features.boot>appc-config-data-services</features.boot>
-        <features.repositories>mvn:org.onap.appc/appc-config-data-services-features/${project.version}/xml/features</features.repositories>
+        <features.repositories>mvn:org.onap.appc/onap-appc-config-data-services/${project.version}/xml/features</features.repositories>
         <include.transitive.dependencies>false</include.transitive.dependencies>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-config-data-services-features</artifactId>
+            <artifactId>onap-appc-config-data-services</artifactId>
             <classifier>features</classifier>
+            <version>${project.version}</version>
             <type>xml</type>
             <exclusions>
                 <exclusion>
