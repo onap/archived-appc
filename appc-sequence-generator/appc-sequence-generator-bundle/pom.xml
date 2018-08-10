@@ -25,11 +25,13 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
+	<parent>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
+	</parent>
         <groupId>org.onap.appc</groupId>
-        <artifactId>appc-sequence-generator</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
-    </parent>
     <artifactId>appc-sequence-generator-bundle</artifactId>
     <name>appc-sequence-generator-bundle</name>
     <packaging>bundle</packaging>
