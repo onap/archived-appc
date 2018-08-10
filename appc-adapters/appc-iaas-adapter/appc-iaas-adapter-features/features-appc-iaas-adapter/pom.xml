@@ -23,20 +23,26 @@ limitations under the License.
 
     <parent>
         <groupId>org.onap.appc.parent</groupId>
-        <artifactId>odlparent-lite</artifactId>
+        <artifactId>feature-repo-parent</artifactId>
         <version>1.4.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.appc</groupId>
-    <artifactId>appc-iaas-adapter-feature-aggregator</artifactId>
+    <artifactId>features-appc-iaas-adapter</artifactId>
     <version>1.4.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>feature</packaging>
 
     <name></name>
 
-    <modules>
-        <module>onap-appc-iaas-adapter</module>
-        <module>features-appc-iaas-adapter</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>onap-appc-iaas-adapter</artifactId>
+            <version>${project.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+
+    </dependencies>
 </project>
