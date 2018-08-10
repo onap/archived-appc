@@ -38,10 +38,13 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.design.dbervices.DbService;
 import org.onap.appc.design.dbervices.DesignDBService;
 import org.onap.appc.design.services.util.ArtifactHandlerClient;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.reflect.Whitebox;
 
-@RunWith(MockitoJUnitRunner.class)
+
+@RunWith(PowerMockRunner.class)
 @PrepareForTest(DesignDBService.class)
 public class TestDesignDBServices {
 
@@ -49,22 +52,21 @@ public class TestDesignDBServices {
 
     private DesignDBService spyDesign;
 
-    @Mock
-    private DbService dbservice;
+    private DbService dbservice = PowerMockito.mock(DbService.class);
 
     @Mock
     private ResultSet rs;
 
-    @Mock
-    private ArtifactHandlerClient artifactHandlerClient;
+
+    private ArtifactHandlerClient artifactHandlerClient = PowerMockito.mock(ArtifactHandlerClient.class);
 
     @Before
     public void setUp() throws Exception {
         Map<String, String> outputMessage = new HashMap<>();
         designDbService = DesignDBService.initialise();
         Whitebox.setInternalState(designDbService, "dbservice", dbservice);
-        // Whitebox.setInternalState(designDbService, "ac",
-        // artifactHandlerClient);
+        PowerMockito.whenNew(DbService.class).withAnyArguments().thenReturn(dbservice);
+        PowerMockito.whenNew(ArtifactHandlerClient.class).withAnyArguments().thenReturn(artifactHandlerClient);
         Mockito.doReturn(outputMessage).when(artifactHandlerClient).execute(Mockito.anyString(), Mockito.anyString());
         when(dbservice.getDBData(Mockito.anyString(), Mockito.anyList())).thenReturn(rs);
         when(rs.next()).thenReturn(true, true, false);
@@ -108,11 +110,11 @@ public class TestDesignDBServices {
         assertEquals(true, result.contains("success"));
     }
 
-    @Ignore
-    @Test(expected = ExceptionInInitializerError.class)
+    @Test
     public void TestUploadArtifact() throws Exception {
         String payload = " { \"userID\": \"00000\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"Configure\", \"artifact-name\":\"DesignRestArtifact_reference\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"DESIGNTOOL-TEST\",\"artifact-contents\":  \"TestContents\"} ";
-        Whitebox.invokeMethod(spyDesign, "uploadArtifact", payload, "1234");
+        String result = Whitebox.invokeMethod(spyDesign, "uploadArtifact", payload, "1234");
+        assertEquals(true, result.contains("success"));
     }
 
     @Test
