@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_2cf4235a",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-10T09:55:36Z",
+      "side": 1,
+      "message": "Hi Jim,\nGenerally this wasn\u0027t my implementation, I\u0027ve extracted the whole method taken from the ExecuteNodeActionImpl class. As part of the changes I concentrated only on getting rid of the powermock(ito) dependencies to have the possibility of DI. I held back from making any major refactors to avoid too many changes in one gerrit ticket.\n\nSo basically the lookup was done each time a service method was called. This would seem like a good improvement to introduce some kind of service caching mechanism if we know that there will be no change in the bundle during runtime, but I\u0027d prefer to change this as part of a different Jira (this would also require some digging deeper into osgi to know exactly what is going on under the hood during service/bundle lookup:))",
+      "parentUuid": "1a76adc5_4b6ce99c",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2b640db8",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-09T13:33:16Z",
       "side": 1,
       "message": "maybe remove \".getName()\" and then change sref to \"ServiceReference\u003cAAIService\u003e\".  That will avoid the need to cast in line 25",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ecedcb8c",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-10T09:55:36Z",
+      "side": 1,
+      "message": "I agree, but is it ok to make the changes as part of a new ticket and leave it as was before for now ?",
+      "parentUuid": "1a76adc5_2b640db8",
       "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_6cf9bb4c",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-10T09:55:36Z",
+      "side": 1,
+      "message": "Hi Jim,\nAs I have explained in my comment inside the AAIServiceFactory, I did not want to change to current behavior and concentrate only on powermock dep cleanup. While now it is more visible(which is good)than previously that the lookup is done every time  (because initialize() was called before accessing the client) I would like to minimize the changes I do at once :) But I do agree that some kind of service caching may indeed be a good improvement.",
+      "parentUuid": "1a76adc5_2b0badd7",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_0bbb51e6",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2018-08-09T13:33:16Z",
       "side": 1,
       "message": "arguments are backwards",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_ac86f3b7",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-10T09:55:36Z",
+      "side": 1,
+      "message": "Agree, I didn\u0027t want to change the existing impl, but the change is minor so fixed it:)",
+      "parentUuid": "1a76adc5_0bbb51e6",
       "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_4c939ffa",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-10T09:55:36Z",
+      "side": 1,
+      "message": "Agree, I didn\u0027t want to change the existing impl, but the change is minor so fixed it:)",
+      "parentUuid": "1a76adc5_2bc08d4f",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_8bce8182",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2018-08-09T13:33:16Z",
       "side": 1,
       "message": "could use assertNotNull(), but this is fine",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2c6983f9",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 2815
+      },
+      "writtenOn": "2018-08-10T09:55:36Z",
+      "side": 1,
+      "message": "Fixed :)",
+      "parentUuid": "1a76adc5_8bce8182",
       "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
