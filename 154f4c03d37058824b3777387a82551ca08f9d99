@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a041170d",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDesignDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-10T13:09:28Z",
+      "side": 1,
+      "message": "unfortunately, using powermock to prepare the test class will cause the code coverage for the prepared class to drop to 0%.",
+      "revId": "154f4c03d37058824b3777387a82551ca08f9d99",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
