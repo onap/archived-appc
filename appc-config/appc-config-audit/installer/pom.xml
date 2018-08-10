@@ -22,10 +22,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.onap.appc</groupId>
-        <artifactId>appc-config-audit</artifactId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
+
+  <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-config-audit-installer</artifactId>
     <name>Config Component Audit - Installer</name>
@@ -33,14 +36,15 @@
     <properties>
         <application.name>appc-config-audit</application.name>
         <features.boot>appc-config-audit</features.boot>
-        <features.repositories>mvn:org.onap.appc/appc-config-audit-features/${project.version}/xml/features</features.repositories>
+        <features.repositories>mvn:org.onap.appc/onap-appc-config-audit/${project.version}/xml/features</features.repositories>
         <include.transitive.dependencies>false</include.transitive.dependencies>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-config-audit-features</artifactId>
+            <artifactId>onap-appc-config-audit</artifactId>
             <classifier>features</classifier>
+            <version>${project.version}</version>
             <type>xml</type>
             <exclusions>
                 <exclusion>
