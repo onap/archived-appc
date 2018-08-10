@@ -1,144 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ============LICENSE_START=======================================================
-  ONAP : APPC
-  ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
-  Copyright (C) 2017 Amdocs
-  ================================================================================
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-  
-       http://www.apache.org/licenses/LICENSE-2.0
-  
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
-  ============LICENSE_END=========================================================
-  -->
+============LICENSE_START=======================================================
+ONAP : APPC
+================================================================================
+Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+=============================================================================
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+============LICENSE_END=========================================================
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>		
-		<groupId>org.onap.appc</groupId>
-		<artifactId>appc-config-audit</artifactId>
-		<version>1.4.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>appc-config-audit-features</artifactId>
-	<name>Config Audit Plugin - Features</name>
+    <modelVersion>4.0.0</modelVersion>
 
-	<packaging>jar</packaging>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
 
-	<dependencies>
+    <groupId>org.onap.appc</groupId>
+    <artifactId>appc-config-audit-feature-aggregator</artifactId>
+    <version>1.4.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-config-audit-provider</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+    <name></name>
 
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-			<scope>compile</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.opendaylight.mdsal</groupId>
-			<artifactId>features-mdsal</artifactId>
-			<classifier>features</classifier>
-			<type>xml</type>
-
-			<scope>runtime</scope>
-		</dependency>
-
-
-		<!-- dependency for opendaylight-karaf-empty for use by testing -->
-		<dependency>
-			<groupId>org.opendaylight.controller</groupId>
-			<artifactId>opendaylight-karaf-empty</artifactId>
-			<version>${odl.karaf.empty.distro.version}</version>
-			<type>zip</type>
-		</dependency>
-
-
-		<dependency>
-			<!-- Required for launching the feature tests -->
-			<groupId>org.opendaylight.odlparent</groupId>
-			<artifactId>features-test</artifactId>
-			<version>${odl.commons.opendaylight.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-	</dependencies>
-
-	<build>
-		<resources>
-			<resource>
-				<filtering>true</filtering>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>filter</id>
-						<goals>
-							<goal>resources</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution>
-				</executions>
-			</plugin>
-					<!-- launches the feature test, which validates that your karaf feature
-					can be installed inside of a karaf container. It doesn't validate that your
-					functionality works correctly, just that you have all of the dependent bundles
-					defined correctly.
-			<plugin>
-
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.16</version>
-				<configuration>
-					<systemPropertyVariables>
-						<karaf.distro.groupId>org.opendaylight.controller</karaf.distro.groupId>
-						<karaf.distro.artifactId>opendaylight-karaf-empty</karaf.distro.artifactId>
-						<karaf.distro.version>${odl.karaf.empty.distro.version}</karaf.distro.version>
-					</systemPropertyVariables>
-					<dependenciesToScan>
-						<dependency>org.opendaylight.yangtools:features-test</dependency>
-					</dependenciesToScan>
-				</configuration>
-			</plugin>
-			-->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-artifacts</id>
-						<goals>
-							<goal>attach-artifact</goal>
-						</goals>
-						<phase>package</phase>
-						<configuration>
-							<artifacts>
-								<artifact>
-									<file>${project.build.directory}/classes/${features.file}</file>
-									<type>xml</type>
-									<classifier>features</classifier>
-								</artifact>
-							</artifacts>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <modules>
+        <module>onap-appc-config-audit</module>
+        <module>features-appc-config-audit</module>
+    </modules>
 </project>
