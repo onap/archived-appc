@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_60c45f92",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-10T13:02:52Z",
+      "side": 1,
+      "message": "Thanks for the explanation - makes sense to me.",
+      "parentUuid": "1a76adc5_2cf4235a",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_2b640db8",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
         "patchSetId": 3
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "I agree, but is it ok to make the changes as part of a new ticket and leave it as was before for now ?",
       "parentUuid": "1a76adc5_2b640db8",
+      "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c0cf73af",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/AAIServiceFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-10T13:02:52Z",
+      "side": 1,
+      "message": "That works.",
+      "parentUuid": "1a76adc5_ecedcb8c",
       "revId": "179ea3e0febb42f74dfa5189d4294be1cee2c3ae",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
