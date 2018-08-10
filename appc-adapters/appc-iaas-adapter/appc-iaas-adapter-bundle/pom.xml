@@ -22,11 +22,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
+	<parent>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
+		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
+	</parent>
         <groupId>org.onap.appc</groupId>
-        <artifactId>appc-iaas-adapter</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
-    </parent>
 
     <artifactId>appc-iaas-adapter-bundle</artifactId>
     <packaging>bundle</packaging>
@@ -35,7 +37,7 @@
     <dependencies>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-common</artifactId>
+            <artifactId>appc-common-bundle</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
             <exclusions>
@@ -50,6 +52,7 @@
             <groupId>com.att.cdp</groupId>
             <artifactId>cdp-pal-openstack</artifactId>
             <scope>compile</scope>
+            <version>${cdp.pal.version}</version>
         </dependency>
 
         <dependency>
@@ -227,7 +230,6 @@
                         <Bundle-SymbolicName>appc-iaas-adapter</Bundle-SymbolicName>
                         <Bundle-Activator>org.onap.appc.adapter.iaas.AppcProviderAdapterActivator</Bundle-Activator>
                         <Export-Package>org.onap.appc.adapter.iaas,com.att.cdp.zones.model</Export-Package>
-                        <DynamicImport-Package>javax.*</DynamicImport-Package>
                         <Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,javax.net.ssl,org.xml.sax</Import-Package>
                         <!-- <Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,javax.ws.rs.*,javax.net.*,javax.xml.*,org.xml.*</Import-Package> -->
                         <!-- <Import-Package>org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.bind.*,javax.naming.*,javax.xml.*</Import-Package> -->
