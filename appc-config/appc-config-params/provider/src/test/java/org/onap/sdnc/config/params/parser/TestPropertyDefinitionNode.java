@@ -34,7 +34,6 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -64,6 +63,19 @@ public class TestPropertyDefinitionNode {
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
 
     }
+    
+    @Test(expected= SvcLogicException.class)
+    public void testInProcessMissingParamKeysForEmptyPdContent() throws Exception {
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
+                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processMissingParamKeys(inParams, ctx);
+     }
 
     @Test
     public void testProcessExternalSystemParamKeys() throws Exception {
