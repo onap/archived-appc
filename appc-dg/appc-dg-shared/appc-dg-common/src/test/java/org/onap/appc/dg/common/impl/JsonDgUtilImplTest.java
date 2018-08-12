@@ -188,4 +188,15 @@ public class JsonDgUtilImplTest {
         assertNotNull(ctx.getAttribute("cvaas-file-content"));
         assertTrue(ctx.getAttribute("cvaas-file-content").contains(epochUploadTimestamp.toString()));
     }
+    
+    @Test(expected=APPCException.class)
+    public void testCheckFileCreated() throws APPCException
+    {
+        SvcLogicContext ctx= new SvcLogicContext();
+        ctx.setAttribute("cvaas-file-name", "testCvaasFile");
+        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
+        Map<String, String> params = new HashMap<>();
+        params.put("vnf-id", "testVnfId");
+        jsonDgUtil.checkFileCreated(params, ctx);
+    }
 }
