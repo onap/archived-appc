@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -98,5 +100,13 @@ public class TestVnf {
         vnfc.addVservers(vserverList);
         vnf.setVservers(vserverList);
         assertTrue(vnf.getVnfcs()!=null);
+    }
+    
+    @Test
+    public void testGetSetIdentityUrl()
+    {
+    Vnf vnf = new Vnf();
+    vnf.setIdentityUrl("testIdentityUrl");
+    assertEquals("testIdentityUrl", vnf.getIdentityUrl());
     }
 }
