@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 AT&T
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -27,6 +29,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.FileNotFoundException;
 
 import java.io.UncheckedIOException;
@@ -107,5 +110,10 @@ public class JSONUtilTest {
             fail(uioe.getMessage() + " Unchecked IO exception encountered");
         }
     }
-
+    
+    @Test(expected=UncheckedIOException.class)
+    public void testCatchSectionOfToJson() throws IOException
+    {
+    JSONUtil.toJson(new Object());
+    }
 }
