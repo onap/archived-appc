@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,13 +25,10 @@
 
 package org.onap.appc.artifact.handler.dbservices;
 
-import java.nio.charset.Charset;
-import org.json.JSONObject;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.powermock.reflect.Whitebox;
 import static org.junit.Assert.assertEquals;
 
 public class DBServiceTest {
@@ -194,13 +193,27 @@ public class DBServiceTest {
         dbService.processVnfcReference(ctx, isUpdate);
     }
 
-    //@Test
+    @Test
     public void testProcessDeviceAuthentication() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
+        ctx.setAttribute("url", "");
+        String expectedKey ="update DEVICE_AUTHENTICATION set USER_NAME = '' , PORT_NUMBER = 0, URL = ''  where VNF_TYPE = $vnf-type  AND PROTOCOL = $device-protocol AND  ACTION = $action";
         boolean isUpdate = true;
         dbService.processDeviceAuthentication(ctx, isUpdate);
+        assertEquals(expectedKey,ctx.getAttribute("keys"));
+    }
+
+    @Test
+    public void testProcessDeviceAuthenticationforFalse() throws Exception {
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        ctx.setAttribute("url", "");
+        boolean isUpdate = false;
+        dbService.processDeviceAuthentication(ctx, isUpdate);
+        assertEquals(true,ctx.getAttribute("keys").contains("DEVICE_AUTHENTICATION"));
     }
 
     //@Test
@@ -219,6 +232,16 @@ public class DBServiceTest {
         ctx.setAttribute("test", "test");
         boolean isUpdate = true;
         dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
+    }
+
+    @Test
+    public void testProcessDeviceInterfaceProtocolForFalse() throws Exception {
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        boolean isUpdate = false;
+        dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
+        assertEquals(true,ctx.getAttribute("keys").contains("DEVICE_INTERFACE_PROTOCOL"));
     }
 
     @Test

@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,6 +27,8 @@ package org.onap.appc.artifact.handler.dbservices;
 
 import java.util.Map;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
@@ -35,6 +39,7 @@ public class MockSvcLogicResource extends SqlResource {
     public QueryStatus query(String resource, boolean localOnly, String select, String key, String prefix,
             String orderBy, SvcLogicContext ctx) throws SvcLogicException {
         QueryStatus status = QueryStatus.SUCCESS;
+        ctx.setAttribute("keys",key);
         ctx.setAttribute("id", "testId");
         ctx.setAttribute("VNF_TYPE", "testvnf");
         ctx.setAttribute("maximum", "1");
@@ -47,8 +52,7 @@ public class MockSvcLogicResource extends SqlResource {
     @Override
     public QueryStatus save(String resource, boolean force, boolean localOnly, String key, Map<String, String> parms,
             String prefix, SvcLogicContext ctx) throws SvcLogicException {
+    	ctx.setAttribute("keys", key);
         return QueryStatus.SUCCESS;
     }
-
-
 }
