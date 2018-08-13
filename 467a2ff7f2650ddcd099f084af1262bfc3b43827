@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0984afd2",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:04:02Z",
+      "side": 1,
+      "message": "I recently learned that it should be \"Modifications\" instead of \"Modification\".",
+      "revId": "467a2ff7f2650ddcd099f084af1262bfc3b43827",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_89775f02",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/TestDBServiceExceptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T20:04:02Z",
+      "side": 1,
+      "message": "is there no output or side-effects that can be verified?  (same question applies to other test cases)",
+      "revId": "467a2ff7f2650ddcd099f084af1262bfc3b43827",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
