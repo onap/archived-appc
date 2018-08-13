@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_4abb7a0e",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/impl/JsonDgUtilImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T13:49:05Z",
+      "side": 1,
+      "message": "change tabs to spaces",
+      "revId": "7cfa8c7c80435caa7330bc694e95941ecc67eb29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
