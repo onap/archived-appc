@@ -34,7 +34,12 @@ limitations under the License.
         <version>1.1.0-SNAPSHOT</version>
         <relativePath />
     </parent>
+    
     <properties>
         <skip.karaf.featureTest>true</skip.karaf.featureTest>
+        <commons.collections.version>3.2.1</commons.collections.version>
+        <snakeyaml.version>1.12</snakeyaml.version>
+        <tosca.datatype.version>1.1.0</tosca.datatype.version>
+        <velocity.version>1.7</velocity.version>
     </properties>
 </project>
