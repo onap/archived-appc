@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_6ac43692",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-common/src/test/java/org/onap/appc/dg/common/utils/JSONUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-13T13:48:06Z",
+      "side": 1,
+      "message": "issue with indentation",
+      "revId": "1994fb3392935c1314b54e8a536116d8dc885c04",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
