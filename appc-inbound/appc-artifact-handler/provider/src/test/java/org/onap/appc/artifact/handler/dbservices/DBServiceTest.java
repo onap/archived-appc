@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -194,12 +196,23 @@ public class DBServiceTest {
         dbService.processVnfcReference(ctx, isUpdate);
     }
 
-    //@Test
+    @Test
     public void testProcessDeviceAuthentication() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
+        ctx.setAttribute("url", "");
         boolean isUpdate = true;
+        dbService.processDeviceAuthentication(ctx, isUpdate);
+    }
+
+    @Test
+    public void testProcessDeviceAuthenticationforFalse() throws Exception {
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        ctx.setAttribute("url", "");
+        boolean isUpdate = false;
         dbService.processDeviceAuthentication(ctx, isUpdate);
     }
 
@@ -218,6 +231,15 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         boolean isUpdate = true;
+        dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
+    }
+
+    @Test
+    public void testProcessDeviceInterfaceProtocolForFalse() throws Exception {
+        MockDBService dbService = MockDBService.initialise();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        boolean isUpdate = false;
         dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
     }
 
