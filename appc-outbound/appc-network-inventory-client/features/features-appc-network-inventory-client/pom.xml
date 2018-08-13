@@ -23,20 +23,26 @@ limitations under the License.
 
     <parent>
         <groupId>org.onap.appc.parent</groupId>
-        <artifactId>odlparent-lite</artifactId>
+        <artifactId>feature-repo-parent</artifactId>
         <version>1.4.0-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.appc</groupId>
-    <artifactId>appc-event-listener-feature-aggregator</artifactId>
+    <artifactId>features-appc-network-inventory-client</artifactId>
     <version>1.4.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>feature</packaging>
 
     <name></name>
 
-    <modules>
-        <module>onap-appc-event-listener</module>
-        <module>features-appc-event-listener</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.onap.appc</groupId>
+            <artifactId>onap-appc-network-inventory-client</artifactId>
+            <version>${project.version}</version>
+            <type>xml</type>
+            <classifier>features</classifier>
+        </dependency>
+
+    </dependencies>
 </project>

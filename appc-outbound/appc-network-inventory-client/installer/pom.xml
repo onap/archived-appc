@@ -22,26 +22,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>appc-network-inventory-client</artifactId>
-		<groupId>org.onap.appc</groupId>
-		<version>1.4.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+  <groupId>org.onap.appc</groupId>
 	<name>APPC Network Inventory - Installer</name>
 	<packaging>pom</packaging>
 
 	<properties>
 		<application.name>appc-network-inventory-client</application.name>
 		<features.boot>appc-network-inventory-client</features.boot>
-		<features.repositories>mvn:org.onap.appc/appc-network-inventory-client-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/onap-appc-network-inventory-client/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-network-inventory-client-features</artifactId>
+			<artifactId>onap-appc-network-inventory-client</artifactId>
 			<classifier>features</classifier>
+			<version>${project.version}</version>
 			<type>xml</type>
 			<exclusions>
 				<exclusion>
@@ -53,6 +56,7 @@
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-network-inventory-client-provider</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 	</dependencies>
