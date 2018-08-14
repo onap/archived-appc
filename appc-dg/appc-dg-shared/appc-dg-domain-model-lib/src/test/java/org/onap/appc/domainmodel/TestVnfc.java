@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2018 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -21,7 +23,7 @@ package org.onap.appc.domainmodel;
 
 import static org.junit.Assert.*;
 
-
+ 
 
 
 import java.util.LinkedList;
@@ -155,5 +157,63 @@ public class TestVnfc {
        System.out.println("vnfc = " + vnfc.toString());
        
        assertEquals(vnfc.toString(),"Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n");
+    }
+    
+    @Test
+    public void testEquals()
+    {
+        Vnfc vnfc1=new Vnfc();
+        vnfc1.setMandatory(true);
+        vnfc1.setResilienceType("RS1");
+        vnfc1.setVnfcName("A");
+        vnfc1.setVnfcType("testType");
+        List<Vserver> vserverList=new LinkedList<>();
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vserver.setVnfc(vnfc);
+        vserverList.add(vserver);
+        vnfc1.setVserverList(vserverList);
+        
+        Vnfc vnfc2=new Vnfc();
+        vnfc2.setMandatory(true);
+        vnfc2.setResilienceType("RS1");
+        vnfc2.setVnfcName("A");
+        vnfc2.setVnfcType("testType");
+        vnfc2.setVserverList(vserverList);
+        
+        assertTrue(vnfc1.equals(vnfc2));
+    }
+  
+      @Test
+    public void testEqualsforDifferentObjects()
+    {
+        Vnfc vnfc1=new Vnfc();
+        vnfc1.setMandatory(true);
+        vnfc1.setResilienceType("RS1");
+        vnfc1.setVnfcName("A");
+        vnfc1.setVnfcType("testType");
+        List<Vserver> vserverList=new LinkedList<>();
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vserver.setVnfc(vnfc);
+        vserverList.add(vserver);
+        vnfc1.setVserverList(vserverList);
+        
+        Vnfc vnfc2=new Vnfc();
+        vnfc2.setMandatory(true);
+        vnfc2.setResilienceType("RS2");
+        vnfc2.setVnfcName("C");
+        vnfc2.setVnfcType("testType1");
+        vnfc2.setVserverList(vserverList);
+        
+        assertFalse(vnfc1.equals(vnfc2));
     }
 }
