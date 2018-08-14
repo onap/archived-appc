@@ -24,10 +24,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.onap.appc</groupId>
-        <artifactId>appc-inbound</artifactId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
     </parent>
+  <groupId>org.onap.appc</groupId>
 
     <packaging>pom</packaging>
     <artifactId>appc-interfaces-service</artifactId>

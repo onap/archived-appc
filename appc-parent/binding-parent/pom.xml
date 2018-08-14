@@ -86,16 +86,14 @@ limitations under the License.
         <sdnctl.sli.version>${ccsdk.sli.core.version}</sdnctl.sli.version>
         <!-- <ccsdk.sli.adaptors.version>${ccsdk.sli.adaptors.version}</ccsdk.sli.adaptors.version> -->
         <commons.collections.version>3.2.2</commons.collections.version>
-        <odl.sal.api.gen.plugin.version>0.11.1</odl.sal.api.gen.plugin.version>
-        <odl.yangtools.version>1.2.1</odl.yangtools.version>
-        <odl.mdsal.yang.binding.version>0.11.1</odl.mdsal.yang.binding.version>
-        <odl.mdsal.version>1.6.1</odl.mdsal.version>
-        <odl.mdsal.features.version>2.3.1</odl.mdsal.features.version>
-        <odl.yang.jmx.generator.version>0.7.1</odl.yang.jmx.generator.version>
+        <odl.sal.api.gen.plugin.version>0.12.2</odl.sal.api.gen.plugin.version>
+        <odl.yangtools.version>2.0.3</odl.yangtools.version>
+        <odl.mdsal.yang.binding.version>0.12.2</odl.mdsal.yang.binding.version>
+        <odl.mdsal.version>1.7.2</odl.mdsal.version>
+        <odl.yang.jmx.generator.version>0.8.2</odl.yang.jmx.generator.version>
         <odl.ietf-yang-types.version>2010.09.24.11.1</odl.ietf-yang-types.version>
         <odl.ietf-inet-types.version>2010.09.24.11.1</odl.ietf-inet-types.version>
-        <odl.controller.config.api.version>0.7.1</odl.controller.config.api.version>
-        <odl.commons.opendaylight.version>2.0.5</odl.commons.opendaylight.version>
+        <odl.commons.opendaylight.version>3.0.1</odl.commons.opendaylight.version>
         <odl.karaf.empty.distro.version>1.8.3-Carbon</odl.karaf.empty.distro.version>
         
 
