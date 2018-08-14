@@ -650,7 +650,7 @@ limitations under the License.
             </properties>
             <!-- Core app-c from 1604 -->
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>appc-common</module>
@@ -676,7 +676,7 @@ limitations under the License.
                 <ssl.insecure>true</ssl.insecure>
             </properties>
             <activation>
-                <activeByDefault>false</activeByDefault>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
                 <module>appc-dispatcher</module>
