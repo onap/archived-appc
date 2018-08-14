@@ -22,19 +22,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>appc-provider</artifactId>
-    <groupId>org.onap.appc</groupId>
+    <groupId>org.onap.appc.parent</groupId>
+    <artifactId>odlparent-lite</artifactId>
     <version>1.4.0-SNAPSHOT</version>
   </parent>
   
+  <groupId>org.onap.appc</groupId>
   <artifactId>appc-provider-installer</artifactId>
-  <name>APPC Provider - Karaf Installer</name>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <name>APPC Provider - Karaf Installer</name>
   <properties>
     <application.name>appc-provider</application.name>
+    <feature-name>appc-provider</feature-name>
     <features.boot>appc-provider</features.boot>
-    <features.repositories>mvn:org.onap.appc/appc-provider-features/${project.version}/xml/features</features.repositories>
+    <features.repositories>mvn:org.onap.appc/onap-appc-provider/${project.version}/xml/features</features.repositories>
     <include.transitive.dependencies>false</include.transitive.dependencies>
   </properties>
 
@@ -42,7 +45,7 @@
 
     <dependency>
       <groupId>org.onap.appc</groupId>
-      <artifactId>appc-provider-features</artifactId>
+      <artifactId>onap-appc-provider</artifactId>
       <version>${project.version}</version>
       <classifier>features</classifier>
       <type>xml</type>
@@ -54,6 +57,12 @@
       </exclusions>
     </dependency>
 
+    <dependency>
+      <groupId>org.onap.appc</groupId>
+      <artifactId>appc-provider-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+    
     <dependency>
       <groupId>org.onap.appc</groupId>
       <artifactId>appc-provider-bundle</artifactId>
