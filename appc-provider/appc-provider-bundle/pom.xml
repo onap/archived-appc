@@ -25,12 +25,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>appc-provider</artifactId>
-        <groupId>org.onap.appc</groupId>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>binding-parent</artifactId>
         <version>1.4.0-SNAPSHOT</version>
+        <relativePath/>
     </parent>
+    
+    <groupId>org.onap.appc</groupId>
     <artifactId>appc-provider-bundle</artifactId>
+    <version>1.4.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
+    
+    <name>appc-provider-bundle</name>
+    <description>appc-provider OSGI bundle</description>
+    
     <build>
         <plugins>
             <plugin>
@@ -42,8 +50,6 @@
                         <Export-Package>org.opendaylight.controller.config.yang.config.sample_provider.impl
                         </Export-Package>
                         <Export-Package>org.onap.appc.provider</Export-Package>
-                        <!-- <Import-Package>!groovy.lang,!javax.jms,!org.codehaus.commons.compiler,!org.codehaus.groovy.*,!org.codehaus.janino,!com.ibm.icu.*,!com.sun.faces.*,!org.apache.log,*;resolution:=optional</Import-Package> -->
-                        <!-- <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic;scope=compile|runtime;inline=false,domain-model-lib,appc-command-executor-api,appc-request-handler-api</Embed-Dependency> -->
                         <Import-Package>
                             org.onap.appc.domainmodel.lcm,
                             org.onap.appc.i18n,
@@ -63,7 +69,6 @@
             <plugin>
                 <groupId>org.opendaylight.yangtools</groupId>
                 <artifactId>yang-maven-plugin</artifactId>
-                <version>${odl.yangtools.version}</version>
                 <executions>
                     <execution>
                         <id>config</id>
@@ -71,6 +76,7 @@
                             <goal>generate-sources</goal>
                         </goals>
                         <configuration>
+                            <yangFilesRootDir>${yang.file.directory}</yangFilesRootDir>
                             <codeGenerators>
                                 <generator>
                                     <codeGeneratorClass>
@@ -105,6 +111,7 @@
                         <groupId>org.opendaylight.controller</groupId>
                         <artifactId>yang-jmx-generator-plugin</artifactId>
                         <version>${odl.yang.jmx.generator.version}</version>
+                        <type>jar</type>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -169,18 +176,11 @@
             <version>${project.version}</version>
             <type>bundle</type>
             <scope>provided</scope>
-            <!--             <exclusions> -->
-            <!--                 <exclusion> -->
-            <!--                     <groupId>org.onap.appc</groupId> -->
-            <!--                     <artifactId>domain-model-lib</artifactId> -->
-            <!--                 </exclusion> -->
-            <!--             </exclusions> -->
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
-            <artifactId>appc-common</artifactId>
+            <artifactId>appc-common-bundle</artifactId>
             <version>${project.version}</version>
-            <!--             <classifier>jar-with-dependencies</classifier> -->
         </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
@@ -225,11 +225,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <artifactId>sal-rest-connector</artifactId>
-            <groupId>org.opendaylight.netconf</groupId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.opendaylight.controller</groupId>
             <artifactId>sal-binding-broker-impl</artifactId>
             <scope>test</scope>
@@ -238,7 +233,6 @@
             <groupId>org.opendaylight.controller</groupId>
             <artifactId>sal-binding-broker-impl</artifactId>
             <classifier>tests</classifier>
-            <version>${odl.mdsal.version}</version>
             <type>test-jar</type>
             <scope>test</scope>
         </dependency>

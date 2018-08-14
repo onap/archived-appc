@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.onap.appc.parent</groupId>
+    <artifactId>single-feature-parent</artifactId>
+    <version>1.4.0-SNAPSHOT</version>
+    <relativePath/>
+  </parent>
+  
+  <groupId>org.onap.appc</groupId>
+  <artifactId>onap-appc-provider</artifactId>
+  <packaging>feature</packaging>
+  
+  <name>onap-appc-provider</name>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.onap.appc</groupId>
+      <artifactId>onap-appc-core</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.appc</groupId>
+      <artifactId>onap-appc-request-handler</artifactId>
+      <version>${project.version}</version>
+      <type>xml</type>
+      <classifier>features</classifier>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.onap.appc</groupId>
+      <artifactId>appc-provider-model</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.appc</groupId>
+      <artifactId>appc-provider-bundle</artifactId>
+      <classifier>config</classifier>
+      <type>xml</type>
+      <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.onap.appc</groupId>
+      <artifactId>appc-provider-bundle</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</project>
