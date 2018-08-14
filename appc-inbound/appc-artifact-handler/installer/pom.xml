@@ -22,11 +22,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<artifactId>appc-artifact-handler</artifactId>
-		<groupId>org.onap.appc</groupId>
-		<version>1.4.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.onap.appc.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.4.0-SNAPSHOT</version>
+        <relativePath />
+    </parent>
+  <groupId>org.onap.appc</groupId>
 	<artifactId>appc-artifact-handler-installer</artifactId>
 	<name>appc-artifact-handler-installer</name>
 	<packaging>pom</packaging>
@@ -34,7 +36,7 @@
 	<properties>
 		<application.name>appc-artifact-handler</application.name>
 		<features.boot>appc-artifact-handler</features.boot>
-		<features.repositories>mvn:org.onap.appc/appc-artifact-handler-features/${project.version}/xml/features</features.repositories>
+		<features.repositories>mvn:org.onap.appc/onap-appc-artifact-handler/${project.version}/xml/features</features.repositories>
 		<include.transitive.dependencies>false</include.transitive.dependencies>
 	</properties>
 
@@ -42,8 +44,9 @@
 
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-artifact-handler-features</artifactId>
+			<artifactId>onap-appc-artifact-handler</artifactId>
 			<classifier>features</classifier>
+			<version>${project.version}</version>
 			<type>xml</type>
 			<exclusions>
 				<exclusion>
@@ -55,6 +58,7 @@
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-artifact-handler-provider</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		
 		<dependency>

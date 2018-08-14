@@ -25,10 +25,12 @@ limitations under the License.
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>appc-artifact-handler</artifactId>
-		<groupId>org.onap.appc</groupId>
+		<groupId>org.onap.appc.parent</groupId>
+		<artifactId>binding-parent</artifactId>
 		<version>1.4.0-SNAPSHOT</version>
+                <relativePath />
 	</parent>
+        <groupId>org.onap.appc</groupId>
 	<artifactId>appc-artifact-handler-provider</artifactId>
 	<packaging>bundle</packaging>
 
@@ -168,11 +170,6 @@ limitations under the License.
 		<dependency>
 			<artifactId>sal-test-model</artifactId>
 			<groupId>org.opendaylight.controller</groupId>
-			<scope>test</scope>
-			</dependency>
-		<dependency>
-			<artifactId>sal-rest-connector</artifactId>
-			<groupId>org.opendaylight.netconf</groupId>
 			<scope>test</scope>
 			</dependency>
 		<dependency>

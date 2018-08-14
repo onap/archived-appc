@@ -230,11 +230,6 @@ limitations under the License.
                 <version>${odl.mdsal.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.opendaylight.netconf</groupId>
-                <artifactId>sal-rest-connector</artifactId>
-                <version>${odl.mdsal.version}</version>
-            </dependency>
-            <dependency>
                 <groupId>org.opendaylight.controller</groupId>
                 <artifactId>sal-binding-broker-impl</artifactId>
                 <version>${odl.mdsal.version}</version>
