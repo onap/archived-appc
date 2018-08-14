@@ -225,11 +225,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <artifactId>sal-rest-connector</artifactId>
-            <groupId>org.opendaylight.netconf</groupId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.opendaylight.controller</groupId>
             <artifactId>sal-binding-broker-impl</artifactId>
             <scope>test</scope>
