@@ -67,7 +67,6 @@
             <plugin>
                 <groupId>org.opendaylight.yangtools</groupId>
                 <artifactId>yang-maven-plugin</artifactId>
-                <version>${odl.yangtools.version}</version>
                 <executions>
                     <execution>
                         <id>config</id>
@@ -223,11 +222,6 @@
         <dependency>
             <artifactId>sal-test-model</artifactId>
             <groupId>org.opendaylight.controller</groupId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <artifactId>sal-rest-connector</artifactId>
-            <groupId>org.opendaylight.netconf</groupId>
             <scope>test</scope>
         </dependency>
         <dependency>
