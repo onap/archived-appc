@@ -57,7 +57,7 @@
                             <goal>generate-sources</goal>
                         </goals>
                         <configuration>
-                            <sourceFileName>META-INF/yang/appc-provider-lcm.yang</sourceFileName>
+                            <sourceFileName>META-INF/yang/appc-provider-lcm@2016-01-08.yang</sourceFileName>
                             <outputFileName>target/generated-sources/appc-provider-lcm/appc-provider-lcm.json</outputFileName>
                             <templateName>templates/open-api/yang-to-open-api.ftl</templateName>
                             <contextBuilderClassName>org.onap.appc.tools.generator.extensions.YangContextBuilderImpl
