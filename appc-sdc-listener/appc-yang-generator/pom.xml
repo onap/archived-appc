@@ -64,7 +64,9 @@ limitations under the License.
         <dependency>
             <groupId>org.opendaylight.yangtools</groupId>
             <artifactId>yang-parser-impl</artifactId>
-            <version>${odl.yangtools.version}</version>
+            <!-- This is the last version of this jar to contain the 
+                 org.opendaylight.yangtools.yang.parser.stmt.rfc6020.YangStatementSourceImpl -->
+            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
