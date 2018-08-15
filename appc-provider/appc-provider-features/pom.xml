@@ -27,7 +27,7 @@
     <version>1.4.0-SNAPSHOT</version>
   </parent>
   
-  <groupId>org.onap.app</groupId>  
+  <groupId>org.onap.appc</groupId>  
   <artifactId>appc-provider-features</artifactId>
   <version>1.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
