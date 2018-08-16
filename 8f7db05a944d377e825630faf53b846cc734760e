@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_de55f9c6",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T13:40:43Z",
+      "side": 1,
+      "message": "Can you please check is this the allowed format for copyright?",
+      "revId": "8f7db05a944d377e825630faf53b846cc734760e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
