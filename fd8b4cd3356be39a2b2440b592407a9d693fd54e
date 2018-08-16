@@ -175,6 +175,24 @@
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_819de65b",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T16:34:54Z",
+      "side": 1,
+      "message": "You would think.  Unfortunately, Source-\u003eFormat doesn\u0027t remove trailing whitespace (nor does it appear to have an option to do so).\nIt requires extra work in Eclipse to do this, including these possibilities: 1) configure \"save action\" to auto-remove trailing whitespace  2) add a short-cut key to the \"remove trailing whitespace\" action  3) configure the \"clean up\" action to remove trailing whitespace, while avoiding the other actions it normally takes",
+      "parentUuid": "1a76adc5_c1867e65",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
