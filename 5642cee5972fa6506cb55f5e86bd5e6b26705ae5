@@ -34,6 +34,24 @@
       "revId": "5642cee5972fa6506cb55f5e86bd5e6b26705ae5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3ef42d86",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T14:24:02Z",
+      "side": 1,
+      "message": "I don\u0027t think it will compile without this - it\u0027s referenced in a @Test annotation below",
+      "parentUuid": "1a76adc5_5be9fb7e",
+      "revId": "5642cee5972fa6506cb55f5e86bd5e6b26705ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
