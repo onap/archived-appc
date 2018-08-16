@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_5edec940",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T13:57:10Z",
+      "side": 1,
+      "message": "\"Modifications...\" is the correct format, per the ONAP FOSS, when a new company makes changes.",
+      "parentUuid": "1a76adc5_7b863715",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_9bb793d8",
         "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-16T10:45:26Z",
       "side": 1,
       "message": "Can you move this objects creation to setup()?",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3ee3cd06",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T13:57:10Z",
+      "side": 1,
+      "message": "Yes, could use \"vnfc\", which is initialized by setup(), instead of creating a new, vnfc1.",
+      "parentUuid": "1a76adc5_9bb793d8",
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_bebefdd2",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T13:57:10Z",
+      "side": 1,
+      "message": "Yes, could use \"vnfc\", which is initialized by setup(), instead of creating a new, vnfc1.",
+      "parentUuid": "1a76adc5_5bb1fbdf",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_7bb4f7d0",
         "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2018-08-16T10:45:26Z",
       "side": 1,
       "message": "4 space characters should be used instead of a tab",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5eb569ec",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T13:57:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a tab.  I think it\u0027s just trailing spaces that Eclipse sometimes inserts.",
+      "parentUuid": "1a76adc5_7bb4f7d0",
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
