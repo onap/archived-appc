@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_3bfe7f39",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/transform/TestXSLTTransformerNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:45:17Z",
+      "side": 1,
+      "message": "Please remove extra tabs",
+      "revId": "11057d001c435dfe03f1961cbbf33e5898760a77",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1b038343",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/transform/TestXSLTTransformerNode.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:45:17Z",
+      "side": 1,
+      "message": "Is it 2 test case required to test the same method which takes template date \u0026 request data and formats both at the same time.?",
+      "revId": "11057d001c435dfe03f1961cbbf33e5898760a77",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
