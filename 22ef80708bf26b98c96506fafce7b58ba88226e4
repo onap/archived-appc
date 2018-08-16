@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9b2c7304",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnf.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:05:23Z",
+      "side": 1,
+      "message": "Check on the License header format.\nex: Copyright (C) 2018-2019 \u003cyour company\u003e. All rights reserved.",
+      "revId": "22ef80708bf26b98c96506fafce7b58ba88226e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fbed67b8",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnf.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:05:23Z",
+      "side": 1,
+      "message": "Please remove the extra tab \u0026 format it with the ONAP java code style.\nUtilize the existing vnf object created in setup() rather than creating new one again.",
+      "revId": "22ef80708bf26b98c96506fafce7b58ba88226e4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
