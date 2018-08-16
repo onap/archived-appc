@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_1b55c34f",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:37:14Z",
+      "side": 1,
+      "message": "Please remove unused imports",
+      "revId": "5642cee5972fa6506cb55f5e86bd5e6b26705ae5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
