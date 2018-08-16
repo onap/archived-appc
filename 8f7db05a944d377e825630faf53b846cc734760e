@@ -34,6 +34,24 @@
       "revId": "8f7db05a944d377e825630faf53b846cc734760e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fe9a356d",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-16T14:04:19Z",
+      "side": 1,
+      "message": "That is correct.  Just look for \"Modifications\" on this page:\nhttps://wiki.onap.org/display/DW/Rules+for+implementing+FOSS+in+a+project\n\nYou\u0027ll also find additional clarifications by Gildas in the \"comments\" section at the bottom of that page.",
+      "parentUuid": "1a76adc5_9ebb01e5",
+      "revId": "8f7db05a944d377e825630faf53b846cc734760e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
