@@ -84,6 +84,57 @@
       "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3b699f25",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/TestDBServiceExceptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:31:54Z",
+      "side": 1,
+      "message": "Do you need to create the MockDBService object in each method? is it possible to instantiate it once ?",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_db774b01",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/TestDBServiceExceptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:31:54Z",
+      "side": 1,
+      "message": "Most of the object and fields can be set in common method. Probably in @before method?",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fb724710",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/TestDBServiceExceptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:31:54Z",
+      "side": 1,
+      "message": "verify or assert it",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
