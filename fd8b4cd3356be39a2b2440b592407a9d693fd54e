@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_81a966e1",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T15:50:41Z",
+      "side": 1,
+      "message": "Agreed",
+      "parentUuid": "1a76adc5_5edec940",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_9bb793d8",
         "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
         "patchSetId": 4
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "I don\u0027t think this is a tab.  I think it\u0027s just trailing spaces that Eclipse sometimes inserts.",
       "parentUuid": "1a76adc5_7bb4f7d0",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c1867e65",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T15:50:41Z",
+      "side": 1,
+      "message": "Yes. I think formatting would remove this extra spaces.",
+      "parentUuid": "1a76adc5_5eb569ec",
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
