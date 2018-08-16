@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_5b36db53",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:25:20Z",
+      "side": 1,
+      "message": "Check on the License header format.\nex: Copyright (C) 2018-2019 \u003cyour company\u003e. All rights reserved.",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1b4063a4",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:25:20Z",
+      "side": 1,
+      "message": "Remove unused imports",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_3b3bdf39",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:25:20Z",
+      "side": 1,
+      "message": "verify or assert it",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fb4487b8",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:25:20Z",
+      "side": 1,
+      "message": "verify or assert it",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7b1077a8",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/DBServiceTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-16T11:25:20Z",
+      "side": 1,
+      "message": "verify or assert it",
+      "revId": "bfd1db0db491d945f71a3d51d1a84c1b96416c33",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
