@@ -193,6 +193,24 @@
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b5b7f8d7",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-08-17T10:05:41Z",
+      "side": 1,
+      "message": "Yes. I did that and it is a good practice to do so. All this are related to Eclipse.\n1. Configure save action - Just click on format the source code.\n2. add short-cut key - The default short-cut key -\u003e Ctrl + Shift + F will format the code.\n3. Configure clean up - Eclipse default just be fine.",
+      "parentUuid": "1a76adc5_819de65b",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
