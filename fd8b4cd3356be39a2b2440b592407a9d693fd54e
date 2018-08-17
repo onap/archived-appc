@@ -55,6 +55,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_303bf6d2",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-17T11:57:36Z",
+      "side": 1,
+      "message": "seems like the definitions of vnfc1 \u0026 2 have disappeared in this latest version",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_9bb793d8",
         "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
         "patchSetId": 4
@@ -262,6 +279,24 @@
       "side": 1,
       "message": "I agree with Jim too",
       "parentUuid": "1a76adc5_5eb569ec",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_90244ab0",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-17T11:57:36Z",
+      "side": 1,
+      "message": "FYI: None of the above actions, by itself, will remove trailing white space; you have to specifically configure one of them to \"remove trailing whitespace\" - it\u0027s an individual checkbox on the configuration pages for in #1 \u0026 #3, and it\u0027s a separate action in #2.\nCtrl-Shift-F will not remove trailing white space and I don\u0027t see a way to get it to do that. For some reason, that particular checkbox is not made available when configuring the Format action, AFAIK, though I could be missing it.  In addition, nobody on the web mentioned that as a possibility, either.",
+      "parentUuid": "1a76adc5_b5b7f8d7",
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
