@@ -105,8 +105,21 @@ public class TestVnf {
     @Test
     public void testGetSetIdentityUrl()
     {
-      Vnf vnf = new Vnf();
       vnf.setIdentityUrl("testIdentityUrl");
       assertEquals("testIdentityUrl", vnf.getIdentityUrl());
+    }
+    
+    @Test
+    public void testAddVserver()
+    {
+        Vserver vserver = new Vserver();
+        vserver.setId("V1");
+        vserver.setName("V1-Name");
+        vserver.setRelatedLink("V1-relatedlink");
+        vserver.setTenantId("V1-T1");
+        vserver.setUrl("http://v1.net");
+        vnf.addVserver(vserver);
+        assertEquals(1, vnf.getVservers().size());
+        assertEquals(vserver, vnf.getVservers().get(0))
     }
 }
