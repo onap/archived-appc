@@ -27,15 +27,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
-import org.powermock.reflect.Whitebox;
 
 public class TestAnsibleMessageParser {
+    private AnsibleMessageParser msgParser;
+
+    @Before
+    public void setup() {
+        msgParser = new AnsibleMessageParser();
+    }
 
     @Test
     public void testReqMessage() throws Exception {
         // String result = "{"\AgentUrl : TestAgentUrl}";
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("AgentUrl", "TestAgentUrl");
         params.put("PlaybookName", "TestPlaybookName");
@@ -49,7 +54,6 @@ public class TestAnsibleMessageParser {
 
     @Test
     public void testReqUriResult() throws Exception {
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("AgentUrl", "TestAgentUrl");
         params.put("Id", "TestId");
@@ -63,7 +67,6 @@ public class TestAnsibleMessageParser {
 
     @Test
     public void testReqUriLog() throws Exception {
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("AgentUrl", "TestAgent-Url");
         params.put("Id", "TestId");
@@ -78,7 +81,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParsePostResponse() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"100\",\"StatusMessage\":\"TestMessage\"}";
         ansibleResult = msgParser.parsePostResponse(input);
         assertEquals("TestMessage", ansibleResult.getStatusMessage());
@@ -88,7 +90,6 @@ public class TestAnsibleMessageParser {
     @Test(expected = Exception.class)
     public void TestParsePostResponseException() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"600\",\"StatusMessage\":\"TestMessage\"}";
         ansibleResult = msgParser.parsePostResponse(input);
     }
@@ -96,7 +97,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParsePostResponseException2() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"600\"}";
         String result = "Error parsing response";
         ansibleResult = msgParser.parsePostResponse(input);
@@ -106,7 +106,6 @@ public class TestAnsibleMessageParser {
     @Test(expected = Exception.class)
     public void TestParseGetResponseException() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"100\",\"StatusMessage\":\"TestMessage\"}";
         String result = "Invalid FinalResponse code";
         ansibleResult = msgParser.parseGetResponse(input);
@@ -115,7 +114,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParseGetResponseExec() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"200\",\"StatusMessage\":\"TestMessage\"}";
         String result = "Results not found in GET for response";
         ansibleResult = msgParser.parseGetResponse(input);
@@ -125,7 +123,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParseGetResponse() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"200\",\"StatusMessage\":\"TestMessage\",\"Results\":{\"host\":{\"StatusCode\":\"200\",\"StatusMessage\":\"SUCCESS\"}},\"Output\":{\"results-output\":{\"OutputResult\":\"TestOutPutResult\"}}}";
         ansibleResult = msgParser.parseGetResponse(input);
         String result = "TestOutPutResult";
@@ -135,7 +132,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParseGetResponseEx() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"200\",\"StatusMessage\":\"TestMessage\",\"Results\":{\"host\":\"TestHost\"}}";
         ansibleResult = msgParser.parseGetResponse(input);
         String result = "Error processing response message";
@@ -145,7 +141,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParseGetResponseJsonEx() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"200\",\"StatusMessage\":\"TestMessage\",\"Results\":\"host\":\"TestHost\"}";
         ansibleResult = msgParser.parseGetResponse(input);
         String result = "Error parsing response";
@@ -155,7 +150,6 @@ public class TestAnsibleMessageParser {
     @Test
     public void TestParseGetResponseResultEx() throws Exception {
         AnsibleResult ansibleResult;
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         String input = "{\"StatusCode\":\"200\",\"StatusMessage\":\"TestMessage\",\"Results\":{\"host\":{\"StatusCode\":\"100\",\"StatusMessage\":\"Failure\"}},\"Output\":{\"results-output\":{\"OutputResult\":\"TestOutPutResult\"}}}";
         ansibleResult = msgParser.parseGetResponse(input);
         String result = "TestOutPutResult";
@@ -164,7 +158,6 @@ public class TestAnsibleMessageParser {
 
     @Test
     public void testParseOptionalParam() throws Exception {
-        AnsibleMessageParser msgParser = new AnsibleMessageParser();
         Map<String, String> params = new HashMap<String, String>();
         params.put("AgentUrl", "TestAgentUrl");
         params.put("PlaybookName", "TestPlaybookName");
@@ -174,5 +167,19 @@ public class TestAnsibleMessageParser {
         params.put("Version", "1");
         JSONObject jObject = msgParser.reqMessage(params);
         assertEquals("1", jObject.get("Version"));
+    }
+
+    @Test
+    public void testParseOptionalParamForEnvParameters() throws Exception {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("AgentUrl", "TestAgentUrl");
+        params.put("PlaybookName", "TestPlaybookName");
+        params.put("User", "TestUser");
+        params.put("Password", "TestPassword");
+        params.put("EnvParameters", "{name:value}");
+        assertEquals("TestAgentUrl",result.get("AgentUrl"));
+        assertEquals("TestPlaybookName",result.get("PlaybookName"));
+        assertEquals("TestUser",result.get("User"));
+        assertEquals("TestPassword",result.get("Password"));
     }
 }
