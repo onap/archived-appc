@@ -32,8 +32,10 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
+import org.junit.Before;
 import org.junit.Test;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
@@ -42,6 +44,12 @@ import org.onap.sdnc.config.params.data.PropertyDefinition;
 import org.onap.sdnc.config.params.transformer.ArtificatTransformer;
 
 public class TestPropertyDefinitionNode {
+    private PropertyDefinitionNode propertyDefinitionNode;
+
+    @Before
+    public void setup() {
+        propertyDefinitionNode = new PropertyDefinitionNode();
+    }
 
     @Test
     public void testProcessMissingParamKeys() throws Exception {
@@ -49,12 +57,14 @@ public class TestPropertyDefinitionNode {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
 
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
         SvcLogicContext ctx = new SvcLogicContext();
@@ -63,19 +73,20 @@ public class TestPropertyDefinitionNode {
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
 
     }
-    
-    @Test(expected= SvcLogicException.class)
+
+    @Test(expected = SvcLogicException.class)
     public void testInProcessMissingParamKeysForEmptyPdContent() throws Exception {
         PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.processMissingParamKeys(inParams, ctx);
-     }
+    }
 
     @Test
     public void testProcessExternalSystemParamKeys() throws Exception {
@@ -83,12 +94,14 @@ public class TestPropertyDefinitionNode {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
 
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
@@ -107,65 +120,79 @@ public class TestPropertyDefinitionNode {
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
     }
 
+    @Test(expected = SvcLogicException.class)
+    public void testProcessExternalSystemParamKeysForEmptyPdContent() throws Exception {
+
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
+    }
+
     @Test
     public void mergeJsonData() throws Exception {
         PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
 
-        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
+        String mergeJsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/merge-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA, mergeJsonData);
 
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.mergeJsonData(inParams, ctx);
-        String mergedParams = ctx
-                .getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER);
+        String mergedParams = ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER);
         assertNotNull(mergedParams);
         assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
     }
-    
+
     @Test
     public void mergeJsonDataForEmptyParams() throws SvcLogicException, IOException {
-        
+
         PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/merge-param.json"), Charset.defaultCharset());
+        String mergeJsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/merge-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_MERGE__JSON_DATA, mergeJsonData);
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.mergeJsonData(inParams, ctx);
-        String status= ctx.getAttribute("test.status");
-        assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS,status);
-                
+        String status = ctx.getAttribute("test.status");
+        assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS, status);
+
     }
 
     @Test
     public void testArtificatTransformer() throws Exception {
         ArtificatTransformer transformer = new ArtificatTransformer();
-        String yamlData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
 
         PropertyDefinition propertyDefinition = transformer.convertYAMLToPD(yamlData);
         String yaml = transformer.convertPDToYaml(propertyDefinition);
     }
-
 
     @Test
     public void testValidationPd() throws Exception {
         PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         SvcLogicContext ctx = new SvcLogicContext();
-        String jsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/pd.yaml"), Charset.defaultCharset());
-        String mergeJsonData = IOUtils.toString(TestPropertyDefinitionNode.class.getClassLoader()
-                .getResourceAsStream("parser/request-param.json"), Charset.defaultCharset());
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
+        String mergeJsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, jsonData);
         inParams.put(ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER, mergeJsonData);
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "INSTAR");
