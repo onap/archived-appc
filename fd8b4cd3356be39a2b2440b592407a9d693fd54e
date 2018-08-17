@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_5e832904",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-17T10:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_3ee3cd06",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_5bb1fbdf",
         "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
         "patchSetId": 4
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Yes, could use \"vnfc\", which is initialized by setup(), instead of creating a new, vnfc1.",
       "parentUuid": "1a76adc5_5bb1fbdf",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7e862515",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-17T10:21:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_bebefdd2",
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -208,6 +244,24 @@
       "side": 1,
       "message": "Yes. I did that and it is a good practice to do so. All this are related to Eclipse.\n1. Configure save action - Just click on format the source code.\n2. add short-cut key - The default short-cut key -\u003e Ctrl + Shift + F will format the code.\n3. Configure clean up - Eclipse default just be fine.",
       "parentUuid": "1a76adc5_819de65b",
+      "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1e7db11c",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnfc.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-17T10:21:49Z",
+      "side": 1,
+      "message": "I agree with Jim too",
+      "parentUuid": "1a76adc5_5eb569ec",
       "revId": "fd8b4cd3356be39a2b2440b592407a9d693fd54e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
