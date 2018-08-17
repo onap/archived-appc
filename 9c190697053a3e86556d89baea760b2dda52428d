@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_70588e32",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/test/java/org/onap/appc/domainmodel/TestVnf.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-17T12:00:10Z",
+      "side": 1,
+      "message": "maybe add this, too: assertEquals(vserver, vnf.getVservers().get(0))",
+      "revId": "9c190697053a3e86556d89baea760b2dda52428d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
