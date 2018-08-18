@@ -93,8 +93,14 @@
         <dependency>
             <groupId>com.att.cdp</groupId>
             <artifactId>cdp-pal-common</artifactId>
-            <scope>compile</scope>
             <version>${cdp.pal.version}</version>
+            <scope>compile</scope>
+            <exclusions>
+                <exclusion>
+                  <groupId>ch.qos.logback</groupId>
+                  <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -102,6 +108,12 @@
             <artifactId>cdp-pal-openstack</artifactId>
             <scope>compile</scope>
             <version>${cdp.pal.version}</version>
+            <exclusions>
+                  <exclusion>
+                       <groupId>com.att.cdp</groupId>
+                       <artifactId>cdp-pal-common</artifactId>
+                  </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
