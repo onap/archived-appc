@@ -44,7 +44,13 @@
 		<dependency>
 			<groupId>com.att.eelf</groupId>
 			<artifactId>eelf-core</artifactId>
-			</dependency>
+                       <exclusions>
+                            <exclusion>
+                                 <groupId>ch.qos.logback</groupId>
+                                 <artifactId>logback-classic</artifactId>
+                            </exclusion>
+                        </exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-common</artifactId>
@@ -119,6 +125,7 @@
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
