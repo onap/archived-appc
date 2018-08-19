@@ -4,6 +4,8 @@
  * ================================================================================ 
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved. 
  * ============================================================================= 
+ * Modifications Copyright (C) 2018 IBM. 
+ * ============================================================================= 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License. 
  * You may obtain a copy of the License at 
@@ -31,23 +33,31 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 public class TestDmaapProducerImpl {
-    String[]           hostList = { "192.168.1.1" };
-    Collection<String> hosts    = new HashSet<String>(Arrays.asList(hostList));
+    String[] hostList = { "192.168.1.1" };
+    Collection<String> hosts = new HashSet<String>(Arrays.asList(hostList));
 
-    String             topic    = "JunitTopicOne";
-    String             group    = "junit-client";
-    String             id       = "junit-consumer-one";
-    String             key      = "key";
-    String             secret   = "secret";
-    String             filter   = null;
+    String topic = "JunitTopicOne";
+    String group = "junit-client";
+    String id = "junit-consumer-one";
+    String key = "key";
+    String secret = "secret";
+    String filter = null;
+
+    private DmaapProducerImpl producer;
+
+    @Before
+    public void setUp() {
+        producer = new DmaapProducerImpl(hosts, topic, null, null);
+    }
 
     @Test
     public void testDmaapProducerImplSingleTopic() {
-        DmaapProducerImpl producer = new DmaapProducerImpl(hosts, topic, key, secret);
+        producer = new DmaapProducerImpl(hosts, topic, key, secret);
 
         assertNotNull(producer);
 
@@ -64,7 +74,7 @@ public class TestDmaapProducerImpl {
         String[] topicList = { "topic1", "topic2" };
         Set<String> topicNames = new HashSet<String>(Arrays.asList(topicList));
 
-        DmaapProducerImpl producer = new DmaapProducerImpl(hosts, topicNames, key, secret);
+        producer = new DmaapProducerImpl(hosts, topicNames, key, secret);
 
         assertNotNull(producer);
 
@@ -79,8 +89,6 @@ public class TestDmaapProducerImpl {
 
     @Test
     public void testDmaapProducerImplNoUserPass() {
-        DmaapProducerImpl producer = new DmaapProducerImpl(hosts, topic, null, null);
-
         assertNotNull(producer);
 
         Properties props = producer.getProperties();
@@ -93,8 +101,6 @@ public class TestDmaapProducerImpl {
 
     @Test
     public void testUpdateCredentials() {
-        DmaapProducerImpl producer = new DmaapProducerImpl(hosts, topic, null, null);
-
         assertNotNull(producer);
 
         Properties props = producer.getProperties();
@@ -115,15 +121,15 @@ public class TestDmaapProducerImpl {
 
     }
 
-    @Ignore
     @Test
     public void testPost() {
-        fail("Not yet implemented");
+        boolean successful = producer.post("partition", "data");
+        assertEquals(true, successful);
     }
 
     @Test
     public void testCloseNoClient() {
-        DmaapProducerImpl producer = new DmaapProducerImpl(hosts, topic, key, secret);
+        producer = new DmaapProducerImpl(hosts, topic, key, secret);
 
         assertNotNull(producer);
 
@@ -138,7 +144,7 @@ public class TestDmaapProducerImpl {
 
     @Test
     public void testUseHttps() {
-        DmaapProducerImpl producer = new DmaapProducerImpl(hosts, topic, key, secret);
+        producer = new DmaapProducerImpl(hosts, topic, key, secret);
 
         assertNotNull(producer);
 
