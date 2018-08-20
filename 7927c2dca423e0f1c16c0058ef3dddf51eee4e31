@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_ae02426d",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/impl/TestDmaapProducerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-20T15:39:56Z",
+      "side": 1,
+      "message": "remove this line or remove setUp() method",
+      "revId": "7927c2dca423e0f1c16c0058ef3dddf51eee4e31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0ef3369f",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/impl/TestDmaapProducerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-20T15:39:56Z",
+      "side": 1,
+      "message": "remove this line or remove setUp() method",
+      "revId": "7927c2dca423e0f1c16c0058ef3dddf51eee4e31",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
