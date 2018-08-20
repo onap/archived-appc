@@ -36,7 +36,7 @@
 		<feature>ccsdk-sli</feature>
 		
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
-		<bundle>mvn:commons-collections/commons-collections/${common.collections.version}</bundle>
+		<bundle>mvn:commons-collections/commons-collections/3.2.2</bundle>
 		
 		<!-- <bundle>wrap:mvn:org.onap.appc/appc-yang-generator/${project.version}</bundle> -->
 		<bundle>wrap:mvn:org.openecomp.sdc.common/openecomp-tosca-datatype/${tosca.datatype.version}</bundle>
