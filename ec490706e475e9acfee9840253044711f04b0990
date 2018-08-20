@@ -70,6 +70,24 @@
       "revId": "ec490706e475e9acfee9840253044711f04b0990",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_6d5f4fe6",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-20T20:27:25Z",
+      "side": 1,
+      "message": "the more you check, the more you ensure that someone doesn\u0027t break something in the future, if they decide to modify reqMessage() for some reason, but I\u0027ll leave that up to you",
+      "parentUuid": "1a76adc5_0dc01b7b",
+      "revId": "ec490706e475e9acfee9840253044711f04b0990",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
