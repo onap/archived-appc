@@ -200,7 +200,18 @@
     	    <groupId>org.apache.velocity</groupId>
             <artifactId>velocity</artifactId>
     	    <version>1.7</version>
-	    </dependency>
+            <exclusions>
+                 <exclusion>
+                      <artifactId>commons-collections</artifactId>
+                      <groupId>commons-collections</groupId>
+                 </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.2</version>
+        </dependency>
          <dependency>
             <groupId>org.onap.ccsdk.sli.adaptors</groupId>
             <artifactId>sql-resource-provider</artifactId>

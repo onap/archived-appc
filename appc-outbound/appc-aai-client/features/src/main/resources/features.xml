@@ -39,7 +39,7 @@
 		<feature>ccsdk-aai-service</feature>
 		<bundle>mvn:commons-lang/commons-lang/2.6</bundle>
 		<!-- <bundle>mvn:org.apache.velocity/velocity/${velocity.version}</bundle> -->
-		<bundle>mvn:commons-collections/commons-collections/3.2.1</bundle> 
+		<bundle>mvn:commons-collections/commons-collections/3.2.2</bundle> 
 		<bundle>mvn:org.onap.appc/appc-aai-client-provider/${project.version}</bundle>
 	</feature>
 </features>
