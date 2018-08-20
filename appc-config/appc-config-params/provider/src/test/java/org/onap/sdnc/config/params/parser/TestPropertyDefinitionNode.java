@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modification Copyright (C) 2018 IBM
+ * Modifications Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -169,6 +169,14 @@ public class TestPropertyDefinitionNode {
         String status = ctx.getAttribute("test.status");
         assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS, status);
 
+    }
+
+    @Test(expected = SvcLogicException.class)
+    public void testMergeJsonDataCatchPortion() throws Exception {
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.mergeJsonData(inParams, ctx);
     }
 
     @Test
