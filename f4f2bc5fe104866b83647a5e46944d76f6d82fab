@@ -16,6 +16,24 @@
       "revId": "f4f2bc5fe104866b83647a5e46944d76f6d82fab",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4df7f3f5",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/MetricActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-20T20:20:25Z",
+      "side": 1,
+      "message": "No, sonar was throwing an error saying that this method is just declared and is empty, so we should throw a new UnsupportedOperationException, as it has no code in its body.",
+      "parentUuid": "1a76adc5_aeeb22af",
+      "revId": "f4f2bc5fe104866b83647a5e46944d76f6d82fab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
