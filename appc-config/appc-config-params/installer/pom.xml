@@ -150,6 +150,41 @@
                     </execution>
                 </executions>
             </plugin>
+        
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <transitive>false</transitive>
+                            <outputDirectory>${project.build.directory}/assembly/system</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <useRepositoryLayout>true</useRepositoryLayout>
+                            <addParentPoms>false</addParentPoms>
+                            <copyPom>false</copyPom>
+                            <excludeGroupIds>org.opendaylight</excludeGroupIds>
+                            <scope>provided</scope>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.yaml</groupId>
+                                    <artifactId>snakeyaml</artifactId>
+                                    <version>${snakeyaml.version}</version>
+                                    <type>jar</type>
+                                    <outputDirectory>${project.build.directory}/assembly/system/org/yaml/snakeyaml/${snakeyaml.version}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
