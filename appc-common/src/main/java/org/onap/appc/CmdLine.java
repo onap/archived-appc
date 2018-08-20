@@ -1,10 +1,12 @@
-/*-
+/*
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +23,14 @@
  * ============LICENSE_END=========================================================
  */
 
-    package org.onap.appc;
+package org.onap.appc;
 
 import org.onap.appc.encryption.EncryptionTool;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 public class CmdLine {
-
+        private static final EELFLogger logger = EELFManager.getInstance().getLogger(CmdLine.class);
         public static void main(String[] args) {
 
             if (args.length < 1) {
@@ -40,7 +44,7 @@ public class CmdLine {
             {
                 String clearText = args[1];
                 String encrypted = EncryptionTool.getInstance().encrypt(clearText);
-                System.out.println(encrypted);
+                logger.info("Encrypted value =",encrypted);
                 return;
             } else {
                 printUsage();
@@ -48,7 +52,7 @@ public class CmdLine {
         }
         
         private static void printUsage(){
-            System.out.println("Usage: java -jar <this jar> ...");
-            System.out.println("\tencrypt <your text> \t\t(Encrypts your text)");
+            logger.info("Usage: java -jar <this jar> ...");
+            logger.info("\tencrypt <your text> \t\t(Encrypts your text)");
         }
 }
