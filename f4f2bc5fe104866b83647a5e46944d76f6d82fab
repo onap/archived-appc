@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_aeeb22af",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/MetricActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-20T15:32:08Z",
+      "side": 1,
+      "message": "is this right?  should \"stop()\" not be called?",
+      "revId": "f4f2bc5fe104866b83647a5e46944d76f6d82fab",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
