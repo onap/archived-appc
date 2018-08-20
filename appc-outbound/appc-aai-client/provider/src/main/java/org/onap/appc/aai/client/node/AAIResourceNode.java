@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -119,7 +121,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
                 SvcLogicContext vmServerCtx = new SvcLogicContext();
 
-                Map<String, String> paramsVm = new HashMap<String, String>();
+                Map<String, String> paramsVm = new HashMap<>();
                 paramsVm.put(PARAM_VSERVER_ID, ctx.getAttribute(responsePrefix + "vm[" + i + STR_VSERVER_ID));
                 paramsVm.put(PARAM_TENANT_ID, ctx.getAttribute(responsePrefix + "vm[" + i + STR_TENANT_ID));
                 paramsVm.put(PARAM_CLOUD_OWNER, ctx.getAttribute(responsePrefix + "vm[" + i + STR_CLOUD_OWNER));
@@ -130,7 +132,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
                 aai.getVMInfo(paramsVm, vmServerCtx);
 
-                HashMap<String, String> vserverMap = new HashMap<String, String>();
+                HashMap<String, String> vserverMap = new HashMap<>();
                 vserverMap.put("vserver-id", ctx.getAttribute(responsePrefix + "vm[" + i + STR_VSERVER_ID));
                 vserverMap.put("tenant-id", ctx.getAttribute(responsePrefix + "vm[" + i + STR_TENANT_ID));
                 vserverMap.put("cloud-owner", ctx.getAttribute(responsePrefix + "vm[" + i + STR_CLOUD_OWNER));
@@ -139,7 +141,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 // Parameters returned by getVMInfo
                 vserverMap.put(PARAM_VSERVER_NAME, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-name"));
                 vserverMap.put("vf-module-id", vmServerCtx.getAttribute(responsePrefix + "vm.vf-module-id"));
-                vserverMap.put("vserver-selflink", vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
+                vserverMap.put(PARAM_VSERVER_SELFLINK, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
                 
                 log.info("VSERVER-LINK VALUE:" + vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
 
