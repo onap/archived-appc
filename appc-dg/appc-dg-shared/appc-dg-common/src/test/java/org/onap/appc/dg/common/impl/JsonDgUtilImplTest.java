@@ -25,60 +25,59 @@
 
 package org.onap.appc.dg.common.impl;
 
-import ch.qos.logback.core.Appender;
-import java.text.SimpleDateFormat;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.onap.appc.dg.common.impl.JsonDgUtilImpl;
-import org.onap.appc.exceptions.APPCException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.mockito.Mockito.mock;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class JsonDgUtilImplTest {
 
-    private final Appender appender = mock(Appender.class);
     private static final ThreadLocal<SimpleDateFormat> DATE_TIME_PARSER_THREAD_LOCAL = ThreadLocal
             .withInitial(() -> new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
+    private JsonDgUtilImpl jsonDgUtil;
+
+    @Before
+    public void setUp() {
+        jsonDgUtil = new JsonDgUtilImpl();
+    }
 
     @Test
     public void testFlatAndAddToContext() throws Exception {
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String key = "payload";
         String testValueKey = "test-key";
         String testValueValue = "test-value";
         String testValueKey2 = "test-key2";
         String testValueValue2 = "test-value2";
-        String payload = "{\"" + testValueKey + "\": \"" + testValueValue + "\",\""+testValueKey2+"\": \""+testValueValue2+"\"}";
+        String payload = "{\"" + testValueKey + "\": \"" + testValueValue + "\",\"" + testValueKey2 + "\": \""
+                + testValueValue2 + "\"}";
 
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> params = new HashMap<>();
         params.put(key, payload);
         jsonDgUtil.flatAndAddToContext(params, ctx);
 
-
-            Assert.assertEquals(ctx.getAttribute(testValueKey), testValueValue);
-            Assert.assertEquals(ctx.getAttribute(testValueKey2), testValueValue2);
-
-
+        Assert.assertEquals(ctx.getAttribute(testValueKey), testValueValue);
+        Assert.assertEquals(ctx.getAttribute(testValueKey2), testValueValue2);
 
     }
 
-
     @Test
     public void testFlatAndAddToContextNegativeWrongPayload() throws Exception {
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String key = "payload";
         String testValueKey = "test-key";
         String testValueValue = "test-value";
         String testValueKey2 = "test-key2";
         String testValueValue2 = "test-value2";
-        String payload = "{{\"" + testValueKey + "\": \"" + testValueValue + "\",\""+testValueKey2+"\": \""+testValueValue2+"\"}";
+        String payload = "{{\"" + testValueKey + "\": \"" + testValueValue + "\",\"" + testValueKey2 + "\": \""
+                + testValueValue2 + "\"}";
 
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> params = new HashMap<>();
@@ -92,19 +91,17 @@ public class JsonDgUtilImplTest {
             Assert.assertNotNull(ctx.getAttribute("error-message"));
         }
 
-
     }
-
 
     @Test
     public void testFlatAndAddToContextPayloadFromContext() throws Exception {
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String key = "payload";
         String testValueKey = "test-key";
         String testValueValue = "test-value";
         String testValueKey2 = "test-key2";
         String testValueValue2 = "test-value2";
-        String payload = "{\"" + testValueKey + "\": \"" + testValueValue + "\",\""+testValueKey2+"\": \""+testValueValue2+"\"}";
+        String payload = "{\"" + testValueKey + "\": \"" + testValueValue + "\",\"" + testValueKey2 + "\": \""
+                + testValueValue2 + "\"}";
 
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> params = new HashMap<>();
@@ -112,30 +109,25 @@ public class JsonDgUtilImplTest {
         ctx.setAttribute("input.payload", payload);
         jsonDgUtil.flatAndAddToContext(params, ctx);
 
-
         Assert.assertEquals(ctx.getAttribute(testValueKey), testValueValue);
         Assert.assertEquals(ctx.getAttribute(testValueKey2), testValueValue2);
     }
 
     @Test
     public void testFlatAndAddToContextNegativeNullPayload() throws Exception {
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String testValueKey = "test-key";
         String testValueKey2 = "test-key2";
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> params = new HashMap<>();
         jsonDgUtil.flatAndAddToContext(params, ctx);
 
-
         Assert.assertNull(ctx.getAttribute(testValueKey));
         Assert.assertNull(ctx.getAttribute(testValueKey2));
     }
 
-
     @Test
     public void testFlatAndAddToContextNegativeEmptyPayload() throws Exception {
 
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String key = "payload";
         String testValueKey = "test-key";
         String testValueKey2 = "test-key2";
@@ -149,11 +141,9 @@ public class JsonDgUtilImplTest {
         Assert.assertNull(ctx.getAttribute(testValueKey2));
     }
 
-
     @Test
     public void testGenerateOutputPayloadFromContext() throws Exception {
 
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String key = "output.payload";
         String key1 = "output.payload.test-key[0]";
         String key2 = "output.payload.test-key[1]";
@@ -173,11 +163,10 @@ public class JsonDgUtilImplTest {
         Assert.assertNotNull(ctx.getAttribute(key));
 
     }
-    
+
     @Test
     public void testCvaasFileNameAndFileContentToContext() throws Exception {
 
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         String key1 = "running-config.upload-date";
         String testValueKey1 = "2004-02-09 00:00:00:000";
         Long epochUploadTimestamp = DATE_TIME_PARSER_THREAD_LOCAL.get().parse(testValueKey1).getTime();
@@ -188,13 +177,18 @@ public class JsonDgUtilImplTest {
         assertNotNull(ctx.getAttribute("cvaas-file-content"));
         assertTrue(ctx.getAttribute("cvaas-file-content").contains(epochUploadTimestamp.toString()));
     }
-    
-    @Test(expected=APPCException.class)
-    public void testCheckFileCreated() throws APPCException
-    {
-        SvcLogicContext ctx= new SvcLogicContext();
+
+    @Test(expected = APPCException.class)
+    public void testCvaasFileNameAndFileContentToContextForEmptyParams() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+        jsonDgUtil.cvaasFileNameAndFileContentToContext(params, ctx);
+    }
+
+    @Test(expected = APPCException.class)
+    public void testCheckFileCreated() throws APPCException {
+        SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("cvaas-file-name", "testCvaasFile");
-        JsonDgUtilImpl jsonDgUtil = new JsonDgUtilImpl();
         Map<String, String> params = new HashMap<>();
         params.put("vnf-id", "testVnfId");
         jsonDgUtil.checkFileCreated(params, ctx);
