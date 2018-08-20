@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -37,26 +39,26 @@ import com.att.eelf.configuration.EELFManager;
 
 public class AppcAaiClientActivator implements BundleActivator {
 
-	private static final EELFLogger log = EELFManager.getInstance().getLogger(AppcAaiClientActivator.class);
-	private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
-	
-	@Override
-	public void start(BundleContext ctx) throws Exception {
-		
-		
-		
-		AAIResourceNode aaiResourceNode = new AAIResourceNode();
-		log.info("Registering service-- " + aaiResourceNode.getClass().getName());
-		registrations.add(ctx.registerService(aaiResourceNode.getClass().getName(), aaiResourceNode, null));
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(AppcAaiClientActivator.class);
+    private List<ServiceRegistration> registrations = new LinkedList<>();
+    
+    @Override
+    public void start(BundleContext ctx) throws Exception {
+        
+        
+        
+        AAIResourceNode aaiResourceNode = new AAIResourceNode();
+        log.info("Registering service-- " + aaiResourceNode.getClass().getName());
+        registrations.add(ctx.registerService(aaiResourceNode.getClass().getName(), aaiResourceNode, null));
 
-		
-	}
+        
+    }
 
-	@Override
-	public void stop(BundleContext arg0) throws Exception {
-		for (ServiceRegistration registration : registrations) {
-			registration.unregister();
-			registration = null;
-		}
-	}
+    @Override
+    public void stop(BundleContext arg0) throws Exception {
+        for (ServiceRegistration registration : registrations) {
+            registration.unregister();
+            registration = null;
+        }
+    }
 }
