@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 AT&T
 *=================================================================================
+* Modifications Copyright 2018 AT&T
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -19,30 +21,17 @@
 */
 package org.onap.appc.dg.common.utils;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Before;
-import org.junit.Test;
-
-
-
 import javax.xml.bind.JAXBException;
 
+import org.junit.Test;
+
 public class JAXBUtilTest {
+  
+    @Test(expected = JAXBException.class)
+    public void testToObjectFail() throws Exception {
+        String xmlStr = "<?xml version=\\\"1.0\\\"?><vnfId>I1</vnfId><vnfType>T1</vnfType>";
+        JAXBUtil.toObject(xmlStr, JSONUtilVnfTest.class);
 
-    @Before
-    public void setUp() {
-    }
-
-    @Test
-    public void testToObjectFail() {
-      String xmlStr = "<?xml version=\\\"1.0\\\"?><vnfId>I1</vnfId><vnfType>T1</vnfType>";
-      JSONUtilVnfTest jOut = null;
-        try {
-            jOut = JAXBUtil.toObject(xmlStr, JSONUtilVnfTest.class);
-        } catch (JAXBException jaxbe) {
-            assertEquals(jOut, null);
-        }
     }
 
 }
