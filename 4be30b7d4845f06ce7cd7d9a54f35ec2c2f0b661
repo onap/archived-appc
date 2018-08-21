@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_413fbcd6",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-21T12:38:32Z",
+      "side": 1,
+      "message": "should probably be private or protected",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a1aa5017",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-21T12:38:32Z",
+      "side": 1,
+      "message": "proper indentation",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_61643822",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-21T12:38:32Z",
+      "side": 1,
+      "message": "is \"vnfRetrieved.\" always followed by \"related-to\"?  If not, then this may throw an exception in some cases",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a181f090",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-21T12:38:32Z",
+      "side": 1,
+      "message": "need to sanitize the data before putting it into an SQL string as it may create SQL-injection issues otherwise",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_614bd887",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-21T12:38:32Z",
+      "side": 1,
+      "message": "can the attribute be null?  if so, should probably reverse the order of \"equals\"",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
