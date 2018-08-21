@@ -198,5 +198,14 @@ public class TestPropertyDefinitionNode {
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "INSTAR");
         propertyDefinitionNode.validateParams(inParams, ctx);
     }
+    
+    @Test(expected=SvcLogicException.class)
+    public void testValidateParamsForEmptyParams() throws Exception
+    {
+        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.validateParams(inParams, ctx);
+    }
 
 }
