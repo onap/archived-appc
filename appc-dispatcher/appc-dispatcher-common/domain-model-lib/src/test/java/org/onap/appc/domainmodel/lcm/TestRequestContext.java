@@ -82,5 +82,21 @@ public class TestRequestContext {
     public void testToString_ContainsString() {
         assertTrue(requestContext.toString().contains("RequestContext{commonHeader"));
     }
+    
+    @Test
+    public void testGetSetCommonHeader()
+    {
+        CommonHeader commonHeader = new CommonHeader();
+        requestContext.setCommonHeader(commonHeader);
+        assertEquals(commonHeader, requestContext.getCommonHeader());
+    }
+    
+    @Test
+    public void testGetSetActionIdentifiers()
+    {
+        ActionIdentifiers actionIdentifiers= new ActionIdentifiers();
+        requestContext.setActionIdentifiers(actionIdentifiers);
+        assertEquals(actionIdentifiers, requestContext.getActionIdentifiers());
+    }
 
 }
