@@ -377,7 +377,7 @@ limitations under the License.
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-core</artifactId>
-		<version>${logback.version}</version>
+				<version>${logback.version}</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
