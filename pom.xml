@@ -634,7 +634,6 @@ limitations under the License.
     <!-- ================================================================================== -->
     <modules>
         <module>appc-parent</module>
-        <module>appc-common</module>
         <module>appc-core</module>
     </modules>
     <!-- Adding profiles for testing -->
@@ -653,7 +652,6 @@ limitations under the License.
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>appc-common</module>
                 <module>appc-adapters</module>
                 <module>appc-provider</module>
                 <module>appc-event-listener</module>

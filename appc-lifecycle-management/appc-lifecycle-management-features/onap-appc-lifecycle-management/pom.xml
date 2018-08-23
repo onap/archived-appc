@@ -77,7 +77,7 @@ limitations under the License.
                          <excludedArtifactId>httpcore</excludedArtifactId>
                          <excludedArtifactId>httpclient</excludedArtifactId>
                          <excludedArtifactId>org.eclipse.osgi</excludedArtifactId>
-                         <excludedArtifactId>appc-common</excludedArtifactId>
+                         <excludedArtifactId>appc-common-bundle</excludedArtifactId>
                          
                     </excludedArtifactIds>
                 </configuration>
