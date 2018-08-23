@@ -98,5 +98,13 @@ public class TestRequestContext {
         requestContext.setActionIdentifiers(actionIdentifiers);
         assertEquals(actionIdentifiers, requestContext.getActionIdentifiers());
     }
+    
+    @Test
+    public void testGetSetAction()
+    {
+        VNFOperation action= VNFOperation.ActionStatus;
+        requestContext.setAction(action);
+        assertEquals(action, requestContext.getAction());
+    }
 
 }
