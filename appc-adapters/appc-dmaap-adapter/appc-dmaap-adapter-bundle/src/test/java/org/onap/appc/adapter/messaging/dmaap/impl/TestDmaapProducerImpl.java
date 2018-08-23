@@ -136,10 +136,12 @@ public class TestDmaapProducerImpl {
         producer.close();
     }
 
-    @Ignore
+    
     @Test
     public void testCloseWithClient() {
-        fail("Not yet implemented");
+        producer.post("partition", "data");
+        assertNotNull(producer);
+        producer.close();
     }
 
     @Test
