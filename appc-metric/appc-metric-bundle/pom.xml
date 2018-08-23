@@ -91,7 +91,7 @@
                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                         <Bundle-Version>${project.version}</Bundle-Version>
                         <Bundle-Activator>org.onap.appc.MetricActivator</Bundle-Activator>
-                        <Embed-Dependency>appc-common,eelf-core,logback-core,logback-classic,appc-data-lib;scope=compile|runtime;inline=false</Embed-Dependency>
+                        <Embed-Dependency>appc-data-lib;scope=compile|runtime;inline=false</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <Export-Service>org.onap.appc.metricservice.impl.MetricServiceImpl,org.onap.appc.metricservice.MetricService,org.onap.appc.metricservice.policy.*,org.onap.appc.metricservice.metric.*</Export-Service>
                         <Export-Package>org.onap.appc.metricservice,org.onap.appc.metricservice.impl,org.onap.appc.metricservice.policy,org.onap.appc.metricservice.publisher,org.onap.appc.metricservice.metric</Export-Package>

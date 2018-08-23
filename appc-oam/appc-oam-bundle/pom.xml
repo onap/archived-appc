@@ -57,9 +57,6 @@
                             org.onap.appc.adapter.factory.*,
                             *;resolution:=optional
                         </Import-Package>
-                        <Embed-Dependency>
-                            appc-common;scope=compile|runtime;inline=false
-                        </Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>

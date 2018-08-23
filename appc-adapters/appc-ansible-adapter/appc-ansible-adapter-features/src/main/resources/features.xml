@@ -32,7 +32,7 @@
     <feature name='appc-ansible-adapter' description="appc-ansible-adapter" version='${project.version}'>
         <feature >odl-mdsal-broker</feature>
         <feature>ccsdk-sli</feature>
-         <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+         <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-ansible-adapter-bundle/${project.version}</bundle>
     </feature>
 

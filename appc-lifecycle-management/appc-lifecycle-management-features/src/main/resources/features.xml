@@ -28,7 +28,7 @@
     xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0  http://karaf.apache.org/xmlns/features/v1.2.0">
 
     <feature name='appc-lifecycle-management' description="application executor" version='${project.version}'>
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/state-machine-lib/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-lifecycle-management-api/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-lifecycle-management-core/${project.version}</bundle>

@@ -103,7 +103,7 @@
                         <Bundle-Activator>org.onap.sdnc.config.audit.SliAuditActivator</Bundle-Activator>
                         <Export-Package>org.onap.sdnc.config.audit,org.onap.sdnc.config.audit.node</Export-Package>
                         <!-- <Embed-Dependency>jackson-databind,jackson-annotations,jackson-core,eelf-core,xmlunit,xmlunit-core,logback-core,logback-classic</Embed-Dependency> -->
-                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|!appc-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
+                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|!appc-common-bundle|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
                         <Import-Package>*;resolution:=optional</Import-Package>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
