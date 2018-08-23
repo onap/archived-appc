@@ -28,7 +28,7 @@
 		  xsi:schemaLocation="http://karaf.apache.org/xmlns/features/v1.2.0 http://karaf.apache.org/xmlns/features/v1.2.0">
 	<feature name='appc-ssh-adapter' description="appc-ssh-adapter" version='${project.version}'>
 <!--         <feature version='${sdnctl.dblib.version}'>ccsdk-dblib</feature> -->
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-ssh-adapter-api/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-ssh-adapter-sshd/${project.version}</bundle>
 	</feature>

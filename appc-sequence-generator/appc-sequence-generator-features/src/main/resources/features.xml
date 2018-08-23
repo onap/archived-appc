@@ -31,7 +31,7 @@
 		<!--<feature version="${odl.controller.mdsal.version}">odl-mdsal-broker</feature>-->
 		<!--<feature>ccsdk-sli</feature>-->
 		<bundle dependency="true">mvn:org.onap.appc/domain-model-lib/${project.version}</bundle>
-		<bundle>mvn:org.onap.appc/appc-common/${project.version}</bundle>
+		<bundle>mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-sequence-generator-model/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-sequence-generator-bundle/${project.version}</bundle>
         <bundle>wrap:mvn:org.onap.appc/appc-dg-domain-model-lib/${project.version}</bundle>

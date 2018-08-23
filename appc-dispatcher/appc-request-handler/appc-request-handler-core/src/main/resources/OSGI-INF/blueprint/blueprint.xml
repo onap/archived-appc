@@ -42,7 +42,10 @@
         <property name="lockManager" ref="lockManagerRef" />
         <property name="transactionRecorder" ref="transactionRecorderRef" />
         <property name="requestValidationPolicy" ref="requestValidationPolicyBean"/>
+        <property name="aaiService" ref="aaiServiceRef"/>
     </bean>
+    
+    <reference id="aaiServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.adapters.aai.AAIService" />
 
     <bean id="LocalRequestHandlerBean" class="org.onap.appc.requesthandler.impl.LocalRequestHandlerImpl" scope="singleton" >
         <property name="requestValidator" ref="LocalRequestValidatorBean" />
@@ -82,6 +85,6 @@
     <reference id="commandExecutorRef" availability="optional" activation="eager" interface="org.onap.appc.executor.CommandExecutor" />
     <reference id="lockManagerRef" availability="mandatory" activation="eager" interface="org.onap.appc.lockmanager.api.LockManager" />
     <reference id="transactionRecorderRef" availability="mandatory" activation="eager" interface="org.onap.appc.transactionrecorder.TransactionRecorder" />
-    <reference xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" ext:proxy-method="classes" id="aaiServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.adaptors.aai.AAIService" />
+    <!--<reference xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0" ext:proxy-method="classes" id="aaiServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.adaptors.aai.AAIService" />-->
 
 </blueprint>

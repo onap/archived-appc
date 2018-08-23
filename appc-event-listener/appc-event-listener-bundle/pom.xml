@@ -47,7 +47,7 @@
 			</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-common</artifactId>
+			<artifactId>appc-common-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -140,7 +140,7 @@
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Dependency>
-							httpclient,httpcore,jasypt,commons-lang,commons-lang3,appc-common,
+							httpclient,httpcore,jasypt,commons-lang,commons-lang3,appc-common-bundle,
 							logback-core,logback-classic,eelf-core,commons-logging;scope=compile|runtime;inline=false
 						</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>

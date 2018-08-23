@@ -32,7 +32,7 @@
 		<feature version='${project.version}'>appc-ssh-adapter</feature>
 		<feature version='${project.version}'>appc-netconf-adapter</feature>
 		<feature>ccsdk-sli</feature>
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
         <bundle start-level="85" start="true">mvn:org.onap.appc/appc-dg-common/${project.version}</bundle>
 		<bundle>mvn:org.onap.appc/appc-dg-ssh/${project.version}</bundle>
 		<bundle start-level="85" start="true">mvn:org.onap.appc/appc-dg-netconf/${project.version}</bundle>
