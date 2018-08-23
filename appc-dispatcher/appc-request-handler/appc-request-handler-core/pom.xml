@@ -148,6 +148,7 @@
                         <Export-Service>org.onap.appc.requesthandler.RequestHandler</Export-Service>
                         <Export-Package>org.onap.appc.requesthandler*,org.onap.appc.requesthandler.conv,org.onap.appc.validation*,org.onap.messageadapter*</Export-Package>
                         <Import-Package>
+                            org.onap.ccsdk.sli.adaptors.aai,
                             org.onap.appc.adapter.messaging.*,
                             org.onap.appc.adapter.message.*,
                             org.onap.appc.adapter.factory.*,

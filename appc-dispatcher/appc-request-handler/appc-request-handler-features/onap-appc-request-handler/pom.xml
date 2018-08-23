@@ -45,6 +45,13 @@ limitations under the License.
             <classifier>features</classifier>
         </dependency>
         <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors</groupId>
+            <artifactId>ccsdk-aai-service</artifactId>
+            <type>xml</type>
+            <classifier>features</classifier>
+            <version>${ccsdk.sli.adaptors.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>transaction-recorder</artifactId>
             <version>${project.version}</version>
