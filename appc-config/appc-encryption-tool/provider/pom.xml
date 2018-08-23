@@ -94,7 +94,7 @@
                         <Export-Package>org.onap.appc.encryptiontool</Export-Package>
                         <Import-Package>!com.google.common.collect,*;resolution:=optional</Import-Package>
                         <!--  <Embed-Dependency>guava,logback-core,logback-classic,eelf-core,jasypt,commons-configuration</Embed-Dependency> -->
-                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|!appc-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
+                        <Embed-Dependency>*;scope=compile|runtime;artifactId=!sli-common|!appc-common-bundle|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis</Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
                     <manifestLocation>${project.basedir}/src/main/resources/META-INF</manifestLocation>

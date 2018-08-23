@@ -36,7 +36,7 @@
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
 
         <!-- appc-common bundle is flagged as being a dependency -->
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
 
         <bundle>mvn:org.onap.appc/appc-metric-bundle/${project.version}</bundle>
     </feature>
