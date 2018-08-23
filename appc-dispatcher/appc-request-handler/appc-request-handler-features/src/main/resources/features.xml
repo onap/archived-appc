@@ -30,7 +30,7 @@
     <feature name='appc-request-handler' description="appc-request-handler" version='${project.version}'>
         <bundle start-level="80">mvn:org.onap.appc/transaction-recorder/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/appc-data-access-lib/${project.version}</bundle>
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/domain-model-lib/${project.version}</bundle>
         <bundle dependency="true">mvn:org.onap.appc/appc-message-adapter-api/${project.version}</bundle>
 	<bundle dependency="true">mvn:org.onap.appc/appc-provider-model/${project.version}</bundle>

@@ -33,7 +33,7 @@
         <!--<feature version="${project.version}">appc-aai-adapter</feature>-->
         <!-- Most applications will have a dependency on the ODL MD-SAL Broker -->
         <feature >odl-mdsal-broker</feature>
-        <bundle dependency="true">mvn:org.onap.appc/appc-common/${project.version}</bundle>
+        <bundle dependency="true">mvn:org.onap.appc/appc-common-bundle/${project.version}</bundle>
         <bundle>mvn:org.onap.appc/appc-dg-util-bundle/${project.version}</bundle>
     </feature>
 
