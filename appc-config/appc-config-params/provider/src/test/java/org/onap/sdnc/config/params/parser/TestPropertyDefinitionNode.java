@@ -215,5 +215,19 @@ public class TestPropertyDefinitionNode {
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.validateParams(inParams, ctx);
     }
+    
+    @Test
+    public void testValidateParamsForEmptyConfigParams() throws Exception
+    {
+        Map<String, String> inParams = new HashMap<String, String>();
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, jsonData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.validateParams(inParams, ctx);
+        String status = ctx.getAttribute("status");
+        assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS,status);
+    }
 
 }
