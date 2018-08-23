@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_aee1cb9b",
+        "filename": "appc-common/src/main/java/org/onap/appc/CmdLine.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-08-23T20:48:46Z",
+      "side": 1,
+      "message": "have you seen this \"main\" here? this is java is nothing related to appc application itself.",
+      "range": {
+        "startLine": 34,
+        "startChar": 40,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "aa30fdc199e3b95bb582f764396f9310911a97f7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
