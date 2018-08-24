@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_7e47dc4b",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-24T14:45:47Z",
+      "side": 1,
+      "message": "if it\u0027s protected, and the test class is in the same package, then it can access it.  Alternatively, if it\u0027s private, then powermock\u0027s Whitebox can still invoke it.",
+      "parentUuid": "1a76adc5_88540222",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a1aa5017",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
         "patchSetId": 1
