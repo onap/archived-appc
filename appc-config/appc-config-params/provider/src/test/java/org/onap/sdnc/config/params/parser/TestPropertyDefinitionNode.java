@@ -53,7 +53,6 @@ public class TestPropertyDefinitionNode {
 
     @Test
     public void testProcessMissingParamKeys() throws Exception {
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
@@ -76,7 +75,6 @@ public class TestPropertyDefinitionNode {
 
     @Test(expected = SvcLogicException.class)
     public void testInProcessMissingParamKeysForEmptyPdContent() throws Exception {
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         String jsonData = IOUtils.toString(
@@ -90,7 +88,6 @@ public class TestPropertyDefinitionNode {
 
     @Test
     public void testProcessExternalSystemParamKeys() throws Exception {
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
@@ -132,7 +129,6 @@ public class TestPropertyDefinitionNode {
 
     @Test
     public void mergeJsonData() throws Exception {
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
 
@@ -157,7 +153,6 @@ public class TestPropertyDefinitionNode {
     @Test
     public void mergeJsonDataForEmptyParams() throws SvcLogicException, IOException {
 
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         String mergeJsonData = IOUtils.toString(
@@ -192,7 +187,6 @@ public class TestPropertyDefinitionNode {
 
     @Test
     public void testValidationPd() throws Exception {
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         SvcLogicContext ctx = new SvcLogicContext();
         String jsonData = IOUtils.toString(
@@ -210,7 +204,6 @@ public class TestPropertyDefinitionNode {
     @Test(expected=SvcLogicException.class)
     public void testValidateParamsForEmptyParams() throws Exception
     {
-        PropertyDefinitionNode propertyDefinitionNode = new PropertyDefinitionNode();
         Map<String, String> inParams = new HashMap<String, String>();
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.validateParams(inParams, ctx);
