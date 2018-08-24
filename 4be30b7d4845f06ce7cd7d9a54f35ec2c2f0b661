@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_88540222",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-24T13:58:08Z",
+      "side": 1,
+      "message": "Cant be private or protected, because I will write a test case separately for this method after my change gets approved. If it is made private or protected, the method wont be accesible from the test class.",
+      "parentUuid": "1a76adc5_413fbcd6",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a1aa5017",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-08-21T12:38:32Z",
       "side": 1,
       "message": "proper indentation",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2b7608a5",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-24T13:58:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_a1aa5017",
       "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_68308601",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-24T13:58:08Z",
+      "side": 1,
+      "message": "This logic was there from the start, i.e. , from the organisation that has put this code in ONAP. So, I am not sure if vnfRetrieved will be always followed by \"related-to\" or not. I just copied the old piece of code, as it is into the new method that i created while formatting the code.",
+      "parentUuid": "1a76adc5_61643822",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_a181f090",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
         "patchSetId": 1
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_882ba293",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-24T13:58:08Z",
+      "side": 1,
+      "message": "again this logic has stayed from old code.",
+      "parentUuid": "1a76adc5_a181f090",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_614bd887",
         "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
         "patchSetId": 1
@@ -81,6 +153,24 @@
       "writtenOn": "2018-08-21T12:38:32Z",
       "side": 1,
       "message": "can the attribute be null?  if so, should probably reverse the order of \"equals\"",
+      "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a80d3e40",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-08-24T13:58:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_614bd887",
       "revId": "4be30b7d4845f06ce7cd7d9a54f35ec2c2f0b661",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
