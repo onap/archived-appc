@@ -51,6 +51,24 @@
       "revId": "467a2ff7f2650ddcd099f084af1262bfc3b43827",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_2eae0486",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/dbservices/TestDBServiceExceptions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-28T17:55:45Z",
+      "side": 1,
+      "message": "Even if they\u0027re void, they probably have some side-effects.  For instance, do they record any information in internal data structures that could be subsequently verified?  Or do they invoke the mock DB service in a way that can be verified?",
+      "parentUuid": "1a76adc5_29a5eb52",
+      "revId": "467a2ff7f2650ddcd099f084af1262bfc3b43827",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
