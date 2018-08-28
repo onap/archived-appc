@@ -44,10 +44,22 @@
 			<artifactId>sli-provider</artifactId>
 		</dependency>
 
+                <dependency>
+                        <groupId>com.datastax.cassandra</groupId>
+                        <artifactId>cassandra-driver-core</artifactId>
+                        <version>3.0.8</version>
+                </dependency>
+
 		<dependency>
 			<groupId>org.openecomp.sdc.common</groupId>
 			<artifactId>openecomp-tosca-datatype</artifactId>
 			<version>${tosca.datatype.version}</version>
+                        <exclusions>
+                            <exclusion>
+                                 <groupId>com.datastax.cassandra</groupId>
+                                 <artifactId>cassandra-driver-core</artifactId>
+                            </exclusion>
+                        </exclusions>
 		</dependency>
 
 		<dependency>
