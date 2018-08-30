@@ -161,6 +161,39 @@ public class TestRestAdapterImpl {
         assertEquals("http://example.com:8081/deletetest", httpDelete.getURI().toURL().toString());
     }
 
+    @Test
+    public void testCreateRequestNoParamDelete() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+
+        adapter.commonDelete(params, ctx);
+
+        assertEquals("failure", ctx.getStatus());
+        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("java.lang.IllegalArgumentException: HTTP request may not be null",
+                     ctx.getAttribute("org.openecomp.rest.result.message"));
+    }
+
+    @Test
+    public void testCreateRequestInvalidParamDelete() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+        params.put("org.onap.appc.instance.URI", "boo");
+        params.put("org.onap.appc.instance.haveHeader","false");
+        params.put("org.onap.appc.instance.requestBody", "{\"name\":\"MyNode2\", \"width\":300, \"height\":300}");
+
+        adapter.commonDelete(params, ctx);
+
+        assertEquals("failure", ctx.getStatus());
+        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("org.apache.http.client.ClientProtocolException",
+                     ctx.getAttribute("org.openecomp.rest.result.message"));
+    }
+    
     private HttpRequestBase givenParams(Map<String, String> params, String method){
         SvcLogicContext ctx = new SvcLogicContext();
         RequestContext rc = new RequestContext(ctx);
