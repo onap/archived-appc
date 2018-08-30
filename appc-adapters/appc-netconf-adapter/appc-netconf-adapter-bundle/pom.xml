@@ -140,8 +140,21 @@
             </dependency>
 
         <dependency>
+            <artifactId>org.apache.karaf.shell.console</artifactId>
+            <groupId>org.apache.karaf.shell</groupId>
+            <version>4.2.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>dblib-provider</artifactId>
+            <exclusions>
+                  <exclusion>
+                        <artifactId>org.apache.karaf.shell.console</artifactId>
+                        <groupId>org.apache.karaf.shell</groupId>
+                  </exclusion>
+            </exclusions>
+
         </dependency>
 
         <dependency>

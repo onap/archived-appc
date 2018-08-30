@@ -37,6 +37,12 @@ limitations under the License.
 
     <dependencies>
         <dependency>
+            <artifactId>org.apache.karaf.shell.console</artifactId>
+            <groupId>org.apache.karaf.shell</groupId>
+            <version>4.2.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>onap-appc-netconf-adapter</artifactId>
             <version>${project.version}</version>
