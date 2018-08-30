@@ -45,6 +45,7 @@ public enum VNFOperation {
     Query,
     QuiesceTraffic,
     ResumeTraffic,
+    DistributeTraffic,
     Reboot,
     Rebuild,
     Restart,

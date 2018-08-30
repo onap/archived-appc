@@ -271,6 +271,11 @@ public class Converter {
                 ((DetachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((DetachVolumeOutputBuilder)outObj).setStatus(status);
                 return outObj;
+            case DistributeTraffic:
+                outObj = new DistributeTrafficOutputBuilder();
+                ((DistributeTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DistributeTrafficOutputBuilder)outObj).setStatus(status);
+                return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");
         }
