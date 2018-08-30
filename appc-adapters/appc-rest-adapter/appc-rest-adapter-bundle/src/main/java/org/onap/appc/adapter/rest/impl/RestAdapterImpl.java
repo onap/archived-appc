@@ -156,8 +156,8 @@ public class RestAdapterImpl implements RestAdapter {
         svcLogic.setStatus(OUTCOME_FAILURE);
         svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_CODE, status);
         svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, msg);
-        svcLogic.setAttribute("org.openecomp.rest.result.code", status);
-        svcLogic.setAttribute("org.openecomp.rest.result.message", msg);
+        svcLogic.setAttribute(Constants.CONTEXT_ERROR_CODE, status);
+        svcLogic.setAttribute(Constants.CONTEXT_ERROR_MESSAGE, msg);
     }
 
 
@@ -170,9 +170,9 @@ public class RestAdapterImpl implements RestAdapter {
         svcLogic.setStatus(OUTCOME_SUCCESS);
         svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_CODE, Integer.toString(HttpStatus.OK_200.getStatusCode()));
         svcLogic.setAttribute(Constants.ATTRIBUTE_ERROR_MESSAGE, message);
-        svcLogic.setAttribute("org.openecomp.rest.agent.result.code", Integer.toString(code));
-        svcLogic.setAttribute("org.openecomp.rest.agent.result.message", message);
-        svcLogic.setAttribute("org.openecomp.rest.result.code", Integer.toString(HttpStatus.OK_200.getStatusCode()));
+        svcLogic.setAttribute(Constants.CONTEXT_AGENT_ERROR_CODE, Integer.toString(code));
+        svcLogic.setAttribute(Constants.CONTEXT_AGENT_ERROR_MESSAGE, message);
+        svcLogic.setAttribute(Constants.CONTEXT_ERROR_CODE, Integer.toString(HttpStatus.OK_200.getStatusCode()));
     }
 
     private void executeHttpRequest(HttpRequestBase httpRequest, RequestContext rc) {
