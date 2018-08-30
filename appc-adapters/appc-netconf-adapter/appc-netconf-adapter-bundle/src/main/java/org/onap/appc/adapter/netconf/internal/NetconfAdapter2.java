@@ -53,6 +53,19 @@ public class NetconfAdapter2 {
     }
 
     /**
+     * Constructor.
+     *
+     * @param in  InputStream this instance will read netconf messages from
+     * @param out OutputStream this instance will write netconf messages to
+     * @throws IOException
+     */
+    public NetconfAdapter2(PipedInputStream in, PipedOutputStream out) throws IOException {
+        this.in = in;
+        this.out = out;
+
+    }
+
+    /**
      * @return InputStream this instance will read netconf messages from.
      */
     public InputStream getIn() {
