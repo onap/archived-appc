@@ -94,6 +94,39 @@ public class TestRestAdapterImpl {
         assertEquals("http://example.com:8081/posttest", httpPost.getURI().toURL().toString());
         assertEquals("{\"name\":\"MyNode\", \"width\":200, \"height\":100}", EntityUtils.toString(httpPost.getEntity()));
     }
+
+    @Test
+    public void testCreateRequestNoParamPost() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+
+        adapter.commonPost(params, ctx);
+
+        assertEquals("failure", ctx.getStatus());
+        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("java.lang.IllegalArgumentException: HTTP request may not be null",
+                     ctx.getAttribute("org.openecomp.rest.result.message"));
+    }
+
+    @Test
+    public void testCreateRequestInvalidParamPost() throws IOException, IllegalStateException, IllegalArgumentException,
+            ZoneException, APPCException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> params = new HashMap<>();
+        params.put("org.onap.appc.instance.URI", "boo");
+        params.put("org.onap.appc.instance.haveHeader","false");
+        params.put("org.onap.appc.instance.requestBody", "{\"name\":\"MyNode2\", \"width\":300, \"height\":300}");
+
+        adapter.commonPost(params, ctx);
+
+        assertEquals("failure", ctx.getStatus());
+        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("org.apache.http.client.ClientProtocolException",
+                     ctx.getAttribute("org.openecomp.rest.result.message"));
+    }
     
     @Test
     public void testCreateHttpRequestPut() throws IOException, IllegalStateException, IllegalArgumentException,
