@@ -52,6 +52,23 @@ public final class Constants {
     @SuppressWarnings("nls")
     public static final String ATTRIBUTE_ERROR_MESSAGE = "error-message";
 
+    /**     * The name for the error message  to be set in the context
+     */
+    @SuppressWarnings("nls")
+    public static final String CONTEXT_ERROR_MESSAGE = "org.openecomp.rest.result.message";
+
+    @SuppressWarnings("nls")
+    public static final String CONTEXT_AGENT_ERROR_MESSAGE = "org.openecomp.rest.agent.result.message";
+
+    /**
+     * The name for the error code  to be set in the context
+     */
+    @SuppressWarnings("nls")
+    public static final String CONTEXT_ERROR_CODE = "org.openecomp.rest.result.code";
+
+    @SuppressWarnings("nls")
+    public static final String CONTEXT_AGENT_ERROR_CODE = "org.openecomp.rest.agent.result.code";
+
     /**
      * The name for the success message attribute to be set in the context
      */
