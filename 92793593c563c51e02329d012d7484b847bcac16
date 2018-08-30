@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_22f04b90",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/test/java/org/onap/appc/adapter/rest/impl/TestRestAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T18:02:53Z",
+      "side": 1,
+      "message": "need a license line?",
+      "revId": "92793593c563c51e02329d012d7484b847bcac16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
