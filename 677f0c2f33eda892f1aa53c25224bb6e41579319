@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0233cf63",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/main/java/org/onap/appc/adapter/rest/impl/RestAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T18:09:10Z",
+      "side": 1,
+      "message": "need a license line?  If so, correct format (per the ONAP FOSS) is:\n\nModifications Copyright (C) 2018 Your Company Name",
+      "revId": "677f0c2f33eda892f1aa53c25224bb6e41579319",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_823eff26",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/test/java/org/onap/appc/adapter/rest/impl/TestRestAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T18:09:10Z",
+      "side": 1,
+      "message": "need a license line?",
+      "revId": "677f0c2f33eda892f1aa53c25224bb6e41579319",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_622883e2",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/Constants.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T18:09:10Z",
+      "side": 1,
+      "message": "comment formatting issue",
+      "revId": "677f0c2f33eda892f1aa53c25224bb6e41579319",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
