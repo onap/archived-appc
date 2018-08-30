@@ -16,6 +16,24 @@
       "revId": "434e087fdb670d3d2f03b9966abacac46f488f59",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_0268af1b",
+        "filename": "appc-adapters/appc-rest-adapter/appc-rest-adapter-bundle/src/test/java/org/onap/appc/adapter/rest/impl/TestRestAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-30T18:10:38Z",
+      "side": 1,
+      "message": "If so, correct format (per the ONAP FOSS) is:\n\nModifications Copyright (C) 2018 Your Company Name",
+      "parentUuid": "1a76adc5_e206d385",
+      "revId": "434e087fdb670d3d2f03b9966abacac46f488f59",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
