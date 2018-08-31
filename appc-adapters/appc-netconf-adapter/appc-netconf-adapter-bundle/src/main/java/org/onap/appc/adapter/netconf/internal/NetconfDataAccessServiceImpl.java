@@ -52,7 +52,6 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
     @Override
     public void setDbLibService(DbLibService service) {dbLibService = service;}
 
-
     @Override
     public String retrieveConfigFileName(String xmlID) {
         String fileContent = "";
