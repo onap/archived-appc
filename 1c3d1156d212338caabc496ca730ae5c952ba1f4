@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_76dda1df",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "this doesn\u0027t appear to be used.  Should it be?",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_d6d4b5be",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "make this a constant?",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b6cfb928",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "use keyName?",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_96dabde6",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1394,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "use assertEquals instead",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_16f6ad63",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "sonar may complain about the extra parentheses",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_36fac943",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "try/catch wrapper is unnecessary",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_56f74559",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-08-31T14:18:05Z",
+      "side": 1,
+      "message": "so I assume this should pass validation, even though config file name is missing",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
