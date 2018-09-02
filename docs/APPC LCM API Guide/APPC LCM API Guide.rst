@@ -997,7 +997,7 @@ A successful ConfigBackup request returns a success response.
 A failed ConfigBackup action returns a failure response code and the specific failure message in the response block.
 
 +------------------------------+-----------------------------------------------------------+
-|     **Target URL**           |     /restconf/operations/appc-provider-lcm:configbackup   |
+|     **Target URL**           |     /restconf/operations/appc-provider-lcm:config-backup  |
 +------------------------------+-----------------------------------------------------------+
 |     **Action**               |     ConfigBackup                                          |
 +------------------------------+-----------------------------------------------------------+
@@ -1799,7 +1799,7 @@ A successful StopApplication request returns a success response.
 A failed StopApplication action returns a failure response code and the specific failure message in the response block.
 
 +------------------------------+--------------------------------------------------------------+
-|     **Target URL**           |     /restconf/operations/appc-provider-lcm:stopapplication   |
+|     **Target URL**           |     /restconf/operations/appc-provider-lcm:stop-application  |
 +------------------------------+--------------------------------------------------------------+
 |     **Action**               |     StopApplication                                          |
 +------------------------------+--------------------------------------------------------------+
