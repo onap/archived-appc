@@ -36,7 +36,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <jackson-yaml-version>2.8.1</jackson-yaml-version>
+    <jackson-yaml-version>2.8.6</jackson-yaml-version>
     <snakeyaml.version>1.15</snakeyaml.version>
   </properties>
 
