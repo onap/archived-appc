@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Orange
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,6 +97,9 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackupOut
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeBackoutOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.DistributeTrafficOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutputBuilder;
@@ -1375,6 +1380,20 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         Assert.assertTrue(302 == results.get().getResult().getStatus().getCode());
         //verify(mockService, times(1)).upgradeBackout(mockInput);
         //Assert.assertEquals("Should return mockOutput", mockOutput, results.get().getResult());
+    }
+
+    @Test
+    public void distributeTraffic() throws Exception {
+        DistributeTrafficInput mockInput = mock(DistributeTrafficInput.class);
+        DistributeTrafficOutput mockOutput = mock(DistributeTrafficOutput.class);
+        DistributeTrafficOutputBuilder mockOutputBuilder = mock(DistributeTrafficOutputBuilder.class);
+        DistributeTrafficService mockService = mock(DistributeTrafficService.class);
+
+        when(mockService.process(mockInput)).thenReturn(mockOutputBuilder);
+        when(mockOutputBuilder.build()).thenReturn(mockOutput);
+
+        Future<RpcResult<DistributeTrafficOutput>> results = appcProviderLcm.distributeTraffic(mockInput);
+        Assert.assertEquals(302, results.get().getResult().getStatus().getCode().intValue());
     }
 
     @Test
