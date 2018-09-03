@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 Orange
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -270,6 +272,11 @@ public class Converter {
                 outObj = new DetachVolumeOutputBuilder();
                 ((DetachVolumeOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((DetachVolumeOutputBuilder)outObj).setStatus(status);
+                return outObj;
+            case DistributeTraffic:
+                outObj = new DistributeTrafficOutputBuilder();
+                ((DistributeTrafficOutputBuilder)outObj).setCommonHeader(commonHeader);
+                ((DistributeTrafficOutputBuilder)outObj).setStatus(status);
                 return outObj;
             default:
                 throw new IllegalArgumentException(action+" action is not supported");

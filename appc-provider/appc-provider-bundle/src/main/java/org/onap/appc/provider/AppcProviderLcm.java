@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 Orange
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,6 +45,7 @@ import org.onap.appc.provider.lcm.service.ResumeTrafficService;
 import org.onap.appc.provider.lcm.service.UpgradeService;
 import org.onap.appc.provider.lcm.service.VolumeService;
 import org.onap.appc.provider.lcm.service.ConfigScaleOutService;
+import org.onap.appc.provider.lcm.service.DistributeTrafficService;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
@@ -484,6 +487,15 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
         ResumeTrafficOutputBuilder outputBuilder = new ResumeTrafficService().process(input);
         RpcResult<ResumeTrafficOutput> result =
                 RpcResultBuilder.<ResumeTrafficOutput>status(true).withResult(outputBuilder.build()).build();
+        return Futures.immediateFuture(result);
+    }
+
+    @Override
+    public Future<RpcResult<DistributeTrafficOutput>> distributeTraffic(DistributeTrafficInput input) {
+        logger.debug(String.format("LCM DistributeTraffic, received input: %s", input.toString()));
+        DistributeTrafficOutputBuilder outputBuilder = new DistributeTrafficService().process(input);
+        RpcResult<DistributeTrafficOutput> result =
+                RpcResultBuilder.<DistributeTrafficOutput>status(true).withResult(outputBuilder.build()).build();
         return Futures.immediateFuture(result);
     }
 
