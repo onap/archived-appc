@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_c9c893aa",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-09-03T09:56:39Z",
+      "side": 1,
+      "message": "License missing",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_e9cd4fb8",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-09-03T09:56:39Z",
+      "side": 1,
+      "message": "Unused imports",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_76dda1df",
         "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
         "patchSetId": 1
@@ -53,6 +87,23 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_89c61b99",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-09-03T09:56:39Z",
+      "side": 1,
+      "message": "Do you need this code?",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_96dabde6",
         "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
         "patchSetId": 1
@@ -64,6 +115,23 @@
       "writtenOn": "2018-08-31T14:18:05Z",
       "side": 1,
       "message": "use assertEquals instead",
+      "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a9c3d787",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2018-09-03T09:56:39Z",
+      "side": 1,
+      "message": "Unused imports",
       "revId": "1c3d1156d212338caabc496ca730ae5c952ba1f4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
