@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 Orange
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,6 +60,7 @@ public class ConverterTest {
 
     private String expectedJsonBodyStrwithPayload ="{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"payload\":\"{}\",\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}}";
     private String expectedDmaapOutgoingMessageJsonStringReboot ="{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"reboot\",\"type\":\"response\"}";
+    private String expectedDmaapOutgoingMessageJsonStringDistributeTraffc = "{\"body\":{\"output\":{\"common-header\":{\"api-ver\":\"2.0.0\",\"flags\":{},\"originator-id\":\"oid\",\"request-id\":\"reqid\",\"timestamp\":\"1970-01-01T00:00:01.000Z\"},\"status\":{\"code\":400,\"message\":\"SUCCESS - request has been processed successfully\"}}},\"cambria.partition\":\"MSO\",\"correlation-id\":\"reqid\",\"rpc-name\":\"distribute-traffic\",\"type\":\"response\"}";
 
     @Test
     public void convDateToZuluStringTest(){
@@ -424,6 +427,25 @@ public class ConverterTest {
         String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
         System.out.println("jsonStr = " + jsonStr);
         Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringUpgradeBackup,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToBuilderDistributeTrafficTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.DistributeTraffic;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToJsonStringBody(action, rpcName, asyncResponse);
+        Assert.assertEquals(expectedJsonBodyStr,jsonStr);
+    }
+
+    @Test
+    public void convAsyncResponseToDmaapOutgoingMessageJsonStringDistributeTrafficTest() throws JsonProcessingException {
+        ResponseContext asyncResponse = buildAsyncResponse();
+        VNFOperation action = VNFOperation.DistributeTraffic;
+        String rpcName = convertActionNameToUrl(action.name());
+        String jsonStr = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(action, rpcName, asyncResponse);
+        System.out.println("jsonStr = " + jsonStr);
+        Assert.assertEquals(expectedDmaapOutgoingMessageJsonStringDistributeTraffc,jsonStr);
     }
 
     /*@Test

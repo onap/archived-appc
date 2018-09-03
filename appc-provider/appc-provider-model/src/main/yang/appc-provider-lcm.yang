@@ -121,6 +121,7 @@ module appc-provider-lcm {
             enum "Reboot";
             enum "AttachVolume";
             enum "DetachVolume";
+            enum "DistributeTraffic";
             
         }
         description "The action to be taken by APP-C, e.g. Restart, Rebuild, Migrate";
@@ -1306,6 +1307,29 @@ module appc-provider-lcm {
             leaf payload {
                  type payload;
                  mandatory true;
+            }
+        }
+        output {
+            uses common-header;
+            uses status;
+        }
+    }
+
+    /**********************************************************************************
+     * Define the traffic distribution service
+     **********************************************************************************/
+    rpc distribute-traffic {
+        description "An operation to distribute traffic between VMs";
+        input {
+            uses common-header;
+            leaf action {
+                type action;
+                mandatory true;
+            }
+            uses action-identifiers;
+            leaf payload {
+                type payload;
+                mandatory true;
             }
         }
         output {
