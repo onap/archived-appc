@@ -49,10 +49,22 @@
         </dependency>
 
         <dependency>
+           <groupId>org.apache.httpcomponents</groupId>
+           <artifactId>httpclient</artifactId>
+           <version>4.5.3</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.att.cdp</groupId>
             <artifactId>cdp-pal-openstack</artifactId>
             <scope>compile</scope>
             <version>${cdp.pal.version}</version>
+            <exclusions>
+                  <exclusion>
+                       <artifactId>httpclient</artifactId>
+                       <groupId>org.apache.httpcomponents</groupId>
+                  </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -166,17 +178,12 @@
         <!-- <artifactId>commons-codec</artifactId> -->
         <!-- </dependency> -->
 
-        <!-- <dependency> -->
-        <!-- <groupId>org.apache.httpcomponents</groupId> -->
-        <!-- <artifactId>httpclient</artifactId> -->
-        <!-- <version>4.5.3</version> -->
-        <!-- </dependency> -->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
