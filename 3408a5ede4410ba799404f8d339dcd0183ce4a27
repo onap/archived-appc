@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_be56a65a",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/main/java/org/onap/appc/domainmodel/lcm/VNFOperation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "Need to prefix with \"Modifications\" per FOSS.  (The previous Copyright lines are incomplete examples, unfortunately.)",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_de536269",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/conv/Converter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "\"Modifications\" prefix",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_7e4c8ec8",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/requesthandler/ConverterTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "\"Modifications\" prefix",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9e496ab9",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/AppcProviderLcm.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "\"Modifications\" prefix",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5ecf522a",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/lcm/service/DistributeTrafficService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "\"static\"",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fecf3e27",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "\"Modifications\" prefix",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9ee08a97",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1396,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "is \"(int)\" cast necessary?",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1eec7a8e",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/lcm/service/DistributeTrafficServiceTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "seems like checkstyle does not like wild cards",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_1eba3a6e",
+        "filename": "appc-provider/appc-provider-model/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:25:00Z",
+      "side": 1,
+      "message": "\"Modifications\" prefix",
+      "revId": "3408a5ede4410ba799404f8d339dcd0183ce4a27",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
