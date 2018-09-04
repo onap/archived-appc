@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_de0b6228",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/internal/TestNetconfAdapter2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:39:49Z",
+      "side": 1,
+      "message": "I believe new code should be NetconfAdapter2Test instead of TestNetconfAdapter2",
+      "revId": "87106d3c4f947c9349aa62540580d9d00c3382d2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
