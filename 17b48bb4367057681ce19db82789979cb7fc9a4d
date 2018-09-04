@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_9e53aa38",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/internal/TestNetconfDataAccessServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:35:25Z",
+      "side": 1,
+      "message": "I believe that with new code, it should be NetconfDataAccessServiceImplTest instead of TestNetconfDataAccessServiceImpl.",
+      "revId": "17b48bb4367057681ce19db82789979cb7fc9a4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_fe397ef2",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/internal/TestNetconfDataAccessServiceImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-04T13:35:25Z",
+      "side": 1,
+      "message": "wouldn\u0027t this be a lot shorter with mock()?",
+      "revId": "17b48bb4367057681ce19db82789979cb7fc9a4d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
