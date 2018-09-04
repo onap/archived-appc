@@ -572,6 +572,8 @@ Commands, or actions, may be currently supported on all VNF types or a limited s
 +------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     DetachVolume       |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
 +------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
+|     DistributeTraffic  | Yes       |                  | Yes            | Yes      | Chef and Ansible only (requires self-service onboarding)   |
++------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     Evacuate           |           |                  |                | Yes      |     Any (uses OpenStack command)                           |
 +------------------------+-----------+------------------+----------------+----------+------------------------------------------------------------+
 |     HealthCheck        | Yes       |                  |                |          |     Any (requires self-service onboarding)                 |
@@ -1178,6 +1180,48 @@ DetachVolume Response:
 	-  itemNotFound
 	-  conflict
 
+DistributeTraffic
+-----------------
+
+The Distribute traffic LCM action is used to distribute traffic across different instances of VNF, VNFC or VM.
+Entity for which Distribute Traffic LCM action is being invoked is called an anchor point that is responsible for final
+realization of request. Parameters present in configuration file specify where and how traffic should be distributed,
+including: traffic destination points like VNFs, VNFCs or VMs; distribution weights; rollback strategy.
+Format of configuration file is specific to each VNF type.
+
+This command is executed using an Ansible playbook or Chef cookbook.
+
+Request Structure:
+
++--------------------------+--------------------------------------------------------------+
+| **Target URL**           | /restconf/operations/appc-provider-lcm:distribute-traffic    |
++--------------------------+--------------------------------------------------------------+
+| **Action**               | DistributeTraffic                                            |
++--------------------------+--------------------------------------------------------------+
+| **Action-identifiers**   | vnf-id, vserver-id, vnfc-name                                |
++--------------------------+--------------------------------------------------------------+
+| **Payload Parameters**   | ConfigFileName                                               |
++--------------------------+--------------------------------------------------------------+
+| **Revision History**     | New in Casablanca                                            |
++--------------------------+--------------------------------------------------------------+
+
+Request Payload Parameters:
+
++-----------------------+----------------------------------------------------------------------------------------------------+---------------------+--------------------------------------------------------+
+| **Parameter**         |     **Description**                                                                                |     **Required?**   |     **Example**                                        |
++=======================+====================================================================================================+=====================+========================================================+
+| ConfigFileName        |     Name of configuration file with additional parameters for Ansible playbook or Chef cookbook    |                     |     "payload":                                         |
+|                       |     with such parameters like traffic destinations, distribution weights or rollback strategy.     |     Yes             |     "{\\"ConfigFileName\\": \\"some-config.json\\"}”   |
++-----------------------+----------------------------------------------------------------------------------------------------+---------------------+--------------------------------------------------------+
+
+DistributeTraffic Response
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The response does not include any payload parameters.
+
+**Success:** A successful distribute returns a success status code 400 after all traffic has been distributed.
+
+**Failure:** A failed distribute returns a failure code 401 and the failure message from the Ansible or Chef server in the response payload block.
 
 Evacuate
 --------
