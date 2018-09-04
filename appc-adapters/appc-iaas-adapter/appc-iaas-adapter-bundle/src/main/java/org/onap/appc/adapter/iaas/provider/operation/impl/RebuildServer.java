@@ -9,15 +9,15 @@
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
-* 
+*
 *      http://www.apache.org/licenses/LICENSE-2.0
-* 
+*
 * Unless required by applicable law or agreed to in writing, software
 * distributed under the License is distributed on an "AS IS" BASIS,
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-* 
+*
 * ============LICENSE_END=========================================================
 */
 
@@ -77,7 +77,7 @@ public class RebuildServer extends ProviderServerOperation {
     // processing the request"
     private long rebuildSleepTime = 10L * 1000L;
 
-    /**
+    /*
      * Rebuild the indicated server with the indicated image. This method assumes
      * the server has been determined to be in the correct state to do the rebuild.
      *
@@ -176,6 +176,16 @@ public class RebuildServer extends ProviderServerOperation {
          */
         setTimeForMetricsLogger();
         String msg;
+        //Throw error if boot source is unknown
+        if (ServerBootSource.UNKNOWN.equals(builtFrom)) {
+            logger.debug("Boot Source Unknown" );
+            msg = String.format("Error occured when retrieving server boot source [%s]!!!", server.getId());
+            logger.error(msg);
+            generateEvent(rc, false,msg);
+            metricsLogger.error(msg);
+            throw new RequestFailedException("Rebuild Server", msg, HttpStatus.INTERNAL_SERVER_ERROR_500, server);
+        }
+
         // Throw exception for non image/snap boot source
         if (ServerBootSource.VOLUME.equals(builtFrom)) {
             msg = String.format("Rebuilding is currently not supported for servers built from bootable volumes [%s]",
