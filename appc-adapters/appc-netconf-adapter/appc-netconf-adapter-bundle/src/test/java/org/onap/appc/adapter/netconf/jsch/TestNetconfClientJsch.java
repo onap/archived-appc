@@ -21,14 +21,17 @@
 
 package org.onap.appc.adapter.netconf.jsch;
 
+import com.jcraft.jsch.Session;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.onap.appc.adapter.netconf.ConnectionDetails;
 import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
 import org.onap.appc.adapter.netconf.internal.NetconfAdapter;
 import org.onap.appc.exceptions.APPCException;
 
 import java.io.IOException;
+import java.util.Properties;
 
 public class TestNetconfClientJsch {
 
@@ -46,6 +49,9 @@ public class TestNetconfClientJsch {
         connectionDetails.setPort(8080);
         connectionDetails.setUsername("test");
         connectionDetails.setPassword("test");
+        Properties additionalProperties = new Properties();
+        additionalProperties.setProperty("testKey1", "testParam1");
+        connectionDetails.setAdditionalProperties(additionalProperties);
 
         netconfClientJsch.connect(connectionDetails);
     }
@@ -76,5 +82,17 @@ public class TestNetconfClientJsch {
         String message = null;
 
         netconfClientJsch.configure(message);
+    }
+
+    @Test (expected = NullPointerException.class)
+    public void testGetConfigure() throws APPCException, IOException {
+
+        netconfClientJsch.getConfiguration();
+    }
+
+    @Test
+    public void testDisconnect() throws APPCException, IOException {
+
+        netconfClientJsch.disconnect();
     }
 }
