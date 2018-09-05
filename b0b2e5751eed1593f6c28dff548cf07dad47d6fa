@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a78d367e",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/internal/TestNetconfDataAccessServiceImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-05T13:11:36Z",
+      "side": 1,
+      "message": "could mock this, too",
+      "revId": "b0b2e5751eed1593f6c28dff548cf07dad47d6fa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
