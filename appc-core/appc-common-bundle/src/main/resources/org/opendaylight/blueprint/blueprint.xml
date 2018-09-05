@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
   ================================================================================
   Copyright (C) 2017 Amdocs
   =============================================================================
@@ -23,20 +23,52 @@
   ============LICENSE_END=========================================================
   -->
 
-<!--
-    Starter Blueprint Camel Definition appc-common
--->
+<!-- Starter Blueprint Camel Definition appc-common -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
-           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
- 
-    <reference id="dbLibServiceRef" interface="org.onap.ccsdk.sli.core.dblib.DbLibService" />
-    <!--reference id="dbLibServiceRef" availability="mandatory" activation="eager" interface="org.onap.ccsdk.sli.core.dblib.DbLibService" /-->
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.2.0"
+	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 
-    <bean id="MetadataServiceImplBean" class="org.onap.appc.metadata.impl.MetadataServiceImpl" scope="singleton">
-        <property name="dbLibService" ref="dbLibServiceRef" />
-    </bean>
+	<reference id="dbLibServiceRef"
+		interface="org.onap.ccsdk.sli.core.dblib.DbLibService" />
 
-    <service id="MetadataService" interface="org.onap.appc.metadata.MetadataService" ref="MetadataServiceImplBean"/>
+	<bean id="MetadataServiceImplBean"
+		class="org.onap.appc.metadata.impl.MetadataServiceImpl"
+		scope="singleton">
+		<property name="dbLibService" ref="dbLibServiceRef" />
+	</bean>
 
+	<service id="MetadataService"
+		interface="org.onap.appc.metadata.MetadataService"
+		ref="MetadataServiceImplBean" />
+
+	<!-- Configuration Admin pid registration -->
+	<cm:cm-properties id="initialProperties"
+		persistent-id="org.onap.appc" />
+
+	<bean id="AppcConfigurationManager"
+		class="org.onap.appc.configuration.impl.AppcConfigurationManagerImpl"
+		scope="singleton" destroy-method="close">
+		<!-- configuration admin connection -->
+		<cm:managed-properties
+			persistent-id="org.onap.appc" 
+			update-strategy="component-managed"
+			update-method="update" />
+		<argument ref="initialProperties" />
+		<!-- listeners configuration -->
+		<property name="configurationListeners"
+			ref="configurationListeners" />
+	</bean>
+
+	<!-- List of AppcConfigurationListeners to update when configuration changes -->
+	<reference-list id="configurationListeners"
+		interface="org.onap.appc.configuration.AppcConfigurationListener"
+		member-type="service-object" availability="optional">
+		<!-- method to be called when a new listener registers -->
+		<reference-listener ref="AppcConfigurationManager"
+			bind-method="bindConfigManagerListener" />
+	</reference-list>
+
+	<service ref="AppcConfigurationManager"
+		interface="org.onap.appc.configuration.AppcConfigurationManager" />
 </blueprint>
