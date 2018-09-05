@@ -49,6 +49,7 @@
 			<groupId>org.onap.appc</groupId>
 			<artifactId>appc-common-bundle</artifactId>
 			<version>${project.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.appc</groupId>
@@ -132,7 +133,6 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>org.onap.appc.listener</Bundle-SymbolicName>
-						<Bundle-Activator>org.onap.appc.listener.AppcEventListenerActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.listener</Export-Package>
 						<Import-Package>org.onap.appc.adapter.message.*,org.onap.appc.adapter.factory.*,org.onap.appc.adapter.messaging.*
 							org.onap.appc.exceptions, org.onap.appc.util,
@@ -140,7 +140,7 @@
 							*;resolution:=optional
 						</Import-Package>
 						<Embed-Dependency>
-							httpclient,httpcore,jasypt,commons-lang,commons-lang3,appc-common-bundle,
+							httpclient,httpcore,jasypt,commons-lang,commons-lang3,
 							logback-core,logback-classic,eelf-core,commons-logging;scope=compile|runtime;inline=false
 						</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>

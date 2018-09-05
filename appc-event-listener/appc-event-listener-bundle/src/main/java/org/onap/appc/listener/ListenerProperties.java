@@ -158,7 +158,27 @@ public class ListenerProperties {
         return String.format("%s", prefix);
     }
 
-
+    @Override
+    public boolean equals(Object other){
+        if(other == this) {
+            return true;
+        }
+        if(!(other instanceof ListenerProperties)) {
+            return false;
+        }
+        
+        ListenerProperties lp = (ListenerProperties)other;
+        
+        if(lp.getPrefix() != this.getPrefix() || lp.getListenerClass() != this.getListenerClass()) {
+            return false;
+        }
+        
+        if(lp.getProperties().equals(this.getProperties())) {
+            return true;
+        }
+        return false;
+        
+    }
     /**
      * Set of common properties that will be used by most systems. Primarily relating to DMaaP and ThreadPools
      *

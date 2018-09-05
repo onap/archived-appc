@@ -42,6 +42,13 @@ limitations under the License.
             <artifactId>appc-event-listener-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+	      <groupId>org.onap.appc</groupId>
+	      <artifactId>onap-appc-core</artifactId>
+	      <version>${project.version}</version>
+	      <type>xml</type>
+	      <classifier>features</classifier>
+	    </dependency>
     </dependencies>
 
     <build>
