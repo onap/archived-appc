@@ -15,8 +15,9 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-  ============LICENSE_END=========================================================
-  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    ============LICENSE_END=========================================================
+-->
+  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
       <groupId>org.onap.appc.parent</groupId>
@@ -33,6 +34,7 @@
     <dependency>
       <groupId>com.att.eelf</groupId>
       <artifactId>eelf-core</artifactId>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -111,6 +113,17 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Export-Package>org.onap.appc*,com.att.eelf*</Export-Package>
+            <Embed-Dependency>eelf-core</Embed-Dependency>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
 	     <groupId>com.att.eelf</groupId>
 	     <artifactId>eelf-maven-plugin</artifactId>
 	     <version>1.0.0</version>
@@ -155,6 +168,28 @@
 	       </dependency>
 	     </dependencies>
 	   </plugin>
-    </plugins>  
+       <plugin>
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>build-helper-maven-plugin</artifactId>
+           <executions>
+             <execution>
+               <id>attach-artifacts</id>
+               <phase>package</phase>
+                 <goals>
+                   <goal>attach-artifact</goal>
+                 </goals>
+                 <configuration>
+                   <artifacts>
+                     <artifact>
+                       <file>${project.build.directory}/classes/appc.cfg</file>
+                       <type>cfg</type>
+                       <classifier>config</classifier>
+                     </artifact>
+                   </artifacts>
+                 </configuration>
+               </execution>
+             </executions>
+           </plugin>
+    </plugins>
   </build>
 </project>

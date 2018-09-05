@@ -153,4 +153,28 @@ public class ListenerPropertiesTest {
         assertFalse(props.isDisabled());
     }
 
+    @Test
+    public void testEquals() {
+        ListenerProperties props1 = new ListenerProperties(prefix, good);
+        assertEquals(prefix, props1.getPrefix());
+        assertEquals(good.size(), props1.getProperties().size());
+        
+        Properties good2 = new Properties();
+        good2.setProperty(String.format("%s.%s", prefix, "a"), "1");
+        good2.setProperty(String.format("%s.%s", prefix, "a.b"), "2");
+        good2.setProperty(String.format("%s.%s", prefix, "a.b.c"), "3");
+        
+        ListenerProperties props2 = new ListenerProperties(prefix, good2);
+        assertEquals(prefix, props2.getPrefix());
+        assertEquals(good2.size(), props2.getProperties().size());
+        
+        assertTrue(props1.equals(props2));
+        
+        good2.setProperty(String.format("%s.%s", prefix, "a.b.c"), "newValue");
+        props2 = new ListenerProperties(prefix, good2);
+        assertEquals(prefix, props2.getPrefix());
+        assertEquals(good2.size(), props2.getProperties().size());
+        
+        assertFalse(props1.equals(props2));
+    }
 }

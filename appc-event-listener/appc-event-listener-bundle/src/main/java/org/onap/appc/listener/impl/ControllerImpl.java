@@ -57,22 +57,23 @@ public class ControllerImpl implements Controller {
     /**
      * Creates a Controller with the set of listener properties which will be used to start listener threads.
      *
-     * @param properties
+     * @param listenersConfig
      *            A non null Set of ListenerProperties
      */
-    public ControllerImpl(Set<ListenerProperties> properties) {
+    public ControllerImpl(Map<String, ListenerProperties> listenersConfig) {
         listeners = new HashMap<ListenerProperties, Listener>();
-        for (ListenerProperties props : properties) {
+        for(String key :listenersConfig.keySet()) {
+            ListenerProperties props = listenersConfig.get(key);
             if (props.getClass() != null) {
                 listeners.put(props, null);
             } else {
                 LOG.error(String.format(
                     "The ListenerProperties %s has no Listener class associated with it and will not run.", props));
-                properties.remove(props);
+                listenersConfig.remove(key);
             }
         }
 
-        LISTENER_COUNT = properties.size();
+        LISTENER_COUNT = listenersConfig.size();
 
         // Only create executor if listeners are configured
         if (LISTENER_COUNT > 0) {

@@ -60,7 +60,7 @@ public final class DefaultConfiguration implements Configuration, Cloneable {
     /**
      * Construct the configuration object.
      */
-    DefaultConfiguration() {}
+    public DefaultConfiguration() {}
 
     /**
      * Clears all properties
