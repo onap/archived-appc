@@ -50,6 +50,12 @@
                         <version>3.0.8</version>
                 </dependency>
 
+                <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>1.2.0</version>
+                </dependency>
+
 		<dependency>
 			<groupId>org.openecomp.sdc.common</groupId>
 			<artifactId>openecomp-tosca-datatype</artifactId>
@@ -58,6 +64,10 @@
                             <exclusion>
                                  <groupId>com.datastax.cassandra</groupId>
                                  <artifactId>cassandra-driver-core</artifactId>
+                            </exclusion>
+                            <exclusion>
+                                 <groupId>ch.qos.logback</groupId>
+                                 <artifactId>logback-classic</artifactId>
                             </exclusion>
                         </exclusions>
 		</dependency>
