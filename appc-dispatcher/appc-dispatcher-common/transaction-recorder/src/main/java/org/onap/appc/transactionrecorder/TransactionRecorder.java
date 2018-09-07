@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -62,10 +62,11 @@ public interface TransactionRecorder {
      * Fetch list of Transactions which are in non-terminal state i.e. ACCEPTED or RECEIVED for particular TargetId.
      * @param record Transactions object from which TargetId and StartTime is extracted to fetch list of in progress
      *               requests which APPC received before the current request.
+     * @param interval Number of hours - Time window to consider requests as being in progress
      * @return List of Transactions in non terminal state.
      * @throws APPCException
      */
-    List<TransactionRecord> getInProgressRequests(TransactionRecord record) throws APPCException;
+    List<TransactionRecord> getInProgressRequests(TransactionRecord record, int interval) throws APPCException;
 
     /**
      * Checks whether the incoming request is duplicate.
