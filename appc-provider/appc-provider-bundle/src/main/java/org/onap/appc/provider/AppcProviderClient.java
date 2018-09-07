@@ -48,24 +48,11 @@ public class AppcProviderClient {
     private final EELFLogger LOG = EELFManager.getInstance().getApplicationLogger();
     private final EELFLogger metricsLogger = EELFManager.getInstance().getMetricsLogger();
 
-    private SvcLogicService svcLogic = null;
+    private final SvcLogicService svcLogic;
 
-    public AppcProviderClient() {
-        BundleContext bctx = FrameworkUtil.getBundle(SvcLogicService.class).getBundleContext();
-        // Handle BundleContext returning null
-        if (bctx == null){
-            LOG.warn("Cannot find bundle context for " + SvcLogicService.NAME);
-        } else {
-            // Get SvcLogicService reference
-            ServiceReference sref = bctx.getServiceReference(SvcLogicService.NAME);
-            if (sref != null) {
-                svcLogic = (SvcLogicService) bctx.getService(sref);
-
-            } else {
-                LOG.warn("Cannot find service reference for " + SvcLogicService.NAME);
-
-            }
-        }
+    public AppcProviderClient(final SvcLogicService svcLogicService) {
+    	LOG.info("provider alert: appcprovider client init");
+    	this.svcLogic = svcLogicService;
     }
 
     public boolean hasGraph(String module, String rpc, String version, String mode) throws SvcLogicException {

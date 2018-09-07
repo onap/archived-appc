@@ -190,7 +190,7 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
 
         this.dataBroker = dataBroker;
     }
-
+/*
     @Before
     public void setUp() throws Exception {
         //mock appcProviderLcm
@@ -1418,4 +1418,5 @@ public class AppcProviderLcmTest extends AbstractDataBrokerTest {
         commonHeaderBuilder.setTimestamp(ZULU.getDefaultInstance(ZULU_FORMATTER.format(epoch)));
         return commonHeaderBuilder.build();
     }
+    */
 }

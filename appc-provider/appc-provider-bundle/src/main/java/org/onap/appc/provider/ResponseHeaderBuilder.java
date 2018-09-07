@@ -23,9 +23,9 @@
 
 package org.onap.appc.provider;
 
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.TIMESTAMP;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.response.header.CommonResponseHeader;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.response.header.CommonResponseHeaderBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.TIMESTAMP;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.common.response.header.CommonResponseHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.common.response.header.CommonResponseHeaderBuilder;
 import org.onap.appc.util.Time;
 
 import java.text.DateFormat;
