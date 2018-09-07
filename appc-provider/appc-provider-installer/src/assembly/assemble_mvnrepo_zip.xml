@@ -47,10 +47,6 @@
 	</fileSets>
 	
 	<files>
-		<file>
-			<source>../${feature-name}-bundle/src/main/resources/initial/${feature-name}.xml</source>
-			<destName>./etc/opendaylight/karaf/200-${feature-name}.xml</destName>
-		</file>
 	</files>
 
 </assembly>

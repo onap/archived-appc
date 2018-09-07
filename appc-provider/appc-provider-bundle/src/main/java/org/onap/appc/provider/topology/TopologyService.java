@@ -52,22 +52,22 @@ import org.onap.appc.logging.LoggingUtils;
 import org.onap.appc.provider.AppcProvider;
 import org.onap.appc.provider.AppcProviderClient;
 import org.onap.appc.provider.ResponseHeaderBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.MigrateOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.ModifyConfigOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RebuildOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.RestartOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.SnapshotOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.UUID;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.VmstatuscheckOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.request.header.CommonRequestHeader;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.config.payload.ConfigPayload;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.vnf.resource.VnfResource;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.MigrateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.MigrateOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.ModifyConfigOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.ModifyConfigOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RebuildOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RebuildOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RestartOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RestartOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.SnapshotOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.SnapshotOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.UUID;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.VmstatuscheckOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.VmstatuscheckOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.common.request.header.CommonRequestHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.config.payload.ConfigPayload;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.vnf.resource.VnfResource;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.slf4j.MDC;
@@ -625,7 +625,7 @@ public class TopologyService {
 
         boolean success;
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-        AppcProviderClient svcLogicClient = new AppcProviderClient();
+        AppcProviderClient svcLogicClient = provider.getClient();
         try {
             if (svcLogicClient.hasGraph(module, method, version, mode)) {
                 try {
