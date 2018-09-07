@@ -25,6 +25,7 @@
 
 package org.onap.appc.requesthandler.impl;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -37,10 +38,13 @@ import com.att.eelf.configuration.EELFManager;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.entity.BasicHttpEntity;
@@ -60,6 +64,7 @@ import org.onap.appc.domainmodel.lcm.CommonHeader;
 import org.onap.appc.domainmodel.lcm.Flags;
 import org.onap.appc.domainmodel.lcm.Flags.Mode;
 import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.RequestStatus;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.domainmodel.lcm.TransactionRecord;
@@ -184,7 +189,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
     }
 
 
-    @Test(expected = RequestValidationException.class)
+    @Test (expected = RequestValidationException.class)
     public void testValidateRequest() throws Exception {
         RuntimeContext runtimeContext = createRequestValidatorInput();
         logger = Mockito.spy(EELFManager.getInstance().getLogger(LCMStateManager.class));
@@ -193,9 +198,15 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         lcmStateManager.enableLCMOperations();
         transactionRecorder = Mockito.mock(TransactionRecorder.class);
         Mockito.when(transactionRecorder.isTransactionDuplicate(anyObject())).thenReturn(false);
+        List<TransactionRecord> transactionRecordList = new ArrayList<TransactionRecord>(1);
         TransactionRecord transactionRecord = new TransactionRecord();
         transactionRecord.setMode(Mode.EXCLUSIVE);
+        transactionRecord.setStartTime(Instant.now().minus(5, ChronoUnit.HOURS));
+        transactionRecord.setRequestState(RequestStatus.ACCEPTED);
         runtimeContext.setTransactionRecord(transactionRecord);
+        transactionRecordList.add(transactionRecord);
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
+        .thenReturn(transactionRecordList);
         impl.setTransactionRecorder(transactionRecorder);
         WorkflowExistsOutput workflowExistsOutput = new WorkflowExistsOutput(true, true);
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
@@ -244,8 +255,10 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         List<TransactionRecord> transactionRecordList = new ArrayList<TransactionRecord>(1);
         TransactionRecord inProgressTransaction = new TransactionRecord();
         inProgressTransaction.setMode(Mode.EXCLUSIVE);
+        inProgressTransaction.setStartTime(Instant.now().minus(5, ChronoUnit.HOURS));
+        inProgressTransaction.setRequestState(RequestStatus.ACCEPTED);
         transactionRecordList.add(inProgressTransaction);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class)))
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
             .thenReturn(transactionRecordList);
         runtimeContext.setTransactionRecord(inProgressTransaction);
         impl.setTransactionRecorder(transactionRecorder);
@@ -277,18 +290,21 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         RuntimeContext runtimeContext = createRequestValidatorInput();
         lcmStateManager.enableLCMOperations();
         transactionRecorder = Mockito.mock(TransactionRecorder.class);
-        Mockito.when(transactionRecorder.isTransactionDuplicate(anyObject())).thenReturn(false);
+
         List<TransactionRecord> transactionRecordList = new ArrayList<TransactionRecord>(1);
         TransactionRecord inProgressTransaction = new TransactionRecord();
         inProgressTransaction.setMode(Mode.NORMAL);
         inProgressTransaction.setOperation(VNFOperation.ActionStatus);
+        inProgressTransaction.setRequestState(RequestStatus.ACCEPTED);
+        inProgressTransaction.setStartTime(Instant.now().minus(48, ChronoUnit.HOURS));
         transactionRecordList.add(inProgressTransaction);
-        runtimeContext.setTransactionRecord(inProgressTransaction);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class)))
-            .thenReturn(transactionRecordList);
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
+        .thenReturn(transactionRecordList);
+        Mockito.when(transactionRecorder.isTransactionDuplicate(anyObject())).thenReturn(false);
         impl.setTransactionRecorder(transactionRecorder);
-        WorkflowExistsOutput workflowExistsOutput = new WorkflowExistsOutput(true, true);
+        runtimeContext.setTransactionRecord(inProgressTransaction);
         WorkFlowManager workflowManager = Mockito.mock(WorkFlowManagerImpl.class);
+        WorkflowExistsOutput workflowExistsOutput = Mockito.spy(new WorkflowExistsOutput(true, true));
         Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class)))
             .thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
@@ -382,6 +398,19 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
             .thenReturn(ruleResult);
         impl.setRequestValidationPolicy(requestValidationPolicy);
         impl.validateRequest(runtimeContext);
+    }
+
+    @Test
+    public void testLogInProgressTransactions() {
+        ArrayList<TransactionRecord> trArray = new ArrayList();
+        TransactionRecord tr = new TransactionRecord();
+        tr.setRequestState(RequestStatus.ACCEPTED);
+        tr.setStartTime(Instant.now().minus(48, ChronoUnit.HOURS));
+        tr.setTargetId("Vnf001");
+        trArray.add(tr);
+        String loggedMessage = impl.logInProgressTransactions(trArray, 1, 1);
+        String partMessage = "In Progress transaction for Target ID - Vnf001 in state ACCEPTED";
+        assertTrue(StringUtils.contains(loggedMessage, partMessage));
     }
 
     private RuntimeContext createRequestValidatorInput() {

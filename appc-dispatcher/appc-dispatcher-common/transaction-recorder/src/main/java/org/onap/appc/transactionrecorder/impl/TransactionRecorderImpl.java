@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -45,6 +45,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.time.temporal.ChronoUnit;
 
 import static org.onap.appc.transactionrecorder.objects.TransactionConstants.TRANSACTION_ATTRIBUTES.*;
 import static org.onap.appc.transactionrecorder.objects.TransactionConstants.*;
@@ -165,19 +166,24 @@ public class TransactionRecorderImpl implements TransactionRecorder {
     }
 
     @Override
-    public List<TransactionRecord> getInProgressRequests(TransactionRecord record) throws APPCException {
+    public List<TransactionRecord> getInProgressRequests(TransactionRecord record, int interval) throws APPCException {
 
-        final String IN_PROGRESS_REQUESTS_QUERY = "SELECT * FROM " +
+        String IN_PROGRESS_REQUESTS_QUERY = "SELECT * FROM " +
             TransactionConstants.TRANSACTIONS + WHERE +
             TARGET_ID + " = ? AND " +
             STATE.getColumnName() + " IN (?,?) AND " +
             START_TIME.getColumnName() + " < ?";
 
         ArrayList<String> inProgressQueryParams = new ArrayList<>();
+        Instant window = record.getStartTime().minus(interval, ChronoUnit.HOURS);
         inProgressQueryParams.add(record.getTargetId());
         inProgressQueryParams.add(RequestStatus.RECEIVED.name());
         inProgressQueryParams.add(RequestStatus.ACCEPTED.name());
         inProgressQueryParams.add(dateToStringConverterMillis(record.getStartTime()));
+        if (interval > 0) {
+            IN_PROGRESS_REQUESTS_QUERY += " AND " + START_TIME.getColumnName() + " > ? ";
+            inProgressQueryParams.add(dateToStringConverterMillis(window));
+        }
 
         try (CachedRowSet rowSet = dbLibService.getData(IN_PROGRESS_REQUESTS_QUERY, inProgressQueryParams, SCHEMA)) {
             List<TransactionRecord> inProgressRecords = new ArrayList<>();
