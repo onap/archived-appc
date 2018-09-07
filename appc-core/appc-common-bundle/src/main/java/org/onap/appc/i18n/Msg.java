@@ -833,6 +833,11 @@ public enum Msg implements EELFResolvableErrorEnum {
     SSH_CONNECTION_TIMEOUT,
 
     /**
+     *Connecting to image service {0}failed
+     */
+    IMAGE_SERVICE_FAILED,
+
+    /**
      * Could not configure existing ssh session, reason: {0}
      */
     SSH_SESSION_CONFIG_ERROR

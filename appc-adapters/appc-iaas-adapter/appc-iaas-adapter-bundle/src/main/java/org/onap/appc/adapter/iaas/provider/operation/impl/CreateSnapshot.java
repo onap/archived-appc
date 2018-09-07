@@ -172,7 +172,7 @@ public class CreateSnapshot extends ProviderServerOperation {
                     SnapShot = createSnapshot(RcContext, server);
                     doSuccess(RcContext);
                 } else {
-                    msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
+                    msg = EELFResourceManager.format(Msg.IMAGE_SERVICE_FAILED, server.getName(), server.getId(),
                             "Accessing Image Service Failed");
                     logger.error(msg);
                     metricsLogger.error(msg);

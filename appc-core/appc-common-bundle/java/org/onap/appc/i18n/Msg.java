@@ -827,6 +827,11 @@ public enum Msg implements EELFResolvableErrorEnum {
      * Ssh session with host {0} has timed out during command {1} execution
      */
     SSH_CONNECTION_TIMEOUT,
+    
+    /**
+     *Connecting to image service {0}failed
+     */
+    IMAGE_SERVICE_FAILED,
 
     /**
      * Could not configure existing ssh session, reason: {0}
