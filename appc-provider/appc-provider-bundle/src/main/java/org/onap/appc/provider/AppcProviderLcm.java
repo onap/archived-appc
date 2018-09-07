@@ -48,8 +48,8 @@ import org.onap.appc.provider.lcm.util.ValidationService;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
@@ -76,7 +76,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     /**
      * ODL Notification Service that provides publish/subscribe capabilities for YANG modeled notifications.
      */
-    protected NotificationProviderService notificationService;
+    protected NotificationPublishService notificationService;
 
     /**
      * Provides a registry for Remote Procedure Call (RPC) service implementations. The RPCs are defined in YANG models.
@@ -95,7 +95,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @param rpcProviderRegistry
      */
     @SuppressWarnings({"javadoc", "nls"})
-    public AppcProviderLcm(DataBroker dataBroker, NotificationProviderService notificationProviderService,
+    public AppcProviderLcm(DataBroker dataBroker, NotificationPublishService notificationProviderService,
             RpcProviderRegistry rpcProviderRegistry) {
 
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
