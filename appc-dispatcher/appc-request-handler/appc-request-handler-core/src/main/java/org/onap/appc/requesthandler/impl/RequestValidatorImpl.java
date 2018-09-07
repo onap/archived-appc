@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -93,21 +93,26 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
     private RequestValidationPolicy requestValidationPolicy;
     private RestClientInvoker client;
     private String path;
+    private int transactionWindowInterval=0;
 
     static final String SCOPE_OVERLAP_ENDPOINT = "appc.LCM.scopeOverlap.endpoint";
     static final String ODL_USER = "appc.LCM.provider.user";
     static final String ODL_PASS = "appc.LCM.provider.pass";
-    
+    static final String TRANSACTION_WINDOW_HOURS = "appc.inProgressTransactionWindow.hours";
+
     public void initialize() throws APPCException {
         logger.info("Initializing RequestValidatorImpl.");
         String endpoint = null;
         String user = null;
         String pass =null;
+        String transactionWindow = null;
+
         Properties properties = configuration.getProperties();
         if (properties != null) {
             endpoint = properties.getProperty(SCOPE_OVERLAP_ENDPOINT);
             user = properties.getProperty(ODL_USER);
             pass = properties.getProperty(ODL_PASS);
+            transactionWindow = properties.getProperty(TRANSACTION_WINDOW_HOURS);
         }
         if (endpoint == null) {
             String message = "End point is not defined for scope over lap service in appc.properties.";
@@ -122,12 +127,24 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
             return;
         }
 
+        if (StringUtils.isNotBlank(transactionWindow)) {
+            logger.info("RequestValidatorImpl::TransactionWindow defined !!!");
+            try {
+                transactionWindowInterval = Integer.parseInt(transactionWindow);
+            }
+            catch (NumberFormatException e) {
+                String message = "RequestValidatorImpl:::Error parsing transaction window interval!";
+                logger.error(message, e);
+                throw new APPCException(message);
+            }
+        }
+
         try {
             URL url = new URL(endpoint);
             client = new RestClientInvoker(url);
             client.setAuthentication(user, pass);
-            path = url.getPath();    
-            
+            path = url.getPath();
+
         } catch (MalformedURLException e) {
             String message = "Invalid endpoint " + endpoint;
             logger.error(message, e);
@@ -199,9 +216,20 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
             return;
         }
 
+        List<TransactionRecord> inProgressTransactionsAll = transactionRecorder
+                .getInProgressRequests(runtimeContext.getTransactionRecord(),0);
         List<TransactionRecord> inProgressTransactions = transactionRecorder
-                .getInProgressRequests(runtimeContext.getTransactionRecord());
+                .getInProgressRequests(runtimeContext.getTransactionRecord(),transactionWindowInterval);
+
+        long inProgressTransactionsAllCount = inProgressTransactionsAll.size();
+        long inProgressTransactionsRelevant = inProgressTransactions.size();
         logger.debug("In progress requests " + inProgressTransactions.toString());
+
+        if ( inProgressTransactions.isEmpty()) //No need to check for scope overlap
+            return;
+
+        logInProgressTransactions(inProgressTransactions,inProgressTransactionsAllCount,
+            inProgressTransactionsRelevant );
 
         Long exclusiveRequestCount = inProgressTransactions.stream()
                 .filter(record -> record.getMode().equals(Flags.Mode.EXCLUSIVE.name())).count();
@@ -319,7 +347,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         ObjectMapper objectMapper = new ObjectMapper();
         ScopeOverlapModel scopeOverlapModel = getScopeOverlapModel(requestContext, inProgressTransactions);
         // Added for change in interface for action level
-        
+
         JsonNode jsonObject = objectMapper.valueToTree(scopeOverlapModel);
 
         return jsonObject;
@@ -375,7 +403,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         Request request = new Request();
 
         Date date = new Date();
-        request.setRequestID("RequestId-ScopeOverlap " + date.toString()); 
+        request.setRequestID("RequestId-ScopeOverlap " + date.toString());
         request.setAction("isScopeOverlap");
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode json = objectMapper.valueToTree(requestData);
@@ -383,7 +411,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         Input input = new Input();
         input.setRequest(request);
         scopeOverlapModel.setInput(input);
-        
+
         return scopeOverlapModel;
     }
 
@@ -496,5 +524,29 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
                     + ObjectUtils.toString(workflowRequest) + ")");
         }
         return workflowRequest;
+    }
+
+    public String logInProgressTransactions(List<TransactionRecord> inProgressTransactions,
+            long inProgressTransactionsAllCount, long inProgressTransactionsRelevant) {
+            if (inProgressTransactionsAllCount > inProgressTransactionsRelevant) {
+                logger.info("Found Stale Transactions! Ignoring Stale Transactions for target, only considering "
+                    + "transactions within the last " + transactionWindowInterval + " hours as transactions in-progress");
+            }
+            String logMsg="";
+            for (TransactionRecord tr: inProgressTransactions) {
+                logMsg = ("In Progress transaction for Target ID - "+ tr.getTargetId()
+                        + " in state " + tr.getRequestState()
+                        + " with Start time " + tr.getStartTime().toString()
+                        + " for more than configurable time period " + transactionWindowInterval
+                        + " hours [transaction details - Request ID - " + tr.getTransactionId()
+                        + ", Service Instance Id -" + tr.getServiceInstanceId()
+                        + ", Vserver_id - " + tr.getVserverId()
+                        + ", VNFC_name - "+ tr.getVnfcName()
+                        + ", VF module Id - " + tr.getVfModuleId()
+                        + " Start time " + tr.getStartTime().toString()
+                        + "]" );
+            }
+            return logMsg;
+
     }
 }
