@@ -25,6 +25,7 @@
 
 package org.onap.appc.requesthandler.impl;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
@@ -37,10 +38,13 @@ import com.att.eelf.configuration.EELFManager;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.ProtocolVersion;
 import org.apache.http.entity.BasicHttpEntity;
@@ -60,6 +64,7 @@ import org.onap.appc.domainmodel.lcm.CommonHeader;
 import org.onap.appc.domainmodel.lcm.Flags;
 import org.onap.appc.domainmodel.lcm.Flags.Mode;
 import org.onap.appc.domainmodel.lcm.RequestContext;
+import org.onap.appc.domainmodel.lcm.RequestStatus;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.domainmodel.lcm.TransactionRecord;
@@ -245,7 +250,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         TransactionRecord inProgressTransaction = new TransactionRecord();
         inProgressTransaction.setMode(Mode.EXCLUSIVE);
         transactionRecordList.add(inProgressTransaction);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class)))
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
             .thenReturn(transactionRecordList);
         runtimeContext.setTransactionRecord(inProgressTransaction);
         impl.setTransactionRecorder(transactionRecorder);
@@ -284,7 +289,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         inProgressTransaction.setOperation(VNFOperation.ActionStatus);
         transactionRecordList.add(inProgressTransaction);
         runtimeContext.setTransactionRecord(inProgressTransaction);
-        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class)))
+        Mockito.when(transactionRecorder.getInProgressRequests(Mockito.any(TransactionRecord.class),Mockito.any(int.class)))
             .thenReturn(transactionRecordList);
         impl.setTransactionRecorder(transactionRecorder);
         WorkflowExistsOutput workflowExistsOutput = new WorkflowExistsOutput(true, true);
@@ -382,6 +387,19 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
             .thenReturn(ruleResult);
         impl.setRequestValidationPolicy(requestValidationPolicy);
         impl.validateRequest(runtimeContext);
+    }
+
+    @Test
+    public void testLogInProgressTransactions() {
+        ArrayList<TransactionRecord> trArray = new ArrayList();
+        TransactionRecord tr = new TransactionRecord();
+        tr.setRequestState(RequestStatus.ACCEPTED);
+        tr.setStartTime(Instant.now().minus(48, ChronoUnit.HOURS));
+        tr.setTargetId("Vnf001");
+        trArray.add(tr);
+        String loggedMessage = impl.logInProgressTransactions(trArray, 1, 1);
+        String partMessage = "In Progress transaction for Target ID - Vnf001 in state ACCEPTED";
+        assertTrue(StringUtils.contains(loggedMessage, partMessage));
     }
 
     private RuntimeContext createRequestValidatorInput() {
