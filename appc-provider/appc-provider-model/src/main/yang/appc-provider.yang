@@ -43,7 +43,7 @@
 module appc-provider {
 
     yang-version 1;
-    namespace "org:onap:appc";
+    namespace "org:onap:appc:provider";
     prefix appc-provider;
     organization "Copyright 2017 AT&T Intellectual Property.";
 
