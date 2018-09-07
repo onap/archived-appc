@@ -25,7 +25,7 @@ package org.onap.appc.provider;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.opendaylight.yang.gen.v1.org.onap.appc.rev160104.common.response.header.CommonResponseHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.common.response.header.CommonResponseHeader;
 
 public class ResponseHeaderBuilderTest {
 
