@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,23 +27,31 @@ package org.onap.sdnc.config.audit.node;
 
 import java.io.IOException;
 import java.util.HashMap;
+
+import org.junit.Before;
 import org.junit.Test;
-import org.onap.sdnc.config.audit.node.CompareNode;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-
 public class TestCompareNodeXml {
     private static final Logger log = LoggerFactory.getLogger(TestCompareNodeXml.class);
-
+    private CompareNode cmp ;
+	private HashMap<String, String> testMap;
+	private SvcLogicContext ctx;
+    
+    @Before
+    public void setUp()
+    {
+        cmp = new CompareNode();
+		ctx = new SvcLogicContext();
+        testMap = new HashMap<String, String>();
+    }
+    
     @Test
     public void TestCompareExtactXML() throws SvcLogicException {
         log.debug("TestCompareNode.TestCompareExtactXML()");
-        SvcLogicContext ctx = new SvcLogicContext();
-        HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         String s = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\" junos:commit-seconds=\"1502141521\" junos:commit-localtime=\"2017-08-07 21:32:03 UTC\" junos:commit-user=\"root\"> </configuration>";
         String t = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\"  junos:commit-localtime=\"2017-08-07 21:12:03 UTC\" junos:commit-seconds=\"15021523\" junos:commit-user=\"root\"> </configuration>";
         testMap.put("compareDataType", "RESTCONF-XML");
@@ -55,9 +65,6 @@ public class TestCompareNodeXml {
     @Test
     public void TestCompareforAttributeOrder() throws IOException, SvcLogicException {
         log.debug("TestCompareNode.TestCompareforAttributeOrder()");
-        SvcLogicContext ctx = new SvcLogicContext();
-        HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         testMap.put("compareDataType", "XML");
         testMap.put("sourceData",
                 "<SipIfTermination><id>2</id><udpPortInUse>true</udpPortInUse><udpPort>5060</udpPort><tcpPortInUse>true</tcpPortInUse><tcpPort>5060</tcpPort></SipIfTermination>");
@@ -70,9 +77,6 @@ public class TestCompareNodeXml {
     @Test
     public void TestCompareForComments() throws SvcLogicException {
         log.debug("TestCompareNode.TestCompareForComments()");
-        SvcLogicContext ctx = new SvcLogicContext();
-        HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         testMap.put("compareDataType", "XML");
         testMap.put("sourceData", "<SipIfTermination><id>2</id><!--this is a commnect --></SipIfTermination>");
         testMap.put("targetData", "<SipIfTermination><id>2</id></SipIfTermination>");
