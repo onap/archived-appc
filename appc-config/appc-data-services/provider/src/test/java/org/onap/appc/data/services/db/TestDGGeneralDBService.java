@@ -172,6 +172,18 @@ public class TestDGGeneralDBService {
     }
 
     @Test
+    public void getVnfcReferenceByVnfcTypeNAction() throws SvcLogicException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "testVnf");
+        ctx.setAttribute("vnfc-type", "testVnfc");
+        ctx.setAttribute("request-action", "Configure");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.getVnfcReferenceByVnfcTypeNAction(ctx, "test");
+        assertEquals(status, QueryStatus.SUCCESS);
+    }
+    
+    @Test
     public void testGetDownloadConfigTemplateByVnf() throws SvcLogicException {
 
         SvcLogicContext ctx = new SvcLogicContext();
@@ -251,7 +263,7 @@ public class TestDGGeneralDBService {
     @Test
     public void testCleanContextPropertyByPrefix()
     {
-    	SvcLogicContext ctx = new SvcLogicContext();
+        SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("vnf-type", "test");
         ctx.setAttribute("request-action", "Configure");
         ctx.setAttribute(".vnfc-type", "Configure");
