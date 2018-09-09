@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -66,6 +68,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InOrder;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.appc.ccadaptor.SshJcraftWrapper.MyUserInfo;
 import org.apache.commons.io.IOUtils;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -136,5 +139,23 @@ public class SshJcraftWrapperTest {
     public void testSetRouterCommandType3() throws IOException{
         SshJcraftWrapper wrapper = new SshJcraftWrapper();
         wrapper.checkIfReceivedStringMatchesDelimeter(3, "test");
+    }
+    
+    @Test(expected=IOException.class)
+    public void testConnect() throws IOException{
+        SshJcraftWrapper wrapper = new SshJcraftWrapper();
+        wrapper.connect("testHost", "testUser", "testPswd", "3000", 1000);
+    }
+    
+    @Test
+    public void testMyUserInfoGetPassword() {
+        MyUserInfo myUserInfo=new MyUserInfo();
+        assertNull(myUserInfo.getPassword());
+    }
+    
+    @Test
+    public void testMyUserInfoPromptYesNo() {
+        MyUserInfo myUserInfo=new MyUserInfo();
+        assertFalse(myUserInfo.promptYesNo(""));
     }
 }
