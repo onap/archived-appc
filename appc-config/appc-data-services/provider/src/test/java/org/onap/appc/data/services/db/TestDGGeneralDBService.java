@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Modification Copyright (C) 2018 IBM
+ * Modifications Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -172,6 +172,18 @@ public class TestDGGeneralDBService {
     }
 
     @Test
+    public void getVnfcReferenceByVnfcTypeNAction() throws SvcLogicException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "testVnf");
+        ctx.setAttribute("vnfc-type", "testVnfc");
+        ctx.setAttribute("request-action", "Configure");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.getVnfcReferenceByVnfcTypeNAction(ctx, "test");
+        assertEquals(QueryStatus.SUCCESS, status);
+    }
+    
+    @Test
     public void testGetDownloadConfigTemplateByVnf() throws SvcLogicException {
 
         SvcLogicContext ctx = new SvcLogicContext();
@@ -251,7 +263,7 @@ public class TestDGGeneralDBService {
     @Test
     public void testCleanContextPropertyByPrefix()
     {
-    	SvcLogicContext ctx = new SvcLogicContext();
+        SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("vnf-type", "test");
         ctx.setAttribute("request-action", "Configure");
         ctx.setAttribute(".vnfc-type", "Configure");
