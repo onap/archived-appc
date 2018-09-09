@@ -27,6 +27,7 @@ package org.onap.sdnc.config.audit.node;
 
 import java.util.HashMap;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.onap.sdnc.config.audit.node.CompareNode;
 import org.slf4j.Logger;
@@ -38,12 +39,18 @@ import static org.junit.Assert.assertEquals;
 
 public class TestCompareNodeCli {
     private static final Logger log = LoggerFactory.getLogger(TestCompareNodeCli.class);
-
+    private CompareNode cmp;
+    
+    @Before
+    public void setUp()
+    {
+        cmp = new CompareNode();
+    }
+    
     @Test
     public void TestCompareCliForSamePayload() throws SvcLogicException {
         SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         testMap.put("compareDataType", "Cli");
         testMap.put("sourceData", "This is a Text Configuration of Device");
         testMap.put("targetData", "This is a Text Configuration of Device");
@@ -55,7 +62,6 @@ public class TestCompareNodeCli {
     public void TestCompareCliForNoPayload() throws SvcLogicException {
         SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         testMap.put("compareDataType", "Cli");
         cmp.compare(testMap, ctx);
         assertEquals ("FAILURE",ctx.getAttribute("STATUS"));
@@ -65,7 +71,6 @@ public class TestCompareNodeCli {
     public void TestCompareCliFordifferentPayload() throws SvcLogicException {
         SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         testMap.put("compareDataType", "Cli");
         testMap.put("sourceData", "This is a Text Negative test Configuration of Device");
         testMap.put("targetData", "This is a Text Configuration of Device");
@@ -77,7 +82,6 @@ public class TestCompareNodeCli {
     public void TestCompareForMissingInput() throws SvcLogicException {
         SvcLogicContext ctx = new SvcLogicContext();
         HashMap<String, String> testMap = new HashMap<String, String>();
-        CompareNode cmp = new CompareNode();
         testMap.put("sourceData", "This is a Text Negative test Configuration of Device");
         testMap.put("targetData.configuration-data", "This is a Text Configuration of Device");
         cmp.compare(testMap, ctx);
