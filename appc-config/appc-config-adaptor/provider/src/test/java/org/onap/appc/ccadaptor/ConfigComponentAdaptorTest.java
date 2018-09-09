@@ -306,5 +306,20 @@ public class ConfigComponentAdaptorTest {
         String result = Whitebox.invokeMethod(cca, "prepare", ctx, "test", "test");
         Assert.assertEquals("template", result);
     }
+    
+    @Test
+    public void testConstructorForNonNullProperties() throws Exception {
+        Properties props = new Properties();
+        props.setProperty("configComponent.url", "testConfigUrl");
+        props.setProperty("configComponent.user", "testConfigUser");
+        props.setProperty("configComponent.passwd", "testConfigPwd");
+        props.setProperty("auditComponent.url", "testAuditUrl");
+        props.setProperty("auditComponent.user", "testAuditUser");
+        props.setProperty("auditComponent.passwd", "testAuditPwd");
+        props.setProperty("service-configuration-notification-url", "testServiceNotificationUrl");
+        props.setProperty("audit-configuration-notification-url", "testAuditNotificationUrl");
+        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+        Assert.assertNotNull(cca);
+    }
 
 }
