@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Modification Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -700,5 +700,20 @@ public class ConfigResourceNodeTest {
         verify(configResourceNode).saveConfigBlock(inParams, contextMock);
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
+    
+    @Test
+    public void testSaveTemplateConfig() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(CONFIG_FILE_ID_PARAM, "some file id");
 
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.saveTemplateConfig(inParams, contextMock);
+
+        verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
 }
