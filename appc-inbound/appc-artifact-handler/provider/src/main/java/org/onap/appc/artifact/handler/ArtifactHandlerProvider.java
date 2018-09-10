@@ -30,6 +30,7 @@ import java.util.concurrent.Future;
 
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.DataChangeListener;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
 import org.opendaylight.controller.md.sal.common.api.data.AsyncDataChangeEvent;
 import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
@@ -66,14 +67,14 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
     private final String appName = "ArtifactsHandler";
     private final ExecutorService executor;
     protected DataBroker dataBroker;
-    protected NotificationProviderService notificationService;
+    protected NotificationPublishService notificationService;
     protected RpcProviderRegistry rpcRegistry;
     private ListenerRegistration<DataChangeListener> dclServices;
 
     protected BindingAwareBroker.RpcRegistration<ArtifactHandlerService> rpcRegistration;
 
     public ArtifactHandlerProvider(DataBroker dataBroker2,
-            NotificationProviderService notificationProviderService,
+            NotificationPublishService notificationProviderService,
             RpcProviderRegistry rpcProviderRegistry) {
         this.log.info("Creating provider for " + appName);
         executor = Executors.newFixedThreadPool(10);
@@ -94,9 +95,6 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
             log.error("Caught exception while trying to load properties file", e);
         }
         // Listener for changes to Services tree
-
-        rpcRegistration = rpcRegistry.addRpcImplementation(
-                ArtifactHandlerService.class, this);
 
         log.info("Initialization complete for " + appName);
     }

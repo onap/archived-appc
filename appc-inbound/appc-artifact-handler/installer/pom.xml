@@ -61,13 +61,6 @@
 			<version>${project.version}</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.onap.appc</groupId>
-			<artifactId>appc-artifact-handler-provider</artifactId>
-			<version>${project.version}</version>
-			<classifier>config</classifier>
-			<type>xml</type>
-		</dependency>
 
 	</dependencies>
 
