@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8d7127aa",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T13:19:03Z",
+      "side": 1,
+      "message": "this test is unnecessary.  Instead, can getXxx methods be verified to ensure they return the correct values?",
+      "revId": "ef87f9db1964e91c2462eb1dae7884471f72da56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
