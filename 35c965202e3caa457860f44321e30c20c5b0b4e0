@@ -16,6 +16,24 @@
       "revId": "35c965202e3caa457860f44321e30c20c5b0b4e0",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_a215124a",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeXml.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T13:14:52Z",
+      "side": 1,
+      "message": "and ctx",
+      "parentUuid": "1a76adc5_625dba46",
+      "revId": "35c965202e3caa457860f44321e30c20c5b0b4e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
