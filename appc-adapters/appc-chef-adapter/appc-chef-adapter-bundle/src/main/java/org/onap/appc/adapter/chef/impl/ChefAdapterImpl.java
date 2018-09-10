@@ -222,6 +222,10 @@ public class ChefAdapterImpl implements ChefAdapter {
             chefInfo(params, ctx);
             String nodeList = params.get(NODE_LIST_STR);
             if (StringUtils.isNotBlank(nodeList)) {
+                // change ["a,b,c"] to ["a","b","c"] if needed
+                if (!nodeList.contains("\",\"")) {
+                    nodeList = nodeList.replace(",", "\",\"");
+                }
                 String isCallback = params.get("CallbackCapable");
                 String chefAction = "/pushy/jobs";
                 // need work on this
