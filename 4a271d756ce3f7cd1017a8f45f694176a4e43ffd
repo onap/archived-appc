@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_0d2f5789",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-10T13:16:12Z",
+      "side": 1,
+      "message": "could initialize ctx and testMap, here, too",
+      "revId": "4a271d756ce3f7cd1017a8f45f694176a4e43ffd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
