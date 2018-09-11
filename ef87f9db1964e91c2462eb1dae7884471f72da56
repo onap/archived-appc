@@ -16,6 +16,24 @@
       "revId": "ef87f9db1964e91c2462eb1dae7884471f72da56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_5b42e068",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-09-11T11:49:44Z",
+      "side": 1,
+      "message": "this test is helping to cover the lines 63-71 in ConfigComponentAdaptor.java. So, i think its good to have this test case.",
+      "parentUuid": "1a76adc5_8d7127aa",
+      "revId": "ef87f9db1964e91c2462eb1dae7884471f72da56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
