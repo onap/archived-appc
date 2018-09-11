@@ -306,5 +306,29 @@ public class ConfigComponentAdaptorTest {
         String result = Whitebox.invokeMethod(cca, "prepare", ctx, "test", "test");
         Assert.assertEquals("template", result);
     }
+    
+    @Test(expected = Exception.class)
+    public void testConstructorForNonNullProperties() throws Exception {
+        Properties props = new Properties();
+        props.setProperty("configComponent.url", "testConfigUrl");
+        props.setProperty("configComponent.user", "testConfigUser");
+        props.setProperty("configComponent.passwd", "testConfigPwd");
+        props.setProperty("auditComponent.url", "testAuditUrl");
+        props.setProperty("auditComponent.user", "testAuditUser");
+        props.setProperty("auditComponent.passwd", "testAuditPwd");
+        props.setProperty("service-configuration-notification-url", "testServiceNotificationUrl");
+        props.setProperty("audit-configuration-notification-url", "testAuditNotificationUrl");
+        
+        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+        Assert.assertEquals("testConfigUrl", cca.getConfigUrl());
+        Assert.assertEquals("testConfigUser", cca.getConfigUser());
+        Assert.assertEquals("testConfigPwd", cca.getConfigPassword());
+        Assert.assertEquals("testAuditUrl", cca.getAuditUrl());
+        Assert.assertEquals("testAuditUser", cca.getAuditUser());
+        Assert.assertEquals("testAuditPwd", cca.getAuditPassword());
+        Assert.assertEquals("testServiceNotificationUrl", cca.getConfigCallbackUrl());
+        Assert.assertEquals("testAuditNotificationUrl", cca.getAuditCallbackUrl());
+        
+    }
 
 }
