@@ -159,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_02b96114",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-09-11T01:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_1353f639",
+      "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_53240ec4",
         "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
         "patchSetId": 4
