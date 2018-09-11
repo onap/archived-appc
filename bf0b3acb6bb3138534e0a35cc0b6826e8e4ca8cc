@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_f643c3ac",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeXml.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-09-11T13:27:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_b6a8eb8d",
+      "revId": "bf0b3acb6bb3138534e0a35cc0b6826e8e4ca8cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_56a9578e",
         "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeXml.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-11T13:03:48Z",
       "side": 1,
       "message": "tabs \u003d\u003e spaces",
+      "revId": "bf0b3acb6bb3138534e0a35cc0b6826e8e4ca8cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_9614cfa0",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeXml.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-09-11T13:27:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_56a9578e",
       "revId": "bf0b3acb6bb3138534e0a35cc0b6826e8e4ca8cc",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
