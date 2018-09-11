@@ -34,6 +34,24 @@
       "revId": "ef87f9db1964e91c2462eb1dae7884471f72da56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_b6f0ebfe",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-11T12:37:54Z",
+      "side": 1,
+      "message": "this assertNotNull serves no value, as cca can never be null at this point.  However, it would be of use to do several assertEquals(\"xxx\", cca.getYyy()) calls, to verify that the properties were properly copied into cca",
+      "parentUuid": "1a76adc5_5b42e068",
+      "revId": "ef87f9db1964e91c2462eb1dae7884471f72da56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
