@@ -25,8 +25,8 @@ package org.onap.appc.design.validator;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.snakeyaml.Yaml;
-import com.fasterxml.jackson.dataformat.yaml.snakeyaml.introspector.BeanAccess;
+import org.yaml.snakeyaml.Yaml;
+import org.yaml.snakeyaml.introspector.BeanAccess;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
