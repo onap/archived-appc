@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ###
 # ============LICENSE_START=======================================================
 # ONAP : APP-C
@@ -17,8 +19,6 @@
 # limitations under the License.
 # ============LICENSE_END=========================================================
 ###
-
-#!/bin/bash
 
 ODL_HOME=${ODL_HOME:-/opt/opendaylight/current}
 ODL_KARAF_CLIENT=${ODL_KARAF_CLIENT:-${ODL_HOME}/bin/client}
