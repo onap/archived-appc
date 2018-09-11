@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_76e013fa",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-11T13:01:15Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "f657d6c51c101a96143e4db27c349f06eeac0e36",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_36e61b16",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/node/TestCompareNodeJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-11T13:01:15Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "f657d6c51c101a96143e4db27c349f06eeac0e36",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
