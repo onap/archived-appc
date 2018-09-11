@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f670a341",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-11T13:10:15Z",
+      "side": 1,
+      "message": "FYI: if this code is ever run through checkstyle, it will fail due to lack of \"{\" and \"}\".",
+      "revId": "2dc7fe172659e6cea83c88964a54250a568fe89b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
