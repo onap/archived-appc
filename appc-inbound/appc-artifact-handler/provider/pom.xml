@@ -46,7 +46,7 @@ limitations under the License.
 						<Bundle-Activator>org.onap.appc.artifact.handler.SdcArtifactHandlerActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.artifact.handler,org.opendaylight.controller.config.yang.config.artifact-handler_provider.impl</Export-Package>
 						<Import-Package>!com.google,!org.apache.commons.configuration,*;resolution:=optional</Import-Package>
-						<Embed-Dependency>commons-configuration,guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml</Embed-Dependency>
+						<Embed-Dependency>commons-configuration,guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml,json</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
