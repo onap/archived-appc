@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -20,33 +22,38 @@
  */
 package org.onap.appc.flow.executor.node;
 
-import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Properties;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.onap.appc.flow.controller.node.FlowControlNode;
 import org.onap.appc.flow.controller.node.JsonParsingNode;
-import org.onap.appc.flow.controller.node.RestServiceNode;
-import org.onap.appc.flow.controller.utils.FlowControllerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class TestParsingNode {
 
-	@Test
-	public void testRestServiceNode() throws Exception {
-		SvcLogicContext ctx = new SvcLogicContext();
-		HashMap<String, String> inParams = new HashMap<String, String>();
-		JsonParsingNode rsn = new JsonParsingNode();
-		inParams.put("data", "{\"identifier\": \"scope represented\",\"state\": \"healthy\",\"test\": \"passed\", \"time\": \"01-01-1000:0000\"}");
-		inParams.put("responsePrefix", "APPC.healthcheck");
-		rsn.parse(inParams, ctx);
-		for (Object key : ctx.getAttributeKeySet()) {
-			String parmName = (String) key;
-			String parmValue = ctx.getAttribute(parmName);
-		}
-		
-	}
+    @Test
+    public void testRestServiceNode() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> inParams = new HashMap<String, String>();
+        JsonParsingNode rsn = new JsonParsingNode();
+        inParams.put("data", "{\"identifier\": \"scope represented\",\"state\": \"healthy\",\"test\": \"passed\", \"time\": \"01-01-1000:0000\"}");
+        inParams.put("responsePrefix", "APPC.healthcheck");
+        rsn.parse(inParams, ctx);
+        for (Object key : ctx.getAttributeKeySet()) {
+            String parmName = (String) key;
+            String parmValue = ctx.getAttribute(parmName);
+        }
+        
+    }
+    
+    @Test(expected=SvcLogicException.class)
+    public void testRestServiceNodeForNonJsonData() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        HashMap<String, String> inParams = new HashMap<String, String>();
+        JsonParsingNode rsn = new JsonParsingNode();
+        inParams.put("data", "2");
+        inParams.put("responsePrefix", "APPC.healthcheck");
+        rsn.parse(inParams, ctx);
+                
+    }
 }
