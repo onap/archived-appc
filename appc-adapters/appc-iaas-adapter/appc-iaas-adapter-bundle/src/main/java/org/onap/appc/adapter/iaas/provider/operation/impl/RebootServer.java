@@ -141,16 +141,11 @@ public class RebootServer extends ProviderServerOperation {
         boolean status = false;
         long endTime = System.currentTimeMillis() + (timeout * MILLI_SECONDS);
         while (rc.attempt()) {
-            if (server.getStatus() != null && server.getStatus().equals(Server.Status.ERROR)) {
-                msg = "Device status " + Server.Status.ERROR + " cannot proceed further";
-                throw new RequestFailedException("Waiting for State Change", msg, HttpStatus.CONFLICT_409, server);
-            } else {
                 server.waitForStateChange(pollInterval, timeout, desiredStates);
                 if ((server.getStatus().equals(Server.Status.RUNNING)) || (server.getStatus().equals(Server.Status.READY))) {
                     status = true;
                 }
                 logger.info(server.getStatus() + " status ");
-            }
             if (status) {
                 logger.info("Done Trying " + rc.getAttempts() + " attempts");
                 break;
