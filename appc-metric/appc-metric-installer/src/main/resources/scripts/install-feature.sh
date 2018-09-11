@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ###
 # ============LICENSE_START=======================================================
 # ONAP : APPC
@@ -20,8 +22,6 @@
 # 
 # ============LICENSE_END=========================================================
 ###
-
-#!/bin/bash
 
 ODL_HOME=${ODL_HOME:-/opt/opendaylight/current}
 ODL_KARAF_CLIENT=${ODL_KARAF_CLIENT:-${ODL_HOME}/bin/client}

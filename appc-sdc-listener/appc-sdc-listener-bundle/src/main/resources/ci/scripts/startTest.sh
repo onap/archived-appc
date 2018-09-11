@@ -1,3 +1,5 @@
+#!/bin/bash
+
 ###
 # ============LICENSE_START=======================================================
 # ONAP : APPC
@@ -21,8 +23,6 @@
 # ECOMP is a trademark and service mark of AT&T Intellectual Property.
 # ============LICENSE_END=========================================================
 ###
-
-#!/bin/bash
 
 function usage {
 	echo "Usage: $0 <jar file>"
