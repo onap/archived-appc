@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_85b7bbf4",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-09-11T06:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_a270b2dc",
+      "revId": "e575352d605bceef3223521bea73ad1eabdd7a8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_e26a2aed",
         "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-10T13:11:57Z",
       "side": 1,
       "message": "arguments are backwards",
+      "revId": "e575352d605bceef3223521bea73ad1eabdd7a8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_25d0271e",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/db/TestDGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-09-11T06:50:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_e26a2aed",
       "revId": "e575352d605bceef3223521bea73ad1eabdd7a8f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
