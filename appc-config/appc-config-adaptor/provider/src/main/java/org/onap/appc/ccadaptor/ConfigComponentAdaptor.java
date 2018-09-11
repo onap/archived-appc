@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -54,6 +56,39 @@ private String configPassword = null;
 private String auditUrl = null;
 private String auditUser = null;
 private String auditPassword = null;
+
+public String getConfigUrl() {
+	return configUrl;
+}
+
+public String getConfigUser() {
+	return configUser;
+}
+
+public String getConfigPassword() {
+	return configPassword;
+}
+
+public String getAuditUrl() {
+	return auditUrl;
+}
+
+public String getAuditUser() {
+	return auditUser;
+}
+
+public String getAuditPassword() {
+	return auditPassword;
+}
+
+public String getConfigCallbackUrl() {
+	return configCallbackUrl;
+}
+
+public String getAuditCallbackUrl() {
+	return auditCallbackUrl;
+}
+
 private String configCallbackUrl = null;
 private String auditCallbackUrl = null;
 private int DEFAULT_TIMEOUT_GETRUNNING_CLI = 120 * 1000 ;
