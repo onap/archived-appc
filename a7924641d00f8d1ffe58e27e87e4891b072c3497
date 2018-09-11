@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_a2d2ed59",
+        "filename": "appc-dispatcher/appc-dispatcher-common/transaction-recorder/src/test/java/org/onap/appc/transactionrecorder/impl/TransactionRecorderImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-09-11T01:40:39Z",
+      "side": 1,
+      "message": "Added test case with non zero time interval.",
+      "parentUuid": "1a76adc5_93470677",
+      "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_33607200",
         "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2018-09-10T20:24:54Z",
       "side": 1,
       "message": "separate line",
+      "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_c2d7e949",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-09-11T01:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_33607200",
       "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "1a76adc5_62c855a8",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-09-11T01:40:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a76adc5_f3551a1e",
+      "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_b31a427b",
         "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
         "patchSetId": 4
@@ -64,6 +118,24 @@
       "writtenOn": "2018-09-10T20:24:54Z",
       "side": 1,
       "message": "is it necessary to worry about a race condition here?  For instance, can transactions be added and removed between these two lists, which might cause subsequent processing to report incorrect info (e.g., All\u003d[A,B,C], Relevant\u003d[B,C,D] \u003d\u003e both lists are the same length, even though they contain different items)",
+      "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_22c6dd9a",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-09-11T01:40:39Z",
+      "side": 1,
+      "message": "No- I don\u0027t think that is necessary. The only purpose of these \"All\"  list is to log an appropriate message in the log. The above scenario should never occur in most scenarios - as the \"All\" list is always a superset of the relevant list.",
+      "parentUuid": "1a76adc5_b31a427b",
       "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -98,6 +170,24 @@
       "writtenOn": "2018-09-10T20:24:54Z",
       "side": 1,
       "message": "can inProgressTransactions actually be null?  If not, then the null check can be removed.  If so, then prior code may throw an NullPointerException (e.g., during invocation of \"stream().count()\")",
+      "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_42c3d988",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/requesthandler/impl/RequestValidatorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1989
+      },
+      "writtenOn": "2018-09-11T01:40:39Z",
+      "side": 1,
+      "message": "Fixed.It will never be null.",
+      "parentUuid": "1a76adc5_53240ec4",
       "revId": "a7924641d00f8d1ffe58e27e87e4891b072c3497",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
