@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_c9b2d305",
+        "filename": "appc-provider/appc-provider-bundle/src/main/yang/appc-provider-lcm.yang",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 691
+      },
+      "writtenOn": "2018-09-12T15:33:22Z",
+      "side": 1,
+      "message": "Mistake. Look at patchset 3.",
+      "revId": "ca88bec41637e955348417a14f30df1c776a9814",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
