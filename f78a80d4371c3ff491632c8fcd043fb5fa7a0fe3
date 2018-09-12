@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_656b7285",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-09-12T15:36:48Z",
+      "side": 1,
+      "message": "isn\u0027t this test still needed?",
+      "revId": "f78a80d4371c3ff491632c8fcd043fb5fa7a0fe3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
