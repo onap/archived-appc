@@ -59,9 +59,17 @@
                                  <groupId>com.datastax.cassandra</groupId>
                                  <artifactId>cassandra-driver-core</artifactId>
                             </exclusion>
+                            <exclusion>
+                                 <groupId>ch.qos.logback</groupId>
+                                 <artifactId>logback-classic</artifactId>
+                            </exclusion>
                         </exclusions>
 		</dependency>
-
+<dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>1.2.3</version>
+                </dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -118,7 +126,7 @@
 						<Export-Package>org.onap.sdnc.config.params,org.onap.sdnc.config.params.data,
 							org.onap.sdnc.config.params.parser,org.onap.sdnc.config.params.transformer,
 							org.onap.sdnc.config.params.transformer.tosca,org.onap.sdnc.config.params.transformer.tosca.exceptions</Export-Package>
-						<Import-Package>!com.google.common.collect,*</Import-Package>
+						<Import-Package>groovy.lang;resolution:=optional,org.codehaus.groovy.*;resolution:=optional,!com.google.common.collect,*</Import-Package>
 						<Embed-Dependency>guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml,eelf-core,logback-core,logback-classic</Embed-Dependency>
 						<DynamicImport-Package>*</DynamicImport-Package>
 					</instructions>
