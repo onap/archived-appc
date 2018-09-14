@@ -4,8 +4,6 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
- * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,6 +31,8 @@ public class RequestModel {
     private String action;
     @JsonProperty("action-identifiers")
     private ActionIdentifierModel actionIdentifier;
+    @JsonProperty("target-id")
+    private String targetId;
 
     public ActionIdentifierModel getActionIdentifier() {
         return actionIdentifier;
@@ -49,5 +49,13 @@ public class RequestModel {
     public void setAction(String action) {
         this.action = action;
     }
+
+    public String getTargetId() {
+               return targetId;
+       }
+
+    public void setTargetId(String targetId) {
+               this.targetId = targetId;
+       }
     
 }
