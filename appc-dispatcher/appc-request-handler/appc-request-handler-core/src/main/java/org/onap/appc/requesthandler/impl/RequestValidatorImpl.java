@@ -396,6 +396,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
 
                     request.getActionIdentifier().setVnfId(null);
             }
+            request.setTargetId(record.getTargetId());
             inProgressRequests.add(request);
         }
 

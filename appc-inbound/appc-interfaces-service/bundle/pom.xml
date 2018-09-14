@@ -41,10 +41,10 @@
                 <configuration>
                     <instructions>
                     <Export-Package>org.onap.appc.interfaces.services</Export-Package>
-                         <Import-Package>org.onap.appc.aai.client,*;resolution:=optional</Import-Package>
-                         <Embed-Dependency>jackson-dataformat-yaml</Embed-Dependency>
+                         <Embed-Dependency>*;scope=compile|runtime;artifactId=appc-aai-client-provider</Embed-Dependency>
+                         <Import-Package>org.onap.appc.aai.client.*</Import-Package>
                          <DynamicImport-Package>*</DynamicImport-Package>
-                                     <Embed-Transitive>true</Embed-Transitive>
+                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>

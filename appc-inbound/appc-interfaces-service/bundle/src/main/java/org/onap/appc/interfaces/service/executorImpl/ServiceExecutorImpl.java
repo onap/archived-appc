@@ -4,8 +4,6 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Copyright (C) 2017 Amdocs
- * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -74,6 +72,10 @@ public class ServiceExecutorImpl {
         }
         if (scopeOverlap.getCurrentRequest().getActionIdentifiers().getVnfId() != null) {
             return Boolean.TRUE;
+        } else if (!Strings.isNullOrEmpty(scopeOverlap.getVnfId())
+                && scopeOverlap.getInProgressRequest().size() > 0) {
+            log.info("Checking overlap for similar vnfid :" + isVnfIdOverlap(scopeOverlap));
+            return isVnfIdOverlap(scopeOverlap);
         } else if (scopeOverlap.getCurrentRequest().getActionIdentifiers().getVfModuleId() != null) {
             return Boolean.TRUE;
         } else if (scopeOverlap.getCurrentRequest().getActionIdentifiers().getvServerId() != null) {
@@ -151,5 +153,19 @@ public class ServiceExecutorImpl {
                 return Boolean.TRUE ;
         }
         return isVnfcNameOverLap(scopeOverlap);
+    }
+
+    private boolean isVnfIdOverlap(ScopeOverlap scopeOverlap) throws Exception {
+        List<Request> inProgressRequests = scopeOverlap.getInProgressRequest();
+        log.info("inProgressRequests list"+inProgressRequests.toString());
+        for (Request request : inProgressRequests) {
+            log.info("request list"+request.getTargetId());
+            if (!Strings.isNullOrEmpty(scopeOverlap.getVnfId())
+                    && !Strings.isNullOrEmpty(request.getTargetId())
+                    && (request.getTargetId()
+                            .equals(scopeOverlap.getVnfId())))
+                return Boolean.TRUE;
+        }
+        return Boolean.FALSE;
     }
 }
