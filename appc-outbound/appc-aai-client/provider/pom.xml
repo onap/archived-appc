@@ -134,7 +134,7 @@
 					<instructions>
 						<Bundle-SymbolicName>org.onap.appc.aai.client</Bundle-SymbolicName>
 						<Bundle-Activator>org.onap.appc.aai.client.AppcAaiClientActivator</Bundle-Activator>
-						<Export-Package>org.onap.appc.aai.client</Export-Package>
+						<Export-Package>org.onap.appc.aai.client,org.onap.appc.aai.client.*</Export-Package>
 						<Import-Package>*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
 						<Embed-Dependency>eelf-core,logback-core,logback-classic</Embed-Dependency>
