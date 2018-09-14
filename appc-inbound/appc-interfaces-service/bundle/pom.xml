@@ -44,7 +44,7 @@
                          <Import-Package>org.onap.appc.aai.client,*;resolution:=optional</Import-Package>
                          <Embed-Dependency>jackson-dataformat-yaml</Embed-Dependency>
                          <DynamicImport-Package>*</DynamicImport-Package>
-                                     <Embed-Transitive>true</Embed-Transitive>
+                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>
@@ -57,7 +57,7 @@
             <artifactId>appc-interfaces-service-model</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
+       <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-aai-client-provider</artifactId>
             <version>${project.version}</version>

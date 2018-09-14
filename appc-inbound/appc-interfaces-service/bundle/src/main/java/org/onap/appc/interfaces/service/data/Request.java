@@ -32,6 +32,9 @@ public class Request {
 
     @JsonProperty("action-identifiers")
     private ActionIdentifier actionIdentifiers;
+    
+    @JsonProperty("target-id")
+     private String  targetId;
 
     public String getAction() {
         return action;
@@ -49,4 +52,11 @@ public class Request {
         this.actionIdentifiers = actionIdentifiers;
     }
 
+    public String getTargetId() {
+              return targetId;
+     }
+
+     public void setTargetId(String targetId) {
+               this.targetId = targetId;
+       }
 }
