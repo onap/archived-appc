@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_f2509433",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-09-15T23:58:16Z",
+      "side": 1,
+      "message": "any reason you removed jackson-dataformat-yaml?",
+      "range": {
+        "startLine": 45,
+        "startChar": 59,
+        "endLine": 45,
+        "endChar": 65
+      },
+      "revId": "4110bf6d7ac83952be9841928b0a1fbe71dbb0e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
