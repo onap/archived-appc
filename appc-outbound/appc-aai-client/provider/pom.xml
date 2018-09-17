@@ -60,14 +60,24 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.5</version>
 		</dependency>
-        <dependency>
+                <dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-
+                <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+	                <version>${logback.version}</version>
+                </dependency>
 		<dependency>
 			<groupId>com.att.eelf</groupId>
 			<artifactId>eelf-core</artifactId>
+                        <exclusions>
+                            <exclusion>
+                                 <groupId>ch.qos.logback</groupId>
+                                 <artifactId>logback-classic</artifactId>
+                            </exclusion>
+                        </exclusions>
 		</dependency>
 
 		<dependency>
@@ -135,7 +145,8 @@
 						<Bundle-SymbolicName>org.onap.appc.aai.client</Bundle-SymbolicName>
 						<Bundle-Activator>org.onap.appc.aai.client.AppcAaiClientActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.aai.client,org.onap.appc.aai.client.*</Export-Package>
-						<Import-Package>*</Import-Package>
+						<Import-Package>groovy.lang;resolution:=optional,
+						    org.codehaus.groovy.*;resolution:=optional,*</Import-Package>
 						<DynamicImport-Package>*</DynamicImport-Package>
 						<Embed-Dependency>eelf-core,logback-core,logback-classic</Embed-Dependency>
 					</instructions>

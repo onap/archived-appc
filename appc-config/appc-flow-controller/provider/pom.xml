@@ -69,8 +69,19 @@
             <artifactId>jackson-dataformat-yaml</artifactId>
         </dependency>
         <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+	    <version>${logback.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.att.eelf</groupId>
             <artifactId>eelf-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.ccsdk.sli.adaptors</groupId>
@@ -141,7 +152,8 @@
                         <Bundle-SymbolicName>org.onap.appc.flow.controller</Bundle-SymbolicName>
                         <Bundle-Activator>org.onap.appc.flow.controller.FlowControllerActivator</Bundle-Activator>
                         <Export-Package>org.onap.appc.flow.controller</Export-Package>
-                        <Import-Package>*</Import-Package>
+                        <Import-Package>groovy.lang;resolution:=optional,
+                            org.codehaus.groovy.*;resolution:=optional,*</Import-Package>
                         <Embed-Dependency>eelf-core,logback-core,logback-classic</Embed-Dependency>
                         <DynamicImport-Package>*</DynamicImport-Package>
                     </instructions>
