@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1a76adc5_ab59428f",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-09-17T20:18:58Z",
+      "side": 1,
+      "message": "appc aai client should not be embedded here, since it is exported by the appc aai client feature already. We don\u0027t want to have two copies of it",
+      "revId": "4110bf6d7ac83952be9841928b0a1fbe71dbb0e0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a76adc5_f2509433",
         "filename": "appc-inbound/appc-interfaces-service/bundle/pom.xml",
         "patchSetId": 2
