@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_8fb6d1f7",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-09-17T22:11:00Z",
+      "side": 1,
+      "message": "The aai client still should not be embedded here since it is being exported by the aai client feature. The aai client feature installs before interfaces-service during appc install, so there should not be a resolution error",
+      "revId": "60169dd9a5ea631f27471e86a749bdc674c2b52a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a76adc5_4fcc3989",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2018-09-17T22:11:00Z",
+      "side": 1,
+      "message": "The wildcard import (*) should not be removed here.",
+      "revId": "60169dd9a5ea631f27471e86a749bdc674c2b52a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
