@@ -57,7 +57,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vm[1].vnfc-name")).thenReturn("some-vnfc-name-1");
     when(ctx.getAttribute("tmp.vnfInfo.vm[1].vnfc-type")).thenReturn("some-vnfc-type-1");
 
-    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+    when(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url")).thenReturn("some-url");
 
     String vnfId = "some-vnf-id";
     InventoryInfo inventoryInfo = inventoryInfoExtractor.getInventoryInfo(ctx, vnfId);
@@ -74,7 +74,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn("2");
-    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+    when(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url")).thenReturn("some-url");
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -102,7 +102,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn("0");
-    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+    when(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url")).thenReturn("some-url");
 
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
@@ -128,7 +128,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn("");
-    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+    when(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url")).thenReturn("some-url");
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -154,7 +154,7 @@ public class InventoryInfoExtractorTest {
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-name")).thenReturn("some-vnf-name");
     when(ctx.getAttribute("tmp.vnfInfo.vnf.vnf-type")).thenReturn("some-vnf-type");
     when(ctx.getAttribute("tmp.vnfInfo.vm-count")).thenReturn(null);
-    when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some-url");
+    when(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url")).thenReturn("some-url");
 
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vserver-id")).thenReturn("some-id-0");
     when(ctx.getAttribute("tmp.vnfInfo.vm[0].vnfc-count")).thenReturn("2");
@@ -178,7 +178,7 @@ public class InventoryInfoExtractorTest {
   @Test
   public void testGetIdentityUrl_from_payload() throws Exception{
       InventoryInfoExtractor info = new InventoryInfoExtractor();
-      when(ctx.getAttribute("AICIdentity")).thenReturn("some_url");
+      when(ctx.getAttribute("identity-url")).thenReturn("some_url");
       VnfInfo vnfInfo = new VnfInfo();
       String url=info.getIdentityUrl(ctx, vnfInfo, "123");
       System.out.println(info.toString());
@@ -188,7 +188,7 @@ public class InventoryInfoExtractorTest {
   @Test
   public void testGetIdentityUrl_from_Inventory() throws Exception{
       InventoryInfoExtractor info = new InventoryInfoExtractor();
-      when(ctx.getAttribute("tmp.vnfInfo.identity-url")).thenReturn("some_url_from_inventory");
+      when(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url")).thenReturn("some_url_from_inventory");
       VnfInfo vnfInfo = new VnfInfo();
       String url=info.getIdentityUrl(ctx, vnfInfo, "123");
       System.out.println(info.toString());
