@@ -81,9 +81,10 @@ class InventoryInfoExtractor {
       for (String key : ctx.getAttributeKeySet()) {
             log.debug("InventoryData " + key + "=" + ctx.getAttribute(key));
       }
-      String urlFromPayload= ctx.getAttribute("AICIdentity");
+      String urlFromPayload= ctx.getAttribute("identity-url");
       log.info("Url from payload:" + urlFromPayload);
-      String urlFromAAI=ctx.getAttribute("tmp.vnfInfo.identity-url");
+      String urlFromAAI=ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url");
+      log.info("Url from AAI:" + urlFromAAI);
 
       if(StringUtils.isNotBlank(urlFromPayload)){
           identityUrl=urlFromPayload;
