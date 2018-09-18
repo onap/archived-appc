@@ -75,9 +75,6 @@ public class FlowControlDBService {
         String fn = "DBService.getflowModelInfo";
         String whereClause = " where ACTION = $" + FlowControllerConstants.REQUEST_ACTION;
 
-        if (StringUtils.isNotBlank(ctx.getAttribute(FlowControllerConstants.VNF_TYPE))) {
-            whereClause = whereClause.concat(" and VNF_TYPE = $" + FlowControllerConstants.VNF_TYPE);
-        }
         if (StringUtils.isNotBlank(ctx.getAttribute(FlowControllerConstants.ACTION_LEVEL))) {
             whereClause = whereClause.concat(" and ACTION_LEVEL = $" + FlowControllerConstants.ACTION_LEVEL);
         }

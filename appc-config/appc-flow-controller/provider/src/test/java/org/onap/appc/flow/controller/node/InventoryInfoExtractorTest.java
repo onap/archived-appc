@@ -178,7 +178,7 @@ public class InventoryInfoExtractorTest {
   @Test
   public void testGetIdentityUrl_from_payload() throws Exception{
       InventoryInfoExtractor info = new InventoryInfoExtractor();
-      when(ctx.getAttribute("AICIdentity")).thenReturn("some_url");
+      when(ctx.getAttribute("identity-url")).thenReturn("some_url");
       VnfInfo vnfInfo = new VnfInfo();
       String url=info.getIdentityUrl(ctx, vnfInfo, "123");
       System.out.println(info.toString());
