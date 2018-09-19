@@ -79,6 +79,24 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             AaiService aai = getAaiService();
             aai.getGenericVnfInfo(inParams, ctx);
 
+            String cloudOwnerValue=ctx.getAttribute(responsePrefix + "vm[0].cloud-owner");
+            String cloudRegionValue=ctx.getAttribute(responsePrefix + "vm[0].cloud-region-id");
+
+            log.debug("Cloud Owner" + cloudOwnerValue);
+            log.debug("CloudRegionId" + cloudOwnerValue);
+            SvcLogicContext cloudCtx = new SvcLogicContext();
+            Map<String, String> paramsCloud = new HashMap<String, String>();
+            paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
+                    inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
+
+            if(StringUtils.isNotBlank(cloudOwnerValue)&&StringUtils.isNotBlank(cloudRegionValue)) {
+
+                paramsCloud.put("cloudOwner", cloudOwnerValue);
+                paramsCloud.put("cloudRegionId", cloudRegionValue);
+
+                aai.getIdentityUrl(paramsCloud, ctx);
+            }
+
             ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
                 AppcAaiClientConstant.OUTPUT_STATUS_SUCCESS);
             log.info("getVnfInfo Successful ");
@@ -142,7 +160,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 vserverMap.put(PARAM_VSERVER_NAME, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-name"));
                 vserverMap.put("vf-module-id", vmServerCtx.getAttribute(responsePrefix + "vm.vf-module-id"));
                 vserverMap.put(PARAM_VSERVER_SELFLINK, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
-                
+
                 log.info("VSERVER-LINK VALUE:" + vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
 
                 // as Per 17.07 requirements we are supporting only one VNFC per VM.
