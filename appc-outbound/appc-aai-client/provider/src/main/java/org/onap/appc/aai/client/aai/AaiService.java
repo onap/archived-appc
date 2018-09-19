@@ -774,7 +774,7 @@ public class AaiService {
         cloudOwner = cloudOwner.replaceAll("'", "");
         cloudRegionId = cloudRegionId.replaceAll("'", "");
         log.debug("cloudOwner" +cloudOwner +"," +"cloudRegionId"+ cloudRegionId);
-        String resourceKey = "cloud-region.cloud-owner = '" + cloudOwner +
+        String resourceKey = "depth = '" + 0 + "' AND cloud-region.cloud-owner = '" + cloudOwner +
                 "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
         String queryPrefix ="urlInfo";
         String resourceType = "cloud-region";
