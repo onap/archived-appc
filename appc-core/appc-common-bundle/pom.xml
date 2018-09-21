@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
       <groupId>org.onap.appc.parent</groupId>
-      <artifactId>binding-parent</artifactId>        
+      <artifactId>binding-parent</artifactId>
       <version>1.4.0-SNAPSHOT</version>
   </parent>
   
@@ -166,6 +166,20 @@
 	       </dependency>
 	     </dependencies>
 	   </plugin>
+     
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>appc-common-bundle</Bundle-SymbolicName>
+            <Export-Package>org.onap.appc.*, com.att.eelf.*</Export-Package>
+            <Embed-Dependency>eelf-core</Embed-Dependency>
+            <Embed-Transitive>true</Embed-Transitive>
+          </instructions>
+        </configuration>
+      </plugin>
     </plugins>  
   </build>
 </project>
