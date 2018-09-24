@@ -40,4 +40,5 @@
 		<module>appc-rest-healthcheck-adapter</module>
 		<module>appc-ansible-adapter</module>
 	</modules>
+	<version>1.4.0-SNAPSHOT</version>
 </project>

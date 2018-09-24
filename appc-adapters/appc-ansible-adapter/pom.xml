@@ -192,4 +192,5 @@
     <module>appc-ansible-adapter-features</module>
     <module>appc-ansible-adapter-installer</module>
   </modules>
+  <version>1.4.0-SNAPSHOT</version>
 </project>

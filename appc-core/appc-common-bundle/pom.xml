@@ -182,4 +182,5 @@
       </plugin>
     </plugins>  
   </build>
+  <version>1.4.0-SNAPSHOT</version>
 </project>

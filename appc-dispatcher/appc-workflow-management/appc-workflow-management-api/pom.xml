@@ -75,4 +75,5 @@
         </plugins>
     </build>
     <groupId>org.onap.appc</groupId>
+    <version>1.4.0-SNAPSHOT</version>
 </project>

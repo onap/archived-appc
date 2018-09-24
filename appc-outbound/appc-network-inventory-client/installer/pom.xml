@@ -152,4 +152,5 @@
 	</build>
 
 	<artifactId>appc-network-inventory-client-installer</artifactId>
+	<version>1.4.0-SNAPSHOT</version>
 </project>

@@ -125,4 +125,5 @@
 		<module>appc-dmaap-adapter-installer</module>
 		<module>appc-message-adapter-factory</module>
 	</modules>
+	<version>1.4.0-SNAPSHOT</version>
 </project>

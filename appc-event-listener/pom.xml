@@ -124,4 +124,5 @@
 		<module>appc-event-listener-features</module>
 		<module>appc-event-listener-installer</module>
 	</modules>
+	<version>1.4.0-SNAPSHOT</version>
 </project>
