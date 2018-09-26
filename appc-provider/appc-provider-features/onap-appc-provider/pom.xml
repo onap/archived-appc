@@ -9,6 +9,7 @@
   
   <groupId>org.onap.appc</groupId>
   <artifactId>onap-appc-provider</artifactId>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>feature</packaging>
   
   <name>onap-appc-provider</name>
