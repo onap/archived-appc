@@ -662,6 +662,7 @@ limitations under the License.
                 <module>appc-outbound</module>
                 <module>appc-inbound</module>
                 <module>appc-sequence-generator</module>
+                <module>appc-client</module>
                 <module>appc-test-dependencies</module>
             </modules>
         </profile>
