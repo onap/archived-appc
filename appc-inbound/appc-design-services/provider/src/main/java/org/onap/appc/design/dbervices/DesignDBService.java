@@ -27,6 +27,8 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class DesignDBService {
 
     private SvcLogicResource serviceLogic;
     private DbService dbservice;
+    private static ArtifactHandlerFactory artifactHandlerFactory = new ArtifactHandlerFactory();
 
     public static DesignDBService initialise() {
         if (dgGeneralDBService == null) {
@@ -204,7 +207,7 @@ public class DesignDBService {
         JsonNode payloadObject = objectMapper.readTree(payload);
         log.info("Got upload Aritfact with Payload : " + payloadObject.asText());
         try {
-            ArtifactHandlerClient ac = new ArtifactHandlerClient();
+            ArtifactHandlerClient ac = artifactHandlerFactory.ahi();
             String requestString = ac.createArtifactData(payload, requestID);
             ac.execute(requestString, "POST");
             int sdcArtifactId = getSDCArtifactIDbyRequestID(requestID);
@@ -619,6 +622,14 @@ public class DesignDBService {
             throw e;
         }
     }
+
+
+    public static class ArtifactHandlerFactory {
+        
+        public ArtifactHandlerClient ahi() throws Exception{
+            return new ArtifactHandlerClient();
+        }
+    }    
 }
 
 
