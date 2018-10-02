@@ -27,7 +27,9 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,12 +39,14 @@ import static org.mockito.Mockito.when;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.design.dbervices.DbService;
 import org.onap.appc.design.dbervices.DesignDBService;
+import org.onap.appc.design.dbervices.DesignDBService.ArtifactHandlerFactory;
 import org.onap.appc.design.services.util.ArtifactHandlerClient;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-@RunWith(MockitoJUnitRunner.class)
-@PrepareForTest(DesignDBService.class)
+@RunWith(PowerMockRunner.class)
 public class TestDesignDBServices {
 
     private DesignDBService designDbService;
@@ -57,22 +61,39 @@ public class TestDesignDBServices {
 
     @Mock
     private ArtifactHandlerClient artifactHandlerClient;
+    
+    private static ArtifactHandlerFactory saveFactory;
+        
+    private static ArtifactHandlerFactory factory;
+    
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        saveFactory = Whitebox.getInternalState(DesignDBService.class, "artifactHandlerFactory");
+    }
+    
+    @AfterClass
+    public static void tearDownAfterClass() {
+        Whitebox.setInternalState(DesignDBService.class, "artifactHandlerFactory", saveFactory);
+    }
+
 
     @Before
     public void setUp() throws Exception {
+        factory = Mockito.mock(ArtifactHandlerFactory.class);
+        Whitebox.setInternalState(DesignDBService.class, "artifactHandlerFactory", factory);
         Map<String, String> outputMessage = new HashMap<>();
         designDbService = DesignDBService.initialise();
         Whitebox.setInternalState(designDbService, "dbservice", dbservice);
-        // Whitebox.setInternalState(designDbService, "ac",
-        // artifactHandlerClient);
-        Mockito.doReturn(outputMessage).when(artifactHandlerClient).execute(Mockito.anyString(), Mockito.anyString());
+        //Whitebox.setInternalState(designDbService, "ac",artifactHandlerClient);
+        //Mockito.doReturn(outputMessage).when(artifactHandlerClient).execute(Mockito.anyString(), Mockito.anyString());
+        when(factory.ahi()).thenReturn(artifactHandlerClient);
         when(dbservice.getDBData(Mockito.anyString(), Mockito.anyList())).thenReturn(rs);
         when(rs.next()).thenReturn(true, true, false);
         Mockito.doReturn(true).when(dbservice).updateDBData(Mockito.anyString(), Mockito.anyList());
 
-        spyDesign = Mockito.spy(designDbService);
+        spyDesign = PowerMockito.spy(designDbService);
     }
-
+     
     @Test
     public void testSetStatus() throws Exception {
         String payload = "{\"userID\": \"1234\", \"vnf-type\" : \"DesigTest-VNF\",\"artifact_status\":\"TestArtifactStatus\",\"action_status\":\"TestAction\",\"vnfc-type\":\"TestVnfc\" }";
@@ -108,11 +129,12 @@ public class TestDesignDBServices {
         assertEquals(true, result.contains("success"));
     }
 
-    @Ignore
-    @Test(expected = ExceptionInInitializerError.class)
+    
+    @Test
     public void TestUploadArtifact() throws Exception {
         String payload = " { \"userID\": \"00000\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"Configure\", \"artifact-name\":\"DesignRestArtifact_reference\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"DESIGNTOOL-TEST\",\"artifact-contents\":  \"TestContents\"} ";
-        Whitebox.invokeMethod(spyDesign, "uploadArtifact", payload, "1234");
+        String result = Whitebox.invokeMethod(spyDesign, "uploadArtifact", payload, "1234");
+        assertEquals(true, result.contains("success"));
     }
 
     @Test
@@ -177,4 +199,7 @@ public class TestDesignDBServices {
              String result =  Whitebox.invokeMethod(design, "getAppcTimestampUTC",requestId);
              assertTrue(result.endsWith("Z"));
     }
+    
+   
+
 }
