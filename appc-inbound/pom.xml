@@ -24,7 +24,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc</artifactId>
-        <version>1.4.0-SNAPSHOT</version>
+        <version>1.4.1-SNAPSHOT</version>
     </parent>
     <artifactId>appc-inbound</artifactId>
     <packaging>pom</packaging>
