@@ -86,14 +86,6 @@ public class GraphExecutor implements FlowExecutorInterface {
         String payload = transaction.getPayload();
         log.debug("payload:" + payload);
 
-        JSONObject json = new JSONObject(payload);
-        for (Object key : json.keySet()) {
-            String keyStr = (String)key;
-            Object keyvalue = json.get(keyStr);
-            String value= keyvalue.toString();
-            ctx.setAttribute(keyStr, value);
-            log.debug("key: "+ keyStr + " value: " + keyvalue);
-        }
         Properties parms = new Properties();
         for (Object key : ctx.getAttributeKeySet()) {
             String parmName = (String) key;
