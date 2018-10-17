@@ -173,17 +173,4 @@ public class DistributeTrafficServiceTest {
 
     }
 
-    @Test
-    public void testValidateMissingConfigFileName() throws Exception {
-        helpInitializeRequestParameters();
-        String wrongPayload = "{\"test\":\"test\"}";
-        Mockito.doReturn(wrongPayload).when(mockPayload).getValue();
-        distributeTrafficService.validate(mockInput);
-        Status status = (Status) Whitebox.getInternalState(distributeTrafficService, "status");
-        assertEquals("should return status null",
-                Integer.valueOf(LCMCommandStatus.MISSING_MANDATORY_PARAMETER.getResponseCode()), status.getCode());
-    }
-
-
-
 }

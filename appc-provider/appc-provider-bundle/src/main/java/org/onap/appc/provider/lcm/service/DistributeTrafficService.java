@@ -37,8 +37,6 @@ import java.util.Map;
  */
 public class DistributeTrafficService extends AbstractBaseService {
 
-
-    private static final String CONFIG_FILE_NAME_PARAMETER = "ConfigFileName";
     private static final String PAYLOAD = "payload";
 
     /**
@@ -91,12 +89,7 @@ public class DistributeTrafficService extends AbstractBaseService {
 
         try {
             Map<String, String> payloadMap = JsonUtil.convertJsonStringToFlatMap(payloadString);
-            // ConfigFileName validation
-            final String configFileName = payloadMap.get(CONFIG_FILE_NAME_PARAMETER);
-            if (configFileName == null) {
-                status = buildStatusForParamName(LCMCommandStatus.MISSING_MANDATORY_PARAMETER, CONFIG_FILE_NAME_PARAMETER);
-            }
-
+            validateMustHaveParamValue(payloadMap.get(PAYLOAD), PAYLOAD);
         } catch(IOException e) {
             logger.error(String.format("DistributeTrafficService (%s) got IOException when converting payload", rpcName), e);
             status = buildStatusForErrorMsg(LCMCommandStatus.UNEXPECTED_ERROR, e.getMessage());
