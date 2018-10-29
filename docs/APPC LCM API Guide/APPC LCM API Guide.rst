@@ -1183,8 +1183,8 @@ DetachVolume Response:
 DistributeTraffic
 -----------------
 
-The Distribute traffic LCM action is used to distribute traffic across different instances of VNF, VNFC or VM.
-Entity for which Distribute Traffic LCM action is being invoked is called an anchor point that is responsible for final
+The Distribute Traffic LCM action is used to distribute traffic across different instances of VNF, VNFC or VM.
+The entity for which Distribute Traffic LCM action is being invoked is called an anchor point that is responsible for final
 realization of request. Parameters present in configuration file specify where and how traffic should be distributed,
 including: traffic destination points like VNFs, VNFCs or VMs; distribution weights; rollback strategy.
 Format of configuration file is specific to each VNF type.
@@ -1200,19 +1200,38 @@ Request Structure:
 +--------------------------+--------------------------------------------------------------+
 | **Action-identifiers**   | vnf-id, vserver-id, vnfc-name                                |
 +--------------------------+--------------------------------------------------------------+
-| **Payload Parameters**   | ConfigFileName                                               |
+| **Payload Parameters**   | See below                                                    |
 +--------------------------+--------------------------------------------------------------+
 | **Revision History**     | New in Casablanca                                            |
 +--------------------------+--------------------------------------------------------------+
 
 Request Payload Parameters:
 
-+-----------------------+----------------------------------------------------------------------------------------------------+---------------------+--------------------------------------------------------+
-| **Parameter**         |     **Description**                                                                                |     **Required?**   |     **Example**                                        |
-+=======================+====================================================================================================+=====================+========================================================+
-| ConfigFileName        |     Name of configuration file with additional parameters for Ansible playbook or Chef cookbook    |                     |     "payload":                                         |
-|                       |     with such parameters like traffic destinations, distribution weights or rollback strategy.     |     Yes             |     "{\\"ConfigFileName\\": \\"some-config.json\\"}”   |
-+-----------------------+----------------------------------------------------------------------------------------------------+---------------------+--------------------------------------------------------+
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------------------------------------+
+| **Parameter**                   |     **Description**                                                                                                                                              |     **Required?**   |     **Example**                                                           |
++=================================+==================================================================================================================================================================+=====================+===========================================================================+
+|     configuration-parameters    |     A set of instance specific configuration parameters should be specified. If provided, APP-C replaces variables in the configuration template with the        |     No              |    "payload":                                                             |
+|                                 |     values supplied. The parameters are associated with request template defined with CDT                                                                        |                     |    "{\\"configuration-parameters\\":{                                     |
+|                                 |                                                                                                                                                                  |                     |    \\"config_file_name\\":\\"/opt/onap/ccsdk/Playbooks/dt/config\\",      |
+|                                 |                                                                                                                                                                  |                     |    \\"playbook\\":\\"ansible_vfw_distributetraffic@0.00.yml\\",           |
+|                                 |                                                                                                                                                                  |                     |    \\"node_list\\":\\"[vpkg-1]\\"                                         |
+|                                 |                                                                                                                                                                  |                     |    }                                                                      |
+|                                 |                                                                                                                                                                  |                     |    }"                                                                     |
++---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------------------+---------------------------------------------------------------------------+
+
+Exemplary CDT template for Ansible protocol::
+
+    {
+        "PlaybookName": ${playbook},
+        "NodeList": ${node_list},
+        "EnvParameters": {
+            "ConfigFileName": "${config_file_name}"
+         },
+        "Timeout": 3600
+    }
+
+EnvParameters includes protocol specific parameters, here with name of configuration file having additional parameters for Ansible playbook or Chef cookbook.
+Distribute Traffic config file can have such parameters like traffic destinations, distribution weights or rollback strategy.
 
 DistributeTraffic Response
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
