@@ -223,7 +223,7 @@
         "id": "34ba67fe.c0a528",
         "type": "set",
         "name": "set payloadResponse",
-        "xml": "<set>\n<parameter name='output.payload' value='`$APPC.healthcheck.status-message`' /> \n\n\n\n\n",
+        "xml": "<set>\n<parameter name='output-payload' value='`$APPC.healthcheck.status-message`' /> \n\n\n\n\n",
         "comments": "",
         "x": 1007.0000152587891,
         "y": 672.7500162124634,
