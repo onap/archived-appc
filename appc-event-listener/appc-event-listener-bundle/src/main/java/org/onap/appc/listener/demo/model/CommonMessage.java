@@ -155,7 +155,7 @@ public class CommonMessage implements Serializable {
         /*
          * The Subrequest Id of the message
          */
-        @JsonProperty("SubrequestID")
+        @JsonProperty("SubRequestID")
         private String subRequestId;
 
         /**

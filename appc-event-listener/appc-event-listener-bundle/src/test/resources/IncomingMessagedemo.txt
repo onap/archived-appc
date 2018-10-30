@@ -4,7 +4,7 @@
     "APIver": "1.01",
     "OriginatorID": "policy.pdp01",
     "RequestID": "b74d13c5-bb26-4b04-992c-4679dfc8280e",
-    "SubrequestID": "1"
+    "SubRequestID": "1"
   },
   "Action": "RESTART",
   "Payload": {
