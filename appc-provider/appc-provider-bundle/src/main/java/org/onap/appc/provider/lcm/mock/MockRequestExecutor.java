@@ -49,9 +49,6 @@ public class MockRequestExecutor {
              case Query:
                 logger.debug("Proceed with mock helper for query VNF");
                 return new MockQueryHelper().query(requestHandlerInput);
-            case Reboot:
-                logger.debug("Proceed with mock helper for reboot VM");
-                return new MockRebootHelper().reboot(requestHandlerInput);
             default:
                 // do nothing
         }
