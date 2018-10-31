@@ -68,6 +68,18 @@
         <dependency>
             <groupId>com.att.eelf</groupId>
             <artifactId>eelf-core</artifactId>
+            <exclusions>
+                      <exclusion>
+                           <groupId>org.mockito</groupId>
+                           <artifactId>mockito-core</artifactId>
+                      </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
