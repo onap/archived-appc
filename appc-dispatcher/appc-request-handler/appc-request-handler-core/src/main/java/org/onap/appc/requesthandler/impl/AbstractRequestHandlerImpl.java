@@ -395,7 +395,9 @@ public abstract class AbstractRequestHandlerImpl implements RequestHandler {
             logger.trace("Entering to postMessageToDMaaP with AsyncResponse = " +
                 ObjectUtils.toString(responseContext));
         }
+        logger.debug("In postMessageToDMaap before invoking post()");
         boolean callbackResponse = messageAdapter.post(operation, rpcName, responseContext);
+        logger.debug("In postMessageToDMaap after invoking post()");
         if (!callbackResponse) {
             logger.error("DMaaP posting status: false", "dmaapMessage: " + responseContext);
         }

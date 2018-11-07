@@ -48,6 +48,7 @@ import org.opendaylight.yangtools.concepts.Builder;
 import org.opendaylight.yangtools.yang.binding.DataContainer;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.requesthandler.impl.AbstractRequestHandlerImpl;
 import org.onap.appc.requesthandler.impl.DmaapOutgoingMessage;
 
 import java.text.ParseException;
@@ -60,6 +61,7 @@ public class Converter {
     private static final String ISO_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     private final static String DMaaP_ROOT_VALUE = "output";
     private static final SimpleDateFormat isoFormatter = new SimpleDateFormat(ISO_FORMAT);
+    private final static EELFLogger logger = EELFManager.getInstance().getLogger(Converter.class);
     static {
         isoFormatter.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
@@ -72,10 +74,12 @@ public class Converter {
         if(vnfOperation == null){
             throw new IllegalArgumentException("empty asyncResponse.action");
         }
+        logger.debug("Entered Converter.convAsyncResponseToBuilder()");
         Action action = Action.valueOf(vnfOperation.name());
         CommonHeader commonHeader = convAsyncResponseTorev160108CommonHeader(response);
         Status status = convAsyncResponseTorev160108Status(response);
         Payload payload = convAsyncResponseTorev160108Payload(response);
+        logger.debug("Extracted action, status, payload ");
         switch (action){
             case Rollback:
                 outObj = new RollbackOutputBuilder();
@@ -103,6 +107,7 @@ public class Converter {
                 ((HealthCheckOutputBuilder)outObj).setCommonHeader(commonHeader);
                 ((HealthCheckOutputBuilder)outObj).setStatus(status);
                 ((HealthCheckOutputBuilder)outObj).setPayload(payload);
+                logger.debug("In HealthCheck case- created outObj, returning");
                 return outObj;
             case LiveUpgrade:
                 outObj = new LiveUpgradeOutputBuilder();
@@ -407,7 +412,8 @@ public class Converter {
     }
 
     public static String convAsyncResponseToDmaapOutgoingMessageJsonString(VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) throws JsonProcessingException {
-        DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
+        logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessageJsonString()");
+    	DmaapOutgoingMessage dmaapOutgoingMessage = convAsyncResponseToDmaapOutgoingMessage(vnfOperation, rpcName, asyncResponse);
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.addMixInAnnotations(dmaapOutgoingMessage.getBody().getOutput().getClass(), MixInFlagsMessage.class);
         objectMapper.addMixInAnnotations(CommonHeader.class, MixInCommonHeader.class);
@@ -418,11 +424,13 @@ public class Converter {
 
 //                .configure(SerializationConfig.Feature.SORT_PROPERTIES_ALPHABETICALLY,true)
         ObjectWriter writer = objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL).configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY,true).writer();
+        logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessageJsonString()");
         return writer.writeValueAsString(dmaapOutgoingMessage);
     }
 
     public static DmaapOutgoingMessage convAsyncResponseToDmaapOutgoingMessage(VNFOperation vnfOperation, String rpcName, ResponseContext asyncResponse) throws JsonProcessingException {
-        DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
+    	logger.debug("Entered Converter.convAsyncResponseToDmaapOutgoingMessage()");
+    	DmaapOutgoingMessage outObj = new DmaapOutgoingMessage();
         String correlationID = getCorrelationID(asyncResponse);
         outObj.setCorrelationID(correlationID);
         outObj.setType("response");
@@ -431,6 +439,7 @@ public class Converter {
         Object messageBody = builder.build();
         DmaapOutgoingMessage.Body body = new DmaapOutgoingMessage.Body(messageBody);
         outObj.setBody(body);
+        logger.debug("Exiting Converter.convAsyncResponseToDmaapOutgoingMessage():messageBody is :::"+body.toString());
         return outObj;
     }
 

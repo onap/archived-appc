@@ -114,14 +114,17 @@ public class MessageAdapterImpl implements MessageAdapter{
         if (logger.isTraceEnabled()) {
             logger.trace("Entering to post with AsyncResponse = " + ObjectUtils.toString(asyncResponse));
         }
-
+        logger.debug("Entered MessageAdapterImpl.post()");
         String jsonMessage;
         try {
+        	logger.debug("Before converting Async Response");
             jsonMessage = Converter.convAsyncResponseToDmaapOutgoingMessageJsonString(operation, rpcName, asyncResponse);
             if (logger.isDebugEnabled()) {
                 logger.debug("DMaaP Response = " + jsonMessage);
             }
+            logger.debug("Before Invoking producer.post(): jsonMessage is::" + jsonMessage);
             success  = producer.post(this.partition, jsonMessage);
+            logger.debug("After Invoking producer.post()");
         } catch (JsonProcessingException e1) {
             logger.error("Error generating Json from DMaaP message "+ e1.getMessage());
             success= false;
@@ -129,6 +132,7 @@ public class MessageAdapterImpl implements MessageAdapter{
             logger.error("Error sending message to DMaaP "+e.getMessage());
             success= false;
         }
+        logger.debug("Exiting MesageAdapterImpl.post()");
         if (logger.isTraceEnabled()) {
             logger.trace("Exiting from post with (success = "+ ObjectUtils.toString(success)+")");
         }
