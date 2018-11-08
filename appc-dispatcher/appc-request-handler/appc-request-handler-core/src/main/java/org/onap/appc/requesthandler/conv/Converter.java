@@ -75,8 +75,9 @@ public class Converter {
         if(vnfOperation == null){
             throw new IllegalArgumentException("empty asyncResponse.action");
         }
-        logger.debug("Entered Converter.convAsyncResponseToBuilder()");
-        Action action = Action.valueOf(vnfOperation.name());
+        logger.debug("Entered Converter.convAsyncResponseToBuilder() : Operation Name "+ vnfOperation.name());
+        org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action action = org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action.valueOf(vnfOperation.name());
+        logger.debug("After resolving action");
         CommonHeader commonHeader = convAsyncResponseTorev160108CommonHeader(response);
         Status status = convAsyncResponseTorev160108Status(response);
         Payload payload = convAsyncResponseTorev160108Payload(response);
