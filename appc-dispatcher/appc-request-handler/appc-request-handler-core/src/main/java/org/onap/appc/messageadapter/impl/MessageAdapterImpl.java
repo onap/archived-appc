@@ -63,6 +63,7 @@ public class MessageAdapterImpl implements MessageAdapter{
      */
     @Override
     public void init(){
+    	logger.debug("MessageAdapterImpl - init");
         this.producer = getProducer();
     }
 
