@@ -25,6 +25,7 @@
 
 package org.onap.appc.requesthandler.conv;
 
+import com.att.aft.dme2.internal.apache.commons.lang3.StringUtils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -289,10 +290,12 @@ public class Converter {
     }
 
     public static Payload convAsyncResponseTorev160108Payload(ResponseContext inObj)  {
+    	logger.debug("Entering convAsyncResponseTorev160108Payload" );
         Payload payload = null;
         if(inObj.getPayload() != null) {
             payload = new Payload(inObj.getPayload());
         }
+        logger.debug("Exiting convAsyncResponseTorev160108Payload" );
         return payload;
     }
 
@@ -316,13 +319,16 @@ public class Converter {
     }
 
     public static Status convAsyncResponseTorev160108Status(ResponseContext inObj) {
+    	logger.debug("Entering convAsyncResponseTorev160108Status");
         StatusBuilder statusBuilder = new StatusBuilder();
         statusBuilder.setCode(inObj.getStatus().getCode());
         statusBuilder.setMessage(inObj.getStatus().getMessage());
+        logger.debug("Exiting convAsyncResponseTorev160108Status");
         return statusBuilder.build();
     }
 
     public static CommonHeader convAsyncResponseTorev160108CommonHeader(ResponseContext inObj) {
+    	logger.debug("Entered into convAsyncResponseTorev160108CommonHeader");
         CommonHeader outObj = null;
         if(inObj == null){
             throw new IllegalArgumentException("empty asyncResponse");
@@ -335,23 +341,26 @@ public class Converter {
             commonHeaderBuilder.setFlags(commonHeaderFlags);
         }
 
-
+        logger.debug("Before setApiVer");
         commonHeaderBuilder.setApiVer(inObj.getCommonHeader().getApiVer());
         commonHeaderBuilder.setRequestId(inObj.getCommonHeader().getRequestId());
         if(inObj.getCommonHeader().getSubRequestId() != null){
             commonHeaderBuilder.setSubRequestId(inObj.getCommonHeader().getSubRequestId());
         }
-
+        logger.debug("Before getOriginatorId");
         if(inObj.getCommonHeader().getOriginatorId() != null){
             commonHeaderBuilder.setOriginatorId(inObj.getCommonHeader().getOriginatorId());
         }
-
+        logger.debug("Before getTimeStamp");
         if(inObj.getCommonHeader().getTimeStamp() != null){
             String zuluTimestampStr = Converter.convDateToZuluString(inObj.getCommonHeader().getTimeStamp());
+            logger.debug("After invoking convDateToZuluString()");
             ZULU zuluTimestamp = new ZULU(zuluTimestampStr);
+            logger.debug("After ZULU()");
             commonHeaderBuilder.setTimestamp(zuluTimestamp);
         }
         outObj = commonHeaderBuilder.build();
+        logger.debug("Exiting from convAsyncResponseTorev160108CommonHeader: Returning outObj::"+outObj.toString());
         return outObj;
 
     }
@@ -435,6 +444,7 @@ public class Converter {
         outObj.setCorrelationID(correlationID);
         outObj.setType("response");
         outObj.setRpcName(rpcName);
+        logger.debug("In onverter.convAsyncResponseToDmaapOutgoingMessage() before invoking convAsyncResponseToBuilder");
         Builder<?> builder = Converter.convAsyncResponseToBuilder(vnfOperation, rpcName, asyncResponse);
         Object messageBody = builder.build();
         DmaapOutgoingMessage.Body body = new DmaapOutgoingMessage.Body(messageBody);

@@ -68,12 +68,14 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
 
     @Override
     public boolean post(String partition, String data) {
+    	LOG.debug("Entering HttpDmaapProducerImpl::: post ");
         long sent = 0;
         try {
             HttpPost request = postReq(null);
             request.setHeader("Content-Type", CONTENT_TYPE);
             request.setEntity(new StringEntity(bodyLine(partition, data)));
 
+            LOG.debug("Before sendRequest HttpDmaapProducerImpl::: post ");
             sent = topics.stream()
                 .filter(topic -> sendRequest(request, topic))
                 .count();
@@ -84,6 +86,7 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
                     data, buildEx.getMessage()),
                 buildEx);
         }
+        LOG.debug("Exiting HttpDmaapProducerImpl::: post ");
         return sent == topics.size();
     }
 
@@ -92,9 +95,14 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
         String uriStr = String.format(URL_TEMPLATE, hosts.get(0), topic);
         try {
             request.setURI(new URI(uriStr));
+            LOG.debug("HttpDmaapProducerImpl::: before sendRequest()");
             CloseableHttpResponse response = getClient().execute(request);
+            LOG.debug("HttpDmaapProducerImpl::: after sendRequest()");
             if (response.getStatusLine().getStatusCode() == 200) {
                 successful = true;
+            }
+            else {
+            	LOG.debug("HttpDmaapProducerImpl::: did not receive 200 for sendRequest");
             }
             response.close();
         } catch (Exception sendEx) {

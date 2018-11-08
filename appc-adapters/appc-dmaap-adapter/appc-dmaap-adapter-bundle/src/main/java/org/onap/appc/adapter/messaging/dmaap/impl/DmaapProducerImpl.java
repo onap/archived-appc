@@ -139,6 +139,7 @@ public class DmaapProducerImpl implements Producer {
 
     @Override
     public boolean post(String partition, String data) {
+    	LOG.debug("In DmaapProducerImpl.post()");
         boolean success = true;
         Properties properties = configuration.getProperties();
         if (properties != null && properties.getProperty("metric.enabled") != null) {
@@ -154,7 +155,7 @@ public class DmaapProducerImpl implements Producer {
             LOG.info("Getting CambriaBatchingPublisher Clients ...");
             clients = getClients();
         }
-
+        LOG.debug("In DmaapProducerImpl.post()::: before sending to clients");
         for (MRBatchingPublisher client : clients) {
             try {
                 LOG.debug(String.format("Posting %s to %s", data, client));

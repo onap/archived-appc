@@ -484,7 +484,7 @@ public class ConverterTest {
         asyncResponse.getCommonHeader().setApiVer("2.0.0");
         asyncResponse.getCommonHeader().setRequestId("reqid");
         asyncResponse.getCommonHeader().setTimestamp(new Date(1000L));
-        asyncResponse.setPayload("{}");
+        asyncResponse.setPayload("");
         return asyncResponse;
     }
 
