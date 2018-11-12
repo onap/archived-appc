@@ -29,7 +29,7 @@
     </parent>
     <groupId>org.onap.appc</groupId>
     <artifactId>appc-provider-model</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
 
     <name>appc-provider-model</name>

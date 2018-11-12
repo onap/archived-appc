@@ -144,5 +144,5 @@
     <module>appc-iaas-adapter-features</module>
     <module>appc-iaas-adapter-installer</module>
   </modules>
-  <version>1.4.1-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
 </project>
