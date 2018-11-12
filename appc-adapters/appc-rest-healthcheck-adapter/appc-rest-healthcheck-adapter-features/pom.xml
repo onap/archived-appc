@@ -24,7 +24,7 @@
   <parent>
     <artifactId>appc-rest-healthcheck-adapter</artifactId>
     <groupId>org.onap.appc</groupId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
   </parent>
   <artifactId>appc-rest-healthcheck-adapter-features</artifactId>
   <name>rest healthcheck Adaptor - Features</name>
@@ -139,5 +139,5 @@
       </plugin>
     </plugins>
   </build>
-  <version>1.4.1-SNAPSHOT</version>
+  <version>1.5.0-SNAPSHOT</version>
 </project>

@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-dgraph</artifactId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>1.5.0-SNAPSHOT</version>
     </parent>
     <artifactId>appc-dg-provider</artifactId>
     <name>APPC DG - Provider</name>
