@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-dispatcher</artifactId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>1.4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-dispatcher-common</artifactId>

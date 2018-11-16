@@ -199,6 +199,6 @@
             <version>1.6.5</version>
         </dependency>
     </dependencies>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.2-SNAPSHOT</version>
 </project>
 
