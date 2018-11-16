@@ -68,5 +68,5 @@
         <module>installer</module>
     </modules>
     <description>Flow sequence executor for APPC</description>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.2-SNAPSHOT</version>
 </project>

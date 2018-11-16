@@ -32,7 +32,7 @@
 	</parent>
 	<groupId>org.onap.appc</groupId>
     <artifactId>appc-dg-util-bundle</artifactId>
-    <version>1.4.1-SNAPSHOT</version>
+    <version>1.4.2-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>appc-dg-util - bundle</name>
     <properties>
@@ -176,7 +176,7 @@
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-netconf-adapter-bundle</artifactId>
-            <version>1.4.1-SNAPSHOT</version>
+            <version>1.4.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

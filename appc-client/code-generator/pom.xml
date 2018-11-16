@@ -26,7 +26,7 @@
     <parent>
         <artifactId>appc-java-client</artifactId>
         <groupId>org.onap.appc.client</groupId>
-        <version>1.4.1-SNAPSHOT</version>
+        <version>1.4.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>code-generator</artifactId>
