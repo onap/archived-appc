@@ -159,6 +159,8 @@
                             org.onap.appc.lockmanager.api.*,
                             org.onap.appc.requesthandler,
                             org.onap.appc.requesthandler.objects,
+                            org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108,
+                            org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*,
                             org.onap.appc.transactionrecorder,
                             org.onap.appc.transactionrecorder.impl,
                             org.onap.appc.transactionrecorder.objects,

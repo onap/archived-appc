@@ -44,6 +44,7 @@
 <!--                         <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName> -->
 <!--                         <Bundle-Version>${project.version}</Bundle-Version> -->
 <!--                         <Export-Package>org.onap.appc</Export-Package> -->
+                             <Export-Package>org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108,org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
