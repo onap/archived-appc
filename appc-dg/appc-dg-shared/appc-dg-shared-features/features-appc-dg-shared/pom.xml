@@ -30,7 +30,7 @@ limitations under the License.
 
     <groupId>org.onap.appc</groupId>
     <artifactId>features-appc-dg-shared</artifactId>
-    <version>1.4.2-SNAPSHOT</version>
+    <version>1.4.3-SNAPSHOT</version>
     <packaging>feature</packaging>
 
     <name></name>

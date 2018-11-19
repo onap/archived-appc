@@ -109,5 +109,5 @@
         <version>${odl.yang.jmx.generator.version}</version>
      </dependency>
   </dependencies>
-  <version>1.4.2-SNAPSHOT</version>
+  <version>1.4.3-SNAPSHOT</version>
 </project>
