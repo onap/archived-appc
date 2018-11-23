@@ -21,7 +21,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.adapter.messaging.dmaap.impl;
+package org.onap.appc.adapter.messaging.dmaap.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
