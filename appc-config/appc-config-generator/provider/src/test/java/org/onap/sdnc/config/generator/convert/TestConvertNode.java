@@ -148,7 +148,7 @@ public class TestConvertNode {
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
 
     }
-
+    
     @Test(expected = Exception.class)
     public void testunEscapeData() throws Exception {
         ConvertNode convertNode = new ConvertNode();
@@ -160,6 +160,33 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "String");
         convertNode.unEscapeData(inParams, ctx);
 
+    }
+
+    @Test
+    public void testunEscapeDataForJsonDataType() throws Exception {
+        ConvertNode convertNode = new ConvertNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        log.trace("Received unEscapeData call with params : " + inParams);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA, "//");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "JSON");
+        convertNode.unEscapeData(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+
+    }
+    
+    @Test
+    public void testunEscapeDataForXmlDataType() throws Exception {
+        ConvertNode convertNode = new ConvertNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        log.trace("Received unEscapeData call with params : " + inParams);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA, "//");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "XML");
+        convertNode.unEscapeData(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
     }
     
     @Test
