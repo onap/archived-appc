@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.att.nsa.mr.client.MRConsumer;
 import org.json.JSONObject;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapUtil;
+import org.onap.appc.adapter.messaging.dmaap.utils.DmaapUtil;
 
 import com.att.nsa.mr.client.MRBatchingPublisher;
 import com.att.nsa.mr.client.MRClientFactory;

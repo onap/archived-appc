@@ -37,6 +37,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.adapter.message.Producer;
+import org.onap.appc.adapter.messaging.dmaap.utils.DmaapUtil;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.metricservice.MetricRegistry;

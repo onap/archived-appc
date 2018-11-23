@@ -21,7 +21,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.adapter.messaging.dmaap.impl;
+package org.onap.appc.adapter.messaging.dmaap.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -32,8 +32,8 @@ import java.util.Properties;
 
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 public class DmaapUtil {
 
@@ -41,7 +41,7 @@ public class DmaapUtil {
 
     static final String         DMAAP_PROPERTIES_PATH = "org.onap.appc.dmaap.profile.path";
 
-    private static final Logger log                   = LoggerFactory.getLogger(DmaapUtil.class);
+    private static final EELFLogger log                = EELFManager.getInstance().getLogger(DmaapUtil.class);
 
     private DmaapUtil() {
     }
