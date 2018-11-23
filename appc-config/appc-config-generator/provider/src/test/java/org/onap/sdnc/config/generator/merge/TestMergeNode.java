@@ -31,11 +31,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
+@RunWith(PowerMockRunner.class)
 public class TestMergeNode {
 
     @Test(expected = Exception.class)
@@ -55,7 +62,38 @@ public class TestMergeNode {
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
 
     }
+    
+    @Test(expected = Exception.class)
+    public void testMergeJsonDataOnTemplateForEmptyParamData() throws Exception {
+        MergeNode mergeNode = new MergeNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        String templateData = IOUtils.toString(TestMergeNode.class.getClassLoader()
+                .getResourceAsStream("merge/vdbe_template.xml"));
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, templateData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        mergeNode.mergeJsonDataOnTemplate(inParams, ctx);
+       
+    }
 
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Test(expected = Exception.class)
+    public void testMergeJsonDataOnTemplateForEmptyTemplateData() throws Exception {
+        MergeNode mergeNode = new MergeNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        String jsonData = IOUtils.toString(
+                TestMergeNode.class.getClassLoader().getResourceAsStream("merge/vdbe_data.json"));
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Template data or Template file is missing");
+        mergeNode.mergeJsonDataOnTemplate(inParams, ctx);
+    }
+
+    
     @Test(expected = Exception.class)
     public void testMergeComplexJsonDataOnTemplate() throws Exception {
         MergeNode mergeNode = new MergeNode();
