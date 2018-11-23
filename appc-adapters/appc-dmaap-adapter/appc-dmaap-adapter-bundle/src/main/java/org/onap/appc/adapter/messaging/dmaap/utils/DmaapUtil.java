@@ -21,7 +21,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.adapter.messaging.dmaap.impl;
+package org.onap.appc.adapter.messaging.dmaap.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
