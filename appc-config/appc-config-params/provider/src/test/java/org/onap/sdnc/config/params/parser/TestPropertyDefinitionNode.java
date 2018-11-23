@@ -116,6 +116,46 @@ public class TestPropertyDefinitionNode {
         assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
     }
+    
+    @Test
+    public void testProcessExternalSystemParamKeysForEmptyParamData() throws Exception {
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
+        assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
+                ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+
+      
+    }
+    
+    @Test(expected=Exception.class)
+    public void testProcessExternalSystemParamKeysForEmptySystemName() throws Exception {
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
+
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
+
+      
+    }
 
     @Test(expected = SvcLogicException.class)
     public void testProcessExternalSystemParamKeysForEmptyPdContent() throws Exception {
