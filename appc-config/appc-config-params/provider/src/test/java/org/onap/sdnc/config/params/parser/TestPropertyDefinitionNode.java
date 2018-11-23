@@ -36,7 +36,9 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.sdnc.config.params.ParamsHandlerConstant;
@@ -115,6 +117,50 @@ public class TestPropertyDefinitionNode {
         }
         assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+    }
+    
+    @Test
+    public void testProcessExternalSystemParamKeysForEmptyParamData() throws Exception {
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
+        assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
+                ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
+
+      
+    }
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Test
+    public void testProcessExternalSystemParamKeysForEmptySystemName() throws Exception {
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+
+        String yamlData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd.yaml"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, yamlData);
+
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Request Param (systemName) is Missing ..");
+        propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
+
     }
 
     @Test(expected = SvcLogicException.class)
