@@ -26,10 +26,10 @@ Release Notes
 ..	* This note must be removed after content has been added.
 
 
-Version: 1.4.1
+Version: 1.4.3
 --------------
 
-:Release Date: 2018-11-15
+:Release Date: 2018-11-21
 
 
 **New Features**
@@ -157,6 +157,14 @@ The Casablanca release added the following functionality:
 	- `APPC-1237 <https://jira.onap.org/browse/APPC-1237>`_ - APPC not properly url-encoding AAF credentials
 
 	- `APPC-1238 <https://jira.onap.org/browse/APPC-1238>`_ - allottedResourceRole is null
+
+	- `APPC-1239 <https://jira.onap.org/browse/APPC-1239>`_ - Error in appc/deployment/Jmeter JMX 
+
+	- `APPC-1241 <https://jira.onap.org/browse/APPC-1241>`_ - APPC fails to restart vGMUX in vCPE closed loop 
+
+	- `APPC-1243 <https://jira.onap.org/browse/APPC-1243>`_ - Container doesnt preserve mysql data after kubectl edit statefulset
+
+	- `APPC-1244 <https://jira.onap.org/browse/APPC-1244>`_ - Ansible Server never starts
 
 
 Quick Links:
