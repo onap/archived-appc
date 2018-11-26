@@ -141,6 +141,30 @@
       "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5361e237",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-26T18:55:11Z",
+      "side": 1,
+      "message": "Can we be more specific about the type of exception that is expected?",
+      "parentUuid": "9adffdf1_93c8aa75",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 77
+      },
+      "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
