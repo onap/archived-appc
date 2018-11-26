@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_b38b6e67",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/merge/TestMergeNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-26T16:41:54Z",
+      "side": 1,
+      "message": "missing assert statement.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 57
+      },
+      "revId": "327f9d3297bb986d3274cf1cd0ffde03bebc38df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_73ed0625",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/merge/TestMergeNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-26T16:41:54Z",
+      "side": 1,
+      "message": "missing assert statement",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 7
+      },
+      "revId": "327f9d3297bb986d3274cf1cd0ffde03bebc38df",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
