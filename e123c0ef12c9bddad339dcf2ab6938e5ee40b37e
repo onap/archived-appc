@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_33af7e96",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-11-26T17:38:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_b3b92e17",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 77
+      },
+      "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_93e74a40",
         "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "As this is expected to throw an exception, there is nothing to assert.",
       "parentUuid": "9adffdf1_93e74a40",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 77
+      },
+      "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_93c8aa75",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-11-26T17:38:33Z",
+      "side": 1,
+      "message": "Yes..correct..we cant assert anything if we are expecting an exception.",
+      "parentUuid": "9adffdf1_93be6afe",
       "range": {
         "startLine": 153,
         "startChar": 0,
