@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modification Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -74,6 +74,16 @@ public class TestXSLTTransformerNode {
         Map<String, String> inParams = new HashMap<String, String>();
         XSLTTransformerNode transformerNode = new XSLTTransformerNode();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, "testTemplateData");
+        transformerNode.transformData(inParams, ctx);
+   }
+    
+    @Test(expected=SvcLogicException.class)
+    public void testTransformDataForEmptyRequestTemplate() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        XSLTTransformerNode transformerNode = new XSLTTransformerNode();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA, "testTemplateData");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE, "NO_SUCH_FILE.json");
         transformerNode.transformData(inParams, ctx);
    }
 }
