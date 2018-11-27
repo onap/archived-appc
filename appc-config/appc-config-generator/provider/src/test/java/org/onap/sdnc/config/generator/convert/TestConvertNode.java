@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modification Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -159,6 +159,29 @@ public class TestConvertNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA, "//");
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "String");
         convertNode.unEscapeData(inParams, ctx);
+
+    }
+    
+    @Test(expected = SvcLogicException.class)
+    public void testunEscapeDataForInvalidDataType() throws Exception {
+        ConvertNode convertNode = new ConvertNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, "//");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "TXT");
+        convertNode.escapeData(inParams, ctx);
+
+    }
+    
+    @Test(expected = SvcLogicException.class)
+    public void testunEscapeDataForEmptyDataType() throws Exception {
+        ConvertNode convertNode = new ConvertNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, "//");
+        convertNode.escapeData(inParams, ctx);
 
     }
     
