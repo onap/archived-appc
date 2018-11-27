@@ -29,7 +29,7 @@ Release Notes
 Version: 1.4.3
 --------------
 
-:Release Date: 2018-11-21
+:Release Date: 2018-11-30
 
 
 **New Features**
