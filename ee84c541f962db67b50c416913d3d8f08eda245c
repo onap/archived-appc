@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_983522f9",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/transform/TestXSLTTransformerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-27T13:57:49Z",
+      "side": 1,
+      "message": "Checking for exception type alone is insufficient to verify the behaviour of the code under test due to catch block which rethrows all exceptions as SvcLogicException type.",
+      "revId": "ee84c541f962db67b50c416913d3d8f08eda245c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_583fbad6",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/transform/TestXSLTTransformerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-27T13:57:49Z",
+      "side": 1,
+      "message": "As this file isn\u0027t found by the test and fails with File Not Found exception it would be an improvement to indicate this by the filename to make the test easier to understand.\ne.g.  inParams.put(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE, \"NO_SUCH_FILE.json\");",
+      "revId": "ee84c541f962db67b50c416913d3d8f08eda245c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
