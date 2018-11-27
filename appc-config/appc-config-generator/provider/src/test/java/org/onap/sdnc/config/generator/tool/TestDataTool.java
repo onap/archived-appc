@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modification Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -156,9 +156,16 @@ public class TestDataTool {
     }
     
     @Test
-    public void testCheckDataXml()
+    public void testCheckDataForInvalidXml()
     {
         String data="<xml><configuration</configuration>";
         assertEquals(ConfigGeneratorConstant.DATA_TYPE_TEXT,CheckDataTool.checkData(data));
+    }
+    
+    @Test
+    public void testCheckDataForValidXml()
+    {
+        String data="<xml><configuration></configuration></xml>";
+        assertEquals(ConfigGeneratorConstant.DATA_TYPE_XML,CheckDataTool.checkData(data));
     }
 }
