@@ -33,9 +33,12 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.junit.Test;
@@ -146,5 +149,23 @@ public class TimeTest {
         Date date=Time.stringToDateConverterMillis("2004-02-09 00:00:00:000");
         Date expected=new Date("02/09/2004");
         assertEquals(expected, date);
+    }
+    
+    @Test
+    public void testTruncateDate() throws ParseException{
+        Date date=Time.truncDate(new Date("02/09/2004"));
+        Date expected=new Date("02/09/2004");
+        assertEquals(expected, date);
+    }
+    
+    @Test
+    public void testToDate() throws ParseException, DatatypeConfigurationException{
+        Date date=new Date("02/09/2004");
+        GregorianCalendar c = new GregorianCalendar();
+        c.setTime(date);
+        XMLGregorianCalendar calendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
+        Date actual= Time.toDate(calendar);
+        Date expected=new Date("02/09/2004");
+        assertEquals(expected, actual);
     }
 }
