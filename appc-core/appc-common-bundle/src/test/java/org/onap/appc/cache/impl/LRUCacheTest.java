@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,37 +25,42 @@
 
 package org.onap.appc.cache.impl;
 
+import java.util.Map;
+
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.powermock.reflect.Whitebox;
 
-import java.util.Map;
-
 public class LRUCacheTest {
 
-    @Test
-    public void testConstructor() throws Exception {
-        LRUCache cache = new LRUCache(20);
-        Map internalMap = Whitebox.getInternalState(cache, "map");
-        Assert.assertTrue(internalMap != null);
-        Assert.assertTrue(internalMap.size() == 0);
-    }
+	private LRUCache cache;
 
-    @Test
-    public void testGetAndPutObject() throws Exception {
-        LRUCache cache = new LRUCache(20);
+	@Before
+	public void setUp() {
+		cache = new LRUCache(20);
+	}
 
-        String key = "testing key";
-        Assert.assertTrue(cache.getObject(key) == null);
+	@Test
+	public void testConstructor() throws Exception {
+		Map internalMap = Whitebox.getInternalState(cache, "map");
+		Assert.assertTrue(internalMap != null);
+		Assert.assertTrue(internalMap.size() == 0);
+	}
 
-        String value = "testing value";
-        cache.putObject(key, value);
-        Map internalMap = Whitebox.getInternalState(cache, "map");
-        Assert.assertTrue(internalMap.containsKey(key));
-        Assert.assertTrue(internalMap.containsValue(value));
-        Assert.assertTrue(internalMap.size() == 1);
+	@Test
+	public void testGetAndPutObject() throws Exception {
+		String key = "testing key";
+		Assert.assertTrue(cache.getObject(key) == null);
 
-        Assert.assertEquals(value, cache.getObject(key));
-    }
+		String value = "testing value";
+		cache.putObject(key, value);
+		Map internalMap = Whitebox.getInternalState(cache, "map");
+		Assert.assertTrue(internalMap.containsKey(key));
+		Assert.assertTrue(internalMap.containsValue(value));
+		Assert.assertTrue(internalMap.size() == 1);
+
+		Assert.assertEquals(value, cache.getObject(key));
+	}
 
 }
