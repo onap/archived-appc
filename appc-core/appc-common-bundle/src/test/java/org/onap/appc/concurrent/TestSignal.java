@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modification Copyright (C) 2018 IBM
+ * Modifications Copyright (C) 2018 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -151,5 +151,12 @@ public class TestSignal {
         Signal mySignal = new Signal(Thread.currentThread());
         mySignal.setTimeout(50L);
         mySignal.waitForAny();
+    }
+    
+    @Test
+    public void testIsSignaled() 
+    {
+        Signal mySignal = new Signal(Thread.currentThread());
+        assertEquals(false, mySignal.isSignaled(SIGNAL_READY));
     }
 }
