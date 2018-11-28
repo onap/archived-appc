@@ -75,7 +75,7 @@ public class ConnectionBuilder {
      * Constructor that initializes an http client based on certificate
      **/
     public ConnectionBuilder(String certFile) throws KeyStoreException, CertificateException, IOException,
-            KeyManagementException, NoSuchAlgorithmException, APPCException {
+            KeyManagementException, NoSuchAlgorithmException {
 
         /* Point to the certificate */
         try(FileInputStream fs = new FileInputStream(certFile)) {
@@ -121,7 +121,7 @@ public class ConnectionBuilder {
      * Default if Mode == 0
      */
     public ConnectionBuilder(int mode)
-            throws SSLException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
         if (mode == 1) {
             SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
             SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
