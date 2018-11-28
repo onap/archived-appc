@@ -35,14 +35,6 @@ public class AnsibleResult {
     private String results;
     private String output;
 
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-   this.output = output;
-   }
-
     public AnsibleResult() {
         this(-1, EMPTY_VALUE, EMPTY_VALUE);
     }
@@ -63,6 +55,14 @@ public class AnsibleResult {
         results = result;
         output = outputData;
     }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+   this.output = output;
+   }
 
     public void setStatusCode(int code) {
         this.statusCode = code;
