@@ -169,6 +169,24 @@ The Casablanca release added the following functionality:
 **Known Issue**
 
 	- `APPC-1247 <https://jira.onap.org/browse/APPC-1247>`_ - java.lang.NoClassDefFoundError when publishing DMAAP message
+	    - This issue is relevant during the vCPE use case.
+	    - Due to this defect, the VM will perform four start/stop sequences, instead of the normal one.
+	    - After the four start/stop sequences, the VM will be left in the correct state that it should be in.
+	
+	- Work-around required for vCPE use case to correct the error described in: `CCSDK-741 <https://jira.onap.org/browse/CCSDK-741>`_
+	    - Several steps must be performed as described here:
+	        
+	        1. Add a restapi template file into the appc docker containers
+	            a. Enter the appc docker container (docker exec... or kubectl exec...)
+	            b. Create a directory: /opt/onap/appc/templates
+	            c. Download this file aai-named-query.json (link coming soon) and place it in that directory
+	        2. Replace the generic restart DG with a new one
+	            a. Download the APPC_Generic_Restart.xml (link coming soon)
+	            b. Edit the file. Find the parameter definition lines for restapiUrl, restapiUser, restapiPassword (lines 52-54) and replace these with the correct values for your aai server.
+	            c. Copy this file into the appc docker containers to the /opt/onap/appc/svclogic/graphs directory (you will be replacing the old version of the file with this copy)
+	        3. Load the new DG file
+	            a. In the appc docker containers, enter the "/opt/appc/svclogic/bin directory
+	            b. Run install-converted-dgs.sh
 
 Quick Links:
 
@@ -193,8 +211,9 @@ Quick Links:
 		- OpenStack Hypervisorcheck is turned off by default.
 
 	- Integration with MultiCloud is supported for Standalone Restart (i.e., not via DGOrchestrator). For any other action, such as Stop, Start, etc.. via MultiCloud requires the MultiCloud identity URL to be either passed in the payload or defined in appc.properties.
-	  
-	  
+	
+
+
 Version: 1.3.0
 --------------
 
