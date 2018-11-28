@@ -189,6 +189,30 @@
       "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_677a1bf3",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-11-28T13:22:23Z",
+      "side": 1,
+      "message": "Thanks Jim. I saw your changes in the code that you have made with by adding the rule. It certainly will help the user understand the exact reason of expected exception. \n@Jim..please +1 this pull request as Jim has rectified the issue that he had highlighted.",
+      "parentUuid": "9adffdf1_d8a88a79",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 77
+      },
+      "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
