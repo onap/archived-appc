@@ -41,6 +41,9 @@ public class ChefApiClientFactory {
 
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ChefApiClientFactory.class);
 
+    private HttpClient httpClient = createChefHttpClient();
+    private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
+
     private HttpClient createChefHttpClient() {
         String trustStoreFileName = "/opt/app/bvc/chef/chefServerSSL.jks";
         char[] trustStoreCreds = "adminadmin".toCharArray();
@@ -55,9 +58,6 @@ public class ChefApiClientFactory {
         }
         return null;
     }
-
-    private HttpClient httpClient = createChefHttpClient();
-    private ChefApiHeaderFactory chefApiHeaderFactory = new ChefApiHeaderFactory();
 
     public ChefApiClient create(String endPoint, String organizations, String userId, String pemPath) {
         return new ChefApiClientImpl(httpClient, endPoint, organizations, (methodName, requestPath, body) -> chefApiHeaderFactory
