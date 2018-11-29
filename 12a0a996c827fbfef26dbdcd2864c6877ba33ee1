@@ -16,6 +16,24 @@
       "revId": "12a0a996c827fbfef26dbdcd2864c6877ba33ee1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0fc9dc25",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/TestArtifactTransformer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-29T23:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_8f270c12",
+      "revId": "12a0a996c827fbfef26dbdcd2864c6877ba33ee1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
