@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8c215a4f",
+        "filename": "appc-config/appc-config-params/provider/src/main/java/org/onap/sdnc/config/params/transformer/ArtificatTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T18:42:00Z",
+      "side": 1,
+      "message": "Copyright \u003d\u003e Modifications Copyright (in other files, too)",
+      "revId": "b30b9d86187dae3cdbc42f251dccb3b6bb20d4a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0cd56a1b",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T18:42:00Z",
+      "side": 1,
+      "message": "I\u0027m sure there are already utilities to do this (e.g., IoUtils or IOUtils).",
+      "revId": "b30b9d86187dae3cdbc42f251dccb3b6bb20d4a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2ca62ec2",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T18:42:00Z",
+      "side": 1,
+      "message": "just 2018, as this is a new file",
+      "revId": "b30b9d86187dae3cdbc42f251dccb3b6bb20d4a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2c8dce31",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T18:42:00Z",
+      "side": 1,
+      "message": "I doubt the classloader/resource stuff is needed, though I could be wrong",
+      "revId": "b30b9d86187dae3cdbc42f251dccb3b6bb20d4a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ac91be53",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/tosca/TestArtifactProcessor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T18:42:00Z",
+      "side": 1,
+      "message": "could probably use tempFile.getName() (or some such method) - then only one flavor of getFileContent() would be needed",
+      "revId": "b30b9d86187dae3cdbc42f251dccb3b6bb20d4a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
