@@ -74,97 +74,51 @@ The Casablanca release added the following functionality:
 
 **Bug Fixes**
 
-	- `APPC-862 <https://jira.onap.org/browse/APPC-862>`_ - Configscaleout visible based on properties file
+	- `APPC-1009 <https://jira.onap.org/browse/APPC-1009>`_ - An incorrect regex in appc-provider-model was causing intermittent unit test failures. This is now fixed.
 
-	- `APPC-1009 <https://jira.onap.org/browse/APPC-1009>`_ - Regex in appc-provider-model yang causes intermittent unit test failures
-
-	- `APPC-1021 <https://jira.onap.org/browse/APPC-1021>`_ - Unnecessary pseudoterminal allocation for SSH connection
-
-	- `APPC-1037 <https://jira.onap.org/browse/APPC-1037>`_ - Deployment project version for cdt is incorrect
-
-	- `APPC-1072 <https://jira.onap.org/browse/APPC-1072>`_ - CDT Build failing due to problem in mdbootstrap
-
-	- `APPC-1087 <https://jira.onap.org/browse/APPC-1087>`_ - Incorrect docker image versions in HEAT deployment
-
-	- `APPC-1092 <https://jira.onap.org/browse/APPC-1092>`_ - licence header in template-configuration.component.html hasn't been commented properly
+	- `APPC-1021 <https://jira.onap.org/browse/APPC-1021>`_ - An unnecessary pseudoterminal allocation for SSH connection was causing problems when trying to connect to a ConfD NETCONF Server.
   
-	- `APPC-1107 <https://jira.onap.org/browse/APPC-1107>`_ - CDT Artifacts Do Not Save
-	
-	- `APPC-1109 <https://jira.onap.org/browse/APPC-1109>`_ - Multiple versions of CDT in tmp folder during docker build cause problems
+	- `APPC-1107 <https://jira.onap.org/browse/APPC-1107>`_ - Database problems were causing artifacts created in CDT to not save to APPC. These have been fixed.
 
-	- `APPC-1110 <https://jira.onap.org/browse/APPC-1110>`_ - appc-dg-shared feature fails to install
+	- `APPC-1111 <https://jira.onap.org/browse/APPC-1111>`_ - TestDmaapConsumerImpl.testFetch method was taking 130+ seconds to run test. Build time is shorter now.
 
-	- `APPC-1111 <https://jira.onap.org/browse/APPC-1111>`_ - TestDmaapConsumerImpl.testFetch method takes 130+ seconds to run test
+	- `APPC-1112 <https://jira.onap.org/browse/APPC-1112>`_ - Several unit tests in TimeTest.java had intermittent failures.
 
-	- `APPC-1112 <https://jira.onap.org/browse/APPC-1112>`_ - Several tests in TimeTest.java are failing
+	- `APPC-1157 <https://jira.onap.org/browse/APPC-1157>`_ - Mockito package was removed from the APPC client jar. It was causing conflicts with other applications using APPC client library.
 
-	- `APPC-1157 <https://jira.onap.org/browse/APPC-1157>`_ - Remove Mockito from Client jar
+	- `APPC-1184 <https://jira.onap.org/browse/APPC-1184>`_ - The APPC LCM API documentation was outdated and did not reflect the correct endpoints.
 
-	- `APPC-1175 <https://jira.onap.org/browse/APPC-1175>`_ - Appc daily docker job is failing
+	- `APPC-1186 <https://jira.onap.org/browse/APPC-1186>`_ - VNF-Level OpenStack actions such as Restart were failing if the optional identity-url was omitted from the payload of the request.
 
-	- `APPC-1184 <https://jira.onap.org/browse/APPC-1184>`_ - APPC LCM-API outdated
+	- `APPC-1188 <https://jira.onap.org/browse/APPC-1188>`_ - Exception was occurring if force flag was set to false in a request from policy.
 
-	- `APPC-1185 <https://jira.onap.org/browse/APPC-1185>`_ - Rest calls failing with rpc error
+	- `APPC-1192 <https://jira.onap.org/browse/APPC-1192>`_ - CDT was not updating the DEVICE_INTERFACE_PROTOCOL table, so APPC was unable to get the protocol during lcm actions.
 
-	- `APPC-1186 <https://jira.onap.org/browse/APPC-1186>`_ - Fix Rrestart fail if identity-uril is omitted
+	- `APPC-1205 <https://jira.onap.org/browse/APPC-1205>`_ - Artifacts manually entered into CDT were not saving correctly, while artifacts created by uploading a template were.
 
-	- `APPC-1187 <https://jira.onap.org/browse/APPC-1187>`_ - APIDOC Explorer will not expand appc-provider-lcm
+	- `APPC-1207 <https://jira.onap.org/browse/APPC-1207>`_ - Logging constants were missing in several features, causing incorrect logging messages.
 
-	- `APPC-1188 <https://jira.onap.org/browse/APPC-1188>`_ - fix unexpected error when policy-requested action force == FALSE
+	- `APPC-1218 <https://jira.onap.org/browse/APPC-1218>`_ - Aai connection had certificate errors and path build exceptions.
 
-	- `APPC-1189 <https://jira.onap.org/browse/APPC-1189>`_ - Fix boot-able volume when rebuild LCM action triggerred 
+	- `APPC-1224 <https://jira.onap.org/browse/APPC-1224>`_ - SubRequestID was not being relayed back to Policy in DMaaP Response messages.
 
-	- `APPC-1191 <https://jira.onap.org/browse/APPC-1191>`_ - Database errors during installation
+	- `APPC-1226 <https://jira.onap.org/browse/APPC-1226>`_ - Mock code to mimic backend execution for Reboot was causing problems and has been removed.
 
-	- `APPC-1192 <https://jira.onap.org/browse/APPC-1192>`_ - CDT missed to update the table
+	- `APPC-1227 <https://jira.onap.org/browse/APPC-1227>`_ - APPC was not able to read VNF templates created with CDT.
 
-	- `APPC-1202 <https://jira.onap.org/browse/APPC-1202>`_ - CDT artifacts fail to upload to appc
+	- `APPC-1230 <https://jira.onap.org/browse/APPC-1230>`_ - APPC was using the GenericRestart DG instead of DGOrchestrator.
 
-	- `APPC-1205 <https://jira.onap.org/browse/APPC-1205>`_ - Cdt reference data does not send when data is manually entered
+	- `APPC-1231 <https://jira.onap.org/browse/APPC-1231>`_ - APPC was not updating the TRANSACTIONS table correctly when an operation completed.
 
-	- `APPC-1206 <https://jira.onap.org/browse/APPC-1206>`_ - appc vm init failure because of docker-compose incorrect path
+	- `APPC-1233 <https://jira.onap.org/browse/APPC-1233>`_ - DGOrchestrator was incorrectly being given an output.payload parameter instead of output-payload.
 
-	- `APPC-1207 <https://jira.onap.org/browse/APPC-1207>`_ - Logging constants are missing in several features
+	- `APPC-1234 <https://jira.onap.org/browse/APPC-1234>`_ - AppC Open Day Light login was responding 401 unauthorized when AAF was enabled.
 
-	- `APPC-1215 <https://jira.onap.org/browse/APPC-1215>`_ - No Such Method Exception from GraphExecutor class 
+	- `APPC-1237 <https://jira.onap.org/browse/APPC-1237>`_ - APPC was not properly url-encoding AAF credentials.
 
-	- `APPC-1218 <https://jira.onap.org/browse/APPC-1218>`_ - Aai connection has a certificate error
+	- `APPC-1243 <https://jira.onap.org/browse/APPC-1243>`_ - Container was not preserving mysql data after kubectl edit statefulset.
 
-	- `APPC-1219 <https://jira.onap.org/browse/APPC-1219>`_ - appc-iaas-adaptor unable to load provider class
-
-	- `APPC-1220 <https://jira.onap.org/browse/APPC-1220>`_ - NoClassDefFound when sending OS STOP
-
-	- `APPC-1221 <https://jira.onap.org/browse/APPC-1221>`_ - update provide1 portion in appc.properties for Windriver lab
-
-	- `APPC-1224 <https://jira.onap.org/browse/APPC-1224>`_ - Not relaying back SubRequestID back to Policy in DMaaP Response messages
-
-	- `APPC-1225 <https://jira.onap.org/browse/APPC-1225>`_ - APPC failing health checks
-
-	- `APPC-1226 <https://jira.onap.org/browse/APPC-1226>`_ - Mock code to mimic backend execution for Reboot needs to be removed
-
-	- `APPC-1227 <https://jira.onap.org/browse/APPC-1227>`_ - APPC can't read VNF templates build with CDT
-
-	- `APPC-1230 <https://jira.onap.org/browse/APPC-1230>`_ - Update the sqldump data
-
-	- `APPC-1231 <https://jira.onap.org/browse/APPC-1231>`_ - TRANSACTIONS table not getting updated
-
-	- `APPC-1232 <https://jira.onap.org/browse/APPC-1232>`_ - SO error when building config scale out request using APPC client
-
-	- `APPC-1233 <https://jira.onap.org/browse/APPC-1233>`_ - correct health check DG
-
-	- `APPC-1234 <https://jira.onap.org/browse/APPC-1234>`_ - AppC Open Day Light login responds 401 unauthorised
-
-	- `APPC-1237 <https://jira.onap.org/browse/APPC-1237>`_ - APPC not properly url-encoding AAF credentials
-
-	- `APPC-1238 <https://jira.onap.org/browse/APPC-1238>`_ - allottedResourceRole is null
-
-	- `APPC-1239 <https://jira.onap.org/browse/APPC-1239>`_ - Error in appc/deployment/Jmeter JMX 
-
-	- `APPC-1241 <https://jira.onap.org/browse/APPC-1241>`_ - APPC fails to restart vGMUX in vCPE closed loop 
-
-	- `APPC-1243 <https://jira.onap.org/browse/APPC-1243>`_ - Container doesnt preserve mysql data after kubectl edit statefulset
-
-	- `APPC-1244 <https://jira.onap.org/browse/APPC-1244>`_ - Ansible Server never starts
+	- `APPC-1244 <https://jira.onap.org/browse/APPC-1244>`_ - Ansible Server would never start in oom.
 
 **Known Issues**
 
