@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,26 +25,27 @@
 
 package org.onap.sdnc.config.params.transformer.tosca;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.sdnc.config.params.data.PropertyDefinition;
 import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
 public class TestReadArtifact {
+
     @Test
     public void testReadArtifactPositive() throws ArtifactProcessorException, IOException {
-
-        String toscaArtifact = getFileContent("tosca/ReadArtifactPositiveInputTosca.yml");
+        String toscaArtifact = FileUtils.readFileToString(
+                FileSystems.getDefault().getPath("src/test/resources/tosca","ReadArtifactPositiveInputTosca.yml")
+                .toFile(), StandardCharsets.UTF_8);
         ArtifactProcessorImpl artifact = new ArtifactProcessorImpl();
         PropertyDefinition ouptPD = artifact.readArtifact(toscaArtifact);
         Assert.assertEquals(ouptPD.getKind(), "Property Definition");
         Assert.assertEquals(ouptPD.getVersion(), "V1");
-
         Assert.assertEquals(ouptPD.getParameters().get(0).getDefaultValue(), "0.0.0.0");
         Assert.assertEquals(ouptPD.getParameters().get(0).getName(), "abc");
         Assert.assertEquals(ouptPD.getParameters().get(0).getSource(), "source");
@@ -62,7 +65,6 @@ public class TestReadArtifact {
                 "address-0");
         Assert.assertEquals(
                 ouptPD.getParameters().get(0).getResponseKeys().get(0).getFieldKeyName(), "0");
-
         Assert.assertEquals(ouptPD.getParameters().get(1).getDefaultValue(), "value");
         Assert.assertEquals(ouptPD.getParameters().get(1).getName(), "param 2");
         Assert.assertEquals(ouptPD.getParameters().get(1).getSource(), "source");
@@ -84,13 +86,13 @@ public class TestReadArtifact {
                 ouptPD.getParameters().get(1).getResponseKeys().get(0).getUniqueKeyValue(), "0");
         Assert.assertEquals(
                 ouptPD.getParameters().get(1).getResponseKeys().get(0).getFieldKeyName(), "0");
-
     }
 
     @Test
     public void testReadArtifactNegetive() throws IOException {
-
-        String toscaArtifact = getFileContent("tosca/ReadArtifactNegetiveInputTosca.yml");
+        String toscaArtifact = FileUtils.readFileToString(
+                FileSystems.getDefault().getPath("src/test/resources/tosca","ReadArtifactNegetiveInputTosca.yml")
+                .toFile(), StandardCharsets.UTF_8);
         ArtifactProcessorImpl artifact = new ArtifactProcessorImpl();
         try {
             PropertyDefinition ouptPD = artifact.readArtifact(toscaArtifact);
@@ -99,22 +101,6 @@ public class TestReadArtifact {
             Assert.assertEquals(e.getMessage(),
                     "Invalid input found <> source1 <reqk1:reqv1 , reqk2:reqv2>");
         }
-    }
-
-    private String getFileContent(String fileName) throws IOException {
-        ClassLoader classLoader = new TestReadArtifact().getClass().getClassLoader();
-        InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
     }
 
 }
