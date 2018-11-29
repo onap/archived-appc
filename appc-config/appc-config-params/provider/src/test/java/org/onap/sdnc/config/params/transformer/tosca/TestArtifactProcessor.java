@@ -36,6 +36,8 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.onap.sdnc.config.params.data.PropertyDefinition;
+import org.onap.sdnc.config.params.transformer.ArtificatTransformer;
 import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
 public class TestArtifactProcessor {
@@ -77,6 +79,14 @@ public class TestArtifactProcessor {
 
         String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
         String toscaString = outstream.toString();
+    }
+
+    @Test
+    public void testReadArtifact() throws IOException, ArtifactProcessorException {
+        ArtifactProcessor arp = ArtifactProcessorFactory.getArtifactProcessor();
+        String pdString = getFileContent("tosca/ExpectedTosca.yml");
+        PropertyDefinition propertyDefinitionObj = arp.readArtifact(pdString);
+        Assert.assertEquals(7, propertyDefinitionObj.getParameters().size());
     }
 
     private String getFileContent(String fileName) throws IOException {

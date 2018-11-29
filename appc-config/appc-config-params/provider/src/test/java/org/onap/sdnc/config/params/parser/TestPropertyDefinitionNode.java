@@ -52,6 +52,9 @@ public class TestPropertyDefinitionNode {
     public void setup() {
         propertyDefinitionNode = new PropertyDefinitionNode();
     }
+    
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
     public void testProcessMissingParamKeys() throws Exception {
@@ -75,7 +78,7 @@ public class TestPropertyDefinitionNode {
 
     }
 
-    @Test(expected = SvcLogicException.class)
+    @Test
     public void testInProcessMissingParamKeysForEmptyPdContent() throws Exception {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
@@ -83,7 +86,8 @@ public class TestPropertyDefinitionNode {
                 TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param.json"),
                 Charset.defaultCharset());
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_JSON_DATA, jsonData);
-
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Request Param (pdContent) is Missing ..");
         SvcLogicContext ctx = new SvcLogicContext();
         propertyDefinitionNode.processMissingParamKeys(inParams, ctx);
     }
@@ -118,7 +122,7 @@ public class TestPropertyDefinitionNode {
         assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
     }
-    
+
     @Test
     public void testProcessExternalSystemParamKeysForEmptyParamData() throws Exception {
         Map<String, String> inParams = new HashMap<String, String>();
@@ -134,12 +138,7 @@ public class TestPropertyDefinitionNode {
         propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
         assertEquals(ctx.getAttribute("test." + ParamsHandlerConstant.OUTPUT_PARAM_STATUS),
                 ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS);
-
-      
     }
-
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
     public void testProcessExternalSystemParamKeysForEmptySystemName() throws Exception {
@@ -160,16 +159,16 @@ public class TestPropertyDefinitionNode {
         expectedEx.expect(SvcLogicException.class);
         expectedEx.expectMessage("Request Param (systemName) is Missing ..");
         propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
-
     }
 
-    @Test(expected = SvcLogicException.class)
+    @Test
     public void testProcessExternalSystemParamKeysForEmptyPdContent() throws Exception {
-
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "SOURCE");
         SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Request Param (pdContent) is Missing ..");
         propertyDefinitionNode.processExternalSystemParamKeys(inParams, ctx);
     }
 
@@ -198,7 +197,6 @@ public class TestPropertyDefinitionNode {
 
     @Test
     public void mergeJsonDataForEmptyParams() throws SvcLogicException, IOException {
-
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         String mergeJsonData = IOUtils.toString(
@@ -209,7 +207,6 @@ public class TestPropertyDefinitionNode {
         propertyDefinitionNode.mergeJsonData(inParams, ctx);
         String status = ctx.getAttribute("test.status");
         assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS, status);
-
     }
 
     @Test(expected = SvcLogicException.class)
@@ -245,6 +242,25 @@ public class TestPropertyDefinitionNode {
         inParams.put(ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER, mergeJsonData);
         inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "INSTAR");
         propertyDefinitionNode.validateParams(inParams, ctx);
+    }
+    
+    @Test
+    public void testValidationPdWithMissingKeys() throws Exception {
+        Map<String, String> inParams = new HashMap<String, String>();
+        SvcLogicContext ctx = new SvcLogicContext();
+        String jsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/pd_with_required_keys.yaml"),
+                Charset.defaultCharset());
+        String mergeJsonData = IOUtils.toString(
+                TestPropertyDefinitionNode.class.getClassLoader().getResourceAsStream("parser/request-param_missing_keys.json"),
+                Charset.defaultCharset());
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_PD_CONTENT, jsonData);
+        inParams.put(ParamsHandlerConstant.OUTPUT_PARAM_CONFIGURATION_PARAMETER, mergeJsonData);
+        inParams.put(ParamsHandlerConstant.INPUT_PARAM_SYSTEM_NAME, "INSTAR");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Missing  Mandatory Keys and source are{\"LOCAL_ACCESS_IP_ADDR\":\"INSTAR\"}");
+        propertyDefinitionNode.validateParams(inParams, ctx);
+        //assertEquals(ParamsHandlerConstant.OUTPUT_STATUS_SUCCESS,ctx.getAttribute(ParamsHandlerConstant.OUTPUT_PARAM_STATUS));
     }
     
     @Test(expected=SvcLogicException.class)
