@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +26,7 @@
 package org.onap.sdnc.config.params.transformer;
 
 import java.io.IOException;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.onap.sdnc.config.params.data.Parameter;
 import org.onap.sdnc.config.params.data.PropertyDefinition;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -65,24 +65,5 @@ public class ArtificatTransformer {
             propertyDefinition = mapper.readValue(pdContent, PropertyDefinition.class);
         }
         return propertyDefinition;
-    }
-
-    public String convertYAMLToParams(String pdContent)
-            throws JsonParseException, JsonMappingException, IOException {
-        String paramJson = null;
-        if (StringUtils.isNotBlank(pdContent)) {
-            paramJson = convertPdToParams(convertYAMLToPD(pdContent));
-        }
-        return paramJson;
-    }
-
-    public String convertPdToParams(PropertyDefinition propertyDefinition)
-            throws JsonParseException, JsonMappingException, IOException {
-        String paramJson = null;
-        if (propertyDefinition != null && propertyDefinition.getParameters() != null) {
-            List<Parameter> parameters = propertyDefinition.getParameters();
-
-        }
-        return paramJson;
     }
 }
