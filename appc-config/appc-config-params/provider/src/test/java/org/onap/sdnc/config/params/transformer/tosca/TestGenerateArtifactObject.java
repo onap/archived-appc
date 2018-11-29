@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +25,14 @@
 
 package org.onap.sdnc.config.params.transformer.tosca;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -77,7 +77,7 @@ public class TestGenerateArtifactObject {
         outstream.flush();
         outstream.close();
 
-        String toscaString = getFileContent(toscaFile);
+        String toscaString = FileUtils.readFileToString(toscaFile, StandardCharsets.UTF_8);
         Assert.assertEquals(expectedTosca, toscaString);
 
     }
@@ -102,7 +102,8 @@ public class TestGenerateArtifactObject {
         outstream.flush();
         outstream.close();
 
-        String toscaString = getFileContent(toscaFile);
+        String toscaString = FileUtils.readFileToString(toscaFile, StandardCharsets.UTF_8);
+
         Assert.assertEquals(expectedTosca, toscaString);
     }
 
@@ -194,17 +195,6 @@ public class TestGenerateArtifactObject {
         return responseKeyList;
     }
 
-    private Parameter createParameter() {
-        Parameter singleParameter1 = new Parameter();
-        singleParameter1.setName("LOCAL_ACCESS_IP_ADDR");
-        singleParameter1.setRequired(false);
-        singleParameter1.setSource("source");
-        singleParameter1.setDefaultValue("0.0.0.0");
-        singleParameter1.setRequestKeys(createRequestKeys());
-        singleParameter1.setResponseKeys(createResponseKeys());
-        return singleParameter1;
-    }
-
     @Test(expected = Exception.class)
     public void testPDnull() throws IOException, ArtifactProcessorException {
         PropertyDefinition pd = null;
@@ -215,20 +205,5 @@ public class TestGenerateArtifactObject {
         arp.generateArtifact(pd, outstream);
         outstream.flush();
         outstream.close();
-    }
-
-    private String getFileContent(File file) throws IOException {
-        InputStream is = new FileInputStream(file);
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
     }
 }
