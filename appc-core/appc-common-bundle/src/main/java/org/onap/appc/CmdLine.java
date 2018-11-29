@@ -24,8 +24,12 @@
     package org.onap.appc;
 
 import org.onap.appc.encryption.EncryptionTool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CmdLine {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CmdLine.class);
 
         public static void main(String[] args) {
 
@@ -40,7 +44,7 @@ public class CmdLine {
             {
                 String clearText = args[1];
                 String encrypted = EncryptionTool.getInstance().encrypt(clearText);
-                System.out.println(encrypted);
+                LOGGER.info(encrypted);
                 return;
             } else {
                 printUsage();
@@ -48,7 +52,7 @@ public class CmdLine {
         }
         
         private static void printUsage(){
-            System.out.println("Usage: java -jar <this jar> ...");
-            System.out.println("\tencrypt <your text> \t\t(Encrypts your text)");
+            LOGGER.info("Usage: java -jar <this jar> ...");
+            LOGGER.info("\tencrypt <your text> \t\t(Encrypts your text)");
         }
 }
