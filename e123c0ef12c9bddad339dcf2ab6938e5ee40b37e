@@ -213,6 +213,30 @@
       "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_523c6e93",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/parser/TestPropertyDefinitionNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-29T11:07:08Z",
+      "side": 1,
+      "message": "It was me who added patch set 2 which included the rule code.\n\nThis is a comment on most of the reviews on this package. \n\nWhen you test with \u0027expected\u003dException.class\u0027 or even \u0027expected\u003dSvcLogicException.class\u0027 all this does is verify that the start of the try{ block in the code under test is reached. Therefore the tests that do this are not providing useful information as when the expected paths through the code are not followed due to some change or error the test will still pass.\nIf we use code of the type I pushed in PatchSet 2 then we are verifying the code that the test case is intended to test is actually being executed.",
+      "parentUuid": "9adffdf1_677a1bf3",
+      "range": {
+        "startLine": 153,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 77
+      },
+      "revId": "e123c0ef12c9bddad339dcf2ab6938e5ee40b37e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
