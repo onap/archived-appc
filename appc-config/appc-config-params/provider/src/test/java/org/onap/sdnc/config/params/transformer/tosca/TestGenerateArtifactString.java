@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,18 +25,15 @@
 
 package org.onap.sdnc.config.params.transformer.tosca;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.onap.sdnc.config.params.transformer.CommonUtility;
 import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
 public class TestGenerateArtifactString {
@@ -45,7 +44,7 @@ public class TestGenerateArtifactString {
     @Test
     public void testStringArtifactGenerator() throws IOException, ArtifactProcessorException {
 
-        String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
+        String pdString = CommonUtility.getFileContent("tosca/ExamplePropertyDefinition.yml");
         OutputStream outstream = null;
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
@@ -55,8 +54,8 @@ public class TestGenerateArtifactString {
         outstream.flush();
         outstream.close();
 
-        String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
-        String toscaString = getFileContent(tempFile);
+        String expectedTosca = CommonUtility.getFileContent("tosca/ExpectedTosca.yml");
+        String toscaString = CommonUtility.getFileContent(tempFile);
         Assert.assertEquals(expectedTosca, toscaString);
 
     }
@@ -65,7 +64,7 @@ public class TestGenerateArtifactString {
     public void testArtifactGeneratorWithParameterNameBlank()
             throws IOException, ArtifactProcessorException {
 
-        String pdString = getFileContent("tosca/ExamplePropertyDefinition2.yml");
+        String pdString = CommonUtility.getFileContent("tosca/ExamplePropertyDefinition2.yml");
         OutputStream outstream = null;
         String expectedMsg = "Parameter name is empty,null or contains whitespace";
 
@@ -85,7 +84,7 @@ public class TestGenerateArtifactString {
     public void testArtifactGeneratorWithParameterNameNull()
             throws IOException, ArtifactProcessorException {
 
-        String pdString = getFileContent("tosca/ExamplePropertyDefinition3.yml");
+        String pdString = CommonUtility.getFileContent("tosca/ExamplePropertyDefinition3.yml");
         OutputStream outstream = null;
         String expectedMsg = "Parameter name is empty,null or contains whitespace";
 
@@ -104,7 +103,7 @@ public class TestGenerateArtifactString {
     @Test
     public void testArtifactGeneratorWithKindNull() throws IOException, ArtifactProcessorException {
 
-        String pdString = getFileContent("tosca/ExamplePropertyDefinition4.yml");
+        String pdString = CommonUtility.getFileContent("tosca/ExamplePropertyDefinition4.yml");
         OutputStream outstream = null;
         String expectedMsg = "Kind in PropertyDefinition is blank or null";
 
@@ -118,36 +117,5 @@ public class TestGenerateArtifactString {
         }
         outstream.flush();
         outstream.close();
-    }
-
-    private String getFileContent(String fileName) throws IOException {
-        ClassLoader classLoader = new TestGenerateArtifactString().getClass().getClassLoader();
-        InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
-    }
-
-    private String getFileContent(File file) throws IOException {
-        InputStream is = new FileInputStream(file);
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
     }
 }

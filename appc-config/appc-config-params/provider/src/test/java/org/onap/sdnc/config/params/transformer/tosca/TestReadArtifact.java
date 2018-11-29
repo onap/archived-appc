@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,21 +25,18 @@
 
 package org.onap.sdnc.config.params.transformer.tosca;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.sdnc.config.params.data.PropertyDefinition;
+import org.onap.sdnc.config.params.transformer.CommonUtility;
 import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
 
 public class TestReadArtifact {
     @Test
     public void testReadArtifactPositive() throws ArtifactProcessorException, IOException {
 
-        String toscaArtifact = getFileContent("tosca/ReadArtifactPositiveInputTosca.yml");
+        String toscaArtifact = CommonUtility.getFileContent("tosca/ReadArtifactPositiveInputTosca.yml");
         ArtifactProcessorImpl artifact = new ArtifactProcessorImpl();
         PropertyDefinition ouptPD = artifact.readArtifact(toscaArtifact);
         Assert.assertEquals(ouptPD.getKind(), "Property Definition");
@@ -90,7 +89,7 @@ public class TestReadArtifact {
     @Test
     public void testReadArtifactNegetive() throws IOException {
 
-        String toscaArtifact = getFileContent("tosca/ReadArtifactNegetiveInputTosca.yml");
+        String toscaArtifact = CommonUtility.getFileContent("tosca/ReadArtifactNegetiveInputTosca.yml");
         ArtifactProcessorImpl artifact = new ArtifactProcessorImpl();
         try {
             PropertyDefinition ouptPD = artifact.readArtifact(toscaArtifact);
@@ -99,22 +98,6 @@ public class TestReadArtifact {
             Assert.assertEquals(e.getMessage(),
                     "Invalid input found <> source1 <reqk1:reqv1 , reqk2:reqv2>");
         }
-    }
-
-    private String getFileContent(String fileName) throws IOException {
-        ClassLoader classLoader = new TestReadArtifact().getClass().getClassLoader();
-        InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
     }
 
 }
