@@ -1,0 +1,96 @@
+# ============LICENSE_START==========================================
+# ONAP : APPC
+# ===================================================================
+# Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+# ===================================================================
+#
+# Unless otherwise specified, all software contained herein is licensed
+# under the Apache License, Version 2.0 (the License);
+# you may not use this software except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# ECOMP is a trademark and service mark of AT&T Intellectual Property.
+# ============LICENSE_END============================================
+---
+kind: "Property Definition"
+version: "V1"
+vnf-parameter-list:
+- name: "LOCAL_ACCESS_IP_ADDR"
+  description: null
+  type: null
+  required: true
+  source: "INSTAR"
+  rule-type: "interface-ip-address"
+  default: "0.0.0.0"
+  request-keys:
+  - key-name: "address_fqdn"
+    key-value: "value"
+  - key-name: "address_type"
+    key-value: "v4"
+  response-keys: null
+- name: "LOCAL_CORE_ALT_IP_ADDR"
+  description: null
+  type: null 
+  required: true
+  source: "A&AI"
+  rule-type: null
+  default: "0:0:0:0"
+  request-keys:
+  - key-name: "address_fqdn"
+    key-value: "value"
+  - key-name: "address_type"
+    key-value: "v4"
+  response-keys: null
+- name: "LOCAL_BILLING_IP_ADDR"
+  description: null
+  type: null 
+  required: false
+  source: null
+  rule-type: null
+  default: "0.0.0.0"
+  request-keys: null
+  response-keys: null
+- name: "REMOTE_ACCESS_IP_ADDR"
+  description: null
+  type: null 
+  required: false
+  source: null
+  rule-type: null
+  default: "0.0.0.0"
+  request-keys: null
+  response-keys: null
+- name: "REMOTE_CORE_ALT_IP_ADDR"
+  description: null
+  type: null 
+  required: false
+  source: null
+  rule-type: null
+  default: "0:0:0:0"
+  request-keys: null
+  response-keys: null
+- name: "REMOTE_BILLING_IP_ADDR"
+  description: null
+  type: null 
+  required: false
+  source: "Manual"
+  rule-type: null
+  default: "0.0.0.0"
+  request-keys: null
+  response-keys: null
+- name: "CORE_NETWORK_PLEN"
+  description: null
+  type: null 
+  required: false
+  source: INSTAR
+  rule-type: null
+  default: "32"
+  request-keys: null
+  response-keys: null
