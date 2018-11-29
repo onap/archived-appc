@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_0f8a3c1b",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-29T21:45:55Z",
+      "side": 1,
+      "message": "Do you mean org.apache.commons.io.FileUtils?\nN.B. This is not code that is being added in this review. Previously this code was replicated in 6 classes and this review just extracts the replicated code to a utility method.",
+      "parentUuid": "9adffdf1_4f6da497",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_af47701c",
         "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
         "patchSetId": 5
@@ -30,6 +48,24 @@
       "writtenOn": "2018-11-29T21:21:06Z",
       "side": 1,
       "message": "I would prefer to keep the getFileContent(fileName) method, rather than repeating the classloader/resource stuff in all of the invoking methods.  My original thought was: is it really necessary to do the classloader/resource stuff at all?  If so, then can probably just use CommonUtility.getClass().getClassLoader().  However, I suspect that this isn\u0027t needed at all, provided the file name has enough path components.",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_cf83d402",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-29T21:45:55Z",
+      "side": 1,
+      "message": "Two types of files are being loaded.\n1) Files created by the tests\n2) Files in the src/test/resources directory via relative path from project\nI am not sure how the relative path files can be loaded in a non-specific way without the classloader.",
+      "parentUuid": "9adffdf1_af47701c",
       "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
