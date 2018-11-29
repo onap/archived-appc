@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_cf9af462",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T21:57:48Z",
+      "side": 1,
+      "message": "FileUtils.readFileToString() will work, too - rather than just extracting the code, why not remove it altogether and use an already-existing library instead?  Less code to maintain.",
+      "parentUuid": "9adffdf1_0f8a3c1b",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_af47701c",
         "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
         "patchSetId": 5
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Two types of files are being loaded.\n1) Files created by the tests\n2) Files in the src/test/resources directory via relative path from project\nI am not sure how the relative path files can be loaded in a non-specific way without the classloader.",
       "parentUuid": "9adffdf1_af47701c",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_af9f704f",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T21:57:48Z",
+      "side": 1,
+      "message": "since the files actually exist on disk, it shouldn\u0027t be a problem - just need to get the path correct.  Perhaps \"src/test/resources/tosca/xxx.json\" would work.",
+      "parentUuid": "9adffdf1_cf83d402",
       "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
