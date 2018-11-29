@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,15 +25,14 @@
 
 package org.onap.sdnc.config.params.transformer.tosca;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -44,10 +45,10 @@ public class TestArtifactProcessor {
 
     @Test
     public void testArtifactProcessor() throws IOException, ArtifactProcessorException {
-
         ArtifactProcessor arp = ArtifactProcessorFactory.getArtifactProcessor();
-
-        String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
+        String pdString = FileUtils.readFileToString(
+                new File("src/test/resources/tosca/ExamplePropertyDefinition.yml"),
+                Charset.defaultCharset());
         OutputStream outstream = null;
 
         File tempFile = temporaryFolder.newFile("TestTosca.yml");
@@ -56,9 +57,11 @@ public class TestArtifactProcessor {
         outstream.flush();
         outstream.close();
 
-        String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
-        String toscaString = getFileContent(tempFile);
-        Assert.assertEquals(expectedTosca, toscaString);
+        String expectedTosca = FileUtils.readFileToString(
+                new File("src/test/resources/tosca/ExpectedTosca.yml"),
+                StandardCharsets.UTF_8);
+        String toscaString = FileUtils.readFileToString(tempFile, StandardCharsets.UTF_8);
+        Assert.assertEquals(expectedTosca.replaceAll("\\r\\n", "\n"), toscaString.replaceAll("\\r\\n", "\n"));
     }
 
     @Test
@@ -67,7 +70,9 @@ public class TestArtifactProcessor {
 
         ArtifactProcessor arp = ArtifactProcessorFactory.getArtifactProcessor();
 
-        String pdString = getFileContent("tosca/ExamplePropertyDefinition.yml");
+        String pdString = FileUtils.readFileToString(
+                new File("src/test/resources/tosca/ExamplePropertyDefinition.yml"),
+                Charset.defaultCharset());
         OutputStream outstream = null;
 
         outstream = new ByteArrayOutputStream();
@@ -75,38 +80,10 @@ public class TestArtifactProcessor {
         outstream.flush();
         outstream.close();
 
-        String expectedTosca = getFileContent("tosca/ExpectedTosca.yml");
+        String expectedTosca = FileUtils.readFileToString(
+                new File("src/test/resources/tosca/ExpectedTosca.yml"),
+                Charset.defaultCharset());
         String toscaString = outstream.toString();
-    }
-
-    private String getFileContent(String fileName) throws IOException {
-        ClassLoader classLoader = new TestArtifactProcessor().getClass().getClassLoader();
-        InputStream is = new FileInputStream(classLoader.getResource(fileName).getFile());
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
-    }
-
-    private String getFileContent(File file) throws IOException {
-        InputStream is = new FileInputStream(file);
-        BufferedReader buf = new BufferedReader(new InputStreamReader(is));
-        String line = buf.readLine();
-        StringBuilder sb = new StringBuilder();
-
-        while (line != null) {
-            sb.append(line).append("\n");
-            line = buf.readLine();
-        }
-        String fileString = sb.toString();
-        is.close();
-        return fileString;
+        Assert.assertEquals(expectedTosca.replaceAll("\\r\\n", "\n"), toscaString.replaceAll("\\r\\n", "\n"));
     }
 }
