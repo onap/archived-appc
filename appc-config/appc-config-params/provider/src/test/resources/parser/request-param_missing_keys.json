@@ -1,0 +1,6 @@
+{
+                "LOCAL_CORE_ALT_IP_ADDR": "0.0.0.0",
+                "REMOTE_CORE_ALT_IP_ADDR": "value",
+                "REMOTE_BILLING_IP_ADDR": "0.0.0.0",
+                "CORE_NETWORK_PLEN": "32"
+}
