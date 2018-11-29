@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_0f147c9e",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-29T23:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_cf9af462",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_af47701c",
         "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
         "patchSetId": 5
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "since the files actually exist on disk, it shouldn\u0027t be a problem - just need to get the path correct.  Perhaps \"src/test/resources/tosca/xxx.json\" would work.",
       "parentUuid": "9adffdf1_cf83d402",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2f1700a5",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-29T23:19:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_af9f704f",
       "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
