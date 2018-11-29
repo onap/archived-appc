@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_4f6da497",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T21:21:06Z",
+      "side": 1,
+      "message": "Pretty sure this class is not needed: IOUtils.readFileAsString() should do the job",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_af47701c",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/CommonUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-29T21:21:06Z",
+      "side": 1,
+      "message": "I would prefer to keep the getFileContent(fileName) method, rather than repeating the classloader/resource stuff in all of the invoking methods.  My original thought was: is it really necessary to do the classloader/resource stuff at all?  If so, then can probably just use CommonUtility.getClass().getClassLoader().  However, I suspect that this isn\u0027t needed at all, provided the file name has enough path components.",
+      "revId": "eb4833633f0448a04ea699d2438c6d51a430dd22",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
