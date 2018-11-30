@@ -168,4 +168,20 @@ public class TimeTest {
         Date expected=new Date("02/09/2004");
         assertEquals(expected, actual);
     }
+    
+    @Test
+    public void testToXmlCalendar()
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+
+        cal.set(Calendar.YEAR, 2004);
+        cal.set(Calendar.MONTH, 12);
+        cal.set(Calendar.DATE, 9);
+
+        Date date = cal.getTime();
+        XMLGregorianCalendar calendar= Time.toXMLCalendar(date);
+        assertEquals(2005, calendar.getYear());
+        
+    }
 }
