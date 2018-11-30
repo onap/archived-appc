@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_a56eb194",
+        "filename": "appc-config/appc-config-params/provider/src/main/java/org/onap/sdnc/config/params/transformer/ArtificatTransformer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-11-30T07:04:03Z",
+      "side": 1,
+      "message": "How do you know those two methods removed are unused? or even we are not using in the future.",
+      "range": {
+        "startLine": 67,
+        "startChar": 33,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "f33fc8f5c43cecfe81e3915b61866f8d355146bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
