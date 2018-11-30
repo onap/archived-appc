@@ -22,6 +22,30 @@
       "revId": "f33fc8f5c43cecfe81e3915b61866f8d355146bb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6572094b",
+        "filename": "appc-config/appc-config-params/provider/src/main/java/org/onap/sdnc/config/params/transformer/ArtificatTransformer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-30T08:03:54Z",
+      "side": 1,
+      "message": "Both methods will always return \u0027null\u0027.",
+      "parentUuid": "9adffdf1_a56eb194",
+      "range": {
+        "startLine": 67,
+        "startChar": 33,
+        "endLine": 67,
+        "endChar": 34
+      },
+      "revId": "f33fc8f5c43cecfe81e3915b61866f8d355146bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
