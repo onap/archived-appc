@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_e513590b",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-11-30T07:15:39Z",
+      "side": 1,
+      "message": "can we add more detail for the exception?",
+      "range": {
+        "startLine": 153,
+        "startChar": 35,
+        "endLine": 153,
+        "endChar": 37
+      },
+      "revId": "b00c7b5167a74bec4108d91539147cc63c00334d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_85fa8dbb",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-11-30T07:15:39Z",
+      "side": 1,
+      "message": "can we add more detail for the exception?",
+      "range": {
+        "startLine": 171,
+        "startChar": 26,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "b00c7b5167a74bec4108d91539147cc63c00334d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a5f551cc",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-11-30T07:15:39Z",
+      "side": 1,
+      "message": "can we add more detail for the exception?",
+      "range": {
+        "startLine": 222,
+        "startChar": 34,
+        "endLine": 222,
+        "endChar": 43
+      },
+      "revId": "b00c7b5167a74bec4108d91539147cc63c00334d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
