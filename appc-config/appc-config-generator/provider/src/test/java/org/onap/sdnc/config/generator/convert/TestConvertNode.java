@@ -27,15 +27,18 @@ package org.onap.sdnc.config.generator.convert;
 
 import static org.junit.Assert.assertEquals; 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.sdnc.config.generator.ConfigGeneratorConstant;
 import org.onap.sdnc.config.generator.merge.TestMergeNode;
-import org.powermock.reflect.Whitebox;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
@@ -43,91 +46,165 @@ public class TestConvertNode {
     private static final EELFLogger log =
             EELFManager.getInstance().getLogger(TestConvertNode.class);
 
-    @Test(expected = Exception.class)
-    public void testPayloadParametersConfig() throws Exception {
+    private ConvertNode convertNode = new ConvertNode();
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Test
+    public void testConvertJson2DGContextFailure() throws SvcLogicException, IOException {
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> inParams = new HashMap<String, String>();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_IS_ESCAPED, "N");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
-                "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_IS_ESCAPED, "Y");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("A JSONObject text must begin with '{'");
         convertJson2Context("convert/payload_parameters_config.json", inParams, ctx);
-        Whitebox.invokeMethod("convertJson2Context", "convert/payload_parameters_config.json",
-                inParams, ctx);
-        log.info("testPayloadParametersConfig Result: "
-                + ctx.getAttribute("block_configuration-parameters"));
     }
 
     @Test
-    public void testPayloadCliConfig() throws Exception {
+    public void testConvertJson2DGContextSuccess() throws SvcLogicException, IOException {
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_IS_ESCAPED, "N");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
                 "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
         convertJson2Context("convert/payload_cli_config.json", inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
         log.info("testPayloadCliConfig Result: "
                 + ctx.getAttribute("block_configuration-parameters"));
         log.info("testPayloadCliConfig Result: "
                 + ctx.getAttribute("block_configuration.configuration-string"));
     }
 
-    @Test(expected = Exception.class)
-    public void testPayloadXMLConfig() throws Exception {
+    @Test
+    public void testEscapeDataForJsonDataType() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
         Map<String, String> inParams = new HashMap<String, String>();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_IS_ESCAPED, "N");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
-                "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
-        convertJson2Context("convert/payload_xml_config.json", inParams, ctx);
-
-        log.info("testPayloadXMLConfig Result: "
-                + ctx.getAttribute("block_configuration-parameters"));
-        log.info("testPayloadXMLConfig Result: "
-                + ctx.getAttribute("block_configuration.configuration-string"));
-    }
-
-    @Test(expected = Exception.class)
-    public void testPayloadJsonConfig() throws Exception {
-        SvcLogicContext ctx = new SvcLogicContext();
-        Map<String, String> inParams = new HashMap<String, String>();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_IS_ESCAPED, "N");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_BLOCK_KEYS,
-                "configuration-parameters,configuration.configuration-json,configuration.configuration-string");
-        convertJson2Context("convert/payload_json_config.json", inParams, ctx);
-        log.info("testPayloadJsonConfig Result: "
-                + ctx.getAttribute("block_configuration-parameters"));
-        log.info("testPayloadJsonConfig Result: "
-                + ctx.getAttribute("block_configuration.configuration-json"));
-    }
-
-    private void convertJson2Context(String jsonFile, Map<String, String> inParams,
-            SvcLogicContext ctx) throws IOException, SvcLogicException {
-        ConvertNode convertNode = new ConvertNode();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA,"{}");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_JSON);
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        String jsonData = IOUtils
-                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream(jsonFile));
-        log.info("TestConvertNode.testConvertJson2DGContext()" + jsonData);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
-        convertNode.convertJson2DGContext(inParams, ctx);
-        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
-                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
-    }
-
-    @Test(expected = Exception.class)
-    public void testEscapeData() throws Exception {
-        SvcLogicContext ctx = new SvcLogicContext();
-        Map<String, String> inParams = new HashMap<String, String>();
-        String unescapeData = IOUtils.toString(TestMergeNode.class.getClassLoader()
-                .getResourceAsStream("convert/escape/config_ssc.txt"));
-        log.info("TestConvertNode.testEscapeData() unescapeData :" + unescapeData);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, unescapeData);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE,
-                ConfigGeneratorConstant.DATA_TYPE_SQL);
-        ConvertNode convertNode = new ConvertNode();
         convertNode.escapeData(inParams, ctx);
-        log.info("testEscapeData Result: "
-                + ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_ESCAPE_DATA));
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testEscapeDataForXMLDataType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA,"<>");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_XML);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        convertNode.escapeData(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testEscapeDataForSQLDataType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA,"SHOW TABLES;");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_SQL);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        convertNode.escapeData(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+            ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testEscapeDataForUnsupportedDataType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA,"lorum ipsem");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_TEXT);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Datatype (dataType) param  value (TEXT)is not supported  for escapeData conversion.");
+        convertNode.escapeData(inParams, ctx);
+    }
+
+    @Test
+    public void testUnescapeDataForJsonDataType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA,"{}");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_JSON);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        convertNode.unEscapeData(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testUnescapeDataForXMLDataType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA,"<>");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_XML);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        convertNode.unEscapeData(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute(ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testUnescapeDataForUnsupportedDataType() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA,"lorum ipsem");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_TEXT);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Datatype (dataType) param  value (TEXT)is not supported  for unEscapeData conversion.");
+        convertNode.unEscapeData(inParams, ctx);
+    }
+
+    @Test
+    public void testUnescapeDataForNoDataSent() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_TEXT);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Escape (escapeData) param is missing for escapeData conversion.");
+        convertNode.unEscapeData(inParams, ctx);
+    }
+
+    @Test
+    public void testUnescapeDataForNoDataTypeSent() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA,"lorum ipsem");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Datatype (dataType)param is missing for escapeData conversion.");
+        convertNode.unEscapeData(inParams, ctx);
+    }
+
+    @Test
+    public void testEscapeDataForNoDataSent() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, ConfigGeneratorConstant.DATA_TYPE_TEXT);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Unescape (unEscapeData) param is missing for escapeData conversion.");
+        convertNode.escapeData(inParams, ctx);
+    }
+
+    @Test
+    public void testEscapeDataForNoDataTypeSent() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA,"lorum ipsem");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Datatype (dataType)param is missing for escapeData conversion.");
+        convertNode.escapeData(inParams, ctx);
     }
 
     @Test
@@ -144,86 +221,37 @@ public class TestConvertNode {
         inParams.put("contextKey", "tmp.uploadConfigInfo");
         convertNode.convertContextToJson(inParams, ctx);
         log.info("JSON CONTENT " + ctx.getAttribute("test.jsonContent"));
-        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
-                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
-
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS, ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
     }
 
-    @Test(expected = Exception.class)
-    public void testunEscapeData() throws Exception {
-        ConvertNode convertNode = new ConvertNode();
-        Map<String, String> inParams = new HashMap<String, String>();
-        SvcLogicContext ctx = new SvcLogicContext();
-        log.trace("Received unEscapeData call with params : " + inParams);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA, "//");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "String");
-        convertNode.unEscapeData(inParams, ctx);
-
-    }
-    
-    @Test(expected = SvcLogicException.class)
-    public void testunEscapeDataForInvalidDataType() throws Exception {
-        ConvertNode convertNode = new ConvertNode();
-        Map<String, String> inParams = new HashMap<String, String>();
-        SvcLogicContext ctx = new SvcLogicContext();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, "//");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "TXT");
-        convertNode.escapeData(inParams, ctx);
-
-    }
-    
-    @Test(expected = SvcLogicException.class)
-    public void testunEscapeDataForEmptyDataType() throws Exception {
-        ConvertNode convertNode = new ConvertNode();
-        Map<String, String> inParams = new HashMap<String, String>();
-        SvcLogicContext ctx = new SvcLogicContext();
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, "//");
-        convertNode.escapeData(inParams, ctx);
-
-    }
-    
     @Test
-    public void testEscapeDataForValidUnescapeDataString() throws Exception {
-        SvcLogicContext ctx = new SvcLogicContext();
+    public void testConvertContextToJsonFailure() throws Exception {
+        SvcLogicContext ctx = Mockito.spy(new SvcLogicContext());
+        Mockito.doThrow(new NullPointerException("Mock Exception")).when(ctx).getAttributeKeySet();
+        ctx.setAttribute("tmp.uploadConfigInfo.UPLOAD-CONFIG-ID", "200");
+        ctx.setAttribute("tmp.uploadConfigInfo.VNF-ID", "00000");
+        ctx.setAttribute("tmp.uploadConfigInfo.test[0]", "test0");
+        ctx.setAttribute("tmp.uploadConfigInfo.test[1]", "test1");
+        ctx.setAttribute("tmp.uploadConfigInfo.test[2]", null);
+        ConvertNode convertNode = new ConvertNode();
         Map<String, String> inParams = new HashMap<String, String>();
-        String unescapeData = "testUnescapeData";
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        inParams.put("contextKey", "tmp.uploadConfigInfo");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Mock Exception");
+        convertNode.convertContextToJson(inParams, ctx);
+    }
+
+    private void convertJson2Context(String jsonFile, Map<String, String> inParams,
+            SvcLogicContext ctx) throws IOException, SvcLogicException {
+        ConvertNode convertNode = new ConvertNode();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_UNESCAPE_DATA, unescapeData);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE,
-                ConfigGeneratorConstant.DATA_TYPE_SQL);
-        ConvertNode convertNode = new ConvertNode();
-        convertNode.escapeData(inParams, ctx);
-        assertEquals(unescapeData, ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_ESCAPE_DATA));
+        String jsonData = IOUtils
+                .toString(TestMergeNode.class.getClassLoader().getResourceAsStream(jsonFile),
+                        StandardCharsets.UTF_8);
+        log.info("TestConvertNode.testConvertJson2DGContext()" + jsonData);
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA, jsonData);
+        convertNode.convertJson2DGContext(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS, ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
     }
-  
-     @Test
-    public void testunEscapeDataForJsonDataType() throws Exception {
-        ConvertNode convertNode = new ConvertNode();
-        Map<String, String> inParams = new HashMap<String, String>();
-        SvcLogicContext ctx = new SvcLogicContext();
-        log.trace("Received unEscapeData call with params : " + inParams);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA, "//");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "JSON");
-        convertNode.unEscapeData(inParams, ctx);
-        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,ctx.getAttribute("tmp." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
-
-    }
-    
-    @Test
-    public void testunEscapeDataForXmlDataType() throws Exception {
-        ConvertNode convertNode = new ConvertNode();
-        Map<String, String> inParams = new HashMap<String, String>();
-        SvcLogicContext ctx = new SvcLogicContext();
-        log.trace("Received unEscapeData call with params : " + inParams);
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "tmp");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_ESCAPE_DATA, "//");
-        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_DATA_TYPE, "XML");
-        convertNode.unEscapeData(inParams, ctx);
-        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,ctx.getAttribute("tmp." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
-    }
-    
 }
