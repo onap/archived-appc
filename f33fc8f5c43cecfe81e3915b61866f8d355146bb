@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_80683b88",
+        "filename": "appc-config/appc-config-params/provider/src/main/java/org/onap/sdnc/config/params/transformer/ArtificatTransformer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T13:43:07Z",
+      "side": 1,
+      "message": "\"Modifications\"",
+      "revId": "f33fc8f5c43cecfe81e3915b61866f8d355146bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_a56eb194",
         "filename": "appc-config/appc-config-params/provider/src/main/java/org/onap/sdnc/config/params/transformer/ArtificatTransformer.java",
         "patchSetId": 8
@@ -43,6 +60,23 @@
         "endLine": 67,
         "endChar": 34
       },
+      "revId": "f33fc8f5c43cecfe81e3915b61866f8d355146bb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_20070fcc",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/transformer/TestArtifactTransformer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T13:43:07Z",
+      "side": 1,
+      "message": "I learned something new this week - thanks! ;-)",
       "revId": "f33fc8f5c43cecfe81e3915b61866f8d355146bb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
