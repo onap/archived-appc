@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_3b797e93",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/convert/TestConvertNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T15:33:22Z",
+      "side": 1,
+      "message": "something else I learned about this week - thanks!",
+      "revId": "34ee16e1476accd4a42bcaff51abbb1045680d0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_dba63210",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/convert/TestConvertNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T15:33:22Z",
+      "side": 1,
+      "message": "arguments to assertEquals should be swapped (through-out this file)",
+      "revId": "34ee16e1476accd4a42bcaff51abbb1045680d0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_db7dd26f",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/reader/TestReaderNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T15:33:22Z",
+      "side": 1,
+      "message": "assertEquals arguments are backwards",
+      "revId": "34ee16e1476accd4a42bcaff51abbb1045680d0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_bb924e9d",
+        "filename": "appc-config/appc-config-generator/provider/src/test/java/org/onap/sdnc/config/generator/transform/TestXSLTTransformerNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T15:33:22Z",
+      "side": 1,
+      "message": "assertEquals arguments are backwards",
+      "revId": "34ee16e1476accd4a42bcaff51abbb1045680d0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
