@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -123,5 +125,12 @@ public class ConfigurationHelperTest {
         Assert.assertEquals("PropertyResult should martch propertyValue", propValue, propResult[0]);
 
         resetOrigConfig();
+    }
+    
+    @Test
+    public void testGetOAMOperationTimeoutValue()
+    {
+        long timeoutValue = configurationHelper.getOAMOperationTimeoutValue(null);
+        Assert.assertEquals(60000, timeoutValue);
     }
 }
