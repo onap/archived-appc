@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_605677d4",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T13:37:32Z",
+      "side": 1,
+      "message": "I think checkstyle would complain about the name: testToXMLCalendar \u003d\u003e testToXmlCalendar",
+      "revId": "5f471e088794018aff36fab6b5c6147a4d8d174e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_80511bda",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-11-30T13:37:32Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces.\nspaces around \"\u003d\"",
+      "revId": "5f471e088794018aff36fab6b5c6147a4d8d174e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
