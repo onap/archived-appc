@@ -33,6 +33,29 @@
       "revId": "bcaa59d249b3b27dc2c6ba49a951d49b3ade0783",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_3b7e5ee5",
+        "filename": "appc-oam/appc-oam-bundle/src/test/java/org/onap/appc/oam/util/ConfigurationHelperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-11-30T17:38:43Z",
+      "side": 1,
+      "message": "If you pass in \u0027null\u0027 to the method and assertEquals 60000 you will increase the coverage to over 80% rather than 72%",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 48
+      },
+      "revId": "bcaa59d249b3b27dc2c6ba49a951d49b3ade0783",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
