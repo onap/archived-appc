@@ -46,8 +46,8 @@ public class TestFileWriterNode {
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         SvcLogicContext ctx = new SvcLogicContext();
         FileWriterNode.writeFile(inParams, ctx);
-        assertEquals(ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS),
-                ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
     }
     
     @Test(expected=SvcLogicException.class)
