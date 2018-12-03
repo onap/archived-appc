@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_f5a222ad",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-12-03T11:52:21Z",
+      "side": 1,
+      "message": "ohh..my bad...added @SuppressWarnings(\"deprecation\") now.",
+      "parentUuid": "9adffdf1_35e8aa0f",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 15
+      },
+      "revId": "6ef5db3db156e1591c326814c307bdcf78781df0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_55e3ee32",
         "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
         "patchSetId": 2
