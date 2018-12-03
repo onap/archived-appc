@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_f57a22f0",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-03T13:33:16Z",
+      "side": 1,
+      "message": "Alternatively as an improvement the class could declare a member variable using the time API and remove the calls to the deprecated constructor by replacing the calls to it throughout the class.\ne.g. \nprivate Date testDate \u003d Date.from(LocalDate.parse(\"02/09/2004\", DateTimeFormatter.ofPattern(\"MM/dd/yyyy\")).\n          atStartOfDay(ZoneId.systemDefault()).toInstant());\n...\n...\nXMLGregorianCalendar calendar\u003d Time.toXMLCalendar(testDate);",
+      "range": {
+        "startLine": 172,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 36
+      },
+      "revId": "1bdb48804b509bc0d666703faa11b6fa58f7cab1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
