@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_7172c74a",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-12-03T11:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_605677d4",
+      "revId": "5f471e088794018aff36fab6b5c6147a4d8d174e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_80511bda",
         "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
         "patchSetId": 1
@@ -47,6 +65,48 @@
       "writtenOn": "2018-11-30T17:46:51Z",
       "side": 1,
       "message": "Constructor is deprecated.",
+      "range": {
+        "startLine": 175,
+        "startChar": 55,
+        "endLine": 175,
+        "endChar": 77
+      },
+      "revId": "5f471e088794018aff36fab6b5c6147a4d8d174e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1191fb46",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-12-03T11:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_80511bda",
+      "revId": "5f471e088794018aff36fab6b5c6147a4d8d174e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_31943f36",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-12-03T11:52:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_7b738615",
       "range": {
         "startLine": 175,
         "startChar": 55,
