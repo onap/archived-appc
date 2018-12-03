@@ -84,15 +84,14 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             log.debug("Cloud Owner" + cloudOwnerValue);
             log.debug("CloudRegionId" + cloudOwnerValue);
-            SvcLogicContext cloudCtx = new SvcLogicContext();
             Map<String, String> paramsCloud = new HashMap<String, String>();
             paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                     inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
 
             if(StringUtils.isNotBlank(cloudOwnerValue)&&StringUtils.isNotBlank(cloudRegionValue)) {
 
-                paramsCloud.put("cloudOwner", cloudOwnerValue);
-                paramsCloud.put("cloudRegionId", cloudRegionValue);
+                paramsCloud.put(PARAM_CLOUD_OWNER, cloudOwnerValue);
+                paramsCloud.put(PARAM_CLOUD_REGION_ID, cloudRegionValue);
 
                 aai.getIdentityUrl(paramsCloud, ctx);
             }
@@ -511,7 +510,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         return params;
     }
 
-    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) {
         log.info("vfModuleInfo()::Retrieving vf-module information :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
@@ -571,7 +570,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
     }
 
-    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) {
         log.info("getFormattedValue()::Formatting values :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
