@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyrigh (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,125 +25,125 @@
 
 package org.onap.appc.instar.node;
 
-import static org.junit.Assert.assertTrue;
-
-import java.net.URI;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.SSLContext;
-import javax.ws.rs.HttpMethod;
-
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
+import org.jline.utils.Log;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.powermock.api.mockito.PowerMockito;
+import org.mockito.Mockito;
 import org.onap.appc.aai.utils.AaiClientConstant;
-import org.onap.appc.instar.dme2client.SecureRestClientTrustManager;
+import org.onap.appc.instar.interfaceImpl.InstarRestClientImpl;
+import org.onap.appc.instar.interfaceImpl.InterfaceIpAddressImpl;
+import org.onap.appc.instar.interfaces.RuleHandlerInterface;
 import org.onap.appc.instar.utils.InstarClientConstant;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 
 public class TestInstarClientNode {
 
     //ONAP Migration
 
-    @Test(expected=Exception.class)
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Test
     public void testInstarClientNode() throws Exception {
         SvcLogicContext ctx = new SvcLogicContext();
-        String key_conetent = IOUtils.toString(TestInstarClientNode.class.getClassLoader().getResourceAsStream("templates/sampleKeyContents"), Charset.defaultCharset());
+        String key_content = "{\"name\":\"LOCAL_ACCESS_IP_ADDR\",\"description\":\"this is the node0 tacplus server IP address\",\"type\":"
+                + "\"ipv4_address\",\"required\":true,\"source\":\"INSTAR\",\"rule-type\":\"interface-ip-address\",\"default\":null,\"request-keys\":"
+                + "null,\"response-keys\":[{\"unique-key-name\":\"addressfqdn\",\"unique-key-value\":\"00000000000000\",\"field-key-name\":\"ipaddress-v4\"}]}";
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        inParams.put(InstarClientConstant.INSTAR_KEYS, "LOCAL_ACCESS_IP_ADDR");
+        inParams.put("operationName", InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME);
+        ctx.setAttribute("INSTAR.LOCAL_ACCESS_IP_ADDR", key_content);
+        ctx.setAttribute(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        ctx.setAttribute(InstarClientConstant.VNF_NAME, "basx0003v");
+        InstarClientNode icn  = PowerMockito.spy(new InstarClientNode());
+        RuleHandlerInterface mockRuleHandler = Mockito.mock(InterfaceIpAddressImpl.class);
+        Mockito.doReturn(mockRuleHandler).when(icn).createHandler(Mockito.any(), Mockito.any());
+        Mockito.doNothing().when(mockRuleHandler).processRule();
+        icn.getInstarInfo(inParams, ctx);
+        Log.info(ctx.getStatus());
+        Assert.assertEquals(InstarClientConstant.OUTPUT_STATUS_SUCCESS, ctx.getAttribute("" + InstarClientConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testInstarClientNodeFailure() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        String key_content = "{\"name\":\"LOCAL_ACCESS_IP_ADDR\",\"description\":\"this is the node0 tacplus server IP address\",\"type\":"
+                + "\"ipv4_address\",\"required\":true,\"source\":\"INSTAR\",\"rule-type\":\"NON_INTERFACE_IP_ADDRESS\",\"default\":null,\"request-keys\":"
+                + "null,\"response-keys\":[{\"unique-key-name\":\"addressfqdn\",\"unique-key-value\":\"00000000000000\",\"field-key-name\":\"ipaddress-v4\"}]}";
+        Log.info(key_content);
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "TEST");
         inParams.put(InstarClientConstant.INSTAR_KEYS, "LOCAL_ACCESS_IP_ADDR");
         inParams.put("operationName", InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME);
-        ctx.setAttribute("INSTAR.LOCAL_ACCESS_IP_ADDR", key_conetent);
+        ctx.setAttribute("INSTAR.LOCAL_ACCESS_IP_ADDR", key_content);
         ctx.setAttribute(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "TEST");
         ctx.setAttribute(InstarClientConstant.VNF_NAME, "basx0003v");
         InstarClientNode icn  = new InstarClientNode();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("No Rule Defined to process :");
         icn.getInstarInfo(inParams, ctx);
-        String address = (new JSONObject(ctx.getAttribute("TEST." + InstarClientConstant.INSTAR_KEY_VALUES))).getString("LOCAL_ACCESS_IP_ADDR");
     }
-    @Test(expected=Exception.class)
+
+    @Test
     public void testInstarData() throws Exception {
-        InstarClientNode inNode = new InstarClientNode();
+         InstarClientNode icn  = Mockito.spy(new InstarClientNode());
          SvcLogicContext ctx  = new SvcLogicContext ();
          Map<String, String> inParams = new HashMap<String, String>();
-
+         InstarRestClientImpl mockRestClient = Mockito.mock(InstarRestClientImpl.class);
+         Mockito.doReturn(mockRestClient).when(icn).createRestClientInterface(Mockito.any());
+         Mockito.doReturn("Test-data").when(mockRestClient).sendRequest(Mockito.anyString());
          inParams.put(InstarClientConstant.VNF_NAME, "basx0003v");
          inParams.put("operationName", InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME);
-         inNode.getInstarData(inParams, ctx);
-        }
+         icn.getInstarData(inParams, ctx);
+         Assert.assertEquals(InstarClientConstant.OUTPUT_STATUS_SUCCESS, ctx.getAttribute("" + InstarClientConstant.OUTPUT_PARAM_STATUS));
+         Assert.assertEquals("Test-data", ctx.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
+    }
+
+    @Test
+    public void testInstarDataFailure() throws Exception {
+         InstarClientNode icn  = new InstarClientNode();
+         SvcLogicContext ctx  = new SvcLogicContext ();
+         Map<String, String> inParams = new HashMap<String, String>();
+         inParams.put(InstarClientConstant.VNF_NAME, "basx0003v");
+         inParams.put("operationName", InstarClientConstant.OPERATION_GET_IPADDRESS_BY_VNF_NAME);
+         expectedEx.expect(SvcLogicException.class);
+         expectedEx.expectMessage("Cannot find Property file -SDNC_CONFIG_DIR");
+         icn.getInstarData(inParams, ctx);
+    }
 
     @Test
     public void  TestGetAaiInfo() throws Exception {
         InstarClientNode aaiNode=new InstarClientNode();
         Map<String, String> inParams=new HashMap<String, String> ();
         SvcLogicContext ctx=new SvcLogicContext();
-        String keyVals=new String("[\"LOCAL_CORE_ALT_IP_ADDR\",\"REMOTE_ACCESS_IP_ADDR\",\"PARAMETER3\",\"PARAMETER4\"]");
+        String keyVals = new String("[\"vnf_name\"]");
         inParams.put("aaiKeys",keyVals);
         inParams.put("responsePrefix","test");
-        String yamlParameterString=IOUtils.toString(TestInstarClientNode.class.getClassLoader().getResourceAsStream("./YamlParameter.txt"), Charset.defaultCharset());
-        ctx.setAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." +  "LOCAL_CORE_ALT_IP_ADDR",yamlParameterString);
-        String yamlParameterString2=IOUtils.toString(TestInstarClientNode.class.getClassLoader().getResourceAsStream("./YamlParameter2.txt"), Charset.defaultCharset());
-        ctx.setAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." +  "REMOTE_ACCESS_IP_ADDR",yamlParameterString2);
-        String yamlParameterString3=IOUtils.toString(TestInstarClientNode.class.getClassLoader().getResourceAsStream("./YamlParameter3.txt"), Charset.defaultCharset());
-        ctx.setAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." +  "PARAMETER3",yamlParameterString3);
-        String yamlParameterString4=IOUtils.toString(TestInstarClientNode.class.getClassLoader().getResourceAsStream("./YamlParameter4.txt"), Charset.defaultCharset());
-        ctx.setAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." +  "PARAMETER4",yamlParameterString4);
-        stubAaiVnfInfoData(ctx);
+        String parameterString="{\"name\":\"vnf_name\",\"description\":null,\"type\":null,\"required\":false,\"source\":\"A&AI\","
+                + "\"rule-type\":\"vnf-name\",\"default\":null,\"request-keys\":null,\"response-keys\":[{\"unique-key-name\":\"parent-name\","
+                + "\"unique-key-value\":\"vnf\",\"field-key-name\":\"vnf-name\",\"filter-by-field\":null,\"filter-by-value\":null}]}";
+        ctx.setAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." +  "vnf_name",parameterString);
         aaiNode.getAaiInfo(inParams, ctx);
-        String [] valToCompare={"\"LOCAL_CORE_ALT_IP_ADDR\":\"testVnf\"",
-                                "\"REMOTE_ACCESS_IP_ADDR\":\"testVnfc2,testVnfc3\"",
-                                "\"PARAM3\":\"testVnfcIpv4Address1\"",
-                                "\"PARAM4\":\"server1,server2,server3\""};
-        String value=ctx.getAttribute("test."+AaiClientConstant.AAI_KEY_VALUES);
-        boolean pass=false;
-        for (int i=0;i<valToCompare.length;i++) {
-            if (!StringUtils.contains(value,valToCompare[i] )) {
-                //System.out.println(value+"....... "+valToCompare[i].toString());
-                pass=false;
-                break;
-            }
-            else {
-                pass=true;
-            }
-        }
-        assertTrue(pass);
+        Assert.assertEquals(InstarClientConstant.OUTPUT_STATUS_SUCCESS, ctx.getAttribute("test." + InstarClientConstant.OUTPUT_PARAM_STATUS));
     }
 
-    public void stubAaiVnfInfoData(SvcLogicContext context) {
-
-        context.setAttribute("tmp.vnfInfo.vm-count","3");
-        context.setAttribute("tmp.vnfInfo.vnf.vnf-name","testVnf");
-        context.setAttribute("tmp.vnfInfo.vnf.vnf-oam-ipv4-address","test-ipv4-address");
-        context.setAttribute("tmp.vnfInfo.vm[0].vserver-name","server1");
-        context.setAttribute("tmp.vnfInfo.vm[0].vserver-id","serverId1");
-        context.setAttribute("tmp.vnfInfo.vm[0].vnfc-count","1");
-        context.setAttribute("tmp.vnfInfo.vm[0].vnfc-name","testVnfc1");
-        context.setAttribute("tmp.vnfInfo.vm[0].vnfc-function-code","msc");
-        context.setAttribute("tmp.vnfInfo.vm[0].vnfc-ipaddress-v4-oam-vip","testVnfcIpv4Address1");
-
-        context.setAttribute("tmp.vnfInfo.vm[1].vserver-name","server2");
-        context.setAttribute("tmp.vnfInfo.vm[1].vserver-id","serverId2");
-        context.setAttribute("tmp.vnfInfo.vm[1].vnfc-count","1");
-        context.setAttribute("tmp.vnfInfo.vm[1].vnfc-name","testVnfc2");
-        context.setAttribute("tmp.vnfInfo.vm[1].vnfc-function-code","testFnCode");
-        context.setAttribute("tmp.vnfInfo.vm[1].vnfc-ipaddress-v4-oam-vip","testVnfcIpv4Address2");
-
-        context.setAttribute("tmp.vnfInfo.vm[2].vserver-name","server3");
-        context.setAttribute("tmp.vnfInfo.vm[2].vserver-id","serverId3");
-        context.setAttribute("tmp.vnfInfo.vm[2].vnfc-count","1");
-        context.setAttribute("tmp.vnfInfo.vm[2].vnfc-name","testVnfc3");
-        context.setAttribute("tmp.vnfInfo.vm[2].vnfc-function-code","testFnCode");
-        context.setAttribute("tmp.vnfInfo.vm[2].vnfc-ipaddress-v4-oam-vip","testVnfcIpv4Address3");
-
+    @Test
+    public void  TestGetAaiInfoFailure() throws Exception {
+        InstarClientNode aaiNode=new InstarClientNode();
+        Map<String, String> inParams= Mockito.spy(new HashMap<String, String> ());
+        inParams.put(InstarClientConstant.INPUT_PARAM_RESPONSE_PRIFIX, "");
+        Mockito.doThrow(new RuntimeException("Test-exception")).when(inParams).get(AaiClientConstant.AAI_KEYS);
+        SvcLogicContext ctx=new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Test-exception");
+        aaiNode.getAaiInfo(inParams, ctx);
     }
 }
