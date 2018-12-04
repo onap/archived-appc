@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyrigh (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,6 +48,7 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(InstarClientNode.class);
 
+
     public void getInstarInfo(Map<String, String> inParams, SvcLogicContext ctx)
         throws SvcLogicException {
         log.info("Received getInstarInfo call with params : " + inParams);
@@ -57,25 +60,26 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
                 log.info("Processing Key : " + instarKey);
                 log.info("Searching key for  : " + "INSTAR." + instarKey);
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                RuleHandlerInterface handler;
                 log.info("Received Context : " + ctx.getAttribute("INSTAR." + instarKey));
                 Parameter params = mapper
                     .readValue(ctx.getAttribute(InstarClientConstant.SOURCE_SYSTEM_INSTAR + "." + instarKey),
                         Parameter.class);
-
+                RuleHandlerInterface handler;
                 log.info("Processing rule Type : " + params.getRuleType());
                 if (params.getRuleType().equals(InstarClientConstant.INTERFACE_IP_ADDRESS)) {
-                    handler = new InterfaceIpAddressImpl(params, ctx);
+                    handler = createHandler(params, ctx);
                 } else {
                     throw new SvcLogicException("No Rule Defined to process :" + params.getRuleType());
                 }
                 handler.processRule();
             }
             log.info("responsePrefix =" + responsePrefix);
+            log.info("instar key values =" + ctx.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
             ctx.setAttribute(responsePrefix + InstarClientConstant.INSTAR_KEY_VALUES,
                 ctx.getAttribute(InstarClientConstant.INSTAR_KEY_VALUES));
             ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS,
                 InstarClientConstant.OUTPUT_STATUS_SUCCESS);
+            log.info(ctx.getAttribute("TEST." + InstarClientConstant.OUTPUT_PARAM_STATUS));
             ctx.setAttribute(InstarClientConstant.INSTAR_KEY_VALUES, null);
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS,
@@ -88,12 +92,10 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
 
     private static String[] getKeys(String keyString) {
         log.error("Received Key String as :" + keyString);
-
         String key = keyString
             .replace("[", "")
             .replace("]", "")
             .replace("\"", "");
-
         if (key.contains(",")) {
             return key.split(",");
         } else {
@@ -108,14 +110,12 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
         try {
             HashMap<String, String> input = new HashMap<>();
             input.putAll(inParams);
-            RestClientInterface rcINterface = new InstarRestClientImpl(input);
+            RestClientInterface rcINterface = createRestClientInterface(input);
             String response = rcINterface.sendRequest(inParams.get("operationName"));
-
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";
             ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS,
                 InstarClientConstant.OUTPUT_STATUS_SUCCESS);
             ctx.setAttribute(responsePrefix + InstarClientConstant.INSTAR_KEY_VALUES, response);
-
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + InstarClientConstant.OUTPUT_PARAM_STATUS,
                 InstarClientConstant.OUTPUT_STATUS_FAILURE);
@@ -128,6 +128,7 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
     public void getAaiInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.info("Received getAaiInfo call with params : " + inParams);
         String responsePrefix = inParams.get(AaiClientConstant.INPUT_PARAM_RESPONSE_PRIFIX);
+        RuleHandlerInterface handler;
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? responsePrefix + "." : "";
             String[] aaiKeys = getKeys(inParams.get(AaiClientConstant.AAI_KEYS));
@@ -135,7 +136,6 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
                 log.info("Processing Key : " + aaiKey);
                 log.info("Searching key for  : " + "AAI." + aaiKey);
                 ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                RuleHandlerInterface handler;
                 log.info("Received Context : " + ctx.getAttribute("AAI." + aaiKey));
                 Parameter params = mapper.readValue(
                     ctx.getAttribute(AaiClientConstant.SOURCE_SYSTEM_AAI + "." + aaiKey), Parameter.class);
@@ -156,5 +156,13 @@ public class InstarClientNode implements SvcLogicJavaPlugin {
             log.error("Failed processing AAI data", e);
             throw new SvcLogicException(e.getMessage());
         }
+    }
+
+    protected RuleHandlerInterface createHandler(Parameter params, SvcLogicContext ctx) {
+        return new InterfaceIpAddressImpl(params, ctx);
+    }
+
+    protected RestClientInterface createRestClientInterface(Map<String, String> input) {
+        return new InstarRestClientImpl(input);
     }
 }

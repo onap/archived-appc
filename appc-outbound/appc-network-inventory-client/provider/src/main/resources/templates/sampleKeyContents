@@ -1,1 +1,0 @@
-{"name":"LOCAL_ACCESS_IP_ADDR","description":"this is the node0 tacplus server IP address","type":"ipv4_address","required":true,"source":"INSTAR","rule-type":"interface-ip-address","default":null,"request-keys":null,"response-keys":[{"unique-key-name":"addressfqdn","unique-key-value":"00000000000000","field-key-name":"ipaddress-v4"}]}
