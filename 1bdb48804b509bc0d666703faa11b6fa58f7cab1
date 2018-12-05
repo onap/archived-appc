@@ -39,6 +39,24 @@
       "revId": "1bdb48804b509bc0d666703faa11b6fa58f7cab1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0ac1bde3",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2018-12-05T11:41:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_d587ded5",
+      "revId": "1bdb48804b509bc0d666703faa11b6fa58f7cab1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
