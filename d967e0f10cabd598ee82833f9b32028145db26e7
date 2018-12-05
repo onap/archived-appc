@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_fed43a48",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/node/InstarClientNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-05T13:55:47Z",
+      "side": 1,
+      "message": "why was this moved out of the \"try\" block?  Why not make it part of line 143?",
+      "revId": "d967e0f10cabd598ee82833f9b32028145db26e7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
