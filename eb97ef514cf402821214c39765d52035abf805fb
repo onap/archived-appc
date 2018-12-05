@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_9e0ace1f",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-05T12:50:17Z",
+      "side": 1,
+      "message": "It should be possible to create a Calendar instance on one line using the GregorianCalendar subclass https://docs.oracle.com/javase/7/docs/api/java/util/GregorianCalendar.html#GregorianCalendar(int,%20int,%20int)",
+      "range": {
+        "startLine": 175,
+        "startChar": 7,
+        "endLine": 180,
+        "endChar": 34
+      },
+      "revId": "eb97ef514cf402821214c39765d52035abf805fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
