@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_1efd7e3a",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-05T15:45:12Z",
+      "side": 1,
+      "message": "class files should only have one class - nest this instead?",
+      "revId": "fc18dcdd2bb110b71317f86086f447522073a0b2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
