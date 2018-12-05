@@ -31,7 +31,7 @@
     </parent>
   <groupId>org.onap.appc</groupId>
   <artifactId>appc-sequence-generator</artifactId>
-  <version>1.4.3-SNAPSHOT</version>
+  <version>1.4.4-SNAPSHOT</version>
   <name>appc-sequence-generator</name>
   <packaging>pom</packaging>
 

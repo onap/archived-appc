@@ -25,7 +25,7 @@
     <parent>
         <groupId>org.onap.appc.plugins</groupId>
         <artifactId>dg-loader</artifactId>
-        <version>1.4.3-SNAPSHOT</version>
+        <version>1.4.4-SNAPSHOT</version>
     </parent>
     <artifactId>dg-loader-features</artifactId>
     <name>Directed Graph Loader - Features</name>

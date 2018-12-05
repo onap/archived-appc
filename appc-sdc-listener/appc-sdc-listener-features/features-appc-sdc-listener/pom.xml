@@ -30,7 +30,7 @@ limitations under the License.
 
     <groupId>org.onap.appc</groupId>
     <artifactId>features-appc-sdc-listener</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.4-SNAPSHOT</version>
     <packaging>feature</packaging>
 
     <name></name>

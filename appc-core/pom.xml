@@ -33,5 +33,5 @@
   	<module>appc-core-features</module>
   	<module>appc-core-installer</module>
   </modules>
-  <version>1.4.3-SNAPSHOT</version>
+  <version>1.4.4-SNAPSHOT</version>
 </project>

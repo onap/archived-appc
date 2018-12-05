@@ -28,7 +28,7 @@
     <parent>
         <groupId>org.onap.appc</groupId>
         <artifactId>appc-dispatcher-common</artifactId>
-        <version>1.4.3-SNAPSHOT</version>
+        <version>1.4.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>appc-ranking-framework-lib</artifactId>

@@ -27,7 +27,7 @@
     <parent>
         <artifactId>appc-java-client</artifactId>
         <groupId>org.onap.appc.client</groupId>
-        <version>1.4.3-SNAPSHOT</version>
+        <version>1.4.4-SNAPSHOT</version>
     </parent>
     <artifactId>client-simulator</artifactId>
 

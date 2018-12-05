@@ -34,7 +34,7 @@
         <groupId>org.onap.appc</groupId>
 
     <artifactId>appc-network-inventory-client-provider</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <version>1.4.4-SNAPSHOT</version>
     <packaging>bundle</packaging>
     <name>APPC Network Client - Provider</name>
 
