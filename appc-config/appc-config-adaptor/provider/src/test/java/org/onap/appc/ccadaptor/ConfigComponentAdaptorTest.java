@@ -8,6 +8,8 @@
  * =============================================================================
  * Modification Copyright (C) 2018 IBM.
  * =============================================================================
+ * Modifications Copyright (C) 2018 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,288 +27,357 @@
 
 package org.onap.appc.ccadaptor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import org.junit.Assert;
+import org.hamcrest.CoreMatchers;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor.ConfigStatus;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.powermock.reflect.Whitebox;
 
+@RunWith(MockitoJUnitRunner.class)
 public class ConfigComponentAdaptorTest {
 
+    private static final String TERMINATE_COMMAND = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            + "\n    <rpc message-id=\"terminateConnection\" xmlns:netconf=\"urn:ietf:params:xml:ns:netconf:base:1.0\" "
+            + "xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\">\n <close-session/> \n </rpc>\n ]]>]]>";
+    private SshJcraftWrapper mockWrapper;
 
-    @Test
-    public void testGetCliRunningConfig() {
-        Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = ("get_config_template");
-        String key = "GetCliRunningConfig";
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
-        parameters.put("config-component-configUrl","testUrl");
-        parameters.put("config-component-configPassword","testPassword");
-        parameters.put("config-component-configUser","testUser");
-        
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+    @Before
+    public void setupForTests() {
+        mockWrapper = Mockito.mock(SshJcraftWrapper.class);
     }
 
     @Test
-    public void testDownloadCliConfig() {
+    public void testGet() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = ("get_config_template");
-        String key = "DownloadCliConfig";
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("TEST\nDATA").when(mockWrapper).receiveUntil(Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String key = "get";
         Map<String, String> parameters = new HashMap<>();
         parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
-
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testXmlDownload() {
+    public void testPutExceptionFlow() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = ("get_config_template");
-        String key = "xml-download";
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doThrow(new IOException()).when(mockWrapper).put(Mockito.anyObject(),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String key = "put";
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
-
+        parameters.put("data", "test");
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.FAILURE, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testXmlGetrunningconfig() {
+    public void testCli() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = ("get_config_template");
-        String key = "xml-getrunningconfig";
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("TEST\nDATA").when(mockWrapper).receiveUntil(Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Get_config_template =
+                ("get_config_template\nRequest: \"show config\"\nResponse: Ends_With \"RESPONSE\"");
+        String key = "cli";
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
+        loadSshParameters(parameters);
         parameters.put("Get_config_template", Get_config_template);
-
+        parameters.put("config-component-configUrl", "testUrl");
+        parameters.put("config-component-configPassword", "testPassword");
+        parameters.put("config-component-configUser", "testUser");
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
+    }
+
+    @Test
+    public void testCliExceptionFlow() throws TimedOutException, IOException {
+        Properties props = null;
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doThrow(new IOException()).when(mockWrapper).connect(Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Get_config_template =
+                ("get_config_template\nRequest: \"show config\"\nResponse: Ends_With \"RESPONSE\"");
+        String key = "cli";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        parameters.put("Get_config_template", Get_config_template);
+        parameters.put("config-component-configUrl", "testUrl");
+        parameters.put("config-component-configPassword", "testPassword");
+        parameters.put("config-component-configUser", "testUser");
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.FAILURE, cca.configure(key, parameters, ctx));
     }
 
     @Test
     public void testEscapeSql() {
         Properties props = null;
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = ("get_config_template");
+        String testArtifactContents = ("\\ \\\\");
         String key = "escapeSql";
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
-        parameters.put("Get_config_template", Get_config_template);
-
+        loadSshParameters(parameters);
+        parameters.put("artifactContents", testArtifactContents);
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
+        assertEquals("\\" + testArtifactContents + "\\\\", ctx.getAttribute("escapedData"));
     }
 
     @Test
-    public void testAll() {
+    public void testGetCliRunningConfig() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String Get_config_template = ("test");
-        String Download_config_template = ("test");
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("TEST\nDATA").when(mockWrapper).receiveUntil(Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Get_config_template =
+                ("get_config_template\nRequest: \"show config\"\nResponse: Ends_With \"RESPONSE\"");
         String key = "GetCliRunningConfig";
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("Host_ip_address", "test");
-        parameters.put("User_name", "test");
-        parameters.put("Password", "password");
-        parameters.put("Port_number", "22");
+        loadSshParameters(parameters);
         parameters.put("Get_config_template", Get_config_template);
-        parameters.put("Protocol", "netconf");
-        parameters.put("Contents", "Contents");
-        parameters.put("Download_config_template", Download_config_template);
-        parameters.put("Config_contents", "test");
-
+        parameters.put("config-component-configUrl", "testUrl");
+        parameters.put("config-component-configPassword", "testPassword");
+        parameters.put("config-component-configUser", "testUser");
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testAll1() {
+    public void testGetCliRunningConfigExceptionFlow() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String key = "get";
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doThrow(new IOException()).when(mockWrapper).receiveUntil(Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Get_config_template =
+                ("get_config_template\nRequest: \"show config\"\nResponse: Ends_With \"RESPONSE\"");
+        String key = "GetCliRunningConfig";
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("Host_ip_address", "test");
+        loadSshParameters(parameters);
+        parameters.put("Get_config_template", Get_config_template);
+        parameters.put("config-component-configUrl", "testUrl");
+        parameters.put("config-component-configPassword", "testPassword");
+        parameters.put("config-component-configUser", "testUser");
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.FAILURE, cca.configure(key, parameters, ctx));
     }
 
-    //@Test
-    public void testAll2() {
+    @Test
+    public void testXmlDownload() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String key = "cli";
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("Host_ip_address", "test");
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("TEST\nDATA").when(mockWrapper).receiveUntil(Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Get_config_template = ("get_config_template");
+        String key = "xml-download";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        parameters.put("Get_config_template", Get_config_template);
+
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute(
-            "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
-            "test");
-        cca.configure(key, parameters, ctx);
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testGetStringBetweenQuotes() throws Exception {
+    public void testXmlDownloadExceptionFlow() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String result = Whitebox.invokeMethod(cca, "getStringBetweenQuotes", "\"testvalue\"");
-        Assert.assertEquals("testvalue", result);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("rpc-error").when(mockWrapper).receiveUntil("</rpc-reply>", 600000, "");
+        Mockito.doThrow(new IOException()).when(mockWrapper).send(TERMINATE_COMMAND);
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Get_config_template = ("get_config_template");
+        String key = "xml-download";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        parameters.put("Get_config_template", Get_config_template);
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.FAILURE, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testBuildXmlRequest() throws Exception {
+    public void testXmlGetrunningconfig() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        Map<String, String> param = new HashMap<>();
-        Whitebox.invokeMethod(cca, "buildXmlRequest", param, "template");
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("<configuration xmlns=\"\n<data>\n</data>\n</configuration>")
+                .when(mockWrapper)
+                .receiveUntil(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String key = "xml-getrunningconfig";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        SvcLogicContext ctx = new SvcLogicContext();
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testTrimResponse() throws Exception {
-        Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        String result = Whitebox.invokeMethod(cca, "trimResponse", "testData");
-        Assert.assertEquals("", result);
-
-
-        String withConfigData = "<data>\n" +
-                "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\">\n" +
-                "<version>1.1X.0</version>\n" +
-                "<groups>\n" +
-                "<name>node0</name>\n" +
-                "</configuration>\n" +
-                "</data>\n" +
-                "</rpc-reply>\n" +
-                "]]>]]>\n" +
-                "";
-        String compareString = "<configuration xmlns=\"http://xml.juniper.net/xnm/1.1/xnm\">\n"
-                + "<version>1.1X.0</version>\n"
-                + "<groups>\n"
-                + "<name>node0</name>\n"
-                + "</configuration>\n";
-
-        String result3 = Whitebox.invokeMethod(cca, "trimResponse", withConfigData);
-        Assert.assertEquals(compareString, result3);
-
-        String withData = "]]>]]>\n" +
-                "<rpc-reply xmlns=\"urn:ietf:params:xml:ns:netconf:base:1.0\" message-id=\"1\">\n" +
-                "<data>\n" +
-                "<sgsn-mme xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
-                "<allocation-retention-priority xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
-                "<allocation-retention-priority>1</allocation-retention-priority>\n" +
-                "</allocation-retention-priority>\n" +
-                "</data>\n" +
-                "</rpc-reply>\n" +
-                "]]>]]";
-        String compareStringWithData = "<sgsn-mme xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
-                "<allocation-retention-priority xmlns=\"urn:rdns:com:ericsson:oammodel:ericsson-sgsn-mme\">\n" +
-                "<allocation-retention-priority>1</allocation-retention-priority>\n" +
-                "</allocation-retention-priority>\n";
-        String result2 = Whitebox.invokeMethod(cca, "trimResponse", withData);
-        Assert.assertEquals(compareStringWithData,result2);
-
-
+    public void testXmlGetrunningconfigExceptionFlow() throws TimedOutException, IOException {
+        Properties props = new Properties();
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doThrow(new IOException()).when(mockWrapper).connect(Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String key = "xml-getrunningconfig";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        SvcLogicContext ctx = new SvcLogicContext();
+        assertEquals(ConfigStatus.FAILURE, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testBuildNetworkData2() throws Exception {
+    public void testDownloadCliConfig() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("TEST\nDATA").when(mockWrapper).receiveUntil(Mockito.anyString(),
+                Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Download_config_template =
+                ("get_config_template\nRequest: \"show config\"\nResponse: Ends_With \"RESPONSE\"");
+        String key = "DownloadCliConfig";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        parameters.put("Download_config_template", Download_config_template);
         SvcLogicContext ctx = new SvcLogicContext();
-        String result = Whitebox.invokeMethod(cca, "buildNetworkData2", ctx, "template", "operation");
-        Assert.assertEquals("template", result);
-    }
-
-    //@Test
-    public void testGetLastFewLinesOfFile() throws Exception {
-        Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        Whitebox.invokeMethod(cca, "readFile", "test");
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
     }
 
     @Test
-    public void testConnect() throws Exception {
+    public void testDownloadCliConfigExceptionFlow() throws TimedOutException, IOException {
         Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doThrow(new IOException("ExceptionFromDownloadCli")).when(mockWrapper)
+                .receiveUntil(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String Download_config_template = ("get_config_template\nRequest: \"show config\""
+                + "\n    Execute_config_contents Response: Ends_With\" \"RESPONSE\"\n");
+        String key = "DownloadCliConfig";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        parameters.put("Config_contents", "TEST\nDATA");
+        parameters.put("Download_config_template", Download_config_template);
         SvcLogicContext ctx = new SvcLogicContext();
-        cca.activate("key", ctx);
-
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.FAILURE, cca.configure(key, parameters, ctx));
     }
 
-    @Test(expected = Exception.class)
-    public void testActivate() throws Exception {
-        Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+    @Test
+    public void testPrepare() {
+        Client mockClient = Mockito.mock(Client.class);
+        WebResource mockWebResource = Mockito.mock(WebResource.class);
+        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
+        Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
+                Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(mockWebResource).when(mockClient).resource(Mockito.anyString());
+        Mockito.doReturn(mockClient).when(cca).getClient();
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("action", "prepare");
         SvcLogicContext ctx = new SvcLogicContext();
-        String result = Whitebox.invokeMethod(cca, "activate", ctx, true);
-        Assert.assertEquals("template", result);
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure("", parameters, ctx));
     }
 
-    @Test(expected = Exception.class)
-    public void testAudit() throws Exception {
-        Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+    @Test
+    public void testPrepareExceptionFlow() {
+        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(null);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("action", "prepare");
         SvcLogicContext ctx = new SvcLogicContext();
-        String result = Whitebox.invokeMethod(cca, "audit", ctx, "test");
-        Assert.assertEquals("template", result);
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].scale-configuration[0].network-type",
+                "test");
+        assertEquals(ConfigStatus.FAILURE, cca.configure("", parameters, ctx));
+        assertEquals("500", ctx.getAttribute("error-code"));
     }
 
-    @Test(expected = Exception.class)
-    public void testPrepare() throws Exception {
-        Properties props = null;
-        ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
+    @Test
+    public void testAudit() {
+        Client mockClient = Mockito.mock(Client.class);
+        WebResource mockWebResource = Mockito.mock(WebResource.class);
+        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
+        Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
+                Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(mockWebResource).when(mockClient).resource(Mockito.anyString());
+        Mockito.doReturn(mockClient).when(cca).getClient();
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("action", "audit");
         SvcLogicContext ctx = new SvcLogicContext();
-        String result = Whitebox.invokeMethod(cca, "prepare", ctx, "test", "test");
-        Assert.assertEquals("template", result);
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure("", parameters, ctx));
     }
-    
+
+    @Test
+    public void testActivate() {
+        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
+        Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
+                Mockito.anyString(), Mockito.anyString());
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("action", "activate");
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure("", parameters, ctx));
+    }
+
     @Test
     public void testConstructorForNonNullProperties() throws Exception {
         Properties props = new Properties();
@@ -318,17 +389,34 @@ public class ConfigComponentAdaptorTest {
         props.setProperty("auditComponent.passwd", "testAuditPwd");
         props.setProperty("service-configuration-notification-url", "testServiceNotificationUrl");
         props.setProperty("audit-configuration-notification-url", "testAuditNotificationUrl");
-        
+
         ConfigComponentAdaptor cca = new ConfigComponentAdaptor(props);
-        Assert.assertEquals("testConfigUrl", cca.getConfigUrl());
-        Assert.assertEquals("testConfigUser", cca.getConfigUser());
-        Assert.assertEquals("testConfigPwd", cca.getConfigPassword());
-        Assert.assertEquals("testAuditUrl", cca.getAuditUrl());
-        Assert.assertEquals("testAuditUser", cca.getAuditUser());
-        Assert.assertEquals("testAuditPwd", cca.getAuditPassword());
-        Assert.assertEquals("testServiceNotificationUrl", cca.getConfigCallbackUrl());
-        Assert.assertEquals("testAuditNotificationUrl", cca.getAuditCallbackUrl());
-        
+        assertEquals("testConfigUrl", cca.getConfigUrl());
+        assertEquals("testConfigUser", cca.getConfigUser());
+        assertEquals("testConfigPwd", cca.getConfigPassword());
+        assertEquals("testAuditUrl", cca.getAuditUrl());
+        assertEquals("testAuditUser", cca.getAuditUser());
+        assertEquals("testAuditPwd", cca.getAuditPassword());
+        assertEquals("testServiceNotificationUrl", cca.getConfigCallbackUrl());
+        assertEquals("testAuditNotificationUrl", cca.getAuditCallbackUrl());
     }
 
+    @Test
+    public void testStaticReadFile() {
+        assertThat(ConfigComponentAdaptor._readFile("src/main/resources/config-base.xml"),
+                CoreMatchers.containsString("<configure>"));
+    }
+
+    @Test
+    public void testStaticReadFileExceptionFlow() {
+        assertEquals("", ConfigComponentAdaptor._readFile("NON_EXISTENT_FILE"));
+    }
+
+    private void loadSshParameters(Map<String, String> map) {
+        map.put("Host_ip_address", "test");
+        map.put("User_name", "test");
+        map.put("Password", "password");
+        map.put("Port_number", "22");
+        map.put("portNumber", "22");
+    }
 }

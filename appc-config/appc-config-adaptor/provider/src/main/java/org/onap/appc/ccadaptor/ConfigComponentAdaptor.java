@@ -6,6 +6,8 @@
  * =============================================================================
  * Modifications Copyright (C) 2018 IBM.
  * =============================================================================
+ * Modifications Copyright (C) 2018 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -35,11 +37,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 import java.util.StringTokenizer;
@@ -121,12 +121,12 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
     HttpResponse r = new HttpResponse();
     r.code = 200;
     log.debug("ConfigComponentAdaptor.configure - key = " + key);
-    debugLog.printRTAriDebug(fnName, "key = " + key);
+    DebugLog.printRTAriDebug(fnName, "key = " + key);
     log.debug("Parameters:");
-    debugLog.printRTAriDebug(fnName, "Parameters:");
+    DebugLog.printRTAriDebug(fnName, "Parameters:");
     for (String parmName : parameters.keySet()) {
         log.debug("        " + parmName + " = " + parameters.get(parmName));
-        debugLog.printRTAriDebug(fnName, "        " + parmName + " = " + parameters.get(parmName));
+        DebugLog.printRTAriDebug(fnName, "        " + parmName + " = " + parameters.get(parmName));
     }
 
     String parmval = parameters.get("config-component-configUrl");
@@ -198,22 +198,22 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         String fullPathFileName = parameters.get("fullPathFileName");
         String data = null;
 
-        SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
+        SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
         log.debug("SCP: SshJcraftWrapper has been instantiated");
-        debugLog.printRTAriDebug(fnName, "SCP: SshJcraftWrapper has been instantiated");
+        DebugLog.printRTAriDebug(fnName, "SCP: SshJcraftWrapper has been instantiated");
         try {
             if (key.equals("put")) {
                 data = parameters.get("data");
                 if (data != null) {
-                    debugLog.printRTAriDebug(fnName, "Command is for put: Length of data is: " + data.length());
+                    DebugLog.printRTAriDebug(fnName, "Command is for put: Length of data is: " + data.length());
                     InputStream is = new ByteArrayInputStream(data.getBytes());
                     log.debug("SCP: Doing a put: fullPathFileName=" + fullPathFileName);
-                    debugLog.printRTAriDebug(fnName, "SCP: Doing a put: fullPathFileName=" + fullPathFileName);
+                    DebugLog.printRTAriDebug(fnName, "SCP: Doing a put: fullPathFileName=" + fullPathFileName);
                     sshJcraftWrapper.put(is, fullPathFileName, host, loginId, password);
                     try {
-                        debugLog.printRTAriDebug(fnName, "Sleeping for 180 seconds....");
+                        DebugLog.printRTAriDebug(fnName, "Sleeping for 180 seconds....");
                         Thread.sleep(1000 * 180);
-                        debugLog.printRTAriDebug(fnName, "Woke up....");
+                        DebugLog.printRTAriDebug(fnName, "Woke up....");
                     } catch (java.lang.InterruptedException ee) {
                         boolean ignore = true;
                     }
@@ -224,9 +224,9 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
             } else     // Must be a get
             {
                 log.debug("SCP: Doing a get: fullPathFileName=" + fullPathFileName);
-                debugLog.printRTAriDebug(fnName, "SCP: Doing a get: fullPathFileName=" + fullPathFileName);
+                DebugLog.printRTAriDebug(fnName, "SCP: Doing a get: fullPathFileName=" + fullPathFileName);
                 String response = sshJcraftWrapper.get(fullPathFileName, host, loginId, password);
-                debugLog.printRTAriDebug(fnName, "Got the response and putting into the ctx object");
+                DebugLog.printRTAriDebug(fnName, "Got the response and putting into the ctx object");
                 ctx.setAttribute("fileContents", response);
                 log.debug("SCP: Closing the SFTP connection");
             }
@@ -248,11 +248,11 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         password = EncryptionTool.getInstance().decrypt(password);
         String cliCommand = parameters.get("cli");
         String portNumber = parameters.get("portNumber");
-        SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
+        SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
         try {
             log.debug("CLI: Attempting to login: host=" + host + " loginId=" + loginId +
                 " portNumber=" + portNumber);
-            debugLog.printRTAriDebug(fnName, "CLI: Attempting to login: host=" + host + " loginId=" + loginId +
+            DebugLog.printRTAriDebug(fnName, "CLI: Attempting to login: host=" + host + " loginId=" + loginId +
                 " portNumber=" + portNumber);
             sshJcraftWrapper.connect(host, loginId, password, Integer.parseInt(portNumber));
 
@@ -293,7 +293,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         return (setResponseStatus(ctx, r));
     }
     if (key.equals("GetCliRunningConfig")) {
-        debugLog.printRTAriDebug(fnName, "key was: GetCliRunningConfig: ");
+        DebugLog.printRTAriDebug(fnName, "key was: GetCliRunningConfig: ");
         log.debug("key was: GetCliRunningConfig: ");
         String User_name = parameters.get("User_name");
         String Host_ip_address = parameters.get("Host_ip_address");
@@ -301,9 +301,9 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         Password = EncryptionTool.getInstance().decrypt(Password);
         String Port_number = parameters.get("Port_number");
         String Get_config_template = parameters.get("Get_config_template");
-        SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
+        SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
         log.debug("GetCliRunningConfig: sshJcraftWrapper was instantiated");
-        debugLog.printRTAriDebug(fnName, "GetCliRunningConfig: sshJcraftWrapper was instantiated");
+        DebugLog.printRTAriDebug(fnName, "GetCliRunningConfig: sshJcraftWrapper was instantiated");
         try {
             DebugLog.printAriDebug(fnName, "GetCliRunningConfig: User_name=" + User_name +
                 " Host_ip_address=" + Host_ip_address + " Port_number="
@@ -395,7 +395,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         log(fnName,
             "xml-download: User_name=" + User_name + " Host_ip_address=" + Host_ip_address
                 + " Port_number=" + Port_number);
-        SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
+        SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
         try {
             sshJcraftWrapper.connect(Host_ip_address,
                 User_name,
@@ -472,7 +472,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         log(fnName,
             "xml-getrunningconfig: User_name=" + User_name + " Host_ip_address=" + Host_ip_address
                 + " Port_number=" + Port_number);
-        SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
+        SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
         try {
             String NetconfHelloCmd = netconfHelloCmd;
             sshJcraftWrapper.connect(Host_ip_address,
@@ -509,7 +509,7 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         }
     }
     if (key.equals("DownloadCliConfig")) {
-        debugLog.printRTAriDebug(fnName, "key was: DownloadCliConfig: ");
+        DebugLog.printRTAriDebug(fnName, "key was: DownloadCliConfig: ");
         log.debug("key was: DownloadCliConfig: ");
         String User_name = parameters.get("User_name");
         String Host_ip_address = parameters.get("Host_ip_address");
@@ -519,9 +519,9 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         String Download_config_template = parameters.get("Download_config_template");
         String Config_contents = parameters.get("Config_contents");
         DebugLog.printAriDebug(fnName, "Contents of the 'Config_contents' are: " + Config_contents);
-        SshJcraftWrapper sshJcraftWrapper = new SshJcraftWrapper();
+        SshJcraftWrapper sshJcraftWrapper = getSshJcraftWrapper();
         log.debug("DownloadCliConfig: sshJcraftWrapper was instantiated");
-        debugLog.printRTAriDebug(fnName, "DownloadCliConfig: sshJcraftWrapper was instantiated");
+        DebugLog.printRTAriDebug(fnName, "DownloadCliConfig: sshJcraftWrapper was instantiated");
         int timeout = 4 * 60 * 1000;
         try {
             DebugLog.printAriDebug(fnName, "DownloadCliConfig: User_name=" + User_name +
@@ -601,13 +601,13 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
         }
     }
 
-    debugLog.printRTAriDebug(fnName, "Unsupported action - " + action);
+    DebugLog.printRTAriDebug(fnName, "Unsupported action - " + action);
     log.error("Unsupported action - " + action);
     return ConfigStatus.FAILURE;
 }
 
 private void log(String fileName, String messg) {
-    debugLog.printRTAriDebug(fileName, messg);
+    DebugLog.printRTAriDebug(fileName, messg);
     log.debug(fileName + ": " + messg);
 }
 
@@ -910,7 +910,7 @@ private String expandRepeats(SvcLogicContext ctx, String template, int level) {
 
 private HttpResponse sendXmlRequest(String xmlRequest, String url, String user, String password) {
     try {
-        Client client = Client.create();
+        Client client = getClient();
         client.setConnectTimeout(5000);
         WebResource webResource = client.resource(url);
 
@@ -922,9 +922,7 @@ private HttpResponse sendXmlRequest(String xmlRequest, String url, String user, 
         String authStringEnc = new String(authEncBytes);
         authString = "Basic " + authStringEnc;
 
-        ClientResponse response =
-            webResource.header("Authorization", authString).accept("UTF-8").type("application/xml").post(
-                ClientResponse.class, xmlRequest);
+        ClientResponse response = getClientResponse(webResource, authString, xmlRequest);
 
         int code = response.getStatus();
         String message = null;
@@ -1037,5 +1035,18 @@ public static void main(String args[]) throws Exception {
     SvcLogicContext ctx = null;
     System.out.println("*************************TRACE 1*****************************");
     cca.configure(key, parameters, ctx);
+}
+
+protected SshJcraftWrapper getSshJcraftWrapper() {
+    return new SshJcraftWrapper();
+}
+
+protected Client getClient() {
+    return Client.create();
+}
+
+protected ClientResponse getClientResponse(WebResource webResource, String authString, String xmlRequest) {
+    return webResource.header("Authorization", authString).accept("UTF-8").type("application/xml").post(
+        ClientResponse.class, xmlRequest);
 }
 }
