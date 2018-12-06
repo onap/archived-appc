@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_d2d4c721",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-06T23:02:42Z",
+      "side": 1,
+      "message": "use logger to print stack trace",
+      "revId": "ec08f3107f0eb94ae3b743d6e3e34e5f55914708",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
