@@ -22,6 +22,30 @@
       "revId": "eb97ef514cf402821214c39765d52035abf805fb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1ff01390",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TimeTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-10T18:04:34Z",
+      "side": 1,
+      "message": "sounds like a good idea to me, too",
+      "parentUuid": "9adffdf1_9e0ace1f",
+      "range": {
+        "startLine": 175,
+        "startChar": 7,
+        "endLine": 180,
+        "endChar": 34
+      },
+      "revId": "eb97ef514cf402821214c39765d52035abf805fb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
