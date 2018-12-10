@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +25,6 @@
 
 package org.onap.appc.ccadaptor;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
 import com.jcraft.jsch.ChannelShell;
@@ -54,10 +54,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.StringTokenizer;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Nonnull;
 import org.apache.commons.lang.StringUtils;
-import org.onap.appc.i18n.Msg;
 
 public class SshJcraftWrapper {
 
@@ -71,7 +68,6 @@ public class SshJcraftWrapper {
     private String RouterName = null;
     private int BUFFER_SIZE = 512000;
     char[] charBuffer = new char[BUFFER_SIZE];
-    // private int BUFFER_SIZE = 4000000;
     private DataInputStream dis = null;
     private BufferedReader reader = null;
     private BufferedWriter out = null;
@@ -93,21 +89,20 @@ public class SshJcraftWrapper {
     private Runtime runtime = Runtime.getRuntime();
     private DebugLog dbLog = new DebugLog();
 
-    public void SshJcraftWrapper() {
+    public SshJcraftWrapper() {
         String fn = "SshJcraftWrapper.SshJcraftWrapper";
-        debugLog.printRTAriDebug(fn, "SshJcraftWrapper has been instantated");
+        DebugLog.printRTAriDebug(fn, "SshJcraftWrapper has been instantated");
         routerLogFileName = "/tmp/" + host;
-        this.host = host;
     }
 
     public void connect(String hostname, String username, String password, String prompt, int timeOut)
         throws IOException {
         String fn = "SshJcraftWrapper.connect";
-        jsch = new JSch();
-        debugLog.printRTAriDebug(fn,
+        jsch = getJSch();
+        DebugLog.printRTAriDebug(fn,
             "Attempting to connect to " + hostname + " username=" + username + " prompt='"
                 + prompt + "' timeOut=" + timeOut);
-        debugLog.printRTAriDebug(fn, "Trace A");
+        DebugLog.printRTAriDebug(fn, "Trace A");
         RouterName = hostname;
         hostName = hostname;
         userName = username;
@@ -126,16 +121,15 @@ public class SshJcraftWrapper {
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
-            debugLog.printRTAriDebug(fn, "Successfully connected.");
-            debugLog.printRTAriDebug(fn, "Flushing input buffer");
+            DebugLog.printRTAriDebug(fn, "Successfully connected.");
+            DebugLog.printRTAriDebug(fn, "Flushing input buffer");
             try {
                 receiveUntil(prompt, 3000, "No cmd was sent, just waiting");
             } catch (Exception e) {
-                debugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
+                DebugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
             }
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
-            // dbLog.storeData("ErrorMsg= Exception trying to connect to "+hostname +" "+e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -144,7 +138,7 @@ public class SshJcraftWrapper {
     public void connect(String hostname, String username, String password, String prompt, int timeOut, int portNum)
         throws IOException {
         String fn = "SshJcraftWrapper.connect";
-        debugLog.printRTAriDebug(fn,
+        DebugLog.printRTAriDebug(fn,
             ":Attempting to connect to " + hostname + " username=" + username + " prompt='"
                 + prompt + "' timeOut=" + timeOut + " portNum=" + portNum);
         RouterName = hostname;
@@ -152,14 +146,14 @@ public class SshJcraftWrapper {
         userName = username;
         passWord = password;
         RouterName = hostname;
-        jsch = new JSch();
+        jsch = getJSch();
         try {
             session = jsch.getSession(username, hostname, portNum);
             UserInfo ui = new MyUserInfo();
             session.setPassword(password);
             session.setUserInfo(ui);
             session.setConfig("StrictHostKeyChecking", "no");
-            debugLog.printRTAriDebug(fn, ":StrictHostKeyChecking set to 'no'");
+            DebugLog.printRTAriDebug(fn, ":StrictHostKeyChecking set to 'no'");
 
             session.connect(timeOut);
             session.setServerAliveCountMax(
@@ -170,8 +164,8 @@ public class SshJcraftWrapper {
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
-            debugLog.printRTAriDebug(fn, ":Successfully connected.");
-            debugLog.printRTAriDebug(fn, ":Flushing input buffer");
+            DebugLog.printRTAriDebug(fn, ":Successfully connected.");
+            DebugLog.printRTAriDebug(fn, ":Flushing input buffer");
             try {
                 if (prompt.equals("]]>]]>")) {
                     receiveUntil("]]>]]>", 10000, "No cmd was sent, just waiting");
@@ -179,13 +173,12 @@ public class SshJcraftWrapper {
                     receiveUntil(":~#", 5000, "No cmd was sent, just waiting");
                 }
             } catch (Exception e) {
-                debugLog.printRTAriDebug(fn, "Caught an Exception::: Nothing to flush out.");
+                DebugLog.printRTAriDebug(fn, "Caught an Exception::: Nothing to flush out.");
             }
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, ":Caught an Exception. e=" + e);
+            DebugLog.printRTAriDebug(fn, ":Caught an Exception. e=" + e);
             dbLog.outputStackTrace(e);
 
-            // dbLog.storeData("ErrorMsg= Exception trying to connect to "+hostname +" "+e);
             throw new IOException(e.toString());
         }
     }
@@ -198,7 +191,7 @@ public class SshJcraftWrapper {
         boolean cliPromptCmd = false;
         StringBuffer sb2 = new StringBuffer();
         StringBuffer sbReceive = new StringBuffer();
-        debugLog.printRTAriDebug(fn,
+        DebugLog.printRTAriDebug(fn,
             "delimeters='" + delimeters + "' timeout=" + timeout + " cmdThatWasSent='" + cmdThatWasSent + "'");
         appendToFile(debugLogFileName,
             fn + " delimeters='" + delimeters + "' timeout=" + timeout + " cmdThatWasSent='" + cmdThatWasSent + "'\n");
@@ -212,20 +205,20 @@ public class SshJcraftWrapper {
             session.setTimeout(timeout);  // This is the socket timeout value.
             while (!match) {
                 if (new Date().getTime() > deadline) {
-                    debugLog.printRTAriDebug(fn,
+                    DebugLog.printRTAriDebug(fn,
                         "Throwing a TimedOutException: time in routine has exceed our deadline: RouterName:"
                             + RouterName + " CmdThatWasSent=" + CmdThatWasSent);
                     throw new TimedOutException("Timeout: time in routine has exceed our deadline");
                 }
                 try {
-                    Thread.sleep(500);
+                    delay(500);
                 } catch (java.lang.InterruptedException ee) {
-                    boolean ignore = true;
+                    Thread.currentThread().interrupt();
                 }
                 int len = reader.read(charBuffer, 0, BUFFER_SIZE);
                 appendToFile(debugLogFileName, fn + " After reader.read cmd: len=" + len + "\n");
                 if (len <= 0) {
-                    debugLog.printRTAriDebug(fn,
+                    DebugLog.printRTAriDebug(fn,
                         "Reader read " + len + " bytes. Looks like we timed out, router=" + RouterName);
                     throw new TimedOutException("Received a SocketTimeoutException router=" + RouterName);
                 }
@@ -235,7 +228,7 @@ public class SshJcraftWrapper {
                             // This is a IOS XR sw config file. We will write it to the disk.
                             timeout = timeout * 2;
                             deadline = new Date().getTime() + timeout;
-                            debugLog.printRTAriDebug(fn, "IOS XR upload for software config: timeout=" + timeout);
+                            DebugLog.printRTAriDebug(fn, "IOS XR upload for software config: timeout=" + timeout);
                             StringTokenizer st = new StringTokenizer(cmdThatWasSent);
                             st.nextToken();
                             routerFileName = st.nextToken();
@@ -243,10 +236,9 @@ public class SshJcraftWrapper {
                             out = new BufferedWriter(fileWriter);
                             routerLogFileName = "/tmp/" + RouterName;
                             _tmpFile = new File(routerLogFileName);
-                            debugLog.printRTAriDebug(fn,
+                            DebugLog.printRTAriDebug(fn,
                                 "Will write the swConfigFile to disk, routerFileName=" + routerFileName);
                         }
-                        int c;
                         out.write(charBuffer, 0, len);
                         out.flush();
                         appendToFile(debugLogFileName, fn + " Wrote " + len + " bytes to the disk\n");
@@ -286,31 +278,14 @@ public class SshJcraftWrapper {
                             break;
                         }
                     }
-                } else {
-                    debugLog.printRTAriDebug(fn, "cliPromptCmd, Trace 2");
-                    sb2.setLength(0);
-                    for (int i = 0; i < len; i++) {
-                        sbReceive.append((char) charBuffer[i]);
-                        sb2.append((char) charBuffer[i]);
-                    }
-                    appendToRouterFile("/tmp/" + RouterName, sb2);
-                    if (listener != null) {
-                        listener.receivedString(sb2.toString());
-                    }
-                    debugLog.printRTAriDebug(fn, "sb2='" + sb2.toString() + "'  delimeters='" + delimeters + "'");
-                    if (sb2.toString().indexOf("\nariPrompt>") != -1) {
-                        debugLog.printRTAriDebug(fn, "Found our prompt");
-                        match = true;
-                        break;
-                    }
                 }
             }
         } catch (JSchException e) {
-            debugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e.toString());
+            DebugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e.toString());
             dbLog.outputStackTrace(e);
             throw new TimedOutException(e.toString());
         } catch (IOException ee) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException: ee=" + ee.toString());
+            DebugLog.printRTAriDebug(fn, "Caught an IOException: ee=" + ee.toString());
             dbLog.outputStackTrace(ee);
             throw new TimedOutException(ee.toString());
         } finally {
@@ -319,11 +294,11 @@ public class SshJcraftWrapper {
                     fileWriter.close();
                 }
             } catch(IOException ex) {
-                debugLog.printRTAriDebug(fn, "Failed to close fileWriter output stream: ex=" + ex);
+                DebugLog.printRTAriDebug(fn, "Failed to close fileWriter output stream: ex=" + ex);
             }
         }
         String result = stripOffCmdFromRouterResponse(sbReceive.toString());
-        debugLog.printRTAriDebug(fn, "Leaving method successfully");
+        DebugLog.printRTAriDebug(fn, "Leaving method successfully");
         return result;
     }
 
@@ -372,7 +347,7 @@ public class SshJcraftWrapper {
                 appendToFile(debugLogFileName, fn + " Looking for an delimeter of:'" + delimeter + "'\n");
                 appendToFile(debugLogFileName, fn + " receivedString='" + receivedString);
                 if (aggregatedReceivedString.indexOf(delimeter) != -1) {
-                    debugLog.printRTAriDebug(fn, "Found our delimeter, which was: '" + delimeter + "'");
+                    DebugLog.printRTAriDebug(fn, "Found our delimeter, which was: '" + delimeter + "'");
                     aggregatedReceivedString = "";
                     return (true);
                 }
@@ -400,7 +375,6 @@ public class SshJcraftWrapper {
                 e.printStackTrace();
             }
         } else {
-            // DebugLog.printAriDebug(fnName, "TRACE 1: ******************************");
             // When looking at the end of the charBuffer, don't include any linefeeds or spaces. We only want to make the smallest string possible.
             for (x = len - 1; x >= 0; x--) {
                 c = charBuffer[x];
@@ -447,7 +421,7 @@ public class SshJcraftWrapper {
 
     public void closeConnection() {
         String fn = "SshJcraftWrapper.closeConnection";
-        debugLog.printRTAriDebug(fn, "Executing the closeConnection....");
+        DebugLog.printRTAriDebug(fn, "Executing the closeConnection....");
         inputStream = null;
         outputStream = null;
         dis = null;
@@ -459,8 +433,7 @@ public class SshJcraftWrapper {
     public void send(String cmd) throws IOException {
         String fn = "SshJcraftWrapper.send";
         OutputStream out = channel.getOutputStream();
-        DataOutputStream dos = new DataOutputStream(out);
-
+        DataOutputStream dos = getDataOutputStream(out);
         if ((cmd.charAt(cmd.length() - 1) != '\n') && (cmd.charAt(cmd.length() - 1) != '\r')) {
             cmd += "\n";
         }
@@ -471,8 +444,7 @@ public class SshJcraftWrapper {
         int ncharsSent = 0;
 
         appendToFile(debugLogFileName, fn + ": Sending: '" + cmd);
-        // debugLog.printRTAriDebug (fn, "cmd = "+cmd);
-        debugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
+        DebugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
         try {
             if (length > 600000) {
                 int timeout = 9000;
@@ -480,30 +452,30 @@ public class SshJcraftWrapper {
                     String Cmd = cmd.substring(i, Math.min(length, i + nchars));
                     ncharsSent = Cmd.length();
                     ncharsTotalSent = ncharsTotalSent + Cmd.length();
-                    debugLog.printRTAriDebug(fn, "i=" + i + " Sending Cmd: ncharsSent=" + ncharsSent);
+                    DebugLog.printRTAriDebug(fn, "i=" + i + " Sending Cmd: ncharsSent=" + ncharsSent);
                     dos.writeBytes(Cmd);
                     dos.flush();
                     try {
-                        debugLog.printRTAriDebug(fn, ":::i=" + i + " length=" + length);
+                        DebugLog.printRTAriDebug(fn, ":::i=" + i + " length=" + length);
                         if (ncharsSent < length) {
                             receiveUntilBufferFlush(ncharsSent, timeout, "buffer flush  i=" + i);
                         } else {
-                            debugLog.printRTAriDebug(fn, "i=" + i + " No Waiting this time....");
+                            DebugLog.printRTAriDebug(fn, "i=" + i + " No Waiting this time....");
                             dos.flush();
                         }
                     } catch (Exception e) {
-                        debugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
+                        DebugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
                     }
                 }
             } else {
-                debugLog.printRTAriDebug(fn, "Before executing the dos.writeBytes");
+                DebugLog.printRTAriDebug(fn, "Before executing the dos.writeBytes");
                 dos.writeBytes(cmd);
             }
             dos.flush();
-            debugLog.printRTAriDebug(fn, "Leaving method");
+            DebugLog.printRTAriDebug(fn, "Leaving method");
             appendToFile(debugLogFileName, fn + ": Leaving method\n");
         } catch (IOException e) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
             dbLog.outputStackTrace(e);
             throw new IOException(e.toString());
         }
@@ -513,13 +485,13 @@ public class SshJcraftWrapper {
     public void sendChar(int v) throws IOException {
         String fn = "SshJcraftWrapper.sendChar";
         OutputStream out = channel.getOutputStream();
-        DataOutputStream dos = new DataOutputStream(out);
+        DataOutputStream dos = getDataOutputStream(out);
         try {
-            debugLog.printRTAriDebug(fn, "Sending: '" + v + "'");
+            DebugLog.printRTAriDebug(fn, "Sending: '" + v + "'");
             dos.writeChar(v);
             dos.flush();
         } catch (IOException e) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -527,12 +499,12 @@ public class SshJcraftWrapper {
     public void send(byte[] b, int off, int len) throws IOException {
         String fn = "SshJcraftWrapper.send:byte[]";
         OutputStream out = channel.getOutputStream();
-        DataOutputStream dos = new DataOutputStream(out);
+        DataOutputStream dos = getDataOutputStream(out);
         try {
             dos.write(b, off, len);
             dos.flush();
         } catch (IOException e) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -584,15 +556,13 @@ public class SshJcraftWrapper {
             File tmpFile = new File(fileName);
             if (tmpFile.exists()) {
                 try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
-                    // out.write(dataToWrite);
-                    // out.write(getTheDate() +": " +Thread.currentThread().getName() +": "+dataToWrite);
                     out.write(getTheDate() + ": " + tId + ": " + dataToWrite);
                 }
             }
         } catch (IOException e) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception: e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception: e=" + e);
         }
     }
 
@@ -609,9 +579,9 @@ public class SshJcraftWrapper {
                 }
             }
         } catch (IOException e) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an IOException: e=" + e);
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception: e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception: e=" + e);
         }
     }
 
@@ -619,7 +589,6 @@ public class SshJcraftWrapper {
     public String getTheDate() {
         Calendar cal = Calendar.getInstance();
         java.util.Date today = cal.getTime();
-        DateFormat df1 = DateFormat.getDateInstance();
         DateFormat df3 = new SimpleDateFormat("MM/dd/yyyy H:mm:ss  ");
         return (df3.format(today));
     }
@@ -627,16 +596,14 @@ public class SshJcraftWrapper {
 
     public void appendToRouterFile(String fileName, StringBuffer dataToWrite) {
         String fnName = "SshJcraftWrapper.appendToRouterFile";
-        debugLog.printRTAriDebug(fnName, "Entered.... ");
+        DebugLog.printRTAriDebug(fnName, "Entered.... ");
         try {
             // First check to see if a file 'fileName' exist, if it does
             // write to it. If it does not exist, don't write to it.
             File tmpFile = new File(fileName);
             {
-                // if ((tmpFile.exists()) && (tmpFile.setWritable(true, true)))
                 if (tmpFile.exists()) {
                     try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
-                        // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
                         out.write(dataToWrite.toString());
                     }
                 }
@@ -648,16 +615,12 @@ public class SshJcraftWrapper {
     }
 
     public void appendToRouterFile(String fileName, int len) {
-        String fnName = "SshJcraftWrapper.appendToFile";
-        // debugLog.printRTAriDebug (fnName, "Entered.... len="+len);
         try {
             // First check to see if a file 'fileName' exist, if it does
             // write to it. If it does not exist, don't write to it.
             File tmpFile = new File(fileName);
-            // if ((tmpFile.exists()) && (tmpFile.setWritable(true, true)))
             if (tmpFile.exists()) {
                 try(BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true))) {
-                    // out.write("<!--  "+getTheDate() +": " +tId +"  -->\n");
                     out.write(charBuffer, 0, len);
                 }
             }
@@ -683,18 +646,14 @@ public class SshJcraftWrapper {
     }
 
     public String stripOffCmdFromRouterResponse(String routerResponse) {
-        String fn = "SshJcraftWrapper.stripOffCmdFromRouterResponse";
-        // appendToFile(debugLogFileName, fn+": routerResponse='"+routerResponse +"'\n");
-
         // The session of SSH will echo the command sent to the router, in the router's response.
         // Since all our commands are terminated by a '\n', strip off the first line
-        // of the response from the router. This first line contains the orginal command.
+        // of the response from the router. This first line contains the original command.
 
         StringTokenizer rr = new StringTokenizer(routerResponse, "\n");
         StringBuffer sb = new StringBuffer();
 
         int numTokens = rr.countTokens();
-        // debugLog.printRTAriDebug (fn, "Number of lines in the response from the router is:" +numTokens);
         if (numTokens > 1) {
             rr.nextToken(); //Skip the first line.
             while (rr.hasMoreTokens()) {
@@ -707,7 +666,7 @@ public class SshJcraftWrapper {
     public void setRouterCommandType(String type) {
         String fn = "SshJcraftWrapper.setRouterCommandType";
         this.routerCmdType = type;
-        debugLog.printRTAriDebug(fn, "Setting routerCmdType to a value of '" + type + "'");
+        DebugLog.printRTAriDebug(fn, "Setting routerCmdType to a value of '" + type + "'");
     }
 
     public String getLastFewLinesOfFile(File file, int linesToRead) throws IOException {
@@ -725,7 +684,6 @@ public class SshJcraftWrapper {
                 builder.append(c);
                 if (c == '\n') {
                     builder = builder.reverse();
-                    // System.out.println(builder.toString());
                     tail = builder.toString() + tail;
                     lines++;
                     builder.setLength(0);
@@ -736,7 +694,7 @@ public class SshJcraftWrapper {
             }
         }
         if (!jcraftReadSwConfigFileFromDisk()) {
-            debugLog.printRTAriDebug(fn, "tail='" + tail + "'");
+            DebugLog.printRTAriDebug(fn, "tail='" + tail + "'");
         }
         appendToFile(debugLogFileName, "tail='" + tail + "'\n");
         return tail;
@@ -767,12 +725,9 @@ public class SshJcraftWrapper {
     public void receiveUntilBufferFlush(int ncharsSent, int timeout, String message)
         throws TimedOutException, IOException {
         String fn = "SshJcraftWrapper.receiveUntilBufferFlush";
-        StringBuffer sb2 = new StringBuffer();
-        StringBuffer sbReceive = new StringBuffer();
-        debugLog.printRTAriDebug(fn, "ncharsSent=" + ncharsSent + " timeout=" + timeout + " " + message);
+        DebugLog.printRTAriDebug(fn, "ncharsSent=" + ncharsSent + " timeout=" + timeout + " " + message);
         int ncharsTotalReceived = 0;
         int ncharsRead = 0;
-        boolean flag = false;
         charactersFromBufferFlush.setLength(0);
 
         long deadline = new Date().getTime() + timeout;
@@ -781,10 +736,9 @@ public class SshJcraftWrapper {
             session.setTimeout(timeout);  // This is the socket timeout value.
             while (true) {
                 if (new Date().getTime() > deadline) {
-                    debugLog.printRTAriDebug(fn,
+                    DebugLog.printRTAriDebug(fn,
                         "Throwing a TimedOutException: time in routine has exceed our deadline: ncharsSent="
                             + ncharsSent + " ncharsTotalReceived=" + ncharsTotalReceived);
-                    flag = true;
                     throw new TimedOutException("Timeout: time in routine has exceed our deadline");
                 }
                 ncharsRead = reader.read(charBuffer, 0, BUFFER_SIZE);
@@ -793,9 +747,8 @@ public class SshJcraftWrapper {
                 }
                 appendToRouterFile("/tmp/" + RouterName, ncharsRead);
                 ncharsTotalReceived = ncharsTotalReceived + ncharsRead;
-                // debugLog.printRTAriDebug (fn, "::ncharsSent="+ncharsSent+" ncharsTotalReceived="+ncharsTotalReceived +" ncharsRead="+ncharsRead);
                 if (ncharsTotalReceived >= ncharsSent) {
-                    debugLog.printRTAriDebug(fn,
+                    DebugLog.printRTAriDebug(fn,
                         "Received the correct number of characters, ncharsSent=" + ncharsSent + " ncharsTotalReceived="
                             + ncharsTotalReceived);
                     logMemoryUsage();
@@ -803,8 +756,8 @@ public class SshJcraftWrapper {
                 }
             }
         } catch (JSchException e) {
-            debugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e);
-            debugLog.printRTAriDebug(fn,
+            DebugLog.printRTAriDebug(fn, "Caught an JSchException e=" + e);
+            DebugLog.printRTAriDebug(fn,
                 "ncharsSent=" + ncharsSent + " ncharsTotalReceived=" + ncharsTotalReceived + " ncharsRead="
                     + ncharsRead);
             throw new TimedOutException(e.toString());
@@ -824,26 +777,8 @@ public class SshJcraftWrapper {
     }
 
     public void sftpPut(String sourcePath, String destDirectory) throws IOException {
-        String fn = "SshJcraftWrapper.sftp";
-        try {
-            Session sftpSession = jsch.getSession(userName, hostName, 22);
-            UserInfo ui = new MyUserInfo();
-            sftpSession.setPassword(passWord);
-            sftpSession.setUserInfo(ui);
-            sftpSession.connect(30 * 1000);
-            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
-            ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            debugLog.printRTAriDebug(fn, "Connecting....");
-            sftp.connect();
-            debugLog.printRTAriDebug(fn, "Sending " + sourcePath + " --> " + destDirectory);
-            sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
-            debugLog.printRTAriDebug(fn, "Sent successfully");
-            sftpSession.disconnect();
-        } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
-            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
-            throw new IOException(e.toString());
-        }
+        // delegate to duplicate method
+        put(sourcePath, destDirectory);
     }
 
 
@@ -855,18 +790,17 @@ public class SshJcraftWrapper {
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
             sftpSession.connect(30 * 1000);
-            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            DebugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
             ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            debugLog.printRTAriDebug(fn, "Connecting....");
+            DebugLog.printRTAriDebug(fn, "Connecting....");
             sftp.connect();
             InputStream is = new ByteArrayInputStream(stringOfData.getBytes());
-            debugLog.printRTAriDebug(fn, "Sending stringOfData --> " + fullPathDest);
+            DebugLog.printRTAriDebug(fn, "Sending stringOfData --> " + fullPathDest);
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
-            debugLog.printRTAriDebug(fn, "Sent successfully");
+            DebugLog.printRTAriDebug(fn, "Sent successfully");
             sftpSession.disconnect();
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
-            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -879,20 +813,18 @@ public class SshJcraftWrapper {
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
             sftpSession.connect(30 * 1000);
-            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            DebugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
             ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            debugLog.printRTAriDebug(fn, "Connecting....");
+            DebugLog.printRTAriDebug(fn, "Connecting....");
             sftp.connect();
             InputStream in = null;
             in = sftp.get(fullFilePathName);
             String sftpFileString = readInputStreamAsString(in);
-            debugLog.printRTAriDebug(fn, "Retreived successfully");
-            // debugLog.printRTAriDebug (fn, "sftpFileString="+sftpFileString);
+            DebugLog.printRTAriDebug(fn, "Retreived successfully");
             sftpSession.disconnect();
             return (sftpFileString);
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
-            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -935,11 +867,11 @@ public class SshJcraftWrapper {
         String subsystem) throws IOException {
         String fn = "SshJcraftWrapper.connect";
 
-        debugLog.printRTAriDebug(fn,
+        DebugLog.printRTAriDebug(fn,
             ":::Attempting to connect to " + hostname + " username=" + username + " prompt='"
                 + prompt + "' timeOut=" + timeOut + " portNum=" + portNum + " subsystem=" + subsystem);
         RouterName = hostname;
-        jsch = new JSch();
+        jsch = getJSch();
         try {
             session = jsch.getSession(username, hostname, portNum);
             UserInfo ui = new MyUserInfo();
@@ -951,32 +883,31 @@ public class SshJcraftWrapper {
                 0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
             channel = session.openChannel("subsystem");
             ((ChannelSubsystem) channel).setSubsystem(subsystem);
-            // ((ChannelSubsystem)channel).setPtyType("vt102");
             ((ChannelSubsystem) channel).setPty(true);
 
             inputStream = channel.getInputStream();
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
-            debugLog.printRTAriDebug(fn, "Successfully connected.");
-            debugLog.printRTAriDebug(fn, "Five second sleep....");
+            DebugLog.printRTAriDebug(fn, "Successfully connected.");
+            DebugLog.printRTAriDebug(fn, "Five second sleep....");
             try {
-                Thread.sleep(5000);
+                delay(5000);
             } catch (java.lang.InterruptedException ee) {
-                boolean ignore = true;
+                Thread.currentThread().interrupt();
             }
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
             throw new IOException(e.toString());
         }
     }
 
     public void connect(String hostName, String username, String password, int portNumber) throws IOException {
         String fn = "SshJcraftWrapper.connect";
-        jsch = new JSch();
-        debugLog.printRTAriDebug(fn,
+        jsch = getJSch();
+        DebugLog.printRTAriDebug(fn,
             "::Attempting to connect to " + hostName + " username=" + username + " portNumber=" + portNumber);
-        debugLog.printRTAriDebug(fn, "Trace C");
+        DebugLog.printRTAriDebug(fn, "Trace C");
         RouterName = hostName;
         this.hostName = hostName;
         userName = username;
@@ -985,7 +916,6 @@ public class SshJcraftWrapper {
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             session = jsch.getSession(username, hostName, 22);
-            // session = jsch.getSession(username, hostName, portNumber);
             UserInfo ui = new MyUserInfo();
             session.setConfig(config);
             session.setPassword(password);
@@ -999,17 +929,16 @@ public class SshJcraftWrapper {
             dis = new DataInputStream(inputStream);
             reader = new BufferedReader(new InputStreamReader(dis), BUFFER_SIZE);
             channel.connect();
-            debugLog.printRTAriDebug(fn, "::Successfully connected.");
-            debugLog.printRTAriDebug(fn, "::Flushing input buffer");
+            DebugLog.printRTAriDebug(fn, "::Successfully connected.");
+            DebugLog.printRTAriDebug(fn, "::Flushing input buffer");
             try {
                 receiveUntil(":~#", 9000, "No cmd was sent, just waiting, but we can stop on a '~#'");
             } catch (Exception e) {
-                debugLog.printRTAriDebug(fn, "Caught an Exception::: Nothing to flush out.");
+                DebugLog.printRTAriDebug(fn, "Caught an Exception::: Nothing to flush out.");
             }
 
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
-            // dbLog.storeData("ErrorMsg= Exception trying to connect to "+hostName +" "+e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception. e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -1023,17 +952,16 @@ public class SshJcraftWrapper {
             sftpSession.setPassword(passWord);
             sftpSession.setUserInfo(ui);
             sftpSession.connect(30 * 1000);
-            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            DebugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
             ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            debugLog.printRTAriDebug(fn, "Connecting....");
+            DebugLog.printRTAriDebug(fn, "Connecting....");
             sftp.connect();
-            debugLog.printRTAriDebug(fn, "Sending " + sourcePath + " --> " + destDirectory);
+            DebugLog.printRTAriDebug(fn, "Sending " + sourcePath + " --> " + destDirectory);
             sftp.put(sourcePath, destDirectory, ChannelSftp.OVERWRITE);
-            debugLog.printRTAriDebug(fn, "Sent successfully");
+            DebugLog.printRTAriDebug(fn, "Sent successfully");
             sftpSession.disconnect();
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
-            // dbLog.storeData("ErrorMsg= sftp threw an Exception. error is:"+e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
             throw new IOException(e.toString());
         }
     }
@@ -1043,8 +971,8 @@ public class SshJcraftWrapper {
         String fn = "SshJcraftWrapper.put";
         Session sftpSession = null;
         try {
-            debugLog.printRTAriDebug(fn, "userName=" + userName + " hostName=" + hostName);
-            jsch = new JSch();
+            DebugLog.printRTAriDebug(fn, "userName=" + userName + " hostName=" + hostName);
+            jsch = getJSch();
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
             sftpSession = jsch.getSession(userName, hostName, 22);
@@ -1053,29 +981,28 @@ public class SshJcraftWrapper {
             sftpSession.setUserInfo(ui);
             sftpSession.setConfig(config);
             sftpSession.connect(30 * 1000);
-            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            DebugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
             ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            debugLog.printRTAriDebug(fn, "Connecting....");
+            DebugLog.printRTAriDebug(fn, "Connecting....");
             sftp.connect();
             String oldFiles = fullPathDest + "*";
-            debugLog.printRTAriDebug(fn, "Deleting old files --> " + oldFiles);
+            DebugLog.printRTAriDebug(fn, "Deleting old files --> " + oldFiles);
             try {
                 sftp.rm(oldFiles);
-                debugLog.printRTAriDebug(fn, "Sending stringOfData --> " + fullPathDest);
+                DebugLog.printRTAriDebug(fn, "Sending stringOfData --> " + fullPathDest);
             } catch (SftpException sft) {
                 String exp = "No such file";
                 if (sft.getMessage() != null && sft.getMessage().contains(exp)) {
-                    debugLog.printRTAriDebug(fn, "No files found -- Continue");
+                    DebugLog.printRTAriDebug(fn, "No files found -- Continue");
                 } else {
-                    debugLog.printRTAriDebug(fn, "Exception while sftp.rm " + sft.getMessage());
-                    sft.printStackTrace();
+                    DebugLog.printRTAriDebug(fn, "Exception while sftp.rm " + sft.getMessage());
                     throw sft;
                 }
             }
             sftp.put(is, fullPathDest, ChannelSftp.OVERWRITE);
-            debugLog.printRTAriDebug(fn, "Sent successfully");
+            DebugLog.printRTAriDebug(fn, "Sent successfully");
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
             throw new IOException(e.toString());
         } finally {
             if(sftpSession != null) {
@@ -1089,8 +1016,8 @@ public class SshJcraftWrapper {
         String fn = "SshJcraftWrapper.get";
         Session sftpSession = null;
         try {
-            debugLog.printRTAriDebug(fn, "userName=" + userName + " hostName=" + hostName);
-            jsch = new JSch();
+            DebugLog.printRTAriDebug(fn, "userName=" + userName + " hostName=" + hostName);
+            jsch = getJSch();
             sftpSession = jsch.getSession(userName, hostName, 22);
             java.util.Properties config = new java.util.Properties();
             config.put("StrictHostKeyChecking", "no");
@@ -1099,16 +1026,16 @@ public class SshJcraftWrapper {
             sftpSession.setUserInfo(ui);
             sftpSession.setConfig(config);
             sftpSession.connect(30 * 1000);
-            debugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
+            DebugLog.printRTAriDebug(fn, "Opening up an sftp channel....");
             ChannelSftp sftp = (ChannelSftp) sftpSession.openChannel("sftp");
-            debugLog.printRTAriDebug(fn, "Connecting....");
+            DebugLog.printRTAriDebug(fn, "Connecting....");
             sftp.connect();
             InputStream in = sftp.get(fullFilePathName);
             String sftpFileString = readInputStreamAsString(in);
-            debugLog.printRTAriDebug(fn, "Retreived successfully");
+            DebugLog.printRTAriDebug(fn, "Retreived successfully");
             return sftpFileString;
         } catch (Exception e) {
-            debugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an Exception, e=" + e);
             throw new IOException(e.toString());
         } finally {
             if(sftpSession != null) {
@@ -1120,7 +1047,7 @@ public class SshJcraftWrapper {
     public String send(String cmd, String delimiter) throws IOException {
         String fn = "SshJcraftWrapper.send";
         OutputStream out = channel.getOutputStream();
-        DataOutputStream dos = new DataOutputStream(out);
+        DataOutputStream dos = getDataOutputStream(out);
 
         if ((cmd.charAt(cmd.length() - 1) != '\n') && (cmd.charAt(cmd.length() - 1) != '\r')) {
             cmd += "\n";
@@ -1131,8 +1058,7 @@ public class SshJcraftWrapper {
         int ncharsTotalSent = 0;
         int ncharsSent = 0;
 
-        debugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
-        debugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
+        DebugLog.printRTAriDebug(fn, "Length of cmd is:" + length); // 2,937,706
         try {
             if (length > 600000) {
                 int timeout = 9000;
@@ -1140,35 +1066,45 @@ public class SshJcraftWrapper {
                     String Cmd = cmd.substring(i, Math.min(length, i + nchars));
                     ncharsSent = Cmd.length();
                     ncharsTotalSent = ncharsTotalSent + Cmd.length();
-                    debugLog.printRTAriDebug(fn, "i=" + i + " Sending Cmd: ncharsSent=" + ncharsSent);
+                    DebugLog.printRTAriDebug(fn, "i=" + i + " Sending Cmd: ncharsSent=" + ncharsSent);
                     dos.writeBytes(Cmd);
                     dos.flush();
                     try {
-                        debugLog.printRTAriDebug(fn, ":::i=" + i + " length=" + length);
+                        DebugLog.printRTAriDebug(fn, ":::i=" + i + " length=" + length);
                         if (ncharsSent < length) {
                             receiveUntilBufferFlush(ncharsSent, timeout, "buffer flush  i=" + i);
                         } else {
-                            debugLog.printRTAriDebug(fn, "i=" + i + " No Waiting this time....");
+                            DebugLog.printRTAriDebug(fn, "i=" + i + " No Waiting this time....");
                             dos.flush();
                         }
                     } catch (Exception e) {
-                        debugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
+                        DebugLog.printRTAriDebug(fn, "Caught an Exception: Nothing to flush out.");
                     }
                 }
             } else {
-                debugLog.printRTAriDebug(fn, "Before executing the dos.writeBytes");
+                DebugLog.printRTAriDebug(fn, "Before executing the dos.writeBytes");
                 dos.writeBytes(cmd);
             }
             dos.flush();
             // Now lets get the response.
             String response = receiveUntil(delimiter, 300000, cmd);
-            debugLog.printRTAriDebug(fn, "Leaving method");
+            DebugLog.printRTAriDebug(fn, "Leaving method");
             return (response);
         } catch (IOException e) {
-            debugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
+            DebugLog.printRTAriDebug(fn, "Caught an IOException. e=" + e);
             throw new IOException(e.toString());
         }
     }
 
+    protected JSch getJSch() {
+        return new JSch();
+    }
 
+    protected DataOutputStream getDataOutputStream(OutputStream out) {
+        return new DataOutputStream(out);
+    }
+
+    protected void delay(int milliseconds) throws InterruptedException {
+        Thread.sleep(5000);
+    }
 }
