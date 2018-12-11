@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_25bcea05",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T14:47:01Z",
+      "side": 1,
+      "message": "Could you confirm if I am right that this code is unreachable and I will delete the \u0027else\u0027 block?",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 40
+      },
+      "revId": "fcce733276d7856acb4f4bb89beebe168e5bb14a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
