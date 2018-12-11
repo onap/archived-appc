@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_687e471b",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-12-11T18:26:35Z",
+      "side": 1,
+      "message": "Are we sure the code coverage will be increased when using hamcrest?",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e891d747",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-12-11T18:26:35Z",
+      "side": 1,
+      "message": "Can we use powermock for code coverage?",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
