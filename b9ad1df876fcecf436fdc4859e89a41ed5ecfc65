@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_224700be",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T08:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_bfb307e8",
+      "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_5fcc5b6a",
         "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2018-12-10T18:03:01Z",
       "side": 1,
       "message": "remove \"ignore\".  Should probably call currentThread.interrupt()",
+      "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_424484b6",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T08:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_5fcc5b6a",
       "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_c244f41c",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1020,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T08:57:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_1fc25334",
+      "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_ff0bcf8b",
         "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/SshJcraftWrapperTest.java",
         "patchSetId": 2
@@ -64,6 +118,24 @@
       "writtenOn": "2018-12-10T18:03:01Z",
       "side": 1,
       "message": "are these sleeps long enough to work even on a slow build server?  (if not, is there a way to make this work without having a sleep at all?) - sonar doesn\u0027t like \"sleep\" in test code",
+      "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a23f7086",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/SshJcraftWrapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T08:57:31Z",
+      "side": 1,
+      "message": "The sleep is just required to make sure that the system clock has incremented by (at least) 1 millisecond between passing in our timeout value (i.e. 0) and setting a deadline (line 203) and checking to see if the deadline has been miseed (line 207). Even on the fastest system 1ms is therefore enough and the slower the system is running the more the message will have expired by.\n(N.B The JSch code rejects negative timeout values)\nLooking into the question of whether it is bad practice to have Thread.sleep in tests it seems that it should definitely be avoided if it is used to try to pre-determine the outcome of race conditions but use as here in a simple delay is not likely to cause a problem.\nThe tests with Thread.sleep can be removed to avoid introducing sonar issues but the coverage will be slightly lowered.",
+      "parentUuid": "9adffdf1_ff0bcf8b",
       "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_22e5c037",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/SshJcraftWrapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T08:57:31Z",
+      "side": 1,
+      "message": "The method being tested has void return type.\nBecause DataOutputStream is a final class we use PowerMockito to mock it and @PrepareForTest on it which works for non-final methods of the class.\nTo do a verify on final methods of this final class is not possible without a @PrepareForTest annotation creating a proxy object for the class under test which would mean we lose the code coverage for the entire class.\nThis is because the Java compiler identifies the real object methods (where they are final) before mocking can substitute the proxy bytecode manipulated version.",
+      "parentUuid": "9adffdf1_9fe5e3dd",
+      "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_bfea27aa",
         "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/SshJcraftWrapperTest.java",
         "patchSetId": 2
@@ -98,6 +188,24 @@
       "writtenOn": "2018-12-10T18:03:01Z",
       "side": 1,
       "message": "add a check that the expected content was sent?",
+      "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a2c8d0a8",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/SshJcraftWrapperTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T08:57:31Z",
+      "side": 1,
+      "message": "The method being tested has void return type.\nBecause DataOutputStream is a final class we use PowerMockito to mock it and @PrepareForTest on it which works for non-final methods of the class.\nTo do a verify on final methods of this final class is not possible without a @PrepareForTest annotation creating a proxy object for the class under test which would mean we lose the code coverage for the entire class.\nThis is because the Java compiler identifies the real object methods (where they are final) before mocking can substitute the proxy bytecode manipulated version.",
+      "parentUuid": "9adffdf1_bfea27aa",
       "revId": "b9ad1df876fcecf436fdc4859e89a41ed5ecfc65",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
