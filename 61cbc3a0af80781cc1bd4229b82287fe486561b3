@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_13a9ec90",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T23:17:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_4844a3b6",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_2847dfbd",
         "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
         "patchSetId": 1
@@ -100,6 +118,24 @@
       "writtenOn": "2018-12-11T19:31:04Z",
       "side": 1,
       "message": "could use IOException.class.getName()",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d3ae0498",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T23:17:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_2847dfbd",
       "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
