@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_c20f1487",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/SshJcraftWrapperTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-11T09:00:45Z",
+      "side": 1,
+      "message": "Remove this",
+      "range": {
+        "startLine": 302,
+        "startChar": 0,
+        "endLine": 302,
+        "endChar": 46
+      },
+      "revId": "696dcc0f804c99159ed853f049b790e8f8a8484b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
