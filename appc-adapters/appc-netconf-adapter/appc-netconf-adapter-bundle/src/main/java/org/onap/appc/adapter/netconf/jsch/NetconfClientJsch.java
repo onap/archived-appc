@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +31,8 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -62,7 +66,7 @@ public class NetconfClientJsch implements NetconfClient {
         String password = connectionDetails.getPassword();
         try {
             JSch.setLogger(new JSchLogger());
-            JSch jsch = new JSch();
+            JSch jsch = getJSch();
             session = jsch.getSession(EncryptionTool.getInstance().decrypt(username), host, port);
             session.setPassword(EncryptionTool.getInstance().decrypt(password));
             session.setConfig("StrictHostKeyChecking", "no");
@@ -131,10 +135,9 @@ public class NetconfClientJsch implements NetconfClient {
 
     private void createConnection(NetconfConnectionDetails connectionDetails) throws APPCException {
         try {
-//          session.setServerAliveCountMax(0); // If this is not set to '0', then socket timeout on all reads will not work!!!!
             channel = session.openChannel("subsystem");
             ((ChannelSubsystem)channel).setSubsystem("netconf");
-            netconfAdapter = new NetconfAdapter(channel.getInputStream(), channel.getOutputStream());
+            netconfAdapter = getNetconfAdapter(channel.getInputStream(), channel.getOutputStream());
             channel.connect(CHANNEL_CONNECT_TIMEOUT);
             hello(connectionDetails.getCapabilities());
         } catch(Exception e) {
@@ -146,7 +149,7 @@ public class NetconfClientJsch implements NetconfClient {
     private void hello(List<String> capabilities) throws IOException {
         String helloIn = netconfAdapter.receiveMessage();
         if(helloIn == null) {
-            throw new IOException("Expected hello message, but nothing received error from netconf device");
+            throw new IOException("Expected hello message, but nothing received from netconf device");
         }
         if(helloIn.contains("<rpc-error>")) {
             throw new IOException("Expected hello message, but received error from netconf device:\n" + helloIn);
@@ -171,5 +174,13 @@ public class NetconfClientJsch implements NetconfClient {
         if(!response.contains("<ok/>")) {
             throw new IOException("Error response from netconf device: \n" + response);
         }
+    }
+    
+    protected JSch getJSch() {
+        return new JSch();
+    }
+    
+    protected NetconfAdapter getNetconfAdapter(InputStream inputStream, OutputStream outputStream) throws IOException {
+        return new NetconfAdapter(inputStream, outputStream);
     }
 }
