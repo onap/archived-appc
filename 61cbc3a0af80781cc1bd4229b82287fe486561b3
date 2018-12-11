@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_883e0b27",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-11T19:31:04Z",
+      "side": 1,
+      "message": "shouldn\u0027t be a problem, unless you\u0027ve seen something to the contrary?",
+      "parentUuid": "9adffdf1_687e471b",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_e891d747",
         "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
         "patchSetId": 1
@@ -30,6 +48,58 @@
       "writtenOn": "2018-12-11T18:26:35Z",
       "side": 1,
       "message": "Can we use powermock for code coverage?",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c838933f",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-11T19:31:04Z",
+      "side": 1,
+      "message": "Should be fine - as long as you don\u0027t do prepareForTest(theClassToBeTested.class), then it will still be counted.  In this particular case, it\u0027s only using the Whitebox methods, which has no bearing on code coverage.",
+      "parentUuid": "9adffdf1_e891d747",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4844a3b6",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-11T19:31:04Z",
+      "side": 1,
+      "message": "could combine this and the next line using Arrays.asList()",
+      "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2847dfbd",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-11T19:31:04Z",
+      "side": 1,
+      "message": "could use IOException.class.getName()",
       "revId": "61cbc3a0af80781cc1bd4229b82287fe486561b3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
