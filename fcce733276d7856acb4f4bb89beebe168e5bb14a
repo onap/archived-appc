@@ -46,6 +46,30 @@
       "revId": "fcce733276d7856acb4f4bb89beebe168e5bb14a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e8a317b0",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2018-12-11T17:56:10Z",
+      "side": 1,
+      "message": "https://gerrit.onap.org/r/#/c/15725/5/appc-config/appc-config-adaptor/provider/src/main/java/org/openecomp/appc/ccadaptor/SshJcraftWrapper.java\n\nthis is original submission. I am checking with Dilip",
+      "parentUuid": "9adffdf1_c5b71ef4",
+      "range": {
+        "startLine": 282,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 40
+      },
+      "revId": "fcce733276d7856acb4f4bb89beebe168e5bb14a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
