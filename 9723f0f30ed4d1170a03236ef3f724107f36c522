@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_ae0af776",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-12T13:15:03Z",
+      "side": 1,
+      "message": "fyi: can just do: Arrays.asList(\"xxx\", \"yyy\", ...)",
+      "revId": "9723f0f30ed4d1170a03236ef3f724107f36c522",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6e288fe2",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/jsch/TestNetconfClientJsch.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2018-12-12T13:15:03Z",
+      "side": 1,
+      "message": "sorry, should have mentioned this before - can use IOException.class.getName() here, too",
+      "revId": "9723f0f30ed4d1170a03236ef3f724107f36c522",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
