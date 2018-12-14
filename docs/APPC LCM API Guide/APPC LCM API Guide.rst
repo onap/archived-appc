@@ -980,6 +980,40 @@ Request Payload Parameters:
 |                         | be specified.                          |                 |                                                       |
 +-------------------------+----------------------------------------+-----------------+-------------------------------------------------------+
 
+ConfigModify Request
+^^^^^^^^^^^^^^^^^^^^
+
+    Examples::
+
+              {
+                     "input": {
+                          "common-header": {
+                              "timestamp": "2017-10-25T11:10:04.244Z",
+                              "api-ver": "2.00",
+                              "originator-id": "664be3d2-6c12-4f4b-a3e7-c349acced200",
+                              "request-id": "664be3d2-6c12-4f4b-a3e7-c349acced200",
+                              "sub-request-id": "1",
+                              "flags": {
+                                  "force": "TRUE",
+                                  "ttl": 60000
+                              }
+                          },
+                          "action": "ConfigModify",
+                          "action-identifiers": {
+                              "vnf-id": "<VNF_ID>"
+                          },
+                          "payload": "{ \"config-url\":\"5f517fd4-bf3d-43bc-8147-1b61776d7ded\",
+                                        \"config-json\": \"{\"pg-streams\":{
+                                        \"pg-stream\": [{ \"id\":\"fw_udp1\", \"is-enabled\": \"true\" }, 
+                                        {\"id\": \"fw_udp2\", \"is-enabled\":\"true\" }, 
+                                        { \"id\": \"fw_udp3\",\"is-enabled\": \"true\" },
+                                        { \"id\":\"fw_udp4\", \"is-enabled\": \"true\" }, 
+                                        {\"id\": \"fw_udp5\", \"is-enabled\":\"true\" }]}}"
+                          }
+                      }
+             }
+
+
 ConfigModify Response
 ^^^^^^^^^^^^^^^^^^^^^
 
