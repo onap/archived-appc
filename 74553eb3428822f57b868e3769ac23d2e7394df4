@@ -16,6 +16,24 @@
       "revId": "74553eb3428822f57b868e3769ac23d2e7394df4",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0d3a2099",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ProviderAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2018-12-17T21:02:08Z",
+      "side": 1,
+      "message": "This seems to be the way that the EncryptionTool class works currently. https://gerrit.onap.org/r/gitweb?p\u003dappc.git;a\u003dblob;f\u003dappc-core/appc-common-bundle/java/org/onap/appc/encryption/EncryptionTool.java;h\u003d480b15e068f64ba602a11dd383e6bfc54a114741;hb\u003dHEAD",
+      "parentUuid": "9adffdf1_1266bd2a",
+      "revId": "74553eb3428822f57b868e3769ac23d2e7394df4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
