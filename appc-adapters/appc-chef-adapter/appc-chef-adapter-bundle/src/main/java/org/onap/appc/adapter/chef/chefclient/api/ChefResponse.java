@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ *
+ * Modifications Copyright © 2018 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +26,13 @@ public final class ChefResponse {
     private final String body;
     private final int status;
 
-    public static ChefResponse create(int status, String body) {
-        return new ChefResponse(status, body);
-    }
-
     private ChefResponse(int status, String body) {
         this.status = status;
         this.body = body;
+    }
+
+    public static ChefResponse create(int status, String body) {
+        return new ChefResponse(status, body);
     }
 
     public int getStatusCode() {
