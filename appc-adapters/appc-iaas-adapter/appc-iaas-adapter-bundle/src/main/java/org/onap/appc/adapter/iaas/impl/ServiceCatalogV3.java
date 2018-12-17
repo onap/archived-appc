@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright © 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -54,8 +56,6 @@ import com.woorea.openstack.keystone.v3.model.Token;
 import com.woorea.openstack.keystone.v3.model.Token.Project;
 import com.woorea.openstack.keystone.v3.model.Token.Service;
 import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
-
-import javax.validation.constraints.Null;
 
 /**
  * This class is used to capture and cache the service catalog for a specific OpenStack provider.
