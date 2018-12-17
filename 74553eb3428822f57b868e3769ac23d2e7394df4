@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_1266bd2a",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ProviderAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1733
+      },
+      "writtenOn": "2018-12-17T20:07:09Z",
+      "side": 1,
+      "message": "Can the value be checked for \"enc:\" before entering this logic? If \"enc:\" is not encountered, then keep the original logic for processing a non-encrypted password value.",
+      "revId": "74553eb3428822f57b868e3769ac23d2e7394df4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
