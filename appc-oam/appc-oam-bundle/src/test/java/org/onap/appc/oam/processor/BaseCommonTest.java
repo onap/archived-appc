@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +46,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 import org.slf4j.MDC;
-
 import java.util.Map;
 
 import static org.mockito.Mockito.mock;
@@ -115,6 +116,7 @@ public class BaseCommonTest {
         Mockito.doReturn(AppcOamStates.Started).when(mockStateHelper).getCurrentOamState();
         Mockito.doReturn("testRequestId").when(mockCommonHeader).getRequestId();
         Mockito.doReturn("testOrigId").when(mockCommonHeader).getOriginatorId();
+        Mockito.doReturn("SOME HOST NAME").when(testBaseCommon).getHostInfo(Mockito.anyString());
 
         String exceptionMessage = "testing";
 
@@ -146,6 +148,7 @@ public class BaseCommonTest {
     @Test
     public void testSetInitialLogProperties() throws Exception {
         mockStatic(MDC.class);
+        Mockito.doReturn("SOME HOST NAME").when(testBaseCommon).getHostInfo(Mockito.anyString());
         testBaseCommon.setInitialLogProperties();
         PowerMockito.verifyStatic(times(5));
     }
@@ -159,6 +162,7 @@ public class BaseCommonTest {
 
     @Test
     public void testResetLogProperties() throws Exception {
+        Mockito.doReturn("SOME HOST NAME").when(testBaseCommon).getHostInfo(Mockito.anyString());
         testBaseCommon.setInitialLogProperties();
 
         testBaseCommon.resetLogProperties(false);

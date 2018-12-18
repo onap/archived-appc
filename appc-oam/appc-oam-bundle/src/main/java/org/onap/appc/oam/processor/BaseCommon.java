@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,6 +44,7 @@ import org.onap.appc.oam.util.StateHelper;
 import org.slf4j.MDC;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
@@ -129,9 +132,9 @@ public abstract class BaseCommon {
         try {
             //!!!Don't change the following to a .getHostName() again please. It's wrong!MDC.put(MDC_SERVER_FQDN,
             // InetAddress.getLocalHost().getCanonicalHostName());
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getCanonicalHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-            MDC.put(LoggingConstants.MDCKeys.SERVER_NAME, InetAddress.getLocalHost().getHostName());
+            MDC.put(MDC_SERVER_FQDN, getHostInfo("canonicalHostName"));
+            MDC.put(MDC_SERVER_IP_ADDRESS, getHostInfo("hostName"));
+            MDC.put(LoggingConstants.MDCKeys.SERVER_NAME, getHostInfo("hostName"));
         } catch (Exception e) {
             logger.error("MDC constant error", e);
         }
@@ -260,5 +263,21 @@ public abstract class BaseCommon {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(message, args));
         }
+    }
+
+    protected String getHostInfo(String type) throws UnknownHostException {
+        InetAddress inetAddress = InetAddress.getLocalHost();
+        String returnValue = "";
+        switch(type) {
+            case "canonicalHostName": returnValue = inetAddress.getCanonicalHostName();
+                break;
+            case "hostName": returnValue = inetAddress.getHostName();
+                break;
+            case "hostAddress": returnValue = inetAddress.getHostAddress();
+                break;
+            default: returnValue = "Invalid operation";
+                break;
+        }
+        return returnValue;
     }
 }
