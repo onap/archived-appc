@@ -122,7 +122,7 @@ public class StateHelper {
      * @return AppcOamStates
      */
     public AppcOamStates getBundlesState() {
-        BundleHelper bundleHelper = new BundleHelper(logger, configurationHelper, this);
+        BundleHelper bundleHelper = getBundleHelper(logger, configurationHelper);
         Map<String, Bundle> lcmBundleMap = bundleHelper.getAppcLcmBundles();
         if (lcmBundleMap == null || lcmBundleMap.isEmpty()) {
             return AppcOamStates.Unknown;
@@ -140,4 +140,7 @@ public class StateHelper {
         return AppcOamStates.getOamStateFromBundleState(currentState);
     }
 
+    protected BundleHelper getBundleHelper(EELFLogger logger, ConfigurationHelper configurationHelper) {
+        return new BundleHelper(logger, configurationHelper, this);
+    }
 }
