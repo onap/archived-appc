@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -122,7 +124,7 @@ public class StateHelper {
      * @return AppcOamStates
      */
     public AppcOamStates getBundlesState() {
-        BundleHelper bundleHelper = new BundleHelper(logger, configurationHelper, this);
+        BundleHelper bundleHelper = getBundleHelper(logger, configurationHelper);
         Map<String, Bundle> lcmBundleMap = bundleHelper.getAppcLcmBundles();
         if (lcmBundleMap == null || lcmBundleMap.isEmpty()) {
             return AppcOamStates.Unknown;
@@ -140,4 +142,7 @@ public class StateHelper {
         return AppcOamStates.getOamStateFromBundleState(currentState);
     }
 
+    protected BundleHelper getBundleHelper(EELFLogger logger, ConfigurationHelper configurationHelper) {
+        return new BundleHelper(logger, configurationHelper, this);
+    }
 }

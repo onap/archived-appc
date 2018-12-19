@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +35,6 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.AppcState;
 import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.Bundle;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
@@ -44,7 +45,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({StateHelper.class})
 public class StateHelperTest {
     private StateHelper stateHelper;
 
@@ -63,7 +63,7 @@ public class StateHelperTest {
         stateHelper.setState(appcOamStates);
         Assert.assertEquals("Should have the new value", appcOamStates,
                 Whitebox.getInternalState(stateHelper, "appcOamCurrentState"));
-        // reest to default value
+        // reset to default value
         stateHelper.setState(AppcOamStates.Unknown);
     }
 
@@ -90,7 +90,7 @@ public class StateHelperTest {
     @Test
     public void testGetCurrentOamState() throws Exception {
         AppcOamStates mockResult = AppcOamStates.Started;
-        // mock getBundlesState, as we are testin it separately
+        // mock getBundlesState, as we are testing it separately
         PowerMockito.doReturn(mockResult).when(stateHelper, "getBundlesState");
 
         Whitebox.setInternalState(stateHelper, "appcOamCurrentState", AppcOamStates.Unknown);
@@ -142,23 +142,23 @@ public class StateHelperTest {
 
     @Test
     public void testGetBundlesState() throws Exception {
-        BundleHelper mockBundlerHelper = mock(BundleHelper.class);
-        PowerMockito.whenNew(BundleHelper.class).withAnyArguments().thenReturn(mockBundlerHelper);
-
+        BundleHelper mockBundleHelper = mock(BundleHelper.class);
+        Mockito.doReturn(mockBundleHelper).when(stateHelper).getBundleHelper(Mockito.any(EELFLogger.class), Mockito.any(ConfigurationHelper.class));
+        
         // test null bundle map
-        Mockito.when(mockBundlerHelper.getAppcLcmBundles()).thenReturn(null);
+        Mockito.when(mockBundleHelper.getAppcLcmBundles()).thenReturn(null);
         Assert.assertEquals("Should return unknown state", AppcOamStates.Unknown, stateHelper.getBundlesState());
 
         // tet empty bundle map
         Map<String, Bundle> bundleMap = new HashMap<>();
-        Mockito.when(mockBundlerHelper.getAppcLcmBundles()).thenReturn(bundleMap);
+        Mockito.when(mockBundleHelper.getAppcLcmBundles()).thenReturn(bundleMap);
         Assert.assertEquals("Should return unknown state", AppcOamStates.Unknown, stateHelper.getBundlesState());
 
         Bundle mockBundle1 = mock(Bundle.class);
         Bundle mockBundle2 = mock(Bundle.class);
         bundleMap.put("1", mockBundle1);
         bundleMap.put("2", mockBundle2);
-        Mockito.when(mockBundlerHelper.getAppcLcmBundles()).thenReturn(bundleMap);
+        Mockito.when(mockBundleHelper.getAppcLcmBundles()).thenReturn(bundleMap);
 
         // test bundles have differnt states
         Mockito.doReturn(Bundle.RESOLVED).when(mockBundle1).getState();
