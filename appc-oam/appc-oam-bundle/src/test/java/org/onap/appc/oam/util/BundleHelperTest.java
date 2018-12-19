@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +25,23 @@
 
 package org.onap.appc.oam.util;
 
+import static org.hamcrest.CoreMatchers.isA;
+
 import com.att.eelf.configuration.EELFLogger;
+import com.google.common.collect.ImmutableMap;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.oam.AppcOam;
+import org.onap.appc.oam.processor.BaseCommon;
+import org.onap.appc.oam.util.BundleHelper.BundleTask;
 import org.onap.appc.statemachine.impl.readers.AppcOamStates;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -47,19 +56,27 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 import static org.powermock.api.mockito.PowerMockito.spy;
 
-@SuppressWarnings("ResultOfMethodCallIgnored")
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({BundleHelper.class, FrameworkUtil.class})
+@PrepareForTest(FrameworkUtil.class)
 public class BundleHelperTest {
     private BundleHelper bundleHelper;
     private AsyncTaskHelper mockTaskHelper = mock(AsyncTaskHelper.class);
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -72,7 +89,7 @@ public class BundleHelperTest {
 
     @Test
     public void testBundleOperations() throws Exception {
-        // spy mocked bundle for calls to method statr or stop.
+        // spy mocked bundle for calls to method start or stop.
         // Note: the time of method calls are accumulated in this test method.
         Bundle mockBundle = spy(Mockito.mock(Bundle.class));
         Map<String, Bundle> mapFromGetAppcLcmBundles = new HashMap<>();
@@ -172,8 +189,75 @@ public class BundleHelperTest {
         Mockito.doReturn(propValue3).when(fakeConf).getProperty("4321");
         propResult = bundleHelper.readPropsFromPropListName(propKey);
         Assert.assertTrue("PropertyResult should have two elements", propResult.length == 2);
-        List propResultList = Arrays.asList(propResult);
+        List<String> propResultList = Arrays.asList(propResult);
         Assert.assertTrue("PropertyResult should have propertyValue2", propResultList.contains(propValue2));
         Assert.assertTrue("PropertyResult should have propertyValue2", propResultList.contains(propValue3));
+    }
+
+    @Test
+    public void testIsTaskAllDone() throws InterruptedException, ExecutionException {
+        assertTrue(bundleHelper.isAllTaskDone(getMapForTests(true)));
+    }
+
+    @Test
+    public void testIsTaskAllDoneNotDone() throws InterruptedException, ExecutionException {
+        assertFalse(bundleHelper.isAllTaskDone(getMapForTests(false)));
+    }
+
+    @Test
+    public void testCancelUnfinished() throws InterruptedException, ExecutionException {
+        Map<String, Future<?>> map = getMapForTests(false);
+        bundleHelper.cancelUnfinished(map);
+        Mockito.verify(map.get("TEST_KEY"), Mockito.times(1)).cancel(true);
+    }
+
+    @Test
+    public void testGetFailedMetrics() throws InterruptedException, ExecutionException {
+        Map<String, Future<?>> map = getMapForTests(false);
+        FutureTask<String> mockFutureTask = (FutureTask<String>) map.get("TEST_KEY"); 
+        Mockito.doReturn(Mockito.mock(BundleHelper.BundleTask.class)).when(mockFutureTask).get();
+        assertEquals(0, bundleHelper.getFailedMetrics(map));
+    }
+
+    @Test
+    public void testGetFailedMetricsExceptionFlow() throws InterruptedException, ExecutionException {
+        Map<String, Future<?>> map = getMapForTests(false);
+        FutureTask<String> mockFutureTask = (FutureTask<String>) map.get("TEST_KEY"); 
+        Mockito.doThrow(new ExecutionException("TestExecutionException", new Throwable())).when(mockFutureTask).get();
+        expectedEx.expect(RuntimeException.class);
+        expectedEx.expectCause(isA(ExecutionException.class));
+        bundleHelper.getFailedMetrics(map);
+    }
+
+    @Test
+    public void testGetAppcLcmBundles() {
+        Mockito.doReturn(null).when(bundleHelper).readPropsFromPropListName(Mockito.anyString());
+        mockStatic(FrameworkUtil.class);
+        Bundle myBundle = mock(Bundle.class);
+        PowerMockito.when(FrameworkUtil.getBundle(any())).thenReturn(myBundle);
+        BundleFilter mockBundleFilter = Mockito.mock(BundleFilter.class);
+        Mockito.doReturn(mockBundleFilter).when(bundleHelper).getBundleFilter(null, null, null);
+        assertTrue(bundleHelper.getAppcLcmBundles().isEmpty());
+    }
+
+    @Test
+    public void testBundleTask() throws Exception {
+        AppcOam.RPC mockRpc = AppcOam.RPC.maintenance_mode;
+        Bundle mockBundle = Mockito.mock(Bundle.class);
+        BaseCommon mockBaseCommon = Mockito.mock(BaseCommon.class);
+        assertTrue(bundleHelper. new BundleTask(mockRpc, mockBundle, mockBaseCommon) instanceof BundleHelper.BundleTask);
+    }
+
+    private Map<String, Future<?>> getMapForTests(boolean isDone) throws InterruptedException, ExecutionException {
+        Callable<String> callable = new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                return "CALLED";
+            }
+        };
+        FutureTask<String> futureTask = Mockito.spy(new FutureTask<String>(callable));
+        Mockito.doReturn(isDone).when(futureTask).isDone();
+        Map<String, Future<?>> map = ImmutableMap.of("TEST_KEY", futureTask);
+        return map;
     }
 }
