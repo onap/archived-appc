@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -166,7 +168,7 @@ public class BundleHelper {
         String[] bundlesToStop = readPropsFromPropListName(PROP_BUNDLE_TO_STOP);
         String[] regExBundleNotStop = readPropsFromPropListName(PROP_BUNDLES_TO_NOT_STOP);
 
-        BundleFilter bundleList = new BundleFilter(bundlesToStop, regExBundleNotStop, getBundleList());
+        BundleFilter bundleList = getBundleFilter(bundlesToStop, regExBundleNotStop, getBundleList());
 
         logger.info(String.format("(%d) APPC bundles to Stop/Start: %s.", bundleList.getBundlesToStop().size(),
             bundleList.getBundlesToStop().toString()));
@@ -218,6 +220,10 @@ public class BundleHelper {
         if (logger.isDebugEnabled()) {
             logger.debug(String.format(message, args));
         }
+    }
+
+    protected BundleFilter getBundleFilter(String[] stopRegexes, String[] exceptRegexes, Bundle[] bundles) {
+        return new BundleFilter(stopRegexes, exceptRegexes, bundles);
     }
 
     /**
