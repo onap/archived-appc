@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,8 +31,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
-
+import org.onap.appc.configuration.Configuration;
 import org.mockito.Mockito;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeader;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.common.header.CommonHeaderBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.status.Status;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
@@ -39,15 +44,21 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFLogger.Level;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.onap.appc.configuration.ConfigurationFactory;
+import org.onap.appc.oam.AppcOam.RPC;
 import java.util.HashSet;
-
+import java.util.Properties;
+import java.util.Set;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({MessageAdapter.class, FrameworkUtil.class})
+@PrepareForTest({FrameworkUtil.class, ConfigurationFactory.class, Converter.class})
 public class MessageAdapterTest {
 
     private Producer fakeProducer;
@@ -88,6 +99,8 @@ public class MessageAdapterTest {
         MessageAdapter maSpy = Mockito.spy(messageAdapter);
         Whitebox.setInternalState(maSpy, "producer", (Object) null);
         HashSet<String> pool = new HashSet<>();
+        pool.add("NOT_HTTPS");
+        pool.add("https");
         Whitebox.setInternalState(maSpy, "pool", pool);
 
         // Prepare all mocks
@@ -110,5 +123,86 @@ public class MessageAdapterTest {
         Producer mySpyProducer = Whitebox.getInternalState(maSpy, "producer");
         Assert.assertTrue("MessageAdapter producer does not match",mySpyProducer == fakeProducer);
         Mockito.verify(maSpy, Mockito.times(1)).createProducer();
+    }
+
+    @Test
+    public void testUpdateProperties() {
+        MessageAdapter maSpy = Mockito.spy(messageAdapter);
+        Mockito.doNothing().when(maSpy).createProducer();
+        Whitebox.setInternalState(maSpy, "isDisabled", false);
+        PowerMockito.mockStatic(ConfigurationFactory.class);
+        Configuration mockConfig = Mockito.mock(Configuration.class);
+        Properties properties = new Properties();
+        properties.setProperty("appc.OAM.poolMembers", "hostname1,hostname2");
+        Mockito.when(ConfigurationFactory.getConfiguration()).thenReturn(mockConfig);
+        Mockito.doReturn(properties).when(mockConfig).getProperties();
+        maSpy.init();
+        assertEquals(2, ((Set<String>)Whitebox.getInternalState(maSpy, "pool")).size());
+    }
+
+    @Test
+    public void testPost() throws JsonProcessingException {
+        MessageAdapter maSpy = Mockito.spy(messageAdapter);
+        OAMContext oamContext = new OAMContext();
+        oamContext.setRpcName(RPC.maintenance_mode);
+        CommonHeader mockCommonHeader = Mockito.mock(CommonHeader.class);
+        Mockito.doReturn("TEST REQUEST ID").when(mockCommonHeader).getRequestId();
+        oamContext.setCommonHeader(mockCommonHeader);
+        Status mockStatus = Mockito.mock(Status.class);
+        oamContext.setStatus(mockStatus);
+        EELFLogger mockLogger = Mockito.mock(EELFLogger.class);
+        Mockito.doReturn(true).when(mockLogger).isTraceEnabled();
+        Mockito.doReturn(true).when(mockLogger).isDebugEnabled();
+        Whitebox.setInternalState(maSpy, "logger", mockLogger);
+        PowerMockito.mockStatic(Converter.class);
+        Mockito.when(Converter.convAsyncResponseToUebOutgoingMessageJsonString(oamContext)).thenReturn("{cambriaPartition='MSO', rpcName='maintenance_mode',"
+                + " body=Body{output=MaintenanceModeOutput [_commonHeader=CommonHeader, hashCode: 14584991,"
+                + " _status=Status, hashCode: 24801521, augmentation=[]]}}");
+        Mockito.doNothing().when(maSpy).createProducer();
+        maSpy.post(oamContext);
+        Mockito.verify(mockLogger).trace(Mockito.contains("Entering to post"));
+        Mockito.verify(mockLogger).trace("Exiting from post with (success = false)");
+    }
+
+    @Test
+    public void testPostExceptionFlow() throws JsonProcessingException {
+        MessageAdapter maSpy = Mockito.spy(messageAdapter);
+        OAMContext oamContext = new OAMContext();
+        oamContext.setRpcName(RPC.maintenance_mode);
+        CommonHeader mockCommonHeader = Mockito.mock(CommonHeader.class);
+        Mockito.doReturn("TEST REQUEST ID").when(mockCommonHeader).getRequestId();
+        oamContext.setCommonHeader(mockCommonHeader);
+        Status mockStatus = Mockito.mock(Status.class);
+        oamContext.setStatus(mockStatus);
+        EELFLogger mockLogger = Mockito.mock(EELFLogger.class);
+        Mockito.doReturn(false).when(mockLogger).isTraceEnabled();
+        Mockito.doReturn(false).when(mockLogger).isDebugEnabled();
+        Whitebox.setInternalState(maSpy, "logger", mockLogger);
+        PowerMockito.mockStatic(Converter.class);
+        Mockito.when(Converter.convAsyncResponseToUebOutgoingMessageJsonString(oamContext)).thenThrow(new JsonProcessingException("ERROR") {});
+        Mockito.doNothing().when(maSpy).createProducer();
+        maSpy.post(oamContext);
+        Mockito.verify(mockLogger).error(Mockito.contains("Error generating Json from UEB message"));
+    }
+
+    @Test
+    public void testPostExceptionFlow2() throws JsonProcessingException {
+        MessageAdapter maSpy = Mockito.spy(messageAdapter);
+        OAMContext oamContext = new OAMContext();
+        oamContext.setRpcName(RPC.maintenance_mode);
+        CommonHeader mockCommonHeader = Mockito.mock(CommonHeader.class);
+        Mockito.doReturn("TEST REQUEST ID").when(mockCommonHeader).getRequestId();
+        oamContext.setCommonHeader(mockCommonHeader);
+        Status mockStatus = Mockito.mock(Status.class);
+        oamContext.setStatus(mockStatus);
+        EELFLogger mockLogger = Mockito.mock(EELFLogger.class);
+        Mockito.doReturn(false).when(mockLogger).isTraceEnabled();
+        Mockito.doReturn(false).when(mockLogger).isDebugEnabled();
+        Whitebox.setInternalState(maSpy, "logger", mockLogger);
+        PowerMockito.mockStatic(Converter.class);
+        Mockito.when(Converter.convAsyncResponseToUebOutgoingMessageJsonString(oamContext)).thenThrow(new RuntimeException("ERROR"));
+        Mockito.doNothing().when(maSpy).createProducer();
+        maSpy.post(oamContext);
+        Mockito.verify(mockLogger).error(Mockito.contains("Error sending message to UEB ERROR"), Mockito.any(RuntimeException.class));
     }
 }
