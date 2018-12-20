@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -259,7 +261,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
         final CommonHeader commonHeader = stopInput.getCommonHeader();
 
         OamStopProcessor oamStopProcessor =
-                new OamStopProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+                getOamStopProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
         Status status = oamStopProcessor.processRequest(stopInput);
 
         StopOutputBuilder stopOutputBuilder = new StopOutputBuilder();
@@ -277,7 +279,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
         final CommonHeader commonHeader = input.getCommonHeader();
 
         OamRestartProcessor oamRestartProcessor =
-                new OamRestartProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+                getOamRestartProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
         Status status = oamRestartProcessor.processRequest(input);
 
         RestartOutputBuilder restartOutputBuilder = new RestartOutputBuilder();
@@ -296,7 +298,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
         final CommonHeader commonHeader = maintenanceModeInput.getCommonHeader();
 
         OamMmodeProcessor oamMmodeProcessor =
-                new OamMmodeProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+                getOamMmodeProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
         Status status = oamMmodeProcessor.processRequest(maintenanceModeInput);
 
         MaintenanceModeOutputBuilder maintenanceModeOutputBuilder = new MaintenanceModeOutputBuilder();
@@ -326,7 +328,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
         final CommonHeader commonHeader = startInput.getCommonHeader();
 
         OamStartProcessor oamStartProcessor =
-                new OamStartProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+                getOamStartProcessor(logger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
         Status status = oamStartProcessor.processRequest(startInput);
 
         StartOutputBuilder startOutputBuilder = new StartOutputBuilder();
@@ -334,5 +336,37 @@ public class AppcOam implements AutoCloseable, AppcOamService {
         startOutputBuilder.setCommonHeader(commonHeader);
         StartOutput startOutput = startOutputBuilder.build();
         return RpcResultBuilder.success(startOutput).buildFuture();
+    }
+
+    protected OamStartProcessor getOamStartProcessor(EELFLogger eelfLogger,
+            ConfigurationHelper configurationHelper,
+            StateHelper stateHelper,
+            AsyncTaskHelper asyncTaskHelper,
+            OperationHelper operationHelper) {
+        return new OamStartProcessor(eelfLogger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+    }
+
+    protected OamStopProcessor getOamStopProcessor(EELFLogger eelfLogger,
+            ConfigurationHelper configurationHelper,
+            StateHelper stateHelper,
+            AsyncTaskHelper asyncTaskHelper,
+            OperationHelper operationHelper) {
+        return new OamStopProcessor(eelfLogger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+    }
+
+    protected OamRestartProcessor getOamRestartProcessor(EELFLogger eelfLogger,
+            ConfigurationHelper configurationHelper,
+            StateHelper stateHelper,
+            AsyncTaskHelper asyncTaskHelper,
+            OperationHelper operationHelper) {
+        return new OamRestartProcessor(eelfLogger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
+    }
+
+    protected OamMmodeProcessor getOamMmodeProcessor(EELFLogger eelfLogger,
+            ConfigurationHelper configurationHelper,
+            StateHelper stateHelper,
+            AsyncTaskHelper asyncTaskHelper,
+            OperationHelper operationHelper) {
+        return new OamMmodeProcessor(eelfLogger, configurationHelper, stateHelper, asyncTaskHelper, operationHelper);
     }
 }
