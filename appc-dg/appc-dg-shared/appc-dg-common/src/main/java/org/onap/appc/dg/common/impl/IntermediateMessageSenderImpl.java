@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,7 +38,6 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
 import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.dg.common.IntermediateMessageSender;
 import org.onap.appc.exceptions.APPCException;
@@ -82,8 +83,8 @@ public class IntermediateMessageSenderImpl implements IntermediateMessageSender 
         if (ctx != null) {
             ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
             if (svcRef != null) {
-                producer = ((MessageAdapterFactory) ctx.getService(svcRef))
-                    .createProducer(pool, writeTopic, apiKey, apiSecret);
+                MessageAdapterFactory messageAdapterFactory = ((MessageAdapterFactory) ctx.getService(svcRef));
+                    producer = messageAdapterFactory.createProducer(pool, writeTopic, apiKey, apiSecret);
             }
         }
     }

@@ -22,7 +22,6 @@
 package org.onap.appc.dg.common.utils;
 
 import javax.xml.bind.JAXBException;
-
 import org.junit.Test;
 
 public class JAXBUtilTest {

@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +25,10 @@
 
 package org.onap.appc.dg.common.impl;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,14 +46,12 @@ import org.osgi.framework.FrameworkUtil;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.powermock.reflect.Whitebox;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({VnfExecutionFlowImplTest.class, FrameworkUtil.class,DependencyManager.class,DependencyModelFactory.class})
+@PrepareForTest({FrameworkUtil.class,DependencyManager.class,DependencyModelFactory.class})
 @SuppressWarnings("unchecked")
 public class VnfExecutionFlowImplTest {
 
@@ -74,6 +76,7 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
+        Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
         vnfExecutionFlow.getVnfExecutionFlowData(params,context);
     }
 
@@ -91,6 +94,7 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
+        Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
         vnfExecutionFlow.getVnfExecutionFlowData(params,context);
     }
 
@@ -107,6 +111,7 @@ public class VnfExecutionFlowImplTest {
                 .thenReturn(dependencyModel);
 
         VnfExecutionFlow vnfExecutionFlow = new VnfExecutionFlowImpl();
+        Whitebox.setInternalState(vnfExecutionFlow, "logger", logger);
         vnfExecutionFlow.getVnfExecutionFlowData(params,context);
     }
 

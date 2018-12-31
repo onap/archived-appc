@@ -23,26 +23,25 @@
 
 package org.onap.appc.dg.common.impl;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.onap.appc.dg.common.VNFConfigurator;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.mdsal.MDSALStore;
 import org.onap.appc.mdsal.impl.MDSALStoreFactory;
 import org.onap.appc.mdsal.impl.MDSALStoreImpl;
 import org.onap.appc.mdsal.objects.BundleInfo;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({MDSALStoreImpl.class,MDSALStoreFactory.class})

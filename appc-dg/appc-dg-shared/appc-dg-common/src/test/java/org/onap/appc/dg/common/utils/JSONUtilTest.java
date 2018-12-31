@@ -23,16 +23,14 @@ package org.onap.appc.dg.common.utils;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-
-import org.junit.Before;
-import org.junit.Test;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.FileNotFoundException;
-
 import java.io.UncheckedIOException;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.Before;
+import org.junit.Test;
 
 
 public class JSONUtilTest {

@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2018 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +25,8 @@
 
 package org.onap.appc.dg.common.impl;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,12 +47,10 @@ import org.osgi.framework.ServiceReference;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-import java.util.HashMap;
-import java.util.Map;
 
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({DCAEReporterPluginImpl.class, FrameworkUtil.class})
+@PrepareForTest(FrameworkUtil.class)
 public class DCAEReporterPluginImplTest {
     private SvcLogicContext ctx;
     private Map<String, String> params;
@@ -97,6 +99,29 @@ public class DCAEReporterPluginImplTest {
         ctx.setAttribute("input.common-header.request-id", requestId);
 
         positiveAssert();
+    }
+
+    @Test
+    public void testReportErrorDefinition() throws APPCException {
+        ctx = new SvcLogicContext();
+        params = new HashMap<>();
+        params.put(Constants.EVENT_MESSAGE, "ERROR DESCRIPTION");
+        params.put(Constants.DG_ERROR_CODE, "200");
+        ctx.setAttribute("input.common-header.api-ver", apiVer);
+        ctx.setAttribute("input.common-header.request-id", requestId);
+        dcaeReporterPlugin.report(params, ctx);
+        EventMessage msg = eventSender.getMsg();
+        Assert.assertEquals("ERROR DESCRIPTION", msg.getEventStatus().getReason());
+    }
+
+    @Test
+    public void testReportSuccess() throws APPCException {
+        ctx = new SvcLogicContext();
+        params = new HashMap<>();
+        params.put(Constants.DG_ERROR_CODE, "200");
+        dcaeReporterPlugin.reportSuccess(params, ctx);
+        EventMessage msg = eventSender.getMsg();
+        Assert.assertEquals(new Integer(500), msg.getEventStatus().getCode());
     }
 
     private void errorReasonNullAssert() throws APPCException {

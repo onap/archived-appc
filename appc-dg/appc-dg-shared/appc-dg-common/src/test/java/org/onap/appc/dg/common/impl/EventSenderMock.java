@@ -24,7 +24,6 @@
 package org.onap.appc.dg.common.impl;
 
 import java.util.Map;
-
 import org.onap.appc.adapter.message.EventSender;
 import org.onap.appc.adapter.message.MessageDestination;
 import org.onap.appc.adapter.message.event.EventMessage;
