@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,7 +28,6 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
-import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -37,6 +38,10 @@ public class SequenceGeneratorDBServices {
     private static SequenceGeneratorDBServices dgGeneralDBService = null;
     private final SvcLogicResource serviceLogic;
 
+    public SequenceGeneratorDBServices() {
+        serviceLogic = new SqlResource();
+    }
+
     public static SequenceGeneratorDBServices initialise() {
         if (dgGeneralDBService == null) {
             dgGeneralDBService = new SequenceGeneratorDBServices();
@@ -44,18 +49,20 @@ public class SequenceGeneratorDBServices {
         return dgGeneralDBService;
     }
 
-    public SequenceGeneratorDBServices() {
-           serviceLogic = new SqlResource();
-    }
+
 
     public String getOutputPayloadTemplate(SvcLogicContext localContext) throws SvcLogicException {
         String fn = "DBService.getPayloadOutput";
+        String outputPayloadTemplate=null;
+        private static final String ASDC_ARTIFACTS= "asdc_artifacts";
         log.info("Entering getOutputPayloadTemplate()");
         QueryStatus status = null;
-        if (localContext == null) return null;
+        if (localContext == null) {
+            return null;
+        }
         localContext.setAttribute("file_category", "output_payload");
         String queryString = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from "
-                + "asdc_artifacts" + " where artifact_name in (select artifact_name from " + "asdc_artifacts"
+                + ASDC_ARTIFACTS + " where artifact_name in (select artifact_name from " + ASDC_ARTIFACTS
                 + " where file_category = '" + "payload" + "' )";
 
         log.info(fn + "Query String : " + queryString);
@@ -64,7 +71,7 @@ public class SequenceGeneratorDBServices {
         if (status == QueryStatus.FAILURE)
             throw new SvcLogicException("Error - while getting output payload template");
 
-        String queryString1 = "select artifact_content from " + "asdc_artifacts"
+        String queryString1 = "select artifact_content from " + ASDC_ARTIFACTS
                 + " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
 
         log.debug(fn + "Query String : " + queryString1);
@@ -72,6 +79,11 @@ public class SequenceGeneratorDBServices {
         if (status == QueryStatus.FAILURE)
             throw new SvcLogicException("Error - while getting output payload template");
         log.debug("Template for the payload data:" + localContext.getAttribute("artifact-content"));
-        return localContext != null ? localContext.getAttribute("artifact-content") : null;
+
+        if(localContext != null ){
+            outputPayloadTemplate=localContext.getAttribute("artifact-content");
+
+        }
+        return outputPayloadTemplate;
     }
 }
