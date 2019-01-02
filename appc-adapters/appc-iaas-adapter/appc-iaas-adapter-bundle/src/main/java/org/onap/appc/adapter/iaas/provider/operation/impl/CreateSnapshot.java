@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -51,11 +53,9 @@ import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
 import org.onap.appc.logging.LoggingConstants;
 import org.slf4j.MDC;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
