@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -58,10 +60,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
      * The default domain name for authentication
      */
     public static final String DEFAULT_DOMAIN_NAME = "Default";
-    /**
-     * The logger to be used
-     */
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ProviderAdapterImpl.class);
     /**
      * A reference to the adapter configuration object.
      */
@@ -315,7 +313,6 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     }
     @Override
     public Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        // TODO Auto-generated method stub
           IProviderOperation op = factory.getOperationObject(Operation.ATTACHVOLUME_SERVICE);
             op.setProviderCache(this.providerCache);
             op.setDefaultPassword(DEFAULT_PASS);
