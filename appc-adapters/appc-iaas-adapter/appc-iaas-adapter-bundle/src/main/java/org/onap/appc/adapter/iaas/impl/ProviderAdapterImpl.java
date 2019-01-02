@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -61,7 +63,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     /**
      * The logger to be used
      */
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ProviderAdapterImpl.class);
+     
     /**
      * A reference to the adapter configuration object.
      */
@@ -77,9 +79,9 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     /**
      * The username, password, and domain to use for dynamically created connections
      */
-    private static String DEFAULT_USER;
-    private static String DEFAULT_PASS;
-    private static String DEFAULT_DOMAIN;
+    private String DEFAULT_USER;
+    private String DEFAULT_PASS;
+    private String DEFAULT_DOMAIN;
 
     /**
      * This default constructor is used as a work around because the activator wasnt getting called
@@ -315,7 +317,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
     }
     @Override
     public Server attachVolume(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-        // TODO Auto-generated method stub
+
           IProviderOperation op = factory.getOperationObject(Operation.ATTACHVOLUME_SERVICE);
             op.setProviderCache(this.providerCache);
             op.setDefaultPassword(DEFAULT_PASS);
