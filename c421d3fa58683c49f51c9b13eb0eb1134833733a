@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_642099ac",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-02T12:15:19Z",
+      "side": 1,
+      "message": "space before and after \u003d",
+      "revId": "c421d3fa58683c49f51c9b13eb0eb1134833733a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_04118d5c",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-02T12:15:19Z",
+      "side": 1,
+      "message": "space before \u003d",
+      "revId": "c421d3fa58683c49f51c9b13eb0eb1134833733a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_24161156",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dbservices/SequenceGeneratorDBServices.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-02T12:15:19Z",
+      "side": 1,
+      "message": "space before and after \u003d",
+      "revId": "c421d3fa58683c49f51c9b13eb0eb1134833733a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
