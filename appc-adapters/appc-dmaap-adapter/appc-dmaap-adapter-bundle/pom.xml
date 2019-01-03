@@ -49,6 +49,22 @@
 			<version>${project.version}</version>
 		</dependency>
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+       <dependency>
+            <groupId>com.att.eelf</groupId>
+            <artifactId>eelf-core</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -108,7 +124,7 @@
 			<artifactId>powermock-module-junit4</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
@@ -116,7 +132,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jcl-over-slf4j</artifactId>
-            </dependency>
+            </dependency>-->
 		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-common</artifactId>
@@ -179,7 +195,8 @@
 						<Bundle-Activator>org.onap.appc.adapter.messaging.dmaap.AppcDmaapAdapterActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.adapter.messaging.*</Export-Package>
 						<Import-Package>com.att.eelf.configuration,*;resolution:=optional</Import-Package>
-						<Embed-Dependency>dmaapClient,eelf-core</Embed-Dependency>
+						<!-- <Embed-Dependency>dmaapClient,eelf-core</Embed-Dependency>-->
+                        <Embed-Dependency>logback-classic, logback-core,dmaapClient;scope=compile|runtime;artifactId=!org.eclipse.osgi|slf4j-api|slf4j-simple|jcl-over-slf4j|</Embed-Dependency>						
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>
 					</instructions>
