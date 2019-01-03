@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,6 +52,7 @@ public class DependencyModelParser {
     private static final String ACTIVE_ACTIVE = "Active-Active";
     private static final String ACTIVE_PASSIVE = "Active-Passive";
     private static final String HIGH_AVAILABLITY = "high_availablity";
+    private static final String HIGH_AVAILABILITY = "high_availability";
     private static final String MANDATORY = "mandatory";
     private static final String TOPOLOGY_TEMPLATE = "topology_template";
     private static final String RELATIONSHIP = "relationship";
@@ -68,7 +71,7 @@ public class DependencyModelParser {
     public VnfcDependencyModel generateDependencyModel(String vnfModel, String vnfType)
         throws InvalidDependencyModelException {
         Set<Node<Vnfc>> dependencies = new HashSet<>();
-        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        ObjectMapper mapper = getMapper();
         boolean mandatory;
         String resilienceType;
         String prefix = "org.onap.resource.vfc." + vnfType + ".abstract.nodes.";
@@ -82,10 +85,10 @@ public class DependencyModelParser {
 
             JsonNode topologyTemplateNode = root.get(TOPOLOGY_TEMPLATE);
             JsonNode nodeTemplateNode = topologyTemplateNode.get("node_templates");
-            Iterator<Map.Entry<String, JsonNode>> itretor = nodeTemplateNode.fields();
+            Iterator<Map.Entry<String, JsonNode>> iterator = nodeTemplateNode.fields();
             for (JsonNode yamlNode : nodeTemplateNode) {
                 logger.debug("Processing node: " + yamlNode);
-                String fullvnfcType = itretor.next().getValue().get("type").textValue();
+                String fullvnfcType = iterator.next().getValue().get("type").textValue();
                 String vnfcType = getQualifiedVnfcType(fullvnfcType);
                 String type = yamlNode.get("type").textValue();
                 type = type.substring(0, type.lastIndexOf('.') + 1);
@@ -95,8 +98,8 @@ public class DependencyModelParser {
                     mandatory = resolveMandatory(yamlNode);
                     String[] parentList = getDependencyArray(yamlNode, nodeTemplateNode);
                     Node<Vnfc> vnfcNode = getNode(dependencies, vnfcType);
-
                     if (vnfcNode != null) {
+                        //This code appears to be unreachable
                         logger.debug("Dependency node already exists for vnfc Type: " + vnfcType);
                         if (StringUtils.isEmpty(vnfcNode.getChild().getResilienceType())) {
                             logger.debug("Updating resilience type, "
@@ -139,13 +142,20 @@ public class DependencyModelParser {
 
     private String resolveResilienceType(JsonNode yamlNode) {
         String resilienceType;
-        if (yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY) == null ||
-            yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).asText().isEmpty()) {
-
+        // If "high_availability" is present then use the correctly spelled property name
+        if (yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABILITY) != null &&
+                !yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABILITY).asText().isEmpty()) {
+            resilienceType = dependencyMap
+                    .get(yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABILITY).textValue());
+        }
+        // The property name "high_availability" was misspelled in the code so leaving in the code to check for the 
+        // incorrectly spelled version to avoid breaking existing configurations using the misspelled version
+        else if (yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY) == null ||
+                yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).asText().isEmpty()) {
             resilienceType = ACTIVE_ACTIVE;
         } else {
             resilienceType = dependencyMap
-                .get(yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).textValue());
+                    .get(yamlNode.get(PROPERTIES).findValue(HIGH_AVAILABLITY).textValue());
         }
         return resilienceType;
     }
@@ -221,7 +231,7 @@ public class DependencyModelParser {
             && internalNode.findValue(RELATIONSHIP) != null;
     }
 
-    private Node<Vnfc> getNode(Set<Node<Vnfc>> nodes, String vnfcType) {
+    protected Node<Vnfc> getNode(Set<Node<Vnfc>> nodes, String vnfcType) {
         Iterator<Node<Vnfc>> itr = nodes.iterator();
         Node<Vnfc> node;
         while (itr.hasNext()) {
@@ -234,5 +244,9 @@ public class DependencyModelParser {
     }
     private String getVnfcType(String type) {
         return type.substring(type.lastIndexOf('.') + 1, type.length());
+    }
+
+    protected ObjectMapper getMapper() {
+        return new ObjectMapper(new YAMLFactory());
     }
 }
