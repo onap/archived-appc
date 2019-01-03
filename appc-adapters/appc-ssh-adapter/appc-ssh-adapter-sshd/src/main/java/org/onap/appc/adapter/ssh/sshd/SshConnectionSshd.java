@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -174,10 +176,7 @@ class SshConnectionSshd implements SshConnection {
 
     private int execCommand(String cmd, OutputStream out, OutputStream err, boolean usePty) {
         try {
-            if (logger.isDebugEnabled()) {
-                logger.debug("SSH: executing command");
-            }
-            ChannelExec client = clientSession.createExecChannel(cmd);
+            ChannelExec client = clientSession.createExecChannel(cmd)
             client.setUsePty(usePty); // use pseudo-tty?
             client.setOut(out);
             client.setErr(err);
@@ -192,9 +191,7 @@ class SshConnectionSshd implements SshConnection {
                         + ":" + port + "]. Operation timed out.");
                 }
                 exitStatus = exitStatusI;
-            } finally {
-                client.close(false);
-            }
+            } 
             return exitStatus;
         } catch (RuntimeException e) {
             throw e;
@@ -218,6 +215,7 @@ class SshConnectionSshd implements SshConnection {
                      * amount of delay time needed and reenter the sleep until we get to the future time.
                      */
                     time = future - System.currentTimeMillis();
+                    Thread.currentThread().interrupt();
                 }
             }
         }
