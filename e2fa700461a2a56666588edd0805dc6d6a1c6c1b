@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_5e23dda6",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-03T16:50:00Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 9,
+        "startChar": 34,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "e2fa700461a2a56666588edd0805dc6d6a1c6c1b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
