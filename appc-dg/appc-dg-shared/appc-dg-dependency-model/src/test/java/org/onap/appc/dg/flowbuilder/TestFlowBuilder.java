@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +25,7 @@
 
 package org.onap.appc.dg.flowbuilder;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
 import org.onap.appc.dg.flowbuilder.FlowBuilder;
@@ -82,6 +85,8 @@ public class TestFlowBuilder {
 
         list = itr.next();
         Assert.assertTrue(list.contains(createVnfc("SMP","Active-Passive","SMP_Name")));
+
+        Assert.assertThat(flowModel.toString(), CoreMatchers.containsString("Flow Model : Vnfc : vnfcType = FE"));
     }
 
     @Test
@@ -140,7 +145,7 @@ public class TestFlowBuilder {
 
     @Test(expected = InvalidDependencyModelException.class)
     public void testCyclicBuilder() throws InvalidDependencyModelException {
-        FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.FORWARD);
+        FlowBuilder builder = FlowBuilderFactory.getInstance().getFlowBuilder(FlowStrategies.findByString("FORWARD"));
         VnfcDependencyModel dependencyModel = readCyclicDependencyModel();
         InventoryModel inventoryModel = readInventoryModel();
         builder.buildFlowModel(dependencyModel,inventoryModel);
@@ -163,6 +168,9 @@ public class TestFlowBuilder {
         Node aNode = new Node(a);
         Node bNode = new Node(b);
         Node cNode = new Node(c);
+
+        Assert.assertTrue(aNode.equals(aNode));
+        Assert.assertFalse(aNode.equals(bNode));
 
         bNode.addParent(c);
         cNode.addParent(b);
