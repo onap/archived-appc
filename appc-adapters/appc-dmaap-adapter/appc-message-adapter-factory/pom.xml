@@ -156,7 +156,7 @@
 						<Export-Package>org.onap.appc.adapter.factory</Export-Package>
 						<Bundle-Activator>org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryActivator</Bundle-Activator>
 						<Export-Service>org.onap.appc.adapter.message.MessageAdapterFactory</Export-Service>
-						<Import-Package>org.onap.appc.adapter.messaging.*,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,org.slf4j.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
+						<Import-Package>org.onap.appc.adapter.messaging.*,org.onap.appc.adapter.message.*,org.onap.appc.metricservice.*,com.att.nsa.*org.onap.ccsdk.sli.core.sli.*,org.osgi.framework.*,!org.osgi.service.event.*,org.osgi.service.*,org.osgi.util.*,com.vmware.*,org.apache.xerces.*,javax.net.ssl.*,org.xml.sax.*,javax.xml.*,javax.naming.*,javax.crypto.*, com.sun.jersey.spi.container.servlet,org.eclipse.jetty.servlets</Import-Package>
 						<Embed-Dependency>*;scope=compile|runtime;artifactId=!appc-metric-bundle|sli-common|org.eclipse.osgi|slf4j-api|jcl-over-slf4j|mariadb-java-client|xml-apis|pax-*</Embed-Dependency>
 						<Embed-Transitive>true</Embed-Transitive>
 						<Bundle-Blueprint>OSGI-INF/blueprint/blueprint.xml</Bundle-Blueprint>
