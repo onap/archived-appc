@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_5e299d35",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-dependency-model/src/main/java/org/onap/appc/dg/dependencymanager/helper/DependencyModelParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-01-03T19:00:34Z",
+      "side": 1,
+      "message": "why this is unreachable?",
+      "range": {
+        "startLine": 102,
+        "startChar": 50,
+        "endLine": 102,
+        "endChar": 61
+      },
+      "revId": "3f7df6a33f5d08a8488a8a395de96d16787b1c1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_fe21714d",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-dependency-model/src/main/java/org/onap/appc/dg/dependencymanager/helper/DependencyModelParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-01-03T19:00:34Z",
+      "side": 1,
+      "message": "can we just correct that misspell? what is your take on this?",
+      "range": {
+        "startLine": 145,
+        "startChar": 58,
+        "endLine": 145,
+        "endChar": 67
+      },
+      "revId": "3f7df6a33f5d08a8488a8a395de96d16787b1c1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
