@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Ramya Balaji <rb111y@att.com>
+Code-Review+2: Takamune Cho <takamune.cho@att.com>
+Submitted-by: Takamune Cho <takamune.cho@att.com>
+Submitted-at: Fri, 04 Jan 2019 01:15:12 +0000
+Reviewed-on: https://gerrit.onap.org/r/75257
+Project: appc
+Branch: refs/heads/casablanca
