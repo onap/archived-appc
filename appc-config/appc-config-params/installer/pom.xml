@@ -177,7 +177,7 @@
                                 <artifactItem>
                                     <groupId>org.yaml</groupId>
                                     <artifactId>snakeyaml</artifactId>
-                                    <version>${snakeyaml.version}</version>
+                                    <version>1.15</version>
                                     <type>jar</type>
                                     <outputDirectory>${project.build.directory}/assembly/system/org/yaml/snakeyaml/${snakeyaml.version}</outputDirectory>
                                 </artifactItem>
