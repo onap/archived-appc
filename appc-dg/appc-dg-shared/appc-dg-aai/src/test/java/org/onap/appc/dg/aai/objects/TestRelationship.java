@@ -3,6 +3,8 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
+* ================================================================================
+* Modifications Copyright (C) 2019 Ericsson
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,11 +19,11 @@
 * limitations under the License.
 * ============LICENSE_END=========================================================
 */
+
 package org.onap.appc.dg.aai.objects;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +32,7 @@ public class TestRelationship {
     private Relationship relationship;
     private Map<String,String> relationShipDataMap;
     private Map<String,String> relatedProperties;
-    
+
     @Before
     public void setUp() {
         relationship=new Relationship();
@@ -42,14 +44,14 @@ public class TestRelationship {
     public void testGetRelatedTo() {
         relationship.setRelatedTo("relatedTo");
         Assert.assertNotNull(relationship.getRelatedTo());
-        Assert.assertEquals("relatedTo",relationship.getRelatedTo());
+        Assert.assertEquals("relatedTo", relationship.getRelatedTo());
     }
 
     @Test
     public void testGetRelatedLink() {
         relationship.setRelatedLink("relatedLink");
         Assert.assertNotNull(relationship.getRelatedLink());
-        Assert.assertEquals("relatedLink",relationship.getRelatedLink());
+        Assert.assertEquals("relatedLink", relationship.getRelatedLink());
     }
 
     @Test
@@ -66,12 +68,12 @@ public class TestRelationship {
     @Test
     public void testGetRelationShipDataMap_WithValidKey() {
         relationShipDataMap.put("2", "B");
-        Assert.assertEquals("B",relationShipDataMap.get("2"));
+        Assert.assertEquals("B", relationShipDataMap.get("2"));
     }
 
     @Test
     public void testgetRelationShipDataMap_WithInValidKey() {
-        Assert.assertEquals(null,relationShipDataMap.get("3"));
+        Assert.assertEquals(null, relationShipDataMap.get("3"));
     }
 
     @Test
