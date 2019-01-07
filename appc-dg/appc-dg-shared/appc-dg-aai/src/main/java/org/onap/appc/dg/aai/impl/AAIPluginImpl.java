@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -209,6 +211,7 @@ public class AAIPluginImpl implements AAIPlugin {
                             String vnfcType = vnfcQueryResult.getAdditionProperties().get(PROPERTY_VNFC_TYPE);
 
                             Vnfc newVnfc = createVnfc(vnfcName, vnfcType);
+
                             if (vnfcSet.contains(newVnfc)) {
                                 Vnfc vnfcFromSet = vnfcSet.stream().filter(vnfc -> vnfc.equals(newVnfc))
                                     .collect(Collectors.toList()).get(0);
@@ -293,13 +296,14 @@ public class AAIPluginImpl implements AAIPlugin {
         return readRelationDataAndProperties(prefix, vnfContext, additionalProperties);
     }
 
-    private AAIQueryResult readVM(String vmId, String tenantId, String cloudOwner, String cloudRegionId)
+    protected AAIQueryResult readVM(String vmId, String tenantId, String cloudOwner, String cloudRegionId)
         throws AAIQueryException {
         String query = "vserver.vserver-id = '" + vmId + "' AND tenant.tenant_id = '" + tenantId
             + "' AND cloud-region.cloud-owner = '"
             + cloudOwner + "' AND cloud-region.cloud-region-id = '" + cloudRegionId + "'";
         String prefix = "VM";
         String resourceType = "vserver";
+System.out.println("1"+query+"2."+prefix+"3."+resourceType);
         SvcLogicContext vnfContext = readResource(query, prefix, resourceType);
         String[] additionalProperties = new String[]{PROPERTY_VSERVER_ID, PROPERTY_VSERVER_SLINK,
             PROPERTY_VSERVER_NAME, PROPERTY_IN_MAINT, PROPERTY_PROV_STATUS, PROPERTY_LOOP_DISABLED,
@@ -308,9 +312,10 @@ public class AAIPluginImpl implements AAIPlugin {
         return readRelationDataAndProperties(prefix, vnfContext, additionalProperties);
     }
 
-    private AAIQueryResult readVnf(String vnfId) throws AAIQueryException {
+    protected AAIQueryResult readVnf(String vnfId) throws AAIQueryException {
         String query = "generic-vnf.vnf-id = '" + vnfId + "'";
         String prefix = "VNF";
+System.out.println("QUERY "+query+"\tPREFIX "+prefix+"\tGEN_VFN_PARAM "+PARAM_GENERIC_VNF);
         SvcLogicContext vnfContext = readResource(query, prefix, PARAM_GENERIC_VNF);
 
         String[] additionalProperties = new String[]{PROPERTY_VNF_TYPE, PROPERTY_VNF_NEM,
@@ -323,7 +328,6 @@ public class AAIPluginImpl implements AAIPlugin {
     private AAIQueryResult readRelationDataAndProperties(String prefix, SvcLogicContext context,
         String[] additionalProperties) {
         AAIQueryResult result = new AAIQueryResult();
-
         if (context != null && context.getAttribute(prefix + ".relationship-list.relationship_length") != null) {
             Integer relationsCount = Integer.parseInt(context.getAttribute(
                 prefix + ".relationship-list.relationship_length"));
@@ -332,6 +336,7 @@ public class AAIPluginImpl implements AAIPlugin {
                 Relationship relationShip = new Relationship();
                 relationShip.setRelatedLink(context.getAttribute(rsKey + ".related-link"));
                 relationShip.setRelatedTo(context.getAttribute(rsKey + ".related-to"));
+                System.out.println(rsKey + ".relationship-data_length");
                 Integer relationDataCount = Integer.parseInt(context.getAttribute(rsKey + ".relationship-data_length"));
                 for (int j = 0; j < relationDataCount; j++) {
                     String rsDataKey = rsKey + ".relationship-data[" + j + "]";
@@ -342,6 +347,7 @@ public class AAIPluginImpl implements AAIPlugin {
                 Integer relatedPropertyCount = 0;
                 String relatedPropertyCountStr = null;
                 try {
+                    System.out.println(rsKey + ".related-to-property_length");
                     relatedPropertyCountStr = context.getAttribute(rsKey + ".related-to-property_length");
                     relatedPropertyCount = Integer.parseInt(relatedPropertyCountStr);
                 } catch (NumberFormatException e) {
@@ -363,13 +369,14 @@ public class AAIPluginImpl implements AAIPlugin {
 
         if (context != null) {
             for (String key : additionalProperties) {
+                System.out.println(key+" "+context.getAttribute(prefix + "." + key));
                 result.getAdditionProperties().put(key, context.getAttribute(prefix + "." + key));
             }
         }
         return result;
     }
 
-    private SvcLogicContext readResource(String query, String prefix, String resourceType) throws AAIQueryException {
+    protected SvcLogicContext readResource(String query, String prefix, String resourceType) throws AAIQueryException {
         SvcLogicContext resourceContext = new SvcLogicContext();
         try {
             SvcLogicResource.QueryStatus response = aaiClient

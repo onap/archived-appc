@@ -3,6 +3,8 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
+* ================================================================================
+* Modifications Copyright (C) 2019 Ericsson
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -25,12 +27,11 @@ import org.junit.Test;
 import org.onap.appc.dg.aai.impl.Constants.SDC_ARTIFACTS_FIELDS;
 
 public class TestConstants {
-        private Constants constants=new Constants();
         private SDC_ARTIFACTS_FIELDS c=SDC_ARTIFACTS_FIELDS.SERVICE_NAME;
 
         @Test
         public void testConstants() {
-            Assert.assertEquals("sdnctl",constants.NETCONF_SCHEMA);
+            Assert.assertEquals("sdnctl",Constants.NETCONF_SCHEMA);
         }
 
         @Test

@@ -3,6 +3,8 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
+* ================================================================================
+* Modifications Copyright (C) 2019 Ericsson
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -17,11 +19,11 @@
 * limitations under the License.
 * ============LICENSE_END=========================================================
 */
+
 package org.onap.appc.dg.aai.objects;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +32,7 @@ public class TestAAIQueryResult {
     private AAIQueryResult aaiQueryResult;
     private Map<String,String> additionProperties;
 
-    
+
     @Before
     public void setUp() {
         aaiQueryResult=new AAIQueryResult();
@@ -55,7 +57,7 @@ public class TestAAIQueryResult {
 
     @Test
     public void testGetAdditionProperties_IsEmpty() {
-        Assert.assertTrue(aaiQueryResult. getAdditionProperties().isEmpty());
+        Assert.assertTrue(aaiQueryResult.getAdditionProperties().isEmpty());
     }
 
     @Test
