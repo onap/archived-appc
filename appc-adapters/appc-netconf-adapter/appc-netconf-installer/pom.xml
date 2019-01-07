@@ -24,7 +24,7 @@
     <parent>
         <artifactId>odlparent-lite</artifactId>
         <groupId>org.onap.appc.parent</groupId>
-        <version>1.4.0</version>
+        <version>1.4.1</version>
         <relativePath />
     </parent>
     <artifactId>appc-netconf-adapter-installer</artifactId>
