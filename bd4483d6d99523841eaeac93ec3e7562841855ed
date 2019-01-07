@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_55fc1872",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-aai/src/main/java/org/onap/appc/dg/aai/impl/AAIPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-01-07T16:13:24Z",
+      "side": 1,
+      "message": "shall we remove system.out lines?",
+      "range": {
+        "startLine": 306,
+        "startChar": 43,
+        "endLine": 306,
+        "endChar": 46
+      },
+      "revId": "bd4483d6d99523841eaeac93ec3e7562841855ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
