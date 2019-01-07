@@ -22,6 +22,30 @@
       "revId": "bd4483d6d99523841eaeac93ec3e7562841855ed",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_f5718c0c",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-aai/src/main/java/org/onap/appc/dg/aai/impl/AAIPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-07T16:32:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_55fc1872",
+      "range": {
+        "startLine": 306,
+        "startChar": 43,
+        "endLine": 306,
+        "endChar": 46
+      },
+      "revId": "bd4483d6d99523841eaeac93ec3e7562841855ed",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
