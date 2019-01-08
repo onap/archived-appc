@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,9 +25,15 @@
 
 package org.onap.appc.mdsal.provider;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.google.common.util.concurrent.Futures;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import org.onap.appc.Constants;
+import org.onap.appc.mdsal.MDSALStore;
+import org.onap.appc.mdsal.impl.MDSALStoreFactory;
+import org.onap.appc.mdsal.objects.BundleInfo;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
 import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
@@ -38,16 +46,9 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.response
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.response.StatusBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.onap.appc.Constants;
-import org.onap.appc.mdsal.MDSALStore;
-import org.onap.appc.mdsal.impl.MDSALStoreFactory;
-import org.onap.appc.mdsal.objects.BundleInfo;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.google.common.util.concurrent.Futures;
 
 public class MdsalStoreProvider implements MdsalStoreService ,AutoCloseable{
 
@@ -90,7 +91,8 @@ public class MdsalStoreProvider implements MdsalStoreService ,AutoCloseable{
 
     @Override
     public Future<RpcResult<StoreYangOutput>> storeYang(StoreYangInput input) {
-        Status status =null;String message=null;
+        Status status = null;
+        String message = null;
         try{
             BundleInfo bundleInfo = new BundleInfo();
             bundleInfo.setName(input.getModuleName());
