@@ -83,7 +83,7 @@ public class MDSALStoreImpl implements MDSALStore {
         }
         if (configUrl != null) {
             try {
-                client = new RestClientInvoker(new URL(configUrl));
+                client = getRestClientInvoker(new URL(configUrl));
                 client.setAuthentication(user, password);
             } catch (MalformedURLException e) {
                 logger.error("Error initializing RestConf client: " + e.getMessage(), e);
@@ -187,7 +187,7 @@ public class MDSALStoreImpl implements MDSALStore {
                     URL configUrl = new URL(properties.getProperty(Constants.CONFIG_URL_PROPERTY, Constants.CONFIG_URL_DEFAULT));
                     String user = properties.getProperty(Constants.CONFIG_USER_PROPERTY);
                     String password = properties.getProperty(Constants.CONFIG_PASS_PROPERTY);
-                    RestClientInvoker remoteClient = new RestClientInvoker(new URL(configUrl.getProtocol(), leader, configUrl.getPort(), ""));
+                    RestClientInvoker remoteClient = getRestClientInvoker(new URL(configUrl.getProtocol(), leader, configUrl.getPort(), ""));
                     remoteClient.setAuthentication(user, password);
                     remoteClientMap.put(leader, remoteClient);
                     return remoteClient;
@@ -349,5 +349,9 @@ public class MDSALStoreImpl implements MDSALStore {
             logger.error("Error while getting node name " + e.getMessage(), e);
             throw new MDSALStoreException(e);
         }
+    }
+
+    protected RestClientInvoker getRestClientInvoker(URL configUrl) throws MalformedURLException {
+        return new RestClientInvoker(configUrl);
     }
 }

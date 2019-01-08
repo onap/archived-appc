@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,47 +34,47 @@ public class Constants {
     /**
      * Manifest attribute for OSGI Bundle Name
      */
-    public static final String MANIFEST_ATTR_BUNDLE_NAME= "Bundle-Name";
+    public static final String MANIFEST_ATTR_BUNDLE_NAME = "Bundle-Name";
 
     /**
      * Manifest attribute for OSGI Bundle Symbolic Name
      */
-    public static final String MANIFEST_ATTR_BUNDLE_SYMBOLIC_NAME= "Bundle-SymbolicName";
+    public static final String MANIFEST_ATTR_BUNDLE_SYMBOLIC_NAME = "Bundle-SymbolicName";
 
     /**
      * Manifest attribute for OSGI Bundle Description
      */
-    public static final String MANIFEST_ATTR_BUNDLE_DESCRIPTION= "Bundle-Description";
+    public static final String MANIFEST_ATTR_BUNDLE_DESCRIPTION = "Bundle-Description";
 
     /**
      * Manifest attribute for OSGI Bundle Manifest version
      */
-    public static final String MANIFEST_ATTR_BUNDLE_MANIFEST_VERSION= "Bundle-ManifestVersion";
+    public static final String MANIFEST_ATTR_BUNDLE_MANIFEST_VERSION = "Bundle-ManifestVersion";
 
     /**
      * Manifest attribute for OSGI Bundle Version
      */
-    public static final String MANIFEST_ATTR_BUNDLE_VERSION= "Bundle-Version";
+    public static final String MANIFEST_ATTR_BUNDLE_VERSION = "Bundle-Version";
 
     /**
      * Manifest attribute for OSGI Bundle Blueprint
      */
-    public static final String MANIFEST_ATTR_BUNDLE_BLUEPRINT= "Bundle-Blueprint";
+    public static final String MANIFEST_ATTR_BUNDLE_BLUEPRINT = "Bundle-Blueprint";
 
     /**
      * Manifest value for Mainfest Version
      */
-    public static final String MANIFEST_VALUE_VERSION= "1.0";
+    public static final String MANIFEST_VALUE_VERSION = "1.0";
 
     /**
      * Manifest value for OSGI Bundle Vesion
      */
-    public static final String MANIFEST_VALUE_BUNDLE_MAN_VERSION= "2";
+    public static final String MANIFEST_VALUE_BUNDLE_MAN_VERSION = "2";
 
     /**
      * Manifest value for OSGI Bundle Blueprint location
      */
-    public static final String MANIFEST_VALUE_BUNDLE_BLUEPRINT= "OSGI-INF/blueprint/blueprint.xml";
+    public static final String MANIFEST_VALUE_BUNDLE_BLUEPRINT = "OSGI-INF/blueprint/blueprint.xml";
 
     /**
      * Base URL for config actions exposed by RESTCONF API
@@ -110,12 +112,12 @@ public class Constants {
     /**
      * HTTP Header attribute for Content type - JSON
      */
-    public static final String OPERATION_APPLICATION_JSON= " application/json";
+    public static final String OPERATION_APPLICATION_JSON = " application/json";
 
     /**
      * HTTP protocol used for config operations
      */
-    public static final String OPERATION_HTTPS= "https";
+    public static final String OPERATION_HTTPS = "https";
 
     /**
      *  Constant for backslash to be used while formatting URL
