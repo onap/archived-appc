@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_7d89fe73",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/TransactionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-08T22:43:26Z",
+      "side": 1,
+      "message": "This import is not used",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 39
+      },
+      "revId": "9c92e3f13d2d612a85d172745a30f8d16c87fb6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1d7a3277",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/TransactionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-08T22:43:26Z",
+      "side": 1,
+      "message": "If Assert.assertEquals is included as a static import you can omit the \u0027Assert.\u0027 prefix on all the tests (lines 44,51,58,65 etc)",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 44
+      },
+      "revId": "9c92e3f13d2d612a85d172745a30f8d16c87fb6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_7ae4a4e0",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/TransactionTest.java",
         "patchSetId": 2
