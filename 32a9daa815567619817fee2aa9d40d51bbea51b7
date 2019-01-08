@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_ba70cc40",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/TransactionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-08T18:17:18Z",
+      "side": 1,
+      "message": "looks good to me.  The only other thing you might consider is de-serializing and re-serializing JSON to ensure the annotations are correct.",
+      "revId": "32a9daa815567619817fee2aa9d40d51bbea51b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
