@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_fac89456",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-08T18:32:14Z",
+      "side": 1,
+      "message": "suggestion: remove the test for isDebugEnabled()",
+      "revId": "eecec06b909bbea23a295cc3987e88b169d7e437",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_3ab37cea",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-08T18:32:14Z",
+      "side": 1,
+      "message": "maybe move the debug line before the \"try\" block",
+      "revId": "eecec06b909bbea23a295cc3987e88b169d7e437",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
