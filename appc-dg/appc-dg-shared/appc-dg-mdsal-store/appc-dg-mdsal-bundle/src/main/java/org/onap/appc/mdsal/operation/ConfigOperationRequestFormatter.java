@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +41,7 @@ public class ConfigOperationRequestFormatter {
      */
     public String buildPath(String module, String containerName , String... subModules ) {
 
-        StringBuilder path = new StringBuilder( Constants.CONFIG_PATH + Constants.URL_BACKSLASH + module + ":"+containerName + Constants.URL_BACKSLASH);
+        StringBuilder path = new StringBuilder( Constants.CONFIG_PATH + Constants.URL_BACKSLASH + module + ":" + containerName + Constants.URL_BACKSLASH);
         if(subModules.length >0){
             for(String subModule : subModules){
                 path.append(subModule);
