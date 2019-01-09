@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +56,7 @@ import static org.powermock.api.mockito.PowerMockito.when;
 
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({OperationalStateValidatorFactory.class, NetconfClientPluginImpl.class, FrameworkUtil.class, ObjectMapper.class})
+@PrepareForTest({OperationalStateValidatorFactory.class, FrameworkUtil.class, ObjectMapper.class})
 
 public class NetconfClientPluginImplTest {
     private NetconfClientPluginImpl netconfClientPlugin;
@@ -111,13 +113,11 @@ public class NetconfClientPluginImplTest {
     @Before
     public void setUp() throws NoSuchFieldException, IllegalAccessException {
         clientFactory = new NetconfClientFactoryMock();
-
     }
 
 
     @Test
     public void testConfigure() throws Exception {
-
         shortInit();
         SvcLogicContext ctx = new SvcLogicContext();
 
@@ -139,8 +139,6 @@ public class NetconfClientPluginImplTest {
         } catch (Exception e) {
             Assert.fail("failed with because of " + e.getCause());
         }
-
-
     }
 
 
@@ -153,7 +151,6 @@ public class NetconfClientPluginImplTest {
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, "{" + connectionDetails);
         params.put(Constants.FILE_CONTENT_FIELD_NAME, fileContent);
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
-
 
         try {
             netconfClientPlugin.configure(params, ctx);
@@ -175,7 +172,6 @@ public class NetconfClientPluginImplTest {
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
 
-
         params = new HashMap<>();
         params.put(Constants.VNF_TYPE_FIELD_NAME, vnfType);
         params.put(Constants.VNF_HOST_IP_ADDRESS_FIELD_NAME, host1);
@@ -191,7 +187,6 @@ public class NetconfClientPluginImplTest {
         Assert.assertTrue("validation process failed", validatorMock.isValidated());
         Assert.assertEquals(fileContent, client.getLastMessage());
     }
-
 
     @Test
     public void testOperationStateValidationNegativeJsonProcessingNullIllegalStateException() throws Exception {
@@ -235,7 +230,6 @@ public class NetconfClientPluginImplTest {
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
 
-
         params = new HashMap<>();
         params.put(Constants.VNF_TYPE_FIELD_NAME, vnfType);
         params.put(Constants.VNF_HOST_IP_ADDRESS_FIELD_NAME, host1);
@@ -249,14 +243,12 @@ public class NetconfClientPluginImplTest {
         final NetconfConnectionDetails netconfConnectionDetails = null;
         when(mapper.readValue(Matchers.anyString(), Matchers.any(Class.class))).thenReturn(netconfConnectionDetails);
 
-
         try {
             netconfClientPlugin.operationStateValidation(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
             Assert.assertFalse("validation process failed", validatorMock.isValidated());
-
         }
     }
 
@@ -271,7 +263,6 @@ public class NetconfClientPluginImplTest {
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer("wrong");
 
-
         params = new HashMap<>();
         params.put(Constants.VNF_TYPE_FIELD_NAME, vnfType);
         params.put(Constants.VNF_HOST_IP_ADDRESS_FIELD_NAME, host1);
@@ -282,14 +273,12 @@ public class NetconfClientPluginImplTest {
         PowerMockito.mockStatic(OperationalStateValidatorFactory.class);
         when(OperationalStateValidatorFactory.getOperationalStateValidator(Matchers.any(VnfType.class))).thenReturn(validatorMock);
 
-
         try {
             netconfClientPlugin.operationStateValidation(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
             Assert.assertFalse("validation process failed", validatorMock.isValidated());
-
         }
     }
 
@@ -304,7 +293,6 @@ public class NetconfClientPluginImplTest {
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
         ((DAOServiceMock) dao).setConnection(getConnectionDetails());
-
 
         params = new HashMap<>();
         params.put(Constants.VNF_TYPE_FIELD_NAME, vnfType);
@@ -332,7 +320,6 @@ public class NetconfClientPluginImplTest {
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setAnswer(operationalState);
         ((DAOServiceMock) dao).setConnection(getConnectionDetails());
-
 
         params = new HashMap<>();
         params.put(Constants.VNF_TYPE_FIELD_NAME, vnfType);
@@ -367,13 +354,9 @@ public class NetconfClientPluginImplTest {
         String creationDateExpected = dateFormat.format(date);
         String creationDateActual = mockdao.getBackupConf().get("creationDate").substring(0, 10);
 
-
         Assert.assertEquals("wrong configuration in db", fileContent, mockdao.getBackupConf().get("logText"));
         Assert.assertEquals(creationDateExpected, creationDateActual);
-
-
     }
-
 
     @Test
     public void testBackupConfigurationNegativeDgErrorFieldName() throws Exception {
@@ -388,11 +371,9 @@ public class NetconfClientPluginImplTest {
             Assert.assertTrue(false);
         } catch (APPCException e) {
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
-
             DAOServiceMock mockdao = (DAOServiceMock) dao;
             Assert.assertNull(mockdao.getBackupConf());
         }
-
     }
 
     @Test
@@ -408,7 +389,6 @@ public class NetconfClientPluginImplTest {
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, connectionDetails);
         NetconfClientJschMock client = (NetconfClientJschMock) clientFactory.getNetconfClient(NetconfClientType.SSH);
         client.setConf(fileContent);
-
 
         netconfClientPlugin.getConfig(params, ctx);
 
@@ -431,7 +411,6 @@ public class NetconfClientPluginImplTest {
         params.put("conf-id", "current");
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, connectionDetails);
 
-
         netconfClientPlugin.getConfig(params, ctx);
 
         Assert.assertEquals("failure", ctx.getAttribute("getConfig_Result"));
@@ -451,7 +430,6 @@ public class NetconfClientPluginImplTest {
         params = new HashMap<>();
         params.put("conf-id", "current1");
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, connectionDetails);
-
 
         netconfClientPlugin.getConfig(params, ctx);
 
@@ -473,7 +451,6 @@ public class NetconfClientPluginImplTest {
         params.put("conf-id", "current");
         params.put(Constants.CONNECTION_DETAILS_FIELD_NAME, "{" + connectionDetails);
 
-
         try {
             netconfClientPlugin.getConfig(params, ctx);
             Assert.assertTrue(false);
@@ -484,8 +461,6 @@ public class NetconfClientPluginImplTest {
             Assert.assertNull(ctx.getAttribute(entity + ".Configuration"));
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
         }
-
-
     }
 
     @Test
@@ -528,8 +503,6 @@ public class NetconfClientPluginImplTest {
             Assert.assertNull(ctx.getAttribute("running-config"));
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
         }
-
-
     }
 
     @Test
@@ -572,7 +545,6 @@ public class NetconfClientPluginImplTest {
 
         NetconfConnectionDetails connectionDetailsActual = netconfClientPlugin.retrieveConnectionDetails(VnfType.VNF);
 
-
         Assert.assertEquals("wrong host", connectionDetails1.getHost(), connectionDetailsActual.getHost());
         Assert.assertEquals("wrong password", connectionDetails1.getPassword(), connectionDetailsActual.getPassword());
         Assert.assertEquals("wrong port", connectionDetails1.getPort(), connectionDetailsActual.getPort());
@@ -595,8 +567,6 @@ public class NetconfClientPluginImplTest {
         } catch (APPCException e) {
             Assert.assertNull(connectionDetailsActual);
         }
-
-
     }
 
     @Test
@@ -610,7 +580,6 @@ public class NetconfClientPluginImplTest {
     }
 
     private ConnectionDetails getConnectionDetails() {
-
         ConnectionDetails connectionDetails = new ConnectionDetails();
         connectionDetails.setPassword(password);
         connectionDetails.setPort(port);
@@ -627,8 +596,6 @@ public class NetconfClientPluginImplTest {
         when(bundleService.getBundleContext()).thenReturn(bundleContext);
         when(bundleContext.getServiceReference(NetconfDataAccessService.class)).thenReturn(sref1);
         when(bundleContext.getService(sref1)).thenReturn(dao);
-
-
     }
 
     private void fullInit() throws NoSuchFieldException, IllegalAccessException {
@@ -647,13 +614,11 @@ public class NetconfClientPluginImplTest {
     }
 
     private void initClientFactory() throws NoSuchFieldException, IllegalAccessException {
-
         PowerMockito.mockStatic(FrameworkUtil.class);
         when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
         when(bundleService.getBundleContext()).thenReturn(bundleContext);
         when(bundleContext.getServiceReference(NetconfClientFactory.class)).thenReturn(sref2);
         when(bundleContext.getService(sref2)).thenReturn(clientFactory);
-
     }
 
     private void initClientFactory2() {

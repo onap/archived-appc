@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +26,8 @@
 package org.onap.appc.dg.netconf.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.*;
+import org.junit.Assert;
+import org.junit.Test;
 import org.onap.appc.adapter.netconf.ConnectionDetails;
 import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
 import org.onap.appc.adapter.netconf.NetconfDataAccessService;
@@ -37,8 +40,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
-
-import static org.powermock.api.support.SuppressCode.suppressConstructor;
 
 public class NetconfDBPluginImplTest {
     private NetconfDBPluginImpl netconfDBPlugin;
@@ -85,11 +86,8 @@ public class NetconfDBPluginImplTest {
         try {
             netconfDBPlugin.retrieveDSConfiguration(params, ctx);
         } catch (DataAccessException e) {
-            //Assert.assertNotNull(ctx.getAttribute("org.onap.appc.dg.error"));
             Assert.assertNull(ctx.getAttribute("file-content"));
         }
-
-
     }
 
     @Test
@@ -116,7 +114,6 @@ public class NetconfDBPluginImplTest {
             netconfDBPlugin.retrieveVMDSConfiguration(params, ctx);
             Assert.assertTrue(false);
         } catch (APPCException e) {
-
             Assert.assertEquals("failure", ctx.getAttribute("retrieveVMDSConfiguration_Result"));
         }
     }
@@ -135,11 +132,9 @@ public class NetconfDBPluginImplTest {
             netconfDBPlugin.retrieveVMDSConfiguration(params, ctx);
             substituteMapper(false);
             Assert.assertTrue(false);
-
         } catch (APPCException e) {
             substituteMapper(false);
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
-
         }
 
     }
@@ -183,7 +178,6 @@ public class NetconfDBPluginImplTest {
             Assert.assertNull(ctx.getAttribute("connection-details"));
             Assert.assertNotNull(ctx.getAttribute(DG_OUTPUT_STATUS_MESSAGE));
         }
-
     }
 
 

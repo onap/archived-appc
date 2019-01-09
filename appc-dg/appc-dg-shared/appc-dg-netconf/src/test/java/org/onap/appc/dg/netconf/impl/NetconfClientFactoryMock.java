@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,8 +28,6 @@ package org.onap.appc.dg.netconf.impl;
 import org.onap.appc.adapter.netconf.NetconfClient;
 import org.onap.appc.adapter.netconf.NetconfClientFactory;
 import org.onap.appc.adapter.netconf.NetconfClientType;
-import org.onap.appc.adapter.netconf.jsch.NetconfClientJsch;
-import org.onap.appc.adapter.netconf.odlconnector.NetconfClientRestconfImpl;
 
 
 public class NetconfClientFactoryMock extends NetconfClientFactory {
@@ -36,9 +36,7 @@ public class NetconfClientFactoryMock extends NetconfClientFactory {
 
     @Override
     public NetconfClient getNetconfClient(NetconfClientType type){
-
             return jschClient;
-
     }
 }
 
