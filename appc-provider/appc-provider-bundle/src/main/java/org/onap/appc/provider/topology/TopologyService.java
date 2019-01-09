@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,13 +38,10 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import java.net.InetAddress;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Properties;
-import java.util.TimeZone;
 import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -601,7 +600,7 @@ public class TopologyService {
     /*************************************************/
 
 
-    private boolean callGraph(Properties props) {
+    protected boolean callGraph(Properties props) {
         String moduleName = configuration.getProperty(Constants.PROPERTY_MODULE_NAME);
         String methodName = configuration.getProperty(Constants.PROPERTY_TOPOLOGY_METHOD);
         String version = configuration.getProperty(Constants.PROPERTY_TOPOLOGY_VERSION);
