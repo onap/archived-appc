@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_b373174d",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/TransactionTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-09T15:48:20Z",
+      "side": 1,
+      "message": "I don\u0027t think map\u0027s have an \"add()\" method - should use \"put()\" instead:\nparameters.put(\"hello\", \"world\")",
+      "revId": "b4fe634144c310ffd0b9d5539a0b25d25df3e1dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
