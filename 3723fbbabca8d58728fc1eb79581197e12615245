@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_f8265ccd",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-netconf/src/main/java/org/onap/appc/dg/netconf/impl/NetconfClientPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-09T13:48:49Z",
+      "side": 1,
+      "message": "mismatched indentation level",
+      "revId": "3723fbbabca8d58728fc1eb79581197e12615245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_182480c3",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-netconf/src/main/java/org/onap/appc/dg/netconf/impl/NetconfClientPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-09T13:48:49Z",
+      "side": 1,
+      "message": "mismatched indentation level",
+      "revId": "3723fbbabca8d58728fc1eb79581197e12615245",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
