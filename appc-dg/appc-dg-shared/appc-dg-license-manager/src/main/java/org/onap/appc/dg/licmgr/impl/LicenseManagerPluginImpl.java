@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,8 +78,14 @@ public class LicenseManagerPluginImpl implements LicenseManagerPlugin {
 
             LicenseModel licenseModel = licenseManager.retrieveLicenseModel(params.get(Constants.VNF_TYPE_FIELD_NAME), params.get(Constants.VNF_RESOURCE_VERSION_FIELD_NAME));
 
-            String modelEntitlementPoolUuid = licenseModel.getEntitlementPoolUuid(); if (null == modelEntitlementPoolUuid) modelEntitlementPoolUuid = "";
-            String aaiEntitlementPoolUuid = ctx.getAttribute(Constants.AAI_ENTITLMENT_POOL_UUID_NAME); if (null == aaiEntitlementPoolUuid) aaiEntitlementPoolUuid = "";
+            String modelEntitlementPoolUuid = licenseModel.getEntitlementPoolUuid();
+            if (null == modelEntitlementPoolUuid) {
+                modelEntitlementPoolUuid = "";
+            }
+            String aaiEntitlementPoolUuid = ctx.getAttribute(Constants.AAI_ENTITLMENT_POOL_UUID_NAME);
+            if (null == aaiEntitlementPoolUuid) {
+                aaiEntitlementPoolUuid = "";
+            }
             boolean isAcquireEntitlementRequire = !modelEntitlementPoolUuid.isEmpty() && !modelEntitlementPoolUuid.equals(aaiEntitlementPoolUuid);
             boolean isReleaseEntitlementRequire = !aaiEntitlementPoolUuid.isEmpty() && (isAcquireEntitlementRequire || modelEntitlementPoolUuid.isEmpty());
             boolean isAAIEntitlementUpdateRequire = isAcquireEntitlementRequire || isReleaseEntitlementRequire;
@@ -87,9 +95,18 @@ public class LicenseManagerPluginImpl implements LicenseManagerPlugin {
             ctx.setAttribute(Constants.IS_AAI_ENTITLEMENT_UPDATE_REQUIRE, Boolean.toString(isAAIEntitlementUpdateRequire));
 
 
-            String modelLicenseKeyGroupUuid = licenseModel.getLicenseKeyGroupUuid(); if (null == modelLicenseKeyGroupUuid) modelLicenseKeyGroupUuid = "";
-            String aaiLicenseKeyGroupUuid = ctx.getAttribute(Constants.AAI_LICENSE_KEY_UUID_NAME); if (null == aaiLicenseKeyGroupUuid) aaiLicenseKeyGroupUuid = "";
-            String aaiLicenseKeyValue = ctx.getAttribute(Constants.AAI_LICENSE_KEY_VALUE); if (null == aaiLicenseKeyValue) aaiLicenseKeyValue = "";
+            String modelLicenseKeyGroupUuid = licenseModel.getLicenseKeyGroupUuid();
+            if (null == modelLicenseKeyGroupUuid) {
+                modelLicenseKeyGroupUuid = "";
+            }
+            String aaiLicenseKeyGroupUuid = ctx.getAttribute(Constants.AAI_LICENSE_KEY_UUID_NAME);
+            if (null == aaiLicenseKeyGroupUuid) {
+                aaiLicenseKeyGroupUuid = "";
+            }
+            String aaiLicenseKeyValue = ctx.getAttribute(Constants.AAI_LICENSE_KEY_VALUE);
+            if (null == aaiLicenseKeyValue) {
+                aaiLicenseKeyValue = "";
+            }
             boolean isAcquireLicenseRequire = !modelLicenseKeyGroupUuid.isEmpty() && !modelLicenseKeyGroupUuid.equals(aaiLicenseKeyGroupUuid);
             boolean isReleaseLicenseRequire = !aaiLicenseKeyGroupUuid.isEmpty() && (isAcquireLicenseRequire || modelLicenseKeyGroupUuid.isEmpty());
             boolean isAAILicenseUpdateRequire = isAcquireLicenseRequire || isReleaseLicenseRequire;

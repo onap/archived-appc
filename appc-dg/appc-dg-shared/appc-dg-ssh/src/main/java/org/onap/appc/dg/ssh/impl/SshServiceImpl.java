@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,68 +43,68 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class SshServiceImpl implements SshService {
 
-	private static final EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
-	private static final ObjectMapper mapper = new ObjectMapper();
+    private static final EELFLogger logger = EELFManager.getInstance().getApplicationLogger();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
-	private SshAdapter sshAdapter;
+    private SshAdapter sshAdapter;
 
-	public void setSshAdapter(SshAdapter sshAdapter) {
-		this.sshAdapter = sshAdapter;
-	}
+    public void setSshAdapter(SshAdapter sshAdapter) {
+        this.sshAdapter = sshAdapter;
+    }
 
-	@Override
-	public void exec(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-		SshConnectionDetails connectionDetails = resolveConnectionDetails(params.get(PARAM_IN_connection_details));
-		String command = params.get(PARAM_IN_command);
-		logger.debug("=> Connecting to SSH server...");
-		SshConnection sshConnection = sshAdapter.getConnection(connectionDetails.getHost(), connectionDetails.getPort(), connectionDetails.getUsername(), connectionDetails.getPassword());
-		sshConnection.connect();
-		try {
-			logger.debug("=> Connected to SSH server...");
-			logger.debug("=> Running SSH command...");
-			long timeout = DEF_timeout;
-			String stimeout = params.get(PARAM_IN_timeout);
-			if ((stimeout != null && !stimeout.isEmpty())) {
-				timeout = Long.parseLong(stimeout);
-			}
-			sshConnection.setExecTimeout(timeout);
-			ByteArrayOutputStream stdout = new ByteArrayOutputStream();
-			ByteArrayOutputStream stderr = new ByteArrayOutputStream();
-			int status = sshConnection.execCommand(command, stdout, stderr);
-			String stdoutRes = stdout.toString();
-			String stderrRes = stderr.toString();
-			logger.debug("=> executed SSH command");
-			ctx.setAttribute(PARAM_OUT_status, String.format("%01d", status));
-			ctx.setAttribute(PARAM_OUT_stdout, stdoutRes);
-			ctx.setAttribute(PARAM_OUT_stderr, stderrRes);
-		} finally {
-			sshConnection.disconnect();
-		}
-	}
+    @Override
+    public void exec(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+        SshConnectionDetails connectionDetails = resolveConnectionDetails(params.get(PARAM_IN_connection_details));
+        String command = params.get(PARAM_IN_command);
+        logger.debug("=> Connecting to SSH server...");
+        SshConnection sshConnection = sshAdapter.getConnection(connectionDetails.getHost(), connectionDetails.getPort(), connectionDetails.getUsername(), connectionDetails.getPassword());
+        sshConnection.connect();
+        try {
+            logger.debug("=> Connected to SSH server...");
+            logger.debug("=> Running SSH command...");
+            long timeout = DEF_timeout;
+            String stimeout = params.get(PARAM_IN_timeout);
+            if ((stimeout != null && !stimeout.isEmpty())) {
+                timeout = Long.parseLong(stimeout);
+            }
+            sshConnection.setExecTimeout(timeout);
+            ByteArrayOutputStream stdout = new ByteArrayOutputStream();
+            ByteArrayOutputStream stderr = new ByteArrayOutputStream();
+            int status = sshConnection.execCommand(command, stdout, stderr);
+            String stdoutRes = stdout.toString();
+            String stderrRes = stderr.toString();
+            logger.debug("=> executed SSH command");
+            ctx.setAttribute(PARAM_OUT_status, String.format("%01d", status));
+            ctx.setAttribute(PARAM_OUT_stdout, stdoutRes);
+            ctx.setAttribute(PARAM_OUT_stderr, stderrRes);
+        } finally {
+            sshConnection.disconnect();
+        }
+    }
 
-	private SshConnectionDetails resolveConnectionDetails(String connectionDetailsStr) throws APPCException {
-		SshConnectionDetails connectionDetails = null;
-		try {
-			connectionDetails = mapper.readValue(connectionDetailsStr, SshConnectionDetails.class);
-			if (0 == connectionDetails.getPort()) connectionDetails.setPort(DEF_port);
-		} catch (IOException e) {
-			throw new APPCException(e);
-		}
-		return connectionDetails;
-	}
+    private SshConnectionDetails resolveConnectionDetails(String connectionDetailsStr) throws APPCException {
+        SshConnectionDetails connectionDetails = null;
+        try {
+            connectionDetails = mapper.readValue(connectionDetailsStr, SshConnectionDetails.class);
+            if (0 == connectionDetails.getPort()) connectionDetails.setPort(DEF_port);
+        } catch (IOException e) {
+            throw new APPCException(e);
+        }
+        return connectionDetails;
+    }
 
-	@Override
-	public void execWithStatusCheck(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
-		exec(params, ctx);
-		int status = Integer.parseInt(ctx.getAttribute(PARAM_OUT_status));
-		if(status != DEF_SUCCESS_STATUS) {
-			StringBuilder errmsg = new StringBuilder();
-			errmsg.append("SSH command returned error status [").append(status).append(']');
-			String stderr = ctx.getAttribute(PARAM_OUT_stderr);
-			if((stderr != null) && !stderr.isEmpty()) {
-				errmsg.append(". Error: [").append(stderr).append(']');
-			}
-			throw new APPCException(errmsg.toString());
-		}
-	}
+    @Override
+    public void execWithStatusCheck(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+        exec(params, ctx);
+        int status = Integer.parseInt(ctx.getAttribute(PARAM_OUT_status));
+        if(status != DEF_SUCCESS_STATUS) {
+            StringBuilder errmsg = new StringBuilder();
+            errmsg.append("SSH command returned error status [").append(status).append(']');
+            String stderr = ctx.getAttribute(PARAM_OUT_stderr);
+            if((stderr != null) && !stderr.isEmpty()) {
+                errmsg.append(". Error: [").append(stderr).append(']');
+            }
+            throw new APPCException(errmsg.toString());
+        }
+    }
 }
