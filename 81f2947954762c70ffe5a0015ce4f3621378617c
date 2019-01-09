@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_0912f456",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/PreCheckOptionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-01-09T22:54:50Z",
+      "side": 1,
+      "message": "The capitalization of the class name does not match the file name (PreCheckOptionTest.java)",
+      "revId": "81f2947954762c70ffe5a0015ce4f3621378617c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
