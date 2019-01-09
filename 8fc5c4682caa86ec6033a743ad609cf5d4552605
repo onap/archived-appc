@@ -16,6 +16,24 @@
       "revId": "8fc5c4682caa86ec6033a743ad609cf5d4552605",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_093994d6",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-01-09T23:03:05Z",
+      "side": 1,
+      "message": "Yes, there seem to be too many indents on \"logger.debug\". And the blank lines can be removed too",
+      "parentUuid": "9adffdf1_d8003804",
+      "revId": "8fc5c4682caa86ec6033a743ad609cf5d4552605",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
