@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -185,9 +187,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
 
         NetconfClient client = null;
         try {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Entered backup to DEVICE_INTERFACE_LOG");
-            }
+            logger.debug("Entered backup to DEVICE_INTERFACE_LOG");
 
             client = clientFactory.getNetconfClient(NetconfClientType.SSH);
             //get connection details
@@ -218,9 +218,7 @@ public class NetconfClientPluginImpl implements NetconfClientPlugin {
         String confId = params.get("conf-id");
         if ("current".equalsIgnoreCase(confId)) {
             try {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Entered getConfig to DEVICE_INTERFACE_LOG");
-                }
+                logger.debug("Entered getConfig to DEVICE_INTERFACE_LOG");
                 //get netconf client to get configuration
                 BundleContext bctx = FrameworkUtil.getBundle(this.getClass()).getBundleContext();
                 ServiceReference sref = bctx.getServiceReference(NETCONF_CLIENT_FACTORY_NAME);
