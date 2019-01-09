@@ -22,6 +22,30 @@
       "revId": "1274be1bbaddddef977e9377d9336b8e58446a53",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0edc3a72",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-license-manager/src/test/java/org/onap/appc/dg/licmgr/impl/LicenseManagerPluginImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-09T18:42:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_ce2e328c",
+      "range": {
+        "startLine": 1,
+        "startChar": 28,
+        "endLine": 1,
+        "endChar": 33
+      },
+      "revId": "1274be1bbaddddef977e9377d9336b8e58446a53",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
