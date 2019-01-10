@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_4d27a7ca",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-license-manager/src/test/java/org/onap/appc/dg/licmgr/impl/LicenseManagerPluginImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-10T11:20:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_eedc56e6",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 7
+      },
+      "revId": "7569d24ee88a79e9e82dbc3294a494eb7707c369",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_4ed482bc",
         "filename": "appc-dg/appc-dg-shared/appc-dg-ssh/src/test/java/org/onap/appc/dg/ssh/impl/SshDBPluginImplTest.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-09T21:36:35Z",
       "side": 1,
       "message": "no lic header...",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "7569d24ee88a79e9e82dbc3294a494eb7707c369",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ed38dbf0",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-ssh/src/test/java/org/onap/appc/dg/ssh/impl/SshDBPluginImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-10T11:20:00Z",
+      "side": 1,
+      "message": "License Header is present",
+      "parentUuid": "9adffdf1_4ed482bc",
       "range": {
         "startLine": 1,
         "startChar": 0,
