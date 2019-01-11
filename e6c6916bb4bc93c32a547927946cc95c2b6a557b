@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_21b4ac33",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:54:06Z",
+      "side": 1,
+      "message": "Don\u0027t require NotNull test if we already have Equals test.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_61ae34e8",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:54:06Z",
+      "side": 1,
+      "message": "Don\u0027t require NotNull test if we already have Equals test.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 52
+      },
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_01b7283b",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:54:06Z",
+      "side": 1,
+      "message": "Don\u0027t require NotNull test if we already have Equals test.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 57
+      },
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c184c05f",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:54:06Z",
+      "side": 1,
+      "message": "Don\u0027t require NotNull test if we already have Equals test.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 48
+      },
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
