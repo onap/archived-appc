@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,31 +38,31 @@ public class DmaapRequestCounterBuilderImpl implements DmaapRequestCounterBuilde
 
     @Override
     public DmaapRequestCounterBuilder withName(String name) {
-        this.name=name;
+        this.name = name;
         return this;
     }
 
     @Override
     public DmaapRequestCounterBuilder withRecievedMessage(long value) {
 
-        this.recievedMessage=value;
+        this.recievedMessage = value;
         return this;
     }
 
     @Override
     public DmaapRequestCounterBuilder withPublishedMessage(long value) {
-        this.publishedMessage=value;
+        this.publishedMessage = value;
         return this;
     }
 
     @Override
     public DmaapRequestCounterBuilder withType(MetricType type) {
-        this.metricType=type;
+        this.metricType = type;
         return this;
     }
 
     @Override
     public DmaapRequestCounterMetric build() {
-        return new DmaapRequestCounterMetricImpl(this.name,this.metricType,this.recievedMessage,this.publishedMessage);
+        return new DmaapRequestCounterMetricImpl(this.name, this.metricType, this.recievedMessage, this.publishedMessage);
     }
 }

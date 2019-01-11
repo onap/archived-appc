@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,28 +38,28 @@ public class DispatchingFunctionCounterBuilderImpl implements DispatchingFunctio
 
     @Override
     public DispatchingFunctionCounterBuilder withName(String name) {
-        this.name=name;
+        this.name = name;
         return this;
     }
 
     @Override
     public DispatchingFunctionCounterBuilder withAcceptRequestValue(long value) {
-        this.acceptedRequested=value;
+        this.acceptedRequested = value;
         return this;
     }
     @Override
     public DispatchingFunctionCounterBuilder withRejectRequestValue(long value) {
-        this.rejectedRequest=value;
+        this.rejectedRequest = value;
         return this;
     }
     @Override
     public DispatchingFunctionCounterBuilder withType(MetricType type) {
-        this.metricType=type;
+        this.metricType = type;
         return this;
     }
 
     @Override
     public DispatchingFuntionMetric build() {
-        return new DispatchingFuntionMetricImpl(this.name,this.metricType,this.acceptedRequested,this.rejectedRequest);
+        return new DispatchingFuntionMetricImpl(this.name, this.metricType, this.acceptedRequested, this.rejectedRequest);
     }
 }

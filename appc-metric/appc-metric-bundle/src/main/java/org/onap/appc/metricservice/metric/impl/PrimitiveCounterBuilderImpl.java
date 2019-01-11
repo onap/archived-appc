@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,19 +37,19 @@ public class PrimitiveCounterBuilderImpl implements PrimitiveCounterBuilder {
 
     @Override
     public PrimitiveCounterBuilder withName(String name) {
-        this.name=name;
+        this.name = name;
         return this;
     }
 
     @Override
     public PrimitiveCounterBuilder withValue(long value) {
-        this.counter=value;
+        this.counter = value;
         return this;
     }
 
     @Override
     public PrimitiveCounterBuilder withType(MetricType type) {
-        this.metricType=type;
+        this.metricType = type;
         return this;
     }
 
