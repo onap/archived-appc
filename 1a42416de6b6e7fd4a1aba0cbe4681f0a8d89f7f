@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_a1cdfcb8",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T11:36:22Z",
+      "side": 1,
+      "message": "This check can be removed as per previous comment",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 178,
+        "endChar": 38
+      },
+      "revId": "1a42416de6b6e7fd4a1aba0cbe4681f0a8d89f7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_81c8f8a8",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T11:36:22Z",
+      "side": 1,
+      "message": "We can probably remove the finally block for the inner try catch if we are using the try-with-resources definition above to take care of closing the \u0027client\u0027 object",
+      "range": {
+        "startLine": 197,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 36
+      },
+      "revId": "1a42416de6b6e7fd4a1aba0cbe4681f0a8d89f7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_81f1d802",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T11:36:22Z",
+      "side": 1,
+      "message": "The critical Sonar issue on this file is the missing Thread.currentThread().interrupt(); in this block",
+      "range": {
+        "startLine": 215,
+        "startChar": 16,
+        "endLine": 215,
+        "endChar": 50
+      },
+      "revId": "1a42416de6b6e7fd4a1aba0cbe4681f0a8d89f7f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
