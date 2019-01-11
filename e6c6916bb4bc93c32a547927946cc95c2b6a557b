@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "9adffdf1_41d0d01e",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-11T13:43:30Z",
+      "side": 1,
+      "message": "FYI: at some point, when checkstyle is turned on, it will complain that these method names are not camelcase",
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_21b4ac33",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
         "patchSetId": 1
