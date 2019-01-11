@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_81a318ff",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/ResponseTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:50:24Z",
+      "side": 1,
+      "message": "Remove this assertion. NotNull is implied by equals test above",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 64
+      },
+      "revId": "694062ac9e6ef7e69f1fd5fbac42813dacb5b787",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c19da0bd",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/ResponseTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:50:24Z",
+      "side": 1,
+      "message": "use new HashMap\u003c\u003e() when declaring the variable as parameterized",
+      "revId": "694062ac9e6ef7e69f1fd5fbac42813dacb5b787",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e1a224fc",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/ResponseTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-11T10:50:24Z",
+      "side": 1,
+      "message": "add space after comma",
+      "revId": "694062ac9e6ef7e69f1fd5fbac42813dacb5b787",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
