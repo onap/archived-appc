@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,19 +29,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.onap.appc.dao.util.exception.DBConnectionPoolException;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({DBConnectionPool.class})
-@PowerMockIgnore("javax.management.*")
+
 public class DBConnectionPoolTest {
     private final String connectURI = "jdbc:h2:mem:~/test;MODE=MYSQL;DB_CLOSE_DELAY=-1";
     private final String username = "sa";
