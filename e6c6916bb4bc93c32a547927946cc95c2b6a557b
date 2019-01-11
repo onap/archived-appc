@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_dc67c34b",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-01-11T22:07:16Z",
+      "side": 1,
+      "message": "In some cases, according to the style guide, underscores are ok to have in method names for unit tests: https://google.github.io/styleguide/javaguide.html#s5.2.3-method-names",
+      "parentUuid": "9adffdf1_41d0d01e",
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_21b4ac33",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
         "patchSetId": 1
