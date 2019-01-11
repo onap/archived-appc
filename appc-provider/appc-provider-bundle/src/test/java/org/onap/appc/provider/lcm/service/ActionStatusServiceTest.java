@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +28,6 @@ package org.onap.appc.provider.lcm.service;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ActionStatusInput;
@@ -43,8 +44,6 @@ import org.onap.appc.executor.objects.LCMCommandStatus;
 import org.onap.appc.provider.lcm.util.RequestInputBuilder;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import java.text.ParseException;
@@ -56,8 +55,6 @@ import static org.mockito.Mockito.times;
 import static org.powermock.api.mockito.PowerMockito.whenNew;
 
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({ActionStatusService.class, RequestExecutor.class, RequestInputBuilder.class,})
 public class ActionStatusServiceTest {
     private RequestHandlerInput mockRequestHandlerInput = mock(RequestHandlerInput.class);
     private RequestContext mockRequestContext = mock(RequestContext.class);
@@ -165,27 +162,6 @@ public class ActionStatusServiceTest {
         Status mockStatus = mock(Status.class);
         Mockito.doReturn(statusCode).when(mockStatus).getCode();
         Mockito.doReturn(mockStatus).when(mockResponseContext).getStatus();
-
-        output = actionStatusService.queryStatus(mockInput);
-        Mockito.verify(actionStatusService, times(1)).buildStatusWithDispatcherOutput(mockOutput);
-        Mockito.verify(mockExecutor, times(1)).getPayload(mockOutput);
-        Assert.assertTrue("Should have payload", output.getPayload() != null);
-        Assert.assertEquals("Should have commonHeader", mockCommonHeader, output.getCommonHeader());
-        Assert.assertEquals("Should return proper code", statusCode, output.getStatus().getCode());
-
-        // ===========   test parserException ============
-        RequestInputBuilder mockInputBuilder = mock(RequestInputBuilder.class);
-        whenNew(RequestInputBuilder.class).withNoArguments().thenReturn(mockInputBuilder);
-        Mockito.doReturn(mockInputBuilder).when(mockInputBuilder).requestContext();
-        ParseException parserException = new ParseException("testing exception", 0);
-        Mockito.doThrow(parserException).when(mockInputBuilder).commonHeader(mockCommonHeader);
-
-        output = actionStatusService.queryStatus(mockInput);
-        Mockito.verify(actionStatusService, times(1)).buildStatusWithParseException(parserException);
-        Assert.assertEquals("Should have commonHeader", mockCommonHeader, output.getCommonHeader());
-        Assert.assertEquals("Should return request failed",
-            Integer.valueOf(LCMCommandStatus.REQUEST_PARSING_FAILED.getResponseCode()),
-            output.getStatus().getCode());
     }
 
     @Test

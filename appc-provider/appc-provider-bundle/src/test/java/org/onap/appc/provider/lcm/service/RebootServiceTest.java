@@ -5,6 +5,8 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -33,27 +35,18 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.*;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiers;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeader;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.status.Status;
-import org.onap.appc.domainmodel.lcm.ResponseContext;
 import org.onap.appc.executor.objects.LCMCommandStatus;
-import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
-import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.times;
-import static org.mockito.Matchers.isNull;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RebootServiceTest {
-    private final Action myAction = Action.Reboot;
     private  String PAYLOAD_STRING = "{\"A\":\"A-value\",\"B\":{\"C\":\"B.C-value\",\"D\":\"B.D-value\"}}";
     private RebootInput mockInput = mock(RebootInput.class);
     private CommonHeader mockCommonHeader = mock(CommonHeader.class);
     private ActionIdentifiers mockAI = mock(ActionIdentifiers.class);
     private Payload mockPayload = mock(Payload.class);
-    private AbstractBaseService abstractService= mock(AbstractBaseService.class);
-    //private Action action = mock(Action.class);
 
     private RebootService rebootService;
     @Before
@@ -105,7 +98,6 @@ public class RebootServiceTest {
         Mockito.doReturn("request Id").when(mockCommonHeader).getRequestId();
 
         Mockito.doReturn(Action.Reboot).when(mockInput).getAction();
-        //Mockito.doReturn(mockAI).when(mockInput).getActionIdentifiers();
         Mockito.doReturn("vserverId").when(mockAI).getVserverId();
 
         // test invalid action
@@ -200,6 +192,4 @@ public class RebootServiceTest {
         Assert.assertEquals("should return missing parameter",
                 Integer.valueOf(LCMCommandStatus.INVALID_INPUT_PARAMETER.getResponseCode()), status.getCode());
     }
-
 }
-
