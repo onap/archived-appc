@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,11 +107,11 @@ public class CreateSnapshot extends ProviderServerOperation {
             throw new RequestFailedException("Stop Server", msg, HttpStatus.BAD_GATEWAY_502, server);
         }
         rc.reset();
-        // Locate snapshot image
+        // Locate snapshot image - image names containing colon must be prefixed by in: and surrounded with quotes
         Image snapshot = null;
         while (rc.attempt()) {
             try {
-                snapshot = service.getImageByName(snapshotName);
+                snapshot = service.getImageByName("in:\"" + snapshotName + "\"");
                 if (snapshot != null) {
                     break;
                 }
