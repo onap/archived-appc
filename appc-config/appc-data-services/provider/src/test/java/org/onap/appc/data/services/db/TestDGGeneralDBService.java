@@ -184,6 +184,41 @@ public class TestDGGeneralDBService {
     }
     
     @Test
+    public void testSaveConfigFiles() throws SvcLogicException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("data-source", "test");
+        ctx.setAttribute("service-instance-id", "test");
+        ctx.setAttribute("request-action", "test");
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("vnfc-type", "test");
+        ctx.setAttribute("vnf-id", "test");
+        ctx.setAttribute("vnf-name", "test");
+        ctx.setAttribute("vm-name", "test");
+        ctx.setAttribute("file-category", "test");
+        ctx.setAttribute("file-content", "test");
+        
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.saveConfigFiles(ctx, "test");
+        assertEquals(status, QueryStatus.SUCCESS);
+
+    }
+    
+    @Test
+    public void testSavePrepareRelationship() throws SvcLogicException {
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("service-instance-id", "test");
+        ctx.setAttribute("request-id", "test");
+        
+        
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status = dbService.savePrepareRelationship(ctx, "test","test", "test");
+        assertEquals(status, QueryStatus.SUCCESS);
+
+    }
+    
+    @Test
     public void testGetDownloadConfigTemplateByVnf() throws SvcLogicException {
 
         SvcLogicContext ctx = new SvcLogicContext();
