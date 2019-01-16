@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -713,6 +713,24 @@ public class ConfigResourceNodeTest {
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
         configResourceNode.saveTemplateConfig(inParams, contextMock);
+
+        verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+    
+    @Test
+    public void testSaveStyleSheetConfig() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
+        context.setAttribute("tmp.merge.mergedData", "test");
+        context.setAttribute("tmp.convertconfig.escapeData", "test");
+        context.setAttribute("tmp.merge.mergedData", "test");
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.saveStyleSheetConfig(inParams, contextMock);
 
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
