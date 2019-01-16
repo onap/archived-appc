@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_659dd709",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/node/ConfigResourceNodeTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-16T16:15:38Z",
+      "side": 1,
+      "message": "2018-2019",
+      "revId": "f6a38a1f2542f92e9208d7d694fddbf7ed173869",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
