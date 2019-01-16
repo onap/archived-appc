@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
+ * Modifications Copyright (C) 2018-2019 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,7 +20,7 @@
  *
  * ============LICENSE_END=========================================================
  */
-
+ 
 package org.onap.appc.flow.controller.data;
 
 import static org.junit.Assert.assertTrue;
@@ -61,10 +63,15 @@ public class ActionIdentifierTest {
     public void testEquals() {
         ActionIdentifier actionId1 = new ActionIdentifier();
         ActionIdentifier actionId2 = new ActionIdentifier();
-
-        assertTrue(actionId1.equals(actionId2) && actionId2.equals(actionId1));
-        assertTrue(actionId1.equals(actionId1));
-        assertFalse(actionId1.equals(null));
+        
+        actionId1.setVnfcName("vnfcName");
+        actionId1.setVnfId("vnfId");
+        actionId1.setVserverId("vserverId");
+        actionId2.setVnfcName("vnfcName");
+        actionId2.setVnfId("vnfId");
+        actionId2.setVserverId("vserverId");
+        assertEquals(actionId1,actionId2);
+        assertEquals(actionId2,actionId1);
     }
 
     @Test
