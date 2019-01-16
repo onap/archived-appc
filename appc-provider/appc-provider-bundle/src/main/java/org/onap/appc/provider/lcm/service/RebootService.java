@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,7 +26,6 @@ package org.onap.appc.provider.lcm.service;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Action;
-import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.Payload;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.RebootOutputBuilder;
 import org.onap.appc.executor.objects.LCMCommandStatus;
