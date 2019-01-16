@@ -716,4 +716,22 @@ public class ConfigResourceNodeTest {
 
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
+    
+    @Test
+    public void testSaveStyleSheetConfig() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
+        context.setAttribute("tmp.merge.mergedData", "test");
+        context.setAttribute("tmp.convertconfig.escapeData", "test");
+        context.setAttribute("tmp.merge.mergedData", "test");
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.saveStyleSheetConfig(inParams, contextMock);
+
+        verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
 }
