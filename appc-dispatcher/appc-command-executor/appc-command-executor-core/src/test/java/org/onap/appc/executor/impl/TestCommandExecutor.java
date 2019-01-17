@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +23,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.appc.executor;
+package org.onap.appc.executor.impl;
 /**
  * 
  */
@@ -29,35 +31,23 @@ package org.onap.appc.executor;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.onap.appc.domainmodel.lcm.*;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.executionqueue.ExecutionQueueService;
-import org.onap.appc.executor.impl.*;
 import org.onap.appc.executor.impl.objects.CommandRequest;
 import org.onap.appc.executor.objects.CommandExecutorInput;
-import org.onap.appc.lifecyclemanager.LifecycleManager;
 import org.onap.appc.requesthandler.RequestHandler;
 import org.onap.appc.workflow.WorkFlowManager;
 import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import static junit.framework.Assert.assertTrue;
-import static org.powermock.api.support.membermodification.MemberMatcher.method;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({CommandTask.class,CommandExecutorImpl.class})
 public class TestCommandExecutor {
 
-        private static final String TTL_FLAG= "TTL";
         private static final String API_VERSION= "2.0.0";
         private static final String ORIGINATOR_ID= "1";
 
@@ -73,6 +63,7 @@ public class TestCommandExecutor {
             timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Configure,"15","") ;
     private CommandExecutorInput commandExecutorInputSync = pouplateCommandExecutorInput("FIREWALL", 30, "1.0",
             timeStamp, API_VERSION, requestId, ORIGINATOR_ID, "2", VNFOperation.Sync,"15","") ;
+    private CommandTask commandTask;
 
     @Before
     public void init()throws Exception {
@@ -81,26 +72,24 @@ public class TestCommandExecutor {
 
         executionQueueService = Mockito.mock(ExecutionQueueService.class);
 
-        commandExecutor = new CommandExecutorImpl();
+        commandExecutor = Mockito.spy(new CommandExecutorImpl());
         commandExecutor.setExecutionQueueService(executionQueueService);
         commandExecutor.setRequestHandler(requestHandler);
         commandExecutor.setWorkflowManager(workflowManager);
         commandExecutor.initialize();
-        CommandTask commandTask = Mockito.mock(CommandTask.class);
+        commandTask = Mockito.mock(CommandTask.class);
         Mockito.when(commandTask.getCommandRequest()).thenReturn(new CommandRequest(commandExecutorInputConfigure));
         PowerMockito.whenNew(CommandTask.class).withParameterTypes(RequestHandler.class,WorkFlowManager.class).withArguments(requestHandler,workflowManager).thenReturn(commandTask);
     }
-        
 
     @Test
     public void testPositiveFlow_LCM() throws Exception {
-        //Map <String,Object> flags = setTTLInFlags("30");
         try {
+            Mockito.doReturn(commandTask).when(commandExecutor).getCommandTask(Mockito.any(), Mockito.any());
             commandExecutor.executeCommand(commandExecutorInputConfigure);
         } catch (APPCException e) {
             Assert.fail(e.toString());
         }
-
     }
 
     @Test(expected = APPCException.class)
@@ -109,7 +98,6 @@ public class TestCommandExecutor {
             commandExecutor.executeCommand(commandExecutorInputSync);
     }
 
-    
     private CommandExecutorInput pouplateCommandExecutorInput(String vnfType, int ttl, String vnfVersion, Date timeStamp, String apiVersion, String requestId, String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload){
         CommandExecutorInput commandExecutorInput = createCommandExecutorInputWithSubObjects();
         RuntimeContext runtimeContext = commandExecutorInput.getRuntimeContext();
@@ -146,6 +134,5 @@ public class TestCommandExecutor {
         runtimeContext.setVnfContext(vnfContext);
         return commandExecutorInput;
     }
-
 }
 
