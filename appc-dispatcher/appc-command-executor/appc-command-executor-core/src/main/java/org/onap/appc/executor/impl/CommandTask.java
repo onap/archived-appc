@@ -5,6 +5,8 @@
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,6 +25,11 @@
 
 package org.onap.appc.executor.impl;
 
+import com.att.eelf.configuration.Configuration;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import java.net.InetAddress;
+import java.util.UUID;
 import org.onap.appc.domainmodel.lcm.Status;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
 import org.onap.appc.executor.impl.objects.CommandRequest;
@@ -31,8 +38,6 @@ import org.onap.appc.requesthandler.RequestHandler;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.workflow.WorkFlowManager;
 import org.onap.appc.workflow.objects.WorkflowRequest;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
@@ -44,10 +49,7 @@ import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 import org.slf4j.MDC;
 
-import java.net.InetAddress;
-import java.util.UUID;
 
-import static com.att.eelf.configuration.Configuration.*;
 
 /**
  * This abstract class is base class for all Command tasks. All command task must inherit this class.
@@ -96,23 +98,21 @@ public class CommandTask implements Runnable {
         } else {
             logger.info("AAIService error from bundlecontext");
             logger.warn("Cannot find service reference for org.onap.ccsdk.sli.adaptors.aai.AAIService");
-
         }
     }
 
 
     @Override
     public void run() {
-        logger.debug("Starting execution of command :"+ commandRequest);
+        logger.debug("Starting execution of command :" + commandRequest);
         setInitialLogProperties(commandRequest);
         final RuntimeContext runtimeContext = commandRequest.getCommandExecutorInput().getRuntimeContext();
-
 
         WorkflowRequest workflowRequest = new WorkflowRequest();
         workflowRequest.setRequestContext(runtimeContext.getRequestContext());
         workflowRequest.setResponseContext(runtimeContext.getResponseContext());
         workflowRequest.setVnfContext(runtimeContext.getVnfContext());
-        logger.debug("Executing workflow :"+ workflowRequest);
+        logger.debug("Executing workflow :" + workflowRequest);
         workflowManager.executeWorkflow(workflowRequest);
         logger.debug("Completed execution workflow with response:"+ commandRequest.getCommandExecutorInput().getRuntimeContext().getResponseContext());
         try {
@@ -135,32 +135,30 @@ public class CommandTask implements Runnable {
     private void updateAAIForTerminate(CommandRequest commandRequest) throws AAIServiceException {
         final int statusCode = commandRequest.getCommandExecutorInput().getRuntimeContext().getResponseContext().getStatus().getCode();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Workflow Execution Status = "+ statusCode);
-        }
+        logger.debug("Workflow Execution Status = "+ statusCode);
         if (statusCode == 100 || statusCode == 400) {
             SvcLogicContext ctx = new SvcLogicContext();
             ctx = getVnfdata(commandRequest.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), "vnf", ctx);
-            deleteGenericVnfData(commandRequest.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(), ctx.getAttribute("vnf.resource-version"));
-
+            deleteGenericVnfData(commandRequest.getCommandExecutorInput().getRuntimeContext().getVnfContext().getId(),
+                    ctx.getAttribute("vnf.resource-version"));
         }
     }
 
     private SvcLogicContext getVnfdata(String vnf_id, String prefix,SvcLogicContext ctx) {
-        String key="generic-vnf.vnf-id = '"+ vnf_id+"'"+" AND http-header.Real-Time = 'true'";
-        logger.debug("inside getVnfdata=== "+key);
+        String key="generic-vnf.vnf-id = '" + vnf_id + "'" + " AND http-header.Real-Time = 'true'";
+        logger.debug("inside getVnfdata=== " + key);
         try {
             SvcLogicResource.QueryStatus response = aaiService.query("generic-vnf", false, null, key,prefix, null, ctx);
             if(SvcLogicResource.QueryStatus.NOT_FOUND.equals(response)){
                 logger.warn("VNF " + vnf_id + " not found while updating A&AI");
-                throw new RuntimeException("VNF not found for vnf_id = "+ vnf_id);
+                throw new RuntimeException("VNF not found for vnf_id = " + vnf_id);
             }
             else if(SvcLogicResource.QueryStatus.FAILURE.equals(response)){
-                throw new RuntimeException("Error Querying AAI with vnfID = " +vnf_id);
+                throw new RuntimeException("Error Querying AAI with vnfID = " + vnf_id);
             }
             logger.info("AAIResponse: " + response.toString());
         } catch (SvcLogicException e) {
-            logger.error("Error in getVnfdata "+ e);
+            logger.error("Error in getVnfdata " + e);
             throw new RuntimeException(e);
         }
         return ctx;
@@ -171,39 +169,43 @@ public class CommandTask implements Runnable {
         String reqId = request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getRequestId();
 
         try {
-            MDC.put(MDC_KEY_REQUEST_ID, UUID.fromString(reqId).toString());
+            MDC.put(Configuration.MDC_KEY_REQUEST_ID, UUID.fromString(reqId).toString());
             //reaching here without exception means existing RequestId is
             //valid UUID as per ECOMP logging standards
         } catch (Exception e) {
             String reqIdUUID = UUID.randomUUID().toString();
-            MDC.put(MDC_KEY_REQUEST_ID, reqIdUUID);
+            MDC.put(Configuration.MDC_KEY_REQUEST_ID, reqIdUUID);
             logger.info("Replaced invalid requestID of " + reqId + ".  New value is " + reqIdUUID + ".");
         }
-        if (request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getActionIdentifiers().getServiceInstanceId() != null)
-            MDC.put(MDC_SERVICE_INSTANCE_ID, request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getActionIdentifiers().getServiceInstanceId());
-        MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getOriginatorId());
-        MDC.put(MDC_SERVICE_NAME, request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction().name());
-        try {
-            MDC.put(MDC_SERVER_FQDN, InetAddress.getLocalHost().getCanonicalHostName());
-            MDC.put(MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
-        } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+        if (request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getActionIdentifiers().getServiceInstanceId() != null) {
+            MDC.put(Configuration.MDC_SERVICE_INSTANCE_ID, 
+                    request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getActionIdentifiers().getServiceInstanceId());
+            MDC.put(LoggingConstants.MDCKeys.PARTNER_NAME, 
+                    request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getCommonHeader().getOriginatorId());
+            MDC.put(Configuration.MDC_SERVICE_NAME, 
+                    request.getCommandExecutorInput().getRuntimeContext().getRequestContext().getAction().name());
         }
-        MDC.put(MDC_INSTANCE_UUID, ""); // make instanse_UUID generation once during APPC-instanse deploying
+        try {
+            MDC.put(Configuration.MDC_SERVER_FQDN, InetAddress.getLocalHost().getCanonicalHostName());
+            MDC.put(Configuration.MDC_SERVER_IP_ADDRESS, InetAddress.getLocalHost().getHostAddress());
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+        }
+        MDC.put(Configuration.MDC_INSTANCE_UUID, ""); // make instanse_UUID generation once during APPC-instance deploying
     }
 
     private void clearRequestLogProperties()
     {
         try {
-            MDC.remove(MDC_KEY_REQUEST_ID);
-            MDC.remove(MDC_SERVICE_INSTANCE_ID);
-            MDC.remove(MDC_SERVICE_NAME);
+            MDC.remove(Configuration.MDC_KEY_REQUEST_ID);
+            MDC.remove(Configuration.MDC_SERVICE_INSTANCE_ID);
+            MDC.remove(Configuration.MDC_SERVICE_NAME);
             MDC.remove(LoggingConstants.MDCKeys.PARTNER_NAME);
         } catch (Exception e) {
-            logger.error(e.getMessage(),e);
+            logger.error(e.getMessage(), e);
         }
     }
-    
+
     public boolean deleteGenericVnfData(String vnf_id, String resourceVersion) throws AAIServiceException {
         boolean response = false;
 
