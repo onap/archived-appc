@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +27,13 @@
 
 package org.onap.appc.util;
 
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -199,7 +206,6 @@ public class TestStructuredPropertyHelper {
                     fail("Unknown provider " + node.toString());
             }
         }
-        // System.out.println(nodes);
     }
 
     /**
@@ -232,9 +238,8 @@ public class TestStructuredPropertyHelper {
                 }
             }
         }
-        // System.out.println(nodes);
     }
-    
+
     @Test
     public void testToStringWithValue()
     {
@@ -242,10 +247,10 @@ public class TestStructuredPropertyHelper {
         Node node = nodes.get(0);
         node.setName("testName");
         node.setValue("testValue");
-        String str= node.toString();
+        String str = node.toString();
         assertEquals("testName = testValue",str);
     }
-    
+
     @Test
     public void testEquals()
     {
@@ -257,7 +262,7 @@ public class TestStructuredPropertyHelper {
         node1.setValue("testValue");
         assertTrue(node0.equals(node1));    
     }
-    
+
    @Test
     public void testEqualsWithSameNameAndDifferentValue()
     {
@@ -269,7 +274,7 @@ public class TestStructuredPropertyHelper {
         node1.setValue("testValue2");
         assertFalse(node0.equals(node1));    
     }
-    
+
     @Test
     public void testEqualsWithSameValueAndDifferentName()
     {
