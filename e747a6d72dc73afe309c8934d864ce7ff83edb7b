@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_3a8fe52b",
+        "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/onap/appc/workflow/impl/WorkFlowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-17T14:12:05Z",
+      "side": 1,
+      "message": "ObjectUtils just calls the toString() method from Object class.\nWorkflowRequest toString() method calls the toString of the RequestContext, ResponseContext and VNFContext objects.\nAs the WorkflowRequest toString work is relatively significant I will replace the if test",
+      "parentUuid": "9adffdf1_5a6bc984",
+      "revId": "e747a6d72dc73afe309c8934d864ce7ff83edb7b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_3a0cc5ec",
         "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/onap/appc/workflow/impl/WorkFlowManagerImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-01-17T13:57:41Z",
       "side": 1,
       "message": "should probably keep the \"if\" test, as getStackTrace() probably consumes a lot of cycles",
+      "revId": "e747a6d72dc73afe309c8934d864ce7ff83edb7b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5aac298c",
+        "filename": "appc-dispatcher/appc-workflow-management/appc-workflow-management-core/src/main/java/org/onap/appc/workflow/impl/WorkFlowManagerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-17T14:12:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_3a0cc5ec",
       "revId": "e747a6d72dc73afe309c8934d864ce7ff83edb7b",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
