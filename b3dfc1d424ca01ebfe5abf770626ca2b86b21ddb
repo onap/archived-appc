@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_fadf1d38",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:04:48Z",
+      "side": 1,
+      "message": "just 2019, if this is a new file",
+      "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_7aeb2ddc",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:04:48Z",
+      "side": 1,
+      "message": "any way to test that it actually did anything useful with the requestInfo?\n\nThis comment applies to all of the methods.",
+      "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
