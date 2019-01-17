@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +24,9 @@ package org.onap.appc.util;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 import org.hamcrest.CoreMatchers;
 import java.io.ByteArrayOutputStream;
@@ -50,30 +54,27 @@ public class UnmodifiablePropertiesTest {
     private UnmodifiableProperties unmodifiableProperties = new UnmodifiableProperties(properties);
     private String desiredMessage = "Property cannot be modified!";
 
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception {
         properties.setProperty(propKey1, propValue1);
         properties.setProperty(propKey2, propValue2);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testClear() {
-        try {
-            unmodifiableProperties.clear();
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.clear();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testClone() {
-        try {
-            unmodifiableProperties.clone();
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.clone();
     }
 
     @Test
@@ -177,35 +178,26 @@ public class UnmodifiablePropertiesTest {
     @Test
     public final void testLoadInputStream() throws IOException {
         InputStream mockInStream = Mockito.mock(InputStream.class);
-        try {
-            unmodifiableProperties.load(mockInStream);
-        } catch (IOException ex) {
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.load(mockInStream);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public final void testLoadReader() throws IOException {
         String dummyPair = "key3=testKey3\nvalue3=testValue3";
         StringReader reader = new StringReader(dummyPair);
-        try {
-            unmodifiableProperties.load(reader);
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.load(reader);
     }
 
     @Test
     public final void testLoadFromXMLInputStream() throws IOException {
         InputStream mockInStream = Mockito.mock(InputStream.class);
-        try {
-            unmodifiableProperties.loadFromXML(mockInStream);
-        } catch (IOException ex) {
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.loadFromXML(mockInStream);
     }
 
     @Test
@@ -215,44 +207,32 @@ public class UnmodifiablePropertiesTest {
         Assert.assertEquals(propKey1, propNames.nextElement());
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public final void testPutObjectObject() {
-        try {
-            unmodifiableProperties.put(propKey2, propValue1);
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.put(propKey2, propValue1);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public final void testPutAllMapOfQextendsObjectQextendsObject() {
-        try {
-            unmodifiableProperties.putAll(properties);
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.putAll(properties);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public final void testRehash() {
-        try {
-            unmodifiableProperties.rehash();
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.rehash();
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public final void testRemoveObject() {
-        try {
-            unmodifiableProperties.remove(propKey1);
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.remove(propKey1);
     }
 
     @Test
@@ -265,14 +245,11 @@ public class UnmodifiablePropertiesTest {
         Assert.assertThat(propByteArray.toString(), CoreMatchers.containsString("testKey1=testValue1"));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public final void testSetPropertyStringString() {
-        try {
-            unmodifiableProperties.setProperty(propKey1, propValue2);
-        } catch (UnsupportedOperationException exceptionMessage) {
-            Assert.assertEquals(desiredMessage, exceptionMessage.getMessage());
-            throw exceptionMessage;
-        }
+        expectedEx.expect(UnsupportedOperationException.class);
+        expectedEx.expectMessage(desiredMessage);
+        unmodifiableProperties.setProperty(propKey1, propValue2);
     }
 
     @Test
