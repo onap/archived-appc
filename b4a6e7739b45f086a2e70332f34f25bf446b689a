@@ -16,6 +16,24 @@
       "revId": "b4a6e7739b45f086a2e70332f34f25bf446b689a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1ae1c1d0",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/JsonUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-17T14:14:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_1a30e19d",
+      "revId": "b4a6e7739b45f086a2e70332f34f25bf446b689a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
