@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_1a30e19d",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/JsonUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:02:31Z",
+      "side": 1,
+      "message": "\"Modifications Copyright\" - comment applies to several files",
+      "revId": "b4a6e7739b45f086a2e70332f34f25bf446b689a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
