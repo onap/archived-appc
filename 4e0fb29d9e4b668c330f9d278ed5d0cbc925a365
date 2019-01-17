@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_ba3f55b3",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-01-17T13:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_9757cc57",
+      "range": {
+        "startLine": 412,
+        "startChar": 4,
+        "endLine": 412,
+        "endChar": 5
+      },
+      "revId": "4e0fb29d9e4b668c330f9d278ed5d0cbc925a365",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_b7521065",
         "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-17T11:46:05Z",
       "side": 1,
       "message": "replace tabs with spaces",
+      "range": {
+        "startLine": 418,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 5
+      },
+      "revId": "4e0fb29d9e4b668c330f9d278ed5d0cbc925a365",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5a4ae955",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/java/org/onap/appc/ccadaptor/ConfigComponentAdaptorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-01-17T13:30:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_b7521065",
       "range": {
         "startLine": 418,
         "startChar": 0,
