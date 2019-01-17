@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modification Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * =============================================================================
  * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
@@ -407,6 +407,18 @@ public class ConfigComponentAdaptorTest {
                 CoreMatchers.containsString("<configure>"));
     }
 
+    @Test
+    public void testActivateMethod() {
+        ConfigComponentAdaptor config= new ConfigComponentAdaptor(new Properties());
+        assertEquals(ConfigStatus.SUCCESS, config.activate("test", new SvcLogicContext()));
+    }
+    
+    @Test
+    public void testDeactivateMethod() {
+        ConfigComponentAdaptor config= new ConfigComponentAdaptor(new Properties());
+        assertEquals(ConfigStatus.SUCCESS, config.deactivate("test", new SvcLogicContext()));
+    }
+    
     @Test
     public void testStaticReadFileExceptionFlow() {
         assertEquals("", ConfigComponentAdaptor._readFile("NON_EXISTENT_FILE"));
