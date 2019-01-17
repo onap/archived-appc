@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_e040d008",
+        "filename": "INFO.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-17T22:22:34Z",
+      "side": 1,
+      "message": "If this is a reference to the TZ database of timezones then I think the correct entry for Ireland would be \u0027Europe/Dublin\u0027",
+      "range": {
+        "startLine": 50,
+        "startChar": 19,
+        "endLine": 50,
+        "endChar": 34
+      },
+      "revId": "4eb58b720868996ad6a864c1fc5a573da72e0c0a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
