@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_bacc358a",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/main/java/org/onap/appc/executor/impl/CommandExecutorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:10:30Z",
+      "side": 1,
+      "message": "\"Modifications Copyright\"\n\nthis comment applies to other files, as well",
+      "revId": "fbba0b8906c8a05359a674981a7cc213e38aed08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_7ac24d54",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/main/java/org/onap/appc/executor/impl/CommandExecutorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:10:30Z",
+      "side": 1,
+      "message": "is this a \"fast\" operation?  If so, then it\u0027s fine to drop the \"if\" test.",
+      "revId": "fbba0b8906c8a05359a674981a7cc213e38aed08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_faaddd9b",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/main/java/org/onap/appc/executor/impl/CommandExecutorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:10:30Z",
+      "side": 1,
+      "message": "checkstyle may complain: add a space after the comma",
+      "revId": "fbba0b8906c8a05359a674981a7cc213e38aed08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
