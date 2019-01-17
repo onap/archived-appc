@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_9a4291ac",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/main/java/org/onap/appc/executor/impl/CommandTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:20:45Z",
+      "side": 1,
+      "message": "\"Modifications Copyright\"",
+      "revId": "51296f5e0f974d713e3a67637de501244175404e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ba3d152d",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/test/java/org/onap/appc/executor/impl/TestCommandExecutor.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:20:45Z",
+      "side": 1,
+      "message": "\"Modifications Copyright\"",
+      "revId": "51296f5e0f974d713e3a67637de501244175404e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1a16a1a8",
+        "filename": "appc-dispatcher/appc-command-executor/appc-command-executor-core/src/test/java/org/onap/appc/executor/impl/TestCommandTask.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:20:45Z",
+      "side": 1,
+      "message": "\"Modifications Copyright\"",
+      "revId": "51296f5e0f974d713e3a67637de501244175404e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
