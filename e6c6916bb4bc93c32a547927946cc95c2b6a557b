@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_5c53d36a",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-17T14:11:55Z",
+      "side": 1,
+      "message": "good point - thanks for pointing that out!",
+      "parentUuid": "9adffdf1_dc67c34b",
+      "revId": "e6c6916bb4bc93c32a547927946cc95c2b6a557b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_21b4ac33",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/RequestInfoTest.java",
         "patchSetId": 1
