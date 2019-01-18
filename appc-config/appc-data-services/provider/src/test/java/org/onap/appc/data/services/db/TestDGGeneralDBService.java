@@ -25,6 +25,7 @@
 package org.onap.appc.data.services.db;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import org.apache.commons.io.IOUtils;
@@ -292,6 +293,18 @@ public class TestDGGeneralDBService {
         MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
         QueryStatus status = dbService.getTemplateByArtifactType(ctx, "test","XML","APPC-CONFIG");
         assertEquals(QueryStatus.SUCCESS, status);
+
+    }
+    
+    @Test
+    public void testGetCapability() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("artifactName", "template001");
+        ctx.setAttribute("maxInternalVersion", "1234");
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        String status = dbService.getCapability(ctx, "test");
+        assertNull(status);
 
     }
     
