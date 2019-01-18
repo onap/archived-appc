@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_40675c4d",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-01-18T07:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_fadf1d38",
+      "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_7aeb2ddc",
         "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilderTest.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-01-17T14:04:48Z",
       "side": 1,
       "message": "any way to test that it actually did anything useful with the requestInfo?\n\nThis comment applies to all of the methods.",
+      "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_20649848",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-01-18T07:16:03Z",
+      "side": 1,
+      "message": "No, i dont think its possible to test anything else using this test case. I could have used assertEquals to check if requestInfo value got set by this method. But, since requestInfo is a private attribute, its not possible to reference it from the test class unless it has a getter setter method. Since, the getter setter method is not there, this is the only way out here to cover this class.",
+      "parentUuid": "9adffdf1_7aeb2ddc",
       "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
