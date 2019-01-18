@@ -69,6 +69,24 @@
       "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4b969d40",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilderTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-18T13:42:03Z",
+      "side": 1,
+      "message": "could use Powermock.Whitebox to check the content of the private field",
+      "parentUuid": "9adffdf1_20649848",
+      "revId": "b3dfc1d424ca01ebfe5abf770626ca2b86b21ddb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
