@@ -33,7 +33,7 @@ import org.onap.appc.aai.data.AaiVmInfo;
 import org.onap.appc.aai.data.AaiVnfInfo;
 import org.onap.appc.aai.data.AaiVnfcInfo;
 import org.onap.appc.aai.utils.AaiClientConstant;
-import org.onap.appc.instar.interfaces.RuleHandlerInterface;
+import org.onap.appc.system.interfaces.RuleHandlerInterface;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.sdnc.config.params.data.Parameter;
 import org.onap.sdnc.config.params.data.ResponseKey;
