@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,7 +82,7 @@ public class DBService {
         if (serviceLogic != null && ctx != null) {
             String key = "select max(internal_version) as maximum from ASDC_ARTIFACTS  WHERE ARTIFACT_NAME = '"
                 + artifactName + "'";
-            log.info("Getting internal Versoin :" + key);
+            log.info("Getting internal Version :" + key);
             status = serviceLogic.query("SQL", false, null, key, prefix, null, ctx);
             if (status.toString().equals(FAILURE_PARAM)) {
                 throw new SvcLogicException("Error - getting internal Artifact Number");
@@ -141,7 +143,7 @@ public class DBService {
                 + " message_type = $log-message-type , " + " message = $log-message ;";
             status = serviceLogic.save("SQL", false, false, key, null, prefix, ctx);
             if (status.toString().equals(FAILURE_PARAM)) {
-                throw new SvcLogicException("Error while loging data");
+                throw new SvcLogicException("Error while logging data");
             }
 
         }
