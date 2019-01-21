@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -145,19 +147,19 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
             String finalInd) {
 
         UploadartifactOutputBuilder responseBuilder = new UploadartifactOutputBuilder();
-        ConfigDocumentResponseBuilder configResponseBuilder=new ConfigDocumentResponseBuilder();            
-        configResponseBuilder.setRequestId(svcRequestId);            
-        configResponseBuilder.setStatus(code);            
-        configResponseBuilder.setErrorReason(message);            
+        ConfigDocumentResponseBuilder configResponseBuilder=new ConfigDocumentResponseBuilder();
+        configResponseBuilder.setRequestId(svcRequestId);
+        configResponseBuilder.setStatus(code);
+        configResponseBuilder.setErrorReason(message);
         RpcResult<UploadartifactOutput> rpcResult = RpcResultBuilder.<UploadartifactOutput> status(true)
                 .withResult(responseBuilder.build()).build();
-        return rpcResult;            
+        return rpcResult;
     }
 
     @Override
     public Future<RpcResult<UploadartifactOutput>> uploadartifact(UploadartifactInput input) {
 
-        if (input == null || input.getDocumentParameters() == null || input.getDocumentParameters().getArtifactContents() == null ) {        
+        if (input == null || input.getDocumentParameters() == null || input.getDocumentParameters().getArtifactContents() == null ) {
             RpcResult<UploadartifactOutput> rpcResult =
                     buildResponse1("N/A", "N/A", "INVALID_INPUT", "Invalid input, null or empty document information" , "Y");
             return Futures.immediateFuture(rpcResult);
@@ -166,10 +168,9 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
         ConfigDocumentResponseBuilder configResponseBuilder = new ConfigDocumentResponseBuilder();
         UploadartifactOutputBuilder responseBuilder = new UploadartifactOutputBuilder();
         log.info("Received input = " + input );
-        ArtifactHandlerProviderUtil designUtil = new ArtifactHandlerProviderUtil(input);
+        ArtifactHandlerProviderUtil designUtil = getArtifactHandlerProviderUtil(input);
         configResponseBuilder.setRequestId(input.getRequestInformation().getRequestId());
         try{
-            
             if(input.getRequestInformation().getSource() !=null){
                 if(input.getRequestInformation().getSource().equalsIgnoreCase(SdcArtifactHandlerConstants.DESIGN_TOOL)){
                         designUtil.processTemplate(designUtil.createDummyRequestData());
@@ -178,27 +179,29 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
                 else
                 {
                     designUtil.processTemplate(designUtil.createRequestData());
-                    configResponseBuilder.setStatus(ArtifactHandlerProviderUtil.DistributionStatusEnum.DEPLOY_OK.toString());        
+                    configResponseBuilder.setStatus(ArtifactHandlerProviderUtil.DistributionStatusEnum.DEPLOY_OK.toString());
                 }
             }
             else
             {
-                throw new Exception("No Tempalte data found");                
+                throw new Exception("No Template data found");
             }
-            
-            
         }
         catch (Exception e) {
 
-            configResponseBuilder.setErrorReason(e.getMessage());            
+            configResponseBuilder.setErrorReason(e.getMessage());
             configResponseBuilder.setStatus(ArtifactHandlerProviderUtil.DistributionStatusEnum.DEPLOY_ERROR.toString());
             log.error("Caught exception looking for Artifact Handler", e);
             log.info("Caught exception looking for Artifact Handler: ");
         }
-        
+
         responseBuilder.setConfigDocumentResponse(configResponseBuilder.build());
         RpcResult<UploadartifactOutput> rpcResult = RpcResultBuilder.<UploadartifactOutput> status(true).withResult(responseBuilder.build()).build();
         return Futures.immediateFuture(rpcResult);
 
+    }
+
+    protected ArtifactHandlerProviderUtil getArtifactHandlerProviderUtil(UploadartifactInput input) {
+        return new ArtifactHandlerProviderUtil(input);
     }
 }

@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 IBM
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,103 +51,102 @@ public class TestDBServiceExceptions {
         }
 
     @Test
-    public void testSaveArtifacts() throws Exception {              
+    public void testSaveArtifacts() throws Exception {
         String artifactName = "TestArtifact";
-        String prefix ="";
+        String prefix = "";
         ctx.setAttribute("test", "test");
-        String result= dbService.getInternalVersionNumber(ctx, artifactName, prefix);
-        assertEquals("1",result);
-       
+        String result = dbService.getInternalVersionNumber(ctx, artifactName, prefix);
+        assertEquals("1", result);
     }
 
     @Test
-    public void testProcessSdcReferencesForCapability() throws Exception {        
+    public void testProcessSdcReferencesForCapability() throws Exception {
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, "capability");
         boolean isUpdate = false;
         String expectedKey = "insert into ASDC_REFERENCE set VNFC_TYPE = null  , FILE_CATEGORY = $file-category , " +
                 "VNF_TYPE = $vnf-type , ACTION = null  , ARTIFACT_TYPE = null  , ARTIFACT_NAME = $artifact-name";
         dbService.processSdcReferences(ctx, isUpdate);
-        assertEquals(expectedKey,ctx.getAttribute("keys"));
+        assertEquals(expectedKey, ctx.getAttribute("keys"));
         }
 
     @Test
-    public void testProcessSdcReferences() throws Exception {        
+    public void testProcessSdcReferences() throws Exception {
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, "Test");
         String expectedKey = "insert into ASDC_REFERENCE set VNFC_TYPE = $vnfc-type , FILE_CATEGORY = $file-category , VNF_TYPE = $vnf-type , ACTION = $action , ARTIFACT_TYPE = $artifact-type , ARTIFACT_NAME = $artifact-name";
         boolean isUpdate = false;
         dbService.processSdcReferences(ctx, isUpdate);
-        assertEquals(expectedKey,ctx.getAttribute("keys"));
+        assertEquals(expectedKey, ctx.getAttribute("keys"));
     }
 
     @Test(expected = Exception.class)
-    public void testGetDownLoadDGReference() throws Exception {       
+    public void testGetDownLoadDGReference() throws Exception {
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "");
         dbService.getDownLoadDGReference(ctx);
     }
 
     @Test
-    public void testProcessConfigActionDg() throws Exception {      
+    public void testProcessConfigActionDg() throws Exception {
         ctx.setAttribute("test", "test");
         boolean isUpdate = false;
         ctx.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE, "Reference");
         String expectedKey = "insert into CONFIGURE_ACTION_DG set DOWNLOAD_CONFIG_DG = $download-dg-reference , ACTION = $action , VNF_TYPE = $vnf-type";
         dbService.processConfigActionDg(ctx, isUpdate);
-        assertEquals(expectedKey,ctx.getAttribute("keys"));
+        assertEquals(expectedKey, ctx.getAttribute("keys"));
     }
 
     @Test
-    public void testProcessConfigActionDgForElse() throws Exception {       
+    public void testProcessConfigActionDgForElse() throws Exception {
         ctx.setAttribute("test", "test");
         boolean isUpdate = false;
         String expectedKey = null;
         dbService.processConfigActionDg(ctx, isUpdate);
-        assertEquals(expectedKey,ctx.getAttribute("keys"));
+        assertEquals(expectedKey, ctx.getAttribute("keys"));
     }
 
     @Test
-    public void testprocessDpwnloadDGReference() throws Exception {        
+    public void testprocessDpwnloadDGReference() throws Exception {
         ctx.setAttribute("test", "test");
         boolean isUpdate = false;
         String expectedKey = "insert into DOWNLOAD_DG_REFERENCE set DOWNLOAD_CONFIG_DG = $download-dg-reference , PROTOCOL = $device-protocol";
         dbService.processDownloadDgReference(ctx, isUpdate);
-        assertEquals(expectedKey,ctx.getAttribute("keys"));
+        assertEquals(expectedKey, ctx.getAttribute("keys"));
     }
 
     @Test
-    public void testResolveWhereClause() throws Exception {       
+    public void testResolveWhereClause() throws Exception {
         ctx.setAttribute("test", "test");
         String db="DOWNLOAD_DG_REFERENCE";
-        String whereClause="";
+        String whereClause = "";
         String result =  Whitebox.invokeMethod(dbService, "resolveWhereClause", ctx, db, whereClause);
         assertEquals(true, result.contains("PROTOCOL"));
     }
 
     @Test
-    public void testResolveWhereClauseForDevice_Authentication() throws Exception {       
+    public void testResolveWhereClauseForDevice_Authentication() throws Exception {
         ctx.setAttribute("test", "test");
         String db="DEVICE_AUTHENTICATION";
-        String whereClause="Test";
+        String whereClause = "Test";
         String result =  Whitebox.invokeMethod(dbService, "resolveWhereClause", ctx, db, whereClause);
         assertEquals(true, result.contains("Test"));
     }
 
     @Test
-    public void testResolveWhereClauseCONFIGURE_ACTION_DG() throws Exception {        
+    public void testResolveWhereClauseCONFIGURE_ACTION_DG() throws Exception {
         ctx.setAttribute("test", "test");
-        String db="CONFIGURE_ACTION_DG";
-        String whereClause="Test";
+        String db = "CONFIGURE_ACTION_DG";
+        String whereClause = "Test";
         String result =  Whitebox.invokeMethod(dbService, "resolveWhereClause", ctx, db, whereClause);
         assertEquals(true, result.contains("Test"));
     }
 
     @Test
-    public void testResolveWhereClauseVNFC_REFERENCE() throws Exception {      
+    public void testResolveWhereClauseVNFC_REFERENCE() throws Exception {
         ctx.setAttribute("test", "test");
-        String db="VNFC_REFERENCE";
-        String whereClause="TestVNFC_REFERENCE";
+        String db = "VNFC_REFERENCE";
+        String whereClause = "TestVNFC_REFERENCE";
         String result =  Whitebox.invokeMethod(dbService, "resolveWhereClause", ctx, db, whereClause);
         assertEquals(true, result.contains("TestVNFC_REFERENCE"));
     }
