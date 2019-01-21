@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications(C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,18 +27,24 @@ package org.onap.appc.artifact.handler.dbservices;
 
 public class MockDBService extends DBService {
     private static MockDBService mockDgGeneralDBService = null;
-    private static MockSvcLogicResource serviceLogic = new MockSvcLogicResource();;
+    private static MockDBService mockDgGeneralDBServiceFailure = null;
+    private static MockSvcLogicResource serviceLogic = new MockSvcLogicResource();
+    private static MockSvcLogicResourceFailure serviceLogicFailure = new MockSvcLogicResourceFailure();
+
 
     public MockDBService() {
         super(serviceLogic);
         if (mockDgGeneralDBService != null) {
             mockDgGeneralDBService = new MockDBService(serviceLogic);
         }
-
     }
 
     public MockDBService(MockSvcLogicResource serviceLogic2) {
         super(serviceLogic);
+    }
+
+    public MockDBService(MockSvcLogicResourceFailure serviceLogic2) {
+        super(serviceLogicFailure);
     }
 
     public static MockDBService initialise() {
@@ -46,4 +54,10 @@ public class MockDBService extends DBService {
         return mockDgGeneralDBService;
     }
 
+    public static MockDBService initialise(boolean failure) {
+        if(failure == true) {
+            mockDgGeneralDBServiceFailure = new MockDBService(serviceLogicFailure);
+        }
+        return mockDgGeneralDBServiceFailure;
+    }
 }

@@ -8,6 +8,8 @@
  * =============================================================================
  * Modifications Copyright (C) 2018 IBM
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,25 +27,23 @@
 
 package org.onap.appc.artifact.handler.dbservices;
 
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class DBServiceTest {
 
-    @Test
-    public void testSaveArtifacts() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        int internalVersion = 1;
-        dbService.saveArtifacts(ctx, internalVersion);
-    }
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void testSaveArtifactsException() throws Exception {
+    public void testSaveArtifacts() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
@@ -57,17 +57,7 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         String prefix = "test";
-        dbService.logData(ctx, prefix);
-    }
-
-
-    @Test
-    public void testLogDataException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        String prefix = "test";
-        dbService.logData(ctx, prefix);
+        assertEquals(QueryStatus.SUCCESS, dbService.logData(ctx, prefix));
     }
 
     @Test
@@ -80,15 +70,6 @@ public class DBServiceTest {
         dbService.processConfigActionDg(ctx, isUpdate);
     }
 
-    @Test
-    public void testProcessConfigActionDgException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        boolean isUpdate = true;
-        ctx.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE, "Reference");
-        dbService.processConfigActionDg(ctx, isUpdate);
-    }
 
     @Test
     public void testGetModelDataInformationbyArtifactName() throws Exception {
@@ -96,16 +77,7 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         String artifactName = "test";
-        dbService.getModelDataInformationbyArtifactName(artifactName);
-    }
-
-    @Test
-    public void testGetModelDataInformationbyArtifactNameException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        String artifactName = "test";
-        dbService.getModelDataInformationbyArtifactName(artifactName);
+        assertNotNull(dbService.getModelDataInformationbyArtifactName(artifactName));
     }
 
     @Test
@@ -113,18 +85,6 @@ public class DBServiceTest {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
-        String artifactName = "test";
-        String artifactId = "TestArtifact";
-        String yangContents = "TestYangContents";
-        dbService.updateYangContents(ctx, artifactId, yangContents);
-    }
-
-    @Test
-    public void testUpdateYangContentsException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        String artifactName = "test";
         String artifactId = "TestArtifact";
         String yangContents = "TestYangContents";
         dbService.updateYangContents(ctx, artifactId, yangContents);
@@ -158,16 +118,7 @@ public class DBServiceTest {
     }
 
     @Test
-    public void testprocessDpwnloadDGReference() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        boolean isUpdate = true;
-        dbService.processDownloadDgReference(ctx, isUpdate);
-    }
-
-    @Test
-    public void testprocessDpwnloadDGReferenceException() throws Exception {
+    public void testProcessDownloadDGReference() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
@@ -181,15 +132,6 @@ public class DBServiceTest {
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         boolean isUpdate = false;
-        dbService.processVnfcReference(ctx, isUpdate);
-    }
-
-    @Test
-    public void testProcessVnfcReferenceException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        boolean isUpdate = true;
         dbService.processVnfcReference(ctx, isUpdate);
     }
 
@@ -216,15 +158,6 @@ public class DBServiceTest {
         assertEquals(true,ctx.getAttribute("keys").contains("DEVICE_AUTHENTICATION"));
     }
 
-    //@Test
-    public void testProcessDeviceAuthenticationException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        boolean isUpdate = true;
-        dbService.processDeviceAuthentication(ctx, isUpdate);
-    }
-
     @Test
     public void testProcessDeviceInterfaceProtocol() throws Exception {
         MockDBService dbService = MockDBService.initialise();
@@ -245,29 +178,11 @@ public class DBServiceTest {
     }
 
     @Test
-    public void testProcessDeviceInterfaceProtocolException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        boolean isUpdate = true;
-        dbService.processDeviceInterfaceProtocol(ctx, isUpdate);
-    }
-
-    @Test
     public void testProcessSdcReferences() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY, "testCategory");
-        boolean isUpdate = true;
-        dbService.processSdcReferences(ctx, isUpdate);
-    }
-
-    @Ignore
-    public void testProcessSdcReferencesException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
         boolean isUpdate = true;
         dbService.processSdcReferences(ctx, isUpdate);
     }
@@ -282,16 +197,6 @@ public class DBServiceTest {
     }
 
     @Test
-    public void testIsArtifactUpdateRequiredExcetion() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        String db = "db";
-        dbService.isArtifactUpdateRequired(ctx, db);
-    }
-
-
-    @Test
     public void testgetArtifactID() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
@@ -301,19 +206,155 @@ public class DBServiceTest {
     }
 
     @Test
-    public void testgetArtifactIDException() throws Exception {
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext ctx = new SvcLogicContext();
-        ctx.setAttribute("test", "test");
-        String db = "db";
-        dbService.getArtifactID(ctx, db);
-    }
-    @Test
     public void testGetDownLoadDGReference() throws Exception {
         MockDBService dbService = MockDBService.initialise();
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("test", "test");
         ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "CLI");
+        assertEquals("TestDG", dbService.getDownLoadDGReference(ctx));
+    }
+
+    @Test
+    public void testInitialise() {
+        DBService dbService = DBService.initialise();
+        assertNotNull(dbService);
+    }
+
+    @Test
+    public void testGetInternalVersionNumberException() throws SvcLogicException {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error - getting internal Artifact Number");
+        dbService.getInternalVersionNumber(ctx, "artifactName", "prefix");
+    }
+
+    @Test
+    public void testGetArtifactIDException() throws SvcLogicException {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error - getting  Artifact ID from database");
+        dbService.getArtifactID(ctx, "artifactName");
+    }
+
+    @Test
+    public void testSaveArtifactsException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing storing Artifact: null");
+        dbService.saveArtifacts(ctx, -1);
+    }
+
+    @Test
+    public void testLogDataException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error while logging data");
+        dbService.logData(ctx, null);
+    }
+
+    @Test
+    public void testProcessSdcReferencesException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("file-category", "test");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing sdc_reference table ");
+        dbService.processSdcReferences(ctx, false);
+    }
+
+    @Test
+    public void testIsArtifactUpdateRequiredException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(DBException.class);
+        expectedEx.expectMessage("An error occurred while checking for artifact update");
+        dbService.isArtifactUpdateRequired(ctx, "db");
+    }
+
+    @Test
+    public void testProcessDeviceInterfaceProtocolException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing DEVICE_INTERFACE_PROTOCOL table ");
+        dbService.processDeviceInterfaceProtocol(ctx, false);
+    }
+
+    @Test
+    public void testProcessDeviceAuthenticationException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        boolean isUpdate = true;
+        expectedEx.expect(DBException.class);
+        expectedEx.expectMessage("An error occurred when processing device authentication");
+        dbService.processDeviceAuthentication(ctx, isUpdate);
+    }
+
+    @Test
+    public void testProcessVnfcReferenceException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing VNFC_REFERENCE table ");
+        dbService.processVnfcReference(ctx, true);
+    }
+
+    @Test
+    public void testProcessDownloadDGReferenceException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing DOWNLOAD_DG_REFERENCE table ");
+        dbService.processDownloadDgReference(ctx, false);
+    }
+
+    @Test
+    public void testProcessConfigActionDgException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        ctx.setAttribute(SdcArtifactHandlerConstants.DOWNLOAD_DG_REFERENCE, "Reference");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing Configure DG Action table ");
+        dbService.processConfigActionDg(ctx, true);
+    }
+
+    @Test
+    public void testGetModelDataInformationbyArtifactNameException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing is ArtifactUpdateRequiredforPD table ");
+        dbService.getModelDataInformationbyArtifactName("test");
+    }
+
+    @Test
+    public void testUpdateYangContentsException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        String artifactId = "TestArtifact";
+        String yangContents = "TestYangContents";
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Error While processing Configure DG Action table ");
+        dbService.updateYangContents(ctx, artifactId, yangContents);
+    }
+
+    @Test
+    public void testGetDownLoadDGReferenceException() throws Exception {
+        MockDBService dbService = MockDBService.initialise(true);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        ctx.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL, "CLI");
+        expectedEx.expect(DBException.class);
+        expectedEx.expectMessage("An error occurred when getting DG reference");
         assertEquals("TestDG", dbService.getDownLoadDGReference(ctx));
     }
 }
