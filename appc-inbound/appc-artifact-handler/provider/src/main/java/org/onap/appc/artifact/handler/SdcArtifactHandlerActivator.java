@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +40,7 @@ public class SdcArtifactHandlerActivator implements BundleActivator {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(SdcArtifactHandlerActivator.class);
     private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
-    
+
     @Override
     public void start(BundleContext ctx) throws Exception {
         ArtifactHandlerNode artifactHandlerNode = new ArtifactHandlerNode();
