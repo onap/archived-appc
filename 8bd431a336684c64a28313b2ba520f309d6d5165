@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_f4e5e908",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/utils/ArtifactHandlerProviderUtilTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-22T19:34:39Z",
+      "side": 1,
+      "message": "maybe use @Ignore instead? sonar doesn\u0027t like code to be commented out",
+      "revId": "8bd431a336684c64a28313b2ba520f309d6d5165",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
