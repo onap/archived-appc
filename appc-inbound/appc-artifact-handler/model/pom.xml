@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -50,12 +50,10 @@
 			<plugin>
 				<groupId>org.opendaylight.yangtools</groupId>
 				<artifactId>yang-maven-plugin</artifactId>
-                                <version>${odl.yangtools.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>org.opendaylight.mdsal</groupId>
 						<artifactId>maven-sal-api-gen-plugin</artifactId>
-						<!-- <version>${odl.yangtools.version}</version> -->
 						<version>${odl.sal.api.gen.plugin.version}</version>
 						<type>jar</type>
 					</dependency>

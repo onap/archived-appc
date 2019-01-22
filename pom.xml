@@ -3,7 +3,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
 ================================================================================
 Copyright (C) 2017 Amdocs
 =============================================================================
@@ -284,7 +284,6 @@ limitations under the License.
             <!-- <dependency> -->
             <!-- <groupId>org.opendaylight.yangtools</groupId> -->
             <!-- <artifactId>features-test</artifactId> -->
-            <!-- <version>${odl.yangtools.version}</version> -->
             <!-- <scope>test</scope> -->
             <!-- </dependency> -->
 
