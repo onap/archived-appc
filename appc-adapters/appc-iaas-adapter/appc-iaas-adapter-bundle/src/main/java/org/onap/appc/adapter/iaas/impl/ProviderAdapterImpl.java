@@ -40,8 +40,6 @@ import org.onap.appc.util.StructuredPropertyHelper.Node;
 import com.att.cdp.zones.model.Image;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Stack;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import java.util.HashMap;
 import java.util.List;
@@ -274,7 +272,7 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                     String userId = null;
                     String password = null;
                     // domain is not required so set a default
-                    String domain = DEFAULT_DOMAIN_NAME;
+                    String domain = ProviderAdapterImpl.DEFAULT_DOMAIN_NAME;
                     for (Node node2 : node.getChildren()) {
                         switch (node2.getName()) {
                             case Property.PROVIDER_TENANT_NAME:
@@ -282,16 +280,18 @@ public class ProviderAdapterImpl implements ProviderAdapter {
                                 break;
                             case Property.PROVIDER_TENANT_USERID:
                                 userId = node2.getValue();
-                                DEFAULT_USER = node2.getValue();
+                                ProviderAdapterImpl.DEFAULT_USER = node2.getValue();
                                 break;
                             case Property.PROVIDER_TENANT_PASSWORD:
                                 // convert password from Base64 encrypted string prefixed with 'enc:'
                                 password = EncryptionTool.getInstance().encrypt(node2.getValue());
-                                DEFAULT_PASS = node2.getValue();
+                                ProviderAdapterImpl.DEFAULT_PASS = node2.getValue();
                                 break;
                             case Property.PROVIDER_TENANT_DOMAIN:
                                 domain = node2.getValue();
-                                DEFAULT_DOMAIN = node2.getValue();
+                                ProviderAdapterImpl.DEFAULT_DOMAIN = node2.getValue();
+                                break;
+                            default:
                                 break;
                         }
                     }

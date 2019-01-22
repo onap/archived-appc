@@ -36,8 +36,6 @@ import org.osgi.framework.ServiceRegistration;
 
 public class MetricActivator implements BundleActivator {
 
-    private ServiceRegistration registration = null;
-
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(MetricActivator.class);
 
     @Override
@@ -46,7 +44,7 @@ public class MetricActivator implements BundleActivator {
         MetricService impl = new MetricServiceImpl();
         String regName = MetricService.class.getName();
         logger.debug("Registering Metric service " + regName);
-        registration = bundleContext.registerService(regName, impl, null);
+        ServiceRegistration registration = bundleContext.registerService(regName, impl, null);
         logger.debug("Registered Metric service " + regName);
     }
 

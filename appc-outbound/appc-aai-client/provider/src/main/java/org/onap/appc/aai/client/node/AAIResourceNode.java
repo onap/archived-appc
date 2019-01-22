@@ -84,7 +84,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             log.debug("Cloud Owner" + cloudOwnerValue);
             log.debug("CloudRegionId" + cloudOwnerValue);
-            Map<String, String> paramsCloud = new HashMap<String, String>();
+            Map<String, String> paramsCloud = new HashMap<>();
             paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                     inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
 
@@ -176,7 +176,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 String vfModuleForVserver = vmServerCtx.getAttribute(responsePrefix + "vm.vf-module-id");
 
                 if (vnfcName != null) {
-                    Map<String, String> paramsVnfc = new HashMap<String, String>();
+                    Map<String, String> paramsVnfc = new HashMap<>();
                     paramsVnfc.put(PARAM_VNFC_NAME, vnfcName);
 
                     paramsVnfc.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
