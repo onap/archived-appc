@@ -2,7 +2,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
 ================================================================================
 Copyright (C) 2017 Amdocs
 =============================================================================
@@ -176,18 +176,15 @@ limitations under the License.
 		 <dependency>
 			<groupId>org.opendaylight.yangtools</groupId>
 			<artifactId>yang-parser-impl</artifactId>
-			<version>${odl.yangtools.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-inet-types</artifactId>
-			<version>${odl.ietf-inet-types.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
 			<artifactId>ietf-yang-types</artifactId>
-			<version>${odl.ietf-yang-types.version}</version>
 		</dependency>
 
 		<dependency>
