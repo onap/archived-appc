@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -137,7 +139,6 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             JSONObject requestInfo = (JSONObject) postDataJson.get(REQUEST_INFORMATION);
             JSONObject documentInfo = (JSONObject) postDataJson.get(DOCUMENT_PARAMETERS);
             String artifactName = documentInfo.getString(ARTIFACT_NAME);
-
             if (artifactName != null) {
                 updateStoreArtifacts(requestInfo, documentInfo);
                 if (artifactName.toLowerCase().startsWith(REFERENCE)) {
@@ -151,6 +152,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
                     + requestInfo.getString(REQUEST_ID));
             }
         } catch (Exception e) {
+            e.printStackTrace();
             log.error("Error while processing request with id: "
                 + ((JSONObject) postDataJson.get(REQUEST_INFORMATION)).getString(REQUEST_ID), e);
 
@@ -165,7 +167,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
         String fn = "ArtifactHandlerNode.createReferenceDataForPD";
         String artifactName = documentInfo.getString(ARTIFACT_NAME);
-        log.info(fn + "Received PD File Name: " + artifactName + " and suffix lenght "
+        log.info(fn + "Received PD File Name: " + artifactName + " and suffix length "
             + PD.length());
         try {
 
@@ -190,7 +192,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             // Tosca generation
             OutputStream toscaStream = new ByteArrayOutputStream();
             String toscaContents;
-            ArtifactProcessorImpl toscaGenerator = new ArtifactProcessorImpl();
+            ArtifactProcessorImpl toscaGenerator = getArtifactProcessorImpl();
             toscaGenerator.generateArtifact(pdFileContents, toscaStream);
             toscaContents = toscaStream.toString();
             log.info("Generated Tosca File : " + toscaContents);
@@ -242,7 +244,6 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
     protected boolean updateStoreArtifacts(JSONObject requestInfo, JSONObject documentInfo)
         throws SvcLogicException {
         log.info("UpdateStoreArtifactsStarted storing of SDC Artifacs ");
-
         SvcLogicContext context = new SvcLogicContext();
         DBService dbservice = DBService.initialise();
         ArtifactHandlerProviderUtil ahpUtil = new ArtifactHandlerProviderUtil();
@@ -277,6 +278,8 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
     public boolean storeReferenceData(JSONObject requestInfo, JSONObject documentInfo)
         throws ArtifactHandlerInternalException {
+        System.out.println("XXX\n"+this);
+
         log.info("Started storing of SDC Artifacs into Handler");
         try {
             DBService dbservice = DBService.initialise();
@@ -297,7 +300,6 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             JSONObject contentObject = new JSONObject(contentString);
             JSONArray contentArray = contentObject.getJSONArray("reference_data");
             boolean storeCapabilityArtifact = true;
-
             for (int a = 0; a < contentArray.length(); a++) {
                 JSONObject content = (JSONObject) contentArray.get(a);
                 log.info("contentString =" + content.toString());
@@ -460,10 +462,10 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             log.info("artifact is " + artifact);
 
             //Get Model details
-            if (null != templateIdList && i>0 && i%2==0) {//Should this be changed to 3 to account for 3 artifacts
+            if (null != templateIdList && i>0 && i%2 == 0) {//Should this be changed to 3 to account for 3 artifacts
                 modelInd++;
             }
-            if (null != vnfcTypeList && i>0 && i%3==0) { 
+            if (null != vnfcTypeList && i>0 && i%3 == 0) { 
             	//TDP 517180 - CD tool has made changes to send 3 artifacts instead of 2
                 vnfcRefInd++;
             }
@@ -482,18 +484,18 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
             if (null != templateIdList  && modelInd < templateIdList.length()) {
                 model = templateIdList.getString(modelInd);
-                log.info("Model is ::: "+model+"  ,modelInd = "+modelInd);
+                log.info("Model is ::: "+model+"  ,modelInd = " + modelInd);
             }
             if (null != vnfcTypeList && vnfcRefInd < vnfcTypeList.length() ) {
                 String vnfcType = vnfcTypeList.getString(vnfcRefInd);
                 if (StringUtils.isNotBlank(vnfcType)) {
                     context.setAttribute(VNFC_TYPE, vnfcType);
                 }
-                log.info("Setting vnfc type from vnfc-type-list ::"+vnfcType);
+                log.info("Setting vnfc type from vnfc-type-list ::" + vnfcType);
             }
             if (StringUtils.isNotBlank(model)) {
                 dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
-                    DB_SDC_REFERENCE, model),model);
+                    DB_SDC_REFERENCE, model), model);
             }
             else {
                 dbservice.processSdcReferences(context, dbservice.isArtifactUpdateRequired(context,
@@ -505,7 +507,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             if (pdFile) {
                 log.info("Sending information related to pdfile Artifact");
                 tryUpdateContext(dbservice, context, pdFile, suffix, model);
-                pdFile=false;//set to false afterprocessing yang and Tosca
+                pdFile = false;//set to false afterprocessing yang and Tosca
             }
         }
 
@@ -753,5 +755,9 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             return content.getString(TEMPLATE);
         }
         return null;
+    }
+
+    protected ArtifactProcessorImpl getArtifactProcessorImpl() {
+        return new ArtifactProcessorImpl();
     }
 }
