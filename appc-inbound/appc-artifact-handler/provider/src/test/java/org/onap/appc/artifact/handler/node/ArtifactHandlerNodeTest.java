@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,35 +30,57 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
+import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import org.onap.appc.artifact.handler.dbservices.DBService;
 import org.onap.appc.artifact.handler.dbservices.MockDBService;
 import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
+import org.onap.appc.yang.YANGGenerator;
+import org.onap.appc.yang.impl.YANGGeneratorFactory;
 import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtilTest;
 import java.util.Map;
 import java.util.HashMap;
+import java.io.IOException;
 import java.nio.charset.Charset;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({DBService.class, YANGGeneratorFactory.class})
 public class ArtifactHandlerNodeTest {
 
     private ArtifactHandlerNode artifactHandlerNode;
+    private DBService dbServiceMock;
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
-        artifactHandlerNode = Mockito.spy(ArtifactHandlerNode.class);
-        Mockito.doReturn(true)
-            .when(artifactHandlerNode)
-            .updateStoreArtifacts(Mockito.any(JSONObject.class), Mockito.any(JSONObject.class));
-        Mockito.doReturn(true)
-            .when(artifactHandlerNode)
-            .storeReferenceData(Mockito.any(JSONObject.class), Mockito.any(JSONObject.class));
+        artifactHandlerNode = Mockito.spy(new ArtifactHandlerNode());
+        PowerMockito.mockStatic(DBService.class);
+        dbServiceMock = Mockito.mock(DBService.class);
+        Mockito.doReturn("12345").when(dbServiceMock).getInternalVersionNumber(Mockito.any(), Mockito.anyString(), Mockito.anyString());
+        PowerMockito.when(DBService.initialise()).thenReturn(dbServiceMock);
+        PowerMockito.mockStatic(YANGGeneratorFactory.class);
+        YANGGenerator yangGeneratorMock = Mockito.mock(YANGGenerator.class);
+        PowerMockito.when(YANGGeneratorFactory.getYANGGenerator()).thenReturn(yangGeneratorMock);
+        ArtifactProcessorImpl artifactProcessorMock = Mockito.mock(ArtifactProcessorImpl.class);
+        Mockito.doReturn(artifactProcessorMock).when(artifactHandlerNode).getArtifactProcessorImpl();
     }
 
     @Test
@@ -68,10 +92,7 @@ public class ArtifactHandlerNodeTest {
         JSONObject input = new JSONObject();
         inParams.put("response_prefix", "prefix");
         JSONObject requestInfo = new JSONObject();
-        JSONObject documentInfo = new JSONObject();
-        String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
-                .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, artifactContent);
+        JSONObject documentInfo = getDocumentInfo("templates/reference_template");
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "reference_Junit.json");
         requestInfo.put("RequestInfo", "testValue");
         input.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, documentInfo);
@@ -79,19 +100,7 @@ public class ArtifactHandlerNodeTest {
         postData.put("input", input);
         inParams.put("postData", postData.toString());
         artifactHandlerNode.processArtifact(inParams, ctx);
-    }
-
-    @Ignore("Test is taking 60 seconds")
-    @Test(expected = Exception.class)
-    public void testStoreReferenceData() throws Exception {
-        JSONObject documentInfo = new JSONObject();
-        String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
-                .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, artifactContent);
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "reference_Junit.json");
-        JSONObject requestInfo = new JSONObject();
-        requestInfo.put("RequestInfo", "testStoreReferenceData");
-        artifactHandlerNode.storeReferenceData(requestInfo, documentInfo);
+        assertNull(ctx.getAttribute(SdcArtifactHandlerConstants.FILE_CATEGORY));
     }
 
     @Test
@@ -105,27 +114,6 @@ public class ArtifactHandlerNodeTest {
     }
 
     @Test
-    public void testProcessAndStoreCapablitiesArtifact() throws Exception {
-        ArtifactHandlerNode ah = new ArtifactHandlerNode();
-        JSONObject capabilities = new JSONObject();
-        JSONObject documentInfo = new JSONObject();
-        MockDBService dbService = MockDBService.initialise();
-        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_UUID, "testuid");
-        documentInfo.put(SdcArtifactHandlerConstants.DISTRIBUTION_ID, "testDist");
-        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_NAME, "testName");
-        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION, "testDesc");
-        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_UUID, "testRes");
-        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, "testResIns");
-        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, "testVers");
-        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, "testResType");
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "testArtifactUuid");
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, "testArtifactVers");
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "testArtifactDesc");
-        Whitebox.invokeMethod(ah, "processAndStoreCapabilitiesArtifact", dbService, documentInfo, capabilities,
-                "artifactName", "someVnf");
-    }
-
-    @Test
     public void testCleanVnfcInstance() throws Exception {
         ArtifactHandlerNode ah = new ArtifactHandlerNode();
         SvcLogicContext ctx = new SvcLogicContext();
@@ -133,49 +121,23 @@ public class ArtifactHandlerNodeTest {
         assertTrue(true);
     }
 
-    @Ignore("Test is taking 60 seconds")
-    @Test(expected = Exception.class)
-    public void testGetArtifactIDException() throws Exception {
-        ArtifactHandlerNode ah = new ArtifactHandlerNode();
-        String yFileName = "yFileName";
-        Whitebox.invokeMethod(ah, "getArtifactID", yFileName);
-    }
-
-    @Ignore("Test is taking 60 seconds")
-    @Test(expected = Exception.class)
+    @Test
     public void testStoreUpdateSdcArtifacts() throws Exception {
         ArtifactHandlerNode ah = new ArtifactHandlerNode();
         String postDataStr =
-                "{\"request-information\":{},\"document-parameters\":{\"artifact-name\":\"testArtifact\",\"artifact-contents\":{\"content\":\"TestContent\"}}}";
+                "{\"request-information\":{\"request-id\": \"12345\"},\"document-parameters\":{\"artifact-name\":\"testArtifact\",\"artifact-contents\":{\"content\":\"TestContent\"}}}";
         JSONObject postData = new JSONObject(postDataStr);
+        expectedEx.expect(ArtifactHandlerInternalException.class);
         Whitebox.invokeMethod(ah, "storeUpdateSdcArtifacts", postData);
     }
 
-    @Ignore("Test is taking 60 seconds")
-    @Test(expected = Exception.class)
-    public void testUpdateStoreArtifacts() throws Exception {
-        JSONObject documentInfo = new JSONObject();
-        String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
-                .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, artifactContent);
-        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "reference_Junit.json");
-        JSONObject requestInfo = new JSONObject();
-        requestInfo.put("RequestInfo", "testupdateStoreArtifacts");
-        artifactHandlerNode.updateStoreArtifacts(requestInfo, documentInfo);
-    }
-
     @Test
-    public void testCleanArtifactInstanceData() throws Exception {
-        SvcLogicContext ctx = new SvcLogicContext();
-        Whitebox.invokeMethod(artifactHandlerNode, "cleanArtifactInstanceData", ctx);
-    }
-
-    @Ignore("Test is taking 60 seconds")
-    @Test(expected = Exception.class)
     public void testUpdateYangContents() throws Exception {
         String artifactId = "1";
         String yangContents = "SomeContent";
         Whitebox.invokeMethod(artifactHandlerNode, "updateYangContents", artifactId, yangContents);
+        Mockito.verify(dbServiceMock).updateYangContents(Mockito.any(SvcLogicContext.class),
+                Mockito.anyString(), Mockito.anyString());
     }
 
     @Test
@@ -208,27 +170,6 @@ public class ArtifactHandlerNodeTest {
         context.setAttribute(SdcArtifactHandlerConstants.DEVICE_PROTOCOL,"Test");
         artifactHandlerNode.processConfigTypeActions(content, dbService, context);
     }
-
-    @Test
-    public void testProcessArtifactLists() throws Exception{
-        String contentStr = "{\r\n\t\"action\": \"ConfigScaleOut\",\r\n\t\"action-level\": \"VNF\",\r\n\t\"scope\": "
-                + "{\r\n\t\t\"vnf-type\": \"ScaleOutVNF\",\r\n\t\t\"vnfc-type\": \"\"\r\n\t},\r\n\t\"template\": \"Y\",\r\n\t\"vm\": "
-                + "[\r\n\t{ \r\n\t\t\"vm-instance\": 1,\r\n\t\t\"template-id\":\"id1\",\r\n\t\t\r\n\t\t\"vnfc\": [{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": \"t1\",\r\n\t\t\t\"vnfc-function-code\": "
-                + "\"Testdbg\",\r\n\t\t\t\"group-notation-type\": \"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"N\",\r\n\t\t\t\"group-notation-value\": "
-                + "\"GNValue\"\r\n\t\t}]\r\n\t},\r\n\t{ \r\n\t\t\"vm-instance\": 1,\r\n\t\t\"template-id\":\"id2\",\r\n\t\t\r\n\t\t\"vnfc\": [{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": "
-                + "\"t1\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": \"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"N\",\r\n\t\t\t\"group-notation-value\": "
-                + "\"GNValue\"\r\n\t\t},\r\n\t\t{\r\n\t\t\t\"vnfc-instance\": 2,\r\n\t\t\t\"vnfc-type\": \"t2\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": "
-                + "\"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\"group-notation-value\": \"GNValue\"\r\n\t\t}]\r\n\t},\r\n\t{\r\n\t\t\"vm-instance\": 2,\r\n\t\t\"template-id\":\"id3\",\r\n\t\t\"vnfc\": "
-                + "[{\r\n\t\t\t\"vnfc-instance\": 1,\r\n\t\t\t\"vnfc-type\": \"t3\",\r\n\t\t\t\"vnfc-function-code\": \"Testdbg\",\r\n\t\t\t\"group-notation-type\": "
-                + "\"GNType\",\r\n\t\t\t\"ipaddress-v4-oam-vip\": \"Y\",\r\n\t\t\t\"group-notation-value\": \"GNValue\"\r\n\t\t}]\r\n\t}],\r\n\t\"device-protocol\": "
-                + "\"TEST-PROTOCOL\",\r\n\t\"user-name\": \"Testnetconf\",\r\n\t\"port-number\": \"22\",\r\n\t\"artifact-list\": [{\r\n\t\t\"artifact-name\": \"Testv_template.json\",\r\n\t\t\"artifact-type\": "
-                + "\"Testconfig_template\"\r\n\t},\r\n\t{\r\n\t\t\"artifact-name\": \"TESTv_parameter_definitions.json\",\r\n\t\t\"artifact-type\": \"Testparameter_definitions\"\r\n\t},\r\n\t{\r\n\t\t\"artifact-name\": "
-                + "\"PD_JunitTESTv_parameter_yang.json\",\r\n\t\t\"artifact-type\": \"PD_definations\"\r\n\t}]\r\n}";
-        JSONObject content=new JSONObject(contentStr);
-        MockDBService dbService = MockDBService.initialise();
-        SvcLogicContext context = new SvcLogicContext();
-        artifactHandlerNode.processArtifactList(content,dbService,context, null);
-     }
 
     @Test
     public void testProcessActionLists() throws Exception {
@@ -316,7 +257,45 @@ public class ArtifactHandlerNodeTest {
         assertEquals(vnfcLists.toString(), "[\"vnfctype1\",\"vnfctype2\"]");
         assertEquals(context.getAttribute("vnfc-type"),"vnfctype2");
         assertNotNull (vnfcTypeList);
-
     }
 
+    @Test
+    public void testProcessArtifactPdArtifactName() throws IOException, ArtifactProcessorException {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        Map<String, String> inParams = new HashMap<>();
+        JSONObject postData = new JSONObject();
+        JSONObject input = new JSONObject();
+        inParams.put("response_prefix", "prefix");
+        JSONObject requestInfo = new JSONObject();
+        JSONObject documentInfo = getDocumentInfo("templates/pd_template");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "pd_Junit.json");
+        requestInfo.put("RequestInfo", "testValue");
+        input.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, documentInfo);
+        input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
+        postData.put("input", input);
+        inParams.put("postData", postData.toString());
+        artifactHandlerNode.processArtifact(inParams, ctx);
+        Mockito.verify(dbServiceMock, Mockito.times(2)).initialise();
+    }
+
+    private JSONObject getDocumentInfo(String filename) throws IOException {
+        JSONObject documentInfo = new JSONObject();
+        String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
+                .getResourceAsStream(filename), Charset.defaultCharset());
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, artifactContent);
+        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_UUID, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.DISTRIBUTION_ID, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_NAME, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_UUID, "12345");        
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_TYPE, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, "12345");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "12345");
+        return documentInfo;
+    }
 }
