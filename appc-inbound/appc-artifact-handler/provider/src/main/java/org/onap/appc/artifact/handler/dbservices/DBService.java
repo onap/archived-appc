@@ -224,7 +224,7 @@ public class DBService {
             if( db.equals(SdcArtifactHandlerConstants.DB_SDC_REFERENCE) && StringUtils.isNotBlank(modelId)) {
                 log.info("ModelId is sent!!");
                   String queryPart = createQueryListForTemplateIds(modelId);
-                  log.info("Querypart is = "+queryPart);
+                  log.info("Querypart is = " + queryPart);
                    if (isUpdateRequiredForTemplates(queryPart, context, db)) {
                        log.info("Update is Required!!");
                     return true;
@@ -370,7 +370,7 @@ public class DBService {
             }
 
             log.info("Starting DB operation for Device authentication " + isUpdate);
-            log.info("credentials"+user + "user" + "port" + port +"protocol"+protocol+"action"+action+"vnftype"+vnftype);
+            log.info("credentials"+user + "user" + "port" + port +"protocol" + protocol + "action" + action + "vnftype" + vnftype);
             String key;
             QueryStatus status;
             if (isUpdate) {
@@ -712,7 +712,7 @@ public class DBService {
     }
 
     public String createQueryListForTemplateIds(String modelId) {
-        String queryPart = " AND ARTIFACT_NAME like '%_" + modelId+".%'";
+        String queryPart = " AND ARTIFACT_NAME like '%_" + modelId + ".%'";
         return queryPart;
     }
 }
