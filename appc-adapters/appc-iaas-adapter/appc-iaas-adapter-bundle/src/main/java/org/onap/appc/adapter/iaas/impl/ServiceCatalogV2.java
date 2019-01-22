@@ -312,9 +312,9 @@ public class ServiceCatalogV2 extends ServiceCatalog {
                 }
             }
             builder.append(String.format("%d services:%n", serviceEndpoints.size())); //$NON-NLS-1$
-            for (String serviceType : serviceEndpoints.keySet()) {
-                List<Service.Endpoint> endpoints = serviceEndpoints.get(serviceType);
-                Service service = serviceTypes.get(serviceType);
+            for(Map.Entry<String, List<Access.Service.Endpoint>> entry : serviceEndpoints.entrySet()){
+                List<Service.Endpoint> endpoints = entry.getValue();
+                Service service = serviceTypes.get(entry.getKey());
 
                 builder.append(String.format("\t%s [%s] - %d endpoints%n", service.getType(), service.getName(), //$NON-NLS-1$
                         endpoints.size()));
