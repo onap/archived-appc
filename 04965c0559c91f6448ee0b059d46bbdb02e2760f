@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_743819ef",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV2.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-01-22T23:08:44Z",
+      "side": 1,
+      "message": "What is the purpose of this change? It seems to make things more complex than before.",
+      "revId": "04965c0559c91f6448ee0b059d46bbdb02e2760f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
