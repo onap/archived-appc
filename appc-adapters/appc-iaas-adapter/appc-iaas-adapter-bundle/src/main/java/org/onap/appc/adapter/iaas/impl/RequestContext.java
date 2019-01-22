@@ -193,10 +193,7 @@ public class RequestContext {
         }
         accumulatedTime += (now - startTime);
         startTime = now;
-        if (accumulatedTime > timeToLive) {
-            return false;
-        }
-        return true;
+        return !(accumulatedTime > timeToLive);
     }
 
     /**
