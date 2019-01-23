@@ -82,5 +82,13 @@ public class SequenceGeneratorInputBuilderTest {
         assertTrue(sequenceGeneratorInputBuilder.dependendcyModel(model) instanceof SequenceGeneratorInputBuilder);
         
     }
+    
+    @Test
+    public void testBuild()
+    {
+        
+        assertTrue(sequenceGeneratorInputBuilder.build() instanceof SequenceGeneratorInput);
+        
+    }
 
 }
