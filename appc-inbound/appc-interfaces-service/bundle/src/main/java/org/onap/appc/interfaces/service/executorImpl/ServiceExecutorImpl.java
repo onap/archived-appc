@@ -102,24 +102,28 @@ public class ServiceExecutorImpl {
             int vm_count = Integer.parseInt(ctx.getAttribute("vm-count"));
                 for(Request inprogressRequest:inProgressRequests){
                     if(inprogressRequest.getActionIdentifiers().getVnfcName() != null){
-                    for (int i = 0; i < vm_count; i++) {
-                        if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
-                        .equals(inprogressRequest.getActionIdentifiers().getVnfcName()))
-                            inProgressVServerIds.add(ctx.getAttribute("vm[" + i + "].vserver-id"));
-                        log.debug("Received vserver-id from AAI: " + inProgressVServerIds);
+                        for (int i = 0; i < vm_count; i++) {
+                            if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
+                                    .equals(inprogressRequest.getActionIdentifiers().getVnfcName())) {
+                                String newInProgressVserverId = ctx.getAttribute("vm[" + i + "].vserver-id");
+                                inProgressVServerIds.add(newInProgressVserverId);
+                                log.debug("Received vserver-id from AAI: " + newInProgressVserverId);
+                            }
+                        }
                     }
-                }
             }
             for(Request inProgVserverIds:inProgressRequests)
                 if(inProgVserverIds.getActionIdentifiers().getvServerId() != null)
                     inProgressVServerIds.add(inProgVserverIds.getActionIdentifiers().getvServerId());
             if(currentRequestVnfcName != null){
-                for (int i = 0; i < vm_count; i++)
+                for (int i = 0; i < vm_count; i++) {
                     if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
-                            .equals(currentRequestVnfcName))
-                 currentVnfcVserverId = ctx.getAttribute("vm[" + i + "].vserver-id");
-                log.debug("Received vserver-id from AAI: " + currentVnfcVserverId);
-                return inProgressVServerIds.contains(currentVnfcVserverId);
+                            .equals(currentRequestVnfcName)) {
+                        currentVnfcVserverId = ctx.getAttribute("vm[" + i + "].vserver-id");
+                        log.debug("Received vserver-id from AAI: " + currentVnfcVserverId);
+                        return inProgressVServerIds.contains(currentVnfcVserverId);
+                    }
+                }
             }
             for (Request request : inProgressRequests) {
                 if(!Strings.isNullOrEmpty(currentRequestVServerId)  && currentRequestVServerId.equalsIgnoreCase(request.getActionIdentifiers().getvServerId()))

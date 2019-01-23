@@ -123,6 +123,7 @@ public class ServiceExecutorImplTest {
         Mockito.doReturn(aaiServiceMock).when(executor).getAaiService(Mockito.any(AAIClient.class));
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("vm-count", "1");
+        ctx.setAttribute("vm[0].vnfc-name", "vnfc-name1");
         Mockito.doReturn(ctx).when(executor).getSvcLogicContext();
         assertEquals("\"requestOverlap\"  : false", executor.isRequestOverLap(requestData));
     }
@@ -140,6 +141,25 @@ public class ServiceExecutorImplTest {
         Mockito.doReturn(aaiServiceMock).when(executor).getAaiService(Mockito.any(AAIClient.class));
         SvcLogicContext ctx = new SvcLogicContext();
         ctx.setAttribute("vm-count", "1");
+        Mockito.doReturn(ctx).when(executor).getSvcLogicContext();
+        assertEquals("\"requestOverlap\"  : false", executor.isRequestOverLap(requestData));
+    }
+
+    @Test
+    public void testScopeOverlapWithVnfcNameAndInProgressRequestAndContextVariables() throws Exception {
+        executor = Mockito.spy(new ServiceExecutorImpl());
+        String requestData = "{\"vnf-id\":\"\",\"current-request\" :{\"action\" : \"Audit\",\"action-identifiers\" : {\"service-instance-id\" :"
+                + " \"service-instance-id\",\"vnfc-name\" : \"vnfc-name\"}},\"in-progress-requests\" :"
+                + " [{\"target-id\": \"vnf-id1\",\"action\" : \"HealthCheck\",\"action-identifiers\" : {\"service-instance-id\" :"
+                + " \"service-instance-id1\",\"vnfc-name\" : \"vnfc-name1\",\"vserver-id\": \"vserver-id1\"}},{\"action\" :"
+                + " \"CheckLock\",\"action-identifiers\" : {\"service-instance-id\" : \"service-instance-id2\",\"vnfc-name\" :"
+                + " \"vnfc-name2\",\"vserver-id\": \"vserver-id2\"}}]}";
+        AaiService aaiServiceMock = Mockito.mock(AaiService.class);
+        Mockito.doReturn(aaiServiceMock).when(executor).getAaiService(Mockito.any(AAIClient.class));
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("vm-count", "1");
+        ctx.setAttribute("vm[0].vnfc-name", "vnfc-name");
+        ctx.setAttribute("vm[0].vserverid", "vnfc-name");
         Mockito.doReturn(ctx).when(executor).getSvcLogicContext();
         assertEquals("\"requestOverlap\"  : false", executor.isRequestOverLap(requestData));
     }
