@@ -26,6 +26,21 @@ Release Notes
 ..	* This note must be removed after content has been added.
 
 
+Version: 1.4.4
+--------------
+
+:Release Date: 2019-1-31
+
+
+**Bug Fixes**
+
+The Casablanca maintenance release fixed the following bugs:
+
+	- `APPC-1247 <https://jira.onap.org/browse/APPC-1247>`_ - java.lang.NoClassDefFoundError when publishing DMAAP message
+
+	- `CCSDK-741 <https://jira.onap.org/browse/CCSDK-741>`_ - Removed Work-around required for vCPE use case to correct the error described in CCSDK ticket.
+ 
+
 Version: 1.4.3
 --------------
 
