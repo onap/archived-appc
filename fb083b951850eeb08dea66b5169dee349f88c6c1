@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_efe51409",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/ServiceCatalogV2.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 4859
+      },
+      "writtenOn": "2019-01-23T07:13:19Z",
+      "side": 1,
+      "message": "In case of using for-each loop over map, EntrySet consistently showed better performance than using KeySet.\nCitations:\n1) https://howtodoinjava.com/java/collections/hashmap/performance-comparison-of-different-ways-to-iterate-over-hashmap/\n2) https://gist.github.com/AFulgens/42ef34d625dd5b00f62d9ed77e727ccb\n3) Sonar Statement: https://sonar.onap.org/coding_rules#rule_key\u003dsquid%3AS2864\n\nAlthough I initially forgot to change to entry.getValues() in line 316. I corrected that and uploaded a new patch.",
+      "revId": "fb083b951850eeb08dea66b5169dee349f88c6c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
