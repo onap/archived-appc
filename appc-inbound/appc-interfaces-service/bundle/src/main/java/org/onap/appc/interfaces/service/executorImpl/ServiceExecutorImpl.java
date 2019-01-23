@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,12 +43,12 @@ public class ServiceExecutorImpl {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ServiceExecutorImpl.class);
     private AAIClient aaiClient;
+
     public String isRequestOverLap(String requestData) throws Exception {
         String response = "\"requestOverlap\"  : ";
         log.info("Response from ServiceExecutorImpl");
-        ScopeOverlap scopeOverlap = new ScopeOverlap();
-        ObjectMapper mapper = new ObjectMapper();
-        scopeOverlap = mapper.readValue(requestData, ScopeOverlap.class);
+        ObjectMapper mapper = getObjectMapper();
+        ScopeOverlap scopeOverlap = mapper.readValue(requestData, ScopeOverlap.class);
         // return response + String.valueOf(checkForOverLap(scopeOverlap));
         boolean isOverlap = checkForOverLap(scopeOverlap);
         scopeOverlap.setOverlap(String.valueOf(isOverlap));
@@ -67,9 +69,6 @@ public class ServiceExecutorImpl {
         }else if ( scopeOverlap.getInProgressRequest().isEmpty()){
             return Boolean.FALSE;
         }
-        else if (scopeOverlap.getInProgressRequest().size() == 0) {
-            return Boolean.FALSE;
-        }
         if (scopeOverlap.getCurrentRequest().getActionIdentifiers().getVnfId() != null) {
             return Boolean.TRUE;
         } else if (!Strings.isNullOrEmpty(scopeOverlap.getVnfId())
@@ -88,9 +87,9 @@ public class ServiceExecutorImpl {
     }
 
     private boolean isVnfcNameOverLap(ScopeOverlap scopeOverlap) throws Exception {
-        
-        AaiService aaiService =new AaiService(aaiClient);
-        SvcLogicContext ctx = new SvcLogicContext();
+
+        AaiService aaiService = getAaiService(aaiClient);
+        SvcLogicContext ctx = getSvcLogicContext();
         Map<String, String> params = new HashMap<String, String>();
         List<String> inProgressVServerIds = new ArrayList<String>();
         String currentVnfcVserverId = new String();
@@ -101,25 +100,25 @@ public class ServiceExecutorImpl {
         try {
             aaiService.getGenericVnfInfo(params, ctx);
             int vm_count = Integer.parseInt(ctx.getAttribute("vm-count"));
-                for(Request inprogressRequest:inProgressRequests){    
+                for(Request inprogressRequest:inProgressRequests){
                     if(inprogressRequest.getActionIdentifiers().getVnfcName() != null){
-                    for (int i = 0; i < vm_count; i++){                    
+                    for (int i = 0; i < vm_count; i++) {
                         if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
                         .equals(inprogressRequest.getActionIdentifiers().getVnfcName()))
                             inProgressVServerIds.add(ctx.getAttribute("vm[" + i + "].vserver-id"));
-                        log.debug("Received vserver-id from AAI: "+ inProgressVServerIds);
+                        log.debug("Received vserver-id from AAI: " + inProgressVServerIds);
                     }
                 }
             }
             for(Request inProgVserverIds:inProgressRequests)
-                if(inProgVserverIds.getActionIdentifiers().getvServerId()!=null)
+                if(inProgVserverIds.getActionIdentifiers().getvServerId() != null)
                     inProgressVServerIds.add(inProgVserverIds.getActionIdentifiers().getvServerId());
             if(currentRequestVnfcName != null){
                 for (int i = 0; i < vm_count; i++)
                     if (ctx.getAttribute("vm[" + i + "].vnfc-name") != null && ctx.getAttribute("vm[" + i + "].vnfc-name")
                             .equals(currentRequestVnfcName))
                  currentVnfcVserverId = ctx.getAttribute("vm[" + i + "].vserver-id");
-                log.debug("Received vserver-id from AAI: "+ currentVnfcVserverId);
+                log.debug("Received vserver-id from AAI: " + currentVnfcVserverId);
                 return inProgressVServerIds.contains(currentVnfcVserverId);
             }
             for (Request request : inProgressRequests) {
@@ -140,11 +139,11 @@ public class ServiceExecutorImpl {
     private boolean isVserverOrVnfcIdOverLap(ScopeOverlap scopeOverlap) throws Exception {
         List<Request> inProgressRequests = scopeOverlap.getInProgressRequest();
         for (Request request : inProgressRequests) {
-            if(request.getActionIdentifiers().getVnfId()!= null)
+            if(request.getActionIdentifiers().getVnfId() != null)
             return Boolean.TRUE ;
             }
         for (Request request : inProgressRequests) {
-            if(request.getActionIdentifiers().getVfModuleId()!= null)
+            if(request.getActionIdentifiers().getVfModuleId() != null)
                 return Boolean.TRUE ;
         }
         String currentVserverID = scopeOverlap.getCurrentRequest().getActionIdentifiers().getvServerId();
@@ -157,9 +156,9 @@ public class ServiceExecutorImpl {
 
     private boolean isVnfIdOverlap(ScopeOverlap scopeOverlap) throws Exception {
         List<Request> inProgressRequests = scopeOverlap.getInProgressRequest();
-        log.info("inProgressRequests list"+inProgressRequests.toString());
+        log.info("inProgressRequests list" + inProgressRequests.toString());
         for (Request request : inProgressRequests) {
-            log.info("request list"+request.getTargetId());
+            log.info("request list" + request.getTargetId());
             if (!Strings.isNullOrEmpty(scopeOverlap.getVnfId())
                     && !Strings.isNullOrEmpty(request.getTargetId())
                     && (request.getTargetId()
@@ -167,5 +166,17 @@ public class ServiceExecutorImpl {
                 return Boolean.TRUE;
         }
         return Boolean.FALSE;
+    }
+
+    protected ObjectMapper getObjectMapper() {
+        return new ObjectMapper();
+    }
+
+    protected AaiService getAaiService(AAIClient aaiClient) {
+        return new AaiService(aaiClient);
+    }
+
+    protected SvcLogicContext getSvcLogicContext() {
+        return new SvcLogicContext();
     }
 }

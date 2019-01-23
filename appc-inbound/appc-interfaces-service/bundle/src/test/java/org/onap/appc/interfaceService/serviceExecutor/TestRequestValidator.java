@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 IBM
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +22,6 @@
  */
 
 package org.onap.appc.interfaceService.serviceExecutor;
-
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.onap.appc.interfaces.service.executor.RequestValidator;

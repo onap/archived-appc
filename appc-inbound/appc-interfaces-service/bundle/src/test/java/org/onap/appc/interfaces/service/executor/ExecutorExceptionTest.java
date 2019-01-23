@@ -3,6 +3,8 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
+* ================================================================================
+* Modifications Copyright (C) 2019 Ericsson
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -24,8 +26,9 @@ import org.junit.Test;
 
 
 public class ExecutorExceptionTest {
+
     @Test
-    public void testConstructorWithMessaqge() throws Exception {
+    public void testConstructorWithMessage() throws Exception {
         String message = "testing message";
         ExecutorException executorException = new ExecutorException(message);
         Assert.assertTrue(executorException.getCause() == null);
