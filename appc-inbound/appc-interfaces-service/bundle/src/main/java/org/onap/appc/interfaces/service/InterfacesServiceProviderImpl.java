@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +54,7 @@ public class InterfacesServiceProviderImpl implements InterfacesServiceService{
         String action = input.getRequest().getAction();
         ResponseInfoBuilder responseInfoBuilder = new ResponseInfoBuilder();
         ExecuteServiceOutputBuilder executeServicebuilder = new ExecuteServiceOutputBuilder();
-        ServiceExecutor serviceExecutor = new ServiceExecutor();
+        ServiceExecutor serviceExecutor = getServiceExecutor();
         StatusBuilder statusBuilder = new StatusBuilder();
         try{
             String response = serviceExecutor.execute(action, input.getRequest().getRequestData(), input.getRequest().getRequestDataType());
@@ -65,11 +67,15 @@ public class InterfacesServiceProviderImpl implements InterfacesServiceService{
             log.error("Error" + e.getMessage());
             e.printStackTrace();
             statusBuilder.setCode("401");
-            statusBuilder.setMessage("failuer");
+            statusBuilder.setMessage("failure");
         }
         executeServicebuilder.setResponseInfo(responseInfoBuilder.build());
         executeServicebuilder.setStatus(statusBuilder.build());
         RpcResult<ExecuteServiceOutput> result  = RpcResultBuilder.<ExecuteServiceOutput>status(true).withResult(executeServicebuilder.build()).build();
         return Futures.immediateFuture(result);
+    }
+
+    protected ServiceExecutor getServiceExecutor() {
+        return new ServiceExecutor();
     }
 }
