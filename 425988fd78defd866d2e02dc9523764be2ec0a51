@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8a6b1684",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/src/test/java/org/onap/appc/interfaces/service/utils/ServiceConstantsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T13:45:27Z",
+      "side": 1,
+      "message": "seems kind of silly to test that a constant has the value that it has; I\u0027m guessing this junit isn\u0027t even needed for coverage tests",
+      "revId": "425988fd78defd866d2e02dc9523764be2ec0a51",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
