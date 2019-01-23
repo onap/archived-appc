@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_4a09aedc",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/helper/TestArtifactStorageService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T14:02:56Z",
+      "side": 1,
+      "message": "Does appc have a convention about whether \"Test\" should be a prefix or a suffix of the file name?  If not, then this is fine.\n\nThis comment applies to the other test file names, too.",
+      "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6a0cb2ed",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T14:02:56Z",
+      "side": 1,
+      "message": "sonar prefers that a single exception type be thrown.  Can these all be caught and wrapped in a single type?\n\nThis comment applies to other public methods in this class, too.",
+      "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2a122a09",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T14:02:56Z",
+      "side": 1,
+      "message": "Why not use getDeclaredConstructor() and avoid all of the list processing?\nI believe that sonar will complain about invoking setAccessible(true).  Is it really necessary to allow non-public constructors?  If public is sufficient, then use getConstructor(), instead.",
+      "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
