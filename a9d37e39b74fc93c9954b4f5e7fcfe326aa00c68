@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_aaecdabb",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T15:20:26Z",
+      "side": 1,
+      "message": "use getMethod(methodName, arguments) or getDeclaredMethod(method, arguments), instead of looping through the list of methods.  Prefer the former, since the method should be public, and remove the call to setAccessible(true).",
+      "revId": "a9d37e39b74fc93c9954b4f5e7fcfe326aa00c68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0afe466b",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T15:20:26Z",
+      "side": 1,
+      "message": "throw new APPCException(e), instead?  Otherwise, sonar will complain that \"e\" is neither logged, nor used.\n\ncomment applies through-out this file",
+      "revId": "a9d37e39b74fc93c9954b4f5e7fcfe326aa00c68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4a2f6ef7",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T15:20:26Z",
+      "side": 1,
+      "message": "still need to implement the changes I previously mentioned",
+      "revId": "a9d37e39b74fc93c9954b4f5e7fcfe326aa00c68",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
