@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_055ab982",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/src/main/java/org/onap/appc/interfaces/service/executorImpl/ServiceExecutorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-23T19:41:08Z",
+      "side": 1,
+      "message": "maybe put the getAttribute() result in a variable and reuse it in the debug log?",
+      "revId": "f2c6c4fb3032668c115d3a6ae07ec0da99f887a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
