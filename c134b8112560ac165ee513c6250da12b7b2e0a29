@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_8af0f6c9",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/helper/TestArtifactStorageService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-01-23T15:14:47Z",
+      "side": 1,
+      "message": "I think appc don\u0027t have any such convention. I could see many test classes are prefixed with \"Test\"",
+      "parentUuid": "9adffdf1_4a09aedc",
+      "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_6a0cb2ed",
         "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_8ada3615",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-01-23T15:14:47Z",
+      "side": 1,
+      "message": "Fixed but This is a utility class within test package. I think sonar will not complain",
+      "parentUuid": "9adffdf1_6a0cb2ed",
+      "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_2a122a09",
         "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2019-01-23T14:02:56Z",
       "side": 1,
       "message": "Why not use getDeclaredConstructor() and avoid all of the list processing?\nI believe that sonar will complain about invoking setAccessible(true).  Is it really necessary to allow non-public constructors?  If public is sufficient, then use getConstructor(), instead.",
+      "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4a08ce91",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/ArtifactProcessorUtility.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-01-23T15:14:47Z",
+      "side": 1,
+      "message": "This is a utility class within test package. I think sonar will not complain.",
+      "parentUuid": "9adffdf1_2a122a09",
       "revId": "c134b8112560ac165ee513c6250da12b7b2e0a29",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
