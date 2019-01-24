@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_cf5a8bf1",
+        "filename": "appc-client/code-generator/src/main/java/org/onap/appc/tools/generator/impl/CodeGenWriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-24T14:43:08Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nThese two methods should probably be protected.  In fact, if they\u0027re only purpose is to facilitate junit tests, then could just use Whitebox.setInternalState() to manipulate these fields during junit tests.",
+      "revId": "eb66a59f5b6b9c400184665a297a8aedc655a8cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
