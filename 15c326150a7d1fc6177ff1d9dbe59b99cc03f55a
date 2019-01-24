@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8f49e332",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/TestConfigArtifcatProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-24T14:37:32Z",
+      "side": 1,
+      "message": "typo - \"notificationDdata\" \u003d\u003e \"notificationData\"",
+      "revId": "15c326150a7d1fc6177ff1d9dbe59b99cc03f55a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2f5477c8",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/TestLicenseArtifactProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-24T14:37:32Z",
+      "side": 1,
+      "message": "type - \"notificationDdata\" \u003d\u003e \"notificationData\"",
+      "revId": "15c326150a7d1fc6177ff1d9dbe59b99cc03f55a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4f4f7b34",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/test/java/org/onap/appc/sdc/artifacts/impl/TestToscaCsarArtifactProcessor.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-24T14:37:32Z",
+      "side": 1,
+      "message": "typo - \"notificationDdata\" \u003d\u003e \"notificationData\"",
+      "revId": "15c326150a7d1fc6177ff1d9dbe59b99cc03f55a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
