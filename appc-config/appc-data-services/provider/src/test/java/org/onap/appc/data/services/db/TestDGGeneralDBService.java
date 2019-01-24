@@ -319,4 +319,23 @@ public class TestDGGeneralDBService {
         dbService.cleanContextPropertyByPrefix(ctx, "test");
         assertEquals(2,ctx.getAttributeKeySet().size());
     }
+    
+    @Test
+    public void testSaveUploadConfig() throws SvcLogicException
+    {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("request-id", "test");
+        ctx.setAttribute("request-action", "Configure");
+        ctx.setAttribute("originator-id", "test");
+        ctx.setAttribute("vnf-id", "test");
+        ctx.setAttribute("vm-name", "test");
+        ctx.setAttribute("vnf-host-ip-address", "10.0.0.1");
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("vnfc-type", "test");
+        ctx.setAttribute("tmp.escaped.devicerunningconfig", "10.0.0.1");
+        
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status= dbService.saveUploadConfig(ctx, "test");
+        assertEquals(QueryStatus.SUCCESS, status);
+    }
 }
