@@ -16,6 +16,24 @@
       "revId": "f2c6c4fb3032668c115d3a6ae07ec0da99f887a9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6cea8ddc",
+        "filename": "appc-inbound/appc-interfaces-service/bundle/src/main/java/org/onap/appc/interfaces/service/executorImpl/ServiceExecutorImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-01-24T09:56:28Z",
+      "side": 1,
+      "message": "Done. Also removed Constants test file in this project as suggested in previous review.",
+      "parentUuid": "9adffdf1_055ab982",
+      "revId": "f2c6c4fb3032668c115d3a6ae07ec0da99f887a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
