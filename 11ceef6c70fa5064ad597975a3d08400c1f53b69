@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_0f0c13ec",
+        "filename": "appc-client/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-24T14:45:44Z",
+      "side": 1,
+      "message": "shouldn\u0027t this just be 2019 instead of 2018-2019?",
+      "revId": "11ceef6c70fa5064ad597975a3d08400c1f53b69",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
