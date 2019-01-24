@@ -106,4 +106,12 @@ class CodeGenWriter extends Writer {
         close();
         fileWriter = new FileWriter(fileName);
     }
+
+	public void setDelimiterBeginFound(boolean delimiterBeginFound) {
+		this.delimiterBeginFound = delimiterBeginFound;
+	}
+
+	public void setDeleteFile(boolean deleteFile) {
+		this.deleteFile = deleteFile;
+	}
 }
