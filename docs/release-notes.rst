@@ -178,7 +178,6 @@ Quick Links:
 
 		- OpenStack Hypervisorcheck is turned off by default.
 
-		- OpenStack Hypervisorcheck is turned off by default.
 
 	- Integration with MultiCloud is supported for Standalone Restart (i.e., not via DGOrchestrator). For any other action, such as Stop, Start, etc.. via MultiCloud requires the MultiCloud identity URL to be either passed in the payload or defined in appc.properties.
 	
