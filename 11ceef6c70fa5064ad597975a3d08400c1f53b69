@@ -16,6 +16,24 @@
       "revId": "11ceef6c70fa5064ad597975a3d08400c1f53b69",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ddd3215e",
+        "filename": "appc-client/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-01-25T06:34:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_0f0c13ec",
+      "revId": "11ceef6c70fa5064ad597975a3d08400c1f53b69",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
