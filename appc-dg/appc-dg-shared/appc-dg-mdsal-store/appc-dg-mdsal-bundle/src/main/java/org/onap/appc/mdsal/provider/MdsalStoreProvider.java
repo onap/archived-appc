@@ -36,7 +36,7 @@ import org.onap.appc.mdsal.impl.MDSALStoreFactory;
 import org.onap.appc.mdsal.objects.BundleInfo;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.MdsalStoreService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.StoreYangInput;
@@ -54,14 +54,14 @@ public class MdsalStoreProvider implements MdsalStoreService ,AutoCloseable{
 
     protected DataBroker dataBroker;
     protected RpcProviderRegistry rpcRegistry;
-    protected NotificationProviderService notificationService;
+    protected NotificationPublishService notificationService;
 
     protected BindingAwareBroker.RpcRegistration<MdsalStoreService> rpcRegistration;
     private final EELFLogger log = EELFManager.getInstance().getLogger(MdsalStoreProvider.class);
     private final ExecutorService executor;
     private final static String APP_NAME = "MdsalStoreProvider";
 
-    public MdsalStoreProvider(DataBroker dataBroker2, NotificationProviderService notificationProviderService
+    public MdsalStoreProvider(DataBroker dataBroker2, NotificationPublishService notificationProviderService
             , RpcProviderRegistry rpcRegistry2){
         log.info("Creating provider for " + APP_NAME);
         executor = Executors.newFixedThreadPool(1);
