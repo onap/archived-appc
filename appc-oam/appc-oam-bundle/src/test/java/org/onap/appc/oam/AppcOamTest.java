@@ -52,7 +52,9 @@ import org.onap.appc.oam.util.ConfigurationHelper;
 import org.onap.appc.oam.util.OperationHelper;
 import org.onap.appc.oam.util.StateHelper;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.AppcState;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetAppcStateInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetAppcStateOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetMetricsInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetMetricsOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.MaintenanceModeInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.MaintenanceModeOutput;
@@ -174,7 +176,8 @@ public class AppcOamTest {
         AppcState appcState = AppcState.Started;
         Mockito.doReturn(appcState).when(mockStateHelper).getCurrentOamYangState();
 
-        Future<RpcResult<GetAppcStateOutput>> state = appcOam.getAppcState();
+        GetAppcStateInput getAppcStateInput = mock(GetAppcStateInput.class);
+        Future<RpcResult<GetAppcStateOutput>> state = appcOam.getAppcState(getAppcStateInput);
         Assert.assertEquals("Should return the same state",
                 appcState, state.get().getResult().getState());
     }
@@ -182,7 +185,8 @@ public class AppcOamTest {
     @Test
     public void testGetMetricsMetricDisabled() throws InterruptedException, ExecutionException {
         Whitebox.setInternalState(appcOam, "isMetricEnabled", false);
-        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics();
+        GetMetricsInput getMetricsInput = mock(GetMetricsInput.class);
+        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics(getMetricsInput);
         assertEquals("Metric Service not enabled", Iterables.get(result.get().getErrors(), 0).getMessage());
     }
 
@@ -190,7 +194,8 @@ public class AppcOamTest {
     public void testGetMetricsNoMetricsService() throws InterruptedException, ExecutionException, APPCException {
         Whitebox.setInternalState(appcOam, "isMetricEnabled", true);
         Mockito.doThrow(new APPCException()).when(mockOperationHelper).getService(MetricService.class);
-        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics();
+        GetMetricsInput getMetricsInput = mock(GetMetricsInput.class);
+        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics(getMetricsInput);
         assertEquals("Metric Service not found", Iterables.get(result.get().getErrors(), 0).getMessage());
     }
 
@@ -199,7 +204,8 @@ public class AppcOamTest {
         Whitebox.setInternalState(appcOam, "isMetricEnabled", true);
         MetricService mockMetricService = mock(MetricService.class);
         Mockito.doReturn(mockMetricService).when(mockOperationHelper).getService(MetricService.class);
-        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics();
+        GetMetricsInput getMetricsInput = mock(GetMetricsInput.class);
+        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics(getMetricsInput);
         assertEquals("No metrics Registered", Iterables.get(result.get().getErrors(), 0).getMessage());
     }
 
@@ -212,7 +218,8 @@ public class AppcOamTest {
         Mockito.doReturn(ImmutableMap.of("TEST REGISTRY NAME", mockMetricRegistry)).when(mockMetricService).getAllRegistry();
         Metric metric = new DispatchingFuntionMetricImpl("TEST METRIC NAME", MetricType.COUNTER, 0, 0);
         Mockito.doReturn(new Metric[] {metric}).when(mockMetricRegistry).metrics();
-        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics();
+        GetMetricsInput getMetricsInput = mock(GetMetricsInput.class);
+        Future<RpcResult<GetMetricsOutput>> result = appcOam.getMetrics(getMetricsInput);
         assertEquals(1, result.get().getResult().getMetrics().size());
     }
 

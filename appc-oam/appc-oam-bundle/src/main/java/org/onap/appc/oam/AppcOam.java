@@ -28,14 +28,19 @@ package org.onap.appc.oam;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.AppcOamService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.AppcState;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetAppcStateInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetAppcStateInputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetAppcStateOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetAppcStateOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetMetricsInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetMetricsOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.GetMetricsOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.MaintenanceModeInput;
@@ -133,13 +138,13 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      *                                    and also provides the ability to subscribe for changes to data under a
      *                                    given branch
      *                                    of the tree. Not used in this class.
-     * @param notificationProviderService object of ODL Notification Service that provides publish/subscribe
+     * @param NotificationPublishService object of ODL Notification Service that provides publish/subscribe
      *                                    capabilities for YANG modeled notifications. Not used in this class.
      * @param rpcProviderRegistry         object of RpcProviderResigstry. Used to register our RPCs.
      */
     @SuppressWarnings({"unused", "nls"})
     public AppcOam(DataBroker dataBroker,
-                   NotificationProviderService notificationProviderService,
+                   NotificationPublishService NotificationPublishService,
                    RpcProviderRegistry rpcProviderRegistry) {
 
         configurationHelper = new ConfigurationHelper(logger);
@@ -191,7 +196,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      * {@inheritDoc}
      */
     @Override
-    public Future<RpcResult<GetMetricsOutput>> getMetrics() {
+    public ListenableFuture<RpcResult<GetMetricsOutput>> getMetrics(GetMetricsInput getMetricsInput) {
 
         if (!isMetricEnabled) {
             logger.error("Metric Service not enabled returning failure");
@@ -256,7 +261,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      * {@inheritDoc}
      */
     @Override
-    public Future<RpcResult<StopOutput>> stop(StopInput stopInput) {
+    public ListenableFuture<RpcResult<StopOutput>> stop(StopInput stopInput) {
         logger.debug("Entering Stop with Input : " + stopInput);
         final CommonHeader commonHeader = stopInput.getCommonHeader();
 
@@ -274,7 +279,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      * {@inheritDoc}
      */
     @Override
-    public Future<RpcResult<RestartOutput>> restart(RestartInput input) {
+    public ListenableFuture<RpcResult<RestartOutput>> restart(RestartInput input) {
         logger.debug("Entering restart with Input : " + input);
         final CommonHeader commonHeader = input.getCommonHeader();
 
@@ -293,7 +298,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      * {@inheritDoc}
      */
     @Override
-    public Future<RpcResult<MaintenanceModeOutput>> maintenanceMode(MaintenanceModeInput maintenanceModeInput) {
+    public ListenableFuture<RpcResult<MaintenanceModeOutput>> maintenanceMode(MaintenanceModeInput maintenanceModeInput) {
         logger.debug("Entering MaintenanceMode with Input : " + maintenanceModeInput);
         final CommonHeader commonHeader = maintenanceModeInput.getCommonHeader();
 
@@ -311,7 +316,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      * {@inheritDoc}
      */
     @Override
-    public Future<RpcResult<GetAppcStateOutput>> getAppcState() {
+    public ListenableFuture<RpcResult<GetAppcStateOutput>> getAppcState(GetAppcStateInput getAppcStateInput) {
         AppcState appcState = stateHelper.getCurrentOamYangState();
 
         GetAppcStateOutputBuilder builder = new GetAppcStateOutputBuilder();
@@ -323,7 +328,7 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      * {@inheritDoc}
      */
     @Override
-    public Future<RpcResult<StartOutput>> start(StartInput startInput) {
+    public ListenableFuture<RpcResult<StartOutput>> start(StartInput startInput) {
         logger.debug("Input received : " + startInput);
         final CommonHeader commonHeader = startInput.getCommonHeader();
 
