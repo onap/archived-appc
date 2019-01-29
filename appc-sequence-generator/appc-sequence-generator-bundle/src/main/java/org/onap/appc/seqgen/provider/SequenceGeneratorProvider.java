@@ -26,10 +26,12 @@ package org.onap.appc.seqgen.provider;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import org.apache.commons.lang.StringUtils;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutput;
@@ -71,19 +73,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 
 public class SequenceGeneratorProvider implements AutoCloseable,SequenceGeneratorService{
     protected DataBroker dataBroker;
     protected RpcProviderRegistry rpcRegistry;
-    protected NotificationProviderService notificationService;
+    protected NotificationPublishService notificationService;
     protected BindingAwareBroker.RpcRegistration<SequenceGeneratorService> rpcRegistration;
     private final EELFLogger log = EELFManager.getInstance().getLogger(SequenceGeneratorProvider.class);
     private final ExecutorService executor;
     private final static String APP_NAME = "SequenceGeneratorProvider";
 
-    public SequenceGeneratorProvider(DataBroker dataBroker2, NotificationProviderService notificationProviderService
+    public SequenceGeneratorProvider(DataBroker dataBroker2, NotificationPublishService notificationProviderService
             , RpcProviderRegistry rpcRegistry2) {
         log.info("Creating provider for " + APP_NAME);
         executor = Executors.newFixedThreadPool(1);
@@ -111,7 +112,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     }
 
     @Override
-    public Future<RpcResult<GenerateSequenceOutput>> generateSequence(GenerateSequenceInput input) {
+    public ListenableFuture<RpcResult<GenerateSequenceOutput>> generateSequence(GenerateSequenceInput input) {
         RpcResult<GenerateSequenceOutput> rpcResult=null;
         log.debug("Received input = " + input );
         try {
