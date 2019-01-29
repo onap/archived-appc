@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_93e900b9",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/aai/data/AaiVnfInfotest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-29T14:53:53Z",
+      "side": 1,
+      "message": "\"test\" \u003d\u003e \"Test\"",
+      "revId": "029faaab6818e1c1f5c9a16186c5540e860d0fbc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_f3d96c22",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/aai/data/AaiVnfInfotest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-29T14:53:53Z",
+      "side": 1,
+      "message": "maybe put one item in the list",
+      "revId": "029faaab6818e1c1f5c9a16186c5540e860d0fbc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
