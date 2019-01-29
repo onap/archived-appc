@@ -30,7 +30,7 @@ import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.AppcOamService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.oam.rev170303.AppcState;
@@ -133,13 +133,13 @@ public class AppcOam implements AutoCloseable, AppcOamService {
      *                                    and also provides the ability to subscribe for changes to data under a
      *                                    given branch
      *                                    of the tree. Not used in this class.
-     * @param notificationProviderService object of ODL Notification Service that provides publish/subscribe
+     * @param notificationPublishService object of ODL Notification Service that provides publish/subscribe
      *                                    capabilities for YANG modeled notifications. Not used in this class.
      * @param rpcProviderRegistry         object of RpcProviderResigstry. Used to register our RPCs.
      */
     @SuppressWarnings({"unused", "nls"})
     public AppcOam(DataBroker dataBroker,
-                   NotificationProviderService notificationProviderService,
+                   NotificationPublishService notificationPublishService,
                    RpcProviderRegistry rpcProviderRegistry) {
 
         configurationHelper = new ConfigurationHelper(logger);
