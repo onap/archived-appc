@@ -51,6 +51,7 @@
             <plugin>
                 <groupId>org.opendaylight.yangtools</groupId>
                 <artifactId>yang-maven-plugin</artifactId>
+                <version>${odl.yangtools.version}</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.opendaylight.mdsal</groupId>
@@ -97,10 +98,12 @@
     <dependency>
       <groupId>org.opendaylight.mdsal.model</groupId>
       <artifactId>ietf-inet-types</artifactId>
+      <version>${odl.ietf-inet-types.version}</version>
     </dependency>
     <dependency>
       <groupId>org.opendaylight.mdsal.model</groupId>
       <artifactId>ietf-yang-types</artifactId>
+      <version>${odl.ietf-yang-types.version}</version>
     </dependency>
   </dependencies>
 </project>
