@@ -29,7 +29,7 @@ import org.onap.appc.mdsal.impl.MDSALStoreFactory;
 import org.onap.appc.mdsal.impl.MDSALStoreImpl;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.MdsalStoreService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.StoreYangInput;
@@ -46,7 +46,7 @@ public class MdsalStoreProviderTest {
 
     private DataBroker dataBroker = Mockito.mock(DataBroker.class);
     private RpcProviderRegistry rpcRegistry = Mockito.mock(RpcProviderRegistry.class);
-    private NotificationProviderService notificationService = Mockito.mock(NotificationProviderService.class);
+    private NotificationPublishService notificationService = Mockito.mock(NotificationPublishService.class);
 
     @Test
     public void testClose() throws Exception {
