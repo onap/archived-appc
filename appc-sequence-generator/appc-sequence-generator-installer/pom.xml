@@ -3,7 +3,7 @@
  ============LICENSE_START=======================================================
  ONAP : APPC
  ================================================================================
- Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  ================================================================================
  Copyright (C) 2017 Amdocs
  =============================================================================
@@ -64,14 +64,6 @@
       <groupId>org.onap.appc</groupId>
       <artifactId>appc-sequence-generator-bundle</artifactId>
       <version>${project.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.onap.appc</groupId>
-      <artifactId>appc-sequence-generator-bundle</artifactId>
-      <classifier>config</classifier>
-      <version>${project.version}</version>
-      <type>xml</type>
     </dependency>
 
     <dependency>
