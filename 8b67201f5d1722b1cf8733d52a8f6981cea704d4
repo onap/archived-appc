@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_b3076481",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/aai/data/AaiVmInfoTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-29T14:54:27Z",
+      "side": 1,
+      "message": "maybe put one item in the list",
+      "revId": "8b67201f5d1722b1cf8733d52a8f6981cea704d4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
