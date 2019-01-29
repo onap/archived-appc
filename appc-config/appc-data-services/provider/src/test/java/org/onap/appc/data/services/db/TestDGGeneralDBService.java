@@ -338,4 +338,17 @@ public class TestDGGeneralDBService {
         QueryStatus status= dbService.saveUploadConfig(ctx, "test");
         assertEquals(QueryStatus.SUCCESS, status);
     }
+    
+    @Test
+    public void testUpdateUploadConfig() throws SvcLogicException
+    {
+        SvcLogicContext ctx = new SvcLogicContext();
+        
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("vnfc-type", "test");
+        
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status= dbService.updateUploadConfig(ctx, "test",10);
+        assertEquals(QueryStatus.SUCCESS, status);
+    }
 }
