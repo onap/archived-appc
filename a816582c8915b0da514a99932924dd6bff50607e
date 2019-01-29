@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_53f63890",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-29T14:59:18Z",
+      "side": 1,
+      "message": "suggestion: you can leave the logger.debug() line, if you want, just leave out the surrounding \"if\"",
+      "revId": "a816582c8915b0da514a99932924dd6bff50607e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_33fb747a",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-29T14:59:18Z",
+      "side": 1,
+      "message": "remove the \"finally\" block - the try-with-resources will ensure that the client is closed, whether or not there\u0027s an exception.  (As this code is, close() will always be called twice.)",
+      "revId": "a816582c8915b0da514a99932924dd6bff50607e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
