@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_fcfa9941",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:24:46Z",
+      "side": 1,
+      "message": "swap the argument order in all of the assertEquals statements",
+      "revId": "1ab4dfe9b1c30fc92e5ce0d822e2f97ae69f6167",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_bc98911c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:24:46Z",
+      "side": 1,
+      "message": "change these assertEquals to assertSame for this and the remaining test cases (and also swap the argument order)",
+      "revId": "1ab4dfe9b1c30fc92e5ce0d822e2f97ae69f6167",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
