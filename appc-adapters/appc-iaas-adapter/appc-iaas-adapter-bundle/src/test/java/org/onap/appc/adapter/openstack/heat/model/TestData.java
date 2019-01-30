@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2019 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -78,6 +80,27 @@ public class TestData {
     public void testToString_ReturnNonEmptyString() {
         assertNotEquals(data.toString(), "");
         assertNotEquals(data.toString(), null);
+    }
+    
+    @Test
+    public void testEnvironment() {
+        Environment env = new Environment();
+        data.setEnvironment(env);
+        assertEquals(env, data.getEnvironment());
+    }
+    
+    @Test
+    public void testResources() {
+        Resources__ resources = new Resources__();
+        data.setResources(resources);
+        assertEquals(resources, data.getResources());
+    }
+    
+    @Test
+    public void testTemplate() {
+        Template template = new Template();
+        data.setTemplate(template);
+        assertEquals(template, data.getTemplate());
     }
 
 }
