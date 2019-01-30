@@ -38,11 +38,6 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>equinoxSDK381</groupId>
-			<artifactId>org.eclipse.osgi</artifactId>
-			<version>${equinox.osgi.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
 			<artifactId>sli-provider</artifactId>
 			<scope>compile</scope>
