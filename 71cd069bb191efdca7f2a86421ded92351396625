@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_9cd34dd4",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:21:41Z",
+      "side": 1,
+      "message": "turn this back into a \"try-with-resources\" so that the client will be automatically closed",
+      "revId": "71cd069bb191efdca7f2a86421ded92351396625",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_fce379a1",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:21:41Z",
+      "side": 1,
+      "message": "remove this exitStatus variable",
+      "revId": "71cd069bb191efdca7f2a86421ded92351396625",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5cd965f1",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:21:41Z",
+      "side": 1,
+      "message": "remove this \"try\" - this is why the compiler is complaining",
+      "revId": "71cd069bb191efdca7f2a86421ded92351396625",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_7ce789ac",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:21:41Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "71cd069bb191efdca7f2a86421ded92351396625",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1cdf5dd7",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-sshd/src/main/java/org/onap/appc/adapter/ssh/sshd/SshConnectionSshd.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:21:41Z",
+      "side": 1,
+      "message": "just return exitStatusI",
+      "revId": "71cd069bb191efdca7f2a86421ded92351396625",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
