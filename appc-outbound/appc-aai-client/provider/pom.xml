@@ -40,7 +40,6 @@
 		<dependency>
 			<groupId>equinoxSDK381</groupId>
 			<artifactId>org.eclipse.osgi</artifactId>
-			<version>${equinox.osgi.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.onap.ccsdk.sli.core</groupId>
