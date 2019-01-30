@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_7c8229c9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T13:06:56Z",
+      "side": 1,
+      "message": "maybe change assertEquals to assertSame in these three test methods, then we know it\u0027s pointing at the same object",
+      "revId": "4d769954de5dabd76717118168afcf18ca5b3acd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
