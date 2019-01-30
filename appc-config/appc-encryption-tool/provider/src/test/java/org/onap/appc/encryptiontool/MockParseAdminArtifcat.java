@@ -2,9 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +18,31 @@
  *
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.encryptiontool.wrapper;
 
-public class Constants
-{
+package org.onap.appc.encryptiontool;
 
-    public static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
-    public static final String DEVICE_AUTHENTICATION="DEVICE_AUTHENTICATION";
-    public static final String SCHEMA_SDNCTL="SDNCTL";
+import java.io.FileInputStream;
+import java.io.IOException;
+import org.apache.commons.io.IOUtils;
+import org.onap.appc.encryptiontool.fqdn.ParseAdminArtifcat;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+public class MockParseAdminArtifcat extends ParseAdminArtifcat {
 
-    public static final String APPC_CONFIG_DIR="/opt/onap/appc/data/properties";
+	@Override
+	public String getAdminArtifact(SvcLogicContext ctx) {
+		try {
+			return readInput("src/test/resources/org/onap/appc/adminartifcat.json");
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 
-    public static final String VNF_TYPE="vnf_Type";
-    public static final String ACTION="action";
-    public static final String PROTOCOL="protocol";
-    public static final String URL="url";
-	
+	private String readInput(String inputFile) throws IOException {
+		String file = null;
+		FileInputStream fileInputStream = new FileInputStream(inputFile);
+		file = IOUtils.toString(fileInputStream, "UTF-8");
+		return file;
+	}
+
 }
