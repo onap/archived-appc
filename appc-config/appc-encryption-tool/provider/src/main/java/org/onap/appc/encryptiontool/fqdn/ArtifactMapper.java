@@ -2,9 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
- * ================================================================================
- * Copyright (C) 2017 Amdocs
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,22 +18,28 @@
  *
  * ============LICENSE_END=========================================================
  */
-package org.onap.appc.encryptiontool.wrapper;
 
-public class Constants
-{
+package org.onap.appc.encryptiontool.fqdn;
 
-    public static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
-    public static final String DEVICE_AUTHENTICATION="DEVICE_AUTHENTICATION";
-    public static final String SCHEMA_SDNCTL="SDNCTL";
+import java.util.List;
 
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    public static final String APPC_CONFIG_DIR="/opt/onap/appc/data/properties";
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class ArtifactMapper {
+   private List<FqdnList> fqdnList = null;
 
-    public static final String VNF_TYPE="vnf_Type";
-    public static final String ACTION="action";
-    public static final String PROTOCOL="protocol";
-    public static final String URL="url";
+   @JsonProperty("fqdn-list")
+   public List<FqdnList> getFqdnList() {
+      return fqdnList;
+   }
+
+   @JsonProperty("fqdn-list")
+   public void setFqdnList(List<FqdnList> fqdnList) {
+      this.fqdnList = fqdnList;
+   }
 
 }

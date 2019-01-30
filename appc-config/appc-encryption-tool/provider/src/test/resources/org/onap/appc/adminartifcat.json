@@ -1,0 +1,93 @@
+
+
+{"fqdn-list": [
+      {
+      "vnf-management-server-fqdn": "fqdn-value1 url:port",
+      "cloud-owner-list":       [
+         {
+            "cloud-owner": "aic3.0",
+                          "region-id-list": [
+                                  {
+                                           "region-id": "san4a",
+                                           "tenant-id-list": [
+                                                            "tenantuuid1",
+                                                            "tenantuuid2"
+                                                   ]
+                                  },
+                                  {
+                                           "region-id": "san4b",
+                                           "tenant-id-list": [
+                                                            "tenantuuid1",
+                                                            "tenantuuid2"
+                                           ]
+                                  }
+                          ]
+         },
+         {
+            "cloud-owner": "nc1.0",
+                          "region-id-list": [
+                                  {
+                                           "region-id": "san4a",
+                                           "tenant-id-list": [
+                                                   
+                                                            "tenantuuid3",
+                                                            "tenantuuid4"
+                                                   
+                                           ]
+                                  }
+                          ]
+         }
+      ],
+           "description": "fqdn for east zone vUSP Production",
+      "username": "albino attuid",
+           "create-date": "",
+      "modify-username": "",
+      "modify-date": ""
+   },
+   {
+      "vnf-management-server-fqdn": "fqdn-value2 url:port",
+      "cloud-owner-list":       [
+         {
+            "cloud-owner": "aic3.0",
+                          "region-id-list": [
+                                  {
+                                           "region-id": "san4a",
+                                           "tenant-id-list": [
+                                                            "tenantuuid5",
+                                                            "tenantuuid6"
+                                                   ]
+                                  },
+                                  {
+                                           "region-id": "san4b",
+                                           "tenant-id-list": [
+                                                            "tenantuuid5",
+                                                            "tenantuuid6"
+                                           ]
+                                  }
+                          ]
+         },
+         {
+            "cloud-owner": "nc1.0",
+                          "region-id-list": [
+                                  {
+                                           "region-id": "san4a",
+                                           "tenant-id-list": [
+                                                   
+                                                            "tenantuuid7",
+                                                            "tenantuuid8"
+                                                   
+                                           ]
+                                  }
+                          ]
+         }
+      ],
+           "description": "fqdn for east zone vUSP E2E",
+      "username": "albino attuid",
+           "create-date": "",
+      "modify-username": "",
+      "modify-date": ""
+   }
+   
+   ]
+}
+
