@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8781bafc",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure assertSame should be used for the string cases - may need to stick with assertEquals for those",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c766e229",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure assertSame should be used for the string cases - may need to stick with assertEquals for those",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e769a6f9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure assertSame should be used for the string cases - may need to stick with assertEquals for those",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_876c5a09",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure assertSame should be used for the string cases - may need to stick with assertEquals for those",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a76f1efb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure assertSame should be used for the string cases - may need to stick with assertEquals for those",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_477af2bd",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "I\u0027m not sure assertSame should be used for the string cases - may need to stick with assertEquals for those",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6775b6c9",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-30T16:36:19Z",
+      "side": 1,
+      "message": "swap arguments in these two asserts",
+      "revId": "452d4c6542886c2f4bbc6258586e91a98ecf0482",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
