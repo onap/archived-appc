@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -79,8 +81,8 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             AaiService aai = getAaiService();
             aai.getGenericVnfInfo(inParams, ctx);
 
-            String cloudOwnerValue=ctx.getAttribute(responsePrefix + "vm[0].cloud-owner");
-            String cloudRegionValue=ctx.getAttribute(responsePrefix + "vm[0].cloud-region-id");
+            String cloudOwnerValue = ctx.getAttribute(responsePrefix + "vm[0].cloud-owner");
+            String cloudRegionValue = ctx.getAttribute(responsePrefix + "vm[0].cloud-region-id");
 
             log.debug("Cloud Owner" + cloudOwnerValue);
             log.debug("CloudRegionId" + cloudOwnerValue);
@@ -88,7 +90,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                     inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
 
-            if(StringUtils.isNotBlank(cloudOwnerValue)&&StringUtils.isNotBlank(cloudRegionValue)) {
+            if(StringUtils.isNotBlank(cloudOwnerValue) && StringUtils.isNotBlank(cloudRegionValue)) {
 
                 paramsCloud.put(PARAM_CLOUD_OWNER, cloudOwnerValue);
                 paramsCloud.put(PARAM_CLOUD_REGION_ID, cloudRegionValue);
@@ -127,7 +129,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
             int vmCountForVfModule = 0;
             String vmCountStr = ctx.getAttribute(responsePrefix + "vm-count");
             String vfModuleFromRequest =  ctx.getAttribute("req-vf-module-id");
-            log.info("getAllVServersVnfcsInfo()::: vfMOdule="+vfModuleFromRequest);
+            log.info("getAllVServersVnfcsInfo()::: vfMOdule=" + vfModuleFromRequest);
 
             if (vmCountStr == null) {
                 throw new ResourceNodeInternalException("Unable to get VServers for the VNF");
@@ -196,7 +198,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 } else {
                     vmWithNoVnfcsCount++;
                     //ConfigScaleOut
-                    log.info("getAllVServersVnfcsInfo()::Vf Modules: "+vfModuleForVserver+", "+vfModuleFromRequest);
+                    log.info("getAllVServersVnfcsInfo()::Vf Modules: " + vfModuleForVserver+", " + vfModuleFromRequest);
                     if (StringUtils.isNotBlank(vfModuleFromRequest) && StringUtils.isNotBlank(vfModuleForVserver) && StringUtils.equalsIgnoreCase(vfModuleForVserver,vfModuleFromRequest)) {
                         vmsWithNoVnfcsForVfModule++;
                     }
@@ -342,19 +344,19 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         int vmsWithoutVnfcsForVfModule = 0;
         String vmsWithoutVnfcsForVfModuleStr = ctx.getAttribute(responsePrefix + "vnf.vm-with-no-vnfcs-count-vf-module");
         if (StringUtils.isBlank(vmsWithoutVnfcsForVfModuleStr) && StringUtils.isNotBlank(vfModuleIdFromRequest)) {
-            log.info("addVnfcs()::No vmsWithoutVnfcsForVfModule (is null) for vfmodule="+vfModuleIdFromRequest);
+            log.info("addVnfcs()::No vmsWithoutVnfcsForVfModule (is null) for vfmodule=" + vfModuleIdFromRequest);
         }
         else {
             vmsWithoutVnfcsForVfModule = Integer.parseInt(vmsWithoutVnfcsForVfModuleStr);
         }
-        log.info("addVnfcs():::Number of VMs without vnfcs for vfmodule: "+vmsWithoutVnfcsForVfModule);
-        String vmsForVfModuleStr = ctx.getAttribute(responsePrefix +"vnf.vm-count-for-vf-module");
+        log.info("addVnfcs():::Number of VMs without vnfcs for vfmodule: " + vmsWithoutVnfcsForVfModule);
+        String vmsForVfModuleStr = ctx.getAttribute(responsePrefix + "vnf.vm-count-for-vf-module");
         int vmsForVfModule = 0;
         if (StringUtils.isNotBlank(vmsForVfModuleStr)) {
             vmsForVfModule = Integer.parseInt(vmsForVfModuleStr);
         }
         if ((vmsForVfModule != vnfcRefLen ) &&  StringUtils.isNotBlank(vfModuleIdFromRequest)) {
-            throw new ResourceNodeInternalException("Vnfc and VM count mismatch for vfModule in request="+vfModuleIdFromRequest);
+            throw new ResourceNodeInternalException("Vnfc and VM count mismatch for vfModule in request=" + vfModuleIdFromRequest);
         }
         log.info("processCheckForVfModule()::vmsForVfModule " + vmsForVfModule);
 
@@ -516,7 +518,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             AaiService aaiService = getAaiService();
-            processForVfModuleModelInfo(aaiService,inParams,ctx);
+            processForVfModuleModelInfo(aaiService, inParams, ctx);
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,
                 AppcAaiClientConstant.OUTPUT_STATUS_FAILURE);
@@ -554,10 +556,10 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 log.info("processForVfModuleModelInfo()::model-invariant-id or model-version-id is blank, not getting model info !!!!");
                 return;
             }
-            aaiService.getModelVersionInfo(modelParams,modelCtx);
-            String modelName = modelCtx.getAttribute(responsePrefix+"vfModule.model-name");
-            log.info("processForVfModuleModelInfo()::modelName for vfModule:::"+modelName);
-            log.info("Setting context template-model-id as :::"+modelName);
+            aaiService.getModelVersionInfo(modelParams, modelCtx);
+            String modelName = modelCtx.getAttribute(responsePrefix + "vfModule.model-name");
+            log.info("processForVfModuleModelInfo()::modelName for vfModule:::" + modelName);
+            log.info("Setting context template-model-id as :::" + modelName);
             ctx.setAttribute("template-model-id", modelName);
             log.info("processForVfModuleModelInfo() ::: End");
             }
@@ -580,7 +582,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 return;
             }
             String outputValue = StringUtils.replace(inputValue, "/", "_");//change / to _
-            outputValue = StringUtils.replace(outputValue," ","");//remove space
+            outputValue = StringUtils.replace(outputValue, " ", "");//remove space
             ctx.setAttribute("template-model-id", outputValue);
         } catch (Exception e) {
             ctx.setAttribute(responsePrefix + AppcAaiClientConstant.OUTPUT_PARAM_STATUS,

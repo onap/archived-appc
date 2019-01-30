@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modification Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,20 +31,134 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({FrameworkUtil.class})
 public class TestAaiService {
     // ONAP merging
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(TestAaiService.class);
-    private AAIClient aaiClient;
+    private AAIClient aaiClient = Mockito.mock(AAIClient.class);
+    private final BundleContext bundleContext= Mockito.mock(BundleContext.class);
+    private final Bundle bundleService=Mockito.mock(Bundle.class);
+    private final ServiceReference sref=Mockito.mock(ServiceReference.class);
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Before
+    public void setup() {
+        PowerMockito.mockStatic(FrameworkUtil.class);
+        PowerMockito.when(FrameworkUtil.getBundle(Matchers.any(Class.class))).thenReturn(bundleService);
+        PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
+        PowerMockito.when(bundleContext.getServiceReference(Matchers.any(Class.class))).thenReturn(sref);
+        PowerMockito.when(bundleContext.getService(sref)).thenReturn(aaiClient);
+    }
+
+    @Test
+    public void testMissingVnfId() throws AaiServiceInternalException, SvcLogicException {
+        AaiService aaiService = new AaiService();
+        expectedEx.expect(AaiServiceInternalException.class);
+        expectedEx.expectMessage("VnfId is missing");
+        aaiService.getGenericVnfInfo(new HashMap<String, String>(), new SvcLogicContext());
+    }
+
+    @Test
+    public void testGetVmInfoExceptionFlow() throws SvcLogicException, AaiServiceInternalException {
+        AaiService aaiService = Mockito.spy(new AaiService());
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("vserverId", "vserverId1");
+        inParams.put("tenantId", "tenantId1");
+        inParams.put("cloudOwner", "cloudOwner1");
+        inParams.put("cloudRegionId", "cloudRegionId1");
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+
+        SvcLogicContext ctx = new SvcLogicContext();
+        Mockito.doThrow(new SvcLogicException()).when(aaiService).readResource(Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        expectedEx.expect(SvcLogicException.class);
+        expectedEx.expectMessage("Failed to fetch VM info");
+        aaiService.getVMInfo(inParams, ctx);
+    }
+
+    @Test
+    public void testGetVnfcInfoExceptionFlow() throws Exception {
+        AaiService aaiService = new AaiService();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("vnfcName", "");
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        SvcLogicContext ctx = new SvcLogicContext();
+        expectedEx.expect(AaiServiceInternalException.class);
+        expectedEx.expectMessage("Vnfc Name is missing");
+        aaiService.getVnfcInfo(inParams, ctx);
+    }
+
+    @Test
+    public void testInsertVnfcsExceptionFlow() throws Exception {
+        AaiService aaiService = new AaiService();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        SvcLogicContext ctx = new SvcLogicContext();
+        inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
+        ctx.setAttribute("tmp.vnfInfo.vm[1].vnfc-name", "nullnull001");
+        aaiService.insertVnfcs(inParams, ctx, 2, 2, null);
+    }
+
+    @Test
+    public void testGetVnfcData() {
+        AaiService aaiService = new AaiService();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        SvcLogicContext ctx = new SvcLogicContext();
+        inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
+        ctx.setAttribute("tmp.vnfInfo.vm[1].vnfc-name", "nullnull001");
+        aaiService.getVnfcData(inParams, ctx, 1, 1);
+    }
+
+    @Test
+    public void testReadResource() throws AaiServiceInternalException, SvcLogicException {
+        AaiService aaiService = Mockito.spy(new AaiService());
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
+        Mockito.doReturn(QueryStatus.FAILURE).when(aaiClient).query(Mockito.anyString(), Mockito.anyBoolean(), Mockito.anyString(),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(SvcLogicContext.class));
+        expectedEx.expect(AaiServiceInternalException.class);
+        expectedEx.expectMessage("Error Retrieving null from A&AI");
+        aaiService.readResource(null, null, null);
+    }
+
+    @Test
+    public void testCheckAndUpdateVnfc() throws AaiServiceInternalException, SvcLogicException {
+        AaiService aaiService = Mockito.spy(new AaiService());
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put("responsePrefix", "tmp.vnfInfo");
+        SvcLogicContext ctx = new SvcLogicContext();
+        inParams.put("AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX", "prefix.");
+        ctx.setAttribute("tmp.vnfInfo.vm[0].vnfc-name", "nullnull001");
+        aaiService.checkAndUpdateVnfc(inParams, ctx, 1, 1);
+        Mockito.verify(aaiService).updateVnfcStatus(Mockito.anyString(), Mockito.anyMap(), Mockito.anyString());
+    }
 
     @Test
     public void testGetGenericVnfInfo() throws Exception {
@@ -255,6 +371,7 @@ public class TestAaiService {
 
 
     }
+
     @Test
     public void testInsertVnfcsForRelativeValueSame() throws Exception {
 
@@ -327,23 +444,6 @@ public class TestAaiService {
         mockAai.updateVnfStatus(inParams, ctx);
     }
 
-    @Test
-    public void testReadResource() throws Exception {
-
-        MockAaiService mockAai = new MockAaiService(aaiClient);
-        // AaiService mockAai = new AaiService(new AAIClientMock());
-
-        String vnfId = "ibcx0001v";
-        String resourceKey = "generic-vnf.vnf-id = '" + vnfId + "'";
-        String resourceType = "generic-vnf";
-        String queryPrefix = "vnfInfo";
-        SvcLogicContext ctx = mockAai.readResource(resourceKey, queryPrefix, resourceType);
-
-        // System.out.println("VNF TYPE " + queryPrefix + ".vnf.vnf-type");
-
-        assertEquals(ctx.getAttribute("vnfInfo.vnf-type"), "vUSP-Metaswitch");
-
-    }
     private void printContext(SvcLogicContext ctx) throws Exception {
         for (String key : ctx.getAttributeKeySet()) {
             log.info(" KEY " + key);
@@ -399,7 +499,7 @@ public class TestAaiService {
         assertEquals(ctx.getAttribute("tmp.vnfInfo.cloud-region.identity-url"), "TestUrl");
 
     } 
-    
+
     @Test
     public void testAddvnfc()
     {
