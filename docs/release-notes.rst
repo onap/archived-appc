@@ -40,6 +40,10 @@ The Casablanca maintenance release fixed the following bugs:
 
 	- `CCSDK-741 <https://jira.onap.org/browse/CCSDK-741>`_ - Removed Work-around required for vCPE use case to correct the error described in CCSDK ticket.
  
+Special Note for `APPC-1367 <https://jira.onap.org/browse/APPC-1367>`_ - APPC fails healthcheck with 404 error:
+
+
+        During testing, we found there is a timing issue. When using OOM to deploy to k8s environment the clustered MariaDB database is not accessible at the time when the APPC pod is trying to insert the DG into MariaDb. This would cause the healthcheck issue. The workaround to solve this issue is redeploying the APPC pod.
 
 Version: 1.4.3
 --------------
