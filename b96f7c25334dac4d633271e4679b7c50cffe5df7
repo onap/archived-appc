@@ -1,0 +1,667 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_a8704ba4",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ArtifactMapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "fix indentations (can use Eclipse\u0027s source-code-formatter) - same comment applies to all files",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_486bdfb6",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ArtifactMapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "should probably just be 2019, as this is a new file - same comment applies to all files",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_886d47ce",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ArtifactMapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "these annotations should appear BEFORE the class name",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6866e3ee",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ArtifactMapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "this annotation is not needed, as it\u0027s covered by those on the methods - same comment applies to all fields of all files",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_086157d2",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/CloudOwnerList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "should probably just be 2019, as this is a new file",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e8a173f8",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "move this declaration after the other \"private static\" fields",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_88a46708",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "does it matter if more than one of these is created? (i.e., there\u0027s a race condition if more than one thread invokes this at the same time)",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c89eefb8",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove the outer \"if\" test, as the value is always null since this is a constructor call",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a8a7eb09",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove the outer \"if\" test, as the value is always null since this is a constructor call",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_68ad83e8",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "this would probably be much clearer simply using a nested \"for\" statements.  In fact, as a general rule, should only use \"forEach\" to apply actions that are 1-2 lines long and fit within the \"forEach\" parameter list.  Otherwise, should stick with regular \"for\" statements.\n\nSame comment applies elsewhere",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_28b3fb4d",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e8889372",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove this and the next three lines",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e8ef331c",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "sonar doesn\u0027t like it when a \"public\" method throws more than one type of exception.  Perhaps wrap these exceptions within a single exception type (e.g., APPCException)",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_48e0bf28",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "\"equals\" is a subset of \"contains\", thus the \"equals\" check is not needed",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c8d34f5e",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove these \"TODO\" lines - same comment throughout",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_48c75f96",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "does it matter if more than one of these is created? (i.e., there\u0027s a race condition if more than one thread invokes this at the same time)",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_68c26386",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove the \"if\" wrapper, as it isn\u0027t needed",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_08bdd701",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove the \"if\" wrapper, as it isn\u0027t needed",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_68702372",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "this method should be refactored into several smaller methods",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a8436b11",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "this is subject to a sql-injection security hole - should either sanitize each value before adding it to the string or use parameterized queries",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_484e7f3c",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "don\u0027t need to check that ctx!\u003dnull, as this method will throw an NPE long before this point if it\u0027s null",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0854f7c7",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "sql-injection security hole",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c8610faa",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "sql-injection security hole",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a85a8bef",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "I think this will throw an exception if there is no \":\"",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_48751f62",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "sql-injection security hole",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_086b9785",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "use StringUtils.isBlank() for the tests of \"url\"",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c8082fdc",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "is there a potential race condition here?  The query \u0026 insert/update may need to be put inside a transaction",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e80bb3d3",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove this line - it will happen in the finally block",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a8112b05",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "this line should probably be removed",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_880ea7e3",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove this line - it will happen in the finally block",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_48fc3fb8",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/WrapperEncryptionTool.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "this line should probably be removed",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0802b7b3",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/MockParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove the \"policyJson\" variable and change line 39 to simply return the result of the call to readInput().  Or for that matter, eliminate the readInput method altogether and move its body inside the \"try\" block",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_28fd3bb1",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/MockParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "maybe use one of the IoUtils (or IOUtils) methods to read the file content?",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c82fcf3d",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/MockParseAdminArtifcat.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "add StandardCharsets.UTF_8 to ensure the bytes are interpreted as UTF-8",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_681ee30d",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "it seems like there are a lot more cases that could be tested here, but maybe that will be added later? (though I thought there was a minimum code coverage requirement for all new code)",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e832d3a5",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_8825475d",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove this line",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4823df55",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "turn all of these \"catch\" lines into a single multi-catch",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a8284b33",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:04:38Z",
+      "side": 1,
+      "message": "remove \"TODO\" lines",
+      "revId": "b96f7c25334dac4d633271e4679b7c50cffe5df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
