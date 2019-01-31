@@ -88,8 +88,8 @@ public class TestAnsibleAdapterImpl {
     }
 
     /**
-     * Use reflection to locate fields and methods so that they can be manipulated during the test
-     * to change the internal state accordingly.
+     * Use reflection to locate fields and methods so that they can be manipulated
+     * during the test to change the internal state accordingly.
      *
      */
     @Before
@@ -104,6 +104,7 @@ public class TestAnsibleAdapterImpl {
         jsonPayload.put("User", "test");
         jsonPayload.put("Password", "test");
         jsonPayload.put("PlaybookName", "test_playbook.yaml");
+        jsonPayload.put("Timeout", "60000");
         jsonPayload.put("AgentUrl", agentUrl);
         result = new AnsibleResult();
         result.setStatusMessage("Success");
@@ -121,11 +122,14 @@ public class TestAnsibleAdapterImpl {
     }
 
     /**
-     * This test case is used to test the request is submitted and the status is marked to pending
+     * This test case is used to test the request is submitted and the status is
+     * marked to pending
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test
     public void reqExec_shouldSetPending() throws SvcLogicException, APPCException {
@@ -137,11 +141,14 @@ public class TestAnsibleAdapterImpl {
     }
 
     /**
-     * This test case is used to test the request is process and the status is marked to success
+     * This test case is used to test the request is process and the status is
+     * marked to success
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test
     public void reqExecResult_shouldSetSuccess() throws SvcLogicException, APPCException {
@@ -156,9 +163,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the Failure of the request
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExecResult_Failure() throws SvcLogicException, APPCException {
@@ -173,9 +182,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the APPC Exception
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExecResult_appcException() throws APPCException, SvcLogicException {
@@ -186,9 +197,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the Number Format Exception
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExecResult_numberFormatException()
@@ -200,9 +213,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the logs executed for the specific request
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test
     public void reqExecLog_shouldSetMessage() throws SvcLogicException, APPCException {
@@ -233,9 +248,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the APPC Exception
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExecException()
@@ -247,9 +264,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the APPC Exception
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExec_AppcException()
@@ -261,9 +280,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the JSON Exception
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExec_JsonException()
@@ -275,9 +296,11 @@ public class TestAnsibleAdapterImpl {
     /**
      * This test case is used to test the Number Format Exception
      *
-     * @throws SvcLogicException If the request cannot be process due to Number format or JSON
-     *         Exception
-     * @throws APPCException If the request cannot be processed for some reason
+     * @throws SvcLogicException
+     *             If the request cannot be process due to Number format or JSON
+     *             Exception
+     * @throws APPCException
+     *             If the request cannot be processed for some reason
      */
     @Test(expected = SvcLogicException.class)
     public void reqExec_NumberFormatException()

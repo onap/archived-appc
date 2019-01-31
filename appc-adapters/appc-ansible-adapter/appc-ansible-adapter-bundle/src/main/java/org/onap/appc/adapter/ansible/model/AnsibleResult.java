@@ -34,6 +34,7 @@ public class AnsibleResult {
     private String statusMessage;
     private String results;
     private String output;
+    private String serverIP;
 
     public AnsibleResult() {
         this(-1, EMPTY_VALUE, EMPTY_VALUE);
@@ -75,6 +76,10 @@ public class AnsibleResult {
     public void setResults(String results) {
         this.results = results;
     }
+    
+    public void setServerIP(String serverIP) {
+        this.serverIP = serverIP;
+    }
 
     void set(int code, String message, String results, String output) {
         this.statusCode = code;
@@ -95,4 +100,10 @@ public class AnsibleResult {
     public String getResults() {
         return this.results;
     }
+
+    public String getServerIP() {
+        return this.serverIP;
+    }
+
+
 }

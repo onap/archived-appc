@@ -42,20 +42,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Class that validates and constructs requests sent/received from
- * Ansible Server
+ * Class that validates and constructs requests sent/received from Ansible
+ * Server
  */
 public class AnsibleMessageParser {
 
     private static final String STATUS_MESSAGE_KEY = "StatusMessage";
     private static final String STATUS_CODE_KEY = "StatusCode";
-
+    private static final String SERVER_IP_KEY = "AnsibleServer";
     private static final String PLAYBOOK_NAME_KEY = "PlaybookName";
     private static final String AGENT_URL_KEY = "AgentUrl";
     private static final String PASS_KEY = "Password";
     private static final String USER_KEY = "User";
     private static final String ID_KEY = "Id";
-
     private static final String LOCAL_PARAMETERS_OPT_KEY = "LocalParameters";
     private static final String FILE_PARAMETERS_OPT_KEY = "FileParameters";
     private static final String ENV_PARAMETERS_OPT_KEY = "EnvParameters";
@@ -67,20 +66,19 @@ public class AnsibleMessageParser {
     private static final Logger LOGGER = LoggerFactory.getLogger(AnsibleMessageParser.class);
 
     /**
-     * Accepts a map of strings and
-     * a) validates if all parameters are appropriate (else, throws an exception) and
-     * b) if correct returns a JSON object with appropriate key-value pairs to send to the server.
+     * Accepts a map of strings and a) validates if all parameters are appropriate
+     * (else, throws an exception) and b) if correct returns a JSON object with
+     * appropriate key-value pairs to send to the server.
      *
-     * Mandatory parameters, that must be in the supplied information to the Ansible Adapter
-     * 1. URL to connect to
-     * 2. credentials for URL (assume username password for now)
-     * 3. Playbook name
+     * Mandatory parameters, that must be in the supplied information to the Ansible
+     * Adapter 1. URL to connect to 2. credentials for URL (assume username password
+     * for now) 3. Playbook name
      *
      */
     public JSONObject reqMessage(Map<String, String> params) throws APPCException {
-        final String[] mandatoryTestParams = {AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY};
-        final String[] optionalTestParams = {ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
-                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY};
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, PLAYBOOK_NAME_KEY, USER_KEY, PASS_KEY };
+        final String[] optionalTestParams = { ENV_PARAMETERS_OPT_KEY, NODE_LIST_OPT_KEY, LOCAL_PARAMETERS_OPT_KEY,
+                TIMEOUT_OPT_KEY, VERSION_OPT_KEY, FILE_PARAMETERS_OPT_KEY, ACTION_OPT_KEY };
 
         JSONObject jsonPayload = new JSONObject();
 
@@ -99,13 +97,13 @@ public class AnsibleMessageParser {
     }
 
     /**
-     * Method that validates that the Map has enough information
-     * to query Ansible server for a result. If so, it returns
-     * the appropriate url, else an empty string.
+     * Method that validates that the Map has enough information to query Ansible
+     * server for a result. If so, it returns the appropriate url, else an empty
+     * string.
      */
     public String reqUriResult(Map<String, String> params) throws APPCException {
 
-        final String[] mandatoryTestParams = {AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY};
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
 
         for (String key : mandatoryTestParams) {
             throwIfMissingMandatoryParam(params, key);
@@ -114,13 +112,30 @@ public class AnsibleMessageParser {
     }
 
     /**
-     * Method that validates that the Map has enough information
-     * to query Ansible server for logs. If so, it populates the appropriate
-     * returns the appropriate url, else an empty string.
+     * Method that validates that the Map has enough information to query Ansible
+     * server for a result. If so, it returns the appropriate url, else an empty
+     * string.
+     */
+    public String reqUriResultWithIP(Map<String, String> params, String serverIP) throws APPCException {
+
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
+
+        for (String key : mandatoryTestParams) {
+            throwIfMissingMandatoryParam(params, key);
+        }
+        String[] arr1 = params.get(AGENT_URL_KEY).split("//", 2);
+        String[] arr2 = arr1[1].split(":", 2);
+        return arr1[0] + "//" + serverIP + ":" + arr2[1] + "?Id=" + params.get(ID_KEY) + "&Type=GetResult";
+    }
+
+    /**
+     * Method that validates that the Map has enough information to query Ansible
+     * server for logs. If so, it populates the appropriate returns the appropriate
+     * url, else an empty string.
      */
     public String reqUriLog(Map<String, String> params) throws APPCException {
 
-        final String[] mandatoryTestParams = {AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY};
+        final String[] mandatoryTestParams = { AGENT_URL_KEY, ID_KEY, USER_KEY, PASS_KEY };
 
         for (String mandatoryParam : mandatoryTestParams) {
             throwIfMissingMandatoryParam(params, mandatoryParam);
@@ -129,8 +144,8 @@ public class AnsibleMessageParser {
     }
 
     /**
-     * This method parses response from the Ansible Server when we do a post
-     * and returns an AnsibleResult object.
+     * This method parses response from the Ansible Server when we do a post and
+     * returns an AnsibleResult object.
      */
     public AnsibleResult parsePostResponse(String input) throws APPCException {
         AnsibleResult ansibleResult;
@@ -139,7 +154,11 @@ public class AnsibleMessageParser {
 
             int code = postResponse.getInt(STATUS_CODE_KEY);
             String msg = postResponse.getString(STATUS_MESSAGE_KEY);
-
+            String serverIP = "";
+            if (postResponse.has(SERVER_IP_KEY))
+                serverIP = postResponse.getString(SERVER_IP_KEY);
+            else
+                serverIP = "";
             int initResponseValue = AnsibleResultCodes.INITRESPONSE.getValue();
             boolean validCode = AnsibleResultCodes.CODE.checkValidCode(initResponseValue, code);
             if (!validCode) {
@@ -148,6 +167,14 @@ public class AnsibleMessageParser {
             }
 
             ansibleResult = new AnsibleResult(code, msg);
+            if (serverIP != null && serverIP.length() != 0)
+                ansibleResult.setServerIP(serverIP);
+
+            if (!postResponse.isNull("Output")) {
+                LOGGER.info("Processing results-output in post response");
+                JSONObject output = postResponse.getJSONObject("Output");
+                ansibleResult.setOutput(output.toString());
+            }
 
         } catch (JSONException e) {
             LOGGER.error("JSONException: Error parsing response", e);
@@ -157,8 +184,8 @@ public class AnsibleMessageParser {
     }
 
     /**
-     * This method parses response from an Ansible server when we do a GET for a result
-     * and returns an AnsibleResult object.
+     * This method parses response from an Ansible server when we do a GET for a
+     * result and returns an AnsibleResult object.
      **/
     public AnsibleResult parseGetResponse(String input) throws APPCException {
 
@@ -175,14 +202,14 @@ public class AnsibleMessageParser {
         return ansibleResult;
     }
 
-    private AnsibleResult parseGetResponseNested(AnsibleResult ansibleResult, JSONObject postRsp) throws APPCException  {
+    private AnsibleResult parseGetResponseNested(AnsibleResult ansibleResult, JSONObject postRsp) throws APPCException {
 
         int codeStatus = postRsp.getInt(STATUS_CODE_KEY);
         String messageStatus = postRsp.getString(STATUS_MESSAGE_KEY);
         int finalCode = AnsibleResultCodes.FINAL_SUCCESS.getValue();
 
-        boolean valCode =
-                AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(), codeStatus);
+        boolean valCode = AnsibleResultCodes.CODE.checkValidCode(AnsibleResultCodes.FINALRESPONSE.getValue(),
+                codeStatus);
 
         if (!valCode) {
             throw new APPCException("Invalid FinalResponse code  = " + codeStatus + " received. MUST be one of "
@@ -206,8 +233,8 @@ public class AnsibleMessageParser {
 
             while (hosts.hasNext()) {
                 String host = hosts.next();
-                LOGGER.info("Processing host = {}", host);
-
+                LOGGER.info("Processing host = {}",
+                        (host.matches("^[\\w\\-.]+$")) ? host : "[unexpected value, logging suppressed]");
                 try {
                     JSONObject hostResponse = results.getJSONObject(host);
                     int subCode = hostResponse.getInt(STATUS_CODE_KEY);
@@ -221,8 +248,8 @@ public class AnsibleMessageParser {
                 } catch (JSONException e) {
                     LOGGER.error("JSONException: Error parsing response", e);
                     ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
-                    ansibleResult.setStatusMessage(String.format(
-                            "Error processing response message = %s from host %s", results.getString(host), host));
+                    ansibleResult.setStatusMessage(String.format("Error processing response message = %s from host %s",
+                            results.getString(host), host));
                     break;
                 }
             }
@@ -236,7 +263,7 @@ public class AnsibleMessageParser {
             ansibleResult.setStatusCode(AnsibleResultCodes.INVALID_RESPONSE.getValue());
             ansibleResult.setStatusMessage("Results not found in GET for response");
         }
-        if(!postRsp.isNull("Output")) {
+        if (!postRsp.isNull("Output")) {
             LOGGER.info("Processing results-output in response");
             JSONObject output = postRsp.getJSONObject("Output");
             ansibleResult.setOutput(output.toString());
@@ -250,13 +277,11 @@ public class AnsibleMessageParser {
         Set<String> optionalParamsSet = new HashSet<>();
         Collections.addAll(optionalParamsSet, optionalTestParams);
 
-        //@formatter:off
-        params.entrySet()
-            .stream()
-            .filter(entry -> optionalParamsSet.contains(entry.getKey()))
-            .filter(entry -> !Strings.isNullOrEmpty(entry.getValue()))
-             .forEach(entry -> parseOptionalParam(entry, jsonPayload));
-        //@formatter:on
+        // @formatter:off
+        params.entrySet().stream().filter(entry -> optionalParamsSet.contains(entry.getKey()))
+                .filter(entry -> !Strings.isNullOrEmpty(entry.getValue()))
+                .forEach(entry -> parseOptionalParam(entry, jsonPayload));
+        // @formatter:on
     }
 
     private void parseOptionalParam(Map.Entry<String, String> params, JSONObject jsonPayload) {
@@ -264,35 +289,35 @@ public class AnsibleMessageParser {
         String payload = params.getValue();
 
         switch (key) {
-            case TIMEOUT_OPT_KEY:
-                int timeout = Integer.parseInt(payload);
-                if (timeout < 0) {
-                    throw new NumberFormatException(" : specified negative integer for timeout = " + payload);
-                }
-                jsonPayload.put(key, payload);
-                break;
+        case TIMEOUT_OPT_KEY:
+            int timeout = Integer.parseInt(payload);
+            if (timeout < 0) {
+                throw new NumberFormatException(" : specified negative integer for timeout = " + payload);
+            }
+            jsonPayload.put(key, payload);
+            break;
 
-            case VERSION_OPT_KEY:
-                jsonPayload.put(key, payload);
-                break;
+        case VERSION_OPT_KEY:
+            jsonPayload.put(key, payload);
+            break;
 
-            case LOCAL_PARAMETERS_OPT_KEY:
-            case ENV_PARAMETERS_OPT_KEY:
-                JSONObject paramsJson = new JSONObject(payload);
-                jsonPayload.put(key, paramsJson);
-                break;
+        case LOCAL_PARAMETERS_OPT_KEY:
+        case ENV_PARAMETERS_OPT_KEY:
+            JSONObject paramsJson = new JSONObject(payload);
+            jsonPayload.put(key, paramsJson);
+            break;
 
-            case NODE_LIST_OPT_KEY:
-                JSONArray paramsArray = new JSONArray(payload);
-                jsonPayload.put(key, paramsArray);
-                break;
+        case NODE_LIST_OPT_KEY:
+            JSONArray paramsArray = new JSONArray(payload);
+            jsonPayload.put(key, paramsArray);
+            break;
 
-            case FILE_PARAMETERS_OPT_KEY:
-                jsonPayload.put(key, getFilePayload(payload));
-                break;
+        case FILE_PARAMETERS_OPT_KEY:
+            jsonPayload.put(key, getFilePayload(payload));
+            break;
 
-            default:
-                break;
+        default:
+            break;
         }
     }
 

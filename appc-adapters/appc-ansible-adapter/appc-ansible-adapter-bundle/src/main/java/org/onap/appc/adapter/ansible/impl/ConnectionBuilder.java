@@ -39,9 +39,11 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
@@ -54,18 +56,19 @@ import org.onap.appc.adapter.ansible.model.AnsibleResult;
 import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.json.JSONObject;
+import javax.net.ssl.SSLException;
+import org.onap.appc.exceptions.APPCException;
 
 /**
- * Returns a custom http client
- * - based on options
- * - can create one with ssl using an X509 certificate that does NOT have a known CA
- * - create one which trusts ALL SSL certificates
- * - return default httpclient (which only trusts known CAs from default cacerts file for process) this is the default
- * option
+ * Returns a custom http client - based on options - can create one with ssl
+ * using an X509 certificate that does NOT have a known CA - create one which
+ * trusts ALL SSL certificates - return default httpclient (which only trusts
+ * known CAs from default cacerts file for process) this is the default option
  **/
 
 public class ConnectionBuilder {
-
+    private static final String STATUS_CODE_KEY = "StatusCode";
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ConnectionBuilder.class);
 
     private CloseableHttpClient httpClient = null;
@@ -74,8 +77,10 @@ public class ConnectionBuilder {
     /**
      * Constructor that initializes an http client based on certificate
      **/
-    public ConnectionBuilder(String certFile) throws KeyStoreException, CertificateException, IOException,
-            KeyManagementException, NoSuchAlgorithmException {
+
+
+    public ConnectionBuilder(String certFile, int timeout) throws KeyStoreException, CertificateException, IOException,
+            KeyManagementException, NoSuchAlgorithmException{
 
         /* Point to the certificate */
         try(FileInputStream fs = new FileInputStream(certFile)) {
@@ -93,43 +98,55 @@ public class ConnectionBuilder {
             SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
                     SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
 
-            httpClient = HttpClients.custom().setSSLSocketFactory(factory).build();
+            RequestConfig config = RequestConfig.custom().setSocketTimeout(timeout).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(config).setSSLSocketFactory(factory).build();
         }
     }
 
     /**
-     * Constructor which trusts all certificates in a specific java keystore file (assumes a JKS
-     * file)
+     * Constructor which trusts all certificates in a specific java keystore file
+     * (assumes a JKS file)
      **/
-    public ConnectionBuilder(String trustStoreFile, char[] trustStorePasswd) throws KeyStoreException, IOException,
-            KeyManagementException, NoSuchAlgorithmException, CertificateException {
+    public ConnectionBuilder(String trustStoreFile, char[] trustStorePasswd, int timeout, String serverIP)
+            throws KeyStoreException, IOException, KeyManagementException, NoSuchAlgorithmException,
+            CertificateException ,APPCException{
 
         /* Load the specified trustStore */
         KeyStore keystore = KeyStore.getInstance("JKS");
         FileInputStream readStream = new FileInputStream(trustStoreFile);
         keystore.load(readStream, trustStorePasswd);
+        if (serverIP != null && serverIP.length() != 0) {
+            SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
+            SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext, new NoopHostnameVerifier());
 
-        SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(keystore).build();
-        SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
-                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+            RequestConfig config = RequestConfig.custom().setSocketTimeout(timeout).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(config).setSSLSocketFactory(factory).build();
+        } else {
+            SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(keystore).build();
+            SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
+                    SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+            RequestConfig config = RequestConfig.custom().setSocketTimeout(timeout).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(config).setSSLSocketFactory(factory).build();
+        }
 
-        httpClient = HttpClients.custom().setSSLSocketFactory(factory).build();
     }
 
     /**
-     * Constructor that trusts ALL SSl certificates (NOTE : ONLY FOR DEV TESTING) if Mode == 1 or
-     * Default if Mode == 0
+     * Constructor that trusts ALL SSl certificates (NOTE : ONLY FOR DEV TESTING) if
+     * Mode == 1 or Default if Mode == 0
      */
-    public ConnectionBuilder(int mode)
-            throws NoSuchAlgorithmException, KeyStoreException, KeyManagementException {
+
+    public ConnectionBuilder(int mode, int timeout)
+            throws SSLException, NoSuchAlgorithmException, KeyStoreException, KeyManagementException,APPCException{
+        RequestConfig config = RequestConfig.custom().setSocketTimeout(timeout).build();
         if (mode == 1) {
             SSLContext sslcontext = SSLContexts.custom().loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
             SSLConnectionSocketFactory factory = new SSLConnectionSocketFactory(sslcontext,
                     SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
 
-            httpClient = HttpClients.custom().setSSLSocketFactory(factory).build();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(config).setSSLSocketFactory(factory).build();
         } else {
-            httpClient = HttpClients.createDefault();
+            httpClient = HttpClients.custom().setDefaultRequestConfig(config).build();
         }
     }
 
@@ -165,6 +182,7 @@ public class ConnectionBuilder {
             int responseCode = response.getStatusLine().getStatusCode();
             result.setStatusCode(responseCode);
             result.setStatusMessage(responseOutput);
+            httpClient.close();
         } catch (IOException io) {
             logger.error("Caught IOException", io);
             result.setStatusCode(AnsibleResultCodes.IO_EXCEPTION.getValue());
@@ -187,8 +205,18 @@ public class ConnectionBuilder {
             HttpEntity entity = response.getEntity();
             String responseOutput = entity != null ? EntityUtils.toString(entity) : null;
             int responseCode = response.getStatusLine().getStatusCode();
-            result.setStatusCode(responseCode);
+            logger.info("GetResult response for ansible GET URL" + agentUrl + " returned " + responseOutput);
+            JSONObject postResponse = new JSONObject(responseOutput);
+            if (postResponse.has(STATUS_CODE_KEY)) {
+                int codeStatus = postResponse.getInt(STATUS_CODE_KEY);
+                if (codeStatus == AnsibleResultCodes.PENDING.getValue())
+                    result.setStatusCode(codeStatus);
+                else
+                    result.setStatusCode(responseCode);
+            } else
+                result.setStatusCode(responseCode);
             result.setStatusMessage(responseOutput);
+            httpClient.close();
         } catch (IOException io) {
             result.setStatusCode(AnsibleResultCodes.IO_EXCEPTION.getValue());
             result.setStatusMessage(io.getMessage());
