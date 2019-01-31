@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_4d445149",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/resources/org/onap/appc/adminartifcat.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 2477
+      },
+      "writtenOn": "2019-01-31T01:23:16Z",
+      "side": 1,
+      "message": "could we rename to something else?",
+      "range": {
+        "startLine": 85,
+        "startChar": 19,
+        "endLine": 85,
+        "endChar": 32
+      },
+      "revId": "4429a090383937fadfea02fa727358c382166653",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
