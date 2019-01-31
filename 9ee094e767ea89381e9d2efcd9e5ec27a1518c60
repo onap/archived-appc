@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93e61f71_b07ba7ba",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T21:22:29Z",
+      "side": 1,
+      "message": "indentation",
+      "revId": "9ee094e767ea89381e9d2efcd9e5ec27a1518c60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7152ec00_0cc133c2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T21:22:29Z",
+      "side": 1,
+      "message": "maybe skip the \"sleep\" the first time through the loop?",
+      "revId": "9ee094e767ea89381e9d2efcd9e5ec27a1518c60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9021b5ef_84e1c91e",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T21:22:29Z",
+      "side": 1,
+      "message": "still need to close httpClient?",
+      "revId": "9ee094e767ea89381e9d2efcd9e5ec27a1518c60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5190af04_1d7d01b3",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T21:22:29Z",
+      "side": 1,
+      "message": "still need to close httpClient?",
+      "revId": "9ee094e767ea89381e9d2efcd9e5ec27a1518c60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e09a0d6_47a92ad5",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleAdapter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T21:22:29Z",
+      "side": 1,
+      "message": "still missing changes per my previous comments on patch set 1",
+      "revId": "9ee094e767ea89381e9d2efcd9e5ec27a1518c60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
