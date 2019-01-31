@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "5c36ee69_c2010345",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_e8d97357",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_88dc6747",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -47,6 +65,24 @@
       "writtenOn": "2019-01-31T13:41:55Z",
       "side": 1,
       "message": "remove the \"TODO\" blocks - same comment applies through-out",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd8cb1ad_9a148798",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_88dc6747",
       "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -70,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "b47db6a9_e718f382",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_a8dfeb38",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_68e58307",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -81,6 +135,24 @@
       "writtenOn": "2019-01-31T13:41:55Z",
       "side": 1,
       "message": "change \"key.toString()\" to just \"key\"",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7b71bf7_7c4f7fea",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_68e58307",
       "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -104,6 +176,24 @@
     },
     {
       "key": {
+        "uuid": "ee0ac78a_642ca70b",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_88b30709",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_68cca389",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -115,6 +205,24 @@
       "writtenOn": "2019-01-31T13:41:55Z",
       "side": 1,
       "message": "not sure off-hand, what happens if \"Timeout\" is some type other than String?  Does this return null?  Or does it throw an exception?  If it throws JSONException, then that case is handled OK",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c94b2d41_cfa88f8a",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "this timeput is always set as we get it from dg context and setted as string in dg context",
+      "parentUuid": "9adffdf1_68cca389",
       "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -138,6 +246,24 @@
     },
     {
       "key": {
+        "uuid": "b47a74ae_b9ee11e3",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_08f077c7",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_08c71765",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -155,6 +281,24 @@
     },
     {
       "key": {
+        "uuid": "8cee628e_419184f0",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_08c71765",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_28c21b53",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
         "patchSetId": 1
@@ -166,6 +310,24 @@
       "writtenOn": "2019-01-31T13:41:55Z",
       "side": 1,
       "message": "StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bac238da_6a65663e",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_28c21b53",
       "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -234,6 +396,24 @@
       "writtenOn": "2019-01-31T13:41:55Z",
       "side": 1,
       "message": "StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1f9ff0e_d090d152",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_e88e532d",
       "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -376,6 +556,24 @@
     },
     {
       "key": {
+        "uuid": "21463f29_cb66a176",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_a8b28be2",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_08c39738",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
         "patchSetId": 1
@@ -387,6 +585,24 @@
       "writtenOn": "2019-01-31T13:41:55Z",
       "side": 1,
       "message": "maybe use a much shorter timeout (e.g., 2000) so tests don\u0027t take too long.  Or are no requests actually executed during this test?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a587f8b2_077c8090",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1985
+      },
+      "writtenOn": "2019-01-31T21:06:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_08c39738",
       "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
