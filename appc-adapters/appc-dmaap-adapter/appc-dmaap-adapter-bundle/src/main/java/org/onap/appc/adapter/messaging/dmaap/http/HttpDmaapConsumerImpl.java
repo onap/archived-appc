@@ -151,4 +151,24 @@ public class HttpDmaapConsumerImpl extends CommonHttpClient implements Consumer 
         }
     }
 
+    @Override
+    public void setResponseProblemBlacklistTime(String duration)
+    {
+    }
+
+    @Override
+    public void setServerProblemBlacklistTime(String duration)
+    {
+    }
+
+    @Override
+    public void setDnsIssueBlacklistTime(String duration)
+    {
+    }
+
+    @Override
+    public void setIOExceptionBlacklistTime(String duration)
+    {
+    }
+
 }

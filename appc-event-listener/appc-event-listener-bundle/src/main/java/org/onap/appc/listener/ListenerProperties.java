@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -89,7 +89,7 @@ public class ListenerProperties {
 
     /**
      * Returns a property matching a given KEYS
-     * 
+     *
      * @param key
      *            The KEYS object who's value to return.
      * @return The value of the property or null if none exists
@@ -100,7 +100,7 @@ public class ListenerProperties {
 
     /**
      * Returns a property matching a given string.
-     * 
+     *
      * @param key
      *            The key who's value to return.
      * @return The value of the property or null if none exists
@@ -111,7 +111,7 @@ public class ListenerProperties {
 
     /**
      * Returns a property matching a given KEYS
-     * 
+     *
      * @param key
      *            The KEYS object who's value to return.
      * @param defaultValue
@@ -124,7 +124,7 @@ public class ListenerProperties {
 
     /**
      * Returns a property matching a given string.
-     * 
+     *
      * @param key
      *            The key who's value to return.
      * @param defaultValue
@@ -216,6 +216,27 @@ public class ListenerProperties {
          * return if they have data.
          */
         TOPIC_READ_TIMEOUT("topic.read.timeout"),
+
+        /**
+         *  Blacklist time for a server with response problem in seconds
+         */
+
+        PROBLEM_WITH_RESPONSE_BLACKLIST_TIME("topic.responseProblem.blacklistTime"),
+        /**
+         *  Blacklist time for a server with server problem in seconds
+         */
+
+        PROBLEM_SERVERSIDE_ERROR_BLACKLIST_TIME("topic.serverError.blacklistTime"),
+        /**
+         *  Blacklist time for a server with DNS problem in seconds
+         */
+
+        PROBLEM_DNS_BLACKLIST_TIME("topic.dnsIssue.blacklistTime"),
+        /**
+         *  Blacklist time for a server with IO Exception problem in seconds
+         */
+
+        PROBLEM_IO_EXCEPTION_BLACKLIST_TIME("topic.ioException.blacklistTime"),
 
         /**
          * The name of the client to use. Should be unique to the application.

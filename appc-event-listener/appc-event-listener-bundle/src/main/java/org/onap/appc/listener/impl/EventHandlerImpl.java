@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -100,6 +100,27 @@ public class EventHandlerImpl implements EventHandler {
      */
     private String filter_json;
 
+
+    /*
+     * Blacklist time for a server with response problem in seconds
+     */
+    private String responseProblemBlacklistTime;
+
+    /*
+     *  Blacklist time for a server with server problem in seconds
+     */
+    private String serverProblemBlacklistTime;
+
+    /*
+     * Blacklist time for a server with DNS problem in seconds
+     */
+    private String dnsIssueBlacklistTime;
+
+    /*
+     * Blacklist time for a server with IO Exception problem in seconds
+     */
+    private String ioExceptionBlacklistTime;
+
     private MessageService messageService;
 
     private Consumer reader = null;
@@ -115,6 +136,10 @@ public class EventHandlerImpl implements EventHandler {
             clientId = props.getProperty(ListenerProperties.KEYS.CLIENT_ID, "0");
             apiKey = props.getProperty(ListenerProperties.KEYS.AUTH_USER_KEY);
             apiSecret = props.getProperty(ListenerProperties.KEYS.AUTH_SECRET_KEY);
+            responseProblemBlacklistTime = props.getProperty(ListenerProperties.KEYS.PROBLEM_WITH_RESPONSE_BLACKLIST_TIME);
+            serverProblemBlacklistTime = props.getProperty(ListenerProperties.KEYS.PROBLEM_SERVERSIDE_ERROR_BLACKLIST_TIME);
+            dnsIssueBlacklistTime = props.getProperty(ListenerProperties.KEYS.PROBLEM_DNS_BLACKLIST_TIME);
+            ioExceptionBlacklistTime = props.getProperty(ListenerProperties.KEYS.PROBLEM_IO_EXCEPTION_BLACKLIST_TIME);
 
             filter_json = props.getProperty(ListenerProperties.KEYS.TOPIC_READ_FILTER);
 
@@ -218,6 +243,26 @@ public class EventHandlerImpl implements EventHandler {
                 try {
                     out = ((MessageAdapterFactory) ctx.getService(svcRef))
                             .createConsumer(pool, readTopic, clientName, clientId, filter_json, apiKey, apiSecret);
+
+                    if (out != null && responseProblemBlacklistTime != null && responseProblemBlacklistTime.length() > 0)
+                    {
+                        out.setResponseProblemBlacklistTime(responseProblemBlacklistTime);
+                    }
+
+                    if (out != null && serverProblemBlacklistTime != null && serverProblemBlacklistTime.length() > 0)
+                    {
+                        out.setServerProblemBlacklistTime(serverProblemBlacklistTime);
+                    }
+
+                    if (out != null && dnsIssueBlacklistTime != null && dnsIssueBlacklistTime.length() > 0)
+                    {
+                        out.setDnsIssueBlacklistTime(dnsIssueBlacklistTime);
+                    }
+
+                    if (out != null && ioExceptionBlacklistTime != null && ioExceptionBlacklistTime.length() > 0)
+                    {
+                        out.setIOExceptionBlacklistTime(ioExceptionBlacklistTime);
+                    }
                 } catch (Exception e) {
                     //TODO:create eelf message
                     LOG.error("EvenHandlerImp.getConsumer calling MessageAdapterFactor.createConsumer", e);
@@ -250,6 +295,25 @@ public class EventHandlerImpl implements EventHandler {
             if (svcRef != null) {
                 out = ((MessageAdapterFactory) ctx.getService(svcRef))
                         .createProducer(pool, writeTopics, apiKey, apiSecret);
+                if (out != null && responseProblemBlacklistTime != null && responseProblemBlacklistTime.length() > 0)
+                {
+                    out.setResponseProblemBlacklistTime(responseProblemBlacklistTime);
+                }
+
+                if (out != null && serverProblemBlacklistTime != null && serverProblemBlacklistTime.length() > 0)
+                {
+                    out.setServerProblemBlacklistTime(serverProblemBlacklistTime);
+                }
+
+                if (out != null && dnsIssueBlacklistTime != null && dnsIssueBlacklistTime.length() > 0)
+                {
+                    out.setDnsIssueBlacklistTime(dnsIssueBlacklistTime);
+                }
+
+                if (out != null && ioExceptionBlacklistTime != null && ioExceptionBlacklistTime.length() > 0)
+                {
+                    out.setIOExceptionBlacklistTime(ioExceptionBlacklistTime);
+                }
                 if (out != null) {
                     for (String url : pool) {
                         if (url.contains("3905") || url.contains("https")) {
@@ -328,6 +392,26 @@ public class EventHandlerImpl implements EventHandler {
     @Override
     public void setWriteTopics(Set<String> writeTopics) {
         this.writeTopics = writeTopics;
+    }
+
+    @Override
+    public void setResponseProblemBlacklistTime(String duration){
+        this.responseProblemBlacklistTime = duration;
+    }
+
+    @Override
+    public void setServerProblemBlacklistTime(String duration){
+        this.serverProblemBlacklistTime = duration;
+    }
+
+    @Override
+    public void setDnsIssueBlacklistTime(String duration){
+        this.dnsIssueBlacklistTime = duration;
+    }
+
+    @Override
+    public void setIOExceptionBlacklistTime(String duration){
+        this.ioExceptionBlacklistTime = duration;
     }
 
     @Override

@@ -46,6 +46,27 @@ public interface Producer {
     default void useHttps(boolean yes) {}
 
     /**
+     *  Sets Blacklist time for a server with response problem in seconds
+     */
+    void setResponseProblemBlacklistTime(String duration);
+
+    /**
+     *  Sets Blacklist time for a server with server problem in seconds
+     */
+    void setServerProblemBlacklistTime(String duration);
+
+    /**
+     *  Sets Blacklist time for a server with DNS problem in seconds
+     */
+    void setDnsIssueBlacklistTime(String duration);
+
+    /**
+     *  Sets Blacklist time for a server with IO Exception problem in seconds
+     */
+    void setIOExceptionBlacklistTime(String duration);
+
+
+    /**
      * Closes the dmaap client https connection.
      */
     default void close() {}

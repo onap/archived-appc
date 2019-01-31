@@ -121,7 +121,7 @@ public class ListenerPropertiesTest {
     @Test
     public void testKeys() {
         // Hardcode count so tests must be updated when values are added
-        assertEquals(15, ListenerProperties.KEYS.values().length);
+        assertEquals(19, ListenerProperties.KEYS.values().length);
 
         Properties tmp = new Properties();
         try {

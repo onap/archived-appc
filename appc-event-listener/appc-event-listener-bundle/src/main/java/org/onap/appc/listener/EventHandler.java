@@ -9,15 +9,15 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -36,14 +36,14 @@ public interface EventHandler {
 
     /**
      * Gets a list of messages as Strings on the read topic.
-     * 
+     *
      * @return A list of String messages. Never returns null.
      */
     public List<String> getIncomingEvents();
 
     /**
      * Gets a list of messages as String on the read topic.
-     * 
+     *
      * @param limit
      *            The maximum amount of entries to return
      * @return A list of String messages. Never returns null.
@@ -72,7 +72,7 @@ public interface EventHandler {
 
     /**
      * Posts the String message to the write topic(s).
-     * 
+     *
      * @param event
      *            The String to post.
      */
@@ -96,7 +96,7 @@ public interface EventHandler {
 
     /**
      * Set the client/group id used to read messages
-     * 
+     *
      * @param clientId
      *            The new clientId to use
      */
@@ -109,7 +109,7 @@ public interface EventHandler {
 
     /**
      * Set the client/group name used to read messages.
-     * 
+     *
      * @param clientName
      *            The new clientName to use
      */
@@ -122,7 +122,7 @@ public interface EventHandler {
 
     /**
      * Set the name of the topic to read from.
-     * 
+     *
      * @param topic
      *            The new topic to read from
      */
@@ -135,7 +135,7 @@ public interface EventHandler {
 
     /**
      * Set the name of the topic to write to
-     * 
+     *
      * @param topic
      *            The new topic to write to
      */
@@ -143,7 +143,7 @@ public interface EventHandler {
 
     /**
      * Adds a DMaaP host to the host pool
-     * 
+     *
      * @param host
      *            The host to add to the pool in &lt;host&gt;:&lt;port&gt; format
      */
@@ -151,7 +151,7 @@ public interface EventHandler {
 
     /**
      * Remove the host name from the pool if it exists
-     * 
+     *
      * @param host
      *            The host to add to the pool in &lt;host&gt;:&lt;port&gt; format
      */
@@ -159,7 +159,7 @@ public interface EventHandler {
 
     /**
      * Get all of the hosts in the DMaaP pool
-     * 
+     *
      * @return A collection of host in &lt;host&gt;:&lt;port&gt; format
      */
     public Collection<String> getPool();
@@ -170,15 +170,36 @@ public interface EventHandler {
     public void clearCredentials();
 
     /**
+     *  Sets Blacklist time for a server with response problem in seconds
+     */
+    void setResponseProblemBlacklistTime(String duration);
+
+    /**
+     *  Sets Blacklist time for a server with server problem in seconds
+     */
+    void setServerProblemBlacklistTime(String duration);
+
+    /**
+     *  Sets Blacklist time for a server with DNS problem in seconds
+     */
+    void setDnsIssueBlacklistTime(String duration);
+
+    /**
+     *  Sets Blacklist time for a server with IO Exception problem in seconds
+     */
+    void setIOExceptionBlacklistTime(String duration);
+    /**
      * Set the api credentials and make future requests as an authenticated user
-     * 
+     *
      * @param access
      *            The access portion of the credentials (either user name or api key)
      * @param secret
      *            The secret portion of the credentials (either password or api secret)
      */
+
+
     public void setCredentials(String access, String secret);
-    
+
     /**
      * Close consumer/producer DMaaP clients
      */
