@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -34,6 +34,7 @@ public class AnsibleResult {
     private String statusMessage;
     private String results;
     private String output;
+    private String serverIp;
 
     public AnsibleResult() {
         this(-1, EMPTY_VALUE, EMPTY_VALUE);
@@ -75,6 +76,10 @@ public class AnsibleResult {
     public void setResults(String results) {
         this.results = results;
     }
+    
+    public void setServerIp(String serverIp) {
+        this.serverIp = serverIp;
+    }
 
     void set(int code, String message, String results, String output) {
         this.statusCode = code;
@@ -95,4 +100,10 @@ public class AnsibleResult {
     public String getResults() {
         return this.results;
     }
+
+    public String getServerIp() {
+        return this.serverIp;
+    }
+
+
 }
