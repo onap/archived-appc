@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -59,7 +59,7 @@ public class DmaapUtil {
             props.setProperty("preferredRouteKey", fileName);
             topicPreferredRouteFileName = topic + "preferredRoute.properties";
             props.store(new FileOutputStream(topicPreferredRouteFileName),
-                    "preferredRoute.properties file created on the fly for topic:" + topic + " on:"
+                    "preferredRoute.properties -This file is generated automatically for topic:" + topic + " on:"
                             + System.currentTimeMillis());
         }
         return topicPreferredRouteFileName;
@@ -99,7 +99,7 @@ public class DmaapUtil {
                 : DELIMITER + topicConsumerPropFileName;
 
         defaultProps.store(new FileOutputStream(topicConsumerPropFileName), defaultProfFileName
-                + " file created on the fly for topic:" + topic + " on:" + System.currentTimeMillis());
+                + " - This file is generated automatically for topic:" + topic + " on:" + System.currentTimeMillis());
         return topicConsumerPropFileName;
     }
 
