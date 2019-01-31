@@ -1,0 +1,446 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_8898e76a",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "change \"2018\" to \"2019\" - same comment for all files",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e8d97357",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "move this variable declaration inside of the \"try\" block and combine it with line 176 - same comment applies to the next method",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_88dc6747",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "remove the \"TODO\" blocks - same comment applies through-out",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a8dfeb38",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "should this throw another exception, or is it OK to continue through the rest of this method?  if it\u0027s OK, then perhaps add a comment stating that we\u0027re continuing - same comment applies to the next method",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_68e58307",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "change \"key.toString()\" to just \"key\"",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_88b30709",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "fyi: this could generate a NullPointerException if the password does not exist in the json object.  It could also generate a ClassCastException if the password is some type other than a String",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_68cca389",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "not sure off-hand, what happens if \"Timeout\" is some type other than String?  Does this return null?  Or does it throw an exception?  If it throws JSONException, then that case is handled OK",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_08f077c7",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "use StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_08c71765",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_28c21b53",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e8a733bb",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "is it possible that params is missing User or Password?  If so, a NullPointerException may be thrown",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_88aa2783",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 458,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "is it possible that params is missing User or Password?  If so, a NullPointerException may be thrown",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c88b4f1d",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "maybe skip the \"sleep\" the first time through the loop?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e88e532d",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a884cb0a",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "security concern: really want a NoopHostnameVerifier?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0875d730",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "still need to close httpClient?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2870db3e",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "still need to close httpClient?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_08acf78a",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "do these params come from a local property file, or from something external?  If external, then it may not have \"//\", which would cause an exception on the next line.  However, if it\u0027s from a local property file, then it\u0027s fine",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_48a67faf",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "what if it has no \":\"?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a89b6b64",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "need to URLEncode the id?\n\nare we sure that arr2[1] doesn\u0027t already contain \"?\"?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c8b90fcd",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "StringUtils.isBlank()?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a8b28be2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/model/AnsibleResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "fyi: checkstyle prefers full camel case",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_08c39738",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/impl/TestConnectionBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "maybe use a much shorter timeout (e.g., 2000) so tests don\u0027t take too long.  Or are no requests actually executed during this test?",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_68f6e390",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "put all of the classes into the array and then eliminate the extra loops.  can print the class name before calling newInstance so you know which ones succeeded",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_28d53be4",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "parameterTypes is not needed - just add String.class to the parameter list in getDeclaredMethod()",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e80ad388",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleAdapter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-01-31T13:41:55Z",
+      "side": 1,
+      "message": "parameterTypes is not needed - just add each class to the parameter list in getDeclaredMethod()",
+      "revId": "b2cffe91d47fd4f6c3931b7b40bcdff0316d9b56",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
