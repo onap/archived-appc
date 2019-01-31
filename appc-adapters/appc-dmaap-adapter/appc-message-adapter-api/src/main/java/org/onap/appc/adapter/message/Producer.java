@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -44,6 +44,27 @@ public interface Producer {
      *            True if https should be used, false otherwise
      */
     default void useHttps(boolean yes) {}
+
+    /**
+     *  Sets Blacklist time for a server with response problem in seconds
+     */
+    default void setResponseProblemBlacklistTime(String duration) { }
+
+    /**
+     *  Sets Blacklist time for a server with server problem in seconds
+     */
+    default void setServerProblemBlacklistTime(String duration) {}
+
+    /**
+     *  Sets Blacklist time for a server with DNS problem in seconds
+     */
+    default void setDnsIssueBlacklistTime(String duration) {}
+
+    /**
+     *  Sets Blacklist time for a server with IO Exception problem in seconds
+     */
+    default void setIOExceptionBlacklistTime(String duration) {}
+
 
     /**
      * Closes the dmaap client https connection.

@@ -2,22 +2,22 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * ============LICENSE_END=========================================================
  */
 
@@ -68,7 +68,7 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
 
     @Override
     public boolean post(String partition, String data) {
-    	LOG.debug("Entering HttpDmaapProducerImpl::: post ");
+        LOG.debug("Entering HttpDmaapProducerImpl::: post ");
         long sent = 0;
         try {
             HttpPost request = postReq(null);
@@ -102,7 +102,7 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
                 successful = true;
             }
             else {
-            	LOG.debug("HttpDmaapProducerImpl::: did not receive 200 for sendRequest");
+                LOG.debug("HttpDmaapProducerImpl::: did not receive 200 for sendRequest");
             }
             response.close();
         } catch (Exception sendEx) {
@@ -130,5 +130,6 @@ public class HttpDmaapProducerImpl extends CommonHttpClient implements Producer 
         String msg = (message == null) ? "" : message;
         return String.format("%d.%d.%s%s", prt.length(), msg.length(), prt, msg);
     }
+
 
 }
