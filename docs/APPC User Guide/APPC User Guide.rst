@@ -342,11 +342,48 @@ Southbound VNF Adapters
     platform, while other adapters have been added by the ONAP
     development.
 
-Restconf Adapter 
+Restconf Adapter
 ^^^^^^^^^^^^^^^^^
 
     The Adapter is responsible for configuration tasks, using JSON
     format, for VNFs supporting Restconf API.
+    
+**Using the Restconf Adapter**
+     The restconf adapter is normally called from a directed graph.
+     An "execute" node block should be used in the directed graph to
+     the "org.onap.appc.adapter.rest.RestAdapter" plugin. There are
+     several methods available to use:
+
+- commonGet
+- commonDelete
+- commonPost
+- commonPut
+     
+There are several parameters that the RestAdapter plugin takes
+
+org.onap.appc.instance.URI
+  The url that the rest request will be made to
+org.onap.appc.instance.requestBody
+  The body of the rest request
+org.onap.appc.instance.headers
+  The header of the rest request
+org.onap.appc.instance.haveHeader
+  true/false value which specifies if a header is present.
+  (Should be set to "true" if the org.onap.appc.instance.headers
+  parameter is defined, or set to "false" if the
+  headers parameter is not defined)
+  
+An example execute node:
+
+::
+
+<execute plugin='org.onap.appc.adapter.rest.RestAdapter' method='commonPut' >
+<parameter name='org.onap.appc.instance.URI' value='`$restUrl`'/>
+<parameter name='org.onap.appc.instance.requestBody' value='`$jsonContent`'/>
+<parameter name='org.onap.appc.instance.headers' value='{"Content-type":"application/json"}'/>
+<parameter name='org.onap.appc.instance.haveHeader' value='true'/>
+    
+    
 
 Netconf Adapter
 ^^^^^^^^^^^^^^^
