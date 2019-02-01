@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright (c) 2018-2019 IBM
+* ================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -26,10 +28,14 @@ import org.junit.Test;
 
 public class TestVolume_ {
     private Volume_ volume_;
+    private Metadata metadata;
+    private ResourceData resourceData;
 
     @Before
     public void setUp() {
         volume_ = new Volume_();
+        metadata = new Metadata();
+        resourceData = new ResourceData();
     }
 
     @Test
@@ -71,5 +77,17 @@ public class TestVolume_ {
     public void testToString_ReturnNonEmptyString() {
         assertNotEquals(volume_.toString(), "");
         assertNotEquals(volume_.toString(), null);
+    }
+
+    @Test
+    public void testGetResourceData() {
+        volume_.setResourceData(resourceData);
+        assertNotNull(volume_.getResourceData());
+    }
+
+    @Test
+    public void testGetMetadata() {
+        volume_.setMetadata(metadata);
+        assertNotNull(volume_.getMetadata());
     }
 }
