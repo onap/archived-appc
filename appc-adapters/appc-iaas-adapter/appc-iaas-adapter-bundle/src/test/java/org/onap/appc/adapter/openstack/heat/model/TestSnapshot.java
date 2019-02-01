@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2019 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -71,5 +73,12 @@ public class TestSnapshot {
     public void testToString_ReturnNonEmptyString() {
         assertNotEquals(snapshot.toString(), "");
         assertNotEquals(snapshot.toString(), null);
+    }
+    
+    @Test
+    public void testData() {
+        Data data = new Data();
+        snapshot.setData(data);
+        assertSame(data, snapshot.getData());
     }
 }
