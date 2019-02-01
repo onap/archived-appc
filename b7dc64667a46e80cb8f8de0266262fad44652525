@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4d9adf1_e8c0cd2b",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "probably just 2019",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "950c57c9_677d67c6",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "this line is unnecessary",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85f619cf_92978e68",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "656e01ef_ad4352d1",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "this line is unnecessary",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f47e6cb_45af19e0",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c75986c6_1eb579dd",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cb4ba296_2da5ac99",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72b152f3_0511e89b",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "how about this instead: assertSame(resourceData, volume.getResourceData())",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cef53412_61bbe03d",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume_.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:45:14Z",
+      "side": 1,
+      "message": "how about this instead: assertSame(metaData, volume.getMetadata())",
+      "revId": "b7dc64667a46e80cb8f8de0266262fad44652525",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
