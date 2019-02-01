@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d20a4bac_26e0c3be",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:48:32Z",
+      "side": 1,
+      "message": "this line is not needed",
+      "revId": "6f1c5e7c64ba2c3dc91e431c1cb65deba0b249c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e49fad2e_514cc120",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:48:32Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "6f1c5e7c64ba2c3dc91e431c1cb65deba0b249c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff97ca0e_8792ea3c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:48:32Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "6f1c5e7c64ba2c3dc91e431c1cb65deba0b249c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "69aeb87a_f324b1b2",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:48:32Z",
+      "side": 1,
+      "message": "arguments are backwards",
+      "revId": "6f1c5e7c64ba2c3dc91e431c1cb65deba0b249c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0d92ee2_deae2cac",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T13:48:32Z",
+      "side": 1,
+      "message": "assuming it just stores a reference to the properties, could replace both asserts with: assertSame(properties, volume.getProperties())",
+      "revId": "6f1c5e7c64ba2c3dc91e431c1cb65deba0b249c5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
