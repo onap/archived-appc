@@ -91,9 +91,9 @@ public class TestRestAdapterImpl {
         adapter.commonGet(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("java.lang.IllegalArgumentException: HTTP request may not be null",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
 
     @Test
@@ -109,9 +109,9 @@ public class TestRestAdapterImpl {
         adapter.commonGet(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("org.apache.http.client.ClientProtocolException",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
     
     @Test
@@ -140,9 +140,9 @@ public class TestRestAdapterImpl {
         adapter.commonPost(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("java.lang.IllegalArgumentException: HTTP request may not be null",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
 
     @Test
@@ -158,9 +158,9 @@ public class TestRestAdapterImpl {
         adapter.commonPost(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("org.apache.http.client.ClientProtocolException",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
     
     @Test
@@ -190,9 +190,9 @@ public class TestRestAdapterImpl {
         adapter.commonPut(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("java.lang.IllegalArgumentException: HTTP request may not be null",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
 
     @Test
@@ -208,9 +208,9 @@ public class TestRestAdapterImpl {
         adapter.commonPut(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("org.apache.http.client.ClientProtocolException",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
 
     @Test
@@ -237,9 +237,9 @@ public class TestRestAdapterImpl {
         adapter.commonDelete(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("java.lang.IllegalArgumentException: HTTP request may not be null",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
 
     @Test
@@ -255,9 +255,9 @@ public class TestRestAdapterImpl {
         adapter.commonDelete(params, ctx);
 
         assertEquals("failure", ctx.getStatus());
-        assertEquals("500", ctx.getAttribute("org.openecomp.rest.result.code"));
+        assertEquals("500", ctx.getAttribute("org.onap.rest.result.code"));
         assertEquals("org.apache.http.client.ClientProtocolException",
-                     ctx.getAttribute("org.openecomp.rest.result.message"));
+                     ctx.getAttribute("org.onap.rest.result.message"));
     }
     
     private HttpRequestBase givenParams(Map<String, String> params, String method){
