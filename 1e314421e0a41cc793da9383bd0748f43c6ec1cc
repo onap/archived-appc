@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91f43104_9de9f692",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/JunitTopicOne_junit-consumer-one_consumer.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T14:25:21Z",
+      "side": 1,
+      "message": "perhaps change these comment lines to simply say that they\u0027re generated\n\nadd comment lines with license",
+      "revId": "1e314421e0a41cc793da9383bd0748f43c6ec1cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "145f5ec8_0e073942",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/JunitTopicOne_junit-consumer-two_consumer.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T14:25:21Z",
+      "side": 1,
+      "message": "perhaps change these comment lines to simply say that they\u0027re generated\n\nadd comment lines with license",
+      "revId": "1e314421e0a41cc793da9383bd0748f43c6ec1cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b2409d0_46af4346",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/JunitTopicOne_junit-producer-one_producer.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T14:25:21Z",
+      "side": 1,
+      "message": "perhaps change these comment lines to simply say that they\u0027re generated\n\nadd comment lines with license",
+      "revId": "1e314421e0a41cc793da9383bd0748f43c6ec1cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1ee6d4b_f65f5394",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/Consumer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T14:25:21Z",
+      "side": 1,
+      "message": "perhaps add a \"default {}\" so these methods don\u0027t have to be added to the subclasses?",
+      "revId": "1e314421e0a41cc793da9383bd0748f43c6ec1cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05ed8275_580640df",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/main/java/org/onap/appc/adapter/message/Producer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T14:25:21Z",
+      "side": 1,
+      "message": "perhaps add a \"default {}\" so these methods don\u0027t have to be added to the subclasses?",
+      "revId": "1e314421e0a41cc793da9383bd0748f43c6ec1cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
