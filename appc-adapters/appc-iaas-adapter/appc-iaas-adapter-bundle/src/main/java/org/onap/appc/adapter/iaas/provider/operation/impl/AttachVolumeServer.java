@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,16 +26,7 @@ package org.onap.appc.adapter.iaas.provider.operation.impl;
 
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.ATTACHVOLUME_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
-import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.zones.ComputeService;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.VolumeService;
-import com.att.cdp.zones.model.ModelObject;
-import com.att.cdp.zones.model.Server;
-import com.att.cdp.zones.model.Volume;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,18 +36,27 @@ import org.onap.appc.adapter.iaas.ProviderAdapter;
 import org.onap.appc.adapter.iaas.impl.IdentityURL;
 import org.onap.appc.adapter.iaas.impl.RequestContext;
 import org.onap.appc.adapter.iaas.impl.RequestFailedException;
-import com.att.cdp.exceptions.TimeoutException;
 import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
-import com.woorea.openstack.base.client.OpenStackBaseException;
-import com.att.cdp.openstack.util.ExceptionMapper;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-import java.util.Iterator;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import com.att.cdp.exceptions.TimeoutException;
+import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.openstack.util.ExceptionMapper;
+import com.att.cdp.zones.ComputeService;
+import com.att.cdp.zones.Context;
+import com.att.cdp.zones.VolumeService;
+import com.att.cdp.zones.model.ModelObject;
+import com.att.cdp.zones.model.Server;
+import com.att.cdp.zones.model.Volume;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.i18n.EELFResourceManager;
+import com.woorea.openstack.base.client.OpenStackBaseException;
 
 public class AttachVolumeServer extends ProviderServerOperation {
 
