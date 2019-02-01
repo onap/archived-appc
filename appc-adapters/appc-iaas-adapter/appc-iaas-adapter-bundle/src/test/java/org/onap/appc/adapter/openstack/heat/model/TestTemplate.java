@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2019 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -35,14 +37,20 @@ public class TestTemplate {
     @Test
     public void testGetHeatTemplateVersion() {
         template.setHeatTemplateVersion("1.0");
-        assertNotNull(template.getHeatTemplateVersion());
-        assertEquals(template.getHeatTemplateVersion(), "1.0");
+        assertEquals("1.0", template.getHeatTemplateVersion());
     }
 
     @Test
     public void testToString_ReturnNonEmptyString() {
-        assertNotEquals(template.toString(), "");
-        assertNotEquals(template.toString(), null);
+        assertNotEquals("",template.toString());
+        assertNotEquals(null,template.toString());
+    }
+
+    @Test
+    public void testResources() {
+        Resources_ resources = new Resources_();
+        template.setResources(resources);
+        assertSame(resources, template.getResources());
     }
 
 }
