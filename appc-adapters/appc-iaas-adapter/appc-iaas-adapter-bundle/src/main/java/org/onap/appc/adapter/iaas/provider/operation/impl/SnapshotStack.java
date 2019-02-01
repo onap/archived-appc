@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,11 +56,8 @@ import org.onap.appc.logging.LoggingConstants;
 import org.onap.appc.logging.LoggingUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
 public class SnapshotStack extends ProviderStackOperation {
