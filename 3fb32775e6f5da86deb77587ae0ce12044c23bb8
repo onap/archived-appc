@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09bbc439_b4f47db1",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ArtifactMapper.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T22:17:38Z",
+      "side": 1,
+      "message": "change tabs to spaces - this applies to all files",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e74038d7_43f50062",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T22:17:38Z",
+      "side": 1,
+      "message": "use a regular \"for\" loop instead of \"forEach\"",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d58f5ac8_7211548a",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T22:17:38Z",
+      "side": 1,
+      "message": "use a regular \"for\" loop instead of \"forEach\"",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8498f487_83df9daf",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T22:17:38Z",
+      "side": 1,
+      "message": "2019",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7e7c93fb_5288c6c1",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-01T22:17:38Z",
+      "side": 1,
+      "message": "should also invoke fail(e.getMessage())",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
