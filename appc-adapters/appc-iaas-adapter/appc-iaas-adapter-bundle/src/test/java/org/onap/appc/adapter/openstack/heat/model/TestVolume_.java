@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright (c) 2019 IBM
+* ================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -26,50 +28,64 @@ import org.junit.Test;
 
 public class TestVolume_ {
     private Volume_ volume_;
+    private Metadata metadata;
+    private ResourceData resourceData;
 
     @Before
     public void setUp() {
         volume_ = new Volume_();
+        metadata = new Metadata();
+        resourceData = new ResourceData();
     }
 
     @Test
     public void testGetStatus() {
         volume_.setStatus("Success");
-        assertNotNull(volume_.getStatus());
-        assertEquals(volume_.getStatus(), "Success");
+        assertEquals("Success",volume_.getStatus());
     }
 
     @Test
     public void testGetName() {
         volume_.setName("XYZ");
         assertNotNull(volume_.getName());
-        assertEquals(volume_.getName(), "XYZ");
+        assertEquals("XYZ",volume_.getName());
     }
 
     @Test
     public void testGetResourceId() {
         volume_.setResourceId("333");
         assertNotNull(volume_.getResourceId());
-        assertEquals(volume_.getResourceId(), "333");
+        assertEquals("333",volume_.getResourceId());
     }
 
     @Test
     public void testGetAction() {
         volume_.setAction("action");
         assertNotNull(volume_.getAction());
-        assertEquals(volume_.getAction(), "action");
+        assertEquals("action",volume_.getAction());
     }
 
     @Test
     public void testGetType() {
         volume_.setType("A");
-        assertNotNull(volume_.getType());
-        assertEquals(volume_.getType(), "A");
+        assertEquals("A",volume_.getType());
     }
 
     @Test
     public void testToString_ReturnNonEmptyString() {
-        assertNotEquals(volume_.toString(), "");
-        assertNotEquals(volume_.toString(), null);
+        assertNotEquals("",volume_.toString());
+        assertNotEquals(null,volume_.toString());
+    }
+
+    @Test
+    public void testGetResourceData() {
+        volume_.setResourceData(resourceData);
+        assertSame(resourceData,volume_.getResourceData());
+    }
+
+    @Test
+    public void testGetMetadata() {
+        volume_.setMetadata(metadata);
+        assertSame(metadata,volume_.getMetadata());
     }
 }
