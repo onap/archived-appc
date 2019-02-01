@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2019 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -63,13 +65,19 @@ public class TestSnapshot {
     @Test
     public void testGetCreationTime() {
         snapshot.setCreationTime("01-March-2018");
-        assertNotNull(snapshot.getCreationTime());
-        assertEquals(snapshot.getCreationTime(), "01-March-2018");
+        assertEquals("01-March-2018",snapshot.getCreationTime());
     }
 
     @Test
     public void testToString_ReturnNonEmptyString() {
-        assertNotEquals(snapshot.toString(), "");
-        assertNotEquals(snapshot.toString(), null);
+        assertNotEquals("",snapshot.toString());
+        assertNotEquals(null,snapshot.toString());
+    }
+    
+    @Test
+    public void testData() {
+        Data data = new Data();
+        snapshot.setData(data);
+        assertSame(data, snapshot.getData());
     }
 }
