@@ -142,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "bf3e7f17_6b8028af",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T16:45:00Z",
+      "side": 1,
+      "message": "\"2017-2018\" \u003d\u003e \"2017-2019\"",
+      "parentUuid": "00fc5de6_525372fa",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e7c93fb_5288c6c1",
         "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/TestParseAdminArtifact.java",
         "patchSetId": 4
