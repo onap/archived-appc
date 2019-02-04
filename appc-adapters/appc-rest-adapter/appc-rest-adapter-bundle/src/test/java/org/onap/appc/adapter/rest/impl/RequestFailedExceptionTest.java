@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2019 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -46,56 +48,59 @@ public class RequestFailedExceptionTest {
 
     @Test
     public void testConstructor_And_GetterSetters() throws Exception {
-        Server server=new Server();
-        HttpStatus status=HttpStatus.ACCEPTED_202;
-        String reason="Success";
-        String operation="POST";
+        Server server = new Server();
+        HttpStatus status = HttpStatus.ACCEPTED_202;
+        String reason = "Success";
+        String operation = "POST";
         RequestFailedException requestFailedException = new RequestFailedException(operation, reason, status, server);
         requestFailedException.setOperation(operation);
         requestFailedException.setReason(reason);
         requestFailedException.setServerId("A");
         requestFailedException.setStatus(status);
-        Assert.assertEquals("POST",requestFailedException.getOperation());
-        Assert.assertEquals("Success",requestFailedException.getReason());
-        Assert.assertEquals("A",requestFailedException.getServerId());
-        Assert.assertEquals( HttpStatus.ACCEPTED_202,requestFailedException.getStatus());
+        Assert.assertEquals("POST", requestFailedException.getOperation());
+        Assert.assertEquals("Success", requestFailedException.getReason());
+        Assert.assertEquals("A", requestFailedException.getServerId());
+        Assert.assertEquals(HttpStatus.ACCEPTED_202, requestFailedException.getStatus());
         Assert.assertEquals("A", requestFailedException.getServerId());
     }
 
     @Test
     public void testConstructorWithFiveArguements() throws Exception {
         String tMessage = "throwable message";
-        Server server=new Server();
-        HttpStatus status=HttpStatus.ACCEPTED_202;
-        String reason="Success";
-        String operation="POST";
+        Server server = new Server();
+        HttpStatus status = HttpStatus.ACCEPTED_202;
+        String reason = "Success";
+        String operation = "POST";
         Throwable throwable = new Throwable(tMessage);
-        RequestFailedException requestFailedException = new RequestFailedException(throwable,operation,reason, status, server);
+        RequestFailedException requestFailedException = new RequestFailedException(throwable, operation, reason, status,
+                server);
         Assert.assertEquals(throwable, requestFailedException.getCause());
-       
+
     }
 
     @Test
     public void testConstructorWithFiveArguements_server_Null() throws Exception {
         String tMessage = "throwable message";
-        Server server=null;
-        HttpStatus status=HttpStatus.ACCEPTED_202;
-        String reason="Success";
-        String operation="POST";
+        Server server = null;
+        HttpStatus status = HttpStatus.ACCEPTED_202;
+        String reason = "Success";
+        String operation = "POST";
         Throwable throwable = new Throwable(tMessage);
-        RequestFailedException requestFailedException = new RequestFailedException(throwable,operation,reason, status, server);
+        RequestFailedException requestFailedException = new RequestFailedException(throwable, operation, reason, status,
+                server);
         Assert.assertEquals(throwable, requestFailedException.getCause());
     }
 
     @Test
     public void testConstructorWith_Server_Null() throws Exception {
-        Server server=null;
-        HttpStatus status=HttpStatus.ACCEPTED_202;
-        String reason="Success";
-        String operation="POST";
+        Server server = new Server();
+        server.setId("testId");
+        HttpStatus status = HttpStatus.ACCEPTED_202;
+        String reason = "Success";
+        String operation = "POST";
         RequestFailedException requestFailedException = new RequestFailedException(operation, reason, status, server);
         requestFailedException.setServer(server);
-        Assert.assertEquals(null, requestFailedException.getServer());
+        Assert.assertEquals(server, requestFailedException.getServer());
     }
 
     @Test
