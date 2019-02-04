@@ -4,7 +4,7 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
-* Modifications Copyright 2018 IBM.
+* Modifications Copyright 2019 IBM.
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -21,9 +21,6 @@
 */
 package org.onap.appc.domainmodel.lcm;
 
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,15 +31,21 @@ import org.junit.Test;
 public class TestResponseContext {
     private ResponseContext responseContext;
     private Map<String, String> testadditionalContext;
+    private CommonHeader commonHeader;
+    private Status status;
 
     @Before
     public void setUp() {
         responseContext = new ResponseContext();
+        commonHeader = new CommonHeader();
+        commonHeader.setOriginatorId("originatorId");
+        status = new Status();
+        status.setCode(0);
     }
 
     @Test
-    public void testgetAdditionalContext() {    
-        testadditionalContext=new HashMap<String, String>();
+    public void testgetAdditionalContext() {
+        testadditionalContext = new HashMap<String, String>();
         testadditionalContext.put("A", "a");
         responseContext.setAdditionalContext(testadditionalContext);
         Assert.assertNotNull(responseContext.getAdditionalContext());
@@ -54,33 +57,45 @@ public class TestResponseContext {
     public void testGetPayload() {
         responseContext.setPayload("ABC:2000");
         Assert.assertNotNull(responseContext.getPayload());
-        Assert.assertEquals(responseContext.getPayload(), "ABC:2000");
+        Assert.assertSame("ABC:2000",responseContext.getPayload());
     }
 
     @Test
     public void testToString_ReturnNonEmptyString() {
-        assertNotEquals(responseContext.toString(), "");
-        assertNotEquals(responseContext.toString(), null);
+        Assert.assertNotEquals("",responseContext.toString());
+        Assert.assertNotEquals(null,responseContext.toString());
     }
 
     @Test
     public void testToString_ContainsString() {
-        assertTrue(responseContext.toString().contains("ResponseContext{commonHeader"));
+        Assert.assertTrue(responseContext.toString().contains("ResponseContext{commonHeader"));
     }
-    
+
     @Test
     public void testAddKeyValueToAdditionalContext() {
-        String key="key1";
-        String value="value1";
+        String key = "key1";
+        String value = "value1";
         responseContext.addKeyValueToAdditionalContext(key, value);
-        Map<String, String> additionalContext= responseContext.getAdditionalContext();
-        Assert.assertEquals("value1", additionalContext.get("key1"));
+        Map<String, String> additionalContext = responseContext.getAdditionalContext();
+        Assert.assertSame("value1", additionalContext.get("key1"));
     }
-    
+
     @Test
     public void testGetPayloadObject() {
         responseContext.setPayloadObject("ABC:2000");
-        Assert.assertEquals("ABC:2000", responseContext.getPayloadObject());
+        Assert.assertSame("ABC:2000", responseContext.getPayloadObject());
+    }
+
+    @Test
+    public void testGetCommonHeader() {
+        responseContext.setCommonHeader(commonHeader);
+        Assert.assertSame("originatorId", responseContext.getCommonHeader().getOriginatorId());
+    }
+
+    @Test
+    public void testGetStatus() {
+        responseContext.setStatus(status);
+        Assert.assertSame(0, responseContext.getStatus().getCode());
     }
 
 }
