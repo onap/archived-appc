@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "eb8531c2_a5651e7a",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T15:50:07Z",
+      "side": 1,
+      "message": "I cannot agree with this.  The \"forEach\" method is not intended to be used like this; it obfuscates the code a lot.  Plain \"for\" loops are WAY better suited for this and should be used instead - the code will be much shorter AND more maintainable.",
+      "parentUuid": "537b70ba_08670bc8",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d58f5ac8_7211548a",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
         "patchSetId": 4
