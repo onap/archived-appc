@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +24,21 @@
  */
 package org.onap.appc.adapter.iaas.provider.operation.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
+import org.onap.appc.adapter.iaas.impl.ProviderAdapterImpl;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.powermock.reflect.Whitebox;
 import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.zones.model.Image;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 
 public class TestEvacuateServer {
@@ -48,4 +58,55 @@ public class TestEvacuateServer {
         verify(mg.getComputeService()).moveServer(server.getId(), "newServer1");
     }
 
+    @Test
+    public void evacuateServerPaImpl() throws ZoneException, APPCException {
+        MockGenerator mg = new MockGenerator(Status.RUNNING);
+        EvacuateServer rbs = new EvacuateServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        mg.getParams().put(ProviderAdapter.PROPERTY_TARGETHOST_ID, "newServer1");
+        List<Image> images = new ArrayList<>();
+        images.add(Mockito.mock(Image.class));
+        Mockito.doReturn(images).when(mg.getServer()).getSnapshots();
+        ProviderAdapterImpl paImpl = Mockito.mock(ProviderAdapterImpl.class);
+        Whitebox.setInternalState(rbs, "paImpl", paImpl);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("error_code", "300");
+        rbs.executeProviderOperation(mg.getParams(), ctx);
+        verify(mg.getComputeService()).moveServer("12442", "newServer1");
+    }
+
+    @Test
+    public void evacuateServerAppcException() throws ZoneException, APPCException {
+        MockGenerator mg = new MockGenerator(Status.RUNNING);
+        EvacuateServer rbs = new EvacuateServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        mg.getParams().put(ProviderAdapter.PROPERTY_TARGETHOST_ID, "newServer1");
+        List<Image> images = new ArrayList<>();
+        images.add(Mockito.mock(Image.class));
+        Mockito.doReturn(images).when(mg.getServer()).getSnapshots();
+        ProviderAdapterImpl paImpl = Mockito.mock(ProviderAdapterImpl.class);
+        Mockito.doThrow(new APPCException()).when(paImpl).rebuildServer(Mockito.anyMap(),
+                Mockito.any(SvcLogicContext.class));
+        Whitebox.setInternalState(rbs, "paImpl", paImpl);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("error_code", "300");
+        rbs.executeProviderOperation(mg.getParams(), ctx);
+        assertEquals("Internal Server Error", ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+    }
+
+    @Test
+    public void evacuateServerZoneException() throws ZoneException, APPCException {
+        MockGenerator mg = new MockGenerator(Status.RUNNING);
+        EvacuateServer rbs = new EvacuateServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        mg.getParams().put(ProviderAdapter.PROPERTY_TARGETHOST_ID, "newServer1");
+        List<Image> images = new ArrayList<>();
+        images.add(Mockito.mock(Image.class));
+        Mockito.doReturn(images).when(mg.getServer()).getSnapshots();
+        Mockito.doThrow(new ZoneException("TEST")).when(mg.getServer()).refreshAll();
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("error_code", "300");
+        rbs.executeProviderOperation(mg.getParams(), ctx);
+        assertEquals("TEST", ctx.getAttribute(org.onap.appc.Constants.ATTRIBUTE_ERROR_MESSAGE));
+    }
 }
