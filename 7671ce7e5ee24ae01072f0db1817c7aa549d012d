@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2688effc_1c49c9a2",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/VNFOperationalStateValidatorImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T16:33:49Z",
+      "side": 1,
+      "message": "this intermediate variable is not needed",
+      "revId": "7671ce7e5ee24ae01072f0db1817c7aa549d012d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1944903_e204d553",
+        "filename": "appc-adapters/appc-netconf-adapter/appc-netconf-adapter-bundle/src/test/java/org/onap/appc/adapter/netconf/VNFOperationalStateValidatorImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T16:33:49Z",
+      "side": 1,
+      "message": "this intermediate variable is not needed",
+      "revId": "7671ce7e5ee24ae01072f0db1817c7aa549d012d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
