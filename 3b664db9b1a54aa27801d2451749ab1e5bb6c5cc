@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfdef447_60fb63e3",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/protocol/ProtocolTypeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T16:30:36Z",
+      "side": 1,
+      "message": "does this provide any additional coverage?  If these are enums or String constants, then this probably is not needed",
+      "revId": "3b664db9b1a54aa27801d2451749ab1e5bb6c5cc",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
