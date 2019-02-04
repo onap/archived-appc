@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,28 +25,16 @@
 
 package org.onap.appc.seqgen.provider;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.google.common.util.concurrent.Futures;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import org.apache.commons.lang.StringUtils;
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
-import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceInput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutput;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutputBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.SequenceGeneratorService;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.dependency.info.dependency.info.Vnfcs;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.inventory.info.inventory.info.vnf.info.Vm;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.StatusBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.Transactions;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.TransactionsBuilder;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.ActionIdentifier;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.*;
-import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.responses.ResponseActionBuilder;
-import org.opendaylight.yangtools.yang.common.RpcResult;
-import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.Node;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
@@ -63,18 +53,34 @@ import org.onap.appc.seqgen.objects.Response;
 import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
 import org.onap.appc.seqgen.objects.SequenceGeneratorInputBuilder;
 import org.onap.appc.seqgen.objects.Transaction;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
+import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceInput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutput;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceOutputBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.SequenceGeneratorService;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.dependency.info.dependency.info.Vnfcs;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.inventory.info.inventory.info.vnf.info.Vm;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.StatusBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.Transactions;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.TransactionsBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.ActionIdentifier;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.ActionIdentifierBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.PrecheckOptions;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.PrecheckOptionsBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.Responses;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.ResponsesBuilder;
+import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.response.transactions.responses.ResponseActionBuilder;
+import org.opendaylight.yangtools.yang.common.RpcResult;
+import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.google.common.util.concurrent.Futures;
 
 
-public class SequenceGeneratorProvider implements AutoCloseable,SequenceGeneratorService{
+public class SequenceGeneratorProvider implements AutoCloseable,SequenceGeneratorService {
     protected DataBroker dataBroker;
     protected RpcProviderRegistry rpcRegistry;
     protected NotificationProviderService notificationService;
@@ -83,8 +89,8 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     private final ExecutorService executor;
     private final static String APP_NAME = "SequenceGeneratorProvider";
 
-    public SequenceGeneratorProvider(DataBroker dataBroker2, NotificationProviderService notificationProviderService
-            , RpcProviderRegistry rpcRegistry2) {
+    public SequenceGeneratorProvider(DataBroker dataBroker2, NotificationProviderService notificationProviderService,
+            RpcProviderRegistry rpcRegistry2) {
         log.info("Creating provider for " + APP_NAME);
         executor = Executors.newFixedThreadPool(1);
         this.dataBroker = dataBroker2;
@@ -104,7 +110,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         if(this.executor != null){
             executor.shutdown();
         }
-        if(this.rpcRegistration != null){
+        if(this.rpcRegistration != null) {
             rpcRegistration.close();
         }
         log.info("Successfully closed provider for " + APP_NAME);
@@ -133,7 +139,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     private RpcResult<GenerateSequenceOutput> buildSuccessResponse(List<Transaction> transactions) {
         log.info("Building response from the list of transactions");
         List<Transactions> transactionList = new LinkedList<>();
-        for(Transaction transaction:transactions){
+        for(Transaction transaction: transactions) {
             ActionIdentifier actionIdentifier = buildActionIdentifierForResponse(transaction);
             List<PrecheckOptions> precheckOptions = buildPrecheckOptionsForResponse(transaction);
             List<Responses> responseList = getResponses(transaction);
@@ -175,7 +181,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     private List<PrecheckOptions> buildPrecheckOptionsForResponse(Transaction transaction) {
         log.info("Adding Precheck options to response");
         List<PrecheckOptions> precheckOptions = new LinkedList<>();
-        if(transaction.getPrecheckOptions()!=null){
+        if(transaction.getPrecheckOptions() != null){
             for(PreCheckOption option:transaction.getPrecheckOptions()){
                 PrecheckOptions precheckOption = new PrecheckOptionsBuilder()
                         .setParamName(option.getParamName())
@@ -193,23 +199,23 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         for(Response resp : transaction.getResponses()){
             Map<String,String> responseActions = resp.getResponseAction();
             ResponseActionBuilder responseActionBuilder = new ResponseActionBuilder();
-            if(responseActions.get(Constants.ResponseAction.WAIT.getAction())!=null){
+            if(responseActions.get(Constants.ResponseAction.WAIT.getAction()) != null){
                 responseActionBuilder = responseActionBuilder.setWait(Integer.parseInt(responseActions.get(Constants.ResponseAction.WAIT.getAction())));
             }
-            if(responseActions.get(Constants.ResponseAction.RETRY.getAction())!=null){
+            if(responseActions.get(Constants.ResponseAction.RETRY.getAction()) != null){
                 responseActionBuilder = responseActionBuilder.setRetry(Integer.parseInt(responseActions.get(Constants.ResponseAction.RETRY.getAction())));
             }
             if(responseActions.get(Constants.ResponseAction.CONTINUE.getAction().toLowerCase())!=null){
                 responseActionBuilder = responseActionBuilder
                         .setContinue(Boolean.parseBoolean(responseActions.get(Constants.ResponseAction.CONTINUE.getAction().toLowerCase())));
             }
-            if(responseActions.get(Constants.ResponseAction.IGNORE.getAction()) !=null){
+            if(responseActions.get(Constants.ResponseAction.IGNORE.getAction()) != null){
                 responseActionBuilder = responseActionBuilder.setIgnore(Boolean.parseBoolean(responseActions.get(Constants.ResponseAction.IGNORE.getAction())));
             }
-            if(responseActions.get(Constants.ResponseAction.STOP.getAction()) !=null){
+            if(responseActions.get(Constants.ResponseAction.STOP.getAction()) != null){
                 responseActionBuilder = responseActionBuilder.setStop(Boolean.parseBoolean(responseActions.get(Constants.ResponseAction.STOP.getAction())));
             }
-            if(responseActions.get(Constants.ResponseAction.JUMP.getAction()) !=null){
+            if(responseActions.get(Constants.ResponseAction.JUMP.getAction()) != null){
                 responseActionBuilder = responseActionBuilder.setJump(Integer.parseInt(responseActions.get(Constants.ResponseAction.JUMP.getAction())));
             }
             Responses response = new ResponsesBuilder()
@@ -230,8 +236,8 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         InventoryModel inventoryModel = readInventoryModel(input);
 
         VnfcDependencyModel dependencyModel = readDependencyModel(input);
-        if(dependencyModel!=null){
-            validateInventoryModelWithDependencyModel(dependencyModel,inventoryModel);
+        if(dependencyModel != null){
+            validateInventoryModelWithDependencyModel(dependencyModel, inventoryModel);
         }
 
         SequenceGeneratorInputBuilder builder = new SequenceGeneratorInputBuilder()
@@ -251,8 +257,8 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         if(input.getTunableParameters() != null){
             builder = builder.tunableParameter(Constants.RETRY_COUNT,String.valueOf(input.getTunableParameters().getRetryCount()))
                     .tunableParameter(Constants.WAIT_TIME,String.valueOf(input.getTunableParameters().getWaitTime()));
-            if(input.getTunableParameters().getStrategy() !=null){
-                builder  = builder.tunableParameter(Constants.STRATEGY,input.getTunableParameters().getStrategy().name());
+            if(input.getTunableParameters().getStrategy() != null){
+                builder = builder.tunableParameter(Constants.STRATEGY,input.getTunableParameters().getStrategy().name());
             }
         }
         return builder;
@@ -260,18 +266,18 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
 
     private SequenceGeneratorInputBuilder buildCapabilitiesForSeqGenInput(GenerateSequenceInput input, SequenceGeneratorInputBuilder builder) {
         log.info("Initializing capabilities based on YANG object.");
-        if(input.getCapabilities() !=null){
-            if(input.getCapabilities().getVnf()!=null){
-                builder = builder.capability("vnf",input.getCapabilities().getVnf());
+        if(input.getCapabilities() != null){
+            if(input.getCapabilities().getVnf() != null){
+                builder = builder.capability("vnf", input.getCapabilities().getVnf());
             }
-            if(input.getCapabilities().getVnfc()!=null){
-                builder = builder.capability("vnfc",input.getCapabilities().getVnfc());
+            if(input.getCapabilities().getVnfc() != null){
+                builder = builder.capability("vnfc", input.getCapabilities().getVnfc());
             }
-            if(input.getCapabilities().getVm()!=null){
-                builder = builder.capability("vm",input.getCapabilities().getVm());
+            if(input.getCapabilities().getVm() != null){
+                builder = builder.capability("vm", input.getCapabilities().getVm());
             }
-            if(input.getCapabilities().getVfModule()!=null){
-                builder = builder.capability("vf-module",input.getCapabilities().getVfModule());
+            if(input.getCapabilities().getVfModule() != null){
+                builder = builder.capability("vf-module", input.getCapabilities().getVfModule());
             }
         }
 
@@ -318,7 +324,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         log.info("Building RequestInfo from Yang object");
         RequestInfoBuilder requestInfobuilder = buildRequestInformation(input);
 
-        if(input.getRequestInfo().getActionIdentifier() !=null){
+        if(input.getRequestInfo().getActionIdentifier() != null){
             requestInfobuilder = buildActionIdentifiers(input, requestInfobuilder);
         }
 
@@ -344,16 +350,16 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     }
 
     private void validateMandatory(GenerateSequenceInput input) throws APPCException {
-        if(input.getRequestInfo() ==null){
+        if(input.getRequestInfo() == null){
             throw new APPCException("Request Info is not present in the request");
         }
-        if(input.getRequestInfo().getAction() ==null){
+        if(input.getRequestInfo().getAction() == null){
             throw new APPCException("Action is not present in the request");
         }
-        if(input.getInventoryInfo() ==null){
+        if(input.getInventoryInfo() == null){
             throw new APPCException("inventoryInfo is not provided in the input");
         }
-        if (input.getInventoryInfo().getVnfInfo()== null) {
+        if (input.getInventoryInfo().getVnfInfo() == null) {
             log.error("vnfInfo is null in the input");
             throw new APPCException("vnfInfo is missing in the input");
         }
@@ -366,23 +372,23 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
 
     private VnfcDependencyModel readDependencyModel(GenerateSequenceInput input) throws APPCException{
         log.info("Initializing DependencyModel from YANG model.");
-        if(input.getDependencyInfo() == null || input.getDependencyInfo().getVnfcs() ==null || input.getDependencyInfo().getVnfcs().isEmpty()){
+        if(input.getDependencyInfo() == null || input.getDependencyInfo().getVnfcs() == null || input.getDependencyInfo().getVnfcs().isEmpty()){
             log.info("No dependency model information is present for the request.");
             return null;
         }
         List<Vnfcs> vnfcs = input.getDependencyInfo().getVnfcs();
         Set<Node<org.onap.appc.domainmodel.Vnfc>> dependencies = new HashSet<>();
-        Set<String> parentVnfcs=new HashSet<>();
-        Set<String> allVnfcTypes=new HashSet<>();
-        for(Vnfcs vnfcObj:vnfcs){
+        Set<String> parentVnfcs = new HashSet<>();
+        Set<String> allVnfcTypes = new HashSet<>();
+        for(Vnfcs vnfcObj:vnfcs) {
             org.onap.appc.domainmodel.Vnfc vnfc = new org.onap.appc.domainmodel.Vnfc();
             vnfc.setVnfcType(vnfcObj.getVnfcType());
             allVnfcTypes.add(vnfcObj.getVnfcType());
             vnfc.setResilienceType(vnfcObj.getResilience());
             Node<Vnfc> currentNode = buildVnfcNodeForDependenyInfo(dependencies, vnfcObj, vnfc);
-            for(String parentVnfcType:vnfcObj.getParents()){
+            for(String parentVnfcType:vnfcObj.getParents()) {
                 parentVnfcs.add(parentVnfcType);
-                Node<Vnfc> parentNode = readNode(parentVnfcType,dependencies);
+                Node<Vnfc> parentNode = readNode(parentVnfcType, dependencies);
                 if(parentNode == null){
                     Vnfc parentVnfc = new Vnfc();
                     parentVnfc.setVnfcType(parentVnfcType);
@@ -397,14 +403,14 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         }
         for(String parent:parentVnfcs){
             if(!allVnfcTypes.contains(parent)){
-                throw new APPCException("Dependency model missing vnfc type "+parent);
+                throw new APPCException("Dependency model missing vnfc type " + parent);
             }
         }
         return new VnfcDependencyModel(dependencies);
     }
 
     private Node<Vnfc> buildVnfcNodeForDependenyInfo(Set<Node<Vnfc>> dependencies, Vnfcs vnfcObj, Vnfc vnfc) {
-        Node<Vnfc> currentNode = readNode(vnfcObj.getVnfcType(),dependencies);
+        Node<Vnfc> currentNode = readNode(vnfcObj.getVnfcType(), dependencies);
         if(currentNode == null){
             currentNode = new Node<>(vnfc);
             dependencies.add(currentNode);
@@ -429,9 +435,9 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
 
         log.info("Initializing InventoryModel from Yang input model");
         Vnf vnf = createVnfForInventoryModel(input);
-        Map<org.onap.appc.domainmodel.Vnfc,List<Vserver>> map = new HashMap<>();
+        Map<org.onap.appc.domainmodel.Vnfc, List<Vserver>> map = new HashMap<>();
         buildVserverDetailsForInventoryModel(input, vnf, map);
-        for(Map.Entry<org.onap.appc.domainmodel.Vnfc,List<Vserver>> entry:map.entrySet()){
+        for(Map.Entry<org.onap.appc.domainmodel.Vnfc, List<Vserver>> entry:map.entrySet()){
             org.onap.appc.domainmodel.Vnfc vnfc = entry.getKey();
             List<Vserver> vmList = entry.getValue();
             vnfc.addVservers(vmList);
@@ -440,23 +446,23 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
     }
 
     private void buildVserverDetailsForInventoryModel(GenerateSequenceInput input, Vnf vnf, Map<Vnfc, List<Vserver>> map) throws APPCException {
-        if(input.getInventoryInfo().getVnfInfo().getVm().size()<1){
+        if(input.getInventoryInfo().getVnfInfo().getVm().size() < 1) {
             throw  new APPCException("vnfInfo is missing  in the input");
         }
-        for(Vm vm:input.getInventoryInfo().getVnfInfo().getVm()){
+        for(Vm vm:input.getInventoryInfo().getVnfInfo().getVm()) {
             if(StringUtils.isBlank(vm.getVserverId())){
                 throw new APPCException("vserver-id not found ");
             }
             Vserver vserver=new Vserver();
             vserver.setId(vm.getVserverId());
             if(!StringUtils.isBlank(vm.getVnfc().getVnfcName()) &&
-                !StringUtils.isBlank(vm.getVnfc().getVnfcType())){
+                !StringUtils.isBlank(vm.getVnfc().getVnfcType())) {
                 Vnfc vfc = new Vnfc();
                 vfc.setVnfcName(vm.getVnfc().getVnfcName());
                 vfc.setVnfcType(vm.getVnfc().getVnfcType());
                 vserver.setVnfc(vfc);
                 List<Vserver> vms = map.get(vfc);
-                if(vms ==null){
+                if(vms ==null) {
                     vms = new LinkedList<>();
                     map.put(vfc,vms);
                 }
@@ -477,7 +483,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
 
     private RpcResult<GenerateSequenceOutput> buildFailureResponse(String errorMessage){
         GenerateSequenceOutputBuilder sequenceGeneratorOutputBuilder=new GenerateSequenceOutputBuilder();
-        StatusBuilder statusBuilder =new StatusBuilder();
+        StatusBuilder statusBuilder = new StatusBuilder();
         statusBuilder.setCode(401);
         statusBuilder.setMessage(errorMessage);
         sequenceGeneratorOutputBuilder.setStatus(statusBuilder.build());
