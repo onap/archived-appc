@@ -40,7 +40,7 @@ import com.att.eelf.configuration.EELFManager;
 public class AppcAaiClientActivator implements BundleActivator {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(AppcAaiClientActivator.class);
-    private List<ServiceRegistration> registrations = new LinkedList<>();
+    private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
     
     @Override
     public void start(BundleContext ctx) throws Exception {

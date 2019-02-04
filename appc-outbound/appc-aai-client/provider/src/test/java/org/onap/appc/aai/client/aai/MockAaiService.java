@@ -33,6 +33,7 @@ import java.util.Map;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 
 public class MockAaiService extends AaiService {
 
