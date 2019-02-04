@@ -31,14 +31,12 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.aai.client.AppcAaiClientConstant;
-//import org.onap.appc.aai.client.aai.AAIClientMock;
 import org.onap.appc.aai.client.aai.AaiService;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
-import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.adaptors.aai.AAIClient;
 
 public class MockAaiService extends AaiService {
