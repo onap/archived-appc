@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2d2ed9f_57a91088",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/test/java/org/onap/appc/domainmodel/lcm/TestResponseContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T17:35:03Z",
+      "side": 1,
+      "message": "use assertEquals here, as not trying to compare actual references to objects",
+      "revId": "3bebede0d37ebd113e21c64759bb604940457e64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95374d26_9e85e205",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/test/java/org/onap/appc/domainmodel/lcm/TestResponseContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T17:35:03Z",
+      "side": 1,
+      "message": "use assertEquals here, as not trying to compare actual references to objects",
+      "revId": "3bebede0d37ebd113e21c64759bb604940457e64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3607f31f_df6d6d57",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/test/java/org/onap/appc/domainmodel/lcm/TestResponseContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T17:35:03Z",
+      "side": 1,
+      "message": "use assertEquals here, as not trying to compare actual references to objects",
+      "revId": "3bebede0d37ebd113e21c64759bb604940457e64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d44d1afc_e2285ed2",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/test/java/org/onap/appc/domainmodel/lcm/TestResponseContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T17:35:03Z",
+      "side": 1,
+      "message": "use assertEquals here, as not trying to compare actual references to objects",
+      "revId": "3bebede0d37ebd113e21c64759bb604940457e64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83d50b0f_8e4faade",
+        "filename": "appc-dispatcher/appc-dispatcher-common/domain-model-lib/src/test/java/org/onap/appc/domainmodel/lcm/TestResponseContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T17:35:03Z",
+      "side": 1,
+      "message": "use assertEquals here, as not trying to compare actual references to objects",
+      "revId": "3bebede0d37ebd113e21c64759bb604940457e64",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
