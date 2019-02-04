@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e234948e_d2a1678e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestVolume.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-04T16:38:24Z",
+      "side": 1,
+      "message": "this one should stay \"assertEquals\" because we don\u0027t want to compare actual references",
+      "revId": "32d9d7a48f663e7daf030ac0aa9fc3210fa7e076",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
