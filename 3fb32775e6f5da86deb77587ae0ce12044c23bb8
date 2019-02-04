@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "537b70ba_08670bc8",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2019-02-04T15:33:05Z",
+      "side": 1,
+      "message": "Checked with original developer.. want to keep as is",
+      "parentUuid": "e74038d7_43f50062",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d58f5ac8_7211548a",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
         "patchSetId": 4
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "0c99c819_6d966b84",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/fqdn/ParseAdminArtifcat.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2019-02-04T15:33:05Z",
+      "side": 1,
+      "message": "Checked with original developer.. want to keep as is",
+      "parentUuid": "d58f5ac8_7211548a",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8498f487_83df9daf",
         "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/Constants.java",
         "patchSetId": 4
@@ -64,6 +100,24 @@
       "writtenOn": "2019-02-01T22:17:38Z",
       "side": 1,
       "message": "2019",
+      "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00fc5de6_525372fa",
+        "filename": "appc-config/appc-encryption-tool/provider/src/main/java/org/onap/appc/encryptiontool/wrapper/Constants.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 2011
+      },
+      "writtenOn": "2019-02-04T15:33:05Z",
+      "side": 1,
+      "message": "This is an existing file",
+      "parentUuid": "8498f487_83df9daf",
       "revId": "3fb32775e6f5da86deb77587ae0ce12044c23bb8",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
