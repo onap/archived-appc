@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,13 +28,12 @@ package org.onap.appc.seqgen.impl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.domainmodel.Vserver;
-import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.SequenceGenerator;
 import org.onap.appc.seqgen.objects.ActionIdentifier;
 import org.onap.appc.seqgen.objects.Constants;
 import org.onap.appc.seqgen.objects.Response;
 import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
-import org.onap.appc.seqgen.objects.Transaction;;
+import org.onap.appc.seqgen.objects.Transaction;
 
 import java.util.HashMap;
 import java.util.LinkedList;
