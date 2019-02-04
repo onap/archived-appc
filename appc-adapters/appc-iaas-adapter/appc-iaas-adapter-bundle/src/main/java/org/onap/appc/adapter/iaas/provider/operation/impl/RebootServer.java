@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,13 +24,9 @@
  */
 package org.onap.appc.adapter.iaas.provider.operation.impl;
 
-import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.REBOOT_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
-
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
-
-import org.onap.appc.configuration.Configuration;
 import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.iaas.ProviderAdapter;
@@ -38,6 +36,7 @@ import org.onap.appc.adapter.iaas.impl.RequestFailedException;
 import org.onap.appc.adapter.iaas.impl.VMURL;
 import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.adapter.iaas.provider.operation.impl.base.ProviderServerOperation;
+import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
@@ -57,13 +56,11 @@ public class RebootServer extends ProviderServerOperation {
     private static final Configuration config = ConfigurationFactory.getConfiguration();
     private static final Integer NO_OF_ATTEMPTS=30;
     private static final Integer RETRY_INTERVAL=10;
-    private static final int MILLI_SECONDS=1000;
 
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
             throws APPCException {
         setMDC(Operation.REBOOT_SERVICE.toString(), "App-C IaaS Adapter:rebootServer", ADAPTER_NAME);
-        // logOperation(Msg.REBOOT_SERVER, params, context);
         return rebootServer(params, context);
     }
 
@@ -111,8 +108,6 @@ public class RebootServer extends ProviderServerOperation {
             }
 
         } catch (ResourceNotFoundException | StateException ex) {
-            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
-                    REBOOT_SERVICE.toString(), vmUrl, tenantName);
             logger.info(ex.getMessage());
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             if (ex instanceof ResourceNotFoundException) {
@@ -121,8 +116,6 @@ public class RebootServer extends ProviderServerOperation {
                 doFailure(requestContext, HttpStatus.CONFLICT_409, ex.getMessage());
             }
         } catch (Exception ex) {
-            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
-                    REBOOT_SERVICE.toString(), vmUrl, tenantName);
             logger.info(ex.getMessage());
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.getMessage());
@@ -139,7 +132,6 @@ public class RebootServer extends ProviderServerOperation {
         Context context = server.getContext();
         String msg;
         boolean status = false;
-        long endTime = System.currentTimeMillis() + (timeout * MILLI_SECONDS);
         while (rc.attempt()) {
                 server.waitForStateChange(pollInterval, timeout, desiredStates);
                 if ((server.getStatus().equals(Server.Status.RUNNING)) || (server.getStatus().equals(Server.Status.READY))) {
@@ -167,7 +159,7 @@ public class RebootServer extends ProviderServerOperation {
             logger.error(msg);
             throw new TimeoutException(msg);
         }
-        
+
         rc.reset();
         logger.info("Reboot server status flag --> " + status);
         return status;
