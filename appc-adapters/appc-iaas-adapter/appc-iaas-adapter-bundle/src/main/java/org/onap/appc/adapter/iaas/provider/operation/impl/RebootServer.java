@@ -63,7 +63,6 @@ public class RebootServer extends ProviderServerOperation {
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
             throws APPCException {
         setMDC(Operation.REBOOT_SERVICE.toString(), "App-C IaaS Adapter:rebootServer", ADAPTER_NAME);
-        // logOperation(Msg.REBOOT_SERVER, params, context);
         return rebootServer(params, context);
     }
 
@@ -123,7 +122,8 @@ public class RebootServer extends ProviderServerOperation {
         } catch (Exception ex) {
             String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
                     REBOOT_SERVICE.toString(), vmUrl, tenantName);
-            logger.info(ex.getMessage());
+            logger.error(ex.getMessage());
+            logger.error(msg);
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.getMessage());
         }
@@ -136,10 +136,8 @@ public class RebootServer extends ProviderServerOperation {
         int timeout = configuration.getIntegerProperty(Constants.PROPERTY_SERVER_STATE_CHANGE_TIMEOUT);
         config.setProperty(Constants.PROPERTY_RETRY_DELAY, RETRY_INTERVAL.toString());
         config.setProperty(Constants.PROPERTY_RETRY_LIMIT, NO_OF_ATTEMPTS.toString());
-        Context context = server.getContext();
         String msg;
         boolean status = false;
-        long endTime = System.currentTimeMillis() + (timeout * MILLI_SECONDS);
         while (rc.attempt()) {
                 server.waitForStateChange(pollInterval, timeout, desiredStates);
                 if ((server.getStatus().equals(Server.Status.RUNNING)) || (server.getStatus().equals(Server.Status.READY))) {

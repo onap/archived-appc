@@ -101,7 +101,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 ComputeService service = contx.getComputeService();
                 Volume volume = new Volume();
                 VolumeService vs = contx.getVolumeService();
-                Volume s = vs.getVolume(volumeId);
+                vs.getVolume(volumeId);
                 boolean flag = false;
                 if (validateDetach(service, vm.getServerId(), volumeId)) {
                     volume.setId(volumeId);
@@ -159,7 +159,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
         if (map != null && !(map.isEmpty())) {
             Iterator<Entry<String, String>> it = map.entrySet().iterator();
             while (it.hasNext()) {
-                Map.Entry volumes = (Map.Entry) it.next();
+                Map.Entry volumes = it.next();
                 logger.info("volumes available in before detach");
                 logger.info("device" + volumes.getKey() + "volume" + volumes.getValue());
                 if (volumes.getValue().equals(volumeId)) {
@@ -183,7 +183,7 @@ public class DettachVolumeServer extends ProviderServerOperation {
                 Iterator<Entry<String, String>> it = map.entrySet().iterator();
                 logger.info("volumes available after  detach ");
                 while (it.hasNext()) {
-                    Map.Entry volumes = (Map.Entry) it.next();
+                    Map.Entry volumes = it.next();
                     logger.info(" devices " + volumes.getKey() + " volumes" + volumes.getValue());
                     if (volumes.getValue().equals(volumeId)) {
                         logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());

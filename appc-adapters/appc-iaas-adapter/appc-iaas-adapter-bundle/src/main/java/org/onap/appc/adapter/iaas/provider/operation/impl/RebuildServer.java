@@ -58,12 +58,9 @@ import org.onap.appc.logging.LoggingConstants;
 import org.onap.appc.logging.LoggingUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.STOP_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 import com.att.cdp.exceptions.StateException;
@@ -358,7 +355,7 @@ public class RebuildServer extends ProviderServerOperation {
      *      org.onap.ccsdk.sli.core.sli.SvcLogicContext)
      */
     @SuppressWarnings("nls")
-    public Server rebuildServer(Map<String, String> params, SvcLogicContext ctx) throws APPCException {
+    public Server rebuildServer(Map<String, String> params, SvcLogicContext ctx) {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
@@ -442,7 +439,7 @@ public class RebuildServer extends ProviderServerOperation {
     }
 
     private void setTimeForMetricsLogger() {
-        String timestamp = LoggingUtils.generateTimestampStr(((Date) new Date()).toInstant());
+        String timestamp = LoggingUtils.generateTimestampStr(new Date().toInstant());
         MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");

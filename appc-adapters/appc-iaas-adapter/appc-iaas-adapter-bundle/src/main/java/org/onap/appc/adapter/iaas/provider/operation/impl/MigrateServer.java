@@ -47,19 +47,13 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.i18n.Msg;
-import org.onap.appc.logging.LoggingConstants;
-import org.onap.appc.logging.LoggingUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.slf4j.MDC;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
-import java.util.TimeZone;
-import java.util.Iterator;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.MIGRATE_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
 
@@ -105,7 +99,7 @@ public class MigrateServer extends ProviderServerOperation {
         }
         // Always perform Hypervisor check
         // unless the skip is set to true
-        if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+        if (skipHypervisorCheck == null || (!"true".equalsIgnoreCase(skipHypervisorCheck))) {
             // Check of the Hypervisor for the VM Server is UP and reachable
             checkHypervisor(server);
         }
@@ -202,7 +196,7 @@ public class MigrateServer extends ProviderServerOperation {
     }
 
     private void setTimeForMetricsLogger() {
-        String timestamp = LoggingUtils.generateTimestampStr(((Date) new Date()).toInstant());
+        String timestamp = LoggingUtils.generateTimestampStr(new Date().toInstant());
         MDC.put(LoggingConstants.MDCKeys.BEGIN_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.END_TIMESTAMP, timestamp);
         MDC.put(LoggingConstants.MDCKeys.ELAPSED_TIME, "0");

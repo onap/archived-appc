@@ -82,8 +82,7 @@ public class LookupServer extends ProviderServerOperation {
     }
 
     private Server lookupServerNested(Map<String, String> params, Server server, RequestContext rqstCtx, SvcLogicContext ctx,
-            String appName, VMURL vm, String vmUrl)
-            throws APPCException {
+            String appName, VMURL vm, String vmUrl) {
 
         // use try with resource to ensure context is closed (returned to pool)
         try (Context context = resolveContext(rqstCtx, params, appName, vmUrl)) {
