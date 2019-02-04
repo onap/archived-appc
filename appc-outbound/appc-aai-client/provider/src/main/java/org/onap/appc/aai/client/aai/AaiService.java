@@ -644,8 +644,10 @@ public class AaiService {
         SvcLogicResource.QueryStatus response =
             aaiClient.query(resourceType, false, null, query, prefix, null, resourceContext);
         log.info("AAIResponse: " + response.toString());
-        if (!SvcLogicResource.QueryStatus.SUCCESS.equals(response)) {
-            throw new AaiServiceInternalException("Error Retrieving " + resourceType + " from A&AI");
+        if (resourceType==null || !resourceType.equals("cloud-region")) {
+            if (!SvcLogicResource.QueryStatus.SUCCESS.equals(response)) {
+                throw new AaiServiceInternalException("Error Retrieving " + resourceType + " from A&AI");
+            }
         }
         return resourceContext;
     }
@@ -781,6 +783,7 @@ public class AaiService {
         String resourceType = "cloud-region";
         SvcLogicContext urlCtx = readResource(resourceKey, queryPrefix, resourceType);
         log.info("IdentityUrl: "+urlCtx.getAttribute("urlInfo.identity-url"));
+        log.info("Prefix for getIdentityUrl: "+prefix+"cloud-region.identity-url");
         ctx.setAttribute(prefix+"cloud-region.identity-url", urlCtx.getAttribute("urlInfo.identity-url"));
  
     }

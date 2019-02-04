@@ -86,6 +86,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             log.debug("Cloud Owner" + cloudOwnerValue);
             log.debug("CloudRegionId" + cloudOwnerValue);
+            SvcLogicContext cloudCtx = new SvcLogicContext();
             Map<String, String> paramsCloud = new HashMap<>();
             paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                     inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
@@ -156,11 +157,11 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 vserverMap.put("tenant-id", ctx.getAttribute(responsePrefix + "vm[" + i + STR_TENANT_ID));
                 vserverMap.put("cloud-owner", ctx.getAttribute(responsePrefix + "vm[" + i + STR_CLOUD_OWNER));
                 vserverMap.put("cloud-region-id", ctx.getAttribute(responsePrefix + "vm[" + i + STR_CLOUD_REGION_ID));
-
+                
                 // Parameters returned by getVMInfo
                 vserverMap.put(PARAM_VSERVER_NAME, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-name"));
                 vserverMap.put("vf-module-id", vmServerCtx.getAttribute(responsePrefix + "vm.vf-module-id"));
-                vserverMap.put(PARAM_VSERVER_SELFLINK, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
+                vserverMap.put("vserver-selflink", vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
 
                 log.info("VSERVER-LINK VALUE:" + vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
 
@@ -512,7 +513,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         return params;
     }
 
-    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) {
+    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.info("vfModuleInfo()::Retrieving vf-module information :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
@@ -572,7 +573,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
     }
 
-    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) {
+    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
         log.info("getFormattedValue()::Formatting values :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
