@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "471e4a27_9ff4c760",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestRebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-05T16:51:11Z",
+      "side": 1,
+      "message": "sounds good",
+      "parentUuid": "3f266fe5_e97c10a1",
+      "revId": "463717c88f4c3a63d12c06fa91a34cb56cc6a3fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14d5adbf_043f6b45",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestRebootServer.java",
         "patchSetId": 2
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Needs to be overridden in this package to allow Mockito to mock the methods",
       "parentUuid": "14d5adbf_043f6b45",
+      "revId": "463717c88f4c3a63d12c06fa91a34cb56cc6a3fe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f48896e_22ad1511",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/provider/operation/impl/TestRebootServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-05T16:51:11Z",
+      "side": 1,
+      "message": "sounds good",
+      "parentUuid": "dd41fda9_2bcb4d51",
       "revId": "463717c88f4c3a63d12c06fa91a34cb56cc6a3fe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
