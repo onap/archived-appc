@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -119,11 +121,11 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
 
     @Override
     public boolean logDeviceInteraction(String instanceId, String requestId, String creationDate, String logText) {
-        String queryString = "INSERT INTO "+ Constants.DEVICE_INTERFACE_LOG_TABLE_NAME+"("+
-                Constants.SERVICE_INSTANCE_ID_FIELD_NAME+","+
-                Constants.REQUEST_ID_FIELD_NAME+","+
-                Constants.CREATION_DATE_FIELD_NAME+","+
-                Constants.LOG_FIELD_NAME+") ";
+        String queryString = "INSERT INTO " + Constants.DEVICE_INTERFACE_LOG_TABLE_NAME + "(" +
+                Constants.SERVICE_INSTANCE_ID_FIELD_NAME + "," +
+                Constants.REQUEST_ID_FIELD_NAME + "," +
+                Constants.CREATION_DATE_FIELD_NAME + "," +
+                Constants.LOG_FIELD_NAME + ") ";
         queryString += "values(?,?,?,?)";
 
         ArrayList<String> argList = new ArrayList<>();

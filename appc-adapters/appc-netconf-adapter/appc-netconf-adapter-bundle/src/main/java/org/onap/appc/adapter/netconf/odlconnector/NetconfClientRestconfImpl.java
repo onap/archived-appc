@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,59 +53,66 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
     @Override
     public void configure(String configuration, String deviceMountPointName, String moduleName, String nodeName) throws APPCException {
 
-        logger.info("Configuring device "+deviceMountPointName+" with configuration "+configuration);
+        logger.info("Configuring device " + deviceMountPointName + " with configuration " + configuration);
 
-        int httpCode = httpClient.putMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getModuleConfigurePath(deviceMountPointName, moduleName, nodeName),configuration,"application/json");
+        int httpCode = httpClient.putMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,
+                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), configuration, "application/json");
 
         if (httpCode != HttpStatus.SC_OK) {
             logger.error("Configuration request failed. throwing Exception !");
-            throw new APPCException("Error configuring node :"+nodeName + ", of Module :" + moduleName + ", in device :" + deviceMountPointName);
+            throw new APPCException("Error configuring node :" + nodeName + ", of Module :" + moduleName +
+                    ", in device :" + deviceMountPointName);
         }
     }
 
     @Override
     public void connect(String deviceMountPointName, String payload) throws APPCException{
 
-        logger.info("Connecting device "+deviceMountPointName);
+        logger.info("Connecting device " + deviceMountPointName);
 
-        int httpCode = httpClient.postMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getConnectPath(),payload,"application/json");
+        int httpCode = httpClient.postMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+                getConnectPath(), payload, "application/json");
 
         if(httpCode != HttpStatus.SC_NO_CONTENT){
-            logger.error("Connect request failed with code "+httpCode+". throwing Exception !");
+            logger.error("Connect request failed with code " + httpCode + ". throwing Exception !");
             throw new APPCException("Error connecting device :" + deviceMountPointName);
         }
     }
 
     @Override
     public boolean checkConnection(String deviceMountPointName) throws APPCException {
-        logger.info("Checking device "+deviceMountPointName+" connectivity");
+        logger.info("Checking device " + deviceMountPointName + " connectivity");
 
-        String result = httpClient.getMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getCheckConnectivityPath(deviceMountPointName),"application/json");
+        String result = httpClient.getMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP,
+                Constants.CONTROLLER_PORT, getCheckConnectivityPath(deviceMountPointName), "application/json");
 
         return result != null;
     }
 
     @Override
     public void disconnect(String deviceMountPointName) throws APPCException {
-        logger.info("Disconnecting "+deviceMountPointName);
+        logger.info("Disconnecting " + deviceMountPointName);
 
-        int httpCode = httpClient.deleteMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getDisconnectPath(deviceMountPointName),"application/json");
+        int httpCode = httpClient.deleteMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+                getDisconnectPath(deviceMountPointName), "application/json");
 
         if(httpCode != HttpStatus.SC_OK){
-            logger.error("Disconnection of device "+deviceMountPointName+" failed!");
-            throw new APPCException("Disconnection of device "+deviceMountPointName+" failed!");
+            logger.error("Disconnection of device " + deviceMountPointName + " failed!");
+            throw new APPCException("Disconnection of device " + deviceMountPointName + " failed!");
         }
     }
 
     @Override
     public String getConfiguration(String deviceMountPointName, String moduleName, String nodeName) throws APPCException{
-        logger.info("Getting configuration of device "+deviceMountPointName);
+        logger.info("Getting configuration of device " + deviceMountPointName);
 
-        String result = httpClient.getMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getModuleConfigurePath(deviceMountPointName, moduleName, nodeName),"application/json");
+        String result = httpClient.getMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), "application/json");
 
         if (result == null) {
             logger.error("Configuration request failed. throwing Exception !");
-            throw new APPCException("Error getting configuration of node :"+nodeName + ", of Module :" + moduleName + ", in device :" + deviceMountPointName);
+            throw new APPCException("Error getting configuration of node :" + nodeName + ", of Module :" + moduleName +
+                    ", in device :" + deviceMountPointName);
         }
 
         return result;
@@ -117,7 +126,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
             throw new APPCException("Invalid connection details - null value");
         }
         this.connectionDetails = connectionDetails;
-        this.connect(connectionDetails.getHost(),getPayload());
+        this.connect(connectionDetails.getHost(), getPayload());
     }
 
     @Override
@@ -133,7 +142,7 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         }
 
         Properties props = connectionDetails.getAdditionalProperties();
-        if(props == null || !props.containsKey("module.name") || !props.containsKey("node.name")){
+        if(props == null || !props.containsKey("module.name") || !props.containsKey("node.name")) {
             throw new APPCException("Invalid properties!");
         }
 
@@ -141,11 +150,13 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         String nodeName = props.getProperty("node.name");
         String deviceMountPointName = connectionDetails.getHost();
 
-        int httpCode = httpClient.putMethod(Constants.PROTOCOL,Constants.CONTROLLER_IP,Constants.CONTROLLER_PORT,getModuleConfigurePath(deviceMountPointName, moduleName, nodeName),configuration,"application/xml");
+        int httpCode = httpClient.putMethod(Constants.PROTOCOL, Constants.CONTROLLER_IP, Constants.CONTROLLER_PORT,
+                getModuleConfigurePath(deviceMountPointName, moduleName, nodeName), configuration, "application/xml");
 
         if (httpCode != HttpStatus.SC_OK) {
             logger.error("Configuration request failed. throwing Exception !");
-            throw new APPCException("Error configuring node :"+nodeName + ", of Module :" + moduleName + ", in device :" + deviceMountPointName);
+            throw new APPCException("Error configuring node :" + nodeName + ", of Module :" + moduleName +
+                    ", in device :" + deviceMountPointName);
         }
     }
 
@@ -156,11 +167,12 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
         }
 
         Properties props = connectionDetails.getAdditionalProperties();
-        if(props == null || !props.containsKey("module.name") || !props.containsKey("node.name")){
+        if(props == null || !props.containsKey("module.name") || !props.containsKey("node.name")) {
             throw new APPCException("Invalid properties!");
         }
 
-        return this.getConfiguration(connectionDetails.getHost(),props.getProperty("module.name"),props.getProperty("node.name"));
+        return this.getConfiguration(connectionDetails.getHost(), props.getProperty("module.name"),
+                props.getProperty("node.name"));
     }
 
     @Override
@@ -173,7 +185,6 @@ public class NetconfClientRestconfImpl implements NetconfClient, NetconfClientRe
 
     //private methods
     private String getModuleConfigurePath(String deviceMountPointName, String moduleName, String nodeName){
-
 
         String deviceSpecificPath = deviceMountPointName + "/yang-ext:mount/" + moduleName + ":" + nodeName;
 

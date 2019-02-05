@@ -3,6 +3,8 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
+* ================================================================================
+* Modifications Copyright (C) 2019 Ericsson
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -23,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class NetconfClientTypeTest {
-    private NetconfClientType netconfClientType=NetconfClientType.RESTCONF;
+    private NetconfClientType netconfClientType = NetconfClientType.RESTCONF;
 
     @Test
     public void testName() {
