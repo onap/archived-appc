@@ -137,7 +137,7 @@ public class NetconfDataAccessServiceImpl implements NetconfDataAccessService {
         try {
             dbLibService.writeData(queryString, argList, schema);
         } catch (SQLException e) {
-            logger.error("Logging Device interaction failed - "+ queryString);
+            logger.error("Logging Device interaction failed - " + queryString);
             throw new DataAccessException(e);
         }
 
