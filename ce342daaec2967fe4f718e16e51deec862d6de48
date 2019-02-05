@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27f906f4_4dc367b5",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/protocol/TestProtocolException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-05T14:19:42Z",
+      "side": 1,
+      "message": "could also verify that the \"cause\" is the same Throwable that was passed in",
+      "revId": "ce342daaec2967fe4f718e16e51deec862d6de48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
