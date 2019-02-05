@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d8e1d9e_f1d56e6f",
+        "filename": "appc-client/client-lib/src/test/java/org/onap/appc/client/impl/protocol/TestProtocolException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-05T12:27:27Z",
+      "side": 1,
+      "message": "Not necessary to define and use these variables. The exception can just be thrown",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 37,
+        "endChar": 5
+      },
+      "revId": "4f983f1d7f9be423ca7232a02c2bc0fe02661dcd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
