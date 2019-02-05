@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Samsung
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,10 +27,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.onap.appc.adapter.netconf.ConnectionDetails;
 import org.onap.appc.adapter.netconf.NetconfConnectionDetails;
+import org.onap.appc.adapter.netconf.util.Constants;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
-
 import javax.sql.rowset.CachedRowSet;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -50,6 +51,8 @@ public class TestNetconfDataAccessServiceImpl {
             @Override
             public CachedRowSet getData(String s, ArrayList<String> arrayList, String s1) throws SQLException {
                 CachedRowSet cachedRowSetMocked = Mockito.mock(CachedRowSet.class);
+                Mockito.when(cachedRowSetMocked.first()).thenReturn(true);
+                Mockito.when(cachedRowSetMocked.getString(Constants.FILE_CONTENT_TABLE_FIELD_NAME)).thenReturn("File_Content");
                 return cachedRowSetMocked;
             }
 
@@ -117,35 +120,20 @@ public class TestNetconfDataAccessServiceImpl {
     @Test
     public void testRetrieveConfigFileName() throws IOException {
         String response = netconfDataAccessService.retrieveConfigFileName("test");
-
-        Assert.assertEquals("", response);
-    }
-
-    @Test
-    public void testRetrieveConnectionDetails() throws IOException {
-        ConnectionDetails netconfConnectionDetails = new ConnectionDetails();
-
-        boolean response = netconfDataAccessService.retrieveConnectionDetails("test", netconfConnectionDetails);
-
-        Assert.assertEquals(false, response);
+        Assert.assertEquals("File_Content", response);
     }
 
     @Test
     public void testRetrieveNetconfConnectionDetails() throws IOException {
         NetconfConnectionDetails netconfConnectionDetails = new NetconfConnectionDetails();
-
         boolean response = netconfDataAccessService.retrieveNetconfConnectionDetails("test", netconfConnectionDetails);
-
         Assert.assertEquals(true, response);
     }
 
     @Test
     public void testLogDeviceInteraction() throws IOException {
-        NetconfConnectionDetails netconfConnectionDetails = new NetconfConnectionDetails();
-
         boolean response = netconfDataAccessService.logDeviceInteraction("test", "",
                                                                          "", "");
-
         Assert.assertEquals(true, response);
     }
 }
