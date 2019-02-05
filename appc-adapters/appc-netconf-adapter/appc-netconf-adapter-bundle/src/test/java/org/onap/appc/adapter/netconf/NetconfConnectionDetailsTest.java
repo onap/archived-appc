@@ -3,6 +3,8 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
+* ================================================================================
+* Modifications Copyright (C) 2019 Ericsson
 *=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -34,7 +36,7 @@ public class NetconfConnectionDetailsTest {
 
     @Before
     public void SetUp() {
-        netconfConnectionDetails=new NetconfConnectionDetails();
+        netconfConnectionDetails = new NetconfConnectionDetails();
     }
 
     @Test
@@ -67,13 +69,13 @@ public class NetconfConnectionDetailsTest {
 
     @Test
     public void testNullCapabilities() {
-        capabilities=new ArrayList<String>();
+        capabilities = new ArrayList<String>();
         Assert.assertNull(netconfConnectionDetails.getCapabilities());
     }
 
     @Test
     public void testCapabilitiesWithValues() {
-        capabilities=new ArrayList<String>();
+        capabilities = new ArrayList<String>();
         capabilities.add("capabilities1");
         capabilities.add("capabilities2");
         netconfConnectionDetails.setCapabilities(capabilities);
@@ -82,7 +84,7 @@ public class NetconfConnectionDetailsTest {
 
     @Test
     public void testCapabilities_Size() {
-        capabilities=new ArrayList<String>();
+        capabilities = new ArrayList<String>();
         capabilities.add("capabilities1");
         capabilities.add("capabilities2");
         netconfConnectionDetails.setCapabilities(capabilities);
@@ -91,27 +93,27 @@ public class NetconfConnectionDetailsTest {
 
     @Test
     public void testAdditionalProperties() {
-        additionalProperties=new Properties();
+        additionalProperties = new Properties();
         Assert.assertNull(netconfConnectionDetails.getAdditionalProperties());
     }
 
     @Test
     public void testAdditionalPropertiesWithValues() {
-        additionalProperties=new Properties();
+        additionalProperties = new Properties();
         additionalProperties.put("A", "a");
         additionalProperties.put("B", "b");
         netconfConnectionDetails.setAdditionalProperties(additionalProperties);
-        Assert.assertEquals("a",netconfConnectionDetails.getAdditionalProperties().get("A"));
+        Assert.assertEquals("a", netconfConnectionDetails.getAdditionalProperties().get("A"));
     }
 
     @Test
     public void testAdditionalProperties_Size() {
-        additionalProperties=new Properties();
+        additionalProperties = new Properties();
         additionalProperties.put("A", "a");
         additionalProperties.put("B", "b");
         additionalProperties.put("C", "c");
         netconfConnectionDetails.setAdditionalProperties(additionalProperties);
         Assert.assertNotNull(netconfConnectionDetails.getAdditionalProperties());
-        Assert.assertEquals(3,additionalProperties.size());
+        Assert.assertEquals(3, additionalProperties.size());
     }
 }
