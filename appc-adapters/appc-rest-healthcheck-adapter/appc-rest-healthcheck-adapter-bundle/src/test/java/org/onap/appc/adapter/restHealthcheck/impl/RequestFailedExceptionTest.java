@@ -4,6 +4,8 @@
 * ================================================================================
 * Copyright 2018 TechMahindra
 *=================================================================================
+* Modifications Copyright 2019 IBM.
+*=================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -90,13 +92,11 @@ public class RequestFailedExceptionTest {
 
     @Test
     public void testConstructorWith_Server_Null() throws Exception {
-        Server server = null;
-        HttpStatus status = HttpStatus.ACCEPTED_202;
-        String reason = "Success";
-        String operation = "POST";
-        RequestFailedException requestFailedException = new RequestFailedException(operation, reason, status, server);
+        Server server = new Server();
+        server.setId("testId");
+        RequestFailedException requestFailedException = new RequestFailedException();
         requestFailedException.setServer(server);
-        Assert.assertEquals(null, requestFailedException.getServer());
+        Assert.assertSame(server, requestFailedException.getServer());
     }
 
     @Test
