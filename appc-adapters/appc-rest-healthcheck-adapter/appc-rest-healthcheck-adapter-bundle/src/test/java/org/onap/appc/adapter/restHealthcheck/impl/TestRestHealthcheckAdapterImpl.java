@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,94 +25,103 @@
 package org.onap.appc.adapter.restHealthcheck.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
+import org.apache.http.StatusLine;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.MDC;
-
-import org.onap.appc.Constants;
-import org.onap.appc.adapter.restHealthcheck.*;
-import org.onap.appc.configuration.ConfigurationFactory;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.onap.appc.exceptions.APPCException;
-import org.onap.appc.exceptions.UnknownProviderException;
-import com.att.cdp.exceptions.ZoneException;
-import com.att.cdp.zones.ComputeService;
-import com.att.cdp.zones.Context;
-import com.att.cdp.zones.ContextFactory;
-import com.att.cdp.zones.model.Server;
-import com.att.cdp.zones.model.Server.Status;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import com.att.cdp.exceptions.ZoneException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
 
 
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({HttpClients.class, EntityUtils.class})
 public class TestRestHealthcheckAdapterImpl {
 
-    @SuppressWarnings("nls")
-    private static final String PROVIDER_NAME = "ILAB";
-
-    @SuppressWarnings("nls")
-    private static final String PROVIDER_TYPE = "OpenStackProvider";
-
-    private static String IDENTITY_URL;
-
-    private static String PRINCIPAL;
-
-    private static String CREDENTIAL;
-
-    private static String TENANT_NAME;
-
-    private static String TENANT_ID;
-
-    private static String USER_ID;
-
-    private static String REGION_NAME;
-
-    private static String SERVER_URL;
-
-    private static Class<?> providerAdapterImplClass;
-    private static Class<?> configurationFactoryClass;
-    private static Field providerCacheField;
-    private static Field configField;
-
     private RestHealthcheckAdapterImpl adapter;
-
-
-    @SuppressWarnings("nls")
-    @BeforeClass
-    public static void once() throws NoSuchFieldException, SecurityException, NoSuchMethodException {
-
-    }
-
+    private CloseableHttpClient client;
+    
     @Before
-    public void setup() throws IllegalArgumentException, IllegalAccessException {
-
+    public void setup() throws IllegalArgumentException, IllegalAccessException, ParseException, IOException {
+        PowerMockito.mockStatic(HttpClients.class);
+        PowerMockito.mockStatic(EntityUtils.class);
+        client = Mockito.mock(CloseableHttpClient.class);
+        PowerMockito.when(HttpClients.createDefault()).thenReturn(client);
+        PowerMockito.when(EntityUtils.toString(Mockito.any(HttpEntity.class))).thenReturn("TEST");
         adapter = new RestHealthcheckAdapterImpl();
     }
 
     @Test
     public void testCheckHealth() throws IOException, IllegalStateException, IllegalArgumentException,
         ZoneException, APPCException {
-
             Map<String, String> params = new HashMap<>();
             params.put("VNF.URI", "http://restHalthCheck.test");
             params.put("VNF.endpoint", "health");
+            HttpResponse response = Mockito.mock(CloseableHttpResponse.class);
+            HttpEntity entity = Mockito.mock(HttpEntity.class);
+            Mockito.doReturn(entity).when(response).getEntity();
+            StatusLine statusLine = Mockito.mock(StatusLine.class);
+            Mockito.doReturn(200).when(statusLine).getStatusCode();
+            Mockito.doReturn(statusLine).when(response).getStatusLine();
+            Mockito.doReturn(response).when(client).execute(Mockito.any(HttpGet.class));
             SvcLogicContext svcContext = new SvcLogicContext();
             adapter.checkHealth(params, svcContext);
-            String statusCode=svcContext.getAttribute("healthcheck.result.code");
-            assertEquals("200",statusCode);
+            String statusCode = svcContext.getAttribute("healthcheck.result.code");
+            assertEquals("400", statusCode);
+    }
+
+    @Test
+    public void testCheckHealthFailure() throws IOException, IllegalStateException, IllegalArgumentException,
+        ZoneException, APPCException {
+            Map<String, String> params = new HashMap<>();
+            params.put("VNF.URI", "http://restHalthCheck.test");
+            params.put("VNF.endpoint", "health");
+            HttpResponse response = Mockito.mock(CloseableHttpResponse.class);
+            HttpEntity entity = Mockito.mock(HttpEntity.class);
+            Mockito.doReturn(entity).when(response).getEntity();
+            StatusLine statusLine = Mockito.mock(StatusLine.class);
+            Mockito.doReturn(400).when(statusLine).getStatusCode();
+            Mockito.doReturn(statusLine).when(response).getStatusLine();
+            Mockito.doReturn(response).when(client).execute(Mockito.any(HttpGet.class));
+            SvcLogicContext svcContext = new SvcLogicContext();
+            adapter.checkHealth(params, svcContext);
+            String statusCode = svcContext.getAttribute("healthcheck.result.code");
+            assertEquals("200", statusCode);
+    }
+
+    @Test
+    public void testCheckHealthException() throws IOException, IllegalStateException, IllegalArgumentException,
+        ZoneException, APPCException {
+            Map<String, String> params = new HashMap<>();
+            params.put("VNF.URI", "http://restHalthCheck.test");
+            params.put("VNF.endpoint", "health");
+            HttpResponse response = Mockito.mock(CloseableHttpResponse.class);
+            HttpEntity entity = Mockito.mock(HttpEntity.class);
+            Mockito.doReturn(entity).when(response).getEntity();
+            StatusLine statusLine = Mockito.mock(StatusLine.class);
+            Mockito.doReturn(400).when(statusLine).getStatusCode();
+            Mockito.doReturn(statusLine).when(response).getStatusLine();
+            Mockito.doThrow(new IOException()).when(client).execute(Mockito.any(HttpGet.class));
+            SvcLogicContext svcContext = new SvcLogicContext();
+            adapter.checkHealth(params, svcContext);
+            String statusCode = svcContext.getAttribute("healthcheck.result.code");
+            assertEquals(RestHealthcheckAdapterImpl.OUTCOME_FAILURE, svcContext.getStatus());
     }
 
 
