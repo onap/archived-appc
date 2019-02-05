@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b9c2f5d_6996d388",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-02-05T21:10:48Z",
+      "side": 1,
+      "message": "This equals check fails if the resourceType parameter is null. That is why the junit tests are failing. One of the junit tests is calling readResource(null, null, null); and a null pointer exception is being thrown.",
+      "range": {
+        "startLine": 647,
+        "startChar": 1,
+        "endLine": 647,
+        "endChar": 51
+      },
+      "revId": "dc849a6ec44924ac4e50d74a12e05ea9947dd26a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
