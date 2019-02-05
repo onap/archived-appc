@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,13 +63,13 @@ public class AppcNetconfAdapterActivator implements BundleActivator {
             /*
             * The reference to the actual implementation object that implements the services
             */
-            NetconfClientFactory clientFactory = new NetconfClientFactory();                
+            NetconfClientFactory clientFactory = new NetconfClientFactory();
             factoryRegistration = context.registerService(NetconfClientFactory.class, clientFactory, null);
             NetconfDataAccessService dataAccessService = new NetconfDataAccessServiceImpl();
             //set dblib service
             ServiceReference sref = context.getServiceReference(DbLibService.class.getName());
             dataAccessService.setDbLibService((DbLibService)context.getService(sref));
-            ///////////////////////////////////
+
             factoryRegistration = context.registerService(NetconfDataAccessService.class, dataAccessService, null);
         }
     }

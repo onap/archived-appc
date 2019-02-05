@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,14 +23,12 @@
  * ============LICENSE_END=========================================================
  */
 
-import org.onap.appc.exceptions.APPCException;
-import org.junit.Test;
-import org.onap.appc.adapter.netconf.OperationalStateValidator;
-import org.onap.appc.adapter.netconf.OperationalStateValidatorFactory;
-import org.onap.appc.adapter.netconf.VnfType;
+package org.onap.appc.adapter.netconf;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.onap.appc.exceptions.APPCException;
 
 
 public class OperationalStateValidatorTest {
