@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "192fc11f_0d6f4d1a",
+        "filename": "appc-adapters/appc-rest-healthcheck-adapter/appc-rest-healthcheck-adapter-bundle/src/test/java/org/onap/appc/adapter/restHealthcheck/impl/RequestFailedExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-05T14:19:17Z",
+      "side": 1,
+      "message": "the method name may no longer be correct",
+      "revId": "914ae9418ab88a4e6435198ce955866bc61b5842",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
