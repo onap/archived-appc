@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,34 +26,19 @@
 package org.onap.appc.adapter.restHealthcheck.impl;
 
 import java.util.Map;
-import java.util.Properties;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
-
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import org.onap.appc.Constants;
 import org.onap.appc.adapter.restHealthcheck.RestHealthcheckAdapter;
 import org.onap.appc.configuration.Configuration;
-import org.onap.appc.pool.PoolExtensionException;
-import org.onap.appc.util.StructuredPropertyHelper;
-
-
-import com.att.cdp.zones.ImageService;
-import com.att.cdp.zones.Provider;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.att.eelf.i18n.EELFResourceManager;
-import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-
-import org.glassfish.grizzly.http.util.HttpStatus;
-
-import static com.att.eelf.configuration.Configuration.*;
-
-import org.apache.http.*;
-import org.apache.http.client.*;
-import org.apache.http.client.methods.*;
-import org.apache.http.impl.client.*;
-import org.apache.http.util.EntityUtils;
-import java.io.IOException;
-import java.net.InetAddress;
 
 public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
 
@@ -81,9 +68,9 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
     }
     public void checkHealth(Map<String, String> params, SvcLogicContext ctx) {
         logger.info("VNF rest health check");
-        String uri=params.get("VNF.URI");
-        String endPoint=params.get("VNF.endpoint");
-        String tUrl=uri+"/"+endPoint;
+        String uri = params.get("VNF.URI");
+        String endPoint = params.get("VNF.endpoint");
+        String tUrl = uri + "/" + endPoint;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
         try(CloseableHttpClient httpClient = HttpClients.createDefault()) {
@@ -92,14 +79,14 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
             response = httpClient.execute(httpGet);
             int responseCode=response.getStatusLine().getStatusCode();
             HttpEntity entity = response.getEntity();
-            String responseOutput=EntityUtils.toString(entity);
-            if(responseCode==200)
+            String responseOutput = EntityUtils.toString(entity);
+            if(responseCode == 200)
             {
-                doSuccess(rc,responseCode,responseOutput);
+                doSuccess(rc, responseCode, responseOutput);
             }
             else
             {
-                doHealthCheckFailure(rc,responseCode,responseOutput);
+                doHealthCheckFailure(rc, responseCode, responseOutput);
             }
         } catch (Exception ex) {
             doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.toString());
@@ -120,7 +107,7 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
         }
         svcLogic.setStatus(OUTCOME_FAILURE);
         svcLogic.setAttribute("healthcheck.result.code", "200");
-        svcLogic.setAttribute("healthcheck.result.message", status+" "+msg);
+        svcLogic.setAttribute("healthcheck.result.message", status + " " + msg);
     }
     /**
      * @param rc
@@ -130,14 +117,14 @@ public class RestHealthcheckAdapterImpl implements RestHealthcheckAdapter {
     @SuppressWarnings("static-method")
     private void doHealthCheckFailure(RequestContext rc, int code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        String msg = Integer.toString(code)+" "+message;
+        String msg = Integer.toString(code) + " " + message;
         svcLogic.setAttribute("healthcheck.result.code", "200");
         svcLogic.setAttribute("healthcheck.result.message", msg);
     }
     @SuppressWarnings("static-method")
     private void doSuccess(RequestContext rc, int code, String message) {
         SvcLogicContext svcLogic = rc.getSvcLogicContext();
-        String msg = Integer.toString(code)+" "+message;
+        String msg = Integer.toString(code) + " " + message;
         svcLogic.setAttribute("healthcheck.result.code", "400");
         svcLogic.setAttribute("healthcheck.result.message", msg);
     }
