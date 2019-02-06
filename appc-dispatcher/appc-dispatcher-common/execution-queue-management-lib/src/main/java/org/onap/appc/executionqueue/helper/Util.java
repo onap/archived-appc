@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +27,8 @@ package org.onap.appc.executionqueue.helper;
 
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
-
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,6 +39,7 @@ public class Util {
     private int default_threadpool_size = 10;
     private String queue_size_key = "appc.dispatcher.executionqueue.backlog.size";
     private String threadpool_size_key = "appc.dispatcher.executionqueue.threadpool.size";
+    private EELFLogger logger = EELFManager.getInstance().getLogger(Util.class);
 
     private Configuration configuration;
 
@@ -54,7 +58,7 @@ public class Util {
         try {
             size = Integer.parseInt(sizeStr);
         } catch (NumberFormatException e) {
-
+            logger.error("Error parsing dispatcher execution queue backlog size");
         }
 
         return size;
@@ -67,7 +71,7 @@ public class Util {
         try {
             size = Integer.parseInt(sizeStr);
         } catch (NumberFormatException e) {
-
+            logger.error("Error parsing dispatcher execution queue threadpool size");
         }
 
         return size;
