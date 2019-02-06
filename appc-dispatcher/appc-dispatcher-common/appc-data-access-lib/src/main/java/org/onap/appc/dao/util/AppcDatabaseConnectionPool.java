@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -80,8 +82,7 @@ public class AppcDatabaseConnectionPool implements DBConnectionPoolService {
         String password = getConnectionProperty(configuration, PropertyPattern.PASSWORD);
         String jdbcDriver = getJDBCDriver(configuration);
 
-        dbConnectionPool = new DBConnectionPool(dbUrl, userName, password, jdbcDriver);
-
+        dbConnectionPool = getDBConnectionPool(dbUrl, userName, password, jdbcDriver);
         // a simple health check
         Connection connection = null;
         try {
@@ -140,5 +141,9 @@ public class AppcDatabaseConnectionPool implements DBConnectionPoolService {
 
     private String getJDBCDriver(Configuration configuration) {
         return configuration.getProperty(PropertyPattern.DRIVER.getPattern(), "");
+    }
+
+    protected DBConnectionPool getDBConnectionPool(String dbUrl, String userName, String password, String jdbcDriver) {
+        return new DBConnectionPool(dbUrl, userName, password, jdbcDriver);
     }
 }
