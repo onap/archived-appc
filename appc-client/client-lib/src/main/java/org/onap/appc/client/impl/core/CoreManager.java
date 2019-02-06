@@ -224,7 +224,7 @@ class CoreManager{
                 LOG.info("Core manager::graceful shutdown is continue... this <" + this + ">");
                 forceShutdown();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+            	LOG.error("Error occured in gracefulShutdown "+e);
             }
 
         }

@@ -88,6 +88,7 @@ public class SshJcraftWrapper {
     private StringBuffer charactersFromBufferFlush = new StringBuffer();
     private Runtime runtime = Runtime.getRuntime();
     private DebugLog dbLog = new DebugLog();
+    private final EELFLogger logger = EELFManager.getInstance().getLogger(SshJcraftWrapper.class);
 
     public SshJcraftWrapper() {
         String fn = "SshJcraftWrapper.SshJcraftWrapper";
