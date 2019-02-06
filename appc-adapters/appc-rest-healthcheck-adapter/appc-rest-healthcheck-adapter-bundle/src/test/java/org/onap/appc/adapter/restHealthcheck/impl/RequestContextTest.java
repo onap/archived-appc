@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,11 +29,13 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 // import org.onap.appc.Constants;
 import org.onap.appc.adapter.restHealthcheck.impl.RequestContext;
 // import org.onap.appc.configuration.Configuration;
 // import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.powermock.reflect.Whitebox;
 
 /**
  * Test the RequestContext object
@@ -54,7 +58,8 @@ public class RequestContextTest {
     public void setup() {
         // config.setProperty(Constants.PROPERTY_RETRY_DELAY, "1");
         // config.setProperty(Constants.PROPERTY_RETRY_LIMIT, "3");
-        rc = new RequestContext(null);
+        rc = Mockito.spy(new RequestContext(null));
+        Whitebox.setInternalState(rc, "retryDelay", 1);
         rc.setTimeToLiveSeconds(rc.getRetryDelay() * 3);
         // rc.setTimeToLiveMS(rc.getRetryDelay() * 3000L - 1L); // not quite adequate for 3 retries
     }
@@ -64,7 +69,7 @@ public class RequestContextTest {
      */
     @Test
     public void testRetryDelayProperty() {
-        assertEquals(10, rc.getRetryDelay());
+        assertEquals(10, new RequestContext(null).getRetryDelay());
     }
 
     /**
@@ -89,9 +94,7 @@ public class RequestContextTest {
     @Test
     public void testDelay() {
         long future = System.currentTimeMillis() + (rc.getRetryDelay() * 1000L);
-
         rc.delay();
-
         assertTrue(System.currentTimeMillis() >= future);
     }
 
@@ -161,7 +164,7 @@ public class RequestContextTest {
         assertTrue(rc.getTotalDuration() >= 2 * delay);
         rc.reset();
         rc.delay();
-	// Ensure exceeded timeToLive
+        // Ensure exceeded timeToLive
         try {
             Thread.sleep(1L);
         } catch (Throwable e) {
