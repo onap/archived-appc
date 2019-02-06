@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba17d556_32082d0d",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/core/CoreManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-06T09:50:27Z",
+      "side": 1,
+      "message": "tabs should be spaces",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 227,
+        "endChar": 63
+      },
+      "revId": "06444e8939815b0d90a4cf7cb9e2500caf30d717",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c3e1bbf9_6e01578b",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/SshJcraftWrapper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-06T09:50:27Z",
+      "side": 1,
+      "message": "variable doesn\u0027t seem to be used in this file?",
+      "range": {
+        "startLine": 91,
+        "startChar": 29,
+        "endLine": 91,
+        "endChar": 35
+      },
+      "revId": "06444e8939815b0d90a4cf7cb9e2500caf30d717",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
