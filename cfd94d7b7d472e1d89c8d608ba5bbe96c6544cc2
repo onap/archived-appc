@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68b9d43c_ff43ad93",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/AppcAaiClientActivatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-06T09:47:08Z",
+      "side": 1,
+      "message": "tabs should be spaces",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 13
+      },
+      "revId": "cfd94d7b7d472e1d89c8d608ba5bbe96c6544cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e13c61c6_ba3424ec",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/AppcAaiClientActivatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-06T09:47:08Z",
+      "side": 1,
+      "message": "test should have a pass/fail condition",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 2
+      },
+      "revId": "cfd94d7b7d472e1d89c8d608ba5bbe96c6544cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26ae744c_8f170c5e",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/aai/AppcAaiClientActivatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-06T09:47:08Z",
+      "side": 1,
+      "message": "test should have a pass/fail condition",
+      "revId": "cfd94d7b7d472e1d89c8d608ba5bbe96c6544cc2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
