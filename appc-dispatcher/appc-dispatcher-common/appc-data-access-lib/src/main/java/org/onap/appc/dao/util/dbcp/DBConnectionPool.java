@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,7 +79,6 @@ public class DBConnectionPool implements DBConnectionPoolService {
         if (dataSource == null) {
             throw new DBConnectionPoolException();
         }
-
         Connection connection = null;
         try {
             connection = dataSource.getConnection();
@@ -123,7 +124,7 @@ public class DBConnectionPool implements DBConnectionPoolService {
         return map;
     }
 
-    private BasicDataSource getBasicDataSource(String connectURI, String username, String password,
+    protected BasicDataSource getBasicDataSource(String connectURI, String username, String password,
                                                String driverClass, Integer initialSize, Integer maxtotal,
                                                Integer maxIdle, Integer maxWaitMillis, Integer minIdle) {
         BasicDataSource dataSource = new BasicDataSource();

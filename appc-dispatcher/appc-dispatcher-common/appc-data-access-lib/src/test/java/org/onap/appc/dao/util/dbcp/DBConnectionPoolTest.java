@@ -25,12 +25,16 @@
 
 package org.onap.appc.dao.util.dbcp;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.onap.appc.dao.util.exception.DBConnectionPoolException;
-
+import org.powermock.reflect.Whitebox;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
@@ -45,6 +49,9 @@ public class DBConnectionPoolTest {
     private DBConnectionPool dbcp;
     private DBConnectionPool dbcp2;
     private Connection connection;
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -63,6 +70,26 @@ public class DBConnectionPoolTest {
     }
 
     @Test
+    public void testGetConnectionSQLExceptionFlow() throws SQLException {
+        DBConnectionPool dbcpSpy = Mockito.spy(new DBConnectionPool(connectURI, username, password, driverClass));
+        BasicDataSource mockDataSource = Mockito.mock(BasicDataSource.class);
+        Mockito.when(mockDataSource.getConnection()).thenThrow(new SQLException());
+        Whitebox.setInternalState(dbcpSpy, "dataSource", mockDataSource);
+        expectedEx.expect(SQLException.class);
+        connection = dbcpSpy.getConnection();
+    }
+
+    @Test
+    public void testGetConnectionDBConnectionPoolExceptionFlow() throws SQLException {
+        DBConnectionPool dbcpSpy = Mockito.spy(new DBConnectionPool(connectURI, username, password, driverClass));
+        BasicDataSource mockDataSource = Mockito.mock(BasicDataSource.class);
+        Mockito.when(mockDataSource.getConnection()).thenReturn(null);
+        Whitebox.setInternalState(dbcpSpy, "dataSource", mockDataSource);
+        expectedEx.expect(DBConnectionPoolException.class);
+        connection = dbcpSpy.getConnection();
+    }
+
+    @Test
     public void testGetDataSourceStatus() {
         Map<String, Integer> dataSourceStatus = dbcp.getDataSourceStatus();
         Assert.assertNotNull(dataSourceStatus);
@@ -73,6 +100,17 @@ public class DBConnectionPoolTest {
         dbcp2.shutdown();
         connection = dbcp2.getConnection();
         Assert.assertNull(connection);
+    }
+
+    @Test
+    public void testShutdownException() throws SQLException {
+        DBConnectionPool dbcpSpy = Mockito.spy(new DBConnectionPool(connectURI, username, password, driverClass,
+                0, 0, 0, 0, 0));
+        BasicDataSource mockDataSource = Mockito.mock(BasicDataSource.class);
+        Mockito.doThrow(new SQLException()).when(mockDataSource).close();
+        Whitebox.setInternalState(dbcpSpy, "dataSource", mockDataSource);
+        dbcpSpy.shutdown();
+        Mockito.verify(mockDataSource).close();
     }
 
     @After
