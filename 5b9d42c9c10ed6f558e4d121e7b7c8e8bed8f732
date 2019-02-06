@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b3cf705_3e70486a",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/node/ConfigResourceNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-06T09:59:16Z",
+      "side": 1,
+      "message": "Could include a verify(...) here to confirm test success?",
+      "range": {
+        "startLine": 753,
+        "startChar": 8,
+        "endLine": 753,
+        "endChar": 75
+      },
+      "revId": "5b9d42c9c10ed6f558e4d121e7b7c8e8bed8f732",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
