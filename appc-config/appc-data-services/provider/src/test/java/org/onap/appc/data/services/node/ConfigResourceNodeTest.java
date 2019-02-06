@@ -25,6 +25,7 @@ package org.onap.appc.data.services.node;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
@@ -734,4 +735,23 @@ public class ConfigResourceNodeTest {
 
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
+    
+    @Test
+    public void testSaveConfigTransactionLog() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, "test");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, "test");
+        
+        context.setAttribute("request-id", "test");
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.saveConfigTransactionLog(inParams, contextMock);
+    }
+    
+    
 }
