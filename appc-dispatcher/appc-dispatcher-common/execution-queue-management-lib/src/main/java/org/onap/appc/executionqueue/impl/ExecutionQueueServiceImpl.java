@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +29,6 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.executionqueue.ExecutionQueueService;
-import org.onap.appc.executionqueue.MessageExpirationListener;
 import org.onap.appc.executionqueue.impl.object.QueueMessage;
 
 import java.util.Calendar;
@@ -46,7 +47,7 @@ public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQ
 
     @Override
     public void putMessage(M message) throws APPCException {
-         this.putMessage(message,-1,null);
+         this.putMessage(message, -1, null);
     }
 
     /**
@@ -62,7 +63,7 @@ public class ExecutionQueueServiceImpl<M extends Runnable> implements ExecutionQ
         QueueMessage queueMessage;
 
         try {
-            Date expirationTime = calculateExpirationTime(timeout,unit);
+            Date expirationTime = calculateExpirationTime(timeout, unit);
             queueMessage = new QueueMessage(message,expirationTime);
             boolean enqueueTask = queueManager.enqueueTask(queueMessage);
             if(!enqueueTask){
