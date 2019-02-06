@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,15 +25,6 @@
 
 package org.onap.appc.instar.dme2client;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.config.DefaultClientConfig;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.jersey.client.urlconnection.HTTPSProperties;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -45,6 +38,14 @@ import javax.ws.rs.core.MediaType;
 import org.apache.commons.io.IOUtils;
 import org.onap.appc.instar.utils.InstarClientConstant;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
+import com.sun.jersey.client.urlconnection.HTTPSProperties;
 
 public class Dme2Client {
 
@@ -64,12 +65,12 @@ public class Dme2Client {
             this.ipAddress = data.get("ipAddress");
             this.mask = data.get("mask");
         }
-        String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
+        String propDir = InstarClientConstant.getEnvironmentVariable(SDNC_CONFIG_DIR_VAR);
         if (propDir == null) {
             throw new IOException("Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
         }
         String propFile = propDir + InstarClientConstant.OUTBOUND_PROPERTIES;
-        InputStream propStream = new FileInputStream(propFile);
+        InputStream propStream = InstarClientConstant.getInputStream(propFile);
         try {
             properties.load(propStream);
         } catch (Exception e) {
@@ -117,8 +118,8 @@ public class Dme2Client {
                 .put(HTTPSProperties.PROPERTY_HTTPS_PROPERTIES, new HTTPSProperties(getHostnameVerifier(), sslContext));
             client = Client.create(defaultClientConfig);
             client.addFilter(new HTTPBasicAuthFilter(userId, password));
-
-            webResource = client.resource(new URI(resourceUri));
+            URI uri = new URI(resourceUri);
+            webResource = client.resource(uri);
             webResource.setProperty("Content-Type", "application/json;charset=UTF-8");
 
             if (HttpMethod.GET.equalsIgnoreCase(methodType)) {

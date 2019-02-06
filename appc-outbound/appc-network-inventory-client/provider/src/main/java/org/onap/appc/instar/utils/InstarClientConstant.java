@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,6 +24,10 @@
  */
 
 package org.onap.appc.instar.utils;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 public class InstarClientConstant {
 
@@ -74,5 +80,13 @@ public class InstarClientConstant {
     public static final String OUTBOUND_PROPERTIES = "/outbound.properties";
 
     private InstarClientConstant() {}
+    
+    public static String getEnvironmentVariable(String env) {
+      return System.getenv(env);
+    }
+    
+    public static InputStream getInputStream(String file) throws FileNotFoundException {
+      return new FileInputStream(file);
+    }
 }
 
