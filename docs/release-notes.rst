@@ -37,8 +37,11 @@ Version: 1.4.4
 The Casablanca maintenance release fixed the following bugs:
 
 	- `APPC-1247 <https://jira.onap.org/browse/APPC-1247>`_ - java.lang.NoClassDefFoundError when publishing DMAAP message
-
+	     Changes were made to the karaf bundle exports to fix this problem.
+	- `APPC-1289 <https://jira.onap.org/browse/APPC-1289>`_ - VNF Restart flow throws Linkage Error
+	     Pom file dependency changes were made to fix this problem.
 	- `CCSDK-741 <https://jira.onap.org/browse/CCSDK-741>`_ - Removed Work-around required for vCPE use case to correct the error described in CCSDK ticket.
+	     APPC updated to using the latest CCSDK version in order to recieve the fix for this problem (`APPC-1304 <https://jira.onap.org/browse/APPC-1304>`_)
  
 Special Note for `APPC-1367 <https://jira.onap.org/browse/APPC-1367>`_ - APPC fails healthcheck with 404 error:
 
