@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28bb34e9_32f614e4",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/main/java/org/onap/appc/executionqueue/helper/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T20:07:09Z",
+      "side": 1,
+      "message": "sonar: add \"e\" as a parameter to error()",
+      "revId": "99bfd48e9c59b7d315ef42356bbbfffbc3407c3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb159c3b_12beb9fa",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/main/java/org/onap/appc/executionqueue/helper/Util.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T20:07:09Z",
+      "side": 1,
+      "message": "sonar: add \"e\" as a parameter to error()",
+      "revId": "99bfd48e9c59b7d315ef42356bbbfffbc3407c3f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
