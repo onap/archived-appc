@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,27 +25,24 @@
 
 package org.onap.appc.executionqueue.impl;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import org.onap.appc.executionqueue.MessageExpirationListener;
-import org.onap.appc.executionqueue.helper.Util;
-import org.onap.appc.executionqueue.impl.object.QueueMessage;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import org.onap.appc.executionqueue.helper.Util;
+import org.onap.appc.executionqueue.impl.object.QueueMessage;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 public class QueueManager {
 
     private final EELFLogger logger = EELFManager.getInstance().getLogger(QueueManager.class);
 
     private ExecutorService messageExecutor;
-    private LinkedBlockingQueue<QueueMessage> queue;
-    private int max_thread_size;
-    private int max_queue_size;
+    private int maxThreadSize;
+    private int maxQueueSize;
     private Util executionQueueUtil;
 
     public QueueManager() {
@@ -54,14 +53,14 @@ public class QueueManager {
      * Initialization method used by blueprint
      */
     public void init() {
-        max_thread_size = executionQueueUtil.getThreadPoolSize();
-        max_queue_size = executionQueueUtil.getExecutionQueueSize();
+        maxThreadSize = executionQueueUtil.getThreadPoolSize();
+        maxQueueSize = executionQueueUtil.getExecutionQueueSize();
         messageExecutor = new ThreadPoolExecutor(
-            max_thread_size,
-            max_thread_size,
+            maxThreadSize,
+            maxThreadSize,
             0L,
             TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue(max_queue_size),
+            new LinkedBlockingQueue(maxQueueSize),
             executionQueueUtil.getThreadFactory(true, "appc-dispatcher"),
             new ThreadPoolExecutor.AbortPolicy());
     }
@@ -107,10 +106,5 @@ public class QueueManager {
         }
 
         return isEnqueued;
-    }
-
-    private boolean messageExpired(QueueMessage queueMessage) {
-        return queueMessage.getExpirationTime() != null &&
-            queueMessage.getExpirationTime().getTime() < System.currentTimeMillis();
     }
 }
