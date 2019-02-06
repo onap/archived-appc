@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42e15501_cb64e85e",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T12:57:42Z",
+      "side": 1,
+      "message": "update license date?  Or were these changes made in 2018 and just now copied into ONAP?\n\nsame comment applies to all files",
+      "revId": "f389a8116d713aaca80a607d9a8c3c91a8b4a054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09b7c934_a149e048",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T12:57:42Z",
+      "side": 1,
+      "message": "sonar: change \"HashMap\u003cString, String\u003e\" to \"HashMap\u003c\u003e\"\n\nsame comment applies through-out this file",
+      "revId": "f389a8116d713aaca80a607d9a8c3c91a8b4a054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cc21d44_1f9210f2",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T12:57:42Z",
+      "side": 1,
+      "message": "sonar: delete this line?",
+      "revId": "f389a8116d713aaca80a607d9a8c3c91a8b4a054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1ca8656f_3201d04b",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/node/AAIResourceNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T12:57:42Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "f389a8116d713aaca80a607d9a8c3c91a8b4a054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7aff139d_b8839aba",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/node/MockAaiService.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T12:57:42Z",
+      "side": 1,
+      "message": "delete this line",
+      "revId": "f389a8116d713aaca80a607d9a8c3c91a8b4a054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0feb7422_b11bb9f5",
+        "filename": "appc-sdc-listener/appc-yang-generator/dependency-reduced-pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-06T12:57:42Z",
+      "side": 1,
+      "message": "add license to this file",
+      "revId": "f389a8116d713aaca80a607d9a8c3c91a8b4a054",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
