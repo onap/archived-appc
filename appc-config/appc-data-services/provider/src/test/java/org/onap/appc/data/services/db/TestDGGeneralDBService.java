@@ -351,4 +351,17 @@ public class TestDGGeneralDBService {
         QueryStatus status= dbService.updateUploadConfig(ctx, "test",10);
         assertEquals(QueryStatus.SUCCESS, status);
     }
+    
+    @Test
+    public void testGetVnfcReferenceByVnfTypeNAction() throws SvcLogicException
+    {
+        SvcLogicContext ctx = new SvcLogicContext();
+        
+        ctx.setAttribute("vnf-type", "test");
+        ctx.setAttribute("request-action", "test");
+        
+        MockDGGeneralDBService dbService =     MockDGGeneralDBService.initialise();
+        QueryStatus status= dbService.getVnfcReferenceByVnfTypeNAction(ctx, "test");
+        assertEquals(QueryStatus.SUCCESS, status);
+    }
 }
