@@ -22,6 +22,30 @@
       "revId": "5b9d42c9c10ed6f558e4d121e7b7c8e8bed8f732",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ddfec62d_856c37e5",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/node/ConfigResourceNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 753,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-02-06T10:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b3cf705_3e70486a",
+      "range": {
+        "startLine": 753,
+        "startChar": 8,
+        "endLine": 753,
+        "endChar": 75
+      },
+      "revId": "5b9d42c9c10ed6f558e4d121e7b7c8e8bed8f732",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
