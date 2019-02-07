@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cf0fd67_f565f787",
+        "filename": "appc-config/appc-config-params/provider/src/test/java/org/onap/sdnc/config/params/data/TestResponseKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T14:02:35Z",
+      "side": 1,
+      "message": "checkstyle: add a space before the \"\u003d\"",
+      "revId": "745eaf5217314fbd37b417ab68d82a65a974f7db",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
