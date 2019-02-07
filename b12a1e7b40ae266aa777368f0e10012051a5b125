@@ -34,6 +34,24 @@
       "revId": "b12a1e7b40ae266aa777368f0e10012051a5b125",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e45ce4fb_7e70bfc9",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/test/java/org/onap/appc/executionqueue/impl/QueueManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T15:40:55Z",
+      "side": 1,
+      "message": "oh, of course.\n\nFYI: per javadocs, should use Integer.valueOf(1) instead of new Integer(1).  However, since this is test code, I don\u0027t see that it really matters.",
+      "parentUuid": "946a5970_15a71a81",
+      "revId": "b12a1e7b40ae266aa777368f0e10012051a5b125",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
