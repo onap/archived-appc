@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4295c774_a33486f4",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/ResponseHandlerImpl/DefaultResponseHandler.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "fyi: since already checked for isNotBlank, can simply invoke: ctx.getAttr(...).equals(...) instead of using StringUtils.equals.  However, the code should work as is, too, just an insignificant performance hit.\n\nsame comment applies to the second equals check, too",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a49d3764_a99c6aa6",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "could use StringUtils.isBlank() here",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "762cfbbe_69a25cab",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "perhaps invoke get(\"capabilities\") once and store it in a variable that\u0027s then re-used",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae5a0bb4_b4f15210",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "use diamond, \"\u003c\u003e\" on right-hand side of \"\u003d\"",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72d140a3_c4751718",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "use diamond, \"\u003c\u003e\" on right-hand side of \"\u003d\"",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cffbc42d_b4a311fe",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "since we\u0027re using asText(), that means that \"T\" must be \"String\".  Therefore, all of the \"\u003cT\u003e\" parameters could be changed to \"\u003cString\u003e\" and the casting removed.  This would make it more type-safe.\n\nsimilar comment probably applies to extractParameterList()",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90eacbf2_e75b999c",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/ResourceUriExtractor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "could use StringUtils.isBlank()",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a13f634_ac95b30a",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "fyi: I\u0027ve seen cases where hashcodes change between java versions, thus changing the order of the vm HashMap data.  To avoid breaking tests like this, I typically extract any maps and copy them into a TreeMap, whose order doesn\u0027t vary, and then compare that to what\u0027s expected.",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b429fd94_fecbe3f6",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "in this case, the HashMap is expected to be empty, so this assertEquals() should work just fine",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "27120c0c_d0db88b6",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "in this case, the HashMap is expected to contain only one item, so this assertEquals() should work just fine, too",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b10125f_63b998b5",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/InputParamsCollectorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "if the transaction uses a hashmap, then order may be an issue with different java versions",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6cfafd55_21c165c3",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/node/InputParamsCollectorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T17:58:03Z",
+      "side": 1,
+      "message": "same comment about hashmaps",
+      "revId": "c83037c78955c771c78ce660541259fae36327d0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
