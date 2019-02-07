@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,13 +25,26 @@
 
 package org.onap.appc.lockmanager.impl.sql.optimistic;
 
+import org.onap.appc.dao.util.api.JdbcConnectionFactory;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.onap.appc.lockmanager.api.LockException;
+import org.onap.appc.lockmanager.api.LockRuntimeException;
 import org.onap.appc.lockmanager.impl.sql.JdbcLockManager;
 import org.onap.appc.lockmanager.impl.sql.MySqlLockManagerBaseTests;
 import org.onap.appc.lockmanager.impl.sql.Synchronizer;
-
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import java.sql.Timestamp;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.concurrent.*;
 
 public class TestMySqlLockManager extends MySqlLockManagerBaseTests {
@@ -225,5 +240,192 @@ public class TestMySqlLockManager extends MySqlLockManagerBaseTests {
         } finally {
             future1.cancel(true);
         }
+    }
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Test
+    public void testAcquireLockNullOwner() throws LockException {
+        MySqlLockManager lockManager = new MySqlLockManager();
+        expectedEx.expect(LockRuntimeException.class);
+        lockManager.acquireLock(null, null, 0);
+    }
+
+    @Test
+    public void testIsLocked() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        Mockito.doThrow(new SQLException()).when(lockManager).loadLockRecord(Mockito.any(Connection.class), Mockito.anyString());
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(Mockito.mock(Connection.class));
+        lockManager.setConnectionFactory(connectionFactory);
+        expectedEx.expect(LockRuntimeException.class);
+        lockManager.isLocked(" ");
+    }
+
+    @Test
+    public void testGetLockOwnerExceptionFlow() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        Mockito.doThrow(new SQLException()).when(lockManager).loadLockRecord(Mockito.any(Connection.class), Mockito.anyString());
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(Mockito.mock(Connection.class));
+        lockManager.setConnectionFactory(connectionFactory);
+        expectedEx.expect(LockRuntimeException.class);
+        lockManager.getLockOwner(" ");
+    }
+
+    @Test
+    public void testGetLockOwnerNull() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        Mockito.doReturn(null).when(lockManager).loadLockRecord(Mockito.any(Connection.class), Mockito.anyString());
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(Mockito.mock(Connection.class));
+        lockManager.setConnectionFactory(connectionFactory);
+        assertNull(lockManager.getLockOwner(" "));
+    }
+
+    @Test
+    public void testGetLockOwnerExpired() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        LockRecord lockRecord = Mockito.mock(LockRecord.class);
+        Mockito.when(lockRecord.getTimeout()).thenReturn(1L);
+        Mockito.when(lockRecord.getUpdated()).thenReturn(System.currentTimeMillis()-100);
+        Mockito.when(lockRecord.getOwner()).thenReturn("OWNER");
+        Mockito.doReturn(lockRecord).when(lockManager).loadLockRecord(Mockito.any(Connection.class), Mockito.anyString());
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getTimestamp(1)).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(SqlLockManager.SQL_CURRENT_TIMESTAMP)).thenReturn(statement);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(connection);
+        lockManager.setConnectionFactory(connectionFactory);
+        assertNull(lockManager.getLockOwner(" "));
+    }
+
+    @Test
+    public void testGetLockOwnerNotExpired() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        LockRecord lockRecord = Mockito.mock(LockRecord.class);
+        Mockito.when(lockRecord.getTimeout()).thenReturn(1L);
+        Mockito.when(lockRecord.getUpdated()).thenReturn(System.currentTimeMillis()+10000);
+        Mockito.when(lockRecord.getOwner()).thenReturn("OWNER");
+        Mockito.doReturn(lockRecord).when(lockManager).loadLockRecord(Mockito.any(Connection.class), Mockito.anyString());
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getTimestamp(1)).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(SqlLockManager.SQL_CURRENT_TIMESTAMP)).thenReturn(statement);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(connection);
+        lockManager.setConnectionFactory(connectionFactory);
+        assertEquals("OWNER", lockManager.getLockOwner(" "));
+    }
+
+    @Test
+    public void testIsDuplicatePkError() throws SQLException {
+        SqlLockManager lockManager = new SqlLockManager() {};
+        SQLException sqlException = Mockito.mock(SQLException.class);
+        Mockito.when(sqlException.getSQLState()).thenReturn("23xxx");
+        assertTrue(lockManager.isDuplicatePkError(sqlException));
+    }
+
+    @Test
+    public void testLoadLockRecord() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        lockManager.setTableName("TABLE_NAME");
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getString(2)).thenReturn("OWNER");
+        Mockito.when(resultSet.getLong(3)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(4)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(5)).thenReturn(0L);
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(String.format(SqlLockManager.SQL_LOAD_LOCK_RECORD, "TABLE_NAME"))).thenReturn(statement);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(connection);
+        lockManager.setConnectionFactory(connectionFactory);
+        assertTrue(lockManager.loadLockRecord(connection, "") instanceof LockRecord);
+    }
+
+    @Test
+    public void testLoadLockRecord3arg() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        lockManager.setTableName("TABLE_NAME");
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getString(2)).thenReturn("OWNER");
+        Mockito.when(resultSet.getLong(3)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(4)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(5)).thenReturn(0L);
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(SqlLockManager.SQL_LOAD_LOCK_RECORD_WITH_OWNER)).thenReturn(statement);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(connection);
+        lockManager.setConnectionFactory(connectionFactory);
+        assertTrue(lockManager.loadLockRecord(connection, "", "") instanceof LockRecord);
+    }
+
+    @Test
+    public void testAddLockRecord() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        lockManager.setTableName("TABLE_NAME");
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement statement2 = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet2 = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet2.next()).thenReturn(true);
+        Mockito.when(resultSet2.getTimestamp(1)).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(statement2.executeQuery()).thenReturn(resultSet2);
+        Mockito.when(connection.prepareStatement(SqlLockManager.SQL_CURRENT_TIMESTAMP)).thenReturn(statement2);
+
+        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getString(2)).thenReturn("OWNER");
+        Mockito.when(resultSet.getLong(3)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(4)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(5)).thenReturn(0L);
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(String.format(SqlLockManager.SQL_INSERT_LOCK_RECORD, "TABLE_NAME"))).thenReturn(statement);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(connection);
+        lockManager.setConnectionFactory(connectionFactory);
+        lockManager.addLockRecord(connection, "", "", 0L);
+        Mockito.verify(statement).executeUpdate();
+    }
+
+    @Test
+    public void testUpdateLockRecord() throws SQLException {
+        MySqlLockManager lockManager = Mockito.spy(new MySqlLockManager());
+        lockManager.setTableName("TABLE_NAME");
+        JdbcConnectionFactory connectionFactory = Mockito.mock(JdbcConnectionFactory.class);
+        Connection connection = Mockito.mock(Connection.class);
+        PreparedStatement statement2 = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet2 = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet2.next()).thenReturn(true);
+        Mockito.when(resultSet2.getTimestamp(1)).thenReturn(new Timestamp(System.currentTimeMillis()));
+        Mockito.when(statement2.executeQuery()).thenReturn(resultSet2);
+        Mockito.when(connection.prepareStatement(SqlLockManager.SQL_CURRENT_TIMESTAMP)).thenReturn(statement2);
+
+        PreparedStatement statement = Mockito.mock(PreparedStatement.class);
+        ResultSet resultSet = Mockito.mock(ResultSet.class);
+        Mockito.when(resultSet.next()).thenReturn(true);
+        Mockito.when(resultSet.getString(2)).thenReturn("OWNER");
+        Mockito.when(resultSet.getLong(3)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(4)).thenReturn(0L);
+        Mockito.when(resultSet.getLong(5)).thenReturn(0L);
+        Mockito.when(statement.executeQuery()).thenReturn(resultSet);
+        Mockito.when(connection.prepareStatement(String.format(SqlLockManager.SQL_UPDATE_LOCK_RECORD, "TABLE_NAME"))).thenReturn(statement);
+        Mockito.when(connectionFactory.openDbConnection()).thenReturn(connection);
+        lockManager.setConnectionFactory(connectionFactory);
+        assertFalse(lockManager.updateLockRecord(connection, "", "", 0L, 0L));
     }
 }

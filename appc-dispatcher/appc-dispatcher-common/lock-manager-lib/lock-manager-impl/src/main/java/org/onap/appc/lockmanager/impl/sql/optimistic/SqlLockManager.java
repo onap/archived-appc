@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,12 +37,12 @@ import org.onap.appc.lockmanager.impl.sql.Messages;
 
 abstract class SqlLockManager extends JdbcLockManager {
 
-    private static final String SQL_LOAD_LOCK_RECORD = "SELECT * FROM %s WHERE RESOURCE_ID=?";
-    private static final String SQL_INSERT_LOCK_RECORD = "INSERT INTO %s (RESOURCE_ID, OWNER_ID, UPDATED, TIMEOUT, VER) VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE_LOCK_RECORD = "UPDATE %s SET OWNER_ID=?, UPDATED=?, TIMEOUT=?, VER=? WHERE RESOURCE_ID=? AND VER=?";
+    static final String SQL_LOAD_LOCK_RECORD = "SELECT * FROM %s WHERE RESOURCE_ID=?";
+    static final String SQL_INSERT_LOCK_RECORD = "INSERT INTO %s (RESOURCE_ID, OWNER_ID, UPDATED, TIMEOUT, VER) VALUES (?, ?, ?, ?, ?)";
+    static final String SQL_UPDATE_LOCK_RECORD = "UPDATE %s SET OWNER_ID=?, UPDATED=?, TIMEOUT=?, VER=? WHERE RESOURCE_ID=? AND VER=?";
 //    private static final String SQL_DELETE_LOCK_RECORD = "DELETE FROM %s WHERE RESOURCE_ID=? AND VER=?";
-    private static final String SQL_CURRENT_TIMESTAMP = "SELECT CURRENT_TIMESTAMP()";
-    private static final String SQL_LOAD_LOCK_RECORD_WITH_OWNER = "SELECT * FROM LOCK_MANAGEMENT WHERE RESOURCE_ID = ? AND OWNER = ? ";
+    static final String SQL_CURRENT_TIMESTAMP = "SELECT CURRENT_TIMESTAMP()";
+    static final String SQL_LOAD_LOCK_RECORD_WITH_OWNER = "SELECT * FROM LOCK_MANAGEMENT WHERE RESOURCE_ID = ? AND OWNER = ? ";
 
     private String sqlLoadLockRecord;
     private String sqlInsertLockRecord;
@@ -79,13 +81,13 @@ abstract class SqlLockManager extends JdbcLockManager {
 
     @Override
     public boolean isLocked(String resource) {
-        Connection connection=openDbConnection();
+        Connection connection = openDbConnection();
         try {
-            LockRecord lockRecord=loadLockRecord(connection,resource);
-            if(lockRecord==null){
+            LockRecord lockRecord = loadLockRecord(connection, resource);
+            if(lockRecord == null){
                 return false;
             }else{
-                if(lockRecord.getOwner()==null){
+                if(lockRecord.getOwner() == null){
                     return false;
                 }else if(isLockExpired(lockRecord, connection)){
                     return false;
@@ -102,10 +104,10 @@ abstract class SqlLockManager extends JdbcLockManager {
 
     @Override
     public String getLockOwner(String resource) {
-        Connection connection=openDbConnection();
+        Connection connection = openDbConnection();
         try {
-            LockRecord lockRecord=loadLockRecord(connection,resource);
-            if(lockRecord==null || lockRecord.getOwner() ==null ){
+            LockRecord lockRecord = loadLockRecord(connection, resource);
+            if(lockRecord == null || lockRecord.getOwner() == null ){
                 return null;
             }else{
                 if(isLockExpired(lockRecord, connection)){
@@ -116,7 +118,7 @@ abstract class SqlLockManager extends JdbcLockManager {
             }
         } catch (SQLException e) {
             throw new LockRuntimeException(Messages.EXP_CHECK_LOCK.format(resource));
-        }finally {
+        } finally {
             closeDbConnection(connection);
         }
     }
@@ -216,7 +218,7 @@ abstract class SqlLockManager extends JdbcLockManager {
         return res;
     }
 
-    protected LockRecord loadLockRecord(Connection connection, String resource,String owner) throws SQLException {
+    protected LockRecord loadLockRecord(Connection connection, String resource, String owner) throws SQLException {
         LockRecord res = null;
         try(PreparedStatement statement = connection.prepareStatement(SQL_LOAD_LOCK_RECORD_WITH_OWNER)) {
             statement.setString(1, resource);
