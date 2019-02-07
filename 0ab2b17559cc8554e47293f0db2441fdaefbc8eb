@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b45343f_5eed4df6",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/test/java/org/onap/appc/instar/node/TestInstarClientActivator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T13:56:24Z",
+      "side": 1,
+      "message": "since we invoked start(), there\u0027s not much point in verifying that we invoked start.  Is there any side-effect of start() that we can test?  For instance, can we verify that some method of \"ctx\" was invoked?  Or that \"ctx\" was stored in some field within the activator?\n\nsame comment for the next method",
+      "revId": "0ab2b17559cc8554e47293f0db2441fdaefbc8eb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
