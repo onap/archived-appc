@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e44f05_11423a61",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T21:51:19Z",
+      "side": 1,
+      "message": "can probably remove the leading \"\u003cT\u003e\" and change all other occurrences of \"T\" to \"String\" - through-out this method\n\ncan probably do the same with extractParameterList",
+      "revId": "bbe6fc7c5c5153f502a6ac21a20018e7fb888c6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "391c9113_f054020a",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T21:51:19Z",
+      "side": 1,
+      "message": "still need to change to \"\u003c\u003e\" on right-hand side of \"\u003d\" (sonar will complain about this)\n\nsame comment elsewhere in this method",
+      "revId": "bbe6fc7c5c5153f502a6ac21a20018e7fb888c6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6010e2e6_df29e2f7",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/node/CapabilitiesDataExtractor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T21:51:19Z",
+      "side": 1,
+      "message": "should be able to remove both casts once \"T\" is changed to String",
+      "revId": "bbe6fc7c5c5153f502a6ac21a20018e7fb888c6e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
