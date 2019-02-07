@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * =============================================================================
  * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
@@ -102,6 +102,16 @@ public class TestDataTool {
         assertEquals("test\\'test", EscapeUtils.escapeString(str));
         assertEquals("test\\0", EscapeUtils.escapeString(strng));
         assertEquals(null, EscapeUtils.escapeString(null));
+    }
+    
+    @Test
+    public void testEscapeSqlForNullString() {
+        assertEquals(null, EscapeUtils.escapeSql(null));
+    }
+    
+    @Test
+    public void testUnescapeSqlForNullString() {
+        assertEquals(null, EscapeUtils.unescapeSql(null));
     }
 
     @Test
