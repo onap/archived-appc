@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2019 AT&T intellectual property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +33,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.appc.flow.controller.interfaceData.Capabilities;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -40,56 +45,80 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class CapabilitiesDataExtractor {
 
-  private static final EELFLogger log = EELFManager.getInstance().getLogger(CapabilitiesDataExtractor.class);
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(CapabilitiesDataExtractor.class);
 
-  private final FlowControlDBService dbService;
-  private final ObjectMapper mapper;
+    private final FlowControlDBService dbService;
+    private final ObjectMapper mapper;
 
-  public CapabilitiesDataExtractor() {
-    this(FlowControlDBService.initialise());
-  }
-
-  /**
-   * Ctor for tests, prefer to use default one
-   */
-  public CapabilitiesDataExtractor(FlowControlDBService dbService) {
-    this.dbService = dbService;
-
-    mapper = new ObjectMapper();
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-  }
-
-  Capabilities getCapabilitiesData(SvcLogicContext ctx) throws SvcLogicException, IOException {
-
-    String fn = "FlowExecutorNode.getCapabilitiesData";
-    String capabilitiesData = dbService.getCapabilitiesData(ctx);
-    log.info(fn + "capabilitiesDataInput:" + capabilitiesData);
-
-    Capabilities capabilities = new Capabilities();
-    if (capabilitiesData == null) {
-      return capabilities;
+    public CapabilitiesDataExtractor() {
+        this(FlowControlDBService.initialise());
     }
 
-    JsonNode capabilitiesNode = mapper.readTree(capabilitiesData);
-    log.info("capabilitiesNode:" + capabilitiesNode.toString());
+    /**
+     * Ctor for tests, prefer to use default one
+     */
+    public CapabilitiesDataExtractor(FlowControlDBService dbService) {
+        this.dbService = dbService;
 
-    capabilities.getVfModule().addAll(extractParameterList(capabilitiesNode, VF_MODULE));
-    capabilities.getVnfc().addAll(extractParameterList(capabilitiesNode, VNFC));
-    capabilities.getVnf().addAll(extractParameterList(capabilitiesNode, VNF));
-    capabilities.getVm().addAll(extractParameterList(capabilitiesNode, VM));
-
-    log.info("Capabilities Output:" + capabilities.toString());
-
-    return capabilities;
-  }
-
-  private <T> List<T> extractParameterList(JsonNode root, String parameter) throws IOException {
-    JsonNode parameterNode = root.get(parameter);
-    if (parameterNode == null) {
-      return new ArrayList<>();
+        mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
     }
-    return mapper.readValue(parameterNode.toString(), new TypeReference<List<T>>() {});
-  }
+
+    Capabilities getCapabilitiesData(SvcLogicContext ctx) throws SvcLogicException, IOException {
+
+        String fn = "FlowExecutorNode.getCapabilitiesData";
+        String capabilitiesData = dbService.getCapabilitiesData(ctx);
+        log.info(fn + ":capabilitiesDataInput:" + capabilitiesData);
+
+        Capabilities capabilities = new Capabilities();
+        if (capabilitiesData == null || capabilitiesData.isEmpty()) {
+            return capabilities;
+        }
+
+        JsonNode capabilitiesNode = mapper.readTree(capabilitiesData);
+        log.info("capabilitiesNode:" + capabilitiesNode.toString());
+
+        capabilities.getVfModule().addAll(extractParameterList(capabilitiesNode.get("capabilities"), VF_MODULE));
+        capabilities.getVnfc().addAll(extractParameterList(capabilitiesNode.get("capabilities"), VNFC));
+        capabilities.getVnf().addAll(extractParameterList(capabilitiesNode.get("capabilities"), VNF));
+        capabilities.getVm().putAll(extractParameterMap(capabilitiesNode.get("capabilities"), VM));
+
+        log.info("Capabilities Output:" + capabilities.toString());
+
+        return capabilities;
+    }
+
+    private <T> List<T> extractParameterList(JsonNode root, String parameter) throws IOException {
+        JsonNode parameterNode = root.get(parameter);
+        if (parameterNode == null) {
+            return new ArrayList<>();
+        }
+        return mapper.readValue(parameterNode.toString(), new TypeReference<List<T>>() {
+        });
+    }
+
+    private <T> HashMap<T, List<T>> extractParameterMap(JsonNode root, String parameter) throws IOException {
+        JsonNode parameterNode = root.get(parameter);
+        HashMap<T, List<T>> hm = new HashMap<T, List<T>>();
+        if (parameterNode == null || !parameterNode.isArray()) {
+            return hm;
+        }
+        for (JsonNode n : parameterNode) {
+            Iterator<Map.Entry<String, JsonNode>> fldIter = n.fields();
+            while (fldIter.hasNext()) {
+                Map.Entry<String, JsonNode> currentEntry = fldIter.next();
+                if (currentEntry.getValue().isArray()) {
+                    Iterator<JsonNode> nodeIter = currentEntry.getValue().elements();
+                    List<T> listOfT = new ArrayList<T>();
+                    while (nodeIter.hasNext()) {
+                        listOfT.add((T) (nodeIter.next().asText()));
+                    }
+                    hm.put((T) currentEntry.getKey(), (List<T>) listOfT);
+                }
+            }
+        }
+        return hm;
+    }
 
 }

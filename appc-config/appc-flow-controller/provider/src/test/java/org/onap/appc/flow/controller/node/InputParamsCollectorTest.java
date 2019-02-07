@@ -3,7 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,84 +47,112 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class InputParamsCollectorTest {
 
-  private SvcLogicContext ctx;
-  private FlowControlDBService dbService;
-  private EnvVariables envVariables;
-  private InputParamsCollector inputParamsCollector;
+    private SvcLogicContext ctx;
+    private FlowControlDBService dbService;
+    private EnvVariables envVariables;
+    private InputParamsCollector inputParamsCollector;
 
-  @Before
-  public void setUp() {
+    @Before
+    public void setUp() {
 
-    ctx = mock(SvcLogicContext.class);
-    dbService = mock(FlowControlDBService.class);
-    envVariables = mock(EnvVariables.class);
+        ctx = mock(SvcLogicContext.class);
+        dbService = mock(FlowControlDBService.class);
+        envVariables = mock(EnvVariables.class);
 
-    when(envVariables.getenv(SDNC_CONFIG_DIR_VAR)).thenReturn("./src/test/resources");
+        when(envVariables.getenv(SDNC_CONFIG_DIR_VAR)).thenReturn("./src/test/resources");
 
-    inputParamsCollector = new InputParamsCollector(envVariables, dbService);
-  }
+        inputParamsCollector = new InputParamsCollector(envVariables, dbService);
+    }
 
-  @Test
-  public void should_collect_input_params() throws Exception {
+    @Test
+    public void should_collect_input_params() throws Exception {
 
-    when(ctx.getAttribute(VNF_ID)).thenReturn("some-vnf-id");
-    when(ctx.getAttribute(REQUEST_ACTION)).thenReturn("some-request-action");
-    when(ctx.getAttribute(ACTION_LEVEL)).thenReturn("some-action-level");
-    when(ctx.getAttribute(PAYLOAD)).thenReturn("some-payload");
-    when(ctx.getAttribute(VSERVER_ID)).thenReturn("some-vserver-id");
-    when(ctx.getAttribute(VNFC_NAME)).thenReturn("some-vnfc-name");
+        when(ctx.getAttribute(VNF_ID)).thenReturn("some-vnf-id");
+        when(ctx.getAttribute(REQUEST_ACTION)).thenReturn("some-request-action");
+        when(ctx.getAttribute(ACTION_LEVEL)).thenReturn("some-action-level");
+        when(ctx.getAttribute(PAYLOAD)).thenReturn("some-payload");
+        when(ctx.getAttribute(VSERVER_ID)).thenReturn("some-vserver-id");
+        when(ctx.getAttribute(VNFC_NAME)).thenReturn("some-vnfc-name");
+        when(ctx.getAttribute("identity-url")).thenReturn("test_url");
 
-    when(dbService.getCapabilitiesData(ctx)).thenReturn(
-        "{'vnf':['vnf-1', 'vnf-2'],'vf-module':['vf-module-1', 'vf-module-2'],'vnfc':['vnfc-1', 'vnfc-2'],'vm':['vm-1', 'vm-2']}"
-            .replaceAll("'", "\""));
-    when(dbService.getDependencyInfo(ctx)).thenReturn(dependencyInfoPayload());
+        when(dbService.getCapabilitiesData(ctx)).thenReturn(
+                "{'capabilities': { 'vnf':['vnf-1', 'vnf-2'],'vf-module':['vf-module-1', 'vf-module-2'],'vnfc':['vnfc-1', 'vnfc-2'],'vm':[{'Start':['vnfc-1','vnfc-2']},{'Stop':[]}]}}"
+                        .replaceAll("'", "\""));
+        when(dbService.getDependencyInfo(ctx)).thenReturn(dependencyInfoPayload());
 
-    Transaction transaction = inputParamsCollector.collectInputParams(ctx);
+        Transaction transaction = inputParamsCollector.collectInputParams(ctx);
 
-    Assert.assertEquals("{\"input\":{\"request-info\":{\"action\":\"some-request-action\",\"payload\":\"some-payload\",\"action-level\":\"some-action-level\",\"action-identifier\":{\"vnf-id\":\"some-vnf-id\",\"vserver-id\":\"some-vserver-id\",\"vnfc-name\":\"some-vnfc-name\"}},\"inventory-info\":{\"vnf-info\":{\"vnf-id\":\"some-vnf-id\",\"identity-url\":\"\",\"vm\":[]}},\"capabilities\":{\"vnf\":[\"vnf-1\",\"vnf-2\"],\"vm\":[\"vm-1\",\"vm-2\"],\"vnfc\":[\"vnfc-1\",\"vnfc-2\"],\"vf-module\":[\"vf-module-1\",\"vf-module-2\"]}}}",
-        transaction.getPayload());
-    Assert.assertEquals("POST", transaction.getExecutionRPC());
-    Assert.assertEquals("seq-generator-uid", transaction.getuId());
-    Assert.assertEquals("some-pswd", transaction.getPswd());
-    Assert.assertEquals("exec-endpoint", transaction.getExecutionEndPoint());
-  }
+        Assert.assertEquals(
+                "{\"input\":{\"request-info\":{\"action\":\"some-request-action\",\"payload\":\"some-payload\",\"action-level\":\"some-action-level\",\"action-identifier\":{\"vnf-id\":\"some-vnf-id\",\"vserver-id\":\"some-vserver-id\",\"vnfc-name\":\"some-vnfc-name\"}},\"inventory-info\":{\"vnf-info\":{\"vnf-id\":\"some-vnf-id\",\"identity-url\":\"test_url\",\"vm\":[]}},\"capabilities\":{\"vnf\":[\"vnf-1\",\"vnf-2\"],\"vm\":{\"Start\":[\"vnfc-1\",\"vnfc-2\"],\"Stop\":[]},\"vnfc\":[\"vnfc-1\",\"vnfc-2\"],\"vf-module\":[\"vf-module-1\",\"vf-module-2\"]}}}",
+                transaction.getPayload());
+        Assert.assertEquals("POST", transaction.getExecutionRPC());
+        Assert.assertEquals("seq-generator-uid", transaction.getuId());
+        Assert.assertEquals("some-pswd", transaction.getPswd());
+        Assert.assertEquals("exec-endpoint", transaction.getExecutionEndPoint());
+    }
 
-  @Test
-  public void should_handle_dependency_config() throws Exception {
+    @Test
+    public void should_handle_dependency_config() throws Exception {
 
-    Vnfcs vnfcs = new Vnfcs();
-    vnfcs.setVnfcType("some-type");
-    vnfcs.setResilience("some-resilience");
-    vnfcs.setMandatory("some-mandatory");
-    Map<String, List<Vnfcs>> input = new HashMap<>();
-    List<Vnfcs> list = new ArrayList<>();
-    list.add(vnfcs);
-    list.add(vnfcs);
-    input.put("vnfcs", list);
+        Vnfcs vnfcs = new Vnfcs();
+        vnfcs.setVnfcType("some-type");
+        vnfcs.setResilience("some-resilience");
+        vnfcs.setMandatory("some-mandatory");
+        Map<String, List<Vnfcs>> input = new HashMap<>();
+        List<Vnfcs> list = new ArrayList<>();
+        list.add(vnfcs);
+        list.add(vnfcs);
+        input.put("vnfcs", list);
 
-    String jsonPayload = new ObjectMapper().writeValueAsString(input);
+        String jsonPayload = new ObjectMapper().writeValueAsString(input);
 
-    when(dbService.getDependencyInfo(ctx)).thenReturn(jsonPayload);
+        when(dbService.getDependencyInfo(ctx)).thenReturn(jsonPayload);
 
-    DependencyInfo dependencyInfo = inputParamsCollector.getDependencyInfo(ctx);
+        DependencyInfo dependencyInfo = inputParamsCollector.getDependencyInfo(ctx);
 
-    Assert.assertEquals(
-        "DependencyInfo [vnfcs=[Vnfcs [vnfcType=some-type, mandatory=some-mandatory, resilience=some-resilience, parents=[]], Vnfcs [vnfcType=some-type, mandatory=some-mandatory, resilience=some-resilience, parents=[]]]]",
-        dependencyInfo.toString());
-  }
+        Assert.assertEquals(
+                "DependencyInfo [vnfcs=[Vnfcs [vnfcType=some-type, mandatory=some-mandatory, resilience=some-resilience, parents=[]], Vnfcs [vnfcType=some-type, mandatory=some-mandatory, resilience=some-resilience, parents=[]]]]",
+                dependencyInfo.toString());
+    }
 
-  private String dependencyInfoPayload() throws JsonProcessingException {
-    Vnfcs vnfcs = new Vnfcs();
-    vnfcs.setVnfcType("some-type");
-    vnfcs.setResilience("some-resilience");
-    vnfcs.setMandatory("some-mandatory");
-    Map<String, List<Vnfcs>> input = new HashMap<>();
-    List<Vnfcs> list = new ArrayList<>();
-    list.add(vnfcs);
-    list.add(vnfcs);
-    input.put("vnfcs", list);
+    @Test
+    public void should_collect_input_params_null_caps() throws Exception {
 
-    return new ObjectMapper().writeValueAsString(input);
-  }
+        when(ctx.getAttribute(VNF_ID)).thenReturn("some-vnf-id");
+        when(ctx.getAttribute(REQUEST_ACTION)).thenReturn("some-request-action");
+        when(ctx.getAttribute(ACTION_LEVEL)).thenReturn("some-action-level");
+        when(ctx.getAttribute(PAYLOAD)).thenReturn("some-payload");
+        when(ctx.getAttribute(VSERVER_ID)).thenReturn("some-vserver-id");
+        when(ctx.getAttribute(VNFC_NAME)).thenReturn("some-vnfc-name");
+        when(ctx.getAttribute("identity-url")).thenReturn("test_url");
+
+        when(dbService.getCapabilitiesData(ctx)).thenReturn(null);
+
+        when(dbService.getDependencyInfo(ctx)).thenReturn(dependencyInfoPayload());
+
+        Transaction transaction = inputParamsCollector.collectInputParams(ctx);
+
+        Assert.assertEquals(
+                "{\"input\":{\"request-info\":{\"action\":\"some-request-action\",\"payload\":\"some-payload\",\"action-level\":\"some-action-level\",\"action-identifier\":{\"vnf-id\":\"some-vnf-id\",\"vserver-id\":\"some-vserver-id\",\"vnfc-name\":\"some-vnfc-name\"}},\"inventory-info\":{\"vnf-info\":{\"vnf-id\":\"some-vnf-id\",\"identity-url\":\"test_url\",\"vm\":[]}},\"capabilities\":{\"vnf\":[],\"vm\":{},\"vnfc\":[],\"vf-module\":[]}}}",
+                transaction.getPayload());
+        Assert.assertEquals("POST", transaction.getExecutionRPC());
+        Assert.assertEquals("seq-generator-uid", transaction.getuId());
+        Assert.assertEquals("some-pswd", transaction.getPswd());
+        Assert.assertEquals("exec-endpoint", transaction.getExecutionEndPoint());
+    }
+
+    private String dependencyInfoPayload() throws JsonProcessingException {
+        Vnfcs vnfcs = new Vnfcs();
+        vnfcs.setVnfcType("some-type");
+        vnfcs.setResilience("some-resilience");
+        vnfcs.setMandatory("some-mandatory");
+        Map<String, List<Vnfcs>> input = new HashMap<>();
+        List<Vnfcs> list = new ArrayList<>();
+        list.add(vnfcs);
+        list.add(vnfcs);
+        input.put("vnfcs", list);
+
+        return new ObjectMapper().writeValueAsString(input);
+    }
 
 }

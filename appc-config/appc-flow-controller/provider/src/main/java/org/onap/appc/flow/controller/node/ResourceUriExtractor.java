@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
  * ================================================================================
- * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ package org.onap.appc.flow.controller.node;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.HTTP;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_CONTEXT;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_HOST_IP_ADDRESS;
+import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_HOST_IP_ADDRESS_ALT;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_REQUEST_ACTION;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_URL;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST_PORT;
@@ -57,6 +58,8 @@ class ResourceUriExtractor {
 
     private String getAddress(SvcLogicContext ctx) {
         String address = ctx.getAttribute(INPUT_HOST_IP_ADDRESS);
+        if (address == null || address.length() == 0)
+            address = ctx.getAttribute(INPUT_HOST_IP_ADDRESS_ALT);
         String port = ctx.getAttribute(REST_PORT);
         return HTTP + address + ":" + port;
     }
