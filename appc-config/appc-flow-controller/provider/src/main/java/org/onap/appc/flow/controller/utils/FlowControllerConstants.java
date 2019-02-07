@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,9 +61,13 @@ public class FlowControllerConstants {
     public static final String ACTION_LEVEL = "action-level";
     public static final String ARTIFACT_NAME = "artifact-name";
 
-    public enum EndPointType { DG, REST, NODE }
+    public enum EndPointType {
+        DG, REST, NODE
+    }
 
-    public enum FlowStatus { PENDING, IN_PROCESS, COMPLETED }
+    public enum FlowStatus {
+        PENDING, IN_PROCESS, COMPLETED
+    }
 
     public static final String GENERATION_NODE = "GENERATION-NODE";
     public static final String SEQUENCE_TYPE = "SEQUENCE-TYPE";
@@ -98,6 +102,7 @@ public class FlowControllerConstants {
     public static final String HEALTHY = "healthy";
     public static final String INPUT_URL = "input.url";
     public static final String INPUT_HOST_IP_ADDRESS = "request-parameters.host-ip-address";
+    public static final String INPUT_HOST_IP_ADDRESS_ALT = "host-ip-address";
     public static final String INPUT_PORT_NUMBER = "port-number";
     public static final String INPUT_CONTEXT = "context";
     public static final String INPUT_SUB_CONTEXT = "sub-context";
@@ -116,9 +121,9 @@ public class FlowControllerConstants {
     public static final String VNFC_NAME = "vnfc-name";
     public static final String AAI_VNF_TYPE = "aai-vnf-type";
     public static final String REST_PROTOCOL = "REST";
-    public static final String HEALTHCHECK ="HealthCheck";
-    public static final String REST_USER="user";
-    public static final String REST_PWD="pwd";
-    public static final String REST_PORT="port";
-    public static final String REST_CONTEXT_URL="url";
+    public static final String HEALTHCHECK = "HealthCheck";
+    public static final String REST_USER = "user";
+    public static final String REST_PWD = "pwd";
+    public static final String REST_PORT = "port";
+    public static final String REST_CONTEXT_URL = "url";
 }

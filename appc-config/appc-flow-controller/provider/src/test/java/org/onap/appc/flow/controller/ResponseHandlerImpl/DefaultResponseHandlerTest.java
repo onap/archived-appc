@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia.
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,20 +28,23 @@ import org.junit.Test;
 import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.ResponseAction;
 import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class DefaultResponseHandlerTest {
 
     @Test
     public void handlerResponse_shouldReturnEmptyResponseAction_whenTransactionResponsesAreNull() {
         Transaction transaction = new Transaction();
-        assertExpectedResponseAction(transaction, new ResponseAction());
+        SvcLogicContext ctx = new SvcLogicContext();
+        assertExpectedResponseAction(transaction, new ResponseAction(), ctx);
     }
 
     @Test
     public void handlerResponse_shouldReturnEmptyResponseAction_whenTransactionResponsesAreEmpty() {
         Transaction transaction = new Transaction();
         transaction.setResponses(Collections.emptyList());
-        assertExpectedResponseAction(transaction, new ResponseAction());
+        SvcLogicContext ctx = new SvcLogicContext();
+        assertExpectedResponseAction(transaction, new ResponseAction(), ctx);
     }
 
     @Test
@@ -49,14 +53,12 @@ public class DefaultResponseHandlerTest {
         ResponseAction expectedResponseAction = createExpectedResponseAction();
         String responseCode = "404";
 
+        SvcLogicContext ctx = new SvcLogicContext();
         Transaction transaction = new Transaction();
         transaction.setStatusCode(responseCode);
-        transaction.setResponses(Lists.newArrayList(
-            createResponse(null, null),
-            createResponse(null, "500"),
-            createResponse(expectedResponseAction, responseCode)));
+        transaction.setResponses(Lists.newArrayList(createResponse(expectedResponseAction, responseCode)));
 
-        assertExpectedResponseAction(transaction, expectedResponseAction);
+        assertExpectedResponseAction(transaction, expectedResponseAction, ctx);
     }
 
     private ResponseAction createExpectedResponseAction() {
@@ -72,14 +74,16 @@ public class DefaultResponseHandlerTest {
 
     private Response createResponse(ResponseAction expectedResponseAction, String responseCode) {
         Response response = new Response();
+        response.setResponseMessage("failure");
         response.setResponseCode(responseCode);
         response.setResponseAction(expectedResponseAction);
         return response;
     }
 
-    private void assertExpectedResponseAction(Transaction transaction, ResponseAction expectedResponseAction) {
+    private void assertExpectedResponseAction(Transaction transaction, ResponseAction expectedResponseAction,
+            SvcLogicContext ctx) {
         // WHEN
-        ResponseAction responseAction = new DefaultResponseHandler().handlerResponse(transaction);
+        ResponseAction responseAction = new DefaultResponseHandler().handlerResponse(transaction, ctx);
 
         // THEN
         assertEquals(expectedResponseAction.isIntermediateMessage(), responseAction.isIntermediateMessage());
