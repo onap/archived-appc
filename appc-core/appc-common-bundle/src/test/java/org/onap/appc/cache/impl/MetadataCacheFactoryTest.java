@@ -25,15 +25,18 @@
 
 package org.onap.appc.cache.impl;
 
+import static org.mockito.Mockito.mock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.onap.appc.cache.CacheStrategies;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(MetadataCacheImpl.class)
+@PrepareForTest({MetadataCacheFactory.class, MetadataCacheImpl.class})
 public class MetadataCacheFactoryTest {
     @Test
     public void testConstructor() throws Exception {
@@ -45,5 +48,22 @@ public class MetadataCacheFactoryTest {
         Assert.assertTrue("Should not return null", MetadataCacheFactory.getInstance() != null);
         Assert.assertEquals("Should always return the same object",
                 MetadataCacheFactory.getInstance(), MetadataCacheFactory.getInstance());
+    }
+
+    @Test
+    public void testGetMetadataCacheWithNoArgument() throws Exception {
+        MetadataCacheImpl mockImpl = mock(MetadataCacheImpl.class);
+        PowerMockito.whenNew(MetadataCacheImpl.class).withNoArguments().thenReturn(mockImpl);
+        Assert.assertEquals(mockImpl, MetadataCacheFactory.getInstance().getMetadataCache());
+    }
+
+    @Test
+    public void testGetMetadataCacheWithArgument() throws Exception {
+        CacheStrategies cacheStrategies = CacheStrategies.LRU;
+        MetadataCacheImpl mockImpl = mock(MetadataCacheImpl.class);
+        PowerMockito.whenNew(MetadataCacheImpl.class).withArguments(cacheStrategies)
+                .thenReturn(mockImpl);
+        Assert.assertEquals(mockImpl,
+                MetadataCacheFactory.getInstance().getMetadataCache(cacheStrategies));
     }
 }
