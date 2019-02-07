@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05f675a7_181fcd6a",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/test/java/org/onap/appc/executionqueue/impl/QueueManagerTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T14:08:51Z",
+      "side": 1,
+      "message": "anything that can be verified after invoking init()?\n\nsame comment applies to subsequent tests",
+      "revId": "c607edd5bcd935008e04634e61e5c835da5cae65",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
