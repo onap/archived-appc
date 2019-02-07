@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,14 +27,18 @@ package org.onap.sdnc.config.params;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import org.onap.sdnc.config.params.parser.PropertyDefinitionNode;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
+
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
 public class ParamsHandlerActivator implements BundleActivator {
+    
+    private static final String STR_PROPERTY_DEFINITION_FAILED = "Failed while getting PropertyDefinitionNode";
 
     private List<ServiceRegistration> registrations = new LinkedList<ServiceRegistration>();
 
@@ -51,7 +57,8 @@ public class ParamsHandlerActivator implements BundleActivator {
             log.info("Registering service sccessful for  "
                     + propertyDefinitionNode.getClass().getName());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(STR_PROPERTY_DEFINITION_FAILED, e);
+            
         }
 
     }
