@@ -88,4 +88,16 @@ public class TestSshConnectionMock {
         sshConnectionMock.setExecTimeout(20);
         assertEquals(20,sshConnectionMock.getExecTimeout());
     }
+    
+    @Test
+    public void testConnectCallCount()
+    {
+        assertEquals(0,sshConnectionMock.getConnectCallCount());
+    }
+    
+    @Test
+    public void testDisconnectCallCount()
+    {
+        assertEquals(0,sshConnectionMock.getDisconnectCallCount());
+    }
 }
