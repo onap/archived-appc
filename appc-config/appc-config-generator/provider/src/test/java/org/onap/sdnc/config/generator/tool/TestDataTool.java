@@ -103,6 +103,16 @@ public class TestDataTool {
         assertEquals("test\\0", EscapeUtils.escapeString(strng));
         assertEquals(null, EscapeUtils.escapeString(null));
     }
+    
+    @Test
+    public void testEscapeSqlForNullString() {
+        assertEquals(null, EscapeUtils.escapeSql(null));
+    }
+    
+    @Test
+    public void testUnescapeSqlForNullString() {
+        assertEquals(null, EscapeUtils.unescapeSql(null));
+    }
 
     @Test
     public void testgetData() throws Exception {
