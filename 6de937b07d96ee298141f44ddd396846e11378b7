@@ -16,6 +16,24 @@
       "revId": "6de937b07d96ee298141f44ddd396846e11378b7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3714ad95_5442dd2e",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-02-07T14:37:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "615b6ff8_ce3b63b4",
+      "revId": "6de937b07d96ee298141f44ddd396846e11378b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
