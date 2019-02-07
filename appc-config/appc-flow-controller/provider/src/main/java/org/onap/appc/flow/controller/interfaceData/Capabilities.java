@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,12 @@
 // Generated on: 2017.07.31 at 10:30:39 AM EDT
 //
 
-
 package org.onap.appc.flow.controller.interfaceData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -40,14 +41,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "vnf",
-    "vfModule",
-    "vm",
-    "vnfc"
-})
+@XmlType(name = "", propOrder = { "vnf", "vfModule", "vm", "vnfc" })
 @XmlRootElement(name = "capabilities")
 public class Capabilities {
 
@@ -60,7 +55,7 @@ public class Capabilities {
     protected List<String> vfModule;
     @XmlList
     @XmlElement(required = true)
-    protected List<String> vm;
+    protected Map<String, List<String>> vm;
     @XmlList
     @XmlElement(required = true)
     protected List<String> vnfc;
@@ -69,21 +64,21 @@ public class Capabilities {
      * Gets the value of the vnf property.
      *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the vnf property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the vnf property.
      *
      * <p>
      * For example, to add a new item, do as follows:
+     *
      * <pre>
-     *    getVnf().add(newItem);
+     * getVnf().add(newItem);
      * </pre>
      *
      *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      *
      *
      */
@@ -98,21 +93,21 @@ public class Capabilities {
      * Gets the value of the vfModule property.
      *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the vfModule property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the vfModule property.
      *
      * <p>
      * For example, to add a new item, do as follows:
+     *
      * <pre>
-     *    getVfModule().add(newItem);
+     * getVfModule().add(newItem);
      * </pre>
      *
      *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      *
      *
      */
@@ -127,27 +122,27 @@ public class Capabilities {
      * Gets the value of the vm property.
      *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the vm property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the vm property.
      *
      * <p>
      * For example, to add a new item, do as follows:
+     *
      * <pre>
-     *    getVm().add(newItem);
+     * getVm().add(newItem);
      * </pre>
      *
      *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link Map}
      *
      *
      */
-    public List<String> getVm() {
+    public Map<String, List<String>> getVm() {
         if (vm == null) {
-            vm = new ArrayList<String>();
+            vm = new HashMap<String, List<String>>();
         }
         return this.vm;
     }
@@ -156,21 +151,21 @@ public class Capabilities {
      * Gets the value of the vnfc property.
      *
      * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the vnfc property.
+     * This accessor method returns a reference to the live list, not a snapshot.
+     * Therefore any modification you make to the returned list will be present
+     * inside the JAXB object. This is why there is not a <CODE>set</CODE> method
+     * for the vnfc property.
      *
      * <p>
      * For example, to add a new item, do as follows:
+     *
      * <pre>
-     *    getVnfc().add(newItem);
+     * getVnfc().add(newItem);
      * </pre>
      *
      *
      * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
+     * Objects of the following type(s) are allowed in the list {@link String }
      *
      *
      */
@@ -183,8 +178,7 @@ public class Capabilities {
 
     @Override
     public String toString() {
-        return "Capabilities [vnf=" + vnf + ", vfModule=" + vfModule + ", vm="
-                + vm + ", vnfc=" + vnfc + "]";
+        return "Capabilities [vnf=" + vnf + ", vfModule=" + vfModule + ", vm=" + vm + ", vnfc=" + vnfc + "]";
     }
 
 }

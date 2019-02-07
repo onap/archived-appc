@@ -3,6 +3,7 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 Nokia. All rights reserved.
+ * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,38 +32,52 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class CapabilitiesDataExtractorTest {
 
-  private CapabilitiesDataExtractor capabilitiesDataExtractor;
-  private FlowControlDBService dbService;
-  private SvcLogicContext ctx;
+    private CapabilitiesDataExtractor capabilitiesDataExtractor;
+    private FlowControlDBService dbService;
+    private SvcLogicContext ctx;
 
-  @Before
-  public void setUp() {
-    dbService = mock(FlowControlDBService.class);
-    ctx = mock(SvcLogicContext.class);
-    capabilitiesDataExtractor = new CapabilitiesDataExtractor(dbService);
-  }
+    @Before
+    public void setUp() {
+        dbService = mock(FlowControlDBService.class);
+        ctx = mock(SvcLogicContext.class);
+        capabilitiesDataExtractor = new CapabilitiesDataExtractor(dbService);
+    }
 
-  @Test
-  public void should_handle_capabilities_full_config() throws Exception {
+    @Test
+    public void should_handle_capabilities_full_config() throws Exception {
 
-    String jsonPayload = "{'vnf':['vnf-1', 'vnf-2'],'vf-module':['vf-module-1', 'vf-module-2'],'vnfc':['vnfc-1', 'vnfc-2'],'vm':['vm-1', 'vm-2']}";
-    when(dbService.getCapabilitiesData(ctx)).thenReturn(jsonPayload.replaceAll("'","\""));
+        String jsonPayload = "{'capabilities':{'vnfc':[],'vm':[{'AttachVolume':[]},{'DetachVolume':[]},{'Evacuate':['pld','ssc']},{'Migrate':['pld','ssc']},{'Reboot':['pld','ssc']},{'Rebuild':['pld','ssc']},{'Restart':['pld','ssc']},{'Snapshot':['pld','ssc']},{'Start':['pld','ssc']},{'Stop':['pld','ssc']}],'vf-module':[],'vnf':['Configure','AllAction','ConfigModify','OpenStack Actions']}}";
+        when(dbService.getCapabilitiesData(ctx)).thenReturn(jsonPayload.replaceAll("'", "\""));
 
-    Capabilities capabilitiesData = capabilitiesDataExtractor.getCapabilitiesData(ctx);
+        Capabilities capabilitiesData = capabilitiesDataExtractor.getCapabilitiesData(ctx);
+        Assert.assertEquals(
+                "Capabilities [vnf=[Configure, AllAction, ConfigModify, OpenStack Actions], vfModule=[], vm={Evacuate=[pld, ssc], DetachVolume=[], Snapshot=[pld, ssc], AttachVolume=[], Start=[pld, ssc], Stop=[pld, ssc], Migrate=[pld, ssc], Restart=[pld, ssc], Reboot=[pld, ssc], Rebuild=[pld, ssc]}, vnfc=[]]",
+                capabilitiesData.toString());
+    }
 
-    Assert.assertEquals("Capabilities [vnf=[vnf-1, vnf-2], vfModule=[vf-module-1, vf-module-2], vm=[vm-1, vm-2], vnfc=[vnfc-1, vnfc-2]]", capabilitiesData.toString());
-  }
+    @Test
+    public void should_handle_capabilities_config_with_missing_params1() throws Exception {
 
-  @Test
-  public void should_handle_capabilities_config_with_missing_params() throws Exception {
+        // CASE: vm is empty, vnfc is absent
+        String jsonPayload = "{'capabilities':{'vnf':['vnf-1', 'vnf-2'],'vf-module':['vf-module-1'],'vm':[]}}";
+        when(dbService.getCapabilitiesData(ctx)).thenReturn(jsonPayload.replaceAll("'", "\""));
 
-    // CASE: vm is empty, vnfc is absent
-    String jsonPayload = "{'vnf':['vnf-1', 'vnf-2'],'vf-module':['vf-module-1'],'vm':[]}";
-    when(dbService.getCapabilitiesData(ctx)).thenReturn(jsonPayload.replaceAll("'","\""));
+        Capabilities capabilitiesData = capabilitiesDataExtractor.getCapabilitiesData(ctx);
 
-    Capabilities capabilitiesData = capabilitiesDataExtractor.getCapabilitiesData(ctx);
+        Assert.assertEquals("Capabilities [vnf=[vnf-1, vnf-2], vfModule=[vf-module-1], vm={}, vnfc=[]]",
+                capabilitiesData.toString());
+    }
 
-    Assert.assertEquals("Capabilities [vnf=[vnf-1, vnf-2], vfModule=[vf-module-1], vm=[], vnfc=[]]", capabilitiesData.toString());
-  }
+    @Test
+    public void should_handle_capabilities_config_with_missing_params2() throws Exception {
 
+        // CASE: vm has action+vnfc format, vf-module is empty, vnfc is absent
+        String jsonPayload = "{'capabilities':{'vnf':['vnf-1', 'vnf-2'],'vf-module':[],'vm':[{'AttachVolume':['vnfc-1']}]}}";
+        when(dbService.getCapabilitiesData(ctx)).thenReturn(jsonPayload.replaceAll("'", "\""));
+
+        Capabilities capabilitiesData = capabilitiesDataExtractor.getCapabilitiesData(ctx);
+
+        Assert.assertEquals("Capabilities [vnf=[vnf-1, vnf-2], vfModule=[], vm={AttachVolume=[vnfc-1]}, vnfc=[]]",
+                capabilitiesData.toString());
+    }
 }
