@@ -16,6 +16,24 @@
       "revId": "b12a1e7b40ae266aa777368f0e10012051a5b125",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "946a5970_15a71a81",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/test/java/org/onap/appc/executionqueue/impl/QueueManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-07T15:37:01Z",
+      "side": 1,
+      "message": "I tried that and the assertEquals complains about comparing primitive to Object",
+      "parentUuid": "10ac5432_2e320a4d",
+      "revId": "b12a1e7b40ae266aa777368f0e10012051a5b125",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
