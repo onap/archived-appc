@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a06bf53a_bbd698c2",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/cache/impl/MetadataCacheFactoryTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T21:30:54Z",
+      "side": 1,
+      "message": "Unfortunately, any classes listed here will be excluded from the code coverage statistics",
+      "revId": "5b6ac6f9a7319be7358eaf8f8f68da98d1df7382",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
