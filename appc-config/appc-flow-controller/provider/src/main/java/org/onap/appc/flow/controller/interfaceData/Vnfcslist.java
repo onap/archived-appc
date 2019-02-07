@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@
 // Generated on: 2017.07.31 at 10:30:39 AM EDT
 //
 
-
 package org.onap.appc.flow.controller.interfaceData;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -35,11 +34,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-
 /**
- * <p>Java class for vnfcslist complex type.
+ * <p>
+ * Java class for vnfcslist complex type.
  *
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>
+ * The following schema fragment specifies the expected content contained within
+ * this class.
  *
  * <pre>
  * &lt;complexType name="vnfcslist">
@@ -57,10 +58,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "vnfcslist", propOrder = {
-    "vnfcType",
-    "vnfcName"
-})
+@XmlType(name = "vnfcslist", propOrder = { "vnfcType", "vnfcName" })
 public class Vnfcslist {
 
     @XmlElement(name = "vnfc-type", required = true)
@@ -69,13 +67,14 @@ public class Vnfcslist {
     @XmlElement(name = "vnfc-name", required = true)
     @JsonProperty("vnfc-name")
     protected String vnfcName;
+    @XmlElement(name = "vnfc-function-code", required = true)
+    @JsonProperty("vnfc-function-code")
+    protected String vnfcFunctionCode;
 
     /**
      * Gets the value of the vnfcType property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
+     * @return possible object is {@link String }
      *
      */
     public String getVnfcType() {
@@ -86,8 +85,7 @@ public class Vnfcslist {
      * Sets the value of the vnfcType property.
      *
      * @param value
-     *     allowed object is
-     *     {@link String }
+     *            allowed object is {@link String }
      *
      */
     public void setVnfcType(String value) {
@@ -97,9 +95,7 @@ public class Vnfcslist {
     /**
      * Gets the value of the vnfcName property.
      *
-     * @return
-     *     possible object is
-     *     {@link String }
+     * @return possible object is {@link String }
      *
      */
     public String getVnfcName() {
@@ -110,17 +106,37 @@ public class Vnfcslist {
      * Sets the value of the vnfcName property.
      *
      * @param value
-     *     allowed object is
-     *     {@link String }
+     *            allowed object is {@link String }
      *
      */
     public void setVnfcName(String value) {
         this.vnfcName = value;
     }
 
+    /**
+     * Gets the value of the vnfcFunctionCode property.
+     *
+     * @return possible object is {@link String }
+     *
+     */
+    public String getVnfcFunctionCode() {
+        return vnfcFunctionCode;
+    }
+
+    /**
+     * Sets the value of the vnfcName property.
+     *
+     * @param value
+     *            allowed object is {@link String }
+     *
+     */
+    public void setVnfcFunctionCode(String value) {
+        this.vnfcFunctionCode = value;
+    }
+
     @Override
     public String toString() {
-        return "Vnfcslist [vnfcType=" + vnfcType + ", vnfcName=" + vnfcName
+        return "Vnfcslist [vnfcType=" + vnfcType + ", vnfcName=" + vnfcName + ", vnfcFunctionCode=" + vnfcFunctionCode
                 + "]";
     }
 

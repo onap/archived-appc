@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,28 +21,33 @@
 
 package org.onap.appc.flow.controller.ResponseHandlerImpl;
 
+import org.apache.commons.lang3.StringUtils;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import org.onap.appc.flow.controller.data.Response;
 import org.onap.appc.flow.controller.data.ResponseAction;
 import org.onap.appc.flow.controller.data.Transaction;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class DefaultResponseHandler {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(DefaultResponseHandler.class);
 
-    public ResponseAction handlerResponse(Transaction transaction) {
+    public ResponseAction handlerResponse(Transaction transaction, SvcLogicContext ctx) {
         log.info("Transaction Input params " + transaction.toString());
         ResponseAction responseAction = new ResponseAction();
         if (transaction.getResponses() != null && !transaction.getResponses().isEmpty()) {
             for (Response response : transaction.getResponses()) {
-                if (response.getResponseCode() != null
-                    && response.getResponseCode().equals(transaction.getStatusCode())) {
+                if ((StringUtils.isNotBlank(ctx.getAttribute("error-code"))
+                        && !StringUtils.equals(ctx.getAttribute("error-code"), "400"))
+                        || ((StringUtils.isNotBlank(transaction.getStatusCode()))
+                                && !StringUtils.equals(transaction.getStatusCode(), "400"))) {
+
                     responseAction = response.getResponseAction();
                     break;
                 }
             }
         }
-        return responseAction ;
+        return responseAction;
     }
 }
