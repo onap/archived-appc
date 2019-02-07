@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,10 +37,10 @@ import org.onap.appc.lockmanager.impl.sql.Messages;
 
 abstract class SqlLockManager extends JdbcLockManager {
 
-    private static final String SQL_LOAD_LOCK_RECORD = "SELECT * FROM %s WHERE RESOURCE_ID=?";
-    private static final String SQL_INSERT_LOCK_RECORD = "INSERT INTO %s (RESOURCE_ID, OWNER_ID, UPDATED, TIMEOUT) VALUES (?, ?, ?, ?)";
-    private static final String SQL_UPDATE_LOCK_RECORD = "UPDATE %s SET OWNER_ID=?, UPDATED=?, TIMEOUT=? WHERE RESOURCE_ID=?";
-    private static final String SQL_CURRENT_TIMESTAMP = "SELECT CURRENT_TIMESTAMP()";
+    static final String SQL_LOAD_LOCK_RECORD = "SELECT * FROM %s WHERE RESOURCE_ID=?";
+    static final String SQL_INSERT_LOCK_RECORD = "INSERT INTO %s (RESOURCE_ID, OWNER_ID, UPDATED, TIMEOUT) VALUES (?, ?, ?, ?)";
+    static final String SQL_UPDATE_LOCK_RECORD = "UPDATE %s SET OWNER_ID=?, UPDATED=?, TIMEOUT=? WHERE RESOURCE_ID=?";
+    static final String SQL_CURRENT_TIMESTAMP = "SELECT CURRENT_TIMESTAMP()";
 
     private String sqlLoadLockRecord;
     private String sqlInsertLockRecord;
@@ -86,13 +88,13 @@ abstract class SqlLockManager extends JdbcLockManager {
 
     @Override
     public boolean isLocked(String resource) {
-        Connection connection=openDbConnection();
+        Connection connection = openDbConnection();
         try {
-            LockRecord lockRecord=loadLockRecord(connection,resource);
-            if(lockRecord==null){
+            LockRecord lockRecord = loadLockRecord(connection,resource);
+            if(lockRecord == null){
                 return false;
             }else{
-                if(lockRecord.getOwner()==null){
+                if(lockRecord.getOwner() == null){
                     return false;
                 }else if(isLockExpired(lockRecord, connection)){
                     return false;
@@ -112,7 +114,7 @@ abstract class SqlLockManager extends JdbcLockManager {
         Connection connection=openDbConnection();
         try {
             org.onap.appc.lockmanager.impl.sql.pessimistic.LockRecord lockRecord=loadLockRecord(connection,resource);
-            if(lockRecord==null || lockRecord.getOwner() ==null ){
+            if(lockRecord == null || lockRecord.getOwner() == null ){
                 return null;
             }else{
                 if(isLockExpired(lockRecord, connection)){
