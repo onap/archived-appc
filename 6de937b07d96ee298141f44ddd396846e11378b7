@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "615b6ff8_ce3b63b4",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshConnectionMock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T14:04:21Z",
+      "side": 1,
+      "message": "checkstyle: add a space after then comma\n\ncould also execute a command and then verify that the Count increases.\n\nsame comments applies to the next method",
+      "revId": "6de937b07d96ee298141f44ddd396846e11378b7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
