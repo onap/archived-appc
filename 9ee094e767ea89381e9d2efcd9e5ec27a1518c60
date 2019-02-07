@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "0828eec2_bc575958",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-02-07T18:57:15Z",
+      "side": 1,
+      "message": "The close method can throw an IOException. I could move the close call into it\u0027s own try/catch block following this block. I\u0027m not quite sure why close is even being called in these get() and post() methods since the creation of the http client occurs during construction of the ConnectionBuilder",
+      "parentUuid": "9021b5ef_84e1c91e",
+      "revId": "9ee094e767ea89381e9d2efcd9e5ec27a1518c60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5190af04_1d7d01b3",
         "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/ConnectionBuilder.java",
         "patchSetId": 2
