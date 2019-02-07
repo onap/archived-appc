@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d992a315_954b2940",
+        "filename": "appc-config/appc-config-params/provider/src/main/java/org/onap/sdnc/config/params/ParamsHandlerActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T13:58:49Z",
+      "side": 1,
+      "message": "checkstyle: add a space after the comma",
+      "revId": "77902c608534c3a9206b72f74d6e5b2aede1080e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
