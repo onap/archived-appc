@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10ac5432_2e320a4d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/execution-queue-management-lib/src/test/java/org/onap/appc/executionqueue/impl/QueueManagerTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-07T15:04:31Z",
+      "side": 1,
+      "message": "can just use 1 instead of new Integer(1)",
+      "revId": "b12a1e7b40ae266aa777368f0e10012051a5b125",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
