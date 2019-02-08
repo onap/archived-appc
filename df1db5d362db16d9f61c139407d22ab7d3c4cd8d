@@ -22,6 +22,30 @@
       "revId": "df1db5d362db16d9f61c139407d22ab7d3c4cd8d",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16e5ce3c_495a7349",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-message-adapter-api/src/test/java/org/onap/appc/adapter/message/TestCallableConsumer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-08T13:55:18Z",
+      "side": 1,
+      "message": "or perhaps add more test cases to test that both constructors correctly record their respective parameters",
+      "parentUuid": "781ad82c_8a12b991",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 58
+      },
+      "revId": "df1db5d362db16d9f61c139407d22ab7d3c4cd8d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
