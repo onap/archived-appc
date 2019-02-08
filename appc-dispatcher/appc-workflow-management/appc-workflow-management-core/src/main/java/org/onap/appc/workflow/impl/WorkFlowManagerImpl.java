@@ -95,18 +95,18 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
                 /*
                 The following method call (populateDGContext) populates DG context with the
                 request parameters to maintain backward compatibility with old DGs,
-                 we are not altering the old way of passing (org.onap.appc.vnfId and so on..)
+                we are not altering the old way of passing (org.onap.appc.vnfId and so on..)
                 This is still a temporary solution, the end solution should be agreed with
                 all stakeholders and implemented.
-             */
-                populateDGContext(workflowParams,workflowRequest);
+                */
+                populateDGContext(workflowParams, workflowRequest);
             } else {
                 actionProperty = configuration.getProperty("org.onap.appc.workflow.action", String.valueOf(Constants.ACTION));
                 requestIdProperty = configuration.getProperty("org.onap.appc.workflow.request.id", String.valueOf(Constants.REQUEST_ID));
                 vfIdProperty = configuration.getProperty("org.onap.appc.workflow.vfid", String.valueOf(Constants.VF_ID));
                 String vfTypeProperty = configuration.getProperty("org.onap.appc.workflow.vftype", String.valueOf(Constants.VF_TYPE));
                 String apiVerProperty = configuration.getProperty("org.onap.appc.workflow.apiVersion", String.valueOf(Constants.API_VERSION));
-                String originatorIdProperty = configuration.getProperty("org.onap.appc.workflow.originatorId",  Constants.ORIGINATOR_ID);
+                String originatorIdProperty = configuration.getProperty("org.onap.appc.workflow.originatorId", Constants.ORIGINATOR_ID);
                 String subRequestId = configuration.getProperty("org.onap.appc.workflow.subRequestId", Constants.SUB_REQUEST_ID);
 
                 workflowParams.put(actionProperty, workflowRequest.getRequestContext().getAction().name());
@@ -177,7 +177,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
         workflowParams.put("input.action-identifiers.vf-module-id",workflowRequest.getRequestContext().getActionIdentifiers().getVfModuleId() !=null ?
                 workflowRequest.getRequestContext().getActionIdentifiers().getVfModuleId() : "");
         final Map<String, String> additionalContext;
-        if ((additionalContext = workflowRequest.getRequestContext().getAdditionalContext())!=null) {
+        if ((additionalContext = workflowRequest.getRequestContext().getAdditionalContext()) != null) {
             for (Map.Entry<String, String> entry : additionalContext.entrySet()) {
                 workflowParams.put("input." + entry.getKey(), null != entry.getValue() ? entry.getValue() : "");
     }
@@ -245,7 +245,7 @@ public class WorkFlowManagerImpl implements WorkFlowManager{
             setWorkFlowResponseStatus(workflowResponse.getResponseContext(), "failure", "Unexpected SLI Adapter failure", 200);
             if (logger.isDebugEnabled()) {
                 logger.debug("Error while executing DG " + e.getMessage() + e.getStackTrace());
-                logger.error("Error in DG", e.getMessage()+ Arrays.toString(e.getStackTrace()),e);
+                logger.error("Error in DG", e.getMessage() + Arrays.toString(e.getStackTrace()), e);
             }
         }
 
