@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07e032f2_bc15fc1b",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/test/java/org/onap/appc/adapter/messaging/dmaap/http/TestAuthenticationException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-08T13:56:46Z",
+      "side": 1,
+      "message": "instead of throwing this, may just create one and then test its content.  No need to wrap it in try/catch then",
+      "revId": "87c7bb955c65b4588d46b5e3fb41ae762a0a6d6d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
