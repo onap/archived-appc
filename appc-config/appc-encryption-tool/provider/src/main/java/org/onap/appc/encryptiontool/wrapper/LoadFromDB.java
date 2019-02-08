@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,15 +50,15 @@ public class LoadFromDB {
         try {
 
             dbResourceManager = DbServiceUtil.initDbLibService();
-            CachedRowSet data = DbServiceUtil.getData(tableName, argList, Constants.SCHEMA_SDNCTL, getselectData,clause );
+            CachedRowSet data = DbServiceUtil.getData(tableName, argList, Constants.SCHEMA_SDNCTL, getselectData, clause );
 
-            Map <String,String> mp = new HashMap<String,String>();
+            Map <String, String> mp = new HashMap<>();
             while (data.next()) {
 
-              mp.put(data.getString(1)+"."+data.getString(2)+"."+data.getString(3)+"."+"user",data.getString(4));
-              mp.put(data.getString(1)+"."+data.getString(2)+"."+data.getString(3)+"."+"password",data.getString(5));
-              mp.put(data.getString(1)+"."+data.getString(2)+"."+data.getString(3)+"."+"port",data.getString(6));
-              mp.put(data.getString(1)+"."+data.getString(2)+"."+data.getString(3)+"."+"url","");
+              mp.put(data.getString(1) + "." + data.getString(2) + "."+data.getString(3) + "."+"user", data.getString(4));
+              mp.put(data.getString(1) + "." + data.getString(2) + "."+data.getString(3) + "."+"password", data.getString(5));
+              mp.put(data.getString(1) + "." + data.getString(2) + "."+data.getString(3) + "."+"port", data.getString(6));
+              mp.put(data.getString(1) + "." + data.getString(2) + "."+data.getString(3) + "."+"url", "");
               rowCount++;
             }
 
