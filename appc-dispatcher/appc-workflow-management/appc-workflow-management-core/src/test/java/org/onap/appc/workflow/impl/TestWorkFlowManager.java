@@ -46,6 +46,7 @@ import org.onap.appc.domainmodel.lcm.RuntimeContext;
 import org.onap.appc.domainmodel.lcm.Status;
 import org.onap.appc.domainmodel.lcm.VNFContext;
 import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.util.ObjectMapper;
 import org.onap.appc.workflow.impl.WorkFlowManagerImpl;
 import org.onap.appc.workflow.impl.WorkflowKey;
 import org.onap.appc.workflow.impl.WorkflowResolver;
@@ -68,7 +69,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({ConfigurationFactory.class, DBUtils.class})
+@PrepareForTest({ConfigurationFactory.class, DBUtils.class, ObjectMapper.class})
 public class TestWorkFlowManager {
 
     @Rule
@@ -139,6 +140,34 @@ public class TestWorkFlowManager {
     }
 
     @Test
+    public void testExecuteWorkFlowException() throws  SvcLogicException{
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
+        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+            .thenReturn(createSvcExexuteSuccessResponse());
+
+        WorkflowRequest workflowRequest = Mockito.spy(getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                VNFOperation.Lock, "mj13", Constants.PAYLOAD));
+        Mockito.when(workflowRequest.getRequestContext()).thenThrow(new RuntimeException());
+
+        WorkflowResponse response = workflowManger.executeWorkflow(workflowRequest);
+        Mockito.verify(workflowRequest, Mockito.times(2)).getResponseContext();
+    }
+
+    @Test
+    public  void testExecuteWorkAPIVersion1Exception() throws SvcLogicException{
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
+        Mockito.when(svcLogicService.execute(anyString(), anyString(), anyString(), anyString(), anyObject()))
+            .thenReturn(createSvcExexuteSuccessResponse());
+
+        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "1.00", "ST_249", "O1652", "uid34",
+                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        PowerMockito.mockStatic(ObjectMapper.class);
+        PowerMockito.when(ObjectMapper.map(Mockito.any())).thenThrow(new RuntimeException());
+        WorkflowResponse response=workflowManger.executeWorkflow(workflowRequest);
+        Assert.assertEquals(501, response.getResponseContext().getStatus().getCode());
+    }
+
+    @Test
     public void testWorkFlowExist() throws  SvcLogicException{
         Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(getWorkFlowKey());
         Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
@@ -165,6 +194,16 @@ public class TestWorkFlowManager {
     }
 
     @Test
+    public void testWorkFlowExistNullKey() throws  SvcLogicException{
+        Mockito.when(workflowResolver.resolve(anyString(), anyString(), anyString(), anyString())).thenReturn(null);
+        Mockito.when(svcLogicService.hasGraph(anyString(), anyString(), anyString(), anyString())).thenReturn(true);
+        WorkflowRequest workflowRequest = getWorkflowRequest("vSCP", 300, new Date(), "2.00", "ST_249", "O1652", "uid34",
+                VNFOperation.Lock, "mj13", Constants.PAYLOAD);
+        WorkflowExistsOutput response = workflowManger.workflowExists(workflowRequest);
+        Assert.assertFalse(response.isMappingExist());
+    }
+
+    @Test
     public void testWorkflowResolver() throws SQLException {
         PowerMockito.mockStatic(DBUtils.class);
         Connection mockConnection = Mockito.mock(Connection.class);
@@ -180,7 +219,7 @@ public class TestWorkFlowManager {
         workflowResolver.resolve("ACTION", "VNF_TYPE", "VNF_VERSION", "API_VERSION");
     }
 
-    private   WorkflowRequest getWorkflowRequest(String vnfType, int ttl,  Date timeStamp, String apiVersion, String requestId,
+    private WorkflowRequest getWorkflowRequest(String vnfType, int ttl,  Date timeStamp, String apiVersion, String requestId,
             String originatorID, String subRequestID, VNFOperation action, String vnfId , String payload) {
         WorkflowRequest workflowRequest = new WorkflowRequest();
         RuntimeContext runtimeContext = createRuntimeContext();
@@ -216,6 +255,7 @@ public class TestWorkFlowManager {
 
         return  requestContext;
     }
+
     private  ResponseContext createResponseContext(){
         ResponseContext responseContext = new ResponseContext();
         CommonHeader commonHeader = new CommonHeader();
@@ -227,6 +267,7 @@ public class TestWorkFlowManager {
 
         return  responseContext;
     }
+
     private RuntimeContext createRuntimeContext(){
         RuntimeContext runtimeContext = new RuntimeContext();
         RequestContext requestContext = creatRequestContext();
