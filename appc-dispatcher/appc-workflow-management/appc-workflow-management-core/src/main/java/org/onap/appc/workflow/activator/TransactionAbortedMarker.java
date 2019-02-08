@@ -79,7 +79,7 @@ public class TransactionAbortedMarker implements Runnable {
             recorder.setAppcInstanceId(newAppcInstanceId);
         } catch (TransactionRecorderServiceNotFoundException e) {
             logger.warn("Transaction Recorder Service Not Found, Next attempt after 30 seconds");
-            executor.schedule(this,30, TimeUnit.SECONDS);
+            executor.schedule(this, 30, TimeUnit.SECONDS);
         } catch (Exception e) {
             logger.error("Error on workflow manager bundle start-up" + e.getMessage(), e);
             throw new RuntimeException(e);
