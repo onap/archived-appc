@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,16 +28,16 @@ public class Constants
 {
 
     public static final String DBLIB_SERVICE = "org.onap.ccsdk.sli.core.dblib.DBResourceManager";
-    public static final String DEVICE_AUTHENTICATION="DEVICE_AUTHENTICATION";
-    public static final String SCHEMA_SDNCTL="SDNCTL";
+    public static final String DEVICE_AUTHENTICATION = "DEVICE_AUTHENTICATION";
+    public static final String SCHEMA_SDNCTL = "SDNCTL";
 
     private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
 
-    public static final String APPC_CONFIG_DIR="/opt/onap/appc/data/properties";
+    public static final String APPC_CONFIG_DIR = "/opt/onap/appc/data/properties";
 
-    public static final String VNF_TYPE="vnf_Type";
-    public static final String ACTION="action";
-    public static final String PROTOCOL="protocol";
-    public static final String URL="url";
+    public static final String VNF_TYPE = "vnf_Type";
+    public static final String ACTION = "action";
+    public static final String PROTOCOL = "protocol";
+    public static final String URL = "url";
 
 }
