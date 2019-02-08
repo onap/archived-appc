@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +58,7 @@ public class TransactionConstants {
 
         private String columnName;
         TRANSACTION_ATTRIBUTES(String columnName){
-            this.columnName=columnName;
+            this.columnName = columnName;
         }
 
         public String getColumnName(){

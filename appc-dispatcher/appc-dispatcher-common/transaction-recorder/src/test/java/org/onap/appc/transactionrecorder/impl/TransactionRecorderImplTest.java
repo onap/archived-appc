@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,25 +25,15 @@
 
 package org.onap.appc.transactionrecorder.impl;
 
-import com.sun.rowset.CachedRowSetImpl;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-
-import org.onap.appc.dao.util.dbcp.DBConnectionPool;
-import org.onap.appc.dao.util.helper.DBHelper;
-import org.onap.appc.domainmodel.lcm.Flags;
-import org.onap.appc.domainmodel.lcm.RequestStatus;
-import org.onap.appc.domainmodel.lcm.TransactionRecord;
-import org.onap.appc.domainmodel.lcm.VNFOperation;
-import org.onap.appc.exceptions.APPCException;
-import org.onap.appc.transactionrecorder.objects.TransactionConstants;
-import org.onap.ccsdk.sli.core.dblib.DbLibService;
-
-import javax.sql.rowset.CachedRowSet;
-import java.sql.*;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.hamcrest.CoreMatchers.isA;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -51,8 +43,25 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.mockito.Matchers.*;
+import javax.sql.rowset.CachedRowSet;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
+import org.onap.appc.dao.util.dbcp.DBConnectionPool;
+import org.onap.appc.dao.util.helper.DBHelper;
+import org.onap.appc.domainmodel.lcm.Flags;
+import org.onap.appc.domainmodel.lcm.RequestStatus;
+import org.onap.appc.domainmodel.lcm.TransactionRecord;
+import org.onap.appc.domainmodel.lcm.VNFOperation;
+import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.transactionrecorder.objects.TransactionConstants;
+import org.onap.appc.transactionrecorder.objects.TransactionConstants.TRANSACTION_ATTRIBUTES;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
+import com.sun.rowset.CachedRowSetImpl;
 
 /**
  * Test class for TransactionRecorder
@@ -99,6 +108,9 @@ public class TransactionRecorderImplTest {
             ")";
     private String TRANSACTION_DROP_TABLE = "DROP TABLE IF EXISTS TRANSACTIONS";
 
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
     @Before
     public void setUp() throws Exception {
         transactionRecorderImpl = new TransactionRecorderImpl();
@@ -107,7 +119,6 @@ public class TransactionRecorderImplTest {
         transactionRecorderImpl.setDbLibService(dbLibService);
         dbConnectionPool = new DBConnectionPool(dbUrl, username, password, driver);
         executeUpdate(TRANSACTION_CREATE_TABLE);
-
     }
 
 
@@ -147,6 +158,18 @@ public class TransactionRecorderImplTest {
     }
 
     @Test
+    public void testStoreExceptionFlow() throws SQLException, APPCException {
+
+        TransactionRecord input = prepareTransactionsInput();
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.store(input);
+
+    }
+
+    @Test
     public void testGetInProgressRequests() throws SQLException, APPCException {
         TransactionRecord record1 = prepareTransactionsInput();
         insertRecord(record1);
@@ -154,8 +177,21 @@ public class TransactionRecorderImplTest {
         input.setStartTime(Instant.now());
         Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
                 inMemoryExecutionWithResultSet(invocation.getArguments()));
-        Assert.assertEquals(1, transactionRecorderImpl.getInProgressRequests(input,0).size());
+        Assert.assertEquals(1, transactionRecorderImpl.getInProgressRequests(input, 0).size());
 
+    }
+
+    @Test
+    public void testGetInProgressRequestsSqlException() throws SQLException, APPCException {
+        TransactionRecord record1 = prepareTransactionsInput();
+        insertRecord(record1);
+        TransactionRecord input = prepareTransactionsInput();
+        input.setStartTime(Instant.now());
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.getInProgressRequests(input, 0);
     }
 
     @Test
@@ -182,11 +218,54 @@ public class TransactionRecorderImplTest {
     }
 
     @Test
+    public void testIsTransactionDuplicateExceptionFlow() throws SQLException, APPCException {
+        TransactionRecord input = prepareTransactionsInput();
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.isTransactionDuplicate(input);
+    }
+
+    @Test
+    public void testIsTransactionDuplicateAlternativeFlow() throws SQLException, APPCException {
+        TransactionRecord input = prepareTransactionsInput();
+        input.setSubRequestId(null);
+        input.setOriginatorId(null);
+        CachedRowSetImpl rowset = Mockito.mock(CachedRowSetImpl.class);
+        Mockito.when(rowset.first()).thenReturn(true);
+        Mockito.when(rowset.getString(TransactionConstants.TRANSACTION_ATTRIBUTES.TRANSACTION_ID.getColumnName()))
+            .thenReturn(null);
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenReturn(rowset);
+        Assert.assertTrue(transactionRecorderImpl.isTransactionDuplicate(input));
+    }
+
+    @Test
     public void testGetInProgressRequestsCount() throws SQLException, APPCException {
         TransactionRecord input = prepareTransactionsInput();
         Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
                 inMemoryExecutionWithResultSet(invocation.getArguments()));
         Assert.assertEquals(0, transactionRecorderImpl.getInProgressRequestsCount().intValue());
+    }
+
+    @Test
+    public void testGetInProgressRequestsCountSqlException() throws SQLException, APPCException {
+        TransactionRecord input = prepareTransactionsInput();
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.getInProgressRequestsCount();
+    }
+
+    @Test
+    public void testGetInProgressRequestsCountNoRecords() throws SQLException, APPCException {
+        CachedRowSetImpl rowset = Mockito.mock(CachedRowSetImpl.class);
+        Mockito.when(rowset.first()).thenReturn(false);
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenReturn(rowset);
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
+        transactionRecorderImpl.getInProgressRequestsCount();
     }
 
     @Test
@@ -201,12 +280,55 @@ public class TransactionRecorderImplTest {
     }
 
     @Test
+    public void testUpdateExceptionFlow() throws APPCException, SQLException {
+        TransactionRecord input = prepareTransactionsInput();
+        insertRecord(input);
+        Map<TransactionConstants.TRANSACTION_ATTRIBUTES, String> updateColumns = new HashMap<>();
+        updateColumns.put(TransactionConstants.TRANSACTION_ATTRIBUTES.TARGET_TYPE, "Firewall");
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage(TransactionConstants.ERROR_ACCESSING_DATABASE);
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.update(input.getTransactionId(), updateColumns);
+    }
+
+    @Test
     public void testMarkTransactionsAborted() throws SQLException {
         TransactionRecord input = prepareTransactionsInput();
         insertRecord(input);
         Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenAnswer(invocation ->
                 testMarkAbortedInMemory(invocation.getArguments()));
         transactionRecorderImpl.markTransactionsAborted("123~");
+    }
+
+    @Test
+    public void testMarkTransactionsAbortedExceptionFlow() throws SQLException {
+        TransactionRecord input = prepareTransactionsInput();
+        insertRecord(input);
+        Mockito.when(dbLibService.writeData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(RuntimeException.class);
+        expectedEx.expectMessage("In progress transactions couldn't be marked aborted on server start up");
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.markTransactionsAborted("123~");
+    }
+
+    @Test
+    public void testGetRecords() throws SQLException, APPCException {
+        CachedRowSetImpl rowset = Mockito.mock(CachedRowSetImpl.class);
+        Mockito.when(rowset.next()).thenReturn(true).thenReturn(false);
+        Mockito.when(rowset.getString(TRANSACTION_ATTRIBUTES.STATE.getColumnName())).thenReturn("NAME");
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenReturn(rowset);
+        Assert.assertEquals(RequestStatus.UNKNOWN,
+                transactionRecorderImpl.getRecords(null, "SUBREQUEST_ID", "ORIGINATOR_ID", null).get(0));
+    }
+
+    @Test
+    public void testGetRecordsSqlException() throws SQLException, APPCException {
+        Mockito.when(dbLibService.getData(anyString(), anyObject(), anyString())).thenThrow(new SQLException());
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage("Error retrieving record for requestID null and vnfId null");
+        expectedEx.expectCause(isA(SQLException.class));
+        transactionRecorderImpl.getRecords(null, null, null, null);
     }
 
     private ResultSet inMemoryExecutionWithResultSet(Object[] obj) throws Exception {
