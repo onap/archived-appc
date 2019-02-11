@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,27 +34,27 @@ import org.onap.appc.adapter.ssh.sshd.SshAdapterSshd;
 
 public class SshAdapterSample {
 
-	public static void main(String[] args) {
-		String host = "hostname";
-		int port = 22;
-		String username = "user";
-		String password = "secret";
-		String command = "ls";
+    public static void main(String[] args) {
+        String host = "hostname";
+        int port = 22;
+        String username = "user";
+        String password = "secret";
+        String command = "ls";
 
-		SshAdapter sshAdapter = new SshAdapterSshd();
-		SshConnection sshConnection = sshAdapter.getConnection(host, port, username, password);
-		sshConnection.connect();
-		try {
-			OutputStream stdout = new ByteArrayOutputStream();
-			OutputStream stderr = new ByteArrayOutputStream();
-			int status = sshConnection.execCommand(command, stdout, stderr);
-			if(status == 0) {
-				System.out.println("Command executed successfully. Output:\n" + stdout.toString());
-			} else {
-				System.err.println("Command returned status " + status + ". Error:\n" + stderr.toString());
-			}
-		} finally {
-			sshConnection.disconnect();
-		}
-	}
+        SshAdapter sshAdapter = new SshAdapterSshd();
+        SshConnection sshConnection = sshAdapter.getConnection(host, port, username, password);
+        sshConnection.connect();
+        try {
+            OutputStream stdout = new ByteArrayOutputStream();
+            OutputStream stderr = new ByteArrayOutputStream();
+            int status = sshConnection.execCommand(command, stdout, stderr);
+            if(status == 0) {
+                System.out.println("Command executed successfully. Output:\n" + stdout.toString());
+            } else {
+                System.err.println("Command returned status " + status + ". Error:\n" + stderr.toString());
+            }
+        } finally {
+            sshConnection.disconnect();
+        }
+    }
 }
