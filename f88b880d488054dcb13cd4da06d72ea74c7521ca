@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ea90e6d_4548032c",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/openstack/heat/model/TestSnapshotDetails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:09:49Z",
+      "side": 1,
+      "message": "assertNotNull is not needed",
+      "revId": "f88b880d488054dcb13cd4da06d72ea74c7521ca",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
