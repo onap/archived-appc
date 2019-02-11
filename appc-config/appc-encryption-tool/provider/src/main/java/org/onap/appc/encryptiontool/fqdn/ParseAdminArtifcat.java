@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2019 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +27,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.apache.commons.lang.StringUtils;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -47,13 +48,13 @@ public class ParseAdminArtifcat implements SvcLogicJavaPlugin {
     private static String fqdn = null;
     private SvcLogicResource serviceLogic;
 
+    public ParseAdminArtifcat() {
+        serviceLogic = new SqlResource();
+    }
+
     public static ParseAdminArtifcat initialise() {
         parseArtifact = new ParseAdminArtifcat();
         return parseArtifact;
-    }
-
-    public ParseAdminArtifcat() {
-        serviceLogic = new SqlResource();
     }
 
     protected ParseAdminArtifcat(SqlResource svcLogic) {
@@ -62,7 +63,7 @@ public class ParseAdminArtifcat implements SvcLogicJavaPlugin {
 
     protected static Map<String, String> parseAdminArtifact(ArtifactMapper js) {
         List<FqdnList> fqdnList = js.getFqdnList();
-        Map<String, String> mp = new HashMap<String, String>();
+        Map<String, String> mp = new HashMap<>();
         for (FqdnList listFqdn : fqdnList) {
 
             for (CloudOwnerList clList : listFqdn.getCloudOwnerList()) {
@@ -143,10 +144,10 @@ public class ParseAdminArtifcat implements SvcLogicJavaPlugin {
         QueryStatus status = null;
         String fn = "ParseAdminArtifcat:getAdminArtifact";
         String jsonContent = null;
-        String artifcatName = "ansible_admin_FQDN_Artifact_0.0.1V.json";
+        String artifactName = "ansible_admin_FQDN_Artifact_0.0.1V.json";
         try {
             String query = "SELECT ARTIFACT_CONTENT as adminjson" + " FROM ASDC_ARTIFACTS " + "WHERE ARTIFACT_NAME = '"
-                    + artifcatName + "' " + "ORDER BY INTERNAL_VERSION DESC LIMIT 1 ";
+                    + artifactName + "' " + "ORDER BY INTERNAL_VERSION DESC LIMIT 1 ";
             log.info("Getting artifact details :" + query);
             status = serviceLogic.query("SQL", false, null, query, null, null, ctx);
             jsonContent = ctx.getAttribute("adminjson");
