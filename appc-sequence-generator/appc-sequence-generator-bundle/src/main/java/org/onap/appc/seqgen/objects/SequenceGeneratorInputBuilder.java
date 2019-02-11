@@ -40,18 +40,10 @@ public class SequenceGeneratorInputBuilder {
 
     private Map<String,String> tunableParams;
 
-    private Map<String,List<String>> capability;
-
+    private CapabilityModel capabilityModel;
+    
     public SequenceGeneratorInputBuilder requestInfo(RequestInfo requestInfo){
         this.requestInfo = requestInfo;
-        return this;
-    }
-
-    public SequenceGeneratorInputBuilder capability(String level,List<String> capabilities){
-        if(this.capability ==null){
-            this.capability = new HashMap<>();
-        }
-        this.capability.put(level,capabilities);
         return this;
     }
 
@@ -73,10 +65,14 @@ public class SequenceGeneratorInputBuilder {
         return this;
     }
 
+    public SequenceGeneratorInputBuilder capabilityModel(CapabilityModel model) {
+        this.capabilityModel = model;
+        return this;
+    }
     public SequenceGeneratorInput build(){
         SequenceGeneratorInput input = new SequenceGeneratorInput();
         input.setRequestInfo(this.requestInfo);
-        input.setCapability(this.capability);
+        input.setCapabilityModel(this.capabilityModel);
         input.setInventoryModel(this.inventoryModel);
         input.setDependencyModel(this.dependencyModel);
         input.setTunableParams(this.tunableParams);

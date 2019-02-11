@@ -21,22 +21,21 @@
 
 package org.onap.appc.seqgen;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.onap.appc.seqgen.dbservices.SequenceGeneratorDBServices;
 import org.onap.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
 import org.onap.appc.seqgen.dgplugin.impl.SequenceGeneratorPluginImpl;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
-import static org.mockito.Mockito.mock;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
+
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 public class TestSequenceGeneratorPlugin {
 
@@ -243,7 +242,7 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readInput("/output/restart-NoDep.json");
+        String actualOutput = readOutput("/output/restart-NoDep.json");
         outputJSON.trim();
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
@@ -260,7 +259,7 @@ public class TestSequenceGeneratorPlugin {
         plugin.generateSequence(params,context);
 
         String outputJSON = context.getAttribute("output");
-        String actualOutput = readInput("/output/restart-Nodep-SingleVM.json");
+        String actualOutput = readOutput("/output/restart-Nodep-SingleVM.json");
         Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
     }
 
@@ -350,26 +349,162 @@ public class TestSequenceGeneratorPlugin {
         Assert.assertEquals(errorMessage,"Error generating sequence Dependency model missing vnfc type SMP");
     }
 
-    private String readInput(String inputFile) throws URISyntaxException, IOException {
-        File file = new File(this.getClass().getResource(inputFile).toURI());
+    @Test
+    public void testGenerateSequenceStartWithVmStartCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/StartWithVmStartCaps.json");
 
-        byte[] bFile = new byte[(int) file.length()];
-        FileInputStream fileInputStream = new FileInputStream(file);
-        fileInputStream.read(bFile);
-        fileInputStream.close();
-        return new String(bFile);
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String actualOutput = context.getAttribute("output");
+        String outputJSON = readOutput("/output/StartWithVmStartCaps.json");
+        Assert.assertEquals(outputJSON.trim(), actualOutput.trim());
     }
-    private String readOutput(String outputFile) throws IOException,URISyntaxException {
-        File file = new File(this.getClass().getResource(outputFile).toURI());
+    
+    @Test
+    public void testGenerateSequenceRestartWithVmRestartCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/RestartWithVmRestartCaps.json");
 
-        byte[] bFile = new byte[(int) file.length()];
-        FileInputStream fileInputStream = new FileInputStream(file);
-        fileInputStream.read(bFile);
-        fileInputStream.close();
-        String output=new String(bFile);
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readOutput("/output/RestartWithVmRestartCaps.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+    
+    @Test
+    public void testGenerateSequenceStopWithVmStopCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/StopWithVmStopCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String actualOutput = context.getAttribute("output");
+        String outputJSON = readOutput("/output/StopWithVmStopCaps.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+    
+    @Test
+    public void testGenerateSequenceStartWithoutAnyCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/StartWithoutAnyCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String actualOutput = context.getAttribute("output");
+        String outputJSON = readOutput("/output/StartWithoutAnyCaps.json");
+        Assert.assertEquals(outputJSON.trim(), actualOutput.trim());
+    }
+    
+    @Test
+    public void testGenerateSequenceRestartWithoutAnyCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/RestartWithoutAnyCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readOutput("/output/RestartWithoutAnyCaps.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+    
+    @Test
+    public void testGenerateSequenceStopWithoutAnyCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/StopWithoutAnyCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String outputJSON = context.getAttribute("output");
+        String actualOutput = readOutput("/output/StopWithoutAnyCaps.json");
+        Assert.assertEquals(outputJSON.trim(),actualOutput.trim());
+    }
+    @Test
+    public void testGenerateSequenceStartWithoutVmStartCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/StartWithoutVmStartCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String errorCode = context.getAttribute("error-code");
+        String errorMessage = context.getAttribute("error-message");
+        logger.debug("errorCode = " + errorCode);
+        Assert.assertEquals("450", errorCode);
+        Assert.assertEquals("Request is not supported", errorMessage);
+    }
+    
+    @Test
+    public void testGenerateSequenceRestartWithoutVmRestartCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/RestartWithoutVmRestartCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String errorCode = context.getAttribute("error-code");
+        String errorMessage = context.getAttribute("error-message");
+        logger.debug("errorCode = " + errorCode);
+        Assert.assertEquals("450", errorCode);
+        Assert.assertEquals("Request is not supported", errorMessage);
+    }
+    
+    @Test
+    public void testGenerateSequenceStopWithoutVmStopCaps()throws URISyntaxException, IOException {
+        String inputJSON = readInput("/input/StopWithoutVmStopCaps.json");
+
+        Map<String,String> params = new HashMap<>();
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute("inputJSON",inputJSON);
+
+        SequenceGeneratorPlugin plugin = new SequenceGeneratorPluginImpl();
+        plugin.generateSequence(params,context);
+
+        String errorCode = context.getAttribute("error-code");
+        String errorMessage = context.getAttribute("error-message");
+        logger.debug("errorCode = " + errorCode);
+        Assert.assertEquals("450", errorCode);
+        Assert.assertEquals("Request is not supported", errorMessage);
+    }
+
+    private String readInput(String inputFile) throws URISyntaxException, IOException {
+        return new String(Files.readAllBytes(Paths.get(this.getClass().getResource(inputFile).toURI())), "UTF-8");
+    }
+    
+    private String readOutput(String outputFile) throws IOException,URISyntaxException {
+        String output = new String(Files.readAllBytes(Paths.get(this.getClass().getResource(outputFile).toURI())), "UTF-8");
         int start=output.indexOf("[");
         return output.substring(start,output.length());
-
     }
 }
-

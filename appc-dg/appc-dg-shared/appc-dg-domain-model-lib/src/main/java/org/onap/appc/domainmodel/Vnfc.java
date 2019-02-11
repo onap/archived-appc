@@ -33,6 +33,7 @@ public class Vnfc {
     private String resilienceType;
     private boolean mandatory;
     private String vnfcName;
+    private String vnfcFunctionCode;
     private List<Vserver> vserverList;
 
     public Vnfc(){
@@ -124,7 +125,16 @@ public class Vnfc {
     public void setVnfcName(String vnfcName) {
         this.vnfcName = vnfcName;
     }
+    
 
+    public String getVnfcFunctionCode() {
+        return vnfcFunctionCode;
+    }
+    
+    public void setVnfcFunctionCode(String vnfcFunctionCode) {
+        this.vnfcFunctionCode = vnfcFunctionCode;
+    }
+    
     public List<Vserver> getVserverList() {
         return vserverList;
     }

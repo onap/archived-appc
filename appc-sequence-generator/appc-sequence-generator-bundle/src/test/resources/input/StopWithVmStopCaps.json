@@ -16,11 +16,11 @@
       "vnf-name": "vSCP",
       "vnf-type": "vSCP",
       "vnf-version" : "1.0",
-      "identity-url" : "test-url",
+      "identity-url" : "test",
       "vm": [
         {
           "vserver-id" : "be_vserverid1",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id1",
           "vnfc":
           {
             "vnfc-type": "BE",
@@ -31,7 +31,7 @@
         },
         {
           "vserver-id" : "fe_vserverid1",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id2",
           "vnfc":
           {
             "vnfc-type": "FE",
@@ -42,7 +42,7 @@
         },
         {
           "vserver-id" : "fe_vserverid2",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id3",
           "vnfc":
           {
             "vnfc-type": "FE",
@@ -53,7 +53,7 @@
         },
         {
           "vserver-id" : "be_vserverid2",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id4",
           "vnfc":
           {
             "vnfc-type": "BE",
@@ -64,7 +64,7 @@
         },
         {
           "vserver-id" : "be_vserverid3",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id1",
           "vnfc":
           {
             "vnfc-type": "BE",
@@ -75,7 +75,7 @@
         },
         {
           "vserver-id" : "smp_vserverid1",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id1",
           "vnfc":
           {
             "vnfc-type": "SMP",
@@ -86,7 +86,7 @@
         },
         {
           "vserver-id" : "smp_vserverid2",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id1",
           "vnfc":
           {
             "vnfc-type": "SMP",
@@ -96,7 +96,7 @@
         },
         {
           "vserver-id" : "be_vserverid4",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id1",
           "vnfc":
           {
             "vnfc-type": "BE",
@@ -107,7 +107,7 @@
         },
         {
           "vserver-id" : "be_vserverid5",
-          "vm-id" : "vm_id1",
+          "vm-id" : "vm-id1",
           "vnfc":
           {
             "vnfc-type": "BE",
@@ -120,30 +120,6 @@
     }
   },
   "dependency-info": {
-    "vnfcs" : [
-      {
-        "vnfc-type" : "BE",
-        "mandatory" : "true",
-        "resilience": "Active-Active",
-        "parents" : [
-          "SMP"
-        ]
-      },
-      {
-        "vnfc-type" : "FE",
-        "mandatory" : "true",
-        "resilience": "Active-Active",
-        "parents" : [
-          "BE"
-        ]
-      },
-      {
-        "vnfc-type" : "SMP",
-        "mandatory" : "true",
-        "resilience": "Active-Passive",
-        "parents" : []
-      }
-    ]
   },
   "tunable-parameters": {
     "strategy" : "FORWARD",

@@ -45,21 +45,28 @@ public class TestVnfc {
     public void testGetVnfcType() {
         vnfc.setVnfcType("1");
         assertNotNull(vnfc.getVnfcType());
-        assertEquals(vnfc.getVnfcType(), "1");
+        assertEquals("1", vnfc.getVnfcType());
     }
 
     @Test
     public void testGetResilienceType() {
         vnfc.setResilienceType("resilienceType");
         assertNotNull(vnfc.getResilienceType());
-        assertEquals(vnfc.getResilienceType(), "resilienceType");
+        assertEquals("resilienceType", vnfc.getResilienceType());
     }
 
     @Test
     public void testGetVnfcName() {
         vnfc.setVnfcName("vnfcName");
         assertNotNull(vnfc.getVnfcName());
-        assertEquals(vnfc.getVnfcName(), "vnfcName");
+        assertEquals("vnfcName", vnfc.getVnfcName());
+    }
+
+    @Test
+    public void testGetVnfcFunctionCode() {
+        vnfc.setVnfcFunctionCode("vnfcFunctionCode");
+        assertNotNull(vnfc.getVnfcFunctionCode());
+        assertEquals("vnfcFunctionCode", vnfc.getVnfcFunctionCode());
     }
 
     @Test
@@ -67,14 +74,14 @@ public class TestVnfc {
         List<Vserver> vserverList = new LinkedList<>();
         vnfc.setVserverList(vserverList);
         assertNotNull(vnfc.getVserverList());
-        assertEquals(vnfc.getVserverList(), vserverList);
+        assertEquals(vserverList, vnfc.getVserverList());
     }
 
     @Test
     public void testIsMandatory() {
         vnfc.setMandatory(false);
         assertNotNull(vnfc.isMandatory());
-        assertEquals(vnfc.isMandatory(), false);
+        assertEquals(false, vnfc.isMandatory());
     }
 
     @Test
@@ -93,8 +100,9 @@ public class TestVnfc {
 
         System.out.println("ok vnfc = " + vnfc.toString());
 
-        assertEquals(vnfc.toString(),
-                "Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n");
+        assertEquals(
+                "Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n",
+                vnfc.toString());
     }
 
     @Test
@@ -153,8 +161,9 @@ public class TestVnfc {
 
         System.out.println("vnfc = " + vnfc.toString());
 
-        assertEquals(vnfc.toString(),
-                "Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n");
+        assertEquals(
+                "Vnfc : vnfcType = B, vnfcName = A, resilienceType = null, mandatory = falseVserver : url = http://v1.net, tenantId = V1-T1, id = V1 ,relatedLink = V1-relatedlink , name = V1-Name, \n",
+                vnfc.toString());
     }
 
     @Test

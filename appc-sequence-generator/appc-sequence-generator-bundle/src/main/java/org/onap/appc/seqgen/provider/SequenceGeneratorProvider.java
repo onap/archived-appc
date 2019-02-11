@@ -45,7 +45,9 @@ import org.onap.appc.domainmodel.lcm.VNFOperation;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.SequenceGenerator;
 import org.onap.appc.seqgen.impl.SequenceGeneratorFactory;
+import org.onap.appc.seqgen.objects.CapabilityModel;
 import org.onap.appc.seqgen.objects.Constants;
+import org.onap.appc.seqgen.objects.Constants.Action;
 import org.onap.appc.seqgen.objects.PreCheckOption;
 import org.onap.appc.seqgen.objects.RequestInfo;
 import org.onap.appc.seqgen.objects.RequestInfoBuilder;
@@ -128,10 +130,14 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
                     .createSequenceGenerator(VNFOperation.findByString(input.getRequestInfo().getAction().name()));
             SequenceGeneratorInput seqGenInput = buildSeqGenInput(input);
             List<Transaction> transactions = seqGenerator.generateSequence(seqGenInput);
-            rpcResult = buildSuccessResponse(transactions);
+            if (transactions.isEmpty()) {
+                rpcResult = buildFailureResponse("Request is not supported", 450);
+            } else {
+                rpcResult = buildSuccessResponse(transactions);
+            }
         } catch (Exception e) {
             log.error("Error Generating Sequence",e);
-            rpcResult = buildFailureResponse(e.getMessage());
+            rpcResult = buildFailureResponse(e.getMessage(), 0);
         }
         return Futures.immediateFuture(rpcResult);
     }
@@ -195,6 +201,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         return precheckOptions;
     }
     private List<Responses> getResponses(Transaction transaction) {
+        log.info("Building response from the Transaction");
         List<Responses> responseList = new LinkedList<>();
         for(Response resp : transaction.getResponses()){
             Map<String,String> responseActions = resp.getResponseAction();
@@ -240,12 +247,13 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
             validateInventoryModelWithDependencyModel(dependencyModel, inventoryModel);
         }
 
+        CapabilityModel capModel = buildCapabilitiesForSeqGenInput(input);
+
         SequenceGeneratorInputBuilder builder = new SequenceGeneratorInputBuilder()
                 .requestInfo(requestInfo)
                 .inventoryModel(inventoryModel)
-                .dependendcyModel(dependencyModel);
-
-        builder = buildCapabilitiesForSeqGenInput(input, builder);
+                .dependendcyModel(dependencyModel)
+                .capabilityModel(capModel);
 
         builder = buildTunableParamsForSeqGenInput(input, builder);
 
@@ -264,24 +272,39 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         return builder;
     }
 
-    private SequenceGeneratorInputBuilder buildCapabilitiesForSeqGenInput(GenerateSequenceInput input, SequenceGeneratorInputBuilder builder) {
+    public CapabilityModel buildCapabilitiesForSeqGenInput(GenerateSequenceInput input) {
         log.info("Initializing capabilities based on YANG object.");
-        if(input.getCapabilities() != null){
-            if(input.getCapabilities().getVnf() != null){
-                builder = builder.capability("vnf", input.getCapabilities().getVnf());
+        
+        List<String> vnfCapabilities = null;
+        List<String> vfModuleCapabilities = null;
+        Map<String, List<String>> vmCapabilities = null;
+        List<String> vnfcCapabilities = null;
+        
+        if(input.getCapabilities()!=null){
+            if(input.getCapabilities().getVnf()!=null){
+                vnfCapabilities = input.getCapabilities().getVnf();
             }
-            if(input.getCapabilities().getVnfc() != null){
-                builder = builder.capability("vnfc", input.getCapabilities().getVnfc());
+            if(input.getCapabilities().getVnfc()!=null){
+                vfModuleCapabilities = input.getCapabilities().getVnfc();
             }
-            if(input.getCapabilities().getVm() != null){
-                builder = builder.capability("vm", input.getCapabilities().getVm());
+            if(input.getCapabilities().getVm()!=null){
+                vmCapabilities = new HashMap<String, List<String>>();
+                vmCapabilities.put(Action.ATTACH_VOLUME.getActionType(), input.getCapabilities().getVm().getAttachVolume());
+                vmCapabilities.put(Action.DETACH_VOLUME.getActionType(), input.getCapabilities().getVm().getDetachVolume());
+                vmCapabilities.put(Action.EVACUATE.getActionType(), input.getCapabilities().getVm().getEvacuate());
+                vmCapabilities.put(Action.MIGRATE.getActionType(), input.getCapabilities().getVm().getMigrate());
+                vmCapabilities.put(Action.REBOOT.getActionType(), input.getCapabilities().getVm().getReboot());
+                vmCapabilities.put(Action.REBUILD.getActionType(), input.getCapabilities().getVm().getRebuild());
+                vmCapabilities.put(Action.RESTART.getActionType(), input.getCapabilities().getVm().getRestart());
+                vmCapabilities.put(Action.SNAPSHOT.getActionType(), input.getCapabilities().getVm().getSnapshot());
+                vmCapabilities.put(Action.START.getActionType(), input.getCapabilities().getVm().getStart());
+                vmCapabilities.put(Action.STOP.getActionType(), input.getCapabilities().getVm().getStop());
             }
-            if(input.getCapabilities().getVfModule() != null){
-                builder = builder.capability("vf-module", input.getCapabilities().getVfModule());
+            if(input.getCapabilities().getVfModule()!=null){
+                vnfcCapabilities = input.getCapabilities().getVfModule();
             }
         }
-
-        return builder;
+        return new CapabilityModel(vnfCapabilities, vfModuleCapabilities, vmCapabilities, vnfcCapabilities);
     }
 
     private void validateInventoryModelWithDependencyModel(VnfcDependencyModel dependencyModel, InventoryModel inventoryModel) throws APPCException {
@@ -460,6 +483,7 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
                 Vnfc vfc = new Vnfc();
                 vfc.setVnfcName(vm.getVnfc().getVnfcName());
                 vfc.setVnfcType(vm.getVnfc().getVnfcType());
+                vfc.setVnfcFunctionCode(vm.getVnfc().getVnfcFunctionCode());
                 vserver.setVnfc(vfc);
                 List<Vserver> vms = map.get(vfc);
                 if(vms ==null) {
@@ -481,10 +505,10 @@ public class SequenceGeneratorProvider implements AutoCloseable,SequenceGenerato
         return vnf;
     }
 
-    private RpcResult<GenerateSequenceOutput> buildFailureResponse(String errorMessage){
+    private RpcResult<GenerateSequenceOutput> buildFailureResponse(String errorMessage, int errorCode){
         GenerateSequenceOutputBuilder sequenceGeneratorOutputBuilder=new GenerateSequenceOutputBuilder();
         StatusBuilder statusBuilder = new StatusBuilder();
-        statusBuilder.setCode(401);
+        statusBuilder.setCode((errorCode != 0)? errorCode : 401);
         statusBuilder.setMessage(errorMessage);
         sequenceGeneratorOutputBuilder.setStatus(statusBuilder.build());
         return RpcResultBuilder
