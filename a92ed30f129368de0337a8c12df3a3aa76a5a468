@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95acfab5_5fa6ba9b",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/services/util/ArtifactHandlerInternalExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:43:30Z",
+      "side": 1,
+      "message": "need apache 2.0 license",
+      "revId": "a92ed30f129368de0337a8c12df3a3aa76a5a468",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72343edb_06b32298",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/services/util/ArtifactHandlerInternalExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:43:30Z",
+      "side": 1,
+      "message": "sonar: don\u0027t use wild card",
+      "revId": "a92ed30f129368de0337a8c12df3a3aa76a5a468",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
