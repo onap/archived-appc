@@ -62,6 +62,7 @@ import org.apache.http.protocol.HTTP;
 import org.json.JSONObject;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.listener.demo.model.IncomingMessage;
+import org.onap.appc.listener.util.HttpClientUtil;
 import org.onap.appc.listener.util.Mapper;
 
 import com.att.eelf.configuration.EELFLogger;
@@ -120,7 +121,7 @@ public class ProviderOperations {
             throw new APPCException(e);
         }
 
-        HttpClient client = getHttpClient();
+        HttpClient client = HttpClientUtil.getHttpClient(url.getProtocol());
 
         int httpCode = 0;
         String respBody = null;
@@ -215,79 +216,4 @@ public class ProviderOperations {
 
         return String.format(TEMPLATE, id, url, pgstreams);
     }
-
-    @SuppressWarnings("deprecation")
-    private static HttpClient getHttpClient() throws APPCException {
-        HttpClient client;
-        if (url.getProtocol().equals("https")) {
-            try {
-                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
-                trustStore.load(null, null);
-                MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
-                sf.setHostnameVerifier(MySSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-
-                HttpParams params = new BasicHttpParams();
-                HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-                HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
-
-                SchemeRegistry registry = new SchemeRegistry();
-                registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-                registry.register(new Scheme("https", sf, 443));
-                registry.register(new Scheme("https", sf, 8443));
-                registry.register(new Scheme("http", sf, 8181));
-
-                ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
-                client = new DefaultHttpClient(ccm, params);
-            } catch (Exception e) {
-                client = new DefaultHttpClient();
-            }
-        } else if (url.getProtocol().equals("http")) {
-            client = new DefaultHttpClient();
-        } else {
-            throw new APPCException(
-                "The provider.topology.url property is invalid. The url did not start with http[s]");
-        }
-        return client;
-    }
-
-    @SuppressWarnings("deprecation")
-    public static class MySSLSocketFactory extends SSLSocketFactory {
-        private SSLContext sslContext = SSLContext.getInstance("TLS");
-
-        public MySSLSocketFactory(KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException,
-                        KeyStoreException, UnrecoverableKeyException {
-            super(truststore);
-
-            TrustManager tm = new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                }
-
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return null;
-                }
-            };
-
-            sslContext.init(null, new TrustManager[] {
-                tm
-            }, null);
-        }
-
-        @Override
-        public Socket createSocket(Socket socket, String host, int port, boolean autoClose)
-            throws IOException, UnknownHostException {
-            return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
-        }
-
-        @Override
-        public Socket createSocket() throws IOException {
-            return sslContext.getSocketFactory().createSocket();
-        }
-    }
-
 }
