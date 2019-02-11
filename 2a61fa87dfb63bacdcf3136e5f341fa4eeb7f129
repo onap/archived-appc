@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "971d6ea7_1e79688f",
+        "filename": "appc-outbound/appc-aai-client/provider/src/test/java/org/onap/appc/aai/client/AppcAaiClientActivatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:45:12Z",
+      "side": 1,
+      "message": "isn\u0027t initMocks() redundant since using @RunWith?",
+      "revId": "2a61fa87dfb63bacdcf3136e5f341fa4eeb7f129",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
