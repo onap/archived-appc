@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +56,7 @@ public class EventSenderDmaapImpl implements EventSender
 
     private static Configuration configuration = ConfigurationFactory.getConfiguration();
 
-    private Map<String,Producer> producerMap = new ConcurrentHashMap<>();
+    private Map<String, Producer> producerMap = new ConcurrentHashMap<>();
 
     public Map<String, Producer> getProducerMap() {
         return producerMap;
@@ -98,7 +100,7 @@ public class EventSenderDmaapImpl implements EventSender
                     break;
                 }
             }
-            producerMap.put(destination.toString(),producer);
+            producerMap.put(destination.toString(), producer);
         }
 
     }
@@ -120,7 +122,7 @@ public class EventSenderDmaapImpl implements EventSender
         Producer producer = createProducer(destination, eventTopicName);
         return producer.post(id, jsonStr);
     }
-    
+
     private Producer createProducer(MessageDestination destination, String eventTopicName) {
         Properties properties = configuration.getProperties();
         final List<String> pool = new ArrayList<>();
@@ -136,7 +138,7 @@ public class EventSenderDmaapImpl implements EventSender
         LOG.debug(String.format("pool = %s, taken from property: %s", pool, destination + "." + EVENT_POOL_MEMBERS));
         LOG.debug(String.format("writeTopic = %s, taken from property: %s", eventTopicName, destination + "." + EVENT_TOPIC_WRITE));
         LOG.debug(String.format("username = %s, taken from property: %s", username, destination + "." + DMAAP_USERNAME));
-        Producer producer = new DmaapProducerImpl(pool, eventTopicName,username, password);
+        Producer producer = new DmaapProducerImpl(pool, eventTopicName, username, password);
 
         for (String url : pool) {
             if (url.contains("3905") || url.contains("https")) {
@@ -160,9 +162,9 @@ public class EventSenderDmaapImpl implements EventSender
         String apiVer = params.get("apiVer");
         String eventId = params.get("eventId");
         String reason = params.get("reason");
-        String entityId=params.get("entityId");
-        if(entityId!=null){
-            reason=reason+"("+entityId+")";
+        String entityId = params.get("entityId");
+        if(entityId != null){
+            reason=reason + "(" + entityId + ")";
         }
         Integer code = Integer.getInteger(params.get("code"), 500);
 
@@ -175,6 +177,6 @@ public class EventSenderDmaapImpl implements EventSender
                         new EventHeader(eventTime, apiVer, eventId),
                         new EventStatus(code, reason));
 
-        return sendEvent(destination,eventMessage);
+        return sendEvent(destination, eventMessage);
     }
 }
