@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baafd5b2_535076bb",
+        "filename": "appc-config/appc-data-services/provider/src/test/java/org/onap/appc/data/services/AppcDataServiceActivatorTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:45:58Z",
+      "side": 1,
+      "message": "isn\u0027t initMocks() redundant with @RunWith?",
+      "revId": "621baa308b6ad0d3bb7b0f99c8c6e620301d111b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
