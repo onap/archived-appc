@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b92a6762_9eff6f63",
+        "filename": "appc-adapters/appc-dmaap-adapter/appc-dmaap-adapter-bundle/src/main/java/org/onap/appc/adapter/messaging/dmaap/impl/EventSenderDmaapImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T15:41:17Z",
+      "side": 1,
+      "message": "could use \"+\u003d\" (or add spacing around \"\u003d\")",
+      "revId": "d1ac02097e3e2436c64b4a864126c003210af3a8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
