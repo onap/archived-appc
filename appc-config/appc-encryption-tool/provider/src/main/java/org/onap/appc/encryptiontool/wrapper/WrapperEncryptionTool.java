@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,8 +51,8 @@ public class WrapperEncryptionTool {
         String action = args[4];
         String port = args[5];
         String url = args[6];
-        log.info("vnfType = " + vnfType + " protocol = " + protocol + " user=" + user + " password=" + password
-                + " action=" + action + " port=" + port + " url=" + url);
+        log.info("vnfType = " + vnfType + " protocol = " + protocol + " " + USER_PARAM + "=" + user + " " + PASS_PARAM
+                + "=" + password + " action=" + action + " " + PORT_PARAM + "=" + port + " " + URL_PARAM + "=" + url);
 
         if (StringUtils.isBlank(user)) {
             log.info("ERROR-USER can not be null");
