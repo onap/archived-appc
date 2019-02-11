@@ -105,6 +105,9 @@ module sequence-generator {
                         leaf vnfc-name {
                             type string;
                         }
+                        leaf vnfc-function-code {
+                            type string;
+                        }
                     }
                 }
             }
@@ -155,8 +158,37 @@ module sequence-generator {
             leaf-list vf-module {
                 type string;
             }
-            leaf-list vm {
-                type string;
+            container vm {
+                leaf-list AttachVolume {
+                    type string;
+                }
+                leaf-list DetachVolume {
+                    type string;
+                }
+                leaf-list Evacuate {
+                    type string;
+                }
+                leaf-list Migrate {
+                    type string;
+                }
+                leaf-list Reboot {
+                    type string;
+                }
+                leaf-list Rebuild {
+                    type string;
+                }
+                leaf-list Restart {
+                    type string;
+                }
+                leaf-list Snapshot {
+                    type string;
+                }
+                leaf-list Start {
+                    type string;
+                }
+                leaf-list Stop {
+                    type string;
+                }
             }
             leaf-list vnfc {
                 type string;

@@ -131,6 +131,10 @@ class FlowSequenceGenerator {
       flowSequence = output.toString();
       log.info("MultistepSequenceGenerator-Output: " + flowSequence);
 
+      if (!flowSequence.contains("transactions")) {
+          throw new Exception("No transactions were generated for this request");
+      }
+
     } else if (sequenceType.equalsIgnoreCase(EXTERNAL)) {
       //String input = collectInputParams(localContext);
       //    flowSequnce = ""; //get it from the External interface calling the Rest End point - TBD

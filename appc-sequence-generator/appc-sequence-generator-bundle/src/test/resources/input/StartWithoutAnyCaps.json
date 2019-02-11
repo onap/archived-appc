@@ -20,78 +20,78 @@
 					{
 						"vserver-id" : "be_vserverid1",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "BE",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "BE - Name"
 								}
-								
+
 					},
 					{
 						"vserver-id" : "fe_vserverid1",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "FE",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "FE - Name"
 								}
-								
+
 					},
 					{
 						"vserver-id" : "fe_vserverid2",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "FE",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "FE - Name"
 								}
-								
+
 					},
 					{
 						"vserver-id" : "be_vserverid2",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "BE",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "BE - Name"
 								}
-								
+
 					},
 					{
 						"vserver-id" : "be_vserverid3",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "BE",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "BE - Name"
 								}
-								
+
 					},
 					{
 						"vserver-id" : "smp_vserverid1",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "SMP",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "SMP - Name"
 								}
-								
+
 					},
 					{
 						"vserver-id" : "smp_vserverid2",
 						"vm-id" : "vm_id1",
-						"vnfc": 
+						"vnfc":
 								{
 									"vnfc-type": "SMP",
-									"vnfc-function-code": "pld",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "SMP - Name"
-								}								
+								}
 					},
 					{
 						"vserver-id" : "be_vserverid4",
@@ -99,7 +99,7 @@
 						"vnfc":
 						{
 							"vnfc-type": "BE",
-							"vnfc-function-code": "pld",
+                            "vnfc-function-code": "pld",
 							"vnfc-name": "BE - Name"
 						}
 
@@ -110,7 +110,7 @@
 						"vnfc":
 						{
 							"vnfc-type": "BE",
-							"vnfc-function-code": "pld",
+                            "vnfc-function-code": "pld",
 							"vnfc-name": "BE - Name"
 						}
 
@@ -118,41 +118,11 @@
 			]
 		}
 	},
-	"dependency-info" : {
-		"vnfcs" : [
-			{
-				"vnfc-type" : "BE",
-				"mandatory" : "true",
-				"resilience": "Active-Active",
-				"parents" : [
-					"SMP"
-				]
-			},
-			{
-				"vnfc-type" : "FE",
-				"mandatory" : "true",
-				"resilience": "Active-Active",
-				"parents" : [
-					"BE"
-				]
-			},
-			{
-				"vnfc-type" : "SMP",
-				"mandatory" : "true",
-				"resilience": "Active-Passive",
-				"parents" : ["FE"]
-			}
-		]
+	"dependency-info": {
+
 	},
-	"tunable-parameters" : {
-		"strategy" : "FORWARD",
-		"wait-time" : "120",
-		"retry-count" : "5"
-	},
-	"capabilities" : {
-		"vnf": ["Stop", "Start", "StartApplication","StopApplication"],
-		"vf-module": ["Stop", "Start"],
-		"vm" : [{"Stop" :["pld", "ssc", "dbo"]}, {"Start" :["pld", "ssc", "dbo"]}, {"Restart" :["pld", "ssc", "dbo"]}],
-		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
+	"tunable-parameters": {
+
 	}
 }
+

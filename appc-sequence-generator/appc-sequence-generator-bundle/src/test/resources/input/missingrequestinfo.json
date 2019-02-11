@@ -1,5 +1,6 @@
+
 {
-"inventory-info": {
+	"inventory-info": {
 		"vnf-info": {
 			"vnf-id" : "abc",
 			"vnf-name": "vSCP",
@@ -13,6 +14,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "BE",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "BE - Name"
 								}
 								
@@ -23,6 +25,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "FE",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "FE - Name"
 								}
 								
@@ -33,6 +36,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "FE",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "FE - Name"
 								}
 								
@@ -43,6 +47,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "BE",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "BE - Name"
 								}
 								
@@ -53,6 +58,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "BE",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "BE - Name"
 								}
 								
@@ -63,6 +69,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "SMP",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "SMP - Name"
 								}
 								
@@ -73,6 +80,7 @@
 						"vnfc": 
 								{
 									"vnfc-type": "SMP",
+                                    "vnfc-function-code": "pld",
 									"vnfc-name": "SMP - Name"
 								}								
 					},
@@ -82,6 +90,7 @@
 						"vnfc":
 						{
 							"vnfc-type": "BE",
+                            "vnfc-function-code": "pld",
 							"vnfc-name": "BE - Name"
 						}
 
@@ -92,6 +101,7 @@
 						"vnfc":
 						{
 							"vnfc-type": "BE",
+                            "vnfc-function-code": "pld",
 							"vnfc-name": "BE - Name"
 						}
 
@@ -133,9 +143,8 @@
 	"capabilities" : {
 		"vnf": ["Stop", "Start", "StartApplication","StopApplication"],
 		"vf-module": ["Stop", "Start"],
-		"vm" : ["Stop", "Start"],
+        "vm" : [{"Stop" :["pld", "ssc", "dbo"]}, {"Start" :["pld", "ssc", "dbo"]}, {"Restart" :["pld", "ssc", "dbo"]}],
 		"vnfc": ["StopApplication", "StartApplication","HealthCheck"]
 	}
 }
-
 

@@ -31,7 +31,6 @@ import org.onap.appc.dg.objects.InventoryModel;
 import org.onap.appc.dg.objects.VnfcDependencyModel;
 
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Map;
 
 @JsonSerialize(include = JsonSerialize.Inclusion.NON_NULL)
@@ -51,8 +50,8 @@ public class SequenceGeneratorInput {
     @JsonProperty("tunable-parameters")
     private Map<String,String> tunableParams;
 
-    @JsonProperty("capabilities")
-    private Map<String,List<String>> capability;
+    @JsonIgnore
+    private CapabilityModel capabilityModel;
 
     public RequestInfo getRequestInfo() {
         return requestInfo;
@@ -86,11 +85,11 @@ public class SequenceGeneratorInput {
         this.tunableParams = tunableParams;
     }
 
-    public Map<String, List<String>> getCapability() {
-        return capability;
+    public CapabilityModel getCapability() {
+        return capabilityModel;
     }
 
-    public void setCapability(Map<String, List<String>> capability) {
-        this.capability = capability;
+    public void setCapabilityModel(CapabilityModel capabilityModel) {
+        this.capabilityModel = capabilityModel;
     }
 }
