@@ -85,7 +85,19 @@ public class Constants {
     }
 
     public enum Action{
-        START("Start"),START_APPLICATION("StartApplication"),HEALTH_CHECK("HealthCheck"),STOP_APPLICATION("StopApplication"),STOP("Stop");
+        ATTACH_VOLUME("AttachVolume"),
+        DETACH_VOLUME("DetachVolume"),
+        EVACUATE("Evacuate"),
+        MIGRATE("Migrate"),
+        REBOOT("Reboot"),
+        REBUILD("Rebuild"),
+        RESTART("Restart"),
+        SNAPSHOT("Snapshot"),
+        START("Start"),
+        STOP("Stop"),
+        START_APPLICATION("StartApplication"),
+        HEALTH_CHECK("HealthCheck"),
+        STOP_APPLICATION("StopApplication");
 
         Action(String actionType) {
             this.actionType=actionType;

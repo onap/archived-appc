@@ -54,9 +54,8 @@ public class SequenceGeneratorInputBuilderTest {
     @Test
     public void testCapability()
     {
-        String level= "testLevel";
-        List<String> capabilities= new ArrayList<>();
-        assertTrue(sequenceGeneratorInputBuilder.capability(level, capabilities) instanceof SequenceGeneratorInputBuilder);
+        CapabilityModel capabilities= new CapabilityModel();
+        assertTrue(sequenceGeneratorInputBuilder.capabilityModel(capabilities) instanceof SequenceGeneratorInputBuilder);
         
     }
     

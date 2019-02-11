@@ -144,9 +144,8 @@
   "capabilities" : {
     "vnf": ["Stop", "Start", "StartApplication","StopApplication"],
     "vf-module": ["Stop", "Start"],
-    "vm" : ["Stop", "Start"],
+    "vm" : [{"Stop" :["vnfc1", "vnfc2", "SMP"]}, {"Start" :["vnfc3", "vnfc4"]}, {"Restart" :["vnfc5", "vnfc6"]}],
     "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
   }
 }
-
 

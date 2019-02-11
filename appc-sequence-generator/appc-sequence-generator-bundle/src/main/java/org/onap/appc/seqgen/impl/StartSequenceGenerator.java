@@ -39,6 +39,7 @@ import org.onap.appc.domainmodel.Vserver;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.SequenceGenerator;
 import org.onap.appc.seqgen.objects.ActionIdentifier;
+import org.onap.appc.seqgen.objects.CapabilityModel;
 import org.onap.appc.seqgen.objects.Constants;
 import org.onap.appc.seqgen.objects.PreCheckOption;
 import org.onap.appc.seqgen.objects.Response;
@@ -76,6 +77,11 @@ public class StartSequenceGenerator implements SequenceGenerator {
         List<Vserver> vservers = input.getInventoryModel().getVnf().getVservers();
         List<Integer> transactionIds = new LinkedList<>();
         for (Vserver vm : vservers) {
+            // check vm-Start-capabilities for this vm's vnfc-function-code (before incrementing transactionId)
+            String vmVnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
+            if (!vmSupportsStart(input, vmVnfcFunctionCode)) {
+                continue;
+            }
             Transaction transaction = new Transaction();
             transaction.setTransactionId(transactionId);
             transactionIds.add(transactionId++);
@@ -92,7 +98,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
                 Response ignoreResponse = new Response();
                 ignoreResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
                 Map<String, String> ignoreAction = new HashMap<>();
-                ignoreAction.put(ResponseAction.IGNORE.getAction(), Boolean.TRUE.toString());
+                ignoreAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
                 ignoreResponse.setResponseAction(ignoreAction);
                 transaction.addResponse(ignoreResponse);
             }
@@ -114,7 +120,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
         Response ignoreResponse = new Response();
         ignoreResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
         Map<String, String> ignoreAction = new HashMap<>();
-        ignoreAction.put(ResponseAction.IGNORE.getAction(), Boolean.TRUE.toString());
+        ignoreAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
         ignoreResponse.setResponseAction(ignoreAction);
         transaction.addResponse(ignoreResponse);
     }
@@ -132,6 +138,11 @@ public class StartSequenceGenerator implements SequenceGenerator {
                 List<Integer> transactionIds = new LinkedList<>();
                 if(!vms.isEmpty()) {
                     for (Vserver vm : vms) {
+                        // check vm-Start-capabilities for this vm's vnfc-function-code (before incrementing transactionId)
+                        String vmVnfcFunctionCode = vm.getVnfc().getVnfcFunctionCode();
+                        if (!vmSupportsStart(input, vmVnfcFunctionCode)) {
+                            continue;
+                        }
                         Transaction transaction = new Transaction();
                         transaction.setTransactionId(transactionId);
                         transactionIds.add(transactionId++);
@@ -144,7 +155,7 @@ public class StartSequenceGenerator implements SequenceGenerator {
                         Response ignoreResponse = new Response();
                         ignoreResponse.setResponseMessage(ResponseMessage.FAILURE.getResponse());
                         Map<String, String> ignoreAction = new HashMap<>();
-                        ignoreAction.put(ResponseAction.IGNORE.getAction(), Boolean.TRUE.toString());
+                        ignoreAction.put(ResponseAction.STOP.getAction(), Boolean.TRUE.toString());
                         ignoreResponse.setResponseAction(ignoreAction);
                         transaction.addResponse(ignoreResponse);
                         transactionList.add(transaction);
@@ -261,23 +272,27 @@ public class StartSequenceGenerator implements SequenceGenerator {
         return strategy;
     }
 
-    private boolean readHealthCheckCapabilites(Map<String, List<String>> capabilities) {
-        if (capabilities != null) {
-            List<String> vnfcCapabilities = capabilities.get(CapabilityLevel.VNFC.getLevel());
-            if (vnfcCapabilities != null)
-                return vnfcCapabilities.stream()
-                        .anyMatch(p -> Capabilties.HEALTH_CHECK.getCapability().equalsIgnoreCase(p));
+    private boolean readHealthCheckCapabilites(CapabilityModel capabilities) {
+        if (capabilities == null) {
+            return true;
         }
+        List<String> vnfcCapabilities = capabilities.getVnfcCapabilities();
+        if (vnfcCapabilities != null)
+            return vnfcCapabilities.stream()
+                    .anyMatch(p -> Capabilties.HEALTH_CHECK.getCapability().equalsIgnoreCase(p));
+
         return false;
     }
 
     private boolean readApplicationStartCapability(SequenceGeneratorInput input) {
-        Map<String, List<String>> capability = input.getCapability();
-        if (capability != null) {
-            List<String> vnfcCapabilities = capability.get(CapabilityLevel.VNFC.getLevel());
-            if (vnfcCapabilities != null)
-                return vnfcCapabilities.stream().anyMatch(p -> Capabilties.START_APPLICATION.getCapability().equalsIgnoreCase(p));
-        }
+        CapabilityModel capability = input.getCapability();
+        if (capability == null)
+            return true;
+        List<String> vnfcCapabilities = capability.getVnfcCapabilities();
+        if (vnfcCapabilities != null)
+            return vnfcCapabilities.stream()
+                    .anyMatch(p -> Capabilties.START_APPLICATION.getCapability().equalsIgnoreCase(p));
+
         return false;
     }
 
@@ -300,7 +315,8 @@ public class StartSequenceGenerator implements SequenceGenerator {
         List<Vserver> vservers = input.getInventoryModel().getVnf().getVservers();
         for (Vserver vm : vservers) {
             if(!(vm.getVnfc()!=null&& vm.getVnfc().getVnfcType()!=null&& vm.getVnfc().getVnfcName()!=null)){
-                vnfcPresent=false;break;
+                vnfcPresent=false;
+                break;
             }
         }
         return vnfcPresent;
@@ -318,5 +334,42 @@ public class StartSequenceGenerator implements SequenceGenerator {
             logger.error(message, e);
             throw new APPCException(message);
         }
+    }
+
+    private boolean vmSupportsStart(SequenceGeneratorInput input, String vnfcFunctionCode) {
+        boolean vmSupported = true;
+        if (input.getCapability() == null) {
+            logger.info("vmSupportsStart: " + "Capabilities model is null, returning vmSupported=" + vmSupported);
+            return vmSupported;
+        }
+        Map<String, List<String>> vmCapabilities = input.getCapability().getVmCapabilities();
+        logger.info("vmSupportsStart: vnfcFunctionCode=" + vnfcFunctionCode + ", vmCapabilities=" + vmCapabilities);
+        if (vmCapabilities != null) {
+            if (!vmCapabilities.isEmpty()) {
+                vmSupported = false;
+                if (vmCapabilities.get(Action.START.getActionType()) != null) {
+                    if (vnfcFunctionCode != null && !vnfcFunctionCode.isEmpty()) {
+                        for (String enabledFuncCode : vmCapabilities.get(Action.START.getActionType()) ) {
+                            if (enabledFuncCode.equalsIgnoreCase(vnfcFunctionCode)) {
+                                vmSupported = true;
+                                logger.info("vmSupportsStart: vnfcFunctionCode=" + vnfcFunctionCode + " found in vmCapabilties");
+                                break;
+                            }
+                        }
+                    } else {
+                        logger.info("vmSupportsStart: " + "Inventory vnfcFunctionCode is null or empty");
+                    }
+                } else {
+                    logger.info("vmSupportsStart: " + "Given action in vm entry in Capabilities model is null");
+                }
+            } else {
+                logger.info("vmSupportsStart: " + "Vm entry in Capabilities model is empty");
+            }
+        } else {
+            logger.info("vmSupportsStart: " + "Vm entry in Capabilities model is null");
+        }
+
+        logger.info("vmSupportsStart: " + "returning vmSupported=" + vmSupported);
+        return vmSupported;
     }
 }
