@@ -7,7 +7,9 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications Copyright (C) 2018 Ericsson
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -372,7 +374,6 @@ public class SshJcraftWrapper {
             } catch (IOException e) {
                 DebugLog.printAriDebug(fnName, "Caught an Exception, e=" + e);
                 dbLog.outputStackTrace(e);
-                e.printStackTrace();
             }
         } else {
             // When looking at the end of the charBuffer, don't include any linefeeds or spaces. We only want to make the smallest string possible.
@@ -402,7 +403,6 @@ public class SshJcraftWrapper {
                 } catch (IOException e) {
                     DebugLog.printAriDebug(fnName, "Caught an Exception, e=" + e);
                     dbLog.outputStackTrace(e);
-                    e.printStackTrace();
                 }
             }
         }
@@ -609,8 +609,8 @@ public class SshJcraftWrapper {
                 }
             }
         } catch (IOException e) {
-            System.err.println("writeToFile() exception: " + e);
-            e.printStackTrace();
+            DebugLog.printAriDebug(fnName, "writeToFile() exception:, e=" + e);
+            dbLog.outputStackTrace(e);
         }
     }
 
@@ -625,8 +625,7 @@ public class SshJcraftWrapper {
                 }
             }
         } catch (IOException e) {
-            System.err.println("writeToFile() exception: " + e);
-            e.printStackTrace();
+            dbLog.outputStackTrace(e);
         }
     }
 
