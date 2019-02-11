@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,11 +25,8 @@
 
 package org.onap.appc.adapter.ansible.impl;
 
-import java.util.Map;
-import java.util.Properties;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,13 +35,16 @@ import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
 import org.onap.appc.adapter.ansible.model.AnsibleResult;
 import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
 import org.onap.appc.adapter.ansible.model.AnsibleServerEmulator;
+import org.onap.appc.encryption.EncryptionTool;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import org.onap.appc.encryption.EncryptionTool;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * This class implements the {@link AnsibleAdapter} interface. This interface
@@ -478,7 +480,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
 
         AnsibleResult testResult;
         ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, "");
-        if (!testMode) {
+        if (!testMode && null!= httpClient) {
             httpClient.setHttpContext(user, password);
             testResult = httpClient.post(agentUrl, payload);
             httpClient.close();
