@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21a5072d_a2c67e84",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:47:27Z",
+      "side": 1,
+      "message": "\"Copyright\" \u003d\u003e \"Modifications Copyright\"",
+      "revId": "83d004bdf8dfef140cc0d7eb80ab1ff27fd74066",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa644d0e_574680c6",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:47:27Z",
+      "side": 1,
+      "message": "need to add a junit test case for this",
+      "revId": "83d004bdf8dfef140cc0d7eb80ab1ff27fd74066",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
