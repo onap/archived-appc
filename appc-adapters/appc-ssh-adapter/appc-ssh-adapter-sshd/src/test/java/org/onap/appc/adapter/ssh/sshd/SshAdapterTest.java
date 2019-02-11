@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,7 +26,6 @@
 package org.onap.appc.adapter.ssh.sshd;
 
 import org.apache.sshd.server.SshServer;
-import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.NamedFactory;
 import org.apache.sshd.common.util.OsUtils;
 import org.apache.sshd.server.command.Command;
@@ -36,12 +37,19 @@ import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.shell.ProcessShellFactory;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 import org.hamcrest.CoreMatchers;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.onap.appc.adapter.ssh.SshAdapter;
 import org.onap.appc.adapter.ssh.SshConnection;
 import org.onap.appc.adapter.ssh.SshException;
-
+import org.powermock.reflect.Whitebox;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +57,6 @@ import java.io.OutputStream;
 import java.net.BindException;
 import java.security.PublicKey;
 import java.util.Collections;
-import java.util.EnumSet;
 
 //@Ignore
 public class SshAdapterTest {
@@ -123,6 +130,31 @@ public class SshAdapterTest {
         thrown.expect(SshException.class);
         thrown.expectMessage(CoreMatchers.containsString("Authentication failed"));
         disconnect(connect(SSH_USERNAME, "WrongPassword"));
+    }
+
+    @Test
+    public void testInstantiateWithKeyFile() {
+        SshConnection connection = sshAdapter.getConnection(null, 0, null);
+        assertTrue(connection instanceof SshConnection);
+    }
+
+    @Test
+    public void testConnectWithRetry() {
+        SshConnection connection = Mockito.spy(sshAdapter.getConnection(
+                SSH_HOST, SSH_PORT, SSH_USERNAME, SSH_PASSWORD));
+        connection.setExecTimeout(1);
+        connection.connectWithRetry();
+        Mockito.verify(connection).connect();
+    }
+
+    @Test
+    public void testToString() {
+        SshConnection connection = Mockito.spy(sshAdapter.getConnection(
+                SSH_HOST, SSH_PORT, SSH_USERNAME, SSH_PASSWORD));
+        assertEquals(SSH_USERNAME + "@" + SSH_HOST, connection.toString());
+        String s = null;
+        Whitebox.setInternalState(connection, "username", s);
+        assertEquals(SSH_HOST, connection.toString());
     }
 
     @Before
