@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bb600af_62e2030d",
+        "filename": "appc-config/appc-encryption-tool/provider/src/test/java/org/onap/appc/encryptiontool/wrapper/EncryptionToolDGWrapperTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-11T14:07:20Z",
+      "side": 1,
+      "message": "anything to assert or verify?",
+      "revId": "c89af91e98192bf57d91d0d0c5d52e748b386fe9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
