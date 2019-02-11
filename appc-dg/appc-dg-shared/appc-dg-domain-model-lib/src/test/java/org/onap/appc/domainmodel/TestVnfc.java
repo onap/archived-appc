@@ -63,6 +63,13 @@ public class TestVnfc {
     }
 
     @Test
+    public void testGetVnfcFunctionCode() {
+        vnfc.setVnfcFunctionCode("vnfcFunctionCode");
+        assertNotNull(vnfc.getVnfcFunctionCode());
+        assertEquals(vnfc.getVnfcFunctionCode(), "vnfcFunctionCode");
+    }
+
+    @Test
     public void testGetvserverList() {
         List<Vserver> vserverList = new LinkedList<>();
         vnfc.setVserverList(vserverList);

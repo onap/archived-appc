@@ -42,7 +42,9 @@ import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.seqgen.SequenceGenerator;
 import org.onap.appc.seqgen.dgplugin.SequenceGeneratorPlugin;
 import org.onap.appc.seqgen.impl.SequenceGeneratorFactory;
+import org.onap.appc.seqgen.objects.CapabilityModel;
 import org.onap.appc.seqgen.objects.Constants;
+import org.onap.appc.seqgen.objects.Constants.ActionLevel;
 import org.onap.appc.seqgen.objects.SequenceGeneratorInput;
 import org.onap.appc.seqgen.objects.Transaction;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
@@ -51,7 +53,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.List;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -67,10 +71,15 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
         try {
             SequenceGeneratorInput sequenceGeneratorInput = buildSequenceGeneratorInput(inputJSON);
             List<Transaction> sequence = generateSequence(sequenceGeneratorInput);
-            String output = objectMapper.writeValueAsString(sequence);
-            logger.debug("Sequence Generator Output " + output);
-
-            context.setAttribute("output", output);
+            if (sequence.isEmpty()) {
+                logger.error("Error generating sequence");
+                context.setAttribute("error-code", "450");
+                context.setAttribute("error-message", "Request is not supported");
+            } else { 
+                String output = objectMapper.writeValueAsString(sequence);
+                logger.debug("Sequence Generator Output " + output);
+                context.setAttribute("output", output);
+            }
         } catch (Exception e) {
             logger.error("Error generating sequence", e);
             context.setAttribute("error-code", "401");
@@ -89,13 +98,16 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
         sequenceGeneratorInput.setInventoryModel(inventoryModel);
 
         VnfcDependencyModel dependencyModel = buildDependencyModel(inputJson);
-        if(dependencyModel!=null){
+        if(dependencyModel != null){
             validateInventoryModelWithDependencyModel(dependencyModel,inventoryModel);
         }
         sequenceGeneratorInput.setDependencyModel(dependencyModel);
 
+        CapabilityModel capModel = buildCapabilitiesModel(inputJson);
+        sequenceGeneratorInput.setCapabilityModel(capModel);
         return sequenceGeneratorInput;
     }
+    
     private List<Transaction> generateSequence(SequenceGeneratorInput sequenceGeneratorInput) throws Exception {
         if (sequenceGeneratorInput.getRequestInfo() == null) {
             throw new APPCException("Request info is not provided in the input");
@@ -286,6 +298,7 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
                 Vnfc vfc = new Vnfc();
                 vfc.setVnfcType(vm.get("vnfc").get("vnfc-type").asText());
                 vfc.setVnfcName(vm.get("vnfc").get("vnfc-name").asText());
+                vfc.setVnfcFunctionCode(vm.get("vnfc").get("vnfc-function-code").asText());
                 vserver.setVnfc(vfc);
                 List<Vserver> vServers = vfcs.get(vfc);
                 if (vServers == null) {
@@ -304,5 +317,66 @@ public class SequenceGeneratorPluginImpl implements SequenceGeneratorPlugin {
         }
 
         return new InventoryModel(vnf);
+    }
+    private CapabilityModel buildCapabilitiesModel(String inputJson) throws IOException, APPCException {
+        logger.info("Entering buildCapabilitiesModel");
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(inputJson);
+        JsonNode capabilitiesNode = jsonNode.get("capabilities");
+        if (capabilitiesNode == null) {
+            return null;
+        }
+        
+        List<String> vnfCapabilities = new ArrayList<>();
+        List<String> vfModuleCapabilities = new ArrayList<>();
+        Map<String, List<String>> vmCapabilities = new HashMap<>();
+        List<String> vnfcCapabilities = new ArrayList<>();
+
+        JsonNode vnfNode = capabilitiesNode.get(ActionLevel.VNF.getAction());
+        JsonNode vfModuleNode = capabilitiesNode.get(ActionLevel.VF_MODULE.getAction());
+        JsonNode vmNode = capabilitiesNode.get(ActionLevel.VM.getAction());
+        JsonNode vnfcNode = capabilitiesNode.get(ActionLevel.VNFC.getAction());
+        
+        if (vnfNode != null && vnfNode.isArray() ) {
+            for (JsonNode nodes : vnfNode) {
+                vnfCapabilities.add(nodes.asText());
+            }
+        }
+        if (vfModuleNode != null && vfModuleNode.isArray() ){
+            for (JsonNode nodes : vfModuleNode) {
+                vfModuleCapabilities.add(nodes.asText());
+            }
+        }
+        if (vmNode != null && vmNode.isArray() ){
+            for (JsonNode jNode : vmNode) {
+                logger.debug("jNode=" + jNode);
+                Iterator<Map.Entry<String,JsonNode>> fldIter = jNode.fields();
+                while (fldIter.hasNext()) {
+                    Map.Entry<String,JsonNode> currentEntry = fldIter.next();
+                    logger.debug("currentEntry.getKey()=" + currentEntry.getKey());
+                    logger.debug("currentEntry.getValue()=" + currentEntry.getValue());
+                    if (currentEntry.getValue().isArray()) {
+                        logger.debug("currentEntry.getValue().isArray() is true");
+                        List<String> ls = new ArrayList<String>();
+                        for (JsonNode node: currentEntry.getValue()) {
+                            ls.add(node.asText());
+                        }
+                        vmCapabilities.put(currentEntry.getKey(), ls);
+                    }
+                }
+            }
+        }
+        if (vnfcNode != null && vnfcNode.isArray() ){
+            for (JsonNode nodes : vnfcNode) {
+                vnfcCapabilities.add(nodes.asText());
+            }
+        }
+        logger.info("vnfCapabilities=" + vnfCapabilities);
+        logger.info("vfModuleCapabilities=" + vfModuleCapabilities);
+        logger.info("vmCapabilities=" + vmCapabilities);
+        logger.info("vnfcCapabilities=" + vnfcCapabilities);
+
+        return new CapabilityModel(vnfCapabilities, vfModuleCapabilities, vmCapabilities, vnfcCapabilities);
     }
 }

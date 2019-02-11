@@ -1,3 +1,5 @@
+
+
 {
   "request-info": {
     "action": "Stop",
@@ -21,6 +23,7 @@
           "vnfc":
           {
             "vnfc-type": "BE",
+            "vnfc-function-code": "pld",
             "vnfc-name": "BE - Name"
           }
         }
@@ -34,7 +37,8 @@
 
   },
   "capabilities" : {
-    "vm" : ["Stop", "Start"],
+        "vm" : [{"Stop" :["pld", "ssc", "dbo"]}, {"Start" :["pld", "ssc", "dbo"]}, {"Restart" :["pld", "ssc", "dbo"]}],
     "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
   }
 }
+

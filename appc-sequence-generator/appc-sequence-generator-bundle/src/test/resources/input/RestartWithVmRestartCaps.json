@@ -1,7 +1,7 @@
 {
   "request-info": {
     "action": "Restart",
-    "action-level": "vm",
+    "action-level": "vnf",
     "action-identifier": {
       "vnf-id": "dbgx0001v"
     },
@@ -63,30 +63,6 @@
     }
   },
   "dependency-info" : {
-    "vnfcs" : [
-      {
-        "vnfc-type" : "BE",
-        "mandatory" : "true",
-        "resilience": "Active-Active",
-        "parents" : [
-          "SMP"
-        ]
-      },
-      {
-        "vnfc-type" : "FE",
-        "mandatory" : "true",
-        "resilience": "Active-Active",
-        "parents" : [
-          "BE"
-        ]
-      },
-      {
-        "vnfc-type" : "SMP",
-        "mandatory" : "true",
-        "resilience": "Active-Passive",
-        "parents" : []
-      }
-    ]
   },
   "tunable-parameters" : {
     "strategy" : "FORWARD",
@@ -96,7 +72,7 @@
   "capabilities" : {
     "vnf": ["Stop", "Start", "StartApplication","StopApplication"],
     "vf-module": ["Stop", "Start"],
-        "vm" : [{"Stop" :["pld", "ssc", "dbo"]}, {"Start" :["pld", "ssc", "dbo"]}, {"Restart" :["pld", "ssc", "dbo"]}],
+    "vm" : [{"Stop" :["pld", "ssc", "dbo"]}, {"Start" :["pld", "ssc", "dbo"]}, {"Restart" :["pld", "ssc", "dbo"]}],
     "vnfc": ["StopApplication", "StartApplication","HealthCheck"]
   }
 }

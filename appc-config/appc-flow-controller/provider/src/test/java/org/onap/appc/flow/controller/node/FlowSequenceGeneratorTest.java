@@ -166,12 +166,28 @@ public class FlowSequenceGeneratorTest {
     when(ctx.getAttribute(VNF_ID)).thenReturn("some-vnf-id");
 
     Map<String, String> map = new HashMap<>();
-    map.put("restResponse", "{'output':{'dummy-json-object':'some-param'}}".replaceAll("'", "\""));
+    map.put("restResponse", "{'output':{'transactions':[{'transaction-id':'1','payload':''}]}}".replaceAll("'", "\""));
     when(restExecutor.execute(any(Transaction.class), eq(localCtx))).thenReturn(map);
 
     String flowSequence = flowSequenceGenerator.getFlowSequence(inParams, ctx, localCtx);
 
-    Assert.assertEquals("{'dummy-json-object':'some-param'}".replaceAll("'", "\""), flowSequence);
+    //Assert.assertEquals("{'dummy-json-object':'some-param'}".replaceAll("'", "\""), flowSequence);
+    Assert.assertEquals("{'transactions':[{'transaction-id':'1','payload':''}]}".replaceAll("'", "\""), flowSequence);
+  }
+
+  @Test
+  public void sequence_type_is_runtime_but_no_transactions_generated() throws Exception {
+    when(localCtx.getAttribute(SEQUENCE_TYPE)).thenReturn(RUNTIME);
+    when(ctx.getAttribute(VNF_TYPE)).thenReturn("some-vnf-type");
+    when(ctx.getAttribute(VNF_ID)).thenReturn("some-vnf-id");
+
+    Map<String, String> map = new HashMap<>();
+    // {"status":{"code":450,"message":"Request is not supported"}}
+    map.put("restResponse", "{'output':{'status':{'code':450,'message':'Request is not supported'}}}".replaceAll("'", "\""));
+    when(restExecutor.execute(any(Transaction.class), eq(localCtx))).thenReturn(map);
+    expectedException.expectMessage("No transactions were generated for this request");
+    
+    String flowSequence = flowSequenceGenerator.getFlowSequence(inParams, ctx, localCtx);
   }
 
   @Test
