@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,18 +29,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.*;
-
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
+
 
 public class TestConsumerProducerImpl {
 
@@ -52,17 +55,17 @@ public class TestConsumerProducerImpl {
 
     @Before
     public void setup() {
-    	System.out.println("setup entry...");
-//        urls = new HashSet<String>();
-//        urls.add("dmaaphost1");
-//        urls.add("dmaaphost2");
-//        //remove unavailable dmaap instance for build
-//        //urls.add("dmaaphost3");
-//
-//        topicRead = "APPC-UNIT-TEST";
-//        topicWrite = "APPC-UNIT-TEST";
-//        group = "APPC-CLIENT";
-//        groupId = "0";
+        System.out.println("setup entry...");
+        //        urls = new HashSet<String>();
+        //        urls.add("dmaaphost1");
+        //        urls.add("dmaaphost2");
+        //        //remove unavailable dmaap instance for build
+        //        //urls.add("dmaaphost3");
+        //
+        //        topicRead = "APPC-UNIT-TEST";
+        //        topicWrite = "APPC-UNIT-TEST";
+        //        group = "APPC-CLIENT";
+        //        groupId = "0";
         Configuration configuration = ConfigurationFactory.getConfiguration();
         List<String> hosts = Arrays.asList(configuration.getProperty("poolMembers").split(","));
         urls = new HashSet<String>(hosts);
@@ -83,18 +86,18 @@ public class TestConsumerProducerImpl {
     @Ignore
     @Test
     public void testWriteRead() {
-    	System.out.println("testWriteRead entry...");
+        System.out.println("testWriteRead entry...");
         Producer p = new DmaapProducerImpl(urls, topicWrite,user,password);
 
         String s1 = UUID.randomUUID().toString();
         String s2 = UUID.randomUUID().toString();
         if (p.post("TEST", s1) == false) {
-        	// try again - 2nd attempt may succeed if cambria client failed over
-        	p.post("TEST", s1);
+            // try again - 2nd attempt may succeed if cambria client failed over
+            p.post("TEST", s1);
         }
         if (p.post("TEST", s2) == false) {
-        	// try again - 2nd attempt may succeed if cambria client failed over
-        	p.post("TEST", s2);
+            // try again - 2nd attempt may succeed if cambria client failed over
+            p.post("TEST", s2);
         }
 
         Consumer c = new DmaapConsumerImpl(urls, topicRead, group, groupId,user,password);
@@ -102,7 +105,7 @@ public class TestConsumerProducerImpl {
         // if fetch is empty, try again - a 2nd attempt may succeed if
         // cambria client has failed over
         if ((out == null) || out.isEmpty()) {
-        	out = c.fetch();
+            out = c.fetch();
         }
 
         assertNotNull(out);
@@ -118,19 +121,19 @@ public class TestConsumerProducerImpl {
     @Test
     @Ignore // Https Not support on jenkins server
     public void testWriteReadHttps() {
-    	System.out.println("testWriteReadHttps entry...");
+        System.out.println("testWriteReadHttps entry...");
         Producer p = new DmaapProducerImpl(urls, topicWrite,user,password);
         p.useHttps(true);
 
         String s1 = UUID.randomUUID().toString();
         String s2 = UUID.randomUUID().toString();
         if (p.post("TEST", s1) == false) {
-        	// try again - 2nd attempt may succeed if cambria client failed over
-        	p.post("TEST", s1);
+            // try again - 2nd attempt may succeed if cambria client failed over
+            p.post("TEST", s1);
         }
         if (p.post("TEST", s2) == false) {
-        	// try again - 2nd attempt may succeed if cambria client failed over
-        	p.post("TEST", s2);
+            // try again - 2nd attempt may succeed if cambria client failed over
+            p.post("TEST", s2);
         }
 
         Consumer c = new DmaapConsumerImpl(urls, topicRead, group, groupId,user,password);
@@ -140,7 +143,7 @@ public class TestConsumerProducerImpl {
         // if fetch is empty, try again - a 2nd attempt may succeed if
         // cambria client has failed over
         if ((out == null) || out.isEmpty()) {
-        	out = c.fetch();
+            out = c.fetch();
         }
 
         assertNotNull(out);
@@ -153,7 +156,7 @@ public class TestConsumerProducerImpl {
     @Test
     @Ignore // requires connection to a live DMaaP server
     public void testBadUrl() {
-    	System.out.println("testBadUrl entry...");
+        System.out.println("testBadUrl entry...");
         urls.clear();
         urls.add("something.local");
 
@@ -168,7 +171,7 @@ public class TestConsumerProducerImpl {
     @Test
     @Ignore // requires connection to a live DMaaP server
     public void testAuth() {
-    	System.out.println("testAuth entry...");
+        System.out.println("testAuth entry...");
         Producer p = new DmaapProducerImpl(urls, topicWrite,user,password);
         Consumer c = new DmaapConsumerImpl(urls, topicRead, group, groupId,user,password);
 
@@ -185,34 +188,34 @@ public class TestConsumerProducerImpl {
     @Ignore
     @Test
     public void testFailover() {
-    	System.out.println("testFailover entry...");
-    	urls.clear();
+        System.out.println("testFailover entry...");
+        urls.clear();
         urls.add("openecomp2.org");  // bad url
         urls.add("dmaaphost2");
         Producer p = new DmaapProducerImpl(urls, topicWrite,user,password);
 
         String s1 = UUID.randomUUID().toString();
         if (p.post("TEST", s1) == false) {
-        	// try again - cambria client should have failed over
-        	p.post("TEST", s1);
+            // try again - cambria client should have failed over
+            p.post("TEST", s1);
         }
 
         urls.clear();
         urls.add("openecomp3.org");  // bad url
         urls.add("dmaaphost3");
-        
+
         Consumer c = new DmaapConsumerImpl(urls, topicRead, group, groupId,user,password);
         List<String> out = c.fetch(1000, 1000);
         // if fetch is empty, try again - cambria client should have failed over
         if ((out == null) || out.isEmpty()) {
-        	out = c.fetch();
+            out = c.fetch();
         }
 
         assertNotNull(out);
         assertEquals(1, out.size());
         assertEquals(s1, out.get(0));
     }
-    
+
     /**
      * Reads through the entire topic so it is clean for testing. WARNING - ONLY USE ON TOPICS WHERE YOU ARE THE ONLY
      * WRITER. Could end in an infinite loop otherwise.
@@ -228,7 +231,7 @@ public class TestConsumerProducerImpl {
     @Test
     @Ignore
     public void testFilter() {
-    	System.out.println("testFilter entry...");
+        System.out.println("testFilter entry...");
         List<String> res;
         String filter = "{\"class\":\"Assigned\",\"field\":\"request\"}";
         Consumer c = new DmaapConsumerImpl(urls, "DCAE-CLOSED-LOOP-EVENTS-DEV1510SIM", group, groupId,user,password,filter);
