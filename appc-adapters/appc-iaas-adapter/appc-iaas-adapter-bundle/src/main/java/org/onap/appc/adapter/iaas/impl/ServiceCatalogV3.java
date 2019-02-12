@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modifications Copyright © 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -136,7 +138,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
             logger.error("An error occurred when initializing ServiceCatalogV3", e);
             return;
         }
-        Keystone keystone = new Keystone(identityURL, connector);
+        Keystone keystone = getKeystone(identityURL, connector);
 
         String proxyHost = properties.getProperty(ContextFactory.PROPERTY_PROXY_HOST);
         String proxyPort = properties.getProperty(ContextFactory.PROPERTY_PROXY_PORT);
@@ -401,7 +403,7 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         }
         return now.getTime();
     }
-    
+
     public Project getProject() {
         Lock readLock = rwLock.readLock();
         readLock.lock();
@@ -410,5 +412,9 @@ public class ServiceCatalogV3 extends ServiceCatalog {
         } finally {
             readLock.unlock();
         }
+    }
+
+    protected Keystone getKeystone(String identityURL, OpenStackClientConnector connector) {
+        return new Keystone(identityURL, connector);
     }
 }
