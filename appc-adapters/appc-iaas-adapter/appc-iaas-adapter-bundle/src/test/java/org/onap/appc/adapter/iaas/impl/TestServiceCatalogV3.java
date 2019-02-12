@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +31,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -43,7 +46,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.configuration.ConfigurationFactory;
+import org.powermock.reflect.Whitebox;
+import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.zones.ContextFactory;
 import com.google.common.collect.ImmutableMap;
+import com.woorea.openstack.base.client.OpenStackClientConnector;
+import com.woorea.openstack.base.client.OpenStackConnectException;
+import com.woorea.openstack.base.client.OpenStackResponseException;
+import com.woorea.openstack.keystone.v3.Keystone;
+import com.woorea.openstack.keystone.v3.api.TokensResource;
 import com.woorea.openstack.keystone.v3.model.Token;
 import com.woorea.openstack.keystone.v3.model.Token.Service;
 import com.woorea.openstack.keystone.v3.model.Token.Service.Endpoint;
@@ -119,6 +130,8 @@ public class TestServiceCatalogV3 {
     public void setup() {
         URL = String.format("http://%s:%s/v2/%s/servers/%s", IP, PORT, TENANTID, VMID);
         properties = new Properties();
+        properties.setProperty(ContextFactory.PROPERTY_PROXY_HOST, "PROXY_HOST");
+        properties.setProperty(ContextFactory.PROPERTY_PROXY_PORT, "PROXY_PORT");
         catalog = new ServiceCatalogV3(IDENTITY_URL, TENANT_NAME, PRINCIPAL, CREDENTIAL, DOMAIN, properties);
         spyCatalog = Mockito.spy(catalog);
         project.setId(TENANT_ID);
@@ -232,5 +245,32 @@ public class TestServiceCatalogV3 {
         String pass = "";
 
         catalog = new ServiceCatalogV3(IDENTITY_URL, TENANT_NAME, PRINCIPAL, CREDENTIAL, DOMAIN, properties);
+    }
+
+    @Test
+    public void testInit() throws ZoneException, ClassNotFoundException, InstantiationException, IllegalAccessException, OpenStackConnectException, OpenStackResponseException {
+        ServiceCatalogV3 catalogSpy = Mockito.spy(catalog);
+        Class<?> connectorClass = Class.forName(ServiceCatalogV2.CLIENT_CONNECTOR_CLASS);
+        OpenStackClientConnector connector = (OpenStackClientConnector) connectorClass.newInstance();
+        Keystone keystone = Mockito.spy(new Keystone(IDENTITY_URL, connector));
+        TokensResource tokens = Mockito.mock(TokensResource.class);
+        TokensResource.Authenticate authenticate = Mockito.mock(TokensResource.Authenticate.class);
+        Mockito.when(keystone.tokens()).thenReturn(tokens);
+        Mockito.when(tokens.authenticate(Mockito.any())).thenReturn(authenticate);
+        Token token = Mockito.mock(Token.class);
+
+        Mockito.when(authenticate.execute()).thenReturn(token);
+        //Mockito.when(authenticate.withTenantName(Mockito.anyString())).thenReturn(authenticate);
+        Mockito.when(catalogSpy.getKeystone(Mockito.anyString(), Mockito.any())).thenReturn(keystone);
+        Endpoint endpoint = new Endpoint();
+        List<Endpoint> endpointList = new ArrayList<>();
+        endpointList.add(endpoint);
+        List<Token.Service> serviceList = new ArrayList<>();
+        Token.Service service = new Token.Service();
+        Whitebox.setInternalState(service, "endpoints", endpointList);
+        serviceList.add(service);
+        Mockito.when(token.getCatalog()).thenReturn(serviceList);
+        catalogSpy.init();
+        Mockito.verify(token).getCatalog();
     }
 }
