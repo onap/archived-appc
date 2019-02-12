@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,10 +53,11 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
 
+
 public class DmaapProducerImpl implements Producer {
 
     private static final EELFLogger    LOG             = EELFManager.getInstance().getLogger(DmaapProducerImpl.class);
-    private static final Configuration configuration   = ConfigurationFactory.getConfiguration();
+    private static       Configuration configuration   = ConfigurationFactory.getConfiguration();
 
     private Set<String>                topics;
 
@@ -199,7 +202,7 @@ public class DmaapProducerImpl implements Producer {
         useHttps = yes;
     }
 
-    private MetricService getMetricservice() {
+    protected MetricService getMetricservice() {
         BundleContext bctx = FrameworkUtil.getBundle(MetricService.class).getBundleContext();
         ServiceReference sref = bctx.getServiceReference(MetricService.class.getName());
         if (sref != null) {
