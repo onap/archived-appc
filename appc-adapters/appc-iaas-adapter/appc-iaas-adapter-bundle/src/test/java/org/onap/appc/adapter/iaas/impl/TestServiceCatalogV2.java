@@ -29,6 +29,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -41,13 +42,23 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.configuration.ConfigurationFactory;
+import org.powermock.reflect.Whitebox;
 import com.att.cdp.exceptions.ZoneException;
+import com.att.cdp.zones.ContextFactory;
 import com.google.common.collect.ImmutableMap;
+import com.woorea.openstack.keystone.model.Access;
 import com.woorea.openstack.keystone.model.Access.Service;
 import com.woorea.openstack.keystone.model.Access.Service.Endpoint;
+import com.woorea.openstack.base.client.OpenStackClientConnector;
+import com.woorea.openstack.base.client.OpenStackConnectException;
+import com.woorea.openstack.base.client.OpenStackResponseException;
+import com.woorea.openstack.keystone.Keystone;
+import com.woorea.openstack.keystone.api.TokensResource;
 import com.woorea.openstack.keystone.model.Tenant;
+import com.woorea.openstack.keystone.model.Token;
 
 /**
  * This class tests the service catalog against a known provider.
@@ -119,6 +130,8 @@ public class TestServiceCatalogV2 {
     public void setup() {
         URL = String.format("http://%s:%s/v2/%s/servers/%s", IP, PORT, TENANTID, VMID);
         properties = new Properties();
+        properties.setProperty(ContextFactory.PROPERTY_PROXY_HOST, "PROXY_HOST");
+        properties.setProperty(ContextFactory.PROPERTY_PROXY_PORT, "PROXY_PORT");
         catalog = new ServiceCatalogV2(IDENTITY_URL, TENANT_NAME, PRINCIPAL, CREDENTIAL, properties);
         final Service service = new Service();
         serviceTypes = ImmutableMap.<String, Service>builder().put(ServiceCatalog.COMPUTE_SERVICE, service)
@@ -244,5 +257,34 @@ public class TestServiceCatalogV2 {
 
         String out = catalog.toString();
         System.out.println(out);
+    }
+
+    @Test
+    public void testInit() throws ZoneException, ClassNotFoundException, InstantiationException, IllegalAccessException, OpenStackConnectException, OpenStackResponseException {
+        ServiceCatalogV2 catalogSpy = Mockito.spy(catalog);
+        Class<?> connectorClass = Class.forName(ServiceCatalogV2.CLIENT_CONNECTOR_CLASS);
+        OpenStackClientConnector connector = (OpenStackClientConnector) connectorClass.newInstance();
+        Keystone keystone = Mockito.spy(new Keystone(IDENTITY_URL, connector));
+        TokensResource tokens = Mockito.mock(TokensResource.class);
+        TokensResource.Authenticate authenticate = Mockito.mock(TokensResource.Authenticate.class);
+        Mockito.when(keystone.tokens()).thenReturn(tokens);
+        Mockito.when(tokens.authenticate(Mockito.any())).thenReturn(authenticate);
+        Access access = Mockito.mock(Access.class);
+
+        Token token = new Token();
+        Mockito.when(access.getToken()).thenReturn(token);
+        Mockito.when(authenticate.execute()).thenReturn(access);
+        Mockito.when(authenticate.withTenantName(Mockito.anyString())).thenReturn(authenticate);
+        Mockito.when(catalogSpy.getKeystone(Mockito.anyString(), Mockito.any())).thenReturn(keystone);
+        Access.Service service = new Access.Service();
+        Endpoint endpoint = new Endpoint();
+        List<Endpoint> endpointList = new ArrayList<>();
+        endpointList.add(endpoint);
+        Whitebox.setInternalState(service, "endpoints", endpointList);
+        List<Service> serviceList = new ArrayList<>();
+        serviceList.add(service);
+        Mockito.when(access.getServiceCatalog()).thenReturn(serviceList);
+        catalogSpy.init();
+        Mockito.verify(access).getServiceCatalog();
     }
 }
