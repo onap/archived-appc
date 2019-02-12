@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,16 +25,14 @@
 
 package org.onap.appc.adapter.ssh.sshd;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.sql.rowset.CachedRowSet;
-
 import org.onap.appc.adapter.ssh.Constants;
 import org.onap.appc.adapter.ssh.SshConnectionDetails;
 import org.onap.appc.adapter.ssh.SshDataAccessException;
 import org.onap.appc.adapter.ssh.SshDataAccessService;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class SshdDataAccessService implements SshDataAccessService {
 
@@ -62,8 +62,8 @@ public class SshdDataAccessService implements SshDataAccessService {
 
         boolean recordFound = false;
 
-        String queryString = "select " + Constants.USER_NAME_TABLE_FIELD_NAME + "," + Constants.PASSWORD_TABLE_FIELD_NAME + "," + Constants.PORT_NUMBER_TABLE_FIELD_NAME + " " +
-                "from " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME + " " +
+        String queryString = "select " + Constants.USER_NAME_TABLE_FIELD_NAME + "," + Constants.PASSWORD_TABLE_FIELD_NAME + "," +
+                Constants.PORT_NUMBER_TABLE_FIELD_NAME + " " + "from " + Constants.DEVICE_AUTHENTICATION_TABLE_NAME + " " +
                 "where " + Constants.VNF_TYPE_TABLE_FIELD_NAME + " = ?";
 
         ArrayList<String> argList = new ArrayList<>();

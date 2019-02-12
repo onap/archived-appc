@@ -1,88 +1,48 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2019 Ericsson
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ============LICENSE_END=========================================================
+ */
+
 package org.onap.appc.adapter.ssh.sshd;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import java.sql.SQLException;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.onap.appc.adapter.ssh.SshConnectionDetails;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
-
-import javax.sql.rowset.CachedRowSet;
-import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.SQLFeatureNotSupportedException;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import static org.junit.Assert.assertEquals;
+import com.sun.rowset.CachedRowSetImpl;
 
 public class SshdDataAccessServiceTest {
 
     private SshdDataAccessService sshdDataAccessService;
     private DbLibService db;
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
         sshdDataAccessService = new SshdDataAccessService();
-        db = new DbLibService() {
-            @Override
-            public CachedRowSet getData(String s, ArrayList<String> arrayList, String s1) throws SQLException {
-                return null;
-            }
-
-            @Override
-            public boolean writeData(String s, ArrayList<String> arrayList, String s1) throws SQLException {
-                return false;
-            }
-
-            @Override
-            public boolean isActive() {
-                return false;
-            }
-
-            @Override
-            public Connection getConnection() throws SQLException {
-                return null;
-            }
-
-            @Override
-            public Connection getConnection(String username, String password) throws SQLException {
-                return null;
-            }
-
-            @Override
-            public <T> T unwrap(Class<T> iface) throws SQLException {
-                return null;
-            }
-
-            @Override
-            public boolean isWrapperFor(Class<?> iface) throws SQLException {
-                return false;
-            }
-
-            @Override
-            public PrintWriter getLogWriter() throws SQLException {
-                return null;
-            }
-
-            @Override
-            public void setLogWriter(PrintWriter out) throws SQLException {
-
-            }
-
-            @Override
-            public void setLoginTimeout(int seconds) throws SQLException {
-
-            }
-
-            @Override
-            public int getLoginTimeout() throws SQLException {
-                return 0;
-            }
-
-            @Override
-            public Logger getParentLogger() throws SQLFeatureNotSupportedException {
-                return null;
-            }
-        };
+        db = Mockito.mock(DbLibService.class);
+        CachedRowSetImpl rowset = Mockito.mock(CachedRowSetImpl.class);
+        Mockito.when(rowset.first()).thenReturn(true);
+        Mockito.when(db.getData(Mockito.anyString(), Mockito.any(), Mockito.anyString())).thenReturn(rowset);
+        sshdDataAccessService.setDbLibService(db);
     }
 
     @Test
@@ -97,15 +57,15 @@ public class SshdDataAccessServiceTest {
         assertEquals(false, sshdDataAccessService.getDbLibService().isActive());
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testRetrieveConnectionDetails() {
         SshConnectionDetails connectionDetails = new SshConnectionDetails();
-        sshdDataAccessService.retrieveConnectionDetails("test", connectionDetails);
+        sshdDataAccessService.setDbLibService(db);
+        assertTrue(sshdDataAccessService.retrieveConnectionDetails("test", connectionDetails));
     }
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testRetrieveConfigFileName() {
-        SshConnectionDetails connectionDetails = new SshConnectionDetails();
-        sshdDataAccessService.retrieveConfigFileName("test");
+        assertEquals(null, sshdDataAccessService.retrieveConfigFileName("test"));
     }
 }
