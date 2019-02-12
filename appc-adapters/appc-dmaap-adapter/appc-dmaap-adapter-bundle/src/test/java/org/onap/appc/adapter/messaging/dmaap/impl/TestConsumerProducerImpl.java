@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,18 +29,19 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import java.util.*;
-
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.Producer;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapConsumerImpl;
-import org.onap.appc.adapter.messaging.dmaap.impl.DmaapProducerImpl;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
+
 
 public class TestConsumerProducerImpl {
 
@@ -200,7 +203,7 @@ public class TestConsumerProducerImpl {
         urls.clear();
         urls.add("openecomp3.org");  // bad url
         urls.add("dmaaphost3");
-        
+
         Consumer c = new DmaapConsumerImpl(urls, topicRead, group, groupId,user,password);
         List<String> out = c.fetch(1000, 1000);
         // if fetch is empty, try again - cambria client should have failed over
@@ -212,7 +215,7 @@ public class TestConsumerProducerImpl {
         assertEquals(1, out.size());
         assertEquals(s1, out.get(0));
     }
-    
+
     /**
      * Reads through the entire topic so it is clean for testing. WARNING - ONLY USE ON TOPICS WHERE YOU ARE THE ONLY
      * WRITER. Could end in an infinite loop otherwise.
