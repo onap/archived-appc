@@ -1,0 +1,327 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca3ad4d9_7d6262b5",
+        "filename": "appc-dg/appc-dg-shared/appc-dg-domain-model-lib/src/main/java/org/onap/appc/domainmodel/Vnfc.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "are there any junit tests that exercise these new methods?",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8dbd7fa2_e9e03f81",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dgplugin/impl/SequenceGeneratorPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "fyi: jackson jar fails security checks; gson is preferred at this point in time",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a07d6f74_4bc42a0c",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dgplugin/impl/SequenceGeneratorPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "use diamond operator, \"\u003c\u003e\", on right-hand side of \"\u003d\"\n\nsame comment for subsequent lines",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bf46987b_f1a8fd1e",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dgplugin/impl/SequenceGeneratorPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "checkstyle: longer variable name than just \"n\"",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0ab5700_3a429a7a",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/dgplugin/impl/SequenceGeneratorPluginImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "could eliminate this iterator and just use: for(node: currentEntry.getValue())",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28ecf3a6_8d4b1eb4",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StartSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "checkstyle: longer variable name for \"s\"",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4d3a8660_fae8c2ba",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/impl/StopSequenceGenerator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "this method is nearly identical to the one in StartSequenceGenerator.  Any way to extract out a common method?",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "344c2006_e7cd8269",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/objects/SequenceGeneratorInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "technically, JsonIgnore is not needed on private/protected fields, as jackson only serializes public fields by default",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1070327b_e1afb185",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/main/java/org/onap/appc/seqgen/objects/SequenceGeneratorInputBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "shouldn\u0027t this make use of \"model\"?  Or should this method be removed?",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0a79b55_3f2874a2",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "should probably check something here",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1f0d5b7_d4f28a47",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "should probably check something here",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1e8e7aaf_533dcfdd",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 398,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "should probably check something here",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47e7bf2f_d6925e1f",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "should probably check something here",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5bd48d0c_4813e6e2",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "replace most of these lines with Files.readAllBytes() (or one of the IoUtils.readXxx methods - there is one that will read a file as a String, but it may not be in the dependency list)",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "817f873d_b45cda84",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "add \"UTF-8\" as a second argument",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ebd1c01_f89df41c",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "replace most of these lines with Files.readAllBytes()",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb0137b0_9865ce14",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/java/org/onap/appc/seqgen/TestSequenceGeneratorPlugin.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "add \"UTF-8\" as a second argument",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "017b0b98_37638000",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/CheckVNfcInInventory.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b1c1db4a_f8341064",
+        "filename": "appc-sequence-generator/appc-sequence-generator-bundle/src/test/resources/input/StartWithVmStartCaps.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T15:22:01Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nsame comment applies to several of the json files",
+      "revId": "b31047ac9b853897411d9784d156fb5491db37d5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
