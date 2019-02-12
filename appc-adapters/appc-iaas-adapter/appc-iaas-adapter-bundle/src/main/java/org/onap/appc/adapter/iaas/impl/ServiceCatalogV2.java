@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,7 +130,7 @@ public class ServiceCatalogV2 extends ServiceCatalog {
             loggerV2.error(e.getMessage());
             return;
         }
-        Keystone keystone = new Keystone(identityURL, connector);
+        Keystone keystone = getKeystone(identityURL, connector);
 
         String proxyHost = properties.getProperty(ContextFactory.PROPERTY_PROXY_HOST);
         String proxyPort = properties.getProperty(ContextFactory.PROPERTY_PROXY_PORT);
@@ -175,6 +177,8 @@ public class ServiceCatalogV2 extends ServiceCatalog {
         } catch (OpenStackBaseException e) {
             ExceptionMapper.mapException(e);
         } catch (Exception ex) {
+            ex.printStackTrace();
+
             throw new ContextConnectionException(ex.getMessage());
         }
     }
@@ -383,5 +387,9 @@ public class ServiceCatalogV2 extends ServiceCatalog {
             return now.getTime() + tokenLife;
         }
         return now.getTime();
+    }
+
+    protected Keystone getKeystone(String identityUrl, OpenStackClientConnector connector) {
+        return new Keystone(identityURL, connector);
     }
 }
