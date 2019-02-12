@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +22,6 @@
  */
 package org.onap.appc.flow.controller.executorImpl;
 
-import org.json.JSONObject;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
@@ -35,12 +34,14 @@ import org.onap.ccsdk.sli.core.sli.provider.SvcLogicService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 
 public class GraphExecutor implements FlowExecutorInterface {
 
-    private static final EELFLogger log = EELFManager.getInstance().getLogger(GraphExecutor.class);
-    private static final String SVC_LOGIC_STATUS_PARAM = "SvcLogic.status";
+    private static EELFLogger log = EELFManager.getInstance().getLogger(GraphExecutor.class);
+    static final String SVC_LOGIC_STATUS_PARAM = "SvcLogic.status";
 
     private SvcLogicService svcLogic = null;
 
