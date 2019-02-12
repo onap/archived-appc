@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "78712d4a_4e05f36b",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/util/HttpClientUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-12T14:07:29Z",
+      "side": 1,
+      "message": "sonar: do something with the exception (maybe just log it)",
+      "revId": "4312bd22454af797b396686227800c36b4fb9304",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
