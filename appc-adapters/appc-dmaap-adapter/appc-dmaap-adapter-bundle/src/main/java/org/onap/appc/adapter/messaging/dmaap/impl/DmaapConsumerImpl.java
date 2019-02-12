@@ -8,6 +8,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2018 IBM
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -53,7 +55,7 @@ import org.osgi.framework.ServiceReference;
 public class DmaapConsumerImpl implements Consumer {
 
     private static final EELFLogger LOG                = EELFManager.getInstance().getLogger(DmaapConsumerImpl.class);
-    private final Configuration     configuration      = ConfigurationFactory.getConfiguration();
+    private Configuration           configuration      = ConfigurationFactory.getConfiguration();
     // Default values
     private static final int        DEFAULT_TIMEOUT_MS = 60000;
     private static final int        DEFAULT_LIMIT      = 1000;
@@ -93,7 +95,7 @@ public class DmaapConsumerImpl implements Consumer {
 
     private void initMetric() {
         LOG.debug("Metric getting initialized");
-        MetricService metricService = getMetricservice();
+        MetricService metricService = getMetricService();
         if (metricService != null) {
             metricRegistry = metricService.createRegistry("APPC");
 
@@ -108,7 +110,10 @@ public class DmaapConsumerImpl implements Consumer {
                 logPublishers[0] = logPublisher;
 
                 PublishingPolicy manuallyScheduledPublishingPolicy = metricRegistry.policyBuilderFactory()
-                        .scheduledPolicyBuilder().withPublishers(logPublishers).withMetrics(metrics).build();
+                        .scheduledPolicyBuilder()
+                        .withPublishers(logPublishers)
+                        .withMetrics(metrics)
+                        .build();
 
                 LOG.debug("Policy getting initialized");
                 manuallyScheduledPublishingPolicy.init();
@@ -215,7 +220,7 @@ public class DmaapConsumerImpl implements Consumer {
         useHttps = yes;
     }
 
-    private MetricService getMetricservice() {
+    protected MetricService getMetricService() {
         BundleContext bctx = FrameworkUtil.getBundle(MetricService.class).getBundleContext();
         ServiceReference sref = bctx.getServiceReference(MetricService.class.getName());
         if (sref != null) {
