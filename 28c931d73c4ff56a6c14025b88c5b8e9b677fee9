@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6043568a_2c87f08f",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/demo/impl/ProviderOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-02-12T11:29:23Z",
+      "side": 0,
+      "message": "Moved this code block to HttpClientUtils class",
+      "revId": "28c931d73c4ff56a6c14025b88c5b8e9b677fee9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
