@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f1faca1_48796aa1",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-13T16:05:41Z",
+      "side": 1,
+      "message": "are there any other \"get\" methods that can be checked? (i.e., getMessage(), getResult())",
+      "revId": "f64c88ddcb6b54466f6dad1914f98ad49ec69afe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
