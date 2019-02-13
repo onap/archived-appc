@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04b39927_bc8d0fbb",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/xinterface/XResponseProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-13T16:12:24Z",
+      "side": 1,
+      "message": "should it not re-throw the exception?",
+      "revId": "1c6b7976538d25884c8a33942e770e29c770189e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
