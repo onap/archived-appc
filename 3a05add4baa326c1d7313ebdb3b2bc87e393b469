@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "901ef1f8_9f9491ed",
+        "filename": "appc-config/appc-config-audit/provider/src/test/java/org/onap/sdnc/config/audit/TestSliAuditActivator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-13T16:09:03Z",
+      "side": 1,
+      "message": "should the activator be stopped()?  If so, should probably add an @After method to ensure that it\u0027s stopped even one of the assert() calls fail",
+      "revId": "3a05add4baa326c1d7313ebdb3b2bc87e393b469",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
