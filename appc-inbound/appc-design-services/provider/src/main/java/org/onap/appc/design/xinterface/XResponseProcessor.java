@@ -5,9 +5,11 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -36,6 +38,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class XResponseProcessor {
 
     private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
+    private static final String EXCEPTION_WHILE_RECEIVING_DATA = "Exception occured while receiving data";
     Dme2Client dme2Client;
 
     public static XResponseProcessor getInstance() {
@@ -90,7 +93,7 @@ public class XResponseProcessor {
                                                     if (instarResponse == null || instarResponse.length() < 0)
                                                         throw new Exception("No Data received from Instar for this action " + action);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(EXCEPTION_WHILE_RECEIVING_DATA, e);
             throw e;
         }
         return instarResponse;
