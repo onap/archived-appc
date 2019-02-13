@@ -298,4 +298,156 @@ public class ArtifactHandlerNodeTest {
         documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "12345");
         return documentInfo;
     }
+    
+    
+    @Test
+    public void testValidateAnsibleAdminArtifact() throws Exception {
+        String contentStr = "{\"fqdn-list\":[{\"vnf-management-server-fqdn\":\"fqdn-value1 url:port\",\"cloud-owner-list\":[{\"cloud-owner\":\"aic3.0\","
+          + "\"region-id-list\":[{\"region-id\":\"san4a\",\"tenant-id-list\":[\"tenantuuid1\",\"tenantuuid2\"]},{\"region-id\":\"san4b\","
+          + "\"tenant-id-list\":[\"tenantuuid1\",\"tenantuuid2\"]}]},{\"cloud-owner\":\"nc1.0\",\"region-id-list\":[{\"region-id\":\"san4a\","
+          + "\"tenant-id-list\":[\"tenantuuid3\",\"tenantuuid4\"]}]}],\"description\":\"fqdn for east zone Production\",\"username\":\"attuid\","
+          + "\"create-date\":\"\",\"modify-username\":\"\",\"modify-date\":\"\"},{\"vnf-management-server-fqdn\":\"fqdn-value2 url:port\","
+          + "\"cloud-owner-list\":[{\"cloud-owner\":\"aic3.0\",\"region-id-list\":[{\"region-id\":\"san4a\",\"tenant-id-list\":[\"tenantuuid5\","
+          + "\"tenantuuid6\"]},{\"region-id\":\"san4b\",\"tenant-id-list\":[\"tenantuuid5\",\"tenantuuid6\"]}]},{\"cloud-owner\":\"nc1.0\","
+          + "\"region-id-list\":[{\"region-id\":\"san4a\",\"tenant-id-list\":[\"tenantuuid7\",\"tenantuuid8\"]}]}],"
+          + "\"description\":\"fqdn for east zone Test\",\"username\":\"attuid\",\"create-date\":\"\","
+          + "\"modify-username\":\"\",\"modify-date\":\"\"}]}";
+
+        JSONObject documentInfo = new JSONObject();       
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, contentStr);
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "ansible_admin_FQDN_Artifact_0.0.1V.json");
+        artifactHandlerNode.validateAnsibleAdminArtifact(documentInfo);
+    }
+    
+    @Test
+    public void testValidateAnsibleAdminArtifactWithException() throws Exception {
+       String contentStrOne = "{\"fqdn-list\":[{\"vnf-management-server-fqdn\":\"fqdn-value1 url:port\",\"cloud-owner-list\":[{\"cloud-owner\":\"aic3.0\","
+         + "\"region-id-list\":[{\"region-id\":\"san4a\",\"tenant-id-list\":[\"tenantuuid1\",\"tenantuuid2\"]},{\"region-id\":\"san4b\","
+         + "\"tenant-id-list\":[\"tenantuuid1\",\"tenantuuid2\"]}]},{\"cloud-owner\":\"nc1.0\",\"region-id-list\":[{\"region-id\":\"san4a\","
+         + "\"tenant-id-list\":[\"tenantuuid3\",\"tenantuuid4\"]}]}],\"description\":\"fqdn for east zone Production\",\"username\":\"attuid\","
+         + "\"create-date\":\"\",\"modify-username\":\"\",\"modify-date\":\"\"},{\"vnf-management-server-fqdn\":\"fqdn-value2 url:port\","
+         + "\"cloud-owner-list\":[{\"cloud-owner\":\"aic3.0\",\"region-id-list\":[{\"region-id\":\"san4a\",\"tenant-id-list\":[\"tenantuuid1\","
+         + "\"tenantuuid6\"]},{\"region-id\":\"san4b\",\"tenant-id-list\":[\"tenantuuid5\",\"tenantuuid6\"]}]},{\"cloud-owner\":\"nc1.0\","
+         + "\"region-id-list\":[{\"region-id\":\"san4a\",\"tenant-id-list\":[\"tenantuuid7\",\"tenantuuid8\"]}]}],"
+         + "\"description\":\"fqdn for east zone Test\",\"username\":\"attuid\",\"create-date\":\"\","
+         + "\"modify-username\":\"\",\"modify-date\":\"\"}]}";
+       JSONObject documentInfoOne = new JSONObject();       
+       documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, contentStrOne);
+       documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "ansible_admin_FQDN_Artifact_0.0.1V.json");
+       Boolean fail = false;
+       try {
+           artifactHandlerNode.validateAnsibleAdminArtifact(documentInfoOne);
+           }catch(ArtifactHandlerInternalException e) {
+            assertTrue(e.getMessage().contains("Error while processing ansible admin artifact"));
+            fail = true;
+          }
+       assertTrue(fail);
+
+    }
+    
+    @Test
+    public void testValidateAnsibleAdminArtifactWithJSONException() throws Exception {
+        String contentStrOne = "{\"fqdn-list\":[{\"vnf-management-server-fqdn\":\"fqdn-value1 url:port\",\"cloud-owner-list\":[{\"cloud-owner\":\"aic3.0\"}";		
+       
+        JSONObject documentInfoOne = new JSONObject();       
+        documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, contentStrOne);
+        documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "ansible_admin_FQDN_Artifact_0.0.1V.json");
+        
+        /*assertThrown(artifactHandlerNode.validateAnsibleAdminArtifact(documentInfoOne))
+        .isInstanceOf(JSONException.class)
+        .hasMessageStartingWith("Error while processing ansible admin artifact");*/
+        
+        Boolean fail = false;
+        try {
+            artifactHandlerNode.validateAnsibleAdminArtifact(documentInfoOne);
+        }catch(ArtifactHandlerInternalException je) {
+          assertTrue(je.getMessage().contains("JSON Exception"));
+          fail = true;
+        }           
+        assertTrue(fail);
+     }
+    
+    @Test
+    public void testProcessArtifactWithException() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        Map<String, String> inParams = new HashMap<>();
+        JSONObject postData = new JSONObject();
+        JSONObject input = new JSONObject();
+        inParams.put("response_prefix", "prefix");
+        JSONObject requestInfo = new JSONObject();
+        JSONObject documentInfo = new JSONObject();
+        String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
+                .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, artifactContent);
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "");
+        requestInfo.put("RequestInfo", "testValue");
+        requestInfo.put("request-id","testREQUEST_ID");
+        input.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, documentInfo);
+        input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
+        postData.put("input", input);
+        inParams.put("postData", postData.toString());
+        
+        Boolean fail = false;
+        try {
+            artifactHandlerNode.processArtifact(inParams, ctx);
+        }catch(Exception e) {
+          assertTrue(e.getMessage().contains("Missing Artifact Name"));
+          fail = true;
+        }
+    	assertTrue(fail);
+    }
+    @Test
+    public void testProcessArtifactWithExceptionforAnsible() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("test", "test");
+        Map<String, String> inParams = new HashMap<>();
+        JSONObject postData = new JSONObject();
+        JSONObject input = new JSONObject();
+        inParams.put("response_prefix", "prefix");
+        JSONObject requestInfo = new JSONObject();
+        JSONObject documentInfo = new JSONObject();
+        String artifactContent = IOUtils.toString(ArtifactHandlerProviderUtilTest.class.getClassLoader()
+                .getResourceAsStream("templates/reference_template"), Charset.defaultCharset());
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, artifactContent);
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "ansible_admin_FQDN_Artifact_0.0.2V.json");
+        requestInfo.put("RequestInfo", "testValue");
+        requestInfo.put("request-id","testREQUEST_ID");
+        input.put(SdcArtifactHandlerConstants.DOCUMENT_PARAMETERS, documentInfo);
+        input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
+        postData.put("input", input);
+        inParams.put("postData", postData.toString());
+        
+        Boolean fail = false;
+        try {
+             artifactHandlerNode.processArtifact(inParams, ctx);
+        }catch(Exception e) {
+           assertTrue(e.getMessage().contains("JSON Exception:ansible admin"));
+           fail = true;
+         }
+         assertTrue(fail);
+    }
+    
+    @Test
+    public void testProcessAndStoreCapablitiesArtifact() throws Exception {
+        ArtifactHandlerNode ah = new ArtifactHandlerNode();
+        JSONObject capabilities = new JSONObject();
+        JSONObject documentInfo = new JSONObject();
+        MockDBService dbService = MockDBService.initialise();
+        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_UUID, "testuid");
+        documentInfo.put(SdcArtifactHandlerConstants.DISTRIBUTION_ID, "testDist");
+        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_NAME, "testName");
+        documentInfo.put(SdcArtifactHandlerConstants.SERVICE_DESCRIPTION, "testDesc");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_UUID, "testRes");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_INSTANCE_NAME, "testResIns");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_VERSION, "testVers");
+        documentInfo.put(SdcArtifactHandlerConstants.RESOURCE_TYPE, "testResType");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_UUID, "testArtifactUuid");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_VERSION, "testArtifactVers");
+        documentInfo.put(SdcArtifactHandlerConstants.ARTIFACT_DESRIPTION, "testArtifactDesc");
+        Whitebox.invokeMethod(ah, "processAndStoreCapabilitiesArtifact", dbService, documentInfo, capabilities,
+                "artifactName", "someVnf");
+    }
+    
+
 }

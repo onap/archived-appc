@@ -81,6 +81,7 @@ import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.V
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.VNF_TYPE;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.URL;
 import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.OPENSTACK;
+import static org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants.ANSIBLE;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
@@ -103,6 +104,11 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.sdnc.config.params.transformer.tosca.ArtifactProcessorImpl;
 import org.onap.sdnc.config.params.transformer.tosca.exceptions.ArtifactProcessorException;
+
+import org.json.JSONException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
 
@@ -129,7 +135,7 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             storeUpdateSdcArtifacts(input);
         } catch (Exception e) {
             log.error("Error when processing artifact", e);
-            throw new ArtifactProcessorException("Error occurred while processing artifact", e);
+            throw new ArtifactProcessorException("Error occurred while processing artifact,"+e.getMessage(), e);
         }
     }
 
@@ -139,27 +145,103 @@ public class ArtifactHandlerNode implements SvcLogicJavaPlugin {
             JSONObject requestInfo = (JSONObject) postDataJson.get(REQUEST_INFORMATION);
             JSONObject documentInfo = (JSONObject) postDataJson.get(DOCUMENT_PARAMETERS);
             String artifactName = documentInfo.getString(ARTIFACT_NAME);
-            if (artifactName != null) {
-                updateStoreArtifacts(requestInfo, documentInfo);
+
+            if (artifactName == null || artifactName.isEmpty())
+                throw new ArtifactHandlerInternalException("Missing Artifact Name " );
+           
+             if (artifactName.toLowerCase().startsWith(ANSIBLE)) {
+                validateAnsibleAdminArtifact(documentInfo);
+                log.info("validateAnsibleAdminArtifact sucessfully done");
+             }
+
+
+
+               updateStoreArtifacts(requestInfo, documentInfo);
                 if (artifactName.toLowerCase().startsWith(REFERENCE)) {
                     return storeReferenceData(requestInfo, documentInfo);
                 } else if (artifactName.toLowerCase().startsWith(PD)) {
                     return createDataForPD(requestInfo, documentInfo);
                 }
 
-            } else {
-                throw new ArtifactHandlerInternalException("Missing Artifact Name for Request: "
-                    + requestInfo.getString(REQUEST_ID));
-            }
-        } catch (Exception e) {
+           } catch (Exception e) {
             log.error("Error while processing request with id: "
                 + ((JSONObject) postDataJson.get(REQUEST_INFORMATION)).getString(REQUEST_ID), e);
-
             throw new ArtifactHandlerInternalException("Error while processing request with id: "
-                + ((JSONObject) postDataJson.get(REQUEST_INFORMATION)).getString(REQUEST_ID), e);
+                + ((JSONObject) postDataJson.get(REQUEST_INFORMATION)).getString(REQUEST_ID) + ", Exception Message :"+e.getMessage(), e);
         }
         return false;
     }
+
+ public void validateAnsibleAdminArtifact(JSONObject documentInfo) throws ArtifactHandlerInternalException {
+    String fn = "ArtifactHandlerNode.validateAnsibleAdminArtifact";
+    String artifactName = documentInfo.getString(ARTIFACT_NAME);
+    log.info(fn + ": Received Admin File Name: " + artifactName+" ArtifactCotent : "+documentInfo.getString(ARTIFACT_CONTENTS) );
+    try {
+        ArtifactHandlerProviderUtil ahpUtil = new ArtifactHandlerProviderUtil();
+        String contentString = ahpUtil.escapeSql(documentInfo.getString(ARTIFACT_CONTENTS));
+        JSONObject artifact = new JSONObject(contentString);
+        JSONArray fqdnList = artifact.getJSONArray("fqdn-list");
+        HashMap<String,List<String>> artifactMap = new HashMap<String,List<String>>();
+        for(int i=0;i<fqdnList.length();i++) {
+           JSONObject fqdn = fqdnList.getJSONObject(i);
+           List<String> valuesforFQDN = populateValueForFQDN(fqdn);
+           artifactMap.put(fqdn.getString("vnf-management-server-fqdn"), valuesforFQDN);
+        }
+        
+
+        validateKeyValue(artifactMap);
+        
+
+        }catch(JSONException je) {
+        je.printStackTrace();
+        log.error(fn+" ansible admin artifact content may not be a valid JSON, error message :"+je.getMessage());
+        throw new ArtifactHandlerInternalException("JSON Exception:ansible admin artifact content may not be a valid JSON, error message :"+je.getMessage(),je);
+  
+    } catch (Exception e) {
+     e.printStackTrace();
+     log.error(fn+"Error while creating Admin data records", e);
+     throw new ArtifactHandlerInternalException("Error while processing ansible admin artifact"+e.getMessage(), e);
+     } 
+ 
+    }
+
+    private void validateKeyValue(HashMap<String, List<String>> artifactMap) throws ArtifactHandlerInternalException {
+       for(String fqdn1 : artifactMap.keySet()) {
+        
+         for(String value:artifactMap.get(fqdn1)) {
+  
+            for(String fqdn2 : artifactMap.keySet()) {
+                 if(!fqdn1.equals(fqdn2) && artifactMap.get(fqdn2).contains(value)) {
+                    log.info("Ansible Admin artifact has CloudOwner-RegionId-Tenant : "+value+" mapped to multiple FQDN :"+fqdn1+" & "+fqdn2 );
+                    throw new ArtifactHandlerInternalException("Ansible Admin artifact has CloudOwner-RegionId-Tenant : "+value+" mapped to multiple FQDN :"+fqdn1+" & "+fqdn2);
+                  }
+             }
+          }
+        }
+     }
+    private List<String> populateValueForFQDN(JSONObject fqdn) {
+       log.info("Inside populateValueForFQDN :"+fqdn.getString("vnf-management-server-fqdn"));
+       List<String> valuesforFQDN = new ArrayList<String>();
+       JSONArray cloudJsonList = fqdn.getJSONArray("cloud-owner-list");
+       for(int j=0;j<cloudJsonList.length();j++) {
+            String cloudOwner = cloudJsonList.getJSONObject(j).getString("cloud-owner");
+            JSONArray regionList = cloudJsonList.getJSONObject(j).getJSONArray("region-id-list");
+            for(int i=0;i<regionList.length();i++) {
+              String region= regionList.getJSONObject(i).getString("region-id");
+              JSONArray tenantList =  regionList.getJSONObject(i).getJSONArray("tenant-id-list");
+              
+              for(int k=0;k<tenantList.length();k++) {
+                    String tenant = (String) tenantList.get(k);
+                    String valueforFQDN = cloudOwner+"-"+region+"-"+tenantList.get(k) ;
+                    log.info("valueforFQDN for i "+i+" & j "+j+" :"+valueforFQDN);
+                    valuesforFQDN.add(valueforFQDN);
+              }
+            }
+        }
+        return valuesforFQDN;
+    }
+    
+          
 
     private boolean createDataForPD(JSONObject requestInfo, JSONObject documentInfo)
         throws ArtifactHandlerInternalException {
