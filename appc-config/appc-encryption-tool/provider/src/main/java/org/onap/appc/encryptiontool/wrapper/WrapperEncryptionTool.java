@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
+ * Modifications Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -121,6 +122,7 @@ public class WrapperEncryptionTool {
             log.info("APPC-MESSAGE:" + e.getMessage());
 
         } finally {
+          if(dbResourceManager!=null)
             dbResourceManager.cleanUp();
         }
     }
@@ -166,6 +168,7 @@ public class WrapperEncryptionTool {
             log.info("APPC-MESSAGE:" + e.getMessage());
 
         } finally {
+          if(dbResourceManager!=null)
             dbResourceManager.cleanUp();
         }
     }
