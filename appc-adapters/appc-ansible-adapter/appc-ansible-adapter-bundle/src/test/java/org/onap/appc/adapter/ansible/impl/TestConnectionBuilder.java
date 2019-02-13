@@ -2,6 +2,8 @@
  * ============LICENSE_START=======================================================
  *  Copyright (C) 2018 Ericsson. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -117,7 +119,7 @@ public class TestConnectionBuilder {
     @Before
     public void setup() throws KeyManagementException, NoSuchAlgorithmException, KeyStoreException,
             ClientProtocolException, IOException,APPCException {
-        connectionBuilder = new ConnectionBuilder(0,2000);
+        connectionBuilder = new ConnectionBuilder(1,2000);
         Whitebox.setInternalState(connectionBuilder, "httpClient", httpClient);
         Whitebox.setInternalState(connectionBuilder, "httpContext", httpClientContext);
         HttpResponse httpResponse = (HttpResponse) response;
