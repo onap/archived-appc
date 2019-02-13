@@ -92,6 +92,8 @@ public class SdcArtifactHandlerConstants {
     public static final String ARTIFACT_NAME_CAPABILITY = "capability";
     public static final String APPC_CONFIG_DIR="/opt/appcauth";
     public static final String URL="url";
-    public static final String OPENSTACK = "OS";
+    public static final String OPENSTACK = "OS"; 
+    public static final String ANSIBLE = "ansible"; 
+
 }
 
