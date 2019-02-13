@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
+ * Modifications Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -65,7 +66,6 @@ public class InterfacesServiceProviderImpl implements InterfacesServiceService{
         }
         catch(Exception e){
             log.error("Error" + e.getMessage());
-            e.printStackTrace();
             statusBuilder.setCode("401");
             statusBuilder.setMessage("failure");
         }
