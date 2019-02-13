@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffb01a05_fe1a0a39",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleMessageParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-13T16:06:41Z",
+      "side": 1,
+      "message": "use \"\u003c\u003e\" on right-hand side of \"\u003d\"",
+      "revId": "9aff3327f56c1dce5593d34c94f1618448dfdf8a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
