@@ -29,19 +29,15 @@ package org.onap.appc.aai.client.node;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.aai.client.AppcAaiClientConstant;
 import org.onap.appc.aai.client.aai.AaiService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class AAIResourceNode implements SvcLogicJavaPlugin {
 
@@ -86,7 +82,6 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             log.debug("Cloud Owner" + cloudOwnerValue);
             log.debug("CloudRegionId" + cloudOwnerValue);
-            SvcLogicContext cloudCtx = new SvcLogicContext();
             Map<String, String> paramsCloud = new HashMap<>();
             paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                     inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
@@ -513,7 +508,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         return params;
     }
 
-    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) {
         log.info("vfModuleInfo()::Retrieving vf-module information :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
@@ -573,7 +568,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
     }
 
-    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) {
         log.info("getFormattedValue()::Formatting values :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {

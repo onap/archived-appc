@@ -23,11 +23,8 @@
 
 package org.onap.appc.adapter.ansible.impl;
 
-import java.util.Map;
-import java.util.Properties;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,13 +33,16 @@ import org.onap.appc.adapter.ansible.model.AnsibleMessageParser;
 import org.onap.appc.adapter.ansible.model.AnsibleResult;
 import org.onap.appc.adapter.ansible.model.AnsibleResultCodes;
 import org.onap.appc.adapter.ansible.model.AnsibleServerEmulator;
+import org.onap.appc.encryption.EncryptionTool;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import org.onap.appc.encryption.EncryptionTool;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.Map;
+import java.util.Properties;
 
 /**
  * This class implements the {@link AnsibleAdapter} interface. This interface
@@ -100,10 +100,6 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
      * The logger to be used
      */
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(AnsibleAdapterImpl.class);
-    /**
-     * Connection object
-     **/
-    private ConnectionBuilder httpClient;
 
     /**
      * Ansible API Message Handlers
@@ -322,10 +318,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
                 doFailure(ctx, testResult.getStatusCode(),
                         "Error posting request. Reason = " + testResult.getStatusMessage());
             }
-            String output = StringUtils.EMPTY;
             code = testResult.getStatusCode();
             message = testResult.getStatusMessage();
-            output = testResult.getOutput();
+            String output = testResult.getOutput();
             ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
             String serverIp = testResult.getServerIp();
             if (StringUtils.isBlank(serverIp))
@@ -523,7 +518,7 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             try {
                 Thread.sleep(defaultPollInterval);
             } catch (InterruptedException ex) {
-
+                logger.error(ex.getMessage(), ex);
             }
 
         }
