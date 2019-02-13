@@ -27,10 +27,6 @@ package org.onap.appc.aai.client.aai;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.onap.appc.aai.client.AppcAaiClientConstant;
@@ -42,6 +38,11 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AaiService {
 
@@ -644,7 +645,7 @@ public class AaiService {
         SvcLogicResource.QueryStatus response =
             aaiClient.query(resourceType, false, null, query, prefix, null, resourceContext);
         log.info("AAIResponse: " + response.toString());
-        if (resourceType==null || !resourceType.equals("cloud-region")) {
+        if (!"cloud-region".equals(resourceType)) {
             if (!SvcLogicResource.QueryStatus.SUCCESS.equals(response)) {
                 throw new AaiServiceInternalException("Error Retrieving " + resourceType + " from A&AI");
             }

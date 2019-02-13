@@ -508,7 +508,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
         return params;
     }
 
-    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getVfModuleModelInfo(Map<String, String> inParams, SvcLogicContext ctx) {
         log.info("vfModuleInfo()::Retrieving vf-module information :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
@@ -568,7 +568,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
     }
 
-    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) throws SvcLogicException {
+    public void getFormattedValue(Map<String, String> inParams, SvcLogicContext ctx) {
         log.info("getFormattedValue()::Formatting values :" + inParams.toString());
         String responsePrefix = inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX);
         try {
