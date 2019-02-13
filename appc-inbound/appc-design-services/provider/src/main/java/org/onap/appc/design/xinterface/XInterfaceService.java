@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -24,32 +26,36 @@
 package org.onap.appc.design.xinterface;
 
 import org.onap.appc.design.services.util.DesignServiceConstants;
-import org.onap.appc.design.xinterface.XResponseProcessor;
-
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.google.common.base.Strings;
 
 public class XInterfaceService {
-    
-    private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
-    public String execute(String action, String payload) throws Exception {
-        //File targetFile = new File("/tmp/" + action + "-response.txt" );
-        String interfaceResponse = null;
-        try{
-            if(Strings.isNullOrEmpty(payload))
-                throw new Exception("Payload is null or empty..");
-            if(DesignServiceConstants.GETINSTARDATA.equalsIgnoreCase(action)){
-                XResponseProcessor xResponseProcessor =  new XResponseProcessor();
-                interfaceResponse = xResponseProcessor.parseResponse(payload, DesignServiceConstants.GETINSTARDATA);
-            } else {
-                throw new Exception("No Such Action, Please enter valid Action");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-            throw e;
-        }
-        return interfaceResponse;
+  
+  private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
+
+  public static XInterfaceService getInstance() {
+    return new XInterfaceService();
+  }
+
+  public String execute(String action, String payload) throws Exception {
+    // File targetFile = new File("/tmp/" + action + "-response.txt" );
+    String interfaceResponse = null;
+    try {
+      if (Strings.isNullOrEmpty(payload))
+        throw new Exception("Payload is null or empty..");
+      if (DesignServiceConstants.GETINSTARDATA.equalsIgnoreCase(action)) {
+        XResponseProcessor xResponseProcessor = new XResponseProcessor();
+        interfaceResponse =
+            xResponseProcessor.parseResponse(payload, DesignServiceConstants.GETINSTARDATA);
+      } else {
+        throw new Exception("No Such Action, Please enter valid Action");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw e;
     }
+    return interfaceResponse;
+  }
 
 }

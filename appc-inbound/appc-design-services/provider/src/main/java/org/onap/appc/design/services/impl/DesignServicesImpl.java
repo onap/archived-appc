@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -99,8 +101,8 @@ public class DesignServicesImpl implements DesignServicesService {
         StatusBuilder statusBuilder = new StatusBuilder();
         try {
 
-            XInterfaceService xInterfaceService = new XInterfaceService();
-            XResponseProcessor responseProcessor = new XResponseProcessor();
+            XInterfaceService xInterfaceService = XInterfaceService.getInstance();
+            XResponseProcessor responseProcessor = XResponseProcessor.getInstance();
             String response = responseProcessor.parseResponse(
                 xInterfaceService.execute(input.getDesignRequest().getAction(), input.getDesignRequest().getPayload()),
                 input.getDesignRequest().getAction());
