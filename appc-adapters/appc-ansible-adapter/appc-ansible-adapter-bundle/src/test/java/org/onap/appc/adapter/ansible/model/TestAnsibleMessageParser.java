@@ -183,4 +183,17 @@ public class TestAnsibleMessageParser {
         assertEquals("TestUser",result.get("User"));
         assertEquals("TestPassword",result.get("Password"));
     }
+    
+    @Test
+    public void testReqUriResultWithIPs() throws Exception {
+        Map<String, String> params = new HashMap<>();
+        params.put("AgentUrl", "http://xx:yy:zz");
+        params.put("Id", "TestId");
+        params.put("User", "TestUser");
+        params.put("Password", "TestPassword");
+        String serverIp="10.0.2.3";
+        String actual=msgParser.reqUriResultWithIP(params, serverIp);
+        String expected= "http://10.0.2.3:yy:zz?Id=TestId&Type=GetResult";
+        assertEquals(expected, actual);
+    }
 }
