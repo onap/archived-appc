@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,25 +33,29 @@ import com.att.eelf.configuration.EELFManager;
 import com.google.common.base.Strings;
 
 public class XInterfaceService {
-    
+
     private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
+
     public String execute(String action, String payload) throws Exception {
-        //File targetFile = new File("/tmp/" + action + "-response.txt" );
         String interfaceResponse = null;
         try{
             if(Strings.isNullOrEmpty(payload))
                 throw new Exception("Payload is null or empty..");
             if(DesignServiceConstants.GETINSTARDATA.equalsIgnoreCase(action)){
-                XResponseProcessor xResponseProcessor =  new XResponseProcessor();
+                XResponseProcessor xResponseProcessor =  getXResponseProcessor();
                 interfaceResponse = xResponseProcessor.parseResponse(payload, DesignServiceConstants.GETINSTARDATA);
             } else {
                 throw new Exception("No Such Action, Please enter valid Action");
             }
         }catch(Exception e){
-            e.printStackTrace();
+            log.error("Error" + e.getMessage());
             throw e;
         }
         return interfaceResponse;
+    }
+
+    protected XResponseProcessor getXResponseProcessor() {
+        return new XResponseProcessor();
     }
 
 }
