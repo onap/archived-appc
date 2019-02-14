@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e61479d_005bdd12",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/dbervices/DBExceptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:10:11Z",
+      "side": 1,
+      "message": "should also verify that the \"cause\" is the throwable",
+      "revId": "4979e1b8e3c9534b83d7f55d55549cc18def6b18",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
