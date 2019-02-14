@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,7 +56,7 @@ public class XResponseProcessor {
             // check the payload whether its having ipaddr along with subnet
             ipAddress = payloadObject.get(DesignServiceConstants.INSTAR_V4_ADDRESS) != null
                     ? payloadObject.get(DesignServiceConstants.INSTAR_V4_ADDRESS).textValue()
-                    : (payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS) !=null)
+                    : (payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS) != null)
                         ?payloadObject.get(DesignServiceConstants.INSTAR_V6_ADDRESS).textValue().toUpperCase()
                                 :null;
 
@@ -77,7 +79,7 @@ public class XResponseProcessor {
             payload = new HashMap<String, String>();
             payload.put("ipAddress", ipAddress);
             payload.put("mask", mask);
-            log.info("Calling Instar with IpAddress "+ ipAddress + " Mask value: "+ mask );
+            log.info("Calling Instar with IpAddress " + ipAddress + " Mask value: " + mask );
             dme2Client = new Dme2Client("getVnfbyIpadress", "payload", payload);
 
             instarResponse = dme2Client.send();
