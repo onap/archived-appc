@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ee01486_f8362fe8",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:55:09Z",
+      "side": 1,
+      "message": "change \"(long) 1000\" to \"1000l\" OR could use: TimeUnit.MINUTES.toSeconds(180)",
+      "revId": "754d45bd47607e9ea8092058d09d356df24328da",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
