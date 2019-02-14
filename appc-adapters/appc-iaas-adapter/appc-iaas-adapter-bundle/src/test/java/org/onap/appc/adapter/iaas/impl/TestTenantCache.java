@@ -1,9 +1,11 @@
 /*
- * ============LICENSE_START======================================================= Copyright (C)
- * 2016-2018 Ericsson. All rights reserved.
- * ================================================================================ Licensed under
- * the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * ============LICENSE_START======================================================= 
+ * Copyright (C) 2016-2018 Ericsson. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this 
+ * file except in compliance with the License. You may obtain a copy of the License at
  * 
  * http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -20,6 +22,7 @@ package org.onap.appc.adapter.iaas.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.doThrow;
@@ -219,5 +222,16 @@ public class TestTenantCache {
     @Test
     public void testPoolsProperty() {
         assertNotNull(tenantCache.getPools());
+    }
+    
+    @Test
+    public void testProvider() {
+        tenantCache.setProvider(provider);
+        assertEquals(provider, tenantCache.getProvider());
+    }
+    
+    @Test
+    public void testServiceCatalog() {
+        assertTrue(tenantCache.getServiceCatalog() instanceof ServiceCatalog);
     }
 }
