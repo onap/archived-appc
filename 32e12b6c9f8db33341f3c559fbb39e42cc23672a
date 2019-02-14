@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "172d1a67_c46d548b",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/ArtifactHandlerProvider.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T13:57:50Z",
+      "side": 1,
+      "message": "how about two different catch blocks instead of using instanceof?",
+      "revId": "32e12b6c9f8db33341f3c559fbb39e42cc23672a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
