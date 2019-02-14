@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +29,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.InOrder;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.appc.exceptions.UnknownProviderException;
+
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
@@ -49,18 +53,27 @@ public class TestRestartServer {
     }
 
     @Test
-    public void restartServerRunning() throws ZoneException {
+    public void restartServerRunning() throws ZoneException, UnknownProviderException {
         MockGenerator mg = new MockGenerator(Status.RUNNING);
         Server server = mg.getServer();
         RestartServer rbs = new RestartServer();
         rbs.setProviderCache(mg.getProviderCacheMap());
-        try {
-            rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
-        } catch (APPCException e) {
-            Assert.fail("Exception during RestartServer.executeProviderOperation");
-        }
+        rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        
         InOrder inOrderTest = inOrder(server);
         inOrderTest.verify(server).stop();
+        inOrderTest.verify(server).start();
+    }
+    
+    @Test
+    public void pauseServerRunning() throws ZoneException, UnknownProviderException {
+        MockGenerator mg = new MockGenerator(Status.READY);
+        Server server = mg.getServer();
+        RestartServer rbs = new RestartServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext());
+        
+        InOrder inOrderTest = inOrder(server);
         inOrderTest.verify(server).start();
     }
 }
