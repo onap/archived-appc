@@ -1,0 +1,242 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4c4893d_8a0fbaea",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "suggestion: probably need a space after the comma and before the closing quote",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26b3cd4e_6f9f6b2a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "suggestion: use StringUtils.isBlank() instead?",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6247259f_7784fa2c",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "suggestion: maybe change \" :\" to \": \"?",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a1e8a534_ff6596df",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "maybe highlight all of the new lines and source-\u003eformat-active-element to clean up the spacing and indentation",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8f3f722_d54d8503",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "use \"\u003c\u003e\" on right-hand side of \"\u003d\"",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f967bfc_7aa8524a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "suggestion: could probably change this and the next line to:\nfor(JSONObject fqdn: fqdnList) {",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec27c904_be0f4d01",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "before this, might want to catch and re-throw the ArtifactHandlerInternalException",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66161caa_c4ffe721",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "change HashMap to Map",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a32df40d_9abf9879",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "change to entrySet() so-as to avoid the \"get()\" on the next line",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80ce1dad_d2ed0d79",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "change to entrySet() so-as to avoid the \"get()\" on the next line",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "76536949_8a21212a",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "use \"getString\" instead of \"get\" and remove the cast",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e715191_cec56c62",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "use the cached tenant instead of invoking get(k) again",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bb840d57_9df7ce2e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "use assertj\u0027s assertThatThrownBy() method instead of this try/catch block.  It\u0027s shorter and less error prone.",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3014a1d4_50924343",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/test/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNodeTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:42:17Z",
+      "side": 1,
+      "message": "nothing to assert or verify after this?",
+      "revId": "cfb09cc993df18dc8e22c02fcb8a210c67ec4410",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
