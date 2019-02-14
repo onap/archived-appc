@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 Nokia Intellectual Property. All rights reserved.
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM.
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -38,12 +40,14 @@ import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operati
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation;
 import org.onap.appc.adapter.iaas.provider.operation.impl.AttachVolumeServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.CreateSnapshot;
 import org.onap.appc.adapter.iaas.provider.operation.impl.DettachVolumeServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.EvacuateServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.LookupServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.MigrateServer;
+import org.onap.appc.adapter.iaas.provider.operation.impl.RebootServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.RebuildServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.RestartServer;
 import org.onap.appc.adapter.iaas.provider.operation.impl.RestoreStack;
@@ -190,6 +194,15 @@ public class ProviderOperationFactoryTest {
             .getOperationObject(DETACHVOLUME_SERVICE);
 
         Assert.assertTrue(operation instanceof DettachVolumeServer);
+    }
+    
+    @Test
+    public void should_return_reboot_service_operation() throws APPCException {
+        IProviderOperation operation = ProviderOperationFactory
+            .getInstance()
+            .getOperationObject(Operation.REBOOT_SERVICE);
+
+        Assert.assertTrue(operation instanceof RebootServer);
     }
 
 }
