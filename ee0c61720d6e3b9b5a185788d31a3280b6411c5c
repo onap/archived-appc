@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d51d5cfd_a8c67e0e",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/dme2client/Dme2Client.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T13:49:36Z",
+      "side": 1,
+      "message": "why not move the variable declaration down to its first use, on line 122?  For that matter, why was this variable created at all?",
+      "revId": "ee0c61720d6e3b9b5a185788d31a3280b6411c5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
