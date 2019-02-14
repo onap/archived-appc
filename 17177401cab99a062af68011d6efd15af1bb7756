@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9791225f_ce73cd7f",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T20:24:42Z",
+      "side": 1,
+      "message": "my mistake.  It implements Iterable\u003cObject\u003e, which is not what we want",
+      "parentUuid": "86ec7847_6546883e",
+      "revId": "17177401cab99a062af68011d6efd15af1bb7756",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d41c58f_4848777c",
         "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
         "patchSetId": 1
