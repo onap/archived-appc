@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d877f648_fbf4984e",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/ArtifactHandlerProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-14T14:15:33Z",
+      "side": 1,
+      "message": "\"catch\" still needs to be indented, or actually, it should follow the \"}\" on line 117.  Maybe just highlight lines 109-120 and then source-\u003eformat-active-element",
+      "revId": "91e60e7c57432bf68ccbbbacbc3f83441304eaa3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
