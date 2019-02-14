@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2018-2019 IBM.
  * =============================================================================
  * Modifications Copyright (C) 2018 Ericsson
  * =============================================================================
@@ -212,10 +212,11 @@ public ConfigStatus configure(String key, Map<String, String> parameters, SvcLog
                     sshJcraftWrapper.put(is, fullPathFileName, host, loginId, password);
                     try {
                         DebugLog.printRTAriDebug(fnName, "Sleeping for 180 seconds....");
-                        Thread.sleep(1000 * 180);
+                        Thread.sleep((long)(1000) * 180);
                         DebugLog.printRTAriDebug(fnName, "Woke up....");
                     } catch (java.lang.InterruptedException ee) {
                         boolean ignore = true;
+                        Thread.currentThread().interrupt();
                     }
                 } else {
                     r.code = HttpURLConnection.HTTP_INTERNAL_ERROR;
