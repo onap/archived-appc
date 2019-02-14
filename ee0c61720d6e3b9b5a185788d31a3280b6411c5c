@@ -63,6 +63,30 @@
       "revId": "ee0c61720d6e3b9b5a185788d31a3280b6411c5c",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "854eb42a_6afca705",
+        "filename": "appc-outbound/appc-network-inventory-client/provider/src/main/java/org/onap/appc/instar/dme2client/Dme2Client.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-02-14T16:17:11Z",
+      "side": 1,
+      "message": "My bad. I didn\u0027t change the test code to make it work. I didnt see that. Thank you",
+      "parentUuid": "098dc075_94e19365",
+      "range": {
+        "startLine": 123,
+        "startChar": 33,
+        "endLine": 123,
+        "endChar": 41
+      },
+      "revId": "ee0c61720d6e3b9b5a185788d31a3280b6411c5c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
