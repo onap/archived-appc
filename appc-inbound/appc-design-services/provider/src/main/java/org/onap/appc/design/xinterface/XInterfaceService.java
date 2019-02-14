@@ -31,31 +31,34 @@ import com.att.eelf.configuration.EELFManager;
 import com.google.common.base.Strings;
 
 public class XInterfaceService {
-  
-  private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
 
-  public static XInterfaceService getInstance() {
-    return new XInterfaceService();
-  }
+    private final EELFLogger log = EELFManager.getInstance().getLogger(XInterfaceService.class);
 
-  public String execute(String action, String payload) throws Exception {
-    // File targetFile = new File("/tmp/" + action + "-response.txt" );
-    String interfaceResponse = null;
-    try {
-      if (Strings.isNullOrEmpty(payload))
-        throw new Exception("Payload is null or empty..");
-      if (DesignServiceConstants.GETINSTARDATA.equalsIgnoreCase(action)) {
-        XResponseProcessor xResponseProcessor = new XResponseProcessor();
-        interfaceResponse =
-            xResponseProcessor.parseResponse(payload, DesignServiceConstants.GETINSTARDATA);
-      } else {
-        throw new Exception("No Such Action, Please enter valid Action");
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      throw e;
+    public static XInterfaceService getInstance() {
+        return new XInterfaceService();
     }
-    return interfaceResponse;
-  }
+
+    public String execute(String action, String payload) throws Exception {
+        String interfaceResponse = null;
+        try {
+            if (Strings.isNullOrEmpty(payload))
+                throw new Exception("Payload is null or empty..");
+            if (DesignServiceConstants.GETINSTARDATA.equalsIgnoreCase(action)) {
+                XResponseProcessor xResponseProcessor = getXResponseProcessor();
+                interfaceResponse =
+                        xResponseProcessor.parseResponse(payload, DesignServiceConstants.GETINSTARDATA);
+            } else {
+                throw new Exception("No Such Action, Please enter valid Action");
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            throw e;
+        }
+        return interfaceResponse;
+    }
+
+    protected XResponseProcessor getXResponseProcessor() {
+        return new XResponseProcessor();
+    }
 
 }
