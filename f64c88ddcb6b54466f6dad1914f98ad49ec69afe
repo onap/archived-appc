@@ -16,6 +16,24 @@
       "revId": "f64c88ddcb6b54466f6dad1914f98ad49ec69afe",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb8bd297_aef328e4",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/test/java/org/onap/appc/adapter/ansible/model/TestAnsibleResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1089
+      },
+      "writtenOn": "2019-02-14T10:28:41Z",
+      "side": 1,
+      "message": "those portions of the code are already covered",
+      "parentUuid": "2f1faca1_48796aa1",
+      "revId": "f64c88ddcb6b54466f6dad1914f98ad49ec69afe",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
