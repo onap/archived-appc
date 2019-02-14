@@ -113,6 +113,8 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
 
         } catch (InterruptedException | ExecutionException e) {
             log.error("Create containers failed",  e);
+          if(e instanceof InterruptedException)
+            Thread.currentThread().interrupt();
         }
     }
 
