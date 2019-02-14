@@ -59,6 +59,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({DBService.class, YANGGeneratorFactory.class})
 public class ArtifactHandlerNodeTest {
@@ -334,15 +335,13 @@ public class ArtifactHandlerNodeTest {
        JSONObject documentInfoOne = new JSONObject();       
        documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, contentStrOne);
        documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "ansible_admin_FQDN_Artifact_0.0.1V.json");
-       Boolean fail = false;
+       
        try {
            artifactHandlerNode.validateAnsibleAdminArtifact(documentInfoOne);
            }catch(ArtifactHandlerInternalException e) {
-            assertTrue(e.getMessage().contains("Error while processing ansible admin artifact"));
-            fail = true;
-          }
-       assertTrue(fail);
-
+            assertTrue(e.getMessage().contains("Validation Failure"));
+            }
+       
     }
     
     @Test
@@ -352,19 +351,14 @@ public class ArtifactHandlerNodeTest {
         JSONObject documentInfoOne = new JSONObject();       
         documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_CONTENTS, contentStrOne);
         documentInfoOne.put(SdcArtifactHandlerConstants.ARTIFACT_NAME, "ansible_admin_FQDN_Artifact_0.0.1V.json");
-        
-        /*assertThrown(artifactHandlerNode.validateAnsibleAdminArtifact(documentInfoOne))
-        .isInstanceOf(JSONException.class)
-        .hasMessageStartingWith("Error while processing ansible admin artifact");*/
-        
-        Boolean fail = false;
+               
         try {
             artifactHandlerNode.validateAnsibleAdminArtifact(documentInfoOne);
         }catch(ArtifactHandlerInternalException je) {
           assertTrue(je.getMessage().contains("JSON Exception"));
-          fail = true;
+          
         }           
-        assertTrue(fail);
+       
      }
     
     @Test
@@ -387,15 +381,12 @@ public class ArtifactHandlerNodeTest {
         input.put(SdcArtifactHandlerConstants.REQUEST_INFORMATION, requestInfo);
         postData.put("input", input);
         inParams.put("postData", postData.toString());
-        
-        Boolean fail = false;
         try {
             artifactHandlerNode.processArtifact(inParams, ctx);
         }catch(Exception e) {
           assertTrue(e.getMessage().contains("Missing Artifact Name"));
-          fail = true;
         }
-    	assertTrue(fail);
+    	
     }
     @Test
     public void testProcessArtifactWithExceptionforAnsible() throws Exception {
@@ -418,15 +409,12 @@ public class ArtifactHandlerNodeTest {
         postData.put("input", input);
         inParams.put("postData", postData.toString());
         
-        Boolean fail = false;
         try {
              artifactHandlerNode.processArtifact(inParams, ctx);
         }catch(Exception e) {
            assertTrue(e.getMessage().contains("JSON Exception:ansible admin"));
-           fail = true;
-         }
-         assertTrue(fail);
-    }
+        }
+     }
     
     @Test
     public void testProcessAndStoreCapablitiesArtifact() throws Exception {
