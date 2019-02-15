@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7146c2c_8f41b7d6",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/RequestContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-15T13:38:57Z",
+      "side": 1,
+      "message": "one comment: one could argue that this is inappropriate behavior.  An interrupt indicates that the thread should stop running, not continue sleeping",
+      "revId": "420983c39d9f2596cdd16358265215d5f15d2402",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
