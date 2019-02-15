@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0935f440_0a832c99",
+        "filename": "appc-adapters/appc-ssh-adapter/appc-ssh-adapter-tests/src/test/java/org/onap/appc/adapter/ssh/TestSshAdapterMock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-15T13:45:39Z",
+      "side": 1,
+      "message": "this is redundant",
+      "revId": "fbada8c002ebe79df974c2d8a2353acdd8ab971b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
