@@ -125,6 +125,7 @@ public class RequestContext {
                      * amount of delay time needed and reenter the sleep until we get to the future time.
                      */
                     time = future - System.currentTimeMillis();
+                    Thread.currentThread().interrupt();
                 }
             }
         }
