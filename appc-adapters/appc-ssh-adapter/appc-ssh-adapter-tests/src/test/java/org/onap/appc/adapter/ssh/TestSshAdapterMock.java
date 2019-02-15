@@ -3,7 +3,9 @@
 * ONAP : APPC
 * ================================================================================
 * Copyright 2018 TechMahindra
-*=================================================================================
+* ================================================================================
+* Modifications Copyright (c) 2019 IBM
+* ================================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -59,6 +61,17 @@ public class TestSshAdapterMock {
         sshAdapterMock.setReturnStdout("success");
         sshAdapterMock.setReturnStderr("error");
         sshAdapterMock.getConnection("localhost", 8080, "myUser", "myPassword");
+        assertEquals(false, sshAdapterMock.getConnectionMocks().isEmpty());
+        assertNotNull(sshAdapterMock.getConnectionMocks());
+    }
+    
+    @Test
+    public void testGetConnection() {
+        SshAdapterMock sshAdapterMock = new SshAdapterMock();
+        sshAdapterMock.setReturnStatus(200);
+        sshAdapterMock.setReturnStdout("success");
+        sshAdapterMock.setReturnStderr("error");
+        sshAdapterMock.getConnection("localhost", 8080, "keyFile");
         assertEquals(false, sshAdapterMock.getConnectionMocks().isEmpty());
         assertNotNull(sshAdapterMock.getConnectionMocks());
     }
