@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75570e43_de048a1e",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/rest/client/RestClientInvoker.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-02-15T11:58:50Z",
+      "side": 0,
+      "message": "Moved this code block to HttpClientUtil class",
+      "revId": "888038258bef4d2284b56135895e6f4152978fea",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
