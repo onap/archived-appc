@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf9e322e_022101cb",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/util/HttpClientUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-15T17:44:42Z",
+      "side": 1,
+      "message": "change all of these, \"http\", to OPERATION_HTTP?",
+      "revId": "4b8c5b3b7e0fd8d939ac184d5ff1ac40a2c1c1e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
