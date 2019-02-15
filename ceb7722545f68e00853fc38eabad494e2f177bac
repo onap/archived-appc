@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe515be6_1b453f15",
+        "filename": "appc-inbound/appc-artifact-handler/provider/src/main/java/org/onap/appc/artifact/handler/node/ArtifactHandlerNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-15T14:03:27Z",
+      "side": 1,
+      "message": "I kept looking at this and thinking there must be a better way to do this.  Finally figured out this could have been done using set operations, eliminating the middle loop.  Instead of looping through the values, just create a set that\u0027s a copy of entry1.getValue() and then removeAll(entry2.getValue()).  If the result is non-empty, then you know there\u0027s overlap.\n\nNevertheless, it\u0027s okay the way it\u0027s written.  Maybe next time.",
+      "revId": "ceb7722545f68e00853fc38eabad494e2f177bac",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
