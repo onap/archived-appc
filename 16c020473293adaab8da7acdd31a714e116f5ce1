@@ -16,6 +16,24 @@
       "revId": "16c020473293adaab8da7acdd31a714e116f5ce1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8a25e22_71ca829c",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/util/HttpClientUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-02-15T17:44:04Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "10ed2288_c6881856",
+      "revId": "16c020473293adaab8da7acdd31a714e116f5ce1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
