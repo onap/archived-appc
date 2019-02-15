@@ -96,6 +96,7 @@ public abstract class ProviderStackOperation extends ProviderOperation {
             try {
                 Thread.sleep(pollInterval * 1000);
             } catch (InterruptedException ignored) {
+            	Thread.currentThread().interrupt();
             }
         }
         return false;
@@ -182,6 +183,7 @@ public abstract class ProviderStackOperation extends ProviderOperation {
                     Thread.sleep(pollInterval * 1000);
                 } catch (InterruptedException e) {
                     logger.trace("Sleep threw interrupted exception, should never occur");
+                    Thread.currentThread().interrupt();
                 }
             }
         }
