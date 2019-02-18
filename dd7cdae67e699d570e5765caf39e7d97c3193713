@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18e8306d_9b7f4d15",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/services/util/DesignServiceConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-18T14:03:24Z",
+      "side": 1,
+      "message": "sonar: may need to add a private constructor",
+      "revId": "dd7cdae67e699d570e5765caf39e7d97c3193713",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
