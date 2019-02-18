@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,8 +29,6 @@ import com.att.eelf.configuration.EELFManager;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -118,15 +118,15 @@ public class DesignDBService {
 
     private String getAppcTimestampUTC( String requestID) throws Exception
     {
-      log.info("Starting getAppcTimestampUTC: requestID:"+ requestID );
+      log.info("Starting getAppcTimestampUTC: requestID:" + requestID );
       java.util.TimeZone gmtTZ= java.util.TimeZone.getTimeZone("GMT");
       java.text.SimpleDateFormat formatter =
         new java.text.SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" );
       formatter.setTimeZone( gmtTZ );
       java.util.Date dateVal= new java.util.Date();
-      log.info("getAppcTimestampUTC: current local Date:["+ dateVal+"]");
+      log.info("getAppcTimestampUTC: current local Date:[" + dateVal+ "]");
       String timeStr= formatter.format( dateVal );
-      log.info("getAppcTimestampUTC: returning:["+timeStr+"]");
+      log.info("getAppcTimestampUTC: returning:[" + timeStr + "]");
       return timeStr;
     }
 
@@ -623,13 +623,10 @@ public class DesignDBService {
         }
     }
 
-
     public static class ArtifactHandlerFactory {
-        
+
         public ArtifactHandlerClient ahi() throws Exception{
             return new ArtifactHandlerClient();
         }
-    }    
+    }
 }
-
-

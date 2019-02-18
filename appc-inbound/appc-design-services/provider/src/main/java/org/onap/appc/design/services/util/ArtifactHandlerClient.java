@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,11 +52,11 @@ import javax.ws.rs.core.MediaType;
 public class ArtifactHandlerClient {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ArtifactHandlerClient.class);
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
     private Properties props = new Properties();
 
     public ArtifactHandlerClient() throws IOException {
-        String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
+        String propDir = DesignServiceConstants.getEnvironmentVariable(SDNC_CONFIG_DIR_VAR);
         if (propDir == null) {
             throw new IOException(" Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
         }
