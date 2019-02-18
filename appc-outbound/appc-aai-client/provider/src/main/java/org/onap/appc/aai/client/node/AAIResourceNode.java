@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2019 IBM.
  * ================================================================================
  * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
@@ -29,19 +29,16 @@ package org.onap.appc.aai.client.node;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.appc.aai.client.AppcAaiClientConstant;
 import org.onap.appc.aai.client.aai.AaiService;
+import org.onap.appc.aai.client.aai.AaiServiceInternalException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
+
+import java.util.*;
+import java.util.Map.Entry;
 
 public class AAIResourceNode implements SvcLogicJavaPlugin {
 
@@ -86,7 +83,6 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
 
             log.debug("Cloud Owner" + cloudOwnerValue);
             log.debug("CloudRegionId" + cloudOwnerValue);
-            SvcLogicContext cloudCtx = new SvcLogicContext();
             Map<String, String> paramsCloud = new HashMap<>();
             paramsCloud.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
                     inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
@@ -161,7 +157,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
                 // Parameters returned by getVMInfo
                 vserverMap.put(PARAM_VSERVER_NAME, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-name"));
                 vserverMap.put("vf-module-id", vmServerCtx.getAttribute(responsePrefix + "vm.vf-module-id"));
-                vserverMap.put("vserver-selflink", vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
+                vserverMap.put(PARAM_VSERVER_SELFLINK, vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
 
                 log.info("VSERVER-LINK VALUE:" + vmServerCtx.getAttribute(responsePrefix + "vm.vserver-selflink"));
 
@@ -452,8 +448,7 @@ public class AAIResourceNode implements SvcLogicJavaPlugin {
     }
 
     public void getVnfcInformationForVserver(Map<String, String> vnfcParams, SvcLogicContext newVnfcCtx,
-        Map<String, String> inParams, SvcLogicContext ctx, AaiService aaiService, String responsePrefix)
-        throws Exception {
+        Map<String, String> inParams, SvcLogicContext ctx, AaiService aaiService, String responsePrefix) throws AaiServiceInternalException, SvcLogicException {
         log.info("getVnfcInformationForVserver()::vnfcParams:" + vnfcParams.toString());
         vnfcParams.put(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX,
             inParams.get(AppcAaiClientConstant.INPUT_PARAM_RESPONSE_PREFIX));
