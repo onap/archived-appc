@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -95,7 +96,9 @@ public abstract class ProviderStackOperation extends ProviderOperation {
         } else {
             try {
                 Thread.sleep(pollInterval * 1000);
-            } catch (InterruptedException ignored) {
+            } catch (InterruptedException ex) {
+                logger.trace(ex.getMessage(), ex);
+                Thread.currentThread().interrupt();
             }
         }
         return false;
@@ -182,6 +185,7 @@ public abstract class ProviderStackOperation extends ProviderOperation {
                     Thread.sleep(pollInterval * 1000);
                 } catch (InterruptedException e) {
                     logger.trace("Sleep threw interrupted exception, should never occur");
+                    Thread.currentThread().interrupt();
                 }
             }
         }
