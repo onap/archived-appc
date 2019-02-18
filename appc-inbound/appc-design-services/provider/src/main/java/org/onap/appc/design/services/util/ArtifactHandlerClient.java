@@ -50,11 +50,11 @@ import javax.ws.rs.core.MediaType;
 public class ArtifactHandlerClient {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ArtifactHandlerClient.class);
-    private static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
+    static final String SDNC_CONFIG_DIR_VAR = "SDNC_CONFIG_DIR";
     private Properties props = new Properties();
 
     public ArtifactHandlerClient() throws IOException {
-        String propDir = System.getenv(SDNC_CONFIG_DIR_VAR);
+        String propDir = DesignServiceConstants.getEnvironmentVariable(SDNC_CONFIG_DIR_VAR);
         if (propDir == null) {
             throw new IOException(" Cannot find Property file -" + SDNC_CONFIG_DIR_VAR);
         }
