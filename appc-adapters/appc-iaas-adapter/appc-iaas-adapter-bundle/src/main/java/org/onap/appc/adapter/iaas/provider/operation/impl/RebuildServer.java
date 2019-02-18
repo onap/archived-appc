@@ -125,6 +125,7 @@ public class RebuildServer extends ProviderServerOperation {
             } catch (InterruptedException e) {
                 logger.trace("Sleep threw interrupted exception, should never occur");
                 metricsLogger.trace("Sleep threw interrupted exception, should never occur");
+                Thread.currentThread().interrupt();
             }
         } catch (ZoneException e) {
             msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
