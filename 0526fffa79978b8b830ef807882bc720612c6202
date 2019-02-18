@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e7e4e49_8ea667d2",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-18T13:59:42Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nalso: need to add junit test for this",
+      "revId": "0526fffa79978b8b830ef807882bc720612c6202",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b308a061_213a4d73",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-18T13:59:42Z",
+      "side": 1,
+      "message": "proper indentation of the lines inside the new \"if\"",
+      "revId": "0526fffa79978b8b830ef807882bc720612c6202",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "afb06e00_bc8be7cd",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 514,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-18T13:59:42Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nalso: need to add junit test for this",
+      "revId": "0526fffa79978b8b830ef807882bc720612c6202",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6c2c412_eabd49bf",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-18T13:59:42Z",
+      "side": 1,
+      "message": "proper indentation of the lines inside the new \"if\"",
+      "revId": "0526fffa79978b8b830ef807882bc720612c6202",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
