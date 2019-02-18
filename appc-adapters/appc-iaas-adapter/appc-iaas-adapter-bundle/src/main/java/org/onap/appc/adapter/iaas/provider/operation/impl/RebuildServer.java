@@ -6,6 +6,8 @@
 * ================================================================================
 * Copyright (C) 2017 Amdocs
 * =============================================================================
+* Modifications Copyright (C) 2019 IBM
+* =============================================================================
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
 * You may obtain a copy of the License at
@@ -125,6 +127,7 @@ public class RebuildServer extends ProviderServerOperation {
             } catch (InterruptedException e) {
                 logger.trace("Sleep threw interrupted exception, should never occur");
                 metricsLogger.trace("Sleep threw interrupted exception, should never occur");
+                Thread.currentThread().interrupt();
             }
         } catch (ZoneException e) {
             msg = EELFResourceManager.format(Msg.REBUILD_SERVER_FAILED, server.getName(), server.getId(),
