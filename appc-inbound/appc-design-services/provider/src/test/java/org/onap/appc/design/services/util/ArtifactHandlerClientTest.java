@@ -21,19 +21,65 @@
 
 package org.onap.appc.design.services.util;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Properties;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({DesignServiceConstants.class})
 public class ArtifactHandlerClientTest {
 
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
 
+    @Before
+    public void setup() throws NoSuchAlgorithmException, KeyManagementException {
+        PowerMockito.mockStatic(DesignServiceConstants.class);
+    }
+
     @Test
     public void testConstructorException() throws IOException {
         expectedEx.expect(IOException.class);
         new ArtifactHandlerClient();
+    }
+
+    @Test
+    public void testConstructor() throws IOException {
+        PowerMockito.when(DesignServiceConstants.getEnvironmentVariable(ArtifactHandlerClient.SDNC_CONFIG_DIR_VAR))
+            .thenReturn("src/test/resources");
+        ArtifactHandlerClient client = new ArtifactHandlerClient();
+        assertTrue(client instanceof ArtifactHandlerClient);
+        Properties props = Whitebox.getInternalState(client, "props");
+        assertTrue(props.containsKey("appc.upload.provider.url"));
+    }
+
+    @Test
+    public void testCreateArtifactData() throws IOException {
+        PowerMockito.when(DesignServiceConstants.getEnvironmentVariable(ArtifactHandlerClient.SDNC_CONFIG_DIR_VAR))
+            .thenReturn("src/test/resources");
+        ArtifactHandlerClient client = new ArtifactHandlerClient();
+        assertEquals("{\"input\": {\"request-information\":{\"request-id\":\"\",\"request-action\":"
+                + "\"StoreSdcDocumentRequest\",\"source\":\"Design-tool\"},\"document-parameters\":"
+                + "{\"artifact-version\":\"TEST\",\"artifact-name\":\"TEST\",\"artifact-contents\":"
+                + "\"TEST\"}}}", client.createArtifactData("{\"" + DesignServiceConstants.ARTIFACT_NAME
+                + "\":\"TEST\", \"" + DesignServiceConstants.ARTIFACT_VERSOIN + "\":\"TEST\", \"" +
+                DesignServiceConstants.ARTIFACT_CONTENTS + "\":\"TEST\"}", ""));
     }
 }
