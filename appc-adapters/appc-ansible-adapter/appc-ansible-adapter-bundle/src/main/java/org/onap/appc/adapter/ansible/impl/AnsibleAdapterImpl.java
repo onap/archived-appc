@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -476,12 +478,14 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private AnsibleResult postExecRequest(String agentUrl, String payload, String user, String password,
             SvcLogicContext ctx) {
 
-        AnsibleResult testResult;
+        AnsibleResult testResult = null;
         ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, "");
         if (!testMode) {
+          if(httpClient!=null) {
             httpClient.setHttpContext(user, password);
             testResult = httpClient.post(agentUrl, payload);
             httpClient.close();
+            }
         } else {
             testResult = testServer.Post(agentUrl, payload);
         }
@@ -509,9 +513,11 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             logger.info("Querying ansible GetResult URL = " + agentUrl);
 
             if (!testMode) {
+              if(httpClient!=null) {
                 httpClient.setHttpContext(user, password);
                 testResult = httpClient.get(agentUrl);
                 httpClient.close();
+              }
             } else {
                 testResult = testServer.Get(agentUrl);
             }
