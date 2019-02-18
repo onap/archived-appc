@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5d9b197_359e084e",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/services/util/DesignServiceConstants.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-18T15:04:52Z",
+      "side": 1,
+      "message": "I believe this should appear after the constants (can\u0027t remember if it matters or not - could be sonar or checkstyle)",
+      "revId": "7a36a25ce0e88326d19ca55501a53d91a7664601",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
