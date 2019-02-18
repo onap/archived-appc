@@ -16,6 +16,23 @@
       "revId": "420983c39d9f2596cdd16358265215d5f15d2402",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4e3df6a8_6792d2fb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/RequestContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 49
+      },
+      "writtenOn": "2019-02-18T23:05:20Z",
+      "side": 1,
+      "message": "What good does it do to call interrupt again here if it has already been called on this thread?\n\nIf this was a normal threaded method, I would say that we should break from the while loop in order to return from the delay method. But, based on the comments in this file, I think it is working as it was designed to right now and probably should not be changed.",
+      "revId": "420983c39d9f2596cdd16358265215d5f15d2402",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
