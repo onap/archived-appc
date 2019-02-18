@@ -476,12 +476,14 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
     private AnsibleResult postExecRequest(String agentUrl, String payload, String user, String password,
             SvcLogicContext ctx) {
 
-        AnsibleResult testResult;
+        AnsibleResult testResult = null;
         ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, "");
         if (!testMode) {
+        	if(httpClient!=null) {
             httpClient.setHttpContext(user, password);
             testResult = httpClient.post(agentUrl, payload);
             httpClient.close();
+            }
         } else {
             testResult = testServer.Post(agentUrl, payload);
         }
@@ -509,9 +511,11 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             logger.info("Querying ansible GetResult URL = " + agentUrl);
 
             if (!testMode) {
+            	if(httpClient!=null) {
                 httpClient.setHttpContext(user, password);
                 testResult = httpClient.get(agentUrl);
                 httpClient.close();
+            	}
             } else {
                 testResult = testServer.Get(agentUrl);
             }
