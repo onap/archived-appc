@@ -33,6 +33,24 @@
       "revId": "420983c39d9f2596cdd16358265215d5f15d2402",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ac0ce9e_d3a4d48e",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/impl/RequestContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-19T14:45:49Z",
+      "side": 1,
+      "message": "According to the javadocs: The interrupted status of the current thread is cleared when this exception is thrown.\n\nTo ensure that the interrupt flag is propagated up the invoker chain, it is good practice to invoke interrupt() after catching this exception; sonar enforces this.\n\nThat being said, I still wonder why this code continues in its loop instead of returning.  The \"interrupt\" is supposed to tell the Thread to shutdown.",
+      "parentUuid": "4e3df6a8_6792d2fb",
+      "revId": "420983c39d9f2596cdd16358265215d5f15d2402",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
