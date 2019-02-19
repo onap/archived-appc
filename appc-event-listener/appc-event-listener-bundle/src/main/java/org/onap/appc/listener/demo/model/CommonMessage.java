@@ -265,7 +265,7 @@ public class CommonMessage implements Serializable {
         public void setGenericVnfId(String genericVnfId) {
             this.genericVnfId = genericVnfId;
         }
-        
+
         @JsonProperty("pg-streams")
         private pgStreams pgStreams;
 
@@ -303,38 +303,35 @@ public class CommonMessage implements Serializable {
     };
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class pgStreams {
-    	@JsonProperty("pg-stream")
+        @JsonProperty("pg-stream")
         private Collection<pgStream> streams;
-    	
+
         public Collection<pgStream> getStreams() {
-			return streams;
-		}
+            return streams;
+        }
 
-		public void setStreams(Collection<pgStream> streams) {
-			this.streams = streams;
-		}
-
-
+        public void setStreams(Collection<pgStream> streams) {
+            this.streams = streams;
+        }
     };
-	@JsonIgnoreProperties(ignoreUnknown = true)
-	public static class pgStream{
-    	public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getIsEnabled() {
-			return isEnabled;
-		}
-		public void setIsEnabled(String isEnabled) {
-			this.isEnabled = isEnabled;
-		}
-		@JsonProperty("id")
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class pgStream{
+        public String getId() {
+            return id;
+        }
+        public void setId(String id) {
+            this.id = id;
+        }
+        public String getIsEnabled() {
+            return isEnabled;
+        }
+        public void setIsEnabled(String isEnabled) {
+            this.isEnabled = isEnabled;
+        }
+        @JsonProperty("id")
         private String id;
         @JsonProperty("is-enabled")
         private String isEnabled;
-	};
-
-
+     };
 }
