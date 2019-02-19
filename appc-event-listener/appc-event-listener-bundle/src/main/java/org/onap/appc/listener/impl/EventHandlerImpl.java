@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +28,6 @@ package org.onap.appc.listener.impl;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 
-import org.onap.appc.adapter.factory.DmaapMessageAdapterFactoryImpl;
 import org.onap.appc.adapter.factory.MessageService;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.MessageAdapterFactory;
