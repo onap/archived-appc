@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6bb5bc4_9cac9519",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/test/java/org/onap/appc/listener/impl/EventHandlerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-19T18:22:05Z",
+      "side": 1,
+      "message": "use assertEquals?",
+      "revId": "c2aca8918fba838fa9440f292351c8e945321e8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
