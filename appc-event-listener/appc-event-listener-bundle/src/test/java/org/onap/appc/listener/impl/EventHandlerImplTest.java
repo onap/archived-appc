@@ -5,6 +5,8 @@
  * Copyright (C) 2017 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,28 +30,28 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-import java.util.function.Function;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.appc.adapter.message.Consumer;
 import org.onap.appc.adapter.message.Producer;
 import org.onap.appc.listener.ListenerProperties;
+import org.powermock.reflect.Whitebox;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 /**
  * Test the ProviderAdapter implementation.
@@ -170,6 +172,38 @@ public class EventHandlerImplTest {
         verify(mockProducer).close();
     }
 
+    @Test
+    public void testGetEvents() {
+        EventHandlerImpl adapter = new EventHandlerImpl(properties);
+        Consumer consumer = Mockito.mock(Consumer.class);
+        Mockito.when(consumer.fetch(Mockito.anyInt(), Mockito.anyInt()))
+            .thenReturn(new ArrayList<String>(Arrays.asList("TEST1")));
+        Whitebox.setInternalState(adapter, "reader", consumer);
+        assertEquals("TEST1", adapter.getIncomingEvents().get(0));
+    }
+
+    @Test
+    public void testGetEventsClass() {
+        EventHandlerImpl adapter = new EventHandlerImpl(properties);
+        Consumer consumer = Mockito.mock(Consumer.class);
+        Mockito.when(consumer.fetch(Mockito.anyInt(), Mockito.anyInt()))
+            .thenReturn(new ArrayList<String>(Arrays.asList("1")));
+        Whitebox.setInternalState(adapter, "reader", consumer);
+        assertTrue(adapter.getIncomingEvents(Integer.class).get(0) == 1);
+    }
+
+    @Test
+    public void testSetters() {
+        EventHandlerImpl adapter = new EventHandlerImpl(properties);
+        adapter.setResponseProblemBlacklistTime("1");
+        assertEquals("1", Whitebox.getInternalState(adapter, "responseProblemBlacklistTime"));
+        adapter.setServerProblemBlacklistTime("1");
+        assertEquals("1", Whitebox.getInternalState(adapter, "serverProblemBlacklistTime"));
+        adapter.setDnsIssueBlacklistTime("1");
+        assertEquals("1", Whitebox.getInternalState(adapter, "dnsIssueBlacklistTime"));
+        adapter.setIOExceptionBlacklistTime("1");
+        assertEquals("1", Whitebox.getInternalState(adapter, "ioExceptionBlacklistTime"));
+    }
 
 //    @Test
     public void testRun() {
