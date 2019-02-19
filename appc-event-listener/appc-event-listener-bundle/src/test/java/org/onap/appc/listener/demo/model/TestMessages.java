@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modification Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,16 +29,17 @@ package org.onap.appc.listener.demo.model;
 
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.onap.appc.listener.demo.model.CommonMessage.pgStream;
 import org.onap.appc.listener.demo.model.IncomingMessage;
 import org.onap.appc.listener.demo.model.OutgoingMessage;
 import org.onap.appc.listener.demo.model.Status;
@@ -64,7 +67,6 @@ public class TestMessages {
             assertNotNull(in);
             assertNotNull(out);
         } catch (Exception e) {
-            e.printStackTrace();
             fail(e.getMessage());
         }
     }
@@ -79,7 +81,7 @@ public class TestMessages {
         assertNotNull(in.getHeader().getRequestID());
         assertNotNull(in.getHeader().getSubRequestId());
         assertNotNull(in.getHeader().getTimeStamp());
-        
+
         assertNotNull(out);
         assertNotNull(out.getHeader().getApiVer());
         assertNotNull(out.getHeader().getOriginatorId());
@@ -90,7 +92,7 @@ public class TestMessages {
         assertNotNull(out.getStatus().getValue());
 
     }
-    
+
     @Test
     public void testGetRequest()
     {
@@ -98,11 +100,35 @@ public class TestMessages {
         in.setRequest(request);
         assertEquals(request, in.getRequest());
     }
-    
+
     @Test
     public void testIsValid()
     {
         assertEquals(true, in.isValid());
+    }
+
+    @Test
+    public void testTime() {
+        in.setStartTime(0);
+        assertEquals(0, in.getStartTime());
+    }
+
+    @Test
+    public void testPayload() {
+        CommonMessage.Payload payload = new CommonMessage.Payload();
+        payload.setGenericVnfId("VNF_ID");
+        CommonMessage.pgStream pgStream = new CommonMessage.pgStream();
+        pgStream.setId("ID");
+        pgStream.setIsEnabled("true");
+        CommonMessage.pgStreams pgStreams = new CommonMessage.pgStreams();
+        Collection<pgStream> collectionPgStreams = new ArrayList<pgStream>();
+        collectionPgStreams.add(pgStream);
+        pgStreams.setStreams(collectionPgStreams);
+        payload.setPgStreams(pgStreams);
+        in.setPayload(payload);
+        assertEquals("VNF_ID", in.getPayload().getGenericVnfId());
+        assertEquals("{\\\"pg-streams\\\": {\\\"pg-stream\\\":[{\\\"id\\\":\\\"ID\\\", \\\"is-enabled\\\":\\\"true\\\"}]}}",
+                in.getPayload().getPgStreams());
     }
 
     @Test
@@ -119,7 +145,7 @@ public class TestMessages {
         assertNotNull(newOut.getStatus().getCode());
         assertNotNull(newOut.getStatus().getValue());
     }
-    
+
     @Test
     @Ignore
     public void testToString() {
@@ -131,7 +157,6 @@ public class TestMessages {
         assertTrue(in.toString().contains(id));
     }
 
-    
     @Test
     @Ignore
     public void testOutgoingUpdateTime() {
