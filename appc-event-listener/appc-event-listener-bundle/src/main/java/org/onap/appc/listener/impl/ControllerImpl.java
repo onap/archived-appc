@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,7 +65,7 @@ public class ControllerImpl implements Controller {
     public ControllerImpl(Set<ListenerProperties> properties) {
         listeners = new HashMap<ListenerProperties, Listener>();
         for (ListenerProperties props : properties) {
-            if (props.getClass() != null) {
+            if (props.getListenerClass() != null) {
                 listeners.put(props, null);
             } else {
                 LOG.error(String.format(
