@@ -16,6 +16,24 @@
       "revId": "c2aca8918fba838fa9440f292351c8e945321e8e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a67e183_6423c446",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/test/java/org/onap/appc/listener/impl/EventHandlerImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-19T18:57:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6bb5bc4_9cac9519",
+      "revId": "c2aca8918fba838fa9440f292351c8e945321e8e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
