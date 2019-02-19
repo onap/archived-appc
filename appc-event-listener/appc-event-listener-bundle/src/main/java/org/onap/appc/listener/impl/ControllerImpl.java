@@ -114,7 +114,7 @@ public class ControllerImpl implements Controller {
             Listener l = itr.next();
             if (stopNow && l != null) {
                 l.stopNow();
-            } else if(l!=null){
+            } else if(l != null){
                 l.stop();
             }
             itr.remove();
@@ -122,7 +122,7 @@ public class ControllerImpl implements Controller {
         // disable new tasks from being submitted
         if(executor != null) {
             executor.shutdown();
-            int timeout=300;
+            int timeout = 300;
             try {
                 if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
                     LOG.error("Not all tasks completed execution after " + timeout + " seconds. " +
@@ -130,7 +130,7 @@ public class ControllerImpl implements Controller {
                     executor.shutdownNow();
                 }
                 if (!executor.awaitTermination(timeout, TimeUnit.SECONDS)) {
-                    LOG.error("Could not terminate all tasks after " + (timeout*2) + " seconds.");
+                    LOG.error("Could not terminate all tasks after " + (timeout * 2) + " seconds.");
                 }
             } catch (InterruptedException e) {
                 executor.shutdownNow();
