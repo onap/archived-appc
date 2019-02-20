@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -211,7 +213,7 @@ public final class Time {
             try {
                 xmlDatatypeFactory = DatatypeFactory.newInstance();
             } catch (DatatypeConfigurationException e) {
-                e.printStackTrace(System.err);
+                LOG.error("Error while getting DatatypeFactory ::", e);
             }
         }
         return xmlDatatypeFactory;
