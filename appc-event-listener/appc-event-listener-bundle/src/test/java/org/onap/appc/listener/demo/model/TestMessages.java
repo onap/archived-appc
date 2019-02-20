@@ -132,6 +132,13 @@ public class TestMessages {
     }
 
     @Test
+    public void testOutgoingMessage() {
+        OutgoingMessage outgoingMessage = new OutgoingMessage(in);
+        outgoingMessage.updateResponseTime();
+        
+    }
+
+    @Test
     @Ignore
     public void testIncommingToOutgoing(){
         OutgoingMessage newOut;
