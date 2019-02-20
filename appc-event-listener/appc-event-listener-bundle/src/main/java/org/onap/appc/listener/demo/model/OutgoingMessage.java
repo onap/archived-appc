@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +26,7 @@
 package org.onap.appc.listener.demo.model;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,20 +54,20 @@ public class OutgoingMessage extends CommonMessage {
     }
 
     public OutgoingMessage(IncomingMessage msg) {
-    	setHeader(msg.getHeader());
-    	setPayload(msg.getPayload());
-//        setId(msg.getId());
-//        setOriginalRequest(msg.getRequest());
-//        setRequestClient(msg.getRequestClient());
-//        setRequestTime(msg.getRequestTime());
-//        setVmName(msg.getVmName());
-//        setFromSystem(generateFrom());
-//        setResponse(Status.PENDING);
-//        setPolicyName(msg.getPolicyName());
-//        setPolicyVersion(msg.getPolicyVersion());
-//        setStartTime(msg.getStartTime());
+        setHeader(msg.getHeader());
+        setPayload(msg.getPayload());
+        //        setId(msg.getId());
+        //        setOriginalRequest(msg.getRequest());
+        //        setRequestClient(msg.getRequestClient());
+        //        setRequestTime(msg.getRequestTime());
+        //        setVmName(msg.getVmName());
+        //        setFromSystem(generateFrom());
+        //        setResponse(Status.PENDING);
+        //        setPolicyName(msg.getPolicyName());
+        //        setPolicyVersion(msg.getPolicyVersion());
+        //        setStartTime(msg.getStartTime());
     }
-    
+
     private static final long serialVersionUID = -5447940920271469613L;
     /*
      * The status of the response
@@ -73,20 +76,20 @@ public class OutgoingMessage extends CommonMessage {
     private OutStatus status;
 
     /**
-	 * @return the status
-	 */
-	public OutStatus getStatus() {
-		return status;
-	}
+     * @return the status
+     */
+    public OutStatus getStatus() {
+        return status;
+    }
 
-	/**
-	 * @param status the status to set
-	 */
-	public void setStatus(OutStatus status) {
-		this.status = status;
-	}
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(OutStatus status) {
+        this.status = status;
+    }
 
-	public void updateResponseTime() {
+    public void updateResponseTime() {
         SecureRandom rand = new SecureRandom();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.SSS");
         df.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -97,7 +100,7 @@ public class OutgoingMessage extends CommonMessage {
     public String generateFrom() {
         String name;
         try {
-            InetAddress iAddress = InetAddress.getLocalHost();
+            InetAddress iAddress = getLocalHost();
             name = iAddress.getCanonicalHostName();
         } catch (Exception e) {
             // Could not get anything from the InetAddress
@@ -122,72 +125,76 @@ public class OutgoingMessage extends CommonMessage {
         return json;
     }
 
-//    @Override
-//    public String toString() {
-//        return String.format("%s - %s", getId(), getResponse());
-//    }
-    
+    //    @Override
+    //    public String toString() {
+    //        return String.format("%s - %s", getId(), getResponse());
+    //    }
+
     public static class OutStatus{
-    	@JsonProperty("Code")
-    	private String code;
-    	
-    	@JsonProperty("Value")
-    	private String value;
+        @JsonProperty("Code")
+        private String code;
 
-		/**
-		 * @return the code
-		 */
-		public String getCode() {
-			return code;
-		}
+        @JsonProperty("Value")
+        private String value;
 
-		/**
-		 * @param code the code to set
-		 */
-		public void setCode(String code) {
-			this.code = code;
-		}
+        /**
+         * @return the code
+         */
+        public String getCode() {
+            return code;
+        }
 
-		/**
-		 * @return the value
-		 */
-		public String getValue() {
-			return value;
-		}
+        /**
+         * @param code the code to set
+         */
+        public void setCode(String code) {
+            this.code = code;
+        }
 
-		/**
-		 * @param value the value to set
-		 */
-		public void setValue(String value) {
-			this.value = value;
-		}
-    	
+        /**
+         * @return the value
+         */
+        public String getValue() {
+            return value;
+        }
+
+        /**
+         * @param value the value to set
+         */
+        public void setValue(String value) {
+            this.value = value;
+        }
+
     }
 
-	public void setResponse(Status newStatus) {
-		if(this.status == null){
-			this.status = new OutStatus();
-		}
-		
-		switch (newStatus){
-		case ACCEPTED:
-			this.status.setValue(newStatus.getValue());
-			this.status.setCode("100");
-			break;
+    public void setResponse(Status newStatus) {
+        if(this.status == null){
+            this.status = new OutStatus();
+            return;
+        }
 
-		case FAILURE:
-			this.status.setValue(newStatus.getValue());
-			this.status.setCode("500");
-			break;
+        switch (newStatus){
+            case ACCEPTED:
+                this.status.setValue(newStatus.getValue());
+                this.status.setCode("100");
+                break;
 
-		case SUCCESS:
-			this.status.setValue(newStatus.getValue());
-			this.status.setCode("400");
-			break;
-		default:
-			break;
-			
-		}
-		
-	}
+            case FAILURE:
+                this.status.setValue(newStatus.getValue());
+                this.status.setCode("500");
+                break;
+
+            case SUCCESS:
+                this.status.setValue(newStatus.getValue());
+                this.status.setCode("400");
+                break;
+            default:
+                break;
+
+        }
+    }
+
+    protected InetAddress getLocalHost() throws UnknownHostException {
+        return InetAddress.getLocalHost();
+    }
 }
