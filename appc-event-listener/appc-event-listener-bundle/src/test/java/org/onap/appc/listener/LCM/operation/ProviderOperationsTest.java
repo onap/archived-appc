@@ -27,10 +27,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyString;
-
 import com.att.aft.dme2.internal.jersey.core.util.Base64;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.Socket;
 import java.net.SocketException;
 import java.security.KeyManagementException;
@@ -38,9 +42,14 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.onap.appc.exceptions.APPCException;
 import org.onap.appc.listener.LCM.operation.ProviderOperations.MySSLSocketFactory;
 
@@ -103,4 +112,24 @@ public class ProviderOperationsTest {
     }
 
     //TODO write some test cases for topologyDG method
+    @Test
+    public void testBuildPostRequest() throws JsonProcessingException, IOException, APPCException {
+        String jsonString = "{\"output\":{\"status\":{\"code\":\"200\",\"message\":\"TEST_MESSAGE\"}}}";
+        providerOperations = Mockito.spy(
+                new ProviderOperations("http://127.0.0.1", "test_user", "test_password"));
+        HttpClient httpClient = Mockito.mock(HttpClient.class);
+        HttpResponse httpResponse = Mockito.mock(HttpResponse.class);
+        StatusLine statusLine = Mockito.mock(StatusLine.class);
+        Mockito.when(statusLine.getStatusCode()).thenReturn(200);
+        Mockito.when(httpResponse.getStatusLine()).thenReturn(statusLine);
+        HttpEntity httpEntity = Mockito.mock(HttpEntity.class);
+        InputStream inputStream = new ByteArrayInputStream(jsonString.getBytes());
+        Mockito.when(httpEntity.getContent()).thenReturn(inputStream);
+        Mockito.when(httpResponse.getEntity()).thenReturn(httpEntity);
+        Mockito.when(httpClient.execute(Mockito.any())).thenReturn(httpResponse);
+        Mockito.when(providerOperations.getHttpClient()).thenReturn(httpClient);
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(jsonString);
+        assertEquals(ObjectNode.class, providerOperations.topologyDG(null, jsonNode).getClass());
+    }
 }
