@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,9 +37,11 @@ import java.util.List;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.onap.appc.listener.util.Mapper;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 public class TestMapper {
@@ -103,4 +107,29 @@ public class TestMapper {
         assertEquals("2", out.get(1).a);
     }
 
+    @Test
+    public void testToJsonString() {
+        JSONObject jsonObject = Mockito.mock(JSONObject.class);
+        assertTrue(Mapper.toJsonString(jsonObject).startsWith("Mock for JSONObject"));
+    }
+
+    @Test
+    public void testToJsonStringNonJsonObject() {
+        assertEquals("\"TEST\"", Mapper.toJsonString("TEST"));
+    }
+
+    @Test
+    public void testToJsonStringException() {
+        assertNull(Mapper.toJsonString(new Mapper()));
+    }
+
+    @Test
+    public void testToJsonNodeFromJsonStringException() {
+        assertNull(Mapper.toJsonNodeFromJsonString("{{}"));
+    }
+
+    @Test
+    public void testToJsonNode() {
+        assertTrue(Mapper.toJsonNode(dummyObj) instanceof JsonNode);
+    }
 }
