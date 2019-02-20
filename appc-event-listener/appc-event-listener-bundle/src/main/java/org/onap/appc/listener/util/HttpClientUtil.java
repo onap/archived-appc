@@ -75,7 +75,7 @@ public class HttpClientUtil {
         ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
         client = new DefaultHttpClient(ccm, params);
       } catch (Exception e) {
-        log.info("Creating Default Http Client with no params"+e.getMessage());
+        log.info("Creating Default Http Client with no params" + e.getMessage());
         client = new DefaultHttpClient();
       }
     } else if ("http".equals(protocol)) {
