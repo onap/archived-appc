@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +31,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 /**
  * A copy from the org.onap.sdc:security-utils artifact that works with java 7.
@@ -39,6 +43,7 @@ public class Passwords {
     private static final int SALT = 0;
     private static final int HASH = 1;
     private static final String HASH_ALGORITHM = "SHA-256";
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(Passwords.class);
 
     /**
      * static utility class
@@ -53,9 +58,9 @@ public class Passwords {
      * @return a "salt:hash" value
      */
     public static String hashPassword(String password) {
-        byte[] salt = getNextSalt();
-        byte byteData[] = hash(salt, password.getBytes());
-        if (byteData != null) {
+        if (password != null) {
+            byte[] salt = getNextSalt();
+            byte byteData[] = hash(salt, password.getBytes());
             return toHex(salt) + ":" + toHex(byteData);
         }
         return null;
@@ -86,9 +91,8 @@ public class Passwords {
     public static boolean isExpectedPassword(String password, String salt, String hash) {
         byte[] saltBytes = fromHex(salt);
         byte[] hashBytes = fromHex(hash);
-
-        byte byteData[] = hash(saltBytes, password.getBytes());
-        if (byteData != null) {
+        if (password != null) {
+            byte byteData[] = hash(saltBytes, password.getBytes());
             return Arrays.equals(byteData, hashBytes);
         }
         return false;
@@ -96,9 +100,9 @@ public class Passwords {
 
     public static void main(String[] args) {
         if (args.length > 1 || args.length > 0) {
-            System.out.println("[" + hashPassword(args[0]) + "]");
+            log.info("[" + hashPassword(args[0]) + "]");
         } else {
-            System.out.println("no passward passed.");
+            log.info("no password passed");
         }
 
     }
@@ -130,7 +134,7 @@ public class Passwords {
             md.update(password);
             byteData = md.digest();
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("in vlide algorithem name");
+            log.info("invalid algorithm name");
         }
         return byteData;
     }
