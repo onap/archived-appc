@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c72a9e5b_8ee626e8",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:52:37Z",
+      "side": 1,
+      "message": "can we also add an assertion that the builder contains the correct uuid value?",
+      "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18578083_82032e53",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:52:37Z",
+      "side": 1,
+      "message": "can we also add an assertion that the builder contains the correct uuid value?",
+      "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "790ec981_491abdc4",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:52:37Z",
+      "side": 1,
+      "message": "is there a way to cause it to return true, so that that can be verified, too?",
+      "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
