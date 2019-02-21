@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d9166b2_19c2ee2d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/appc-data-access-lib/src/test/java/org/onap/appc/dao/util/DBUtilsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T15:27:44Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nsame comment applies to other lines",
+      "revId": "2f75b11668cd3ddf29a2267a5cbac8d089fd9df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fef50305_0e8c873d",
+        "filename": "appc-dispatcher/appc-dispatcher-common/appc-data-access-lib/src/test/java/org/onap/appc/dao/util/DBUtilsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T15:27:44Z",
+      "side": 1,
+      "message": "suggestion: eliminate this variable and use assertEquals instead of assertTrue",
+      "revId": "2f75b11668cd3ddf29a2267a5cbac8d089fd9df7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
