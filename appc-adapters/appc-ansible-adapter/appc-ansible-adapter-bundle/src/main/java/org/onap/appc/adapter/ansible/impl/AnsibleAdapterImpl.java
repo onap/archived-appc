@@ -479,7 +479,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
         AnsibleResult testResult;
         ConnectionBuilder httpClient = getHttpConn(defaultSocketTimeout, "");
         if (!testMode) {
-            httpClient.setHttpContext(user, password);
+        	if(null!=httpClient){
+        		httpClient.setHttpContext(user, password);	
+        	}
             testResult = httpClient.post(agentUrl, payload);
             httpClient.close();
         } else {
@@ -509,7 +511,9 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             logger.info("Querying ansible GetResult URL = " + agentUrl);
 
             if (!testMode) {
-                httpClient.setHttpContext(user, password);
+            	if(null!=httpClient){
+            		httpClient.setHttpContext(user, password);	
+            	}
                 testResult = httpClient.get(agentUrl);
                 httpClient.close();
             } else {
