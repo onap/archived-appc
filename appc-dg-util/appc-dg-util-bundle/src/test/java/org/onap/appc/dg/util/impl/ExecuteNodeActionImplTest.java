@@ -8,6 +8,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2018 Nokia
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -41,6 +43,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,6 +55,10 @@ import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
+import org.powermock.reflect.Whitebox;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.att.eelf.configuration.EELFLogger.Level;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ExecuteNodeActionImplTest {
@@ -65,6 +72,9 @@ public class ExecuteNodeActionImplTest {
     private static final SvcLogicContext SVC_LOGIC_CONTEXT = new SvcLogicContext();
     private static final SvcLogicResource.QueryStatus SUCCESS_STATUS = SvcLogicResource.QueryStatus.SUCCESS;
     private static final QueryStatus FAILED_STATUS = SvcLogicResource.QueryStatus.FAILURE;
+    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ExecuteNodeActionImpl.class);
+    private static EELFLogger.Level originalLoggerLevel;
+
 
     @Mock
     private AAIServiceFactory aaiServiceFactory;
@@ -83,6 +93,9 @@ public class ExecuteNodeActionImplTest {
         params.put("attributeName", attributeName);
         params.put("attributeValue", attributeValue);
         params.put("waitTime", "1");
+        originalLoggerLevel = Whitebox.getInternalState(ExecuteNodeActionImpl.class, "logger")
+            .getLevel();
+        logger.setLevel(Level.DEBUG);
     }
 
     @Test
@@ -127,11 +140,14 @@ public class ExecuteNodeActionImplTest {
 
     @Test
     public void testGetVnfHierarchySuccess() throws Exception {
+        ExecuteNodeActionImpl executeNodeActionSpy = Mockito.spy(executeNodeAction);
         given(aaiService.query(any(), Mockito.anyBoolean(),
             any(), any(), any(), any(),
             any(SvcLogicContext.class))).willReturn(SUCCESS_STATUS);
-
-        executeNodeAction.getVnfHierarchy(params, SVC_LOGIC_CONTEXT);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute(("vnfRetrived.heat-stack-id"), "TEST");
+        Mockito.when(executeNodeActionSpy.getSvcLogicContext()).thenReturn(ctx);
+        executeNodeActionSpy.getVnfHierarchy(params, SVC_LOGIC_CONTEXT);
 
         assertEquals("0", SVC_LOGIC_CONTEXT.getAttribute("VNF.VNFCCount"));
         assertEquals("SUCCESS", SVC_LOGIC_CONTEXT.getAttribute("getVnfHierarchy_result"));
@@ -142,7 +158,6 @@ public class ExecuteNodeActionImplTest {
         given(aaiService.query(any(), Mockito.anyBoolean(),
             any(), any(), any(), any(),
             any(SvcLogicContext.class))).willReturn(FAILED_STATUS);
-
         executeNodeAction.getVnfHierarchy(params, SVC_LOGIC_CONTEXT);
 
         assertEquals("0", SVC_LOGIC_CONTEXT.getAttribute("VNF.VNFCCount"));
@@ -169,4 +184,36 @@ public class ExecuteNodeActionImplTest {
         assertTrue(vServersList.contains(SVC_LOGIC_CONTEXT.getAttribute("VNF.VNFC[0].VM[0].URL")));
         assertTrue(vServersList.contains(SVC_LOGIC_CONTEXT.getAttribute("VNF.VNFC[0].VM[1].URL")));
     }
+
+    @Test
+    public void testGetVserverRelations() throws Exception {
+        ExecuteNodeActionImpl executeNodeActionSpy = Mockito.spy(executeNodeAction);
+        given(aaiService.query(any(), Mockito.anyBoolean(),
+            any(), any(), any(), any(),
+            any(SvcLogicContext.class))).willReturn(SUCCESS_STATUS);
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute(("vnfRetrived.related-to"), "vserver");
+        ctx.setAttribute("vnfRetrived.relationship-data_length", "1");
+        ctx.setAttribute("vnfRetrived.related-to-property_length", "1");
+        ctx.setAttribute("vnfRetrived.relationship-data[0].relationship-key", "KEY");
+        ctx.setAttribute("vnfRetrived.relationship-data[0].relationship-value", "VALUE");
+        ctx.setAttribute("vnfRetrived.related-to-property[0].property-key", "KEY");
+        ctx.setAttribute("vnfRetrived.related-to-property[0].property-value", "VALUE");
+        ctx.setAttribute("vmRetrived.vserver-selflink", "URL");
+        ctx.setAttribute("vmRetrived.related-to", "vnfc");
+        ctx.setAttribute("vmRetrived.relationship-data_length", "1");
+        ctx.setAttribute("vmRetrived.relationship-data[0].relationship-key", "vnfc.vnfc-name");
+        ctx.setAttribute("vmRetrived.relationship-data[0].relationship-value", "VALUE");
+        Mockito.when(executeNodeActionSpy.getSvcLogicContext()).thenReturn(ctx);
+        executeNodeActionSpy.getVnfHierarchy(params, SVC_LOGIC_CONTEXT);
+
+        assertEquals("1", SVC_LOGIC_CONTEXT.getAttribute("VNF.VNFCCount"));
+        assertEquals("SUCCESS", SVC_LOGIC_CONTEXT.getAttribute("getVnfHierarchy_result"));
+    }
+
+    @AfterClass
+    public static void restoreLogger() {
+        logger.setLevel(originalLoggerLevel);
+    }
+
 }
