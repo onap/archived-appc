@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +40,7 @@ import org.onap.appc.metricservice.policy.impl.PolicyBuilderFactoryImpl;
 
 public class MetricRegistryImpl implements MetricRegistry {
     private String name;
-    private Map<String,Metric> concurrentMetricMap=new ConcurrentHashMap<String,Metric>();
+    private Map<String, Metric> concurrentMetricMap = new ConcurrentHashMap<>();
 
     public MetricRegistryImpl(String name) {
         this.name = name;
@@ -46,11 +48,7 @@ public class MetricRegistryImpl implements MetricRegistry {
 
     @Override
     public boolean register(Metric metric) {
-        if(concurrentMetricMap.get(metric.name())==null){
-            concurrentMetricMap.put(metric.name(),metric);
-            return true;
-        }
-        return false;
+        return (concurrentMetricMap.putIfAbsent(metric.name(), metric) == null);
     }
 
     @Override
@@ -70,11 +68,7 @@ public class MetricRegistryImpl implements MetricRegistry {
 
     @Override
     public Counter counter(String value) {
-        if(concurrentMetricMap.get(value)!=null )
-            return (Counter)concurrentMetricMap.get(value) ;
-        else
-            return null;
-
+        return (Counter)concurrentMetricMap.get(value);
     }
 
     @Override
