@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3f023f8_e32c0d52",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/main/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:51:54Z",
+      "side": 1,
+      "message": "unless this is needed elsewhere, make it private for consistency?",
+      "revId": "05d32fd6fdce1e083bc0c3640603295b79398e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e1e9775f_4f0afd37",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:51:54Z",
+      "side": 1,
+      "message": "need @AfterClass to restore the original logger?",
+      "revId": "05d32fd6fdce1e083bc0c3640603295b79398e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0112a208_f836b743",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:51:54Z",
+      "side": 1,
+      "message": "since logger was created via: getLogger(ExecuteNodeActionImpl.class), I don\u0027t think line 95 changes anything.  Perhaps line 74 should reference ExecuteNodeActionImplTest.class instead?",
+      "revId": "05d32fd6fdce1e083bc0c3640603295b79398e25",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
