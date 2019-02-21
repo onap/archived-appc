@@ -10,6 +10,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2018 IBM.
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -47,14 +49,13 @@ import com.att.eelf.i18n.EELFResourceManager;
 
 public class ExecuteNodeActionImpl implements ExecuteNodeAction {
 
-    private static final EELFLogger logger = EELFManager.getInstance().getLogger(ExecuteNodeActionImpl.class);
     private static final String RESOURCE_TYPE_PARAM = "resourceType";
     private static final String RESOURCE_KEY_PARAM = "resourceKey";
     private static final String PREFIX_PARAM = "prefix";
     private static final String AAI_RESPONSE_STR = "AAIResponse: ";
     private static final String GET_RESOURCE_RESULT = "getResource_result";
     private static final String SUCCESS_PARAM = "SUCCESS";
-    private static final String RELATIONSHIP_DATA_LEN_PARAM = "relationship-data_length";
+    static final String RELATIONSHIP_DATA_LEN_PARAM = "relationship-data_length";
     private static final String RELATIONSHIP_DATA_STR = "relationship-data[";
     private static final String VNFF_VM_STR = "VNF.VM[";
     private static final String VNF_VNFC_STR = "VNF.VNFC[";
@@ -62,6 +63,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     private static final String ERROR_RETRIEVING_VNFC_HIERARCHY_PARAM = "Error Retrieving VNFC hierarchy";
     private static final String RELATED_TO_PROPERTY_LEN_PARAM = "related-to-property_length";
     public static final String DG_OUTPUT_STATUS_MESSAGE = "output.status.message";
+    private static EELFLogger logger = EELFManager.getInstance().getLogger(ExecuteNodeActionImpl.class);
     private static Map<String, String> vnfHierarchyMap = new ConcurrentHashMap<>();
 
     private static Map<String, Set<String>> vnfcHierarchyMap = new HashMap<>();
@@ -90,7 +92,8 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             logger.info("DG waits for " + Long.parseLong(waitTime) + " milliseconds completed");
         } catch (InterruptedException e) {
             logger.error("Error In ExecuteNodeActionImpl for waitMethod() due to InterruptedException: reason = "
-                    + e.getMessage());
+                    + e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -101,7 +104,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         String resourceKey = params.get(RESOURCE_KEY_PARAM);
 
         if (logger.isDebugEnabled()) {
-            logger.debug("inside getResorce");
+            logger.debug("inside getResource");
             logger.debug("Retrieving " + resourceType + " details from A&AI for Key : " + resourceKey);
         }
 
@@ -190,6 +193,8 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
                                                                 // and tenant-id
                     String key = vnfCtx.getAttribute(vmKey + RELATIONSHIP_DATA_STR + j + "].relationship-key");
                     String value = vnfCtx.getAttribute(vmKey + RELATIONSHIP_DATA_STR + j + "].relationship-value");
+                    System.out.println(vmKey + RELATIONSHIP_DATA_STR + j + "].relationship-key"+"\n"+key);
+
                     vnfHierarchyMap.put(VNFF_VM_STR + vmCount + "]." + key, value);
                     if ("vserver.vserver-id".equals(key)) {
                         vserverID = value;
@@ -223,7 +228,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
                 paramsVm.put(RESOURCE_TYPE_PARAM, "vserver");
                 paramsVm.put(PREFIX_PARAM, "vmRetrived");
                 paramsVm.put(RESOURCE_KEY_PARAM, vmRetrivalKey);
-                SvcLogicContext vmCtx = new SvcLogicContext();
+                SvcLogicContext vmCtx = getSvcLogicContext();
 
                 logger.debug("Retrieving VM details from A&AI");
                 getResource(paramsVm, vmCtx);
@@ -294,7 +299,7 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
         paramsVnf.put(RESOURCE_KEY_PARAM, retrivalVnfKey);
         logger.debug("Retrieving VNF details from A&AI");
         // Retrive all the relations of VNF
-        SvcLogicContext vnfCtx = new SvcLogicContext();
+        SvcLogicContext vnfCtx = getSvcLogicContext();
         getResource(paramsVnf, vnfCtx);
         if (vnfCtx.getAttribute(GET_RESOURCE_RESULT).equals(SUCCESS_PARAM)) {
             trySetHeatStackIDAttribute(ctx, vnfCtx);
@@ -346,6 +351,8 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
     }
 
     private int getAttribute(SvcLogicContext ctx, String key, String param) {
+        System.out.println("key+param" + key + param);
+
         if (ctx.getAttributeKeySet().contains(key + param)) {
             return Integer.parseInt(ctx.getAttribute(key + param));
         }
@@ -388,5 +395,9 @@ public class ExecuteNodeActionImpl implements ExecuteNodeAction {
             }
             vnfcCounter++;
         }
+    }
+
+    protected SvcLogicContext getSvcLogicContext() {
+        return new SvcLogicContext();
     }
 }
