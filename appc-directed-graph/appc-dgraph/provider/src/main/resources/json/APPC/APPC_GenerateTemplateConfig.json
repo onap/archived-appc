@@ -1,310 +1,231 @@
 [
-    {
-        "id": "42b2dfc0.a5c5e",
-        "type": "dgstart",
-        "name": "DGSTART",
-        "outputs": 1,
-        "x": 168,
-        "y": 108,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "d9d88d2e.06e01"
-            ]
-        ]
-    },
-    {
-        "id": "d9d88d2e.06e01",
-        "type": "service-logic",
-        "name": "APPC 4.0.0",
-        "module": "APPC",
-        "version": "4.0.0",
-        "comments": "",
-        "xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
-        "outputs": 1,
-        "x": 320,
-        "y": 107,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "f1a68f7c.b0fd1"
-            ]
-        ]
-    },
-    {
-        "id": "f1a68f7c.b0fd1",
-        "type": "method",
-        "name": "method GenerateTemplateConfig",
-        "xml": "<method rpc='GenerateTemplateConfig' mode='sync'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 560,
-        "y": 110,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "2975bd2f.022512"
-            ]
-        ]
-    },
-    {
-        "id": "2975bd2f.022512",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 180,
-        "y": 171,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "718c80aa.91b87",
-                "cac9421d.229c9"
-            ]
-        ]
-    },
-    {
-        "id": "458ebbd8.86b484",
-        "type": "execute",
-        "name": "execute Merge Data with Template",
-        "xml": "<execute plugin=\"org.onap.sdnc.config.generator.merge.MergeNode\" method=\"mergeJsonDataOnTemplate\">\n<parameter name=\"jsonData\" value=\"`$configuration-params`\" />\n<parameter name=\"templateData\" value=\"`$config-template.file-content`\" />\n<parameter name=\"templateType\" value=\"json\" />\n<parameter name=\"responsePrefix\" value=\"tmp.merge\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 680.5,
-        "y": 378,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "b61648ca.231c98",
-                "95b9fc11.efc86"
-            ]
-        ]
-    },
-    {
-        "id": "b61648ca.231c98",
-        "type": "not-found",
-        "name": "not-found",
-        "xml": "<outcome value='not-found'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 929.5,
-        "y": 346,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "ad78434b.53b5e"
-            ]
-        ]
-    },
-    {
-        "id": "ad78434b.53b5e",
-        "type": "block",
-        "name": "block",
-        "xml": "<block>\n",
-        "atomic": "false",
-        "comments": "",
-        "outputs": 1,
-        "x": 1077.5,
-        "y": 347,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "39a12381.5bf87c"
-            ]
-        ]
-    },
-    {
-        "id": "39a12381.5bf87c",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"Unable to merge template with data\"/>\n\t",
-        "comments": "",
-        "x": 1251.5,
-        "y": 348,
-        "z": "d7c523d9.040c",
-        "wires": []
-    },
-    {
-        "id": "95b9fc11.efc86",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 924.5,
-        "y": 422,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "3e2c957.50e086a"
-            ]
-        ]
-    },
-    {
-        "id": "3e2c957.50e086a",
-        "type": "block",
-        "name": "block",
-        "xml": "<block>\n",
-        "atomic": "false",
-        "comments": "",
-        "outputs": 1,
-        "x": 1072.5,
-        "y": 424,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "4d72da43.0cfe14"
-            ]
-        ]
-    },
-    {
-        "id": "4d72da43.0cfe14",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$tmp.merge.error-message`\"/>\n\t",
-        "comments": "",
-        "x": 1263.5,
-        "y": 423,
-        "z": "d7c523d9.040c",
-        "wires": []
-    },
-    {
-        "id": "718c80aa.91b87",
-        "type": "switchNode",
-        "name": "switch Configuration params exists",
-        "xml": "<switch test='`$configuration-params`'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 425,
-        "y": 170,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "8f31c08f.9dbb2",
-                "4be7f151.48d7f"
-            ]
-        ]
-    },
-    {
-        "id": "baa4370e.36b778",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 664,
-        "y": 237,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "458ebbd8.86b484"
-            ]
-        ]
-    },
-    {
-        "id": "8f31c08f.9dbb2",
-        "type": "success",
-        "name": "outcome:Other",
-        "xml": "<outcome value=\"Other\">",
-        "comments": "",
-        "outputs": 1,
-        "x": 472,
-        "y": 234,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "baa4370e.36b778"
-            ]
-        ]
-    },
-    {
-        "id": "4be7f151.48d7f",
-        "type": "success",
-        "name": "outcome: null",
-        "xml": "<outcome value=''>",
-        "comments": "",
-        "outputs": 1,
-        "x": 765,
-        "y": 165,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "a55c78ed.34cc38"
-            ]
-        ]
-    },
-    {
-        "id": "cac9421d.229c9",
-        "type": "execute",
-        "name": "execute saveTemplateConfig",
-        "xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"saveTemplateConfig\">\n<parameter name=\"responsePrefix\" value=\"tmp.saveTemplateConfig\" />",
-        "comments": "",
-        "outputs": 1,
-        "x": 248,
-        "y": 623,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "6a63d2a.0f3ba2c"
-            ]
-        ]
-    },
-    {
-        "id": "6a63d2a.0f3ba2c",
-        "type": "failure",
-        "name": "failure",
-        "xml": "<outcome value='failure'>\n",
-        "comments": "",
-        "outputs": 1,
-        "x": 458,
-        "y": 623,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "f2ef42ef.faf2a"
-            ]
-        ]
-    },
-    {
-        "id": "f2ef42ef.faf2a",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 625,
-        "y": 625,
-        "z": "d7c523d9.040c",
-        "wires": [
-            [
-                "2fab99ac.fc2306"
-            ]
-        ]
-    },
-    {
-        "id": "2fab99ac.fc2306",
-        "type": "returnFailure",
-        "name": "return failure",
-        "xml": "<return status=\"failure\">\n<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$tmp.saveConfigBlock.error-message`\"/>\n\t\n\t\n\t",
-        "comments": "",
-        "x": 816,
-        "y": 628,
-        "z": "d7c523d9.040c",
-        "wires": []
-    },
-    {
-        "id": "a55c78ed.34cc38",
-        "type": "block",
-        "name": "block : atomic",
-        "xml": "<block atomic=\"true\">",
-        "atomic": "true",
-        "outputs": 1,
-        "x": 955,
-        "y": 167,
-        "z": "d7c523d9.040c",
-        "wires": [
-            []
-        ]
-    }
+	{
+		"id": "fb915354.79436",
+		"type": "dgstart",
+		"name": "DGSTART",
+		"outputs": 1,
+		"x": 185.71429443359375,
+		"y": 113.85714721679688,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"32ee500f.e434c"
+			]
+		]
+	},
+	{
+		"id": "32ee500f.e434c",
+		"type": "service-logic",
+		"name": "APPC 4.0.0",
+		"module": "APPC",
+		"version": "4.0.0",
+		"comments": "",
+		"xml": "<service-logic xmlns='http://www.onap.org/sdnc/svclogic' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='APPC' version='4.0.0'>",
+		"outputs": 1,
+		"x": 337.71429443359375,
+		"y": 112.85714721679688,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"d875ac22.3d21e"
+			]
+		]
+	},
+	{
+		"id": "d875ac22.3d21e",
+		"type": "method",
+		"name": "method GenerateTemplateConfig",
+		"xml": "<method rpc='GenerateTemplateConfig' mode='sync'>\n",
+		"comments": "",
+		"outputs": 1,
+		"x": 577.7142944335938,
+		"y": 115.85714721679688,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"7bc4b323.42b02c"
+			]
+		]
+	},
+	{
+		"id": "7bc4b323.42b02c",
+		"type": "block",
+		"name": "block : atomic",
+		"xml": "<block atomic=\"true\">",
+		"atomic": "true",
+		"outputs": 1,
+		"x": 312,
+		"y": 294.00000190734863,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"6cee4bb1.d02e04",
+				"f25c58a3.e7d068"
+			]
+		]
+	},
+	{
+		"id": "f25c58a3.e7d068",
+		"type": "execute",
+		"name": "execute Merge Data with Template",
+		"xml": "<execute plugin=\"org.onap.sdnc.config.generator.merge.MergeNode\" method=\"mergeJsonDataOnTemplate\">\n<parameter name=\"jsonData\" value=\"`$configuration-params`\" />\n<parameter name=\"templateData\" value=\"`$config-template.file-content`\" />\n<parameter name=\"templateType\" value=\"json\" />\n<parameter name=\"responsePrefix\" value=\"tmp.merge\" />",
+		"comments": "",
+		"outputs": 1,
+		"x": 698.2143173217773,
+		"y": 383.85715770721436,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"8748d41e.19adf8",
+				"2f46c416.83d4ec"
+			]
+		]
+	},
+	{
+		"id": "8748d41e.19adf8",
+		"type": "not-found",
+		"name": "not-found",
+		"xml": "<outcome value='not-found'>\n",
+		"comments": "",
+		"outputs": 1,
+		"x": 947.2143020629883,
+		"y": 351.8571538925171,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"34a3fd2.cf20602"
+			]
+		]
+	},
+	{
+		"id": "34a3fd2.cf20602",
+		"type": "block",
+		"name": "block",
+		"xml": "<block>\n",
+		"atomic": "false",
+		"comments": "",
+		"outputs": 1,
+		"x": 1095.2142944335938,
+		"y": 352.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"26d564dc.44790c"
+			]
+		]
+	},
+	{
+		"id": "26d564dc.44790c",
+		"type": "returnFailure",
+		"name": "return failure",
+		"xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"Unable to merge template with data\"/>\n\t",
+		"comments": "",
+		"x": 1269.2142944335938,
+		"y": 353.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": []
+	},
+	{
+		"id": "2f46c416.83d4ec",
+		"type": "failure",
+		"name": "failure",
+		"xml": "<outcome value='failure'>\n",
+		"comments": "",
+		"outputs": 1,
+		"x": 942.2142944335938,
+		"y": 427.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"a66a5560.4d7848"
+			]
+		]
+	},
+	{
+		"id": "a66a5560.4d7848",
+		"type": "block",
+		"name": "block",
+		"xml": "<block>\n",
+		"atomic": "false",
+		"comments": "",
+		"outputs": 1,
+		"x": 1090.2142944335938,
+		"y": 429.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"d5009eb8.8395f"
+			]
+		]
+	},
+	{
+		"id": "d5009eb8.8395f",
+		"type": "returnFailure",
+		"name": "return failure",
+		"xml": "<return status=\"failure\">\n\t<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$tmp.merge.error-message`\"/>\n\t",
+		"comments": "",
+		"x": 1281.2142944335938,
+		"y": 428.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": []
+	},
+	{
+		"id": "6cee4bb1.d02e04",
+		"type": "execute",
+		"name": "execute saveTemplateConfig",
+		"xml": "<execute plugin=\"org.onap.appc.data.services.node.ConfigResourceNode\" method=\"saveTemplateConfig\">\n<parameter name=\"responsePrefix\" value=\"tmp.saveTemplateConfig\" />",
+		"comments": "",
+		"outputs": 1,
+		"x": 265.71429443359375,
+		"y": 628.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"141ae3dc.42554c"
+			]
+		]
+	},
+	{
+		"id": "141ae3dc.42554c",
+		"type": "failure",
+		"name": "failure",
+		"xml": "<outcome value='failure'>\n",
+		"comments": "",
+		"outputs": 1,
+		"x": 475.71429443359375,
+		"y": 628.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"f2bd3b14.a0a0c8"
+			]
+		]
+	},
+	{
+		"id": "f2bd3b14.a0a0c8",
+		"type": "block",
+		"name": "block : atomic",
+		"xml": "<block atomic=\"true\">",
+		"atomic": "true",
+		"outputs": 1,
+		"x": 642.7142944335938,
+		"y": 630.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": [
+			[
+				"1c5873f6.e3582c"
+			]
+		]
+	},
+	{
+		"id": "1c5873f6.e3582c",
+		"type": "returnFailure",
+		"name": "return failure",
+		"xml": "<return status=\"failure\">\n<parameter name=\"error-code\" value=\"401\"/>\n\t<parameter name=\"error-message\" value=\"`$tmp.saveConfigBlock.error-message`\"/>\n\t\n\t\n\t",
+		"comments": "",
+		"x": 833.7142944335938,
+		"y": 633.8571472167969,
+		"z": "cef4885c.14ee28",
+		"wires": []
+	}
 ]
