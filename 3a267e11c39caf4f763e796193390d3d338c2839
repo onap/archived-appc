@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10fb23ee_607989c8",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T15:25:39Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces\n\nLines 485 \u0026 486 will also throw NPE, so they should be inside the \"if\", too.\n\nsame comments on other lines, too",
+      "revId": "3a267e11c39caf4f763e796193390d3d338c2839",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
