@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e45cb9ef_9c6b77bf",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/core/CoreManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T14:31:57Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "27b1bdc96b0674f1c3a6911ef14bd1cdc38b0cc4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
