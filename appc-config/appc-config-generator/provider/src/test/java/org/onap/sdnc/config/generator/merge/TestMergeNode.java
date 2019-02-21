@@ -69,9 +69,9 @@ public class TestMergeNode {
         Map<String, String> inParams = new HashMap<String, String>();
         inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
         SvcLogicContext ctx = new SvcLogicContext();
-        expectedEx.expect(SvcLogicException.class);
-        expectedEx.expectMessage("JSON Data is missing");
         mergeNode.mergeJsonDataOnTemplate(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
     }
 
     @Test
