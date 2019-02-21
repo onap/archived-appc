@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -224,7 +226,8 @@ class CoreManager{
                 LOG.info("Core manager::graceful shutdown is continue... this <" + this + ">");
                 forceShutdown();
             } catch (InterruptedException e) {
-                e.printStackTrace();
+              LOG.error("Error occured while shutting down ",  e);
+              Thread.currentThread().interrupt();
             }
 
         }
