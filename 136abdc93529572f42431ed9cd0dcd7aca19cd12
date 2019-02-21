@@ -16,6 +16,24 @@
       "revId": "136abdc93529572f42431ed9cd0dcd7aca19cd12",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99f433bf_640588dc",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T14:45:07Z",
+      "side": 1,
+      "message": "According to javadocs, when InterruptedException is caught, then interrupt flag is cleared, thus thread.interrupt() must be invoked again.  This behavior is enforced by sonar, so yes, this should be invoked.\nNote also: invoking thread.interrupt() does not cause an exception to be thrown at this point; flow continues on, thus it does process the testRule status.",
+      "parentUuid": "98aea49e_e19c0390",
+      "revId": "136abdc93529572f42431ed9cd0dcd7aca19cd12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
