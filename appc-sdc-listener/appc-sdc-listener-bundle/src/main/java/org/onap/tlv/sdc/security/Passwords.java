@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,6 +31,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
+import javax.xml.bind.DatatypeConverter;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 /**
  * A copy from the org.onap.sdc:security-utils artifact that works with java 7.
@@ -39,6 +44,7 @@ public class Passwords {
     private static final int SALT = 0;
     private static final int HASH = 1;
     private static final String HASH_ALGORITHM = "SHA-256";
+    private static final EELFLogger log = EELFManager.getInstance().getLogger(Passwords.class);
 
     /**
      * static utility class
@@ -53,10 +59,10 @@ public class Passwords {
      * @return a "salt:hash" value
      */
     public static String hashPassword(String password) {
-        byte[] salt = getNextSalt();
-        byte byteData[] = hash(salt, password.getBytes());
-        if (byteData != null) {
-            return toHex(salt) + ":" + toHex(byteData);
+        if (password != null) {
+            byte[] salt = getNextSalt();
+            byte byteData[] = hash(salt, password.getBytes());
+            return DatatypeConverter.printHexBinary(salt) + ":" + DatatypeConverter.printHexBinary(byteData);
         }
         return null;
 
@@ -84,21 +90,20 @@ public class Passwords {
      * @return true if the password matched the hash
      */
     public static boolean isExpectedPassword(String password, String salt, String hash) {
-        byte[] saltBytes = fromHex(salt);
-        byte[] hashBytes = fromHex(hash);
-
-        byte byteData[] = hash(saltBytes, password.getBytes());
-        if (byteData != null) {
+        byte[] saltBytes = DatatypeConverter.parseHexBinary(salt);
+        byte[] hashBytes = DatatypeConverter.parseHexBinary(hash);
+        if (password != null) {
+            byte byteData[] = hash(saltBytes, password.getBytes());
             return Arrays.equals(byteData, hashBytes);
         }
         return false;
     }
 
     public static void main(String[] args) {
-        if (args.length > 1 || args.length > 0) {
-            System.out.println("[" + hashPassword(args[0]) + "]");
+        if (args.length > 0) {
+            log.info("[" + hashPassword(args[0]) + "]");
         } else {
-            System.out.println("no passward passed.");
+            log.info("no password passed");
         }
 
     }
@@ -130,7 +135,7 @@ public class Passwords {
             md.update(password);
             byteData = md.digest();
         } catch (NoSuchAlgorithmException e) {
-            System.out.println("in vlide algorithem name");
+            log.info("invalid algorithm name", e);
         }
         return byteData;
     }
@@ -142,13 +147,13 @@ public class Passwords {
      *            the hex string
      * @return the hex string decoded into a byte array
      */
-    private static byte[] fromHex(String hex) {
+    /*private static byte[] fromHex(String hex) {
         byte[] binary = new byte[hex.length() / 2];
         for (int i = 0; i < binary.length; i++) {
             binary[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
         }
         return binary;
-    }
+    }*/
 
     /**
      * Converts a byte array into a hexadecimal string.
@@ -157,7 +162,7 @@ public class Passwords {
      *            the byte array to convert
      * @return a length*2 character string encoding the byte array
      */
-    private static String toHex(byte[] array) {
+/*    private static String toHex(byte[] array) {
         BigInteger bi = new BigInteger(1, array);
         String hex = bi.toString(16);
         int paddingLength = (array.length * 2) - hex.length();
@@ -165,5 +170,5 @@ public class Passwords {
             return String.format("%0" + paddingLength + "d", 0) + hex;
         else
             return hex;
-    }
+    }*/
 }
