@@ -53,23 +53,23 @@ public class MergeNode implements SvcLogicJavaPlugin {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";
             String jsonData = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_JSON_DATA);
             if (StringUtils.isBlank(jsonData)) {
-                throw new ParameterMissingException("JSON Data is missing");
-            }
+                log.info("No JSON data to merge with template");
+            } else {
+                String templateData = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA);
+                String templateFile = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE);
 
-            String templateData = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_DATA);
-            String templateFile = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_TEMPLATE_FILE);
+                if (StringUtils.isBlank(templateData) && StringUtils.isBlank(templateFile)) {
+                    throw new ParameterMissingException("Template data or Template file is missing");
+                }
+                if (StringUtils.isBlank(templateData)) {
+                    templateData = IOUtils.toString(
+                        MergeNode.class.getClassLoader().getResourceAsStream(templateFile), "UTF-8");
+                }
 
-            if (StringUtils.isBlank(templateData) && StringUtils.isBlank(templateFile)) {
-                throw new ParameterMissingException("Template data or Template file is missing");
+                Map<String, String> dataMap = JSONTool.convertToProperties(jsonData);
+                log.info("Data Maps created :" + dataMap);
+                trySetContextAttribute(ctx, responsePrefix, templateData, dataMap);
             }
-            if (StringUtils.isBlank(templateData)) {
-                templateData = IOUtils.toString(
-                    MergeNode.class.getClassLoader().getResourceAsStream(templateFile), "UTF-8");
-            }
-
-            Map<String, String> dataMap = JSONTool.convertToProperties(jsonData);
-            log.info("Data Maps created :" + dataMap);
-            trySetContextAttribute(ctx, responsePrefix, templateData, dataMap);
             ctx.setAttribute(responsePrefix + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS,
                 ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS);
             log.info("Data Merge Successful :" + ctx);
