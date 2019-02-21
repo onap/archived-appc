@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "800d08e5_e69c7da7",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:44:04Z",
+      "side": 1,
+      "message": "as this is existing code, my comments below are just suggestions",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3ceb1747_984f7fc8",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:44:04Z",
+      "side": 1,
+      "message": "maybe use putIfAbsent() instead of get/put",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "82e3b785_7741d326",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:44:04Z",
+      "side": 1,
+      "message": "why invoke \"get\" twice?  Could delete the whole method body and just keep line 76.  In addition, assuming Metric is a subclass of Counter, the cast is not needed.",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d799fa2_808aef4f",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:44:04Z",
+      "side": 1,
+      "message": "Has it been verified that the return value really is a Counter[]?  Assuming Metric is a subclass of Counter, perhaps the toArray(Counter[]) method should be used instead, thus eliminating the need to cast AND ensuring that the correct type of array is returned.",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b7e3bdd_5713ccca",
+        "filename": "appc-metric/appc-metric-bundle/src/test/java/org/onap/appc/metricservice/impl/MetricRegistryImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:44:04Z",
+      "side": 1,
+      "message": "sonar: extract \"NAME\" as a constant",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5a80e92e_438ffdef",
+        "filename": "appc-metric/appc-metric-bundle/src/test/java/org/onap/appc/metricservice/impl/MetricRegistryImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T19:44:04Z",
+      "side": 1,
+      "message": "suggestions: could use assertSame to verify that counter() and metric() both return the original \"metric\" object.  Might also consider adding a second metric and verifying that the methods return the correct metric object when invoked with different names.",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
