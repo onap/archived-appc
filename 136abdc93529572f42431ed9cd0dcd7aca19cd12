@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98aea49e_e19c0390",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 3201
+      },
+      "writtenOn": "2019-02-21T05:26:13Z",
+      "side": 1,
+      "message": "Did you verify if the current thread has to be interrupted? and not to continue the thread to set error message in the DG\u0027s Context?",
+      "revId": "136abdc93529572f42431ed9cd0dcd7aca19cd12",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
