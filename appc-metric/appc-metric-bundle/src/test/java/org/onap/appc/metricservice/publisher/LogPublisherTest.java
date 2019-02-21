@@ -1,0 +1,39 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2019 Ericsson
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ============LICENSE_END=========================================================
+ */
+
+package org.onap.appc.metricservice.publisher;
+
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.onap.appc.metricservice.impl.MetricRegistryImpl;
+import org.onap.appc.metricservice.metric.Metric;
+
+public class LogPublisherTest {
+
+    @Test
+    public void testLogPublisher() {
+        LogPublisher publisher = new LogPublisher(new MetricRegistryImpl(null), null);
+        Metric metric = Mockito.mock(Metric.class);
+        publisher.publish(new MetricRegistryImpl(null), new Metric[] {metric});
+        Mockito.verify(metric).name();
+    }
+
+}

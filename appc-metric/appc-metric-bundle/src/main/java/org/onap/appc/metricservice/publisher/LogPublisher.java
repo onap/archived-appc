@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,7 +45,7 @@ public class LogPublisher implements Publisher {
     @Override
     public void publish(MetricRegistry metricRegistry, Metric[] metrics) {
         for(Metric metric:metrics){
-            logger.debug("LOG PUBLISHER:"+metric.name()+":"+metric.toString());
+            logger.debug("LOG PUBLISHER:" + metric.name() + ":" + metric.toString());
         }
     }
 
