@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baed9378_3153ec98",
+        "filename": "appc-config/appc-data-services/provider/src/main/java/org/onap/appc/data/services/db/DGGeneralDBService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T14:37:19Z",
+      "side": 1,
+      "message": "why aren\u0027t we just passing the prefix, unchanged, to startsWith?  Seems like the method name, cleanContextPropertyByPrefix, indicates that that\u0027s what should be happening.  If we REALLY want to use \".\" as the prefix, then we can remove line 246 altogether and just invoke startsWith(\".\") - and also add a comment somewhere explaining why we\u0027re checking \".\" instead of the \"prefix\" that was passed to the method",
+      "revId": "cc2baff0c049030435673249561ff193aa224a10",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
