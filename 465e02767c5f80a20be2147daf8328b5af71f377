@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "5c4e8890_fed710fb",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/ProviderStackOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T14:46:57Z",
+      "side": 1,
+      "message": "According to javadocs, when InterruptedException is caught, then interrupt flag is cleared, thus thread.interrupt() must be invoked again.  This behavior is enforced by sonar, so yes, this should be invoked.\nNote also: invoking thread.interrupt() does not cause an exception to be thrown at this point; flow continues on, thus it does process the testRule status.",
+      "parentUuid": "560b8a5c_80be2656",
+      "revId": "465e02767c5f80a20be2147daf8328b5af71f377",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d5c8bb1_584f98f7",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/ProviderStackOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T14:46:57Z",
+      "side": 1,
+      "message": "may want to add \"e\" as another parameter to \"trace()\"",
+      "revId": "465e02767c5f80a20be2147daf8328b5af71f377",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96f901ec_a48b404e",
         "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/ProviderStackOperation.java",
         "patchSetId": 1
@@ -30,6 +65,24 @@
       "writtenOn": "2019-02-21T05:24:12Z",
       "side": 1,
       "message": "Did you verify if the current thread has to be interrupted? and not to continue the thread to set error message in the DG\u0027s Context?",
+      "revId": "465e02767c5f80a20be2147daf8328b5af71f377",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c965d860_c76e3100",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/main/java/org/onap/appc/adapter/iaas/provider/operation/impl/base/ProviderStackOperation.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T14:46:57Z",
+      "side": 1,
+      "message": "same reply as above",
+      "parentUuid": "96f901ec_a48b404e",
       "revId": "465e02767c5f80a20be2147daf8328b5af71f377",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
