@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "158aaf63_befc412d",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/tlv/sdc/security/Passwords.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:05:18Z",
+      "side": 1,
+      "message": "don\u0027t need \"length \u003e 0\" check",
+      "revId": "30279f9b04de7ce92a7f439efb7ddb3305f147a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58bb0def_034dae4f",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/tlv/sdc/security/Passwords.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:05:18Z",
+      "side": 1,
+      "message": "add \"e\" as an additional parameter to eliminate a sonar issue",
+      "revId": "30279f9b04de7ce92a7f439efb7ddb3305f147a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b47a3055_609b5ac8",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/tlv/sdc/security/Passwords.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:05:18Z",
+      "side": 1,
+      "message": "could delete this whole method and just use the built-in: DatatypeConverter.parseHexBinary()",
+      "revId": "30279f9b04de7ce92a7f439efb7ddb3305f147a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdda50c4_bc6e9f7a",
+        "filename": "appc-sdc-listener/appc-sdc-listener-bundle/src/main/java/org/onap/tlv/sdc/security/Passwords.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-21T18:05:18Z",
+      "side": 1,
+      "message": "could delete this whole method and just use the built-in: DatatypeConverter.printHexBinary()",
+      "revId": "30279f9b04de7ce92a7f439efb7ddb3305f147a9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
