@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "fe6eaa81_eba15805",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T13:04:41Z",
+      "side": 1,
+      "message": "ok.  Could still eliminate all but line 72",
+      "parentUuid": "a05921cd_951c9e49",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d799fa2_808aef4f",
         "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
         "patchSetId": 1
@@ -136,6 +154,24 @@
       "side": 1,
       "message": "The inheritance is in the other direction and I think this code could be faulty. I will look into it and write a bug separate from the test coverage review to isolate the functional changes from reviews which are mostly test code.",
       "parentUuid": "3d799fa2_808aef4f",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb0c7ad2_9d8b2ad1",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T13:04:41Z",
+      "side": 1,
+      "message": "sounds good",
+      "parentUuid": "fb56e90c_340a36df",
       "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
