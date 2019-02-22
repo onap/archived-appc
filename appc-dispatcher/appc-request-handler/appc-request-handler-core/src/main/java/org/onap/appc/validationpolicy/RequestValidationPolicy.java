@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,12 +87,12 @@ public class RequestValidationPolicy {
                     Set<VNFOperation> exclusionSet = null;
                     if (ruleDTO.getInclusionList() != null && !ruleDTO.getInclusionList().isEmpty()) {
                         inclusionSet = ruleDTO.getInclusionList().stream()
-                                .map(VNFOperation::findByString).filter(operation -> operation!=null)
+                                .map(VNFOperation::findByString).filter(operation -> operation != null)
                                 .collect(Collectors.toSet());
                     }
                     if (ruleDTO.getExclusionList() != null && !ruleDTO.getExclusionList().isEmpty()) {
                         exclusionSet = ruleDTO.getExclusionList().stream()
-                                .map(VNFOperation::findByString).filter(operation -> operation!=null)
+                                .map(VNFOperation::findByString).filter(operation -> operation != null)
                                 .collect(Collectors.toSet());
                     }
                     org.onap.appc.validationpolicy.rules.Rule rule = RuleFactory
@@ -100,7 +102,7 @@ public class RequestValidationPolicy {
                 actionInProgressRuleExecutor = new ActionInProgressRuleExecutor(Collections.unmodifiableMap(rules));
             });
         } catch (Exception e) {
-            logger.error("Error reading request validation policies",e);
+            logger.error("Error reading request validation policies", e);
         }
     }
 
@@ -112,9 +114,9 @@ public class RequestValidationPolicy {
                        "GROUP BY ARTIFACT_NAME";
         ArrayList<String> arguments = new ArrayList<>();
         arguments.add("request_validation_policy");
-        String jsonContent =null;
+        String jsonContent = null;
         try{
-            CachedRowSet rowSet = dbLibService.getData(query,arguments,schema);
+            CachedRowSet rowSet = dbLibService.getData(query, arguments, schema);
             if(rowSet.next()){
                 jsonContent = rowSet.getString("ARTIFACT_CONTENT");
             }
@@ -126,14 +128,14 @@ public class RequestValidationPolicy {
             }
         }
         catch(SQLException e){
-            logger.error("Error accessing database",e);
+            logger.error("Error accessing database", e);
             throw new RuntimeException(e);
         }
         return jsonContent;
     }
 
     public RuleExecutor getInProgressRuleExecutor(){
-        if(actionInProgressRuleExecutor ==null){
+        if(actionInProgressRuleExecutor == null){
             throw new RuntimeException("Rule executor not available, initialization of RequestValidationPolicy failed");
         }
         return actionInProgressRuleExecutor;
