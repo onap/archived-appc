@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a3d40b76_a3cb1999",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 5049
+      },
+      "writtenOn": "2019-02-22T15:15:14Z",
+      "side": 1,
+      "message": "As entitlementPoolUuid field is private and there is not getter method in it so could not able to assert it.",
+      "parentUuid": "c72a9e5b_8ee626e8",
+      "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18578083_82032e53",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "bde2a460_85f14f33",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 5049
+      },
+      "writtenOn": "2019-02-22T15:15:14Z",
+      "side": 1,
+      "message": "As licenseKeyGroupUuid field is private and there is not getter method in it so could not able to assert it.",
+      "parentUuid": "18578083_82032e53",
+      "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "790ec981_491abdc4",
         "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-02-21T18:52:37Z",
       "side": 1,
       "message": "is there a way to cause it to return true, so that that can be verified, too?",
+      "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d16df8d8_a72ca597",
+        "filename": "appc-dispatcher/appc-license-manager/appc-license-manager-api/src/test/java/org/onap/appc/licmgr/LicenseModelBuilderTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 5049
+      },
+      "writtenOn": "2019-02-22T15:15:14Z",
+      "side": 1,
+      "message": "Could not find a way to make it true.",
+      "parentUuid": "790ec981_491abdc4",
       "revId": "5d12fdd3342615ca555720a389fe697a3a2b2225",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
