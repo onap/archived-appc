@@ -49,6 +49,11 @@ limitations under the License.
             <type>xml</type>
             <classifier>features</classifier>
         </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.opendaylight.controller</groupId> -->
+<!--             <artifactId>config-api</artifactId> -->
+<!--             <version>0.8.4</version> -->
+<!--         </dependency> -->
         <dependency>
             <groupId>org.openecomp.sdc.common</groupId>
             <artifactId>openecomp-tosca-datatype</artifactId>
