@@ -43,7 +43,7 @@ import org.osgi.framework.ServiceRegistration;
 public class AnsibleActivatorTest {
 
     @Mock
-    private ServiceRegistration<AnsibleAdapter> serviceRegistration;
+    private ServiceRegistration serviceRegistration;
     @Mock
     private BundleContext bundleContext;
 
