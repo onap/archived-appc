@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9b10131_fd007ad5",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/policy/impl/ScheduledPublishingPolicyImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:17:15Z",
+      "side": 1,
+      "message": "\"*\" \u003d\u003e \" * \"?",
+      "revId": "fff1f84fed6d21b73d2e8b6e285dfdd8fe3c4be6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
