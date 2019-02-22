@@ -6,7 +6,7 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
- * Copyright (C) 2018 Ericsson. All rights reserved.
+ * Copyright (C) 2018-2019 Ericsson. All rights reserved.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,9 @@ import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.message.BasicHttpResponse;
 import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.internal.util.reflection.Whitebox;
@@ -110,6 +112,8 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
     private LockManager lockManager;
     private LCMStateManager lcmStateManager;
 
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -213,7 +217,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         Mockito.when(workflowManager.workflowExists(Mockito.any(WorkflowRequest.class))).thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
-        CommonHeader commonHeader = returnResponseContextCommonHeader(responseContext);
+        returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
         HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
@@ -268,7 +272,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
             .thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
-        CommonHeader commonHeader = returnResponseContextCommonHeader(responseContext);
+        returnResponseContextCommonHeader(responseContext);
         impl.validateRequest(runtimeContext);
     }
 
@@ -309,7 +313,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
             .thenReturn(workflowExistsOutput);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
-        CommonHeader commonHeader = returnResponseContextCommonHeader(responseContext);
+        returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
         HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
@@ -351,7 +355,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         Mockito.when(workflowExistsOutput.isMappingExist()).thenReturn(false);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
-        CommonHeader commonHeader = returnResponseContextCommonHeader(responseContext);
+        returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
         HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");;
         httpResponse.setEntity(getHttpEntity());
@@ -384,7 +388,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         Mockito.when(workflowExistsOutput.isDgExist()).thenReturn(false);
         impl.setWorkflowManager(workflowManager);
         ResponseContext responseContext = runtimeContext.getResponseContext();
-        CommonHeader commonHeader = returnResponseContextCommonHeader(responseContext);
+        returnResponseContextCommonHeader(responseContext);
         RestClientInvoker client = mock(RestClientInvoker.class);
         HttpResponse httpResponse = new BasicHttpResponse(new ProtocolVersion("HTTP",1,0), 200, "ACCEPTED");
         httpResponse.setEntity(getHttpEntity());
@@ -402,7 +406,7 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
 
     @Test
     public void testLogInProgressTransactions() {
-        ArrayList<TransactionRecord> trArray = new ArrayList();
+        ArrayList<TransactionRecord> trArray = new ArrayList<>();
         TransactionRecord tr = new TransactionRecord();
         tr.setRequestState(RequestStatus.ACCEPTED);
         tr.setStartTime(Instant.now().minus(48, ChronoUnit.HOURS));
@@ -411,6 +415,31 @@ public class RequestValidatorImplTest implements LocalRequestHanlderTestHelper {
         String loggedMessage = impl.logInProgressTransactions(trArray, 1, 1);
         String partMessage = "In Progress transaction for Target ID - Vnf001 in state ACCEPTED";
         assertTrue(StringUtils.contains(loggedMessage, partMessage));
+    }
+
+    @Test
+    public void testWithTransactionWindowNumberFormatException() throws APPCException {
+        Properties properties = new Properties();
+        properties.put(RequestValidatorImpl.TRANSACTION_WINDOW_HOURS, "TEST");
+        properties.put(RequestValidatorImpl.SCOPE_OVERLAP_ENDPOINT, "TEST");
+        Configuration config = Mockito.mock(Configuration.class);
+        Mockito.when(config.getProperties()).thenReturn(properties);
+        Whitebox.setInternalState(impl, "configuration", config);
+        expectedEx.expect(APPCException.class);
+        expectedEx.expectMessage("RequestValidatorImpl:::Error parsing transaction window interval!");
+        impl.initialize();
+    }
+
+    @Test
+    public void testWithTransactionWindow() throws APPCException {
+        Properties properties = new Properties();
+        properties.put(RequestValidatorImpl.TRANSACTION_WINDOW_HOURS, "1");
+        properties.put(RequestValidatorImpl.SCOPE_OVERLAP_ENDPOINT, "http://server:80");
+        Configuration config = Mockito.mock(Configuration.class);
+        Mockito.when(config.getProperties()).thenReturn(properties);
+        Whitebox.setInternalState(impl, "configuration", config);
+        impl.initialize();
+        assertTrue(Whitebox.getInternalState(impl, "client") instanceof RestClientInvoker);
     }
 
     private RuntimeContext createRequestValidatorInput() {
