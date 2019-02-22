@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   Modifications Copyright (C) 2019 Ericsson
   ================================================================================
@@ -81,7 +81,11 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
 
 	</dependencies>

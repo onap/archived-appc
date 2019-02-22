@@ -95,8 +95,8 @@ limitations under the License.
         <odl.mdsal.version>1.6.1</odl.mdsal.version>
         <odl.mdsal.features.version>2.3.1</odl.mdsal.features.version>
         <odl.yang.jmx.generator.version>0.7.1</odl.yang.jmx.generator.version>
-        <odl.ietf-yang-types.version>2010.09.24.11.1</odl.ietf-yang-types.version>
-        <odl.ietf-inet-types.version>2010.09.24.11.1</odl.ietf-inet-types.version>
+        <odl.ietf-yang-types.version>2013.07.15.13.1</odl.ietf-yang-types.version>
+        <odl.ietf-inet-types.version>1.5.1</odl.ietf-inet-types.version>
         <odl.controller.config.api.version>0.7.1</odl.controller.config.api.version>
         <odl.commons.opendaylight.version>2.0.5</odl.commons.opendaylight.version>
         <odl.karaf.empty.distro.version>1.8.3-Carbon</odl.karaf.empty.distro.version>
@@ -271,12 +271,12 @@ limitations under the License.
             </dependency>
             <dependency>
                 <groupId>org.opendaylight.mdsal.model</groupId>
-                <artifactId>ietf-inet-types</artifactId>
+                <artifactId>ietf-inet-types-2013-07-15</artifactId>
                 <version>${odl.ietf-inet-types.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.opendaylight.mdsal.model</groupId>
-                <artifactId>ietf-yang-types</artifactId>
+                <artifactId>ietf-yang-types-20130715</artifactId>
                 <version>${odl.ietf-yang-types.version}</version>
             </dependency>
             <!-- CURRENTLY DOES NOT EXIST IN 3.0. Replacement? -->
