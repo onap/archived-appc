@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24301d82_cdb5fadc",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T14:19:35Z",
+      "side": 1,
+      "message": "what happened to the putIfAbsent change?",
+      "revId": "11167a38442267ddad411c0e7fe298395d298030",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
