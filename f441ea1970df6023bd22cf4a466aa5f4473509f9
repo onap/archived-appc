@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2efd5ae2_b87390d7",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T16:18:23Z",
+      "side": 1,
+      "message": "Need IBM license?",
+      "revId": "f441ea1970df6023bd22cf4a466aa5f4473509f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecf9b19b_b7a3749a",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T16:18:23Z",
+      "side": 1,
+      "message": "add:\nThread.currentThread().interrupt()",
+      "revId": "f441ea1970df6023bd22cf4a466aa5f4473509f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05818c15_e37fa7ff",
+        "filename": "appc-outbound/appc-aai-client/provider/src/main/java/org/onap/appc/aai/client/aai/AaiService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T16:18:23Z",
+      "side": 1,
+      "message": "need IBM license?",
+      "revId": "f441ea1970df6023bd22cf4a466aa5f4473509f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
