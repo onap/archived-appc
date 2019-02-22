@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +33,6 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.commons.lang.ObjectUtils;
 import org.onap.appc.domainmodel.lcm.ResponseContext;
@@ -69,14 +70,14 @@ public class MessageAdapterImpl implements MessageAdapter{
 
     private Producer getProducer() {
         configuration = ConfigurationFactory.getConfiguration();
-        Properties properties=configuration.getProperties();
+        Properties properties = configuration.getProperties();
         updateProperties(properties);
-        
+
         BundleContext ctx = FrameworkUtil.getBundle(MessageAdapterImpl.class).getBundleContext();
         if (ctx != null) {
             ServiceReference svcRef = ctx.getServiceReference(MessageAdapterFactory.class.getName());
             if (svcRef != null) {
-                producer = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopic,apiKey, apiSecret);
+                producer = ((MessageAdapterFactory) ctx.getService(svcRef)).createProducer(pool, writeTopic, apiKey, apiSecret);
             }
         }
         return producer;
@@ -85,7 +86,7 @@ public class MessageAdapterImpl implements MessageAdapter{
 
     private void updateProperties(Properties props) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Entering to updateProperties with Properties = "+ ObjectUtils.toString(props));
+            logger.trace("Entering to updateProperties with Properties = " + ObjectUtils.toString(props));
         }
         pool = new HashSet<>();
         if (props != null) {
@@ -124,18 +125,18 @@ public class MessageAdapterImpl implements MessageAdapter{
                 logger.debug("DMaaP Response = " + jsonMessage);
             }
             logger.debug("Before Invoking producer.post(): jsonMessage is::" + jsonMessage);
-            success  = producer.post(this.partition, jsonMessage);
+            success = producer.post(this.partition, jsonMessage);
             logger.debug("After Invoking producer.post()");
         } catch (JsonProcessingException e1) {
-            logger.error("Error generating Json from DMaaP message "+ e1.getMessage());
-            success= false;
+            logger.error("Error generating Json from DMaaP message " + e1.getMessage());
+            success = false;
         }catch (Exception e){
-            logger.error("Error sending message to DMaaP "+e.getMessage());
-            success= false;
+            logger.error("Error sending message to DMaaP " + e.getMessage());
+            success = false;
         }
         logger.debug("Exiting MesageAdapterImpl.post()");
         if (logger.isTraceEnabled()) {
-            logger.trace("Exiting from post with (success = "+ ObjectUtils.toString(success)+")");
+            logger.trace("Exiting from post with (success = " + ObjectUtils.toString(success) + ")");
         }
         return success;
     }
