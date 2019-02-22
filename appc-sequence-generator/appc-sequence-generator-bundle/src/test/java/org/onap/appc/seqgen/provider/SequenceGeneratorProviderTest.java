@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.sequencegenerator.rev170706.GenerateSequenceInputBuilder;
@@ -56,7 +56,7 @@ public class SequenceGeneratorProviderTest {
 
     private DataBroker dataBroker = Mockito.mock(DataBroker.class);
     private RpcProviderRegistry rpcRegistry = Mockito.mock(RpcProviderRegistry.class);
-    private NotificationProviderService notificationService = Mockito.mock(NotificationProviderService.class);
+    private NotificationPublishService notificationService = Mockito.mock(NotificationPublishService.class);
 
     @Test
     public void testClose() throws Exception {

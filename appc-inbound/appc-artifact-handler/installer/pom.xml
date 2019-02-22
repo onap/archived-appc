@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,8 +45,8 @@
 		<dependency>
 			<groupId>org.onap.appc</groupId>
 			<artifactId>onap-appc-artifact-handler</artifactId>
-			<classifier>features</classifier>
 			<version>${project.version}</version>
+			<classifier>features</classifier>
 			<type>xml</type>
 			<exclusions>
 				<exclusion>
@@ -60,7 +60,6 @@
 			<artifactId>appc-artifact-handler-provider</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		
 
 	</dependencies>
 

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -26,8 +26,6 @@
 
 package org.onap.appc.interfaces.service;
 
-import java.util.concurrent.Future;
-
 import org.opendaylight.yang.gen.v1.org.onap.appc.interfaces.service.rev170818.ExecuteServiceInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.interfaces.service.rev170818.ExecuteServiceOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.interfaces.service.rev170818.ExecuteServiceOutputBuilder;
@@ -41,13 +39,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 public class InterfacesServiceProviderImpl implements InterfacesServiceService{
 
     private static final Logger log = LoggerFactory.getLogger(InterfacesServiceProviderImpl.class);
 
     @Override
-    public Future<RpcResult<ExecuteServiceOutput>> executeService(ExecuteServiceInput input) {
+    public ListenableFuture<RpcResult<ExecuteServiceOutput>> executeService(ExecuteServiceInput input) {
 
         log.info("Received Request: " + input.getRequest().getRequestId() + " Action : " + 
                 input.getRequest().getAction() + " with RequestData  :" + input.getRequest().getRequestData() + " and data-Type : " + input.getRequest().getRequestDataType());
