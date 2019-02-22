@@ -16,6 +16,24 @@
       "revId": "267c5a393e86b03c148309411046906b7b001610",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c819405c_853214dc",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T14:10:46Z",
+      "side": 1,
+      "message": "This is done to get the coverage of the isLoggerDebugEnabled blocks. It can be taken out altogether if it is not permissible.",
+      "parentUuid": "3ccc47fb_38c73a7c",
+      "revId": "267c5a393e86b03c148309411046906b7b001610",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
