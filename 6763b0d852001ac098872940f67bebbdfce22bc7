@@ -52,6 +52,24 @@
       "revId": "6763b0d852001ac098872940f67bebbdfce22bc7",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "437911a0_4d879e62",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T16:47:42Z",
+      "side": 1,
+      "message": "I was surprised too, that\u0027s why I hadn\u0027t even checked the API before starting the build! Good point on the no need for the Whitebox.",
+      "parentUuid": "0cd59bb6_0be06849",
+      "revId": "6763b0d852001ac098872940f67bebbdfce22bc7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
