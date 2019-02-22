@@ -24,19 +24,14 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
-import static org.powermock.api.mockito.PowerMockito.mockStatic;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFLogger.Level;
-import com.att.eelf.configuration.EELFManager;
-
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.onap.appc.domainmodel.lcm.ActionIdentifiers;
@@ -54,19 +49,32 @@ import org.onap.appc.executor.objects.LCMCommandStatus;
 import org.onap.appc.lockmanager.api.LockException;
 import org.onap.appc.messageadapter.MessageAdapter;
 import org.onap.appc.metricservice.MetricRegistry;
+import org.onap.appc.metricservice.MetricService;
 import org.onap.appc.metricservice.impl.MetricRegistryImpl;
+import org.onap.appc.metricservice.metric.DispatchingFunctionCounterBuilder;
+import org.onap.appc.metricservice.metric.DispatchingFuntionMetric;
+import org.onap.appc.metricservice.metric.MetricBuilderFactory;
 import org.onap.appc.metricservice.metric.MetricType;
 import org.onap.appc.metricservice.metric.impl.DispatchingFuntionMetricImpl;
+import org.onap.appc.metricservice.policy.PolicyBuilderFactory;
+import org.onap.appc.metricservice.policy.PublishingPolicy;
+import org.onap.appc.metricservice.policy.ScheduledPolicyBuilder;
 import org.onap.appc.requesthandler.exceptions.RequestValidationException;
 import org.onap.appc.requesthandler.helper.RequestValidator;
 import org.onap.appc.requesthandler.objects.RequestHandlerInput;
 import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 import org.onap.appc.transactionrecorder.TransactionRecorder;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
+import org.osgi.framework.ServiceReference;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFLogger.Level;
+import com.att.eelf.configuration.EELFManager;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({FrameworkUtil.class})
@@ -74,6 +82,13 @@ public class AbstractRequestHandlerImplTest implements LocalRequestHanlderTestHe
 
     private AbstractRequestHandlerImpl requestHandler;
     private TransactionRecorder recorder;
+    private final BundleContext bundleContext = Mockito.mock(BundleContext.class);
+    private final Bundle bundleService = Mockito.mock(Bundle.class);
+    private final ServiceReference sref = Mockito.mock(ServiceReference.class);
+    private final MetricService metricService = Mockito.mock(MetricService.class);
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
 
     @Before
     public void setUp() throws Exception {
@@ -184,6 +199,47 @@ public class AbstractRequestHandlerImplTest implements LocalRequestHanlderTestHe
         Mockito.doReturn(19).when(recorder).getInProgressRequestsCount();
         i = requestHandler.getInprogressRequestCount();
         Assert.assertEquals(19, i);
+    }
+
+    @Test
+    public void testMetric() throws Exception {
+        PowerMockito.mockStatic(FrameworkUtil.class);
+        PowerMockito.when(FrameworkUtil.getBundle(MetricService.class)).thenReturn(bundleService);
+        PowerMockito.when(bundleService.getBundleContext()).thenReturn(bundleContext);
+        PowerMockito.when(bundleContext.getServiceReference(MetricService.class.getName())).thenReturn(sref);
+        PowerMockito.when(bundleContext.getService(sref)).thenReturn(metricService);
+        MetricRegistry metricRegistry = Mockito.mock(MetricRegistry.class);
+        DispatchingFuntionMetric dispatchingFunctionMetric = Mockito.mock(DispatchingFuntionMetric.class);
+        DispatchingFunctionCounterBuilder dispatchingFunctionCounterBuilder = Mockito.mock(DispatchingFunctionCounterBuilder.class);
+        MetricBuilderFactory metricBuilderFactory = Mockito.mock(MetricBuilderFactory.class);
+        Mockito.when(dispatchingFunctionCounterBuilder.withName("DISPATCH_FUNCTION")).thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withType(MetricType.COUNTER)).thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withAcceptRequestValue(0)).thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.withRejectRequestValue(0)).thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(dispatchingFunctionCounterBuilder.build()).thenReturn(dispatchingFunctionMetric);
+        Mockito.when(metricBuilderFactory.dispatchingFunctionCounterBuilder()).thenReturn(dispatchingFunctionCounterBuilder);
+        Mockito.when(metricRegistry.metricBuilderFactory()).thenReturn(metricBuilderFactory);
+        Mockito.when(metricService.createRegistry("APPC")).thenReturn(metricRegistry);
+        Mockito.when(metricRegistry.register(dispatchingFunctionMetric)).thenReturn(true);
+
+        PublishingPolicy publishingPolicy = Mockito.mock(PublishingPolicy.class);
+        PolicyBuilderFactory policyBuilderFactory = Mockito.mock(PolicyBuilderFactory.class);
+        ScheduledPolicyBuilder scheduledPolicyBuilder = Mockito.mock(ScheduledPolicyBuilder.class);
+        Mockito.when(policyBuilderFactory.scheduledPolicyBuilder()).thenReturn(scheduledPolicyBuilder);
+        Mockito.when(scheduledPolicyBuilder.withPublishers(Mockito.any())).thenReturn(scheduledPolicyBuilder);
+        Mockito.when(scheduledPolicyBuilder.withMetrics(Mockito.any())).thenReturn(scheduledPolicyBuilder);
+        Mockito.when(scheduledPolicyBuilder.build()).thenReturn(publishingPolicy);
+        Mockito.when(metricRegistry.policyBuilderFactory()).thenReturn(policyBuilderFactory);
+        Whitebox.invokeMethod(requestHandler, "initMetric");
+        Mockito.verify(publishingPolicy).init();
+    }
+
+    @Test
+    public void testMetricNullMetricService() throws Exception {
+        expectedEx.expect(NullPointerException.class);
+        expectedEx.expectMessage("org.onap.appc.metricservice.MetricService is null. " +
+                    "Failed to init Metric");
+        Whitebox.invokeMethod(requestHandler, "initMetric");
     }
 
     private RequestHandlerInput setupTestForHandleRequest() {
