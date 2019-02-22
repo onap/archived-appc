@@ -34,6 +34,24 @@
       "revId": "267c5a393e86b03c148309411046906b7b001610",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b8a0d37_f5a22de0",
+        "filename": "appc-dg-util/appc-dg-util-bundle/src/test/java/org/onap/appc/dg/util/impl/ExecuteNodeActionImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T14:17:23Z",
+      "side": 1,
+      "message": "OK, so maybe I misunderstood the original intent.  I guess rather than saving and restoring the original logger, all that has to be saved and restored is the original logging level.",
+      "parentUuid": "c819405c_853214dc",
+      "revId": "267c5a393e86b03c148309411046906b7b001610",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
