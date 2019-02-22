@@ -41,7 +41,7 @@ import org.osgi.framework.ServiceRegistration;
 public class ChefActivatorTest {
 
     @Mock
-    private ServiceRegistration<ChefAdapter> serviceRegistration;
+    private ServiceRegistration serviceRegistration;
     @Mock
     private BundleContext bundleContext;
 

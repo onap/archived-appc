@@ -25,20 +25,10 @@
 
 package org.onap.appc.artifact.handler;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
+import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
+import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.controller.md.sal.binding.api.DataChangeListener;
 import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
-import org.opendaylight.controller.md.sal.binding.api.WriteTransaction;
-import org.opendaylight.controller.md.sal.common.api.data.AsyncDataChangeEvent;
-import org.opendaylight.controller.md.sal.common.api.data.LogicalDatastoreType;
-import org.opendaylight.controller.md.sal.common.api.data.TransactionCommitFailedException;
-import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.ArtifactHandlerService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactInput;
@@ -46,100 +36,39 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.Uplo
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactOutput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.UploadartifactOutputBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.artifacthandler.rev170321.uploadartifact.output.ConfigDocumentResponseBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.Services;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.controller.config.rev130405.ServicesBuilder;
-import org.opendaylight.yangtools.concepts.ListenerRegistration;
-import org.opendaylight.yangtools.yang.binding.DataObject;
-import org.opendaylight.yangtools.yang.binding.InstanceIdentifier;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
-import org.onap.appc.artifact.handler.utils.ArtifactHandlerProviderUtil;
-import org.onap.appc.artifact.handler.utils.SdcArtifactHandlerConstants;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
-import com.google.common.util.concurrent.CheckedFuture;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
-
-
-public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerService, DataChangeListener {
+public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerService {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(ArtifactHandlerProvider.class);
     private final String appName = "ArtifactsHandler";
-    private final ExecutorService executor;
     protected DataBroker dataBroker;
     protected NotificationPublishService notificationService;
     protected RpcProviderRegistry rpcRegistry;
-    private ListenerRegistration<DataChangeListener> dclServices;
-
-    protected BindingAwareBroker.RpcRegistration<ArtifactHandlerService> rpcRegistration;
-
-    public ArtifactHandlerProvider(DataBroker dataBroker2,
-            NotificationPublishService notificationProviderService,
+    
+    public ArtifactHandlerProvider(DataBroker dataBroker2, NotificationPublishService notificationProviderService,
             RpcProviderRegistry rpcProviderRegistry) {
         this.log.info("Creating provider for " + appName);
-        executor = Executors.newFixedThreadPool(10);
         dataBroker = dataBroker2;
         notificationService = notificationProviderService;
         rpcRegistry = rpcProviderRegistry;
         initialize();
-
     }
-
+    
     public void initialize() {
         log.info("Initializing provider for " + appName);
-        // Create the top level containers
-        createContainers();
         try {
             ArtifactHandlerProviderUtil.loadProperties();
         } catch (Exception e) {
             log.error("Caught exception while trying to load properties file", e);
         }
-        // Listener for changes to Services tree
-
         log.info("Initialization complete for " + appName);
-    }
-    private void createContainers() {
-        final WriteTransaction t = dataBroker.newReadWriteTransaction();
-        // Create the Services container
-        t.merge(LogicalDatastoreType.CONFIGURATION,InstanceIdentifier.create(Services.class),new ServicesBuilder().build());
-        t.merge(LogicalDatastoreType.OPERATIONAL,InstanceIdentifier.create(Services.class),new ServicesBuilder().build());
-
-        try {
-            CheckedFuture<Void, TransactionCommitFailedException> checkedFuture = t.submit();
-            checkedFuture.get();
-            log.info("Create containers succeeded!");
-
-        } catch (InterruptedException e) {
-            log.error("Create containers failed",  e);
-            Thread.currentThread().interrupt();
-        } catch (ExecutionException e) {
-            log.error("Create containers failed",  e);
-        }
-    }
-
-
-    @Override
-    public void onDataChanged(AsyncDataChangeEvent<InstanceIdentifier<?>, DataObject> arg0) {
-        // TODO Auto-generated method stub
-
-    }
-
-
-
-    @Override
-    public void close() throws Exception {
-
-        log.info("Closing provider for " + appName);
-        if(this.executor != null){
-            executor.shutdown();
-        }
-        if(this.rpcRegistration != null){
-            rpcRegistration.close();
-        }
-        log.info("Successfully closed provider for " + appName);
-
     }
 
     private RpcResult<UploadartifactOutput> buildResponse1(
@@ -158,9 +87,8 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
                 .withResult(responseBuilder.build()).build();
         return rpcResult;
     }
-
     @Override
-    public Future<RpcResult<UploadartifactOutput>> uploadartifact(UploadartifactInput input) {
+    public ListenableFuture<RpcResult<UploadartifactOutput>> uploadartifact(UploadartifactInput input) {
 
         if (input == null || input.getDocumentParameters() == null || input.getDocumentParameters().getArtifactContents() == null ) {
             RpcResult<UploadartifactOutput> rpcResult =
@@ -201,7 +129,12 @@ public class ArtifactHandlerProvider implements AutoCloseable, ArtifactHandlerSe
         responseBuilder.setConfigDocumentResponse(configResponseBuilder.build());
         RpcResult<UploadartifactOutput> rpcResult = RpcResultBuilder.<UploadartifactOutput> status(true).withResult(responseBuilder.build()).build();
         return Futures.immediateFuture(rpcResult);
+    }
 
+    @Override
+    public void close() throws Exception {
+        log.info("Closing provider for " + appName);
+        log.info("Successfully closed provider for " + appName);
     }
 
     protected ArtifactHandlerProviderUtil getArtifactHandlerProviderUtil(UploadartifactInput input) {
