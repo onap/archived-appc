@@ -30,8 +30,8 @@
 	</parent>
         <groupId>org.onap.appc</groupId>
 	<artifactId>appc-artifact-handler-model</artifactId>
-	<name>APPC Artifact Handler - Model</name>
 	<packaging>bundle</packaging>
+	<name>APPC Artifact Handler - Model</name>
 
 	<build>
 
@@ -42,7 +42,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Import-Package>!com.google.common.collect,*</Import-Package>
+						<Import-Package>com.google.common.collect,com.google.common.base,*</Import-Package>
 						<Embed-Dependency>guava</Embed-Dependency>
 					</instructions>
 				</configuration>
@@ -76,6 +76,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
@@ -110,15 +111,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
-			<artifactId>ietf-inet-types</artifactId>
+			<artifactId>ietf-inet-types-2013-07-15</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
-			<artifactId>ietf-yang-types</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
+			<artifactId>ietf-yang-types-20130715</artifactId>
 		</dependency>
 	</dependencies>
 	<version>1.5.0-SNAPSHOT</version>

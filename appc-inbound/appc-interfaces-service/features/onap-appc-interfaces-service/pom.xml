@@ -3,7 +3,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2018-2019 AT&T Intellectual Property. All rights reserved.
 =============================================================================
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -37,12 +37,6 @@ limitations under the License.
     <name></name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.opendaylight.mdsal.model</groupId>
-            <artifactId>odl-mdsal-models</artifactId>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
         <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-interfaces-service-model</artifactId>
