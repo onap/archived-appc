@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -225,6 +227,7 @@ class CoreManager{
                 forceShutdown();
             } catch (InterruptedException e) {
                 LOG.error("Interrupted Exception during gracefulShutdown ::", e);
+                Thread.currentThread().interrupt();
             }
 
         }
@@ -242,6 +245,7 @@ class CoreManager{
             timerService.shutdown();
         } catch (InterruptedException e) {
             LOG.info("Client library shutdown in progress ", e);
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -284,6 +288,7 @@ class CoreManager{
                 });
             } catch (InterruptedException e) {
                 LOG.warn("could not submit timeout task for correlation ID <" + corrID + "> ", e);
+                Thread.currentThread().interrupt();
             }
         }
     }
