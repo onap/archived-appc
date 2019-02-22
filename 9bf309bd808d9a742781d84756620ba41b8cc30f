@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "919c1a6f_210c4339",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/validationpolicy/RequestValidationPolicyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:12:16Z",
+      "side": 1,
+      "message": "anything to verify/assert here?",
+      "revId": "9bf309bd808d9a742781d84756620ba41b8cc30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6fe3ee5_4da2f15c",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/test/java/org/onap/appc/validationpolicy/RequestValidationPolicyTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:12:16Z",
+      "side": 1,
+      "message": "anything to verify/assert here?",
+      "revId": "9bf309bd808d9a742781d84756620ba41b8cc30f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
