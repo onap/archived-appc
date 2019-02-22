@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4823b164_76796ff2",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T09:18:49Z",
+      "side": 1,
+      "message": "I have fixed the simple problems with the extraneous method calls. I think there are more serious casting problems which I will write a bug for.",
+      "parentUuid": "800d08e5_e69c7da7",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ceb1747_984f7fc8",
         "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-02-21T19:44:04Z",
       "side": 1,
       "message": "maybe use putIfAbsent() instead of get/put",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3bcd716_3d4dfdce",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T09:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ceb1747_984f7fc8",
       "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "a05921cd_951c9e49",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T09:18:49Z",
+      "side": 1,
+      "message": "Counter is a subclass of Metric",
+      "parentUuid": "82e3b785_7741d326",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d799fa2_808aef4f",
         "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-02-21T19:44:04Z",
       "side": 1,
       "message": "Has it been verified that the return value really is a Counter[]?  Assuming Metric is a subclass of Counter, perhaps the toArray(Counter[]) method should be used instead, thus eliminating the need to cast AND ensuring that the correct type of array is returned.",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb56e90c_340a36df",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T09:18:49Z",
+      "side": 1,
+      "message": "The inheritance is in the other direction and I think this code could be faulty. I will look into it and write a bug separate from the test coverage review to isolate the functional changes from reviews which are mostly test code.",
+      "parentUuid": "3d799fa2_808aef4f",
       "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "f1e7761b_cafcd94e",
+        "filename": "appc-metric/appc-metric-bundle/src/test/java/org/onap/appc/metricservice/impl/MetricRegistryImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T09:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b7e3bdd_5713ccca",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5a80e92e_438ffdef",
         "filename": "appc-metric/appc-metric-bundle/src/test/java/org/onap/appc/metricservice/impl/MetricRegistryImplTest.java",
         "patchSetId": 1
@@ -98,6 +188,24 @@
       "writtenOn": "2019-02-21T19:44:04Z",
       "side": 1,
       "message": "suggestions: could use assertSame to verify that counter() and metric() both return the original \"metric\" object.  Might also consider adding a second metric and verifying that the methods return the correct metric object when invoked with different names.",
+      "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6b5f112_9c2ec58c",
+        "filename": "appc-metric/appc-metric-bundle/src/test/java/org/onap/appc/metricservice/impl/MetricRegistryImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-22T09:18:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a80e92e_438ffdef",
       "revId": "b429701901b099830dbca23113e8ac870b9d80bd",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
