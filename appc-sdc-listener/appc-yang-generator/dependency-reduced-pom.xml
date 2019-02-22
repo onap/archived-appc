@@ -72,6 +72,7 @@
           <groupId>net.jcip</groupId>
         </exclusion>
       </exclusions>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.eclipse.jdt</groupId>

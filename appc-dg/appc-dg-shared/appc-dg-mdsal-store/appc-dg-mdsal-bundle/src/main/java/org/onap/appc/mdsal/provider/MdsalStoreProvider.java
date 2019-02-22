@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -29,14 +29,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.onap.appc.Constants;
 import org.onap.appc.mdsal.MDSALStore;
 import org.onap.appc.mdsal.impl.MDSALStoreFactory;
 import org.onap.appc.mdsal.objects.BundleInfo;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
-import org.opendaylight.controller.sal.binding.api.NotificationProviderService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.RpcProviderRegistry;
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.MdsalStoreService;
 import org.opendaylight.yang.gen.v1.org.onap.appc.mdsal.store.rev170925.StoreYangInput;
@@ -49,19 +48,20 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 public class MdsalStoreProvider implements MdsalStoreService ,AutoCloseable{
 
     protected DataBroker dataBroker;
     protected RpcProviderRegistry rpcRegistry;
-    protected NotificationProviderService notificationService;
+    protected NotificationPublishService notificationService;
 
     protected BindingAwareBroker.RpcRegistration<MdsalStoreService> rpcRegistration;
     private final EELFLogger log = EELFManager.getInstance().getLogger(MdsalStoreProvider.class);
     private final ExecutorService executor;
     private final static String APP_NAME = "MdsalStoreProvider";
 
-    public MdsalStoreProvider(DataBroker dataBroker2, NotificationProviderService notificationProviderService
+    public MdsalStoreProvider(DataBroker dataBroker2, NotificationPublishService notificationProviderService
             , RpcProviderRegistry rpcRegistry2){
         log.info("Creating provider for " + APP_NAME);
         executor = Executors.newFixedThreadPool(1);
@@ -90,7 +90,7 @@ public class MdsalStoreProvider implements MdsalStoreService ,AutoCloseable{
     }
 
     @Override
-    public Future<RpcResult<StoreYangOutput>> storeYang(StoreYangInput input) {
+    public ListenableFuture<RpcResult<StoreYangOutput>> storeYang(StoreYangInput input) {
         Status status = null;
         String message = null;
         try{

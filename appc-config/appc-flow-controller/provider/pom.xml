@@ -3,7 +3,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -131,6 +131,11 @@
             <artifactId>jasypt</artifactId>
             <version>1.9.2</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>

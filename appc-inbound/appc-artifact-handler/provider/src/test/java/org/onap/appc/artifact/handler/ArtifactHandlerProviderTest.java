@@ -65,13 +65,6 @@ public class ArtifactHandlerProviderTest {
         Mockito.doReturn(checkedFuture).when(writeTransaction).submit();
     }
 
-    @Test
-    public void testClose() throws Exception {
-        artifactHandlerProvider = new ArtifactHandlerProvider(dataBroker, notificationService, rpcRegistry);
-        Whitebox.setInternalState(artifactHandlerProvider, "rpcRegistration", rpcRegistration);
-        artifactHandlerProvider.close();
-        Mockito.verify(rpcRegistration).close();
-    }
 
     @Test
     public void testUploadArtifactNullInput() throws InterruptedException, ExecutionException {

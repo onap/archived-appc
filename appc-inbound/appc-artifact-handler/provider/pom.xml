@@ -3,7 +3,7 @@
 ============LICENSE_START=======================================================
 ONAP : APPC
 ================================================================================
-Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
 ================================================================================
 Copyright (C) 2017 Amdocs
 =============================================================================
@@ -43,9 +43,8 @@ limitations under the License.
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>org.onap.appc.artifact.handler</Bundle-SymbolicName>
-						<Bundle-Activator>org.onap.appc.artifact.handler.SdcArtifactHandlerActivator</Bundle-Activator>
 						<Export-Package>org.onap.appc.artifact.handler,org.opendaylight.controller.config.yang.config.artifact-handler_provider.impl</Export-Package>
-						<Import-Package>!com.google,!org.apache.commons.configuration,*;resolution:=optional</Import-Package>
+						<Import-Package>com.google.common.base,com.google.common.collect,!com.google,!org.apache.commons.configuration,*;resolution:=optional</Import-Package>
 						<Embed-Dependency>commons-configuration,guava,jackson-databind,jackson-annotations,jackson-core,jackson-dataformat-yaml,json</Embed-Dependency>
 					</instructions>
 				</configuration>
@@ -68,11 +67,6 @@ limitations under the License.
  			<artifactId>appc-yang-generator</artifactId>
  			<version>${project.version}</version>
  		</dependency>
-
-		<dependency>
-			<groupId>org.opendaylight.controller</groupId>
-			<artifactId>sal-binding-config</artifactId>
-			</dependency>
 		<dependency>
 			<groupId>org.opendaylight.controller</groupId>
 			<artifactId>sal-binding-api</artifactId>
@@ -108,19 +102,6 @@ limitations under the License.
 			<groupId>org.opendaylight.controller</groupId>
 			<scope>test</scope>
 			</dependency>
-		<dependency>
-			<groupId>org.opendaylight.controller</groupId>
-			<artifactId>sal-binding-broker-impl</artifactId>
-			<scope>test</scope>
-			</dependency>
-		<dependency>
-			<groupId>org.opendaylight.controller</groupId>
-			<artifactId>sal-binding-broker-impl</artifactId>
-			<version>${odl.mdsal.version}</version>
-			<classifier>tests</classifier>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>com.att.eelf</groupId>
 			<artifactId>eelf-core</artifactId>
