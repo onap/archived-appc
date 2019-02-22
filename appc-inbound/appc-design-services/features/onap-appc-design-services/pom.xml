@@ -38,12 +38,6 @@ limitations under the License.
 
     <dependencies>
         <dependency>
-            <groupId>org.opendaylight.mdsal.model</groupId>
-            <artifactId>odl-mdsal-models</artifactId>
-            <type>xml</type>
-            <classifier>features</classifier>
-        </dependency>
-        <dependency>
             <groupId>org.onap.appc</groupId>
             <artifactId>appc-design-services-model</artifactId>
             <version>${project.version}</version>

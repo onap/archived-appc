@@ -26,7 +26,8 @@
 package org.onap.appc.design.services.impl;
 
 import com.google.common.util.concurrent.Futures;
-import java.util.concurrent.Future;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import org.onap.appc.design.dbervices.DbResponseProcessor;
 import org.onap.appc.design.dbervices.DesignDBService;
 import org.onap.appc.design.services.util.DesignServiceConstants;
@@ -58,7 +59,7 @@ public class DesignServicesImpl implements DesignServicesService {
     private static final String ACTION_STR = " Action : ";
 
     @Override
-    public Future<RpcResult<DbserviceOutput>> dbservice(DbserviceInput input) {
+    public ListenableFuture<RpcResult<DbserviceOutput>> dbservice(DbserviceInput input) {
 
         log.info(RECEIVED_REQUEST_STR + input.getDesignRequest().getRequestId() + ACTION_STR +
             input.getDesignRequest().getAction() + WITH_PAYLOAD_STR + input.getDesignRequest().getPayload());
@@ -93,7 +94,7 @@ public class DesignServicesImpl implements DesignServicesService {
     }
 
     @Override
-    public Future<RpcResult<XinterfaceserviceOutput>> xinterfaceservice(XinterfaceserviceInput input) {
+    public ListenableFuture<RpcResult<XinterfaceserviceOutput>> xinterfaceservice(XinterfaceserviceInput input) {
         log.info(RECEIVED_REQUEST_STR + input.getDesignRequest().getRequestId() + ACTION_STR +
             input.getDesignRequest().getAction() + WITH_PAYLOAD_STR + input.getDesignRequest().getPayload());
         XinterfaceserviceOutputBuilder outputBuilder = new XinterfaceserviceOutputBuilder();
@@ -124,7 +125,7 @@ public class DesignServicesImpl implements DesignServicesService {
     }
 
     @Override
-    public Future<RpcResult<ValidatorOutput>> validator(ValidatorInput input) {
+    public ListenableFuture<RpcResult<ValidatorOutput>> validator(ValidatorInput input) {
         log.info(RECEIVED_REQUEST_STR + input.getDesignRequest().getRequestId() + ACTION_STR +
             input.getDesignRequest().getAction() + WITH_PAYLOAD_STR + input.getDesignRequest().getPayload()
             + " and Data Type = " + input.getDesignRequest().getDataType());

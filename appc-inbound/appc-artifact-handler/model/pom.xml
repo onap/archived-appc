@@ -30,7 +30,6 @@
 	</parent>
         <groupId>org.onap.appc</groupId>
 	<artifactId>appc-artifact-handler-model</artifactId>
-	<name>APPC Artifact Handler - Model</name>
 	<packaging>bundle</packaging>
 
 	<build>
@@ -42,40 +41,41 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Import-Package>!com.google.common.collect,*</Import-Package>
+						<Import-Package>com.google.common.collect,com.google.common.base,*</Import-Package>
 						<Embed-Dependency>guava</Embed-Dependency>
 					</instructions>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.opendaylight.yangtools</groupId>
-				<artifactId>yang-maven-plugin</artifactId>
-				<dependencies>
-					<dependency>
-						<groupId>org.opendaylight.mdsal</groupId>
-						<artifactId>maven-sal-api-gen-plugin</artifactId>
-						<version>${odl.sal.api.gen.plugin.version}</version>
-						<type>jar</type>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate-sources</goal>
-						</goals>
-						<configuration>
-							<yangFilesRootDir>${yang.file.directory}</yangFilesRootDir>
-							<codeGenerators>
-								<generator>
-									<codeGeneratorClass>org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
-									<outputBaseDir>${salGeneratorPath}</outputBaseDir>
-								</generator>
-							</codeGenerators>
-							<inspectDependencies>true</inspectDependencies>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+            <plugin>
+                <groupId>org.opendaylight.yangtools</groupId>
+                <artifactId>yang-maven-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.opendaylight.mdsal</groupId>
+                        <artifactId>maven-sal-api-gen-plugin</artifactId>
+                        <version>${odl.sal.api.gen.plugin.version}</version>
+                        <type>jar</type>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate-sources</goal>
+                        </goals>
+                        <configuration>
+                            <yangFilesRootDir>${yang.file.directory}</yangFilesRootDir>
+                            <codeGenerators>
+                                <generator>
+                                    <codeGeneratorClass>org.opendaylight.mdsal.binding.maven.api.gen.plugin.CodeGeneratorImpl</codeGeneratorClass>
+                                    <outputBaseDir>${salGeneratorPath}</outputBaseDir>
+                                </generator>
+                            </codeGenerators>
+                            <inspectDependencies>true</inspectDependencies>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-install-plugin</artifactId>
@@ -107,19 +107,15 @@
 		<dependency>
 			<groupId>org.opendaylight.yangtools</groupId>
 			<artifactId>yang-common</artifactId>
-		</dependency>
+			</dependency>
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
-			<artifactId>ietf-inet-types</artifactId>
-		</dependency>
+			<artifactId>ietf-inet-types-2013-07-15</artifactId>
+			</dependency>
 		<dependency>
 			<groupId>org.opendaylight.mdsal.model</groupId>
-			<artifactId>ietf-yang-types</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-		</dependency>
+			<artifactId>ietf-yang-types-20130715</artifactId>
+			</dependency>
 	</dependencies>
 	<version>1.5.0-SNAPSHOT</version>
 </project>

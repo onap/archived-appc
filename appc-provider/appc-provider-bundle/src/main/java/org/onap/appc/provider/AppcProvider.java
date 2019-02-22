@@ -26,6 +26,8 @@ package org.onap.appc.provider;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
@@ -57,7 +59,6 @@ import org.onap.appc.provider.topology.TopologyService;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /* ADDED FOR FUSION SERVICE CODE */
 
@@ -165,7 +166,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
         logger.info(Msg.COMPONENT_TERMINATED, appName, "provider");
     }
 
-    public Future<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput input) {
+    public ListenableFuture<RpcResult<ModifyConfigOutput>> modifyConfig(ModifyConfigInput input) {
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         ConfigPayload data = input.getConfigPayload();
         RpcResult<ModifyConfigOutput> result = getTopologyService().modifyConfig(hdr, data);
@@ -178,7 +179,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.AppcProviderService#rebuild(org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RebuildInput)
      */
     @Override
-    public Future<RpcResult<RebuildOutput>> rebuild(RebuildInput input) {
+    public ListenableFuture<RpcResult<RebuildOutput>> rebuild(RebuildInput input) {
 
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
@@ -193,7 +194,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.AppcProviderService#restart(org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.RestartInput)
      */
     @Override
-    public Future<RpcResult<RestartOutput>> restart(RestartInput input) {
+    public ListenableFuture<RpcResult<RestartOutput>> restart(RestartInput input) {
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
@@ -207,7 +208,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.AppcProviderService#migrate(org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.MigrateInput)
      */
     @Override
-    public Future<RpcResult<MigrateOutput>> migrate(MigrateInput input) {
+    public ListenableFuture<RpcResult<MigrateOutput>> migrate(MigrateInput input) {
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
@@ -221,7 +222,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.AppcProviderService#evacuate(org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.EvacuateInput)
      */
     @Override
-    public Future<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
+    public ListenableFuture<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
 
         return null;
     }
@@ -232,7 +233,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.AppcProviderService#evacuate(org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.EvacuateInput)
      */
     @Override
-    public Future<RpcResult<SnapshotOutput>> snapshot(SnapshotInput input) {
+    public ListenableFuture<RpcResult<SnapshotOutput>> snapshot(SnapshotInput input) {
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
@@ -244,7 +245,7 @@ public class AppcProvider implements AutoCloseable, AppcProviderService {
      * Checks status of a VM
      */
     @Override
-    public Future<RpcResult<VmstatuscheckOutput>> vmstatuscheck(VmstatuscheckInput input) {
+    public ListenableFuture<RpcResult<VmstatuscheckOutput>> vmstatuscheck(VmstatuscheckInput input) {
         CommonRequestHeader hdr = input.getCommonRequestHeader();
         VnfResource vnf = input.getVnfResource();
 
