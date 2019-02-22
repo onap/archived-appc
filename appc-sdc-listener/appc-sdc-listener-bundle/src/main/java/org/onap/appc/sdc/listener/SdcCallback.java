@@ -5,7 +5,9 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
- * =============================================================================
+ * ================================================================================
+ * Modifications Copyright (c) 2019 IBM
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -142,6 +144,7 @@ public class SdcCallback implements INotificationCallback {
             executor.shutdownNow(); // In case of timeout
         } catch (InterruptedException e) {
             logger.error("Error in SdcCallback for stop(int waitSec) method due to InterruptedException: reason= " + e.getMessage(), e);
+            Thread.currentThread().interrupt();
         }
         logger.info(String.format("Attempting to shutdown cleanly: %s", cleanShutdown ? "SUCCESS" : "FAILURE"));
         logger.info("Shutdown complete.");
