@@ -30,12 +30,10 @@ import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.metricservice.Publisher;
 import org.onap.appc.metricservice.metric.Metric;
-import org.onap.appc.metricservice.metric.impl.DmaapRequestCounterMetricImpl;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
-import com.att.eelf.configuration.EELFLogger;
 import org.junit.Assert;
 
 @RunWith(PowerMockRunner.class)
@@ -120,6 +118,19 @@ public class ScheduledPublishingPolicyImplTest {
         Whitebox.setInternalState(publishingPolicy, "configuration", configuration);
         publishingPolicy.init();
         Assert.assertEquals(1, publishingPolicy.getPublishers().length);
+    }
+
+    @Test
+    public void testWithStartTimeOnly() {
+        Properties properties = new Properties();
+        properties.setProperty("schedule.policy.metric.start.time", "1000");
+        Mockito.when(configuration.getProperties()).thenReturn(properties);
+        PolicyBuilderFactoryImpl builderFactory = new PolicyBuilderFactoryImpl();
+        ScheduledPolicyBuilderImpl policyBuilder = (ScheduledPolicyBuilderImpl) builderFactory.scheduledPolicyBuilder();
+        Metric[] metrics = new Metric[0];
+        policyBuilder.withMetrics(metrics);
+        ScheduledPublishingPolicyImpl publishingPolicy = (ScheduledPublishingPolicyImpl) policyBuilder.build();
+        Assert.assertEquals(0, publishingPolicy.metrics().length);
     }
 
 }
