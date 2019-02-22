@@ -51,6 +51,7 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
     private Metric[] metrics;
     private MetricRegistry metricRegistry;
     private static final EELFLogger logger = EELFManager.getInstance().getLogger(ScheduledPublishingPolicyImpl.class);
+    private static final int DEFAULT_PERIOD = 100000;
     private ScheduledExecutorService scheduleExecutor;
     private Configuration configuration;
 
@@ -64,34 +65,34 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
 
     public ScheduledPublishingPolicyImpl( Publisher[] publishers, Metric[] metrics) {
         configuration = ConfigurationFactory.getConfiguration();
-        Properties properties=configuration.getProperties();
-        if(properties!=null){
-            if(properties.getProperty("schedule.policy.metric.period")!=null && properties.getProperty("schedule.policy.metric.start.time")!=null){
+        Properties properties = configuration.getProperties();
+        if(properties != null){
+            if(properties.getProperty("schedule.policy.metric.period") != null && properties.getProperty("schedule.policy.metric.start.time") != null) {
                 this.startTime = getConfigStartTime(properties);
                 this.period = getConfigPeriod(properties);
-                logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :"+this.period);
-            }else if(properties.getProperty("schedule.policy.metric.period")!=null){
-                this.startTime=1;
-                this.period=getConfigPeriod(properties);
-                logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :"+this.period);
+                logger.info("Metric Properties read from configuration Start Time :" + this.startTime+", Period :" + this.period);
+            }else if(properties.getProperty("schedule.policy.metric.period") != null){
+                this.startTime = 1;
+                this.period = getConfigPeriod(properties);
+                logger.info("Metric Properties read from configuration Start Time :" + this.startTime+", Period :" + this.period);
 
-            }else if(properties.getProperty("schedule.policy.metric.period")==null && properties.getProperty("schedule.policy.metric.start.time")!=null){
-                this.startTime=getConfigStartTime("00:00:00",properties);
-                this.period=(24*60*60*1000l)-1;
-                logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :"+this.period);
+            }else if(properties.getProperty("schedule.policy.metric.period") == null && properties.getProperty("schedule.policy.metric.start.time") != null) {
+                this.startTime = getConfigStartTime("00:00:00", properties);
+                this.period = (24 * 60 * 60 * 1000l) -1;
+                logger.info("Metric Properties read from configuration Start Time :" + this.startTime+", Period :" + this.period);
 
             }else{
                 logger.info("Metric Properties coming as null,setting to default Start Time :1 ms,Period : 100000 ms");
                 this.startTime = 1;
-                this.period = 100000;
-                logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :"+this.period);
+                this.period = DEFAULT_PERIOD;
+                logger.info("Metric Properties read from configuration Start Time :" + this.startTime+", Period :" + this.period);
 
             }
         } else  {
             logger.info("Metric Properties coming as null,setting to default Start Time :1 ms,Period : 100000 ms");
             this.startTime = 1;
-            this.period = 100000;
-            logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :"+this.period);
+            this.period = DEFAULT_PERIOD;
+            logger.info("Metric Properties read from configuration Start Time :"+this.startTime+", Period :" + this.period);
         }
         this.publishers = publishers;
         this.metrics = metrics;
@@ -99,20 +100,24 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
     }
 
     private long getConfigPeriod(Properties properties) {
-        String period=properties.getProperty("schedule.policy.metric.period");
-        logger.info("Metric period : " +period);
-        long periodInMs=Integer.parseInt(period)*1000l;
-        logger.info("Metric period in long : " +periodInMs);
-        return periodInMs;
+        String period = properties.getProperty("schedule.policy.metric.period");
+        // Check for when this is called as part of the case when metric period property is not set
+        if (period != null) {
+            logger.info("Metric period : " + period);
+            long periodInMs = Integer.parseInt(period) * 1000l;
+            logger.info("Metric period in long : " + periodInMs);
+            return periodInMs;
+        }
+        return DEFAULT_PERIOD;
     }
 
     private long getTimeInMs(String time) {
         String[] strings=time.split(":");
-        if(strings.length==3) {
+        if(strings.length == 3) {
             long hour = Integer.parseInt(strings[0]) * 60 * 60 * 1000l;
             long min = Integer.parseInt(strings[1]) * 60 * 1000l;
             long sec = Integer.parseInt(strings[2]) * 1000l;
-            return hour+min+sec;
+            return hour + min + sec;
         }else{
             return 0;
         }
@@ -122,27 +127,30 @@ public class ScheduledPublishingPolicyImpl implements ScheduledPublishingPolicy 
 
 
     private long getConfigStartTime(Properties properties) {
-        String startTime=properties.getProperty("schedule.policy.metric.start.time");
-        if(startTime!=null){
-            long timeDiff=(getTimeInMs(startTime))-(getTimeInMs((new SimpleDateFormat("HH:mm:ss")).format(new Date())));
-            long period=getConfigPeriod(properties);
-            if(timeDiff>=0){
+        System.out.println(properties);
+
+        String startTime = properties.getProperty("schedule.policy.metric.start.time");
+
+        if(startTime != null){
+            long timeDiff = (getTimeInMs(startTime)) - (getTimeInMs((new SimpleDateFormat("HH:mm:ss")).format(new Date())));
+            long period = getConfigPeriod(properties);
+            if(timeDiff >= 0){
                 return timeDiff;
             }else{
-                return period-((timeDiff*-1)%period);
+                return period - ((timeDiff * -1) % period);
             }
         }
         return 0;
     }
 
-    private long getConfigStartTime(String startTime,Properties properties) {
-        if(startTime!=null){
-            long timeDiff=(getTimeInMs(startTime))-(getTimeInMs((new SimpleDateFormat("HH:mm:ss")).format(new Date())));
-            long period=getConfigPeriod(properties);
-            if(timeDiff>=0){
-                return timeDiff%period;
+    private long getConfigStartTime(String startTime, Properties properties) {
+        if(startTime != null) {
+            long timeDiff = (getTimeInMs(startTime)) - (getTimeInMs((new SimpleDateFormat("HH:mm:ss")).format(new Date())));
+            long period = getConfigPeriod(properties);
+            if(timeDiff >= 0){
+                return timeDiff % period;
             }else{
-                return period-((timeDiff*-1)%period);
+                return period-((timeDiff * -1) % period);
             }
         }
         return 0;
