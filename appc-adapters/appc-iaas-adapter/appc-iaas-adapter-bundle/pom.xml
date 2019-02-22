@@ -96,6 +96,12 @@
             <version>2.25.1</version>
             <scope>compile</scope>
         </dependency>
+        
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- <dependency> -->
         <!-- <groupId>javax</groupId> -->

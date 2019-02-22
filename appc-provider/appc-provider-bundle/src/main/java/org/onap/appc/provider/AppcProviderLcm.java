@@ -28,7 +28,6 @@ package org.onap.appc.provider;
 import java.text.ParseException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
@@ -61,6 +60,7 @@ import org.opendaylight.yangtools.yang.common.RpcResultBuilder;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 
 
 public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable, AppcProviderLcmService {
@@ -140,7 +140,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#rebuild(RebuildInput)
      */
     @Override
-    public Future<RpcResult<RebuildOutput>> rebuild(RebuildInput input) {
+    public ListenableFuture<RpcResult<RebuildOutput>> rebuild(RebuildInput input) {
         logger.debug("Input received : " + input.toString());
 
         RebuildOutputBuilder outputBuilder = new RebuildOutputBuilder();
@@ -180,7 +180,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#restart(RestartInput)
      */
     @Override
-    public Future<RpcResult<RestartOutput>> restart(RestartInput input) {
+    public ListenableFuture<RpcResult<RestartOutput>> restart(RestartInput input) {
         logger.debug("Input received : " + input.toString());
 
         RestartOutputBuilder outputBuilder = new RestartOutputBuilder();
@@ -219,7 +219,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#startApplication(StartApplicationInput)
      */
     @Override
-    public Future<RpcResult<StartApplicationOutput>> startApplication(StartApplicationInput input) {
+    public ListenableFuture<RpcResult<StartApplicationOutput>> startApplication(StartApplicationInput input) {
         logger.debug("Input received : " + input.toString());
 
         StartApplicationOutputBuilder outputBuilder = new StartApplicationOutputBuilder();
@@ -258,7 +258,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#migrate(MigrateInput)
      */
     @Override
-    public Future<RpcResult<MigrateOutput>> migrate(MigrateInput input) {
+    public ListenableFuture<RpcResult<MigrateOutput>> migrate(MigrateInput input) {
         logger.debug("Input received : " + input.toString());
 
         MigrateOutputBuilder outputBuilder = new MigrateOutputBuilder();
@@ -297,7 +297,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#evacuate(EvacuateInput)
      */
     @Override
-    public Future<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
+    public ListenableFuture<RpcResult<EvacuateOutput>> evacuate(EvacuateInput input) {
         logger.debug("Input received : " + input.toString());
 
         EvacuateOutputBuilder outputBuilder = new EvacuateOutputBuilder();
@@ -336,7 +336,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#snapshot(SnapshotInput)
      */
     @Override
-    public Future<RpcResult<SnapshotOutput>> snapshot(SnapshotInput input) {
+    public ListenableFuture<RpcResult<SnapshotOutput>> snapshot(SnapshotInput input) {
         logger.debug("Input received : " + input.toString());
 
         SnapshotOutputBuilder outputBuilder = new SnapshotOutputBuilder();
@@ -370,7 +370,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<RollbackOutput>> rollback(RollbackInput input) {
+    public ListenableFuture<RpcResult<RollbackOutput>> rollback(RollbackInput input) {
         logger.debug("Input received : " + input.toString());
 
         RollbackOutputBuilder outputBuilder = new RollbackOutputBuilder();
@@ -405,7 +405,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<SyncOutput>> sync(SyncInput input) {
+    public ListenableFuture<RpcResult<SyncOutput>> sync(SyncInput input) {
         logger.debug("Input received : " + input.toString());
         SyncOutputBuilder outputBuilder = new SyncOutputBuilder();
         String action = Action.Sync.toString();
@@ -437,7 +437,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<QueryOutput>> query(QueryInput input) {
+    public ListenableFuture<RpcResult<QueryOutput>> query(QueryInput input) {
         logger.debug(String.format("LCM query received input: %s", input.toString()));
         QueryOutputBuilder outputBuilder = new QueryService().process(input);
         RpcResult<QueryOutput> result =
@@ -446,7 +446,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<RebootOutput>> reboot(RebootInput input) {
+    public ListenableFuture<RpcResult<RebootOutput>> reboot(RebootInput input) {
         logger.debug(String.format("LCM reboot received input: %s", input.toString()));
         RebootOutputBuilder outputBuilder = new RebootService().reboot(input);
         RpcResult<RebootOutput> result =
@@ -455,7 +455,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<AttachVolumeOutput>> attachVolume(AttachVolumeInput input) {
+    public ListenableFuture<RpcResult<AttachVolumeOutput>> attachVolume(AttachVolumeInput input) {
         logger.debug(String.format("LCM attachVolume received input: %s", input.toString()));
         AttachVolumeOutputBuilder outputBuilder = new VolumeService(true).attachVolume(input);
         RpcResult<AttachVolumeOutput> result =
@@ -464,7 +464,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<DetachVolumeOutput>> detachVolume(DetachVolumeInput input) {
+    public ListenableFuture<RpcResult<DetachVolumeOutput>> detachVolume(DetachVolumeInput input) {
         logger.debug(String.format("LCM detachVolume received input: %s", input.toString()));
         DetachVolumeOutputBuilder outputBuilder = new VolumeService(false).detachVolume(input);
         RpcResult<DetachVolumeOutput> result =
@@ -473,7 +473,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<QuiesceTrafficOutput>> quiesceTraffic(QuiesceTrafficInput input) {
+    public ListenableFuture<RpcResult<QuiesceTrafficOutput>> quiesceTraffic(QuiesceTrafficInput input) {
         logger.debug(String.format("LCM quiesce received input: %s", input.toString()));
         QuiesceTrafficOutputBuilder outputBuilder = new QuiesceTrafficService().process(input);
         RpcResult<QuiesceTrafficOutput> result =
@@ -482,7 +482,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ResumeTrafficOutput>> resumeTraffic(ResumeTrafficInput input) {
+    public ListenableFuture<RpcResult<ResumeTrafficOutput>> resumeTraffic(ResumeTrafficInput input) {
         logger.debug(String.format("LCM resume received input: %s", input.toString()));
         ResumeTrafficOutputBuilder outputBuilder = new ResumeTrafficService().process(input);
         RpcResult<ResumeTrafficOutput> result =
@@ -491,7 +491,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<DistributeTrafficOutput>> distributeTraffic(DistributeTrafficInput input) {
+    public ListenableFuture<RpcResult<DistributeTrafficOutput>> distributeTraffic(DistributeTrafficInput input) {
         logger.debug(String.format("LCM DistributeTraffic, received input: %s", input.toString()));
         DistributeTrafficOutputBuilder outputBuilder = new DistributeTrafficService().process(input);
         RpcResult<DistributeTrafficOutput> result =
@@ -500,7 +500,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<UpgradePreCheckOutput>> upgradePreCheck(UpgradePreCheckInput input) {
+    public ListenableFuture<RpcResult<UpgradePreCheckOutput>> upgradePreCheck(UpgradePreCheckInput input) {
         logger.debug(String.format("LCM upgradeprecheck received input: %s", input.toString()));
         UpgradePreCheckOutputBuilder outputBuilder = new UpgradeService("upgradePre").upgradePreCheck(input);
         RpcResult<UpgradePreCheckOutput> result =
@@ -509,7 +509,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<UpgradeSoftwareOutput>> upgradeSoftware(UpgradeSoftwareInput input) {
+    public ListenableFuture<RpcResult<UpgradeSoftwareOutput>> upgradeSoftware(UpgradeSoftwareInput input) {
         logger.debug(String.format("LCM upgradesoftware received input: %s", input.toString()));
         UpgradeSoftwareOutputBuilder outputBuilder = new UpgradeService("upgradeSoft").upgradeSoftware(input);
         RpcResult<UpgradeSoftwareOutput> result =
@@ -518,7 +518,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<UpgradePostCheckOutput>> upgradePostCheck(UpgradePostCheckInput input) {
+    public ListenableFuture<RpcResult<UpgradePostCheckOutput>> upgradePostCheck(UpgradePostCheckInput input) {
         logger.debug(String.format("LCM upgradepostcheck received input: %s", input.toString()));
         UpgradePostCheckOutputBuilder outputBuilder = new UpgradeService("upgradePost").upgradePostCheck(input);
         RpcResult<UpgradePostCheckOutput> result =
@@ -527,7 +527,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<UpgradeBackupOutput>> upgradeBackup(UpgradeBackupInput input) {
+    public ListenableFuture<RpcResult<UpgradeBackupOutput>> upgradeBackup(UpgradeBackupInput input) {
         logger.debug(String.format("LCM backup received input: %s", input.toString()));
         UpgradeBackupOutputBuilder outputBuilder = new UpgradeService("upgradeBackup").upgradeBackup(input);
         RpcResult<UpgradeBackupOutput> result =
@@ -536,7 +536,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<UpgradeBackoutOutput>> upgradeBackout(UpgradeBackoutInput input) {
+    public ListenableFuture<RpcResult<UpgradeBackoutOutput>> upgradeBackout(UpgradeBackoutInput input) {
         logger.debug(String.format("LCM backout received input: %s", input.toString()));
         UpgradeBackoutOutputBuilder outputBuilder = new UpgradeService("upgradeBackout").upgradeBackout(input);
         RpcResult<UpgradeBackoutOutput> result =
@@ -545,7 +545,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<TerminateOutput>> terminate(TerminateInput input) {
+    public ListenableFuture<RpcResult<TerminateOutput>> terminate(TerminateInput input) {
         logger.debug("Input received : " + input.toString());
         TerminateOutputBuilder outputBuilder = new TerminateOutputBuilder();
         Action myAction = Action.Terminate;
@@ -580,7 +580,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ConfigureOutput>> configure(ConfigureInput input) {
+    public ListenableFuture<RpcResult<ConfigureOutput>> configure(ConfigureInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigureOutputBuilder outputBuilder = new ConfigureOutputBuilder();
         Action myAction = Action.Configure;
@@ -613,7 +613,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ActionStatusOutput>> actionStatus(ActionStatusInput input) {
+    public ListenableFuture<RpcResult<ActionStatusOutput>> actionStatus(ActionStatusInput input) {
         logger.debug(String.format("Input received : %s", input.toString()));
         ActionStatusOutputBuilder outputBuilder = (new ActionStatusService()).queryStatus(input);
         RpcResult<ActionStatusOutput> result =
@@ -622,7 +622,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ConfigModifyOutput>> configModify(ConfigModifyInput input) {
+    public ListenableFuture<RpcResult<ConfigModifyOutput>> configModify(ConfigModifyInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigModifyOutputBuilder outputBuilder = new ConfigModifyOutputBuilder();
         Action myAction = Action.ConfigModify;
@@ -655,7 +655,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ConfigScaleOutOutput>> configScaleOut(ConfigScaleOutInput input) {
+    public ListenableFuture<RpcResult<ConfigScaleOutOutput>> configScaleOut(ConfigScaleOutInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigScaleOutOutputBuilder outputBuilder = new ConfigScaleOutService().process(input);
         RpcResult<ConfigScaleOutOutput> result = RpcResultBuilder.<ConfigScaleOutOutput> status(true).withResult(outputBuilder.build()).build();
@@ -663,7 +663,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ConfigRestoreOutput>> configRestore(ConfigRestoreInput input) {
+    public ListenableFuture<RpcResult<ConfigRestoreOutput>> configRestore(ConfigRestoreInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigRestoreOutputBuilder outputBuilder = new ConfigRestoreOutputBuilder();
         Action myAction = Action.ConfigRestore;
@@ -696,7 +696,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<TestOutput>> test(TestInput input) {
+    public ListenableFuture<RpcResult<TestOutput>> test(TestInput input) {
         logger.debug("Input received : " + input.toString());
         TestOutputBuilder outputBuilder = new TestOutputBuilder();
         Action myAction = Action.Test;
@@ -730,7 +730,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
 
 
     @Override
-    public Future<RpcResult<StopOutput>> stop(StopInput input) {
+    public ListenableFuture<RpcResult<StopOutput>> stop(StopInput input) {
         logger.debug("Input received : " + input.toString());
         StopOutputBuilder outputBuilder = new StopOutputBuilder();
         Action myAction = Action.Stop;
@@ -768,7 +768,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
      * @see org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.AppcProviderLcmService#start(StartInput)
      */
     @Override
-    public Future<RpcResult<StartOutput>> start(StartInput input) {
+    public ListenableFuture<RpcResult<StartOutput>> start(StartInput input) {
         logger.debug("Input received : " + input.toString());
 
         StartOutputBuilder outputBuilder = new StartOutputBuilder();
@@ -803,7 +803,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
 
 
     @Override
-    public Future<RpcResult<AuditOutput>> audit(AuditInput input) {
+    public ListenableFuture<RpcResult<AuditOutput>> audit(AuditInput input) {
         logger.debug("Input received : " + input.toString());
         AuditOutputBuilder outputBuilder = new AuditOutputBuilder();
         Action myAction = Action.Audit;
@@ -836,7 +836,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<SoftwareUploadOutput>> softwareUpload(SoftwareUploadInput input) {
+    public ListenableFuture<RpcResult<SoftwareUploadOutput>> softwareUpload(SoftwareUploadInput input) {
         logger.debug("Input received : " + input.toString());
         SoftwareUploadOutputBuilder outputBuilder = new SoftwareUploadOutputBuilder();
         Action myAction = Action.SoftwareUpload;
@@ -869,7 +869,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<HealthCheckOutput>> healthCheck(HealthCheckInput input) {
+    public ListenableFuture<RpcResult<HealthCheckOutput>> healthCheck(HealthCheckInput input) {
         logger.debug("Input received : " + input.toString());
         HealthCheckOutputBuilder outputBuilder = new HealthCheckOutputBuilder();
         Action myAction = Action.HealthCheck;
@@ -902,7 +902,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<LiveUpgradeOutput>> liveUpgrade(LiveUpgradeInput input) {
+    public ListenableFuture<RpcResult<LiveUpgradeOutput>> liveUpgrade(LiveUpgradeInput input) {
         logger.debug("Input received : " + input.toString());
         LiveUpgradeOutputBuilder outputBuilder = new LiveUpgradeOutputBuilder();
         Action myAction = Action.LiveUpgrade;
@@ -936,7 +936,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
 
 
     @Override
-    public Future<RpcResult<LockOutput>> lock(LockInput input) {
+    public ListenableFuture<RpcResult<LockOutput>> lock(LockInput input) {
         logger.debug("Input received : " + input.toString());
         LockOutputBuilder outputBuilder = new LockOutputBuilder();
         Action myAction = Action.Lock;
@@ -970,7 +970,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
 
 
     @Override
-    public Future<RpcResult<UnlockOutput>> unlock(UnlockInput input) {
+    public ListenableFuture<RpcResult<UnlockOutput>> unlock(UnlockInput input) {
         logger.debug("Input received : " + input.toString());
         UnlockOutputBuilder outputBuilder = new UnlockOutputBuilder();
         Action myAction = Action.Unlock;
@@ -1003,7 +1003,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<CheckLockOutput>> checkLock(CheckLockInput input) {
+    public ListenableFuture<RpcResult<CheckLockOutput>> checkLock(CheckLockInput input) {
         logger.debug("Input received : " + input.toString());
         CheckLockOutputBuilder outputBuilder = new CheckLockOutputBuilder();
         Action myAction = Action.CheckLock;
@@ -1044,7 +1044,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
     @Override
-    public Future<RpcResult<ConfigBackupOutput>> configBackup(ConfigBackupInput input) {
+    public ListenableFuture<RpcResult<ConfigBackupOutput>> configBackup(ConfigBackupInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigBackupOutputBuilder outputBuilder = new ConfigBackupOutputBuilder();
         Action myAction = Action.ConfigBackup;
@@ -1078,7 +1078,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
 
 
     @Override
-    public Future<RpcResult<ConfigBackupDeleteOutput>> configBackupDelete(ConfigBackupDeleteInput input) {
+    public ListenableFuture<RpcResult<ConfigBackupDeleteOutput>> configBackupDelete(ConfigBackupDeleteInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigBackupDeleteOutputBuilder outputBuilder = new ConfigBackupDeleteOutputBuilder();
         Action myAction = Action.ConfigBackupDelete;
@@ -1112,7 +1112,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
 
 
     @Override
-    public Future<RpcResult<ConfigExportOutput>> configExport(ConfigExportInput input) {
+    public ListenableFuture<RpcResult<ConfigExportOutput>> configExport(ConfigExportInput input) {
         logger.debug("Input received : " + input.toString());
         ConfigExportOutputBuilder outputBuilder = new ConfigExportOutputBuilder();
         Action myAction = Action.ConfigExport;
@@ -1145,7 +1145,7 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
     }
 
 
-    public Future<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input) {
+    public ListenableFuture<RpcResult<StopApplicationOutput>> stopApplication(StopApplicationInput input) {
         logger.debug("Input received : " + input.toString());
         StopApplicationOutputBuilder outputBuilder = new StopApplicationOutputBuilder();
         Action myAction = Action.StopApplication;

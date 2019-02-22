@@ -114,30 +114,6 @@
             <artifactId>appc-provider-model</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-        <!-- ADDED THIS ARTIFACT TO BE ABLE TO FIND org.onap.appc.domainmodel.lcm -->
-        <!--         <dependency> -->
-        <!--             <groupId>org.onap.appc</groupId> -->
-        <!--             <artifactId>domain-model-lib</artifactId> -->
-        <!--             <version>${project.version}</version> -->
-        <!--         </dependency> -->
-
-        <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>config-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>sal-binding-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>sal-binding-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.opendaylight.controller</groupId>
-            <artifactId>sal-common-util</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-common</artifactId>
@@ -145,6 +121,11 @@
         <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sli-provider</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.osgi</groupId>
+            <artifactId>org.osgi.core</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <artifactId>sal-test-model</artifactId>
