@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5080271_6bdae1fb",
+        "filename": "appc-core/appc-common-bundle/java/org/onap/appc/util/Time.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:36:14Z",
+      "side": 1,
+      "message": "why was \"static\" removed?\n\nI wonder if \"volatile\" should be added?",
+      "revId": "461f159861d9bb03e418cd872a3aab94084b46a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec1d61ea_9bc44bbc",
+        "filename": "appc-core/appc-common-bundle/java/org/onap/appc/util/Time.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:36:14Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this compiles.  A static method should not be able to access a non-static field.",
+      "revId": "461f159861d9bb03e418cd872a3aab94084b46a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f83105c_dece67ce",
+        "filename": "appc-core/appc-common-bundle/java/org/onap/appc/util/Time.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:36:14Z",
+      "side": 1,
+      "message": "note: this method is not thread-safe as it\u0027s possible to assign the formatter and then have another thread grab it and use it before setTimeZone() is performed",
+      "revId": "461f159861d9bb03e418cd872a3aab94084b46a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
