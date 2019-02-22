@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79ab4b95_42f0665b",
+        "filename": "appc-dispatcher/appc-request-handler/appc-request-handler-core/src/main/java/org/onap/appc/messageadapter/impl/MessageAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-22T15:14:59Z",
+      "side": 1,
+      "message": "why not still private?  and final?",
+      "revId": "fa71d56cf77c0c29c84374f6126303c0f5d62511",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
