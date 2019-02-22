@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,18 +25,18 @@
 
 package org.onap.appc.requesthandler.impl;
 
-import com.att.eelf.i18n.EELFResourceManager;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import jline.internal.Log;
-
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+import java.util.stream.Collectors;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpResponse;
-import org.json.JSONObject;
 import org.onap.appc.domainmodel.lcm.Flags;
 import org.onap.appc.domainmodel.lcm.RequestContext;
 import org.onap.appc.domainmodel.lcm.RuntimeContext;
@@ -68,22 +70,16 @@ import org.onap.appc.validationpolicy.objects.RuleResult;
 import org.onap.appc.workflow.WorkFlowManager;
 import org.onap.appc.workflow.objects.WorkflowExistsOutput;
 import org.onap.appc.workflow.objects.WorkflowRequest;
+import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
-import org.onap.ccsdk.sli.adaptors.aai.AAIService;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.FrameworkUtil;
 import org.osgi.framework.ServiceReference;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
-import java.util.stream.Collectors;
+import com.att.eelf.i18n.EELFResourceManager;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
 
@@ -104,7 +100,7 @@ public class RequestValidatorImpl extends AbstractRequestValidatorImpl {
         logger.info("Initializing RequestValidatorImpl.");
         String endpoint = null;
         String user = null;
-        String pass =null;
+        String pass = null;
         String transactionWindow = null;
 
         Properties properties = configuration.getProperties();
