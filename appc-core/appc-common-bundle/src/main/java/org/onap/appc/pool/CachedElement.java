@@ -5,6 +5,7 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * Modifications Copyright (C) 2019 IBM.
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,7 +86,7 @@ public class CachedElement<T extends Closeable>
         CachedElement<T> ce = new CachedElement<>(pool, element);
         boolean found = false;
         for (Class<?> intf : interfaces) {
-            if (intf.getName().equals(CacheManagement.class.getName())) {
+            if (intf.isAssignableFrom(CacheManagement.class)) {
                 found = true;
                 break;
             }
@@ -175,10 +176,8 @@ public class CachedElement<T extends Closeable>
 
         switch (method.getName()) {
             case "close":
-                if (released.compareAndSet(false, true)) {
-                    if (!pool.isDrained()) {
-                        pool.release((T) proxy);
-                    }
+                if (released.compareAndSet(false, true) && !pool.isDrained()) {
+                    pool.release((T) proxy);
                 }
                 break;
             case "equals":
