@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +42,19 @@ public class FileWriterNode implements SvcLogicJavaPlugin {
 
     public void writeFile(Map<String, String> inParams, SvcLogicContext ctx)
         throws SvcLogicException {
-        log.info("Received writeFile call with params : " + inParams);
+        if (log.isTraceEnabled()) {
+            log.trace("Received writeFile call with params : " + inParams);
+        }
+        else {
+            if (inParams.toString().length() > 255) {
+                log.info("Received writeFile call with params : " + inParams.toString().substring(0, 255));
+                log.info("\n...\n" + inParams.toString().length() +
+                        " characters in parameters map, turn on TRACE logging to log entire parameter map");
+            }
+            else {
+                log.info("Received writeFile call with params : " + inParams);
+            }
+        }
         String responsePrefix = inParams.get(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX);
         try {
             responsePrefix = StringUtils.isNotBlank(responsePrefix) ? (responsePrefix + ".") : "";

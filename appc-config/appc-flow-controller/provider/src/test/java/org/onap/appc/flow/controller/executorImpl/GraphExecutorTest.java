@@ -104,6 +104,25 @@ public class GraphExecutorTest {
     }
 
     @Test
+    public void testExecuteWithLongPropertyValue() throws Exception {
+        GraphExecutor graphExecutor = new GraphExecutor();
+        Whitebox.setInternalState(GraphExecutor.class, "log", log);
+        Properties properties = new Properties();
+        properties.put("TEST", "Lorem ipsum dolor sit amet, prompta mediocrem quo an, eos odio esse pertinax an."
+                + " Vis timeam suscipiantur no, eos ex vidisse appareat. Vel ipsum verterem in, qui eu cetero"
+                + " vituperatoribus. Semper insolens contentiones mei ea, vitae persius suavitate no quo, prompta"
+                + " impedit minimum cu sed. Everti disputationi id eam, essent.");
+        Transaction transaction = Mockito.spy(new Transaction());
+        transaction.setExecutionRPC("EXECUTION_RPC");
+        transaction.setPayload("PAYLOAD");
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute("TEST", "TEST");
+        Mockito.when(svcLogic.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.anyString(), Mockito.any(Properties.class))).thenReturn(properties);
+        assertNull(graphExecutor.execute(transaction, ctx));
+    }
+
+    @Test
     public void testExecuteFailure() throws Exception {
         GraphExecutor graphExecutor = new GraphExecutor();
         Whitebox.setInternalState(GraphExecutor.class, "log", log);
