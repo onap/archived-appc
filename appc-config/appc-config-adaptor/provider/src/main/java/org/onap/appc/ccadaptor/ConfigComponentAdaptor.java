@@ -6,7 +6,7 @@
  * =============================================================================
  * Modifications Copyright (C) 2018-2019 IBM.
  * =============================================================================
- * Modifications Copyright (C) 2018 Ericsson
+ * Modifications Copyright (C) 2018-2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 
 public class ConfigComponentAdaptor implements SvcLogicAdaptor {
 
-private static final EELFLogger log = EELFManager.getInstance().getLogger(ConfigComponentAdaptor.class);
+private static EELFLogger log = EELFManager.getInstance().getLogger(ConfigComponentAdaptor.class);
 DebugLog debugLog = new DebugLog();
 private String configUrl = null;
 private String configUser = null;
@@ -916,8 +916,19 @@ private HttpResponse sendXmlRequest(String xmlRequest, String url, String user, 
         WebResource webResource = client.resource(url);
 
         log.info("SENDING...............");
-        log.info(xmlRequest);
-
+        if (log.isTraceEnabled()) {
+            log.trace(xmlRequest);
+        }
+        else {
+            if(xmlRequest.length() > 255 ) {
+                log.info(xmlRequest.substring(0, 255));
+                log.info("\n...\n" + xmlRequest.length() +
+                        " characters in request, turn on TRACE logging to log entire request");
+            }
+            else {
+                log.info(xmlRequest);
+            }
+        }
         String authString = user + ":" + password;
         byte[] authEncBytes = Base64.encode(authString);
         String authStringEnc = new String(authEncBytes);
@@ -1015,6 +1026,21 @@ private String trimResponse(String response) {
     }
     runningConfig = sb.toString();
 
+    if (log.isTraceEnabled()) {
+        log.trace("ConfigComponentAdaptor:RunningConfig after trimResponse : " + runningConfig);
+    }
+    else {
+        if (runningConfig.length() > 255) {
+            log.info("ConfigComponentAdaptor:RunningConfig after trimResponse : " +
+                runningConfig.substring(0, 255));
+            log.info("\n...\n" + runningConfig.length() +
+                    " characters in config, turn on TRACE logging to log entire config");
+        }
+        else {
+            log.info("ConfigComponentAdaptor:RunningConfig after trimResponse : " +
+                    runningConfig);
+        }
+    }
     log.info("ConfigComponentAdaptor:RunningConfig after trimResponse : " + runningConfig);
     return runningConfig;
 }

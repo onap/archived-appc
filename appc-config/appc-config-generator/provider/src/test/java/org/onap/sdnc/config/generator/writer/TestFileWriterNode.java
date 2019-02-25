@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modfication Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,12 +51,31 @@ public class TestFileWriterNode {
         assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
                 ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
     }
-    
-    @Test(expected=SvcLogicException.class)
+
+    @Test
+    public void writeFileForLongParameters() throws Exception {
+        FileWriterNode FileWriterNode = new FileWriterNode();
+        Map<String, String> inParams = new HashMap<String, String>();
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_FILE_NAME,
+                "src/test/resources/writer/testcvaas.json");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_REQUEST_DATA,
+                "{'name':'Name','role':'admin'}");
+        inParams.put(ConfigGeneratorConstant.INPUT_PARAM_RESPONSE_PRIFIX, "test");
+        inParams.put("TEST", "Lorem ipsum dolor sit amet, prompta mediocrem quo an, eos odio esse pertinax an."
+                + " Vis timeam suscipiantur no, eos ex vidisse appareat. Vel ipsum verterem in, qui eu cetero"
+                + " vituperatoribus. Semper insolens contentiones mei ea, vitae persius suavitate no quo, prompta"
+                + " impedit minimum cu sed. Everti disputationi id eam, essent.");
+        SvcLogicContext ctx = new SvcLogicContext();
+        FileWriterNode.writeFile(inParams, ctx);
+        assertEquals(ConfigGeneratorConstant.OUTPUT_STATUS_SUCCESS,
+                ctx.getAttribute("test." + ConfigGeneratorConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test(expected = SvcLogicException.class)
     public void testWriteFileForEmptyParams() throws Exception {
         FileWriterNode FileWriterNode = new FileWriterNode();
         Map<String, String> inParams = new HashMap<String, String>();
         SvcLogicContext ctx = new SvcLogicContext();
         FileWriterNode.writeFile(inParams, ctx);
-      }
+    }
 }
