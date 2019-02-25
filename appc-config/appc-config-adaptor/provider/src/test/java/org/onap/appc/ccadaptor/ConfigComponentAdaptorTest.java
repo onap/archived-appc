@@ -8,7 +8,7 @@
  * =============================================================================
  * Modifications Copyright (C) 2018-2019 IBM.
  * =============================================================================
- * Modifications Copyright (C) 2018 Ericsson
+ * Modifications Copyright (C) 2018-2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -246,6 +246,24 @@ public class ConfigComponentAdaptorTest {
         Properties props = null;
         ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
         Mockito.doReturn("<configuration xmlns=\"\n<data>\n</data>\n</configuration>")
+                .when(mockWrapper)
+                .receiveUntil(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString());
+        Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
+        String key = "xml-getrunningconfig";
+        Map<String, String> parameters = new HashMap<>();
+        loadSshParameters(parameters);
+        SvcLogicContext ctx = new SvcLogicContext();
+        assertEquals(ConfigStatus.SUCCESS, cca.configure(key, parameters, ctx));
+    }
+
+    @Test
+    public void testXmlGetrunningconfigLongResponse() throws TimedOutException, IOException {
+        Properties props = null;
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(props));
+        Mockito.doReturn("<configuration xmlns=\"\n<data>\nData line 1\nData line 2\nData line 3\nData line 4\n"
+                + "Data line 5\nData line 6\nData line 7\nData line 8\nData line 9\n Data line 10\n"
+                + "Data line 11\nData line 12\nData line 13\nData line 14\nData line 15\n"
+                + "Data line 16\nData line 17\nData line 18\nData line 19\nData line 20</data>\n</configuration>")
                 .when(mockWrapper)
                 .receiveUntil(Mockito.anyString(), Mockito.anyInt(), Mockito.anyString());
         Mockito.doReturn(mockWrapper).when(cca).getSshJcraftWrapper();
