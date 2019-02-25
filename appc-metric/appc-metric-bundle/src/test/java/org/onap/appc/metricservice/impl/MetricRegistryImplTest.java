@@ -29,30 +29,46 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.appc.metricservice.metric.Counter;
-import org.onap.appc.metricservice.metric.Metric;
+import org.onap.appc.metricservice.metric.MetricType;
 import org.onap.appc.metricservice.metric.impl.DefaultPrimitiveCounter;
+import org.onap.appc.metricservice.metric.impl.DispatchingFuntionMetricImpl;
 
 public class MetricRegistryImplTest {
 
-    private static final String NAME = "NAME";
+    private static final String METRIC_NAME = "METRIC_NAME";
+    private static final String COUNTER_NAME = "COUNTER_NAME";
     private MetricRegistryImpl registry;
+    private DispatchingFuntionMetricImpl metric;
+    private DefaultPrimitiveCounter counter;
+
     @Before
     public void setup() {
         registry = new MetricRegistryImpl(null);
+        counter = new DefaultPrimitiveCounter(COUNTER_NAME, null);
+        metric = new DispatchingFuntionMetricImpl(METRIC_NAME, MetricType.COUNTER, 0, 0);
+
     }
 
     @Test
     public void testRegister() {
-        Metric metric = new DefaultPrimitiveCounter(NAME, null);
-        assertNull(registry.counter(NAME));
+        assertEquals(0, registry.counters().length);
+        assertEquals(0, registry.metrics().length);
+        assertNull(registry.counter(COUNTER_NAME));
+        assertTrue(registry.register(counter));
+        assertFalse(registry.register(counter));
+        assertTrue(registry.counter(COUNTER_NAME) instanceof Counter);
+        assertSame(counter, registry.counter(COUNTER_NAME));
         assertTrue(registry.register(metric));
-        assertFalse(registry.register(metric));
-        assertTrue(registry.counter(NAME) instanceof Counter);
-        assertSame(metric, registry.metric(NAME));
+        assertSame(metric, registry.metric(METRIC_NAME));
+        assertEquals(1, registry.counters().length);
+        assertEquals(2, registry.metrics().length);
     }
 
     @Test
-    public void testCounter() {
+    public void testDispose() {
+        registry.register(metric);
+        registry.register(counter);
+        assertEquals(2, registry.metrics().length);
         registry.dispose();
         assertEquals(0, registry.metrics().length);
     }
