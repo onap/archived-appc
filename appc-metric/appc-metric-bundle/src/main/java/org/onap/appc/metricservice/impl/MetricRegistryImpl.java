@@ -25,9 +25,10 @@
 
 package org.onap.appc.metricservice.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.onap.appc.metricservice.MetricRegistry;
 import org.onap.appc.metricservice.metric.Counter;
 import org.onap.appc.metricservice.metric.Metric;
@@ -40,6 +41,8 @@ import org.onap.appc.metricservice.policy.impl.PolicyBuilderFactoryImpl;
 
 public class MetricRegistryImpl implements MetricRegistry {
     private String name;
+    // Map can contain Counters, DispatchingFunctionMetrics and DMaapRequestCounterMetrics
+    // and there are methods to retrieve only the 'Counter' types
     private Map<String, Metric> concurrentMetricMap = new ConcurrentHashMap<>();
 
     public MetricRegistryImpl(String name) {
@@ -68,12 +71,21 @@ public class MetricRegistryImpl implements MetricRegistry {
 
     @Override
     public Counter counter(String value) {
-        return (Counter)concurrentMetricMap.get(value);
+        if (concurrentMetricMap.get(value) instanceof Counter) {
+            return (Counter)concurrentMetricMap.get(value);
+        }
+        else return null;
     }
 
     @Override
     public Counter[] counters() {
-        return (Counter[])concurrentMetricMap.values().toArray();
+        List<Counter> counterList = new ArrayList<>();
+        for (Metric m: concurrentMetricMap.values()) {
+            if (m instanceof Counter) {
+                counterList.add((Counter) m);
+            }
+        }
+        return counterList.toArray(new Counter[counterList.size()]);
     }
 
     @Override
