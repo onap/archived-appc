@@ -92,7 +92,7 @@ public class GraphExecutor implements FlowExecutorInterface {
             String parmName = (String) key;
             String parmValue = ctx.getAttribute(parmName);
             parms.put(parmName, parmValue);
-            log.info(fn + "Setting Key= " + parmName + "and Value = " + parmValue);
+            log.info(fn + "Setting Key= " + parmName + " and Value = " + parmValue);
 
         }
         Properties returnParams =
@@ -105,7 +105,20 @@ public class GraphExecutor implements FlowExecutorInterface {
 
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
-            log.info("NEW KEY =  " + key + " -- " + returnParams.getProperty(key));
+            String property = returnParams.getProperty(key);
+            if (log.isTraceEnabled()) {
+                log.trace(property);
+            }
+            else {
+                if (property.length() > 255) {
+                    log.info("NEW KEY = " + key + " -- " + property.substring(0, 255));
+                    log.info("\n...\n" + property.length() +
+                            " characters in property, turn on TRACE logging to log entire property");
+                }
+                else {
+                    log.info("NEW KEY = " + key + " -- " + property);
+                }
+            }
 
             ctx.setAttribute(key, returnParams.getProperty(key));
         }
