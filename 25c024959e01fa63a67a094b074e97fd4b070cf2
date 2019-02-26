@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3fabe97f_aa62039f",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/core/AbstractRequestResponseHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:12:25Z",
+      "side": 1,
+      "message": "indent both lines two more spaces (or use Source-\u003eFormat)",
+      "revId": "25c024959e01fa63a67a094b074e97fd4b070cf2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
