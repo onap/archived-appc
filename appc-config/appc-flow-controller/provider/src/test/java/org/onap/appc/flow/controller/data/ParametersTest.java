@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,7 +75,18 @@ public class ParametersTest {
     @Test
     public void testEqualsObject() {
         assertTrue(param1.equals(param2) && param2.equals(param1));
-        assertTrue(param1.equals(param1));
         assertFalse(param1.equals(null));
+        assertFalse(param1.equals(""));
+        param2.setParamName("other_param_name");
+        assertFalse(param1.equals(param2));
+        param1.setParamName("param_name");
+        assertFalse(param1.equals(param2));
+        param2.setParamName("param_name");
+        param2.setParamValue("other_param_value");
+        assertFalse(param1.equals(param2));
+        param1.setParamValue("param_value");
+        assertFalse(param1.equals(param2));
+        param2.setParamValue("param_value");
+        assertTrue(param1.equals(param1));
     }
 }
