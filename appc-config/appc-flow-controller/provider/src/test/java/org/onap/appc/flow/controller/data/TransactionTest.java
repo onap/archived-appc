@@ -6,6 +6,8 @@
  * ================================================================================
  * Modifications Copyright (C) 2018 IBM.
  * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -25,8 +27,9 @@ package org.onap.appc.flow.controller.data;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -43,35 +46,35 @@ public class TransactionTest {
     public void get_set_pass() {
         String somePwsd = "some_pass";
         transaction.setPswd(somePwsd);
-        Assert.assertEquals(somePwsd, transaction.getPswd());
+        assertEquals(somePwsd, transaction.getPswd());
     }
 
     @Test
     public void get_set_precheck() {
         PreCheck precheck = mock(PreCheck.class);
         transaction.setPrecheck(precheck);
-        Assert.assertEquals(precheck, transaction.getPrecheck());
+        assertEquals(precheck, transaction.getPrecheck());
     }
 
     @Test
     public void get_set_state() {
         String state = "some_state";
         transaction.setState(state);
-        Assert.assertEquals(state, transaction.getState());
+        assertEquals(state, transaction.getState());
     }
 
     @Test
     public void get_set_status_code() {
         String statusCode = "status_code";
         transaction.setStatusCode(statusCode);
-        Assert.assertEquals(statusCode, transaction.getStatusCode());
+        assertEquals(statusCode, transaction.getStatusCode());
     }
 
     @Test
     public void get_set_transaction_id() {
         int id = 133;
         transaction.setTransactionId(id);
-        Assert.assertEquals(id, transaction.getTransactionId());
+        assertEquals(id, transaction.getTransactionId());
     }
 
     @Test
@@ -79,7 +82,7 @@ public class TransactionTest {
         ArrayList<Response> responses = new ArrayList<>();
         responses.add(mock(Response.class));
         transaction.setResponses(responses);
-        Assert.assertEquals(responses, transaction.getResponses());
+        assertEquals(responses, transaction.getResponses());
     }
 
     @Test
@@ -87,77 +90,77 @@ public class TransactionTest {
         ArrayList<Parameters> parameters = new ArrayList<>();
         parameters.add(mock(Parameters.class));
         transaction.setParameters(parameters);
-        Assert.assertEquals(parameters, transaction.getParameters());
+        assertEquals(parameters, transaction.getParameters());
     }
 
     @Test
     public void get_set_payload() {
         String payload = "some_payload";
         transaction.setPayload(payload);
-        Assert.assertEquals(payload, transaction.getPayload());
+        assertEquals(payload, transaction.getPayload());
     }
 
     @Test
     public void get_set_execution_rpc() {
         String executionRPC = "some_exec_rpc";
         transaction.setExecutionRPC(executionRPC);
-        Assert.assertEquals(executionRPC, transaction.getExecutionRPC());
+        assertEquals(executionRPC, transaction.getExecutionRPC());
     }
 
     @Test
     public void get_set_execution_module() {
         String executionModule = "some_exec_module";
         transaction.setExecutionModule(executionModule);
-        Assert.assertEquals(executionModule, transaction.getExecutionModule());
+        assertEquals(executionModule, transaction.getExecutionModule());
     }
 
     @Test
     public void get_set_execution_type() {
         String executionType = "some_exec_type";
         transaction.setExecutionType(executionType);
-        Assert.assertEquals(executionType, transaction.getExecutionType());
+        assertEquals(executionType, transaction.getExecutionType());
     }
 
     @Test
     public void get_set_execution_endpoint() {
         String executionEndpoint = "some_exec_endpoint";
         transaction.setExecutionEndPoint(executionEndpoint);
-        Assert.assertEquals(executionEndpoint, transaction.getExecutionEndPoint());
+        assertEquals(executionEndpoint, transaction.getExecutionEndPoint());
     }
 
     @Test
     public void get_set_uid() {
         String uid = "some_uid";
         transaction.setuId(uid);
-        Assert.assertEquals(uid, transaction.getuId());
+        assertEquals(uid, transaction.getuId());
     }
 
     @Test
     public void get_set_action_level() {
         String actionLevel = "some_action_level";
         transaction.setActionLevel(actionLevel);
-        Assert.assertEquals(actionLevel, transaction.getActionLevel());
+        assertEquals(actionLevel, transaction.getActionLevel());
     }
 
     @Test
     public void get_set_action_identifier() {
         ActionIdentifier actionIdentifier = mock(ActionIdentifier.class);
         transaction.setActionIdentifier(actionIdentifier);
-        Assert.assertEquals(actionIdentifier, transaction.getActionIdentifier());
+        assertEquals(actionIdentifier, transaction.getActionIdentifier());
     }
 
     @Test
     public void get_set_action() {
         String action = "some_action";
         transaction.setAction(action);
-        Assert.assertEquals(action, transaction.getAction());
+        assertEquals(action, transaction.getAction());
     }
 
     @Test
     public void get_set_status() {
         String status = "some_status";
         transaction.setStatus(status);
-        Assert.assertEquals(status, transaction.getStatus());
+        assertEquals(status, transaction.getStatus());
     }
 
     @Test
@@ -197,7 +200,7 @@ public class TransactionTest {
         transaction.setTransactionId(133);
         transaction.setuId("some_uid");
 
-        Assert.assertEquals(
+        assertEquals(
             "Transaction [transactionId=133, action=some_action, actionLevel=some_action_level, actionIdentifier=some_action_identifier, parameters=[some_parameters], executionType=some_execution_type, uId=some_uid, statusCode=some_status_code, pswd=some_pass, executionEndPoint=some_execution_endpoint, executionModule=some_execution_module, executionRPC=some_execution_rpc, state=some_state, precheck=some_precheck, payload=some_payload, responses=[some_response], status=some_status]",
             transaction.toString());
     }
@@ -207,46 +210,117 @@ public class TransactionTest {
         ActionIdentifier actionIdentifier = mock(ActionIdentifier.class);
         PreCheck precheck = mock(PreCheck.class);
         ArrayList<Response> responses = new ArrayList<>();
+        responses.add(new Response());
         Parameters parameters = mock(Parameters.class);
         ArrayList<Parameters> parametersList = new ArrayList<>();
         parametersList.add(parameters);
-        transaction.setAction("action");
-        transaction.setActionIdentifier(actionIdentifier);
-        transaction.setActionLevel("some_action_level");
-        transaction.setExecutionRPC("some_execution_rpc");
-        transaction.setExecutionType("some_execution_type");
-        transaction.setExecutionModule("some_execution_module");
-        transaction.setExecutionEndPoint("some_execution_endpoint");
-        transaction.setState("some_state");
-        transaction.setStatus("some_status");
-        transaction.setStatusCode("some_status_code");
-        transaction.setPswd("some_pass");
-        transaction.setPayload("some_payload");
-        transaction.setPrecheck(precheck);
-        transaction.setParameters(parametersList);
-        transaction.setResponses(responses);
-        transaction.setTransactionId(133);
-        transaction.setuId("some_uid");
+        assertTrue(transaction.equals(transaction));
+        assertFalse(transaction.equals(null));
+        assertFalse(transaction.equals(""));
         Transaction other = new Transaction();
-        other.setAction("action");
+        other.setAction("different_action");
+        assertFalse(transaction.equals(other));
+        transaction.setAction("action");
+        assertFalse(transaction.equals(other));
         other.setAction("action");
         other.setActionIdentifier(actionIdentifier);
+        assertFalse(transaction.equals(other));
+        transaction.setActionIdentifier(new ActionIdentifier());
+        assertFalse(transaction.equals(other));
+        transaction.setActionIdentifier(actionIdentifier);
+        other.setActionLevel("different_action_level");
+        assertFalse(transaction.equals(other));
+        transaction.setActionLevel("some_action_level");
+        assertFalse(transaction.equals(other));
         other.setActionLevel("some_action_level");
-        other.setExecutionRPC("some_execution_rpc");
-        other.setExecutionType("some_execution_type");
-        other.setExecutionModule("some_execution_module");
+        other.setExecutionEndPoint("different_execution_endpoint");
+        assertFalse(transaction.equals(other));
+        transaction.setExecutionEndPoint("some_execution_endpoint");
+        assertFalse(transaction.equals(other));
         other.setExecutionEndPoint("some_execution_endpoint");
-        other.setState("some_state");
-        other.setStatus("some_status");
-        other.setStatusCode("some_status_code");
-        other.setPswd("some_pass");
-        other.setPayload("some_payload");
-        other.setPrecheck(precheck);
+
+        other.setExecutionModule("different_execution_module");
+        assertFalse(transaction.equals(other));
+        transaction.setExecutionModule("some_execution_module");
+        assertFalse(transaction.equals(other));
+        other.setExecutionModule("some_execution_module");
+
+        other.setExecutionRPC("different_execution_rpc");
+        assertFalse(transaction.equals(other));
+        transaction.setExecutionRPC("some_execution_rpc");
+        assertFalse(transaction.equals(other));
+        other.setExecutionRPC("some_execution_rpc");
+
+        other.setExecutionType("different_execution_type");
+        assertFalse(transaction.equals(other));
+        transaction.setExecutionType("some_execution_type");
+        assertFalse(transaction.equals(other));
+        other.setExecutionType("some_execution_type");
+        
+        other.setParameters(new ArrayList<Parameters>(0));
+        assertFalse(transaction.equals(other));
+        transaction.setParameters(parametersList);
+        assertFalse(transaction.equals(other));
         other.setParameters(parametersList);
+        
+        other.setPayload("different_payload");
+        assertFalse(transaction.equals(other));
+        transaction.setPayload("some_payload");
+        assertFalse(transaction.equals(other));
+        other.setPayload("some_payload");
+        
+        other.setPrecheck(new PreCheck());
+        assertFalse(transaction.equals(other));
+        transaction.setPrecheck(precheck);
+        assertFalse(transaction.equals(other));
+        other.setPrecheck(precheck);
+        
+        other.setPswd("different_pass");
+        assertFalse(transaction.equals(other));
+        transaction.setPswd("some_pass");
+        assertFalse(transaction.equals(other));
+        other.setPswd("some_pass");
+        
+        other.setPswd("different_pass");
+        assertFalse(transaction.equals(other));
+        transaction.setPswd("some_pass");
+        assertFalse(transaction.equals(other));
+        other.setPswd("some_pass");
+        
+        other.setResponses(new ArrayList<Response>(0));
+        assertFalse(transaction.equals(other));
+        transaction.setResponses(responses);
+        assertFalse(transaction.equals(other));
         other.setResponses(responses);
-        other.setTransactionId(133);
+        
+        other.setState("different_state");
+        assertFalse(transaction.equals(other));
+        transaction.setState("some_state");
+        assertFalse(transaction.equals(other));
+        other.setState("some_state");
+        
+        other.setStatus("different_status");
+        assertFalse(transaction.equals(other));
+        transaction.setStatus("some_status");
+        assertFalse(transaction.equals(other));
+        other.setStatus("some_status");
+        
+        other.setStatusCode("different_status_code");
+        assertFalse(transaction.equals(other));
+        transaction.setStatusCode("some_status_code");
+        assertFalse(transaction.equals(other));
+        other.setStatusCode("some_status_code");
+        
+        other.setTransactionId(0);
+        transaction.setTransactionId(1);
+        assertFalse(transaction.equals(other));
+        other.setTransactionId(1);
+        other.setuId("different_uid");
+        assertFalse(transaction.equals(other));
+        transaction.setuId("some_uid");
+        assertFalse(transaction.equals(other));
         other.setuId("some_uid");
-        Assert.assertTrue(transaction.equals(other));
+        assertTrue(transaction.equals(other));
     }
     
     @Test
