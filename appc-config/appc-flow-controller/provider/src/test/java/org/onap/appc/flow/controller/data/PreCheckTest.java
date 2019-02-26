@@ -5,6 +5,8 @@
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
  * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +28,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -50,7 +52,7 @@ public class PreCheckTest {
     public void testSetPrecheckOperator() {
         preCheck.setPrecheckOperator("op");
         assertNotNull(preCheck.getPrecheckOperator());
-        assertEquals(preCheck.getPrecheckOperator(),"op");
+        assertEquals("op", preCheck.getPrecheckOperator());
     }
 
     @Test
@@ -58,13 +60,13 @@ public class PreCheckTest {
         List<PrecheckOption> precheckOptionList = new LinkedList<>();
         preCheck.setPrecheckOptions(precheckOptionList);
         assertNotNull(preCheck.getPrecheckOptions());
-        assertEquals(preCheck.getPrecheckOptions(), precheckOptionList);
+        assertEquals(precheckOptionList, preCheck.getPrecheckOptions());
     }
 
     @Test
     public void testHashCode() {
         preCheck.setPrecheckOperator("1");
-        System.out.println(" precheck hashcode is "  + preCheck.hashCode());
+        assertNotNull(preCheck.hashCode());
     }
 
     @Test
@@ -72,16 +74,27 @@ public class PreCheckTest {
         preCheck.setPrecheckOperator("A");
         List<PrecheckOption> precheckOptionList = new LinkedList<>();
         preCheck.setPrecheckOptions(precheckOptionList);
-        String ret = preCheck.toString();
-        System.out.println("ret is " + ret);
-
+        assertTrue(preCheck.toString().contains("precheckOperator=A"));
     }
-    
+
     @Test
     public void testEqualsObject() {
-        assertTrue(preCheck1.equals(preCheck2) && preCheck2.equals(preCheck1));
+        assertTrue(preCheck1.equals(preCheck2));
         assertTrue(preCheck1.equals(preCheck1));
         assertFalse(preCheck1.equals(null));
+        assertFalse(preCheck1.equals(""));
+        preCheck2.setPrecheckOperator("other_precheckOperator");
+        assertFalse(preCheck1.equals(preCheck2));
+        preCheck1.setPrecheckOperator("precheckOperator");
+        assertFalse(preCheck1.equals(preCheck2));
+        preCheck2.setPrecheckOperator("precheckOperator");
+        List<PrecheckOption> precheckOptions = new ArrayList<>();
+        precheckOptions.add(new PrecheckOption());
+        preCheck2.setPrecheckOptions(new ArrayList<PrecheckOption>());
+        assertFalse(preCheck1.equals(preCheck2));
+        preCheck1.setPrecheckOptions(precheckOptions);
+        assertFalse(preCheck1.equals(preCheck2));
+        preCheck2.setPrecheckOptions(precheckOptions);
+        assertTrue(preCheck1.equals(preCheck2));
     }
-
 }
