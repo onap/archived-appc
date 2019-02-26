@@ -16,6 +16,24 @@
       "revId": "17e8e0087e4775fd59b2c1a5ec08ab7c2856bc48",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37bf50e5_52d38808",
+        "filename": "appc-config/appc-config-adaptor/provider/src/test/resources/appc-config-adaptor.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-26T15:22:32Z",
+      "side": 1,
+      "message": "File exists in src/main/resources and is copied to src/test/resources under a different name for the purposes of this test.",
+      "parentUuid": "3f0d748a_82b78501",
+      "revId": "17e8e0087e4775fd59b2c1a5ec08ab7c2856bc48",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
