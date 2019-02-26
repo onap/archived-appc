@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9306ff22_9a99204c",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/data/PrecheckOptionTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T15:02:51Z",
+      "side": 1,
+      "message": "arguments for assertEquals should be swapped\n\nsame comment applies elsewhere",
+      "revId": "d228e92175318a0127e58eddd490b4c0c4e356e3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
