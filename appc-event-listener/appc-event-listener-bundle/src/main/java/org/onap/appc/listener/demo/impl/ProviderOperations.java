@@ -7,6 +7,7 @@
  * Copyright (C) 2017 Amdocs
  * =============================================================================
  * Modifications Copyright (C) 2019 Ericsson
+ * Modifications Copyright (C) 2019 IBM
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -150,7 +151,7 @@ public class ProviderOperations {
         try {
             url = new URL(newUrl);
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+        	LOG.error("Malformed URL", e);
         }
     }
 
