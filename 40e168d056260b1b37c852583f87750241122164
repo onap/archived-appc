@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9b52d98_eb2d50af",
+        "filename": "appc-client/client-lib/src/main/java/org/onap/appc/client/impl/core/SyncRequestResponseHandler.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:14:10Z",
+      "side": 1,
+      "message": "indent both of these lines two more spaces",
+      "revId": "40e168d056260b1b37c852583f87750241122164",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
