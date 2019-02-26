@@ -1,4 +1,4 @@
-/*
+/*-
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
@@ -21,20 +21,22 @@
 
 package org.onap.appc.adapter.iaas.provider.operation.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import com.att.cdp.exceptions.ZoneException;
 import com.att.cdp.zones.VolumeService;
 import com.att.cdp.zones.model.ModelObject;
 import com.att.cdp.zones.model.Server;
 import com.att.cdp.zones.model.Server.Status;
 import com.att.cdp.zones.model.Volume;
-
 
 public class AttachVolumeServerTest {
 
@@ -52,4 +54,18 @@ public class AttachVolumeServerTest {
         assertTrue(rbs.executeProviderOperation(mg.getParams(), mg.getSvcLogicContext()) instanceof ModelObject);
     }
 
+    @Test
+    public void attachVolumeTestException() throws ZoneException, APPCException {
+        SvcLogicContext context = new SvcLogicContext();
+        MockGenerator mg = new MockGenerator(Status.RUNNING);
+        Server server = mg.getServer();
+        VolumeService volumeService = mock(VolumeService.class);
+        when(volumeService.getVolumes()).thenThrow(new ZoneException("Zone Exception"));
+        doReturn(mg.getContext()).when(server).getContext();
+        doReturn(volumeService).when(mg.getContext()).getVolumeService();
+        AttachVolumeServer attachVolumeServer = new AttachVolumeServer();
+        attachVolumeServer.setProviderCache(mg.getProviderCacheMap());
+        attachVolumeServer.executeProviderOperation(mg.getParams(), context);
+        assertEquals("FAILURE", context.getAttribute("VOLUME_STATUS"));
+    }
 }
