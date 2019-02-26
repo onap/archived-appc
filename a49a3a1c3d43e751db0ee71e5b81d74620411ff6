@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19702d49_4c8c8902",
+        "filename": "appc-event-listener/appc-event-listener-bundle/src/main/java/org/onap/appc/listener/demo/impl/ProviderOperations.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:02:45Z",
+      "side": 1,
+      "message": "indent two more spaces",
+      "revId": "a49a3a1c3d43e751db0ee71e5b81d74620411ff6",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
