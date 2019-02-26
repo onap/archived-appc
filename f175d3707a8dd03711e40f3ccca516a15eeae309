@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "465eaa30_f01bcac3",
+        "filename": "appc-core/appc-common-bundle/src/main/java/org/onap/appc/pool/CachedElement.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:07:35Z",
+      "side": 1,
+      "message": "indent four spaces",
+      "revId": "f175d3707a8dd03711e40f3ccca516a15eeae309",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
