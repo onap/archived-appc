@@ -62,16 +62,27 @@ public class ActionIdentifierTest {
     @Test
     public void testEquals() {
         ActionIdentifier actionId1 = new ActionIdentifier();
+        assertTrue(actionId1.equals(actionId1));
+        assertFalse(actionId1.equals(null));
+        assertFalse(actionId1.equals(""));
         ActionIdentifier actionId2 = new ActionIdentifier();
-        
-        actionId1.setVnfcName("vnfcName");
+        actionId2.setVnfId("other_vnfId");
+        assertFalse(actionId1.equals(actionId2));
         actionId1.setVnfId("vnfId");
-        actionId1.setVserverId("vserverId");
-        actionId2.setVnfcName("vnfcName");
+        assertFalse(actionId1.equals(actionId2));
         actionId2.setVnfId("vnfId");
+
+        actionId2.setVnfcName("other_vnfcName");
+        assertFalse(actionId1.equals(actionId2));
+        actionId1.setVnfcName("vnfc_name");
+        assertFalse(actionId1.equals(actionId2));
+        actionId2.setVnfcName("vnfc_name");
+        actionId2.setVserverId("other_vserverId");
+        assertFalse(actionId1.equals(actionId2));
+        actionId1.setVserverId("vserverId");
+        assertFalse(actionId1.equals(actionId2));
         actionId2.setVserverId("vserverId");
-        assertEquals(actionId1,actionId2);
-        assertEquals(actionId2,actionId1);
+        assertEquals(actionId2, actionId1);
     }
 
     @Test
