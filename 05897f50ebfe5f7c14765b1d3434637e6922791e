@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b59f791c_8035de08",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1035,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:22:19Z",
+      "side": 1,
+      "message": "remove first \"runningConfig +\"",
+      "revId": "05897f50ebfe5f7c14765b1d3434637e6922791e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5c4d8319_e7aa8bf7",
+        "filename": "appc-config/appc-config-adaptor/provider/src/main/java/org/onap/appc/ccadaptor/ConfigComponentAdaptor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:22:19Z",
+      "side": 1,
+      "message": "remove first \"runningConfig +\"",
+      "revId": "05897f50ebfe5f7c14765b1d3434637e6922791e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "016877a0_feea3c9a",
+        "filename": "appc-config/appc-config-generator/provider/src/main/java/org/onap/sdnc/config/generator/writer/FileWriterNode.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:22:19Z",
+      "side": 1,
+      "message": "maybe invoke toString() once and cache the result since it\u0027s used on multiple lines, including an implicit use on line 55.",
+      "revId": "05897f50ebfe5f7c14765b1d3434637e6922791e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b73a384a_e0cf02d2",
+        "filename": "appc-config/appc-flow-controller/provider/src/main/java/org/onap/appc/flow/controller/executorImpl/GraphExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:22:19Z",
+      "side": 1,
+      "message": "include \"NEW KEY\"?",
+      "revId": "05897f50ebfe5f7c14765b1d3434637e6922791e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
