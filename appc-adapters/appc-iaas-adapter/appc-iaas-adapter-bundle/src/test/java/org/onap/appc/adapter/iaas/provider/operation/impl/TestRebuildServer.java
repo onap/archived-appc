@@ -25,6 +25,7 @@ package org.onap.appc.adapter.iaas.provider.operation.impl;
 import org.junit.Assert;
 import org.junit.Test;
 import static org.mockito.Mockito.verify;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.inOrder;
 import org.mockito.InOrder;
 import com.att.cdp.zones.model.Server;
@@ -32,6 +33,7 @@ import com.att.cdp.zones.model.Server.Status;
 import com.att.cdp.exceptions.ZoneException;
 import org.onap.appc.adapter.iaas.provider.operation.impl.RebuildServer;
 import org.onap.appc.exceptions.APPCException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 
@@ -126,6 +128,28 @@ public class TestRebuildServer {
         inOrderTest.verify(server).stop();
         inOrderTest.verify(server).rebuild("linuxBase");
         inOrderTest.verify(server).start();
+    }
+    
+    @Test
+    public void rebuildServerException() throws ZoneException, APPCException {
+        MockGenerator mg = new MockGenerator(null);
+        RebuildServer rbs = new RebuildServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        rbs.setRebuildSleepTime(0);
+        SvcLogicContext context = new SvcLogicContext();
+        rbs.executeProviderOperation(mg.getParams(), context);
+        assertEquals("ERROR", context.getAttribute("REBUILD_STATUS"));
+    }
+    
+    @Test
+    public void rebuildServerDeleted() throws ZoneException, APPCException {
+        MockGenerator mg = new MockGenerator(Status.DELETED);
+        RebuildServer rbs = new RebuildServer();
+        rbs.setProviderCache(mg.getProviderCacheMap());
+        rbs.setRebuildSleepTime(0);
+        SvcLogicContext context = new SvcLogicContext();
+        rbs.executeProviderOperation(mg.getParams(), context);
+        assertEquals("ERROR", context.getAttribute("REBUILD_STATUS"));
     }
 
 }
