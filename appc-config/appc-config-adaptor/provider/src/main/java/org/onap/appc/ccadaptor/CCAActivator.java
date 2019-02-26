@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,9 +39,6 @@ import org.osgi.framework.ServiceRegistration;
 public class CCAActivator implements BundleActivator
 {
 
-  private static final String CCA_PROP_FILE_VAR = "SDNC_CCA_PROPERTIES";
-  private static final String APPC_CONFIG_DIR_VAR = "APPC_CONFIG_DIR";
-
   @SuppressWarnings("rawtypes")
   private ServiceRegistration registration = null;
 
@@ -52,16 +51,18 @@ public class CCAActivator implements BundleActivator
     Properties props = new Properties();
 
     // Read properties from appc-config-adaptor.properties
-    String propFileName = System.getenv(CCA_PROP_FILE_VAR);
+    String propFileName = CcAdaptorConstants.getEnvironmentVariable(CcAdaptorConstants.CCA_PROP_FILE_VAR);
     if (propFileName == null)
     {
-      String propDir = System.getenv(APPC_CONFIG_DIR_VAR);
+      String propDir = CcAdaptorConstants.getEnvironmentVariable(CcAdaptorConstants.APPC_CONFIG_DIR_VAR);
       if (propDir == null)
         throw new ConfigurationException(
-          "Cannot find config file - " + CCA_PROP_FILE_VAR + " and " + APPC_CONFIG_DIR_VAR + " unset");
+          "Cannot find config file - " + CcAdaptorConstants.CCA_PROP_FILE_VAR + " and " +
+          CcAdaptorConstants.APPC_CONFIG_DIR_VAR + " unset");
 
       propFileName = propDir + "/appc-config-adaptor.properties";
-      log.warn("Environment variable " + CCA_PROP_FILE_VAR + " unset - defaulting to " + propFileName);
+      log.warn("Environment variable " + CcAdaptorConstants.CCA_PROP_FILE_VAR + " unset - defaulting to "
+              + propFileName);
     }
 
     File propFile = new File(propFileName);
