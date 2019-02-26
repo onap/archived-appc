@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28efc2fd_8dd2aa95",
+        "filename": "appc-config/appc-config-generator/provider/src/main/java/org/onap/sdnc/config/generator/writer/FileWriterNode.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:48:15Z",
+      "side": 1,
+      "message": "can use mapString here, too",
+      "revId": "3557ee38d217258335980720b30ffd4a24ebf3e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
