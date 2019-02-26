@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03a55d92_69f092b0",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:37:24Z",
+      "side": 1,
+      "message": "hmm.  Makes you wish that the interface had used a generically typed method to get items of a given type.  Oh well, probably too late for that.",
+      "revId": "85a21e88f57baa2086ec2a58b347b6a2ce4ebeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57de82ea_15450488",
+        "filename": "appc-metric/appc-metric-bundle/src/main/java/org/onap/appc/metricservice/impl/MetricRegistryImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:37:24Z",
+      "side": 1,
+      "message": "maybe store the value in a variable so \"get()\" doesn\u0027t have to be invoked twice",
+      "revId": "85a21e88f57baa2086ec2a58b347b6a2ce4ebeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1b12aa17_eda55e4a",
+        "filename": "appc-metric/appc-metric-bundle/src/test/java/org/onap/appc/metricservice/impl/MetricRegistryImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T14:37:24Z",
+      "side": 1,
+      "message": "maybe add some items before invoking dispose, just to ensure that it removes them?",
+      "revId": "85a21e88f57baa2086ec2a58b347b6a2ce4ebeb4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
