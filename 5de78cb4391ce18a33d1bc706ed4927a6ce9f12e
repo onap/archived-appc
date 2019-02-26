@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eb60038_6286b282",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/TestStackResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-26T22:46:32Z",
+      "side": 1,
+      "message": "maybe add a check to ensure the URL within the ShowStack object looks right",
+      "revId": "5de78cb4391ce18a33d1bc706ed4927a6ce9f12e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
