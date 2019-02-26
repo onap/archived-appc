@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -59,7 +61,8 @@ abstract class AbstractRequestResponseHandler implements RequestResponseHandler 
                 }
             });
         } catch (InterruptedException e) {
-            LOG.error("could not handle response <" + response + "> of corrID <" + corrID + ">", e);
+          Thread.currentThread().interrupt();
+          LOG.error("could not handle response <" + response + "> of corrID <" + corrID + ">", e);
         }
     }
 
