@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,21 +49,21 @@ public class PrecheckOptionTest {
     public void testSetpTransactionID() {
         precheckoption.setpTransactionID(1);
         assertNotNull(precheckoption.getpTransactionID());
-        assertEquals(precheckoption.getpTransactionID(),1);
+        assertEquals(1, precheckoption.getpTransactionID());
     }
 
     @Test
     public void testSetParamName() {
         precheckoption.setParamName("abc");
         assertNotNull(precheckoption.getParamName());
-        assertEquals(precheckoption.getParamName(),"abc");
+        assertEquals("abc", precheckoption.getParamName());
     }
 
     @Test
     public void testSetParamValue() {
         precheckoption.setParamValue("def");
         assertNotNull(precheckoption.getParamValue());
-        assertEquals(precheckoption.getParamValue(),"def");
+        assertEquals("def", precheckoption.getParamValue());
     }
 
     @Test
@@ -70,15 +72,14 @@ public class PrecheckOptionTest {
         precheckoption.setParamValue("ghi");
         precheckoption.setpTransactionID(1);
         precheckoption.setRule("jkl");
-        String ret = precheckoption.toString();
-        assertFalse("toString is not empty", ret.isEmpty());
+        assertFalse("toString is not empty", precheckoption.toString().isEmpty());
     }
 
     @Test
     public void testSetRule() {
         precheckoption.setRule("abc");
         assertNotNull(precheckoption.getRule());
-        assertEquals(precheckoption.getRule(),"abc");
+        assertEquals("abc", precheckoption.getRule());
     }
 
     @Test
@@ -87,13 +88,29 @@ public class PrecheckOptionTest {
         precheckoption.setParamName("abc");
         precheckoption.setParamValue("def");
         precheckoption.setRule("jkl");
-        System.out.println("precheckoption hashcode is " + precheckoption.hashCode());
+        assertNotNull(precheckoption.hashCode());
     }
 
     @Test
     public void testEqualsObject() {
-        assertTrue(precheckoption1.equals(precheckoption2) && precheckoption2.equals(precheckoption1));
+        assertTrue(precheckoption1.equals(precheckoption2));
         assertTrue(precheckoption1.equals(precheckoption1));
         assertFalse(precheckoption1.equals(null));
+        assertFalse(precheckoption1.equals(""));
+        precheckoption1.setpTransactionID(1);
+        assertFalse(precheckoption1.equals(precheckoption2));
+        precheckoption2.setpTransactionID(1);
+        precheckoption2.setParamName("other_param_name");
+        assertFalse(precheckoption1.equals(precheckoption2));
+        precheckoption1.setParamName("param_name");
+        assertFalse(precheckoption1.equals(precheckoption2));
+        precheckoption2.setParamName("param_name");
+        precheckoption2.setParamValue("other_param_value");
+        assertFalse(precheckoption1.equals(precheckoption2));
+        precheckoption1.setParamValue("param_value");
+        assertFalse(precheckoption1.equals(precheckoption2));
+        precheckoption2.setParamValue("param_value");
+        precheckoption1.setRule("other_rule");
+        assertFalse(precheckoption1.equals(precheckoption2));
     }
 }
