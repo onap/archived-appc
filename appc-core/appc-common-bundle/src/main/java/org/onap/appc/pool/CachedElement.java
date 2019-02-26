@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,6 +31,8 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.concurrent.atomic.AtomicBoolean;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 
 /**
  * This class is used as a "wrapper" for any closeable elements that are cached in a pool. It is
@@ -42,6 +46,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CachedElement<T extends Closeable>
         implements Closeable, InvocationHandler, CacheManagement {
+        private final EELFLogger LOG = EELFManager.getInstance().getLogger(CachedElement.class);
 
     /**
      * The pool that is managing this cached element
@@ -116,7 +121,7 @@ public class CachedElement<T extends Closeable>
         try {
             pool.release((T) this);
         } catch (PoolDrainedException e) {
-            e.printStackTrace();
+            LOG.error("Pool is empty", e);
         }
     }
 
