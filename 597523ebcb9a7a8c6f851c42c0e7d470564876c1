@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1192b117_c05a0243",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T17:21:27Z",
+      "side": 1,
+      "message": "remove first thenReturn?",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f62827f1_58098282",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T17:21:27Z",
+      "side": 1,
+      "message": "remove first thenReturn?",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2b73096e_f9a63f60",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T17:21:27Z",
+      "side": 1,
+      "message": "remove first thenReturn?",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
