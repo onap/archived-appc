@@ -16,6 +16,24 @@
       "revId": "5de78cb4391ce18a33d1bc706ed4927a6ce9f12e",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ac88ec8d_66f3c099",
+        "filename": "appc-adapters/appc-iaas-adapter/appc-iaas-adapter-bundle/src/test/java/org/onap/appc/adapter/iaas/TestStackResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 3813
+      },
+      "writtenOn": "2019-02-27T11:45:56Z",
+      "side": 1,
+      "message": "Fixed",
+      "parentUuid": "5eb60038_6286b282",
+      "revId": "5de78cb4391ce18a33d1bc706ed4927a6ce9f12e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
