@@ -90,6 +90,7 @@ public class DesignServiceConstants {
     public static final String ARTIFACT_TYPE = "artifact-type";
     public static final String STATUS = "status";
     public static final String UPLOADARTIFACT = "uploadArtifact";
+    public static final String UPLOADADMINARTIFACT = "uploadAdminArtifact";
     public static final String REQUETS_ID = "request-id";
     public static final String REQUEST_ACTION = "request-action";
     public static final String SOURCE = "source";
@@ -107,7 +108,7 @@ public class DesignServiceConstants {
     public static final String INSTAR_V6_ADDRESS = "v6IPAddress";
     public static final String INSTAR_V4_MASK = "v4Subnet";
     public static final String INSTAR_V6_MASK = "v6Subnet";
-    
+    public static final String CHECKVNF = "checkVNF";
     private DesignServiceConstants() {
     }
     
