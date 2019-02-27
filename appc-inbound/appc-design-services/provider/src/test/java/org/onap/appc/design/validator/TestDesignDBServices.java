@@ -200,6 +200,4 @@ public class TestDesignDBServices {
              assertTrue(result.endsWith("Z"));
     }
     
-   
-
-}
+ }
