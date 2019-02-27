@@ -3,6 +3,8 @@
  * ONAP : APPC
  * ================================================================================
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,14 +40,14 @@ public class FlowControlDBService {
     private static final EELFLogger log = EELFManager.getInstance().getLogger(FlowControlDBService.class);
     private static final String QUERY_STR = "Query String : ";
     private static final String FAILURE_PARAM = "FAILURE";
-    private static final String GET_FLOW_REF_DATA_ERROR = "Error - while getting FlowReferenceData ";
+    protected static final String GET_FLOW_REF_DATA_ERROR = "Error - while getting FlowReferenceData ";
     private static final String SELECT_AS_QUERY_STR = "select max(internal_version) as maxInternalVersion, artifact_name as artifactName from ";
     private static final String WHERE_ART_NAME_QUERY_STR = " where artifact_name in (select artifact_name from ";
     private static final String WHERE_VNF_TYPE_QUERY_STR = " where vnf_type= $";
     private static final String SELECT_ART_CONTENT_QUERY_STR = "select artifact_content from ";
     private static final String WHERE_ARTIFACT_NAME_QUERY_STR = " where artifact_name = $artifactName  and internal_version = $maxInternalVersion ";
     private static final String ARTIFACT_CONTENT_PARAM = "artifact-content";
-    private static final String COUNT_PROTOCOL_PARAM = "count(protocol)";
+    protected static final String COUNT_PROTOCOL_PARAM = "count(protocol)";
     private static final String WHERE_ACTION_QUERY_STR = " where action = '";
     private static final String AND_ACTION_LEVEL_QUERY_STR = " and action_level = '";
 
@@ -165,7 +167,7 @@ public class FlowControlDBService {
     public void populateModuleAndRPC(Transaction transaction, String vnfType) throws SvcLogicException {
         String fn = "FlowControlDBService.populateModuleAndRPC ";
         QueryStatus status;
-        SvcLogicContext context = new SvcLogicContext();
+        SvcLogicContext context = getSvcLogicContext();
         String protocolType = getProtocolType(transaction, vnfType, fn, context);
 
         String key = "select execution_type, execution_module, execution_rpc from "
@@ -200,8 +202,9 @@ public class FlowControlDBService {
             throw new SvcLogicException(GET_FLOW_REF_DATA_ERROR);
         }
 
-        log.debug(" Protocol Count " + context.getAttribute(COUNT_PROTOCOL_PARAM));
-        protocolCount = Integer.parseInt(context.getAttribute(COUNT_PROTOCOL_PARAM));
+        String countProtocolParam = context.getAttribute(COUNT_PROTOCOL_PARAM);
+        log.debug(" Protocol Count " + countProtocolParam);
+        protocolCount = Integer.parseInt(countProtocolParam);
 
         if (protocolCount == 1) {
             protocolQuery = "select protocol from " + FlowControllerConstants.DB_PROTOCOL_REFERENCE
@@ -315,5 +318,9 @@ public class FlowControlDBService {
             }
         }
         return localContext != null ? localContext.getAttribute(ARTIFACT_CONTENT_PARAM) : null;
+    }
+
+    protected SvcLogicContext getSvcLogicContext() {
+        return new SvcLogicContext();
     }
 }
