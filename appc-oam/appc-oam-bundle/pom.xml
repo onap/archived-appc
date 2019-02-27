@@ -166,6 +166,12 @@
             <version>1.6.2</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.22.0-GA</version>
+            <scope>test</scope>
+        </dependency>
         <!-- TEMP CODE -->
         <dependency>
             <groupId>org.json</groupId>
