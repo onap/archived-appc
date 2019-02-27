@@ -122,6 +122,24 @@
       "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "803be7fb_a40c6a51",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-27T19:53:44Z",
+      "side": 1,
+      "message": "The difference between these two tests is the difference between line 170 and line 154 in the test code. In one we just set a value of 2 in the context variable and in the other we set up a mock context object that returns 2 the first time it is called and returns 1 the second time it is called. This allows the \u0027if\u0027 clause on line 245 in tested class to be tested as well as the \u0027else if\u0027 clause starting on line 247.\nI think there could possibly be unreachable code here but for testing the code as it stands both tests are meant to have two return(SUCCESS) values each and they differ with the return values from ctx.getAttribute(COUNT_PROTOCOL_PARAM)",
+      "parentUuid": "e0e489ae_551ffdf5",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
