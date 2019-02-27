@@ -36,13 +36,13 @@ public class AppcDataServiceConstant {
     public static final String INPUT_PARAM_SDC_ARTIFACT_IND = "asdcArtifactInd";
     public static final String INPUT_PARAM_VNF_ID = "vnfId";
     public static final String INPUT_PARAM_VM_NAME = "vmName";
-    
     public static final String INPUT_PARAM_FILE_ID = "fileId";
-    
     public static final String INPUT_PARAM_UPLOAD_CONFIG_ID= "uploadConfigId";
     public static final String CAPABILITY_VM_LEVEL="vm";
     public static final String KEY_VSERVER_ID = "vserver-id";
     public static final String KEY_VNFC_FUNCTION_CODE = "vnfc-function-code";
+    public static final String TEMPLATE_NAME = "template-name";
+    public static final String TEMPLATE_MODEL_ID = "template-model-id";
 
     public enum ACTIONS
     {

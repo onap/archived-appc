@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Modifications Copyright (C) 2018-2019 IBM.
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +27,6 @@ package org.onap.appc.data.services.node;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
@@ -57,23 +58,29 @@ import static org.onap.appc.data.services.node.ConfigResourceNode.UNABLE_TO_SAVE
 import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_ID_PARAM;
 import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_INFO_PREFIX;
 import static org.onap.appc.data.services.node.ConfigResourceNode.UPLOAD_CONFIG_PREFIX;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.mockito.Mockito;
 import org.onap.appc.data.services.AppcDataServiceConstant;
 import org.onap.appc.data.services.db.DGGeneralDBService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicResource.QueryStatus;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
 public class ConfigResourceNodeTest {
 
+    private static final String TEST_MESSAGE = "TEST_MESSAGE";
+    private static final String SOME_FILE_CATEGORY = "some file category";
+    private static final String SOME_FILE_ID = "some file id";
+    private static final String SOME_PREFIX = "some prefix";
+    private static final String TEST = "test";
     private HashMap<String, String> inParams;
     private SvcLogicContext contextMock;
 
@@ -107,6 +114,40 @@ public class ConfigResourceNodeTest {
         node.processCapabilitiesForVMLevel(vServerId, ctx, findCapability, subCapabilities);
         String result = ctx.getAttribute("capabilities");
         assertEquals(result, "Supported");
+    }
+
+    @Test
+    public void shouldProcessCapabilitiesForVMLevelNoSubCapabilities() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ConfigResourceNode node = new ConfigResourceNode(DGGeneralDBService.initialise());
+        String findCapability = "Restart";
+        JsonNodeFactory.instance.objectNode();
+        String subCaps = "{}";
+        ObjectMapper m = new ObjectMapper();
+        JsonNode subCapabilities = m.readTree(subCaps);
+        String vServerId = "testServer";
+        ctx.setAttribute("tmp.vnfInfo.vm.vnfc.vnfc-function-code", "MMC");
+        ctx.setAttribute("tmp.vnfInfo.vm.vnfc.vnfc-name", "testVnfc");
+        node.processCapabilitiesForVMLevel(vServerId, ctx, findCapability, subCapabilities);
+        assertEquals("None", ctx.getAttribute(ConfigResourceNode.CAPABILITIES));
+    }
+
+    @Test
+    public void shouldProcessCapabilitiesForVMLevelBlankVnfcFunctionCode() throws Exception {
+        SvcLogicContext ctx = new SvcLogicContext();
+        ConfigResourceNode node = new ConfigResourceNode(DGGeneralDBService.initialise());
+        String findCapability = "Restart";
+        JsonNodeFactory.instance.objectNode();
+        String subCaps =
+                "[{\"Restart\":[\"SSC\",\"MMC\"]},{\"Rebuild\":[\"SSC\"]},{\"Migrate\":[\"SSC\"]},"
+                + "{\"Snapshot\":[\"SSC\"]},{\"Start\":[\"SSC\"]},{\"Stop\":[\"SSC\"]}]";
+        ObjectMapper m = new ObjectMapper();
+        JsonNode subCapabilities = m.readTree(subCaps);
+        String vServerId = "testServer";
+        ctx.setAttribute("tmp.vnfInfo.vm.vnfc.vnfc-function-code", "");
+        ctx.setAttribute("tmp.vnfInfo.vm.vnfc.vnfc-name", "testVnfc");
+        node.processCapabilitiesForVMLevel(vServerId, ctx, findCapability, subCapabilities);
+        assertEquals(ConfigResourceNode.NOT_SUPPORTED, ctx.getAttribute(ConfigResourceNode.CAPABILITIES));
     }
 
     @Test
@@ -146,7 +187,7 @@ public class ConfigResourceNodeTest {
         configResourceNode.getTemplate(inParams, contextMock);
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
-    
+
     @Test
     public void testGetVnfcReference() throws Exception {
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
@@ -156,7 +197,54 @@ public class ConfigResourceNodeTest {
         configResourceNode.getVnfcReference(inParams, contextMock);
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
-    
+
+    @Test
+    public void testGetVnfcReferenceWithVnfcType() throws Exception {
+        SvcLogicContext context = new SvcLogicContext();
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+                .getVnfcReferenceByVnfcTypeNAction(TEST, SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        context.setAttribute("vnfc-type", "testVnfcType");
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Read vnfc-reference");
+        configResourceNode.getVnfcReference(inParams, context);
+    }
+
+    @Test
+    public void testGetVnfcReferenceWithVnfcTypeAndTemplateModelId() throws Exception {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_MODEL_ID, TEST);
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+                .getVnfcReferenceByVnfcTypeNAction(TEST, SvcLogicResource.QueryStatus.SUCCESS)
+                .getVnfcReferenceByVnfTypeNActionWithTemplateModelId(TEST, TEST,
+                SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        context.setAttribute("vnfc-type", "testVnfcType");
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Read vnfc-reference with "
+                + AppcDataServiceConstant.TEMPLATE_MODEL_ID);
+        configResourceNode.getVnfcReference(inParams, context);
+    }
+
+    @Test
+    public void testGetVnfcReferenceWithVnfcTypeAndTemplateModelIdNotFound() throws Exception {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_MODEL_ID, TEST);
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
+                .getVnfcReferenceByVnfcTypeNAction(TEST, SvcLogicResource.QueryStatus.SUCCESS)
+                .getVnfcReferenceByVnfTypeNActionWithTemplateModelId(TEST, TEST,
+                SvcLogicResource.QueryStatus.NOT_FOUND).getVnfcReferenceByVnfTypeNAction(TEST,
+                SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        context.setAttribute("vnfc-type", "testVnfcType");
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to Read vnfc reference");
+        configResourceNode.getVnfcReference(inParams, context);
+    }
+
     @Test
     public void testGetCapability() throws Exception {
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
@@ -169,7 +257,82 @@ public class ConfigResourceNodeTest {
         configResourceNode.getCapability(inParams, contextMock);
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
-    
+
+    @Test
+    public void testGetCapabilityNoCheckRequired() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put("caplevel", "start");
+        inParams.put("checkCapability", "start");
+        configResourceNode.getCapability(inParams, context);
+        assertEquals(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS,
+                context.getAttribute(AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testGetCapabilityWithVnfType() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().getCapability(TEST,
+                "{\"capabilities\": {\"vm\":\"test\"}}").build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put("vnf-type", TEST);
+        inParams.put("caplevel", "vm");
+        configResourceNode.getCapability(inParams, context);
+        assertEquals(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS,
+                context.getAttribute(AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testGetCapabilityWithVnfTypeAndSubCapabilities() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().getCapability(TEST,
+                "{\"capabilities\": {\"vm\": {\"start\":\"test\"}}}").build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put("vnf-type", TEST);
+        inParams.put("caplevel", "vm");
+        inParams.put("checkCapability", "start");
+        configResourceNode.getCapability(inParams, context);
+        assertEquals(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS,
+                context.getAttribute(AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testGetCapabilityNotSupported() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().getCapability(TEST,
+                "{\"capabilities\": {\"vm\": {\"stop\":\"test\"}}}").build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put("vnf-type", TEST);
+        inParams.put("caplevel", "vm");
+        inParams.put("checkCapability", "start");
+        configResourceNode.getCapability(inParams, context);
+        assertEquals(ConfigResourceNode.NOT_SUPPORTED, context.getAttribute(ConfigResourceNode.CAPABILITIES));
+    }
+
+    @Test
+    public void testGetCapabilityNoFindCapability() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().getCapability(TEST,
+                "{\"capabilities\": {\"vm\": {\"stop\":\"test\"}}}").build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put("vnf-type", TEST);
+        inParams.put("caplevel", "vm");
+        configResourceNode.getCapability(inParams, context);
+        assertEquals("{\"stop\":\"test\"}", context.getAttribute("capabilities.vm"));
+    }
+
+    @Test
+    public void testGetCapabilityException() throws Exception {
+        DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().getCapability(TEST, "\\\\").build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put("vnf-type", TEST);
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unexpected character");
+        configResourceNode.getCapability(inParams, context);
+    }
+
     @Test
     public void testGetConfigFilesByVnfVmNCategory() throws Exception {
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder().build();
@@ -180,6 +343,23 @@ public class ConfigResourceNodeTest {
         contextMock.setAttribute("vmName", "testVmName");
         configResourceNode.getConfigFilesByVnfVmNCategory(inParams, contextMock);
         verify(contextMock).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
+    }
+
+    @Test
+    public void testGetConfigFilesByVnfVmNCategoryException() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_ID);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_VNF_ID, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_VM_NAME, TEST);
+        context.setAttribute("fileCategory", TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().getConfigFilesByVnfVmNCategory(TEST, SOME_FILE_ID, TEST,
+                TEST, SvcLogicResource.QueryStatus.NOT_FOUND).build();
+        ConfigResourceNode configResourceNode = Mockito.spy(new ConfigResourceNode(dbServiceMock));
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to get test from configfiles");
+        configResourceNode.getConfigFilesByVnfVmNCategory(inParams, context);
     }
 
     @Test
@@ -406,11 +586,11 @@ public class ConfigResourceNodeTest {
 
     @Test
     public void should_throw_exception_on_db_template_failure() throws SvcLogicException {
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, "some file category");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, SOME_PREFIX);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_CATEGORY);
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getTemplate("some prefix", "some file category", SvcLogicResource.QueryStatus.FAILURE).build();
+                .getTemplate(SOME_PREFIX, SOME_FILE_CATEGORY, SvcLogicResource.QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
 
@@ -421,12 +601,12 @@ public class ConfigResourceNodeTest {
 
     @Test
     public void should_throw_exception_on_db_template_by_action_failure() throws SvcLogicException {
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, "some file category");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, SOME_PREFIX);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_CATEGORY);
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getTemplate("some prefix", "some file category", SvcLogicResource.QueryStatus.NOT_FOUND)
-                .getTemplateByVnfTypeNAction("some prefix", "some file category", SvcLogicResource.QueryStatus.FAILURE)
+                .getTemplate(SOME_PREFIX, SOME_FILE_CATEGORY, SvcLogicResource.QueryStatus.NOT_FOUND)
+                .getTemplateByVnfTypeNAction(SOME_PREFIX, SOME_FILE_CATEGORY, SvcLogicResource.QueryStatus.FAILURE)
                 .build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -438,12 +618,12 @@ public class ConfigResourceNodeTest {
 
     @Test
     public void should_throw_exception_on_db_template_by_action_missing() throws SvcLogicException {
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, "some file category");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, SOME_PREFIX);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_CATEGORY);
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getTemplate("some prefix", "some file category", SvcLogicResource.QueryStatus.NOT_FOUND)
-                .getTemplateByVnfTypeNAction("some prefix", "some file category",
+                .getTemplate(SOME_PREFIX, SOME_FILE_CATEGORY, SvcLogicResource.QueryStatus.NOT_FOUND)
+                .getTemplateByVnfTypeNAction(SOME_PREFIX, SOME_FILE_CATEGORY,
                         SvcLogicResource.QueryStatus.NOT_FOUND)
                 .build();
 
@@ -456,14 +636,14 @@ public class ConfigResourceNodeTest {
 
     @Test
     public void should_throw_exception_on_db_template_by_name_missing() throws SvcLogicException {
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, "some file category");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, SOME_PREFIX);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_CATEGORY);
 
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute("template-name", "test template");
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_NAME, "test template");
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getTemplateByTemplateName("some prefix", "test template", SvcLogicResource.QueryStatus.NOT_FOUND)
+                .getTemplateByTemplateName(SOME_PREFIX, "test template", SvcLogicResource.QueryStatus.NOT_FOUND)
                 .build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -475,14 +655,14 @@ public class ConfigResourceNodeTest {
 
     @Test
     public void should_throw_exception_on_db_template_by_name_failure() throws SvcLogicException {
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, "some file category");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, SOME_PREFIX);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_CATEGORY);
 
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute("template-name", "test template");
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_NAME, "test template");
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getTemplateByTemplateName("some prefix", "test template", SvcLogicResource.QueryStatus.FAILURE)
+                .getTemplateByTemplateName(SOME_PREFIX, "test template", SvcLogicResource.QueryStatus.FAILURE)
                 .build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -495,7 +675,7 @@ public class ConfigResourceNodeTest {
     @Test
     public void should_throw_exception_on_save_config_failure() throws SvcLogicException {
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute(FILE_CATEGORY_PARAM, "some file category");
+        context.setAttribute(FILE_CATEGORY_PARAM, SOME_FILE_CATEGORY);
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
                 .saveConfigFiles(CONFIG_FILES_PREFIX, SvcLogicResource.QueryStatus.FAILURE).build();
@@ -510,10 +690,10 @@ public class ConfigResourceNodeTest {
     @Test
     public void should_throw_exception_on_get_max_config_id_missing() throws SvcLogicException {
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute(FILE_CATEGORY_PARAM, "some file category");
+        context.setAttribute(FILE_CATEGORY_PARAM, SOME_FILE_CATEGORY);
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getMaxConfigFileId(MAX_CONF_FILE_PREFIX, "some file category", SvcLogicResource.QueryStatus.NOT_FOUND)
+                .getMaxConfigFileId(MAX_CONF_FILE_PREFIX, SOME_FILE_CATEGORY, SvcLogicResource.QueryStatus.NOT_FOUND)
                 .build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -527,10 +707,10 @@ public class ConfigResourceNodeTest {
     @Test
     public void should_throw_exception_on_save_config_files_failure() throws SvcLogicException {
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute(CONFIG_FILE_ID_PARAM, "some file id");
+        context.setAttribute(CONFIG_FILE_ID_PARAM, SOME_FILE_ID);
 
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID, SDC_IND,
                         SvcLogicResource.QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -592,10 +772,10 @@ public class ConfigResourceNodeTest {
 
     @Test
     public void should_throw_exception_on_get_download_config_failure() throws SvcLogicException {
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "some prefix");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, SOME_PREFIX);
 
         DGGeneralDBService dbServiceMock = new MockDbServiceBuilder()
-                .getDownloadConfigTemplateByVnf("some prefix", SvcLogicResource.QueryStatus.FAILURE).build();
+                .getDownloadConfigTemplateByVnf(SOME_PREFIX, SvcLogicResource.QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
 
@@ -650,10 +830,10 @@ public class ConfigResourceNodeTest {
     @Test
     public void should_throw_exception_on_save_prepare_relationship_failure() throws SvcLogicException {
         inParams.put(AppcDataServiceConstant.INPUT_PARAM_SDC_ARTIFACT_IND, "some sdnc index");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_ID, "some file id");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_ID, SOME_FILE_ID);
 
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id",
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID,
                         "some sdnc index", QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -671,7 +851,7 @@ public class ConfigResourceNodeTest {
         when(contextMock.getAttribute(CONFIG_PARAMS)).thenReturn("");
 
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id",
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID,
                         "some sdnc index", QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = spy(new ConfigResourceNode(dbServiceMock));
@@ -690,7 +870,7 @@ public class ConfigResourceNodeTest {
         when(contextMock.getAttribute(CONFIG_PARAMS)).thenReturn("non empty");
 
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id",
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID,
                         "some sdnc index", QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = spy(new ConfigResourceNode(dbServiceMock));
@@ -701,15 +881,15 @@ public class ConfigResourceNodeTest {
         verify(configResourceNode).saveConfigBlock(inParams, contextMock);
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
-    
+
     @Test
     public void testSaveTemplateConfig() throws SvcLogicException
     {
         SvcLogicContext context = new SvcLogicContext();
-        context.setAttribute(CONFIG_FILE_ID_PARAM, "some file id");
+        context.setAttribute(CONFIG_FILE_ID_PARAM, SOME_FILE_ID);
 
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID, SDC_IND,
                         SvcLogicResource.QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -717,17 +897,51 @@ public class ConfigResourceNodeTest {
 
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
-    
+
+    @Test
+    public void testSaveTemplateConfigWithConfigParams() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(CONFIG_FILE_ID_PARAM, SOME_FILE_ID);
+        context.setAttribute(CONFIG_PARAMS, TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID, SDC_IND,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = Mockito.spy(new ConfigResourceNode(dbServiceMock));
+        Mockito.doNothing().when(configResourceNode).saveConfigurationData(Mockito.anyMap(), Mockito.any(SvcLogicContext.class));
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage(ConfigResourceNode.UNABLE_TO_SAVE_RELATIONSHIP_STR);
+        configResourceNode.saveTemplateConfig(inParams, context);
+    }
+
+    @Test
+    public void testSaveTemplateConfigWithConfigParamsAndQueryStatusFailure() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        context.setAttribute(CONFIG_FILE_ID_PARAM, SOME_FILE_ID);
+        context.setAttribute(CONFIG_PARAMS, TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, null, "Y",
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = Mockito.spy(new ConfigResourceNode(dbServiceMock));
+        Mockito.doNothing().when(configResourceNode).saveConfigurationData(Mockito.anyMap(), Mockito.any(SvcLogicContext.class));
+        Mockito.doNothing().when(configResourceNode).saveDeviceConfiguration(Mockito.anyMap(), Mockito.any(SvcLogicContext.class),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage(ConfigResourceNode.UNABLE_TO_SAVE_RELATIONSHIP_STR);
+        configResourceNode.saveTemplateConfig(inParams, context);
+    }
+
     @Test
     public void testSaveStyleSheetConfig() throws SvcLogicException
     {
         SvcLogicContext context = new SvcLogicContext();
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
-        context.setAttribute("tmp.merge.mergedData", "test");
-        context.setAttribute("tmp.convertconfig.escapeData", "test");
-        context.setAttribute("tmp.merge.mergedData", "test");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        context.setAttribute("tmp.merge.mergedData", TEST);
+        context.setAttribute("tmp.convertconfig.escapeData", TEST);
+        context.setAttribute("tmp.merge.mergedData", TEST);
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID, SDC_IND,
                         SvcLogicResource.QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
@@ -735,24 +949,154 @@ public class ConfigResourceNodeTest {
 
         verify(contextMock, atLeastOnce()).setAttribute(anyString(), eq(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS));
     }
-    
+
+    @Test
+    public void testSaveStyleSheetConfigException() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        context.setAttribute("tmp.merge.mergedData", TEST);
+        context.setAttribute("tmp.convertconfig.escapeData", TEST);
+        context.setAttribute("tmp.merge.mergedData", TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID, SDC_IND,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+
+        ConfigResourceNode configResourceNode = Mockito.spy(new ConfigResourceNode(dbServiceMock));
+        Mockito.doThrow(new SvcLogicException(TEST_MESSAGE)).when(configResourceNode).saveDeviceConfiguration(Mockito.anyMap(), Mockito.any(SvcLogicContext.class),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage(TEST_MESSAGE);
+        configResourceNode.saveStyleSheetConfig(inParams, contextMock);
+    }
+
     @Test
     public void testSaveConfigTransactionLog() throws SvcLogicException
     {
         SvcLogicContext context = new SvcLogicContext();
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, "test");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, "test");
-        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, "test");
-        
-        context.setAttribute("request-id", "test");
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, TEST);
+
+        context.setAttribute("request-id", TEST);
         DGGeneralDBService dbServiceMock =
-                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, "some file id", SDC_IND,
+                new MockDbServiceBuilder().savePrepareRelationship(PREPARE_RELATIONSHIP_PARAM, SOME_FILE_ID, SDC_IND,
                         SvcLogicResource.QueryStatus.FAILURE).build();
 
         ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
         configResourceNode.saveConfigTransactionLog(inParams, contextMock);
-        assertEquals(null,contextMock.getAttribute("log-message"));
+        assertEquals(null, contextMock.getAttribute("log-message"));
     }
-    
-    
+
+    @Test
+    public void testSaveConfigTransactionLogException() throws SvcLogicException
+    {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, TEST);
+
+        context.setAttribute("request-id", TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().saveConfigTransactionLog("test.", SvcLogicResource.QueryStatus.FAILURE)
+                    .build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage("Unable to insert into config_transaction_log");
+        configResourceNode.saveConfigTransactionLog(inParams, contextMock);
+    }
+
+    @Test
+    public void testGetTemplateByTemplateModelIdFailedQuery() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_ID);
+
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_NAME, "");
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_MODEL_ID, TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().getTemplateByTemplateModelId(TEST, SOME_FILE_ID, TEST,
+                        SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage(ConfigResourceNode.UNABLE_TO_READ_STR);
+        configResourceNode.getTemplate(inParams, context);
+    }
+
+    @Test
+    public void testGetTemplateByTemplateModelIdSuccessQuery() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_ID);
+
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_NAME, "");
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_MODEL_ID, TEST);
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().getTemplateByTemplateModelId(TEST, SOME_FILE_ID, TEST,
+                        SvcLogicResource.QueryStatus.SUCCESS).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.getTemplate(inParams, context);
+        assertEquals(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS, context.getAttribute("test."
+                + AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testGetTemplateByTemplateModelIdNotFoundQuery() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_ID);
+
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_NAME, "");
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_MODEL_ID, TEST);
+
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().getTemplateByTemplateModelId(TEST, SOME_FILE_ID, TEST,
+                        SvcLogicResource.QueryStatus.NOT_FOUND).getTemplate(TEST, SOME_FILE_ID,
+                        SvcLogicResource.QueryStatus.NOT_FOUND).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        configResourceNode.getTemplate(inParams, context);
+        assertEquals(AppcDataServiceConstant.OUTPUT_STATUS_SUCCESS, context.getAttribute("test."
+                + AppcDataServiceConstant.OUTPUT_PARAM_STATUS));
+    }
+
+    @Test
+    public void testGetTemplateByTemplateModelIdNotFoundByVnfTypeNAction() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_RESPONSE_PREFIX, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE_TYPE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_MESSAGE, TEST);
+        inParams.put(AppcDataServiceConstant.INPUT_PARAM_FILE_CATEGORY, SOME_FILE_ID);
+
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_NAME, "");
+        context.setAttribute(AppcDataServiceConstant.TEMPLATE_MODEL_ID, TEST);
+
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().getTemplateByTemplateModelId(TEST, SOME_FILE_ID, TEST,
+                        SvcLogicResource.QueryStatus.NOT_FOUND).getTemplate(TEST, SOME_FILE_ID,
+                        SvcLogicResource.QueryStatus.NOT_FOUND).getTemplateByVnfTypeNActionWithTemplateModelId
+                        (TEST, SOME_FILE_ID, TEST, SvcLogicResource.QueryStatus.FAILURE).build();
+        ConfigResourceNode configResourceNode = new ConfigResourceNode(dbServiceMock);
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage(ConfigResourceNode.UNABLE_TO_READ_STR);
+        configResourceNode.getTemplate(inParams, context);
+    }
+
+    @Test
+    public void testSaveConfigBlock() throws SvcLogicException {
+        SvcLogicContext context = new SvcLogicContext();
+        DGGeneralDBService dbServiceMock =
+                new MockDbServiceBuilder().build();
+        ConfigResourceNode configResourceNode = Mockito.spy(new ConfigResourceNode(dbServiceMock));
+        Mockito.doThrow(new SvcLogicException(TEST_MESSAGE)).when(configResourceNode).saveDeviceConfiguration(Mockito.anyMap(), Mockito.any(SvcLogicContext.class),
+                Mockito.anyString(), Mockito.anyString(), Mockito.anyString());
+        expectedException.expect(SvcLogicException.class);
+        expectedException.expectMessage(TEST_MESSAGE);
+        configResourceNode.saveConfigBlock(inParams, context);
+    }
 }
