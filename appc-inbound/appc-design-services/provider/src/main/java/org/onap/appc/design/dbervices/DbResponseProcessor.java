@@ -66,9 +66,15 @@ public class DbResponseProcessor {
         case DesignServiceConstants.SETINCART:
             response=  getsetStatusResponse(dbresposne);
             break;    
-        default: 
+        case DesignServiceConstants.UPLOADADMINARTIFACT:
+           response=  getsetStatusResponse(dbresposne);
+           break;
+        case DesignServiceConstants.CHECKVNF:
+           response=  getStatusResponse(dbresposne);
+           break;
+        default:
             log.error("Action " + action + " Not Supported by response Parser");
-            throw new Exception(" Action " + action + " not found while processing request ");            
+            throw new Exception(" Action " + action + " not found while processing request ");
 
         }        
         return response;            

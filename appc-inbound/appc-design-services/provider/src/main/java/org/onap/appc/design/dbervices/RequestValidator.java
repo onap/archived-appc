@@ -48,6 +48,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 
+import org.onap.appc.design.services.util.DesignServiceConstants;
+
 public class RequestValidator {
 
     private static final EELFLogger log = EELFManager.getInstance().getLogger(RequestValidator.class);
@@ -82,14 +84,26 @@ public class RequestValidator {
             case UPLOADARTIFACT:
                 errorString = resolveUploadArtifactErrorString(payloadObject);
                 break;
+            case DesignServiceConstants.UPLOADADMINARTIFACT:
+                errorString = resolveUploadArtifactErrorString(payloadObject);
+                break;
             case SETPROTOCOLREFERENCE:
             case SETINCART:
                 errorString = resolveErrorString(payloadObject);
+                break;
+            case DesignServiceConstants.CHECKVNF:
+                errorString = resolveCheckVNFErrorString(payloadObject);
                 break;
             default:
                 throw new RequestValidationException(" Action " + action + " not found while processing request ");
         }
         checkForErrorString(errorString);
+    }
+
+    private static String resolveCheckVNFErrorString(JsonNode payloadObject) {
+        if (nullOrEmpty(payloadObject, VNF_TYPE)) 
+            return VNF_TYPE;
+        return null;
     }
 
     private static void checkForErrorString(String errorString) throws RequestValidationException {
@@ -174,8 +188,8 @@ public class RequestValidator {
     }
 
     private static boolean nullOrEmpty(JsonNode payloadObject, String param) {
-        return payloadObject.get(param) == null || payloadObject
-            .get(param).textValue().isEmpty();
+        JsonNode payload = payloadObject.get(param);
+        return payload == null || payload.textValue().trim().isEmpty();
     }
 
 }

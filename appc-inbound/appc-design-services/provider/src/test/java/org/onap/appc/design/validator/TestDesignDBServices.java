@@ -198,8 +198,5 @@ public class TestDesignDBServices {
              DesignDBService design = DesignDBService.initialise();
              String result =  Whitebox.invokeMethod(design, "getAppcTimestampUTC",requestId);
              assertTrue(result.endsWith("Z"));
-    }
-    
-   
-
-}
+    } 
+ }
