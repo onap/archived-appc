@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * =============================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -22,11 +24,7 @@
 package org.onap.appc.flow.controller.node;
 
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.ACTION_LEVEL;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.APPC_FLOW_CONTROLLER;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.DESINGTIME;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.EXTERNAL;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.FLOW_SEQUENCE;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.GENERATION_NODE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.GRAPH;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.INPUT_PARAM_RESPONSE_PREFIX;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.NODE;
@@ -35,42 +33,17 @@ import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_FAILURE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_MESSAGE;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.OUTPUT_STATUS_SUCCESS;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.PAYLOAD;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REQUEST_ACTION;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REQUEST_ID;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.RESPONSE_PREFIX;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.REST;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.RUNTIME;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.SEQUENCE_TYPE;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.SEQ_GENERATOR_PWD;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.SEQ_GENERATOR_UID;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.SEQ_GENERATOR_URL;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VF_MODULE;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VM;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNFC;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNFC_NAME;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNFC_TYPE;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF_ID;
 import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VNF_TYPE;
-import static org.onap.appc.flow.controller.utils.FlowControllerConstants.VSERVER_ID;
-
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import org.onap.appc.flow.controller.ResponseHandlerImpl.DefaultResponseHandler;
 import org.onap.appc.flow.controller.data.PrecheckOption;
 import org.onap.appc.flow.controller.data.ResponseAction;
@@ -80,18 +53,13 @@ import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.appc.flow.controller.executorImpl.GraphExecutor;
 import org.onap.appc.flow.controller.executorImpl.NodeExecutor;
 import org.onap.appc.flow.controller.executorImpl.RestExecutor;
-import org.onap.appc.flow.controller.interfaceData.ActionIdentifier;
-import org.onap.appc.flow.controller.interfaceData.Capabilities;
-import org.onap.appc.flow.controller.interfaceData.DependencyInfo;
-import org.onap.appc.flow.controller.interfaceData.Input;
-import org.onap.appc.flow.controller.interfaceData.InventoryInfo;
-import org.onap.appc.flow.controller.interfaceData.RequestInfo;
-import org.onap.appc.flow.controller.interfaceData.Vnfcs;
 import org.onap.appc.flow.controller.interfaces.FlowExecutorInterface;
-import org.onap.appc.flow.controller.utils.EncryptionTool;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class FlowControlNode implements SvcLogicJavaPlugin {
 
@@ -221,11 +189,11 @@ public class FlowControlNode implements SvcLogicJavaPlugin {
         }
     }
 
-    private void sendIntermediateMessage() {
+    protected void sendIntermediateMessage() {
         // TODO Auto-generated method stub
     }
 
-    private ResponseAction handleResponse(Transaction transaction, SvcLogicContext ctx) {
+    protected ResponseAction handleResponse(Transaction transaction, SvcLogicContext ctx) {
         log.info("Handling Response for transaction Id " + transaction.getTransactionId());
         DefaultResponseHandler defaultHandler = new DefaultResponseHandler();
         return defaultHandler.handlerResponse(transaction, ctx);

@@ -35,73 +35,142 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.onap.appc.flow.controller.data.ResponseAction;
+import org.onap.appc.flow.controller.data.Transaction;
 import org.onap.appc.flow.controller.dbervices.FlowControlDBService;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 
 public class FlowControlNodeTest {
 
-  private FlowControlDBService dbService;
-  private SvcLogicContext ctx;
-  private FlowControlNode flowControlNode;
-  private FlowSequenceGenerator flowSequenceGenerator;
-  private Map<String, String> inParams;
+    private FlowControlDBService dbService;
+    private SvcLogicContext ctx;
+    private FlowControlNode flowControlNode;
+    private FlowSequenceGenerator flowSequenceGenerator;
+    private Map<String, String> inParams;
 
-  @Before
-  public void setUp() throws Exception {
-    ctx = new SvcLogicContext();
-    ctx.setAttribute("response.status", "success");
-    dbService = mock(FlowControlDBService.class);
-    flowSequenceGenerator = mock(FlowSequenceGenerator.class);
-    flowControlNode = new FlowControlNode(dbService, flowSequenceGenerator);
-    inParams = new HashMap<>();
-    inParams.put("responsePrefix", "response");
-  }
+    @Before
+    public void setUp() throws Exception {
+        ctx = new SvcLogicContext();
+        ctx.setAttribute("response.status", "success");
+        dbService = mock(FlowControlDBService.class);
+        flowSequenceGenerator = mock(FlowSequenceGenerator.class);
+        flowControlNode = new FlowControlNode(dbService, flowSequenceGenerator);
+        inParams = new HashMap<>();
+        inParams.put("responsePrefix", "response");
+    }
 
-  @Test
-  public void testProcessFlow() throws Exception {
-    String transactionJson = "{\"transaction-id\": \"1\","
-        + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
-        + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
-        + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
-        + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node\"}]} }";
-    when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+    @Test
+    public void testProcessFlow() throws Exception {
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
+                + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node\"}]} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
         .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
-    flowControlNode.processFlow(inParams, ctx);
-    assertEquals("response.", ctx.getAttribute("response-prefix"));
-  }
+        flowControlNode.processFlow(inParams, ctx);
+        assertEquals("response.", ctx.getAttribute("response-prefix"));
+    }
 
-  @Test
-  public void testProcessFlowWithoutPrecheck() throws Exception {
-    String transactionJson = "{\"transaction-id\": \"1\","
-        + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
-        + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
-        + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
-        + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node1\"}]} }";
-    when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+    @Test
+    public void testProcessFlowWithoutPrecheck() throws Exception {
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
+                + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node1\"}]} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
         .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
-    flowControlNode.processFlow(inParams, ctx);
-    assertEquals("response.", ctx.getAttribute("response-prefix"));
-  }
+        flowControlNode.processFlow(inParams, ctx);
+        assertEquals("response.", ctx.getAttribute("response-prefix"));
+    }
 
-  @Test(expected = SvcLogicException.class)
-  public void testProcessFlowWithFailure() throws Exception {
-    when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+    @Test(expected = SvcLogicException.class)
+    public void testProcessFlowWithFailure() throws Exception {
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
         .thenReturn("{\"transactions\" :[] }");
-    ctx.setAttribute("response.status", "fail");
-    flowControlNode.processFlow(inParams, ctx);
-  }
+        ctx.setAttribute("response.status", "fail");
+        flowControlNode.processFlow(inParams, ctx);
+    }
 
-  @Test(expected = SvcLogicException.class)
-  public void testProcessFlowWithNoExecutionType() throws Exception {
-    String transactionJson = "{\"transaction-id\": \"1\","
-        + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
-        + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"other\","
-        + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
-        + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"other\"}]} }";
-    when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+    @Test(expected = SvcLogicException.class)
+    public void testProcessFlowWithNoExecutionType() throws Exception {
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"other\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
+                + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"other\"}]} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
         .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
-    ctx.setAttribute("response.status", "fail");
-    flowControlNode.processFlow(inParams, ctx);
-  }
+        ctx.setAttribute("response.status", "fail");
+        flowControlNode.processFlow(inParams, ctx);
+    }
+
+    @Test
+    public void testProcessFlowIntermediateMessage() throws Exception {
+        FlowControlNode mockNode = Mockito.spy(flowControlNode);
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
+                + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node\"}]} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+            .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
+        ResponseAction responseAction = Mockito.mock(ResponseAction.class);
+        when(responseAction.isIntermediateMessage()).thenReturn(true);
+        when(responseAction.getRetry()).thenReturn("1");
+        when(responseAction.getJump()).thenReturn("4");
+        Mockito.doReturn(responseAction).when(mockNode).handleResponse(anyObject(), anyObject());
+        mockNode.processFlow(inParams, ctx);
+        Mockito.verify(mockNode).sendIntermediateMessage();
+    }
+
+    @Test
+    public void testProcessFlowIntermediateMessageIsIgnore() throws Exception {
+        FlowControlNode mockNode = Mockito.spy(flowControlNode);
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
+                + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node\"}]} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+            .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
+        ResponseAction responseAction = Mockito.mock(ResponseAction.class);
+        when(responseAction.isIgnore()).thenReturn(true);
+        Mockito.doReturn(responseAction).when(mockNode).handleResponse(anyObject(), anyObject());
+        mockNode.processFlow(inParams, ctx);
+        assertEquals("response.", ctx.getAttribute("response-prefix"));
+    }
+
+    @Test
+    public void testProcessFlowIntermediateMessageIsStop() throws Exception {
+        FlowControlNode mockNode = Mockito.spy(flowControlNode);
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": ["
+                + "{\"pre-transaction-id\":\"1\",\"param-name\":\"executionType\",\"param-value\":\"node\"}]} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+            .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
+        ResponseAction responseAction = Mockito.mock(ResponseAction.class);
+        when(responseAction.isStop()).thenReturn(true);
+        Mockito.doReturn(responseAction).when(mockNode).handleResponse(anyObject(), anyObject());
+        mockNode.processFlow(inParams, ctx);
+        assertEquals("response.", ctx.getAttribute("response-prefix"));
+    }
+
+    @Test
+    public void testPreProcessorNullTransactionPrecheckOptions() throws Exception {
+        FlowControlNode mockNode = Mockito.spy(flowControlNode);
+        String transactionJson = "{\"transaction-id\": \"1\","
+                + "  \"action\": \"HealthCheck\", \"action-level\": \"vnf\","
+                + "  \"executionModule\": \"APPC\", \"executionRPC\": \"healthcheck\", \"executionType\": \"node\","
+                + "\"precheck\":{\"precheck-operator\":\"any\",\"precheck-options\": []} }";
+        when(flowSequenceGenerator.getFlowSequence(eq(inParams), eq(ctx), anyObject()))
+            .thenReturn("{\"transactions\" :[" + transactionJson + "] }");
+        mockNode.processFlow(inParams, ctx);
+        assertEquals("response.", ctx.getAttribute("response-prefix"));
+    }
 }
