@@ -200,6 +200,25 @@ public class TestDesignDBServices {
              assertTrue(result.endsWith("Z"));
     }
     
+    @Test
+    public void testCheckVNF() throws Exception{              
+            String payload = " { \"vnf-type\" : \"DesigTest-VNF\"} ";
+            DesignDBService design = DesignDBService.initialise();
+            String result = Whitebox.invokeMethod(design, "checkVNF",payload,"0",1,1);
+       
+    }
+        
+    @Test
+    public void testUploadAdminArtifact() throws Exception {
+            String content = FileUtils.readFileToString(new File("src/test/resources/uploadAdminArtifact"));
+            String payload = " { \"userID\": \"0000\", \"vnf-type\" : \"DesigTest-VNF\", \"action\" : \"NULL\", \"artifact-name\":\"ansible_admin_artifact\",\"artifact-version\" :\"0.01\",\"artifact-type\" :\"APPC-CONFIG\",\"artifact-contents\":  "+ content + " } ";
+            DesignDBService dbservice = DesignDBService.initialise();
+            DbService db = new DbService();
+            Whitebox.invokeMethod(db, "getDbLibService");
+            dbservice.execute("uploadAdminArtifact", payload, "1234");
+        
+    }
+    
    
 
 }
