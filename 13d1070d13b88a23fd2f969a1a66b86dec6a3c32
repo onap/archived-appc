@@ -1,0 +1,208 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a5d1652_984256df",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "looks like this method may need reformatting\n\ncheckstyle: requestID \u003d\u003e requestId",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15c921db_0307a579",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "remove trailing spaces\n\nsame comment applies elsewhere",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a69a71f6_f4709894",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "510bc019_71b30bb5",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "is it necessary to catch generic exceptions here?  Perhaps catch RuntimeException and any checked exceptions instead",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d483224_4f11b43f",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "checkstyle: requestID \u003d\u003e requestId",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48b0c14e_d80e26f0",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "get the value once and store it so that get() doesn\u0027t have to be called repeatedly for this line and the next",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b277b90_d9bec1b6",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "is it necessary to catch generic exceptions here?  Perhaps catch RuntimeException and any checked exceptions instead",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3438ce3_954529f6",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "need a space between TLSUUID and requestId?",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f741eab_6fa5e622",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "96c3c1db_371e668b",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 539,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a186ba68_05aa3eb8",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/RequestValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "get the value once and re-use it rather than getting it twice",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "394b9a42_369496c9",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDesignDBServices.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-27T21:37:22Z",
+      "side": 1,
+      "message": "remove trailing spaces",
+      "revId": "13d1070d13b88a23fd2f969a1a66b86dec6a3c32",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
