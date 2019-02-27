@@ -2,7 +2,7 @@
   ============LICENSE_START=======================================================
   ONAP : APPC
   ================================================================================
-  Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+  Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
   Copyright (C) 2017 Amdocs
   ================================================================================
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -97,6 +97,12 @@
       <version>1.6.4</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+        <groupId>org.javassist</groupId>
+        <artifactId>javassist</artifactId>
+        <version>3.22.0-GA</version>
+        <scope>test</scope>
+      </dependency>
     <dependency>
       <groupId>org.onap.appc</groupId>
       <artifactId>appc-dg-domain-model-lib</artifactId>
