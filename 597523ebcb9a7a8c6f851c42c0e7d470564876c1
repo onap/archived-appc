@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a4cab94_066f5a15",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-27T19:36:19Z",
+      "side": 1,
+      "message": "The first value is needed to mock the return value for the call to .query on line 200 of the tested class and the second value is needed to mock the return value for the call to .query on line 238",
+      "parentUuid": "1192b117_c05a0243",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f62827f1_58098282",
         "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "297eff19_19df7772",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-27T19:36:19Z",
+      "side": 1,
+      "message": "The first value is needed to mock the return value for the call to .query on line 200 of the tested class and the second value is needed to mock the return value for the call to .query on line 238",
+      "parentUuid": "f62827f1_58098282",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b73096e_f9a63f60",
         "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-02-27T17:21:27Z",
       "side": 1,
       "message": "remove first thenReturn?",
+      "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5870bd89_8ca98706",
+        "filename": "appc-config/appc-flow-controller/provider/src/test/java/org/onap/appc/flow/controller/dbervices/FlowControlDBServiceTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-02-27T19:36:19Z",
+      "side": 1,
+      "message": "The first value is needed to mock the return value for the call to .query on line 200 of the tested class and the second value is needed to mock the return value for the call to .query on line 238",
+      "parentUuid": "2b73096e_f9a63f60",
       "revId": "597523ebcb9a7a8c6f851c42c0e7d470564876c1",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
