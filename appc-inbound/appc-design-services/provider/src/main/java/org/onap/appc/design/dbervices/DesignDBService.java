@@ -33,6 +33,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.json.JSONObject;
 import org.onap.appc.design.data.ArtifactInfo;
 import org.onap.appc.design.data.DesignInfo;
 import org.onap.appc.design.data.DesignResponse;
@@ -109,11 +111,110 @@ public class DesignDBService {
             case DesignServiceConstants.SETPROTOCOLREFERENCE:
                 response = setProtocolReference(payload, requestID);
                 break;
+            case DesignServiceConstants.UPLOADADMINARTIFACT:
+                response = uploadAdminArtifact(payload, requestID);
+                break;
+            case DesignServiceConstants.CHECKVNF:
+                response = checkVNF(payload, requestID);
+                break;
             default:
                 throw new DBException(" Action " + action + " not found while processing request ");
 
         }
         return response;
+    }
+
+    private String checkVNF(String payload, String requestID) throws Exception {
+          try {
+             log.info("Got into Check VNF Request with payload: "+ payload);
+             if(Strings.isNullOrEmpty(payload))
+             throw new DBException("Payload in CheckVNF request is null or Blank");
+             if(Strings.isNullOrEmpty(requestID))
+             throw new DBException("requestID in CheckVNF request is null or Blank");
+
+             ObjectMapper objectMapper = new ObjectMapper();
+             JsonNode payloadObject = objectMapper.readTree(payload);
+             String vnfType = payloadObject.get("vnf-type").textValue();
+           
+           log.info("Check VNF Request with VNF TYPE: " + vnfType);
+    
+            ArrayList<String> argList = new ArrayList<>();
+            argList.add(vnfType);
+            
+
+            String queryString = "SELECT DT_ACTION_STATUS_ID,USER FROM sdnctl.DT_ACTION_STATUS WHERE VNF_TYPE = ? ORDER BY DT_ACTION_STATUS_ID DESC LIMIT 1 ; ";
+
+            log.info(QUERY_STR + queryString);
+            ResultSet data = dbservice.getDBData(queryString, argList);
+            
+            int rowCount = 0;
+            String user = null ;
+            String dtActionStatusId = null ;
+                        
+            while (data.next()) {
+            	rowCount++ ;            	
+                user  = data.getString("USER");
+                dtActionStatusId = data.getString("DT_ACTION_STATUS_ID");
+            }
+            
+            log.debug("DT_ACTION_STATUS_ID-> " + dtActionStatusId+" user-> " + user);
+            
+            JSONObject jObject = new JSONObject();
+            if (rowCount == 0) {
+              log.debug("vnf-type does not present in APPC DB, row Count:" + rowCount);
+              jObject.put("result","No");
+            
+            }else {
+              log.debug("vnf-type present in APPC DB, row Count:" + rowCount);
+              jObject.put("result","Yes");
+              jObject.put("user",user);
+            
+            }
+            log.info("Check VNF result: " + jObject.toString());
+             
+            return jObject.toString();
+            
+    
+        }catch(Exception e) {
+            log.error("An error occured in checkVNF" + e.getMessage() , e);
+            throw e;
+    }
+
+}
+
+    private String uploadAdminArtifact(String payload, String requestID) throws Exception {
+        try {
+           ObjectMapper objectMapper = new ObjectMapper();
+           objectMapper.configure(JsonParser.Feature.ALLOW_COMMENTS, true);
+           JsonNode payloadObject = objectMapper.readTree(payload);
+           log.info("Got upload Admin Aritfact with  requestID : " + requestID + " & Payload" + payloadObject.asText());
+
+           if(Strings.isNullOrEmpty(requestID) ) {
+              throw new DBException("Request-id is missing in the uploadAdminArtifact payload . ");
+           }
+         
+           ArtifactHandlerClient ac = new ArtifactHandlerClient();
+           String requestString = ac.createArtifactData(payload, requestID);
+           ac.execute(requestString, "POST");
+        
+          int sdcArtifactId = getSDCArtifactIDbyRequestID(requestID);            
+          if(sdcArtifactId == 0) 
+             throw new DBException("Error occured while validating/Saving the artifact to SDC_ARTIFACTS or getting SDC_ARTIFACTS_ID .");
+        
+
+          if(payloadObject.get(DesignServiceConstants.USER_ID) == null || payloadObject.get(DesignServiceConstants.USER_ID).asText().trim().isEmpty()) {
+                   log.info("UserId in Admin Aritfact is null or blank, User Id : " +payloadObject.get(DesignServiceConstants.USER_ID).asText());
+                   throw new DBException("User Id is null or blank");
+            }
+           
+            int sdcReferenceId = 0 ;
+            createArtifactTrackingRecord(payload, requestID, sdcArtifactId, sdcReferenceId);
+
+        } catch (Exception e) {
+           log.error("An error occured in uploadAdminArtifact : "+e.getMessage(), e);
+           throw e;
+        }
+        return SUCCESS_JSON;
     }
 
     private String getAppcTimestampUTC( String requestID) throws Exception
@@ -389,7 +490,7 @@ public class DesignDBService {
             ArrayList<String> argList = new ArrayList<>();
             argList.add("TLSUUID" + requestID);
             String queryString = " SELECT ASDC_ARTIFACTS_ID FROM ASDC_ARTIFACTS where SERVICE_UUID = ? ";
-            log.info(QUERY_STR + queryString);
+            log.info(QUERY_STR + queryString+ " & UUID :" + "TLSUUID" + requestID);
             ResultSet data = dbservice.getDBData(queryString, argList);
             while (data.next()) {
                 artifactId = data.getInt("ASDC_ARTIFACTS_ID");
@@ -408,8 +509,9 @@ public class DesignDBService {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode payloadObject = objectMapper.readTree(payload);
+            String artifactName = payloadObject.get("artifact-name").textValue() ;
             ArrayList<String> argList = new ArrayList<>();
-            argList.add(payloadObject.get("artifact-name").textValue());
+            argList.add(artifactName);
             argList.add(payloadObject.get("artifact-type").textValue());
 
             String queryString = "SELECT INTERNAL_VERSION, ARTIFACT_CONTENT FROM ASDC_ARTIFACTS where " +
@@ -418,17 +520,31 @@ public class DesignDBService {
             log.info(QUERY_STR + queryString);
             ResultSet data = dbservice.getDBData(queryString, argList);
             String artifactContent = null;
+            int rowCount = 0;
             int hightestVerion = -1;
+            
             while (data.next()) {
+              rowCount++ ;
+            
                 int version = data.getInt("INTERNAL_VERSION");
                 if (hightestVerion < version) {
                     artifactContent = data.getString("ARTIFACT_CONTENT");
+                    hightestVerion = version ;
                 }
             }
+            
+            log.debug("No of rows: "+rowCount+" highest Inetrnal Version"+hightestVerion);
+            
+            if (rowCount == 0) {
+            	throw new DBException(
+                        "Sorry !!!APPC DB doesn't have any artifact Named : " + artifactName);
+            }
+            
             if (artifactContent == null || artifactContent.isEmpty()) {
                 throw new DBException(
-                    "Sorry !!! I dont have any artifact Named : " + payloadObject.get("artifact-name").textValue());
+                    "Sorry !!! Artifact Content is stored blank in APPC DB for " + artifactName + " and Internal version "+ hightestVerion );
             }
+            
             DesignResponse designResponse = new DesignResponse();
             List<ArtifactInfo> artifactInfoList = new ArrayList<>();
             ArtifactInfo artifactInfo = new ArtifactInfo();
@@ -437,7 +553,7 @@ public class DesignDBService {
             designResponse.setArtifactInfo(artifactInfoList);
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(designResponse);
-            log.info(INFO_STR + jsonString);
+            log.debug("End of getArtifact:" + INFO_STR + jsonString);
             return jsonString;
         } catch (Exception e) {
             log.error(DB_OPERATION_ERROR, e);
