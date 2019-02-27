@@ -316,12 +316,13 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             // post the test request
             logger.info("Posting ansible request = " + payload + " to url = " + agentUrl);
             AnsibleResult testResult = postExecRequest(agentUrl, payload, user, password,ctx);
+          if (testResult != null) {
             logger.info("Received response on ansible post request " + testResult.getStatusMessage());
             // Process if HTTP was successful
             if (testResult.getStatusCode() == 200) {
-                testResult = messageProcessor.parsePostResponse(testResult.getStatusMessage());
+              testResult = messageProcessor.parsePostResponse(testResult.getStatusMessage());
             } else {
-                doFailure(ctx, testResult.getStatusCode(),
+              doFailure(ctx, testResult.getStatusCode(),
                         "Error posting request. Reason = " + testResult.getStatusMessage());
             }
             String output = StringUtils.EMPTY;
@@ -331,16 +332,19 @@ public class AnsibleAdapterImpl implements AnsibleAdapter {
             ctx.setAttribute(OUTPUT_ATTRIBUTE_NAME, output);
             String serverIp = testResult.getServerIp();
             if (StringUtils.isBlank(serverIp))
-                ctx.setAttribute("ServerIP", serverIp);
+            ctx.setAttribute("ServerIP", serverIp);
             else
-                ctx.setAttribute("ServerIP", "");
+              ctx.setAttribute("ServerIP", "");
             // Check status of test request returned by Agent
             if (code == AnsibleResultCodes.PENDING.getValue()) {
-                logger.info(String.format("Submission of Test %s successful.", playbookName));
-                // test request accepted. We are in asynchronous case
+              logger.info(String.format("Submission of Test %s successful.", playbookName));
+              // test request accepted. We are in asynchronous case
             } else {
-                doFailure(ctx, code, "Request for execution of playbook rejected. Reason = " + message);
+              doFailure(ctx, code, "Request for execution of playbook rejected. Reason = " + message);
             }
+          } else {
+                doFailure(ctx, code, "Ansible Test result is null");
+          }
         } catch (APPCException e) {
             logger.error(APPC_EXCEPTION_CAUGHT, e);
             doFailure(ctx, AnsibleResultCodes.UNKNOWN_EXCEPTION.getValue(),
