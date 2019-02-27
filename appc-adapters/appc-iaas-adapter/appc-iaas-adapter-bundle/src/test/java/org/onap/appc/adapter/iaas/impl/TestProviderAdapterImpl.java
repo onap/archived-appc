@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 Ericsson
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -509,6 +511,26 @@ public class TestProviderAdapterImpl {
             throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
         prepareMock(Operation.MIGRATE_SERVICE, Server.Status.READY);
         Server actualServer = adapter.migrateServer(params, svcContext);
+        assertEquals(Server.Status.READY, actualServer.getStatus());
+    }
+    
+    /**
+     * Tests that we can reboot a server
+     * 
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException If the server cannot be rebooted for some reason
+     */
+    @Test
+    public void testRebootServer()
+            throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
+        prepareMock(Operation.REBOOT_SERVICE, Server.Status.READY);
+        Server actualServer = adapter.rebootServer(params, svcContext);
         assertEquals(Server.Status.READY, actualServer.getStatus());
     }
 
