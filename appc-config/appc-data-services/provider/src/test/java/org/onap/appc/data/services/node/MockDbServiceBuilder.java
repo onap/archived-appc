@@ -1,3 +1,24 @@
+/*
+ * ============LICENSE_START=======================================================
+ * ONAP : APPC
+ * ================================================================================
+ * Copyright (C) 2019 Ericsson
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * ============LICENSE_END=========================================================
+ */
+
 package org.onap.appc.data.services.node;
 
 import static org.mockito.Matchers.any;
@@ -65,10 +86,28 @@ class MockDbServiceBuilder {
         return this;
     }
 
+    public MockDbServiceBuilder getTemplateByVnfTypeNActionWithTemplateModelId(String prefix, String fileCategory, String templateModelId,
+            SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getTemplateByVnfTypeNActionWithTemplateModelId(any(SvcLogicContext.class), eq(prefix), eq(fileCategory), eq(templateModelId));
+
+        return this;
+    }
+
     public MockDbServiceBuilder getTemplateByTemplateName(String prefix, String fileCategory, SvcLogicResource.QueryStatus status) throws SvcLogicException {
         doReturn(status)
             .when(dbServiceMock)
             .getTemplateByTemplateName(any(SvcLogicContext.class), eq(prefix), eq(fileCategory));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getTemplateByTemplateModelId(String prefix, String fileCategory, String templateModelId,
+            SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getTemplateWithTemplateModelId(any(SvcLogicContext.class), eq(prefix), eq(fileCategory), eq(templateModelId));
 
         return this;
     }
@@ -137,7 +176,61 @@ class MockDbServiceBuilder {
         return this;
     }
 
+    public MockDbServiceBuilder getConfigFilesByVnfVmNCategory(String prefix, String fileCategory, String vnfId,
+            String vmName, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getConfigFilesByVnfVmNCategory(any(SvcLogicContext.class), eq(prefix), eq(fileCategory), eq(vnfId), eq(vmName));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder saveConfigTransactionLog(String prefix, SvcLogicResource.QueryStatus status)
+            throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .saveConfigTransactionLog(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getVnfcReferenceByVnfcTypeNAction(String prefix, SvcLogicResource.QueryStatus status)
+            throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getVnfcReferenceByVnfcTypeNAction(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
     DGGeneralDBService build() {
         return dbServiceMock;
+    }
+
+    public MockDbServiceBuilder getVnfcReferenceByVnfTypeNActionWithTemplateModelId(String prefix,
+            String templateModelId, SvcLogicResource.QueryStatus status) throws SvcLogicException {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getVnfcReferenceByVnfTypeNActionWithTemplateModelId(any(SvcLogicContext.class), eq(prefix),
+                    eq(templateModelId));
+
+         return this;
+    }
+
+    public MockDbServiceBuilder getVnfcReferenceByVnfTypeNAction(String prefix, SvcLogicResource.QueryStatus status)
+            throws SvcLogicException  {
+        doReturn(status)
+            .when(dbServiceMock)
+            .getVnfcReferenceByVnfTypeNAction(any(SvcLogicContext.class), eq(prefix));
+
+        return this;
+    }
+
+    public MockDbServiceBuilder getCapability(String type, String returnString) throws SvcLogicException {
+        doReturn(returnString)
+            .when(dbServiceMock)
+            .getCapability(any(SvcLogicContext.class), eq(type));
+
+        return this;
     }
 }
