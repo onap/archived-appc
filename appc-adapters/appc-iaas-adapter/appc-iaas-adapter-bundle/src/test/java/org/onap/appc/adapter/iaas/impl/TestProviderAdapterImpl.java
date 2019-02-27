@@ -511,6 +511,26 @@ public class TestProviderAdapterImpl {
         Server actualServer = adapter.migrateServer(params, svcContext);
         assertEquals(Server.Status.READY, actualServer.getStatus());
     }
+    
+    /**
+     * Tests that we can reboot a server
+     * 
+     * @throws ZoneException If the login cannot be performed because the principal and/or
+     *         credentials are invalid.
+     * @throws IllegalArgumentException If the principal and/or credential are null or empty, or if
+     *         the expected argument(s) are not defined or are invalid.
+     * @throws IllegalStateException If the identity service is not available or cannot be created
+     * @throws UnknownProviderException If the provider cannot be found
+     * @throws IOException if an I/O error occurs
+     * @throws APPCException If the server cannot be rebooted for some reason
+     */
+    @Test
+    public void testRebootServer()
+            throws IOException, IllegalStateException, IllegalArgumentException, ZoneException, APPCException {
+        prepareMock(Operation.REBOOT_SERVICE, Server.Status.READY);
+        Server actualServer = adapter.rebootServer(params, svcContext);
+        assertEquals(Server.Status.READY, actualServer.getStatus());
+    }
 
     private void prepareMock(Operation operation, Server.Status serverStatus) throws APPCException {
         IProviderOperation providerOperation = fetchOperation.apply(operation);
