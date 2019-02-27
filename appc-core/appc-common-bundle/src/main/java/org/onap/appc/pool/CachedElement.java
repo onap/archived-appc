@@ -25,14 +25,15 @@
 
 package org.onap.appc.pool;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.concurrent.atomic.AtomicBoolean;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 
 /**
  * This class is used as a "wrapper" for any closeable elements that are cached in a pool. It is
@@ -90,7 +91,7 @@ public class CachedElement<T extends Closeable>
         CachedElement<T> ce = new CachedElement<>(pool, element);
         boolean found = false;
         for (Class<?> intf : interfaces) {
-            if (intf.getName().equals(CacheManagement.class.getName())) {
+            if (intf.isAssignableFrom(CacheManagement.class)) {
                 found = true;
                 break;
             }
@@ -180,10 +181,8 @@ public class CachedElement<T extends Closeable>
 
         switch (method.getName()) {
             case "close":
-                if (released.compareAndSet(false, true)) {
-                    if (!pool.isDrained()) {
-                        pool.release((T) proxy);
-                    }
+                if (released.compareAndSet(false, true) && !pool.isDrained()) {
+                    pool.release((T) proxy);
                 }
                 break;
             case "equals":
