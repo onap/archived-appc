@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "008edd9f_4669dc65",
+        "filename": "appc-adapters/appc-ansible-adapter/appc-ansible-adapter-bundle/src/main/java/org/onap/appc/adapter/ansible/impl/AnsibleAdapterImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T13:01:51Z",
+      "side": 1,
+      "message": "checkstyle: need to fix the formatting of this block",
+      "revId": "629459f3afc6fa4fde6e8b30db8c5dcaa786859d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
