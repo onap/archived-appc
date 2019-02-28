@@ -1,0 +1,70 @@
+# ============LICENSE_START==========================================
+# ONAP : APPC
+# ===================================================================
+# Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+# ===================================================================
+# Modifications Copyright (C) 2019 Ericsson
+# ===================================================================
+# Unless otherwise specified, all software contained herein is licensed
+# under the Apache License, Version 2.0 (the License);
+# you may not use this software except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# ECOMP is a trademark and service mark of AT&T Intellectual Property.
+# ============LICENSE_END============================================
+
+##################################################################################################
+#
+# Mock data file for LCM command Query
+#
+# To use me when the backend implementation is not available,
+#     copy me to /tmp/lcm directory on the APPC server
+#
+# Mock data structure:
+#    VNF_IDS: stores all the mocked vnfIds, separated by comma.
+#    for per vnfId:
+#         VMS_<vnfId>: stores all the mocked vmIds of the specific vnfId, spearated by comma.
+#         for each vmId:
+#             STATE_<vmId>: stores VM state of the specific vmId.
+#                           VM state found at https://wiki.openstack.org/wiki/VMState#vm_state
+#             STATUS_<vmId>: stores VM sattus of the specific vmId.
+#
+##################################################################################################
+VNF_IDS=vSCP,vSBG
+
+VMS_vSCP=smp001,smp002,fex001,fex002,bex001,bex002,bex003,bex004,bex005,nee001
+STATE_smp001=ACTIVE
+STATE_smp002=RESCUED
+STATE_fex001=PAUSED
+STATE_fex002=SUSPENDED
+STATE_bex001=STOPPED
+STATE_bex002=HARD_DELETED
+STATE_bex003=RESIZED
+STATE_bex004=ERROR
+STATE_bex005=SOFT_DELETED
+# left out for UNKNOWN value
+#STATE_nee001
+
+STATUS_smp001=healthy
+STATUS_smp002=unhealthy
+STATUS_fex001=healthy
+STATUS_fex002=healthy
+STATUS_bex001=unhealthy
+STATUS_bex002=unhealthy
+STATUS_bex003=unhealthy
+STATUS_bex004=unhealthy
+STATUS_bex005=unhealthy
+# left out for UNKNOWN value
+#STATUS_nee001
+
+VMS_vSBG=vm001
+STATE_vm001=STANDBY
+STATUS_vm001=healthy
