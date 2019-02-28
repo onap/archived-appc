@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "346816cf_ef6ffe36",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T13:11:01Z",
+      "side": 1,
+      "message": "looks like much of this could be extracted into a common function\n\n(same is true for the xxxParseException methods, though that is pre-existing code)",
+      "revId": "1fb1f08e3a12960245b72527d03ecbddc6b09c75",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
