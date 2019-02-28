@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49754a2d_5d59eed7",
+        "filename": "appc-provider/appc-provider-bundle/src/test/java/org/onap/appc/provider/AppcProviderLcmTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T14:51:15Z",
+      "side": 1,
+      "message": "looks like lines 126-130 could be extracted into a common method, too",
+      "revId": "5d0ad1fc58207c55e5ca758b0519ffe36b1657a7",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
