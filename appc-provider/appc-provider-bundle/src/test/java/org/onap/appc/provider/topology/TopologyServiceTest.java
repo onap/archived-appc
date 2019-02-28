@@ -34,12 +34,17 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.UUID;
 import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.common.request.header.CommonRequestHeader;
 import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.config.payload.ConfigPayload;
 import org.opendaylight.yang.gen.v1.org.onap.appc.provider.rev160104.vnf.resource.VnfResource;
+import org.onap.appc.Constants;
 import org.onap.appc.configuration.Configuration;
 import org.onap.appc.configuration.ConfigurationFactory;
 import org.onap.appc.provider.AppcProvider;
+import org.onap.appc.provider.AppcProviderClient;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
-
+import org.powermock.reflect.Whitebox;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -148,4 +153,116 @@ public class TopologyServiceTest {
         Mockito.verify(topologyService, times(1)).callGraph(Mockito.any(Properties.class));
     }
 
+    @Test
+    public void testCallGraphSuccess() throws SvcLogicException {
+        Properties properties = new Properties();
+        properties.setProperty(Constants.PROPERTY_MODULE_NAME, "test_module_name");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_METHOD, "test_topology_method");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_VERSION, "test_topology_version");
+        AppcProviderClient client = Mockito.mock(AppcProviderClient.class);
+        Mockito.when(client.hasGraph(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(true);
+        Properties respProps = new Properties();
+        respProps.setProperty(Constants.ATTRIBUTE_ERROR_CODE, "200");
+        Mockito.when(client.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(Properties.class))).thenReturn(respProps);
+        AppcProvider provider = Mockito.mock(AppcProvider.class);
+        Mockito.when(provider.getClient()).thenReturn(client);
+        Whitebox.setInternalState(topologyService, "provider", provider);
+        assertTrue(topologyService.callGraph(properties));
+    }
+
+    @Test
+    public void testCallGraphNoGraph() throws SvcLogicException {
+        Properties properties = new Properties();
+        properties.setProperty(Constants.PROPERTY_MODULE_NAME, "test_module_name");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_METHOD, "test_topology_method");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_VERSION, "test_topology_version");
+        AppcProviderClient client = Mockito.mock(AppcProviderClient.class);
+        Mockito.when(client.hasGraph(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(false);
+        Properties respProps = new Properties();
+        respProps.setProperty(Constants.ATTRIBUTE_ERROR_CODE, "200");
+        Mockito.when(client.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(Properties.class))).thenReturn(respProps);
+        AppcProvider provider = Mockito.mock(AppcProvider.class);
+        Mockito.when(provider.getClient()).thenReturn(client);
+        Whitebox.setInternalState(topologyService, "provider", provider);
+        assertFalse(topologyService.callGraph(properties));
+    }
+
+    @Test
+    public void testCallGraphException() throws SvcLogicException {
+        Properties properties = new Properties();
+        properties.setProperty(Constants.PROPERTY_MODULE_NAME, "test_module_name");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_METHOD, "test_topology_method");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_VERSION, "test_topology_version");
+        AppcProviderClient client = Mockito.mock(AppcProviderClient.class);
+        Mockito.when(client.hasGraph(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(true);
+        Properties respProps = new Properties();
+        respProps.setProperty(Constants.ATTRIBUTE_ERROR_CODE, "200");
+        Mockito.when(client.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(Properties.class))).thenThrow(new SvcLogicException());
+        AppcProvider provider = Mockito.mock(AppcProvider.class);
+        Mockito.when(provider.getClient()).thenReturn(client);
+        Whitebox.setInternalState(topologyService, "provider", provider);
+        assertFalse(topologyService.callGraph(properties));
+    }
+
+    @Test
+    public void testCallGraphNoAttributeErrorCode() throws SvcLogicException {
+        Properties properties = new Properties();
+        properties.setProperty(Constants.PROPERTY_MODULE_NAME, "test_module_name");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_METHOD, "test_topology_method");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_VERSION, "test_topology_version");
+        AppcProviderClient client = Mockito.mock(AppcProviderClient.class);
+        Mockito.when(client.hasGraph(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(true);
+        Properties respProps = new Properties();
+        Mockito.when(client.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(Properties.class))).thenReturn(respProps);
+        AppcProvider provider = Mockito.mock(AppcProvider.class);
+        Mockito.when(provider.getClient()).thenReturn(client);
+        Whitebox.setInternalState(topologyService, "provider", provider);
+        assertFalse(topologyService.callGraph(properties));
+    }
+
+    @Test
+    public void testCallGraphErrorCodeGreaterThan300() throws SvcLogicException {
+        Properties properties = new Properties();
+        properties.setProperty(Constants.PROPERTY_MODULE_NAME, "test_module_name");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_METHOD, "test_topology_method");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_VERSION, "test_topology_version");
+        AppcProviderClient client = Mockito.mock(AppcProviderClient.class);
+        Mockito.when(client.hasGraph(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(true);
+        Properties respProps = new Properties();
+        respProps.setProperty(Constants.ATTRIBUTE_ERROR_CODE, "400");
+        Mockito.when(client.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(Properties.class))).thenReturn(respProps);
+        AppcProvider provider = Mockito.mock(AppcProvider.class);
+        Mockito.when(provider.getClient()).thenReturn(client);
+        Whitebox.setInternalState(topologyService, "provider", provider);
+        assertFalse(topologyService.callGraph(properties));
+    }
+
+    @Test
+    public void testCallGraphNumberFormatException() throws SvcLogicException {
+        Properties properties = new Properties();
+        properties.setProperty(Constants.PROPERTY_MODULE_NAME, "test_module_name");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_METHOD, "test_topology_method");
+        properties.setProperty(Constants.PROPERTY_TOPOLOGY_VERSION, "test_topology_version");
+        AppcProviderClient client = Mockito.mock(AppcProviderClient.class);
+        Mockito.when(client.hasGraph(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(true);
+        Properties respProps = new Properties();
+        respProps.setProperty(Constants.ATTRIBUTE_ERROR_CODE, "NaN");
+        Mockito.when(client.execute(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyString(),
+                Mockito.any(Properties.class))).thenReturn(respProps);
+        AppcProvider provider = Mockito.mock(AppcProvider.class);
+        Mockito.when(provider.getClient()).thenReturn(client);
+        Whitebox.setInternalState(topologyService, "provider", provider);
+        assertFalse(topologyService.callGraph(properties));
+    }
 }
