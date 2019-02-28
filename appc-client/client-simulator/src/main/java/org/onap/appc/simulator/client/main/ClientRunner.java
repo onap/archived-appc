@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -27,6 +29,8 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.onap.appc.simulator.client.RequestHandler;
 import org.onap.appc.simulator.client.impl.JsonRequestHandler;
 
+import com.att.eelf.configuration.EELFLogger;
+import com.att.eelf.configuration.EELFManager;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,13 +40,14 @@ import java.util.List;
 import java.util.Properties;
 
 public class ClientRunner {
+	private static EELFLogger LOG = EELFManager.getInstance().getLogger(ClientRunner.class);
 
     public static void main(String ... args) throws Exception {
         String folder = args[0];
         if (folder == null) {
             folder = System.getProperty("user.dir");
         }
-        System.out.println("== THR#" +Thread.currentThread().getId()+ " Reading files under the folder : " + folder);
+        LOG.info("== THR#" +Thread.currentThread().getId()+ " Reading files under the folder : " + folder);
 
         String inputType = args[1];
         if (inputType != null && !inputType.matches("JSON")) {
@@ -56,12 +61,12 @@ public class ClientRunner {
         int filesNum = 0;
         for (File source: sources) {
             reqHandler.proceedFile(source, log);
-            System.out.println("== THR#" +Thread.currentThread().getId()+ " File <" + source.getName() + "> processed.");
+            LOG.info("== THR#" +Thread.currentThread().getId()+ " File <" + source.getName() + "> processed.");
             ++filesNum;
         }
-        System.out.println("DONE with " + filesNum + " files under the folder : " + folder);
+        LOG.info("DONE with " + filesNum + " files under the folder : " + folder);
         Thread.sleep(30);
-        System.out.println("Shutdown ...");
+        LOG.info("Shutdown ...");
         reqHandler.shutdown(Boolean.parseBoolean(properties.getProperty("client.force.shutdown")));
 //        System.exit(0);
     }
@@ -79,7 +84,7 @@ public class ClientRunner {
             try {
                 prop.load(conf);
             } catch (IOException e) {
-                e.printStackTrace();
+                LOG.error("Error occured while reading the property file", e);
             }
         } else {
             try {
