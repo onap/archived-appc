@@ -6,6 +6,8 @@
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
+ * Modifications Copyright (C) 2019 IBM
+ * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -91,10 +93,10 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         switch (errorCode) {
             case ACCEPT_FAMILY: {
                 try {
-                    System.out.println("== THR#" + Thread.currentThread().getId() + " Got ACCEPT on ReqID <" +
+                    LOG.info("== THR#" + Thread.currentThread().getId() + " Got ACCEPT on ReqID <" +
                             OBJECT_MAPPER.readTree(output).findValue("common-header").findValue("request-id").asText() + ">");
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    LOG.error("Error while reading the response ", e);;
                     throw new RuntimeException(e);
                 }
                 // no need to report ACCEPT into output file
@@ -140,6 +142,6 @@ public class JsonResponseHandler implements ResponseHandler<Object> {
         } catch (Exception e) {
             LOG.error(e.getMessage());
         }
-        System.out.println("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
+        LOG.info("== THR#" +Thread.currentThread().getId()+ " Output file : " + fileName + suffix);
     }
 }
