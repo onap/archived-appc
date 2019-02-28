@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c681bd22_61b670ca",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T19:53:17Z",
+      "side": 1,
+      "message": "indent",
+      "revId": "1452ea34ec347dddd5d3431ce8165aaed24f829e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
