@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2018 Ericsson
+ * Copyright (C) 2018-2019 Ericsson
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,11 +22,16 @@
 package org.onap.appc.provider;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.onap.appc.domainmodel.lcm.ResponseContext;
+import org.onap.appc.domainmodel.lcm.Status;
+import org.onap.appc.requesthandler.objects.RequestHandlerInput;
+import org.onap.appc.requesthandler.objects.RequestHandlerOutput;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.sal.binding.api.BindingAwareBroker;
@@ -75,6 +80,7 @@ import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePostCheck
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradePreCheckInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.UpgradeSoftwareInput;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.ZULU;
+import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.action.identifiers.ActionIdentifiersBuilder;
 import org.opendaylight.yang.gen.v1.org.onap.appc.lcm.rev160108.common.header.CommonHeaderBuilder;
 
 
@@ -86,6 +92,7 @@ public class AppcProviderLcmTest {
     private RpcProviderRegistry rpcProviderRegistry;
     private BindingAwareBroker.RpcRegistration<AppcProviderLcmService> rpcRegistration;
     private AppcProviderLcm underTest;
+    private RequestHandlerOutput output;
 
     @Before
     public void setupMocksForTests() {
@@ -94,13 +101,19 @@ public class AppcProviderLcmTest {
         rpcProviderRegistry = mock(RpcProviderRegistry.class);
         rpcRegistration = mock(ParameterizedRpcRegistration.class);
         Mockito.doReturn(rpcRegistration).when(rpcProviderRegistry).addRpcImplementation(
-                eq(AppcProviderLcm.class), Mockito.any(AppcProviderLcm.class));
+                Mockito.any(Class.class), Mockito.any(AppcProviderLcm.class));
         underTest =
                 new AppcProviderLcm(dataBroker, notificationProviderService, rpcProviderRegistry);
+        output = Mockito.mock(RequestHandlerOutput.class);
+        ResponseContext responseContext = Mockito.mock(ResponseContext.class);
+        Status status = Mockito.mock(Status.class);
+        Mockito.doReturn(200).when(status).getCode();
+        Mockito.doReturn(status).when(responseContext).getStatus();
+        Mockito.doReturn(responseContext).when(output).getResponseContext();
     }
 
     @Test
-    public void rebuildTest() {
+    public void rebuildTestParseException() {
         RebuildInput rebuildInput = mock(RebuildInput.class);
         Mockito.doReturn(Action.Rebuild).when(rebuildInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(rebuildInput).getCommonHeader();
@@ -108,7 +121,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void restartTest() {
+    public void rebuildTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        RebuildInput rebuildInput = mock(RebuildInput.class);
+        Mockito.doReturn(Action.Rebuild).when(rebuildInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(rebuildInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(rebuildInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.rebuild(rebuildInput).isDone());
+    }
+
+    @Test
+    public void restartTestParseException() {
         RestartInput restartInput = mock(RestartInput.class);
         Mockito.doReturn(Action.Restart).when(restartInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(restartInput).getCommonHeader();
@@ -116,7 +140,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void startApplicationTest() {
+    public void restartTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        RestartInput restartInput = mock(RestartInput.class);
+        Mockito.doReturn(Action.Restart).when(restartInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(restartInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(restartInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.restart(restartInput).isDone());
+    }
+
+    @Test
+    public void startApplicationTestParseException() {
         StartApplicationInput startApplicationInput = mock(StartApplicationInput.class);
         Mockito.doReturn(Action.StartApplication).when(startApplicationInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(startApplicationInput)
@@ -125,7 +160,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void migrateTest() {
+    public void startApplicationTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        StartApplicationInput startApplicationInput = mock(StartApplicationInput.class);
+        Mockito.doReturn(Action.StartApplication).when(startApplicationInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(startApplicationInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(startApplicationInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.startApplication(startApplicationInput).isDone());
+    }
+
+    @Test
+    public void migrateTestParseException() {
         MigrateInput migrateInput = mock(MigrateInput.class);
         Mockito.doReturn(Action.Migrate).when(migrateInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(migrateInput).getCommonHeader();
@@ -133,7 +179,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void evacuateTest() {
+    public void migrateTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        MigrateInput migrateInput = mock(MigrateInput.class);
+        Mockito.doReturn(Action.Migrate).when(migrateInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(migrateInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(migrateInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.migrate(migrateInput).isDone());
+    }
+
+    @Test
+    public void evacuateTestParseException() {
         EvacuateInput evacuateInput = mock(EvacuateInput.class);
         Mockito.doReturn(Action.Evacuate).when(evacuateInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(evacuateInput).getCommonHeader();
@@ -141,7 +198,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void snapshotTest() {
+    public void evacuateTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        EvacuateInput evacuateInput = mock(EvacuateInput.class);
+        Mockito.doReturn(Action.Evacuate).when(evacuateInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(evacuateInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(evacuateInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.evacuate(evacuateInput).isDone());
+    }
+
+    @Test
+    public void snapshotTestParseException() {
         SnapshotInput snapshotInput = mock(SnapshotInput.class);
         Mockito.doReturn(Action.Snapshot).when(snapshotInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(snapshotInput).getCommonHeader();
@@ -149,7 +217,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void rollbackTest() {
+    public void snapshotTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        SnapshotInput snapshotInput = mock(SnapshotInput.class);
+        Mockito.doReturn(Action.Snapshot).when(snapshotInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(snapshotInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(snapshotInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.snapshot(snapshotInput).isDone());
+    }
+
+    @Test
+    public void rollbackTestParseException() {
         RollbackInput rollbackInput = mock(RollbackInput.class);
         Mockito.doReturn(Action.Rollback).when(rollbackInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(rollbackInput).getCommonHeader();
@@ -157,11 +236,33 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void syncTest() {
+    public void rollbackTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        RollbackInput rollbackInput = mock(RollbackInput.class);
+        Mockito.doReturn(Action.Rollback).when(rollbackInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(rollbackInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(rollbackInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.rollback(rollbackInput).isDone());
+    }
+
+    @Test
+    public void syncTestParseException() {
         SyncInput syncInput = mock(SyncInput.class);
         Mockito.doReturn(Action.Sync).when(syncInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(syncInput).getCommonHeader();
         assertTrue(underTest.sync(syncInput).isDone());
+    }
+
+    @Test
+    public void syncTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        SyncInput syncInput = mock(SyncInput.class);
+        Mockito.doReturn(Action.Sync).when(syncInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(syncInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(syncInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.sync(syncInput).isDone());
     }
 
     @Test
@@ -249,11 +350,22 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void terminateTest() {
+    public void terminateTestParseException() {
         TerminateInput terminateInput = mock(TerminateInput.class);
         Mockito.doReturn(Action.Terminate).when(terminateInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(terminateInput).getCommonHeader();
         assertTrue(underTest.terminate(terminateInput).isDone());
+    }
+
+    @Test
+    public void terminateTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        TerminateInput terminateInput = mock(TerminateInput.class);
+        Mockito.doReturn(Action.Terminate).when(terminateInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(terminateInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(terminateInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.terminate(terminateInput).isDone());
     }
 
     @Test
@@ -266,12 +378,23 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void configModifyTest() {
+    public void configModifyTestParseException() {
         ConfigModifyInput configModifyInput = mock(ConfigModifyInput.class);
         Mockito.doReturn(Action.ConfigModify).when(configModifyInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(configModifyInput)
                 .getCommonHeader();
         assertTrue(underTest.configModify(configModifyInput).isDone());
+    }
+
+    @Test
+    public void configModifyTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        ConfigModifyInput configModifyInput = mock(ConfigModifyInput.class);
+        Mockito.doReturn(Action.ConfigModify).when(configModifyInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configModifyInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(configModifyInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.configModify(configModifyInput).isDone());
     }
 
     @Test
@@ -282,7 +405,7 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void configRestoreTest() {
+    public void configRestoreTestParseException() {
         ConfigRestoreInput configRestoreInput = mock(ConfigRestoreInput.class);
         Mockito.doReturn(Action.ConfigRestore).when(configRestoreInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(configRestoreInput)
@@ -291,7 +414,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void configureTest() {
+    public void configRestoreTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        ConfigRestoreInput configRestoreInput = mock(ConfigRestoreInput.class);
+        Mockito.doReturn(Action.ConfigRestore).when(configRestoreInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configRestoreInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(configRestoreInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.configRestore(configRestoreInput).isDone());
+    }
+
+    @Test
+    public void configureTestParseException() {
         ConfigureInput configureInput = mock(ConfigureInput.class);
         Mockito.doReturn(Action.Configure).when(configureInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(configureInput).getCommonHeader();
@@ -299,7 +433,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void testTest() {
+    public void configureTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        ConfigureInput configureInput = mock(ConfigureInput.class);
+        Mockito.doReturn(Action.Configure).when(configureInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configureInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(configureInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.configure(configureInput).isDone());
+    }
+
+    @Test
+    public void testTestParseException() {
         TestInput testInput = mock(TestInput.class);
         Mockito.doReturn(Action.Test).when(testInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(testInput).getCommonHeader();
@@ -307,7 +452,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void stopTest() {
+    public void testTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        TestInput testInput = mock(TestInput.class);
+        Mockito.doReturn(Action.Test).when(testInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(testInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(testInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.test(testInput).isDone());
+    }
+
+    @Test
+    public void stopTestParseException() {
         StopInput stopInput = mock(StopInput.class);
         Mockito.doReturn(Action.Stop).when(stopInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(stopInput).getCommonHeader();
@@ -315,7 +471,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void startTest() {
+    public void stopTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        StopInput stopInput = mock(StopInput.class);
+        Mockito.doReturn(Action.Stop).when(stopInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(stopInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(stopInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.stop(stopInput).isDone());
+    }
+
+    @Test
+    public void startTestParseException() {
         StartInput startInput = mock(StartInput.class);
         Mockito.doReturn(Action.Start).when(startInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(startInput).getCommonHeader();
@@ -323,7 +490,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void auditTest() {
+    public void startTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        StartInput startInput = mock(StartInput.class);
+        Mockito.doReturn(Action.Rebuild).when(startInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(startInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(startInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.start(startInput).isDone());
+    }
+
+    @Test
+    public void auditTestParseExcpetion() {
         AuditInput auditInput = mock(AuditInput.class);
         Mockito.doReturn(Action.Audit).when(auditInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(auditInput).getCommonHeader();
@@ -331,7 +509,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void softwareUploadTest() {
+    public void auditTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        AuditInput auditInput = mock(AuditInput.class);
+        Mockito.doReturn(Action.Audit).when(auditInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(auditInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(auditInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.audit(auditInput).isDone());
+    }
+
+    @Test
+    public void softwareUploadTestParseException() {
         SoftwareUploadInput softwareUploadInput = mock(SoftwareUploadInput.class);
         Mockito.doReturn(Action.SoftwareUpload).when(softwareUploadInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(softwareUploadInput)
@@ -340,7 +529,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void healthCheckTest() {
+    public void softwareUploadTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        SoftwareUploadInput softwareUploadInput = mock(SoftwareUploadInput.class);
+        Mockito.doReturn(Action.SoftwareUpload).when(softwareUploadInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(softwareUploadInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(softwareUploadInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.softwareUpload(softwareUploadInput).isDone());
+    }
+
+    @Test
+    public void healthCheckTestParseException() {
         HealthCheckInput healthCheckInput = mock(HealthCheckInput.class);
         Mockito.doReturn(Action.HealthCheck).when(healthCheckInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(healthCheckInput).getCommonHeader();
@@ -348,7 +548,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void liveUpgradeTest() {
+    public void healthCheckTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        HealthCheckInput healthCheckInput = mock(HealthCheckInput.class);
+        Mockito.doReturn(Action.HealthCheck).when(healthCheckInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(healthCheckInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(healthCheckInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.healthCheck(healthCheckInput).isDone());
+    }
+
+    @Test
+    public void liveUpgradeTestParseException() {
         LiveUpgradeInput liveUpgradeInput = mock(LiveUpgradeInput.class);
         Mockito.doReturn(Action.LiveUpgrade).when(liveUpgradeInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(liveUpgradeInput).getCommonHeader();
@@ -356,7 +567,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void lockTest() {
+    public void liveUpgradeTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        LiveUpgradeInput liveUpgradeInput = mock(LiveUpgradeInput.class);
+        Mockito.doReturn(Action.LiveUpgrade).when(liveUpgradeInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(liveUpgradeInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(liveUpgradeInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.liveUpgrade(liveUpgradeInput).isDone());
+    }
+
+    @Test
+    public void lockTestParseException() {
         LockInput lockInput = mock(LockInput.class);
         Mockito.doReturn(Action.Lock).when(lockInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(lockInput).getCommonHeader();
@@ -364,7 +586,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void unlockTest() {
+    public void lockTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        LockInput lockInput = mock(LockInput.class);
+        Mockito.doReturn(Action.LiveUpgrade).when(lockInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(lockInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(lockInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.lock(lockInput).isDone());
+    }
+
+    @Test
+    public void unlockTestParseException() {
         UnlockInput unlockInput = mock(UnlockInput.class);
         Mockito.doReturn(Action.Unlock).when(unlockInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(unlockInput).getCommonHeader();
@@ -372,7 +605,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void checkLockTest() {
+    public void unLockTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        UnlockInput unlockInput = mock(UnlockInput.class);
+        Mockito.doReturn(Action.Unlock).when(unlockInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(unlockInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(unlockInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.unlock(unlockInput).isDone());
+    }
+
+    @Test
+    public void checkLockTestParseException() {
         CheckLockInput checkLockInput = mock(CheckLockInput.class);
         Mockito.doReturn(Action.CheckLock).when(checkLockInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(checkLockInput).getCommonHeader();
@@ -380,7 +624,27 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void configBackupTest() {
+    public void checkLockTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        CheckLockInput checkLockInput = mock(CheckLockInput.class);
+        Mockito.doReturn(Action.CheckLock).when(checkLockInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(checkLockInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(checkLockInput).getActionIdentifiers();
+        RequestHandlerOutput output = Mockito.mock(RequestHandlerOutput.class);
+        ResponseContext responseContext = Mockito.mock(ResponseContext.class);
+        Status status = Mockito.mock(Status.class);
+        Map<String, String> additionalContext = new HashMap<>();
+        additionalContext.put("locked", "true");
+        Mockito.doReturn(additionalContext).when(responseContext).getAdditionalContext();
+        Mockito.doReturn(400).when(status).getCode();
+        Mockito.doReturn(status).when(responseContext).getStatus();
+        Mockito.doReturn(responseContext).when(output).getResponseContext();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.checkLock(checkLockInput).isDone());
+    }
+
+    @Test
+    public void configBackupTestParseException() {
         ConfigBackupInput configBackupInput = mock(ConfigBackupInput.class);
         Mockito.doReturn(Action.ConfigBackup).when(configBackupInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(configBackupInput)
@@ -389,7 +653,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void configBackupDeleteTest() {
+    public void configBackupTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        ConfigBackupInput configBackupInput = mock(ConfigBackupInput.class);
+        Mockito.doReturn(Action.ConfigBackup).when(configBackupInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configBackupInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(configBackupInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.configBackup(configBackupInput).isDone());
+    }
+
+    @Test
+    public void configBackupDeleteTestParseException() {
         ConfigBackupDeleteInput configBackupDeleteInput = mock(ConfigBackupDeleteInput.class);
         Mockito.doReturn(Action.ConfigBackupDelete).when(configBackupDeleteInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(configBackupDeleteInput)
@@ -398,7 +673,18 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void configExportTest() {
+    public void configBackupDeleteTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        ConfigBackupDeleteInput configBackupDeleteInput = mock(ConfigBackupDeleteInput.class);
+        Mockito.doReturn(Action.ConfigBackupDelete).when(configBackupDeleteInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configBackupDeleteInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(configBackupDeleteInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.configBackupDelete(configBackupDeleteInput).isDone());
+    }
+
+    @Test
+    public void configExportTestParseException() {
         ConfigExportInput configExportInput = mock(ConfigExportInput.class);
         Mockito.doReturn(Action.ConfigExport).when(configExportInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(configExportInput)
@@ -407,12 +693,40 @@ public class AppcProviderLcmTest {
     }
 
     @Test
-    public void stopApplicationTest() {
+    public void configExportTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        ConfigExportInput configExportInput = mock(ConfigExportInput.class);
+        Mockito.doReturn(Action.ConfigExport).when(configExportInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(configExportInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(configExportInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.configExport(configExportInput).isDone());
+    }
+
+    @Test
+    public void stopApplicationTestParseException() {
         StopApplicationInput stopApplicationInput = mock(StopApplicationInput.class);
         Mockito.doReturn(Action.StopApplication).when(stopApplicationInput).getAction();
         Mockito.doReturn(getCommonHeaderBuilder().build()).when(stopApplicationInput)
                 .getCommonHeader();
         assertTrue(underTest.stopApplication(stopApplicationInput).isDone());
+    }
+
+    @Test
+    public void stopApplicationTest() {
+        AppcProviderLcm underTestSpy = Mockito.spy(underTest);
+        StopApplicationInput stopApplicationInput = mock(StopApplicationInput.class);
+        Mockito.doReturn(Action.StopApplication).when(stopApplicationInput).getAction();
+        Mockito.doReturn(getCommonHeaderBuilder().build()).when(stopApplicationInput).getCommonHeader();
+        Mockito.doReturn(new ActionIdentifiersBuilder().build()).when(stopApplicationInput).getActionIdentifiers();
+        Mockito.doReturn(output).when(underTestSpy).executeRequest(Mockito.any(RequestHandlerInput.class));
+        assertTrue(underTestSpy.stopApplication(stopApplicationInput).isDone());
+    }
+
+    @Test
+    public void closeTest() throws Exception {
+        underTest.close();
+        Mockito.verify(rpcRegistration).close();
     }
 
     private CommonHeaderBuilder getCommonHeaderBuilder() {

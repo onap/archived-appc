@@ -7,6 +7,8 @@
  * Copyright (C) 2017 Amdocs
  * ================================================================================
  * Modifications Copyright (C) 2018 Orange
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +114,6 @@ public class AppcProviderLcm extends AbstractBaseUtils implements AutoCloseable,
         if (this.rpcRegistry != null) {
             rpcRegistration = rpcRegistry.addRpcImplementation(AppcProviderLcmService.class, this);
         }
-
         logger.info(Msg.COMPONENT_INITIALIZED, appName, "provider");
     }
 
