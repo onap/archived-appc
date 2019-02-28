@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "998a1e77_b55556a6",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T18:09:34Z",
+      "side": 1,
+      "message": "fix indentation",
+      "revId": "be7c2edc292971c41eaa5d398a4899d5482a1491",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "44e10e61_a372cc8a",
+        "filename": "appc-inbound/appc-design-services/provider/src/main/java/org/onap/appc/design/dbervices/DesignDBService.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 518,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T18:09:34Z",
+      "side": 1,
+      "message": "tabs \u003d\u003e spaces",
+      "revId": "be7c2edc292971c41eaa5d398a4899d5482a1491",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36cd127b_dfb2343c",
+        "filename": "appc-inbound/appc-design-services/provider/src/test/java/org/onap/appc/design/validator/TestDesignDBServices.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T18:09:34Z",
+      "side": 1,
+      "message": "still have trailing spaces here",
+      "revId": "be7c2edc292971c41eaa5d398a4899d5482a1491",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
