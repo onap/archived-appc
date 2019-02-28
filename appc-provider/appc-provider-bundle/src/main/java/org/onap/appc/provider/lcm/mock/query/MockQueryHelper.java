@@ -5,6 +5,8 @@
  * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
+ * ================================================================================
+ * Modifications Copyright (C) 2019 Ericsson
  * =============================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,7 +52,7 @@ import java.util.Map;
  * When backend is implemented, this file should be removed.
  */
 public class MockQueryHelper extends AbstractMockHelper {
-    private final String MOCK_QUERY_FILENAME = "/tmp/lcm/query";
+    private String MOCK_QUERY_FILENAME = "/tmp/lcm/query";
 
     /** VF_STATE value are listed at https://wiki.openstack.org/wiki/VMState#vm_state */
     private final Map<VmState, List<String>> VF_STATE_MAP = new HashMap<VmState, List<String>>() {
