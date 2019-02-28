@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edde5294_6e85201b",
+        "filename": "appc-provider/appc-provider-bundle/src/main/java/org/onap/appc/provider/topology/TopologyService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 624,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T13:00:34Z",
+      "side": 1,
+      "message": "remove print or use logger",
+      "revId": "bcbf3c09fb1bc9a5773478a1dba81070db24479b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
