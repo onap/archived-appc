@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37857607_1754d9c4",
+        "filename": "appc-client/client-simulator/src/main/java/org/onap/appc/simulator/client/main/ClientRunner.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T14:47:33Z",
+      "side": 1,
+      "message": "indentation is incorrect",
+      "revId": "ff08242d9d6c7d4725da2c71d01cc864fc9b5bd1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
