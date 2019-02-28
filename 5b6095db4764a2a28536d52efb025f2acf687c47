@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e5adb7f_6291d680",
+        "filename": "appc-client/client-simulator/src/main/java/org/onap/appc/simulator/client/main/ClientRunner.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-02-28T13:44:10Z",
+      "side": 1,
+      "message": "add \"final\".\n\ntabs \u003d\u003e spaces",
+      "revId": "5b6095db4764a2a28536d52efb025f2acf687c47",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
