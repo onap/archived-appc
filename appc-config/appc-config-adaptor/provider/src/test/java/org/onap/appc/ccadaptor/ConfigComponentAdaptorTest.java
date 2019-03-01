@@ -362,6 +362,31 @@ public class ConfigComponentAdaptorTest {
         assertEquals("500", ctx.getAttribute("error-code"));
     }
 
+    /**
+     * Test method to add coverage to buildNetworkData2(..) and expandRepeats(..) methods in
+     * ConfigComponentAdaptor by inputting a more complex XML document
+     */
+    @Test
+    public void testPrepareComplexTemplate() {
+        Client mockClient = Mockito.mock(Client.class);
+        WebResource mockWebResource = Mockito.mock(WebResource.class);
+        ClientResponse mockClientResponse = Mockito.mock(ClientResponse.class);
+        ConfigComponentAdaptor cca = Mockito.spy(new ConfigComponentAdaptor(null));
+        Mockito.doReturn(mockClientResponse).when(cca).getClientResponse(Mockito.anyObject(),
+                Mockito.anyString(), Mockito.anyString());
+        Mockito.doReturn(mockWebResource).when(mockClient).resource(Mockito.anyString());
+        Mockito.doReturn(mockClient).when(cca).getClient();
+        String complexTemplateString = cca.readFile("/prepare.xml");
+        Mockito.when(cca.readFile(Mockito.anyString())).thenReturn(complexTemplateString);
+        Map<String, String> parameters = new HashMap<>();
+        parameters.put("action", "prepare");
+        SvcLogicContext ctx = new SvcLogicContext();
+        ctx.setAttribute(
+                "service-data.vnf-config-parameters-list.vnf-config-parameters[0].update-configuration[0].block-key-name",
+                "test");
+        assertEquals(ConfigStatus.SUCCESS, cca.configure("", parameters, ctx));
+    }
+
     @Test
     public void testAudit() {
         Client mockClient = Mockito.mock(Client.class);
