@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c2975ba_4b7a4a0f",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 3979
+      },
+      "writtenOn": "2019-03-01T12:01:03Z",
+      "side": 1,
+      "message": "The .setValue instructions could be omitted because compareTo just returns the result of the String compareTo method on the name attribute",
+      "range": {
+        "startLine": 295,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 36
+      },
+      "revId": "a4a4414367ab72065cf5b0d03ac65def3642db61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
