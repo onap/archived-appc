@@ -22,6 +22,23 @@
       "revId": "a4a4414367ab72065cf5b0d03ac65def3642db61",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "549e19ea_b71bd864",
+        "filename": "appc-core/appc-common-bundle/src/test/java/org/onap/appc/util/TestStructuredPropertyHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 811
+      },
+      "writtenOn": "2019-03-01T13:43:52Z",
+      "side": 1,
+      "message": "might also add a test for node0.compareTo(node0)",
+      "revId": "a4a4414367ab72065cf5b0d03ac65def3642db61",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
