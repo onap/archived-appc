@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -50,12 +50,15 @@ import com.att.cdp.zones.model.Server;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
+import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.REBOOT_SERVICE;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 
 public class RebootServer extends ProviderServerOperation {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(RebootServer.class);
     private static final Configuration config = ConfigurationFactory.getConfiguration();
-    private static final Integer NO_OF_ATTEMPTS=30;
-    private static final Integer RETRY_INTERVAL=10;
+    private static final Integer NO_OF_ATTEMPTS = 30;
+    private static final Integer RETRY_INTERVAL = 10;
+    private static final int MILLI_SECONDS = 1000;
 
     @Override
     protected ModelObject executeProviderOperation(Map<String, String> params, SvcLogicContext context)
@@ -72,7 +75,7 @@ public class RebootServer extends ProviderServerOperation {
         String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
         String rebooType = params.get(ProviderAdapter.REBOOT_TYPE);
         String tenantName = "Unknown";
-        if (rebooType.isEmpty() ) {
+        if (rebooType.isEmpty()) {
             rebooType = "SOFT";
         }
         logger.info("reboot type" + rebooType);
@@ -86,12 +89,23 @@ public class RebootServer extends ProviderServerOperation {
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             context = getContext(requestContext, vmUrl, identStr);
+            // Is the skip Hypervisor check attribute populated?
+            String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
+            if (skipHypervisorCheck == null && ctx != null) {
+                skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+            }
             if (context != null) {
                 tenantName = context.getTenantName();// this variable also is
                 // used in case of exception
                 requestContext.reset();
                 server = lookupServer(requestContext, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
+                // Always perform Hypervisor check
+                // unless the skip is set to true
+                if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                    // Check of the Hypervisor for the VM Server is UP and reachable
+                    checkHypervisor(server);
+                }
                 Context contx = server.getContext();
                 ComputeService service = contx.getComputeService();
                 logger.info("performing reboot action for " + server.getId() + " rebootype " + rebooType);
@@ -108,7 +122,8 @@ public class RebootServer extends ProviderServerOperation {
             }
 
         } catch (ResourceNotFoundException | StateException ex) {
-            logger.info(ex.getMessage());
+            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
+                    REBOOT_SERVICE.toString(), vmUrl, tenantName);
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             if (ex instanceof ResourceNotFoundException) {
                 doFailure(requestContext, HttpStatus.NOT_FOUND_404, ex.getMessage());
@@ -116,7 +131,8 @@ public class RebootServer extends ProviderServerOperation {
                 doFailure(requestContext, HttpStatus.CONFLICT_409, ex.getMessage());
             }
         } catch (Exception ex) {
-            logger.info(ex.getMessage());
+            String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, ex, ex.getClass().getSimpleName(),
+                    REBOOT_SERVICE.toString(), vmUrl, tenantName);
             ctx.setAttribute("REBOOT_STATUS", "FAILURE");
             doFailure(requestContext, HttpStatus.INTERNAL_SERVER_ERROR_500, ex.getMessage());
         }
@@ -133,11 +149,17 @@ public class RebootServer extends ProviderServerOperation {
         String msg;
         boolean status = false;
         while (rc.attempt()) {
+            if (server.getStatus() != null && server.getStatus().equals(Server.Status.ERROR)) {
+                msg = "Device status " + Server.Status.ERROR + " cannot proceed further";
+                throw new RequestFailedException("Waiting for State Change", msg, HttpStatus.CONFLICT_409, server);
+            } else {
                 server.waitForStateChange(pollInterval, timeout, desiredStates);
-                if ((server.getStatus().equals(Server.Status.RUNNING)) || (server.getStatus().equals(Server.Status.READY))) {
+                if ((server.getStatus().equals(Server.Status.RUNNING))
+                        || (server.getStatus().equals(Server.Status.READY))) {
                     status = true;
                 }
                 logger.info(server.getStatus() + " status ");
+            }
             if (status) {
                 logger.info("Done Trying " + rc.getAttempts() + " attempts");
                 break;
@@ -145,7 +167,6 @@ public class RebootServer extends ProviderServerOperation {
                 rc.delay();
             }
         }
-
         if (rc.isFailed()) {
             msg = EELFResourceManager.format(Msg.CONNECTION_FAILED, vmUrl);
             logger.info("waitForStateChange Failed");
@@ -159,7 +180,6 @@ public class RebootServer extends ProviderServerOperation {
             logger.error(msg);
             throw new TimeoutException(msg);
         }
-
         rc.reset();
         logger.info("Reboot server status flag --> " + status);
         return status;

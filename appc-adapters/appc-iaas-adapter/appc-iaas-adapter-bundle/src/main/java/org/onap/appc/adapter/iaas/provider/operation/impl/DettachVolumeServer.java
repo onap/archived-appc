@@ -56,6 +56,7 @@ import com.att.cdp.openstack.util.ExceptionMapper;
 import org.onap.appc.i18n.Msg;
 import com.woorea.openstack.base.client.OpenStackBaseException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 
 public class DettachVolumeServer extends ProviderServerOperation {
     private final EELFLogger logger = EELFManager.getInstance().getLogger(DettachVolumeServer.class);
@@ -86,12 +87,22 @@ public class DettachVolumeServer extends ProviderServerOperation {
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             context = getContext(requestContext, vmUrl, identStr);
+            String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
+            if (skipHypervisorCheck == null && ctx != null) {
+                skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+            }
             if (context != null) {
                 tenantName = context.getTenantName();// this variable also is
                                                         // used in case of
                                                         // exception
                 requestContext.reset();
                 server = lookupServer(requestContext, context, vm.getServerId());
+                // Always perform Hypervisor check
+            // unless the skip is set to true
+            if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                // Check of the Hypervisor for the VM Server is UP and reachable
+                checkHypervisor(server);
+            }
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 if (volumeId == null || volumeId.isEmpty()) {
                     ctx.setAttribute("VOLUME_STATUS", "FAILURE");

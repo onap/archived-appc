@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -60,6 +60,7 @@ import java.util.Date;
 import java.util.Map;
 import static org.onap.appc.adapter.iaas.provider.operation.common.constants.Constants.DATE_FORMAT;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 
 public class CreateSnapshot extends ProviderServerOperation {
 
@@ -107,7 +108,8 @@ public class CreateSnapshot extends ProviderServerOperation {
             throw new RequestFailedException("Stop Server", msg, HttpStatus.BAD_GATEWAY_502, server);
         }
         rc.reset();
-        // Locate snapshot image - image names containing colon must be prefixed by in: and surrounded with quotes
+        // Locate snapshot image - image names containing colon must be prefixed by in:
+        // and surrounded with quotes
         Image snapshot = null;
         while (rc.attempt()) {
             try {
@@ -152,7 +154,7 @@ public class CreateSnapshot extends ProviderServerOperation {
                 return null;
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
-            snapshot = createSnapshotNested(snapshot, rc, vm, vm_url, identStr);
+            snapshot = createSnapshotNested(snapshot, rc, vm, vm_url, identStr,ctx);
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
@@ -160,7 +162,7 @@ public class CreateSnapshot extends ProviderServerOperation {
     }
 
     private Image createSnapshotNested(Image SnapShot, RequestContext RcContext, VMURL vm, String vmUrl,
-            String identStr) throws APPCException {
+            String identStr,SvcLogicContext ctx) throws APPCException {
         String msg;
         Context context = null;
         String tenantName = "Unknown";// this variable is also used in catch
@@ -169,6 +171,18 @@ public class CreateSnapshot extends ProviderServerOperation {
             if (context != null) {
                 tenantName = context.getTenantName();
                 Server server = lookupServer(RcContext, context, vm.getServerId());
+                // Is the skip Hypervisor check attribute populated?
+                String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
+                if (skipHypervisorCheck == null && ctx != null) {
+                    skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+                }
+                // Always perform Hypervisor check
+                // unless the skip is set to true
+                if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                    // Check of the Hypervisor for the VM Server is UP and reachable
+                    checkHypervisor(server);
+                }
+
                 logger.debug(Msg.SERVER_FOUND, vmUrl, tenantName, server.getStatus().toString());
                 if (hasImageAccess(RcContext, context)) {
                     SnapShot = createSnapshot(RcContext, server);

@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * ================================================================================
@@ -57,6 +57,8 @@ import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
 import com.att.eelf.i18n.EELFResourceManager;
 import com.woorea.openstack.base.client.OpenStackBaseException;
+import org.apache.commons.lang.StringUtils;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 
 public class AttachVolumeServer extends ProviderServerOperation {
 
@@ -71,6 +73,10 @@ public class AttachVolumeServer extends ProviderServerOperation {
         String vmUrl = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
         String volumeId = params.get(ProviderAdapter.VOLUME_ID);
         String device = params.get(ProviderAdapter.DEVICE);
+        if (StringUtils.isNotBlank(device)) {
+            logger.info("Setting device to null");
+            device = null;
+        }
         VMURL vm = VMURL.parseURL(vmUrl);
         Context context;
         String tenantName = "Unknown";// to be used also in case of exception
@@ -81,6 +87,10 @@ public class AttachVolumeServer extends ProviderServerOperation {
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
             context = getContext(requestContext, vmUrl, identStr);
+            String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
+            if (skipHypervisorCheck == null && ctx != null) {
+                skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+            }
             if (context != null) {
                 tenantName = context.getTenantName();// this variable also is
                                                         // used in case of
@@ -89,6 +99,10 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 server = lookupServer(requestContext, context, vm.getServerId());
                 logger.debug(Msg.SERVER_FOUND, vmUrl, context.getTenantName(), server.getStatus().toString());
                 Context contx = server.getContext();
+                if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                    // Check of the Hypervisor for the VM Server is UP and reachable
+                    checkHypervisor(server);
+                }
                 ComputeService service = contx.getComputeService();
                 if ((volumeId == null || volumeId.isEmpty()) || (device == null || device.isEmpty())) {
                     ctx.setAttribute("VOLUME_STATUS", "FAILURE");
@@ -166,7 +180,12 @@ public class AttachVolumeServer extends ProviderServerOperation {
             if (map != null && !(map.isEmpty())) {
                 logger.info("volumes available before attach");
                 logger.info("device" + volumes.getKey() + "Values" + volumes.getValue());
-                if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
+                if (StringUtils.isBlank(device)) {
+                    if (volumes.getValue().equals(volumeId)) {
+                        logger.info("Device " + volumes.getKey() + "Volumes" + volumes.getValue());
+                        isValid = true;
+                    }
+                } else if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
                     logger.info("Device " + volumes.getKey() + "Volumes" + volumes.getValue());
                     isValid = true;
                 }
@@ -190,7 +209,13 @@ public class AttachVolumeServer extends ProviderServerOperation {
                 while (it.hasNext()) {
                     Map.Entry volumes = (Map.Entry) it.next();
                     logger.info(" devices " + volumes.getKey() + "volumes" + volumes.getValue());
-                    if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
+                    if (StringUtils.isBlank(device)) {
+                        if (volumes.getValue().equals(volumeId)) {
+                            logger.info("Device " + volumes.getKey() + "Volumes" + volumes.getValue());
+                            isValid = true;
+                            break;
+                        }
+                    } else if (volumes.getKey().equals(device) && (volumes.getValue().equals(volumeId))) {
                         logger.info("Device" + volumes.getKey() + "Volume" + volumes.getValue());
                         isValid = true;
                         break;
