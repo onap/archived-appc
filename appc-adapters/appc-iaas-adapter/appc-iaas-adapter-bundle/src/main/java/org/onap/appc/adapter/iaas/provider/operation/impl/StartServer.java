@@ -2,7 +2,7 @@
  * ============LICENSE_START=======================================================
  * ONAP : APPC
  * ================================================================================
- * Copyright (C) 2017-2018 AT&T Intellectual Property. All rights reserved.
+ * Copyright (C) 2017-2019 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
  * Copyright (C) 2017 Amdocs
  * =============================================================================
@@ -45,6 +45,7 @@ import org.glassfish.grizzly.http.util.HttpStatus;
 import java.util.Map;
 import static org.onap.appc.adapter.iaas.provider.operation.common.enums.Operation.START_SERVICE;
 import static org.onap.appc.adapter.utils.Constants.ADAPTER_NAME;
+import org.onap.appc.adapter.iaas.provider.operation.common.constants.Property;
 
 public class StartServer extends ProviderServerOperation {
 
@@ -59,97 +60,97 @@ public class StartServer extends ProviderServerOperation {
         Server server = null;
         RequestContext rc = new RequestContext(ctx);
         rc.isAlive();
-
         String appName = configuration.getProperty(Constants.PROPERTY_APPLICATION_NAME);
-
         try {
             validateParametersExist(params, ProviderAdapter.PROPERTY_INSTANCE_URL,
                     ProviderAdapter.PROPERTY_PROVIDER_NAME);
-
             String vm_url = params.get(ProviderAdapter.PROPERTY_INSTANCE_URL);
-
             VMURL vm = VMURL.parseURL(vm_url);
             if (validateVM(rc, appName, vm_url, vm))
                 return null;
-
             IdentityURL ident = IdentityURL.parseURL(params.get(ProviderAdapter.PROPERTY_IDENTITY_URL));
             String identStr = (ident == null) ? null : ident.toString();
-
             Context context = null;
-            String tenantName = "Unknown";//to be used also in case of exception
+            String tenantName = "Unknown";// to be used also in case of exception
             ctx.setAttribute("START_STATUS", "ERROR");
+            // Is the skip Hypervisor check attribute populated?
+            String skipHypervisorCheck = configuration.getProperty(Property.SKIP_HYPERVISOR_CHECK);
+            if (skipHypervisorCheck == null && ctx != null) {
+                skipHypervisorCheck = ctx.getAttribute(ProviderAdapter.SKIP_HYPERVISOR_CHECK);
+            }
             try {
                 context = getContext(rc, vm_url, identStr);
                 if (context != null) {
-                    tenantName = context.getTenantName();//this varaible also is used in case of exception
+                    tenantName = context.getTenantName();// this varaible also is used in case of exception
                     rc.reset();
                     server = lookupServer(rc, context, vm.getServerId());
                     logger.debug(Msg.SERVER_FOUND, vm_url, tenantName, server.getStatus().toString());
+                    if (skipHypervisorCheck == null || (!skipHypervisorCheck.equalsIgnoreCase("true"))) {
+                        // Check of the Hypervisor for the VM Server is UP and reachable
+                        checkHypervisor(server);
+                    }
                     String msg;
-
                     /*
                      * We determine what to do based on the current state of the server
                      */
 
                     /*
-                     * Pending is a bit of a special case. If we find the server is in a pending state, then the
-                     * provider is in the process of changing state of the server. So, lets try to wait a little bit and
-                     * see if the state settles down to one we can deal with. If not, then we have to fail the request.
+                     * Pending is a bit of a special case. If we find the server is in a pending
+                     * state, then the provider is in the process of changing state of the server.
+                     * So, lets try to wait a little bit and see if the state settles down to one we
+                     * can deal with. If not, then we have to fail the request.
                      */
 
                     if (server.getStatus().equals(Server.Status.PENDING)) {
                         waitForStateChange(rc, server, Server.Status.READY, Server.Status.RUNNING, Server.Status.ERROR,
                                 Server.Status.SUSPENDED, Server.Status.PAUSED, Server.Status.DELETED);
                     }
-
                     switch (server.getStatus()) {
-                        case DELETED:
-                            // Nothing to do, the server is gone
-                            msg = EELFResourceManager.format(Msg.SERVER_DELETED, server.getName(), server.getId(),
-                                    server.getTenantId(), "started");
-                            logger.error(msg);
-                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
-                                    server);
+                    case DELETED:
+                        // Nothing to do, the server is gone
+                        msg = EELFResourceManager.format(Msg.SERVER_DELETED, server.getName(), server.getId(),
+                                server.getTenantId(), "started");
+                        logger.error(msg);
+                        throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                server);
+                    case RUNNING:
+                        // Nothing to do, the server is already running
+                        logger.info("Server was already running");
+                        break;
+                    case ERROR:
+                        // Server is in error state
+                        msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE, server.getName(), server.getId(),
+                                server.getTenantId(), "start");
+                        logger.error(msg);
+                        throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                server);
 
-                        case RUNNING:
-                            // Nothing to do, the server is already running
-                            logger.info("Server was already running");
-                            break;
+                    case READY:
+                        // Server is stopped attempt to start the server
+                        rc.reset();
+                        startServer(rc, server);
+                        break;
 
-                        case ERROR:
-                            // Server is in error state
-                            msg = EELFResourceManager.format(Msg.SERVER_ERROR_STATE, server.getName(), server.getId(),
-                                    server.getTenantId(), "start");
-                            logger.error(msg);
-                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
-                                    server);
+                    case PAUSED:
+                        // if paused, un-pause it
+                        rc.reset();
+                        unpauseServer(rc, server);
+                        break;
 
-                        case READY:
-                            // Server is stopped attempt to start the server
-                            rc.reset();
-                            startServer(rc, server);
-                            break;
+                    case SUSPENDED:
+                        // Attempt to resume the suspended server
+                        rc.reset();
+                        resumeServer(rc, server);
+                        break;
 
-                        case PAUSED:
-                            // if paused, un-pause it
-                            rc.reset();
-                            unpauseServer(rc, server);
-                            break;
-
-                        case SUSPENDED:
-                            // Attempt to resume the suspended server
-                            rc.reset();
-                            resumeServer(rc, server);
-                            break;
-
-                        default:
-                            // Hmmm, unknown status, should never occur
-                            msg = EELFResourceManager.format(Msg.UNKNOWN_SERVER_STATE, server.getName(), server.getId(),
-                                    server.getTenantId(), server.getStatus().name());
-                            generateEvent(rc, false, msg);
-                            logger.error(msg);
-                            throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
-                                    server);
+                    default:
+                        // Hmmm, unknown status, should never occur
+                        msg = EELFResourceManager.format(Msg.UNKNOWN_SERVER_STATE, server.getName(), server.getId(),
+                                server.getTenantId(), server.getStatus().name());
+                        generateEvent(rc, false, msg);
+                        logger.error(msg);
+                        throw new RequestFailedException("Start Server", msg, HttpStatus.METHOD_NOT_ALLOWED_405,
+                                server);
                     }
                     context.close();
                     doSuccess(rc);
@@ -163,15 +164,13 @@ public class StartServer extends ProviderServerOperation {
                 doFailure(rc, HttpStatus.NOT_FOUND_404, msg);
             } catch (Exception e1) {
                 String msg = EELFResourceManager.format(Msg.SERVER_OPERATION_EXCEPTION, e1,
-                        e1.getClass().getSimpleName(), START_SERVICE.toString(), vm_url,
-                        tenantName);
+                        e1.getClass().getSimpleName(), START_SERVICE.toString(), vm_url, tenantName);
                 logger.error(msg, e1);
                 doFailure(rc, HttpStatus.INTERNAL_SERVER_ERROR_500, msg);
             }
         } catch (RequestFailedException e) {
             doFailure(rc, e.getStatus(), e.getMessage());
         }
-
         return server;
     }
 
